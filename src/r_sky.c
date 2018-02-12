@@ -50,7 +50,7 @@
 int             skyflatnum;
 int             skytexture;
 int             skytexturemid;
-int             skycolumnoffset;
+int             skycolumnoffset = 0;
 int             skyscrolldelta;
 
 fixed_t         skyiscale;
@@ -119,7 +119,7 @@ void R_InitSkyMap(void)
     }
     else
     {
-        skytexturemid = 100 * FRACUNIT;
+        skytexturemid = 92 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
     }
 }
