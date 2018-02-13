@@ -1223,7 +1223,7 @@ void P_UnArchiveThinkers(void)
 
 void P_RestoreTargets(void)
 {
-    sector_t    *sec = sectors;
+    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
 
     thingindex = 0;
 
@@ -1236,8 +1236,6 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
         thingindex++;
     }
-
-    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
 }
 
 //
@@ -1582,11 +1580,7 @@ void P_UnArchiveMap(void)
 
     if ((markpointnum = saveg_read32()))
     {
-        while (markpointnum >= markpointnum_max)
-        {
-            markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
-            markpoints = I_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
-        }
+        markpoints = I_Realloc(markpoints, markpointnum * sizeof(*markpoints));
 
         for (int i = 0; i < markpointnum; i++)
         {
@@ -1597,11 +1591,7 @@ void P_UnArchiveMap(void)
 
     if ((pathpointnum = saveg_read32()))
     {
-        while (pathpointnum >= pathpointnum_max)
-        {
-            pathpointnum_max = (pathpointnum_max ? (pathpointnum_max << 1) : 16);
-            pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
-        }
+        pathpoints = I_Realloc(pathpoints, pathpointnum * sizeof(*pathpoints));
 
         for (int i = 0; i < pathpointnum; i++)
         {
