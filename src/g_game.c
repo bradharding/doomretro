@@ -499,9 +499,6 @@ void G_DoLoadLevel(void)
 
     HU_DrawDisk();
 
-    R_InitSkyMap();
-    R_InitColumnFunctions();
-
     if (timer)
         countdown = timer * 60 * TICRATE;
 
@@ -562,6 +559,9 @@ void G_DoLoadLevel(void)
         C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
+
+    R_InitSkyMap();
+    R_InitColumnFunctions();
 
     st_facecount = 0;
 
