@@ -106,12 +106,12 @@ static void R_MapPlane(int y, int x1, int x2)
     fixed_t         viewsindistance;
     int             dx;
 
-    if (y == centery)
-        return;
-
     if (planeheight != cachedheight[y])
     {
         int dy = ABS(centery - y);
+
+        if (!dy)
+            return;
 
         cachedheight[y] = planeheight;
         distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
@@ -262,7 +262,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 
     // [crispy] fix HOM if ceilingplane and floorplane are the same
     // visplane (e.g. both skies)
-    if (pl != floorplane && !markceiling && floorplane != ceilingplane && x > intrh)
+    if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
     {
         pl->minx = unionl;
         pl->maxx = unionh;
