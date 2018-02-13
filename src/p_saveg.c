@@ -51,7 +51,14 @@
 
 #define SAVEGAME_EOF    0x1D
 
-FILE    *save_stream;
+FILE        *save_stream;
+
+static int  index;
+static int  targets[1024];
+static int  tracers[1024];
+static int  lastenemies[1024];
+static int  soundtargets[1024];
+static int  attacker;
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
@@ -155,17 +162,6 @@ static void saveg_write_pad(void)
         saveg_write8(0);
 }
 
-// Pointers
-static void *saveg_readp(void)
-{
-    return (void *)(intptr_t)saveg_read32();
-}
-
-static void saveg_writep(void *p)
-{
-    saveg_write32((intptr_t)p);
-}
-
 // Enum values are 32-bit integers.
 #define saveg_read_enum     saveg_read32
 #define saveg_write_enum    saveg_write32
@@ -198,9 +194,9 @@ static void saveg_write_mapthing_t(mapthing_t *str)
     saveg_write16(str->options);
 }
 
-static uintptr_t P_ThingToIndex(mobj_t *thing)
+static int P_ThingToIndex(mobj_t *thing)
 {
-    uintptr_t   i = 0;
+    int i = 0;
 
     if (!thing)
         return 0;
@@ -216,9 +212,9 @@ static uintptr_t P_ThingToIndex(mobj_t *thing)
     return 0;
 }
 
-static mobj_t *P_IndexToThing(uintptr_t index)
+static mobj_t *P_IndexToThing(int index)
 {
-    uintptr_t   i = 0;
+    int i = 0;
 
     if (!index)
         return NULL;
@@ -257,7 +253,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
-    str->target = (mobj_t *)saveg_readp();
+    targets[index] = saveg_read32();
     str->reactiontime = saveg_read32();
     str->threshold = saveg_read32();
 
@@ -270,8 +266,8 @@ static void saveg_read_mobj_t(mobj_t *str)
         str->player = NULL;
 
     saveg_read_mapthing_t(&str->spawnpoint);
-    str->tracer = (mobj_t *)saveg_readp();
-    str->lastenemy = (mobj_t *)saveg_readp();
+    tracers[index] = saveg_read32();
+    lastenemies[index] = saveg_read32();
     str->floatbob = saveg_read32();
     str->shadowoffset = saveg_read32();
     str->touching_sectorlist = NULL;
@@ -312,13 +308,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);
-    saveg_writep((void *)P_ThingToIndex(str->target));
+    saveg_write32(P_ThingToIndex(str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
     saveg_write_bool(!!str->player);
     saveg_write_mapthing_t(&str->spawnpoint);
-    saveg_writep((void *)P_ThingToIndex(str->tracer));
-    saveg_writep((void *)P_ThingToIndex(str->lastenemy));
+    saveg_write32(P_ThingToIndex(str->tracer));
+    saveg_write32(P_ThingToIndex(str->lastenemy));
     saveg_write32(str->floatbob);
     saveg_write32(str->shadowoffset);
     saveg_write16(str->gear);
@@ -403,7 +399,6 @@ extern int cardsfound;
 //
 static void saveg_read_player_t(void)
 {
-    viewplayer->mo = (mobj_t *)saveg_readp();
     viewplayer->playerstate = (playerstate_t)saveg_read_enum();
     saveg_read_ticcmd_t(&viewplayer->cmd);
     viewplayer->viewz = saveg_read32();
@@ -449,10 +444,9 @@ static void saveg_read_player_t(void)
     viewplayer->killcount = saveg_read32();
     viewplayer->itemcount = saveg_read32();
     viewplayer->secretcount = saveg_read32();
-    viewplayer->message = (char *)saveg_readp();
     viewplayer->damagecount = saveg_read32();
     viewplayer->bonuscount = saveg_read32();
-    viewplayer->attacker = (mobj_t *)saveg_readp();
+    attacker = saveg_read32();
     viewplayer->extralight = saveg_read32();
     viewplayer->fixedcolormap = saveg_read32();
 
@@ -501,7 +495,6 @@ static void saveg_read_player_t(void)
 
 static void saveg_write_player_t(void)
 {
-    saveg_writep(viewplayer->mo);
     saveg_write_enum(viewplayer->playerstate);
     saveg_write_ticcmd_t(&viewplayer->cmd);
     saveg_write32(viewplayer->viewz);
@@ -542,10 +535,9 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->killcount);
     saveg_write32(viewplayer->itemcount);
     saveg_write32(viewplayer->secretcount);
-    saveg_writep(viewplayer->message);
     saveg_write32(viewplayer->damagecount);
     saveg_write32(viewplayer->bonuscount);
-    saveg_writep((void *)P_ThingToIndex(viewplayer->attacker));
+    saveg_write32(P_ThingToIndex(viewplayer->attacker));
     saveg_write32(viewplayer->extralight);
     saveg_write32(viewplayer->fixedcolormap);
 
@@ -1004,7 +996,7 @@ void P_ArchiveWorld(void)
         saveg_write16(sec->lightlevel);
         saveg_write16(sec->special);
         saveg_write16(sec->tag);
-        saveg_writep((void *)P_ThingToIndex(sec->soundtarget));
+        saveg_write32(P_ThingToIndex(sec->soundtarget));
     }
 
     // do lines
@@ -1056,7 +1048,7 @@ void P_UnArchiveWorld(void)
         sec->ceilingdata = NULL;
         sec->floordata = NULL;
         sec->lightingdata = NULL;
-        sec->soundtarget = (mobj_t *)saveg_readp();
+        sec->soundtarget = P_IndexToThing(saveg_read32());
         sec->isliquid = isliquid[sec->floorpic];
     }
 
@@ -1173,6 +1165,7 @@ void P_UnArchiveThinkers(void)
     }
 
     r_bloodsplats_total = 0;
+    index = 0;
 
     // read in saved thinkers
     while (1)
@@ -1199,6 +1192,7 @@ void P_UnArchiveThinkers(void)
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
                 P_AddThinker(&mobj->thinker);
+                index++;
                 break;
             }
 
@@ -1231,19 +1225,18 @@ void P_RestoreTargets(void)
 {
     sector_t    *sec = sectors;
 
-    for (int i = 0; i < numsectors; i++, sec++)
-        P_SetNewTarget(&sec->soundtarget, P_IndexToThing((uintptr_t)sec->soundtarget));
+    index = 0;
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        P_SetNewTarget(&mo->target, P_IndexToThing((uintptr_t)mo->target));
-        P_SetNewTarget(&mo->tracer, P_IndexToThing((uintptr_t)mo->tracer));
-        P_SetNewTarget(&mo->lastenemy, P_IndexToThing((uintptr_t)mo->lastenemy));
+        P_SetNewTarget(&mo->target, P_IndexToThing(targets[index]));
+        P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[index]));
+        P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[index]));
     }
 
-    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing((uintptr_t)viewplayer->attacker));
+    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
 }
 
 //
