@@ -1234,6 +1234,7 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex]));
         P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
+        thingindex++;
     }
 
     P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
