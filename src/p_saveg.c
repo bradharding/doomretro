@@ -53,7 +53,7 @@
 
 FILE        *save_stream;
 
-static int  index;
+static int  thingindex;
 static int  targets[1024];
 static int  tracers[1024];
 static int  lastenemies[1024];
@@ -253,7 +253,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
-    targets[index] = saveg_read32();
+    targets[thingindex] = saveg_read32();
     str->reactiontime = saveg_read32();
     str->threshold = saveg_read32();
 
@@ -266,8 +266,8 @@ static void saveg_read_mobj_t(mobj_t *str)
         str->player = NULL;
 
     saveg_read_mapthing_t(&str->spawnpoint);
-    tracers[index] = saveg_read32();
-    lastenemies[index] = saveg_read32();
+    tracers[thingindex] = saveg_read32();
+    lastenemies[thingindex] = saveg_read32();
     str->floatbob = saveg_read32();
     str->shadowoffset = saveg_read32();
     str->touching_sectorlist = NULL;
@@ -1165,7 +1165,7 @@ void P_UnArchiveThinkers(void)
     }
 
     r_bloodsplats_total = 0;
-    index = 0;
+    thingindex = 0;
 
     // read in saved thinkers
     while (1)
@@ -1192,7 +1192,7 @@ void P_UnArchiveThinkers(void)
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
                 P_AddThinker(&mobj->thinker);
-                index++;
+                thingindex++;
                 break;
             }
 
@@ -1225,15 +1225,15 @@ void P_RestoreTargets(void)
 {
     sector_t    *sec = sectors;
 
-    index = 0;
+    thingindex = 0;
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        P_SetNewTarget(&mo->target, P_IndexToThing(targets[index]));
-        P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[index]));
-        P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[index]));
+        P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex]));
+        P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
+        P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
     }
 
     P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
