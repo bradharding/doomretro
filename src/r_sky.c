@@ -119,7 +119,7 @@ void R_InitSkyMap(void)
     }
     else
     {
-        skytexturemid = 92 * FRACUNIT;
+        skytexturemid = 100 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
     }
 }

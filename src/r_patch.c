@@ -86,6 +86,7 @@ static rpatch_t     *texture_composites;
 
 static short        BIGDOOR7;
 static short        FIREBLU1;
+static short        SKY1;
 
 extern int          numtextures;
 extern texture_t    **textures;
@@ -98,6 +99,7 @@ void R_InitPatches(void)
 
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
+    SKY1 = R_CheckTextureNumForName("SKY1");
 }
 
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
@@ -474,7 +476,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1)
+                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1)
                     oy = 0;
 
                 // set up the post's data
