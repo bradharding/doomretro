@@ -1045,7 +1045,7 @@ void P_UnArchiveWorld(void)
         sec->ceilingdata = NULL;
         sec->floordata = NULL;
         sec->lightingdata = NULL;
-        sec->soundtarget = P_IndexToThing(saveg_read32());
+        soundtargets[i] = saveg_read32();
         sec->isliquid = isliquid[sec->floorpic];
     }
 
@@ -1220,7 +1220,12 @@ void P_UnArchiveThinkers(void)
 
 void P_RestoreTargets(void)
 {
+    sector_t    *sec = sectors;
+
     P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
+
+    for (int i = 0; i < numsectors; i++, sec++)
+        P_SetNewTarget(&sec->soundtarget, P_IndexToThing(soundtargets[i]));
 
     thingindex = 0;
 
