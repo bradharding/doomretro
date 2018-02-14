@@ -262,15 +262,12 @@ static void saveg_read_mobj_t(mobj_t *str)
         str->player = viewplayer;
         str->player->mo = str;
     }
-    else
-        str->player = NULL;
 
     saveg_read_mapthing_t(&str->spawnpoint);
     tracers[thingindex] = saveg_read32();
     lastenemies[thingindex] = saveg_read32();
     str->floatbob = saveg_read32();
     str->shadowoffset = saveg_read32();
-    str->touching_sectorlist = NULL;
     str->gear = saveg_read16();
     str->bloodsplats = saveg_read32();
     str->blood = saveg_read32();
