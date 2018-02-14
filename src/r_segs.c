@@ -371,7 +371,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_x = rw_x;
-            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale - SPARKLEFIX;
+            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;
         }
 
         // draw the wall tiers
@@ -424,6 +424,7 @@ static void R_RenderSegLoop(void)
                             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                             dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                             dc_texheight = toptexheight;
+                            dc_iscale -= SPARKLEFIX;
                             dc_brightmap = topbrightmap;
                             bmapwallcolfunc();
                             R_UnlockTextureCompositePatchNum(toptexture);
@@ -434,6 +435,7 @@ static void R_RenderSegLoop(void)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
+                        dc_iscale -= SPARKLEFIX;
                         dc_texheight = toptexheight;
                         wallcolfunc();
                         R_UnlockTextureCompositePatchNum(toptexture);
@@ -466,6 +468,7 @@ static void R_RenderSegLoop(void)
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_brightmap = bottombrightmap;
                         dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
+                        dc_iscale -= SPARKLEFIX;
                         dc_texheight = bottomtexheight;
                         bmapwallcolfunc();
                         R_UnlockTextureCompositePatchNum(bottomtexture);
@@ -476,6 +479,7 @@ static void R_RenderSegLoop(void)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
+                        dc_iscale -= SPARKLEFIX;
                         dc_texheight = bottomtexheight;
                         wallcolfunc();
                         R_UnlockTextureCompositePatchNum(bottomtexture);
