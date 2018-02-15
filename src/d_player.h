@@ -193,7 +193,7 @@ typedef struct player_s
     dboolean        didsecret;
 
     weapontype_t    preferredshotgun;
-    int             shotguns;
+    dboolean        shotguns;
     weapontype_t    fistorchainsaw;
     dboolean        invulnbeforechoppers;
     dboolean        chainsawbeforechoppers;
