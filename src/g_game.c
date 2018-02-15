@@ -1436,11 +1436,15 @@ void G_DoLoadGame(void)
     gameaction = ga_nothing;
 
     if (!(save_stream = fopen(savename, "rb")))
+    {
+        C_Warning("<b>%s</b> could not be found.", savename);
         return;
+    }
 
     if (!P_ReadSaveGameHeader(savedescription))
     {
         fclose(save_stream);
+        C_Warning("<b>%s</b> is not valid.", savename);
         return;
     }
 
