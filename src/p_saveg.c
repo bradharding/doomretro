@@ -634,7 +634,7 @@ static void saveg_write_vldoor_t(vldoor_t *str)
     saveg_write32(str->direction);
     saveg_write32(str->topwait);
     saveg_write32(str->topcountdown);
-    saveg_write32((str->line ? str->line->id : -1));
+    saveg_write32(str->line ? str->line->id : -1);
     saveg_write32(str->lighttag);
 }
 

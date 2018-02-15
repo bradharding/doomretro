@@ -94,7 +94,7 @@ void R_InitSkyMap(void)
                     skytexture = R_TextureNumForName("SKY3");
                     break;
 
-                case 4:                         // Special Edition sky
+                case 4:
                     skytexture = R_TextureNumForName("SKY4");
                     break;
             }
@@ -119,7 +119,7 @@ void R_InitSkyMap(void)
     }
     else
     {
-        skytexturemid = 100 * FRACUNIT;
+        skytexturemid = ORIGINALHEIGHT / 2 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
     }
 }

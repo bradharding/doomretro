@@ -39,12 +39,6 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #include <XInput.h>
-
-typedef DWORD (WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
-typedef DWORD (WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
-
-static XINPUTGETSTATE   pXInputGetState;
-static XINPUTSETSTATE   pXInputSetState;
 #endif
 
 #include "c_console.h"
@@ -89,7 +83,12 @@ extern dboolean     menuactive;
 extern dboolean     message_clearable;
 
 #if defined(_WIN32)
-static HMODULE      pXInputDLL;
+typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
+typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
+
+static XINPUTGETSTATE   pXInputGetState;
+static XINPUTSETSTATE   pXInputSetState;
+static HMODULE          pXInputDLL;
 #endif
 
 static void (*gamepadthumbsfunc)(short, short, short, short);
