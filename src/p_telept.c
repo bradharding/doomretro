@@ -88,7 +88,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     if (player)
                     {
-                        unsigned int    an = m->angle >> ANGLETOFINESHIFT;
+                        const unsigned int  an = m->angle >> ANGLETOFINESHIFT;
 
                         newx += 20 * finecosine[an];
                         newy += 20 * finesine[an];

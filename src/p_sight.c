@@ -188,7 +188,7 @@ static dboolean P_CrossSubsector(int num)
             los.topslope = MIN(los.topslope, FixedDiv(opentop - los.sightzstart, frac));
 
         if (los.topslope <= los.bottomslope)
-            return false;               // stop
+            return false;   // stop
     }
 
     // passed the subsector ok

@@ -154,7 +154,7 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
     short       *ttop = &sides[line->sidenum[0]].toptexture;
     short       *tmid = &sides[line->sidenum[0]].midtexture;
     short       *tbot = &sides[line->sidenum[0]].bottomtexture;
-    bwhere_e    position = 0;
+    bwhere_e    position;
 
     if (!useAgain)
         line->special = 0;
@@ -206,7 +206,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if ((unsigned int)line->special >= GenFloorBase)
+        if (line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
@@ -217,7 +217,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenFloor;
         }
-        else if ((unsigned int)line->special >= GenCeilingBase)
+        else if (line->special >= GenCeilingBase)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
@@ -225,7 +225,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenCeiling;
         }
-        else if ((unsigned int)line->special >= GenDoorBase)
+        else if (line->special >= GenDoorBase)
         {
             if (!thing->player)
             {
@@ -238,7 +238,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenDoor;
         }
-        else if ((unsigned int)line->special >= GenLockedBase)
+        else if (line->special >= GenLockedBase)
         {
             if (!thing->player)
                 return false;                           // monsters disallowed from unlocking doors
@@ -248,7 +248,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenLockedDoor;
         }
-        else if ((unsigned int)line->special >= GenLiftBase)
+        else if (line->special >= GenLiftBase)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
@@ -256,7 +256,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenLift;
         }
-        else if ((unsigned int)line->special >= GenStairsBase)
+        else if (line->special >= GenStairsBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
@@ -264,7 +264,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenStairs;
         }
-        else if ((unsigned int)line->special >= GenCrusherBase)
+        else if (line->special >= GenCrusherBase)
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))

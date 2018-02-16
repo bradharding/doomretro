@@ -137,10 +137,8 @@ static void R_RecalcLineFlags(line_t *linedef)
         || backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight
         || (backsector->interpceilingheight <= backsector->interpfloorheight
-            && (backsector->interpceilingheight >= frontsector->interpceilingheight
-                || curline->sidedef->toptexture)
-            && (backsector->interpfloorheight <= frontsector->interpfloorheight
-                || curline->sidedef->bottomtexture)
+            && (backsector->interpceilingheight >= frontsector->interpceilingheight || curline->sidedef->toptexture)
+            && (backsector->interpfloorheight <= frontsector->interpfloorheight || curline->sidedef->bottomtexture)
             && (backsector->ceilingpic != skyflatnum || frontsector->ceilingpic != skyflatnum)))
         linedef->r_flags = RF_CLOSED;
     else
@@ -323,7 +321,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
                 *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
 
-        sec = tempsec;        // Use other sector
+        sec = tempsec;  // Use other sector
     }
 
     return sec;

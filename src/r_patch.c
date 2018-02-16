@@ -545,8 +545,7 @@ static void createTextureCompositePatch(int id)
 
             if (post1->topdelta + post1->length >= post2->topdelta)
             {
-                int length = post1->length + post2->length - (post1->topdelta + post1->length
-                        - post2->topdelta);
+                int length = post1->length + post2->length - (post1->topdelta + post1->length - post2->topdelta);
 
                 if (post1->length < length)
                     post1->length = length;

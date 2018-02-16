@@ -660,7 +660,7 @@ fixed_t P_FindShortestTextureAround(int secnum)
     const int       linecount = sec->linecount;
     int             minsize = 32000 * FRACUNIT;
 
-    for (int i = 0; i <linecount; i++)
+    for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
         {
             const side_t    *side;
@@ -779,7 +779,7 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 // Rewritten by Lee Killough to use chained hashing to improve speed
 int P_FindSectorFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? sectors[start].nexttag : sectors[(unsigned int)line->tag % (unsigned int)numsectors].firsttag);
+    start = (start >= 0 ? sectors[start].nexttag : sectors[line->tag % numsectors].firsttag);
 
     while (start >= 0 && sectors[start].tag != line->tag)
         start = sectors[start].nexttag;
@@ -790,7 +790,7 @@ int P_FindSectorFromLineTag(const line_t *line, int start)
 // killough 4/16/98: Same thing, only for linedefs
 int P_FindLineFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? lines[start].nexttag : lines[(unsigned int)line->tag % (unsigned int)numlines].firsttag);
+    start = (start >= 0 ? lines[start].nexttag : lines[line->tag % numlines].firsttag);
 
     while (start >= 0 && lines[start].tag != line->tag)
         start = lines[start].nexttag;
@@ -801,26 +801,26 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 static void P_InitTagLists(void)
 {
-    for (int i = numsectors; --i >= 0;)           // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0;)             // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (int i = numsectors; --i >= 0;)           // Proceed from last to first sector
-    {                                             // so that lower sectors appear first
-        int j = (unsigned int)sectors[i].tag % (unsigned int)numsectors;    // Hash func
+    for (int i = numsectors; --i >= 0;)             // Proceed from last to first sector
+    {                                               // so that lower sectors appear first
+        int j = sectors[i].tag % numsectors;        // Hash func
 
-        sectors[i].nexttag = sectors[j].firsttag; // Prepend sector to chain
+        sectors[i].nexttag = sectors[j].firsttag;   // Prepend sector to chain
         sectors[j].firsttag = i;
     }
 
     // killough 4/17/98: same thing, only for linedefs
-    for (int i = numlines; --i >= 0;)             // Initially make all slots empty.
+    for (int i = numlines; --i >= 0;)               // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (int i = numlines; --i >= 0;)             // Proceed from last to first linedef
-    {                                             // so that lower linedefs appear first
-        int j = (unsigned int)lines[i].tag % (unsigned int)numlines;        // Hash func
+    for (int i = numlines; --i >= 0;)               // Proceed from last to first linedef
+    {                                               // so that lower linedefs appear first
+        int j = lines[i].tag % numlines;            // Hash func
 
-        lines[i].nexttag = lines[j].firsttag;     // Prepend linedef to chain
+        lines[i].nexttag = lines[j].firsttag;       // Prepend linedef to chain
         lines[j].firsttag = i;
     }
 }
@@ -1171,7 +1171,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if ((unsigned int)line->special >= GenFloorBase)
+        if (line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
@@ -1179,7 +1179,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenFloor;
         }
-        else if ((unsigned int)line->special >= GenCeilingBase)
+        else if (line->special >= GenCeilingBase)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
@@ -1187,7 +1187,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenCeiling;
         }
-        else if ((unsigned int)line->special >= GenDoorBase)
+        else if (line->special >= GenDoorBase)
         {
             if (!thing->player)
             {
@@ -1200,7 +1200,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenDoor;
         }
-        else if ((unsigned int)line->special >= GenLockedBase)
+        else if (line->special >= GenLockedBase)
         {
             if (!thing->player)
                 return;                 // monsters disallowed from unlocking doors
@@ -1216,7 +1216,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenLockedDoor;
         }
-        else if ((unsigned int)line->special >= GenLiftBase)
+        else if (line->special >= GenLiftBase)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
@@ -1224,7 +1224,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenLift;
         }
-        else if ((unsigned int)line->special >= GenStairsBase)
+        else if (line->special >= GenStairsBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
@@ -1232,7 +1232,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
             linefunc = EV_DoGenStairs;
         }
-        else if ((unsigned int)line->special >= GenCrusherBase)
+        else if (line->special >= GenCrusherBase)
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
@@ -1935,23 +1935,23 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     dboolean (*linefunc)(line_t *line) = NULL;
 
     // check each range of generalized linedefs
-    if ((unsigned int)line->special >= GenFloorBase)
+    if (line->special >= GenFloorBase)
     {
         if (!thing->player)
             if ((line->special & FloorChange) || !(line->special & FloorModel))
-                return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+                return;                     // FloorModel is "Allow Monsters" if FloorChange is 0
 
         linefunc = EV_DoGenFloor;
     }
-    else if ((unsigned int)line->special >= GenCeilingBase)
+    else if (line->special >= GenCeilingBase)
     {
         if (!thing->player)
             if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+                return;                     // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
         linefunc = EV_DoGenCeiling;
     }
-    else if ((unsigned int)line->special >= GenDoorBase)
+    else if (line->special >= GenDoorBase)
     {
         if (!thing->player)
         {
@@ -1964,10 +1964,10 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         linefunc = EV_DoGenDoor;
     }
-    else if ((unsigned int)line->special >= GenLockedBase)
+    else if (line->special >= GenLockedBase)
     {
         if (!thing->player)
-            return;                 // monsters disallowed from unlocking doors
+            return;                         // monsters disallowed from unlocking doors
 
         if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
         {
@@ -1980,27 +1980,27 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         linefunc = EV_DoGenLockedDoor;
     }
-    else if ((unsigned int)line->special >= GenLiftBase)
+    else if (line->special >= GenLiftBase)
     {
         if (!thing->player)
             if (!(line->special & LiftMonster))
-                return;             // monsters disallowed
+                return;                     // monsters disallowed
 
         linefunc = EV_DoGenLift;
     }
-    else if ((unsigned int)line->special >= GenStairsBase)
+    else if (line->special >= GenStairsBase)
     {
         if (!thing->player)
             if (!(line->special & StairMonster))
-                return;             // monsters disallowed
+                return;                     // monsters disallowed
 
         linefunc = EV_DoGenStairs;
     }
-    else if ((unsigned int)line->special >= GenCrusherBase)
+    else if (line->special >= GenCrusherBase)
     {
         if (!thing->player)
             if (!(line->special & CrusherMonster))
-                return;             // monsters disallowed
+                return;                     // monsters disallowed
 
         linefunc = EV_DoGenCrusher;
     }
@@ -2020,7 +2020,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
                 return;
 
-            default:            // if not a gun type, do nothing here
+            default:                        // if not a gun type, do nothing here
                 return;
         }
 
@@ -2028,7 +2028,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     if (!thing->player && line->special != G1_Door_OpenStay)
         return;
 
-    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+    if (!P_CheckTag(line))                  // jff 2/27/98 disallow zero tag on some types
         return;
 
     switch (line->special)
@@ -2091,7 +2091,7 @@ void P_PlayerInSpecialSector(void)
     sector_t    *sector = viewplayer->mo->subsector->sector;
 
     // jff add if to handle old vs generalized types
-    if (sector->special < 32) // regular sector specials
+    if (sector->special < 32)   // regular sector specials
     {
         switch (sector->special)
         {
@@ -2145,25 +2145,29 @@ void P_PlayerInSpecialSector(void)
     {
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
         {
-            case 0:     // no damage
+            case 0:
+                // no damage
                 break;
 
-            case 1:     // 2/5 damage per 31 ticks
+            case 1:
+                // 2/5 damage per 31 ticks
                 if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
-            case 2:     // 5/10 damage per 31 ticks
+            case 2:
+                // 5/10 damage per 31 ticks
                 if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
-            case 3:     // 10/20 damage per 31 ticks
-                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5)  // take damage even with suit
+            case 3:
+                // 10/20 damage per 31 ticks
+                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5) // take damage even with suit
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
@@ -2385,6 +2389,7 @@ void P_SpawnSpecials(void)
             case Secret:
                 if (sector->special < 32)
                     totalsecret++;
+
                 break;
 
             case Door_CloseStay_After30sec:
@@ -2635,8 +2640,8 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
-    x = (fixed_t)((dy * -l->dy - dx * l->dx) / d);      // killough 10/98:
-    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);       // Use long long arithmetic
+    x = (fixed_t)((dy * -l->dy - dx * l->dx) / d);  // killough 10/98:
+    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);   // Use long long arithmetic
     Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
 }
 
@@ -2670,16 +2675,14 @@ static void P_SpawnScrollers(void)
         if (special >= Scroll_ScrollCeilingWhenSectorChangesHeight
             && special <= Scroll_ScrollWallWhenSectorChangesHeight)      // displacement scrollers
         {
-            special += Scroll_ScrollCeilingAccordingToLineVector
-                - Scroll_ScrollCeilingWhenSectorChangesHeight;
+            special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_ScrollCeilingWhenSectorChangesHeight;
             control = sides[*l->sidenum].sector->id;
         }
         else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
             && special <= Scroll_WallAcceleratesWhenSectorHeightChanges) // accelerative scrollers
         {
             accel = true;
-            special += Scroll_ScrollCeilingAccordingToLineVector
-                - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
+            special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
             control = sides[*l->sidenum].sector->id;
         }
 
