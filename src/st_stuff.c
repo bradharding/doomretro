@@ -1559,7 +1559,7 @@ static void ST_createWidgets(void)
 
     for (int i = 0; i < armsnum; i++)
         STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE, ST_ARMSY + i / 3 * ST_ARMSYSPACE,
-            arms[i], (i == 1 ? &viewplayer->shotguns : &viewplayer->weaponowned[i + 1]), &st_statusbaron);
+            arms[i], (i == 1 ? (int *)&viewplayer->shotguns : &viewplayer->weaponowned[i + 1]), &st_statusbaron);
 
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);
