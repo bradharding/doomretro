@@ -1243,7 +1243,7 @@ static void ST_updateWidgets(void)
     {
         keyboxes[i] = (viewplayer->cards[i] > 0 ? i : -1);
 
-        if (viewplayer->cards[i + 3] > 0 && viewplayer->cards[i + 3] < viewplayer->cards[i])
+        if (viewplayer->cards[i + 3] > 0 && viewplayer->cards[i + 3] > viewplayer->cards[i])
             keyboxes[i] = i + 3;
     }
 
