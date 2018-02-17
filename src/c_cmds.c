@@ -1894,38 +1894,77 @@ static void give_cmd_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            P_GiveBackpack(false, false);
-            P_GiveMegaHealth(false);
-            P_GiveAllWeapons();
-            P_GiveFullAmmo(false);
-            P_GiveArmor(blue_armor_class, false);
-            P_GiveAllCards();
-            C_HideConsole();
+            dboolean    result = false;
+
+            if (P_GiveBackpack(false, false))
+                result = true;
+
+            if (P_GiveMegaHealth(false))
+                result = true;
+
+            if (P_GiveAllWeapons())
+                result = true;
+
+            if (P_GiveFullAmmo(false))
+                result = true;
+
+            if (P_GiveArmor(blue_armor_class, false))
+                result = true;
+
+            if (P_GiveAllCards())
+                result = true;
+
+            if (result)
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else if (M_StringCompare(parm, "health"))
         {
-            P_GiveMegaHealth(false);
-            C_HideConsole();
+            if (P_GiveMegaHealth(false))
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else if (M_StringCompare(parm, "weapons"))
         {
-            P_GiveAllWeapons();
-            C_HideConsole();
+            if (P_GiveAllWeapons())
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else if (M_StringCompare(parm, "ammo"))
         {
-            P_GiveFullAmmo(false);
-            C_HideConsole();
+            if (P_GiveFullAmmo(false))
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
-            P_GiveArmor(blue_armor_class, false);
-            C_HideConsole();
+            if (P_GiveArmor(blue_armor_class, false))
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else if (M_StringCompare(parm, "keys"))
         {
-            P_GiveAllCards();
-            C_HideConsole();
+            if (P_GiveAllCards())
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
         }
         else
         {

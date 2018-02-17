@@ -422,8 +422,10 @@ dboolean P_GiveBody(int num, dboolean stat)
 //
 // P_GiveMegaHealth
 //
-void P_GiveMegaHealth(dboolean stat)
+dboolean P_GiveMegaHealth(dboolean stat)
 {
+    dboolean    result = false;
+
     if (!(viewplayer->cheats & CF_GODMODE))
     {
         if (viewplayer->health < mega_health)
@@ -434,9 +436,14 @@ void P_GiveMegaHealth(dboolean stat)
                 P_UpdateHealthStat(mega_health - viewplayer->health);
         }
 
+        if (viewplayer->health < mega_health)
+            result = true;
+
         viewplayer->health = mega_health;
         viewplayer->mo->health = mega_health;
     }
+
+    return result;
 }
 
 static void P_UpdateArmorStat(int num)
@@ -645,8 +652,8 @@ dboolean P_GivePower(int power)
 //
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
 {
-    fixed_t     delta = special->z - toucher->z;
-    int         sound;
+    fixed_t     delta;
+    int         sound = sfx_itemup;
     int         weaponowned;
     int         ammo;
     static int  prevsound;
@@ -655,15 +662,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     if (freeze)
         return;
 
-    if (delta > toucher->height || delta < -8 * FRACUNIT)
+    if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
 
     // Dead thing touching.
     // Can happen with a sliding player corpse.
     if (toucher->health <= 0)
         return;
-
-    sound = sfx_itemup;
 
     // Identify by sprite.
     switch (special->sprite)
