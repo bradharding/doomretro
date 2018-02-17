@@ -2012,7 +2012,8 @@ static void D_DoomMainSetup(void)
 
     C_Init();
 
-    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? atoi(myargv[p + 1]) : -1)) >= 0)
+    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? atoi(myargv[p + 1]) : -1)) >= 0
+        && startloadgame <= 5)
     {
         I_InitKeyboard();
 

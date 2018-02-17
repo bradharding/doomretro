@@ -55,22 +55,22 @@
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int initial_health = 100;
-int initial_bullets = 50;
-int maxhealth = MAXHEALTH * 2;
-int max_armor = 200;
-int green_armor_class = 1;
-int blue_armor_class = 2;
-int max_soul = 200;
-int soul_health = 100;
-int mega_health = 200;
-int god_health = 100;
-int idfa_armor = 200;
-int idfa_armor_class = 2;
-int idkfa_armor = 200;
-int idkfa_armor_class = 2;
-int bfgcells = BFGCELLS;
-int species_infighting;
+int             initial_health = 100;
+int             initial_bullets = 50;
+int             maxhealth = MAXHEALTH * 2;
+int             max_armor = 200;
+int             green_armor_class = GREENARMOR;
+int             blue_armor_class = BLUEARMOR;
+int             max_soul = 200;
+int             soul_health = 100;
+int             mega_health = 200;
+int             god_health = 100;
+int             idfa_armor = 200;
+int             idfa_armor_class = BLUEARMOR;
+int             idkfa_armor = 200;
+int             idkfa_armor_class = BLUEARMOR;
+int             bfgcells = BFGCELLS;
+dboolean        species_infighting;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
@@ -295,7 +295,6 @@ void P_AddBonus(void)
 
 //
 // P_GiveWeapon
-// The weapon name may have a MF_DROPPED flag ORed in.
 //
 static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean stat)
 {
@@ -334,58 +333,61 @@ dboolean P_GiveAllWeapons(void)
 
     if (!viewplayer->weaponowned[wp_shotgun])
     {
-        result = true;
         viewplayer->weaponowned[wp_shotgun] = true;
+        viewplayer->shotguns = true;
+        result = true;
     }
 
     if (!viewplayer->weaponowned[wp_chaingun])
     {
-        result = true;
         viewplayer->weaponowned[wp_chaingun] = true;
+        result = true;
     }
 
     if (!viewplayer->weaponowned[wp_missile])
     {
-        result = true;
         viewplayer->weaponowned[wp_missile] = true;
+        result = true;
     }
 
     if (gamemode != shareware)
     {
         if (!viewplayer->weaponowned[wp_plasma])
         {
-            result = true;
             viewplayer->weaponowned[wp_plasma] = true;
+            result = true;
         }
 
         if (!viewplayer->weaponowned[wp_bfg])
         {
-            result = true;
             viewplayer->weaponowned[wp_bfg] = true;
+            result = true;
         }
     }
 
     if (!viewplayer->weaponowned[wp_chainsaw])
     {
-        result = true;
         viewplayer->weaponowned[wp_chainsaw] = true;
         viewplayer->fistorchainsaw = wp_chainsaw;
 
         if (viewplayer->readyweapon == wp_fist)
             viewplayer->pendingweapon = wp_chainsaw;
+
+        result = true;
     }
 
     if (gamemode == commercial && !viewplayer->weaponowned[wp_supershotgun])
     {
-        viewplayer->preferredshotgun = wp_supershotgun;
-        result = true;
         viewplayer->weaponowned[wp_supershotgun] = true;
+        viewplayer->shotguns = true;
+        viewplayer->preferredshotgun = wp_supershotgun;
 
         if (viewplayer->readyweapon == wp_shotgun)
             viewplayer->pendingweapon = wp_supershotgun;
+
+        result = true;
     }
 
-    viewplayer->shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
     return result;
 }
 
@@ -666,7 +668,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     // Identify by sprite.
     switch (special->sprite)
     {
-        // armor
+        // green armor
         case SPR_ARM1:
             if (!P_GiveArmor(green_armor_class, stat))
                 return;
@@ -676,6 +678,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // blue armor
         case SPR_ARM2:
             if (!P_GiveArmor(blue_armor_class, stat))
                 return;
@@ -685,7 +688,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
-        // bonus items
+        // bonus health
         case SPR_BON1:
             if (!(viewplayer->cheats & CF_GODMODE))
             {
@@ -707,6 +710,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // bonus armor
         case SPR_BON2:
             if (viewplayer->armorpoints < max_armor)
             {
@@ -723,6 +727,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // soulsphere
         case SPR_SOUL:
             if (!(viewplayer->cheats & CF_GODMODE))
             {
@@ -742,6 +747,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // mega health
         case SPR_MEGA:
             P_GiveMegaHealth(stat);
             P_GiveArmor(blue_armor_class, stat);
@@ -752,7 +758,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
-        // cards
+        // blue keycard
         case SPR_BKEY:
             if (viewplayer->cards[it_bluecard] <= 0)
             {
@@ -766,6 +772,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
+        // yellow keycard
         case SPR_YKEY:
             if (viewplayer->cards[it_yellowcard] <= 0)
             {
@@ -779,6 +786,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
+        // red keycard
         case SPR_RKEY:
             if (viewplayer->cards[it_redcard] <= 0)
             {
@@ -792,6 +800,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
+        // blue skull key
         case SPR_BSKU:
             if (viewplayer->cards[it_blueskull] <= 0)
             {
@@ -805,6 +814,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
+        // yellow skull key
         case SPR_YSKU:
             if (viewplayer->cards[it_yellowskull] <= 0)
             {
@@ -818,6 +828,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
+        // red skull key
         case SPR_RSKU:
             if (viewplayer->cards[it_redskull] <= 0)
             {
@@ -831,7 +842,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             return;
 
-        // medikits, heals
+        // stimpack
         case SPR_STIM:
             if (!P_GiveBody(10, stat))
                 return;
@@ -841,6 +852,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // medikit
         case SPR_MEDI:
             if (!P_GiveBody(25, stat))
                 return;
@@ -861,7 +873,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
-        // power ups
+        // invulnerability power-up
         case SPR_PINV:
             if (!P_GivePower(pw_invulnerability))
                 return;
@@ -872,6 +884,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // berserk power-up
         case SPR_PSTR:
             if (!P_GivePower(pw_strength))
                 return;
@@ -886,6 +899,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // partial invisibility power-up
         case SPR_PINS:
             if (!P_GivePower(pw_invisibility))
                 return;
@@ -896,6 +910,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // radiation shielding suit power-up
         case SPR_SUIT:
             if (!P_GivePower(pw_ironfeet))
                 return;
@@ -906,6 +921,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // computer area map power-up
         case SPR_PMAP:
             P_GivePower(pw_allmap);
 
@@ -915,6 +931,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
+        // light amplification visor power-up
         case SPR_PVIS:
             if (!P_GivePower(pw_infrared))
                 return;
@@ -925,7 +942,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_getpow;
             break;
 
-        // ammo
+        // clip
         case SPR_CLIP:
             if (!(ammo = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
                 return;
@@ -940,6 +957,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // box of bullets
         case SPR_AMMO:
             if (!P_GiveAmmo(am_clip, 5, stat))
                 return;
@@ -949,6 +967,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // rocket
         case SPR_ROCK:
             if (!(ammo = P_GiveAmmo(am_misl, 1, stat)))
                 return;
@@ -963,6 +982,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // box of rockets
         case SPR_BROK:
             if (!P_GiveAmmo(am_misl, 5, stat))
                 return;
@@ -972,6 +992,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // cell
         case SPR_CELL:
             if (!(ammo = P_GiveAmmo(am_cell, 1, stat)))
                 return;
@@ -986,6 +1007,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // cell pack
         case SPR_CELP:
             if (!P_GiveAmmo(am_cell, 5, stat))
                 return;
@@ -995,6 +1017,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // shells
         case SPR_SHEL:
             if (!(ammo = P_GiveAmmo(am_shell, 1, stat)))
                 return;
@@ -1009,6 +1032,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // box of shells
         case SPR_SBOX:
             if (!P_GiveAmmo(am_shell, 5, stat))
                 return;
@@ -1018,6 +1042,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
+        // backpack
         case SPR_BPAK:
             if (!P_GiveBackpack(true, stat))
                 return;
@@ -1027,7 +1052,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             break;
 
-        // weapons
+        // BFG-9000
         case SPR_BFUG:
             if (!P_GiveWeapon(wp_bfg, false, stat))
                 return;
@@ -1038,6 +1063,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // chaingun
         case SPR_MGUN:
             if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
                 return;
@@ -1048,6 +1074,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // chainsaw
         case SPR_CSAW:
             if (!P_GiveWeapon(wp_chainsaw, false, stat))
                 return;
@@ -1060,6 +1087,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // rocket launcher
         case SPR_LAUN:
             if (!P_GiveWeapon(wp_missile, false, stat))
                 return;
@@ -1070,6 +1098,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // plasma rifle
         case SPR_PLAS:
             if (!P_GiveWeapon(wp_plasma, false, stat))
                 return;
@@ -1080,6 +1109,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // shotgun
         case SPR_SHOT:
             weaponowned = viewplayer->weaponowned[wp_shotgun];
 
@@ -1089,7 +1119,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (!weaponowned)
                 viewplayer->preferredshotgun = wp_shotgun;
 
-            viewplayer->shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+            viewplayer->shotguns = true;
 
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN, false);
@@ -1097,6 +1127,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             sound = sfx_wpnup;
             break;
 
+        // super shotgun
         case SPR_SGN2:
             weaponowned = viewplayer->weaponowned[wp_supershotgun];
 
@@ -1106,7 +1137,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (!weaponowned)
                 viewplayer->preferredshotgun = wp_supershotgun;
 
-            viewplayer->shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+            viewplayer->shotguns = true;
 
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN2, false);
@@ -1566,7 +1597,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
 
         tplayer->attacker = source;
-        damagecount = tplayer->damagecount + damage;    // add damage after armor/invuln
+        damagecount = tplayer->damagecount + damage;            // add damage after armor/invuln
 
         if (damage > 0 && damagecount < 8)
              damagecount = 8;
