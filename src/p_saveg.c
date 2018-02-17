@@ -452,7 +452,6 @@ static void saveg_read_player_t(void)
 
     viewplayer->didsecret = saveg_read_bool();
     viewplayer->preferredshotgun = (weapontype_t)saveg_read_enum();
-    viewplayer->shotguns = saveg_read_bool();
     viewplayer->fistorchainsaw = (weapontype_t)saveg_read_enum();
     viewplayer->invulnbeforechoppers = saveg_read_bool();
     viewplayer->chainsawbeforechoppers = saveg_read_bool();
@@ -543,7 +542,6 @@ static void saveg_write_player_t(void)
 
     saveg_write_bool(viewplayer->didsecret);
     saveg_write_enum(viewplayer->preferredshotgun);
-    saveg_write_bool(viewplayer->shotguns);
     saveg_write32(viewplayer->fistorchainsaw);
     saveg_write_bool(viewplayer->invulnbeforechoppers);
     saveg_write_bool(viewplayer->chainsawbeforechoppers);
