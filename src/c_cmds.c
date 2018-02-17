@@ -1920,6 +1920,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has everything.");
         }
         else if (M_StringCompare(parm, "health"))
         {
@@ -1929,6 +1931,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has full health.");
         }
         else if (M_StringCompare(parm, "weapons"))
         {
@@ -1938,6 +1942,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has all the weapons.");
         }
         else if (M_StringCompare(parm, "ammo"))
         {
@@ -1947,6 +1953,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has full ammo.");
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
@@ -1956,6 +1964,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has full armor.");
         }
         else if (M_StringCompare(parm, "keys"))
         {
@@ -1965,6 +1975,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
                 C_HideConsole();
             }
+            else
+                C_Warning("The player already has all the keys in this map.");
         }
         else
         {
