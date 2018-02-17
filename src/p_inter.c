@@ -334,7 +334,6 @@ dboolean P_GiveAllWeapons(void)
     if (!viewplayer->weaponowned[wp_shotgun])
     {
         viewplayer->weaponowned[wp_shotgun] = true;
-        viewplayer->shotguns = true;
         result = true;
     }
 
@@ -379,7 +378,6 @@ dboolean P_GiveAllWeapons(void)
     if (gamemode == commercial && !viewplayer->weaponowned[wp_supershotgun])
     {
         viewplayer->weaponowned[wp_supershotgun] = true;
-        viewplayer->shotguns = true;
         viewplayer->preferredshotgun = wp_supershotgun;
 
         if (viewplayer->readyweapon == wp_shotgun)
@@ -1124,8 +1122,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (!weaponowned)
                 viewplayer->preferredshotgun = wp_shotgun;
 
-            viewplayer->shotguns = true;
-
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN, false);
 
@@ -1141,8 +1137,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             if (!weaponowned)
                 viewplayer->preferredshotgun = wp_supershotgun;
-
-            viewplayer->shotguns = true;
 
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN2, false);

@@ -481,7 +481,6 @@ static void G_ResetPlayer(void)
     viewplayer->armortype = NOARMOR;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
-    viewplayer->shotguns = false;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, false, sizeof(viewplayer->ammo));
     G_SetInitialWeapon();
@@ -1057,7 +1056,6 @@ void G_PlayerReborn(void)
     viewplayer->health = initial_health;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
-    viewplayer->shotguns = false;
 
     G_SetInitialWeapon();
 

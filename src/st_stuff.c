@@ -250,6 +250,8 @@ int                         st_facecount;
 // current face index, used by w_faces
 int                         st_faceindex;
 
+static dboolean             shotguns;
+
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
 
@@ -1334,6 +1336,8 @@ static void ST_drawWidgets(dboolean refresh)
     else
         STlib_updateBigBinIcon(&w_armsbg2, refresh);
 
+    shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+
     // [BH] manually draw arms numbers
     //  changes:
     //    arms 3 highlighted when player has super shotgun but no shotgun
@@ -1559,7 +1563,7 @@ static void ST_createWidgets(void)
 
     for (int i = 0; i < armsnum; i++)
         STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE, ST_ARMSY + i / 3 * ST_ARMSYSPACE,
-            arms[i], (i == 1 ? (int *)&viewplayer->shotguns : &viewplayer->weaponowned[i + 1]), &st_statusbaron);
+            arms[i], (i == 1 ? (int *)&shotguns : &viewplayer->weaponowned[i + 1]), &st_statusbaron);
 
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);

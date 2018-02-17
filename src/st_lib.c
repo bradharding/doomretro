@@ -230,7 +230,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
             else
                 STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
         }
-        else 
+        else
             V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
 
         mi->oldinum = *mi->inum;

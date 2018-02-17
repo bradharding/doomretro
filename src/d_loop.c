@@ -40,15 +40,15 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "m_menu.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_menu.h"
 
 //
 // NETWORKING
 //
 // gametic is the tic about to (or currently being) run
-// maketic is the tick that hasn't had control made for it yet
+// maketic is the tic that hasn't had control made for it yet
 //
 // a gametic cannot be run until nettics > gametic for all players
 //

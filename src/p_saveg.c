@@ -426,8 +426,6 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->weaponowned[i] = saveg_read32();
 
-    viewplayer->shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
-
     for (int i = 0; i < NUMAMMO; i++)
         viewplayer->ammo[i] = saveg_read32();
 
