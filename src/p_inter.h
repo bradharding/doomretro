@@ -43,6 +43,7 @@ dboolean P_GiveBody(int num, dboolean stat);
 dboolean P_GiveMegaHealth(dboolean stat);
 dboolean P_GiveArmor(armortype_t armortype, dboolean stat);
 dboolean P_GiveAllCards(void);
+dboolean P_GiveAllCardsInMap(void);
 dboolean P_GivePower(int power);
 dboolean P_GiveAllWeapons(void);
 dboolean P_GiveBackpack(dboolean giveammo, dboolean stat);

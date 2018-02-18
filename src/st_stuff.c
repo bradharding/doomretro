@@ -588,7 +588,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
-                keysgiven = P_GiveAllCards();
+                keysgiven = P_GiveAllCardsInMap();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]

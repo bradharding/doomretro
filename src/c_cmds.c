@@ -1911,7 +1911,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             if (P_GiveArmor(blue_armor_class, false))
                 result = true;
 
-            if (P_GiveAllCards())
+            if (P_GiveAllCardsInMap())
                 result = true;
 
             if (result)
@@ -1921,7 +1921,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
+            {
                 C_Warning("The player already has everything.");
+                return;
+            }
         }
         else if (M_StringCompare(parm, "health"))
         {
@@ -1932,7 +1935,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
+            {
                 C_Warning("The player already has full health.");
+                return;
+            }
         }
         else if (M_StringCompare(parm, "weapons"))
         {
@@ -1943,7 +1949,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
+            {
                 C_Warning("The player already has all the weapons.");
+                return;
+            }
         }
         else if (M_StringCompare(parm, "ammo"))
         {
@@ -1954,7 +1963,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
+            {
                 C_Warning("The player already has full ammo.");
+                return;
+            }
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
@@ -1965,7 +1977,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
+            {
                 C_Warning("The player already has full armor.");
+                return;
+            }
         }
         else if (M_StringCompare(parm, "keys"))
         {
@@ -1976,7 +1991,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("The player already has all the keys in this map.");
+            {
+                C_Warning("The player already has all the keycards and skull keys.");
+                return;
+            }
         }
         else
         {

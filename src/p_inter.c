@@ -579,6 +579,23 @@ static void P_GiveCard(card_t card)
 //
 dboolean P_GiveAllCards(void)
 {
+    dboolean    result = false;
+
+    for (int i = 0; i < NUMCARDS; i++)
+        if (viewplayer->cards[i] <= 0)
+        {
+            P_GiveCard(i);
+            result = true;
+        }
+
+    return result;
+}
+
+//
+// P_GiveAllCardsInMap
+//
+dboolean P_GiveAllCardsInMap(void)
+{
     dboolean    skulliscard = true;
     dboolean    result = false;
 
