@@ -592,6 +592,62 @@ dboolean P_GiveAllCards(void)
 }
 
 //
+// P_GiveAllKeyCards
+//
+dboolean P_GiveAllKeyCards(void)
+{
+    dboolean    result = false;
+
+    if (viewplayer->cards[it_bluecard] <= 0)
+    {
+        P_GiveCard(it_bluecard);
+        result = true;
+    }
+
+    if (viewplayer->cards[it_yellowcard] <= 0)
+    {
+        P_GiveCard(it_yellowcard);
+        result = true;
+    }
+
+    if (viewplayer->cards[it_redcard] <= 0)
+    {
+        P_GiveCard(it_redcard);
+        result = true;
+    }
+
+    return result;
+}
+
+//
+// P_GiveAllSkullKeys
+//
+dboolean P_GiveAllSkullKeys(void)
+{
+    dboolean    result = false;
+
+    if (viewplayer->cards[it_blueskull] <= 0)
+    {
+        P_GiveCard(it_blueskull);
+        result = true;
+    }
+
+    if (viewplayer->cards[it_yellowskull] <= 0)
+    {
+        P_GiveCard(it_yellowskull);
+        result = true;
+    }
+
+    if (viewplayer->cards[it_redskull] <= 0)
+    {
+        P_GiveCard(it_redskull);
+        result = true;
+    }
+
+    return result;
+}
+
+//
 // P_GiveAllCardsInMap
 //
 dboolean P_GiveAllCardsInMap(void)

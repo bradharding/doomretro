@@ -4,6 +4,7 @@
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * A bug has been fixed whereby skull keys picked up by the player wouldn’t be displayed in the status bar in some instances.
 * Entering `give keys` in the console will now give the player all keycards and skull keys, rather than just those present in the current map.
+* Entering `give keycards` or `give skullkeys` in the console will now give the player all keycards or all skull keys.
 * Minor changes have been made to text that is output to the console.
 * Walls, ceilings and floors with missing textures will now be rendered in white (the same color as when the `r_textures` CVAR is `off`) rather than not at all.
 * A bug has been fixed whereby some skies weren’t being rendered correctly when the `mouselook` CVAR was `off`.

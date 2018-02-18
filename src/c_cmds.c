@@ -1869,7 +1869,8 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
         || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
         || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
-        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys"))
+        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys")
+        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
         return true;
 
     sscanf(parm, "%10i", &num);
@@ -1992,7 +1993,35 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all the keycards and skull keys.");
+                C_Warning("The player already has all keycards and skull keys.");
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "keycards"))
+        {
+            if (P_GiveAllKeyCards())
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("The player already has all keycards.");
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "skullkeys"))
+        {
+            if (P_GiveAllSkullKeys())
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("The player already has all skull keys.");
                 return;
             }
         }
