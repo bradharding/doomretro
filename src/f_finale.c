@@ -107,7 +107,6 @@ void F_StartFinale(void)
         case shareware:
         case registered:
         case retail:
-        {
             S_ChangeMusic(mus_victor, true, false, false);
 
             switch (gameepisode)
@@ -134,19 +133,16 @@ void F_StartFinale(void)
             }
 
             break;
-        }
 
         // DOOM II and missions packs with E1, M34
         case commercial:
-        {
             S_ChangeMusic(mus_read_m, true, false, false);
 
             switch (gamemap)      // This is regular DOOM II
             {
                 case 6:
                     finaleflat = bgflat06;
-                    finaletext = (gamemission == pack_tnt ? s_T1TEXT : (gamemission == pack_plut ? s_P1TEXT :
-                        s_C1TEXT));
+                    finaletext = (gamemission == pack_tnt ? s_T1TEXT : (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
                     break;
 
                 case 8:
@@ -160,38 +156,31 @@ void F_StartFinale(void)
 
                 case 11:
                     finaleflat = bgflat11;
-                    finaletext = (gamemission == pack_tnt ? s_T2TEXT : (gamemission == pack_plut ? s_P2TEXT :
-                        s_C2TEXT));
-
+                    finaletext = (gamemission == pack_tnt ? s_T2TEXT : (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
                     break;
 
                 case 20:
                     finaleflat = bgflat20;
-                    finaletext = (gamemission == pack_tnt ? s_T3TEXT : (gamemission == pack_plut ? s_P3TEXT :
-                        s_C3TEXT));
+                    finaletext = (gamemission == pack_tnt ? s_T3TEXT : (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
                     break;
 
                 case 30:
                     finaleflat = bgflat30;
-                    finaletext = (gamemission == pack_tnt ? s_T4TEXT : (gamemission == pack_plut ? s_P4TEXT :
-                        s_C4TEXT));
+                    finaletext = (gamemission == pack_tnt ? s_T4TEXT : (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
                     break;
 
                 case 15:
                     finaleflat = bgflat15;
-                    finaletext = (gamemission == pack_tnt ? s_T5TEXT : (gamemission == pack_plut ? s_P5TEXT :
-                        s_C5TEXT));
+                    finaletext = (gamemission == pack_tnt ? s_T5TEXT : (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
                     break;
 
                 case 31:
                     finaleflat = bgflat31;
-                    finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT :
-                        s_C6TEXT));
+                    finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
                     break;
             }
 
             break;
-        }
 
         // Indeterminate.
         default:
@@ -215,8 +204,7 @@ dboolean F_Responder(event_t *ev)
 
 static fixed_t TextSpeed(void)
 {
-    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? acceleratestage = 0, NEWTEXTSPEED :
-        TEXTSPEED);
+    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? acceleratestage = 0, NEWTEXTSPEED : TEXTSPEED);
 }
 
 //
@@ -632,7 +620,7 @@ stopattack:
     {
         if (caststate->action == A_RandomJump)
         {
-            caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
+            caststate = &states[M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
             casttics = caststate->tics;
         }
 
@@ -708,7 +696,7 @@ static dboolean F_CastResponder(event_t *ev)
 
     if (casttics == -1 && caststate->action == A_RandomJump)
     {
-        caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
+        caststate = &states[M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
         casttics = caststate->tics;
     }
 

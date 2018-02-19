@@ -1111,8 +1111,8 @@ void C_Drawer(void)
                     V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, false, NULL);
                 else
-                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor,
-                        NOBACKGROUNDCOLOR, false, NULL);
+                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR,
+                        false, NULL);
             }
         }
         else
@@ -1841,11 +1841,11 @@ void C_PrintSDLVersions(void)
     const int   revision = SDL_GetRevisionNumber();
 
     if (revision)
-        C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.", SDL_MAJOR_VERSION,
-            SDL_MINOR_VERSION, SDL_PATCHLEVEL, commify(revision), SDL_FILENAME);
+        C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
+            SDL_PATCHLEVEL, commify(revision), SDL_FILENAME);
     else
-        C_Output("Using version %i.%i.%i of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
-            SDL_PATCHLEVEL, SDL_FILENAME);
+        C_Output("Using version %i.%i.%i of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
+            SDL_FILENAME);
 
     C_Output("Using version %i.%i.%i of <b>%s</b> and version %i.%i.%i of <b>%s</b>.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL, SDL_MIXER_FILENAME,

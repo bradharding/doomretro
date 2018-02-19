@@ -1936,8 +1936,8 @@ static void AM_setFrameVariables(void)
     if (am_rotatemode)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
-        const float     dx = (float)(m_x2 - x);
-        const float     dy = (float)(m_y2 - y);
+        const double    dx = (double)(m_x2 - x);
+        const double    dy = (double)(m_y2 - y);
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];

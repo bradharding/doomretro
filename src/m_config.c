@@ -461,7 +461,6 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
             return valuealiases[i].value;
 
     sscanf(strparm, "%10i", &parm);
-
     return parm;
 }
 

@@ -6,7 +6,7 @@
 * Entering `give keys` in the console will now give the player all keycards and skull keys, rather than just those present in the current map.
 * Entering `give keycards` or `give skullkeys` in the console will now give the player all keycards or all skull keys.
 * Minor changes have been made to text that is output to the console.
-* Walls, ceilings and floors with missing textures will now be rendered in white (the same color as when the `r_textures` CVAR is `off`) rather than not at all.
+* Walls, ceilings and floors with missing textures will now be rendered in white rather than not at all.
 * A bug has been fixed whereby some skies weren’t being rendered correctly when the `mouselook` CVAR was `off`.
 * Blood splats are now lit correctly when the `r_textures` CVAR is `off`.
 
