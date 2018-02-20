@@ -363,7 +363,7 @@ static void P_LoadSegs(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The front of seg %s has no sidedef.", commify(i));
+            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -560,7 +560,7 @@ static void P_LoadSegs_V4(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The front of seg %s has no sidedef.", commify(i));
+            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -919,7 +919,7 @@ static void P_LoadZSegs(const byte *data)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The front of seg %s has no sidedef.", commify(i));
+            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
