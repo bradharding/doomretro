@@ -1344,7 +1344,6 @@ void A_Fire(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_StartFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    S_StartSound(actor, sfx_flamst);
     A_Fire(actor, NULL, NULL);
 }
 
@@ -1373,6 +1372,7 @@ void A_VileTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetTarget(&fog->target, actor);
     P_SetTarget(&fog->tracer, actor->target);
 
+    S_StartSound(fog, sfx_flamst);
     A_Fire(fog, NULL, NULL);
 }
 
