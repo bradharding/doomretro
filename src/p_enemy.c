@@ -373,14 +373,14 @@ static dboolean P_SmartMove(mobj_t *actor)
     dboolean    onlift;
     int         underdamage;
 
-    if (!P_Move(actor, false))
-        return false;
-
     // killough 9/12/98: stay on a lift if target is on one
     onlift = (target && target->health > 0 && target->subsector->sector->tag == actor->subsector->sector->tag
         && actor->subsector->sector->islift);
 
     underdamage = P_IsUnderDamage(actor);
+
+    if (!P_Move(actor, false))
+        return false;
 
     // killough 9/9/98: avoid crushing ceilings or other damaging areas
     if ((onlift && M_Random() < 230          // stay on lift
