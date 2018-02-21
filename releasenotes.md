@@ -10,6 +10,8 @@
 * A bug has been fixed whereby some skies weren’t being rendered correctly when the `mouselook` CVAR was `off`.
 * Blood splats are now lit correctly when the `r_textures` CVAR is `off`.
 * The brightmap of the `COMP2` texture has been improved.
+* The `DSFLAMST` sound effect will now be played when an arch-vile spawns a fire attack.
+* The AI of monsters has been improved when on or near a lift.
 
 ---
 
