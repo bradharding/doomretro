@@ -421,13 +421,13 @@ static void R_RenderSegLoop(void)
 
                     if (topbrightmap)
                     {
-                            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
-                            dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                            dc_texheight = toptexheight;
-                            dc_iscale -= SPARKLEFIX;
-                            dc_brightmap = topbrightmap;
-                            bmapwallcolfunc();
-                            R_UnlockTextureCompositePatchNum(toptexture);
+                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
+                        dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
+                        dc_texheight = toptexheight;
+                        dc_iscale -= SPARKLEFIX;
+                        dc_brightmap = topbrightmap;
+                        bmapwallcolfunc();
+                        R_UnlockTextureCompositePatchNum(toptexture);
                     }
                     else if (missingtoptexture)
                         R_DrawColorColumn();
@@ -537,13 +537,13 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t  dx, dy;
-    int64_t  dx1, dy1;
-    int64_t  len;
-    int      worldtop;
-    int      worldbottom;
-    int      worldhigh;
-    int      worldlow;
+    int64_t dx, dy;
+    int64_t dx1, dy1;
+    int64_t len;
+    int     worldtop;
+    int     worldbottom;
+    int     worldhigh;
+    int     worldlow;
     side_t  *sidedef;
 
     linedef = curline->linedef;
