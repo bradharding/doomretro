@@ -170,7 +170,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
         return false;
 
     // [BH] check difference in height as well
-    if (pl->z > actor->z + actor->height || actor->z > pl->z + pl->height)
+    if (!infiniteheight && (pl->z > actor->z + actor->height || actor->z > pl->z + pl->height))
         return false;
 
     if (!P_CheckSight(actor, pl))

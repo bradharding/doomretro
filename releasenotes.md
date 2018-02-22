@@ -12,6 +12,7 @@
 * The brightmap of the `COMP2` texture has been improved.
 * The `DSFLAMST` sound effect will now be played when an arch-vile spawns a fire attack.
 * The AI of monsters has been improved when on or near a lift.
+* How far away a monster is from the player vertically is no longer taken into account during its melee attack if the `infiniteheight` CVAR is `on`.
 
 ---
 
