@@ -255,16 +255,17 @@ static void R_InitTextures(void)
     int                 j;
     int                 maptex_lump[2] = { -1, -1 };
     const int           *maptex1;
-    const int           *maptex2;
+    const int           *maptex2 = NULL;
     char                name[9];
     int                 names_lump;     // cph - new wad lump handling
     const char          *names;         // cph -
     const char          *name_p;        // const*'s
     int                 *patchlookup;
     int                 nummappatches;
-    int                 maxoff, maxoff2;
+    int                 maxoff;
+    int                 maxoff2 = 0;
     int                 numtextures1;
-    int                 numtextures2;
+    int                 numtextures2 = 0;
     const int           *directory;
 
     // Load the patch names from pnames.lmp.
@@ -298,12 +299,6 @@ static void R_InitTextures(void)
         numtextures2 = LONG(*maptex2);
         maxoff2 = W_LumpLength(maptex_lump[1]);
     }
-    else
-    {
-        maptex2 = NULL;
-        numtextures2 = 0;
-        maxoff2 = 0;
-    }
 
     numtextures = numtextures1 + numtextures2;
 
@@ -333,8 +328,8 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t)
-            * (SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
+        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1),
+            PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
@@ -382,7 +377,7 @@ static void R_InitTextures(void)
 
     while (--i >= 0)
     {
-        j = W_LumpNameHash(textures[i]->name) % (unsigned int)numtextures;
+        j = W_LumpNameHash(textures[i]->name) % numtextures;
 
         textures[i]->next = textures[j]->index; // Prepend to chain
         textures[j]->index = i;
@@ -687,7 +682,7 @@ int R_CheckTextureNumForName(char *name)
 
     if (*name != '-')
     {
-        i = textures[W_LumpNameHash(name) % (unsigned int)numtextures]->index;
+        i = textures[W_LumpNameHash(name) % numtextures]->index;
 
         while (i >= 0 && strncasecmp(textures[i]->name, name, 8))
             i = textures[i]->next;

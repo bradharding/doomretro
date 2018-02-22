@@ -1092,8 +1092,7 @@ void I_CreateExternalAutomap(dboolean output)
         const char  *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
-            C_Output("Created an external automap on display %i called \"%s\".", am_displayindex + 1,
-                displayname);
+            C_Output("Created an external automap on display %i called \"%s\".", am_displayindex + 1, displayname);
         else
             C_Output("Created an external automap on display %i.", am_displayindex + 1);
     }
@@ -1133,10 +1132,8 @@ void GetWindowPosition(void)
     }
     else
     {
-        windowx = BETWEEN(displays[displayindex].x, x,
-            displays[displayindex].x + displays[displayindex].w - 50);
-        windowy = BETWEEN(displays[displayindex].y, y,
-            displays[displayindex].y + displays[displayindex].h - 50);
+        windowx = BETWEEN(displays[displayindex].x, x, displays[displayindex].x + displays[displayindex].w - 50);
+        windowy = BETWEEN(displays[displayindex].y, y, displays[displayindex].y + displays[displayindex].h - 50);
     }
 }
 
@@ -1596,10 +1593,9 @@ static void SetVideoMode(dboolean output)
     if (output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
-        dboolean    iwad = (playpalwad->type == IWAD);
 
         C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s <b>%s</b>.",
-            (iwad ? "IWAD" : "PWAD"), playpalwad->path);
+            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("Gamma correction is off.");

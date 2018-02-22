@@ -10,9 +10,9 @@
 * A bug has been fixed whereby some skies weren’t being rendered correctly when the `mouselook` CVAR was `off`.
 * Blood splats are now lit correctly when the `r_textures` CVAR is `off`.
 * The brightmap of the `COMP2` texture has been improved.
-* The `DSFLAMST` sound effect will now be played when an arch-vile spawns a fire attack.
-* The AI of monsters has been improved when on or near a lift.
-* How far away a monster is from the player vertically is no longer taken into account during its melee attack if the `infiniteheight` CVAR is `on`.
+* As [originally intended in *Vanilla DOOM*](https://doomwiki.org/wiki/Sound_cutoffs#DSFLAMST), the `DSFLAMST` sound effect will now be played when an arch-vile attacks the player or another monster.
+* The AI of monsters has been improved when on or next to a lift.
+* How far away a monster is vertically from the player during its melee attack is no longer taken into account if the `infiniteheight` CVAR is `on`.
 
 ---
 
