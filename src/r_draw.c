@@ -59,7 +59,7 @@ int         scaledviewwidth;
 int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
-int         fuzztable[SCREENWIDTH * SCREENHEIGHT];
+int         fuzztable[SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT)];
 
 static byte *topleft0;
 static byte *topleft1;
@@ -1295,6 +1295,16 @@ void R_InitBuffer(int width, int height)
 
     topleft0 = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
     topleft1 = screens[1] + viewwindowy * SCREENWIDTH + viewwindowx;
+
+    for (int x = 0; x < SCREENWIDTH; x++)
+        fuzztable[x] = FUZZ(1, 2);
+
+    for (int y = 1; y < SCREENHEIGHT - SBARHEIGHT - 1; y++)
+        for (int x = 0; x < SCREENWIDTH; x++)
+            fuzztable[y * SCREENWIDTH + x] = FUZZ(0, 2);
+
+    for (int x = 0; x < SCREENWIDTH; x++)
+        fuzztable[SCREENHEIGHT - SBARHEIGHT - 1 + x] = FUZZ(0, 1);
 }
 
 //
