@@ -73,8 +73,11 @@ dboolean        dehacked;
 // haleyjd: got rid of macros for MSVC
 static char *dehfgets(char *buf, int n, DEHFILE *fp)
 {
-    if (!fp->lump)                              // If this is a real file,
-        return fgets(buf, n, fp->f);            // return regular fgets
+    if (!fp->lump)                              // If this is a real file, return regular fgets
+    {
+        linecount++;
+        return fgets(buf, n, fp->f);
+    }
 
     if (!n || !*fp->inp || fp->size <= 0)       // If no more characters
         return NULL;
