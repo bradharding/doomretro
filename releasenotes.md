@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7
 
 * Player messages are no longer displayed in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
+* The shadows of spectres are now displayed correctly when the `r_textures` CVAR is `off`.
 
 ---
 
