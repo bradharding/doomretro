@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7
 
+* Player messages are no longer displayed in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
+
 ---
 
 ###### Friday, February 23, 2018

@@ -910,6 +910,7 @@ void G_Ticker(void)
                 {
                     HU_ClearMessages();
                     D_Display();
+                    D_Display();
                 }
 
                 G_DoScreenShot();
