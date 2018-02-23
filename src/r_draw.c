@@ -193,22 +193,36 @@ void R_DrawColorColumn(void)
 
 void R_DrawShadowColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const byte  *body = tinttab40 + dc_black;
-    const byte  *edge = tinttab25 + dc_black;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
-    *dest = edge[*dest];
-    dest += SCREENWIDTH;
-
-    while (--count)
+    if (count == 1)
+        *dest = tinttab25[*dest + dc_black];
+    else if (count == 2)
     {
-        *dest = body[*dest];
-        dest += SCREENWIDTH;
-    }
+        const byte  *edge = tinttab25 + dc_black;
 
-    if (dc_yh < dc_floorclip)
         *dest = edge[*dest];
+        dest += SCREENWIDTH;
+        *dest = edge[*dest];
+    }
+    else
+    {
+        const byte  *edge = tinttab25 + dc_black;
+        const byte  *body = tinttab40 + dc_black;
+
+        count--;
+        *dest = edge[*dest];
+        dest += SCREENWIDTH;
+
+        while (--count > 1)
+        {
+            *dest = body[*dest];
+            dest += SCREENWIDTH;
+        }
+
+        *dest = edge[*dest];
+    }
 }
 
 void R_DrawFuzzyShadowColumn(void)
