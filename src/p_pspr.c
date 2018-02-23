@@ -156,20 +156,19 @@ static void P_BringUpWeapon(void)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-dboolean P_CheckAmmo(void)
+dboolean P_CheckAmmo(weapontype_t weapon)
 {
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
-    int             count = 1;  // Regular.
+    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
+    int         count = 1;  // Regular.
 
     // Some do not need ammunition anyway.
     if (ammotype == am_noammo)
         return true;
 
     // Minimal amount for one shot varies.
-    if (readyweapon == wp_bfg)
+    if (weapon == wp_bfg)
         count = bfgcells;
-    else if (readyweapon == wp_supershotgun)
+    else if (weapon == wp_supershotgun)
         count = 2;              // Double barrel.
 
     // Return if current ammunition sufficient.
@@ -178,20 +177,20 @@ dboolean P_CheckAmmo(void)
 
     // Out of ammo, pick a weapon to change to.
     // Preferences are set here.
-    if (viewplayer->weaponowned[wp_plasma] && viewplayer->ammo[am_cell])
+    if (viewplayer->weaponowned[wp_plasma] && viewplayer->ammo[am_cell] > 0)
         viewplayer->pendingweapon = wp_plasma;
     else if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2
              && viewplayer->preferredshotgun == wp_supershotgun)
         viewplayer->pendingweapon = wp_supershotgun;
-    else if (viewplayer->weaponowned[wp_chaingun] && viewplayer->ammo[am_clip])
+    else if (viewplayer->weaponowned[wp_chaingun] && viewplayer->ammo[am_clip] > 0)
         viewplayer->pendingweapon = wp_chaingun;
-    else if (viewplayer->weaponowned[wp_shotgun] && viewplayer->ammo[am_shell])
+    else if (viewplayer->weaponowned[wp_shotgun] && viewplayer->ammo[am_shell] > 0)
         viewplayer->pendingweapon = wp_shotgun;
-    else if (viewplayer->ammo[am_clip])
+    else if (viewplayer->ammo[am_clip] > 0)
         viewplayer->pendingweapon = wp_pistol;
     else if (viewplayer->weaponowned[wp_chainsaw])
         viewplayer->pendingweapon = wp_chainsaw;
-    else if (viewplayer->weaponowned[wp_missile] && viewplayer->ammo[am_misl])
+    else if (viewplayer->weaponowned[wp_missile] && viewplayer->ammo[am_misl] > 0)
         viewplayer->pendingweapon = wp_missile;
     else if (viewplayer->weaponowned[wp_bfg] && (viewplayer->ammo[am_cell] >= bfgcells || bfgcells != BFGCELLS))
         viewplayer->pendingweapon = wp_bfg;
@@ -218,12 +217,11 @@ static void P_SubtractAmmo(weapontype_t weapon, int amount)
 //
 void P_FireWeapon(void)
 {
-    weapontype_t    readyweapon;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
 
-    if (!P_CheckAmmo() || (automapactive && !am_followmode))
+    if (!P_CheckAmmo(readyweapon) || (automapactive && !am_followmode))
         return;
 
-    readyweapon = viewplayer->readyweapon;
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
@@ -334,14 +332,16 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
     else
     {
         player->refire = 0;
-        P_CheckAmmo();
+        P_CheckAmmo(viewplayer->readyweapon);
     }
 }
 
 void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!P_CheckAmmo())
-        P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].downstate);
+    weapontype_t    readyweapon = viewplayer->readyweapon;
+
+    if (!P_CheckAmmo(readyweapon))
+        P_SetPsprite(ps_weapon, weaponinfo[readyweapon].downstate);
 }
 
 //
@@ -681,8 +681,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
 
-    if (player->ammo[am_shell])
-        player->preferredshotgun = wp_shotgun;
+    player->preferredshotgun = wp_shotgun;
 }
 
 //
@@ -704,12 +703,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     for (int i = 0; i < 20; i++)
-    {
-        int     damage = 5 * (M_Random() % 3 + 1);
-        angle_t angle = actor->angle + (M_NegRandom() << ANGLETOFINESHIFT);
-
-        P_LineAttack(actor, angle, MISSILERANGE, bulletslope + (M_NegRandom() << 5), damage);
-    }
+        P_LineAttack(actor, actor->angle + (M_NegRandom() << ANGLETOFINESHIFT), MISSILERANGE,
+            bulletslope + (M_NegRandom() << 5), 5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);
 
