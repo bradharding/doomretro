@@ -215,13 +215,13 @@ void R_DrawShadowColumn(void)
         *dest = edge[*dest];
         dest += SCREENWIDTH;
 
-        while (--count > 1)
+        while (--count)
         {
             *dest = body[*dest];
             dest += SCREENWIDTH;
         }
 
-        *dest = edge[*dest];
+        *dest = (dc_yh == dc_floorclip ? body[*dest] : edge[*dest]);
     }
 }
 
