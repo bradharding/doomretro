@@ -384,10 +384,10 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
     {
         const rpost_t   *post = &column->posts[numposts];
         const int       topdelta = post->topdelta;
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta;
 
-        if ((dc_yh = MIN((int)((topscreen + post->length * spryscale) >> FRACBITS), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+        if ((dc_yh = MIN((int)((topscreen + post->length * spryscale - 256) >> FRACBITS), dc_floorclip)) >= 0)
+            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT + 512) >> FRACBITS))) <= dc_yh)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                     + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
