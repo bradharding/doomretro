@@ -1580,20 +1580,20 @@ static void ST_createWidgets(void)
     usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
 
     // ammo count (all four kinds)
-    STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[0], &st_statusbaron, ST_AMMO0WIDTH);
-    STlib_initNum(&w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[1], &st_statusbaron, ST_AMMO1WIDTH);
-    STlib_initNum(&w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[2], &st_statusbaron, ST_AMMO2WIDTH);
-    STlib_initNum(&w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[3], &st_statusbaron, ST_AMMO3WIDTH);
+    STlib_initNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], &st_statusbaron, ST_AMMO0WIDTH);
+    STlib_initNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], &st_statusbaron, ST_AMMO1WIDTH);
+    STlib_initNum(&w_ammo[am_cell], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_cell], &st_statusbaron, ST_AMMO2WIDTH);
+    STlib_initNum(&w_ammo[am_misl], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_misl], &st_statusbaron, ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_initNum(&w_maxammo[0], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[0], &st_statusbaron,
-        ST_MAXAMMO0WIDTH);
-    STlib_initNum(&w_maxammo[1], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[1], &st_statusbaron,
-        ST_MAXAMMO1WIDTH);
-    STlib_initNum(&w_maxammo[2], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[2], &st_statusbaron,
-        ST_MAXAMMO2WIDTH);
-    STlib_initNum(&w_maxammo[3], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[3], &st_statusbaron,
-        ST_MAXAMMO3WIDTH);
+    STlib_initNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip],
+        &st_statusbaron, ST_MAXAMMO0WIDTH);
+    STlib_initNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell],
+        &st_statusbaron, ST_MAXAMMO1WIDTH);
+    STlib_initNum(&w_maxammo[am_cell], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell],
+        &st_statusbaron, ST_MAXAMMO2WIDTH);
+    STlib_initNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl],
+        &st_statusbaron, ST_MAXAMMO3WIDTH);
 }
 
 static dboolean st_stopped = true;
