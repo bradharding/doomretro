@@ -55,6 +55,7 @@ typedef struct
     int             readystate;
     int             atkstate;
     int             flashstate;
+    int             recoil;
     int             motorspeed;
     int             tics;
     weapontype_t    prev;
