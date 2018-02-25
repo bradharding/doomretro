@@ -427,7 +427,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (linetarget || hitwall)
     {
-        P_NoiseAlert(player->mo);
+        P_NoiseAlert(actor);
         S_StartSound(actor, sfx_punch);
 
         // turn to face target

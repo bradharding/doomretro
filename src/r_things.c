@@ -367,7 +367,7 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
     while (numposts--)
     {
         const rpost_t   *post = &column->posts[numposts];
-        int64_t         topscreen = shadowtopscreen + spryscale * post->topdelta + 1;
+        int64_t         topscreen = shadowtopscreen + spryscale * post->topdelta;
 
         if ((dc_yh = MIN((int)(((topscreen + post->length * spryscale) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
@@ -428,7 +428,7 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
         const rpost_t   *post = &column->posts[numposts];
 
         // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta;
 
         if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)

@@ -60,11 +60,9 @@ int M_RandomInt(int lower, int upper)
 
 int M_RandomIntNoRepeat(int lower, int upper, int previous)
 {
-    int randomint = previous;
+    int randomint;
 
-    while (randomint == previous)
-        randomint = M_RandomInt(lower, upper);
-
+    while ((randomint = M_RandomInt(lower, upper)) == previous);
     return randomint;
 }
 
