@@ -522,7 +522,7 @@ void R_InitColumnFunctions(void)
     else
     {
         basecolfunc = R_DrawColorColumn;
-        fuzzcolfunc = R_DrawColorColumn;
+        fuzzcolfunc = R_DrawTranslucentColor50Column;
         transcolfunc = R_DrawColorColumn;
         wallcolfunc = R_DrawColorColumn;
         bmapwallcolfunc = R_DrawColorColumn;
