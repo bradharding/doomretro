@@ -1251,24 +1251,26 @@ static void ST_updateWidgets(void)
 
     // refresh everything if this is him coming back to life
     // [BH] but only if not paused and no menu
-    if (!paused && !menuactive && !consoleactive)
+    if (!freeze && !paused && !menuactive && !consoleactive)
         ST_updateFaceWidget();
 }
 
 void ST_Ticker(void)
 {
-
-    if (!vid_widescreen)
+    if (!freeze)
     {
-        st_randomnumber = M_Random();
-        ST_updateWidgets();
-        st_oldhealth = viewplayer->health;
-    }
-    else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
-    {
-        st_randomnumber = M_Random();
-        ST_updateFaceWidget();
-        st_oldhealth = viewplayer->health;
+        if (!vid_widescreen)
+        {
+            st_randomnumber = M_Random();
+            ST_updateWidgets();
+            st_oldhealth = viewplayer->health;
+        }
+        else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
+        {
+            st_randomnumber = M_Random();
+            ST_updateFaceWidget();
+            st_oldhealth = viewplayer->health;
+        }
     }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
