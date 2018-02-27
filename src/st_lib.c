@@ -44,13 +44,12 @@
 
 dboolean    usesmallnums;
 
-void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width)
+void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width)
 {
     n->x = x;
     n->y = y;
     n->width = width;
     n->num = num;
-    n->on = on;
     n->p = pl;
 }
 
@@ -176,43 +175,40 @@ static void STlib_drawSmallNum(st_number_t *n)
 
 void STlib_updateBigNum(st_number_t *n)
 {
-    if (*n->on)
-        STlib_drawBigNum(n);
+    STlib_drawBigNum(n);
 }
 
 void STlib_updateSmallNum(st_number_t *n)
 {
-    if (*n->on)
-        STlib_drawSmallNum(n);
+    STlib_drawSmallNum(n);
 }
 
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on, patch_t *percent)
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)
 {
-    STlib_initNum(&p->n, x, y, pl, num, on, 3);
+    STlib_initNum(&p->n, x, y, pl, num, 3);
     p->p = percent;
 }
 
 void STlib_updatePercent(st_percent_t *per, int refresh)
 {
-    if (refresh && *per->n.on)
+    if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
     STlib_updateBigNum(&per->n);
 }
 
-void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, dboolean *on)
+void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum)
 {
     mi->x = x;
     mi->y = y;
     mi->oldinum = -1;
     mi->inum = inum;
-    mi->on = on;
     mi->p = il;
 }
 
 void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
 {
-    if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
+    if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
         mi->oldinum = *mi->inum;
@@ -221,7 +217,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
 
 void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
-    if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
+    if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         if (usesmallnums)
         {
@@ -237,34 +233,21 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
     }
 }
 
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, dboolean *val, dboolean *on)
+void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i)
 {
     b->x = x;
     b->y = y;
-    b->oldval = false;
-    b->val = val;
-    b->on = on;
     b->p = i;
 }
 
 void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh)
 {
-    if (*bi->on && (bi->oldval != *bi->val || refresh))
-    {
-        if (*bi->val)
-            V_DrawPatch(bi->x, bi->y, 0, bi->p);
-
-        bi->oldval = *bi->val;
-    }
+    if (refresh)
+        V_DrawPatch(bi->x, bi->y, 0, bi->p);
 }
 
 void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh)
 {
-    if (*bi->on && (bi->oldval != *bi->val || refresh))
-    {
-        if (*bi->val)
-            V_DrawBigPatch(bi->x, bi->y, 0, bi->p);
-
-        bi->oldval = *bi->val;
-    }
+    if (refresh)
+        V_DrawBigPatch(bi->x, bi->y, 0, bi->p);
 }

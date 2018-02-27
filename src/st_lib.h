@@ -58,10 +58,6 @@ typedef struct
     // pointer to current value
     int         *num;
 
-    // pointer to dboolean stating
-    //  whether to update number
-    dboolean    *on;
-
     // list of patches for 0-9
     patch_t     **p;
 
@@ -92,10 +88,6 @@ typedef struct
     // pointer to current icon
     int         *inum;
 
-    // pointer to dboolean stating
-    //  whether to update icon
-    dboolean    *on;
-
     // list of icons
     patch_t     **p;
 } st_multicon_t;
@@ -105,16 +97,6 @@ typedef struct
 {
     // center-justified location of icon
     int         x, y;
-
-    // last icon value
-    dboolean    oldval;
-
-    // pointer to current icon status
-    dboolean    *val;
-
-    // pointer to dboolean
-    //  stating whether to update icon
-    dboolean    *on;
 
     // icon
     patch_t     *p;
@@ -134,25 +116,25 @@ extern dboolean usesmallnums;
 //  everything else is done somewhere else.
 //
 // Number widget routines
-void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width);
+void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width);
 
 void STlib_updateBigNum(st_number_t *n);
 void STlib_updateSmallNum(st_number_t *n);
 
 // Percent widget routines
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on, patch_t *percent);
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
 
 void STlib_updatePercent(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
-void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, dboolean *on);
+void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum);
 
 void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh);
 
 void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
 
 // Binary Icon widget routines
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, dboolean *val, dboolean *on);
+void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i);
 
 void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh);
 void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh);

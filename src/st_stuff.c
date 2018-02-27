@@ -168,9 +168,6 @@ static dboolean             st_firsttime;
 // lump number for PLAYPAL
 static int                  lu_palette;
 
-// whether left-side main status bar is active
-static dboolean             st_statusbaron;
-
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
@@ -396,15 +393,12 @@ static int ST_calcPainOffset(void);
 
 static void ST_refreshBackground(void)
 {
-    if (st_statusbaron)
-    {
-        if (STBAR >= 3 || r_detail == r_detail_low)
-            V_DrawPatch(ST_X, 0, 4, sbar);
-        else
-            V_DrawBigPatch(ST_X, 0, 4, sbar2);
+    if (STBAR >= 3 || r_detail == r_detail_low)
+        V_DrawPatch(ST_X, 0, 4, sbar);
+    else
+        V_DrawBigPatch(ST_X, 0, 4, sbar2);
 
-        V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
-    }
+    V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
 }
 
 //
@@ -1381,7 +1375,6 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     if (vid_widescreen)
         return;
 
-    st_statusbaron = (!fullscreen || automapactive);
     st_firsttime = (st_firsttime || refresh);
 
     // If just after ST_Start(), refresh all
@@ -1531,7 +1524,6 @@ static void ST_loadData(void)
 static void ST_initData(void)
 {
     st_firsttime = true;
-    st_statusbaron = true;
     st_faceindex = 0;
     st_palette = -1;
     st_oldhealth = -1;
@@ -1547,55 +1539,49 @@ static void ST_createWidgets(void)
 {
     // ready weapon ammo
     STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
-        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], &st_statusbaron, ST_AMMOWIDTH);
+        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = viewplayer->readyweapon;
 
     // health percentage
-    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health,
-        &st_statusbaron, tallpercent);
+    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
 
     // arms background
-    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg, &st_statusbaron, &st_statusbaron);
-    STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2, &st_statusbaron, &st_statusbaron);
+    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg);
+    STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2);
 
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
 
     for (int i = 0; i < armsnum; i++)
         STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE, ST_ARMSY + i / 3 * ST_ARMSYSPACE,
-            arms[i], (i == 1 ? (int *)&shotguns : &viewplayer->weaponowned[i + 1]), &st_statusbaron);
+            arms[i], (i == 1 ? (int *)&shotguns : &viewplayer->weaponowned[i + 1]));
 
     // faces
-    STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);
+    STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
     // armor percentage
-    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints,
-        &st_statusbaron, tallpercent);
+    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
 
     // keyboxes 0-2
-    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0]);
+    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1]);
+    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
     usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
 
     // ammo count (all four kinds)
-    STlib_initNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], &st_statusbaron, ST_AMMO0WIDTH);
-    STlib_initNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], &st_statusbaron, ST_AMMO1WIDTH);
-    STlib_initNum(&w_ammo[am_cell], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_cell], &st_statusbaron, ST_AMMO2WIDTH);
-    STlib_initNum(&w_ammo[am_misl], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_misl], &st_statusbaron, ST_AMMO3WIDTH);
+    STlib_initNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
+    STlib_initNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], ST_AMMO1WIDTH);
+    STlib_initNum(&w_ammo[am_cell], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_cell], ST_AMMO2WIDTH);
+    STlib_initNum(&w_ammo[am_misl], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_misl], ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_initNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip],
-        &st_statusbaron, ST_MAXAMMO0WIDTH);
-    STlib_initNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell],
-        &st_statusbaron, ST_MAXAMMO1WIDTH);
-    STlib_initNum(&w_maxammo[am_cell], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell],
-        &st_statusbaron, ST_MAXAMMO2WIDTH);
-    STlib_initNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl],
-        &st_statusbaron, ST_MAXAMMO3WIDTH);
+    STlib_initNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMO0WIDTH);
+    STlib_initNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMO1WIDTH);
+    STlib_initNum(&w_maxammo[am_cell], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMO2WIDTH);
+    STlib_initNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO3WIDTH);
 }
 
 static dboolean st_stopped = true;
