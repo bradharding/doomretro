@@ -778,7 +778,7 @@ static void R_SetupFrame(void)
     psprscalelight = c_psprscalelight[cm];
     drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max && !vanilla);
 
-    if (viewplayer->fixedcolormap)
+    if (viewplayer->fixedcolormap && r_textures)
     {
         // killough 3/20/98: localize scalelightfixed (readability/optimization)
         static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
