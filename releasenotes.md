@@ -4,7 +4,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to how both sprites and the shadows they cast are rendered.
 * Minor changes have been made to text that is output to the console.
-* Player messages are no longer displayed in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
+* Player messages are no longer present in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The player’s face is no longer updated in the status bar and default widescreen HUD when freeze mode is on.

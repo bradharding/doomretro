@@ -58,7 +58,7 @@ static void wipe_shittyColMajorXform(short *array)
 
     for (int y = 0; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH / 2; x++)
-            dest[x * SCREENHEIGHT + y] = array[y * SCREENWIDTH / 2 + x];
+            dest[y + x * SCREENHEIGHT] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
     free(dest);
@@ -106,29 +106,21 @@ static dboolean wipe_doMelt(int tics)
             if (y[i] < SCREENHEIGHT)
             {
                 int     dy = (y[i] < 16 ? y[i] + 1 : speed);
-                int     idx = 0;
                 short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + y[i]];
                 short   *d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
 
                 if (y[i] + dy >= SCREENHEIGHT)
                     dy = SCREENHEIGHT - y[i];
 
-                for (int j = dy; j; j--)
-                {
+                for (int idx = 0, j = dy; j; j--, idx += SCREENWIDTH / 2)
                     d[idx] = *s++;
-                    idx += SCREENWIDTH / 2;
-                }
 
                 y[i] += dy;
                 s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
                 d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
-                idx = 0;
 
-                for (int j = SCREENHEIGHT - y[i]; j; j--)
-                {
+                for (int idx = 0, j = SCREENHEIGHT - y[i]; j; j--, idx += SCREENWIDTH / 2)
                     d[idx] = *s++;
-                    idx += SCREENWIDTH / 2;
-                }
 
                 done = false;
             }

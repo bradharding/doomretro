@@ -428,12 +428,11 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     damage = 2 * (M_Random() % 10 + 1);
     angle_t angle = actor->angle + (M_NegRandom() << 18);
     int     slope = P_AimLineAttack(actor, angle, MELEERANGE + 1);
 
     // use MELEERANGE + 1 so the puff doesn't skip the flash
-    P_LineAttack(actor, angle, MELEERANGE + 1, slope, damage);
+    P_LineAttack(actor, angle, MELEERANGE + 1, slope, 2 * (M_Random() % 10 + 1));
 
     A_Recoil(wp_chainsaw);
 
@@ -591,13 +590,12 @@ static void P_BulletSlope(mobj_t *mo)
 //
 static void P_GunShot(mobj_t *actor, dboolean accurate)
 {
-    int     damage = 5 * (M_Random() % 3 + 1);
     angle_t angle = actor->angle;
 
     if (!accurate)
         angle += M_NegRandom() << 18;
 
-    P_LineAttack(actor, angle, MISSILERANGE, bulletslope, damage);
+    P_LineAttack(actor, angle, MISSILERANGE, bulletslope, 5 * (M_Random() % 3 + 1));
 }
 
 //
@@ -851,9 +849,11 @@ void P_MovePsprites(void)
     pspdef_t    *weapon = &psp[ps_weapon];
     pspdef_t    *flash = &psp[ps_flash];
 
-    for (int i = 0; i < NUMPSPRITES; i++, psp++)
-        if (psp->state && psp->tics != -1 && !--psp->tics)
-            P_SetPsprite(i, psp->state->nextstate);
+    if (weapon->state && weapon->tics != -1 && !--weapon->tics)
+        P_SetPsprite(ps_weapon, weapon->state->nextstate);
+
+    if (flash->state && flash->tics != -1 && !--flash->tics)
+        P_SetPsprite(ps_flash, flash->state->nextstate);
 
     if (weapon->state->action == A_WeaponReady)
     {
