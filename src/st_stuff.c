@@ -117,7 +117,6 @@
 #define ST_ARMSX            111
 #define ST_ARMSY            172
 #define ST_ARMSBGX          104
-#define ST_ARMSBGY          168
 #define ST_ARMSXSPACE       12
 #define ST_ARMSYSPACE       10
 
@@ -202,10 +201,6 @@ static st_number_t          w_ready;
 
 // health widget
 static st_percent_t         w_health;
-
-// arms background
-static st_binicon_t         w_armsbg;
-static st_binicon_t         w_armsbg2;
 
 // weapon ownership widgets
 static st_multicon_t        w_arms[6];
@@ -394,9 +389,15 @@ static int ST_calcPainOffset(void);
 static void ST_refreshBackground(void)
 {
     if (STBAR >= 3 || r_detail == r_detail_low)
+    {
         V_DrawPatch(ST_X, 0, 4, sbar);
+        V_DrawPatch(ST_ARMSBGX + hacx * 4, 0, 4, armsbg);
+    }
     else
+    {
         V_DrawBigPatch(ST_X, 0, 4, sbar2);
+        V_DrawBigPatch(ST_ARMSBGX * 2, 0, 4, armsbg2);
+    }
 
     V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
 }
@@ -1327,11 +1328,6 @@ static void ST_drawWidgets(dboolean refresh)
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
-    if (STBAR >= 3 || r_detail == r_detail_low)
-        STlib_updateBinIcon(&w_armsbg, refresh);
-    else
-        STlib_updateBigBinIcon(&w_armsbg2, refresh);
-
     shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
     // [BH] manually draw arms numbers
@@ -1546,10 +1542,6 @@ static void ST_createWidgets(void)
 
     // health percentage
     STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
-
-    // arms background
-    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg);
-    STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2);
 
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);

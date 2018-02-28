@@ -92,19 +92,6 @@ typedef struct
     patch_t     **p;
 } st_multicon_t;
 
-// Binary Icon widget
-typedef struct
-{
-    // center-justified location of icon
-    int         x, y;
-
-    // icon
-    patch_t     *p;
-
-    // user data
-    int         data;
-} st_binicon_t;
-
 extern dboolean usesmallnums;
 
 //
@@ -132,11 +119,5 @@ void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum
 void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh);
 
 void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
-
-// Binary Icon widget routines
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i);
-
-void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh);
-void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh);
 
 #endif

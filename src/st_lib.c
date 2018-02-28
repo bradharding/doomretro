@@ -232,22 +232,3 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
         mi->oldinum = *mi->inum;
     }
 }
-
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i)
-{
-    b->x = x;
-    b->y = y;
-    b->p = i;
-}
-
-void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh)
-{
-    if (refresh)
-        V_DrawPatch(bi->x, bi->y, 0, bi->p);
-}
-
-void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh)
-{
-    if (refresh)
-        V_DrawBigPatch(bi->x, bi->y, 0, bi->p);
-}
