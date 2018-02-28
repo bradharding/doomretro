@@ -724,7 +724,7 @@ static void P_LoadSectors(int lump)
 
                     if (sectorfix[j].special != DEFAULT)
                     {
-                        ss->special = SHORT(sectorfix[j].special) << FRACBITS;
+                        ss->special = SHORT(sectorfix[j].special);
 
                         if (devparm)
                             C_Warning("The special of sector %s has been changed to %s.",

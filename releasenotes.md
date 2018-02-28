@@ -8,6 +8,7 @@
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The player’s face is no longer updated in the status bar and default widescreen HUD when freeze mode is on.
+* A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t working correctly.
 
 ---
 
