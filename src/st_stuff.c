@@ -1363,15 +1363,13 @@ static void ST_diffDraw(void)
     ST_drawWidgets(false);
 }
 
-void ST_Drawer(dboolean fullscreen, dboolean refresh)
+void ST_Drawer(void)
 {
     // Do red-/gold-shifts from damage/items
     ST_doPaletteStuff();
 
     if (vid_widescreen)
         return;
-
-    st_firsttime = (st_firsttime || refresh);
 
     // If just after ST_Start(), refresh all
     if (st_firsttime)
