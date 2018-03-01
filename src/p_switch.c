@@ -337,16 +337,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     switch (line->special)
     {
         // MANUALS
-        case DR_Door_OpenWaitClose_AlsoMonsters:
-        case DR_Door_Blue_OpenWaitClose:
-        case DR_Door_Yellow_OpenWaitClose:
-        case DR_Door_Red_OpenWaitClose:
-
-        case D1_Door_OpenStay:
-        case D1_Door_Blue_OpenStay:
-        case D1_Door_Red_OpenStay:
-        case D1_Door_Yellow_OpenStay:
-
         case DR_Door_OpenWaitClose_Fast:
             if (nomonsters && (line->flags & ML_TRIGGER666))
             {
@@ -356,6 +346,16 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 EV_DoFloor(&junk, lowerFloorToLowest);
                 line->flags &= ~ML_TRIGGER666;
             }
+
+        case DR_Door_OpenWaitClose_AlsoMonsters:
+        case DR_Door_Blue_OpenWaitClose:
+        case DR_Door_Yellow_OpenWaitClose:
+        case DR_Door_Red_OpenWaitClose:
+
+        case D1_Door_OpenStay:
+        case D1_Door_Blue_OpenStay:
+        case D1_Door_Red_OpenStay:
+        case D1_Door_Yellow_OpenStay:
 
         case D1_Door_OpenStay_Fast:
             EV_VerticalDoor(line, thing);

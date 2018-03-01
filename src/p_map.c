@@ -916,8 +916,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
             // too big a step up
             || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
-            return (tmunstuck && !(ceilingline && untouched(ceilingline))
-                    && !(floorline && untouched(floorline)));
+            return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
 
         if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
