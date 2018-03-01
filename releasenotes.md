@@ -11,6 +11,7 @@
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
 * Hanging corpses no longer bob if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
+* Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open some locked doors.
 
 ---
 
