@@ -17,7 +17,12 @@ Windows:
 Windows UWP:
 * Added SDL_WinRTGetDeviceFamily() to find out what type of device your application is running on
 
-Mac OSX / iOS / tvOS:
+Mac OS X:
+* Added support for the Vulkan SDK for Mac:
+  https://www.lunarg.com/lunarg-releases-vulkan-sdk-1-0-69-0-for-mac/
+* Added support for OpenGL ES using ANGLE when it's available
+
+Mac OS X / iOS / tvOS:
 * Added a Metal 2D render implementation
 * Added SDL_RenderGetMetalLayer() and SDL_RenderGetMetalCommandEncoder() to insert your own drawing into SDL rendering when using the Metal implementation
 
@@ -25,11 +30,12 @@ iOS:
 * Added the hint SDL_HINT_IOS_HIDE_HOME_INDICATOR to control whether the home indicator bar on iPhone X should be hidden. This defaults to dimming the indicator for fullscreen applications and showing the indicator for windowed applications.
 
 iOS / Android:
-* Added SDL_IsAndroidTV() to tell whether the application is running on Android TV
 * Added the hint SDL_HINT_RETURN_KEY_HIDES_IME to control whether the return key on the software keyboard should hide the keyboard or send a key event (the default)
 
 Android:
+* SDL now supports building with Android Studio and Gradle by default, and the old Ant project is available in android-project-ant
 * SDL now requires the API 19 SDK to build, but can still target devices down to API 14 (Android 4.0.1)
+* Added SDL_IsAndroidTV() to tell whether the application is running on Android TV
 
 Android / tvOS:
 * Added the hint SDL_HINT_TV_REMOTE_AS_JOYSTICK to control whether TV remotes should be listed as joystick devices (the default) or send keyboard events.
