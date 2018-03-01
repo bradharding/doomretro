@@ -272,7 +272,7 @@ void D_Display(void)
     {
         HU_Erase();
 
-        ST_Drawer();
+        ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // draw the view directly
         R_RenderPlayerView();

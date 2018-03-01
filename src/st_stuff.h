@@ -72,7 +72,7 @@ void ST_AutomapEvent(int type);
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(void);
+void ST_Drawer(dboolean fullscreen, dboolean refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);

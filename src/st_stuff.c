@@ -167,6 +167,9 @@ static dboolean             st_firsttime;
 // lump number for PLAYPAL
 static int                  lu_palette;
 
+// whether left-side main status bar is active
+static dboolean             st_statusbaron;
+
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
@@ -388,18 +391,21 @@ static int ST_calcPainOffset(void);
 
 static void ST_refreshBackground(void)
 {
-    if (STBAR >= 3 || r_detail == r_detail_low)
+    if (st_statusbaron)
     {
-        V_DrawPatch(ST_X, 0, 4, sbar);
-        V_DrawPatch(ST_ARMSBGX + hacx * 4, 0, 4, armsbg);
-    }
-    else
-    {
-        V_DrawBigPatch(ST_X, 0, 4, sbar2);
-        V_DrawBigPatch(ST_ARMSBGX * 2, 0, 4, armsbg2);
-    }
+        if (STBAR >= 3 || r_detail == r_detail_low)
+        {
+            V_DrawPatch(ST_X, 0, 4, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, 0, 4, armsbg);
+        }
+        else
+        {
+            V_DrawBigPatch(ST_X, 0, 4, sbar2);
+            V_DrawBigPatch(ST_ARMSBGX * 2, 0, 4, armsbg2);
+        }
 
-    V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
+        V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
+    }
 }
 
 //
@@ -1363,13 +1369,16 @@ static void ST_diffDraw(void)
     ST_drawWidgets(false);
 }
 
-void ST_Drawer(void)
+void ST_Drawer(dboolean fullscreen, dboolean refresh)
 {
     // Do red-/gold-shifts from damage/items
     ST_doPaletteStuff();
 
     if (vid_widescreen)
         return;
+
+    st_statusbaron = (!fullscreen || automapactive);
+    st_firsttime = (st_firsttime || refresh);
 
     // If just after ST_Start(), refresh all
     if (st_firsttime)
@@ -1518,6 +1527,7 @@ static void ST_loadData(void)
 static void ST_initData(void)
 {
     st_firsttime = true;
+    st_statusbaron = true;
     st_faceindex = 0;
     st_palette = -1;
     st_oldhealth = -1;
