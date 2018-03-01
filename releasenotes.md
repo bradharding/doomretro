@@ -1,4 +1,4 @@
-### DOOM Retro v2.7
+### DOOM Retro v2.6.8
 
 * *DOOM Retro* now uses [*SDL v2.0.8*](http://libsdl.org) and [*SDL_image v2.0.3*](http://libsdl.org/SDL_image).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -10,7 +10,7 @@
 * The player’s face is no longer updated in the status bar and default widescreen HUD when freeze mode is on.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
 * Hanging corpses no longer bob if above liquid.
-* Corpses can no longer trigger line specials.
+* Corpses can no longer trigger line specials when sliding over them.
 
 ---
 
