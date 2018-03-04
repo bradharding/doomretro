@@ -1395,11 +1395,6 @@ void R_FillBackScreen(void)
 //
 void R_VideoErase(unsigned int ofs, int count)
 {
-    // LFB copy.
-    // This might not be a good idea if memcpy
-    //  is not optimal, e.g. byte by byte on
-    //  a 32bit CPU, as GNU GCC/Linux libc did
-    //  at one point.
     memcpy(screens[0] + ofs, screens[1] + ofs, count);
 }
 

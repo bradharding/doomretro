@@ -363,7 +363,7 @@ static void R_RenderSegLoop(void)
         if (segtextured)
         {
             // calculate texture offset and lighting
-            angle_t angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
+            const angle_t   angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
@@ -410,7 +410,7 @@ static void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int mid = MIN((int)(pixhigh >> heightbits), floorclip[rw_x] - 1);
+                const int   mid = MIN((int)(pixhigh >> heightbits), floorclip[rw_x] - 1);
 
                 pixhigh += pixhighstep;
 
@@ -454,7 +454,7 @@ static void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int mid = MAX((int)((pixlow + heightunit - 1) >> heightbits), ceilingclip[rw_x] + 1);
+                const int   mid = MAX((int)((pixlow + heightunit - 1) >> heightbits), ceilingclip[rw_x] + 1);
 
                 pixlow += pixlowstep;
 
@@ -587,8 +587,8 @@ void R_StoreWallRange(const int start, const int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        size_t          pos = lastopening - openings;
-        size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
+        const size_t    pos = lastopening - openings;
+        const size_t    need = (rw_stopx - start) * sizeof(*lastopening) + pos;
         static size_t   maxopenings;
 
         if (need > maxopenings)

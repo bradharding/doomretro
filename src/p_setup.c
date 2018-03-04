@@ -211,7 +211,7 @@ dboolean            r_fixmaperrors = r_fixmaperrors_default;
 
 static int          current_episode = -1;
 static int          current_map = -1;
-static int          samelevel;
+static dboolean     samelevel;
 
 mapformat_t         mapformat;
 
