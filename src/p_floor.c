@@ -513,8 +513,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                             minsize = textureheight[side->bottomtexture];
                     }
 
-                floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS),
-                    32000) << FRACBITS;
+                floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS), 32000) << FRACBITS;
                 break;
             }
 
@@ -787,8 +786,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->sector = sec;
                 elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
-                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
-                    - sec->floorheight;
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
                 break;
 
             // elevator up to next floor
@@ -797,8 +795,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->sector = sec;
                 elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
-                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
-                    - sec->floorheight;
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
                 break;
 
             // elevator to floor height of activating switch's front sector
@@ -806,8 +803,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->sector = sec;
                 elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = line->frontsector->floorheight;
-                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
-                    - sec->floorheight;
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
                 elevator->direction = (elevator->floordestheight > sec->floorheight ? 1 : -1);
                 break;
         }

@@ -858,10 +858,10 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 // killough 11/98: reformatted
 dboolean P_CanUnlockGenDoor(line_t *line)
 {
-    static char buffer[1024];
+    static char     buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    const int   skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    const dboolean  skulliscard = !!((line->special & LockedNKeys) >> LockedNKeysShift);
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -1158,7 +1158,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case MT_SPAWNSHOT:
             case MT_ARACHPLAZ:
                 return;
-                break;
 
             default:
                 break;

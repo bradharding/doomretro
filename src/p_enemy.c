@@ -162,19 +162,19 @@ void P_NoiseAlert(mobj_t *target)
 //
 dboolean P_CheckMeleeRange(mobj_t *actor)
 {
-    mobj_t  *pl = actor->target;
+    mobj_t  *target = actor->target;
 
-    if (!pl)
+    if (!target)
         return false;
 
-    if (P_ApproxDistance(pl->x - actor->x, pl->y - actor->y) >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
+    if (P_ApproxDistance(target->x - actor->x, target->y - actor->y) >= MELEERANGE - 20 * FRACUNIT + target->info->radius)
         return false;
 
     // [BH] check difference in height as well
-    if (!infiniteheight && (pl->z > actor->z + actor->height || actor->z > pl->z + pl->height))
+    if (!infiniteheight && (target->z > actor->z + actor->height || actor->z > target->z + target->height))
         return false;
 
-    if (!P_CheckSight(actor, pl))
+    if (!P_CheckSight(actor, target))
         return false;
 
     return true;
@@ -252,10 +252,10 @@ static int P_IsUnderDamage(mobj_t *actor)
 
     for (const struct msecnode_s *seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
-        const ceiling_t *cl = seclist->m_sector->ceilingdata;   // Crushing ceiling
+        const ceiling_t *ceiling = seclist->m_sector->ceilingdata;  // Crushing ceiling
 
-        if (cl && cl->thinker.function == T_MoveCeiling)
-            dir |= cl->direction;
+        if (ceiling && ceiling->thinker.function == T_MoveCeiling)
+            dir |= ceiling->direction;
     }
 
     return dir;
@@ -1058,7 +1058,6 @@ void A_CyberAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *mo;
     mobj_t  *target = actor->target;
 
-
     if (!target)
         return;
 
@@ -1101,7 +1100,6 @@ void A_SkelMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *mo;
     mobj_t  *target = actor->target;
-
 
     if (!target)
         return;

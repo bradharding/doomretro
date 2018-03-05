@@ -350,7 +350,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             EV_VerticalDoor(line, thing);
             break;
 
-
         case D1_Door_Blue_OpenStay:
         case D1_Door_Red_OpenStay:
         case D1_Door_Yellow_OpenStay:

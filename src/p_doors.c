@@ -613,7 +613,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 }
                 else
                 {
-                    if (!thing->player)
+                    if (!player)
                         return;
 
                     if (door->thinker.function == T_VerticalDoor)

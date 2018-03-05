@@ -55,21 +55,21 @@
 //
 dboolean EV_DoGenFloor(line_t *line)
 {
-    int             secnum = -1;
-    dboolean        rtn = false;
-    dboolean        manual = false;
-    sector_t        *sec;
-    floormove_t     *floor;
-    unsigned int    value = line->special - GenFloorBase;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    dboolean            manual = false;
+    sector_t            *sec;
+    floormove_t         *floor;
+    const unsigned int  value = line->special - GenFloorBase;
 
     // parse the bit fields in the line's special type
-    int             Crsh = (value & FloorCrush) >> FloorCrushShift;
-    int             ChgT = (value & FloorChange) >> FloorChangeShift;
-    int             Targ = (value & FloorTarget) >> FloorTargetShift;
-    int             Dirn = (value & FloorDirection) >> FloorDirectionShift;
-    int             ChgM = (value & FloorModel) >> FloorModelShift;
-    int             Sped = (value & FloorSpeed) >> FloorSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Crsh = (value & FloorCrush) >> FloorCrushShift;
+    const int           ChgT = (value & FloorChange) >> FloorChangeShift;
+    const int           Targ = (value & FloorTarget) >> FloorTargetShift;
+    const int           Dirn = (value & FloorDirection) >> FloorDirectionShift;
+    const int           ChgM = (value & FloorModel) >> FloorModelShift;
+    const int           Sped = (value & FloorSpeed) >> FloorSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
@@ -244,22 +244,22 @@ manual_floor:
 //
 dboolean EV_DoGenCeiling(line_t *line)
 {
-    int             secnum = -1;
-    dboolean        rtn = false;
-    dboolean        manual = false;
-    fixed_t         targheight;
-    sector_t        *sec;
-    ceiling_t       *ceiling;
-    unsigned int    value = line->special - GenCeilingBase;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    dboolean            manual = false;
+    fixed_t             targheight;
+    sector_t            *sec;
+    ceiling_t           *ceiling;
+    const unsigned int  value = line->special - GenCeilingBase;
 
     // parse the bit fields in the line's special type
-    int             Crsh = (value & CeilingCrush) >> CeilingCrushShift;
-    int             ChgT = (value & CeilingChange) >> CeilingChangeShift;
-    int             Targ = (value & CeilingTarget) >> CeilingTargetShift;
-    int             Dirn = (value & CeilingDirection) >> CeilingDirectionShift;
-    int             ChgM = (value & CeilingModel) >> CeilingModelShift;
-    int             Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Crsh = (value & CeilingCrush) >> CeilingCrushShift;
+    const int           ChgT = (value & CeilingChange) >> CeilingChangeShift;
+    const int           Targ = (value & CeilingTarget) >> CeilingTargetShift;
+    const int           Dirn = (value & CeilingDirection) >> CeilingDirectionShift;
+    const int           ChgM = (value & CeilingModel) >> CeilingModelShift;
+    const int           Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
@@ -440,18 +440,18 @@ manual_ceiling:
 //
 dboolean EV_DoGenLift(line_t *line)
 {
-    plat_t          *plat;
-    int             secnum = -1;
-    dboolean        rtn = false;
-    dboolean        manual = false;
-    sector_t        *sec;
-    unsigned int    value = line->special - GenLiftBase;
+    plat_t              *plat;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    dboolean            manual = false;
+    sector_t            *sec;
+    const unsigned int  value = line->special - GenLiftBase;
 
     // parse the bit fields in the line's special type
-    int             Targ = (value & LiftTarget) >> LiftTargetShift;
-    int             Dely = (value & LiftDelay) >> LiftDelayShift;
-    int             Sped = (value & LiftSpeed) >> LiftSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Targ = (value & LiftTarget) >> LiftTargetShift;
+    const int           Dely = (value & LiftDelay) >> LiftDelayShift;
+    const int           Sped = (value & LiftSpeed) >> LiftSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // Activate all <type> plats that are in_stasis
     if (Targ == LnF2HnF)
@@ -578,27 +578,27 @@ manual_lift:
 //
 dboolean EV_DoGenStairs(line_t *line)
 {
-    int             secnum = -1;
-    int             osecnum;        // jff 3/4/98 preserve loop index
-    int             height;
-    int             newsecnum;
-    int             texture;
-    dboolean        okay;
-    dboolean        rtn = false;
-    dboolean        manual = false;
-    sector_t        *sec;
-    sector_t        *tsec;
-    floormove_t     *floor;
-    fixed_t         stairsize;
-    fixed_t         speed;
-    unsigned int    value = line->special - GenStairsBase;
+    int                 secnum = -1;
+    int                 osecnum;        // jff 3/4/98 preserve loop index
+    int                 height;
+    int                 newsecnum;
+    int                 texture;
+    dboolean            okay;
+    dboolean            rtn = false;
+    dboolean            manual = false;
+    sector_t            *sec;
+    sector_t            *tsec;
+    floormove_t         *floor;
+    fixed_t             stairsize;
+    fixed_t             speed;
+    const unsigned int  value = line->special - GenStairsBase;
 
     // parse the bit fields in the line's special type
-    int             Igno = (value & StairIgnore) >> StairIgnoreShift;
-    int             Dirn = (value & StairDirection) >> StairDirectionShift;
-    int             Step = (value & StairStep) >> StairStepShift;
-    int             Sped = (value & StairSpeed) >> StairSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Igno = (value & StairIgnore) >> StairIgnoreShift;
+    const int           Dirn = (value & StairDirection) >> StairDirectionShift;
+    const int           Step = (value & StairStep) >> StairStepShift;
+    const int           Sped = (value & StairSpeed) >> StairSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
@@ -775,17 +775,17 @@ manual_stair:
 //
 dboolean EV_DoGenCrusher(line_t *line)
 {
-    int             secnum = -1;
-    dboolean        rtn;
-    dboolean        manual = false;
-    sector_t        *sec;
-    ceiling_t       *ceiling;
-    unsigned int    value = line->special - GenCrusherBase;
+    int                 secnum = -1;
+    dboolean            rtn;
+    dboolean            manual = false;
+    sector_t            *sec;
+    ceiling_t           *ceiling;
+    const unsigned int  value = line->special - GenCrusherBase;
 
     // parse the bit fields in the line's special type
-    int             Slnt = (value & CrusherSilent) >> CrusherSilentShift;
-    int             Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Slnt = (value & CrusherSilent) >> CrusherSilentShift;
+    const int           Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // jff 2/22/98  Reactivate in-stasis ceilings...for certain types.
     // jff 4/5/98 return if activated
@@ -874,17 +874,17 @@ manual_crusher:
 //
 dboolean EV_DoGenLockedDoor(line_t *line)
 {
-    int             secnum = -1;
-    dboolean        rtn = false;
-    sector_t        *sec;
-    vldoor_t        *door;
-    dboolean        manual = false;
-    unsigned int    value = line->special - GenLockedBase;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    sector_t            *sec;
+    vldoor_t            *door;
+    dboolean            manual = false;
+    const unsigned int  value = line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
-    int             Kind = (value & LockedKind) >> LockedKindShift;
-    int             Sped = (value & LockedSpeed) >> LockedSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Kind = (value & LockedKind) >> LockedKindShift;
+    const int           Sped = (value & LockedSpeed) >> LockedSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
@@ -976,18 +976,18 @@ manual_locked:
 //
 dboolean EV_DoGenDoor(line_t *line)
 {
-    int             secnum = -1;
-    dboolean        rtn = false;
-    sector_t        *sec;
-    dboolean        manual = false;
-    vldoor_t        *door;
-    unsigned int    value = line->special - GenDoorBase;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    sector_t            *sec;
+    dboolean            manual = false;
+    vldoor_t            *door;
+    const unsigned int  value = line->special - GenDoorBase;
 
     // parse the bit fields in the line's special type
-    int             Dely = (value & DoorDelay) >> DoorDelayShift;
-    int             Kind = (value & DoorKind) >> DoorKindShift;
-    int             Sped = (value & DoorSpeed) >> DoorSpeedShift;
-    int             Trig = (value & TriggerType) >> TriggerTypeShift;
+    const int           Dely = (value & DoorDelay) >> DoorDelayShift;
+    const int           Kind = (value & DoorKind) >> DoorKindShift;
+    const int           Sped = (value & DoorSpeed) >> DoorSpeedShift;
+    const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)

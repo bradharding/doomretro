@@ -234,24 +234,24 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
 
     if (!viewplayer->backpack)
     {
-        for (int i = 0; i < NUMAMMO; i++)
+        for (ammotype_t i = 0; i < NUMAMMO; i++)
             viewplayer->maxammo[i] *= 2;
 
         viewplayer->backpack = true;
     }
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
     {
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
             result = true;
 
-            if (vid_widescreen && r_hud && !r_althud && (ammotype_t)i == weaponinfo[viewplayer->readyweapon].ammotype)
+            if (vid_widescreen && r_hud && !r_althud && i == weaponinfo[viewplayer->readyweapon].ammotype)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
 
         if (giveammo)
-            P_GiveAmmo((ammotype_t)i, 1, stat);
+            P_GiveAmmo(i, 1, stat);
     }
 
     return result;
@@ -662,7 +662,7 @@ dboolean P_GiveAllCardsInMap(void)
             break;
         }
 
-    for (int i = NUMCARDS - 1; i >= 0; i--)
+    for (card_t i = NUMCARDS - 1; i >= 0; i--)
         if (viewplayer->cards[i] == CARDNOTFOUNDYET)
         {
             if (skulliscard && ((i == it_blueskull && viewplayer->cards[it_bluecard] != CARDNOTINMAP)

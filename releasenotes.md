@@ -4,14 +4,14 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to how both sprites and the shadows they cast are rendered.
 * Minor changes have been made to text that is output to the console.
-* Player messages are no longer present in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
+* Player messages can no longer be present in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
-* The player’s face is no longer updated in the status bar and default widescreen HUD when freeze mode is on.
+* The player’s face is no longer updated in either the status bar or the default widescreen HUD when freeze mode is on.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
 * Hanging corpses no longer bob if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
-* Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open some locked doors.
+* Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
 
 ---
 
