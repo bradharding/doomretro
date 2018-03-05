@@ -1108,10 +1108,10 @@ void R_DrawPlayerSprites(void)
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251, false);
 
         if (weapon->state)
-            R_DrawPlayerSprite(weapon, true, altered);
+            R_DrawPlayerSprite(weapon, true, (weapon->state->dehacked || altered));
 
         if (flash->state)
-            R_DrawPlayerSprite(flash, true, altered);
+            R_DrawPlayerSprite(flash, true, (flash->state->dehacked || altered));
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1128,10 +1128,10 @@ void R_DrawPlayerSprites(void)
             muzzleflash = true;
 
         if (weapon->state)
-            R_DrawPlayerSprite(weapon, false, altered);
+            R_DrawPlayerSprite(weapon, false, (weapon->state->dehacked || altered));
 
         if (flash->state)
-            R_DrawPlayerSprite(flash, false, altered);
+            R_DrawPlayerSprite(flash, false, (flash->state->dehacked || altered));
     }
 }
 

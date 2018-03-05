@@ -84,7 +84,7 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 
     do
     {
-        state_t *state;
+        state_t *state = &states[stnum];
 
         if (!stnum)
         {
@@ -93,9 +93,8 @@ void P_SetPsprite(size_t position, statenum_t stnum)
             break;
         }
 
-        state = &states[stnum];
         psp->state = state;
-        psp->tics = state->tics;        // could be 0
+        psp->tics = state->tics;    // could be 0
 
         if (state->misc1)
         {
@@ -103,9 +102,6 @@ void P_SetPsprite(size_t position, statenum_t stnum)
             psp->sx = state->misc1 << FRACBITS;
             psp->sy = state->misc2 << FRACBITS;
         }
-
-        if (state->dehacked)
-            weaponinfo[viewplayer->readyweapon].altered = true;
 
         // Call action routine.
         // Modified handling.
@@ -118,7 +114,7 @@ void P_SetPsprite(size_t position, statenum_t stnum)
         }
 
         stnum = psp->state->nextstate;
-    } while (!psp->tics);   // an initial state of 0 could cycle through
+    } while (!psp->tics);           // an initial state of 0 could cycle through
 }
 
 //
