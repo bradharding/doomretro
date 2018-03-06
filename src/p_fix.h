@@ -39,6 +39,8 @@
 #if !defined(__P_FIX_H__)
 #define __P_FIX_H__
 
+#include "m_fixed.h"
+
 #define DEFAULT 0x7FFF
 #define REMOVE  0
 
