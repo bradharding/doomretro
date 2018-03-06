@@ -180,8 +180,8 @@ void P_CalcHeight(void)
 //
 void P_MovePlayer(void)
 {
-    ticcmd_t    *cmd = &viewplayer->cmd;
     mobj_t      *mo = viewplayer->mo;
+    ticcmd_t    *cmd = &viewplayer->cmd;
     char        forwardmove = cmd->forwardmove;
     char        sidemove = cmd->sidemove;
 

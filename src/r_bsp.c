@@ -334,11 +334,10 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 //
 static void R_AddLine(seg_t *line)
 {
-    int             x1;
-    int             x2;
-    angle_t         angle1;
-    angle_t         angle2;
-    static sector_t tempsec;            // killough 3/8/98: ceiling/water hack
+    int     x1;
+    int     x2;
+    angle_t angle1;
+    angle_t angle2;
 
     curline = line;
 
@@ -362,22 +361,22 @@ static void R_AddLine(seg_t *line)
         // Either angle1 or angle2 is behind us, so it doesn't matter if we
         // change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
-            angle1 = INT_MAX;           // which is ANG180 - 1
+            angle1 = INT_MAX;   // which is ANG180 - 1
         else
             angle2 = INT_MIN;
     }
 
     if ((int)angle2 >= (int)clipangle)
-        return;                         // Both off left edge
+        return;                 // Both off left edge
 
     if ((int)angle1 <= -(int)clipangle)
-        return;                         // Both off right edge
+        return;                 // Both off right edge
 
     if ((int)angle1 >= (int)clipangle)
-        angle1 = clipangle;             // Clip at left edge
+        angle1 = clipangle;     // Clip at left edge
 
     if ((int)angle2 <= -(int)clipangle)
-        angle2 = 0 - clipangle;         // Clip at right edge
+        angle2 = 0 - clipangle; // Clip at right edge
 
     // The seg is in the view range,
     // but not necessarily visible.
@@ -395,6 +394,8 @@ static void R_AddLine(seg_t *line)
     // Single sided line?
     if ((backsector = line->backsector))
     {
+        sector_t    tempsec;    // killough 3/8/98: ceiling/water hack
+
         // [AM] Interpolate sector movement before
         //      running clipping tests. Frontsector
         //      should already be interpolated.
@@ -447,8 +448,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     // Find the corners of the box
     // that define the edges from current viewpoint.
-    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : viewx < bspcoord[BOXRIGHT] ? 1 : 2) +
-        (viewy >= bspcoord[BOXTOP] ? 0 : viewy > bspcoord[BOXBOTTOM] ? 4 : 8);
+    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2)) +
+        (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
 
     if (boxpos == 5)
         return true;
