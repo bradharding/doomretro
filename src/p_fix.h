@@ -69,7 +69,7 @@ typedef struct
     char    *toptexture;
     char    *middletexture;
     char    *bottomtexture;
-    fixed_t textureoffset;
+    fixed_t offset;
     fixed_t rowoffset;
     int     flags;
     int     special;

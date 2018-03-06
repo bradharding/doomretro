@@ -445,13 +445,14 @@ static void P_LoadSegs(int lump)
                                 commify(linefix[j].linedef), linefix[j].bottomtexture);
                     }
 
-                    if (linefix[j].textureoffset != DEFAULT)
+                    if (linefix[j].offset != DEFAULT)
                     {
-                        li->sidedef->textureoffset = SHORT(linefix[j].textureoffset) << FRACBITS;
+                        li->offset = SHORT(linefix[j].offset) << FRACBITS;
+                        li->sidedef->textureoffset = 0;
 
                         if (devparm)
                             C_Warning("The horizontal texture offset of linedef %s has been changed to %s.",
-                                commify(linefix[j].linedef), commify(linefix[j].textureoffset));
+                                commify(linefix[j].linedef), commify(linefix[j].offset));
                     }
 
                     if (linefix[j].rowoffset != DEFAULT)
