@@ -445,14 +445,13 @@ static void P_LoadSegs(int lump)
                                 commify(linefix[j].linedef), linefix[j].bottomtexture);
                     }
 
-                    if (linefix[j].offset != DEFAULT)
+                    if (linefix[j].textureoffset != DEFAULT)
                     {
-                        li->offset = SHORT(linefix[j].offset) << FRACBITS;
-                        li->sidedef->textureoffset = 0;
+                        li->sidedef->textureoffset = SHORT(linefix[j].textureoffset) << FRACBITS;
 
                         if (devparm)
-                            C_Warning("The offset of linedef %s has been changed to %s.",
-                                commify(linefix[j].linedef), commify(linefix[j].offset));
+                            C_Warning("The horizontal texture offset of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(linefix[j].textureoffset));
                     }
 
                     if (linefix[j].rowoffset != DEFAULT)
@@ -460,7 +459,7 @@ static void P_LoadSegs(int lump)
                         li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
 
                         if (devparm)
-                            C_Warning("The row offset of linedef %s has been changed to %s.",
+                            C_Warning("The vertical texture offset of linedef %s has been changed to %s.",
                                 commify(linefix[j].linedef), commify(linefix[j].rowoffset));
                     }
 
@@ -1563,8 +1562,7 @@ static void P_CreateBlockMap(void)
 
                 // Increase size of allocated list if necessary
                 if (bp->n >= bp->nalloc)
-                    bp->list = I_Realloc(bp->list, (bp->nalloc = bp->nalloc ? bp->nalloc * 2 : 8)
-                        * sizeof(*bp->list));
+                    bp->list = I_Realloc(bp->list, (bp->nalloc = bp->nalloc ? bp->nalloc * 2 : 8) * sizeof(*bp->list));
 
                 // Add linedef to end of list
                 bp->list[bp->n++] = i;
@@ -1965,8 +1963,8 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, ((E1M4B && ep == 1 && map == 4)
-                || (E1M8B && ep == 1 && map == 8) ? "B" : ""));
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map,
+                ((E1M4B && ep == 1 && map == 4) || (E1M8B && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
