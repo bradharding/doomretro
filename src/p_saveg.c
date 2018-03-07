@@ -50,14 +50,15 @@
 #include "z_zone.h"
 
 #define SAVEGAME_EOF    0x1D
+#define TARGETLIMIT     4192
 
 FILE        *save_stream;
 
 static int  thingindex;
-static int  targets[1024];
-static int  tracers[1024];
-static int  lastenemies[1024];
-static int  soundtargets[1024];
+static int  targets[TARGETLIMIT];
+static int  tracers[TARGETLIMIT];
+static int  lastenemies[TARGETLIMIT];
+static int  soundtargets[TARGETLIMIT];
 static int  attacker;
 
 // Get the filename of a temporary file to write the savegame to. After
@@ -1041,7 +1042,7 @@ void P_UnArchiveWorld(void)
         sec->ceilingdata = NULL;
         sec->floordata = NULL;
         sec->lightingdata = NULL;
-        soundtargets[i] = saveg_read32();
+        soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
         sec->isliquid = isliquid[sec->floorpic];
     }
 
@@ -1185,7 +1186,7 @@ void P_UnArchiveThinkers(void)
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
                 P_AddThinker(&mobj->thinker);
-                thingindex++;
+                thingindex = MIN(thingindex, TARGETLIMIT - 1);
                 break;
             }
 
@@ -1217,10 +1218,11 @@ void P_UnArchiveThinkers(void)
 void P_RestoreTargets(void)
 {
     sector_t    *sec = sectors;
+    int         targetlimit = MIN(numsectors, TARGETLIMIT - 1);
 
     P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
 
-    for (int i = 0; i < numsectors; i++, sec++)
+    for (int i = 0; i < targetlimit; i++, sec++)
         P_SetNewTarget(&sec->soundtarget, P_IndexToThing(soundtargets[i]));
 
     thingindex = 0;
@@ -1232,7 +1234,7 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex]));
         P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
-        thingindex++;
+        thingindex = MIN(thingindex, TARGETLIMIT - 1);
     }
 }
 
