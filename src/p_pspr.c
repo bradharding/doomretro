@@ -84,7 +84,7 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 
     do
     {
-        state_t *state = &states[stnum];
+        state_t *state;
 
         if (!stnum)
         {
@@ -93,6 +93,7 @@ void P_SetPsprite(size_t position, statenum_t stnum)
             break;
         }
 
+        state = &states[stnum];
         psp->state = state;
         psp->tics = state->tics;    // could be 0
 
@@ -555,27 +556,27 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 static fixed_t  bulletslope;
 
-static void P_BulletSlope(mobj_t *mo)
+static void P_BulletSlope(mobj_t *actor)
 {
     if (usemouselook && !autoaim)
-        bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+        bulletslope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
     else
     {
-        angle_t an = mo->angle;
+        angle_t an = actor->angle;
 
         // see which target is to be aimed at
-        bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+        bulletslope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
 
         if (!linetarget)
         {
-            bulletslope = P_AimLineAttack(mo, (an += 1 << 26), 16 * 64 * FRACUNIT);
+            bulletslope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
             if (!linetarget)
             {
-                bulletslope = P_AimLineAttack(mo, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+                bulletslope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
                 if (!linetarget && usemouselook)
-                    bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+                    bulletslope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
             }
         }
     }

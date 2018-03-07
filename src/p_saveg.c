@@ -445,10 +445,8 @@ static void saveg_read_player_t(void)
     attacker = saveg_read32();
     viewplayer->extralight = saveg_read32();
     viewplayer->fixedcolormap = saveg_read32();
-
-    for (int i = 0; i < NUMPSPRITES; i++)
-        saveg_read_pspdef_t(&viewplayer->psprites[i]);
-
+    saveg_write_pspdef_t(&viewplayer->psprites[ps_weapon]);
+    saveg_write_pspdef_t(&viewplayer->psprites[ps_flash]);
     viewplayer->didsecret = saveg_read_bool();
     viewplayer->preferredshotgun = (weapontype_t)saveg_read_enum();
     viewplayer->fistorchainsaw = (weapontype_t)saveg_read_enum();
@@ -535,10 +533,8 @@ static void saveg_write_player_t(void)
     saveg_write32(P_ThingToIndex(viewplayer->attacker));
     saveg_write32(viewplayer->extralight);
     saveg_write32(viewplayer->fixedcolormap);
-
-    for (int i = 0; i < NUMPSPRITES; i++)
-        saveg_write_pspdef_t(&viewplayer->psprites[i]);
-
+    saveg_write_pspdef_t(&viewplayer->psprites[ps_weapon]);
+    saveg_write_pspdef_t(&viewplayer->psprites[ps_flash]);
     saveg_write_bool(viewplayer->didsecret);
     saveg_write_enum(viewplayer->preferredshotgun);
     saveg_write32(viewplayer->fistorchainsaw);
