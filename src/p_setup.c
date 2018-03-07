@@ -2187,7 +2187,7 @@ void P_SetupLevel(int ep, int map)
         || (nerve && gamemission == doom2)) && !FREEDOOM);
 
     leveltime = 0;
-    animatedliquiddiff = FRACUNIT;
+    animatedliquiddiff = FRACUNIT * 2;
     animatedliquidxdir = M_RandomInt(-1, 1) * FRACUNIT / 12;
     animatedliquidydir = M_RandomInt(-1, 1) * FRACUNIT / 12;
 
