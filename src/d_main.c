@@ -1585,7 +1585,7 @@ static void D_ProcessDehInWad(void)
     if (chexdeh || M_CheckParm("-nodeh"))
         return;
 
-    if (hacx)
+    if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
