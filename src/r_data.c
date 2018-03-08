@@ -273,7 +273,7 @@ static void R_InitTextures(void)
     names = W_CacheLumpNum((names_lump = W_GetNumForName("PNAMES")));
     nummappatches = LONG(*((const int *)names));
     name_p = names + 4;
-    patchlookup = malloc(nummappatches * sizeof(*patchlookup));   // killough
+    patchlookup = malloc(nummappatches * sizeof(*patchlookup)); // killough
 
     for (i = 0; i < nummappatches; i++)
     {
@@ -281,7 +281,7 @@ static void R_InitTextures(void)
         patchlookup[i] = W_CheckNumForName(name);
     }
 
-    W_UnlockLumpNum(names_lump);       // cph - release the lump
+    W_UnlockLumpNum(names_lump);                                // cph - release the lump
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
@@ -357,9 +357,9 @@ static void R_InitTextures(void)
         textureheight[i] = texture->height << FRACBITS;
     }
 
-    free(patchlookup);          // killough
+    free(patchlookup);                                          // killough
 
-    for (i = 0; i < 2; i++)     // cph - release the TEXTUREx lumps
+    for (i = 0; i < 2; i++)                                     // cph - release the TEXTUREx lumps
         if (maptex_lump[i] != -1)
             W_UnlockLumpNum(maptex_lump[i]);
 
@@ -379,7 +379,7 @@ static void R_InitTextures(void)
     {
         j = W_LumpNameHash(textures[i]->name) % numtextures;
 
-        textures[i]->next = textures[j]->index; // Prepend to chain
+        textures[i]->next = textures[j]->index;                 // Prepend to chain
         textures[j]->index = i;
     }
 

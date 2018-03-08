@@ -12,7 +12,7 @@
 * Hanging corpses no longer bob if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
 * Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
-* Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the rendering of adjacent wall textures.
+* Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of adjacent wall textures.
 
 ---
 

@@ -95,7 +95,7 @@ void SC_Close(void)
 dboolean SC_GetString(void)
 {
     char        *text;
-    dboolean    foundToken;
+    dboolean    foundToken = false;
 
     CheckOpen();
 
@@ -104,8 +104,6 @@ dboolean SC_GetString(void)
         AlreadyGot = false;
         return true;
     }
-
-    foundToken = false;
 
     if (ScriptPtr >= ScriptEndPtr)
     {
@@ -133,8 +131,7 @@ dboolean SC_GetString(void)
             return false;
         }
 
-        if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
-            && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
             foundToken = true;
         else
         {

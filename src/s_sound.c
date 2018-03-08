@@ -89,10 +89,7 @@ typedef struct
 // [crispy] "sound objects" hold the coordinates of removed map objects
 typedef struct
 {
-    thinker_t       dummy;
-    fixed_t         x;
-    fixed_t         y;
-    fixed_t         z;
+    fixed_t         x, y, z;
 } sobj_t;
 
 // The set of channels available
@@ -290,8 +287,7 @@ static int S_GetMusicNum(void)
         };
 
         if (gameepisode < 4)
-            mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, mnum) :
-                (gameepisode - 1) * 9 + gamemap) - 1;
+            mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, mnum) : (gameepisode - 1) * 9 + gamemap) - 1;
         else
             mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 28, mnum) : gamemap) - 1];
     }
@@ -470,9 +466,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volu
         }
 
     // try to find a channel
-    cnum = S_GetChannel(origin, sfx);
-
-    if (cnum < 0)
+    if ((cnum = S_GetChannel(origin, sfx)) < 0)
         return;
 
     // Get lumpnum if necessary
