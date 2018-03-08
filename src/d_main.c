@@ -467,7 +467,7 @@ void D_PageDrawer(void)
 //
 void D_FadeScreen(void)
 {
-    if (W_CheckMultipleLumps("COLORMAP") > 1)
+    if (W_CheckMultipleLumps("COLORMAP") > 1 && !FREEDOOM)
         return;
 
     for (int i = 0; i < 11; i++)
