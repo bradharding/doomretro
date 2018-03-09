@@ -671,12 +671,14 @@ void R_StoreWallRange(const int start, const int stop)
             midtexture = 1;
         else
         {
+            fixed_t height;
+
             midtexture = texturetranslation[sidedef->midtexture];
-            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : textureheight[midtexture] >> FRACBITS);
+            height = textureheight[midtexture];
+            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : height >> FRACBITS);
             midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
-            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
-                + textureheight[midtexture] - viewz : worldtop);
-            rw_midtexturemid += FixedMod(sidedef->rowoffset, textureheight[midtexture]);
+            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight + height - viewz : worldtop)
+                + FixedMod(sidedef->rowoffset, height);
         }
 
         // a single sided line is terminal, so it must mark ends
@@ -775,12 +777,14 @@ void R_StoreWallRange(const int start, const int stop)
                 toptexture = 1;
             else
             {
+                fixed_t height;
+
                 toptexture = texturetranslation[sidedef->toptexture];
-                toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : textureheight[toptexture] >> FRACBITS);
+                height = textureheight[toptexture];
+                toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : height >> FRACBITS);
                 topbrightmap = (usebrightmaps && !nobrightmap[toptexture] ? brightmap[toptexture] : NULL);
-                rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
-                    backsector->interpceilingheight + textureheight[toptexture] - viewz);
-                rw_toptexturemid += FixedMod(sidedef->rowoffset, textureheight[toptexture]);
+                rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop : backsector->interpceilingheight + height - viewz)
+                    + FixedMod(sidedef->rowoffset, height);
             }
         }
 
@@ -791,11 +795,14 @@ void R_StoreWallRange(const int start, const int stop)
                 bottomtexture = 1;
             else
             {
+                fixed_t height;
+
                 bottomtexture = texturetranslation[sidedef->bottomtexture];
-                bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : textureheight[bottomtexture] >> FRACBITS);
+                height = textureheight[bottomtexture];
+                bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : height >> FRACBITS);
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
-                rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
-                rw_bottomtexturemid += FixedMod(sidedef->rowoffset, textureheight[bottomtexture]);
+                rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
+                    + FixedMod(sidedef->rowoffset, height);
             }
         }
 

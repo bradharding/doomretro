@@ -375,7 +375,7 @@ lumpindex_t W_CheckNumForName(char *name)
 {
     // Hash function maps the name to one of possibly numlump chains.
     // It has been tuned so that the average chain length never exceeds 2.
-    int i = lumpinfo[W_LumpNameHash(name) % (unsigned int)numlumps]->index;
+    int i = lumpinfo[W_LumpNameHash(name) % numlumps]->index;
 
     while (i >= 0 && strncasecmp(lumpinfo[i]->name, name, 8))
         i = lumpinfo[i]->next;
@@ -427,7 +427,7 @@ void W_Init(void)
     for (lumpindex_t i = 0; i < numlumps; i++)
     {
         // hash function:
-        int j = W_LumpNameHash(lumpinfo[i]->name) % (unsigned int)numlumps;
+        int j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
 
         lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
         lumpinfo[j]->index = i;
