@@ -1016,6 +1016,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     else
         bit = 1 << (gameskill - 1);
 
+    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)))
+        C_Warning("Thing %i at (%i,%i) has no skill flags set.", index, mthing->x, mthing->y);
+
     if (!(mthing->options & bit))
         return NULL;
 
