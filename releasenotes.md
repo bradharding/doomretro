@@ -8,12 +8,15 @@
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The player’s face is no longer updated in either the status bar or the default widescreen HUD when freeze mode is on.
+* Rendering will no longer be affected while the player has an invulnerability power-up and the `r_textures` CVAR is `off`.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
 * Hanging corpses no longer bob if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
 * Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
+* The following changes have been made when playing [*Freedoom*](http://freedoom.github.io/):
+  * The correct map names will now be displayed.
+  * The screen will now fade to black when quitting *DOOM Retro*.
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
-* The correct map names will now be displayed in [*Freedoom*](http://freedoom.github.io/).
 
 ---
 
