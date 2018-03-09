@@ -484,8 +484,13 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // missiles can hit other things
     if (tmflags & MF_MISSILE)
     {
+        int height = thing->info->projectilepassheight;
+
+        if (!height || infiniteheight)
+            height = thing->height;
+
         // see if it went over/under
-        if (tmthing->z > thing->z + thing->height)
+        if (tmthing->z > thing->z + height)
             return true;        // overhead
 
         if (tmthing->z + tmthing->height < thing->z)

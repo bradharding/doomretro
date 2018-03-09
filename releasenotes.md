@@ -17,6 +17,7 @@
   * The correct map names will now be displayed.
   * The screen will now fade to black when quitting *DOOM Retro*.
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
+* Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
 
 ---
 
