@@ -89,6 +89,7 @@ typedef struct
 // [crispy] "sound objects" hold the coordinates of removed map objects
 typedef struct
 {
+    thinker_t       dummy;
     fixed_t         x, y, z;
 } sobj_t;
 
