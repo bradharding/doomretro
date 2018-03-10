@@ -1584,10 +1584,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     len = (int)strlen(string);
 
                     if (console[i].type == warningstring)
-                    {
                         fputs("! ", file);
-                        len += 2;
-                    }
 
                     for (int inpos = 0; inpos < len; inpos++)
                     {
