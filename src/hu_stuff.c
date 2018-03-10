@@ -1029,11 +1029,14 @@ void HU_Ticker(void)
         {
             int     len = (int)strlen(viewplayer->message);
             char    *s = malloc(133);
+            int     maxwidth = ORIGINALWIDTH - 6;
+
+            if ((vid_widescreen && r_althud) || r_messagescale == r_messagescale_small)
+                maxwidth *= 2;
 
             strcpy(s, viewplayer->message);
 
-            while (M_StringWidth(s) > (vid_widescreen || r_messagescale == r_messagescale_small ?
-                (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
+            while (M_StringWidth(s) > maxwidth)
             {
                 s[len - 1] = '.';
                 s[len] = '.';
