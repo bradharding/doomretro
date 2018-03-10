@@ -482,7 +482,7 @@ static void HU_DrawHUD(void)
             if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
             {
                 keypic_x -= SHORT(patch->width);
-                hudfunc(keypic_x, HUD_KEYS_Y, patch, tinttab66);
+                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
                 keypic_x -= 4;
             }
 
@@ -498,7 +498,7 @@ static void HU_DrawHUD(void)
             }
 
             if (showkey)
-                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y, patch, tinttab66);
+                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
         }
     }
     else
