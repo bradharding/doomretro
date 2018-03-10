@@ -1416,7 +1416,7 @@ void bind_cmd_func2(char *cmd, char *parms)
         }
     }
     else
-        C_Warning("<b>%s</b> is not a valid control.", parm1);
+        C_Warning("<b>%s</b> isn't a valid control.", parm1);
 
     if (mouselookcontrols != (keyboardmouselook || gamepadmouselook || mousemouselook != -1))
     {

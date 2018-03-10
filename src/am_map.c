@@ -424,9 +424,6 @@ static void AM_initVariables(const dboolean mainwindow)
     ST_AutomapEvent(AM_MSGENTERED);
 }
 
-//
-// should be called at the start of every level right now, i figure it out myself
-//
 static void AM_LevelInit(void)
 {
     am_followmode = am_followmode_default;

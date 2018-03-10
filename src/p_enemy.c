@@ -1114,7 +1114,7 @@ void A_SkelMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetTarget(&mo->tracer, target);
 }
 
-#define TRACEANGLE  0xC000000
+#define TRACEANGLE  0x0C000000
 
 void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
@@ -1570,7 +1570,6 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     const int       prestep = 4 * FRACUNIT + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
     fixed_t         x = actor->x + FixedMul(prestep, finecosine[an]);
     fixed_t         y = actor->y + FixedMul(prestep, finesine[an]);
-    fixed_t         z = actor->z + 8 * FRACUNIT;
 
     // [BH] removed check for number of lost souls
 
@@ -1580,7 +1579,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     if (P_CheckLineSide(actor, x, y))
         return;
 
-    newmobj = P_SpawnMobj(x, y, z, MT_SKULL);
+    newmobj = P_SpawnMobj(x, y, actor->z + 8 * FRACUNIT, MT_SKULL);
     newmobj->flags &= ~MF_COUNTKILL;
 
     // killough 8/29/98: add to appropriate thread
