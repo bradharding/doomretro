@@ -1458,9 +1458,6 @@ void V_Init(void)
     byte                *base = malloc(SCREENWIDTH * SCREENHEIGHT * 4);
     const SDL_version   *linked = IMG_Linked_Version();
     int                 p;
-#if defined(_WIN32) && !defined(PORTABILITY)
-    char                buffer[MAX_PATH];
-#endif
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
         I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
@@ -1480,15 +1477,7 @@ void V_Init(void)
 
     GetPixelSize(true);
 
-#if defined(_WIN32) && !defined(PORTABILITY)
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME, buffer);
-    else
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
-            M_GetExecutableFolder());
-#else
     M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", M_GetAppDataFolder());
-#endif
 
     if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), myargv[p + 1]);

@@ -142,19 +142,7 @@ char *M_GetAppDataFolder(void)
     char    *executableFolder = M_GetExecutableFolder();
 
 #if defined(_WIN32)
-
-#if !defined(PORTABILITY)
-    // On Windows, store generated application files in <username>\DOOM Retro.
-    TCHAR   buffer[MAX_PATH];
-
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
-        return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
-    else
-        return executableFolder;
-#else
     return executableFolder;
-#endif
-
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
