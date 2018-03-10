@@ -645,6 +645,26 @@ char    *s_OB_SPIDER = "";
 char    *s_OB_BABY = "";
 char    *s_OB_CYBORG = "";
 char    *s_OB_WOLFSS = "";
+char    *s_OB_MPFIST = "";
+char    *s_OB_MPCHAINSAW = "";
+char    *s_OB_MPPISTOL = "";
+char    *s_OB_MPSHOTGUN = "";
+char    *s_OB_MPSSHOTGUN = "";
+char    *s_OB_MPCHAINGUN = "";
+char    *s_OB_MPROCKET = "";
+char    *s_OB_MPR_SPLASH = "";
+char    *s_OB_MPPLASMARIFLE = "";
+char    *s_OB_MPBFG_BOOM = "";
+char    *s_OB_MPBFG_SPLASH = "";
+char    *s_OB_MPTELEFRAG = "";
+char    *s_OB_RAILGUN = "";
+char    *s_OB_MPBFG_MBF = "";
+char    *s_OB_MONTELEFRAG = "";
+char    *s_OB_DEFAULT = "";
+char    *s_OB_FRIENDLY1 = "";
+char    *s_OB_FRIENDLY2 = "";
+char    *s_OB_FRIENDLY3 = "";
+char    *s_OB_FRIENDLY4 = "";
 
 // end d_deh.h variable declarations
 // ====================================================================
@@ -1177,7 +1197,26 @@ deh_strs deh_strlookup[] =
     { &s_OB_SPIDER,            "OB_SPIDER"            },
     { &s_OB_BABY,              "OB_BABY"              },
     { &s_OB_CYBORG,            "OB_CYBORG"            },
-    { &s_OB_WOLFSS,            "OB_WOLFSS"            }
+    { &s_OB_WOLFSS,            "OB_WOLFSS"            },
+    { &s_OB_MPFIST,            "OB_MPFIST"            },
+    { &s_OB_MPCHAINSAW,        "OB_MPCHAINSAW"        },
+    { &s_OB_MPPISTOL,          "OB_MPPISTOL"          },
+    { &s_OB_MPSHOTGUN,         "OB_MPSHOTGUN"         },
+    { &s_OB_MPSSHOTGUN,        "OB_MPSSHOTGUN"        },
+    { &s_OB_MPCHAINGUN,        "OB_MPCHAINGUN"        },
+    { &s_OB_MPROCKET,          "OB_MPROCKET"          },
+    { &s_OB_MPR_SPLASH,        "OB_MPR_SPLASH"        },
+    { &s_OB_MPPLASMARIFLE,     "OB_MPPLASMARIFLE"     },
+    { &s_OB_MPBFG_BOOM,        "OB_MPBFG_BOOM"        },
+    { &s_OB_MPBFG_SPLASH,      "OB_MPBFG_SPLASH"      },
+    { &s_OB_MPTELEFRAG,        "OB_MPTELEFRAG"        },
+    { &s_OB_RAILGUN,           "OB_RAILGUN"           },
+    { &s_OB_MONTELEFRAG,       "OB_MONTELEFRAG"       },
+    { &s_OB_DEFAULT,           "OB_DEFAULT"           },
+    { &s_OB_FRIENDLY1,         "OB_FRIENDLY1"         },
+    { &s_OB_FRIENDLY2,         "OB_FRIENDLY2"         },
+    { &s_OB_FRIENDLY3,         "OB_FRIENDLY3"         },
+    { &s_OB_FRIENDLY4,         "OB_FRIENDLY4"         }
 };
 
 static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
