@@ -1221,7 +1221,12 @@ dboolean C_ValidateInput(const char *input)
                 && (consolecmds[i].parameters || !*parms))
             {
                 if (!executingalias && !resettingcvar)
-                    C_Input((input[strlen(input) - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
+                {
+                    if (*parms)
+                        C_Input((input[strlen(input) - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
+                    else
+                        C_Input(cmd);
+                }
 
                 consolecmds[i].func2(consolecmds[i].name, parms);
                 return true;
