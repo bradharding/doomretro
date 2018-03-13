@@ -723,6 +723,9 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    if (!player->ammo[weaponinfo[player->readyweapon].ammotype])
+        return;
+
     P_NoiseAlert(actor);
     S_StartSound(actor, sfx_pistol);
 
