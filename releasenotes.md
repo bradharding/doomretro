@@ -18,6 +18,7 @@
 * The screen will now fade to black upon quitting when playing either [*Freedoom*](http://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
+* Corpses in liquid sectors no longer bob in time with each other.
 
 ---
 
