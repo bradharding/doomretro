@@ -1477,7 +1477,6 @@ void V_Init(void)
 
     GetPixelSize(true);
 
-
     if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
     else
@@ -1485,7 +1484,6 @@ void V_Init(void)
 }
 
 char            lbmname1[MAX_PATH];
-char            lbmname2[MAX_PATH];
 char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
@@ -1578,8 +1576,8 @@ dboolean V_ScreenShot(void)
     {
         do
         {
-            M_snprintf(lbmname2, sizeof(lbmname2), "%s (%s).png", makevalidfilename(mapname), commify(count++));
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname2);
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s (%s).png", screenshotfolder,
+                makevalidfilename(mapname), commify(count++));
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(maprenderer, lbmpath2);

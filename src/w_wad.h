@@ -79,13 +79,13 @@ char *GetCorrectCase(char *path);
 wadfile_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 
-lumpindex_t W_CheckNumForName(char *name);
+lumpindex_t W_CheckNumForName(const char *name);
 
-lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name);
-lumpindex_t W_GetNumForName(char *name);
-lumpindex_t W_GetNumForName2(char *name);
+lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, const char *name);
+lumpindex_t W_GetNumForName(const char *name);
+lumpindex_t W_GetNumForName2(const char *name);
 
-int W_CheckMultipleLumps(char *name);
+int W_CheckMultipleLumps(const char *name);
 
 int W_LumpLength(lumpindex_t lump);
 void W_ReadLump(lumpindex_t lump, void *dest);

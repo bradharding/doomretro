@@ -424,7 +424,7 @@ static void HUlib_addLineToSText(hu_stext_t *s)
         s->l[i].needsupdate = 4;
 }
 
-void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
+void HUlib_addMessageToSText(hu_stext_t *s, const char *prefix, const char *msg)
 {
     HUlib_addLineToSText(s);
 

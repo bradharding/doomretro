@@ -307,7 +307,7 @@ dboolean M_StrToInt(const char *str, unsigned int *result)
 //
 // Case-insensitive version of strstr()
 //
-char *M_StrCaseStr(char *haystack, char *needle)
+const char *M_StrCaseStr(const char *haystack, const char *needle)
 {
     int haystack_len = (int)strlen(haystack);
     int needle_len = (int)strlen(needle);

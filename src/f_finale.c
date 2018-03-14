@@ -426,7 +426,7 @@ static int      castrot;
 static dboolean castdeath;
 static dboolean castdeathflip;
 static int      castframes;
-static int      castonmelee;
+static dboolean castonmelee;
 static dboolean castattacking;
 
 dboolean        firstevent;
@@ -446,7 +446,7 @@ static void F_StartCast(void)
     castdeathflip = false;
     finalestage = F_STAGE_CAST;
     castframes = 0;
-    castonmelee = 0;
+    castonmelee = false;
     castattacking = false;
 
     if (!M_StringCompare(playername, playername_default))
@@ -591,7 +591,7 @@ static void F_CastTicker(void)
         else
             caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
 
-        castonmelee ^= 1;
+        castonmelee = !castonmelee;
 
         if (caststate == &states[S_NULL])
         {

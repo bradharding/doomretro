@@ -241,7 +241,7 @@ void I_WaitVBL(int count)
 //
 static dboolean already_quitting;
 
-void I_Error(char *error, ...)
+void I_Error(const char *error, ...)
 {
     va_list argptr;
     char    msgbuf[512];

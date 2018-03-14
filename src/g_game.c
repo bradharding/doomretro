@@ -933,9 +933,7 @@ void G_Ticker(void)
         switch (viewplayer->cmd.buttons & BT_SPECIALMASK)
         {
             case BTS_PAUSE:
-                paused ^= 1;
-
-                if (paused)
+                if ((paused = !paused))
                 {
                     S_PauseSound();
 

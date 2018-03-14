@@ -52,7 +52,7 @@ void I_StartTic(void);
 // Clean exit, displays sell blurb.
 void I_Quit(dboolean shutdown);
 
-void I_Error(char *error, ...);
+void I_Error(const char *error, ...);
 
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);

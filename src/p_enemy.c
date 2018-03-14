@@ -1965,10 +1965,10 @@ extern dboolean massacre;
 
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t      *target;
-    static int  easy;
+    mobj_t          *target;
+    static dboolean easy;
 
-    easy ^= 1;
+    easy = !easy;
 
     if (gameskill <= sk_easy && !easy)
         return;

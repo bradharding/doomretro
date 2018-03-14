@@ -371,7 +371,7 @@ int W_WadType(char *filename)
 // just as much work as simply doing the string comparisons with the new
 // algorithm, which minimizes the expected number of comparisons to under 2.
 //
-lumpindex_t W_CheckNumForName(char *name)
+lumpindex_t W_CheckNumForName(const char *name)
 {
     // Hash function maps the name to one of possibly numlump chains.
     // It has been tuned so that the average chain length never exceeds 2.
@@ -388,7 +388,7 @@ lumpindex_t W_CheckNumForName(char *name)
 // W_CheckMultipleLumps
 // Check if there's more than one of the same lump.
 //
-int W_CheckMultipleLumps(char *name)
+int W_CheckMultipleLumps(const char *name)
 {
     int count = 0;
 
@@ -407,7 +407,7 @@ int W_CheckMultipleLumps(char *name)
 // Linear Search that checks for a lump number ONLY
 // inside a range, not all lumps.
 //
-lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name)
+lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, const char *name)
 {
     for (lumpindex_t i = min; i <= max; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
@@ -442,7 +442,7 @@ void W_Init(void)
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.
 //
-lumpindex_t W_GetNumForName(char *name)
+lumpindex_t W_GetNumForName(const char *name)
 {
     lumpindex_t i = W_CheckNumForName(name);
 
@@ -453,7 +453,7 @@ lumpindex_t W_GetNumForName(char *name)
 }
 
 // Go forwards rather than backwards so we get lump from IWAD and not PWAD
-lumpindex_t W_GetNumForName2(char *name)
+lumpindex_t W_GetNumForName2(const char *name)
 {
     lumpindex_t i;
 

@@ -107,7 +107,7 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 
 void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
 
-void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg);
+void HUlib_addMessageToSText(hu_stext_t *s, const char *prefix, const char *msg);
 
 // draws stext
 void HUlib_drawSText(hu_stext_t *s, dboolean external);
