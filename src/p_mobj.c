@@ -728,8 +728,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     sector = mobj->subsector->sector;
     mobj->dropoffz =           // killough 11/98: for tracking dropoffs
-    mobj->floorz = sector->interpfloorheight;
-    mobj->ceilingz = sector->interpceilingheight;
+    mobj->floorz = sector->floorheight;
+    mobj->ceilingz = sector->ceilingheight;
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
