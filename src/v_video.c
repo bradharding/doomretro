@@ -272,16 +272,29 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
             byte    *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
-            *dest = edge[*dest];
-            dest += SCREENWIDTH;
-
-            while (--count)
+            if (count == 1)
+                *dest = edge[*dest];
+            else if (count == 2)
             {
-                *dest = body[*dest];
+                *dest = edge[*dest];
                 dest += SCREENWIDTH;
+                *dest = edge[*dest];
+            }
+            else
+            {
+                count--;
+                *dest = edge[*dest];
+                dest += SCREENWIDTH;
+
+                while (--count)
+                {
+                    *dest = body[*dest];
+                    dest += SCREENWIDTH;
+                }
+
+                *dest = edge[*dest];
             }
 
-            *dest = edge[*dest];
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
@@ -1055,16 +1068,29 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
             byte    *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
-            *dest = edge[*dest];
-            dest += SCREENWIDTH;
-
-            while (--count)
+            if (count == 1)
+                *dest = edge[*dest];
+            else if (count == 2)
             {
-                *dest = body[*dest];
+                *dest = edge[*dest];
                 dest += SCREENWIDTH;
+                *dest = edge[*dest];
+            }
+            else
+            {
+                count--;
+                *dest = edge[*dest];
+                dest += SCREENWIDTH;
+
+                while (--count)
+                {
+                    *dest = body[*dest];
+                    dest += SCREENWIDTH;
+                }
+
+                *dest = edge[*dest];
             }
 
-            *dest = edge[*dest];
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
