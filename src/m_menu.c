@@ -95,7 +95,7 @@ static dboolean messageNeedsInput;
 static void (*messageRoutine)(int response);
 
 // we are going to be entering a savegame string
-static int      saveStringEnter;
+static dboolean saveStringEnter;
 static int      saveSlot;               // which slot to save in
 static int      saveCharIndex;          // which char we're editing
 
@@ -1259,13 +1259,12 @@ void M_UpdateSaveGameName(int i)
 static void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
-    saveStringEnter = 1;
+    SDL_StartTextInput();
+    saveStringEnter = true;
     saveSlot = choice;
     M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
     M_UpdateSaveGameName(saveSlot);
     saveCharIndex = (int)strlen(savegamestrings[saveSlot]);
-
-    SDL_StartTextInput();
 }
 
 //
@@ -2546,34 +2545,37 @@ dboolean M_Responder(event_t *ev)
         usinggamepad = false;
     }
     else if (ev->type == ev_keyup)
-        keydown = 0;
-    else if (ev->type == ev_text)
     {
-        ch = toupper(ev->data1);
-
-        if (ch >= ' ' && ch <= '_'
-            && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
-        {
-            int len = (int)strlen(savegamestrings[saveSlot]);
-
-            savegamestrings[saveSlot][len + 1] = '\0';
-
-            for (int i = len; i > saveCharIndex; i--)
-                savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
-
-            savegamestrings[saveSlot][saveCharIndex++] = ch;
-            caretwait = I_GetTimeMS() + CARETBLINKTIME;
-            showcaret = true;
-            return true;
-        }
-    }
-
-    if (key == -1)
+        keydown = 0;
         return false;
+    }
 
     // Save Game string input
     if (saveStringEnter)
     {
+        if (ev->type == ev_text)
+        {
+            ch = toupper(ev->data1);
+
+            if (ch >= ' ' && ch <= '_'
+                && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
+            {
+                int len = (int)strlen(savegamestrings[saveSlot]);
+
+                savegamestrings[saveSlot][len + 1] = '\0';
+
+                for (int i = len; i > saveCharIndex; i--)
+                    savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
+
+                savegamestrings[saveSlot][saveCharIndex++] = ch;
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                showcaret = true;
+                return true;
+            }
+
+            return false;
+        }
+
         switch (key)
         {
             // delete character left of caret
@@ -2617,9 +2619,9 @@ dboolean M_Responder(event_t *ev)
             case KEY_ESCAPE:
                 if (!keydown)
                 {
-                    SDL_StopTextInput();
                     keydown = key;
-                    saveStringEnter = 0;
+                    SDL_StopTextInput();
+                    saveStringEnter = false;
                     caretwait = 0;
                     showcaret = false;
                     M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, SAVESTRINGSIZE);
@@ -2635,7 +2637,6 @@ dboolean M_Responder(event_t *ev)
                     int         len = (int)strlen(savegamestrings[saveSlot]);
                     dboolean    allspaces = true;
 
-                    SDL_StopTextInput();
                     keydown = key;
 
                     for (int i = 0; i < len; i++)
@@ -2644,7 +2645,8 @@ dboolean M_Responder(event_t *ev)
 
                     if (savegamestrings[saveSlot][0] && !allspaces)
                     {
-                        saveStringEnter = 0;
+                        SDL_StopTextInput();
+                        saveStringEnter = false;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         M_DoSave(saveSlot);
