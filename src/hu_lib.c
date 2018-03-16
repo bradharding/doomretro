@@ -51,6 +51,7 @@
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
+extern int      message_x;
 extern int      white;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -321,11 +322,11 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         int scale = r_messagescale + 1;
 
         for (int y1 = 0; y1 < 4; y1++)
-            for (int x1 = 0; x1 < ORIGINALWIDTH; x1++)
+            for (int x1 = message_x; x1 < ORIGINALWIDTH; x1++)
             {
                 unsigned char   src = (automapactive && !vid_widescreen ? underscores2[y1 * ORIGINALWIDTH + x1] :
                                     underscores1[y1 * ORIGINALWIDTH + x1]);
-
+                
                 for (int y2 = 0; y2 < scale; y2++)
                     for (int x2 = 0; x2 < scale; x2++)
                     {

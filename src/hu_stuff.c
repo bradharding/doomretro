@@ -72,8 +72,8 @@ dboolean                message_dontfuckwithme;
 dboolean                message_clearable;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
-static int              message_x;
-static int              message_y;
+int                     message_x;
+int                     message_y;
 
 dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;

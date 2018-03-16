@@ -20,6 +20,7 @@
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
 * Corpses in liquid no longer bob up and down in time with each other.
 * The positioning of the monsters in *DOOM II’s* cast sequence has been improved when the `r_fixspriteoffsets` CVAR is `on`.
+* The underscores in the message displayed when using the `IDBEHOLD` cheat now align correctly.
 
 ---
 
