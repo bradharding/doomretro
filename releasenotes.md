@@ -19,6 +19,7 @@
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
 * Corpses in liquid sectors no longer bob in time with each other.
+* The positioning of the monsters in *DOOM II’s* cast sequence has been improved when the `r_fixspriteoffsets` CVAR is `on`.
 
 ---
 
