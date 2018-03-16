@@ -651,7 +651,7 @@ int R_FlatNumForName(char *name)
 
     if (i == -1)
     {
-        if (!M_StringCompare(name, "-"))
+        if (*name != '-')
             C_Warning("The <b>%.8s</b> flat texture can't be found.", uppercase(name));
 
         return missingflatnum;
@@ -704,7 +704,7 @@ int R_TextureNumForName(char *name)
 
     if (i == -1)
     {
-        if (!M_StringCompare(name, "-"))
+        if (*name != '-')
             C_Warning("The <b>%.8s</b> texture can't be found.", uppercase(name));
 
         return 0;

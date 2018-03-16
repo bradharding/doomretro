@@ -10,7 +10,7 @@
 * The player’s face is no longer updated in either the status bar or the default widescreen HUD when freeze mode is on.
 * Rendering will no longer be affected while the player has an invulnerability power-up and the `r_textures` CVAR is `off`.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
-* Hanging corpses no longer bob if above liquid.
+* Hanging corpses no longer bob up and down if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
 * Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
 * The correct map names will now be displayed when playing [*Freedoom*](http://freedoom.github.io/).
@@ -18,7 +18,7 @@
 * The screen will now fade to black upon quitting when playing either [*Freedoom*](http://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
-* Corpses in liquid sectors no longer bob in time with each other.
+* Corpses in liquid no longer bob up and down in time with each other.
 * The positioning of the monsters in *DOOM II’s* cast sequence has been improved when the `r_fixspriteoffsets` CVAR is `on`.
 
 ---
