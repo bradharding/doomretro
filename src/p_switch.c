@@ -149,6 +149,10 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 //
 void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
 {
+    short   *toptexture = &sides[line->sidenum[0]].toptexture;
+    short   *midtexture = &sides[line->sidenum[0]].midtexture;
+    short   *bottomtexture = &sides[line->sidenum[0]].bottomtexture;
+
     if (!useAgain)
         line->special = 0;
 
@@ -156,27 +160,27 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
     {
         dboolean    switched = false;
 
-        if (switchlist[i] == sides[line->sidenum[0]].toptexture)
+        if (switchlist[i] == *toptexture)
         {
             switched = true;
-            sides[line->sidenum[0]].toptexture = switchlist[i ^ 1];
+            *toptexture = switchlist[i ^ 1];
 
             if (useAgain)
                 P_StartButton(line, top, switchlist[i], BUTTONTIME);
         }
 
-        if (switchlist[i] == sides[line->sidenum[0]].midtexture)
+        if (switchlist[i] == *midtexture)
         {
             switched = true;
-            sides[line->sidenum[0]].midtexture = switchlist[i ^ 1];
+            *midtexture = switchlist[i ^ 1];
 
             if (useAgain)
                 P_StartButton(line, middle, switchlist[i], BUTTONTIME);
         }
 
-        if (switchlist[i] == sides[line->sidenum[0]].bottomtexture)
+        if (switchlist[i] == *bottomtexture)
         {
-            sides[line->sidenum[0]].bottomtexture = switchlist[i ^ 1];
+            *bottomtexture = switchlist[i ^ 1];
 
             if (useAgain)
                 P_StartButton(line, bottom, switchlist[i], BUTTONTIME);

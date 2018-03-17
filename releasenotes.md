@@ -15,7 +15,7 @@
 * Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
 * The correct map names will now be displayed when playing [*Freedoom*](http://freedoom.github.io/).
 * An error will no longer occur when trying to load [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
-* The screen will now fade to black upon quitting when playing either [*Freedoom*](http://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* The screen will now fade to black upon quitting from either [*Freedoom*](http://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
 * Corpses in liquid no longer bob up and down in time with each other.
