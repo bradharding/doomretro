@@ -237,7 +237,7 @@ typedef struct
     degenmobj_t *soundorg;
 } button_t;
 
-#define MAXBUTTONS  32
+#define MAXBUTTONS  96
 
 // 1 second, in ticks.
 #define BUTTONTIME  35

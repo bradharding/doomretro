@@ -22,7 +22,8 @@
 * The positioning of the monsters in *DOOM II’s* cast sequence has been improved when the `r_fixspriteoffsets` CVAR is `on`.
 * The underscores in the message displayed when using the `IDBEHOLD` cheat now align correctly.
 * A bug has been fixed whereby savegames could become corrupted in some rare instances.
-
+* Fixing a bug present in *Vanilla DOOM*, certain switches will now animate when used.
+* 
 ---
 
 ###### Friday, February 23, 2018

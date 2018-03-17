@@ -122,18 +122,18 @@ void P_InitSwitchList(void)
 //
 // Start a button counting down till it turns off.
 //
-void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
+void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 {
     // See if button is already pressed
     for (int i = 0; i < MAXBUTTONS; i++)
-        if (buttonlist[i].btimer && buttonlist[i].line == line)
+        if (buttonlist[i].btimer && buttonlist[i].line == line && buttonlist[i].where == where)
             return;
 
     for (int i = 0; i < MAXBUTTONS; i++)
         if (!buttonlist[i].btimer)
         {
             buttonlist[i].line = line;
-            buttonlist[i].where = w;
+            buttonlist[i].where = where;
             buttonlist[i].btexture = texture;
             buttonlist[i].btimer = time;
             buttonlist[i].soundorg = &line->soundorg;
@@ -149,44 +149,45 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 //
 void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
 {
-    int         i;
-    short       *texture = NULL;
-    short       *ttop = &sides[line->sidenum[0]].toptexture;
-    short       *tmid = &sides[line->sidenum[0]].midtexture;
-    short       *tbot = &sides[line->sidenum[0]].bottomtexture;
-    bwhere_e    position;
-
     if (!useAgain)
         line->special = 0;
 
-    for (i = 0; i < numswitches * 2; i++)
-        if (switchlist[i] == *ttop)
+    for (int i = 0; i < numswitches * 2; i++)
+    {
+        dboolean    switched = false;
+
+        if (switchlist[i] == sides[line->sidenum[0]].toptexture)
         {
-            texture = ttop;
-            position = top;
-            break;
-        }
-        else if (switchlist[i] == *tmid)
-        {
-            texture = tmid;
-            position = middle;
-            break;
-        }
-        else if (switchlist[i] == *tbot)
-        {
-            texture = tbot;
-            position = bottom;
-            break;
+            switched = true;
+            sides[line->sidenum[0]].toptexture = switchlist[i ^ 1];
+
+            if (useAgain)
+                P_StartButton(line, top, switchlist[i], BUTTONTIME);
         }
 
-    if (!texture)
-        return;
+        if (switchlist[i] == sides[line->sidenum[0]].midtexture)
+        {
+            switched = true;
+            sides[line->sidenum[0]].midtexture = switchlist[i ^ 1];
 
-    *texture = switchlist[i ^ 1];
-    S_StartSectorSound(&line->soundorg, sfx_swtchn);
+            if (useAgain)
+                P_StartButton(line, middle, switchlist[i], BUTTONTIME);
+        }
 
-    if (useAgain)
-        P_StartButton(line, position, switchlist[i], BUTTONTIME);
+        if (switchlist[i] == sides[line->sidenum[0]].bottomtexture)
+        {
+            sides[line->sidenum[0]].bottomtexture = switchlist[i ^ 1];
+
+            if (useAgain)
+                P_StartButton(line, bottom, switchlist[i], BUTTONTIME);
+        }
+
+        if (switched)
+        {
+            S_StartSectorSound(&line->soundorg, sfx_swtchn);
+            break;
+        }
+    }
 }
 
 //
