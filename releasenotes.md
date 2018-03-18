@@ -6,7 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * Player messages can no longer be present in screenshots taken using the <kbd>PRINTSCREEN</kbd> key.
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
-* Further improvements have been made to the support of `DEHACKED` lumps.
+* Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The player’s face is no longer updated in either the status bar or the default widescreen HUD when freeze mode is on.
 * Rendering will no longer be affected while the player has an invulnerability power-up and the `r_textures` CVAR is `off`.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.

@@ -2404,7 +2404,7 @@ static void InitMapInfo(void)
 
                         case MCMD_NEXT:
                         {
-                            int nextepisode = -1;
+                            int nextepisode = 1;
                             int nextmap = -1;
 
                             SC_MustGetString();
@@ -2416,7 +2416,6 @@ static void InitMapInfo(void)
 
                                 if (gamemode == commercial)
                                 {
-                                    nextepisode = 1;
                                     sscanf(mapnum, "MAP0%1i", &nextmap);
 
                                     if (nextmap == -1)
@@ -2465,7 +2464,7 @@ static void InitMapInfo(void)
 
                         case MCMD_SECRETNEXT:
                         {
-                            int nextepisode = -1;
+                            int nextepisode = 1;
                             int nextmap = -1;
 
                             SC_MustGetString();
@@ -2477,7 +2476,6 @@ static void InitMapInfo(void)
 
                                 if (gamemode == commercial)
                                 {
-                                    nextepisode = 1;
                                     sscanf(mapnum, "MAP0%1i", &nextmap);
 
                                     if (nextmap == -1)
