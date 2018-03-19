@@ -223,21 +223,22 @@ typedef struct
 
 typedef enum
 {
-    top,
-    middle,
-    bottom
+    nowhere = 0,
+    top = 1,
+    middle = 2,
+    bottom = 4
 } bwhere_e;
 
 typedef struct
 {
     line_t      *line;
-    bwhere_e    where;
+    int         where;
     int         btexture;
     int         btimer;
     degenmobj_t *soundorg;
 } button_t;
 
-#define MAXBUTTONS  96
+#define MAXBUTTONS  32
 
 // 1 second, in ticks.
 #define BUTTONTIME  35

@@ -122,11 +122,11 @@ void P_InitSwitchList(void)
 //
 // Start a button counting down till it turns off.
 //
-void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
+void P_StartButton(line_t *line, int where, int texture, int time)
 {
     // See if button is already pressed
     for (int i = 0; i < MAXBUTTONS; i++)
-        if (buttonlist[i].btimer && buttonlist[i].line == line && buttonlist[i].where == where)
+        if (buttonlist[i].btimer && buttonlist[i].line == line)
             return;
 
     for (int i = 0; i < MAXBUTTONS; i++)
@@ -147,47 +147,43 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (true=yes, it's a button).
 //
-void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
+void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 {
-    short   *toptexture = &sides[line->sidenum[0]].toptexture;
-    short   *midtexture = &sides[line->sidenum[0]].midtexture;
-    short   *bottomtexture = &sides[line->sidenum[0]].bottomtexture;
+    int     sidenum = line->sidenum[0];
+    short   *toptexture = &sides[sidenum].toptexture;
+    short   *midtexture = &sides[sidenum].midtexture;
+    short   *bottomtexture = &sides[sidenum].bottomtexture;
 
-    if (!useAgain)
+    if (!useagain)
         line->special = 0;
 
     for (int i = 0; i < numswitches * 2; i++)
     {
-        dboolean    switched = false;
+        bwhere_e    where = nowhere;
 
-        if (switchlist[i] == *toptexture)
+        if (switchlist[i] == *bottomtexture)
         {
-            switched = true;
-            *toptexture = switchlist[i ^ 1];
-
-            if (useAgain)
-                P_StartButton(line, top, switchlist[i], BUTTONTIME);
+            where |= bottom;
+            *bottomtexture = switchlist[i ^ 1];
         }
 
         if (switchlist[i] == *midtexture)
         {
-            switched = true;
+            where |= middle;
             *midtexture = switchlist[i ^ 1];
-
-            if (useAgain)
-                P_StartButton(line, middle, switchlist[i], BUTTONTIME);
         }
 
-        if (switchlist[i] == *bottomtexture)
+        if (switchlist[i] == *toptexture)
         {
-            *bottomtexture = switchlist[i ^ 1];
-
-            if (useAgain)
-                P_StartButton(line, bottom, switchlist[i], BUTTONTIME);
+            where |= top;
+            *toptexture = switchlist[i ^ 1];
         }
 
-        if (switched)
+        if (where != nowhere)
         {
+            if (useagain)
+                P_StartButton(line, where, switchlist[i], BUTTONTIME);
+
             S_StartSectorSound(&line->soundorg, sfx_swtchn);
             break;
         }

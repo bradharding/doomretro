@@ -2234,20 +2234,16 @@ void P_UpdateSpecials(void)
         if (buttonlist[i].btimer)
             if (!--buttonlist[i].btimer)
             {
-                switch (buttonlist[i].where)
-                {
-                    case top:
-                        sides[buttonlist[i].line->sidenum[0]].toptexture = buttonlist[i].btexture;
-                        break;
+                int where = buttonlist[i].where;
 
-                    case middle:
-                        sides[buttonlist[i].line->sidenum[0]].midtexture = buttonlist[i].btexture;
-                        break;
+                if (where & top)
+                    sides[buttonlist[i].line->sidenum[0]].toptexture = buttonlist[i].btexture;
 
-                    case bottom:
-                        sides[buttonlist[i].line->sidenum[0]].bottomtexture = buttonlist[i].btexture;
-                        break;
-                }
+                if (where & middle)
+                    sides[buttonlist[i].line->sidenum[0]].midtexture = buttonlist[i].btexture;
+
+                if (where & bottom)
+                    sides[buttonlist[i].line->sidenum[0]].bottomtexture = buttonlist[i].btexture;
 
                 S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
