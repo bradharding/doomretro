@@ -120,9 +120,9 @@ void P_InitSwitchList(void)
 }
 
 //
-// Start a button counting down till it turns off.
+// Start a button counting down until it turns off.
 //
-void P_StartButton(line_t *line, int where, int texture, int time)
+void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 {
     // See if button is already pressed
     for (int i = 0; i < MAXBUTTONS; i++)
@@ -163,19 +163,19 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 
         if (switchlist[i] == *bottomtexture)
         {
-            where |= bottom;
+            where = bottom;
             *bottomtexture = switchlist[i ^ 1];
         }
 
         if (switchlist[i] == *midtexture)
         {
-            where |= middle;
+            where = middle;
             *midtexture = switchlist[i ^ 1];
         }
 
         if (switchlist[i] == *toptexture)
         {
-            where |= top;
+            where = top;
             *toptexture = switchlist[i ^ 1];
         }
 

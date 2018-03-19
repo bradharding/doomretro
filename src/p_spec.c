@@ -2234,16 +2234,47 @@ void P_UpdateSpecials(void)
         if (buttonlist[i].btimer)
             if (!--buttonlist[i].btimer)
             {
-                int where = buttonlist[i].where;
+                int     sidenum = buttonlist[i].line->sidenum[0];
+                short   toptexture = sides[sidenum].toptexture;
+                short   midtexture = sides[sidenum].midtexture;
+                short   bottomtexture = sides[sidenum].bottomtexture;
+                int     btexture = buttonlist[i].btexture;
 
-                if (where & top)
-                    sides[buttonlist[i].line->sidenum[0]].toptexture = buttonlist[i].btexture;
+                switch (buttonlist[i].where)
+                {
+                    case top:
+                        sides[sidenum].toptexture = btexture;
 
-                if (where & middle)
-                    sides[buttonlist[i].line->sidenum[0]].midtexture = buttonlist[i].btexture;
+                        if (midtexture == toptexture)
+                            sides[sidenum].midtexture = btexture;
 
-                if (where & bottom)
-                    sides[buttonlist[i].line->sidenum[0]].bottomtexture = buttonlist[i].btexture;
+                        if (bottomtexture == toptexture)
+                            sides[sidenum].bottomtexture = btexture;
+
+                        break;
+
+                    case middle:
+                        sides[sidenum].midtexture = btexture;
+
+                        if (toptexture == midtexture)
+                            sides[sidenum].toptexture = btexture;
+
+                        if (bottomtexture == midtexture)
+                            sides[sidenum].bottomtexture = btexture;
+
+                        break;
+
+                    case bottom:
+                        sides[sidenum].bottomtexture = btexture;
+
+                        if (toptexture == bottomtexture)
+                            sides[sidenum].toptexture = btexture;
+
+                        if (midtexture == bottomtexture)
+                            sides[sidenum].midtexture = btexture;
+
+                        break;
+                }
 
                 S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));

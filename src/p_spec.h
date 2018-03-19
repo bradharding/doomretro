@@ -223,16 +223,16 @@ typedef struct
 
 typedef enum
 {
-    nowhere = 0,
-    top = 1,
-    middle = 2,
-    bottom = 4
+    nowhere = -1,
+    top,
+    middle,
+    bottom
 } bwhere_e;
 
 typedef struct
 {
     line_t      *line;
-    int         where;
+    bwhere_e    where;
     int         btexture;
     int         btimer;
     degenmobj_t *soundorg;
