@@ -136,7 +136,7 @@ int             numdecorations;
 // BLOCKMAP
 // Created from axis aligned bounding box
 // of the map, a rectangular array of
-// blocks of size ...
+// blocks of size...
 // Used to speed up collision detection
 // by spatial subdivision in 2D.
 //

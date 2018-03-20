@@ -496,7 +496,7 @@ static void F_CastTicker(void)
         caststate = &states[st];
         castframes++;
 
-        // sound hacks....
+        // sound hacks...
         switch (st)
         {
             case S_PLAY_ATK1:

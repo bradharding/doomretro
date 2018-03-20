@@ -53,7 +53,7 @@
 enum
 {
     ML_LABEL,       // A separator, name, ExMx or MAPxx
-    ML_THINGS,      // Monsters, items..
+    ML_THINGS,      // Monsters, items...
     ML_LINEDEFS,    // LineDefs, from editing
     ML_SIDEDEFS,    // SideDefs, from editing
     ML_VERTEXES,    // Vertices, edited and BSP splits generated

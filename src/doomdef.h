@@ -218,7 +218,7 @@ enum
 
 //
 // Power up durations,
-//  how many seconds till expiration,
+//  how many seconds until expiration,
 //  assuming TICRATE is 35 ticks/second.
 //
 enum

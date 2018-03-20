@@ -2277,7 +2277,6 @@ void P_UpdateSpecials(void)
                 }
 
                 S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
-                memset(&buttonlist[i], 0, sizeof(button_t));
             }
 }
 
@@ -2328,7 +2327,6 @@ dboolean EV_DoDonut(line_t *line)
             floor->sector = s2;
             floor->speed = FLOORSPEED / 2;
             floor->texture = s3->floorpic;
-            floor->newspecial = 0;
             floor->floordestheight = s3->floorheight;
             floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
 
