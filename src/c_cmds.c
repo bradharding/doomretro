@@ -4873,8 +4873,6 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 //
 // ammo, armor and health CVARs
 //
-dboolean P_CheckAmmo(void);
-
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
     return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL
