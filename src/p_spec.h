@@ -238,12 +238,13 @@ typedef struct
     degenmobj_t *soundorg;
 } button_t;
 
-#define MAXBUTTONS  32
+#define MAXBUTTONS  16
 
 // 1 second, in ticks.
 #define BUTTONTIME  35
 
-extern button_t buttonlist[MAXBUTTONS];
+extern button_t *buttonlist;
+extern int      maxbuttons;
 
 void P_ChangeSwitchTexture(line_t *line, dboolean useAgain);
 

@@ -51,7 +51,8 @@ static int  *switchlist;        // killough
 static int  max_numswitches;    // killough
 static int  numswitches;        // killough
 
-button_t    buttonlist[MAXBUTTONS];
+button_t    *buttonlist = NULL;
+int         maxbuttons = 0;
 
 //
 // P_InitSwitchList()
@@ -125,11 +126,11 @@ void P_InitSwitchList(void)
 void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 {
     // See if button is already pressed
-    for (int i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < maxbuttons; i++)
         if (buttonlist[i].btimer && buttonlist[i].line == line)
             return;
 
-    for (int i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < maxbuttons; i++)
         if (!buttonlist[i].btimer)
         {
             buttonlist[i].line = line;
@@ -139,6 +140,17 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
             buttonlist[i].soundorg = &line->soundorg;
             return;
         }
+
+    // [crispy] remove MAXBUTTONS limit
+    {
+        const int maxbuttons_old = maxbuttons;
+
+        maxbuttons = (maxbuttons ? 2 * maxbuttons : MAXBUTTONS);
+        buttonlist = I_Realloc(buttonlist, sizeof(*buttonlist) * maxbuttons);
+        memset(buttonlist + maxbuttons_old, 0, sizeof(*buttonlist) * (maxbuttons - maxbuttons_old));
+        P_StartButton(line, where, texture, time);
+        return;
+    }
 
     I_Error("P_StartButton: no button slots left!");
 }

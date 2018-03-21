@@ -1239,7 +1239,7 @@ void P_RestoreTargets(void)
 //
 void P_ArchiveSpecials(void)
 {
-    int         i = MAXBUTTONS;
+    int         i = maxbuttons;
     button_t    *button_ptr = buttonlist;
 
     // save off the current thinkers

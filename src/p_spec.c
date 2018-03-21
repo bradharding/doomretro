@@ -2230,7 +2230,7 @@ void P_UpdateSpecials(void)
     skycolumnoffset += skyscrolldelta;
 
     // DO BUTTONS
-    for (int i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < maxbuttons; i++)
         if (buttonlist[i].btimer)
             if (!--buttonlist[i].btimer)
             {
@@ -2445,7 +2445,7 @@ void P_SpawnSpecials(void)
     P_RemoveAllActiveCeilings();        // jff 2/22/98 use killough's scheme
     P_RemoveAllActivePlats();           // killough
 
-    for (int i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < maxbuttons; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
 
     // P_InitTagLists() must be called before P_FindSectorFromLineTag()
