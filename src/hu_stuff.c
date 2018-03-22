@@ -535,6 +535,7 @@ static void HU_DrawHUD(void)
 #define ALTHUD_RIGHT_X  (SCREENWIDTH - 179)
 #define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
 
+#define BLACK           0
 #define WHITE           4
 #define LIGHTGRAY       86
 #define GRAY            92
@@ -574,6 +575,7 @@ static patch_t  *altmark2patch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
 
+int             black;
 int             white;
 static int      lightgray;
 static int      gray;
@@ -630,6 +632,7 @@ static void HU_AltInit(void)
     altkeypics[4].patch = altskullpatch;
     altkeypics[5].patch = altskullpatch;
 
+    black = nearestcolors[BLACK];
     white = nearestcolors[WHITE];
     lightgray = nearestcolors[LIGHTGRAY];
     gray = nearestcolors[GRAY];
