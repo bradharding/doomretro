@@ -2274,6 +2274,9 @@ void P_UpdateSpecials(void)
                             sides[sidenum].midtexture = btexture;
 
                         break;
+
+                    case nowhere:
+                        break;
                 }
 
                 S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);

@@ -662,7 +662,7 @@ dboolean P_GiveAllCardsInMap(void)
             break;
         }
 
-    for (card_t i = NUMCARDS - 1; i >= 0; i--)
+    for (int i = NUMCARDS - 1; i >= 0; i--)
         if (viewplayer->cards[i] == CARDNOTFOUNDYET)
         {
             if (skulliscard && ((i == it_blueskull && viewplayer->cards[it_bluecard] != CARDNOTINMAP)
