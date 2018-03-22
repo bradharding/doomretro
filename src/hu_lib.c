@@ -52,7 +52,6 @@
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern int      message_x;
-extern int      black;
 extern int      white;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -201,7 +200,8 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
             j++;
         }
 
-        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch, (viewplayer->fixedcolormap == INVERSECOLORMAP ? black : white));
+        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch,
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white));
         x += SHORT(patch->width);
         prevletter = letter;
     }
