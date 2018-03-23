@@ -2675,7 +2675,7 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
     x = (fixed_t)((dy * -l->dy - dx * l->dx) / d);  // killough 10/98:
-    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);   // Use long long arithmetic
+    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);   // Use int64_t arithmetic
     Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
 }
 

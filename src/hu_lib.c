@@ -172,6 +172,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
     int             x = HU_ALTHUDMSGX;
+    int             color = (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white);
 
     for (int i = 0; i < l->len; i++)
     {
@@ -200,8 +201,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
             j++;
         }
 
-        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch,
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white));
+        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch, color);
         x += SHORT(patch->width);
         prevletter = letter;
     }
