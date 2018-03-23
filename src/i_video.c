@@ -1142,9 +1142,14 @@ void GetWindowSize(void)
     int width = -1;
     int height = -1;
 
-    sscanf(vid_windowsize, "%10ix%10i", &width, &height);
-
-    if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
+    if (sscanf(vid_windowsize, "%10ix%10i", &width, &height) != 2)
+    {
+        windowheight = SCREENHEIGHT + windowborderheight;
+        windowwidth = SCREENHEIGHT * 16 / 10 + windowborderwidth;
+        vid_windowsize = vid_windowsize_default;
+        M_SaveCVARs();
+    }
+    else if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {
         char    size[16];
 
