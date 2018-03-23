@@ -4760,15 +4760,16 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 //
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
 {
-    float value;
+    float   value;
+    int     result;
 
     if (!*parms)
         return true;
 
-    if (parms[strlen(parms) - 1] == '%')
-        parms[strlen(parms) - 1] = '\0';
+    if ((result = sscanf(parms, "%10f%%", &value)) != 1)
+        result = sscanf(parms, "%10f", &value);
 
-    return sscanf(parms, "%10f", &value);
+    return !!result;
 }
 
 static void gp_deadzone_cvars_func2(char *cmd, char *parms)
@@ -4777,10 +4778,8 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     {
         float   value = 0;
 
-        if (parms[strlen(parms) - 1] == '%')
-            parms[strlen(parms) - 1] = '\0';
-
-        sscanf(parms, "%10f", &value);
+        if (sscanf(parms, "%10f%%", &value) != 1)
+            sscanf(parms, "%10f", &value);
 
         if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
         {
@@ -5550,10 +5549,8 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    if (parms[strlen(parms) - 1] == '%')
-        parms[strlen(parms) - 1] = '\0';
-
-    sscanf(parms, "%10i", &value);
+    if (sscanf(parms, "%10i%%", &value) != 1)
+        sscanf(parms, "%10i", &value);
 
     return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
         && value <= s_musicvolume_max) || (M_StringCompare(cmd, stringize(s_sfxvolume))
@@ -5566,10 +5563,8 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        if (parms[strlen(parms) - 1] == '%')
-            parms[strlen(parms) - 1] = '\0';
-
-        sscanf(parms, "%10i", &value);
+        if (sscanf(parms, "%10i%%", &value) != 1)
+            sscanf(parms, "%10i", &value);
 
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
