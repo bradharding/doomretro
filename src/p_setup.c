@@ -2492,8 +2492,10 @@ static void InitMapInfo(void)
                         case MCMD_SKY1:
                             SC_MustGetString();
                             info->sky1texture = R_TextureNumForName(sc_String);
-                            SC_MustGetNumber();
-                            info->sky1scrolldelta = sc_Number << 8;
+
+                            if (SC_GetNumber())
+                                info->sky1scrolldelta = sc_Number << 8;
+
                             break;
 
                         case MCMD_TITLEPATCH:
