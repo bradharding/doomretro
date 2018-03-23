@@ -24,7 +24,7 @@
 * A bug has been fixed whereby savegames could become corrupted in some rare instances.
 * A bug present in *Vanilla DOOM* has been fixed whereby certain switches wouldn’t turn on when used by the player.
 * The alternate widescreen HUD and player messages are now black rather than white when the player has the invulnerability power-up.
-* The `vid_windowsize` CVAR is now validated correctly at startup and when changed in the console.
+* The `vid_screenresolution` and `vid_windowsize` CVARs are now validated better at startup and when changed in the console.
 
 ---
 
