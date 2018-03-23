@@ -2234,11 +2234,13 @@ void P_UpdateSpecials(void)
         if (buttonlist[i].btimer)
             if (!--buttonlist[i].btimer)
             {
-                int     sidenum = buttonlist[i].line->sidenum[0];
-                short   toptexture = sides[sidenum].toptexture;
-                short   midtexture = sides[sidenum].midtexture;
-                short   bottomtexture = sides[sidenum].bottomtexture;
-                int     btexture = buttonlist[i].btexture;
+                line_t      *line = buttonlist[i].line;
+                sector_t    *backsector = line->backsector;
+                int         sidenum = line->sidenum[0];
+                short       toptexture = sides[sidenum].toptexture;
+                short       midtexture = sides[sidenum].midtexture;
+                short       bottomtexture = sides[sidenum].bottomtexture;
+                int         btexture = buttonlist[i].btexture;
 
                 switch (buttonlist[i].where)
                 {
@@ -2279,7 +2281,8 @@ void P_UpdateSpecials(void)
                         break;
                 }
 
-                S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
+                if (!backsector || (!backsector->floordata && !backsector->ceilingdata))
+                    S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
             }
 }
 
