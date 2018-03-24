@@ -99,6 +99,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
 void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch);
 void V_DrawAltHUDText(int x, int y, patch_t *patch, int color);
+void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color);
 void V_DrawPagePatch(patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, dboolean shadow);

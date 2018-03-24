@@ -656,7 +656,37 @@ void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (*source++ == WHITE)
-                    *dest = (r_hud_translucency ? tinttab60[(*dest << 8) + color] : color);
+                    *dest = color;
+
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color)
+{
+    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
+    int     w = SHORT(patch->width);
+
+    for (int col = 0; col < w; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        int         topdelta;
+
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = desttop + topdelta * SCREENWIDTH;
+            int     count = column->length;
+
+            while (count--)
+            {
+                if (*source++ == WHITE)
+                    *dest = tinttab60[(*dest << 8) + color];
 
                 dest += SCREENWIDTH;
             }

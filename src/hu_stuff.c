@@ -120,6 +120,7 @@ static void (*hudnumfunc)(int, int, patch_t *, byte *);
 static void (*godhudfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
+void (*althudtextfunc)(int, int, patch_t *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 
 static struct
@@ -181,6 +182,7 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
         godhudfunc = V_DrawTranslucentYellowHUDPatch;
         althudfunc = V_DrawTranslucentAltHUDPatch;
+        althudtextfunc =  V_DrawTranslucentAltHUDText;
         fillrectfunc = V_FillTransRect;
         coloroffset = 0;
     }
@@ -190,6 +192,7 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawHUDPatch;
         godhudfunc = V_DrawYellowHUDPatch;
         althudfunc = V_DrawAltHUDPatch;
+        althudtextfunc = V_DrawAltHUDText;
         fillrectfunc = V_FillRect;
         coloroffset = 4;
     }

@@ -168,6 +168,8 @@ static struct
     { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
+void(*althudtextfunc)(int, int, patch_t *, int);
+
 static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
@@ -201,7 +203,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
             j++;
         }
 
-        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch, color);
+        althudtextfunc(x, HU_ALTHUDMSGY, patch, color);
         x += SHORT(patch->width);
         prevletter = letter;
     }
