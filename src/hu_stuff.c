@@ -731,8 +731,8 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    dboolean        invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP);
-    int             color = (invulnerable ? colormaps[0][32 * 256 + white] : white);
+    dboolean        invert = (viewplayer->fixedcolormap == INVERSECOLORMAP || !r_textures);
+    int             color = (invert ? colormaps[0][32 * 256 + white] : white);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
     int             barcolor2 = (health <= 20 ? red : (health >= 100 ? green : color));
@@ -765,8 +765,8 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        barcolor2 = (viewplayer->armortype == GREENARMOR ? (invulnerable ? colormaps[0][32 * 256 + gray] : gray) :
-            (invulnerable ? colormaps[0][32 * 256 + lightgray] : lightgray));
+        barcolor2 = (viewplayer->armortype == GREENARMOR ? (invert ? colormaps[0][32 * 256 + gray] : gray) :
+            (invert ? colormaps[0][32 * 256 + lightgray] : lightgray));
         barcolor1 = barcolor2 + coloroffset;
         althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, barcolor2);
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, barcolor2);
@@ -781,8 +781,7 @@ static void HU_DrawAltHUD(void)
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
     }
     else
-        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE,
-            (invulnerable ? colormaps[0][32 * 256 + darkgray] : darkgray));
+        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, (invert ? colormaps[0][32 * 256 + darkgray] : darkgray));
 
     if (health)
     {
@@ -882,9 +881,9 @@ static void HU_DrawAltHUD(void)
     if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2,
-            (invulnerable ? colormaps[0][32 * 256 + darkgray] : darkgray), false);
+            (invert ? colormaps[0][32 * 256 + darkgray] : darkgray), false);
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2,
-            (invulnerable ? colormaps[0][32 * 256 + gray] : gray), false);
+            (invert ? colormaps[0][32 * 256 + gray] : gray), false);
     }
 }
 

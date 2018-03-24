@@ -174,7 +174,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
     int             x = HU_ALTHUDMSGX;
-    int             color = (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white);
+    int             color = (viewplayer->fixedcolormap == INVERSECOLORMAP || !r_textures ? colormaps[0][32 * 256 + white] : white);
 
     for (int i = 0; i < l->len; i++)
     {
