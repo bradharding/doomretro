@@ -106,6 +106,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow);
 
 void GetPixelSize(dboolean reset);
 void V_LowGraphicDetail(void);
+void V_InvertScreen(void);
 
 dboolean V_ScreenShot(void);
 

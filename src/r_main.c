@@ -828,5 +828,8 @@ void R_RenderPlayerView(void)
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
         R_DrawPlanes();
         R_DrawMasked();
+
+        if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
+            V_InvertScreen();
     }
 }

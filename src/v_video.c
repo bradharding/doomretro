@@ -1506,6 +1506,20 @@ void V_LowGraphicDetail(void)
         }
 }
 
+void V_InvertScreen(void)
+{
+    int w = viewwindowx + viewwidth;
+    int h = viewwindowy + viewheight;
+
+    for (int y = viewwindowy; y < h; y++)
+        for (int x = viewwindowx; x < w; x++)
+        {
+            byte    *dot = *screens + y * SCREENWIDTH + x;
+
+            *dot = colormaps[0][32 * 256 + *dot];
+        }
+}
+
 //
 // V_Init
 //

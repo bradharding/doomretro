@@ -8,7 +8,7 @@
 * Spectres and the shadows they cast are now displayed correctly when the `r_textures` CVAR is `off`.
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The player’s face is no longer updated in either the status bar or the default widescreen HUD when freeze mode is on.
-* Rendering will no longer be affected while the player has an invulnerability power-up and the `r_textures` CVAR is `off`.
+* The screen is now rendered correctly while the player has an invulnerability power-up and the `r_textures` CVAR is `off`.
 * A bug has been fixed whereby some map-specific fixes enabled using the `r_fixmaperrors` CVAR weren’t being applied.
 * Hanging corpses no longer bob up and down if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
@@ -24,7 +24,7 @@
 * A bug has been fixed whereby savegames could become corrupted in some rare instances.
 * A bug present in *Vanilla DOOM* has been fixed whereby certain switches wouldn’t turn on when used by the player.
 * Repeatable switches that are adjacent to a moving sector will no longer make a second sound when they turn off.
-* The alternate widescreen HUD and player messages are now black rather than white when the player has the invulnerability power-up or when the `r_textures` CVAR is `off`.
+* The alternate widescreen HUD and player messages are now black rather than white when the player has the invulnerability power-up or the `r_textures` CVAR is `off`.
 * The `vid_screenresolution` and `vid_windowsize` CVARs are now validated better at startup and when changed in the console.
 
 ---
