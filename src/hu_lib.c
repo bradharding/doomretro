@@ -168,7 +168,7 @@ static struct
     { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
-void(*althudtextfunc)(int, int, patch_t *, int);
+void (*althudtextfunc)(int, int, patch_t *, int);
 
 static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
@@ -325,7 +325,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         int scale = r_messagescale + 1;
 
         for (int y1 = 0; y1 < 4; y1++)
-            for (int x1 = message_x; x1 < ORIGINALWIDTH; x1++)
+            for (int x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
                 unsigned char   src = underscores[y1 * ORIGINALWIDTH + x1];
 
