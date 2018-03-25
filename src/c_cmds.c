@@ -1854,7 +1854,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 //
 static dboolean give_cmd_func1(char *cmd, char *parms)
 {
-    char    *parm = removespaces(parms);
+    char    *parm = removenonalpha(parms);
     int     num = -1;
 
     if (gamestate != GS_LEVEL)
@@ -1873,9 +1873,9 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
     sscanf(parm, "%10i", &num);
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-            || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-            || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
             || (num == mobjinfo[i].doomednum && num != -1)))
             return true;
 
@@ -1884,7 +1884,7 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
 
 static void give_cmd_func2(char *cmd, char *parms)
 {
-    char    *parm = removespaces(parms);
+    char    *parm = removenonalpha(parms);
 
     if (!*parm)
         C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
@@ -2031,9 +2031,9 @@ static void give_cmd_func2(char *cmd, char *parms)
             for (int i = 0; i < NUMMOBJTYPES; i++)
             {
                 if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+                    && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
                         || (num == mobjinfo[i].doomednum && num != -1)))
                 {
                     static char buffer[128];
@@ -2232,7 +2232,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
     {
-        char    *parm = removespaces(parms);
+        char    *parm = removenonalpha(parms);
 
         if (!*parm)
             return true;
@@ -2255,12 +2255,12 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
             killcmdtype = mobjinfo[i].doomednum;
 
             if (killcmdtype >= 0
-                && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                    || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
-                    || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                    || (*mobjinfo[i].plural2 && M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
-                    || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
-                    || (*mobjinfo[i].plural3 && M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
+                && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                    || M_StringCompare(parm, removenonalpha(mobjinfo[i].plural1))
+                    || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                    || (*mobjinfo[i].plural2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural2)))
+                    || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                    || (*mobjinfo[i].plural3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural3)))
                     || (num == killcmdtype && num != -1)))
             {
                 dboolean    kill = true;
@@ -2287,7 +2287,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void kill_cmd_func2(char *cmd, char *parms)
 {
-    char        *parm = removespaces(parms);
+    char        *parm = removenonalpha(parms);
     static char buffer[1024];
 
     if (!*parm)
@@ -4122,7 +4122,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
 
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
-    char    *parm = removespaces(parms);
+    char    *parm = removenonalpha(parms);
 
     if (!*parm)
         return true;
@@ -4137,8 +4137,8 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
         {
             spawncmdtype = mobjinfo[i].doomednum;
 
-            if (spawncmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+            if (spawncmdtype >= 0 && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
                 || (num == spawncmdtype && num != -1)))
                 return true;
         }
@@ -4149,7 +4149,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
 static void spawn_cmd_func2(char *cmd, char *parms)
 {
-    char    *parm = removespaces(parms);
+    char    *parm = removenonalpha(parms);
 
     if (!*parm)
     {
@@ -5975,9 +5975,11 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(vid_windowpos, parms))
+        char    *parm = removespaces(parms);
+
+        if (!M_StringCompare(vid_windowpos, parm))
         {
-            vid_windowpos = strdup(parms);
+            vid_windowpos = strdup(parm);
             GetWindowPosition();
             M_SaveCVARs();
 

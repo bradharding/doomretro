@@ -85,6 +85,7 @@ dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 int numspaces(char *str);
 char *removespaces(const char *input);
+char *removenonalpha(const char *input);
 char *trimwhitespace(char *input);
 char *removenewlines(const char *str);
 char *makevalidfilename(const char *input);

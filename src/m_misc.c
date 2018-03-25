@@ -624,6 +624,29 @@ char *removespaces(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
+            if (!isspace((unsigned char)*input))
+                *p2++ = *input++;
+            else
+                input++;
+
+        *p2 = '\0';
+    }
+
+    return p;
+}
+
+char *removenonalpha(const char *input)
+{
+    char    *p;
+
+    if (!*input)
+        return "";
+
+    if ((p = malloc(strlen(input) + 1)))
+    {
+        char    *p2 = p;
+
+        while (*input != '\0')
             if (!isspace((unsigned char)*input) && *input != '-' && *input != '(' && *input != ')')
                 *p2++ = *input++;
             else
