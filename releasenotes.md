@@ -26,6 +26,7 @@
 * Repeatable switches that are adjacent to a moving sector will no longer make a second sound when they turn off.
 * The alternate widescreen HUD and player messages are now black rather than white when the player has the invulnerability power-up or the `r_textures` CVAR is `off`.
 * The `vid_screenresolution` and `vid_windowsize` CVARs are now validated better at startup and when changed in the console.
+* Player messages will now always be positioned correctly when the `r_messagepos` CVAR is changed from its default of `(3,2)`.
 
 ---
 
