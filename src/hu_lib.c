@@ -332,7 +332,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 for (int y2 = 0; y2 < scale; y2++)
                     for (int x2 = 0; x2 < scale; x2++)
                     {
-                        byte    *dest = &tempscreen[((8 + y1) * scale + y2) * SCREENWIDTH + x1 * scale + x2];
+                        byte    *dest = &tempscreen[((l->y + y1 + 7) * scale + y2) * SCREENWIDTH + (l->x + x1 - 3) * scale + x2];
 
                         if (src == 251)
                             *dest = 0;
@@ -343,8 +343,8 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen with translucency
-    maxy = y + 10;
-    maxx = (l->x + tw + 1);
+    maxy = MAX(0, l->y - 1) + y + 10;
+    maxx = l->x + tw + 1;
 
     if (r_messagescale == r_messagescale_big)
     {
