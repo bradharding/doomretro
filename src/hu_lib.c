@@ -58,7 +58,7 @@ static void HUlib_clearTextLine(hu_textline_t *t)
 {
     t->len = 0;
     t->l[0] = '\0';
-    t->needsupdate = true;
+    t->needsupdate = 1;
 }
 
 void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)

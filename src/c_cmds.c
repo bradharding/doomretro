@@ -5286,9 +5286,11 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(r_messagepos, parms))
+        char    *parm = removespaces(parms);
+
+        if (!M_StringCompare(r_messagepos, parm))
         {
-            r_messagepos = strdup(parms);
+            r_messagepos = strdup(parm);
             HU_InitMessages();
             M_SaveCVARs();
         }
