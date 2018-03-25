@@ -279,7 +279,7 @@ void HU_Start(void)
     message_external = false;
 
     // create the message widget
-    HUlib_initSText(&w_message, w_message.x, w_message.y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
+    HUlib_initSText(&w_message, w_message.l->x, w_message.l->y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
 
     // create the map title widget
     HUlib_initTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
