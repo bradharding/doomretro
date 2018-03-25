@@ -130,7 +130,7 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
     if (!den)
         return 0;
 
-    return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v2->y - v1->y) * v1->dx) / den);
+    return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v1->y - v2->y) * v1->dx) / den);
 }
 
 //
