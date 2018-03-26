@@ -343,7 +343,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen with translucency
-    maxy = MAX(0, l->y - 1) + y + 10;
+    maxy = y + 11;
     maxx = l->x + tw + 1;
 
     if (r_messagescale == r_messagescale_big)
