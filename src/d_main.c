@@ -517,6 +517,9 @@ void D_DoAdvanceTitle(void)
 
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
+
+            if (!TITLEPIC && !devparm)
+                M_StartControlPanel();
         }
 
         if (pagelump == creditlump)
@@ -529,9 +532,6 @@ void D_DoAdvanceTitle(void)
         {
             I_SetPalette(playpal);
             splashscreen = false;
-
-            if (!TITLEPIC && !devparm)
-                M_StartControlPanel();
         }
 
         M_SetWindowCaption();
