@@ -52,7 +52,7 @@ static int  max_numswitches;    // killough
 static int  numswitches;        // killough
 
 button_t    *buttonlist = NULL;
-int         maxbuttons = 0;
+int         maxbuttons = MAXBUTTONS;
 
 //
 // P_InitSwitchList()
@@ -118,6 +118,8 @@ void P_InitSwitchList(void)
     numswitches = index / 2;
     switchlist[index] = -1;
     W_UnlockLumpNum(lump);
+
+    buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
 }
 
 //
@@ -142,14 +144,10 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
         }
 
     // [crispy] remove MAXBUTTONS limit
-    {
-        const int   maxbuttons_old = maxbuttons;
-
-        maxbuttons = (maxbuttons ? 2 * maxbuttons : MAXBUTTONS);
-        buttonlist = I_Realloc(buttonlist, sizeof(*buttonlist) * maxbuttons);
-        memset(buttonlist + maxbuttons_old, 0, sizeof(*buttonlist) * (maxbuttons - maxbuttons_old));
-        P_StartButton(line, where, texture, time);
-    }
+    maxbuttons *= 2;
+    buttonlist = I_Realloc(buttonlist, sizeof(*buttonlist) * maxbuttons);
+    memset(buttonlist + maxbuttons / 2, 0, sizeof(*buttonlist) * (maxbuttons - maxbuttons / 2));
+    P_StartButton(line, where, texture, time);
 }
 
 //
