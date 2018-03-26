@@ -505,6 +505,7 @@ void D_DoAdvanceTitle(void)
     if (!titlesequence)
     {
         pagetic = 3 * TICRATE;
+        I_Sleep(250);
         splashscreen = true;
     }
     else if (titlesequence == 1)
