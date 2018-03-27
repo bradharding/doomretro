@@ -2281,7 +2281,7 @@ void P_UpdateSpecials(void)
                         break;
                 }
 
-                if (!backsector || (!backsector->floordata && !backsector->ceilingdata))
+                if (!backsector || (!backsector->floordata && !backsector->ceilingdata) || line->tag != backsector->tag)
                     S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
             }
 }
