@@ -1,6 +1,6 @@
 ### DOOM Retro v2.6.8
 
-* *DOOM Retro* now uses [*SDL v2.0.8*](http://libsdl.org), [*SDL_mixer v2.0.3*](http://libsdl.org/SDL_mixer) and [*SDL_image v2.0.3*](http://libsdl.org/SDL_image).
+* *DOOM Retro* now uses [*SDL v2.0.8*](http://libsdl.org) and [*SDL_image v2.0.3*](http://libsdl.org/SDL_image).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to how both sprites and the shadows they cast are rendered.
 * Minor changes have been made to text that is output to the console.
