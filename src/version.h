@@ -39,9 +39,9 @@
 #if !defined(__VERSION_H__)
 #define __VERSION_H__
 
-#define PACKAGE_VERSION                 2,6,8,0
-#define PACKAGE_VERSIONSTRING           "2.6.8"
-#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.6.8"
+#define PACKAGE_VERSION                 2,7,0,0
+#define PACKAGE_VERSIONSTRING           "2.7"
+#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.7"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v2.6.7"
 
 #define PACKAGE                         "doomretro"

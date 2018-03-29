@@ -1,3 +1,9 @@
+### DOOM Retro v2.7
+
+---
+
+###### Thursday, March 29, 2018
+
 ### DOOM Retro v2.6.8
 
 * *DOOM Retro* now uses [*SDL v2.0.8*](http://libsdl.org) and [*SDL_image v2.0.3*](http://libsdl.org/SDL_image).
