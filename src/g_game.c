@@ -969,6 +969,8 @@ void G_Ticker(void)
                 gameaction = ga_savegame;
                 break;
         }
+
+        viewplayer->cmd.buttons = 0;
     }
 
     // Have we just finished displaying an intermission screen?

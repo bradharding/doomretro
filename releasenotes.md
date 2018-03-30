@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7
 
+* A bug has been fixed whereby the player would fire their weapon when the game was unpaused using the <kbd>PAUSE</kbd> key.
+
 ---
 
 ###### Thursday, March 29, 2018
