@@ -1182,7 +1182,7 @@ void P_UnArchiveThinkers(void)
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
                 P_AddThinker(&mobj->thinker);
-                thingindex = MIN(thingindex, TARGETLIMIT - 1);
+                thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
                 break;
             }
 
@@ -1230,7 +1230,7 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex]));
         P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
-        thingindex = MIN(thingindex, TARGETLIMIT - 1);
+        thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
     }
 }
 
