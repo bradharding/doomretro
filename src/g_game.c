@@ -1160,8 +1160,6 @@ void G_SecretExitLevel(void)
 extern int      episode;
 extern menu_t   EpiDef;
 
-void ST_doRefresh(void);
-
 static void G_DoCompleted(void)
 {
     int map = (gameepisode - 1) * 10 + gamemap;
@@ -1173,19 +1171,19 @@ static void G_DoCompleted(void)
 
     I_UpdateBlitFunc(false);
 
+    if (vid_widescreen)
+    {
+        I_ToggleWidescreen(false);
+        returntowidescreen = true;
+        ST_Drawer(false, true);
+    }
+
     // [BH] allow the exit switch to turn on before the screen wipes
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->momz = 0;
     R_RenderPlayerView();
     I_Sleep(700);
-
-    if (vid_widescreen)
-    {
-        I_ToggleWidescreen(false);
-        returntowidescreen = true;
-        ST_doRefresh();
-    }
 
     G_PlayerFinishLevel();      // take away cards and stuff
 
