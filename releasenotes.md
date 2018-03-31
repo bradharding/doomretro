@@ -1,3 +1,9 @@
+### DOOM Retro v2.7
+
+---
+
+###### Saturday, March 31, 2018
+
 ### DOOM Retro v2.6.9
 
 * The targets of monsters will now be restored correctly when loading a savegame.
