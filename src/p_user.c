@@ -186,6 +186,7 @@ void P_MovePlayer(void)
     char        sidemove = cmd->sidemove;
 
     mo->angle += cmd->angleturn << FRACBITS;
+    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
     //
@@ -193,9 +194,9 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if (forwardmove | sidemove)                                                 // killough 10/98
+    if (forwardmove | sidemove)
     {
-        if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))    // killough 8/9/98
+        if (onground)
         {
             int     friction;
             int     movefactor = P_GetMoveFactor(mo, &friction);
