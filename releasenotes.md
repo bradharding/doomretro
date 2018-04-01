@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7
 
+* Jumping is now supported. To setup, the `+jump` action must be bound to a control using the `bind` CCMD.
+
 ---
 
 ###### Saturday, March 31, 2018

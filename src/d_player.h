@@ -205,6 +205,8 @@ typedef struct player_s
     int             lookdir;
     int             oldlookdir;
 
+    unsigned int    jumptics;
+
     fixed_t         recoil;
     fixed_t         oldrecoil;
 

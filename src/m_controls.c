@@ -78,6 +78,7 @@ int keyboardweapon4 = KEYWEAPON4_DEFAULT;
 int keyboardweapon5 = KEYWEAPON5_DEFAULT;
 int keyboardweapon6 = KEYWEAPON6_DEFAULT;
 int keyboardweapon7 = KEYWEAPON7_DEFAULT;
+int keyboardjump = KEYJUMP_DEFAULT;
 
 int mousefire = MOUSEFIRE_DEFAULT;
 int mouseforward = MOUSEFORWARD_DEFAULT;
@@ -87,6 +88,7 @@ int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
+int mousejump = MOUSEJUMP_DEFAULT;
 
 int gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
 int gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
@@ -120,3 +122,4 @@ int gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
 int gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 int gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+int gamepadjump = GAMEPADJUMP_DEFAULT;

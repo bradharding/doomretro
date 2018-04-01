@@ -414,16 +414,21 @@ static void P_ZMovement(mobj_t *mo)
 
         if (mo->momz < 0)
         {
-            if (player && player->mo == mo && mo->momz < -GRAVITY * 8)
+            if (player && player->mo == mo)
             {
-                // Squat down.
-                // Decrease viewheight for a moment
-                // after hitting the ground (hard),
-                // and utter appropriate sound.
-                player->deltaviewheight = mo->momz >> 3;
+                player->jumptics = 7;
 
-                if (mo->health > 0)
-                    S_StartSound(mo, sfx_oof);
+                if (mo->momz < -GRAVITY * 8)
+                {
+                    // Squat down.
+                    // Decrease viewheight for a moment
+                    // after hitting the ground (hard),
+                    // and utter appropriate sound.
+                    player->deltaviewheight = mo->momz >> 3;
+
+                    if (mo->health > 0)
+                        S_StartSound(mo, sfx_oof);
+                }
             }
 
             mo->momz = 0;

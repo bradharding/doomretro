@@ -79,6 +79,7 @@ extern int  keyboardweapon4;
 extern int  keyboardweapon5;
 extern int  keyboardweapon6;
 extern int  keyboardweapon7;
+extern int  keyboardjump;
 
 extern int  mousefire;
 extern int  mouseforward;
@@ -88,6 +89,7 @@ extern int  mouseprevweapon;
 extern int  mouserun;
 extern int  mousestrafe;
 extern int  mouseuse;
+extern int  mousejump;
 
 extern int  gamepadalwaysrun;
 extern int  gamepadautomap;
@@ -121,5 +123,6 @@ extern int  gamepadweapon4;
 extern int  gamepadweapon5;
 extern int  gamepadweapon6;
 extern int  gamepadweapon7;
+extern int  gamepadjump;
 
 #endif

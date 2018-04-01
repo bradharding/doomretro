@@ -358,6 +358,7 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->sidemove = saveg_read8();
     str->angleturn = saveg_read16();
     str->buttons = saveg_read8();
+    str->arti = saveg_read8();
     str->lookdir = saveg_read32();
 }
 
@@ -367,6 +368,7 @@ static void saveg_write_ticcmd_t(ticcmd_t *str)
     saveg_write8(str->sidemove);
     saveg_write16(str->angleturn);
     saveg_write8(str->buttons);
+    saveg_write8(str->arti);
     saveg_write32(str->lookdir);
 }
 

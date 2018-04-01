@@ -187,6 +187,7 @@ static void fire_action_func(void);
 static void followmode_action_func(void);
 static void forward_action_func(void);
 static void grid_action_func(void);
+static void jump_action_func(void);
 static void left_action_func(void);
 static void mark_action_func(void);
 static void maxzoom_action_func(void);
@@ -218,6 +219,7 @@ action_t actions[] =
     { "+followmode",  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
     { "+forward",     forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
     { "+grid",        grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,             &gamepadautomapgrid,       NULL         },
+    { "+jump",        jump_action_func,        &keyboardjump,              NULL,                  &mousejump,       &gamepadjump,              NULL         },
     { "+left",        left_action_func,        &keyboardleft,              NULL,                  NULL,             &gamepadleft,              NULL         },
     { "+mark",        mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
     { "+maxzoom",     maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
@@ -849,6 +851,11 @@ static void grid_action_func(void)
 {
     if (automapactive || mapwindow)
         AM_toggleGrid();
+}
+
+static void jump_action_func(void)
+{
+    viewplayer->cmd.arti |= AFLAG_JUMP;
 }
 
 static void left_action_func(void)

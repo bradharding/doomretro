@@ -623,6 +623,7 @@ enum
 #define GAMEPADUSE_DEFAULT                      GAMEPAD_A
 #define GAMEPADUSE2_DEFAULT                     GAMEPAD_RIGHT_THUMB
 #define GAMEPADWEAPON_DEFAULT                   0
+#define GAMEPADJUMP_DEFAULT                     0
 
 #define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
 #define KEYAUTOMAP_DEFAULT                      KEY_TAB
@@ -665,6 +666,7 @@ enum
 #define KEYWEAPON5_DEFAULT                      '5'
 #define KEYWEAPON6_DEFAULT                      '6'
 #define KEYWEAPON7_DEFAULT                      '7'
+#define KEYJUMP_DEFAULT                         0
 
 #define MOUSEFIRE_DEFAULT                       0
 #define MOUSEFORWARD_DEFAULT                    -1
@@ -674,6 +676,7 @@ enum
 #define MOUSESTRAFE_DEFAULT                     -1
 #define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1
+#define MOUSEJUMP_DEFAULT                       -1
 
 typedef enum
 {

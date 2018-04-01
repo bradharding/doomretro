@@ -519,6 +519,9 @@ void P_PlayerThink(void)
         return;
     }
 
+    if (viewplayer->jumptics)
+        viewplayer->jumptics--;
+
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
@@ -544,6 +547,13 @@ void P_PlayerThink(void)
         {
             P_PlayerInSpecialSector();
             break;
+        }
+
+    if (cmd->arti)
+        if ((cmd->arti & AFLAG_JUMP) && onground && !viewplayer->jumptics)
+        {
+            mo->momz = 9 * FRACUNIT;
+            viewplayer->jumptics = 18;
         }
 
     // Check for weapon change.
