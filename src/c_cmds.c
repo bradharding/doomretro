@@ -855,7 +855,7 @@ static void grid_action_func(void)
 
 static void jump_action_func(void)
 {
-    viewplayer->cmd.arti |= AFLAG_JUMP;
+    viewplayer->cmd.buttons |= BT_JUMP;
 }
 
 static void left_action_func(void)

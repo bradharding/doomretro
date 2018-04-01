@@ -44,8 +44,6 @@
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
 
-#define AFLAG_JUMP          0x80
-
 #define FLOATSPEED          (4 * FRACUNIT)
 
 #define VIEWHEIGHT          (41 * FRACUNIT)

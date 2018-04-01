@@ -550,12 +550,11 @@ void P_PlayerThink(void)
             break;
         }
 
-    if (cmd->arti)
-        if ((cmd->arti & AFLAG_JUMP) && onground && !viewplayer->jumptics)
-        {
-            mo->momz = 9 * FRACUNIT;
-            viewplayer->jumptics = 18;
-        }
+    if ((cmd->buttons & BT_JUMP) && onground && !viewplayer->jumptics)
+    {
+        mo->momz = 9 * FRACUNIT;
+        viewplayer->jumptics = 18;
+    }
 
     // Check for weapon change.
 
