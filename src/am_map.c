@@ -212,8 +212,6 @@ dboolean            am_rotatemode = am_rotatemode_default;
 static int          gridwidth;
 static int          gridheight;
 
-static patch_t      *autopage;
-
 static dboolean     stopped = true;
 
 static dboolean     bigstate;
@@ -399,9 +397,6 @@ void AM_Init(void)
     AM_setColors();
 
     AM_getGridSize();
-
-    if (W_CheckNumForName("AUTOPAGE") >= 0)
-        autopage = W_CacheLumpName("AUTOPAGE");
 }
 
 static void AM_initVariables(const dboolean mainwindow)
@@ -1966,9 +1961,7 @@ void AM_Drawer(void)
     AM_clearFB();
     AM_drawWalls();
 
-    if (autopage)
-        V_DrawPatch(0, 0, 0, autopage);
-    else if (am_grid)
+    if (am_grid)
         AM_drawGrid();
 
     if (am_path)
