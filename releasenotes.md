@@ -1,6 +1,8 @@
 ### DOOM Retro v2.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
 
 ---
