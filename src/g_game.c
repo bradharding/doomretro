@@ -315,7 +315,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else if (gamepadthumbLX < 0)
         side -= (int)(sidemove[run] * gamepadthumbLXleft);
 
-    if (gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump))
+    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons

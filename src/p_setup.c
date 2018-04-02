@@ -71,12 +71,13 @@
 #define MCMD_MUSIC              4
 #define MCMD_NEXT               5
 #define MCMD_NOBRIGHTMAP        6
-#define MCMD_NOLIQUID           7
-#define MCMD_PAR                8
-#define MCMD_PISTOLSTART        9
-#define MCMD_SECRETNEXT         10
-#define MCMD_SKY1               11
-#define MCMD_TITLEPATCH         12
+#define MCMD_NOJUMP             7
+#define MCMD_NOLIQUID           8
+#define MCMD_PAR                9
+#define MCMD_PISTOLSTART        10
+#define MCMD_SECRETNEXT         11
+#define MCMD_SKY1               12
+#define MCMD_TITLEPATCH         13
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -95,6 +96,7 @@ struct mapinfo_s
     int         sky1texture;
     int         sky1scrolldelta;
     int         titlepatch;
+    dboolean    nojump;
 };
 
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
@@ -184,6 +186,7 @@ static char *mapcmdnames[] =
     "SKY1",
     "TITLEPATCH",
     "NOBRIGHTMAP",
+    "NOJUMP",
     NULL
 };
 
@@ -199,7 +202,8 @@ static int mapcmdids[] =
     MCMD_SECRETNEXT,
     MCMD_SKY1,
     MCMD_TITLEPATCH,
-    MCMD_NOBRIGHTMAP
+    MCMD_NOBRIGHTMAP,
+    MCMD_NOJUMP
 };
 
 dboolean            canmodify;
@@ -217,6 +221,7 @@ mapformat_t         mapformat;
 
 dboolean            boomlinespecials;
 dboolean            blockmaprecreated;
+dboolean            nojump;
 
 extern fixed_t      animatedliquiddiff;
 extern fixed_t      animatedliquidxdir;
@@ -2261,6 +2266,7 @@ void P_SetupLevel(int ep, int map)
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
+    nojump = P_GetMapNoJump((ep - 1) * 10 + map);
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards();
@@ -2502,6 +2508,9 @@ static void InitMapInfo(void)
                             SC_MustGetString();
                             info->titlepatch = W_CheckNumForName(sc_String);
                             break;
+
+                        case MCMD_NOJUMP:
+                            info->nojump = true;
                     }
             }
 
@@ -2585,6 +2594,11 @@ int P_GetMapSky1ScrollDelta(int map)
 int P_GetMapTitlePatch(int map)
 {
     return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].titlepatch : 0);
+}
+
+dboolean P_GetMapNoJump(int map)
+{
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].nojump : false);
 }
 
 //
