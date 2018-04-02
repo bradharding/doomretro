@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7
 
-* Jumping is now supported. To setup, the `+jump` action must be bound to a control using the `bind` CCMD.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
 
 ---
 

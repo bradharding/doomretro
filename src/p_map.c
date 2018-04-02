@@ -1116,6 +1116,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     dboolean    onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz; // haleyjd
     int         flags2 = thing->flags2;
+    player_t    *player = thing->player;
 
     P_CheckPosition(thing, thing->x, thing->y);
 
@@ -1124,7 +1125,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
 
-    if ((flags2 & MF2_FEETARECLIPPED) && r_liquid_bob && !thing->player)
+    if ((flags2 & MF2_FEETARECLIPPED) && r_liquid_bob && !player)
         thing->z = thing->floorz;
     else if (flags2 & MF2_FLOATBOB)
     {
@@ -1140,8 +1141,8 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
         thing->z = thing->floorz;
 
         // [BH] immediately update player's view
-        if (thing->player)
-            P_CalcHeight();
+        if (player)
+            player->viewz = MIN(player->mo->z + player->viewheight, player->mo->ceilingz - 4 * FRACUNIT);
 
         // killough 11/98: Possibly upset balance of objects hanging off ledges
         if ((flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
