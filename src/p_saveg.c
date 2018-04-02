@@ -460,6 +460,7 @@ static void saveg_read_player_t(void)
     viewplayer->oldlookdir = saveg_read32();
     viewplayer->recoil = saveg_read32();
     viewplayer->oldrecoil = saveg_read32();
+    viewplayer->jumptics = saveg_read32();
 
     if (!mouselook)
     {
@@ -548,6 +549,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->oldlookdir);
     saveg_write32(viewplayer->recoil);
     saveg_write32(viewplayer->oldrecoil);
+    saveg_write32(viewplayer->jumptics);
     saveg_write32(viewplayer->damageinflicted);
     saveg_write32(viewplayer->damagereceived);
     saveg_write32(viewplayer->cheated);
