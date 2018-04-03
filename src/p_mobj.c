@@ -316,10 +316,6 @@ static void P_XYMovement(mobj_t *mo)
     if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
         && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || player->mo != mo))
     {
-        // if in a walking frame, stop moving
-        if (player && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4 && player->mo == mo)
-            P_SetMobjState(player->mo, S_PLAY);
-
         mo->momx = 0;
         mo->momy = 0;
 

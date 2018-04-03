@@ -219,9 +219,6 @@ void P_MovePlayer(void)
                 P_Thrust(angle, sidemove * movefactor);
             }
         }
-
-        if (mo->state == states + S_PLAY)
-            P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
     viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
