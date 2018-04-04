@@ -246,7 +246,7 @@ typedef struct
 extern button_t *buttonlist;
 extern int      maxbuttons;
 
-void P_ChangeSwitchTexture(line_t *line, dboolean useAgain);
+void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
 
 void P_InitSwitchList(void);
 
