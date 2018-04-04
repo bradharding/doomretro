@@ -639,7 +639,7 @@ static dboolean F_CastResponder(event_t *ev)
     if (!ev->data1)
         return false;
 
-    if (ev->type == ev_mouse && (ev->data1 & MOUSE_LEFTBUTTON))
+    if (ev->type == ev_mouse && (ev->data1 & mousefire))
         firstevent = false;
     else if (firstevent)
     {
@@ -658,10 +658,10 @@ static dboolean F_CastResponder(event_t *ev)
     if (ev->type == ev_keyup)
         return false;
 
-    if (ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
+    if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
-    if (ev->type == ev_gamepad && !(ev->data1 & GAMEPAD_RIGHT_TRIGGER) && !(ev->data1 & GAMEPAD_A))
+    if (ev->type == ev_gamepad && !(ev->data1 & gamepadfire) && !(ev->data1 & gamepaduse))
         return false;
 
     if (castdeath)
