@@ -135,6 +135,7 @@ char                    consolecheatparm[3];
 
 static int              outputhistory = -1;
 
+int                     con_backcolor = con_backcolor_default;
 dboolean                con_timestamps = con_timestamps_default;
 
 static int              timestampx;
@@ -160,7 +161,6 @@ static int              consoleheadercolor = 180;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
-static int              consoletintcolor = 5;
 static int              consoleedgecolor = 180;
 static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
@@ -583,7 +583,6 @@ void C_Init(void)
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
-    consoletintcolor = nearestcolors[consoletintcolor];
     consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
@@ -691,7 +690,7 @@ static void C_DrawBackground(int height)
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
+        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {

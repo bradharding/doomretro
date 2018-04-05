@@ -5,6 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
+* The color of the console’s background can now be changed using the new `con_backcolor` CVAR. It is `5` by default.
 
 ---
 

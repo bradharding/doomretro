@@ -480,6 +480,8 @@ consolecmd_t consolecmds[] =
         "Clears the console."),
     CMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Shows a list of console commands."),
+    CVAR_INT(con_backcolor, con_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the console's background (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles obituaries in the console when monsters\nare killed or resurrected."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

@@ -96,6 +96,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (autoload,                                          BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (autouse,                                           BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (con_backcolor,                                     NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS      ),
@@ -547,6 +548,9 @@ static void M_CheckCVARs(void)
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = centerweapon_default;
+
+    if (con_backcolor < con_backcolor_min || con_backcolor > con_backcolor_max)
+        con_backcolor = con_backcolor_default;
 
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;

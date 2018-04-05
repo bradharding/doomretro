@@ -65,6 +65,7 @@ extern dboolean     autoaim;
 extern dboolean     autoload;
 extern dboolean     autouse;
 extern dboolean     centerweapon;
+extern int          con_backcolor;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
 extern int          episode;
@@ -318,6 +319,10 @@ enum
 #define autouse_default                         false
 
 #define centerweapon_default                    true
+
+#define con_backcolor_min                       0
+#define con_backcolor_default                   5
+#define con_backcolor_max                       255
 
 #define con_obituaries_default                  true
 
