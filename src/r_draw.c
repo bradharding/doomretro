@@ -689,7 +689,7 @@ void R_DrawDitheredColumn(void)
 
     do
     {
-        *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[dc_source[frac >> FRACBITS]];
         dest += SCREENWIDTH << 1;
         frac += fracstep;
     } while ((count -= 2) > 0);

@@ -4,6 +4,7 @@
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
+* Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
 
 ---
 
