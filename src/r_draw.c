@@ -353,13 +353,11 @@ void R_DrawWallColumn(void)
 
 void R_DrawBrightMapWallColumn(void)
 {
-    int             count = dc_yh - dc_yl + 1;
-    byte            *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t         frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const byte      *brightmap = dc_brightmap;
-    lighttable_t    **colormap = dc_colormap;
-    fixed_t         heightmask = dc_texheight - 1;
-    byte            dot;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    fixed_t heightmask = dc_texheight - 1;
+    byte    dot;
 
     if (dc_texheight & heightmask)
     {
@@ -375,7 +373,7 @@ void R_DrawBrightMapWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = colormap[brightmap[dot]][dot];
+            *dest = dc_colormap[dc_brightmap[dot]][dot];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -383,28 +381,28 @@ void R_DrawBrightMapWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[brightmap[dot]][dot];
+        *dest = dc_colormap[dc_brightmap[dot]][dot];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = colormap[brightmap[dot]][dot];
+            *dest = dc_colormap[dc_brightmap[dot]][dot];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = colormap[brightmap[dot]][dot];
+        *dest = dc_colormap[dc_brightmap[dot]][dot];
     }
 }
 
 void R_DrawPlayerSpriteColumn(void)
 {
-    int             count = dc_yh - dc_yl + 1;
-    byte            *dest = topleft1 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t         frac = dc_texturefrac;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft1 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t frac = dc_texturefrac;
 
     while (--count)
     {
@@ -528,14 +526,12 @@ void R_DrawFlippedSkyColumn(void)
 
     while (--count)
     {
-        i = frac >> FRACBITS;
-        *dest = colormap[dc_source[i > 127 ? 126 - (i & 127) : i]];
+        *dest = colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    i = frac >> FRACBITS;
-    *dest = colormap[dc_source[i > 127 ? 126 - (i & 127) : i]];
+    *dest = colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]];
 }
 
 void R_DrawSkyColorColumn(void)
@@ -1185,10 +1181,10 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int                 count = ds_x2 - ds_x1 + 1;
-    byte                *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
-    fixed_t             xfrac = ds_xfrac;
-    fixed_t             yfrac = ds_yfrac;
+    int     count = ds_x2 - ds_x1 + 1;
+    byte    *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
+    fixed_t xfrac = ds_xfrac;
+    fixed_t yfrac = ds_yfrac;
 
     while (--count)
     {
