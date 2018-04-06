@@ -101,7 +101,7 @@ enum
     BT_WEAPONMASK   = (8 + 16 + 32),
     BT_WEAPONSHIFT  = 3,
 
-    BT_JUMP         = 8,
+    BT_JUMP         = 64,
 
     // Pause the game.
     BTS_PAUSE       = 1,
