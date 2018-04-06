@@ -1,11 +1,10 @@
 ### DOOM Retro v2.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
+* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD. Consequently, the format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
-* The color of the console’s background can now be changed using the new `con_backcolor` CVAR. It is `5` by default.
+* The color of the console’s background now has a slight green tint and can now be changed using the new `con_backcolor` CVAR. It is `12` by default.
 
 ---
 

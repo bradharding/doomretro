@@ -321,7 +321,7 @@ enum
 #define centerweapon_default                    true
 
 #define con_backcolor_min                       0
-#define con_backcolor_default                   5
+#define con_backcolor_default                   12
 #define con_backcolor_max                       255
 
 #define con_obituaries_default                  true
