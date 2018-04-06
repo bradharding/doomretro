@@ -5,6 +5,7 @@
 * The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD. Consequently, the format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
 * The color of the console’s background now has a slight green tint and can now be changed using the new `con_backcolor` CVAR. It is `12` by default.
+* A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
 
 ---
 

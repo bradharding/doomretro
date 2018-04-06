@@ -4214,8 +4214,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "box of bullets",
         /* plural1              */ "boxes of bullets",
-        /* name2                */ "cell pack",
-        /* plural2              */ "cell packs",
+        /* name2                */ "clip box",
+        /* plural2              */ "clip boxes",
         /* name3                */ "MISC17",
         /* plural3              */ "MISC17"
     },
