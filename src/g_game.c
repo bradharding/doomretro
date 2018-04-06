@@ -470,7 +470,7 @@ static void G_SetInitialWeapon(void)
     }
 
     for (int i = 0; i < NUMAMMO; i++)
-        viewplayer->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+        viewplayer->maxammo[i] = maxammo[i];
 }
 
 //

@@ -1615,5 +1615,9 @@ void ST_Init(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = false;
 
+    // [BH] no plasma cells in shareware
+    if (gamemode == shareware)
+        maxammo[am_cell] = 0;
+
     ST_initCheats();
 }
