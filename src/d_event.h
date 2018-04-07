@@ -102,6 +102,7 @@ enum
     BT_WEAPONSHIFT  = 3,
 
     BT_JUMP         = 64,
+    BT_CROUCH       = 128,
 
     // Pause the game.
     BTS_PAUSE       = 1,

@@ -551,7 +551,7 @@ void P_PlayerThink(void)
 
     if ((cmd->buttons & BT_JUMP) && onground && !viewplayer->jumptics)
     {
-        mo->momz = 9 * FRACUNIT;
+        mo->momz = JUMPHEIGHT;
         viewplayer->jumptics = 18;
     }
 
