@@ -707,7 +707,7 @@ void R_DrawDitheredColorColumn(void)
 
     do
     {
-        *dest = tranmap[(*dest << 8) + color];
+        *dest = color;
         dest += SCREENWIDTH << 1;
     } while ((count -= 2) > 0);
 }
