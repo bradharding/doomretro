@@ -3609,10 +3609,10 @@ static void C_PlayerStats_Game(void)
         commify(viewplayer->itemspickedup_ammo_shells), (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"),
         commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "   Armor\t<b>%s</b>\t<b>%s</b>",
+    C_TabbedOutput(tabs, "   Armor\t<b>%s%%</b>\t<b>%s%%</b>",
         commify(viewplayer->itemspickedup_armor), commify(stat_itemspickedup_armor));
 
-    C_TabbedOutput(tabs, "   Health\t<b>%s</b>\t<b>%s</b>",
+    C_TabbedOutput(tabs, "   Health\t<b>%s%%</b>\t<b>%s%%</b>",
         commify(viewplayer->itemspickedup_health), commify(stat_itemspickedup_health));
 
     C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
@@ -3623,10 +3623,10 @@ static void C_PlayerStats_Game(void)
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60, time2 / 3600, (time2 % 3600) / 60,
         (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>\t<b>%s</b>",
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s%%</b>\t<b>%s%%</b>",
         commify(viewplayer->damageinflicted), commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>\t<b>%s</b>",
+    C_TabbedOutput(tabs, "Damage received\t<b>%s%%</b>\t<b>%s%%</b>",
         commify(viewplayer->damagereceived), commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>",
@@ -3736,9 +3736,9 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "\t-\t<b>%s shell%s</b>",
         commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "   Armor\t-\t<b>%s</b>", commify(stat_itemspickedup_armor));
+    C_TabbedOutput(tabs, "   Armor\t-\t<b>%s%%</b>", commify(stat_itemspickedup_armor));
 
-    C_TabbedOutput(tabs, "   Health\t-\t<b>%s</b>", commify(stat_itemspickedup_health));
+    C_TabbedOutput(tabs, "   Health\t-\t<b>%s%%</b>", commify(stat_itemspickedup_health));
 
     C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", commify(stat_secretsrevealed));
 
