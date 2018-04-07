@@ -108,10 +108,12 @@ void P_CalcHeight(void)
         // even if not on ground)
         fixed_t momx = viewplayer->momx;
         fixed_t momy = viewplayer->momy;
-        fixed_t bob = ((momx | momy) ? (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2 : 0);
+        fixed_t bob;
 
-        bob = FixedMul((bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
-            MAXBOB * stillbob / 400) / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        if (momx | momy)
+            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) / 2;
+        else
+            bob = (MAXBOB * stillbob / 400) / 2;
 
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
@@ -138,7 +140,7 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz = mo->z + viewplayer->viewheight + bob;
+        viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
     }
     else
         viewplayer->viewz = mo->z + viewplayer->viewheight;

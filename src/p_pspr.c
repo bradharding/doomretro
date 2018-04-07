@@ -849,9 +849,12 @@ void P_MovePsprites(void)
         // bob the weapon based on movement speed
         fixed_t momx = viewplayer->momx;
         fixed_t momy = viewplayer->momy;
-        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
+        fixed_t bob;
 
-        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) : MAXBOB * stillbob / 400);
+        if (momx | momy)
+            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400);
+        else
+            bob = MAXBOB * stillbob / 400;
 
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)
