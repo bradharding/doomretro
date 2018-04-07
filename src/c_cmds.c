@@ -3934,6 +3934,7 @@ static void C_VerifyResetAll(const int key)
         keyboardweapon5 = KEYWEAPON5_DEFAULT;
         keyboardweapon6 = KEYWEAPON6_DEFAULT;
         keyboardweapon7 = KEYWEAPON7_DEFAULT;
+        keyboardjump = KEYJUMP_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
         mousemouselook = MOUSEMOUSELOOK_DEFAULT;
@@ -3942,6 +3943,7 @@ static void C_VerifyResetAll(const int key)
         mouserun = MOUSERUN_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
         mouseuse = MOUSEUSE_DEFAULT;
+        mousejump = MOUSEJUMP_DEFAULT;
         gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
         gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
         gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
@@ -3974,6 +3976,7 @@ static void C_VerifyResetAll(const int key)
         gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+        gamepadjump = GAMEPADJUMP_DEFAULT;
 
 #if defined(_WIN32)
         wad = "";
