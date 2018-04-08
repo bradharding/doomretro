@@ -3,8 +3,9 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD. (For example, enter `bind space +jump` for the player to jump using the <kbd>SPACE</kbd> bar.)
-* The player can now crouch if the new `+crouch` action is bound to a control using the `bind` CCMD. (For example, enter `bind 'C' +crouch` for the player to crouch using the <kbd>C</kbd> key.)
+* Further improvements have been made to the console’s autocomplete feature.
+* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD. (For example, enter `bind space +jump` in the console for the player to jump using the <kbd>SPACE</kbd> bar.)
+* The player can now crouch if the new `+crouch` action is bound to a control using the `bind` CCMD. (For example, enter `bind 'c' +crouch` in the console for the player to crouch using the <kbd>C</kbd> key.)
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
 * The color of the console’s background has been given a slight green tint and can now also be changed using the new `con_backcolor` CVAR. It is `12` by default.
 * A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
