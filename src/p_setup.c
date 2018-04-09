@@ -1108,7 +1108,7 @@ static void P_LoadThings(int lump)
         }
 
         if (!spawn)
-            continue;
+            continue;   // [BH] Fix <https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug>.
 
         // Do spawn all other stuff.
         mt.x = SHORT(mt.x);

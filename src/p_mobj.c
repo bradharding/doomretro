@@ -478,7 +478,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     mobj_t      *mo;
     mapthing_t  *mthing = &mobj->spawnpoint;
 
-    // [BH] Fix (0,0) respawning bug. See <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
+    // [BH] Fix <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
     {
         x = mobj->x;
