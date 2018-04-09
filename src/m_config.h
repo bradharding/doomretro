@@ -613,7 +613,6 @@ enum
 #define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
 #define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
 #define GAMEPADBACK_DEFAULT                     0
-#define GAMEPADCROUCH_DEFAULT                   0
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 #define GAMEPADFORWARD_DEFAULT                  0
 #define GAMEPADLEFT_DEFAULT                     0
@@ -642,7 +641,6 @@ enum
 #define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
 #define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
 #define KEYCONSOLE_DEFAULT                      '`'
-#define KEYCROUCH_DEFAULT                       0
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 #define KEYDOWN2_DEFAULT                        's'
 #define KEYFIRE_DEFAULT                         KEY_CTRL
@@ -675,7 +673,6 @@ enum
 #define KEYWEAPON7_DEFAULT                      '7'
 #define KEYJUMP_DEFAULT                         0
 
-#define MOUSECROUCH_DEFAULT                     -1
 #define MOUSEFIRE_DEFAULT                       0
 #define MOUSEFORWARD_DEFAULT                    -1
 #define MOUSEMOUSELOOK_DEFAULT                  -1

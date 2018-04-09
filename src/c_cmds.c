@@ -183,7 +183,6 @@ static void automap_action_func(void);
 static void back_action_func(void);
 static void clearmark_action_func(void);
 static void console_action_func(void);
-static void crouch_action_func(void);
 static void fire_action_func(void);
 static void followmode_action_func(void);
 static void forward_action_func(void);
@@ -216,7 +215,6 @@ action_t actions[] =
     { "+back",        back_action_func,        &keyboardback,              &keyboardback2,        NULL,             &gamepadback,              NULL         },
     { "+clearmark",   clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,             &gamepadautomapclearmark,  NULL         },
     { "+console",     console_action_func,     &keyboardconsole,           NULL,                  NULL,             NULL,                      NULL         },
-    { "+crouch",      crouch_action_func,      &keyboardcrouch,            NULL,                  &mousecrouch,     &gamepadcrouch,            NULL         },
     { "+fire",        fire_action_func,        &keyboardfire,              NULL,                  &mousefire,       &gamepadfire,              NULL         },
     { "+followmode",  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
     { "+forward",     forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
@@ -832,11 +830,6 @@ static void console_action_func(void)
 {
     if (!consoleactive)
         C_ShowConsole();
-}
-
-static void crouch_action_func(void)
-{
-    viewplayer->cmd.buttons |= BT_CROUCH;
 }
 
 static void fire_action_func(void)
@@ -3916,7 +3909,6 @@ static void C_VerifyResetAll(const int key)
         keyboardback = KEYDOWN_DEFAULT;
         keyboardback2 = KEYDOWN2_DEFAULT;
         keyboardconsole = KEYCONSOLE_DEFAULT;
-        keyboardcrouch = KEYCROUCH_DEFAULT;
         keyboardfire = KEYFIRE_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardmenu = KEY_ESCAPE;
@@ -3944,7 +3936,6 @@ static void C_VerifyResetAll(const int key)
         keyboardweapon7 = KEYWEAPON7_DEFAULT;
         keyboardjump = KEYJUMP_DEFAULT;
 
-        mousecrouch = MOUSECROUCH_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
         mousemouselook = MOUSEMOUSELOOK_DEFAULT;
@@ -3966,7 +3957,6 @@ static void C_VerifyResetAll(const int key)
         gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
         gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
         gamepadback = GAMEPADBACK_DEFAULT;
-        gamepadcrouch = GAMEPADCROUCH_DEFAULT;
         gamepadfire = GAMEPADFIRE_DEFAULT;
         gamepadforward = GAMEPADFORWARD_DEFAULT;
         gamepadleft = GAMEPADLEFT_DEFAULT;
