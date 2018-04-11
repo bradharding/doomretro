@@ -6,6 +6,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
+* Further improvements have been made to the support of `MAPINFO` lumps.
 * The color of the console’s background has been given a slight green tint and can now also be changed using the new `con_backcolor` CVAR. It is `12` by default.
 * A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
 * The [*DOOM II* monster exclusion bug](https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug) present in *Vanilla DOOM* has been fixed.

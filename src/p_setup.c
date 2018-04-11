@@ -2120,8 +2120,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
-        else if (!memcmp(nodes, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS)
-            && W_LumpLength(lumpnum + ML_NODES) >= 12)
+        else if (!memcmp(nodes, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
             format = ZDBSPX;
         else if (!memcmp(nodes, "ZNOD", 4))
             I_Error("Compressed ZDBSP nodes are not supported.");
@@ -2141,8 +2140,8 @@ extern dboolean massacre;
 //
 void P_SetupLevel(int ep, int map)
 {
-    char    lumpname[6];
-    int     lumpnum;
+    char        lumpname[6];
+    lumpindex_t lumpnum;
 
     totalkills = 0;
     totalitems = 0;
@@ -2500,9 +2499,10 @@ static void InitMapInfo(void)
                             info->sky1texture = R_TextureNumForName(sc_String);
 
                             if (SC_GetNumber())
+                            {
                                 info->sky1scrolldelta = sc_Number << 8;
-
-                            SC_UnGet();
+                                SC_UnGet();
+                            }
 
                             break;
 
