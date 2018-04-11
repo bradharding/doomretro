@@ -347,8 +347,8 @@ static dboolean LockSound(sfxinfo_t *sfxinfo)
 // Retrieve the raw data lump index for a given SFX name.
 int I_GetSfxLumpNum(sfxinfo_t *sfx)
 {
-    char        namebuf[9];
-    lumpindex_t lumpnum;
+    char    namebuf[9];
+    int     lumpnum;
 
     if (sfx->link)
         sfx = sfx->link;

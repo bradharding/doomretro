@@ -196,7 +196,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     filerover = fileinfo;
 
-    for (lumpindex_t i = startlump; i < numlumps; i++)
+    for (int i = startlump; i < numlumps; i++)
     {
         lumpinfo_t *lump_p = &filelumps[i - startlump];
 
@@ -371,7 +371,7 @@ int W_WadType(char *filename)
 // just as much work as simply doing the string comparisons with the new
 // algorithm, which minimizes the expected number of comparisons to under 2.
 //
-lumpindex_t W_CheckNumForName(const char *name)
+int W_CheckNumForName(const char *name)
 {
     // Hash function maps the name to one of possibly numlump chains.
     // It has been tuned so that the average chain length never exceeds 2.
@@ -395,7 +395,7 @@ int W_CheckMultipleLumps(const char *name)
     if (FREEDOOM || hacx)
         return 3;
 
-    for (lumpindex_t i = numlumps - 1; i >= 0; i--)
+    for (int i = numlumps - 1; i >= 0; i--)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             count++;
 
@@ -407,9 +407,9 @@ int W_CheckMultipleLumps(const char *name)
 // Linear Search that checks for a lump number ONLY
 // inside a range, not all lumps.
 //
-lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, const char *name)
+int W_RangeCheckNumForName(int min, int max, const char *name)
 {
-    for (lumpindex_t i = min; i <= max; i++)
+    for (int i = min; i <= max; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             return i;
 
@@ -418,13 +418,13 @@ lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, const char 
 
 void W_Init(void)
 {
-    for (lumpindex_t i = 0; i < numlumps; i++)
+    for (int i = 0; i < numlumps; i++)
         lumpinfo[i]->index = -1;                       // mark slots empty
 
     // Insert nodes to the beginning of each chain, in first-to-last
     // lump order, so that the last lump of a given name appears first
     // in any chain, observing pwad ordering rules. killough
-    for (lumpindex_t i = 0; i < numlumps; i++)
+    for (int i = 0; i < numlumps; i++)
     {
         // hash function:
         int j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
@@ -442,9 +442,9 @@ void W_Init(void)
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.
 //
-lumpindex_t W_GetNumForName(const char *name)
+int W_GetNumForName(const char *name)
 {
-    lumpindex_t i = W_CheckNumForName(name);
+    int i = W_CheckNumForName(name);
 
     if (i < 0)
         I_Error("W_GetNumForName: %s not found!", name);
@@ -453,9 +453,9 @@ lumpindex_t W_GetNumForName(const char *name)
 }
 
 // Go forwards rather than backwards so we get lump from IWAD and not PWAD
-lumpindex_t W_GetNumForName2(const char *name)
+int W_GetNumForName2(const char *name)
 {
-    lumpindex_t i;
+    int i;
 
     for (i = 0; i < numlumps; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
@@ -471,7 +471,7 @@ lumpindex_t W_GetNumForName2(const char *name)
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
 //
-int W_LumpLength(lumpindex_t lump)
+int W_LumpLength(int lump)
 {
     if (lump >= numlumps)
         I_Error("W_LumpLength: %i >= numlumps", lump);
@@ -484,7 +484,7 @@ int W_LumpLength(lumpindex_t lump)
 // Loads the lump into the given buffer,
 //  which must be >= W_LumpLength().
 //
-void W_ReadLump(lumpindex_t lump, void *dest)
+void W_ReadLump(int lump, void *dest)
 {
     size_t      c;
     lumpinfo_t  *l = lumpinfo[lump];
@@ -498,7 +498,7 @@ void W_ReadLump(lumpindex_t lump, void *dest)
         I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
 }
 
-void *W_CacheLumpNum(lumpindex_t lump)
+void *W_CacheLumpNum(int lump)
 {
     const int   locks = 1;
 
@@ -514,7 +514,7 @@ void *W_CacheLumpNum(lumpindex_t lump)
     return cachelump[lump].cache;
 }
 
-void W_UnlockLumpNum(lumpindex_t lump)
+void W_UnlockLumpNum(int lump)
 {
     const int   unlocks = 1;
 

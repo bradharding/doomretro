@@ -206,31 +206,31 @@ static int mapcmdids[] =
     MCMD_NOJUMP
 };
 
-dboolean            canmodify;
-dboolean            transferredsky;
-static lumpindex_t  RMAPINFO;
-static lumpindex_t  MAPINFO;
+dboolean        canmodify;
+dboolean        transferredsky;
+static int      RMAPINFO;
+static int      MAPINFO;
 
-dboolean            r_fixmaperrors = r_fixmaperrors_default;
+dboolean        r_fixmaperrors = r_fixmaperrors_default;
 
-static int          current_episode = -1;
-static int          current_map = -1;
-static dboolean     samelevel;
+static int      current_episode = -1;
+static int      current_map = -1;
+static dboolean samelevel;
 
-mapformat_t         mapformat;
+mapformat_t     mapformat;
 
-dboolean            boomlinespecials;
-dboolean            blockmaprecreated;
-dboolean            nojump;
+dboolean        boomlinespecials;
+dboolean        blockmaprecreated;
+dboolean        nojump;
 
-extern fixed_t      animatedliquiddiff;
-extern fixed_t      animatedliquidxdir;
-extern fixed_t      animatedliquidydir;
-extern fixed_t      animatedliquidxoffs;
-extern fixed_t      animatedliquidyoffs;
+extern fixed_t  animatedliquiddiff;
+extern fixed_t  animatedliquidxdir;
+extern fixed_t  animatedliquidydir;
+extern fixed_t  animatedliquidxoffs;
+extern fixed_t  animatedliquidyoffs;
 
-extern menu_t       MainDef;
-extern menu_t       NewDef;
+extern menu_t   MainDef;
+extern menu_t   NewDef;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -2140,8 +2140,8 @@ extern dboolean massacre;
 //
 void P_SetupLevel(int ep, int map)
 {
-    char        lumpname[6];
-    lumpindex_t lumpnum;
+    char    lumpname[6];
+    int     lumpnum;
 
     totalkills = 0;
     totalitems = 0;

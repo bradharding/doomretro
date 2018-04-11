@@ -484,7 +484,7 @@ void R_DrawPlanes(void)
                     }
                     else
                     {
-                        lumpindex_t lumpnum = firstflat + flattranslation[picnum];
+                        int lumpnum = firstflat + flattranslation[picnum];
 
                         ds_source = W_CacheLumpNum(lumpnum);
                         R_MakeSpans(pl);

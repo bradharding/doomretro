@@ -310,7 +310,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
 
 void I_InitTintTables(byte *palette)
 {
-    lumpindex_t lump = W_CheckNumForName("TRANMAP");
+    int lump = W_CheckNumForName("TRANMAP");
 
     tinttab = GenerateTintTable(palette, ADDITIVE, general, ALL);
 
