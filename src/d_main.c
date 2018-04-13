@@ -727,8 +727,6 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         char    *iwad;
         char    *title;
     } unsupported[] = {
-        { "heretic1.wad", "Heretic" },
-        { "heretic.wad",  "Heretic" },
         { "hexen.wad",    "Hexen"   },
         { "hexdd.wad",    "Hexen"   },
         { "strife0.wad",  "Strife"  },
@@ -743,7 +741,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 #if defined(_WIN32)
             PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" does not support %s.", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s yet.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
             error = true;
             return true;
