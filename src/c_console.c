@@ -79,8 +79,6 @@
 
 #define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define DIVIDER                 "~~~"
-
 #define CARETBLINKTIME          350
 
 console_t               *console;
@@ -389,8 +387,13 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, DIVIDER))
-        C_Print(dividerstring, DIVIDER);
+    if (!consolestrings || console[consolestrings - 1].type != dividerstring)
+    {
+        if (consolestrings >= consolestrings_max)
+            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+
+        console[consolestrings++].type = dividerstring;
+    }
 }
 
 const static struct
@@ -1691,7 +1694,6 @@ dboolean C_Responder(event_t *ev)
             case 'x':
                 // cut selected text to clipboard
                 if (modstate & KMOD_CTRL)
-                {
                     if (selectstart < selectend)
                     {
                         C_AddToUndoHistory();
@@ -1706,14 +1708,12 @@ dboolean C_Responder(event_t *ev)
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
-                }
 
                 break;
 
             case 'z':
                 // undo
                 if (modstate & KMOD_CTRL)
-                {
                     if (undolevels)
                     {
                         undolevels--;
@@ -1722,7 +1722,8 @@ dboolean C_Responder(event_t *ev)
                         selectstart = undohistory[undolevels].selectstart;
                         selectend = undohistory[undolevels].selectend;
                     }
-                }
+
+                break;
         }
     }
     else if (ev->type == ev_keyup)
