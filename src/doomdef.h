@@ -97,6 +97,9 @@ typedef enum
     pack_tnt,           // TNT mission pack
     pack_plut,          // Plutonia pack
     pack_nerve,         // No Rest for the Living
+
+    heretic,            // Heretic
+
     none
 } GameMission_t;
 

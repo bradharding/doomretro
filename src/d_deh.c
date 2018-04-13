@@ -563,6 +563,8 @@ char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
 char    *s_CAPTION_E1M4B = "";
 char    *s_CAPTION_E1M8B = "";
+char    *s_CAPTION_HERETIC = "";
+char    *s_CAPTION_HERETIC1 = "";
 
 char    *s_AUTHOR_BESTOR = "";
 char    *s_AUTHOR_ROMERO = "";
