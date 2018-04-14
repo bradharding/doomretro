@@ -586,8 +586,10 @@ void D_IdentifyVersion(void)
     }
     else if (gamemission == heretic)
     {
-        if (W_CheckNumForName("E2M1") > 0)
+        if (W_CheckNumForName("E4M1") > 0)
             gamemode = retail;
+        else if (W_CheckNumForName("E3M1") > 0)
+            gamemode = registered;
         else
             gamemode = shareware;
     }
@@ -632,9 +634,11 @@ void D_SetGameDescription(void)
     else if (gamemission == heretic)
     {
         if (gamemode == retail)
-            gamedescription = s_CAPTION_HERETIC;
+            gamedescription = s_CAPTION_HERETIC_RETAIL;
+        else if (gamemode == registered)
+            gamedescription = s_CAPTION_HERETIC_REGISTERED;
         else if (gamemode == shareware)
-            gamedescription = s_CAPTION_HERETIC1;
+            gamedescription = s_CAPTION_HERETIC_SHAREWARE;
     }
     else
     {
