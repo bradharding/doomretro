@@ -1117,6 +1117,8 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE3,       "CAPTION_BTSXE3"       },
     { &s_CAPTION_E1M4B,        "CAPTION_E1M4B"        },
     { &s_CAPTION_E1M8B,        "CAPTION_E1M8B"        },
+    { &s_CAPTION_HERETIC,      "CAPTION_HERETIC"      },
+    { &s_CAPTION_HERETIC1,     "CAPTION_HERETIC1"     },
     { &s_AUTHOR_BESTOR,        "AUTHOR_BESTOR"        },
     { &s_AUTHOR_ROMERO,        "AUTHOR_ROMERO"        },
 

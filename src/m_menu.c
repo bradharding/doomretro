@@ -3524,6 +3524,9 @@ void M_Drawer(void)
         return;
     }
 
+    if (gamemission == heretic) // temporary
+        return;
+
     if (currentMenu->routine)
         currentMenu->routine();         // call Draw routine
 

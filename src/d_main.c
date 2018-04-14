@@ -421,9 +421,12 @@ int             titlesequence;
 int             pagetic;
 
 static patch_t  *pagelump;
+static byte     *rawpagelump;
 static patch_t  *splashlump;
 static patch_t  *titlelump;
+static byte     *rawtitlelump;
 static patch_t  *creditlump;
+static byte     *rawcreditlump;
 static byte     *splashpal;
 static byte     *playpal;
 
@@ -460,6 +463,8 @@ void D_PageDrawer(void)
     }
     else if (pagelump)
         V_DrawPagePatch(pagelump);
+    else if (rawpagelump)
+        V_DrawRawScreen(rawpagelump);
 }
 
 //
@@ -522,10 +527,21 @@ void D_DoAdvanceTitle(void)
                 M_StartControlPanel();
         }
 
-        if (pagelump == creditlump)
-            forcewipe = true;
+        if (gamemission == heretic)
+        {
+            if (rawpagelump == rawcreditlump)
+                forcewipe = true;
 
-        pagelump = titlelump;
+            rawpagelump = rawtitlelump;
+        }
+        else
+        {
+            if (pagelump == creditlump)
+                forcewipe = true;
+
+            pagelump = titlelump;
+        }
+
         pagetic = 20 * TICRATE;
 
         if (splashscreen)
@@ -543,7 +559,12 @@ void D_DoAdvanceTitle(void)
     else if (titlesequence == 2)
     {
         forcewipe = true;
-        pagelump = creditlump;
+
+        if (gamemission == heretic)
+            rawpagelump = rawcreditlump;
+        else
+            pagelump = creditlump;
+
         pagetic = 10 * TICRATE;
     }
 
@@ -2025,9 +2046,18 @@ static void D_DoomMainSetup(void)
 
     splashlump = W_CacheLumpName("SPLASH");
     splashpal = W_CacheLumpName("SPLSHPAL");
-    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
-    creditlump = W_CacheLumpName("CREDIT");
     playpal = W_CacheLumpName("PLAYPAL");
+
+    if (gamemission == heretic)
+    {
+        rawtitlelump = W_CacheLumpName("TITLE");
+        rawcreditlump = W_CacheLumpName("CREDIT");
+    }
+    else
+    {
+        titlelump = W_CacheLumpName(TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
+        creditlump = W_CacheLumpName("CREDIT");
+    }
 
     if (gameaction != ga_loadgame)
     {

@@ -1396,111 +1396,126 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     char    namebuf[9];
 
     // Load the numbers, tall and short
-    for (int i = 0; i < 10; i++)
+    if (gamemission == heretic)
     {
-        M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
-        callback(namebuf, &tallnum[i]);
-        M_snprintf(namebuf, sizeof(namebuf), "STYSNUM%i", i);
-        callback(namebuf, &shortnum[i]);
-    }
-
-    // Load percent key.
-    callback("STTPRCNT", &tallpercent);
-    emptytallpercent = V_EmptyPatch(tallpercent);
-    tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
-
-    // key cards
-    for (int i = 0; i < NUMCARDS; i++)
-    {
-        M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
-        callback(namebuf, &keys[i]);
-    }
-
-    // arms background
-    callback("STARMS", &armsbg);
-    callback("STARMS2", &armsbg2);
-
-    armsbg->leftoffset = 0;
-    armsbg->topoffset = 0;
-    armsbg2->leftoffset = 0;
-    armsbg2->topoffset = 0;
-
-    // arms ownership widgets
-    // [BH] now manually drawn
-    for (int i = 0; i < 6; i++)
-    {
-        M_snprintf(namebuf, sizeof(namebuf), "STGNUM%i", i + 2);
-
-        // gray #
-        callback(namebuf, &arms[i][0]);
-
-        // yellow #
-        arms[i][1] = shortnum[i + 2];
-    }
-
-    // status bar background bits
-    callback("STBAR", &sbar);
-    callback("STBAR2", &sbar2); // [BH] double resolution
-
-    sbar->leftoffset = 0;
-    sbar->topoffset = 0;
-    sbar2->leftoffset = 0;
-    sbar2->topoffset = 0;
-
-    // face states
-    facenum = 0;
-
-    for (int i = 0; i < ST_NUMPAINFACES; i++)
-    {
-        for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)
+        for (int i = 0; i < 10; i++)
         {
-            M_snprintf(namebuf, sizeof(namebuf), "STFST%i%i", i, j);
+            M_snprintf(namebuf, sizeof(namebuf), "FONTB%.2i", i + 16);
+            callback(namebuf, &tallnum[i]);
+            M_snprintf(namebuf, sizeof(namebuf), "SMALLIN%i", i);
+            callback(namebuf, &shortnum[i]);
+        }
+
+        callback("FONTB05", &tallpercent);
+    }
+    else
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
+            callback(namebuf, &tallnum[i]);
+            M_snprintf(namebuf, sizeof(namebuf), "STYSNUM%i", i);
+            callback(namebuf, &shortnum[i]);
+        }
+
+        callback("STTPRCNT", &tallpercent);
+
+        // key cards
+        for (int i = 0; i < NUMCARDS; i++)
+        {
+            M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
+            callback(namebuf, &keys[i]);
+        }
+
+        // arms background
+        callback("STARMS", &armsbg);
+        callback("STARMS2", &armsbg2);
+
+        armsbg->leftoffset = 0;
+        armsbg->topoffset = 0;
+        armsbg2->leftoffset = 0;
+        armsbg2->topoffset = 0;
+
+        // arms ownership widgets
+        // [BH] now manually drawn
+        for (int i = 0; i < 6; i++)
+        {
+            M_snprintf(namebuf, sizeof(namebuf), "STGNUM%i", i + 2);
+
+            // gray #
+            callback(namebuf, &arms[i][0]);
+
+            // yellow #
+            arms[i][1] = shortnum[i + 2];
+        }
+
+        // status bar background bits
+        callback("STBAR", &sbar);
+        callback("STBAR2", &sbar2); // [BH] double resolution
+
+        sbar->leftoffset = 0;
+        sbar->topoffset = 0;
+        sbar2->leftoffset = 0;
+        sbar2->topoffset = 0;
+
+        // face states
+        facenum = 0;
+
+        for (int i = 0; i < ST_NUMPAINFACES; i++)
+        {
+            for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)
+            {
+                M_snprintf(namebuf, sizeof(namebuf), "STFST%i%i", i, j);
+                callback(namebuf, &faces[facenum++]);
+            }
+
+            M_snprintf(namebuf, sizeof(namebuf), "STFTR%i0", i);          // turn right
+            callback(namebuf, &faces[facenum++]);
+            M_snprintf(namebuf, sizeof(namebuf), "STFTL%i0", i);          // turn left
+            callback(namebuf, &faces[facenum++]);
+            M_snprintf(namebuf, sizeof(namebuf), "STFOUCH%i", i);         // ouch!
+            callback(namebuf, &faces[facenum++]);
+            M_snprintf(namebuf, sizeof(namebuf), "STFEVL%i", i);          // evil grin ;)
+            callback(namebuf, &faces[facenum++]);
+            M_snprintf(namebuf, sizeof(namebuf), "STFKILL%i", i);         // pissed off
             callback(namebuf, &faces[facenum++]);
         }
 
-        M_snprintf(namebuf, sizeof(namebuf), "STFTR%i0", i);          // turn right
-        callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, sizeof(namebuf), "STFTL%i0", i);          // turn left
-        callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, sizeof(namebuf), "STFOUCH%i", i);         // ouch!
-        callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, sizeof(namebuf), "STFEVL%i", i);          // evil grin ;)
-        callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, sizeof(namebuf), "STFKILL%i", i);         // pissed off
-        callback(namebuf, &faces[facenum++]);
+        callback("STFGOD0", &faces[facenum++]);
+        callback("STFDEAD0", &faces[facenum++]);
+
+        // back screen
+        callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
+        callback("BRDR_T", &brdr_t);
+        callback("BRDR_B", &brdr_b);
+        callback("BRDR_L", &brdr_l);
+        callback("BRDR_R", &brdr_r);
+        callback("BRDR_TL", &brdr_tl);
+        callback("BRDR_TR", &brdr_tr);
+        callback("BRDR_BL", &brdr_bl);
+        callback("BRDR_BR", &brdr_br);
+
+        // [BH] fix display of viewborder for wads that have these patches without offsets
+        brdr_t->leftoffset = 0;
+        brdr_t->topoffset = -5;
+        brdr_b->leftoffset = 0;
+        brdr_b->topoffset = 0;
+        brdr_l->leftoffset = -5;
+        brdr_l->topoffset = 0;
+        brdr_r->leftoffset = 0;
+        brdr_r->topoffset = 0;
+        brdr_tl->leftoffset = -5;
+        brdr_tl->topoffset = -5;
+        brdr_tr->leftoffset = 0;
+        brdr_tr->topoffset = -5;
+        brdr_bl->leftoffset = -5;
+        brdr_bl->topoffset = 0;
+        brdr_br->leftoffset = 0;
+        brdr_br->topoffset = 0;
     }
 
-    callback("STFGOD0", &faces[facenum++]);
-    callback("STFDEAD0", &faces[facenum++]);
-
-    // back screen
-    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
-    callback("BRDR_T", &brdr_t);
-    callback("BRDR_B", &brdr_b);
-    callback("BRDR_L", &brdr_l);
-    callback("BRDR_R", &brdr_r);
-    callback("BRDR_TL", &brdr_tl);
-    callback("BRDR_TR", &brdr_tr);
-    callback("BRDR_BL", &brdr_bl);
-    callback("BRDR_BR", &brdr_br);
-
-    // [BH] fix display of viewborder for wads that have these patches without offsets
-    brdr_t->leftoffset = 0;
-    brdr_t->topoffset = -5;
-    brdr_b->leftoffset = 0;
-    brdr_b->topoffset = 0;
-    brdr_l->leftoffset = -5;
-    brdr_l->topoffset = 0;
-    brdr_r->leftoffset = 0;
-    brdr_r->topoffset = 0;
-    brdr_tl->leftoffset = -5;
-    brdr_tl->topoffset = -5;
-    brdr_tr->leftoffset = 0;
-    brdr_tr->topoffset = -5;
-    brdr_bl->leftoffset = -5;
-    brdr_bl->topoffset = 0;
-    brdr_br->leftoffset = 0;
-    brdr_br->topoffset = 0;
+    emptytallpercent = V_EmptyPatch(tallpercent);
+    tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 }
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)

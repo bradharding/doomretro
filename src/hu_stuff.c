@@ -203,13 +203,27 @@ void HU_Init(void)
     int lump;
 
     // load the heads-up font
-    for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
+    if (gamemission == heretic)
     {
-        char    buffer[9];
+        for (int i = 1; i <= 59; i++)
+        {
+            char    buffer[9];
 
-        M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
-        hu_font[i] = W_CacheLumpName(buffer);
-        caretcolor = FindDominantColor(hu_font[i]);
+            M_snprintf(buffer, sizeof(buffer), "FONTA%.2d", i);
+            hu_font[i - 1] = W_CacheLumpName(buffer);
+            caretcolor = FindDominantColor(hu_font[i - 1]);
+        }
+    }
+    else
+    {
+        for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
+        {
+            char    buffer[9];
+
+            M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
+            hu_font[i] = W_CacheLumpName(buffer);
+            caretcolor = FindDominantColor(hu_font[i]);
+        }
     }
 
     if (W_CheckNumForName("STTMINUS") >= 0)
