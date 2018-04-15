@@ -1,4 +1,4 @@
-#
+﻿#
 #========================================================================
 #
 #                           D O O M  R e t r o
@@ -44,7 +44,7 @@ PROJECT(doomretro C)
 
 INCLUDE(GNUInstallDirs)
 
-FILE(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
+FILE(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 
 IF (APPLE)
 	ADD_DEFINITIONS(-D__MACOSX__=1)
