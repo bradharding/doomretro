@@ -402,6 +402,7 @@ static void D_DoomLoop(void)
     gamestarttime = localtime(&rawtime);
 
     viewplayer = &tempplayer;
+    viewplayer->damagecount = 0;
 
     while (1)
     {
