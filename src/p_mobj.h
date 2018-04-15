@@ -40,7 +40,7 @@
 #define __P_MOBJ_H__
 
 #include "doomdata.h"
-#include "info.h"
+#include "doom\info.h"
 #include "tables.h"
 
 #define REDBLOOD            184
