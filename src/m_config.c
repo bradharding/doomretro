@@ -752,6 +752,7 @@ static void M_CheckCVARs(void)
 
     version = version_default;
     vid_capfps = (vid_capfps < vid_capfps_min ? 0 : BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max));
+    vid_display = MAX(vid_display_min, vid_display);
 
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = vid_fullscreen_default;
