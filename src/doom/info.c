@@ -37,7 +37,7 @@
 */
 
 #include "d_player.h"
-#include "doom\info.h"
+#include "doom/info.h"
 #include "r_defs.h"
 #include "sounds.h"
 

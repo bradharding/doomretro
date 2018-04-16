@@ -37,7 +37,7 @@
 */
 
 #include "d_items.h"
-#include "doom\info.h"
+#include "doom/info.h"
 
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
