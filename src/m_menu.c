@@ -694,11 +694,11 @@ void M_DrawString(int x, int y, char *str)
             k++;
         }
 
-        if (j == -1)
-            x += 9;
-        else
+        if (gamemission == heretic)
         {
-            if (gamemission == heretic)
+            if (j == -1)
+                x += 6;
+            else
             {
                 char    namebuf[9];
                 patch_t *patch;
@@ -708,6 +708,11 @@ void M_DrawString(int x, int y, char *str)
                 V_DrawPatchWithShadow(x, y, patch, false);
                 x += SHORT(patch->width);
             }
+        }
+        else
+        {
+            if (j == -1)
+                x += 9;
             else
             {
                 M_DrawChar(x, y, j, overlapping);
@@ -3598,7 +3603,7 @@ void M_Drawer(void)
     else if (currentMenu != &ReadDef)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
-        int     y = currentMenu->y + itemOn * 16 - 5 + OFFSET + chex;
+        int     y = currentMenu->y + itemOn * 16 - 5 + OFFSET + chex + (gamemission == heretic) * 2;
 
         if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
             itemOn++;
