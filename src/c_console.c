@@ -149,7 +149,6 @@ static int              consoleselectedinputcolor = 4;
 static int              consoleselectedinputbackgroundcolor = 100;
 static int              consoleinputtooutputcolor = 4;
 static int              consoletitlecolor = 88;
-static int              consolememorycolor = 88;
 static int              consoleplayermessagecolor = 161;
 static int              consoletimestampcolor = 100;
 static int              consoleoutputcolor = 88;
@@ -576,7 +575,6 @@ void C_Init(void)
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
     consoletitlecolor = nearestcolors[consoletitlecolor];
-    consolememorycolor = nearestcolors[consolememorycolor];
     consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
