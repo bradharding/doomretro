@@ -698,8 +698,21 @@ void M_DrawString(int x, int y, char *str)
             x += 9;
         else
         {
-            M_DrawChar(x, y, j, overlapping);
-            x += (int)strlen(redcharset[j]) / 18 - 2;
+            if (gamemission == heretic)
+            {
+                char    namebuf[9];
+                patch_t *patch;
+
+                M_snprintf(namebuf, sizeof(namebuf), "FONTB%.2i", tolower(str[i]) - 64);
+                patch = W_CacheLumpName(namebuf);
+                V_DrawPatchWithShadow(x, y, patch, false);
+                x += SHORT(patch->width);
+            }
+            else
+            {
+                M_DrawChar(x, y, j, overlapping);
+                x += (int)strlen(redcharset[j]) / 18 - 2;
+            }
         }
 
         prev = str[i];
@@ -1530,7 +1543,7 @@ static void M_MusicVol(int choice)
 //
 static void M_DrawMainMenu(void)
 {
-    patch_t *patch = W_CacheLumpName("M_DOOM");
+    patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
 
     M_DarkBackground();
 
@@ -3524,9 +3537,6 @@ void M_Drawer(void)
         return;
     }
 
-    if (gamemission == heretic) // temporary
-        return;
-
     if (currentMenu->routine)
         currentMenu->routine();         // call Draw routine
 
@@ -3595,7 +3605,7 @@ void M_Drawer(void)
 
         if (currentMenu == &MainDef)
         {
-            patch_t *patch = W_CacheLumpName("M_DOOM");
+            patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
 
             if (SHORT(patch->height) >= ORIGINALHEIGHT)
                 y -= OFFSET;
@@ -3686,6 +3696,12 @@ void M_Init(void)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
+
+    if (gamemission == heretic)
+    {
+        skullName[0] = "M_SLCTR1";
+        skullName[1] = "M_SLCTR2";
+    }
 
 #if !defined(_WIN32)
     s_DOSY = s_OTHERY;
