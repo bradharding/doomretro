@@ -50,7 +50,7 @@
 // This includes all the data for thing animation,
 // i.e. the Thing Attributes table
 // and the Frame Sequence table.
-#include "doom\info.h"
+#include "doom/info.h"
 
 //
 // Frame flags:
