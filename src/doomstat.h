@@ -113,6 +113,7 @@ extern dboolean         E1M4B;
 extern dboolean         E1M8B;
 extern dboolean         sprfix18;
 
+extern dboolean         ADVISOR;
 extern dboolean         DMENUPIC;
 extern dboolean         FREEDOOM;
 extern dboolean         FREEDM;

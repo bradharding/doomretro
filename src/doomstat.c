@@ -70,6 +70,7 @@ dboolean        sprfix18;
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame;
 
+dboolean        ADVISOR;
 dboolean        DMENUPIC;
 dboolean        FREEDOOM;
 dboolean        FREEDM;

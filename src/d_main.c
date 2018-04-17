@@ -465,7 +465,12 @@ void D_PageDrawer(void)
     else if (pagelump)
         V_DrawPagePatch(pagelump);
     else if (rawpagelump)
+    {
         V_DrawRawScreen(rawpagelump);
+
+        if (ADVISOR && rawpagelump == rawtitlelump)
+            V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
+    }
 }
 
 //
@@ -1836,10 +1841,12 @@ static void D_DoomMainSetup(void)
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STCFN121 = (W_CheckMultipleLumps("STCFN121") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    TITLE = (W_CheckNumForName("TITLE") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
+
+    ADVISOR = (W_CheckNumForName("ADVISOR") >= 0);
+    TITLE = (W_CheckNumForName("TITLE") >= 0);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
