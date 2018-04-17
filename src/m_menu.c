@@ -2218,7 +2218,7 @@ static int M_CharacterWidth(char ch, char prev)
     if (c < 0 || c >= HU_FONTSIZE)
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
     else
-        return (STCFN034 ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
+        return (STCFN034 || gamemission == heretic ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
 
 //
@@ -2298,7 +2298,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
             continue;
         }
 
-        if (STCFN034)
+        if (STCFN034 || gamemission == heretic)
         {
             w = SHORT(hu_font[c]->width);
 
