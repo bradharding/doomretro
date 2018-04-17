@@ -96,6 +96,7 @@ int             STBAR;
 dboolean        STCFN034;
 dboolean        STCFN121;
 dboolean        STYSNUM0;
+dboolean        TITLE;
 dboolean        TITLEPIC;
 dboolean        WISCRT2;
 dboolean        DSSECRET;

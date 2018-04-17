@@ -3674,7 +3674,7 @@ void M_Init(void)
     skullAnimCounter = 10;
     messageToPrint = false;
     messageString = NULL;
-    messageLastMenuActive = menuactive;
+    messageLastMenuActive = false;
     quickSaveSlot = -1;
 
     if (autostart)

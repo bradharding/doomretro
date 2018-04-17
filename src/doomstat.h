@@ -139,6 +139,7 @@ extern int              STBAR;
 extern dboolean         STCFN034;
 extern dboolean         STCFN121;
 extern dboolean         STYSNUM0;
+extern dboolean         TITLE;
 extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
 extern dboolean         DSSECRET;

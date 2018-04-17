@@ -523,7 +523,7 @@ void D_DoAdvanceTitle(void)
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
-            if (!TITLEPIC && !devparm)
+            if (!TITLEPIC && !TITLE && !devparm)
                 M_StartControlPanel();
         }
 
@@ -1836,6 +1836,7 @@ static void D_DoomMainSetup(void)
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STCFN121 = (W_CheckMultipleLumps("STCFN121") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
+    TITLE = (W_CheckNumForName("TITLE") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
