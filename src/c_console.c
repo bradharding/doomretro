@@ -541,34 +541,10 @@ void C_Init(void)
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
-    dot = W_CacheLumpName("DRFON046");
-    trademark = W_CacheLumpName("DRFON153");
-    copyright = W_CacheLumpName("DRFON169");
-    regomark = W_CacheLumpName("DRFON174");
-    degree = W_CacheLumpName("DRFON176");
-    multiply = W_CacheLumpName("DRFON215");
-
-    brand = W_CacheLumpName("DRBRAND");
-    caret = W_CacheLumpName("DRCARET");
-    divider = W_CacheLumpName("DRDIVIDE");
-    warning = W_CacheLumpName("DRFONWRN");
-
-    bindlist = W_CacheLumpName("DRBNDLST");
-    cmdlist = W_CacheLumpName("DRCMDLST");
-    cvarlist = W_CacheLumpName("DRCVRLST");
-    maplist = W_CacheLumpName("DRMAPLST");
-    mapstats = W_CacheLumpName("DRMAPST");
-    playerstats = W_CacheLumpName("DRPLYRST");
-    thinglist = W_CacheLumpName("DRTHNLST");
-
-    brandwidth = SHORT(brand->width);
-    brandheight = SHORT(brand->height);
-    spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
-    zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
-
     if (gamemission == heretic)
     {
+        brand = W_CacheLumpName("DRBRAND2");
+
         consolecaretcolor = 35;
         consolelowfpscolor = 154;
         consolehighfpscolor = 220;
@@ -592,6 +568,8 @@ void C_Init(void)
     }
     else
     {
+        brand = W_CacheLumpName("DRBRAND1");
+
         consolecaretcolor = nearestcolors[consolecaretcolor];
         consolelowfpscolor = nearestcolors[consolelowfpscolor];
         consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -621,6 +599,31 @@ void C_Init(void)
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
+
+    dot = W_CacheLumpName("DRFON046");
+    trademark = W_CacheLumpName("DRFON153");
+    copyright = W_CacheLumpName("DRFON169");
+    regomark = W_CacheLumpName("DRFON174");
+    degree = W_CacheLumpName("DRFON176");
+    multiply = W_CacheLumpName("DRFON215");
+
+    caret = W_CacheLumpName("DRCARET");
+    divider = W_CacheLumpName("DRDIVIDE");
+    warning = W_CacheLumpName("DRFONWRN");
+
+    bindlist = W_CacheLumpName("DRBNDLST");
+    cmdlist = W_CacheLumpName("DRCMDLST");
+    cvarlist = W_CacheLumpName("DRCVRLST");
+    maplist = W_CacheLumpName("DRMAPLST");
+    mapstats = W_CacheLumpName("DRMAPST");
+    playerstats = W_CacheLumpName("DRPLYRST");
+    thinglist = W_CacheLumpName("DRTHNLST");
+
+    brandwidth = SHORT(brand->width);
+    brandheight = SHORT(brand->height);
+    spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
+    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
+    zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     while (*autocompletelist[++numautocomplete]);
 }
