@@ -428,7 +428,8 @@ static patch_t  *titlelump;
 static byte     *rawtitlelump;
 static patch_t  *creditlump;
 static byte     *rawcreditlump;
-static byte     *splashpal;
+static byte     *palette1;
+static byte     *palette2;
 static byte     *playpal;
 
 //
@@ -459,7 +460,7 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        I_SetPalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
+        I_SetPalette(palette1 + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
         V_DrawBigPatch(0, 0, 0, splashlump);
     }
     else if (pagelump)
@@ -483,7 +484,7 @@ void D_FadeScreen(void)
 
     for (int i = 0; i < 11; i++)
     {
-        I_SetPalette(splashpal + i * 768);
+        I_SetPalette((gamemission == heretic ? palette2 : palette1) + i * 768);
         blitfunc();
     }
 }
@@ -2053,7 +2054,8 @@ static void D_DoomMainSetup(void)
     }
 
     splashlump = W_CacheLumpName("SPLASH");
-    splashpal = W_CacheLumpName("SPLSHPAL");
+    palette1 = W_CacheLumpName("DRPAL1");
+    palette2 = W_CacheLumpName("DRPAL2");
     playpal = W_CacheLumpName("PLAYPAL");
 
     if (gamemission == heretic)
