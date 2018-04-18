@@ -1625,7 +1625,7 @@ static void D_ProcessDehInWad(void)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
 
-        ProcessDehFile(NULL, W_GetNumForName("DRTEXT1"));
+        ProcessDehFile(NULL, W_GetNumForName(gamemission == heretic ? "DRTEXT2" : "DRTEXT1"));
     }
 }
 
