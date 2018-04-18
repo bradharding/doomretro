@@ -1613,15 +1613,19 @@ static void D_ProcessDehInWad(void)
 
     if (hacx || FREEDOOM)
     {
+        ProcessDehFile(NULL, W_GetNumForName("DRTEXT1"));
+
         for (int i = 0; i < numlumps; i++)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
     }
     else
     {
-        for (int i = numlumps - 1; i >= 0; i--)
+        for (int i = 0; i < numlumps; i++)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
+
+        ProcessDehFile(NULL, W_GetNumForName("DRTEXT1"));
     }
 }
 
