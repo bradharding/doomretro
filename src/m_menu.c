@@ -132,6 +132,8 @@ static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
 
+static int      skullbaselump;
+
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
 
@@ -1548,28 +1550,39 @@ static void M_MusicVol(int choice)
 //
 static void M_DrawMainMenu(void)
 {
-    patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
-
     M_DarkBackground();
 
-    if (M_DOOM)
+    if (gamemission == heretic)
     {
-        M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
-        MainDef.x = 97;
-        MainDef.y = 72;
+        patch_t *patch = W_CacheLumpName("M_HTIC");
+        int     frame = (gametic / 3) % 18;
+        M_DrawPatchWithShadow(88, 2 + OFFSET, patch);
+        M_DrawPatchWithShadow(36, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
+        M_DrawPatchWithShadow(236, 12 + OFFSET, W_CacheLumpNum(skullbaselump + frame));
     }
     else
     {
-        int y = 11 + OFFSET;
-        int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
-        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
+        patch_t *patch = W_CacheLumpName("M_DOOM");
 
-        M_DrawCenteredPatchWithShadow(y, patch);
-
-        if (gamemode != commercial)
+        if (M_DOOM)
         {
-            V_DrawPixel(98, y, dot1, false);
-            V_DrawPixel(99, y + 1, dot2, false);
+            M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
+            MainDef.x = 97;
+            MainDef.y = 72;
+        }
+        else
+        {
+            int y = 11 + OFFSET;
+            int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
+            int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
+
+            M_DrawCenteredPatchWithShadow(y, patch);
+
+            if (gamemode != commercial)
+            {
+                V_DrawPixel(98, y, dot1, false);
+                V_DrawPixel(99, y + 1, dot2, false);
+            }
         }
     }
 }
@@ -3706,6 +3719,7 @@ void M_Init(void)
     {
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
+        skullbaselump = W_GetNumForName("M_SKL00");
     }
 
 #if !defined(_WIN32)
