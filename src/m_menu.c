@@ -132,6 +132,7 @@ static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
 
+static int      fontbbaselump;
 static int      skullbaselump;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
@@ -702,11 +703,9 @@ void M_DrawString(int x, int y, char *str)
                 x += 6;
             else
             {
-                char    namebuf[9];
                 patch_t *patch;
 
-                M_snprintf(namebuf, sizeof(namebuf), "FONTB%.2i", tolower(str[i]) - 64);
-                patch = W_CacheLumpName(namebuf);
+                patch = W_CacheLumpNum(fontbbaselump + toupper(str[i]) - 33);
                 V_DrawPatchWithShadow(x, y, patch, false);
                 x += SHORT(patch->width);
             }
@@ -1630,23 +1629,26 @@ static void M_DrawEpisode(void)
 {
     M_DarkBackground();
 
-    if (M_NEWG)
+    if (gamemission != heretic)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
-        EpiDef.x = 48;
-        EpiDef.y = 63;
-    }
-    else
-        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+        if (M_NEWG)
+        {
+            M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else
+            M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
 
-    if (M_EPISOD)
-    {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD"));
-        EpiDef.x = 48;
-        EpiDef.y = 63;
+        if (M_EPISOD)
+        {
+            M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else
+            M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
     }
-    else
-        M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
 void M_SetWindowCaption(void)
@@ -3719,6 +3721,7 @@ void M_Init(void)
     {
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
+        fontbbaselump = W_GetNumForName("FONTB_S") + 1;
         skullbaselump = W_GetNumForName("M_SKL00");
     }
 
