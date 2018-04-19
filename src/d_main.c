@@ -236,7 +236,7 @@ void D_Display(void)
     {
         drawdisk = false;
 
-        if (wipe)
+        if (wipe && gamemission != heretic)
             wipe_StartScreen();
 
         if (forcewipe)
@@ -346,7 +346,7 @@ void D_Display(void)
     if (loadaction != ga_nothing)
         G_LoadedGameMessage();
 
-    if (!dowipe || !wipe)
+    if (!dowipe || !wipe || gamemission == heretic)
     {
         C_Drawer();
 
