@@ -466,12 +466,10 @@ void D_PageDrawer(void)
     else if (pagelump)
         V_DrawPagePatch(pagelump);
     else if (rawpagelump)
-    {
         V_DrawRawScreen(rawpagelump);
 
-        if (ADVISOR && rawpagelump == rawtitlelump)
-            V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
-    }
+    if (ADVISOR && (pagelump == titlelump || rawpagelump == rawtitlelump) && gametic > 3 * TICRATE)
+        V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
 }
 
 //
