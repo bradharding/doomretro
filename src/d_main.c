@@ -463,13 +463,16 @@ void D_PageDrawer(void)
         I_SetPalette(palette1 + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
         V_DrawBigPatch(0, 0, 0, splashlump);
     }
-    else if (pagelump)
-        V_DrawPagePatch(pagelump);
-    else if (rawpagelump)
-        V_DrawRawScreen(rawpagelump);
+    else
+    {
+        if (pagelump)
+            V_DrawPagePatch(pagelump);
+        else if (rawpagelump)
+            V_DrawRawScreen(rawpagelump);
 
-    if (ADVISOR && (pagelump == titlelump || rawpagelump == rawtitlelump) && gametic > 3 * TICRATE)
-        V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
+        if (ADVISOR && (pagelump == titlelump || rawpagelump == rawtitlelump) && pagetic && pagetic <= 17 * TICRATE)
+            V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
+    }
 }
 
 //
