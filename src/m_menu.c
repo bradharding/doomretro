@@ -703,9 +703,8 @@ void M_DrawString(int x, int y, char *str)
                 x += 6;
             else
             {
-                patch_t *patch;
+                patch_t *patch = W_CacheLumpNum(fontbbaselump + toupper(str[i]) - 33);
 
-                patch = W_CacheLumpNum(fontbbaselump + toupper(str[i]) - 33);
                 V_DrawPatchWithShadow(x, y, patch, false);
                 x += SHORT(patch->width);
             }
@@ -1555,6 +1554,7 @@ static void M_DrawMainMenu(void)
     {
         patch_t *patch = W_CacheLumpName("M_HTIC");
         int     frame = (gametic / 3) % 18;
+
         M_DrawPatchWithShadow(88, 2 + OFFSET, patch);
         M_DrawPatchWithShadow(36, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
         M_DrawPatchWithShadow(236, 12 + OFFSET, W_CacheLumpNum(skullbaselump + frame));
@@ -1593,31 +1593,31 @@ static void M_DrawNewGame(void)
 {
     M_DarkBackground();
 
-    if (M_NEWG)
+    if (gamemission != heretic)
     {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
-        NewDef.x = (chex ? 98 : 48);
-        NewDef.y = 63;
-    }
-    else
-        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+        if (M_NEWG)
+        {
+            M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+            NewDef.x = (chex ? 98 : 48);
+            NewDef.y = 63;
+        }
+        else
+            M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
 
-    if (M_SKILL)
-    {
-        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
-        NewDef.x = (chex ? 98 : 48);
-        NewDef.y = 63;
+        if (M_SKILL)
+        {
+            M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
+            NewDef.x = (chex ? 98 : 48);
+            NewDef.y = 63;
+        }
+        else
+            M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
     }
-    else
-        M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
 }
 
 static void M_NewGame(int choice)
 {
-    if (chex)
-        M_SetupNextMenu(&NewDef);
-    else
-        M_SetupNextMenu(gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef);
+    M_SetupNextMenu(chex ? &NewDef : (gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
@@ -3571,7 +3571,7 @@ void M_Drawer(void)
 
         if (*name)
         {
-            if (M_StringCompare(name, "M_NMARE"))
+            if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
             {
                 if (M_NMARE)
                     M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
@@ -3719,6 +3719,8 @@ void M_Init(void)
 
     if (gamemission == heretic)
     {
+        EpiDef.x = 60;
+        NewDef.x = 34;
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
         fontbbaselump = W_GetNumForName("FONTB_S") + 1;
