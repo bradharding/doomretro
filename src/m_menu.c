@@ -66,7 +66,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define LINEHEIGHT  17
+#define LINEHEIGHT  (gamemission == heretic ? 20 : 17)
 #define OFFSET      (vid_widescreen ? 0 : 17)
 
 int             episode = episode_default;
@@ -3618,7 +3618,7 @@ void M_Drawer(void)
     else if (currentMenu != &ReadDef)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
-        int     y = currentMenu->y + itemOn * 16 - 5 + OFFSET + chex + (gamemission == heretic) * 2;
+        int     y = currentMenu->y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex + (gamemission == heretic) * 2;
 
         if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
             itemOn++;
