@@ -247,7 +247,8 @@ static menuitem_t EpisodeMenu[] =
     { 1, "M_EPI1", M_Episode, &s_M_EPISODE1 },
     { 1, "M_EPI2", M_Episode, &s_M_EPISODE2 },
     { 1, "M_EPI3", M_Episode, &s_M_EPISODE3 },
-    { 1, "M_EPI4", M_Episode, &s_M_EPISODE4 }
+    { 1, "M_EPI4", M_Episode, &s_M_EPISODE4 },
+    { 1, "M_EPI5", M_Episode, &s_M_EPISODE5 }
 };
 
 menu_t EpiDef =
@@ -3568,8 +3569,9 @@ void M_Drawer(void)
     for (unsigned int i = 0; i < max; i++)
     {
         char    *name = currentMenu->menuitems[i].name;
+        char    **text = currentMenu->menuitems[i].text;
 
-        if (*name)
+        if (*name && *text)
         {
             if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
             {
@@ -3583,7 +3585,7 @@ void M_Drawer(void)
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
             else
-                M_DrawString(x, y + OFFSET, *currentMenu->menuitems[i].text);
+                M_DrawString(x, y + OFFSET, *text);
         }
 
         y += LINEHEIGHT - 1;
@@ -3719,6 +3721,9 @@ void M_Init(void)
 
     if (gamemission == heretic)
     {
+        if (gamemode == retail)
+            EpiDef.numitems = 5;
+
         EpiDef.x = 60;
         EpiDef.y = 50;
         NewDef.x = 34;
@@ -3727,6 +3732,7 @@ void M_Init(void)
         skullName[1] = "M_SLCTR2";
         fontbbaselump = W_GetNumForName("FONTB_S") + 1;
         skullbaselump = W_GetNumForName("M_SKL00");
+
     }
 
 #if !defined(_WIN32)

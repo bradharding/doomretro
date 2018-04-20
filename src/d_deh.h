@@ -420,6 +420,7 @@ extern char     *s_M_EPISODE1;
 extern char     *s_M_EPISODE2;
 extern char     *s_M_EPISODE3;
 extern char     *s_M_EPISODE4;
+extern char     *s_M_EPISODE5;
 extern char     *s_M_WHICHEXPANSION;
 extern char     *s_M_EXPANSION1;
 extern char     *s_M_EXPANSION2;

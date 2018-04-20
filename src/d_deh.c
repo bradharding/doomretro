@@ -519,6 +519,7 @@ char    *s_M_EPISODE1 = "";
 char    *s_M_EPISODE2 = "";
 char    *s_M_EPISODE3 = "";
 char    *s_M_EPISODE4 = "";
+char    *s_M_EPISODE5 = "";
 char    *s_M_WHICHEXPANSION = "";
 char    *s_M_EXPANSION1 = "";
 char    *s_M_EXPANSION2 = "";
@@ -1074,6 +1075,7 @@ deh_strs deh_strlookup[] =
     { &s_M_EPISODE2,                 "M_EPISODE2"                 },
     { &s_M_EPISODE3,                 "M_EPISODE3"                 },
     { &s_M_EPISODE4,                 "M_EPISODE4"                 },
+    { &s_M_EPISODE5,                 "M_EPISODE5"                 },
     { &s_M_WHICHEXPANSION,           "M_WHICHEXPANSION"           },
     { &s_M_EXPANSION1,               "M_EXPANSION1"               },
     { &s_M_EXPANSION2,               "M_EXPANSION2"               },
