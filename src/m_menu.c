@@ -1556,7 +1556,7 @@ static void M_DrawMainMenu(void)
         int     frame = (gametic / 3) % 18;
 
         M_DrawPatchWithShadow(88, 2 + OFFSET, patch);
-        M_DrawPatchWithShadow(36, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
+        M_DrawPatchWithShadow(37, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
         M_DrawPatchWithShadow(236, 12 + OFFSET, W_CacheLumpNum(skullbaselump + frame));
     }
     else
@@ -3720,7 +3720,9 @@ void M_Init(void)
     if (gamemission == heretic)
     {
         EpiDef.x = 60;
+        EpiDef.y = 50;
         NewDef.x = 34;
+        NewDef.y = 50;
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
         fontbbaselump = W_GetNumForName("FONTB_S") + 1;
