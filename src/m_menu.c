@@ -182,6 +182,7 @@ static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
 static void M_DrawOptions(void);
+static void M_DrawHereticOptions1(void);
 static void M_DrawSound(void);
 static void M_DrawLoad(void);
 static void M_DrawSave(void);
@@ -360,6 +361,24 @@ static menu_t OptionsDef =
     endgame
 };
 
+static menuitem_t HereticOptionsMenu1[] =
+{
+    {  1, "", M_EndGame,           &s_M_ENDGAME          },
+    {  1, "", M_ChangeMessages,    &s_M_MESSAGES         },
+    {  2, "", M_ChangeSensitivity, &s_M_MOUSESENSITIVITY },
+    { -1, "", 0,                   NULL                  },
+    {  1, "", M_Sound,             &s_M_MORE             }
+};
+
+static menu_t HereticOptionsDef1 =
+{
+    5,
+    &MainDef,
+    HereticOptionsMenu1,
+    M_DrawHereticOptions1,
+    56, 33,
+    endgame
+};
 enum
 {
     rdthsempty,
@@ -1805,10 +1824,24 @@ static void M_DrawOptions(void)
         7.2f, 8);
 
     if (usinggamepad && !M_MSENS)
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
+            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
+}
+
+static void M_DrawHereticOptions1(void)
+{
+    M_DarkBackground();
+
+    M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, (messages ? s_M_ON : s_M_OFF));
+
+    if (usinggamepad && !M_MSENS)
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * 4 + OFFSET + 1, 9,
+            gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
+    else
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * 4 + OFFSET, 9,
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
@@ -2187,30 +2220,44 @@ static void M_SizeDisplay(int choice)
 //
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
 {
-    int xx;
+    int xx = x;
 
-    if (chex || hacx)
+    if (gamemission == heretic)
     {
-        x--;
-        y -= 2;
+        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDLT"));
+
+        for (int count = thermWidth; count--; xx += 8)
+            M_DrawPatchWithShadow(xx, y, W_CacheLumpName(count & 1 ? "M_SLDMD1" : "M_SLDMD2"));
+
+        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDRT"));
+
+        V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_SLDKB"));
+
     }
-
-    xx = x;
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
-    xx += 8;
-
-    for (int i = 0; i < thermWidth; i++)
+    else
     {
-        V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
+        if (chex || hacx)
+        {
+            xx--;
+            y -= 2;
+        }
+
+        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
         xx += 8;
+
+        for (int i = 0; i < thermWidth; i++)
+        {
+            V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
+            xx += 8;
+        }
+
+        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
+
+        for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
+            V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
+
+        V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
     }
-
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
-
-    for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
-        V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
-
-    V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
 void M_StartMessage(char *string, void *routine, dboolean input)
@@ -3559,7 +3606,7 @@ void M_Drawer(void)
     }
 
     if (currentMenu->routine)
-        currentMenu->routine();         // call Draw routine
+        currentMenu->routine();         // call draw routine
 
     // DRAW MENU
     x = currentMenu->x;
@@ -3568,11 +3615,11 @@ void M_Drawer(void)
 
     for (unsigned int i = 0; i < max; i++)
     {
-        char    *name = currentMenu->menuitems[i].name;
-        char    **text = currentMenu->menuitems[i].text;
-
-        if (*name && *text)
+        if (currentMenu->menuitems[i].routine)
         {
+            char    *name = currentMenu->menuitems[i].name;
+            char    **text = currentMenu->menuitems[i].text;
+
             if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
             {
                 if (M_NMARE)
@@ -3728,11 +3775,11 @@ void M_Init(void)
         EpiDef.y = 50;
         NewDef.x = 34;
         NewDef.y = 50;
+        OptionsDef = HereticOptionsDef1;
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
         fontbbaselump = W_GetNumForName("FONTB_S") + 1;
         skullbaselump = W_GetNumForName("M_SKL00");
-
     }
 
 #if !defined(_WIN32)

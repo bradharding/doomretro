@@ -543,6 +543,7 @@ char    *s_M_SOUNDVOLUME = "";
 char    *s_M_SFXVOLUME = "";
 char    *s_M_MUSICVOLUME = "";
 char    *s_M_PAUSED = "";
+char    *s_M_MORE = "";
 
 char    *s_CAPTION_SHAREWARE = "";
 char    *s_CAPTION_REGISTERED = "";
@@ -1099,6 +1100,7 @@ deh_strs deh_strlookup[] =
     { &s_M_SFXVOLUME,                "M_SFXVOLUME"                },
     { &s_M_MUSICVOLUME,              "M_MUSICVOLUME"              },
     { &s_M_PAUSED,                   "M_PAUSED"                   },
+    { &s_M_MORE,                     "M_MORE"                     },
 
     { &s_CAPTION_SHAREWARE,          "CAPTION_SHAREWARE"          },
     { &s_CAPTION_REGISTERED,         "CAPTION_REGISTERED"         },
