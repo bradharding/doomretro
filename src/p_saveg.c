@@ -251,6 +251,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->state = &states[saveg_read32()];
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
+    str->flags3 = saveg_read32();
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
@@ -303,6 +304,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32((int)(str->state - states));
     saveg_write32(str->flags);
     saveg_write32(str->flags2);
+    saveg_write32(str->flags3);
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);

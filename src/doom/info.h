@@ -1429,6 +1429,7 @@ typedef struct
     int         activesound;
     int         flags;
     int         flags2;
+    int         flags3;
     int         raisestate;
     int         frames;
     dboolean    fullbright;

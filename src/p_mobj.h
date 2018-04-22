@@ -350,6 +350,7 @@ typedef struct mobj_s
     state_t             *state;
     int                 flags;
     int                 flags2;
+    int                 flags3;
     int                 health;
 
     // Movement direction, movement generation (zig-zagging).
