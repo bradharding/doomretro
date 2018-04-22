@@ -182,8 +182,9 @@ static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
 static void M_DrawOptions(void);
-static void M_DrawHereticOptions1(void);
+static void M_DrawHereticOptions(void);
 static void M_DrawSound(void);
+static void M_DrawHereticSound(void);
 static void M_DrawLoad(void);
 static void M_DrawSave(void);
 
@@ -357,11 +358,11 @@ static menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
-    56, 33,
+    56, 85,
     endgame
 };
 
-static menuitem_t HereticOptionsMenu1[] =
+static menuitem_t HereticOptionsMenu[] =
 {
     {  1, "", M_EndGame,           &s_M_ENDGAME          },
     {  1, "", M_ChangeMessages,    &s_M_MESSAGES         },
@@ -370,15 +371,16 @@ static menuitem_t HereticOptionsMenu1[] =
     {  1, "", M_Sound,             &s_M_MORE             }
 };
 
-static menu_t HereticOptionsDef1 =
+static menu_t HereticOptionsDef =
 {
     5,
     &MainDef,
-    HereticOptionsMenu1,
-    M_DrawHereticOptions1,
+    HereticOptionsMenu,
+    M_DrawHereticOptions,
     56, 33,
     endgame
 };
+
 enum
 {
     rdthsempty,
@@ -1492,6 +1494,15 @@ static void M_DrawSound(void)
         (float)(musicVolume * !nomusic), 4.0f, 6);
 }
 
+static void M_DrawHereticSound(void)
+{
+    M_DarkBackground();
+
+    M_DrawThermo(SoundDef.x - 10, SoundDef.y + LINEHEIGHT * 1 + OFFSET, 16, (float)(sfxVolume * !nosfx), 4.0f, 6);
+
+    M_DrawThermo(SoundDef.x - 10, SoundDef.y + LINEHEIGHT * 3 + OFFSET, 16, (float)(musicVolume * !nomusic), 4.0f, 6);
+}
+
 static void M_Sound(int choice)
 {
     M_SetupNextMenu(&SoundDef);
@@ -1831,17 +1842,17 @@ static void M_DrawOptions(void)
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
-static void M_DrawHereticOptions1(void)
+static void M_DrawHereticOptions(void)
 {
     M_DarkBackground();
 
-    M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, (messages ? s_M_ON : s_M_OFF));
+    M_DrawString(OptionsDef.x + 105, OptionsDef.y + 16 * msgs + OFFSET + 3, (messages ? s_M_ON : s_M_OFF));
 
     if (usinggamepad && !M_MSENS)
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * 4 + OFFSET + 1, 9,
+        M_DrawThermo(OptionsDef.x - 10, OptionsDef.y + 16 * 4 + OFFSET - 5, 9,
             gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
     else
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * 4 + OFFSET, 9,
+        M_DrawThermo(OptionsDef.x - 10, OptionsDef.y + 16 * 4 + OFFSET - 5, 9,
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
@@ -2225,13 +2236,14 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     if (gamemission == heretic)
     {
         M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDLT"));
+        xx += 32;
 
         for (int count = thermWidth; count--; xx += 8)
             M_DrawPatchWithShadow(xx, y, W_CacheLumpName(count & 1 ? "M_SLDMD1" : "M_SLDMD2"));
 
         M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDRT"));
 
-        V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_SLDKB"));
+        V_DrawPatch(x + 32 + offset + (int)(thermDot * factor), y + 7, 0, W_CacheLumpName("M_SLDKB"));
 
     }
     else
@@ -2396,7 +2408,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
     }
 }
 
-void M_ShowHelp(void)
+static void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
     M_StartControlPanel();
@@ -2879,7 +2891,7 @@ dboolean M_Responder(event_t *ev)
                 }
             }
             else
-                M_ShowHelp();
+                M_ShowHelp(0);
 
             return false;
         }
@@ -3111,7 +3123,7 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn++;
 
-                    if (currentMenu == &MainDef && itemOn == 3
+                    if (currentMenu == &MainDef && itemOn == 3 && gamemission != heretic
                         && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn++;
 
@@ -3185,7 +3197,7 @@ dboolean M_Responder(event_t *ev)
                     else
                         itemOn--;
 
-                    if (currentMenu == &MainDef && itemOn == 3
+                    if (currentMenu == &MainDef && itemOn == 3 && gamemission != heretic
                         && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn--;
 
@@ -3290,7 +3302,7 @@ dboolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && currentMenu == &MainDef && itemOn == 3)
+                    if (gamestate != GS_LEVEL && currentMenu == &MainDef && itemOn == 3 && gamemission != heretic)
                         return true;
 
                     if (gamestate != GS_LEVEL && currentMenu == &OptionsDef && !itemOn)
@@ -3376,7 +3388,7 @@ dboolean M_Responder(event_t *ev)
                     || (currentMenu->menuitems[i].text
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
-                    if (currentMenu == &MainDef && i == 3
+                    if (currentMenu == &MainDef && i == 3 && gamemission != heretic
                         && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
@@ -3438,7 +3450,7 @@ dboolean M_Responder(event_t *ev)
                     || (currentMenu->menuitems[i].text
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
-                    if (currentMenu == &MainDef && i == 3
+                    if (currentMenu == &MainDef && i == 3 && gamemission != heretic
                         && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
@@ -3631,7 +3643,7 @@ void M_Drawer(void)
                 M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
-            else
+            else if (**text)
                 M_DrawString(x, y + OFFSET, *text);
         }
 
@@ -3775,7 +3787,10 @@ void M_Init(void)
         EpiDef.y = 50;
         NewDef.x = 34;
         NewDef.y = 50;
-        OptionsDef = HereticOptionsDef1;
+        OptionsDef = HereticOptionsDef;
+        SoundDef.x = 70;
+        SoundDef.y = 54;
+        SoundDef.routine = M_DrawHereticSound;
         skullName[0] = "M_SLCTR1";
         skullName[1] = "M_SLCTR2";
         fontbbaselump = W_GetNumForName("FONTB_S") + 1;

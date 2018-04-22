@@ -84,7 +84,6 @@ void M_Init(void);
 // does nothing if menu is already up.
 void M_StartControlPanel(void);
 void M_ClearMenus(void);
-void M_ShowHelp(void);
 void M_EndingGame(void);
 void M_ChangeGamma(dboolean shift);
 
