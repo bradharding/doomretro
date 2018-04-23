@@ -40,7 +40,8 @@
 #define __P_MOBJ_H__
 
 #include "doomdata.h"
-#include "doom/info.h"
+#include "info.h"
+#include "h_info.h"
 #include "tables.h"
 
 #define REDBLOOD            184
@@ -302,6 +303,54 @@ enum
 
     // Object is a missile from a monster
     MF2_MONSTERMISSILE            = 0x40000000
+};
+
+enum
+{
+    // alternate gravity setting
+    MF3_LOGRAV                    = 0x00000001,
+
+    // gets pushed around by the wind specials
+    MF3_WINDTHRUST                = 0x00000002,
+
+    // bounces off the floor
+    MF3_FLOORBOUNCE               = 0x00000004,
+
+    // missile will pass through ghosts
+    MF3_THRUGHOST                 = 0x00000008,
+
+    // fly mode is active
+    MF3_FLY                       = 0x00000010,
+
+    // spawn random float z
+    MF3_SPAWNFLOAT                = 0x00000020,
+
+    // does not teleport
+    MF3_NOTELEPORT                = 0x00000040,
+
+    // missile rips through solid targets
+    MF3_RIP                       = 0x00000080,
+
+    // can be pushed by other moving mobjs
+    MF3_PUSHABLE                  = 0x00000100,
+
+    // slides against walls
+    MF3_SLIDE                     = 0x00000200,
+
+    // cannot push other pushable mobjs
+    MF3_CANNOTPUSH                = 0x00000400,
+
+    // mobj is a major boss
+    MF3_BOSS                      = 0x00000800,
+
+    // does fire damage
+    MF3_FIREDAMAGE                = 0x00001000,
+
+    // does not thrust target when damaging
+    MF3_NODMGTHRUST               = 0x00002000,
+
+    // mobj can stomp another
+    MF3_TELESTOMP                 = 0x00004000
 };
 
 // Map Object definition.
