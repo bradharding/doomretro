@@ -173,8 +173,8 @@
 		AB5A820C1A8DB9EB00AF539F /* i_colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_colors.h; path = ../src/i_colors.h; sourceTree = SOURCE_ROOT; };
 		AB5A820D1A8DB9EB00AF539F /* i_video.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_video.c; path = ../src/i_video.c; sourceTree = SOURCE_ROOT; };
 		AB5A820E1A8DB9EB00AF539F /* i_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_video.h; path = ../src/i_video.h; sourceTree = SOURCE_ROOT; };
-		AB5A820F1A8DB9EB00AF539F /* info.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = info.c; path = ../src/doom/info.c; sourceTree = SOURCE_ROOT; };
-		AB5A82101A8DB9EB00AF539F /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = info.h; path = ../src/doom/info.h; sourceTree = SOURCE_ROOT; };
+		AB5A820F1A8DB9EB00AF539F /* info.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = info.c; path = ../src/info.c; sourceTree = SOURCE_ROOT; };
+		AB5A82101A8DB9EB00AF539F /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = info.h; path = ../src/info.h; sourceTree = SOURCE_ROOT; };
 		AB5A82111A8DB9EB00AF539F /* inttypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inttypes.h; path = ../src/inttypes.h; sourceTree = SOURCE_ROOT; };
 		AB5A82121A8DB9EB00AF539F /* m_argv.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_argv.c; path = ../src/m_argv.c; sourceTree = SOURCE_ROOT; };
 		AB5A82131A8DB9EB00AF539F /* m_argv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_argv.h; path = ../src/m_argv.h; sourceTree = SOURCE_ROOT; };
