@@ -1416,6 +1416,7 @@ typedef struct
     int         painsound;
     int         meleestate;
     int         missilestate;
+    int         crashstate;
     int         deathstate;
     int         xdeathstate;
     int         deathsound;
