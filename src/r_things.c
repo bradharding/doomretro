@@ -169,9 +169,9 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 // properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
-static void R_InitSpriteDefs(void)
+static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
 {
-    const size_t    numentries = lastspritelump - firstspritelump + 1;
+    size_t  numentries = lastspritelump - firstspritelump + 1;
 
     struct
     {
@@ -182,7 +182,7 @@ static void R_InitSpriteDefs(void)
     if (!numentries)
         return;
 
-    sprites = Z_Calloc(NUMSPRITES, sizeof(*sprites), PU_STATIC, NULL);
+    sprites = Z_Calloc(numsprites, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
     // killough 1/31/98
@@ -201,9 +201,9 @@ static void R_InitSpriteDefs(void)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (unsigned int i = 0; i < NUMSPRITES; i++)
+    for (unsigned int i = 0; i < numsprites; i++)
     {
-        const char  *spritename = sprnames[i];
+        const char  *spritename = namelist[i];
         int         j = hash[R_SpriteNameHash(spritename) % numentries].index;
 
         if (j >= 0)
@@ -276,7 +276,7 @@ static void R_InitSpriteDefs(void)
                             for (int rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
-                                        frame + 'A', sprnames[i]);
+                                        frame + 'A', namelist[i]);
 
                             break;
                     }
@@ -298,7 +298,7 @@ static void R_InitSpriteDefs(void)
 
     free(hash); // free hash table
 
-    firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
+    firstbloodsplatlump = sprites[gamemission == heretic ? HSPR_BLD2 : SPR_BLD2].spriteframes[0].lump[0];
 }
 
 //
@@ -317,12 +317,12 @@ static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 // R_InitSprites
 // Called at program start.
 //
-void R_InitSprites(void)
+void R_InitSprites(char **namelist, unsigned int numsprites)
 {
     for (int i = 0; i < SCREENWIDTH; i++)
         negonearray[i] = -1;
 
-    R_InitSpriteDefs();
+    R_InitSpriteDefs(namelist, numsprites);
 }
 
 //

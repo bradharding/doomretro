@@ -2611,5 +2611,9 @@ void P_Init(void)
     P_InitSwitchList();
     P_InitPicAnims();
     InitMapInfo();
-    R_InitSprites();
+
+    if (gamemission == heretic)
+        R_InitSprites(hereticsprnames, NUMHSPRITES);
+    else
+        R_InitSprites(sprnames, NUMSPRITES);
 }

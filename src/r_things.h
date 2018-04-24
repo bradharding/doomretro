@@ -56,7 +56,7 @@ extern fixed_t  pspriteiscale;
 extern dboolean r_playersprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
-void R_InitSprites(void);
+void R_InitSprites(char **namelist, unsigned int numsprites);
 void R_ClearSprites(void);
 void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);

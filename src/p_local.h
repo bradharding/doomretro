@@ -147,6 +147,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 void P_InitExtraMobjs(void);
+void P_InitHereticMobjs(void);
 
 //
 // P_ENEMY

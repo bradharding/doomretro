@@ -53,6 +53,20 @@ char *hereticsprnames[] = {
     "WZRD","FX11","FX10","KNIG","SPAX","RAXE","SRCR","FX14","SOR2","SDTH",
     "FX16","MNTR","FX12","FX13","AKYY","BKYY","CKYY","AMG2","AMM1","AMM2",
     "AMC1","AMC2","AMS1","AMS2","AMP1","AMP2","AMB1","AMB2", 
+
+    "BLD2",     // [BH] blood splats
+
+    "SP00", "SP01", "SP02", "SP03", "SP04", "SP05", "SP06", "SP07", "SP08", "SP09",
+    "SP10", "SP11", "SP12", "SP13", "SP14", "SP15", "SP16", "SP17", "SP18", "SP19",
+    "SP20", "SP21", "SP22", "SP23", "SP24", "SP25", "SP26", "SP27", "SP28", "SP29",
+    "SP30", "SP31", "SP32", "SP33", "SP34", "SP35", "SP36", "SP37", "SP38", "SP39",
+    "SP40", "SP41", "SP42", "SP43", "SP44", "SP45", "SP46", "SP47", "SP48", "SP49",
+    "SP50", "SP51", "SP52", "SP53", "SP54", "SP55", "SP56", "SP57", "SP58", "SP59",
+    "SP60", "SP61", "SP62", "SP63", "SP64", "SP65", "SP66", "SP67", "SP68", "SP69",
+    "SP70", "SP71", "SP72", "SP73", "SP74", "SP75", "SP76", "SP77", "SP78", "SP79",
+    "SP80", "SP81", "SP82", "SP83", "SP84", "SP85", "SP86", "SP87", "SP88", "SP89",
+    "SP90", "SP91", "SP92", "SP93", "SP94", "SP95", "SP96", "SP97", "SP98", "SP99",
+
     NULL
 };
 
@@ -183,7 +197,7 @@ char *hereticsprnames[] = {
 //void A_MntrFloorFire();
 //void A_ESound();
 
-state_t hereticstates[] = {
+state_t hereticstates[NUMHSTATES] = {
     {HSPR_IMPX, 0, -1, NULL, HS_NULL},      // HS_NULL
     {HSPR_ACLO, 4, 1050, NULL/*A_FreeTargMobj*/, HS_NULL},  // HS_FREETARGMOBJ
     {HSPR_PTN1, 0, 3, NULL, HS_ITEM_PTN1_2},        // HS_ITEM_PTN1_1

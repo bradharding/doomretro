@@ -42,6 +42,7 @@
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -1439,4 +1440,13 @@ void P_InitExtraMobjs(void)
         memset(&mobjinfo[i], 0, sizeof(mobjinfo_t));
         mobjinfo[i].doomednum = -1;
     }
+}
+
+void P_InitHereticMobjs(void)
+{
+    for (int i = 0; i < NUMHSTATES; i++)
+        memcpy(&states[i], &hereticstates[i], sizeof(state_t));
+
+    for (int i = 0; i < NUMHMOBJTYPES; i++)
+        memcpy(&mobjinfo[i], &hereticmobjinfo[i], sizeof(mobjinfo_t));
 }

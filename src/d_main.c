@@ -1868,6 +1868,9 @@ static void D_DoomMainSetup(void)
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
 
+    if (gamemission == heretic)
+        P_InitHereticMobjs();
+
     D_SetSaveGameFolder(true);
 
     // Check for -file in shareware
