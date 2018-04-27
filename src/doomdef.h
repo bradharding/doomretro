@@ -218,21 +218,18 @@ typedef enum
     am_shell,   // Shotgun/double-barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
-    NUMAMMO
-} ammotype_t;
 
-typedef enum
-{
     am_goldwand,
     am_crossbow,
     am_blaster,
     am_skullrod,
     am_phoenixrod,
     am_mace,
-    NUMHAMMO,
+
+    NUMAMMO,
 
     am_noammo
-} hammotype_t;
+} ammotype_t;
 
 // Power up artifacts.
 enum

@@ -597,12 +597,12 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (gamemission == heretic)
     {
         if (player->powers[pw_weaponlevel2])
-            P_SetPsprite(ps_weapon, wpnlev2info[player->readyweapon].downstate);
+            P_SetPsprite(ps_weapon, wpnlev2info[player->readyweapon].readystate);
         else
-            P_SetPsprite(ps_weapon, wpnlev1info[player->readyweapon].downstate);
+            P_SetPsprite(ps_weapon, wpnlev1info[player->readyweapon].readystate);
     }
     else
-        P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].downstate);
+        P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
 }
 
 //
@@ -991,7 +991,7 @@ void A_MacePL1Check(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle;
 
-    if (actor->special1.i == 0)
+    if (!actor->special1.i)
         return;
 
     actor->special1.i -= 4;
@@ -1375,7 +1375,7 @@ void A_FirePhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp)
     fixed_t x, y, z;
     fixed_t slope;
 
-    if (--player->flamecount == 0)
+    if (!--player->flamecount)
     {
         // Out of flame
         P_SetPsprite(ps_weapon, HS_PHOENIXATK2_4);

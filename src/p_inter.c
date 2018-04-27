@@ -74,7 +74,7 @@ dboolean        species_infighting;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int             maxammo[NUMAMMO] = { 200, 50, 300, 50 };
+int             maxammo[NUMAMMO] = { 200, 50, 300, 50, 10, 50, 200, 200, 20, 150 };
 int             clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
 dboolean        con_obituaries = con_obituaries_default;

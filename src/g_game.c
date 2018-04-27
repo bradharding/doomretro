@@ -453,20 +453,33 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
 static void G_SetInitialWeapon(void)
 {
-    viewplayer->weaponowned[wp_fist] = true;
-    viewplayer->weaponowned[wp_pistol] = true;
-
-    viewplayer->ammo[am_clip] = initial_bullets;
-
-    if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
+    if (gamemission != heretic)
     {
-        viewplayer->readyweapon = wp_fist;
-        viewplayer->pendingweapon = wp_fist;
+        viewplayer->weaponowned[wp_fist] = true;
+        viewplayer->weaponowned[wp_pistol] = true;
+
+        viewplayer->ammo[am_clip] = initial_bullets;
+
+        if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
+        {
+            viewplayer->readyweapon = wp_fist;
+            viewplayer->pendingweapon = wp_fist;
+        }
+        else
+        {
+            viewplayer->readyweapon = wp_pistol;
+            viewplayer->pendingweapon = wp_pistol;
+        }
     }
     else
     {
-        viewplayer->readyweapon = wp_pistol;
-        viewplayer->pendingweapon = wp_pistol;
+        viewplayer->weaponowned[wp_staff] = true;
+        viewplayer->weaponowned[wp_goldwand] = true;
+
+        viewplayer->ammo[am_goldwand] = 50;
+
+        viewplayer->readyweapon = wp_goldwand;
+        viewplayer->pendingweapon = wp_goldwand;
     }
 
     for (int i = 0; i < NUMAMMO; i++)
@@ -485,7 +498,7 @@ static void G_ResetPlayer(void)
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
-    memset(viewplayer->ammo, false, sizeof(viewplayer->ammo));
+    memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
     G_SetInitialWeapon();
     viewplayer->backpack = false;
 }
