@@ -91,6 +91,20 @@
 //
 // P_PSPR
 //
+
+#define USE_GWND_AMMO_1     1
+#define USE_GWND_AMMO_2     1
+#define USE_CBOW_AMMO_1     1
+#define USE_CBOW_AMMO_2     1
+#define USE_BLSR_AMMO_1     1
+#define USE_BLSR_AMMO_2     5
+#define USE_SKRD_AMMO_1     1
+#define USE_SKRD_AMMO_2     5
+#define USE_PHRD_AMMO_1     1
+#define USE_PHRD_AMMO_2     1
+#define USE_MACE_AMMO_1     1
+#define USE_MACE_AMMO_2     5
+
 void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);
@@ -113,6 +127,11 @@ void P_ChangeWeapon(weapontype_t newweapon);
 //
 // P_MOBJ
 //
+#define FLOOR_SOLID         0
+#define FLOOR_WATER         1
+#define FLOOR_LAVA          2
+#define FLOOR_SLUDGE        3
+
 #define ONFLOORZ            INT_MIN
 #define ONCEILINGZ          INT_MAX
 
@@ -126,6 +145,8 @@ extern mapthing_t   itemrespawnque[ITEMQUEUESIZE];
 extern int          itemrespawntime[ITEMQUEUESIZE];
 extern int          iquehead;
 extern int          iquetail;
+extern mobjtype_t   pufftype;
+extern mobj_t       *missilemobj;
 
 void P_RespawnSpecials(void);
 
@@ -138,13 +159,21 @@ mobjtype_t P_FindDoomedNum(unsigned int type);
 void P_RemoveMobj(mobj_t *mobj);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
+void P_BlasterMobjThinker(mobj_t *mobj);
+
+int P_HitFloor(mobj_t *thing);
+int P_GetThingFloorType(mobj_t *thing);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
+mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz);
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
+mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle);
+dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax);
+int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta);
 void P_ExplodeMissile(mobj_t *mo);
 void P_InitExtraMobjs(void);
 void P_InitHereticMobjs(void);

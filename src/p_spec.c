@@ -116,6 +116,22 @@ static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
 
+int             *terraintypes;
+
+struct
+{
+    char        *name;
+    int         type;
+} terraintypedefs[] =
+{
+    { "FLTWAWA1", FLOOR_WATER  },
+    { "FLTFLWW1", FLOOR_WATER  },
+    { "FLTLAVA1", FLOOR_LAVA   },
+    { "FLATHUH1", FLOOR_LAVA   },
+    { "FLTSLUD1", FLOOR_SLUDGE },
+    { "END",      -1           }
+};
+
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
@@ -139,6 +155,22 @@ short           bloodstart;
 short           bloodend;
 short           slimestart;
 short           slimeend;
+
+void P_InitTerrainTypes(void)
+{
+    int size = (numflats + 1) * sizeof(int);
+
+    terraintypes = Z_Malloc(size, PU_STATIC, 0);
+    memset(terraintypes, 0, size);
+
+    for (int i = 0; terraintypedefs[i].type != -1; i++)
+    {
+        int lump = W_CheckNumForName(terraintypedefs[i].name);
+
+        if (lump != -1)
+            terraintypes[lump - firstflat] = terraintypedefs[i].type;
+    }
+}
 
 //
 // P_InitPicAnims

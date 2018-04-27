@@ -64,6 +64,9 @@ dboolean    r_floatbob = r_floatbob_default;
 dboolean    r_rockettrails = r_rockettrails_default;
 dboolean    r_shadows = r_shadows_default;
 
+mobjtype_t  pufftype;
+mobj_t      *missilemobj;
+
 static fixed_t floatbobdiffs[64] =
 {
      25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
@@ -144,6 +147,98 @@ void P_ExplodeMissile(mobj_t *mo)
 
     if (mo->info->deathsound)
         S_StartSound(mo, mo->info->deathsound);
+}
+
+int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+{
+    angle_t diff;
+    angle_t angle1 = source->angle;
+    angle_t angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
+
+    if (angle2 > angle1)
+    {
+        diff = angle2 - angle1;
+
+        if (diff > ANG180)
+        {
+            *delta = ANG_MAX - diff;
+            return 0;
+        }
+        else
+        {
+            *delta = diff;
+            return 1;
+        }
+    }
+    else
+    {
+        diff = angle1 - angle2;
+
+        if (diff > ANG180)
+        {
+            *delta = ANG_MAX - diff;
+            return 1;
+        }
+        else
+        {
+            *delta = diff;
+            return 0;
+        }
+    }
+}
+
+dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax)
+{
+    int     dir;
+    int     dist;
+    angle_t delta;
+    angle_t angle;
+    mobj_t  *target = (mobj_t *)actor->special1.m;
+
+    if (target == NULL)
+        return false;
+
+    if (!(target->flags & MF_SHOOTABLE))
+    {
+        // Target died
+        actor->special1.m = NULL;
+        return false;
+    }
+
+    dir = P_FaceMobj(actor, target, &delta);
+
+    if (delta > thresh)
+    {
+        delta >>= 1;
+
+        if (delta > turnmax)
+            delta = turnmax;
+    }
+
+    if (dir)
+        // Turn clockwise
+        actor->angle += delta;
+    else
+        // Turn counter clockwise
+        actor->angle -= delta;
+
+    angle = actor->angle >> ANGLETOFINESHIFT;
+    actor->momx = FixedMul(actor->info->speed, finecosine[angle]);
+    actor->momy = FixedMul(actor->info->speed, finesine[angle]);
+
+    if (actor->z + actor->height < target->z || target->z + target->height < actor->z)
+    {
+        // Need to seek vertically
+        dist = P_ApproxDistance(target->x - actor->x, target->y - actor->y);
+        dist = dist / actor->info->speed;
+
+        if (dist < 1)
+            dist = 1;
+
+        actor->momz = (target->z - actor->z) / dist;
+    }
+
+    return true;
 }
 
 //
@@ -656,6 +751,68 @@ void P_MobjThinker(mobj_t *mobj)
             if (mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && M_Random() <= 4)
                 P_NightmareRespawn(mobj);
         }
+    }
+}
+
+void P_BlasterMobjThinker(mobj_t *mobj)
+{
+    // Handle movement
+    if (mobj->momx || mobj->momy || (mobj->z != mobj->floorz) || mobj->momz)
+    {
+        fixed_t     xfrac = mobj->momx >> 3;
+        fixed_t     yfrac = mobj->momy >> 3;
+        fixed_t     zfrac = mobj->momz >> 3;
+        dboolean    changexy = (xfrac || yfrac);
+
+        for (int i = 0; i < 8; i++)
+        {
+            if (changexy)
+                if (!P_TryMove(mobj, mobj->x + xfrac, mobj->y + yfrac, true))
+                {
+                    // Blocked move
+                    P_ExplodeMissile(mobj);
+                    return;
+                }
+
+            mobj->z += zfrac;
+
+            if (mobj->z <= mobj->floorz)
+            {
+                // Hit the floor
+                mobj->z = mobj->floorz;
+                P_HitFloor(mobj);
+                P_ExplodeMissile(mobj);
+                return;
+            }
+
+            if (mobj->z + mobj->height > mobj->ceilingz)
+            {
+                // Hit the ceiling
+                mobj->z = mobj->ceilingz - mobj->height;
+                P_ExplodeMissile(mobj);
+                return;
+            }
+
+            if (changexy && (M_Random() < 64))
+            {
+                fixed_t z = mobj->z - 8 * FRACUNIT;
+
+                if (z < mobj->floorz)
+                    z = mobj->floorz;
+
+                P_SpawnMobj(mobj->x, mobj->y, z, HMT_BLASTERSMOKE);
+            }
+        }
+    }
+
+    // Advance the state
+    if (mobj->tics != -1)
+    {
+        mobj->tics--;
+
+        while (!mobj->tics)
+            if (!P_SetMobjState(mobj, mobj->state->nextstate))
+                return;
     }
 }
 
@@ -1305,12 +1462,59 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
     }
 }
 
+int P_GetThingFloorType(mobj_t *thing)
+{
+    return terraintypes[thing->subsector->sector->floorpic];
+}
+
+int P_HitFloor(mobj_t *thing)
+{
+    mobj_t  *mo;
+
+    if (thing->floorz != thing->subsector->sector->floorheight)
+    {
+        // don't splash if landing on the edge above water/lava/etc....
+        return FLOOR_SOLID;
+    }
+
+    switch (P_GetThingFloorType(thing))
+    {
+        case FLOOR_WATER:
+            P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_SPLASHBASE);
+            mo = P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_SPLASH);
+            mo->target = thing;
+            mo->momx = M_NegRandom() << 8;
+            mo->momy = M_NegRandom() << 8;
+            mo->momz = 2 * FRACUNIT + (M_Random() << 8);
+            S_StartSound(mo, hsfx_gloop);
+            return FLOOR_WATER;
+
+        case FLOOR_LAVA:
+            P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_LAVASPLASH);
+            mo = P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_LAVASMOKE);
+            mo->momz = FRACUNIT + (M_Random() << 7);
+            S_StartSound(mo, hsfx_burn);
+            return FLOOR_LAVA;
+
+        case FLOOR_SLUDGE:
+            P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_SLUDGESPLASH);
+            mo = P_SpawnMobj(thing->x, thing->y, ONFLOORZ, HMT_SLUDGECHUNK);
+            mo->target = thing;
+            mo->momx = M_NegRandom() << 8;
+            mo->momy = M_NegRandom() << 8;
+            mo->momz = FRACUNIT + (M_Random() << 8);
+            return FLOOR_SLUDGE;
+    }
+
+    return FLOOR_SOLID;
+}
+
 //
 // P_CheckMissileSpawn
 // Moves the missile forward a bit
 //  and possibly explodes it right there.
 //
-void P_CheckMissileSpawn(mobj_t *th)
+dboolean P_CheckMissileSpawn(mobj_t *th)
 {
     th->tics = MAX(1, th->tics - (M_Random() & 3));
 
@@ -1321,7 +1525,12 @@ void P_CheckMissileSpawn(mobj_t *th)
     th->z += (th->momz >> 1);
 
     if (!P_TryMove(th, th->x, th->y, false))
+    {
         P_ExplodeMissile(th);
+        return false;
+    }
+
+    return true;
 }
 
 //
@@ -1365,11 +1574,52 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     return th;
 }
 
+mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz)
+{
+    fixed_t z;
+    mobj_t  *mo;
+
+    switch (type)
+    {
+        case HMT_MNTRFX1:       // Minotaur swing attack missile
+            z = source->z + 40 * FRACUNIT;
+            break;
+
+        case HMT_MNTRFX2:       // Minotaur floor fire missile
+            z = ONFLOORZ;
+            break;
+
+        case HMT_SRCRFX1:       // Sorcerer Demon fireball
+            z = source->z + 48 * FRACUNIT;
+            break;
+
+        default:
+            z = source->z + 32 * FRACUNIT;
+            break;
+    }
+
+    if (source->flags2 & MF2_FEETARECLIPPED)
+        z -= FOOTCLIPSIZE;
+
+    mo = P_SpawnMobj(source->x, source->y, z, type);
+
+    if (mo->info->seesound)
+        S_StartSound(mo, mo->info->seesound);
+
+    mo->target = source;        // Originator
+    mo->angle = angle;
+    angle >>= ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[angle]);
+    mo->momy = FixedMul(mo->info->speed, finesine[angle]);
+    mo->momz = momz;
+    return (P_CheckMissileSpawn(mo) ? mo : NULL);
+}
+
 //
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster.
 //
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
     angle_t an = source->angle;
@@ -1431,6 +1681,59 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     P_CheckMissileSpawn(th);
 
     A_Recoil(source->player->readyweapon);
+
+    return th;
+}
+
+mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle)
+{
+    mobj_t *th;
+    angle_t an;
+    fixed_t x, y, z;
+    fixed_t slope;
+
+    //
+    // see which target is to be aimed at
+    //
+    an = angle;
+    slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+
+    if (!linetarget)
+    {
+        an += 1 << 26;
+        slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+
+        if (!linetarget)
+        {
+            an -= 2 << 26;
+            slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+        }
+
+        if (!linetarget)
+        {
+            an = angle;
+            slope = ((source->player->lookdir) << FRACBITS) / 173;
+        }
+    }
+
+    x = source->x;
+    y = source->y;
+    z = source->z + 4 * 8 * FRACUNIT + ((source->player->lookdir) << FRACBITS) / 173;
+
+    if (source->flags2 & MF2_FEETARECLIPPED)
+        z -= FOOTCLIPSIZE;
+
+    th = P_SpawnMobj(x, y, z, type);
+
+    if (th->info->seesound)
+        S_StartSound(th, th->info->seesound);
+
+    th->target = source;
+    th->angle = an;
+    th->momx = FixedMul(th->info->speed, finecosine[an >> ANGLETOFINESHIFT]);
+    th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
+    th->momz = FixedMul(th->info->speed, slope);
+    return (P_CheckMissileSpawn(th) ? th : NULL);
 }
 
 void P_InitExtraMobjs(void)

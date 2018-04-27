@@ -196,6 +196,21 @@ typedef enum
     wp_nochange
 } weapontype_t;
 
+typedef enum
+{
+    wp_staff,
+    wp_goldwand,
+    wp_crossbow,
+    wp_blaster,
+    wp_skullrod,
+    wp_phoenixrod,
+    wp_mace,
+    wp_gauntlets,
+    wp_beak,
+
+    NUMHWEAPONS
+} hweapontype_t;
+
 // Ammunition types defined.
 typedef enum
 {
@@ -203,19 +218,36 @@ typedef enum
     am_shell,   // Shotgun/double-barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
-    NUMAMMO,
-    am_noammo   // Unlimited for chainsaw/fist.
+    NUMAMMO
 } ammotype_t;
+
+typedef enum
+{
+    am_goldwand,
+    am_crossbow,
+    am_blaster,
+    am_skullrod,
+    am_phoenixrod,
+    am_mace,
+    NUMHAMMO,
+
+    am_noammo
+} hammotype_t;
 
 // Power up artifacts.
 enum
 {
+    pw_none,
     pw_invulnerability,
     pw_strength,
     pw_invisibility,
     pw_ironfeet,
     pw_allmap,
     pw_infrared,
+    pw_weaponlevel2,
+    pw_flight,
+    pw_shield,
+    pw_health2,
     NUMPOWERS
 };
 

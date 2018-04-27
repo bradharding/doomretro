@@ -175,6 +175,7 @@ typedef struct player_s
     // For screen flashing (red or bright).
     int             damagecount;
     int             bonuscount;
+    int             flamecount;
 
     // Who did damage (NULL for floors/ceilings).
     mobj_t          *attacker;
@@ -206,6 +207,10 @@ typedef struct player_s
     int             oldlookdir;
 
     unsigned int    jumptics;
+    int             chickentics;
+    int             chickenpeck;
+    mobj_t          *rain1;
+    mobj_t          *rain2;
 
     fixed_t         recoil;
     fixed_t         oldrecoil;

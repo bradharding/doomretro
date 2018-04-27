@@ -353,6 +353,12 @@ enum
     MF3_TELESTOMP                 = 0x00004000
 };
 
+typedef union
+{
+    int                 i;
+    struct mobj_s       *m;
+} specialval_t;
+
 // Map Object definition.
 typedef struct mobj_s
 {
@@ -400,6 +406,10 @@ typedef struct mobj_s
     int                 flags;
     int                 flags2;
     int                 flags3;
+
+    specialval_t        special1;               // special info
+    specialval_t        special2;               // special info
+
     int                 health;
 
     // Movement direction, movement generation (zig-zagging).

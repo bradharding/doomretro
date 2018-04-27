@@ -2610,6 +2610,7 @@ void P_Init(void)
 {
     P_InitSwitchList();
     P_InitPicAnims();
+    P_InitTerrainTypes();
     InitMapInfo();
 
     if (gamemission == heretic)

@@ -54,6 +54,7 @@ typedef struct
     int             downstate;
     int             readystate;
     int             atkstate;
+    int             holdatkstate;
     int             flashstate;
     int             recoil;
     int             motorspeed;
@@ -64,5 +65,7 @@ typedef struct
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];
+extern weaponinfo_t wpnlev1info[NUMHWEAPONS];
+extern weaponinfo_t wpnlev2info[NUMHWEAPONS];
 
 #endif

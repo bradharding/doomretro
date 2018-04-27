@@ -65,8 +65,11 @@ extern short    rrockend;
 extern short    slimestart;
 extern short    slimeend;
 
+extern int      *terraintypes;
+
 // at game start
 void P_InitPicAnims(void);
+void P_InitTerrainTypes(void);
 
 // at map load
 void P_SetTimer(int minutes);

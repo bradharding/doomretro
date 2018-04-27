@@ -39,6 +39,8 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
+#define HITDICE(x) ((1 + (M_Random() & 7)) * x)
+
 int M_Random(void);
 int M_NegRandom(void);
 int M_RandomInt(int lower, int upper);

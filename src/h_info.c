@@ -94,43 +94,42 @@ void A_Light0(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_StaffAttackPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_StaffAttackPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_StaffAttackPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_BeakReady(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_BeakRaise(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_BeakAttackPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_BeakAttackPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_GauntletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireBlasterPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireBlasterPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_SpawnRippers(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireMacePL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireMacePL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_MacePL1Check(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_MaceBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_MaceBallImpact2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_DeathBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireSkullRodPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireSkullRodPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_SkullRodPL2Seek(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_AddPlayerRain(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_HideInCeiling(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_SkullRodStorm(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_RainImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireGoldWandPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireGoldWandPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FirePhoenixPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_InitPhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FirePhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_ShutdownPhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_PhoenixPuff(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_RemovedPhoenixFunc(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FlameEnd(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FloatPuff(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireCrossbowPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_FireCrossbowPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
-//void A_BoltSpark(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_StaffAttackPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_BeakReady(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_BeakRaise(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_BeakAttackPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_BeakAttackPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_GauntletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireBlasterPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireBlasterPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_SpawnRippers(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireMacePL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireMacePL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_MacePL1Check(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_MaceBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_MaceBallImpact2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_DeathBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireSkullRodPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireSkullRodPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_SkullRodPL2Seek(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_AddPlayerRain(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_HideInCeiling(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_SkullRodStorm(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_RainImpact(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireGoldWandPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireGoldWandPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FirePhoenixPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_InitPhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FirePhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_ShutdownPhoenixPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_PhoenixPuff(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FlameEnd(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FloatPuff(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireCrossbowPL1(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_FireCrossbowPL2(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_BoltSpark(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Pain(mobj_t *actor, player_t *player, pspdef_t *psp);
 //void A_NoBlocking(mobj_t *actor, player_t *player, pspdef_t *psp);
 //void A_AddPlayerCorpse(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -447,10 +446,10 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_STFF, 3,                     1, A_Lower,                        HS_STAFFDOWN2       }, // HS_STAFFDOWN2
     { HSPR_STFF, 3,                     1, A_Raise,                        HS_STAFFUP2         }, // HS_STAFFUP2
     { HSPR_STFF, 1,                     6, NULL,                           HS_STAFFATK1_2      }, // HS_STAFFATK1_1
-    { HSPR_STFF, 2,                     8, NULL/*A_StaffAttackPL1*/,       HS_STAFFATK1_3      }, // HS_STAFFATK1_2
+    { HSPR_STFF, 2,                     8, A_StaffAttackPL1,               HS_STAFFATK1_3      }, // HS_STAFFATK1_2
     { HSPR_STFF, 1,                     8, A_ReFire,                       HS_STAFFREADY       }, // HS_STAFFATK1_3
     { HSPR_STFF, 6,                     6, NULL,                           HS_STAFFATK2_2      }, // HS_STAFFATK2_1
-    { HSPR_STFF, 7,                     8, NULL/*A_StaffAttackPL2*/,       HS_STAFFATK2_3      }, // HS_STAFFATK2_2
+    { HSPR_STFF, 7,                     8, A_StaffAttackPL2,               HS_STAFFATK2_3      }, // HS_STAFFATK2_2
     { HSPR_STFF, 6,                     8, A_ReFire,                       HS_STAFFREADY2_1    }, // HS_STAFFATK2_3
     { HSPR_PUF3, 0 | FF_FULLBRIGHT,     4, NULL,                           HS_STAFFPUFF2       }, // HS_STAFFPUFF1
     { HSPR_PUF3, 1,                     4, NULL,                           HS_STAFFPUFF3       }, // HS_STAFFPUFF2
@@ -462,11 +461,11 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_PUF4, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_STAFFPUFF2_5     }, // HS_STAFFPUFF2_4
     { HSPR_PUF4, 4 | FF_FULLBRIGHT,     4, NULL,                           HS_STAFFPUFF2_6     }, // HS_STAFFPUFF2_5
     { HSPR_PUF4, 5 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_STAFFPUFF2_6
-    { HSPR_BEAK, 0,                     1, NULL/*A_BeakReady*/,            HS_BEAKREADY        }, // HS_BEAKREADY
+    { HSPR_BEAK, 0,                     1, A_BeakReady,                    HS_BEAKREADY        }, // HS_BEAKREADY
     { HSPR_BEAK, 0,                     1, A_Lower,                        HS_BEAKDOWN         }, // HS_BEAKDOWN
-    { HSPR_BEAK, 0,                     1, NULL/*A_BeakRaise*/,            HS_BEAKUP           }, // HS_BEAKUP
-    { HSPR_BEAK, 0,                    18, NULL/*A_BeakAttackPL1*/,        HS_BEAKREADY        }, // HS_BEAKATK1_1
-    { HSPR_BEAK, 0,                    12, NULL/*A_BeakAttackPL2*/,        HS_BEAKREADY        }, // HS_BEAKATK2_1
+    { HSPR_BEAK, 0,                     1, A_BeakRaise,                    HS_BEAKUP           }, // HS_BEAKUP
+    { HSPR_BEAK, 0,                    18, A_BeakAttackPL1,                HS_BEAKREADY        }, // HS_BEAKATK1_1
+    { HSPR_BEAK, 0,                    12, A_BeakAttackPL2,                HS_BEAKREADY        }, // HS_BEAKATK2_1
     { HSPR_WGNT, 0,                    -1, NULL,                           HS_NULL             }, // HS_WGNT
     { HSPR_GAUN, 0,                     1, A_WeaponReady,                  HS_GAUNTLETREADY    }, // HS_GAUNTLETREADY
     { HSPR_GAUN, 0,                     1, A_Lower,                        HS_GAUNTLETDOWN     }, // HS_GAUNTLETDOWN
@@ -478,16 +477,16 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_GAUN, 6,                     1, A_Raise,                        HS_GAUNTLETUP2      }, // HS_GAUNTLETUP2
     { HSPR_GAUN, 1,                     4, NULL,                           HS_GAUNTLETATK1_2   }, // HS_GAUNTLETATK1_1
     { HSPR_GAUN, 2,                     4, NULL,                           HS_GAUNTLETATK1_3   }, // HS_GAUNTLETATK1_2
-    { HSPR_GAUN, 3 | FF_FULLBRIGHT,     4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK1_4   }, // HS_GAUNTLETATK1_3
-    { HSPR_GAUN, 4 | FF_FULLBRIGHT,     4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK1_5   }, // HS_GAUNTLETATK1_4
-    { HSPR_GAUN, 5 | FF_FULLBRIGHT,     4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK1_6   }, // HS_GAUNTLETATK1_5
+    { HSPR_GAUN, 3 | FF_FULLBRIGHT,     4, A_GauntletAttack,               HS_GAUNTLETATK1_4   }, // HS_GAUNTLETATK1_3
+    { HSPR_GAUN, 4 | FF_FULLBRIGHT,     4, A_GauntletAttack,               HS_GAUNTLETATK1_5   }, // HS_GAUNTLETATK1_4
+    { HSPR_GAUN, 5 | FF_FULLBRIGHT,     4, A_GauntletAttack,               HS_GAUNTLETATK1_6   }, // HS_GAUNTLETATK1_5
     { HSPR_GAUN, 2,                     4, A_ReFire,                       HS_GAUNTLETATK1_7   }, // HS_GAUNTLETATK1_6
     { HSPR_GAUN, 1,                     4, A_Light0,                       HS_GAUNTLETREADY    }, // HS_GAUNTLETATK1_7
     { HSPR_GAUN, 9,                     4, NULL,                           HS_GAUNTLETATK2_2   }, // HS_GAUNTLETATK2_1
     { HSPR_GAUN, 10,                    4, NULL,                           HS_GAUNTLETATK2_3   }, // HS_GAUNTLETATK2_2
-    { HSPR_GAUN, 11 | FF_FULLBRIGHT,    4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK2_4   }, // HS_GAUNTLETATK2_3
-    { HSPR_GAUN, 12 | FF_FULLBRIGHT,    4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK2_5   }, // HS_GAUNTLETATK2_4
-    { HSPR_GAUN, 13 | FF_FULLBRIGHT,    4, NULL/*A_GauntletAttack*/,       HS_GAUNTLETATK2_6   }, // HS_GAUNTLETATK2_5
+    { HSPR_GAUN, 11 | FF_FULLBRIGHT,    4, A_GauntletAttack,               HS_GAUNTLETATK2_4   }, // HS_GAUNTLETATK2_3
+    { HSPR_GAUN, 12 | FF_FULLBRIGHT,    4, A_GauntletAttack,               HS_GAUNTLETATK2_5   }, // HS_GAUNTLETATK2_4
+    { HSPR_GAUN, 13 | FF_FULLBRIGHT,    4, A_GauntletAttack,               HS_GAUNTLETATK2_6   }, // HS_GAUNTLETATK2_5
     { HSPR_GAUN, 10,                    4, A_ReFire,                       HS_GAUNTLETATK2_7   }, // HS_GAUNTLETATK2_6
     { HSPR_GAUN, 9,                     4, A_Light0,                       HS_GAUNTLETREADY2_1 }, // HS_GAUNTLETATK2_7
     { HSPR_PUF1, 0 | FF_FULLBRIGHT,     4, NULL,                           HS_GAUNTLETPUFF1_2  }, // HS_GAUNTLETPUFF1_1
@@ -504,18 +503,18 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_BLSR, 0,                     1, A_Raise,                        HS_BLASTERUP        }, // HS_BLASTERUP
     { HSPR_BLSR, 1,                     3, NULL,                           HS_BLASTERATK1_2    }, // HS_BLASTERATK1_1
     { HSPR_BLSR, 2,                     3, NULL,                           HS_BLASTERATK1_3    }, // HS_BLASTERATK1_2
-    { HSPR_BLSR, 3,                     2, NULL/*A_FireBlasterPL1*/,       HS_BLASTERATK1_4    }, // HS_BLASTERATK1_3
+    { HSPR_BLSR, 3,                     2, A_FireBlasterPL1,               HS_BLASTERATK1_4    }, // HS_BLASTERATK1_3
     { HSPR_BLSR, 2,                     2, NULL,                           HS_BLASTERATK1_5    }, // HS_BLASTERATK1_4
     { HSPR_BLSR, 1,                     2, NULL,                           HS_BLASTERATK1_6    }, // HS_BLASTERATK1_5
     { HSPR_BLSR, 0,                     0, A_ReFire,                       HS_BLASTERREADY     }, // HS_BLASTERATK1_6
     { HSPR_BLSR, 1,                     0, NULL,                           HS_BLASTERATK2_2    }, // HS_BLASTERATK2_1
     { HSPR_BLSR, 2,                     0, NULL,                           HS_BLASTERATK2_3    }, // HS_BLASTERATK2_2
-    { HSPR_BLSR, 3,                     3, NULL/*A_FireBlasterPL2*/,       HS_BLASTERATK2_4    }, // HS_BLASTERATK2_3
+    { HSPR_BLSR, 3,                     3, A_FireBlasterPL2,               HS_BLASTERATK2_4    }, // HS_BLASTERATK2_3
     { HSPR_BLSR, 2,                     4, NULL,                           HS_BLASTERATK2_5    }, // HS_BLASTERATK2_4
     { HSPR_BLSR, 1,                     4, NULL,                           HS_BLASTERATK2_6    }, // HS_BLASTERATK2_5
     { HSPR_BLSR, 0,                     0, A_ReFire,                       HS_BLASTERREADY     }, // HS_BLASTERATK2_6
     { HSPR_ACLO, 4,                   200, NULL,                           HS_BLASTERFX1_1     }, // HS_BLASTERFX1_1
-    { HSPR_FX18, 0 | FF_FULLBRIGHT,     3, NULL/*A_SpawnRippers*/,         HS_BLASTERFXI1_2    }, // HS_BLASTERFXI1_1
+    { HSPR_FX18, 0 | FF_FULLBRIGHT,     3, A_SpawnRippers,                 HS_BLASTERFXI1_2    }, // HS_BLASTERFXI1_1
     { HSPR_FX18, 1 | FF_FULLBRIGHT,     3, NULL,                           HS_BLASTERFXI1_3    }, // HS_BLASTERFXI1_2
     { HSPR_FX18, 2 | FF_FULLBRIGHT,     4, NULL,                           HS_BLASTERFXI1_4    }, // HS_BLASTERFXI1_3
     { HSPR_FX18, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_BLASTERFXI1_5    }, // HS_BLASTERFXI1_4
@@ -551,45 +550,45 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_MACE, 0,                     1, A_Lower,                        HS_MACEDOWN         }, // HS_MACEDOWN
     { HSPR_MACE, 0,                     1, A_Raise,                        HS_MACEUP           }, // HS_MACEUP
     { HSPR_MACE, 1,                     4, NULL,                           HS_MACEATK1_2       }, // HS_MACEATK1_1
-    { HSPR_MACE, 2,                     3, NULL/*A_FireMacePL1*/,          HS_MACEATK1_3       }, // HS_MACEATK1_2
-    { HSPR_MACE, 3,                     3, NULL/*A_FireMacePL1*/,          HS_MACEATK1_4       }, // HS_MACEATK1_3
-    { HSPR_MACE, 4,                     3, NULL/*A_FireMacePL1*/,          HS_MACEATK1_5       }, // HS_MACEATK1_4
-    { HSPR_MACE, 5,                     3, NULL/*A_FireMacePL1*/,          HS_MACEATK1_6       }, // HS_MACEATK1_5
+    { HSPR_MACE, 2,                     3, A_FireMacePL1,                  HS_MACEATK1_3       }, // HS_MACEATK1_2
+    { HSPR_MACE, 3,                     3, A_FireMacePL1,                  HS_MACEATK1_4       }, // HS_MACEATK1_3
+    { HSPR_MACE, 4,                     3, A_FireMacePL1,                  HS_MACEATK1_5       }, // HS_MACEATK1_4
+    { HSPR_MACE, 5,                     3, A_FireMacePL1,                  HS_MACEATK1_6       }, // HS_MACEATK1_5
     { HSPR_MACE, 2,                     4, A_ReFire,                       HS_MACEATK1_7       }, // HS_MACEATK1_6
     { HSPR_MACE, 3,                     4, NULL,                           HS_MACEATK1_8       }, // HS_MACEATK1_7
     { HSPR_MACE, 4,                     4, NULL,                           HS_MACEATK1_9       }, // HS_MACEATK1_8
     { HSPR_MACE, 5,                     4, NULL,                           HS_MACEATK1_10      }, // HS_MACEATK1_9
     { HSPR_MACE, 1,                     4, NULL,                           HS_MACEREADY        }, // HS_MACEATK1_10
     { HSPR_MACE, 1,                     4, NULL,                           HS_MACEATK2_2       }, // HS_MACEATK2_1
-    { HSPR_MACE, 3,                     4, NULL/*A_FireMacePL2*/,          HS_MACEATK2_3       }, // HS_MACEATK2_2
+    { HSPR_MACE, 3,                     4, A_FireMacePL2,                  HS_MACEATK2_3       }, // HS_MACEATK2_2
     { HSPR_MACE, 1,                     4, NULL,                           HS_MACEATK2_4       }, // HS_MACEATK2_3
     { HSPR_MACE, 0,                     8, A_ReFire,                       HS_MACEREADY        }, // HS_MACEATK2_4
-    { HSPR_FX02, 0,                     4, NULL/*A_MacePL1Check*/,         HS_MACEFX1_2        }, // HS_MACEFX1_1
-    { HSPR_FX02, 1,                     4, NULL/*A_MacePL1Check*/,         HS_MACEFX1_1        }, // HS_MACEFX1_2
-    { HSPR_FX02, 5 | FF_FULLBRIGHT,     4, NULL/*A_MaceBallImpact*/,       HS_MACEFXI1_2       }, // HS_MACEFXI1_1
+    { HSPR_FX02, 0,                     4, A_MacePL1Check,                 HS_MACEFX1_2        }, // HS_MACEFX1_1
+    { HSPR_FX02, 1,                     4, A_MacePL1Check,                 HS_MACEFX1_1        }, // HS_MACEFX1_2
+    { HSPR_FX02, 5 | FF_FULLBRIGHT,     4, A_MaceBallImpact,               HS_MACEFXI1_2       }, // HS_MACEFXI1_1
     { HSPR_FX02, 6 | FF_FULLBRIGHT,     4, NULL,                           HS_MACEFXI1_3       }, // HS_MACEFXI1_2
     { HSPR_FX02, 7 | FF_FULLBRIGHT,     4, NULL,                           HS_MACEFXI1_4       }, // HS_MACEFXI1_3
     { HSPR_FX02, 8 | FF_FULLBRIGHT,     4, NULL,                           HS_MACEFXI1_5       }, // HS_MACEFXI1_4
     { HSPR_FX02, 9 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_MACEFXI1_5
     { HSPR_FX02, 2,                     4, NULL,                           HS_MACEFX2_2        }, // HS_MACEFX2_1
     { HSPR_FX02, 3,                     4, NULL,                           HS_MACEFX2_1        }, // HS_MACEFX2_2
-    { HSPR_FX02, 5 | FF_FULLBRIGHT,     4, NULL/*A_MaceBallImpact2*/,      HS_MACEFXI1_2       }, // HS_MACEFXI2_1
+    { HSPR_FX02, 5 | FF_FULLBRIGHT,     4, A_MaceBallImpact2,              HS_MACEFXI1_2       }, // HS_MACEFXI2_1
     { HSPR_FX02, 0,                     4, NULL,                           HS_MACEFX3_2        }, // HS_MACEFX3_1
     { HSPR_FX02, 1,                     4, NULL,                           HS_MACEFX3_1        }, // HS_MACEFX3_2
     { HSPR_FX02, 4,                    99, NULL,                           HS_MACEFX4_1        }, // HS_MACEFX4_1
-    { HSPR_FX02, 2 | FF_FULLBRIGHT,     4, NULL/*A_DeathBallImpact*/,      HS_MACEFXI1_2       }, // HS_MACEFXI4_1
+    { HSPR_FX02, 2 | FF_FULLBRIGHT,     4, A_DeathBallImpact,              HS_MACEFXI1_2       }, // HS_MACEFXI4_1
     { HSPR_WSKL, 0,                    -1, NULL,                           HS_NULL             }, // HS_WSKL
     { HSPR_HROD, 0,                     1, A_WeaponReady,                  HS_HORNRODREADY     }, // HS_HORNRODREADY
     { HSPR_HROD, 0,                     1, A_Lower,                        HS_HORNRODDOWN      }, // HS_HORNRODDOWN
     { HSPR_HROD, 0,                     1, A_Raise,                        HS_HORNRODUP        }, // HS_HORNRODUP
-    { HSPR_HROD, 0,                     4, NULL/*A_FireSkullRodPL1*/,      HS_HORNRODATK1_2    }, // HS_HORNRODATK1_1
-    { HSPR_HROD, 1,                     4, NULL/*A_FireSkullRodPL1*/,      HS_HORNRODATK1_3    }, // HS_HORNRODATK1_2
+    { HSPR_HROD, 0,                     4, A_FireSkullRodPL1,              HS_HORNRODATK1_2    }, // HS_HORNRODATK1_1
+    { HSPR_HROD, 1,                     4, A_FireSkullRodPL1,              HS_HORNRODATK1_3    }, // HS_HORNRODATK1_2
     { HSPR_HROD, 1,                     0, A_ReFire,                       HS_HORNRODREADY     }, // HS_HORNRODATK1_3
     { HSPR_HROD, 2,                     2, NULL,                           HS_HORNRODATK2_2    }, // HS_HORNRODATK2_1
     { HSPR_HROD, 3,                     3, NULL,                           HS_HORNRODATK2_3    }, // HS_HORNRODATK2_2
     { HSPR_HROD, 4,                     2, NULL,                           HS_HORNRODATK2_4    }, // HS_HORNRODATK2_3
     { HSPR_HROD, 5,                     3, NULL,                           HS_HORNRODATK2_5    }, // HS_HORNRODATK2_4
-    { HSPR_HROD, 6,                     4, NULL/*A_FireSkullRodPL2*/,      HS_HORNRODATK2_6    }, // HS_HORNRODATK2_5
+    { HSPR_HROD, 6,                     4, A_FireSkullRodPL2,              HS_HORNRODATK2_6    }, // HS_HORNRODATK2_5
     { HSPR_HROD, 5,                     2, NULL,                           HS_HORNRODATK2_7    }, // HS_HORNRODATK2_6
     { HSPR_HROD, 4,                     3, NULL,                           HS_HORNRODATK2_8    }, // HS_HORNRODATK2_7
     { HSPR_HROD, 3,                     2, NULL,                           HS_HORNRODATK2_9    }, // HS_HORNRODATK2_8
@@ -603,37 +602,37 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_FX00, 11 | FF_FULLBRIGHT,    3, NULL,                           HS_HRODFXI1_6       }, // HS_HRODFXI1_5
     { HSPR_FX00, 12 | FF_FULLBRIGHT,    3, NULL,                           HS_NULL             }, // HS_HRODFXI1_6
     { HSPR_FX00, 2 | FF_FULLBRIGHT,     3, NULL,                           HS_HRODFX2_2        }, // HS_HRODFX2_1
-    { HSPR_FX00, 3 | FF_FULLBRIGHT,     3, NULL/*A_SkullRodPL2Seek*/,      HS_HRODFX2_3        }, // HS_HRODFX2_2
+    { HSPR_FX00, 3 | FF_FULLBRIGHT,     3, A_SkullRodPL2Seek,              HS_HRODFX2_3        }, // HS_HRODFX2_2
     { HSPR_FX00, 4 | FF_FULLBRIGHT,     3, NULL,                           HS_HRODFX2_4        }, // HS_HRODFX2_3
-    { HSPR_FX00, 5 | FF_FULLBRIGHT,     3, NULL/*A_SkullRodPL2Seek*/,      HS_HRODFX2_1        }, // HS_HRODFX2_4
-    { HSPR_FX00, 7 | FF_FULLBRIGHT,     5, NULL/*A_AddPlayerRain*/,        HS_HRODFXI2_2       }, // HS_HRODFXI2_1
+    { HSPR_FX00, 5 | FF_FULLBRIGHT,     3, A_SkullRodPL2Seek,              HS_HRODFX2_1        }, // HS_HRODFX2_4
+    { HSPR_FX00, 7 | FF_FULLBRIGHT,     5, A_AddPlayerRain,                HS_HRODFXI2_2       }, // HS_HRODFXI2_1
     { HSPR_FX00, 8 | FF_FULLBRIGHT,     5, NULL,                           HS_HRODFXI2_3       }, // HS_HRODFXI2_2
     { HSPR_FX00, 9 | FF_FULLBRIGHT,     4, NULL,                           HS_HRODFXI2_4       }, // HS_HRODFXI2_3
     { HSPR_FX00, 10 | FF_FULLBRIGHT,    3, NULL,                           HS_HRODFXI2_5       }, // HS_HRODFXI2_4
     { HSPR_FX00, 11 | FF_FULLBRIGHT,    3, NULL,                           HS_HRODFXI2_6       }, // HS_HRODFXI2_5
     { HSPR_FX00, 12 | FF_FULLBRIGHT,    3, NULL,                           HS_HRODFXI2_7       }, // HS_HRODFXI2_6
-    { HSPR_FX00, 6,                     1, NULL/*A_HideInCeiling*/,        HS_HRODFXI2_8       }, // HS_HRODFXI2_7
-    { HSPR_FX00, 6,                     1, NULL/*A_SkullRodStorm*/,        HS_HRODFXI2_8       }, // HS_HRODFXI2_8
+    { HSPR_FX00, 6,                     1, A_HideInCeiling,                HS_HRODFXI2_8       }, // HS_HRODFXI2_7
+    { HSPR_FX00, 6,                     1, A_SkullRodStorm,                HS_HRODFXI2_8       }, // HS_HRODFXI2_8
     { HSPR_FX20, 0 | FF_FULLBRIGHT,    -1, NULL,                           HS_NULL             }, // HS_RAINPLR1_1
     { HSPR_FX21, 0 | FF_FULLBRIGHT,    -1, NULL,                           HS_NULL             }, // HS_RAINPLR2_1
     { HSPR_FX22, 0 | FF_FULLBRIGHT,    -1, NULL,                           HS_NULL             }, // HS_RAINPLR3_1
     { HSPR_FX23, 0 | FF_FULLBRIGHT,    -1, NULL,                           HS_NULL             }, // HS_RAINPLR4_1
-    { HSPR_FX20, 1 | FF_FULLBRIGHT,     4, NULL/*A_RainImpact*/,           HS_RAINPLR1X_2      }, // HS_RAINPLR1X_1
+    { HSPR_FX20, 1 | FF_FULLBRIGHT,     4, A_RainImpact,                   HS_RAINPLR1X_2      }, // HS_RAINPLR1X_1
     { HSPR_FX20, 2 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR1X_3      }, // HS_RAINPLR1X_2
     { HSPR_FX20, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR1X_4      }, // HS_RAINPLR1X_3
     { HSPR_FX20, 4 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR1X_5      }, // HS_RAINPLR1X_4
     { HSPR_FX20, 5 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_RAINPLR1X_5
-    { HSPR_FX21, 1 | FF_FULLBRIGHT,     4, NULL/*A_RainImpact*/,           HS_RAINPLR2X_2      }, // HS_RAINPLR2X_1
+    { HSPR_FX21, 1 | FF_FULLBRIGHT,     4, A_RainImpact,                   HS_RAINPLR2X_2      }, // HS_RAINPLR2X_1
     { HSPR_FX21, 2 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR2X_3      }, // HS_RAINPLR2X_2
     { HSPR_FX21, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR2X_4      }, // HS_RAINPLR2X_3
     { HSPR_FX21, 4 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR2X_5      }, // HS_RAINPLR2X_4
     { HSPR_FX21, 5 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_RAINPLR2X_5
-    { HSPR_FX22, 1 | FF_FULLBRIGHT,     4, NULL/*A_RainImpact*/,           HS_RAINPLR3X_2      }, // HS_RAINPLR3X_1
+    { HSPR_FX22, 1 | FF_FULLBRIGHT,     4, A_RainImpact,                   HS_RAINPLR3X_2      }, // HS_RAINPLR3X_1
     { HSPR_FX22, 2 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR3X_3      }, // HS_RAINPLR3X_2
     { HSPR_FX22, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR3X_4      }, // HS_RAINPLR3X_3
     { HSPR_FX22, 4 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR3X_5      }, // HS_RAINPLR3X_4
     { HSPR_FX22, 5 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_RAINPLR3X_5
-    { HSPR_FX23, 1 | FF_FULLBRIGHT,     4, NULL/*A_RainImpact*/,           HS_RAINPLR4X_2      }, // HS_RAINPLR4X_1
+    { HSPR_FX23, 1 | FF_FULLBRIGHT,     4, A_RainImpact,                   HS_RAINPLR4X_2      }, // HS_RAINPLR4X_1
     { HSPR_FX23, 2 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR4X_3      }, // HS_RAINPLR4X_2
     { HSPR_FX23, 3 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR4X_4      }, // HS_RAINPLR4X_3
     { HSPR_FX23, 4 | FF_FULLBRIGHT,     4, NULL,                           HS_RAINPLR4X_5      }, // HS_RAINPLR4X_4
@@ -654,11 +653,11 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_GWND, 0,                     1, A_Lower,                        HS_GOLDWANDDOWN     }, // HS_GOLDWANDDOWN
     { HSPR_GWND, 0,                     1, A_Raise,                        HS_GOLDWANDUP       }, // HS_GOLDWANDUP
     { HSPR_GWND, 1,                     3, NULL,                           HS_GOLDWANDATK1_2   }, // HS_GOLDWANDATK1_1
-    { HSPR_GWND, 2,                     5, NULL/*A_FireGoldWandPL1*/,      HS_GOLDWANDATK1_3   }, // HS_GOLDWANDATK1_2
+    { HSPR_GWND, 2,                     5, A_FireGoldWandPL1,              HS_GOLDWANDATK1_3   }, // HS_GOLDWANDATK1_2
     { HSPR_GWND, 3,                     3, NULL,                           HS_GOLDWANDATK1_4   }, // HS_GOLDWANDATK1_3
     { HSPR_GWND, 3,                     0, A_ReFire,                       HS_GOLDWANDREADY    }, // HS_GOLDWANDATK1_4
     { HSPR_GWND, 1,                     3, NULL,                           HS_GOLDWANDATK2_2   }, // HS_GOLDWANDATK2_1
-    { HSPR_GWND, 2,                     4, NULL/*A_FireGoldWandPL2*/,      HS_GOLDWANDATK2_3   }, // HS_GOLDWANDATK2_2
+    { HSPR_GWND, 2,                     4, A_FireGoldWandPL2,              HS_GOLDWANDATK2_3   }, // HS_GOLDWANDATK2_2
     { HSPR_GWND, 3,                     3, NULL,                           HS_GOLDWANDATK2_4   }, // HS_GOLDWANDATK2_3
     { HSPR_GWND, 3,                     0, A_ReFire,                       HS_GOLDWANDREADY    }, // HS_GOLDWANDATK2_4
     { HSPR_FX01, 0 | FF_FULLBRIGHT,     6, NULL,                           HS_GWANDFX1_2       }, // HS_GWANDFX1_1
@@ -679,15 +678,15 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_PHNX, 0,                     1, A_Lower,                        HS_PHOENIXDOWN      }, // HS_PHOENIXDOWN
     { HSPR_PHNX, 0,                     1, A_Raise,                        HS_PHOENIXUP        }, // HS_PHOENIXUP
     { HSPR_PHNX, 1,                     5, NULL,                           HS_PHOENIXATK1_2    }, // HS_PHOENIXATK1_1
-    { HSPR_PHNX, 2,                     7, NULL/*A_FirePhoenixPL1*/,       HS_PHOENIXATK1_3    }, // HS_PHOENIXATK1_2
+    { HSPR_PHNX, 2,                     7, A_FirePhoenixPL1,               HS_PHOENIXATK1_3    }, // HS_PHOENIXATK1_2
     { HSPR_PHNX, 3,                     4, NULL,                           HS_PHOENIXATK1_4    }, // HS_PHOENIXATK1_3
     { HSPR_PHNX, 1,                     4, NULL,                           HS_PHOENIXATK1_5    }, // HS_PHOENIXATK1_4
     { HSPR_PHNX, 1,                     0, A_ReFire,                       HS_PHOENIXREADY     }, // HS_PHOENIXATK1_5
-    { HSPR_PHNX, 1,                     3, NULL/*A_InitPhoenixPL2*/,       HS_PHOENIXATK2_2    }, // HS_PHOENIXATK2_1
-    { HSPR_PHNX, 2 | FF_FULLBRIGHT,     1, NULL/*A_FirePhoenixPL2*/,       HS_PHOENIXATK2_3    }, // HS_PHOENIXATK2_2
+    { HSPR_PHNX, 1,                     3, A_InitPhoenixPL2,               HS_PHOENIXATK2_2    }, // HS_PHOENIXATK2_1
+    { HSPR_PHNX, 2 | FF_FULLBRIGHT,     1, A_FirePhoenixPL2,               HS_PHOENIXATK2_3    }, // HS_PHOENIXATK2_2
     { HSPR_PHNX, 1,                     4, A_ReFire,                       HS_PHOENIXATK2_4    }, // HS_PHOENIXATK2_3
-    { HSPR_PHNX, 1,                     4, NULL/*A_ShutdownPhoenixPL2*/,   HS_PHOENIXREADY     }, // HS_PHOENIXATK2_4
-    { HSPR_FX04, 0 | FF_FULLBRIGHT,     4, NULL/*A_PhoenixPuff*/,          HS_PHOENIXFX1_1     }, // HS_PHOENIXFX1_1
+    { HSPR_PHNX, 1,                     4, A_ShutdownPhoenixPL2,           HS_PHOENIXREADY     }, // HS_PHOENIXATK2_4
+    { HSPR_FX04, 0 | FF_FULLBRIGHT,     4, A_PhoenixPuff,                  HS_PHOENIXFX1_1     }, // HS_PHOENIXFX1_1
     { HSPR_FX08, 0 | FF_FULLBRIGHT,     6, A_Explode,                      HS_PHOENIXFXI1_2    }, // HS_PHOENIXFXI1_1
     { HSPR_FX08, 1 | FF_FULLBRIGHT,     5, NULL,                           HS_PHOENIXFXI1_3    }, // HS_PHOENIXFXI1_2
     { HSPR_FX08, 2 | FF_FULLBRIGHT,     5, NULL,                           HS_PHOENIXFXI1_4    }, // HS_PHOENIXFXI1_3
@@ -697,7 +696,7 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_FX08, 6 | FF_FULLBRIGHT,     4, NULL,                           HS_PHOENIXFXI1_8    }, // HS_PHOENIXFXI1_7
     { HSPR_FX08, 7 | FF_FULLBRIGHT,     4, NULL,                           HS_NULL             }, // HS_PHOENIXFXI1_8
     { HSPR_FX08, 8 | FF_FULLBRIGHT,     8, NULL,                           HS_PHOENIXFXIX_1    }, // HS_PHOENIXFXIX_1
-    { HSPR_FX08, 9 | FF_FULLBRIGHT,     8, NULL/*A_RemovedPhoenixFunc*/,   HS_PHOENIXFXIX_2    }, // HS_PHOENIXFXIX_2
+    { HSPR_FX08, 9 | FF_FULLBRIGHT,     8, NULL,                           HS_PHOENIXFXIX_2    }, // HS_PHOENIXFXIX_2
     { HSPR_FX08, 10 | FF_FULLBRIGHT,    8, NULL,                           HS_NULL             }, // HS_PHOENIXFXIX_3
     { HSPR_FX04, 1,                     4, NULL,                           HS_PHOENIXPUFF2     }, // HS_PHOENIXPUFF1
     { HSPR_FX04, 2,                     4, NULL,                           HS_PHOENIXPUFF3     }, // HS_PHOENIXPUFF2
@@ -709,13 +708,13 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_FX09, 0 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_4     }, // HS_PHOENIXFX2_3
     { HSPR_FX09, 1 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_5     }, // HS_PHOENIXFX2_4
     { HSPR_FX09, 0 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_6     }, // HS_PHOENIXFX2_5
-    { HSPR_FX09, 1 | FF_FULLBRIGHT,     2, NULL/*A_FlameEnd*/,             HS_PHOENIXFX2_7     }, // HS_PHOENIXFX2_6
+    { HSPR_FX09, 1 | FF_FULLBRIGHT,     2, A_FlameEnd,                     HS_PHOENIXFX2_7     }, // HS_PHOENIXFX2_6
     { HSPR_FX09, 2 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_8     }, // HS_PHOENIXFX2_7
     { HSPR_FX09, 3 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_9     }, // HS_PHOENIXFX2_8
     { HSPR_FX09, 4 | FF_FULLBRIGHT,     2, NULL,                           HS_PHOENIXFX2_10    }, // HS_PHOENIXFX2_9
     { HSPR_FX09, 5 | FF_FULLBRIGHT,     2, NULL,                           HS_NULL             }, // HS_PHOENIXFX2_10
     { HSPR_FX09, 6 | FF_FULLBRIGHT,     3, NULL,                           HS_PHOENIXFXI2_2    }, // HS_PHOENIXFXI2_1
-    { HSPR_FX09, 7 | FF_FULLBRIGHT,     3, NULL/*A_FloatPuff*/,            HS_PHOENIXFXI2_3    }, // HS_PHOENIXFXI2_2
+    { HSPR_FX09, 7 | FF_FULLBRIGHT,     3, A_FloatPuff,                    HS_PHOENIXFXI2_3    }, // HS_PHOENIXFXI2_2
     { HSPR_FX09, 8 | FF_FULLBRIGHT,     4, NULL,                           HS_PHOENIXFXI2_4    }, // HS_PHOENIXFXI2_3
     { HSPR_FX09, 9 | FF_FULLBRIGHT,     5, NULL,                           HS_PHOENIXFXI2_5    }, // HS_PHOENIXFXI2_4
     { HSPR_FX09, 10 | FF_FULLBRIGHT,    5, NULL,                           HS_NULL             }, // HS_PHOENIXFXI2_5
@@ -740,7 +739,7 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_CRBW, 2,                     1, A_WeaponReady,                  HS_CRBOW1           }, // HS_CRBOW18
     { HSPR_CRBW, 0,                     1, A_Lower,                        HS_CRBOWDOWN        }, // HS_CRBOWDOWN
     { HSPR_CRBW, 0,                     1, A_Raise,                        HS_CRBOWUP          }, // HS_CRBOWUP
-    { HSPR_CRBW, 3,                     6, NULL/*A_FireCrossbowPL1*/,      HS_CRBOWATK1_2      }, // HS_CRBOWATK1_1
+    { HSPR_CRBW, 3,                     6, A_FireCrossbowPL1,              HS_CRBOWATK1_2      }, // HS_CRBOWATK1_1
     { HSPR_CRBW, 4,                     3, NULL,                           HS_CRBOWATK1_3      }, // HS_CRBOWATK1_2
     { HSPR_CRBW, 5,                     3, NULL,                           HS_CRBOWATK1_4      }, // HS_CRBOWATK1_3
     { HSPR_CRBW, 6,                     3, NULL,                           HS_CRBOWATK1_5      }, // HS_CRBOWATK1_4
@@ -748,7 +747,7 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_CRBW, 0,                     4, NULL,                           HS_CRBOWATK1_7      }, // HS_CRBOWATK1_6
     { HSPR_CRBW, 1,                     4, NULL,                           HS_CRBOWATK1_8      }, // HS_CRBOWATK1_7
     { HSPR_CRBW, 2,                     5, A_ReFire,                       HS_CRBOW1           }, // HS_CRBOWATK1_8
-    { HSPR_CRBW, 3,                     5, NULL/*A_FireCrossbowPL2*/,      HS_CRBOWATK2_2      }, // HS_CRBOWATK2_1
+    { HSPR_CRBW, 3,                     5, A_FireCrossbowPL2,              HS_CRBOWATK2_2      }, // HS_CRBOWATK2_1
     { HSPR_CRBW, 4,                     3, NULL,                           HS_CRBOWATK2_3      }, // HS_CRBOWATK2_2
     { HSPR_CRBW, 5,                     2, NULL,                           HS_CRBOWATK2_4      }, // HS_CRBOWATK2_3
     { HSPR_CRBW, 6,                     3, NULL,                           HS_CRBOWATK2_5      }, // HS_CRBOWATK2_4
@@ -760,7 +759,7 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_FX03, 7 | FF_FULLBRIGHT,     8, NULL,                           HS_CRBOWFXI1_2      }, // HS_CRBOWFXI1_1
     { HSPR_FX03, 8 | FF_FULLBRIGHT,     8, NULL,                           HS_CRBOWFXI1_3      }, // HS_CRBOWFXI1_2
     { HSPR_FX03, 9 | FF_FULLBRIGHT,     8, NULL,                           HS_NULL             }, // HS_CRBOWFXI1_3
-    { HSPR_FX03, 1 | FF_FULLBRIGHT,     1, NULL/*A_BoltSpark*/,            HS_CRBOWFX2         }, // HS_CRBOWFX2
+    { HSPR_FX03, 1 | FF_FULLBRIGHT,     1, A_BoltSpark,                    HS_CRBOWFX2         }, // HS_CRBOWFX2
     { HSPR_FX03, 0 | FF_FULLBRIGHT,     1, NULL,                           HS_CRBOWFX3         }, // HS_CRBOWFX3
     { HSPR_FX03, 2 | FF_FULLBRIGHT,     8, NULL,                           HS_CRBOWFXI3_2      }, // HS_CRBOWFXI3_1
     { HSPR_FX03, 3 | FF_FULLBRIGHT,     8, NULL,                           HS_CRBOWFXI3_3      }, // HS_CRBOWFXI3_2
