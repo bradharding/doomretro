@@ -1435,6 +1435,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1465,6 +1466,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1495,6 +1497,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1525,6 +1528,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1555,6 +1559,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1585,6 +1590,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1615,6 +1621,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1645,6 +1652,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1675,6 +1683,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1705,6 +1714,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1735,6 +1745,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1765,6 +1776,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -1795,6 +1807,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1825,6 +1838,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1855,6 +1869,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1885,6 +1900,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1915,6 +1931,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1945,6 +1962,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      54 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -1975,6 +1993,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,             // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2005,6 +2024,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2035,6 +2055,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,             // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2065,6 +2086,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2095,6 +2117,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2125,6 +2148,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2155,6 +2179,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,             // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2185,6 +2210,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2215,6 +2241,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      70 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2245,6 +2272,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      60 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2275,6 +2303,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      45 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2305,6 +2334,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      35 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2335,6 +2365,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      60 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2365,6 +2396,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      54 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2395,6 +2427,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      34 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2425,6 +2458,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      32 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2455,6 +2489,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      64 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2485,6 +2520,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      36 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2515,6 +2551,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      68 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2545,6 +2582,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      44 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2575,6 +2613,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      32 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2605,6 +2644,7 @@ mobjinfo_t hereticmobjinfo[] = {
      14 * FRACUNIT,             // radius
      14 * FRACUNIT,             // radius
      128 * FRACUNIT,            // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2635,6 +2675,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      23 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2665,6 +2706,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      27 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2695,6 +2737,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2725,6 +2768,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      104 * FRACUNIT,            // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2755,6 +2799,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      50 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2785,6 +2830,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      50 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2815,6 +2861,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      50 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2845,6 +2892,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2875,6 +2923,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      20 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2905,6 +2954,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -2935,6 +2985,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -2965,6 +3016,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -2995,6 +3047,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3025,6 +3078,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3055,6 +3109,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3085,6 +3140,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3115,6 +3171,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3145,6 +3202,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3175,6 +3233,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3205,6 +3264,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3235,6 +3295,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3265,6 +3326,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3295,6 +3357,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3325,6 +3388,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3355,6 +3419,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -3385,6 +3450,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3415,6 +3481,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -3445,6 +3512,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3475,6 +3543,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3505,6 +3574,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3535,6 +3605,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -3565,6 +3636,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      6,                         // damage
      hsfx_None,                  // activesound
@@ -3595,6 +3667,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      4,                         // damage
      hsfx_None,                  // activesound
@@ -3625,6 +3698,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      18,                        // damage
      hsfx_None,                  // activesound
@@ -3655,6 +3729,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3685,6 +3760,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      3,                         // damage
      hsfx_None,                  // activesound
@@ -3715,6 +3791,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      10,                        // damage
      hsfx_None,                  // activesound
@@ -3745,6 +3822,7 @@ mobjinfo_t hereticmobjinfo[] = {
      5 * FRACUNIT,              // radius
      5 * FRACUNIT,              // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      5,                         // damage
      hsfx_None,                  // activesound
@@ -3775,6 +3853,7 @@ mobjinfo_t hereticmobjinfo[] = {
      5 * FRACUNIT,              // radius
      5 * FRACUNIT,              // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      5,                         // damage
      hsfx_None,                  // activesound
@@ -3805,6 +3884,7 @@ mobjinfo_t hereticmobjinfo[] = {
      5 * FRACUNIT,              // radius
      5 * FRACUNIT,              // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      5,                         // damage
      hsfx_None,                  // activesound
@@ -3835,6 +3915,7 @@ mobjinfo_t hereticmobjinfo[] = {
      5 * FRACUNIT,              // radius
      5 * FRACUNIT,              // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      5,                         // damage
      hsfx_None,                  // activesound
@@ -3865,6 +3946,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -3895,6 +3977,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -3925,6 +4008,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3955,6 +4039,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -3985,6 +4070,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4015,6 +4101,7 @@ mobjinfo_t hereticmobjinfo[] = {
      11 * FRACUNIT,             // radius
      11 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      20,                        // damage
      hsfx_None,                  // activesound
@@ -4049,6 +4136,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,              // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4079,6 +4167,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4109,6 +4198,7 @@ mobjinfo_t hereticmobjinfo[] = {
      6 * FRACUNIT,              // radius
      6 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -4139,6 +4229,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4169,6 +4260,7 @@ mobjinfo_t hereticmobjinfo[] = {
      11 * FRACUNIT,             // radius
      11 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      10,                        // damage
      hsfx_None,                  // activesound
@@ -4199,6 +4291,7 @@ mobjinfo_t hereticmobjinfo[] = {
      11 * FRACUNIT,             // radius
      11 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      6,                         // damage
      hsfx_None,                  // activesound
@@ -4229,6 +4322,7 @@ mobjinfo_t hereticmobjinfo[] = {
      11 * FRACUNIT,             // radius
      11 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -4259,6 +4353,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4289,6 +4384,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4319,6 +4415,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,              // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4349,6 +4446,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      56 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4379,6 +4477,7 @@ mobjinfo_t hereticmobjinfo[] = {
      4 * FRACUNIT,              // radius
      4 * FRACUNIT,              // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4409,6 +4508,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      24 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4439,6 +4539,7 @@ mobjinfo_t hereticmobjinfo[] = {
      9 * FRACUNIT,              // radius
      9 * FRACUNIT,              // radius
      22 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      40,                        // mass
      0,                         // damage
      hsfx_chicact,               // activesound
@@ -4469,6 +4570,7 @@ mobjinfo_t hereticmobjinfo[] = {
      2 * FRACUNIT,              // radius
      2 * FRACUNIT,              // radius
      4 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4499,6 +4601,7 @@ mobjinfo_t hereticmobjinfo[] = {
      22 * FRACUNIT,             // radius
      22 * FRACUNIT,             // radius
      62 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      75,                        // mass
      0,                         // damage
      hsfx_mumact,                // activesound
@@ -4529,6 +4632,7 @@ mobjinfo_t hereticmobjinfo[] = {
      22 * FRACUNIT,             // radius
      22 * FRACUNIT,             // radius
      62 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      75,                        // mass
      0,                         // damage
      hsfx_mumact,                // activesound
@@ -4559,6 +4663,7 @@ mobjinfo_t hereticmobjinfo[] = {
      22 * FRACUNIT,             // radius
      22 * FRACUNIT,             // radius
      62 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      75,                        // mass
      0,                         // damage
      hsfx_mumact,                // activesound
@@ -4589,6 +4694,7 @@ mobjinfo_t hereticmobjinfo[] = {
      22 * FRACUNIT,             // radius
      22 * FRACUNIT,             // radius
      62 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      75,                        // mass
      0,                         // damage
      hsfx_mumact,                // activesound
@@ -4619,6 +4725,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -4649,6 +4756,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      14 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      4,                         // damage
      hsfx_None,                  // activesound
@@ -4679,6 +4787,7 @@ mobjinfo_t hereticmobjinfo[] = {
      32 * FRACUNIT,             // radius
      32 * FRACUNIT,             // radius
      74 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      200,                       // mass
      0,                         // damage
      hsfx_bstact,                // activesound
@@ -4709,6 +4818,7 @@ mobjinfo_t hereticmobjinfo[] = {
      9 * FRACUNIT,              // radius
      9 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      4,                         // damage
      hsfx_None,                  // activesound
@@ -4739,6 +4849,7 @@ mobjinfo_t hereticmobjinfo[] = {
      6 * FRACUNIT,              // radius
      6 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -4769,6 +4880,7 @@ mobjinfo_t hereticmobjinfo[] = {
      6 * FRACUNIT,              // radius
      6 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -4799,6 +4911,7 @@ mobjinfo_t hereticmobjinfo[] = {
      6 * FRACUNIT,              // radius
      6 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -4829,6 +4942,7 @@ mobjinfo_t hereticmobjinfo[] = {
      22 * FRACUNIT,             // radius
      22 * FRACUNIT,             // radius
      70 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_snkact,                // activesound
@@ -4859,6 +4973,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -4889,6 +5004,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      3,                         // damage
      hsfx_None,                  // activesound
@@ -4919,6 +5035,7 @@ mobjinfo_t hereticmobjinfo[] = {
      40 * FRACUNIT,             // radius
      40 * FRACUNIT,             // radius
      72 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      325,                       // mass
      0,                         // damage
      hsfx_hedact,                // activesound
@@ -4949,6 +5066,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -4979,6 +5097,7 @@ mobjinfo_t hereticmobjinfo[] = {
      12 * FRACUNIT,             // radius
      12 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      3,                         // damage
      hsfx_None,                  // activesound
@@ -5009,6 +5128,7 @@ mobjinfo_t hereticmobjinfo[] = {
      14 * FRACUNIT,             // radius
      14 * FRACUNIT,             // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      5,                         // damage
      hsfx_None,                  // activesound
@@ -5039,6 +5159,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      74 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -5069,6 +5190,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      64 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      75,                        // mass
      0,                         // damage
      hsfx_clkact,                // activesound
@@ -5099,6 +5221,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      68 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_wizact,                // activesound
@@ -5129,6 +5252,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      3,                         // damage
      hsfx_None,                  // activesound
@@ -5159,6 +5283,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      36 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      50,                        // mass
      0,                         // damage
      hsfx_impact,                // activesound
@@ -5189,6 +5314,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      36 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      50,                        // mass
      0,                         // damage
      hsfx_impact,                // activesound
@@ -5219,6 +5345,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5249,6 +5376,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5279,6 +5407,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -5309,6 +5438,7 @@ mobjinfo_t hereticmobjinfo[] = {
      24 * FRACUNIT,             // radius
      24 * FRACUNIT,             // radius
      78 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      150,                       // mass
      0,                         // damage
      hsfx_kgtact,                // activesound
@@ -5339,6 +5469,7 @@ mobjinfo_t hereticmobjinfo[] = {
      24 * FRACUNIT,             // radius
      24 * FRACUNIT,             // radius
      78 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      150,                       // mass
      0,                         // damage
      hsfx_kgtact,                // activesound
@@ -5369,6 +5500,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      2,                         // damage
      hsfx_None,                  // activesound
@@ -5399,6 +5531,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      8 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      7,                         // damage
      hsfx_None,                  // activesound
@@ -5429,6 +5562,7 @@ mobjinfo_t hereticmobjinfo[] = {
      28 * FRACUNIT,             // radius
      28 * FRACUNIT,             // radius
      100 * FRACUNIT,            // height
+     0,                         // projectilepassheight
      800,                       // mass
      0,                         // damage
      hsfx_sbtact,                // activesound
@@ -5459,6 +5593,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      10,                        // damage
      hsfx_None,                  // activesound
@@ -5489,6 +5624,7 @@ mobjinfo_t hereticmobjinfo[] = {
      16 * FRACUNIT,             // radius
      16 * FRACUNIT,             // radius
      70 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      300,                       // mass
      0,                         // damage
      hsfx_soract,                // activesound
@@ -5519,6 +5655,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      1,                         // damage
      hsfx_None,                  // activesound
@@ -5549,6 +5686,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5579,6 +5717,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      10,                        // damage
      hsfx_None,                  // activesound
@@ -5609,6 +5748,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5639,6 +5779,7 @@ mobjinfo_t hereticmobjinfo[] = {
      28 * FRACUNIT,             // radius
      28 * FRACUNIT,             // radius
      100 * FRACUNIT,            // height
+     0,                         // projectilepassheight
      800,                       // mass
      7,                         // damage
      hsfx_minact,                // activesound
@@ -5669,6 +5810,7 @@ mobjinfo_t hereticmobjinfo[] = {
      10 * FRACUNIT,             // radius
      10 * FRACUNIT,             // radius
      6 * FRACUNIT,              // height
+     0,                         // projectilepassheight
      100,                       // mass
      3,                         // damage
      hsfx_None,                  // activesound
@@ -5699,6 +5841,7 @@ mobjinfo_t hereticmobjinfo[] = {
      5 * FRACUNIT,              // radius
      5 * FRACUNIT,              // radius
      12 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      4,                         // damage
      hsfx_None,                  // activesound
@@ -5729,6 +5872,7 @@ mobjinfo_t hereticmobjinfo[] = {
      8 * FRACUNIT,              // radius
      8 * FRACUNIT,              // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      4,                         // damage
      hsfx_None,                  // activesound
@@ -5759,6 +5903,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5789,6 +5934,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5819,6 +5965,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5849,6 +5996,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5879,6 +6027,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5909,6 +6058,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5939,6 +6089,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5969,6 +6120,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -5999,6 +6151,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6029,6 +6182,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6059,6 +6213,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6089,6 +6244,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6119,6 +6275,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6149,6 +6306,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6179,6 +6337,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6209,6 +6368,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
@@ -6239,6 +6399,7 @@ mobjinfo_t hereticmobjinfo[] = {
      20 * FRACUNIT,             // radius
      20 * FRACUNIT,             // radius
      16 * FRACUNIT,             // height
+     0,                         // projectilepassheight
      100,                       // mass
      0,                         // damage
      hsfx_None,                  // activesound
