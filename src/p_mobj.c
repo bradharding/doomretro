@@ -64,7 +64,7 @@ dboolean    r_floatbob = r_floatbob_default;
 dboolean    r_rockettrails = r_rockettrails_default;
 dboolean    r_shadows = r_shadows_default;
 
-mobjtype_t  pufftype;
+mobjtype_t  pufftype = MT_PUFF;
 mobj_t      *missilemobj;
 
 static fixed_t floatbobdiffs[64] =
@@ -1295,11 +1295,11 @@ extern fixed_t  attackrange;
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
     mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
-    mobjinfo_t  *info = &mobjinfo[MT_PUFF];
+    mobjinfo_t  *info = &mobjinfo[pufftype];
     state_t     *st = &states[info->spawnstate];
     sector_t    *sector;
 
-    th->type = MT_PUFF;
+    th->type = pufftype;
     th->info = info;
     th->x = x;
     th->y = y;
@@ -1319,6 +1319,24 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     P_SetThingPosition(th);
 
+    if (th->info->attacksound)
+        S_StartSound(th, th->info->attacksound);
+
+    switch (pufftype)
+    {
+        case HMT_BEAKPUFF:
+        case HMT_STAFFPUFF:
+            th->momz = FRACUNIT;
+            break;
+
+        case HMT_GAUNTLETPUFF1:
+        case HMT_GAUNTLETPUFF2:
+            th->momz = (fixed_t)(0.8 * FRACUNIT);
+
+        default:
+            break;
+    }
+
     sector = th->subsector->sector;
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
@@ -1329,7 +1347,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     P_AddThinker(&th->thinker);
 
     // don't make punches spark on the wall
-    if (attackrange == MELEERANGE)
+    if (attackrange == MELEERANGE && gamemission != heretic)
     {
         P_SetMobjState(th, S_PUFF3);
 
