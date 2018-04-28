@@ -1087,8 +1087,39 @@ static void P_LoadThings(int lump)
         mapthing_t  mt = data[i];
         dboolean    spawn = true;
 
-        // Do not spawn cool, new monsters if !commercial
-        if (gamemode != commercial)
+        if (gamemission == heretic)
+        {
+            switch (i)
+            {
+                case HMT_WSKULLROD:
+                case HMT_WPHOENIXROD:
+                case HMT_AMSKRDWIMPY:
+                case HMT_AMSKRDHEFTY:
+                case HMT_AMPHRDWIMPY:
+                case HMT_AMPHRDHEFTY:
+                case HMT_AMMACEWIMPY:
+                case HMT_AMMACEHEFTY:
+                case HMT_ARTISUPERHEAL:
+                case HMT_ARTITELEPORT:
+                case HMT_ITEMSHIELD2:
+                    if (gamemode == shareware)
+                        spawn = false;
+
+                    break;
+
+                case HMT_WMACE:
+                    if (gamemode != shareware)
+                    {
+                        //P_AddMaceSpot(mt);
+                        spawn = false;
+                        break;
+                    }
+
+                default:
+                    break;
+            }
+        }
+        else if (gamemode != commercial)
         {
             switch (SHORT(mt.type))
             {
