@@ -719,8 +719,12 @@ static void C_DrawBackground(int height)
     else
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
-    for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
+    if (gamemission == heretic)
+        for (int i = 0; i < height; i++)
+            screens[0][i] = tinttab50[(227 << 8) + c_blurscreen[i]];
+    else
+        for (int i = 0; i < height; i++)
+            screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
