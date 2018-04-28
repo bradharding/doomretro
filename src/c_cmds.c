@@ -5964,9 +5964,9 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
             }
             else
             {
-                returntowidescreen = true;
                 r_hud = true;
                 M_SaveCVARs();
+                returntowidescreen = true;
             }
         }
         else
