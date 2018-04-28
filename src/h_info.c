@@ -1410,5001 +1410,6892 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_AMG1, 0,                    85, NULL/*A_ESound*/,               HS_SND_WATERFALL    }  // HS_SND_WATERFALL
 };
 
-
-mobjinfo_t hereticmobjinfo[] = {
-
-    {                           // MT_MISC0
-     81,                        // doomednum
-     HS_ITEM_PTN1_1,             // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ITEMSHIELD1
-     85,                        // doomednum
-     HS_ITEM_SHLD1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_ITEMSHIELD2
-     31,                        // doomednum
-     HS_ITEM_SHD2_1,             // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MISC1
-     8,                         // doomednum
-     HS_ITEM_BAGH1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MISC2
-     35,                        // doomednum
-     HS_ITEM_SPMP1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ARTIINVISIBILITY
-     75,                        // doomednum
-     HS_ARTI_INVS1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | /*MF_SHADOW | */MF_COUNTITEM,     // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MISC3
-     82,                        // doomednum
-     HS_ARTI_PTN2_1,             // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ARTIFLY
-     83,                        // doomednum
-     HS_ARTI_SOAR1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ARTIINVULNERABILITY
-     84,                        // doomednum
-     HS_ARTI_INVU1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ARTITOMEOFPOWER
-     86,                        // doomednum
-     HS_ARTI_PWBK1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_ARTIEGG
-     30,                        // doomednum
-     HS_ARTI_EGGC1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_EGGFX
-     -1,                        // doomednum
-     HS_EGGFX1,                  // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_EGGFXI1_1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     18 * FRACUNIT,             // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_ARTISUPERHEAL
-     32,                        // doomednum
-     HS_ARTI_SPHL1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC4
-     33,                        // doomednum
-     HS_ARTI_TRCH1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MISC5
-     34,                        // doomednum
-     HS_ARTI_FBMB1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_FIREBOMB
-     -1,                        // doomednum
-     HS_FIREBOMB1,               // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_phohit,                // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_ARTITELEPORT
-     36,                        // doomednum
-     HS_ARTI_ATLP1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_COUNTITEM, // flags
-     MF2_FLOATBOB,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_POD
-     2035,                      // doomednum
-     HS_POD_WAIT1,               // spawnstate
-     45,                        // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_POD_PAIN1,               // painstate
-     255,                       // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_POD_DIE1,                // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_podexp,                // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     54 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_NOBLOOD | MF_SHOOTABLE | MF_DROPOFF, // flags
-     MF2_PASSMOBJ,              // flags2
-     MF3_WINDTHRUST | MF3_PUSHABLE | MF3_SLIDE | MF3_TELESTOMP   // flags3
-                                      },
-
-    {                           // MT_PODGOO
-     -1,                        // doomednum
-     HS_PODGOO1,                 // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_PODGOOX,                 // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,             // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH       // flags3
-                                      },
-
-    {                           // MT_PODGENERATOR
-     43,                        // doomednum
-     HS_PODGENERATOR,            // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOSECTOR,       // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SPLASH
-     -1,                        // doomednum
-     HS_SPLASH1,                 // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SPLASHX,                 // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,             // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH       // flags3
-                                      },
-
-    {                           // MT_SPLASHBASE
-     -1,                        // doomednum
-     HS_SPLASHBASE1,             // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_LAVASPLASH
-     -1,                        // doomednum
-     HS_LAVASPLASH1,             // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_LAVASMOKE
-     -1,                        // doomednum
-     HS_LAVASMOKE1,              // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SLUDGECHUNK
-     -1,                        // doomednum
-     HS_SLUDGECHUNK1,            // spawnstate
-     1000,                      // spawnhealth
-     0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SLUDGECHUNKX,            // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,             // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH       // flags3
-                                      },
-
-    {                           // MT_SLUDGESPLASH
-     -1,                        // doomednum
-     HS_SLUDGESPLASH1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SKULLHANG70
-     17,                        // doomednum
-     HS_SKULLHANG70_1,           // spawnstate
-     1000,                      // spawnhealth
-0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     70 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SKULLHANG60
-     24,                        // doomednum
-     HS_SKULLHANG60_1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     60 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SKULLHANG45
-     25,                        // doomednum
-     HS_SKULLHANG45_1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     45 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SKULLHANG35
-     26,                        // doomednum
-     HS_SKULLHANG35_1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     35 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_CHANDELIER
-     28,                        // doomednum
-     HS_CHANDELIER1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     60 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SERPTORCH
-     27,                        // doomednum
-     HS_SERPTORCH1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     54 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SMALLPILLAR
-     29,                        // doomednum
-     HS_SMALLPILLAR,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     34 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STALAGMITESMALL
-     37,                        // doomednum
-     HS_STALAGMITESMALL,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     32 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STALAGMITELARGE
-     38,                        // doomednum
-     HS_STALAGMITELARGE,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     64 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STALACTITESMALL
-     39,                        // doomednum
-     HS_STALACTITESMALL,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     36 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STALACTITELARGE
-     40,                        // doomednum
-     HS_STALACTITELARGE,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     68 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC6
-     76,                        // doomednum
-     HS_FIREBRAZIER1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     44 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BARREL
-     44,                        // doomednum
-     HS_BARREL,                  // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     32 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC7
-     47,                        // doomednum
-     HS_BRPILLAR,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     14 * FRACUNIT,             // radius
-     14 * FRACUNIT,             // radius
-     128 * FRACUNIT,            // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC8
-     48,                        // doomednum
-     HS_MOSS1,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     23 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC9
-     49,                        // doomednum
-     HS_MOSS2,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     27 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPAWNCEILING | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC10
-     50,                        // doomednum
-     HS_WALLTORCH1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOGRAVITY,              // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC11
-     51,                        // doomednum
-     HS_HANGINGCORPSE,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     104 * FRACUNIT,            // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_KEYGIZMOBLUE
-     94,                        // doomednum
-     HS_KEYGIZMO1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     50 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_KEYGIZMOGREEN
-     95,                        // doomednum
-     HS_KEYGIZMO1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     50 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_KEYGIZMOYELLOW
-     96,                        // doomednum
-     HS_KEYGIZMO1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     50 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_KEYGIZMOFLOAT
-     -1,                        // doomednum
-     HS_KGZ_START,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_NOGRAVITY,   // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC12
-     87,                        // doomednum
-     HS_VOLCANO1,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID,                  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_VOLCANOBLAST
-     -1,                        // doomednum
-     HS_VOLCANOBALL1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_VOLCANOBALLX1,           // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_volhit,                // deathsound
-     2 * FRACUNIT,              // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_NOTELEPORT | MF3_FIREDAMAGE       // flags3
-                                      },
-
-    {                           // MT_VOLCANOTBLAST
-     -1,                        // doomednum
-     HS_VOLCANOTBALL1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_VOLCANOTBALLX1,          // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     2 * FRACUNIT,              // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_NOTELEPORT | MF3_FIREDAMAGE       // flags3
-                                      },
-
-    {                           // MT_TELEGLITGEN
-     74,                        // doomednum
-     HS_TELEGLITGEN1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_NOSECTOR,        // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_TELEGLITGEN2
-     52,                        // doomednum
-     HS_TELEGLITGEN2,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_NOSECTOR,        // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_TELEGLITTER
-     -1,                        // doomednum
-     HS_TELEGLITTER1_1,          // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_TELEGLITTER2
-     -1,                        // doomednum
-     HS_TELEGLITTER2_1,          // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_TFOG
-     -1,                        // doomednum
-     HS_TFOG1,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_TELEPORTMAN
-     14,                        // doomednum
-     HS_NULL,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOSECTOR,       // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STAFFPUFF
-     -1,                        // doomednum
-     HS_STAFFPUFF1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_stfhit,                // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_STAFFPUFF2
-     -1,                        // doomednum
-     HS_STAFFPUFF2_1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_stfpow,                // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BEAKPUFF
-     -1,                        // doomednum
-     HS_STAFFPUFF1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_chicatk,               // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC13
-     2005,                      // doomednum
-     HS_WGNT,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_GAUNTLETPUFF1
-     -1,                        // doomednum
-     HS_GAUNTLETPUFF1_1,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_GAUNTLETPUFF2
-     -1,                        // doomednum
-     HS_GAUNTLETPUFF2_1,         // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MISC14
-     53,                        // doomednum
-     HS_BLSR,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BLASTERFX1
-     -1,                        // doomednum
-     HS_BLASTERFX1_1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_BLASTERFXI1_1,           // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_blshit,                // deathsound
-     184 * FRACUNIT,            // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_BLASTERSMOKE
-     -1,                        // doomednum
-     HS_BLASTERSMOKE1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_CANNOTPUSH    // flags3
-                                      },
-
-    {                           // MT_RIPPER
-     -1,                        // doomednum
-     HS_RIPPER1,                 // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_RIPPERX1,                // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     14 * FRACUNIT,             // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_RIP   // flags3
-                                      },
-
-    {                           // MT_BLASTERPUFF1
-     -1,                        // doomednum
-     HS_BLASTERPUFF1_1,          // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BLASTERPUFF2
-     -1,                        // doomednum
-     HS_BLASTERPUFF2_1,          // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_WMACE
-     2002,                      // doomednum
-     HS_WMCE,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MACEFX1
-     -1,                        // doomednum
-     HS_MACEFX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_lobsht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MACEFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     20 * FRACUNIT,             // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT   // flags3
-                                      },
-
-    {                           // MT_MACEFX2
-     -1,                        // doomednum
-     HS_MACEFX2_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MACEFXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     6,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT      // flags3
-                                      },
-
-    {                           // MT_MACEFX3
-     -1,                        // doomednum
-     HS_MACEFX3_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MACEFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     7 * FRACUNIT,              // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     4,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT      // flags3
-                                      },
-
-    {                           // MT_MACEFX4
-     -1,                        // doomednum
-     HS_MACEFX4_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MACEFXI4_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     7 * FRACUNIT,              // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     18,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_TELESTOMP       // flags3
-                                      },
-
-    {                           // MT_WSKULLROD
-     2004,                      // doomednum
-     HS_WSKL,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_HORNRODFX1
-     -1,                        // doomednum
-     HS_HRODFX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_hrnsht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HRODFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     22 * FRACUNIT,             // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     3,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_HORNRODFX2
-     -1,                        // doomednum
-     HS_HRODFX2_1,               // spawnstate
-     4 * 35,                    // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_hrnsht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HRODFXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_ramphit,               // deathsound
-     22 * FRACUNIT,             // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     10,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_RAINPLR1
-     -1,                        // doomednum
-     HS_RAINPLR1_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_RAINPLR1X_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     12 * FRACUNIT,             // speed
-     5 * FRACUNIT,              // radius
-     5 * FRACUNIT,              // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     5,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_RAINPLR2
-     -1,                        // doomednum
-     HS_RAINPLR2_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_RAINPLR2X_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     12 * FRACUNIT,             // speed
-     5 * FRACUNIT,              // radius
-     5 * FRACUNIT,              // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     5,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_RAINPLR3
-     -1,                        // doomednum
-     HS_RAINPLR3_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_RAINPLR3X_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     12 * FRACUNIT,             // speed
-     5 * FRACUNIT,              // radius
-     5 * FRACUNIT,              // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     5,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_RAINPLR4
-     -1,                        // doomednum
-     HS_RAINPLR4_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_RAINPLR4X_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     12 * FRACUNIT,             // speed
-     5 * FRACUNIT,              // radius
-     5 * FRACUNIT,              // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     5,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_GOLDWANDFX1
-     -1,                        // doomednum
-     HS_GWANDFX1_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_GWANDFXI1_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_gldhit,                // deathsound
-     22 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_GOLDWANDFX2
-     -1,                        // doomednum
-     HS_GWANDFX2_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_GWANDFXI1_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     18 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_GOLDWANDPUFF1
-     -1,                        // doomednum
-     HS_GWANDPUFF1_1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_GOLDWANDPUFF2
-     -1,                        // doomednum
-     HS_GWANDFXI1_1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_WPHOENIXROD
-     2003,                      // doomednum
-     HS_WPHX,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_PHOENIXFX1
-     -1,                        // doomednum
-     HS_PHOENIXFX1_1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_phosht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_PHOENIXFXI1_1,           // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_phohit,                // deathsound
-     20 * FRACUNIT,             // speed
-     11 * FRACUNIT,             // radius
-     11 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     20,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_THRUGHOST | MF3_NOTELEPORT     // flags3
-                                      },
-
-    // The following thing is present in the mobjinfo table from Heretic 1.0,
-    // but not in Heretic 1.3 (ie. it was removed).  It has been re-inserted
-    // here to support HHE patches.
-
-    {                           // MT_PHOENIXFX_REMOVED
-     -1,                        // doomednum
-     HS_PHOENIXFXIX_1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_PHOENIXFXIX_3,           // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,              // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT     // flags3
-                                      },
-
-    {                           // MT_PHOENIXPUFF
-     -1,                        // doomednum
-     HS_PHOENIXPUFF1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,  // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_CANNOTPUSH    // flags3
-                                      },
-
-    {                           // MT_PHOENIXFX2
-     -1,                        // doomednum
-     HS_PHOENIXFX2_1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_PHOENIXFXI2_1,           // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     6 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_FIREDAMAGE    // flags3
-                                      },
-
-    {                           // MT_MISC15
-     2001,                      // doomednum
-     HS_WBOW,                    // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_CRBOWFX1
-     -1,                        // doomednum
-     HS_CRBOWFX1,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_bowsht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_CRBOWFXI1_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     30 * FRACUNIT,             // speed
-     11 * FRACUNIT,             // radius
-     11 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     10,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_CRBOWFX2
-     -1,                        // doomednum
-     HS_CRBOWFX2,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_bowsht,                // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_CRBOWFXI1_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     32 * FRACUNIT,             // speed
-     11 * FRACUNIT,             // radius
-     11 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     6,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_CRBOWFX3
-     -1,                        // doomednum
-     HS_CRBOWFX3,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_CRBOWFXI3_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     20 * FRACUNIT,             // speed
-     11 * FRACUNIT,             // radius
-     11 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_THRUGHOST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_CRBOWFX4
-     -1,                        // doomednum
-     HS_CRBOWFX4_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     MF3_LOGRAV                 // flags3
-                                      },
-
-    {                           // MT_BLOOD
-     -1,                        // doomednum
-     HS_BLOOD1,                  // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BLOODSPLATTER
-     -1,                        // doomednum
-     HS_BLOODSPLATTER1,          // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_BLOODSPLATTERX,          // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,              // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_CANNOTPUSH    // flags3
-                                      },
-
-    {                           // MT_PLAYER
-     -1,                        // doomednum
-     HS_PLAY,                    // spawnstate
-     100,                       // spawnhealth
-    0,                      // gibhealth
-     HS_PLAY_RUN1,               // seestate
-     hsfx_None,                  // seesound
-     0,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_PLAY_PAIN,               // painstate
-     255,                       // painchance
-     hsfx_plrpai,                // painsound
-     HS_NULL,                    // meleestate
-     HS_PLAY_ATK1,               // missilestate
-     HS_NULL,                    // crashstate
-     HS_PLAY_DIE1,               // deathstate
-     HS_PLAY_XDIE1,              // xdeathstate
-     hsfx_plrdth,                // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     56 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_NOTDMATCH,   // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_WINDTHRUST | MF3_SLIDE | MF3_TELESTOMP   // flags3
-                                      },
-
-    {                           // MT_BLOODYSKULL
-     -1,                        // doomednum
-     HS_BLOODYSKULL1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     4 * FRACUNIT,              // radius
-     4 * FRACUNIT,              // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_DROPOFF,        // flags
-     0,                         // flags2
-     MF3_LOGRAV | MF3_CANNOTPUSH        // flags3
-                                      },
-
-    {                           // MT_CHICPLAYER
-     -1,                        // doomednum
-     HS_CHICPLAY,                // spawnstate
-     100,                       // spawnhealth
-    0,                      // gibhealth
-     HS_CHICPLAY_RUN1,           // seestate
-     hsfx_None,                  // seesound
-     0,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_CHICPLAY_PAIN,           // painstate
-     255,                       // painchance
-     hsfx_chicpai,               // painsound
-     HS_NULL,                    // meleestate
-     HS_CHICPLAY_ATK1,           // missilestate
-     HS_NULL,                    // crashstate
-     HS_CHICKEN_DIE1,            // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_chicdth,               // deathsound
-     0,                         // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     24 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_NOTDMATCH,       // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_WINDTHRUST | MF3_SLIDE | MF3_LOGRAV | MF3_TELESTOMP      // flags3
-                                      },
-
-    {                           // MT_CHICKEN
-     -1,                        // doomednum
-     HS_CHICKEN_LOOK1,           // spawnstate
-     10,                        // spawnhealth
-    0,                      // gibhealth
-     HS_CHICKEN_WALK1,           // seestate
-     hsfx_chicpai,               // seesound
-     8,                         // reactiontime
-     hsfx_chicatk,               // attacksound
-     HS_CHICKEN_PAIN1,           // painstate
-     200,                       // painchance
-     hsfx_chicpai,               // painsound
-     HS_CHICKEN_ATK1,            // meleestate
-     0,                         // missilestate
-     HS_NULL,                    // crashstate
-     HS_CHICKEN_DIE1,            // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_chicdth,               // deathsound
-     4,                         // speed
-     9 * FRACUNIT,              // radius
-     9 * FRACUNIT,              // radius
-     22 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     40,                        // mass
-     0,                         // damage
-     hsfx_chicact,               // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,       // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_WINDTHRUST             // flags3
-                                      },
-
-    {                           // MT_FEATHER
-     -1,                        // doomednum
-     HS_FEATHER1,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_FEATHERX,                // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     2 * FRACUNIT,              // radius
-     2 * FRACUNIT,              // radius
-     4 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,   // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH | MF3_WINDTHRUST      // flags3
-                                      },
-
-    {                           // MT_MUMMY
-     68,                        // doomednum
-     HS_MUMMY_LOOK1,             // spawnstate
-     80,                        // spawnhealth
-    0,                      // gibhealth
-     HS_MUMMY_WALK1,             // seestate
-     hsfx_mumsit,                // seesound
-     8,                         // reactiontime
-     hsfx_mumat1,                // attacksound
-     HS_MUMMY_PAIN1,             // painstate
-     128,                       // painchance
-     hsfx_mumpai,                // painsound
-     HS_MUMMY_ATK1,              // meleestate
-     0,                         // missilestate
-     HS_NULL,                    // crashstate
-     HS_MUMMY_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_mumdth,                // deathsound
-     12,                        // speed
-     22 * FRACUNIT,             // radius
-     22 * FRACUNIT,             // radius
-     62 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     75,                        // mass
-     0,                         // damage
-     hsfx_mumact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MUMMYLEADER
-     45,                        // doomednum
-     HS_MUMMY_LOOK1,             // spawnstate
-     100,                       // spawnhealth
-    0,                      // gibhealth
-     HS_MUMMY_WALK1,             // seestate
-     hsfx_mumsit,                // seesound
-     8,                         // reactiontime
-     hsfx_mumat1,                // attacksound
-     HS_MUMMY_PAIN1,             // painstate
-     64,                        // painchance
-     hsfx_mumpai,                // painsound
-     HS_MUMMY_ATK1,              // meleestate
-     HS_MUMMYL_ATK1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_MUMMY_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_mumdth,                // deathsound
-     12,                        // speed
-     22 * FRACUNIT,             // radius
-     22 * FRACUNIT,             // radius
-     62 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     75,                        // mass
-     0,                         // damage
-     hsfx_mumact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MUMMYGHOST
-     69,                        // doomednum
-     HS_MUMMY_LOOK1,             // spawnstate
-     80,                        // spawnhealth
-    0,                      // gibhealth
-     HS_MUMMY_WALK1,             // seestate
-     hsfx_mumsit,                // seesound
-     8,                         // reactiontime
-     hsfx_mumat1,                // attacksound
-     HS_MUMMY_PAIN1,             // painstate
-     128,                       // painchance
-     hsfx_mumpai,                // painsound
-     HS_MUMMY_ATK1,              // meleestate
-     0,                         // missilestate
-     HS_NULL,                    // crashstate
-     HS_MUMMY_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_mumdth,                // deathsound
-     12,                        // speed
-     22 * FRACUNIT,             // radius
-     22 * FRACUNIT,             // radius
-     62 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     75,                        // mass
-     0,                         // damage
-     hsfx_mumact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,        // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MUMMYLEADERGHOST
-     46,                        // doomednum
-     HS_MUMMY_LOOK1,             // spawnstate
-     100,                       // spawnhealth
-    0,                      // gibhealth
-     HS_MUMMY_WALK1,             // seestate
-     hsfx_mumsit,                // seesound
-     8,                         // reactiontime
-     hsfx_mumat1,                // attacksound
-     HS_MUMMY_PAIN1,             // painstate
-     64,                        // painchance
-     hsfx_mumpai,                // painsound
-     HS_MUMMY_ATK1,              // meleestate
-     HS_MUMMYL_ATK1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_MUMMY_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_mumdth,                // deathsound
-     12,                        // speed
-     22 * FRACUNIT,             // radius
-     22 * FRACUNIT,             // radius
-     62 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     75,                        // mass
-     0,                         // damage
-     hsfx_mumact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,        // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_MUMMYSOUL
-     -1,                        // doomednum
-     HS_MUMMY_SOUL1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MUMMYFX1
-     -1,                        // doomednum
-     HS_MUMMYFX1_1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MUMMYFXI1_1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     9 * FRACUNIT,              // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     14 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     4,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_BEAST
-     70,                        // doomednum
-     HS_BEAST_LOOK1,             // spawnstate
-     220,                       // spawnhealth
-    0,                      // gibhealth
-     HS_BEAST_WALK1,             // seestate
-     hsfx_bstsit,                // seesound
-     8,                         // reactiontime
-     hsfx_bstatk,                // attacksound
-     HS_BEAST_PAIN1,             // painstate
-     100,                       // painchance
-     hsfx_bstpai,                // painsound
-     0,                         // meleestate
-     HS_BEAST_ATK1,              // missilestate
-     HS_NULL,                    // crashstate
-     HS_BEAST_DIE1,              // deathstate
-     HS_BEAST_XDIE1,             // xdeathstate
-     hsfx_bstdth,                // deathsound
-     14,                        // speed
-     32 * FRACUNIT,             // radius
-     32 * FRACUNIT,             // radius
-     74 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     200,                       // mass
-     0,                         // damage
-     hsfx_bstact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_BEASTBALL
-     -1,                        // doomednum
-     HS_BEASTBALL1,              // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_BEASTBALLX1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     12 * FRACUNIT,             // speed
-     9 * FRACUNIT,              // radius
-     9 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     4,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_BURNBALL
-     -1,                        // doomednum
-     HS_BURNBALL1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_BEASTBALLX1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     6 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE, // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_BURNBALLFB
-     -1,                        // doomednum
-     HS_BURNBALLFB1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_BEASTBALLX1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     6 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE, // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_PUFFY
-     -1,                        // doomednum
-     HS_PUFFY1,                  // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_PUFFY1,                  // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     6 * FRACUNIT,              // radius
-     6 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE, // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_SNAKE
-     92,                        // doomednum
-     HS_SNAKE_LOOK1,             // spawnstate
-     280,                       // spawnhealth
-    0,                      // gibhealth
-     HS_SNAKE_WALK1,             // seestate
-     hsfx_snksit,                // seesound
-     8,                         // reactiontime
-     hsfx_snkatk,                // attacksound
-     HS_SNAKE_PAIN1,             // painstate
-     48,                        // painchance
-     hsfx_snkpai,                // painsound
-     0,                         // meleestate
-     HS_SNAKE_ATK1,              // missilestate
-     HS_NULL,                    // crashstate
-     HS_SNAKE_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_snkdth,                // deathsound
-     10,                        // speed
-     22 * FRACUNIT,             // radius
-     22 * FRACUNIT,             // radius
-     70 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_snkact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_SNAKEPRO_A
-     -1,                        // doomednum
-     HS_SNAKEPRO_A1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SNAKEPRO_AX1,            // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     14 * FRACUNIT,             // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_SNAKEPRO_B
-     -1,                        // doomednum
-     HS_SNAKEPRO_B1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SNAKEPRO_BX1,            // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     14 * FRACUNIT,             // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     3,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_HEAD
-     6,                         // doomednum
-     HS_HEAD_LOOK,               // spawnstate
-     700,                       // spawnhealth
-    0,                      // gibhealth
-     HS_HEAD_FLOAT,              // seestate
-     hsfx_hedsit,                // seesound
-     8,                         // reactiontime
-     hsfx_hedat1,                // attacksound
-     HS_HEAD_PAIN1,              // painstate
-     32,                        // painchance
-     hsfx_hedpai,                // painsound
-     0,                         // meleestate
-     HS_HEAD_ATK1,               // missilestate
-     HS_NULL,                    // crashstate
-     HS_HEAD_DIE1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_heddth,                // deathsound
-     6,                         // speed
-     40 * FRACUNIT,             // radius
-     40 * FRACUNIT,             // radius
-     72 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     325,                       // mass
-     0,                         // damage
-     hsfx_hedact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_NOBLOOD,       // flags
-     MF2_PASSMOBJ,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_HEADFX1
-     -1,                        // doomednum
-     HS_HEADFX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HEADFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     13 * FRACUNIT,             // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_THRUGHOST     // flags3
-                                      },
-
-    {                           // MT_HEADFX2
-     -1,                        // doomednum
-     HS_HEADFX2_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HEADFXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     8 * FRACUNIT,              // speed
-     12 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     3,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_HEADFX3
-     -1,                        // doomednum
-     HS_HEADFX3_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HEADFXI3_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     14 * FRACUNIT,             // radius
-     14 * FRACUNIT,             // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     5,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_WHIRLWIND
-     -1,                        // doomednum
-     HS_HEADFX4_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_HEADFXI4_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     74 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY/* | MF_SHADOW*/,        // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_CLINK
-     90,                        // doomednum
-     HS_CLINK_LOOK1,             // spawnstate
-     150,                       // spawnhealth
-    0,                      // gibhealth
-     HS_CLINK_WALK1,             // seestate
-     hsfx_clksit,                // seesound
-     8,                         // reactiontime
-     hsfx_clkatk,                // attacksound
-     HS_CLINK_PAIN1,             // painstate
-     32,                        // painchance
-     hsfx_clkpai,                // painsound
-     HS_CLINK_ATK1,              // meleestate
-     0,                         // missilestate
-     HS_NULL,                    // crashstate
-     HS_CLINK_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_clkdth,                // deathsound
-     14,                        // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     64 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     75,                        // mass
-     0,                         // damage
-     hsfx_clkact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_NOBLOOD,       // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_WIZARD
-     15,                        // doomednum
-     HS_WIZARD_LOOK1,            // spawnstate
-     180,                       // spawnhealth
-    0,                      // gibhealth
-     HS_WIZARD_WALK1,            // seestate
-     hsfx_wizsit,                // seesound
-     8,                         // reactiontime
-     hsfx_wizatk,                // attacksound
-     HS_WIZARD_PAIN1,            // painstate
-     64,                        // painchance
-     hsfx_wizpai,                // painsound
-     0,                         // meleestate
-     HS_WIZARD_ATK1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_WIZARD_DIE1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_wizdth,                // deathsound
-     12,                        // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     68 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_wizact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_FLOAT | MF_NOGRAVITY,  // flags
-     MF2_PASSMOBJ,              // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_WIZFX1
-     -1,                        // doomednum
-     HS_WIZFX1_1,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_WIZFXI1_1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     18 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     3,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_IMP
-     66,                        // doomednum
-     HS_IMP_LOOK1,               // spawnstate
-     40,                        // spawnhealth
-    0,                      // gibhealth
-     HS_IMP_FLY1,                // seestate
-     hsfx_impsit,                // seesound
-     8,                         // reactiontime
-     hsfx_impat1,                // attacksound
-     HS_IMP_PAIN1,               // painstate
-     200,                       // painchance
-     hsfx_imppai,                // painsound
-     HS_IMP_MEATK1,              // meleestate
-     HS_IMP_MSATK1_1,            // missilestate
-     HS_IMP_CRASH1,              // crashstate
-     HS_IMP_DIE1,                // deathstate
-     HS_IMP_XDIE1,               // xdeathstate
-     hsfx_impdth,                // deathsound
-     10,                        // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     36 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     50,                        // mass
-     0,                         // damage
-     hsfx_impact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,  // flags
-     MF2_PASSMOBJ,              // flags2
-     MF3_SPAWNFLOAT             // flags3
-                                      },
-
-    {                           // MT_IMPLEADER
-     5,                         // doomednum
-     HS_IMP_LOOK1,               // spawnstate
-     80,                        // spawnhealth
-    0,                      // gibhealth
-     HS_IMP_FLY1,                // seestate
-     hsfx_impsit,                // seesound
-     8,                         // reactiontime
-     hsfx_impat2,                // attacksound
-     HS_IMP_PAIN1,               // painstate
-     200,                       // painchance
-     hsfx_imppai,                // painsound
-     0,                         // meleestate
-     HS_IMP_MSATK2_1,            // missilestate
-     HS_IMP_CRASH1,              // crashstate
-     HS_IMP_DIE1,                // deathstate
-     HS_IMP_XDIE1,               // xdeathstate
-     hsfx_impdth,                // deathsound
-     10,                        // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     36 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     50,                        // mass
-     0,                         // damage
-     hsfx_impact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,  // flags
-     MF2_PASSMOBJ,              // flags2
-     MF3_SPAWNFLOAT             // flags3
-                                      },
-
-    {                           // MT_IMPCHUNK1
-     -1,                        // doomednum
-     HS_IMP_CHUNKA1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_IMPCHUNK2
-     -1,                        // doomednum
-     HS_IMP_CHUNKB1,             // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_IMPBALL
-     -1,                        // doomednum
-     HS_IMPFX1,                  // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_IMPFXI1,                 // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     10 * FRACUNIT,             // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT    // flags3
-                                      },
-
-    {                           // MT_KNIGHT
-     64,                        // doomednum
-     HS_KNIGHT_STND1,            // spawnstate
-     200,                       // spawnhealth
-    0,                      // gibhealth
-     HS_KNIGHT_WALK1,            // seestate
-     hsfx_kgtsit,                // seesound
-     8,                         // reactiontime
-     hsfx_kgtatk,                // attacksound
-     HS_KNIGHT_PAIN1,            // painstate
-     100,                       // painchance
-     hsfx_kgtpai,                // painsound
-     HS_KNIGHT_ATK1,             // meleestate
-     HS_KNIGHT_ATK1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_KNIGHT_DIE1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_kgtdth,                // deathsound
-     12,                        // speed
-     24 * FRACUNIT,             // radius
-     24 * FRACUNIT,             // radius
-     78 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     150,                       // mass
-     0,                         // damage
-     hsfx_kgtact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_KNIGHTGHOST
-     65,                        // doomednum
-     HS_KNIGHT_STND1,            // spawnstate
-     200,                       // spawnhealth
-    0,                      // gibhealth
-     HS_KNIGHT_WALK1,            // seestate
-     hsfx_kgtsit,                // seesound
-     8,                         // reactiontime
-     hsfx_kgtatk,                // attacksound
-     HS_KNIGHT_PAIN1,            // painstate
-     100,                       // painchance
-     hsfx_kgtpai,                // painsound
-     HS_KNIGHT_ATK1,             // meleestate
-     HS_KNIGHT_ATK1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_KNIGHT_DIE1,             // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_kgtdth,                // deathsound
-     12,                        // speed
-     24 * FRACUNIT,             // radius
-     24 * FRACUNIT,             // radius
-     78 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     150,                       // mass
-     0,                         // damage
-     hsfx_kgtact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,        // flags
-     MF2_PASSMOBJ, // flags2
-     0                          // flags3
-                                     },
-
-    {                           // MT_KNIGHTAXE
-     -1,                        // doomednum
-     HS_SPINAXE1,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SPINAXEX1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     9 * FRACUNIT,              // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     2,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_WINDTHRUST | MF3_NOTELEPORT | MF3_THRUGHOST    // flags3
-                                      },
-
-    {                           // MT_REDAXE
-     -1,                        // doomednum
-     HS_REDAXE1,                 // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_REDAXEX1,                // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_hrnhit,                // deathsound
-     9 * FRACUNIT,              // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     8 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     7,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_THRUGHOST     // flags3
-                                      },
-
-    {                           // MT_SORCERER1
-     7,                         // doomednum
-     HS_SRCR1_LOOK1,             // spawnstate
-     2000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_SRCR1_WALK1,             // seestate
-     hsfx_sbtsit,                // seesound
-     8,                         // reactiontime
-     hsfx_sbtatk,                // attacksound
-     HS_SRCR1_PAIN1,             // painstate
-     56,                        // painchance
-     hsfx_sbtpai,                // painsound
-     0,                         // meleestate
-     HS_SRCR1_ATK1,              // missilestate
-     HS_NULL,                    // crashstate
-     HS_SRCR1_DIE1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_sbtdth,                // deathsound
-     16,                        // speed
-     28 * FRACUNIT,             // radius
-     28 * FRACUNIT,             // radius
-     100 * FRACUNIT,            // height
-     0,                         // projectilepassheight
-     800,                       // mass
-     0,                         // damage
-     hsfx_sbtact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,    // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_BOSS                   // flags3
-                                      },
-
-    {                           // MT_SRCRFX1
-     -1,                        // doomednum
-     HS_SRCRFX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SRCRFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     20 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     10,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_FIREDAMAGE    // flags3
-                                      },
-
-    {                           // MT_SORCERER2
-     -1,                        // doomednum
-     HS_SOR2_LOOK1,              // spawnstate
-     3500,                      // spawnhealth
-    0,                      // gibhealth
-     HS_SOR2_WALK1,              // seestate
-     hsfx_sorsit,                // seesound
-     8,                         // reactiontime
-     hsfx_soratk,                // attacksound
-     HS_SOR2_PAIN1,              // painstate
-     32,                        // painchance
-     hsfx_sorpai,                // painsound
-     0,                         // meleestate
-     HS_SOR2_ATK1,               // missilestate
-     HS_NULL,                    // crashstate
-     HS_SOR2_DIE1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     14,                        // speed
-     16 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // radius
-     70 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     300,                       // mass
-     0,                         // damage
-     hsfx_soract,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,       // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_BOSS                   // flags3
-                                     },
-
-    {                           // MT_SOR2FX1
-     -1,                        // doomednum
-     HS_SOR2FX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SOR2FXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     20 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     1,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_SOR2FXSPARK
-     -1,                        // doomednum
-     HS_SOR2FXSPARK1,            // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOGRAVITY,      // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_CANNOTPUSH    // flags3
-                                      },
-
-    {                           // MT_SOR2FX2
-     -1,                        // doomednum
-     HS_SOR2FX2_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_SOR2FXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     6 * FRACUNIT,              // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     10,                        // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT             // flags3
-                                      },
-
-    {                           // MT_SOR2TELEFADE
-     -1,                        // doomednum
-     HS_SOR2TELEFADE1,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP,             // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_MINOTAUR
-     9,                         // doomednum
-     HS_MNTR_LOOK1,              // spawnstate
-     3000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_MNTR_WALK1,              // seestate
-     hsfx_minsit,                // seesound
-     8,                         // reactiontime
-     hsfx_minat1,                // attacksound
-     HS_MNTR_PAIN1,              // painstate
-     25,                        // painchance
-     hsfx_minpai,                // painsound
-     HS_MNTR_ATK1_1,             // meleestate
-     HS_MNTR_ATK2_1,             // missilestate
-     HS_NULL,                    // crashstate
-     HS_MNTR_DIE1,               // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_mindth,                // deathsound
-     16,                        // speed
-     28 * FRACUNIT,             // radius
-     28 * FRACUNIT,             // radius
-     100 * FRACUNIT,            // height
-     0,                         // projectilepassheight
-     800,                       // mass
-     7,                         // damage
-     hsfx_minact,                // activesound
-     MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,       // flags
-     MF2_PASSMOBJ, // flags2
-     MF3_BOSS                   // flags3
-                                     },
-
-    {                           // MT_MNTRFX1
-     -1,                        // doomednum
-     HS_MNTRFX1_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MNTRFXI1_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     0,                         // deathsound
-     20 * FRACUNIT,             // speed
-     10 * FRACUNIT,             // radius
-     10 * FRACUNIT,             // radius
-     6 * FRACUNIT,              // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     3,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_FIREDAMAGE    // flags3
-                                      },
-
-    {                           // MT_MNTRFX2
-     -1,                        // doomednum
-     HS_MNTRFX2_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MNTRFXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_phohit,                // deathsound
-     14 * FRACUNIT,             // speed
-     5 * FRACUNIT,              // radius
-     5 * FRACUNIT,              // radius
-     12 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     4,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_FIREDAMAGE    // flags3
-                                      },
-
-    {                           // MT_MNTRFX3
-     -1,                        // doomednum
-     HS_MNTRFX3_1,               // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     0,                         // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_MNTRFXI2_1,              // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_phohit,                // deathsound
-     0,                         // speed
-     8 * FRACUNIT,              // radius
-     8 * FRACUNIT,              // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     4,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,    // flags
-     0,                         // flags2
-     MF3_NOTELEPORT | MF3_FIREDAMAGE    // flags3
-                                      },
-
-    {                           // MT_AKYY
-     73,                        // doomednum
-     HS_AKYY1,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_NOTDMATCH, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_BKYY
-     79,                        // doomednum
-     HS_BKYY1,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_NOTDMATCH, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_CKEY
-     80,                        // doomednum
-     HS_CKYY1,                   // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL | MF_NOTDMATCH, // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMGWNDWIMPY
-     10,                        // doomednum
-     HS_AMG1,                    // spawnstate
-     AMMO_GWND_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMGWNDHEFTY
-     12,                        // doomednum
-     HS_AMG2_1,                  // spawnstate
-     AMMO_GWND_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMMACEWIMPY
-     13,                        // doomednum
-     HS_AMM1,                    // spawnstate
-     AMMO_MACE_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMMACEHEFTY
-     16,                        // doomednum
-     HS_AMM2,                    // spawnstate
-     AMMO_MACE_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMCBOWWIMPY
-     18,                        // doomednum
-     HS_AMC1,                    // spawnstate
-     AMMO_CBOW_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMCBOWHEFTY
-     19,                        // doomednum
-     HS_AMC2_1,                  // spawnstate
-     AMMO_CBOW_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMSKRDWIMPY
-     20,                        // doomednum
-     HS_AMS1_1,                  // spawnstate
-     AMMO_SKRD_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMSKRDHEFTY
-     21,                        // doomednum
-     HS_AMS2_1,                  // spawnstate
-     AMMO_SKRD_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMPHRDWIMPY
-     22,                        // doomednum
-     HS_AMP1_1,                  // spawnstate
-     AMMO_PHRD_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMPHRDHEFTY
-     23,                        // doomednum
-     HS_AMP2_1,                  // spawnstate
-     AMMO_PHRD_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMBLSRWIMPY
-     54,                        // doomednum
-     HS_AMB1_1,                  // spawnstate
-     AMMO_BLSR_WIMPY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_AMBLSRHEFTY
-     55,                        // doomednum
-     HS_AMB2_1,                  // spawnstate
-     AMMO_BLSR_HEFTY,           // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_SPECIAL,                // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SOUNDWIND
-     42,                        // doomednum
-     HS_SND_WIND,                // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOSECTOR,       // flags
-     0,                         // flags2
-     0                          // flags3
-                                      },
-
-    {                           // MT_SOUNDWATERFALL
-     41,                        // doomednum
-     HS_SND_WATERFALL,           // spawnstate
-     1000,                      // spawnhealth
-    0,                      // gibhealth
-     HS_NULL,                    // seestate
-     hsfx_None,                  // seesound
-     8,                         // reactiontime
-     hsfx_None,                  // attacksound
-     HS_NULL,                    // painstate
-     0,                         // painchance
-     hsfx_None,                  // painsound
-     HS_NULL,                    // meleestate
-     HS_NULL,                    // missilestate
-     HS_NULL,                    // crashstate
-     HS_NULL,                    // deathstate
-     HS_NULL,                    // xdeathstate
-     hsfx_None,                  // deathsound
-     0,                         // speed
-     20 * FRACUNIT,             // radius
-     20 * FRACUNIT,             // radius
-     16 * FRACUNIT,             // height
-     0,                         // projectilepassheight
-     100,                       // mass
-     0,                         // damage
-     hsfx_None,                  // activesound
-     MF_NOBLOCKMAP | MF_NOSECTOR,       // flags
-     0,                         // flags2
-     0                          // flags3
-     }
+mobjinfo_t hereticmobjinfo[] =
+{
+    // HMT_MISC0
+    {
+        /* doomednum            */ 81,
+        /* spawnstate           */ HS_ITEM_PTN1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ITEMSHIELD1
+    {
+        /* doomednum            */ 85,
+        /* spawnstate           */ HS_ITEM_SHLD1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+     },
+
+    // HMT_ITEMSHIELD2
+    {
+        /* doomednum            */ 31,
+        /* spawnstate           */ HS_ITEM_SHD2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC1
+    {
+        /* doomednum            */ 8,
+        /* spawnstate           */ HS_ITEM_BAGH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC2
+    {
+        /* doomednum            */ 35,
+        /* spawnstate           */ HS_ITEM_SPMP1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTIINVISIBILITY
+    {
+        /* doomednum            */ 75,
+        /* spawnstate           */ HS_ARTI_INVS1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | /*MF_SHADOW | */MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC3
+    {
+        /* doomednum            */ 82,
+        /* spawnstate           */ HS_ARTI_PTN2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTIFLY
+    {
+        /* doomednum            */ 83,
+        /* spawnstate           */ HS_ARTI_SOAR1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTIINVULNERABILITY
+    {
+        /* doomednum            */ 84,
+        /* spawnstate           */ HS_ARTI_INVU1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTITOMEOFPOWER
+    {
+        /* doomednum            */ 86,
+        /* spawnstate           */ HS_ARTI_PWBK1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTIEGG
+    {
+        /* doomednum            */ 30,
+        /* spawnstate           */ HS_ARTI_EGGC1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_EGGFX
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_EGGFX1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_EGGFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 18 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTISUPERHEAL
+    {
+        /* doomednum            */ 32,
+        /* spawnstate           */ HS_ARTI_SPHL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC4
+    {
+        /* doomednum            */ 33,
+        /* spawnstate           */ HS_ARTI_TRCH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC5
+    {
+        /* doomednum            */ 34,
+        /* spawnstate           */ HS_ARTI_FBMB1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_FIREBOMB
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_FIREBOMB1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_phohit,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_ARTITELEPORT
+    {
+        /* doomednum            */ 36,
+        /* spawnstate           */ HS_ARTI_ATLP1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ MF2_FLOATBOB,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_POD
+    {
+        /* doomednum            */ 2035,
+        /* spawnstate           */ HS_POD_WAIT1,
+        /* spawnhealth          */ 45,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_POD_PAIN1,
+        /* painchance           */ 255,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_POD_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_podexp,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 54 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_NOBLOOD | MF_SHOOTABLE | MF_DROPOFF,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_WINDTHRUST | MF3_PUSHABLE | MF3_SLIDE | MF3_TELESTOMP,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PODGOO
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PODGOO1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PODGOOX,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PODGENERATOR
+    {
+        /* doomednum            */ 43,
+        /* spawnstate           */ HS_PODGENERATOR,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SPLASH
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SPLASH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SPLASHX,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+    // HMT_SPLASHBASE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SPLASHBASE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+    // HMT_LAVASPLASH
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_LAVASPLASH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+    // HMT_LAVASMOKE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_LAVASMOKE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SLUDGECHUNK
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SLUDGECHUNK1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SLUDGECHUNKX,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SLUDGESPLASH
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SLUDGESPLASH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SKULLHANG70
+    {
+        /* doomednum            */ 17,
+        /* spawnstate           */ HS_SKULLHANG70_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */  0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 70 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SKULLHANG60
+    {
+        /* doomednum            */ 24,
+        /* spawnstate           */ HS_SKULLHANG60_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 60 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SKULLHANG45
+    {
+        /* doomednum            */ 25,
+        /* spawnstate           */ HS_SKULLHANG45_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 45 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SKULLHANG35
+    {
+        /* doomednum            */ 26,
+        /* spawnstate           */ HS_SKULLHANG35_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 35 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CHANDELIER
+    {
+        /* doomednum            */ 28,
+        /* spawnstate           */ HS_CHANDELIER1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 60 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SERPTORCH
+    {
+        /* doomednum            */ 27,
+        /* spawnstate           */ HS_SERPTORCH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 54 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SMALLPILLAR
+    {
+        /* doomednum            */ 29,
+        /* spawnstate           */ HS_SMALLPILLAR,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 34 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_STALAGMITESMALL
+    {
+        /* doomednum            */ 37,
+        /* spawnstate           */ HS_STALAGMITESMALL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 32 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0
+    },
+
+    // HMT_STALAGMITELARGE
+    {
+        /* doomednum            */ 38,
+        /* spawnstate           */ HS_STALAGMITELARGE,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 64 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_STALACTITESMALL
+    {
+        /* doomednum            */ 39,
+        /* spawnstate           */ HS_STALACTITESMALL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 36 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_STALACTITELARGE
+    {
+        /* doomednum            */ 40,
+        /* spawnstate           */ HS_STALACTITELARGE,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 68 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC6
+    {
+        /* doomednum            */ 76,
+        /* spawnstate           */ HS_FIREBRAZIER1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 44 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BARREL
+    {
+        /* doomednum            */ 44,
+        /* spawnstate           */ HS_BARREL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 32 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC7
+    {
+        /* doomednum            */ 47,
+        /* spawnstate           */ HS_BRPILLAR,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 14 * FRACUNIT,
+        /* pickupradius         */ 14 * FRACUNIT,
+        /* height               */ 128 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC8
+    {
+        /* doomednum            */ 48,
+        /* spawnstate           */ HS_MOSS1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 23 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC9
+    {
+        /* doomednum            */ 49,
+        /* spawnstate           */ HS_MOSS2,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 27 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC10
+    {
+        /* doomednum            */ 50,
+        /* spawnstate           */ HS_WALLTORCH1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC11
+    {
+        /* doomednum            */ 51,
+        /* spawnstate           */ HS_HANGINGCORPSE,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 104 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KEYGIZMOBLUE
+    {
+        /* doomednum            */ 94,
+        /* spawnstate           */ HS_KEYGIZMO1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 50 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KEYGIZMOGREEN
+    {
+        /* doomednum            */ 95,
+        /* spawnstate           */ HS_KEYGIZMO1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 50 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KEYGIZMOYELLOW
+    {
+        /* doomednum            */ 96,
+        /* spawnstate           */ HS_KEYGIZMO1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 50 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KEYGIZMOFLOAT
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_KGZ_START,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC12
+    {
+        /* doomednum            */ 87,
+        /* spawnstate           */ HS_VOLCANO1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 20 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_VOLCANOBLAST
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_VOLCANOBALL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_VOLCANOBALLX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_volhit,
+        /* speed                */ 2 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_VOLCANOTBLAST
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_VOLCANOTBALL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_VOLCANOTBALLX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 2 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_TELEGLITGEN
+    {
+        /* doomednum            */ 74,
+        /* spawnstate           */ HS_TELEGLITGEN1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_TELEGLITGEN2
+    {
+        /* doomednum            */ 52,
+        /* spawnstate           */ HS_TELEGLITGEN2,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_TELEGLITTER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_TELEGLITTER1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_TELEGLITTER2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_TELEGLITTER2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_TFOG
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_TFOG1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+    
+    // HMT_TELEPORTMAN
+    {
+        /* doomednum            */ 14,
+        /* spawnstate           */ HS_NULL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_STAFFPUFF
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_STAFFPUFF1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_stfhit,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_STAFFPUFF2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_STAFFPUFF2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_stfpow,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BEAKPUFF
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_STAFFPUFF1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_chicatk,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC13
+    {
+        /* doomednum            */ 2005,
+        /* spawnstate           */ HS_WGNT,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GAUNTLETPUFF1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GAUNTLETPUFF1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GAUNTLETPUFF2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GAUNTLETPUFF2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC14
+    {
+        /* doomednum            */ 53,
+        /* spawnstate           */ HS_BLSR,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLASTERFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLASTERFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BLASTERFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_blshit,
+        /* speed                */ 184 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT
+    },
+
+    // HMT_BLASTERSMOKE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLASTERSMOKE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_CANNOTPUSH
+    },
+
+    // HMT_RIPPER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_RIPPER1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_RIPPERX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 14 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_RIP,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLASTERPUFF1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLASTERPUFF1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLASTERPUFF2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLASTERPUFF2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_WMACE
+    {
+        /* doomednum            */ 2002,
+        /* spawnstate           */ HS_WMCE,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MACEFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MACEFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_lobsht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MACEFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MACEFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MACEFX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MACEFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 6,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MACEFX3
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MACEFX3_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MACEFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 7 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MACEFX4
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MACEFX4_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MACEFXI4_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 7 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 18,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_FLOORBOUNCE | MF3_THRUGHOST | MF3_TELESTOMP,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_WSKULLROD
+    {
+        /* doomednum            */ 2004,
+        /* spawnstate           */ HS_WSKL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HORNRODFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HRODFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_hrnsht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HRODFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 22 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 3,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HORNRODFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HRODFX2_1,
+        /* spawnhealth          */ 4 * 35,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_hrnsht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HRODFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_ramphit,
+        /* speed                */ 22 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 10,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_RAINPLR1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_RAINPLR1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_RAINPLR1X_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 12 * FRACUNIT,
+        /* radius               */ 5 * FRACUNIT,
+        /* pickupradius         */ 5 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 5,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_RAINPLR2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_RAINPLR2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_RAINPLR2X_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 12 * FRACUNIT,
+        /* radius               */ 5 * FRACUNIT,
+        /* pickupradius         */ 5 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 5,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_RAINPLR3
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_RAINPLR3_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_RAINPLR3X_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 12 * FRACUNIT,
+        /* radius               */ 5 * FRACUNIT,
+        /* pickupradius         */ 5 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 5,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_RAINPLR4
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_RAINPLR4_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_RAINPLR4X_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 12 * FRACUNIT,
+        /* radius               */ 5 * FRACUNIT,
+        /* pickupradius         */ 5 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 5,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GOLDWANDFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GWANDFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_GWANDFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_gldhit,
+        /* speed                */ 22 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GOLDWANDFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GWANDFX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_GWANDFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 18 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GOLDWANDPUFF1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GWANDPUFF1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_GOLDWANDPUFF2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_GWANDFXI1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_WPHOENIXROD
+    {
+        /* doomednum            */ 2003,
+        /* spawnstate           */ HS_WPHX,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PHOENIXFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PHOENIXFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_phosht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PHOENIXFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_phohit,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 11 * FRACUNIT,
+        /* pickupradius         */ 11 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 20,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_THRUGHOST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PHOENIXFX_REMOVED
+     {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PHOENIXFXIX_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PHOENIXFXIX_3,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PHOENIXPUFF
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PHOENIXPUFF1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PHOENIXFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PHOENIXFX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PHOENIXFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 6 * FRACUNIT,
+        /* pickupradius         */ 6 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MISC15
+    {
+        /* doomednum            */ 2001,
+        /* spawnstate           */ HS_WBOW,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CRBOWFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CRBOWFX1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_bowsht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CRBOWFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 30 * FRACUNIT,
+        /* radius               */ 11 * FRACUNIT,
+        /* pickupradius         */ 11 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 10,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CRBOWFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CRBOWFX2,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_bowsht,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CRBOWFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 32 * FRACUNIT,
+        /* radius               */ 11 * FRACUNIT,
+        /* pickupradius         */ 11 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 6,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CRBOWFX3
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CRBOWFX3,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CRBOWFXI3_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 11 * FRACUNIT,
+        /* pickupradius         */ 11 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_THRUGHOST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CRBOWFX4
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CRBOWFX4_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLOOD
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLOOD1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLOODSPLATTER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLOODSPLATTER1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BLOODSPLATTERX,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PLAYER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PLAY,
+        /* spawnhealth          */ 100,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_PLAY_RUN1,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 0,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_PLAY_PAIN,
+        /* painchance           */ 255,
+        /* painsound            */ hsfx_plrpai,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_PLAY_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PLAY_DIE1,
+        /* xdeathstate          */ HS_PLAY_XDIE1,
+        /* deathsound           */ hsfx_plrdth,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 56 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_NOTDMATCH,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_WINDTHRUST | MF3_SLIDE | MF3_TELESTOMP,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BLOODYSKULL
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BLOODYSKULL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 4 * FRACUNIT,
+        /* pickupradius         */ 4 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_LOGRAV | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CHICPLAYER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CHICPLAY,
+        /* spawnhealth          */ 100,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_CHICPLAY_RUN1,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 0,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_CHICPLAY_PAIN,
+        /* painchance           */ 255,
+        /* painsound            */ hsfx_chicpai,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_CHICPLAY_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CHICKEN_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_chicdth,
+        /* speed                */ 0,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 24 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_NOTDMATCH,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_WINDTHRUST | MF3_SLIDE | MF3_LOGRAV | MF3_TELESTOMP,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CHICKEN
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_CHICKEN_LOOK1,
+        /* spawnhealth          */ 10,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_CHICKEN_WALK1,
+        /* seesound             */ hsfx_chicpai,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_chicatk,
+        /* painstate            */ HS_CHICKEN_PAIN1,
+        /* painchance           */ 200,
+        /* painsound            */ hsfx_chicpai,
+        /* meleestate           */ HS_CHICKEN_ATK1,
+        /* missilestate         */ 0,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CHICKEN_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_chicdth,
+        /* speed                */ 4,
+        /* radius               */ 9 * FRACUNIT,
+        /* pickupradius         */ 9 * FRACUNIT,
+        /* height               */ 22 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 40,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_chicact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_WINDTHRUST,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_FEATHER
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_FEATHER1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_FEATHERX,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 2 * FRACUNIT,
+        /* pickupradius         */ 2 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_LOGRAV | MF3_CANNOTPUSH | MF3_WINDTHRUST,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMY
+    {
+        /* doomednum            */ 68,
+        /* spawnstate           */ HS_MUMMY_LOOK1,
+        /* spawnhealth          */ 80,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_MUMMY_WALK1,
+        /* seesound             */ hsfx_mumsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_mumat1,
+        /* painstate            */ HS_MUMMY_PAIN1,
+        /* painchance           */ 128,
+        /* painsound            */ hsfx_mumpai,
+        /* meleestate           */ HS_MUMMY_ATK1,
+        /* missilestate         */ 0,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MUMMY_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_mumdth,
+        /* speed                */ 12,
+        /* radius               */ 22 * FRACUNIT,
+        /* pickupradius         */ 22 * FRACUNIT,
+        /* height               */ 62 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 75,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_mumact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMYLEADER
+    {
+        /* doomednum            */ 45,
+        /* spawnstate           */ HS_MUMMY_LOOK1,
+        /* spawnhealth          */ 100,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_MUMMY_WALK1,
+        /* seesound             */ hsfx_mumsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_mumat1,
+        /* painstate            */ HS_MUMMY_PAIN1,
+        /* painchance           */ 64,
+        /* painsound            */ hsfx_mumpai,
+        /* meleestate           */ HS_MUMMY_ATK1,
+        /* missilestate         */ HS_MUMMYL_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MUMMY_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_mumdth,
+        /* speed                */ 12,
+        /* radius               */ 22 * FRACUNIT,
+        /* pickupradius         */ 22 * FRACUNIT,
+        /* height               */ 62 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 75,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_mumact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMYGHOST
+    {
+        /* doomednum            */ 69,
+        /* spawnstate           */ HS_MUMMY_LOOK1,
+        /* spawnhealth          */ 80,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_MUMMY_WALK1,
+        /* seesound             */ hsfx_mumsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_mumat1,
+        /* painstate            */ HS_MUMMY_PAIN1,
+        /* painchance           */ 128,
+        /* painsound            */ hsfx_mumpai,
+        /* meleestate           */ HS_MUMMY_ATK1,
+        /* missilestate         */ 0,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MUMMY_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_mumdth,
+        /* speed                */ 12,
+        /* radius               */ 22 * FRACUNIT,
+        /* pickupradius         */ 22 * FRACUNIT,
+        /* height               */ 62 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 75,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_mumact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMYLEADERGHOST
+    {
+        /* doomednum            */ 46,
+        /* spawnstate           */ HS_MUMMY_LOOK1,
+        /* spawnhealth          */ 100,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_MUMMY_WALK1,
+        /* seesound             */ hsfx_mumsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_mumat1,
+        /* painstate            */ HS_MUMMY_PAIN1,
+        /* painchance           */ 64,
+        /* painsound            */ hsfx_mumpai,
+        /* meleestate           */ HS_MUMMY_ATK1,
+        /* missilestate         */ HS_MUMMYL_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MUMMY_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_mumdth,
+        /* speed                */ 12,
+        /* radius               */ 22 * FRACUNIT,
+        /* pickupradius         */ 22 * FRACUNIT,
+        /* height               */ 62 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 75,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_mumact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMYSOUL
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MUMMY_SOUL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MUMMYFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MUMMYFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MUMMYFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 9 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 14 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BEAST
+    {
+        /* doomednum            */ 70,
+        /* spawnstate           */ HS_BEAST_LOOK1,
+        /* spawnhealth          */ 220,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_BEAST_WALK1,
+        /* seesound             */ hsfx_bstsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_bstatk,
+        /* painstate            */ HS_BEAST_PAIN1,
+        /* painchance           */ 100,
+        /* painsound            */ hsfx_bstpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_BEAST_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BEAST_DIE1,
+        /* xdeathstate          */ HS_BEAST_XDIE1,
+        /* deathsound           */ hsfx_bstdth,
+        /* speed                */ 14,
+        /* radius               */ 32 * FRACUNIT,
+        /* pickupradius         */ 32 * FRACUNIT,
+        /* height               */ 74 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 200,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_bstact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BEASTBALL
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BEASTBALL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BEASTBALLX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 12 * FRACUNIT,
+        /* radius               */ 9 * FRACUNIT,
+        /* pickupradius         */ 9 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BURNBALL
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BURNBALL1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BEASTBALLX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 6 * FRACUNIT,
+        /* pickupradius         */ 6 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BURNBALLFB
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_BURNBALLFB1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_BEASTBALLX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 6 * FRACUNIT,
+        /* pickupradius         */ 6 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_PUFFY
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_PUFFY1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_PUFFY1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 6 * FRACUNIT,
+        /* pickupradius         */ 6 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY | MF_MISSILE,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SNAKE
+    {
+        /* doomednum            */ 92,
+        /* spawnstate           */ HS_SNAKE_LOOK1,
+        /* spawnhealth          */ 280,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_SNAKE_WALK1,
+        /* seesound             */ hsfx_snksit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_snkatk,
+        /* painstate            */ HS_SNAKE_PAIN1,
+        /* painchance           */ 48,
+        /* painsound            */ hsfx_snkpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_SNAKE_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SNAKE_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_snkdth,
+        /* speed                */ 10,
+        /* radius               */ 22 * FRACUNIT,
+        /* pickupradius         */ 22 * FRACUNIT,
+        /* height               */ 70 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_snkact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SNAKEPRO_A
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SNAKEPRO_A1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SNAKEPRO_AX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 14 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SNAKEPRO_B
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SNAKEPRO_B1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SNAKEPRO_BX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 14 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 3,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HEAD
+    {
+        /* doomednum            */ 6,
+        /* spawnstate           */ HS_HEAD_LOOK,
+        /* spawnhealth          */ 700,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_HEAD_FLOAT,
+        /* seesound             */ hsfx_hedsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_hedat1,
+        /* painstate            */ HS_HEAD_PAIN1,
+        /* painchance           */ 32,
+        /* painsound            */ hsfx_hedpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_HEAD_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HEAD_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_heddth,
+        /* speed                */ 6,
+        /* radius               */ 40 * FRACUNIT,
+        /* pickupradius         */ 40 * FRACUNIT,
+        /* height               */ 72 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 325,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_hedact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_NOBLOOD,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HEADFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HEADFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HEADFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 13 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_THRUGHOST,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HEADFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HEADFX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HEADFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 8 * FRACUNIT,
+        /* radius               */ 12 * FRACUNIT,
+        /* pickupradius         */ 12 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 3,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_HEADFX3
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HEADFX3_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HEADFXI3_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 14 * FRACUNIT,
+        /* pickupradius         */ 14 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 5,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_WHIRLWIND
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_HEADFX4_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_HEADFXI4_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 74 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY/* | MF_SHADOW*/,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CLINK
+    {
+        /* doomednum            */ 90,
+        /* spawnstate           */ HS_CLINK_LOOK1,
+        /* spawnhealth          */ 150,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_CLINK_WALK1,
+        /* seesound             */ hsfx_clksit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_clkatk,
+        /* painstate            */ HS_CLINK_PAIN1,
+        /* painchance           */ 32,
+        /* painsound            */ hsfx_clkpai,
+        /* meleestate           */ HS_CLINK_ATK1,
+        /* missilestate         */ 0,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_CLINK_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_clkdth,
+        /* speed                */ 14,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 64 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 75,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_clkact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_NOBLOOD,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+// HMT_WIZARD
+    {
+        /* doomednum            */ 15,
+        /* spawnstate           */ HS_WIZARD_LOOK1,
+        /* spawnhealth          */ 180,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_WIZARD_WALK1,
+        /* seesound             */ hsfx_wizsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_wizatk,
+        /* painstate            */ HS_WIZARD_PAIN1,
+        /* painchance           */ 64,
+        /* painsound            */ hsfx_wizpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_WIZARD_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_WIZARD_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_wizdth,
+        /* speed                */ 12,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 68 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_wizact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_FLOAT | MF_NOGRAVITY,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_WIZFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_WIZFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_WIZFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 18 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 3,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_IMP
+    {
+        /* doomednum            */ 66,
+        /* spawnstate           */ HS_IMP_LOOK1,
+        /* spawnhealth          */ 40,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_IMP_FLY1,
+        /* seesound             */ hsfx_impsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_impat1,
+        /* painstate            */ HS_IMP_PAIN1,
+        /* painchance           */ 200,
+        /* painsound            */ hsfx_imppai,
+        /* meleestate           */ HS_IMP_MEATK1,
+        /* missilestate         */ HS_IMP_MSATK1_1,
+        /* crashstate           */ HS_IMP_CRASH1,
+        /* deathstate           */ HS_IMP_DIE1,
+        /* xdeathstate          */ HS_IMP_XDIE1,
+        /* deathsound           */ hsfx_impdth,
+        /* speed                */ 10,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 36 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 50,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_impact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_SPAWNFLOAT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_IMPLEADER
+    {
+        /* doomednum            */ 5,
+        /* spawnstate           */ HS_IMP_LOOK1,
+        /* spawnhealth          */ 80,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_IMP_FLY1,
+        /* seesound             */ hsfx_impsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_impat2,
+        /* painstate            */ HS_IMP_PAIN1,
+        /* painchance           */ 200,
+        /* painsound            */ hsfx_imppai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_IMP_MSATK2_1,
+        /* crashstate           */ HS_IMP_CRASH1,
+        /* deathstate           */ HS_IMP_DIE1,
+        /* xdeathstate          */ HS_IMP_XDIE1,
+        /* deathsound           */ hsfx_impdth,
+        /* speed                */ 10,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 36 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 50,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_impact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_SPAWNFLOAT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_IMPCHUNK1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_IMP_CHUNKA1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_IMPCHUNK2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_IMP_CHUNKB1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_IMPBALL
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_IMPFX1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_IMPFXI1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 10 * FRACUNIT,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KNIGHT
+    {
+        /* doomednum            */ 64,
+        /* spawnstate           */ HS_KNIGHT_STND1,
+        /* spawnhealth          */ 200,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_KNIGHT_WALK1,
+        /* seesound             */ hsfx_kgtsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_kgtatk,
+        /* painstate            */ HS_KNIGHT_PAIN1,
+        /* painchance           */ 100,
+        /* painsound            */ hsfx_kgtpai,
+        /* meleestate           */ HS_KNIGHT_ATK1,
+        /* missilestate         */ HS_KNIGHT_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_KNIGHT_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_kgtdth,
+        /* speed                */ 12,
+        /* radius               */ 24 * FRACUNIT,
+        /* pickupradius         */ 24 * FRACUNIT,
+        /* height               */ 78 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 150,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_kgtact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KNIGHTGHOST
+    {
+        /* doomednum            */ 65,
+        /* spawnstate           */ HS_KNIGHT_STND1,
+        /* spawnhealth          */ 200,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_KNIGHT_WALK1,
+        /* seesound             */ hsfx_kgtsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_kgtatk,
+        /* painstate            */ HS_KNIGHT_PAIN1,
+        /* painchance           */ 100,
+        /* painsound            */ hsfx_kgtpai,
+        /* meleestate           */ HS_KNIGHT_ATK1,
+        /* missilestate         */ HS_KNIGHT_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_KNIGHT_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_kgtdth,
+        /* speed                */ 12,
+        /* radius               */ 24 * FRACUNIT,
+        /* pickupradius         */ 24 * FRACUNIT,
+        /* height               */ 78 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 150,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_kgtact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL/* | MF_SHADOW*/,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_KNIGHTAXE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SPINAXE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SPINAXEX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 9 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 2,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_WINDTHRUST | MF3_NOTELEPORT | MF3_THRUGHOST,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_REDAXE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_REDAXE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_REDAXEX1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_hrnhit,
+        /* speed                */ 9 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 7,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_THRUGHOST,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SORCERER1
+    {
+        /* doomednum            */ 7,
+        /* spawnstate           */ HS_SRCR1_LOOK1,
+        /* spawnhealth          */ 2000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_SRCR1_WALK1,
+        /* seesound             */ hsfx_sbtsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_sbtatk,
+        /* painstate            */ HS_SRCR1_PAIN1,
+        /* painchance           */ 56,
+        /* painsound            */ hsfx_sbtpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_SRCR1_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SRCR1_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_sbtdth,
+        /* speed                */ 16,
+        /* radius               */ 28 * FRACUNIT,
+        /* pickupradius         */ 28 * FRACUNIT,
+        /* height               */ 100 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 800,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_sbtact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_BOSS,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SRCRFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SRCRFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SRCRFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 10 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 10,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SORCERER2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SOR2_LOOK1,
+        /* spawnhealth          */ 3500,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_SOR2_WALK1,
+        /* seesound             */ hsfx_sorsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_soratk,
+        /* painstate            */ HS_SOR2_PAIN1,
+        /* painchance           */ 32,
+        /* painsound            */ hsfx_sorpai,
+        /* meleestate           */ 0,
+        /* missilestate         */ HS_SOR2_ATK1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SOR2_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 14,
+        /* radius               */ 16 * FRACUNIT,
+        /* pickupradius         */ 16 * FRACUNIT,
+        /* height               */ 70 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 300,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_soract,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_BOSS,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOR2FX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SOR2FX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SOR2FXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 1,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOR2FXSPARK
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SOR2FXSPARK1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_CANNOTPUSH,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOR2FX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SOR2FX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_SOR2FXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 6 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 10,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOR2TELEFADE
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_SOR2TELEFADE1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MINOTAUR
+    {
+        /* doomednum            */ 9,
+        /* spawnstate           */ HS_MNTR_LOOK1,
+        /* spawnhealth          */ 3000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_MNTR_WALK1,
+        /* seesound             */ hsfx_minsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_minat1,
+        /* painstate            */ HS_MNTR_PAIN1,
+        /* painchance           */ 25,
+        /* painsound            */ hsfx_minpai,
+        /* meleestate           */ HS_MNTR_ATK1_1,
+        /* missilestate         */ HS_MNTR_ATK2_1,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MNTR_DIE1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_mindth,
+        /* speed                */ 16,
+        /* radius               */ 28 * FRACUNIT,
+        /* pickupradius         */ 28 * FRACUNIT,
+        /* height               */ 100 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 800,
+        /* damage               */ 7,
+        /* activesound          */ hsfx_minact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_DROPOFF,
+        /* flags2               */ MF2_PASSMOBJ,
+        /* flags3               */ MF3_BOSS,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MNTRFX1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MNTRFX1_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MNTRFXI1_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ 0,
+        /* speed                */ 20 * FRACUNIT,
+        /* radius               */ 10 * FRACUNIT,
+        /* pickupradius         */ 10 * FRACUNIT,
+        /* height               */ 6 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 3,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MNTRFX2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MNTRFX2_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MNTRFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_phohit,
+        /* speed                */ 14 * FRACUNIT,
+        /* radius               */ 5 * FRACUNIT,
+        /* pickupradius         */ 5 * FRACUNIT,
+        /* height               */ 12 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_MNTRFX3
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ HS_MNTRFX3_1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ 0,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_MNTRFXI2_1,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_phohit,
+        /* speed                */ 0,
+        /* radius               */ 8 * FRACUNIT,
+        /* pickupradius         */ 8 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* flags3               */ MF3_NOTELEPORT | MF3_FIREDAMAGE,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AKYY
+    {
+        /* doomednum            */ 73,
+        /* spawnstate           */ HS_AKYY1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_BKYY
+    {
+        /* doomednum            */ 79,
+        /* spawnstate           */ HS_BKYY1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_CKEY
+    {
+        /* doomednum            */ 80,
+        /* spawnstate           */ HS_CKYY1,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMGWNDWIMPY
+    {
+        /* doomednum            */ 10,
+        /* spawnstate           */ HS_AMG1,
+        /* spawnhealth          */ AMMO_GWND_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMGWNDHEFTY
+    {
+        /* doomednum            */ 12,
+        /* spawnstate           */ HS_AMG2_1,
+        /* spawnhealth          */ AMMO_GWND_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMMACEWIMPY
+    {
+        /* doomednum            */ 13,
+        /* spawnstate           */ HS_AMM1,
+        /* spawnhealth          */ AMMO_MACE_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMMACEHEFTY
+    {
+        /* doomednum            */ 16,
+        /* spawnstate           */ HS_AMM2,
+        /* spawnhealth          */ AMMO_MACE_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMCBOWWIMPY
+    {
+        /* doomednum            */ 18,
+        /* spawnstate           */ HS_AMC1,
+        /* spawnhealth          */ AMMO_CBOW_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMCBOWHEFTY
+    {
+        /* doomednum            */ 19,
+        /* spawnstate           */ HS_AMC2_1,
+        /* spawnhealth          */ AMMO_CBOW_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMSKRDWIMPY
+    {
+        /* doomednum            */ 20,
+        /* spawnstate           */ HS_AMS1_1,
+        /* spawnhealth          */ AMMO_SKRD_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMSKRDHEFTY
+    {
+        /* doomednum            */ 21,
+        /* spawnstate           */ HS_AMS2_1,
+        /* spawnhealth          */ AMMO_SKRD_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMPHRDWIMPY
+    {
+        /* doomednum            */ 22,
+        /* spawnstate           */ HS_AMP1_1,
+        /* spawnhealth          */ AMMO_PHRD_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMPHRDHEFTY
+    {
+        /* doomednum            */ 23,
+        /* spawnstate           */ HS_AMP2_1,
+        /* spawnhealth          */ AMMO_PHRD_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMBLSRWIMPY
+    {
+        /* doomednum            */ 54,
+        /* spawnstate           */ HS_AMB1_1,
+        /* spawnhealth          */ AMMO_BLSR_WIMPY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_AMBLSRHEFTY
+    {
+        /* doomednum            */ 55,
+        /* spawnstate           */ HS_AMB2_1,
+        /* spawnhealth          */ AMMO_BLSR_HEFTY,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_SPECIAL,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOUNDWIND
+    {
+        /* doomednum            */ 42,
+        /* spawnstate           */ HS_SND_WIND,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    },
+
+    // HMT_SOUNDWATERFALL
+    {
+        /* doomednum            */ 41,
+        /* spawnstate           */ HS_SND_WATERFALL,
+        /* spawnhealth          */ 1000,
+        /* gibhealth            */ 0,
+        /* seestate             */ HS_NULL,
+        /* seesound             */ hsfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ hsfx_None,
+        /* painstate            */ HS_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ hsfx_None,
+        /* meleestate           */ HS_NULL,
+        /* missilestate         */ HS_NULL,
+        /* crashstate           */ HS_NULL,
+        /* deathstate           */ HS_NULL,
+        /* xdeathstate          */ HS_NULL,
+        /* deathsound           */ hsfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* pickupradius         */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ hsfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
+        /* flags2               */ 0,
+        /* flags3               */ 0,
+        /* raisestate           */ HS_NULL,
+        /* frames               */ 0,
+        /* fullbright           */ false,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
+    }
 };
