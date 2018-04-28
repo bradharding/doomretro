@@ -358,7 +358,7 @@ static menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
-    56, 85,
+    56, 33,
     endgame
 };
 
