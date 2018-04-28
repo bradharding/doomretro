@@ -416,8 +416,9 @@ static void HU_DrawHUD(void)
 
     tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
-    patch = faces[st_faceindex];
-    hudfunc(HUD_HEALTH_X - (SHORT(patch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
+
+    if ((patch = faces[st_faceindex]))
+        hudfunc(HUD_HEALTH_X - (SHORT(patch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
     health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth + 1) / 2;
 
