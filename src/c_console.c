@@ -562,7 +562,7 @@ void C_Init(void)
         consolewarningcolor = 154;
         consolewarningboldcolor = 158;
         consoledividercolor = 15;
-        consoleedgecolor = 154 << 8;
+        consoleedgecolor = 156 << 8;
         consolescrollbartrackcolor = 15 << 8;
         consolescrollbarfacecolor = 20;
     }
