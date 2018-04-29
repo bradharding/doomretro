@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8A97F56C1B5BD909009FA1D9 /* d_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A97F56A1B5BD909009FA1D9 /* d_loop.c */; };
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
+		963AFBC8209607830029CC36 /* h_info.c in Sources */ = {isa = PBXBuildFile; fileRef = 963AFBC5209607820029CC36 /* h_info.c */; };
+		963AFBC9209607830029CC36 /* i_midirpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 963AFBC7209607820029CC36 /* i_midirpc.c */; };
 		9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; };
 		9F385F2B1C28ADBC00BD4F2B /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; };
 		9F385F2E1C28B0D100BD4F2B /* sc_man.c in Sources */ = {isa = PBXBuildFile; fileRef = 9F385F2C1C28B0D100BD4F2B /* sc_man.c */; };
@@ -115,6 +117,10 @@
 		8A97F56A1B5BD909009FA1D9 /* d_loop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = d_loop.c; path = ../../src/d_loop.c; sourceTree = "<group>"; };
 		8A97F56B1B5BD909009FA1D9 /* d_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_loop.h; path = ../../src/d_loop.h; sourceTree = "<group>"; };
 		8AD637321B3338E400605ECA /* p_genlin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_genlin.c; path = ../../src/p_genlin.c; sourceTree = "<group>"; };
+		963AFBC4209607820029CC36 /* i_midirpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_midirpc.h; path = ../../src/i_midirpc.h; sourceTree = "<group>"; };
+		963AFBC5209607820029CC36 /* h_info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = h_info.c; path = ../../src/h_info.c; sourceTree = "<group>"; };
+		963AFBC6209607820029CC36 /* h_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = h_info.h; path = ../../src/h_info.h; sourceTree = "<group>"; };
+		963AFBC7209607820029CC36 /* i_midirpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = i_midirpc.c; path = ../../src/i_midirpc.c; sourceTree = "<group>"; };
 		9F385F281C28ADAF00BD4F2B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
 		9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_mixer.framework; sourceTree = "<group>"; };
 		9F385F2C1C28B0D100BD4F2B /* sc_man.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sc_man.c; path = ../../src/sc_man.c; sourceTree = "<group>"; };
@@ -344,6 +350,10 @@
 		AB5A80E81A8DAD0100AF539F /* doomretro */ = {
 			isa = PBXGroup;
 			children = (
+				963AFBC5209607820029CC36 /* h_info.c */,
+				963AFBC6209607820029CC36 /* h_info.h */,
+				963AFBC7209607820029CC36 /* i_midirpc.c */,
+				963AFBC4209607820029CC36 /* i_midirpc.h */,
 				F3CA36061F93C074009DD997 /* c_autocomplete.c */,
 				F3C1ED661CF508B500C3E94F /* m_config.c */,
 				F3C1ED671CF508B500C3E94F /* m_config.h */,
@@ -588,6 +598,7 @@
 				AB5A82C51A8DB9EB00AF539F /* w_file.c in Sources */,
 				AB5A82B81A8DB9EB00AF539F /* r_plane.c in Sources */,
 				AB5A82B31A8DB9EB00AF539F /* p_user.c in Sources */,
+				963AFBC8209607830029CC36 /* h_info.c in Sources */,
 				AB5A827A1A8DB9EB00AF539F /* c_cmds.c in Sources */,
 				AB5A82C11A8DB9EB00AF539F /* v_video.c in Sources */,
 				AB5A82951A8DB9EB00AF539F /* m_fixed.c in Sources */,
@@ -645,6 +656,7 @@
 				AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */,
 				AB5A82AB1A8DB9EB00AF539F /* p_pspr.c in Sources */,
 				AB5A828E1A8DB9EB00AF539F /* i_colors.c in Sources */,
+				963AFBC9209607830029CC36 /* i_midirpc.c in Sources */,
 				AB5A828A1A8DB9EB00AF539F /* i_music.c in Sources */,
 				AB5A82B11A8DB9EB00AF539F /* p_telept.c in Sources */,
 				AB5A82C01A8DB9EB00AF539F /* v_data.c in Sources */,
