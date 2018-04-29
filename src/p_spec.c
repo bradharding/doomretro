@@ -218,13 +218,26 @@ void P_InitPicAnims(void)
     }
 }
 
+animdef_t hanimdefs[] =
+{
+    { false, "FLTWAWA3", "FLTWAWA1", 8 }, // Water
+    { false, "FLTSLUD3", "FLTSLUD1", 8 }, // Sludge
+    { false, "FLTTELE4", "FLTTELE1", 6 }, // Teleport
+    { false, "FLTFLWW3", "FLTFLWW1", 9 }, // River - West
+    { false, "FLTLAVA4", "FLTLAVA1", 8 }, // Lava
+    { false, "FLATHUH4", "FLATHUH1", 8 }, // Super Lava
+    { true,  "LAVAFL3",  "LAVAFL1",  6 }, // Texture: Lavaflow
+    { true,  "WATRWAL3", "WATRWAL1", 4 }, // Texture: Waterfall
+    { -1 }
+};
+
 //
 // P_SetLiquids
 //
 void P_SetLiquids(void)
 {
     int         lump = W_GetNumForName("ANIMATED");
-    animdef_t   *animdefs = W_CacheLumpNum(lump);
+    animdef_t   *animdefs = (gamemission == heretic ? hanimdefs : W_CacheLumpNum(lump));
 
     for (int i = 0; i < numflats; i++)
         isliquid[i] = false;
