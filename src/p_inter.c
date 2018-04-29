@@ -747,7 +747,7 @@ void A_RestoreSpecialThing2(mobj_t *actor, player_t *player, pspdef_t *psp)
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
 {
     fixed_t     delta;
-    int         sound = sfx_itemup;
+    int         sound = (gamemission == heretic ? hsfx_itemup : sfx_itemup);
     int         weaponowned;
     int         ammo;
     static int  prevsound;
@@ -1241,7 +1241,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             break;
 
         default:
-            return;
+            break;
     }
 
     if ((special->flags & MF_COUNTITEM) && stat)
