@@ -1589,6 +1589,9 @@ static void M_DrawMainMenu(void)
         M_DrawPatchWithShadow(88, 2 + OFFSET, patch);
         M_DrawPatchWithShadow(37, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
         M_DrawPatchWithShadow(236, 12 + OFFSET, W_CacheLumpNum(skullbaselump + frame));
+
+        MainDef.x = 110;
+        MainDef.y = 68;
     }
     else
     {
@@ -3695,7 +3698,7 @@ void M_Drawer(void)
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, y, patch);
         else
-            M_DrawPatchWithShadow(x - 26, y + 2, patch);
+            M_DrawPatchWithShadow(x - (gamemission == heretic ? 29 : 26), y + 2, patch);
     }
 }
 
