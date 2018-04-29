@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -353,7 +354,10 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
     if (sfx->link)
         sfx = sfx->link;
 
-    M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
+    if (gamemission == heretic)
+        M_StringCopy(namebuf, sfx->name, 9);
+    else
+        M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
     if ((lumpnum = W_CheckNumForName(namebuf)) == -1)
         C_Warning("The <b>%s</b> SFX lump can't be found.", uppercase(namebuf));
