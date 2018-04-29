@@ -195,6 +195,12 @@ void S_Init(void)
         sobjs = Z_Malloc(s_channels * sizeof(sobj_t), PU_STATIC, NULL);
     }
 
+    for (int i = 1; i < NUMSFX; i++)
+        S_sfx[i].lumpnum = -1;
+
+    for (int i = 1; i < NUMHSFX; i++)
+        HS_sfx[i].lumpnum = -1;
+
     if (!nomusic)
     {
         InitMusicModule();
