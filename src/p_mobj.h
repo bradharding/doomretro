@@ -411,6 +411,7 @@ typedef struct mobj_s
     specialval_t        special2;               // special info
 
     int                 health;
+    int                 damage;
 
     // Movement direction, movement generation (zig-zagging).
     int                 movedir;                // 0-7

@@ -392,9 +392,9 @@ static int HUDNumberWidth(int val)
     return width;
 }
 
-int healthhighlight;
-int ammohighlight;
-int armorhighlight;
+int healthhighlight = 0;
+int ammohighlight = 0;
+int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {

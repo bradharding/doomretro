@@ -124,6 +124,25 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
     return true;
 }
 
+dboolean P_SetMobjStateNF(mobj_t *mobj, statenum_t state)
+{
+    state_t *st;
+
+    if (state == HS_NULL)
+    {
+        mobj->state = (state_t *)HS_NULL;
+        P_RemoveMobj(mobj);
+        return false;
+    }
+
+    st = &states[state];
+    mobj->state = st;
+    mobj->tics = st->tics;
+    mobj->sprite = st->sprite;
+    mobj->frame = st->frame;
+    return true;
+}
+
 //
 // P_ExplodeMissile
 //
@@ -147,6 +166,13 @@ void P_ExplodeMissile(mobj_t *mo)
 
     if (mo->info->deathsound)
         S_StartSound(mo, mo->info->deathsound);
+}
+
+void P_ThrustMobj(mobj_t *mo, angle_t angle, fixed_t move)
+{
+    angle >>= ANGLETOFINESHIFT;
+    mo->momx += FixedMul(move, finecosine[angle]);
+    mo->momy += FixedMul(move, finesine[angle]);
 }
 
 int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
@@ -1534,7 +1560,8 @@ int P_HitFloor(mobj_t *thing)
 //
 dboolean P_CheckMissileSpawn(mobj_t *th)
 {
-    th->tics = MAX(1, th->tics - (M_Random() & 3));
+    if (gamemission != heretic)
+        th->tics = MAX(1, th->tics - (M_Random() & 3));
 
     // move a little forward so an angle can
     // be computed if it immediately explodes
@@ -1770,4 +1797,21 @@ void P_InitHereticMobjs(void)
 
     for (int i = 0; i < NUMHMOBJTYPES; i++)
         memcpy(&mobjinfo[i], &hereticmobjinfo[i], sizeof(mobjinfo_t));
+}
+
+void A_ContMobjSound(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    switch (actor->type)
+    {
+        case HMT_KNIGHTAXE:
+            S_StartSound(actor, hsfx_kgtatk);
+            break;
+
+        case HMT_MUMMYFX1:
+            S_StartSound(actor, hsfx_mumhed);
+            break;
+
+        default:
+            break;
+    }
 }

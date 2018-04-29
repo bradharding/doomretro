@@ -718,6 +718,29 @@ dboolean P_GivePower(int power)
     return true;
 }
 
+void A_RestoreArtifact(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    actor->flags |= MF_SPECIAL;
+    P_SetMobjState(actor, actor->info->spawnstate);
+    S_StartSound(actor, hsfx_respawn);
+}
+
+void A_RestoreSpecialThing1(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    if (actor->type == HMT_WMACE)
+        // Do random mace placement
+        P_RepositionMace(actor);
+
+    actor->flags2 &= ~MF2_DONTDRAW;
+    S_StartSound(actor, hsfx_respawn);
+}
+
+void A_RestoreSpecialThing2(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    actor->flags |= MF_SPECIAL;
+    P_SetMobjState(actor, actor->info->spawnstate);
+}
+
 //
 // P_TouchSpecialThing
 //

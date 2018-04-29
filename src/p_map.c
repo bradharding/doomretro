@@ -675,6 +675,26 @@ static dboolean PIT_CheckOnmobjZ(mobj_t * thing)
     return false;
 }
 
+dboolean P_TestMobjLocation(mobj_t *mobj)
+{
+    int flags = mobj->flags;
+
+    mobj->flags &= ~MF_PICKUP;
+
+    if (P_CheckPosition(mobj, mobj->x, mobj->y))
+    {
+        // XY is ok, now check Z
+        mobj->flags = flags;
+
+        if (mobj->z < mobj->floorz || mobj->z + mobj->height > mobj->ceilingz)
+            return false;
+
+        return true;
+    }
+    mobj->flags = flags;
+    return false;
+}
+
 //
 // MOVEMENT CLIPPING
 //

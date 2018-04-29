@@ -109,6 +109,7 @@ void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);
 void P_DropWeapon(void);
+void P_RepositionMace(mobj_t *mo);
 void P_SetPsprite(size_t position, statenum_t stnum);
 
 //
@@ -158,6 +159,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type);
 
 void P_RemoveMobj(mobj_t *mobj);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
+dboolean P_SetMobjStateNF(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 void P_BlasterMobjThinker(mobj_t *mobj);
 
@@ -168,11 +170,13 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
+dboolean P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle);
 dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax);
+void P_ThrustMobj(mobj_t *mo, angle_t angle, fixed_t move);
 int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta);
 void P_ExplodeMissile(mobj_t *mo);
 void P_InitExtraMobjs(void);
@@ -181,6 +185,7 @@ void P_InitHereticMobjs(void);
 //
 // P_ENEMY
 //
+void P_InitMonsters(void);
 void P_NoiseAlert(mobj_t *target);
 
 //
@@ -251,6 +256,7 @@ extern line_t   *blockline;
 
 extern dboolean infight;
 
+dboolean P_TestMobjLocation(mobj_t *mobj);
 dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 mobj_t *P_CheckOnmobj(mobj_t *thing);
 void P_FakeZMovement(mobj_t *mo);

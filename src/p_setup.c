@@ -2297,6 +2297,7 @@ void P_SetupLevel(int ep, int map)
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
     nojump = P_GetMapNoJump((ep - 1) * 10 + map);
+    P_InitMonsters();
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards();
