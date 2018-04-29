@@ -269,13 +269,13 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
             if (c == 176)
             {
-                if (STCFN034)
+                if (STCFN034 || gamemission == heretic)
                     continue;
                 else
                     j = 66;
             }
 
-            if (STCFN034)
+            if (STCFN034 || gamemission == heretic)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
