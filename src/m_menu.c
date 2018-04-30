@@ -3628,77 +3628,80 @@ void M_Drawer(void)
     y = currentMenu->y;
     max = currentMenu->numitems;
 
-    for (unsigned int i = 0; i < max; i++)
+    if (currentMenu != &ReadDef)
     {
-        if (currentMenu->menuitems[i].routine)
+        for (unsigned int i = 0; i < max; i++)
         {
-            char    *name = currentMenu->menuitems[i].name;
-            char    **text = currentMenu->menuitems[i].text;
-
-            if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
+            if (currentMenu->menuitems[i].routine)
             {
-                if (M_NMARE)
+                char    *name = currentMenu->menuitems[i].name;
+                char    **text = currentMenu->menuitems[i].text;
+
+                if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
+                {
+                    if (M_NMARE)
+                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    else
+                        M_DrawNightmare();
+                }
+                else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                    M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
+                else if (W_CheckMultipleLumps(name) > 1)
                     M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
-                else
-                    M_DrawNightmare();
+                else if (**text)
+                    M_DrawString(x, y + OFFSET, *text);
             }
-            else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
-                M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-            else if (W_CheckMultipleLumps(name) > 1)
-                M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
-            else if (**text)
-                M_DrawString(x, y + OFFSET, *text);
+
+            y += LINEHEIGHT - 1;
         }
 
-        y += LINEHEIGHT - 1;
-    }
-
-    // DRAW SKULL
-    if (currentMenu == &LoadDef || currentMenu == &SaveDef)
-    {
-        patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
-
-        if (currentMenu == &LoadDef)
+        // DRAW SKULL
+        if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {
-            int old = itemOn;
+            patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
 
-            while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
-                itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
-
-            if (itemOn != old)
+            if (currentMenu == &LoadDef)
             {
-                SaveDef.lastOn = itemOn;
-                savegame = itemOn + 1;
-                M_SaveCVARs();
-                C_IntCVAROutput(stringize(savegame), savegame);
+                int old = itemOn;
+
+                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
+                    itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
+
+                if (itemOn != old)
+                {
+                    SaveDef.lastOn = itemOn;
+                    savegame = itemOn + 1;
+                    M_SaveCVARs();
+                    C_IntCVAROutput(stringize(savegame), savegame);
+                }
             }
+
+            if (M_SKULL1)
+                M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET + chex, patch);
+            else
+                M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, patch);
         }
-
-        if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET + chex, patch);
         else
-            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, patch);
-    }
-    else if (currentMenu != &ReadDef)
-    {
-        patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
-        int     y = currentMenu->y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex + (gamemission == heretic) * 2;
-
-        if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-            itemOn++;
-
-        if (currentMenu == &MainDef)
         {
-            patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
+            patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
+            int     y = currentMenu->y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex + (gamemission == heretic) * 2;
 
-            if (SHORT(patch->height) >= ORIGINALHEIGHT)
-                y -= OFFSET;
+            if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
+                itemOn++;
+
+            if (currentMenu == &MainDef)
+            {
+                patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
+
+                if (SHORT(patch->height) >= ORIGINALHEIGHT)
+                    y -= OFFSET;
+            }
+
+            if (M_SKULL1)
+                M_DrawPatchWithShadow(x - 32, y, patch);
+            else
+                M_DrawPatchWithShadow(x - (gamemission == heretic ? 29 : 26), y + 2, patch);
         }
-
-        if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 32, y, patch);
-        else
-            M_DrawPatchWithShadow(x - (gamemission == heretic ? 29 : 26), y + 2, patch);
     }
 }
 
