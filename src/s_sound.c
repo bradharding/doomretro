@@ -253,7 +253,7 @@ static int S_GetMusicNum(void)
 
     if (gamemission == heretic)
         mnum = (gameepisode - 1) * 9 + gamemap - 1;
-    if (gamemode == commercial)
+    else if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
         {

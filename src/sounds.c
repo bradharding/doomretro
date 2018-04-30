@@ -118,7 +118,6 @@ musicinfo_t S_music[] =
 
 musicinfo_t HS_music[] =
 {
-    { "",         "",                                0, 0, 0 },
     { "mus_e1m1", "",                                0, 0, 0 },
     { "mus_e1m2", "",                                0, 0, 0 },
     { "mus_e1m3", "",                                0, 0, 0 },
