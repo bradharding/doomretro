@@ -173,6 +173,7 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
+static patch_t              *lbar;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -393,7 +394,9 @@ static void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        if (STBAR >= 3 || r_detail == r_detail_low)
+        if (gamemission == heretic)
+            V_DrawPatch(ST_X, 0, 4, lbar);
+        else if (STBAR >= 3 || r_detail == r_detail_low)
         {
             V_DrawPatch(ST_X, 0, 4, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, 0, 4, armsbg);
@@ -1334,22 +1337,25 @@ static void ST_drawWidgets(dboolean refresh)
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
-    shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+    if (gamemission != heretic)
+    {
+        shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
-    // [BH] manually draw arms numbers
-    //  changes:
-    //    arms 3 highlighted when player has super shotgun but no shotgun
-    //    arms 6 and 7 not visible in shareware
-    for (int i = 0; i < armsnum; i++)
-        STlib_updateArmsIcon(&w_arms[i], refresh, i);
+        // [BH] manually draw arms numbers
+        //  changes:
+        //    arms 3 highlighted when player has super shotgun but no shotgun
+        //    arms 6 and 7 not visible in shareware
+        for (int i = 0; i < armsnum; i++)
+            STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
-    if (facebackcolor != facebackcolor_default)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
+        if (facebackcolor != facebackcolor_default)
+            V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
 
-    STlib_updateMultIcon(&w_faces, refresh);
+        STlib_updateMultIcon(&w_faces, refresh);
 
-    for (int i = 0; i < 3; i++)
-        STlib_updateMultIcon(&w_keyboxes[i], refresh);
+        for (int i = 0; i < 3; i++)
+            STlib_updateMultIcon(&w_keyboxes[i], refresh);
+    }
 }
 
 void ST_doRefresh(void)
@@ -1407,6 +1413,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         }
 
         callback("FONTB05", &tallpercent);
+        callback("LIFEBAR", &lbar);
     }
     else
     {
