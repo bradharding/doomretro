@@ -558,7 +558,7 @@ void D_DoAdvanceTitle(void)
         }
 
         M_SetWindowCaption();
-        S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+        S_StartMusic(gamemission == heretic ? hmus_titl : (gamemode == commercial ? mus_dm2ttl : mus_intro));
 
         if (devparm)
             C_ShowConsole();
