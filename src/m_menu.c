@@ -1518,7 +1518,7 @@ static void M_SfxVol(int choice)
                 if (sfxVolume > 0)
                 {
                     S_SetSfxVolume(--sfxVolume * MAX_SFX_VOLUME / 31);
-                    S_StartSound(NULL, sfx_stnmov);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                     s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
@@ -1530,7 +1530,7 @@ static void M_SfxVol(int choice)
                 if (sfxVolume < 31)
                 {
                     S_SetSfxVolume(++sfxVolume * MAX_SFX_VOLUME / 31);
-                    S_StartSound(NULL, sfx_stnmov);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                     s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
@@ -1551,7 +1551,7 @@ static void M_MusicVol(int choice)
                 if (musicVolume > 0)
                 {
                     S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 31);
-                    S_StartSound(NULL, sfx_stnmov);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                     s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
@@ -1563,7 +1563,7 @@ static void M_MusicVol(int choice)
                 if (musicVolume < 31)
                 {
                     S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 31);
-                    S_StartSound(NULL, sfx_stnmov);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                     s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
@@ -2054,7 +2054,7 @@ static void M_SliderSound(void)
     if (wait < I_GetTime())
     {
         wait = I_GetTime() + 7;
-        S_StartSound(NULL, sfx_stnmov);
+        S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
     }
 }
 
@@ -2167,14 +2167,14 @@ static void M_SizeDisplay(int choice)
                 else
                     returntowidescreen = false;
 
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                 M_SaveCVARs();
             }
             else if (r_screensize > r_screensize_min)
             {
                 R_SetViewSize(--r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                 M_SaveCVARs();
             }
 
@@ -2187,7 +2187,7 @@ static void M_SizeDisplay(int choice)
                 {
                     r_hud = false;
                     C_StrCVAROutput(stringize(r_hud), "off");
-                    S_StartSound(NULL, sfx_stnmov);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                     M_SaveCVARs();
                 }
             }
@@ -2211,14 +2211,14 @@ static void M_SizeDisplay(int choice)
                     }
                 }
 
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                 M_SaveCVARs();
             }
             else
             {
                 R_SetViewSize(++r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
                 M_SaveCVARs();
             }
 
@@ -2449,7 +2449,7 @@ void M_ChangeGamma(dboolean shift)
 
         r_gamma = gammalevels[gammaindex];
 
-        S_StartSound(NULL, sfx_stnmov);
+        S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
 
         if (r_gamma == 1.0f)
             C_StrCVAROutput(stringize(r_gamma), "off");

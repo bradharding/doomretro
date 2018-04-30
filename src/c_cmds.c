@@ -2354,7 +2354,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL
+                        else if ((thing->flags & MF_SHOOTABLE) && type != playermobjtype && type != MT_BARREL
                             && type != MT_BOSSBRAIN && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
@@ -3262,7 +3262,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
                     const int           flags = thing->flags;
 
                     if (((flags & MF_SHOOTABLE) || (flags & MF_CORPSE) || (thing->flags2 & MF2_MONSTERMISSILE))
-                        && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
+                        && type != playermobjtype && type != MT_BARREL && type != MT_BOSSBRAIN)
                         P_RemoveMobj(thing);
 
                     thing = thing->snext;

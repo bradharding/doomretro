@@ -504,7 +504,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             // Don't hit same species as originator.
             if (thing == tmthing->target)
                 return true;
-            else if (thing->type != MT_PLAYER && !infight && !species_infighting)
+            else if (thing->type != playermobjtype && !infight && !species_infighting)
                 // Explode, but do no damage.
                 // Let players missile other players.
                 return false;
@@ -1698,7 +1698,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
         else if (r_blood != r_blood_none && th->blood)
         {
-            if (type != MT_PLAYER)
+            if (type != playermobjtype)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
             else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
                 P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
@@ -2055,7 +2055,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
     {
-        if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
+        if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != playermobjtype
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
             int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) : MT_BLOOD);

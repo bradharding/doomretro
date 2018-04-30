@@ -1868,6 +1868,8 @@ static void D_DoomMainSetup(void)
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
 
+    playermobjtype = MT_PLAYER;
+
     if (gamemission == heretic)
         P_InitHereticMobjs();
 

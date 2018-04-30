@@ -912,7 +912,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = NORM_PITCH;
 
-    if ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL)
+    if ((mobj->flags & MF_SHOOTABLE) && type != playermobjtype && type != MT_BARREL)
         mobj->pitch += M_RandomInt(-16, 16);
 
     // set subsector and/or block links
@@ -1092,7 +1092,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     if (viewplayer->playerstate == PST_REBORN)
         G_PlayerReborn();
 
-    mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, (gamemission == heretic ? HMT_PLAYER : MT_PLAYER));
+    mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, playermobjtype);
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;
@@ -1798,6 +1798,8 @@ void P_InitHereticMobjs(void)
 
     for (int i = 0; i < NUMHMOBJTYPES; i++)
         memcpy(&mobjinfo[i], &hereticmobjinfo[i], sizeof(mobjinfo_t));
+
+    playermobjtype = HMT_PLAYER;
 }
 
 void A_ContMobjSound(mobj_t *actor, player_t *player, pspdef_t *psp)

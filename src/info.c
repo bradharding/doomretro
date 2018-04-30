@@ -41,6 +41,8 @@
 #include "r_defs.h"
 #include "sounds.h"
 
+mobjtype_t playermobjtype;
+
 char *sprnames[] =
 {
     // Sprites 0 to 137

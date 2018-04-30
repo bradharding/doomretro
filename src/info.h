@@ -1401,6 +1401,7 @@ typedef enum
     NUMMOBJTYPES
 } mobjtype_t;
 
+extern mobjtype_t   playermobjtype;
 typedef struct
 {
     int         doomednum;

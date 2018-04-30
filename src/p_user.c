@@ -367,7 +367,7 @@ void P_ResurrectPlayer(int health)
     P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
     // respawn the player
-    thing = P_SpawnMobj(viewx, viewy, ONFLOORZ, MT_PLAYER);
+    thing = P_SpawnMobj(viewx, viewy, ONFLOORZ, playermobjtype);
     thing->angle = viewangle;
     thing->player = viewplayer;
     thing->health = health;
