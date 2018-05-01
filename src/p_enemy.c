@@ -1659,34 +1659,64 @@ void A_PainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int sound;
-
-    switch (actor->info->deathsound)
+    if (gamemission == heretic)
     {
-        case sfx_None:
-            return;
+        switch (actor->type)
+        {
+            case HMT_CHICPLAYER:
+            case HMT_SORCERER1:
+            case HMT_MINOTAUR:
+                S_StartSound(NULL, actor->info->deathsound);
+                break;
 
-        case sfx_podth1:
-        case sfx_podth2:
-        case sfx_podth3:
-            sound = sfx_podth1 + M_Random() % 3;
-            break;
+            case HMT_PLAYER:
+                if (actor->special1.i < 10)
+                    S_StartSound(actor, hsfx_plrwdth);
+                else if (actor->health > -50)
+                    S_StartSound(actor, actor->info->deathsound);
+                else if (actor->health > -100)
+                    S_StartSound(actor, hsfx_plrcdth);
+                else
+                    S_StartSound(actor, hsfx_gibdth);
 
-        case sfx_bgdth1:
-        case sfx_bgdth2:
-            sound = sfx_bgdth1 + M_Random() % 2;
-            break;
+                break;
 
-        default:
-            sound = actor->info->deathsound;
-            break;
+            default:
+                S_StartSound(actor, actor->info->deathsound);
+                break;
+        }
     }
-
-    // Check for bosses.
-    if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-        S_StartSound(NULL, sound);      // full volume
     else
-        S_StartSound(actor, sound);
+    {
+        int sound;
+
+        switch (actor->info->deathsound)
+        {
+            case sfx_None:
+                return;
+
+            case sfx_podth1:
+            case sfx_podth2:
+            case sfx_podth3:
+                sound = sfx_podth1 + M_Random() % 3;
+                break;
+
+            case sfx_bgdth1:
+            case sfx_bgdth2:
+                sound = sfx_bgdth1 + M_Random() % 2;
+                break;
+
+            default:
+                sound = actor->info->deathsound;
+                break;
+        }
+
+        // Check for bosses.
+        if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
+            S_StartSound(NULL, sound);      // full volume
+        else
+            S_StartSound(actor, sound);
+    }
 }
 
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -3054,9 +3084,9 @@ void A_ImpExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo->momy = M_NegRandom() << 10;
     mo->momz = 9 * FRACUNIT;
 
-    if (actor->special1.i == 666)
-        // Extreme death crash
-        P_SetMobjState(actor, HS_IMP_XCRASH1);
+    //if (actor->special1.i == 666)
+    //    // Extreme death crash
+    //    P_SetMobjState(actor, HS_IMP_XCRASH1);
 }
 
 void A_KnightAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
