@@ -2034,7 +2034,7 @@ static void M_QuitResponse(int key)
 
 static char *M_SelectEndMessage(void)
 {
-    if (deh_strlookup[p_QUITMSG].assigned == 2)
+    if (deh_strlookup[p_QUITMSG].assigned == 2 || gamemission == heretic)
         return s_QUITMSG;
     else
         return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
