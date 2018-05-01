@@ -671,7 +671,7 @@ dboolean G_Responder(event_t *ev)
             else
             {
                 M_StartControlPanel();
-                S_StartSound(NULL, sfx_swtchn);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
             }
 
             return true;

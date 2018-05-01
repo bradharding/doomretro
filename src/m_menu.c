@@ -3077,12 +3077,12 @@ dboolean M_Responder(event_t *ev)
             {
                 paused = false;
                 S_ResumeSound();
-                S_StartSound(NULL, sfx_swtchx);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
             }
             else
             {
                 M_StartControlPanel();
-                S_StartSound(NULL, sfx_swtchn);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
             }
         }
 
@@ -3107,7 +3107,7 @@ dboolean M_Responder(event_t *ev)
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
-                    S_StartSound(NULL, sfx_pstop);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
 
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
@@ -3134,7 +3134,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn++;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
-                        S_StartSound(NULL, sfx_pstop);
+                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
@@ -3184,7 +3184,7 @@ dboolean M_Responder(event_t *ev)
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
-                    S_StartSound(NULL, sfx_pstop);
+                    S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
 
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
@@ -3211,7 +3211,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = currentMenu->numitems - 1;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
-                        S_StartSound(NULL, sfx_pstop);
+                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
@@ -3256,7 +3256,7 @@ dboolean M_Responder(event_t *ev)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, sfx_pistol);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_pistol));
             }
 
             return false;
@@ -3272,7 +3272,7 @@ dboolean M_Responder(event_t *ev)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, sfx_pistol);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_pistol));
             }
 
             return false;
@@ -3312,7 +3312,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
 
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
-                        S_StartSound(NULL, sfx_pistol);
+                        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
@@ -3342,13 +3342,13 @@ dboolean M_Responder(event_t *ev)
             {
                 currentMenu = currentMenu->prevMenu;
                 itemOn = currentMenu->lastOn;
-                S_StartSound(NULL, sfx_swtchn);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_swtchn));
             }
             else
             {
                 functionkey = 0;
                 M_ClearMenus();
-                S_StartSound(NULL, sfx_swtchx);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
@@ -3405,7 +3405,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
 
                     if (itemOn != i)
-                        S_StartSound(NULL, sfx_pstop);
+                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
 
                     itemOn = i;
 
@@ -3467,7 +3467,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
 
                     if (itemOn != i)
-                        S_StartSound(NULL, sfx_pstop);
+                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
 
                     itemOn = i;
 
