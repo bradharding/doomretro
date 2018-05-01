@@ -648,13 +648,26 @@ static void HU_AltInit(void)
     altkeypics[4].patch = altskullpatch;
     altkeypics[5].patch = altskullpatch;
 
-    white = nearestcolors[WHITE];
-    lightgray = nearestcolors[LIGHTGRAY];
-    gray = nearestcolors[GRAY];
-    darkgray = nearestcolors[DARKGRAY];
-    green = nearestcolors[GREEN];
-    red = nearestcolors[RED];
-    yellow = nearestcolors[YELLOW];
+    if (gamemission == heretic)
+    {
+        white = 35;
+        lightgray = 27;
+        gray = 20;
+        darkgray = 12;
+        green = 220;
+        red = 154;
+        yellow = 144;
+    }
+    else
+    {
+        white = nearestcolors[WHITE];
+        lightgray = nearestcolors[LIGHTGRAY];
+        gray = nearestcolors[GRAY];
+        darkgray = nearestcolors[DARKGRAY];
+        green = nearestcolors[GREEN];
+        red = nearestcolors[RED];
+        yellow = nearestcolors[YELLOW];
+    }
 }
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
@@ -673,6 +686,7 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
     {
         patch = altnum[val / 100];
         althudfunc(x, y, patch, WHITE, color);
+
         x += SHORT(patch->width) + 2;
     }
 

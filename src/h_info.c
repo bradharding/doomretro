@@ -6736,7 +6736,7 @@ mobjinfo_t hereticmobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ hsfx_impact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ MF2_PASSMOBJ,
+        /* flags2               */ MF2_PASSMOBJ | MF2_CASTSHADOW,
         /* flags3               */ MF3_SPAWNFLOAT,
         /* raisestate           */ HS_NULL,
         /* frames               */ 0,

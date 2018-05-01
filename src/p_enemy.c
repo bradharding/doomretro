@@ -241,26 +241,34 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     dist >>= FRACBITS;
     type = actor->type;
 
-    if (type == MT_VILE)
+    if (gamemission == heretic)
     {
-        if (dist > 14 * 64)
-            return false;               // too far away
+        if (actor->type == HMT_IMP)
+            dist >>= 1;                 // Imp's fly attack from far away
     }
-    else if (type == MT_UNDEAD)
+    else
     {
-        if (dist < 196)
-            return false;               // close for fist attack
+        if (type == MT_VILE)
+        {
+            if (dist > 14 * 64)
+                return false;           // too far away
+        }
+        else if (type == MT_UNDEAD)
+        {
+            if (dist < 196)
+                return false;           // close for fist attack
 
-        dist >>= 1;
+            dist >>= 1;
+        }
+        else if (type == MT_CYBORG || type == MT_SPIDER || type == MT_SKULL)
+            dist >>= 1;
+
+        if (type == MT_CYBORG && dist > 160)
+            dist = 160;
     }
-    else if (type == MT_CYBORG || type == MT_SPIDER || type == MT_SKULL)
-        dist >>= 1;
 
     if (dist > 200)
         dist = 200;
-
-    if (type == MT_CYBORG && dist > 160)
-        dist = 160;
 
     if (M_Random() < dist)
         return false;
@@ -805,30 +813,35 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 seeyou:
     if (actor->info->seesound)
     {
-        int sound;
-
-        switch (actor->info->seesound)
-        {
-            case sfx_posit1:
-            case sfx_posit2:
-            case sfx_posit3:
-                sound = sfx_posit1 + M_Random() % 3;
-                break;
-
-            case sfx_bgsit1:
-            case sfx_bgsit2:
-                sound = sfx_bgsit1 + M_Random() % 2;
-                break;
-
-            default:
-                sound = actor->info->seesound;
-                break;
-        }
-
-        if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-            S_StartSound(NULL, sound);          // full volume
+        if (gamemission == heretic)
+            S_StartSound(((actor->flags3 & MF3_BOSS) ? NULL : actor), actor->info->seesound);
         else
-            S_StartSound(actor, sound);
+        {
+            int sound;
+
+            switch (actor->info->seesound)
+            {
+                case sfx_posit1:
+                case sfx_posit2:
+                case sfx_posit3:
+                    sound = sfx_posit1 + M_Random() % 3;
+                    break;
+
+                case sfx_bgsit1:
+                case sfx_bgsit2:
+                    sound = sfx_bgsit1 + M_Random() % 2;
+                    break;
+
+                default:
+                    sound = actor->info->seesound;
+                    break;
+            }
+
+            if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
+                S_StartSound(NULL, sound);          // full volume
+            else
+                S_StartSound(actor, sound);
+        }
     }
 
     P_SetMobjState(actor, actor->info->seestate);

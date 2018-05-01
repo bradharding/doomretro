@@ -1688,7 +1688,20 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     // Spawn bullet puffs or blood spots,
     // depending on target type.
-    if (th->flags & MF_NOBLOOD)
+    if (gamemission == heretic)
+    {
+        if (pufftype == HMT_BLASTERPUFF1)
+        {
+            mobj_t  *mo = P_SpawnMobj(x, y, z, HMT_BLASTERPUFF2);
+
+            S_StartSound(mo, hsfx_blshit);
+        }
+        else
+        {
+            P_SpawnPuff(x, y, z, shootangle);
+        }
+    }
+    else if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z, shootangle);
     else
     {
