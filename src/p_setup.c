@@ -2000,6 +2000,7 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
+        case heretic:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map,
                 ((E1M4B && ep == 1 && map == 4) || (E1M8B && ep == 1 && map == 8) ? "B" : ""));
 
