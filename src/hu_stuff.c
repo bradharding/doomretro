@@ -401,8 +401,8 @@ static void HU_DrawHUD(void)
     const int           health = viewplayer->health;
     const weapontype_t  pendingweapon = viewplayer->pendingweapon;
     const weapontype_t  readyweapon = viewplayer->readyweapon;
-    int                 ammotype = weaponinfo[readyweapon].ammotype;
-    int                 ammo = viewplayer->ammo[ammotype];
+    ammotype_t          ammotype;
+    int                 ammo;
     const int           armor = viewplayer->armorpoints;
     int                 health_x;
     byte                *tinttab;
@@ -415,7 +415,6 @@ static void HU_DrawHUD(void)
     static dboolean     showkey;
 
     tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
-
 
     if ((patch = faces[st_faceindex]))
         hudfunc(HUD_HEALTH_X - (SHORT(patch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
@@ -456,11 +455,17 @@ static void HU_DrawHUD(void)
         }
     }
 
-    if (pendingweapon != wp_nochange)
+    if (gamemission == heretic)
     {
-        ammotype = weaponinfo[pendingweapon].ammotype;
-        ammo = viewplayer->ammo[ammotype];
+        if (viewplayer->powers[pw_weaponlevel2])
+            ammotype = (pendingweapon != wp_nochange ? wpnlev2info[pendingweapon].ammotype : wpnlev2info[readyweapon].ammotype);
+        else
+            ammotype = (pendingweapon != wp_nochange ? wpnlev1info[pendingweapon].ammotype : wpnlev1info[readyweapon].ammotype);
     }
+    else
+        ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
+
+    ammo = viewplayer->ammo[ammotype];
 
     if (health > 0 && ammo && ammotype != am_noammo)
     {
@@ -816,7 +821,12 @@ static void HU_DrawAltHUD(void)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
-        const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
+        ammotype_t          ammotype;
+
+        if (gamemission == heretic)
+            ammotype = (viewplayer->powers[pw_weaponlevel2] ? wpnlev2info[weapon].ammotype : wpnlev1info[weapon].ammotype);
+        else
+            ammotype = weaponinfo[weapon].ammotype;
 
         if (ammotype != am_noammo)
         {
