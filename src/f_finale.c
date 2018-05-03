@@ -85,6 +85,21 @@ static int              midstage;               // whether we're in "mid-stage"
 extern int              acceleratestage;        // accelerate intermission screens
 
 //
+// F_ConsoleFinaleText
+//
+void F_ConsoleFinaleText(void)
+{
+    char    *text = strdup(finaletext);
+    char    *p = strtok(text, "\n");
+
+    while (p)
+    {
+        C_PlayerMessage(p);
+        p = strtok(NULL, "\n");
+    }
+}
+
+//
 // F_StartFinale
 //
 void F_StartFinale(void)
@@ -192,6 +207,8 @@ void F_StartFinale(void)
 
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
+
+    F_ConsoleFinaleText();
 }
 
 dboolean F_Responder(event_t *ev)
