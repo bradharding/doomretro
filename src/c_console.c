@@ -599,6 +599,7 @@ void C_Init(void)
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
+    consolecolors[finalestring] = consoleplayermessagecolor;
 
     dot = W_CacheLumpName("DRFON046");
     trademark = W_CacheLumpName("DRFON153");
