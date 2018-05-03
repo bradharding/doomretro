@@ -1871,7 +1871,17 @@ static void D_DoomMainSetup(void)
     playermobjtype = MT_PLAYER;
 
     if (gamemission == heretic)
+    {
         P_InitHereticMobjs();
+        prevweaponfunc = G_PrevHereticWeapon;
+        nextweaponfunc = G_NextHereticWeapon;
+    }
+    else
+    {
+        P_InitHereticMobjs();
+        prevweaponfunc = G_PrevWeapon;
+        nextweaponfunc = G_NextWeapon;
+    }
 
     D_SetSaveGameFolder(true);
 

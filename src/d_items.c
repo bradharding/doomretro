@@ -211,8 +211,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_beak,
+        /* next */         wp_gauntlets
     },
 
     {
@@ -228,8 +228,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_gauntlets,
+        /* next */         wp_crossbow
     },
 
     {
@@ -245,8 +245,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_goldwand,
+        /* next */         wp_blaster
     },
 
     {
@@ -262,8 +262,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_crossbow,
+        /* next */         wp_skullrod
     },
 
     {
@@ -279,8 +279,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_blaster,
+        /* next */         wp_phoenixrod
     },
 
     {
@@ -296,8 +296,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_skullrod,
+        /* next */         wp_mace
     },
 
     {
@@ -313,8 +313,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_phoenixrod,
+        /* next */         wp_beak
     },
 
     {
@@ -330,8 +330,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_staff,
+        /* next */         wp_goldwand
     },
 
     {
@@ -347,8 +347,8 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_mace,
+        /* next */         wp_staff
     }
 };
 
@@ -367,8 +367,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_beak,
+        /* next */         wp_gauntlets
     },
 
     {
@@ -384,8 +384,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_gauntlets,
+        /* next */         wp_crossbow
     },
 
     {
@@ -401,8 +401,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_goldwand,
+        /* next */         wp_blaster
     },
 
     {
@@ -418,8 +418,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_crossbow,
+        /* next */         wp_skullrod
     },
 
     {
@@ -435,8 +435,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_blaster,
+        /* next */         wp_phoenixrod
     },
 
     {
@@ -452,8 +452,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_skullrod,
+        /* next */         wp_mace
     },
 
     {
@@ -469,8 +469,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_phoenixrod,
+        /* next */         wp_beak
     },
 
     {
@@ -486,8 +486,8 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_staff,
+        /* next */         wp_goldwand
     },
 
     {
@@ -503,7 +503,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* recoil */       0,
         /* motorspeed */   0,
         /* tics */         0,
-        /* prev */         wp_nochange,
-        /* next */         wp_nochange
+        /* prev */         wp_mace,
+        /* next */         wp_staff
     }
 };

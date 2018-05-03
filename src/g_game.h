@@ -89,8 +89,14 @@ void I_ToggleWidescreen(dboolean toggle);
 
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);
+
+void (*prevweaponfunc)(void);
+void (*nextweaponfunc)(void);
+
 void G_NextWeapon(void);
 void G_PrevWeapon(void);
+void G_NextHereticWeapon(void);
+void G_PrevHereticWeapon(void);
 
 extern fixed_t  forwardmove[2];
 extern fixed_t  sidemove[2];

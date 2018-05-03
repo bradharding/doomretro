@@ -887,12 +887,12 @@ static void menu_action_func(void)
 
 static void nextweapon_action_func(void)
 {
-    G_NextWeapon();
+    nextweaponfunc();
 }
 
 static void prevweapon_action_func(void)
 {
-    G_PrevWeapon();
+    prevweaponfunc();
 }
 
 static void right_action_func(void)

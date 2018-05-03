@@ -184,6 +184,9 @@ void G_RemoveChoppers(void)
     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
 }
 
+void (*prevweaponfunc)(void);
+void (*nextweaponfunc)(void);
+
 void G_NextWeapon(void)
 {
     weapontype_t    pendingweapon = viewplayer->pendingweapon;
@@ -230,6 +233,36 @@ void G_PrevWeapon(void)
 
     if (i == wp_fist && viewplayer->powers[pw_strength])
         S_StartSound(NULL, sfx_getpow);
+}
+
+void G_NextHereticWeapon(void)
+{
+    weapontype_t    pendingweapon = viewplayer->pendingweapon;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
+    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+
+    do
+    {
+        i = wpnlev1info[i].next;
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[wpnlev1info[i].ammotype] < wpnlev1info[i].minammo);
+
+    if (i != readyweapon)
+        viewplayer->pendingweapon = i;
+}
+
+void G_PrevHereticWeapon(void)
+{
+    weapontype_t    pendingweapon = viewplayer->pendingweapon;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
+    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+
+    do
+    {
+        i = wpnlev1info[i].prev;
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[wpnlev1info[i].ammotype] < wpnlev1info[i].minammo);
+
+    if (i != readyweapon)
+        viewplayer->pendingweapon = i;
 }
 
 //
@@ -705,9 +738,9 @@ dboolean G_Responder(event_t *ev)
             key = ev->data1;
 
             if (key == keyboardprevweapon && !menuactive && !paused)
-                G_PrevWeapon();
+                prevweaponfunc();
             else if (key == keyboardnextweapon && !menuactive && !paused)
-                G_NextWeapon();
+                nextweaponfunc();
             else if (key == KEY_PAUSE && !menuactive && !keydown)
             {
                 keydown = KEY_PAUSE;
@@ -767,9 +800,9 @@ dboolean G_Responder(event_t *ev)
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
-                    G_NextWeapon();
+                    nextweaponfunc();
                 else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
-                    G_PrevWeapon();
+                    prevweaponfunc();
             }
 
             if (!automapactive || am_followmode)
@@ -794,9 +827,9 @@ dboolean G_Responder(event_t *ev)
                 if (ev->data1 < 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELDOWN)
-                        G_NextWeapon();
+                        nextweaponfunc();
                     else if (mouseprevweapon == MOUSE_WHEELDOWN)
-                        G_PrevWeapon();
+                        prevweaponfunc();
 
                     if (mouseactionlist[MOUSE_WHEELDOWN][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
@@ -804,9 +837,9 @@ dboolean G_Responder(event_t *ev)
                 else if (ev->data1 > 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELUP)
-                        G_NextWeapon();
+                        nextweaponfunc();
                     else if (mouseprevweapon == MOUSE_WHEELUP)
-                        G_PrevWeapon();
+                        prevweaponfunc();
 
                     if (mouseactionlist[MOUSE_WHEELUP][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
@@ -826,7 +859,7 @@ dboolean G_Responder(event_t *ev)
 
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
-                        G_NextWeapon();
+                        nextweaponfunc();
                         gamepadpress = false;
                     }
                 }
@@ -836,7 +869,7 @@ dboolean G_Responder(event_t *ev)
 
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
-                        G_PrevWeapon();
+                        prevweaponfunc();
                         gamepadpress = false;
                     }
                 }
