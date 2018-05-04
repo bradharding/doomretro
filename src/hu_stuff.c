@@ -404,22 +404,18 @@ static void HU_DrawHUD(void)
     ammotype_t          ammotype;
     int                 ammo;
     const int           armor = viewplayer->armorpoints;
-    int                 health_x;
-    byte                *tinttab;
+    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth + 1) / 2;
     static dboolean     healthanim;
-    patch_t             *patch;
+    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
+    patch_t             *patch = faces[st_faceindex];
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
     int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
     static dboolean     showkey;
 
-    tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
-
-    if ((patch = faces[st_faceindex]))
+    if (patch)
         hudfunc(HUD_HEALTH_X - (SHORT(patch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
-
-    health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth + 1) / 2;
 
     if (healthhighlight > currenttime)
     {
@@ -465,9 +461,7 @@ static void HU_DrawHUD(void)
     else
         ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
 
-    ammo = viewplayer->ammo[ammotype];
-
-    if (health > 0 && ammo)
+    if (health > 0 && (ammo = viewplayer->ammo[ammotype]))
     {
         int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo) + 1) / 2;
         static dboolean ammoanim;
@@ -620,15 +614,7 @@ static void HU_AltInit(void)
     altminuspatch = W_CacheLumpName("DRHUDNEG");
     altminuspatchwidth = SHORT(altminuspatch->width);
 
-    for (int i = 1; i < NUMWEAPONS; i++)
-    {
-        M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-        altweapon[i] = W_CacheLumpName(buffer);
-    }
-
-    altleftpatch = W_CacheLumpName("DRHUDL");
     altarmpatch = W_CacheLumpName("DRHUDARM");
-    altrightpatch = W_CacheLumpName("DRHUDR");
 
     altendpatch = W_CacheLumpName("DRHUDE");
     altmarkpatch = W_CacheLumpName("DRHUDI");
@@ -655,6 +641,9 @@ static void HU_AltInit(void)
 
     if (gamemission == heretic)
     {
+        altleftpatch = W_CacheLumpName("DRHUDL_2");
+        altrightpatch = W_CacheLumpName("DRHUDR_2");
+
         white = 35;
         lightgray = 27;
         gray = 20;
@@ -662,9 +651,25 @@ static void HU_AltInit(void)
         green = 220;
         red = 154;
         yellow = 144;
+
+        altkeypics[0].color = 196;
+        altkeypics[1].color = yellow;
+        altkeypics[2].color = red;
+        altkeypics[3].color = 196;
+        altkeypics[4].color = yellow;
+        altkeypics[5].color = red;
     }
     else
     {
+        for (int i = 1; i < NUMWEAPONS; i++)
+        {
+            M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
+            altweapon[i] = W_CacheLumpName(buffer);
+        }
+
+        altleftpatch = W_CacheLumpName("DRHUDL");
+        altrightpatch = W_CacheLumpName("DRHUDR");
+
         white = nearestcolors[WHITE];
         lightgray = nearestcolors[LIGHTGRAY];
         gray = nearestcolors[GRAY];
@@ -841,7 +846,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
         }
 
-        if (weapon != wp_fist)
+        if (altweapon[weapon])
             althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
     }
 
