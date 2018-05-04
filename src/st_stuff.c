@@ -1398,7 +1398,6 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
-    int     facenum;
     char    namebuf[9];
 
     // Load the numbers, tall and short
@@ -1417,6 +1416,8 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
     else
     {
+        int facenum = 0;
+
         for (int i = 0; i < 10; i++)
         {
             M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
@@ -1466,8 +1467,6 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         sbar2->topoffset = 0;
 
         // face states
-        facenum = 0;
-
         for (int i = 0; i < ST_NUMPAINFACES; i++)
         {
             for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)

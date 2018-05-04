@@ -467,7 +467,7 @@ static void HU_DrawHUD(void)
 
     ammo = viewplayer->ammo[ammotype];
 
-    if (health > 0 && ammo && ammotype != am_noammo)
+    if (health > 0 && ammo)
     {
         int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo) + 1) / 2;
         static dboolean ammoanim;

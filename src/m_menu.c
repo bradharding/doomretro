@@ -2242,7 +2242,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
         xx += 32;
 
         for (int count = thermWidth; count--; xx += 8)
-            M_DrawPatchWithShadow(xx, y, W_CacheLumpName(count & 1 ? "M_SLDMD1" : "M_SLDMD2"));
+            M_DrawPatchWithShadow(xx, y, W_CacheLumpName((count & 1) ? "M_SLDMD1" : "M_SLDMD2"));
 
         M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDRT"));
 

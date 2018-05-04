@@ -216,7 +216,6 @@ int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax)
 {
     int     dir;
-    int     dist;
     angle_t delta;
     angle_t angle;
     mobj_t  *target = (mobj_t *)actor->special1.m;
@@ -253,16 +252,8 @@ dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax)
     actor->momy = FixedMul(actor->info->speed, finesine[angle]);
 
     if (actor->z + actor->height < target->z || target->z + target->height < actor->z)
-    {
         // Need to seek vertically
-        dist = P_ApproxDistance(target->x - actor->x, target->y - actor->y);
-        dist = dist / actor->info->speed;
-
-        if (dist < 1)
-            dist = 1;
-
-        actor->momz = (target->z - actor->z) / dist;
-    }
+        actor->momz = (target->z - actor->z) / MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
 
     return true;
 }
@@ -1259,7 +1250,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[i].flags3 & MF3_SPAWNFLOAT ? FLOATRANDZ : ONFLOORZ));
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ((mobjinfo[i].flags3 & MF3_SPAWNFLOAT) ? FLOATRANDZ : ONFLOORZ));
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;

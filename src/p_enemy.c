@@ -3142,7 +3142,6 @@ void P_DSparilTeleport(mobj_t *actor)
     int     i;
     fixed_t x, y, z;
     fixed_t prevx, prevy, prevz;
-    mobj_t  *mo;
 
     if (!bossspotcount)
         return;
@@ -3164,7 +3163,8 @@ void P_DSparilTeleport(mobj_t *actor)
 
     if (P_TeleportMove(actor, x, y, z, true))
     {
-        mo = P_SpawnMobj(prevx, prevy, prevz, HMT_SOR2TELEFADE);
+        mobj_t  *mo = P_SpawnMobj(prevx, prevy, prevz, HMT_SOR2TELEFADE);
+
         S_StartSound(mo, hsfx_telept);
         P_SetMobjState(actor, HS_SOR2_TELE1);
         S_StartSound(actor, hsfx_telept);
@@ -3383,7 +3383,6 @@ void A_MinotaurAtk1(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_MinotaurDecide(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle;
     mobj_t  *target;
     int     dist;
 
@@ -3399,6 +3398,8 @@ void A_MinotaurDecide(mobj_t *actor, player_t *player, pspdef_t *psp)
         && dist < 8 * 64 * FRACUNIT
         && dist > 1 * 64 * FRACUNIT && M_Random() < 150)
     {
+        angle_t angle;
+
         // Charge attack
         // Don't call the state function right away
         P_SetMobjStateNF(actor, HS_MNTR_ATK4_1);

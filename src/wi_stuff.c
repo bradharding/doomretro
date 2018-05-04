@@ -967,39 +967,34 @@ static void WI_drawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3),
-            SP_TIMEY + 1, par, false);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3), SP_TIMEY + 1, par, false);
         WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
     }
 }
 
 void WI_checkForAccelerate(void)
 {
-    if (!menuactive && !paused && !consoleactive)
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+    if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
     {
-        const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+        if (!viewplayer->attackdown)
+            acceleratestage = 1;
 
-        if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
-            || keystate[SDL_SCANCODE_KP_ENTER])
-        {
-            if (!viewplayer->attackdown)
-                acceleratestage = 1;
-
-            viewplayer->attackdown = true;
-        }
-        else
-            viewplayer->attackdown = false;
-
-        if (viewplayer->cmd.buttons & BT_USE)
-        {
-            if (!viewplayer->usedown)
-                acceleratestage = 1;
-
-            viewplayer->usedown = true;
-        }
-        else
-            viewplayer->usedown = false;
+        viewplayer->attackdown = true;
     }
+    else
+        viewplayer->attackdown = false;
+
+    if (viewplayer->cmd.buttons & BT_USE)
+    {
+        if (!viewplayer->usedown)
+            acceleratestage = 1;
+
+        viewplayer->usedown = true;
+    }
+    else
+        viewplayer->usedown = false;
 }
 
 // Updates stuff each tick

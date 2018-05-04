@@ -227,17 +227,18 @@ void P_PostChickenWeapon(weapontype_t weapon)
 //
 static void P_BringUpWeapon(void)
 {
-    statenum_t new;
+    statenum_t  new;
 
     if (viewplayer->pendingweapon == wp_nochange)
         viewplayer->pendingweapon = viewplayer->readyweapon;
     else if (viewplayer->pendingweapon == wp_chainsaw)
         S_StartSound(viewplayer->mo, sfx_sawup);
-    else if (viewplayer->pendingweapon == wp_gauntlets)
-        S_StartSound(viewplayer->mo, hsfx_gntact);
 
     if (gamemission == heretic)
     {
+        if (viewplayer->pendingweapon == wp_gauntlets)
+            S_StartSound(viewplayer->mo, hsfx_gntact);
+
         if (viewplayer->powers[pw_weaponlevel2])
             new = wpnlev2info[viewplayer->pendingweapon].upstate;
         else
@@ -439,7 +440,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(actor, sfx_sawidl);
-    else if (readyweapon == wp_staff && psp->state == &states[HS_STAFFREADY2_1] && M_Random() < 128)
+    else if (gamemission == heretic && readyweapon == wp_staff && psp->state == &states[HS_STAFFREADY2_1] && M_Random() < 128)
         S_StartSound(player->mo, hsfx_stfcrk);
 
     // check for change
@@ -468,7 +469,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  the missile launcher and BFG do not auto fire
     if (player->cmd.buttons & BT_ATTACK)
     {
-        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg && readyweapon != wp_phoenixrod))
+        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg))
         {
             player->attackdown = true;
             P_FireWeapon();
@@ -1036,9 +1037,6 @@ void A_MaceBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_MaceBallImpact2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *tiny;
-    angle_t angle;
-
     if (actor->z <= actor->floorz && P_HitFloor(actor) != FLOOR_SOLID)
     {
         // Landed in some sort of liquid
@@ -1055,6 +1053,9 @@ void A_MaceBallImpact2(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
     else
     {
+        mobj_t  *tiny;
+        angle_t angle;
+
         // Bounce
         actor->momz = (actor->momz * 192) >> 8;
         P_SetMobjState(actor, actor->info->spawnstate);
