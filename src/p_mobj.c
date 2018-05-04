@@ -926,7 +926,18 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
 
-    mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
+    if (z == ONFLOORZ)
+        mobj->z = mobj->floorz;
+    else if (z == ONCEILINGZ)
+        mobj->z = mobj->ceilingz - mobj->height;
+    else if (z == FLOATRANDZ)
+    {
+        fixed_t space = mobj->ceilingz - info->height - mobj->floorz;
+
+        mobj->z = (space > 48 * FRACUNIT ? (((space - 40 * FRACUNIT) * M_Random()) >> 8) + mobj->floorz + 40 * FRACUNIT : mobj->floorz);
+    }
+    else
+        mobj->z = z;
 
     mobj->oldx = mobj->x;
     mobj->oldy = mobj->y;
@@ -1248,7 +1259,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[i].flags3 & MF3_SPAWNFLOAT ? FLOATRANDZ : ONFLOORZ));
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
