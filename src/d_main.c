@@ -323,6 +323,20 @@ void D_Display(void)
     {
         M_DarkBackground();
 
+        if (gamemission == heretic)
+        {
+            patch_t *patch = W_CacheLumpName("PAUSED");
+
+            patch->leftoffset = 0;
+            patch->topoffset = 0;
+
+            if (vid_widescreen)
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
+                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
+            else
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
+                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, patch, false);
+        }
         if (M_PAUSE)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
