@@ -787,12 +787,23 @@ static int  sp_state;
 
 static void WI_initStats(void)
 {
+    const int   tabs[8] = { 65, 0, 0, 0, 0, 0, 0, 0 };
+
     state = StatCount;
     acceleratestage = 0;
     sp_state = 1;
-    cnt_kills = cnt_items = cnt_secret = -1;
-    cnt_time = cnt_par = -1;
+    cnt_kills = -1;
+    cnt_items = -1;
+    cnt_secret = -1;
+    cnt_time = -1;
+    cnt_par = -1;
     cnt_pause = TICRATE;
+
+    C_TabbedOutput(tabs, "Kills\t%i%%", (wbs->skills * 100) / wbs->maxkills);
+    C_TabbedOutput(tabs, "Items\t%i%%", (wbs->sitems * 100) / wbs->maxitems);
+    C_TabbedOutput(tabs, "Secrets\t%i%%", (wbs->ssecret * 100) / wbs->maxsecret);
+    C_TabbedOutput(tabs, "Time\t%.2i:%.2i", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
+    C_TabbedOutput(tabs, "Par\t%.2i:%.2i", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_initAnimatedBack();
 }

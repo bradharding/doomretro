@@ -94,11 +94,9 @@ void F_ConsoleFinaleText(void)
 
     while (p)
     {
-        C_Print(finalestring, p);
+        C_Output(p);
         p = strtok(NULL, "\n");
     }
-
-    C_AddConsoleDivider();
 }
 
 //

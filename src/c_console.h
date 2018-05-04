@@ -81,7 +81,6 @@ typedef enum
     playermessagestring,
     obituarystring,
     headerstring,
-    finalestring,
     STRINGTYPES
 } stringtype_t;
 

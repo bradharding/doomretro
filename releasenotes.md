@@ -12,7 +12,7 @@
 * A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
 * The [*DOOM II* monster exclusion bug](https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug) present in *Vanilla DOOM* has been fixed.
 * The `vid_widescreen` CVAR can now be changed in the console when not during a game.
-* Finale text is now also output to the console.
+* Intermission and finale text is now also output to the console.
 
 ---
 
