@@ -3097,9 +3097,9 @@ void A_ImpExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo->momy = M_NegRandom() << 10;
     mo->momz = 9 * FRACUNIT;
 
-    //if (actor->special1.i == 666)
-    //    // Extreme death crash
-    //    P_SetMobjState(actor, HS_IMP_XCRASH1);
+    if (actor->special1.i == 666)
+        // Extreme death crash
+        P_SetMobjState(actor, HS_IMP_XCRASH1);
 }
 
 void A_KnightAttack(mobj_t *actor, player_t *player, pspdef_t *psp)

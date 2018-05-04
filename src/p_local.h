@@ -111,6 +111,8 @@ void P_FireWeapon(void);
 void P_DropWeapon(void);
 void P_RepositionMace(mobj_t *mo);
 void P_SetPsprite(size_t position, statenum_t stnum);
+void P_PostChickenWeapon(weapontype_t weapon);
+void P_UpdateBeak(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 //
 // P_USER

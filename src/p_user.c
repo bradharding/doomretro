@@ -41,6 +41,7 @@
 #include "g_game.h"
 #include "i_gamepad.h"
 #include "m_config.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -73,8 +74,23 @@ void G_RemoveChoppers(void);
 //
 static void P_Thrust(angle_t angle, fixed_t move)
 {
-    viewplayer->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
-    viewplayer->mo->momy += FixedMul(move, finesine[angle]);
+    angle >>= ANGLETOFINESHIFT;
+
+    if (viewplayer->powers[pw_flight] && viewplayer->mo->z > viewplayer->mo->floorz)
+    {
+        viewplayer->mo->momx += FixedMul(move, finecosine[angle]);
+        viewplayer->mo->momy += FixedMul(move, finesine[angle]);
+    }
+    else if (viewplayer->mo->subsector->sector->special == 15)
+    {
+        viewplayer->mo->momx += FixedMul(move >> 2, finecosine[angle]);
+        viewplayer->mo->momy += FixedMul(move >> 2, finesine[angle]);
+    }
+    else
+    {
+        viewplayer->mo->momx += FixedMul(move, finecosine[angle]);
+        viewplayer->mo->momy += FixedMul(move, finesine[angle]);
+    }
 }
 
 //
@@ -115,6 +131,9 @@ void P_CalcHeight(void)
         else
             bob = (MAXBOB * stillbob / 400) / 2;
 
+        if ((viewplayer->mo->flags3 & MF3_FLY) && !onground)
+            bob = FRACUNIT / 2;
+
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
 
@@ -140,7 +159,10 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        if (viewplayer->chickentics)
+            viewplayer->viewz = mo->z + viewplayer->viewheight - 20 * FRACUNIT;
+        else
+            viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
     }
     else
         viewplayer->viewz = mo->z + viewplayer->viewheight;
@@ -454,6 +476,87 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 }
 
+void P_ChickenPlayerThink(void)
+{
+    mobj_t  *mo;
+
+    if (viewplayer->health > 0)
+        P_UpdateBeak(NULL, viewplayer, &viewplayer->psprites[ps_weapon]);   // Handle beak movement
+
+    if (viewplayer->chickentics & 15)
+        return;
+
+    mo = viewplayer->mo;
+
+    if (!(mo->momx + mo->momy) && M_Random() < 160)
+        mo->angle += M_NegRandom() << 19;                                   // Twitch view angle
+
+    if (mo->z <= mo->floorz && M_Random() < 32)
+    {
+        mo->momz += FRACUNIT;                                               // Jump and noise
+        P_SetMobjState(mo, HS_CHICPLAY_PAIN);
+        return;
+    }
+
+    if (M_Random() < 48)
+        S_StartSound(mo, hsfx_chicact);                                     // Just noise
+}
+
+dboolean P_UndoPlayerChicken(void)
+{
+    mobj_t          *fog;
+    mobj_t          *mo;
+    mobj_t          *pmo = viewplayer->mo;
+    fixed_t         x = pmo->x;
+    fixed_t         y = pmo->y;
+    fixed_t         z = pmo->z;
+    angle_t         angle = pmo->angle;
+    weapontype_t    weapon = pmo->special1.i;
+    int             oldflags = pmo->flags;
+    int             oldflags2 = pmo->flags2;
+    int             oldflags3 = pmo->flags3;
+
+    P_SetMobjState(pmo, HS_FREETARGMOBJ);
+    mo = P_SpawnMobj(x, y, z, MT_PLAYER);
+
+    if (!P_TestMobjLocation(mo))
+    {
+        // Didn't fit
+        P_RemoveMobj(mo);
+        mo = P_SpawnMobj(x, y, z, HMT_CHICPLAYER);
+        mo->angle = angle;
+        mo->health = viewplayer->health;
+        mo->special1.i = weapon;
+        mo->player = viewplayer;
+        mo->flags = oldflags;
+        mo->flags2 = oldflags2;
+        mo->flags3 = oldflags3;
+        viewplayer->mo = mo;
+        viewplayer->chickentics = 2 * 35;
+        return false;
+    }
+
+    mo->angle = angle;
+    mo->player = viewplayer;
+    mo->reactiontime = 18;
+
+    if (oldflags3 & MF3_FLY)
+    {
+        mo->flags3 |= MF3_FLY;
+        mo->flags |= MF_NOGRAVITY;
+    }
+
+    viewplayer->chickentics = 0;
+    viewplayer->powers[pw_weaponlevel2] = 0;
+    viewplayer->health = mo->health = MAXHEALTH;
+    viewplayer->mo = mo;
+    angle >>= ANGLETOFINESHIFT;
+    fog = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], z + TELEFOGHEIGHT, HMT_TFOG);
+    S_StartSound(fog, hsfx_telept);
+    P_PostChickenWeapon(weapon);
+    return true;
+}
+
 //
 // P_PlayerThink
 //
@@ -530,6 +633,9 @@ void P_PlayerThink(void)
         return;
     }
 
+    if (viewplayer->chickentics)
+        P_ChickenPlayerThink();
+
     if (viewplayer->jumptics)
         viewplayer->jumptics--;
 
@@ -594,6 +700,16 @@ void P_PlayerThink(void)
     else
         viewplayer->usedown = false;
 
+    // Chicken counter
+    if (viewplayer->chickentics)
+    {
+        if (viewplayer->chickenpeck)
+            viewplayer->chickenpeck -= 3;   // Chicken attack counter
+
+        if (!--viewplayer->chickentics)
+            P_UndoPlayerChicken();          // Attempt to undo the chicken
+    }
+
     // Counters, time dependent power ups.
     if (viewplayer->powers[pw_invulnerability] > 0)
         viewplayer->powers[pw_invulnerability]--;
@@ -607,6 +723,32 @@ void P_PlayerThink(void)
 
     if (viewplayer->powers[pw_ironfeet] > 0)
         viewplayer->powers[pw_ironfeet]--;
+
+    if (viewplayer->powers[pw_flight])
+    {
+        if (!--viewplayer->powers[pw_flight])
+        {
+            viewplayer->mo->flags3 &= ~MF3_FLY;
+            viewplayer->mo->flags &= ~MF_NOGRAVITY;
+        }
+    }
+
+    if (viewplayer->powers[pw_weaponlevel2])
+    {
+        if (!--viewplayer->powers[pw_weaponlevel2])
+        {
+            if (viewplayer->readyweapon == wp_phoenixrod
+                && viewplayer->psprites[ps_weapon].state != &states[HS_PHOENIXREADY]
+                && viewplayer->psprites[ps_weapon].state != &states[HS_PHOENIXUP])
+            {
+                P_SetPsprite(ps_weapon, HS_PHOENIXREADY);
+                viewplayer->ammo[am_phoenixrod] -= USE_PHRD_AMMO_2;
+                viewplayer->refire = 0;
+            }
+            else if (viewplayer->readyweapon == wp_gauntlets || viewplayer->readyweapon == wp_staff)
+                viewplayer->pendingweapon = viewplayer->readyweapon;
+        }
+    }
 
     P_ReduceDamageCount();
 
