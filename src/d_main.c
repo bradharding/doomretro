@@ -1878,7 +1878,6 @@ static void D_DoomMainSetup(void)
     }
     else
     {
-        P_InitHereticMobjs();
         prevweaponfunc = G_PrevWeapon;
         nextweaponfunc = G_NextWeapon;
     }
