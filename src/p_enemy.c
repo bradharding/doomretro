@@ -3087,19 +3087,19 @@ void A_ImpXDeath2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_ImpExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *mo = P_SpawnMobj(actor->x, actor->y, actor->z, HMT_IMPCHUNK1);
+    //mobj_t  *mo = P_SpawnMobj(actor->x, actor->y, actor->z, HMT_IMPCHUNK1);
 
-    mo->momx = M_NegRandom() << 10;
-    mo->momy = M_NegRandom() << 10;
-    mo->momz = 9 * FRACUNIT;
-    mo = P_SpawnMobj(actor->x, actor->y, actor->z, HMT_IMPCHUNK2);
-    mo->momx = M_NegRandom() << 10;
-    mo->momy = M_NegRandom() << 10;
-    mo->momz = 9 * FRACUNIT;
+    //mo->momx = M_NegRandom() << 10;
+    //mo->momy = M_NegRandom() << 10;
+    //mo->momz = 9 * FRACUNIT;
+    //mo = P_SpawnMobj(actor->x, actor->y, actor->z, HMT_IMPCHUNK2);
+    //mo->momx = M_NegRandom() << 10;
+    //mo->momy = M_NegRandom() << 10;
+    //mo->momz = 9 * FRACUNIT;
 
-    if (actor->special1.i == 666)
-        // Extreme death crash
-        P_SetMobjState(actor, HS_IMP_XCRASH1);
+    //if (actor->special1.i == 666)
+    //    // Extreme death crash
+    //    P_SetMobjState(actor, HS_IMP_XCRASH1);
 }
 
 void A_KnightAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
