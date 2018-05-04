@@ -389,6 +389,17 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
+    if (gamemission == heretic)
+    {
+        if (newweapon == wp_staff && viewplayer->weaponowned[wp_gauntlets] && viewplayer->readyweapon != wp_gauntlets)
+            newweapon = wp_gauntlets;
+
+        if (viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
+            viewplayer->pendingweapon = newweapon;
+
+        return;
+    }
+
     if (newweapon == wp_fist)
     {
         if (viewplayer->readyweapon == wp_fist)
