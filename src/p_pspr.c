@@ -260,40 +260,33 @@ static void P_BringUpWeapon(void)
 dboolean P_CheckAmmo(weapontype_t weapon)
 {
     ammotype_t  ammotype = weaponinfo[weapon].ammotype;
-    int         count = 1;  // Regular.
 
     // Some do not need ammunition anyway.
     if (ammotype == am_noammo)
         return true;
 
-    // Minimal amount for one shot varies.
-    if (weapon == wp_bfg)
-        count = bfgcells;
-    else if (weapon == wp_supershotgun)
-        count = 2;          // Double barrel.
-
     // Return if current ammunition sufficient.
-    if (viewplayer->ammo[ammotype] >= count)
+    if (viewplayer->ammo[ammotype] >= weaponinfo[weapon].minammo)
         return true;
 
     // Out of ammo, pick a weapon to change to.
     // Preferences are set here.
-    if (viewplayer->weaponowned[wp_plasma] && viewplayer->ammo[am_cell] > 0)
+    if (viewplayer->weaponowned[wp_plasma] && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].minammo)
         viewplayer->pendingweapon = wp_plasma;
-    else if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2
+    else if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].minammo
              && viewplayer->preferredshotgun == wp_supershotgun)
         viewplayer->pendingweapon = wp_supershotgun;
-    else if (viewplayer->weaponowned[wp_chaingun] && viewplayer->ammo[am_clip] > 0)
+    else if (viewplayer->weaponowned[wp_chaingun] && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].minammo)
         viewplayer->pendingweapon = wp_chaingun;
-    else if (viewplayer->weaponowned[wp_shotgun] && viewplayer->ammo[am_shell] > 0)
+    else if (viewplayer->weaponowned[wp_shotgun] && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].minammo)
         viewplayer->pendingweapon = wp_shotgun;
-    else if (viewplayer->ammo[am_clip] > 0)
+    else if (viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].minammo)
         viewplayer->pendingweapon = wp_pistol;
     else if (viewplayer->weaponowned[wp_chainsaw])
         viewplayer->pendingweapon = wp_chainsaw;
-    else if (viewplayer->weaponowned[wp_missile] && viewplayer->ammo[am_misl] > 0)
+    else if (viewplayer->weaponowned[wp_missile] && viewplayer->ammo[am_misl] >= weaponinfo[wp_missile].minammo)
         viewplayer->pendingweapon = wp_missile;
-    else if (viewplayer->weaponowned[wp_bfg] && (viewplayer->ammo[am_cell] >= bfgcells || bfgcells != BFGCELLS))
+    else if (viewplayer->weaponowned[wp_bfg] && viewplayer->ammo[am_cell] >= weaponinfo[wp_bfg].minammo)
         viewplayer->pendingweapon = wp_bfg;
     else
         viewplayer->pendingweapon = wp_fist;

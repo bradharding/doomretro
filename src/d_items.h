@@ -59,8 +59,8 @@ typedef struct
     int             recoil;
     int             motorspeed;
     int             tics;
-    weapontype_t    prev;
-    weapontype_t    next;
+    int             prev;
+    int             next;
     dboolean        altered;
 } weaponinfo_t;
 
