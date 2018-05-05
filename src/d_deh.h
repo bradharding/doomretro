@@ -491,6 +491,43 @@ extern char     *startup3;
 extern char     *startup4;
 extern char     *startup5;
 
+extern char     *s_TXT_GOTBLUEKEY;
+extern char     *s_TXT_GOTYELLOWKEY;
+extern char     *s_TXT_GOTGREENKEY;
+extern char     *s_TXT_ARTIHEALTH;
+extern char     *s_TXT_ARTIFLY;
+extern char     *s_TXT_ARTIINVULNERABILITY;
+extern char     *s_TXT_ARTITOMEOFPOWER;
+extern char     *s_TXT_ARTIINVISIBILITY;
+extern char     *s_TXT_ARTIEGG;
+extern char     *s_TXT_ARTISUPERHEALTH;
+extern char     *s_TXT_ARTITORCH;
+extern char     *s_TXT_ARTIFIREBOMB;
+extern char     *s_TXT_ARTITELEPORT;
+extern char     *s_TXT_ITEMHEALTH;
+extern char     *s_TXT_ITEMBAGOFHOLDING;
+extern char     *s_TXT_ITEMSHIELD1;
+extern char     *s_TXT_ITEMSHIELD2;
+extern char     *s_TXT_ITEMSUPERMAP;
+extern char     *s_TXT_AMMOGOLDWAND1;
+extern char     *s_TXT_AMMOGOLDWAND2;
+extern char     *s_TXT_AMMOMACE1;
+extern char     *s_TXT_AMMOMACE2;
+extern char     *s_TXT_AMMOCROSSBOW1;
+extern char     *s_TXT_AMMOCROSSBOW2;
+extern char     *s_TXT_AMMOBLASTER1;
+extern char     *s_TXT_AMMOBLASTER2;
+extern char     *s_TXT_AMMOSKULLROD1;
+extern char     *s_TXT_AMMOSKULLROD2;
+extern char     *s_TXT_AMMOPHOENIXROD1;
+extern char     *s_TXT_AMMOPHOENIXROD2;
+extern char     *s_TXT_WPNMACE;
+extern char     *s_TXT_WPNCROSSBOW;
+extern char     *s_TXT_WPNBLASTER;
+extern char     *s_TXT_WPNSKULLROD;
+extern char     *s_TXT_WPNPHOENIXROD;
+extern char     *s_TXT_WPNGAUNTLETS;
+
 dboolean CheckPackageWADVersion(void);
 
 #endif

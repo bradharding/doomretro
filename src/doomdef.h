@@ -173,6 +173,11 @@ typedef enum
     it_blueskull,
     it_yellowskull,
     it_redskull,
+
+    it_bluekey,
+    it_yellowkey,
+    it_greenkey,
+
     NUMCARDS
 } card_t;
 
@@ -247,6 +252,22 @@ enum
     pw_health2,
     NUMPOWERS
 };
+
+typedef enum
+{
+    arti_none,
+    arti_invulnerability,
+    arti_invisibility,
+    arti_health,
+    arti_superhealth,
+    arti_tomeofpower,
+    arti_torch,
+    arti_firebomb,
+    arti_egg,
+    arti_fly,
+    arti_teleport,
+    NUMARTIFACTS
+} artitype_t;
 
 //
 // Power up durations,

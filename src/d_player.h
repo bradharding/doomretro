@@ -101,6 +101,14 @@ enum
     CF_BUDDHA        = 128
 };
 
+#define NUMINVENTORYSLOTS   14
+
+typedef struct
+{
+    int type;
+    int count;
+} inventory_t;
+
 //
 // Extended player object info: player_t
 //
@@ -211,6 +219,10 @@ typedef struct player_s
     int             chickenpeck;
     mobj_t          *rain1;
     mobj_t          *rain2;
+    inventory_t     inventory[NUMINVENTORYSLOTS];
+    artitype_t      readyartifact;
+    int             artifactcount;
+    int             inventoryslotnum;
 
     fixed_t         recoil;
     fixed_t         oldrecoil;

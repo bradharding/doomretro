@@ -671,6 +671,43 @@ char    *s_OB_FRIENDLY2 = "";
 char    *s_OB_FRIENDLY3 = "";
 char    *s_OB_FRIENDLY4 = "";
 
+char    *s_TXT_GOTBLUEKEY = "";
+char    *s_TXT_GOTYELLOWKEY = "";
+char    *s_TXT_GOTGREENKEY = "";
+char    *s_TXT_ARTIHEALTH = "";
+char    *s_TXT_ARTIFLY = "";
+char    *s_TXT_ARTIINVULNERABILITY = "";
+char    *s_TXT_ARTITOMEOFPOWER = "";
+char    *s_TXT_ARTIINVISIBILITY = "";
+char    *s_TXT_ARTIEGG = "";
+char    *s_TXT_ARTISUPERHEALTH = "";
+char    *s_TXT_ARTITORCH = "";
+char    *s_TXT_ARTIFIREBOMB = "";
+char    *s_TXT_ARTITELEPORT = "";
+char    *s_TXT_ITEMHEALTH = "";
+char    *s_TXT_ITEMBAGOFHOLDING = "";
+char    *s_TXT_ITEMSHIELD1 = "";
+char    *s_TXT_ITEMSHIELD2 = "";
+char    *s_TXT_ITEMSUPERMAP = "";
+char    *s_TXT_AMMOGOLDWAND1 = "";
+char    *s_TXT_AMMOGOLDWAND2 = "";
+char    *s_TXT_AMMOMACE1 = "";
+char    *s_TXT_AMMOMACE2 = "";
+char    *s_TXT_AMMOCROSSBOW1 = "";
+char    *s_TXT_AMMOCROSSBOW2 = "";
+char    *s_TXT_AMMOBLASTER1 = "";
+char    *s_TXT_AMMOBLASTER2 = "";
+char    *s_TXT_AMMOSKULLROD1 = "";
+char    *s_TXT_AMMOSKULLROD2 = "";
+char    *s_TXT_AMMOPHOENIXROD1 = "";
+char    *s_TXT_AMMOPHOENIXROD2 = "";
+char    *s_TXT_WPNMACE = "";
+char    *s_TXT_WPNCROSSBOW = "";
+char    *s_TXT_WPNBLASTER = "";
+char    *s_TXT_WPNSKULLROD = "";
+char    *s_TXT_WPNPHOENIXROD = "";
+char    *s_TXT_WPNGAUNTLETS = "";
+
 // end d_deh.h variable declarations
 // ====================================================================
 
@@ -1226,7 +1263,45 @@ deh_strs deh_strlookup[] =
     { &s_OB_FRIENDLY1,               "OB_FRIENDLY1"               },
     { &s_OB_FRIENDLY2,               "OB_FRIENDLY2"               },
     { &s_OB_FRIENDLY3,               "OB_FRIENDLY3"               },
-    { &s_OB_FRIENDLY4,               "OB_FRIENDLY4"               }
+    { &s_OB_FRIENDLY4,               "OB_FRIENDLY4"               },
+
+    { &s_TXT_GOTBLUEKEY,             "TXT_GOTBLUEKEY"             },
+    { &s_TXT_GOTYELLOWKEY,           "TXT_GOTYELLOWKEY"           },
+    { &s_TXT_GOTGREENKEY,            "TXT_GOTGREENKEY"            },
+    { &s_TXT_ARTIHEALTH,             "TXT_ARTIHEALTH"             },
+    { &s_TXT_ARTIFLY,                "TXT_ARTIFLY"                },
+    { &s_TXT_ARTIINVULNERABILITY,    "TXT_ARTIINVULNERABILITY"    },
+    { &s_TXT_ARTITOMEOFPOWER,        "TXT_ARTITOMEOFPOWER"        },
+    { &s_TXT_ARTIINVISIBILITY,       "TXT_ARTIINVISIBILITY"       },
+    { &s_TXT_ARTIEGG,                "TXT_ARTIEGG"                },
+    { &s_TXT_ARTISUPERHEALTH,        "TXT_ARTISUPERHEALTH"        },
+    { &s_TXT_ARTITORCH,              "TXT_ARTITORCH"              },
+    { &s_TXT_ARTIFIREBOMB,           "TXT_ARTIFIREBOMB"           },
+    { &s_TXT_ARTITELEPORT,           "TXT_ARTITELEPORT"           },
+    { &s_TXT_ITEMHEALTH,             "TXT_ITEMHEALTH"             },
+    { &s_TXT_ITEMBAGOFHOLDING,       "TXT_ITEMBAGOFHOLDING"       },
+    { &s_TXT_ITEMSHIELD1,            "TXT_ITEMSHIELD1"            },
+    { &s_TXT_ITEMSHIELD2,            "TXT_ITEMSHIELD2"            },
+    { &s_TXT_ITEMSUPERMAP,           "TXT_ITEMSUPERMAP"           },
+    { &s_TXT_AMMOGOLDWAND1,          "TXT_AMMOGOLDWAND1"          },
+    { &s_TXT_AMMOGOLDWAND2,          "TXT_AMMOGOLDWAND2"          },
+    { &s_TXT_AMMOMACE1,              "TXT_AMMOMACE1"              },
+    { &s_TXT_AMMOMACE2,              "TXT_AMMOMACE2"              },
+    { &s_TXT_AMMOCROSSBOW1,          "TXT_AMMOCROSSBOW1"          },
+    { &s_TXT_AMMOCROSSBOW2,          "TXT_AMMOCROSSBOW2"          },
+    { &s_TXT_AMMOBLASTER1,           "TXT_AMMOBLASTER1"           },
+    { &s_TXT_AMMOBLASTER2,           "TXT_AMMOBLASTER2"           },
+    { &s_TXT_AMMOSKULLROD1,          "TXT_AMMOSKULLROD1"          },
+    { &s_TXT_AMMOSKULLROD2,          "TXT_AMMOSKULLROD2"          },
+    { &s_TXT_AMMOPHOENIXROD1,        "TXT_AMMOPHOENIXROD1"        },
+    { &s_TXT_AMMOPHOENIXROD2,        "TXT_AMMOPHOENIXROD2"        },
+    { &s_TXT_WPNMACE,                "TXT_WPNMACE"                },
+    { &s_TXT_WPNCROSSBOW,            "TXT_WPNCROSSBOW"            },
+    { &s_TXT_WPNBLASTER,             "TXT_WPNBLASTER"             },
+    { &s_TXT_WPNSKULLROD,            "TXT_WPNSKULLROD"            },
+    { &s_TXT_WPNPHOENIXROD,          "TXT_WPNPHOENIXROD"          },
+    { &s_TXT_WPNGAUNTLETS,           "TXT_WPNGAUNTLETS"           }
+
 };
 
 static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
