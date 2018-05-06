@@ -175,6 +175,7 @@ static dboolean             st_statusbaron;
 static patch_t              *sbar;
 static patch_t              *sbar2;
 static patch_t              *lbar;
+static patch_t              *barback;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -396,7 +397,10 @@ static void ST_refreshBackground(void)
     if (st_statusbaron)
     {
         if (gamemission == heretic)
-            V_DrawPatch(ST_X, ST_Y, 0, lbar);
+        {
+            V_DrawPatch(0, 158, 0, barback);
+            V_DrawPatch(34, 160, 0, lbar);
+        }
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
             V_DrawPatch(ST_X, ST_Y, 0, sbar);
@@ -1412,6 +1416,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
         callback("FONTB05", &tallpercent);
         callback("LIFEBAR", &lbar);
+        callback("BARBACK", &barback);
     }
     else
     {
