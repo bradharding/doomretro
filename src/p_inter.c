@@ -492,34 +492,57 @@ void P_InitCards(void)
 
         while (thing)
         {
-            switch (thing->sprite)
+            if (gamemission == heretic)
             {
-                case SPR_BKEY:
-                    viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
-                    break;
+                switch (thing->sprite)
+                {
+                    case HSPR_BKYY:
+                        viewplayer->cards[it_bluekey] = CARDNOTFOUNDYET;
+                        break;
 
-                case SPR_RKEY:
-                    viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
-                    break;
+                    case HSPR_CKYY:
+                        viewplayer->cards[it_yellowkey] = CARDNOTFOUNDYET;
+                        break;
 
-                case SPR_YKEY:
-                    viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
-                    break;
+                    case HSPR_AKYY:
+                        viewplayer->cards[it_greenkey] = CARDNOTFOUNDYET;
+                        break;
 
-                case SPR_BSKU:
-                    viewplayer->cards[it_blueskull] = CARDNOTFOUNDYET;
-                    break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (thing->sprite)
+                {
+                    case SPR_BKEY:
+                        viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
+                        break;
 
-                case SPR_RSKU:
-                    viewplayer->cards[it_redskull] = CARDNOTFOUNDYET;
-                    break;
+                    case SPR_RKEY:
+                        viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
+                        break;
 
-                case SPR_YSKU:
-                    viewplayer->cards[it_yellowskull] = CARDNOTFOUNDYET;
-                    break;
+                    case SPR_YKEY:
+                        viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                        break;
 
-                default:
-                    break;
+                    case SPR_BSKU:
+                        viewplayer->cards[it_blueskull] = CARDNOTFOUNDYET;
+                        break;
+
+                    case SPR_RSKU:
+                        viewplayer->cards[it_redskull] = CARDNOTFOUNDYET;
+                        break;
+
+                    case SPR_YSKU:
+                        viewplayer->cards[it_yellowskull] = CARDNOTFOUNDYET;
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
             thing = thing->snext;
@@ -869,7 +892,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_BKYY:
-
                 if (!viewplayer->cards[it_bluekey] && message)
                     HU_PlayerMessage(s_TXT_GOTBLUEKEY, false);
 

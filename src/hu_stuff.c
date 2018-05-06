@@ -146,7 +146,10 @@ static struct
     { "RKEYA0", "RKEYB0", NULL },
     { "BSKUA0", "BSKUB0", NULL },
     { "YSKUA0", "YSKUB0", NULL },
-    { "RSKUA0", "RSKUB0", NULL }
+    { "RSKUA0", "RSKUB0", NULL },
+    { "BKYYA0", "BKYYA0", NULL },
+    { "CKYYA0", "CKYYA0", NULL },
+    { "AKYYA0", "AKYYA0", NULL }
 };
 
 static void HU_AltInit(void);
@@ -249,15 +252,24 @@ void HU_Init(void)
 
     ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
-    keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
-    keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
-    keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
-
-    if (gamemode != shareware)
+    if (gamemission == heretic)
     {
-        keypics[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
-        keypics[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
-        keypics[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
+        keypics[it_bluekey].patch = HU_LoadHUDKeyPatch(it_bluekey);
+        keypics[it_yellowkey].patch = HU_LoadHUDKeyPatch(it_yellowkey);
+        keypics[it_greenkey].patch = HU_LoadHUDKeyPatch(it_greenkey);
+    }
+    else
+    {
+        keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
+        keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
+        keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
+
+        if (gamemode != shareware)
+        {
+            keypics[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
+            keypics[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
+            keypics[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
+        }
     }
 
     if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)
