@@ -74,6 +74,7 @@
 
 // Location of status bar
 #define ST_X                0
+#define ST_Y                (SCREENHEIGHT - SBARHEIGHT)
 
 #define ST_TURNOFFSET       ST_NUMSTRAIGHTFACES
 #define ST_OUCHOFFSET       (ST_TURNOFFSET + ST_NUMTURNFACES)
@@ -395,19 +396,17 @@ static void ST_refreshBackground(void)
     if (st_statusbaron)
     {
         if (gamemission == heretic)
-            V_DrawPatch(ST_X, 0, 4, lbar);
+            V_DrawPatch(ST_X, ST_Y, 0, lbar);
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
-            V_DrawPatch(ST_X, 0, 4, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, 0, 4, armsbg);
+            V_DrawPatch(ST_X, ST_Y, 0, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, ST_Y, 0, armsbg);
         }
         else
         {
-            V_DrawBigPatch(ST_X, 0, 4, sbar2);
-            V_DrawBigPatch(ST_ARMSBGX * 2, 0, 4, armsbg2);
+            V_DrawBigPatch(ST_X, ST_Y, 0, sbar2);
+            V_DrawBigPatch(ST_ARMSBGX * 2, ST_Y, 0, armsbg2);
         }
-
-        V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
     }
 }
 
@@ -1405,7 +1404,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     {
         for (int i = 0; i < 10; i++)
         {
-            M_snprintf(namebuf, sizeof(namebuf), "FONTB%.2i", i + 16);
+            M_snprintf(namebuf, sizeof(namebuf), "IN%i", i);
             callback(namebuf, &tallnum[i]);
             M_snprintf(namebuf, sizeof(namebuf), "SMALLIN%i", i);
             callback(namebuf, &shortnum[i]);
@@ -1520,7 +1519,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         brdr_br->topoffset = 0;
     }
 
-    emptytallpercent = V_EmptyPatch(tallpercent);
+    emptytallpercent = (gamemission == heretic || V_EmptyPatch(tallpercent));
     tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 }
 
