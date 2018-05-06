@@ -1429,7 +1429,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         callback("STTPRCNT", &tallpercent);
 
         // key cards
-        for (int i = 0; i < NUMCARDS; i++)
+        for (int i = 0; i < 6; i++)
         {
             M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
             callback(namebuf, &keys[i]);
