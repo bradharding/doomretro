@@ -377,18 +377,13 @@ void R_ExecuteSetViewSize(void)
 
     setsizeneeded = false;
 
-    if (setblocks == 11)
-    {
-        scaledviewwidth = SCREENWIDTH;
-        viewheight = SCREENHEIGHT;
-    }
-    else
-    {
-        scaledviewwidth = setblocks * SCREENWIDTH / 10;
-        viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
-    }
+    scaledviewwidth = setblocks * SCREENWIDTH / 10;
+    viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
 
     viewwidth = scaledviewwidth;
+
+    if (gamemission == heretic && !vid_widescreen)
+        viewheight -= 20;
 
     centerx = viewwidth / 2;
     centery = viewheight / 2;

@@ -191,7 +191,7 @@ void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
 
 void STlib_updatePercent(st_percent_t *per, int refresh)
 {
-    if (refresh)
+    if (refresh && gamemission != heretic)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
     STlib_updateBigNum(&per->n);

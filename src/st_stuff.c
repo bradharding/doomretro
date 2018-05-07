@@ -176,6 +176,8 @@ static patch_t              *sbar;
 static patch_t              *sbar2;
 static patch_t              *lbar;
 static patch_t              *barback;
+static patch_t              *ltfctop;
+static patch_t              *rtfctop;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -400,6 +402,8 @@ static void ST_refreshBackground(void)
         {
             V_DrawPatch(0, 158, 0, barback);
             V_DrawPatch(34, 160, 0, lbar);
+            V_DrawPatch(0, 148, 0, ltfctop);
+            V_DrawPatch(290, 148, 0, rtfctop);
         }
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
@@ -1329,6 +1333,12 @@ static void ST_doPaletteStuff(void)
 
 static void ST_drawWidgets(dboolean refresh)
 {
+    STlib_updatePercent(&w_health, refresh);
+    STlib_updatePercent(&w_armor, refresh);
+
+    if (gamemission == heretic)
+        return;
+
     STlib_updateBigNum(&w_ready);
 
     for (int i = 0; i < 4; i++)
@@ -1337,28 +1347,22 @@ static void ST_drawWidgets(dboolean refresh)
         STlib_updateSmallNum(&w_maxammo[i]);
     }
 
-    STlib_updatePercent(&w_health, refresh);
-    STlib_updatePercent(&w_armor, refresh);
+    shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
-    if (gamemission != heretic)
-    {
-        shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+    // [BH] manually draw arms numbers
+    //  changes:
+    //    arms 3 highlighted when player has super shotgun but no shotgun
+    //    arms 6 and 7 not visible in shareware
+    for (int i = 0; i < armsnum; i++)
+        STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
-        // [BH] manually draw arms numbers
-        //  changes:
-        //    arms 3 highlighted when player has super shotgun but no shotgun
-        //    arms 6 and 7 not visible in shareware
-        for (int i = 0; i < armsnum; i++)
-            STlib_updateArmsIcon(&w_arms[i], refresh, i);
+    if (facebackcolor != facebackcolor_default)
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
 
-        if (facebackcolor != facebackcolor_default)
-            V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
+    STlib_updateMultIcon(&w_faces, refresh);
 
-        STlib_updateMultIcon(&w_faces, refresh);
-
-        for (int i = 0; i < 3; i++)
-            STlib_updateMultIcon(&w_keyboxes[i], refresh);
-    }
+    for (int i = 0; i < 3; i++)
+        STlib_updateMultIcon(&w_keyboxes[i], refresh);
 }
 
 void ST_doRefresh(void)
@@ -1417,6 +1421,8 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         callback("FONTB05", &tallpercent);
         callback("LIFEBAR", &lbar);
         callback("BARBACK", &barback);
+        callback("LTFCTOP", &ltfctop);
+        callback("RTFCTOP", &rtfctop);
     }
     else
     {
@@ -1573,9 +1579,6 @@ static void ST_createWidgets(void)
     // the last weapon type
     w_ready.data = viewplayer->readyweapon;
 
-    // health percentage
-    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
-
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
 
@@ -1586,8 +1589,17 @@ static void ST_createWidgets(void)
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
-    // armor percentage
-    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
+    // health and armor
+    if (gamemission == heretic)
+    {
+        STlib_initPercent(&w_health,34 + 61, 170, tallnum, &viewplayer->health, tallpercent);
+        STlib_initPercent(&w_armor, 34 + 228, 170, tallnum, &viewplayer->armorpoints, tallpercent);
+    }
+    else
+    {
+        STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
+        STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
+    }
 
     // keyboxes 0-2
     STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0]);

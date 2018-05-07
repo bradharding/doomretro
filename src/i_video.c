@@ -191,6 +191,7 @@ static HANDLE       CapFPSEvent;
 static dboolean     capslock;
 dboolean            alwaysrun = alwaysrun_default;
 
+extern dboolean     setsizeneeded;
 extern int          st_palette;
 extern int          windowborderwidth;
 extern int          windowborderheight;
@@ -1688,6 +1689,7 @@ void I_ToggleWidescreen(dboolean toggle)
     }
 
     returntowidescreen = false;
+    setsizeneeded = true;
 
     if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
         I_SDLError("SDL_SetPaletteColors");
