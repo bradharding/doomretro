@@ -178,6 +178,14 @@ static patch_t              *lbar;
 static patch_t              *barback;
 static patch_t              *ltfctop;
 static patch_t              *rtfctop;
+static patch_t              *chain;
+static patch_t              *chainback;
+static patch_t              *lifegem;
+static patch_t              *ltface;
+static patch_t              *rtface;
+
+static int                  healthmarker;
+static int                  chainwiggle;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -400,10 +408,18 @@ static void ST_refreshBackground(void)
     {
         if (gamemission == heretic)
         {
+            int chainy = ((healthmarker == viewplayer->mo->health) ? 191 : 191 + chainwiggle);
+            int healthpos = BETWEEN(0, healthmarker, 100) * 256 / 100;
+
             V_DrawPatch(0, 158, 0, barback);
             V_DrawPatch(34, 160, 0, lbar);
             V_DrawPatch(0, 148, 0, ltfctop);
             V_DrawPatch(290, 148, 0, rtfctop);
+            V_DrawPatch(0, 190, 0, chainback);
+            V_DrawPatch(2 + (healthpos % 17), chainy, 0, chain);
+            V_DrawPatch(17 + healthpos, chainy, 0, lifegem);
+            V_DrawPatch(0, 190, 0, ltface);
+            V_DrawPatch(276, 190, 0, rtface);
         }
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
@@ -1293,6 +1309,19 @@ void ST_Ticker(void)
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         }
+
+    if (gamemission == heretic)
+    {
+        int health = MAX(0, viewplayer->mo->health);
+
+        if (leveltime & 1)
+            chainwiggle = M_Random() & 1;
+
+        if (health < healthmarker)
+            healthmarker -= BETWEEN(1, (healthmarker - health) >> 2, 8);
+        else if (health > healthmarker)
+            healthmarker += BETWEEN(1, (health - healthmarker) >> 2, 8);
+    }
 }
 
 int st_palette = 0;
@@ -1423,6 +1452,11 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         callback("BARBACK", &barback);
         callback("LTFCTOP", &ltfctop);
         callback("RTFCTOP", &rtfctop);
+        callback("CHAIN", &chain);
+        callback("CHAINBAC", &chainback);
+        callback("LIFEGEM2", &lifegem);
+        callback("LTFACE", &ltface);
+        callback("RTFACE", &rtface);
     }
     else
     {
