@@ -423,8 +423,8 @@ static void ST_refreshBackground(void)
         }
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
-            V_DrawPatch(ST_X, ST_Y, 0, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, ST_Y, 0, armsbg);
+            V_DrawPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
         else
         {
