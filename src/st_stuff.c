@@ -1314,7 +1314,7 @@ void ST_Ticker(void)
     {
         int health = MAX(0, viewplayer->mo->health);
 
-        if (leveltime & 1)
+        if ((leveltime & 1) && health > 0)
             chainwiggle = M_Random() & 1;
 
         if (health < healthmarker)
