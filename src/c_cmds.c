@@ -210,41 +210,44 @@ static void weapon7_action_func(void);
 
 action_t actions[] =
 {
-    { "+alwaysrun",   alwaysrun_action_func,   &keyboardalwaysrun,         NULL,                  NULL,             &gamepadalwaysrun,         NULL         },
-    { "+automap",     automap_action_func,     &keyboardautomap,           NULL,                  NULL,             &gamepadautomap,           NULL         },
-    { "+back",        back_action_func,        &keyboardback,              &keyboardback2,        NULL,             &gamepadback,              NULL         },
-    { "+clearmark",   clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,             &gamepadautomapclearmark,  NULL         },
-    { "+console",     console_action_func,     &keyboardconsole,           NULL,                  NULL,             NULL,                      NULL         },
-    { "+fire",        fire_action_func,        &keyboardfire,              NULL,                  &mousefire,       &gamepadfire,              NULL         },
-    { "+followmode",  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
-    { "+forward",     forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
-    { "+grid",        grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,             &gamepadautomapgrid,       NULL         },
-    { "+jump",        jump_action_func,        &keyboardjump,              NULL,                  &mousejump,       &gamepadjump,              NULL         },
-    { "+left",        left_action_func,        &keyboardleft,              NULL,                  NULL,             &gamepadleft,              NULL         },
-    { "+mark",        mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
-    { "+maxzoom",     maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
-    { "+menu",        menu_action_func,        &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
-    { "+mouselook",   NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
-    { "+nextweapon",  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
-    { "+prevweapon",  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
-    { "+right",       right_action_func,       &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
-    { "+rotatemode",  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
-    { "+run",         NULL,                    &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
-    { "+screenshot",  screenshot_action_func,  &keyboardscreenshot,        NULL,                  NULL,             NULL,                      NULL         },
-    { "+strafe",      NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
-    { "+strafeleft",  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
-    { "+straferight", straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
-    { "+use",         use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamepaduse,               &gamepaduse2 },
-    { "+weapon1",     weapon1_action_func,     &keyboardweapon1,           NULL,                  NULL,             &gamepadweapon1,           NULL         },
-    { "+weapon2",     weapon2_action_func,     &keyboardweapon2,           NULL,                  NULL,             &gamepadweapon2,           NULL         },
-    { "+weapon3",     weapon3_action_func,     &keyboardweapon3,           NULL,                  NULL,             &gamepadweapon3,           NULL         },
-    { "+weapon4",     weapon4_action_func,     &keyboardweapon4,           NULL,                  NULL,             &gamepadweapon4,           NULL         },
-    { "+weapon5",     weapon5_action_func,     &keyboardweapon5,           NULL,                  NULL,             &gamepadweapon5,           NULL         },
-    { "+weapon6",     weapon6_action_func,     &keyboardweapon6,           NULL,                  NULL,             &gamepadweapon6,           NULL         },
-    { "+weapon7",     weapon7_action_func,     &keyboardweapon7,           NULL,                  NULL,             &gamepadweapon7,           NULL         },
-    { "+zoomin",      NULL,                    NULL,                       NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
-    { "+zoomout",     NULL,                    NULL,                       NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
-    { "",             NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
+    { "+alwaysrun",   alwaysrun_action_func,   &keyboardalwaysrun,         NULL,                  NULL,              &gamepadalwaysrun,         NULL         },
+    { "+automap",     automap_action_func,     &keyboardautomap,           NULL,                  NULL,              &gamepadautomap,           NULL         },
+    { "+back",        back_action_func,        &keyboardback,              &keyboardback2,        NULL,              &gamepadback,              NULL         },
+    { "+clearmark",   clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,              &gamepadautomapclearmark,  NULL         },
+    { "+console",     console_action_func,     &keyboardconsole,           NULL,                  NULL,              NULL,                      NULL         },
+    { "+fire",        fire_action_func,        &keyboardfire,              NULL,                  &mousefire,        &gamepadfire,              NULL         },
+    { "+followmode",  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,              &gamepadautomapfollowmode, NULL         },
+    { "+forward",     forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,     &gamepadforward,           NULL         },
+    { "+grid",        grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,              &gamepadautomapgrid,       NULL         },
+    { "+invleft",     invleft_action_func,     &keyboardinvleft,           NULL,                  NULL,              &gamepadinvleft,           NULL         },
+    { "+invright",    invright_action_func,    &keyboardinvright,          NULL,                  NULL,              &gamepadinvright,          NULL         },
+    { "+jump",        jump_action_func,        &keyboardjump,              NULL,                  &mousejump,        &gamepadjump,              NULL         },
+    { "+left",        left_action_func,        &keyboardleft,              NULL,                  NULL,              &gamepadleft,              NULL         },
+    { "+mark",        mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,              &gamepadautomapmark,       NULL         },
+    { "+maxzoom",     maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,              &gamepadautomapmaxzoom,    NULL         },
+    { "+menu",        menu_action_func,        &keyboardmenu,              NULL,                  NULL,              &gamepadmenu,              NULL         },
+    { "+mouselook",   NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,   &gamepadmouselook,         NULL         },
+    { "+nextweapon",  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon,  &gamepadnextweapon,        NULL         },
+    { "+prevweapon",  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon,  &gamepadprevweapon,        NULL         },
+    { "+right",       right_action_func,       &keyboardright,             NULL,                  NULL,              &gamepadright,             NULL         },
+    { "+rotatemode",  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,              &gamepadautomaprotatemode, NULL         },
+    { "+run",         NULL,                    &keyboardrun,               NULL,                  &mouserun,         &gamepadrun,               NULL         },
+    { "+screenshot",  screenshot_action_func,  &keyboardscreenshot,        NULL,                  NULL,              NULL,                      NULL         },
+    { "+strafe",      NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,      &gamepadstrafe,            NULL         },
+    { "+strafeleft",  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,              &gamepadstrafeleft,        NULL         },
+    { "+straferight", straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,              &gamepadstraferight,       NULL         },
+    { "+use",         use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,         &gamepaduse,               &gamepaduse2 },
+    { "+useartifact", useartifact_action_func, &keyboarduseartifact,       NULL,                  &mouseuseartifact, &gamepaduseartifact,       NULL         },
+    { "+weapon1",     weapon1_action_func,     &keyboardweapon1,           NULL,                  NULL,              &gamepadweapon1,           NULL         },
+    { "+weapon2",     weapon2_action_func,     &keyboardweapon2,           NULL,                  NULL,              &gamepadweapon2,           NULL         },
+    { "+weapon3",     weapon3_action_func,     &keyboardweapon3,           NULL,                  NULL,              &gamepadweapon3,           NULL         },
+    { "+weapon4",     weapon4_action_func,     &keyboardweapon4,           NULL,                  NULL,              &gamepadweapon4,           NULL         },
+    { "+weapon5",     weapon5_action_func,     &keyboardweapon5,           NULL,                  NULL,              &gamepadweapon5,           NULL         },
+    { "+weapon6",     weapon6_action_func,     &keyboardweapon6,           NULL,                  NULL,              &gamepadweapon6,           NULL         },
+    { "+weapon7",     weapon7_action_func,     &keyboardweapon7,           NULL,                  NULL,              &gamepadweapon7,           NULL         },
+    { "+zoomin",      NULL,                    NULL,                       NULL,                  NULL,              &gamepadautomapzoomin,     NULL         },
+    { "+zoomout",     NULL,                    NULL,                       NULL,                  NULL,              &gamepadautomapzoomout,    NULL         },
+    { "",             NULL,                    NULL,                       NULL,                  NULL,              NULL,                      NULL         }
 };
 
 static dboolean alive_func1(char *cmd, char *parms);
@@ -855,6 +858,14 @@ static void grid_action_func(void)
         AM_toggleGrid();
 }
 
+static void invleft_action_func(void)
+{
+}
+
+static void invright_action_func(void)
+{
+}
+
 static void jump_action_func(void)
 {
     viewplayer->cmd.buttons |= BT_JUMP;
@@ -927,6 +938,10 @@ static void straferight_action_func(void)
 static void use_action_func(void)
 {
     P_UseLines();
+}
+
+static void useartifact_action_func(void)
+{
 }
 
 static void weapon1_action_func(void)
