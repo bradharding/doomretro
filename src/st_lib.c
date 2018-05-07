@@ -112,6 +112,7 @@ static void STlib_drawBigNum(st_number_t *n)
     int numdigits = n->width;
     int num = MAX(0, *n->num);
     int x = n->x;
+    int w = SHORT(n->p[0]->width);
 
     // if non-number, do not draw it
     if (num == 1994)
@@ -119,13 +120,13 @@ static void STlib_drawBigNum(st_number_t *n)
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - 14, n->y, 0, n->p[0]);
+        V_DrawPatch(x - w, n->y, 0, n->p[0]);
     else
     {
         // draw the new number
         while (num && numdigits--)
         {
-            x -= 14;
+            x -= w;
             V_DrawPatch(x, n->y, 0, n->p[num % 10]);
             num /= 10;
         }

@@ -1626,8 +1626,8 @@ static void ST_createWidgets(void)
     // health and armor
     if (gamemission == heretic)
     {
-        STlib_initPercent(&w_health,34 + 61, 170, tallnum, &viewplayer->health, tallpercent);
-        STlib_initPercent(&w_armor, 34 + 228, 170, tallnum, &viewplayer->armorpoints, tallpercent);
+        STlib_initPercent(&w_health, 86, 170, tallnum, &viewplayer->health, tallpercent);
+        STlib_initPercent(&w_armor, 253, 170, tallnum, &viewplayer->armorpoints, tallpercent);
     }
     else
     {
