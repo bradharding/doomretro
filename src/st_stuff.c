@@ -400,6 +400,28 @@ static const int mus[IDMUS_MAX][6] =
 //
 // STATUS BAR CODE
 //
+
+static void ShadeLine(int x, int y, int height, int shade)
+{
+    byte    *dest = screens[0] + y * SCREENWIDTH + x;
+    byte    *shades = colormaps[0] + 9 * 256 + shade * 2 * 256;
+
+    while (height--)
+    {
+        *dest = *(shades + *dest);
+        dest += SCREENWIDTH;
+    }
+}
+
+static void ShadeChain(void)
+{
+    for (int i = 0; i < 32; i++)
+    {
+        ShadeLine(554 + i, 380, 20, i / 4);
+        ShadeLine(38 + i, 380, 20, 7 - (i / 4));
+    }
+}
+
 static int ST_calcPainOffset(void);
 
 static void ST_refreshBackground(void)
@@ -420,6 +442,7 @@ static void ST_refreshBackground(void)
             V_DrawPatch(17 + healthpos, chainy, 0, lifegem);
             V_DrawPatch(0, 190, 0, ltface);
             V_DrawPatch(276, 190, 0, rtface);
+            ShadeChain();
         }
         else if (STBAR >= 3 || r_detail == r_detail_low)
         {
