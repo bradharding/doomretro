@@ -275,13 +275,13 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView();
 
-        ST_Drawer((viewheight == SCREENHEIGHT), true);
-
         if (am_path && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
             AM_addToPath();
 
         if (mapwindow || automapactive)
             AM_Drawer();
+
+        ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // see if the border needs to be initially drawn
         if (oldgamestate != GS_LEVEL)
