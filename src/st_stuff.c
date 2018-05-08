@@ -1400,7 +1400,7 @@ static void ST_doPaletteStuff(void)
     }
 }
 
-char ammopic[][10] =
+static char ammopic[][8] =
 {
     { "INAMGLD" },
     { "INAMBOW" },
@@ -1421,6 +1421,15 @@ static void ST_drawWidgets(dboolean refresh)
     {
         if (viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype] != am_noammo)
             V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
+
+        if (viewplayer->cards[it_yellowkey] > 0)
+            V_DrawPatch(153, 164, 0, W_CacheLumpName("YKEYICON"));
+
+        if (viewplayer->cards[it_greenkey] > 0)
+            V_DrawPatch(153, 172, 0, W_CacheLumpName("GKEYICON"));
+
+        if (viewplayer->cards[it_bluekey] > 0)
+            V_DrawPatch(153, 180, 0, W_CacheLumpName("BKEYICON"));
 
         return;
     }
