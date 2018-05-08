@@ -305,7 +305,23 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
+
 cheatseq_t cheat_buddha = CHEAT("mumu", 0);
+
+cheatseq_t hcheat_god = CHEAT("quicken", 0);
+cheatseq_t hcheat_noclip = CHEAT("kitty", 0);
+cheatseq_t hcheat_weapons = CHEAT("rambo", 0);
+cheatseq_t hcheat_power = CHEAT("shazam", 0);
+cheatseq_t hcheat_health = CHEAT("ponce", 0);
+cheatseq_t hcheat_keys = CHEAT("skel", 0);
+cheatseq_t hcheat_sound = CHEAT("noise", 0);
+cheatseq_t hcheat_ticker = CHEAT("ticker", 0);
+cheatseq_t hcheat_artifact1 = CHEAT("gimme", 0);
+cheatseq_t hcheat_artifact2 = CHEAT("gimme", 0);
+cheatseq_t hcheat_artifact3 = CHEAT("gimme", 0);
+cheatseq_t hcheat_warp = CHEAT("engage", 0);
+cheatseq_t hcheat_chicken = CHEAT("cockadoodledoo", 0);
+cheatseq_t hcheat_massacre = CHEAT("massacre", 0);
 
 static dboolean movekey(char key)
 {
@@ -1284,11 +1300,12 @@ static void ST_updateFaceWidget(void)
 
 static void ST_updateWidgets(void)
 {
-    static int  largeammo = 1994;   // means "n/a"
-    ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+    static int      largeammo = 1994;   // means "n/a"
+    weapontype_t    readyweapon = viewplayer->readyweapon;
+    ammotype_t      ammotype = (gamemission == heretic ? wpnlev1info[readyweapon].ammotype : weaponinfo[readyweapon].ammotype);
 
     w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammotype]);
-    w_ready.data = viewplayer->readyweapon;
+    w_ready.data = readyweapon;
 
     // update keycard multiple widgets
     for (int i = 0; i < 3; i++)
@@ -1383,15 +1400,30 @@ static void ST_doPaletteStuff(void)
     }
 }
 
+char ammopic[][10] =
+{
+    { "INAMGLD" },
+    { "INAMBOW" },
+    { "INAMBST" },
+    { "INAMRAM" },
+    { "INAMPNX" },
+    { "INAMLOB" }
+};
+
 static void ST_drawWidgets(dboolean refresh)
 {
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
-    if (gamemission == heretic)
-        return;
-
     STlib_updateBigNum(&w_ready);
+
+    if (gamemission == heretic)
+    {
+        if (viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype] != am_noammo)
+            V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
+
+        return;
+    }
 
     for (int i = 0; i < 4; i++)
     {
@@ -1629,13 +1661,6 @@ static void ST_initData(void)
 
 static void ST_createWidgets(void)
 {
-    // ready weapon ammo
-    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
-        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
-
-    // the last weapon type
-    w_ready.data = viewplayer->readyweapon;
-
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
 
@@ -1646,17 +1671,24 @@ static void ST_createWidgets(void)
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
-    // health and armor
+    // health, ammo and armor
     if (gamemission == heretic)
     {
         STlib_initPercent(&w_health, 86, 170, tallnum, &viewplayer->health, tallpercent);
         STlib_initPercent(&w_armor, 253, 170, tallnum, &viewplayer->armorpoints, tallpercent);
+        STlib_initNum(&w_ready, 134, 162, tallnum, &viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
+
     }
     else
     {
         STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
         STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
+        STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
+            &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
     }
+
+    // the last weapon type
+    w_ready.data = viewplayer->readyweapon;
 
     // keyboxes 0-2
     STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0]);
