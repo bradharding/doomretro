@@ -310,6 +310,12 @@ void HU_Start(void)
     // create the map title widget
     HUlib_initTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
+    if (gamemission == heretic)
+    {
+        w_title.x = (ORIGINALWIDTH - M_StringWidth(s)) / 2;
+        w_title.y -= 11;
+    }
+
     while (M_StringWidth(s) > (r_messagescale == r_messagescale_small ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
     {
         s[len - 1] = '.';
