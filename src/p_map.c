@@ -1714,6 +1714,9 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     if (la_damage)
     {
+        if (gamemission == heretic && !(in->d.thing->flags & MF_NOBLOOD) && M_Random() < 192)
+            P_BloodSplatter(x, y, z, in->d.thing);
+
         successfulshot = true;
         P_DamageMobj(th, shootthing, shootthing, la_damage, true);
     }

@@ -1509,6 +1509,16 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
     }
 }
 
+void P_BloodSplatter(fixed_t x, fixed_t y, fixed_t z, mobj_t * originator)
+{
+    mobj_t  *mo = P_SpawnMobj(x, y, z, HMT_BLOODSPLATTER);
+
+    mo->target = originator;
+    mo->momx = M_NegRandom() << 9;
+    mo->momy = M_NegRandom() << 9;
+    mo->momz = FRACUNIT * 2;
+}
+
 int P_GetThingFloorType(mobj_t *thing)
 {
     return terraintypes[thing->subsector->sector->floorpic];
