@@ -2149,7 +2149,7 @@ static void help_cmd_func2(char *cmd, char *parms)
     system("open "PACKAGE_WIKI_HELP_URL);
 #else
     C_HideConsoleFast();
-    M_ShowHelp();
+    M_ShowHelp(0);
 #endif
 }
 

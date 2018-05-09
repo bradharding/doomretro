@@ -2411,7 +2411,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
     }
 }
 
-static void M_ShowHelp(int choice)
+void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
     M_StartControlPanel();
