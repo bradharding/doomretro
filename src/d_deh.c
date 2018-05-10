@@ -270,6 +270,15 @@ char    *s_HUSTR_E4M6 = HUSTR_E4M6;
 char    *s_HUSTR_E4M7 = HUSTR_E4M7;
 char    *s_HUSTR_E4M8 = HUSTR_E4M8;
 char    *s_HUSTR_E4M9 = HUSTR_E4M9;
+char    *s_HUSTR_E5M1 = "";
+char    *s_HUSTR_E5M2 = "";
+char    *s_HUSTR_E5M3 = "";
+char    *s_HUSTR_E5M4 = "";
+char    *s_HUSTR_E5M5 = "";
+char    *s_HUSTR_E5M6 = "";
+char    *s_HUSTR_E5M7 = "";
+char    *s_HUSTR_E5M8 = "";
+char    *s_HUSTR_E5M9 = "";
 char    *s_HUSTR_1 = HUSTR_1;
 char    *s_HUSTR_2 = HUSTR_2;
 char    *s_HUSTR_3 = HUSTR_3;
@@ -455,6 +464,7 @@ char    *s_E1TEXT = E1TEXT;
 char    *s_E2TEXT = E2TEXT;
 char    *s_E3TEXT = E3TEXT;
 char    *s_E4TEXT = E4TEXT;
+char    *s_E5TEXT = "";
 char    *s_C1TEXT = C1TEXT;
 char    *s_C2TEXT = C2TEXT;
 char    *s_C3TEXT = C3TEXT;
@@ -867,6 +877,15 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_E4M7,                 "HUSTR_E4M7"                 },
     { &s_HUSTR_E4M8,                 "HUSTR_E4M8"                 },
     { &s_HUSTR_E4M9,                 "HUSTR_E4M9"                 },
+    { &s_HUSTR_E5M1,                 "HUSTR_E5M1"                 },
+    { &s_HUSTR_E5M2,                 "HUSTR_E5M2"                 },
+    { &s_HUSTR_E5M3,                 "HUSTR_E5M3"                 },
+    { &s_HUSTR_E5M4,                 "HUSTR_E5M4"                 },
+    { &s_HUSTR_E5M5,                 "HUSTR_E5M5"                 },
+    { &s_HUSTR_E5M6,                 "HUSTR_E5M6"                 },
+    { &s_HUSTR_E5M7,                 "HUSTR_E5M7"                 },
+    { &s_HUSTR_E5M8,                 "HUSTR_E5M8"                 },
+    { &s_HUSTR_E5M9,                 "HUSTR_E5M9"                 },
     { &s_HUSTR_1,                    "HUSTR_1"                    },
     { &s_HUSTR_2,                    "HUSTR_2"                    },
     { &s_HUSTR_3,                    "HUSTR_3"                    },
@@ -1049,6 +1068,7 @@ deh_strs deh_strlookup[] =
     { &s_E2TEXT,                     "E2TEXT"                     },
     { &s_E3TEXT,                     "E3TEXT"                     },
     { &s_E4TEXT,                     "E4TEXT"                     },
+    { &s_E5TEXT,                     "E5TEXT"                     },
     { &s_C1TEXT,                     "C1TEXT"                     },
     { &s_C2TEXT,                     "C2TEXT"                     },
     { &s_C3TEXT,                     "C3TEXT"                     },
