@@ -336,6 +336,24 @@ void AM_setColors(void)
 {
     byte    *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
 
+    if (gamemission == heretic)
+    {
+        am_allmapcdwallcolor = 10;
+        am_allmapfdwallcolor = 6;
+        am_allmapwallcolor = 8;
+        am_backcolor = 104;
+        am_cdwallcolor = 80;
+        am_crosshaircolor = 35;
+        am_fdwallcolor = 112;
+        am_markcolor = 19;
+        am_pathcolor = 19;
+        am_playercolor = 35;
+        am_teleportercolor = 96;
+        am_thingcolor = 264;
+        am_tswallcolor = 40;
+        am_wallcolor = 96;
+    }
+
     *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
     *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
     *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
