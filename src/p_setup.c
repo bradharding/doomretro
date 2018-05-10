@@ -2641,7 +2641,11 @@ dboolean P_GetMapNoJump(int map)
 //
 void P_Init(void)
 {
-    P_InitSwitchList();
+    if (gamemission == heretic)
+        P_InitHereticSwitchList();
+    else
+        P_InitSwitchList();
+
     P_InitPicAnims();
     P_InitTerrainTypes();
     InitMapInfo();

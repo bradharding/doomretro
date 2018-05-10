@@ -122,6 +122,21 @@ void P_InitSwitchList(void)
     buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
 }
 
+void P_InitHereticSwitchList(void)
+{
+    switchlist = I_Realloc(switchlist, sizeof(*switchlist) * 5);
+
+    switchlist[0] = R_TextureNumForName("SW1OFF");
+    switchlist[1] = R_TextureNumForName("SW1ON");
+    switchlist[2] = R_TextureNumForName("SW2OFF");
+    switchlist[3] = R_TextureNumForName("SW2ON");
+    switchlist[4] = -1;
+
+    numswitches = 2;
+
+    buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
+}
+
 //
 // Start a button counting down until it turns off.
 //
