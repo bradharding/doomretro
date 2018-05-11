@@ -44,6 +44,16 @@
 // so that the individual game logic and sound driver code agree
 #define NORM_PITCH  127
 
+#define SFX_BDCLS   (gamemission == heretic ? hsfx_doropn : sfx_bdcls)
+#define SFX_BDOPN   (gamemission == heretic ? hsfx_doropn : sfx_bdopn)
+#define SFX_DORCLS  (gamemission == heretic ? hsfx_doropn : sfx_dorcls)
+#define SFX_DOROPN  (gamemission == heretic ? hsfx_doropn : sfx_doropn)
+#define SFX_NOWAY   (gamemission == heretic ? hsfx_plroof : sfx_noway)
+#define SFX_OOF     (gamemission == heretic ? hsfx_plroof : sfx_oof)
+#define SFX_PSTOP   (gamemission == heretic ? hsfx_pstop : sfx_pstop)
+#define SFX_STNMOV  (gamemission == heretic ? hsfx_dormov : sfx_stnmov)
+#define SFX_SWTCHN  (gamemission == heretic ? hsfx_switch : sfx_swtchn)
+
 //
 // SoundFX struct.
 //

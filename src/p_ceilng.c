@@ -87,7 +87,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
 
                     default:
-                        S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
+                        S_StartSectorSound(&ceiling->sector->soundorg, SFX_STNMOV);
                         break;
                 }
 
@@ -113,7 +113,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
 
                     case silentCrushAndRaise:
-                        S_StartSectorSound(&ceiling->sector->soundorg, sfx_pstop);
+                        S_StartSectorSound(&ceiling->sector->soundorg, SFX_PSTOP);
 
                     case genSilentCrusher:
                     case genCrusher:
@@ -143,7 +143,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
 
                     default:
-                        S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
+                        S_StartSectorSound(&ceiling->sector->soundorg, SFX_STNMOV);
                 }
 
             T_GradualLightingToCeiling(ceiling);
@@ -163,7 +163,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
 
                     case silentCrushAndRaise:
-                        S_StartSectorSound(&ceiling->sector->soundorg, sfx_pstop);
+                        S_StartSectorSound(&ceiling->sector->soundorg, SFX_PSTOP);
 
                     case crushAndRaise:
                         ceiling->speed = CEILSPEED;

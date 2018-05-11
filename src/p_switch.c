@@ -206,7 +206,7 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
             if (useagain)
                 P_StartButton(line, where, switchlist[i], BUTTONTIME);
 
-            S_StartSectorSound(&line->soundorg, sfx_swtchn);
+            S_StartSectorSound(&line->soundorg, SFX_SWTCHN);
             break;
         }
     }
@@ -938,7 +938,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (EV_DoDoor(line, doorNormal))
                 P_ChangeSwitchTexture(line, true);
             else if (thing->player)
-                S_StartSound(thing, sfx_oof);
+                S_StartSound(thing, SFX_OOF);
 
             break;
 
