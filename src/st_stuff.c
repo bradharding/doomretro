@@ -1419,7 +1419,7 @@ static void ST_drawWidgets(dboolean refresh)
 
     if (gamemission == heretic)
     {
-        if (viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype] != am_noammo)
+        if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo)
             V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
 
         if (viewplayer->cards[it_yellowkey] > 0)
