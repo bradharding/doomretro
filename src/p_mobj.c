@@ -543,13 +543,13 @@ static void P_ZMovement(mobj_t *mo)
             mo->momz = 0;
         }
 
+        mo->z = mo->floorz;
+
         if (mo->info->crashstate && (flags & MF_CORPSE))
         {
             P_SetMobjState(mo, mo->info->crashstate);
             return;
         }
-
-        mo->z = mo->floorz;
 
         if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
