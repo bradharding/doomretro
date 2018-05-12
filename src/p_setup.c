@@ -1078,7 +1078,9 @@ static void P_LoadThings(int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
 
-    numthings = W_LumpLength(lump) / sizeof(mapthing_t);
+    if (!data || !(numthings = W_LumpLength(lump) / sizeof(mapthing_t)))
+        I_Error("There are no things in this map.");
+
     M_Seed(numthings);
     numdecorations = 0;
 
