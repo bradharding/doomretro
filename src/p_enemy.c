@@ -3063,6 +3063,7 @@ void A_ImpMsAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_ImpDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     actor->flags &= ~MF_SOLID;
+    actor->flags2 |= MF2_FOOTCLIP;
 
     if (actor->z <= actor->floorz)
         P_SetMobjState(actor, HS_IMP_CRASH1);
@@ -3072,6 +3073,7 @@ void A_ImpXDeath1(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     actor->flags &= ~MF_SOLID;
     actor->flags |= MF_NOGRAVITY;
+    actor->flags2 |= MF2_FOOTCLIP;
     actor->special1.i = 666;    // Flag the crash routine
 }
 

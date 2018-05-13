@@ -1723,7 +1723,7 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "ONMOBJ",                    MF2_ONMOBJ                    },
     { "PASSMOBJ",                  MF2_PASSMOBJ                  },
     { "RESURRECTING",              MF2_RESURRECTING              },
-    { "NOFOOTCLIP",                MF2_NOFOOTCLIP                },
+    { "FOOTCLIP",                  MF2_FOOTCLIP                  },
     { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB               },
     { "FEETARECLIPPED",            MF2_FEETARECLIPPED            },
     { "CASTSHADOW",                MF2_CASTSHADOW                },

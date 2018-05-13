@@ -938,7 +938,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
-    if (!(mobj->flags & MF_SPAWNCEILING) && !(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && !sector->heightsec)
+    if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && sector->isliquid && !sector->heightsec)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
     prevx = x;

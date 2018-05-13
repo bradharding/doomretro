@@ -273,7 +273,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     P_SetThingPosition(thing);
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if (!(thing->flags2 & MF2_NOFOOTCLIP) && newsec->isliquid)
+    if ((thing->flags2 & MF2_FOOTCLIP) && newsec->isliquid)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -987,7 +987,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     }
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if (!(thing->flags2 & MF2_NOFOOTCLIP) && thing->subsector->sector->isliquid)
+    if ((thing->flags2 & MF2_FOOTCLIP) && thing->subsector->sector->isliquid)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -1993,7 +1993,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     int flags = thing->flags;
     int flags2 = thing->flags2;
 
-    if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP) && !(flags & MF_SPAWNCEILING))
+    if (isliquidsector && (flags2 & MF2_FOOTCLIP) && !(flags & MF_SPAWNCEILING))
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;

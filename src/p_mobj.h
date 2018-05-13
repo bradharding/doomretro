@@ -269,8 +269,8 @@ enum
     // Object is a corpse and being resurrected
     MF2_RESURRECTING              = 0x00040000,
 
-    // Object's feet won't be clipped in liquid
-    MF2_NOFOOTCLIP                = 0x00080000,
+    // Object's feet will be clipped in liquid
+    MF2_FOOTCLIP                  = 0x00080000,
 
     // Object won't bob in liquid
     MF2_NOLIQUIDBOB               = 0x00100000,
