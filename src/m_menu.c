@@ -138,6 +138,7 @@ static int      skullbaselump;
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
 
+extern int      healthmarker;
 extern int      st_palette;
 
 extern dboolean dowipe;
@@ -2163,6 +2164,7 @@ static void M_SizeDisplay(int choice)
                 {
                     I_ToggleWidescreen(false);
                     C_StrCVAROutput(stringize(vid_widescreen), "off");
+                    healthmarker = 0;
                 }
                 else
                     returntowidescreen = false;
