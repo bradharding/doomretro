@@ -414,7 +414,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
     if (gamemission == heretic)
     {
         if (newweapon == wp_staff && viewplayer->weaponowned[wp_gauntlets] && viewplayer->readyweapon != wp_gauntlets)
-            newweapon = wp_gauntlets;
+            newweapon = (weapontype_t)wp_gauntlets;
 
         if (viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
             viewplayer->pendingweapon = newweapon;
