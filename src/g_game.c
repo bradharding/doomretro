@@ -511,8 +511,8 @@ static void G_SetInitialWeapon(void)
 
         viewplayer->ammo[am_goldwand] = 50;
 
-        viewplayer->readyweapon = wp_goldwand;
-        viewplayer->pendingweapon = wp_goldwand;
+        viewplayer->readyweapon = (weapontype_t)wp_goldwand;
+        viewplayer->pendingweapon = (weapontype_t)wp_goldwand;
     }
 
     for (int i = 0; i < NUMAMMO; i++)

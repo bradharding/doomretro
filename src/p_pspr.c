@@ -203,7 +203,7 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 void P_ActivateBeak(void)
 {
     viewplayer->pendingweapon = wp_nochange;
-    viewplayer->readyweapon = wp_beak;
+    viewplayer->readyweapon = (weapontype_t)wp_beak;
     viewplayer->psprites[ps_weapon].sy = WEAPONTOP;
     P_SetPsprite(ps_weapon, HS_BEAKREADY);
 }
@@ -211,7 +211,7 @@ void P_ActivateBeak(void)
 void P_PostChickenWeapon(weapontype_t weapon)
 {
     if (weapon == wp_beak)
-        weapon = wp_staff;
+        weapon = (weapontype_t)wp_staff;
 
     viewplayer->pendingweapon = wp_nochange;
     viewplayer->readyweapon = weapon;
@@ -307,21 +307,21 @@ dboolean P_CheckHereticAmmo(weapontype_t weapon)
     do
     {
         if (viewplayer->weaponowned[wp_skullrod] && viewplayer->ammo[am_skullrod] > ammouse[wp_skullrod])
-            viewplayer->pendingweapon = wp_skullrod;
+            viewplayer->pendingweapon = (weapontype_t)wp_skullrod;
         else if (viewplayer->weaponowned[wp_blaster] && viewplayer->ammo[am_blaster] > ammouse[wp_blaster])
-            viewplayer->pendingweapon = wp_blaster;
+            viewplayer->pendingweapon = (weapontype_t)wp_blaster;
         else if (viewplayer->weaponowned[wp_crossbow] && viewplayer->ammo[am_crossbow] > ammouse[wp_crossbow])
-            viewplayer->pendingweapon = wp_crossbow;
+            viewplayer->pendingweapon = (weapontype_t)wp_crossbow;
         else if (viewplayer->weaponowned[wp_mace] && viewplayer->ammo[am_mace] > ammouse[wp_mace])
-            viewplayer->pendingweapon = wp_mace;
+            viewplayer->pendingweapon = (weapontype_t)wp_mace;
         else if (viewplayer->ammo[am_goldwand] > ammouse[wp_goldwand])
-            viewplayer->pendingweapon = wp_goldwand;
+            viewplayer->pendingweapon = (weapontype_t)wp_goldwand;
         else if (viewplayer->weaponowned[wp_gauntlets])
-            viewplayer->pendingweapon = wp_gauntlets;
+            viewplayer->pendingweapon = (weapontype_t)wp_gauntlets;
         else if (viewplayer->weaponowned[wp_phoenixrod] && viewplayer->ammo[am_phoenixrod] > ammouse[wp_phoenixrod])
-            viewplayer->pendingweapon = wp_phoenixrod;
+            viewplayer->pendingweapon = (weapontype_t)wp_phoenixrod;
         else
-            viewplayer->pendingweapon = wp_staff;
+            viewplayer->pendingweapon = (weapontype_t)wp_staff;
     }
     while (viewplayer->pendingweapon == wp_nochange);
 

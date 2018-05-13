@@ -1134,7 +1134,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WMCE:
-                if (!P_GiveWeapon(wp_mace, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_mace, false, stat))
                     return;
 
                 if (message)
@@ -1144,7 +1144,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WBOW:
-                if (!P_GiveWeapon(wp_crossbow, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_crossbow, false, stat))
                     return;
 
                 if (message)
@@ -1154,7 +1154,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WBLS:
-                if (!P_GiveWeapon(wp_blaster, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_blaster, false, stat))
                     return;
 
                 if (message)
@@ -1164,7 +1164,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WSKL:
-                if (!P_GiveWeapon(wp_skullrod, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_skullrod, false, stat))
                     return;
 
                 if (message)
@@ -1174,7 +1174,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WPHX:
-                if (!P_GiveWeapon(wp_phoenixrod, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_phoenixrod, false, stat))
                     return;
 
                 if (message)
@@ -1184,7 +1184,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_WGNT:
-                if (!P_GiveWeapon(wp_gauntlets, false, stat))
+                if (!P_GiveWeapon((weapontype_t)wp_gauntlets, false, stat))
                     return;
 
                 if (message)
