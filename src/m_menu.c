@@ -1039,7 +1039,7 @@ static void M_LoadSelect(int choice)
         char    name[SAVESTRINGSIZE];
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
-        S_StartSound(NULL, sfx_pistol);
+        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
         I_WaitVBL(2 * TICRATE);
         functionkey = 0;
         quickSaveSlot = choice;
@@ -1392,7 +1392,7 @@ static void M_DeleteSavegameResponse(int key)
 
         if (remove(buffer) == -1)
         {
-            S_StartSound(NULL, sfx_oof);
+            S_StartSound(NULL, SFX_OOF);
             return;
         }
 
@@ -1747,7 +1747,7 @@ static void M_ChooseSkill(int choice)
     }
 
     HU_DrawDisk();
-    S_StartSound(NULL, sfx_pistol);
+    S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
     I_WaitVBL(2 * TICRATE);
     quickSaveSlot = -1;
     vibrate = false;
@@ -2827,7 +2827,7 @@ dboolean M_Responder(event_t *ev)
         if (endinggame)
             endinggame = false;
         else
-            S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
+            S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx)));
 
         return true;
     }
@@ -3287,7 +3287,7 @@ dboolean M_Responder(event_t *ev)
             {
                 functionkey = 0;
                 M_ClearMenus();
-                S_StartSound(NULL, sfx_swtchx);
+                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
                 R_SetViewSize(r_screensize);
 
                 if (returntowidescreen && gamestate == GS_LEVEL)
@@ -3377,7 +3377,7 @@ dboolean M_Responder(event_t *ev)
                 return true;
             }
             else
-                S_StartSound(NULL, sfx_oof);
+                S_StartSound(NULL, SFX_OOF);
 
             return false;
         }

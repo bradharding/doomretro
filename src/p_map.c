@@ -1218,7 +1218,7 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmymove) > ABS(tmxmove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof);             // oooff!
+                S_StartSound(slidemo, SFX_OOF);             // oooff!
 
             tmxmove /= 2;                                   // absorb half the momentum
             tmymove = -tmymove / 2;
@@ -1234,7 +1234,7 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof);             // oooff!
+                S_StartSound(slidemo, SFX_OOF);             // oooff!
 
             tmxmove = -tmxmove / 2;                         // absorb half the momentum
             tmymove /= 2;
@@ -1265,7 +1265,7 @@ static void P_HitSlideLine(line_t *ld)
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
         if (slidemo->player && slidemo->health > 0)
-            S_StartSound(slidemo, sfx_oof);                 // oooff!
+            S_StartSound(slidemo, SFX_OOF);                 // oooff!
     }
     else
     {
@@ -1805,7 +1805,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
         if (openrange <= 0)
         {
             if (!autousing)
-                S_StartSound(usething, sfx_noway);
+                S_StartSound(usething, SFX_NOWAY);
 
             // can't use through a wall
             return false;
@@ -1868,7 +1868,7 @@ void P_UseLines(void)
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_NoWayTraverse))
             if (!autousing)
-                S_StartSound(usething, sfx_noway);
+                S_StartSound(usething, SFX_NOWAY);
 }
 
 //

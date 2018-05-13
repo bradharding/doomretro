@@ -536,7 +536,7 @@ static void P_ZMovement(mobj_t *mo)
                     player->deltaviewheight = mo->momz >> 3;
 
                     if (mo->health > 0)
-                        S_StartSound(mo, sfx_oof);
+                        S_StartSound(mo, SFX_OOF);
                 }
             }
 

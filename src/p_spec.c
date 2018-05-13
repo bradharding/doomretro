@@ -919,7 +919,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -938,7 +938,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -957,7 +957,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -976,7 +976,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
 
                 return false;
             }
@@ -996,7 +996,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -1015,7 +1015,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -1034,7 +1034,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -1048,7 +1048,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
@@ -1059,7 +1059,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, SFX_NOWAY);
                 return false;
             }
 
