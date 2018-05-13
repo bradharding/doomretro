@@ -637,7 +637,7 @@ void C_ShowConsole(void)
     caretwait = 0;
 
     if (gamestate == GS_TITLESCREEN && !devparm)
-        S_StartSound(NULL, sfx_swtchn);
+        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
 
     SDL_StartTextInput();
 }
@@ -653,7 +653,7 @@ void C_HideConsole(void)
     {
         consoleheight = 0;
         consoleactive = false;
-        S_StartSound(NULL, sfx_swtchx);
+        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
     }
 }
 
