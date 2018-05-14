@@ -91,5 +91,7 @@ extern patch_t  *brdr_tl;
 extern patch_t  *brdr_tr;
 extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
+extern patch_t  *ltfctop;
+extern patch_t  *rtfctop;
 
 #endif

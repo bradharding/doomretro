@@ -1242,9 +1242,8 @@ void R_FillBackScreen(void)
 {
     byte    *src;
     byte    *dest;
-    int     x, y;
-    int     width, height;
-    int     windowx, windowy;
+    int     x1, y1;
+    int     x2, y2;
 
     if (scaledviewwidth == SCREENWIDTH)
         return;
@@ -1252,8 +1251,8 @@ void R_FillBackScreen(void)
     src = (byte *)grnrock;
     dest = screens[1];
 
-    for (y = 0; y < SCREENHEIGHT; y += 2)
-        for (x = 0; x < SCREENWIDTH / 32; x += 2)
+    for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += 2)
+        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -1272,65 +1271,64 @@ void R_FillBackScreen(void)
             dest += 128;
         }
 
-    // Draw screen and bezel; this is done to a separate screen buffer.
-    width = scaledviewwidth / 2;
-    height = viewheight / 2;
-    windowx = viewwindowx / 2;
-    windowy = viewwindowy / 2;
+    x1 = viewwindowx / 2;
+    y1 = viewwindowy / 2;
+    x2 = scaledviewwidth / 2 + x1;
+    y2 = viewheight / 2 + y1;
 
     if (gamemission == heretic)
     {
-        for (x = 0; x < width - 16; x += 16)
-            V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
+        for (int x = x1; x < x2 - 16; x += 16)
+        {
+            V_DrawPatch(x, y1 - 8, 1, brdr_t);
+            V_DrawPatch(x, y2, 1, brdr_b);
+        }
 
-        V_DrawPatch(windowx + width - 16, windowy - 8, 1, brdr_t);
+        V_DrawPatch(x2 - 16, y1 - 8, 1, brdr_t);
+        V_DrawPatch(x2 - 16, y2, 1, brdr_b);
 
-        for (x = 0; x < width - 16; x += 16)
-            V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
+        for (int y = y1; y < y2 - 16; y += 16)
+        {
+            V_DrawPatch(x1 - 9, y, 1, brdr_l);
+            V_DrawPatch(x2, y, 1, brdr_r);
+        }
 
-        V_DrawPatch(windowx + width - 16, windowy + height, 1, brdr_b);
+        V_DrawPatch(x1 - 9, y2 - 16, 1, brdr_l);
+        V_DrawPatch(x2, y2 - 16, 1, brdr_r);
 
-        for (y = 0; y < height - 16; y += 16)
-            V_DrawPatch(windowx - 9, windowy + y, 1, brdr_l);
+        V_DrawPatch(x1 - 9, y1 - 8, 1, brdr_tl);
+        V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
+        V_DrawPatch(x1 - 9, y2, 1, brdr_bl);
+        V_DrawPatch(x2, y2, 1, brdr_br);
 
-        V_DrawPatch(windowx - 9, windowy + height - 16, 1, brdr_l);
+        V_DrawPatch(0, 148, 1, ltfctop);
+        V_DrawPatch(290, 148, 1, rtfctop);
 
-        for (y = 0; y < height - 16; y += 16)
-            V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
-
-        V_DrawPatch(windowx + width, windowy + height - 16, 1, brdr_r);
-
-        V_DrawPatch(windowx - 9, windowy - 8, 1, brdr_tl);
-        V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
-        V_DrawPatch(windowx - 9, windowy + height, 1, brdr_bl);
-        V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
     }
     else
     {
-        for (x = 0; x < width - 8; x += 8)
-            V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
+        for (int x = x1; x < x2 - 8; x += 8)
+        {
+            V_DrawPatch(x, y1 - 8, 1, brdr_t);
+            V_DrawPatch(x, y2, 1, brdr_b);
+        }
 
-        V_DrawPatch(windowx + width - 8, windowy - 8, 1, brdr_t);
+        V_DrawPatch(x2 - 8, y1 - 8, 1, brdr_t);
+        V_DrawPatch(x2 - 8, y2, 1, brdr_b);
 
-        for (x = 0; x < width - 8; x += 8)
-            V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
+        for (int y = y1; y < y2 - 8; y += 8)
+        {
+            V_DrawPatch(x1 - 9, y, 1, brdr_l);
+            V_DrawPatch(x2, y, 1, brdr_r);
+        }
 
-        V_DrawPatch(windowx + width - 8, windowy + height, 1, brdr_b);
+        V_DrawPatch(x1 - 8, y2 - 8, 1, brdr_l);
+        V_DrawPatch(x2, y2 - 8, 1, brdr_r);
 
-        for (y = 0; y < height - 8; y += 8)
-            V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
-
-        V_DrawPatch(windowx - 8, windowy + height - 8, 1, brdr_l);
-
-        for (y = 0; y < height - 8; y += 8)
-            V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
-
-        V_DrawPatch(windowx + width, windowy + height - 8, 1, brdr_r);
-
-        V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);
-        V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
-        V_DrawPatch(windowx - 8, windowy + height, 1, brdr_bl);
-        V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
+        V_DrawPatch(x1 - 8, y1 - 8, 1, brdr_tl);
+        V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
+        V_DrawPatch(x1 - 8, y2, 1, brdr_bl);
+        V_DrawPatch(x2, y2, 1, brdr_br);
     }
 }
 
@@ -1364,7 +1362,7 @@ void R_DrawViewBorder(void)
 
     // copy one line of right side and bottom
     ofs = (viewheight + top) * SCREENWIDTH - side;
-    R_VideoErase(ofs, top * SCREENWIDTH + side);
+    R_VideoErase(ofs, (top - 20 * (gamemission == heretic)) * SCREENWIDTH + side);
 
     // copy sides using wraparound
     ofs = top * SCREENWIDTH + SCREENWIDTH - side;
