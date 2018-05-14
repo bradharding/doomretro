@@ -105,6 +105,8 @@
 #define USE_MACE_AMMO_1     1
 #define USE_MACE_AMMO_2     5
 
+void P_OpenWeapons(void);
+void P_CloseWeapons(void);
 void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);

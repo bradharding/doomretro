@@ -2301,7 +2301,14 @@ void P_SetupLevel(int ep, int map)
     P_GetMapNoLiquids((ep - 1) * 10 + map);
     nojump = P_GetMapNoJump((ep - 1) * 10 + map);
     P_InitMonsters();
+
+    if (gamemission == heretic)
+        P_OpenWeapons();
+
     P_LoadThings(lumpnum + ML_THINGS);
+
+    if (gamemission == heretic)
+        P_CloseWeapons();
 
     P_InitCards();
 

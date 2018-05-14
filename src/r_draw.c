@@ -1303,7 +1303,6 @@ void R_FillBackScreen(void)
 
         V_DrawPatch(0, 148, 1, ltfctop);
         V_DrawPatch(290, 148, 1, rtfctop);
-
     }
     else
     {

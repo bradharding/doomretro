@@ -812,8 +812,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 {
     fixed_t     delta;
     int         sound;
-    int         weaponowned;
-    int         ammo;
     static int  prevsound;
     static int  prevtic;
 
@@ -1199,6 +1197,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     }
     else
     {
+        int temp;
+
         sound = sfx_itemup;
 
         switch (special->sprite)
@@ -1479,15 +1479,15 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // clip
             case SPR_CLIP:
-                if (!(ammo = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
+                if (!(temp = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
                     return;
 
                 if (message)
                 {
-                    if (ammo == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
+                    if (temp == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
                         HU_PlayerMessage(s_GOTCLIP, false);
                     else
-                        HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
+                        HU_PlayerMessage((temp == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
                 }
 
                 break;
@@ -1504,12 +1504,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // rocket
             case SPR_ROCK:
-                if (!(ammo = P_GiveAmmo(am_misl, 1, stat)))
+                if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
                     return;
 
                 if (message)
                 {
-                    if (ammo == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                    if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
                         HU_PlayerMessage(s_GOTROCKET, false);
                     else
                         HU_PlayerMessage(s_GOTROCKETX2, false);
@@ -1529,12 +1529,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // cell
             case SPR_CELL:
-                if (!(ammo = P_GiveAmmo(am_cell, 1, stat)))
+                if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
                     return;
 
                 if (message)
                 {
-                    if (ammo == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                    if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
                         HU_PlayerMessage(s_GOTCELL, false);
                     else
                         HU_PlayerMessage(s_GOTCELLX2, false);
@@ -1554,12 +1554,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // shells
             case SPR_SHEL:
-                if (!(ammo = P_GiveAmmo(am_shell, 1, stat)))
+                if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
                     return;
 
                 if (message)
                 {
-                    if (ammo == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                    if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
                         HU_PlayerMessage(s_GOTSHELLS, false);
                     else
                         HU_PlayerMessage(s_GOTSHELLSX2, false);
@@ -1646,12 +1646,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // shotgun
             case SPR_SHOT:
-                weaponowned = viewplayer->weaponowned[wp_shotgun];
+                temp = viewplayer->weaponowned[wp_shotgun];
 
                 if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
                     return;
 
-                if (!weaponowned)
+                if (!temp)
                     viewplayer->preferredshotgun = wp_shotgun;
 
                 if (message)
@@ -1662,12 +1662,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             // super shotgun
             case SPR_SGN2:
-                weaponowned = viewplayer->weaponowned[wp_supershotgun];
+                temp = viewplayer->weaponowned[wp_supershotgun];
 
                 if (!P_GiveWeapon(wp_supershotgun, (special->flags & MF_DROPPED), stat))
                     return;
 
-                if (!weaponowned)
+                if (!temp)
                     viewplayer->preferredshotgun = wp_supershotgun;
 
                 if (message)

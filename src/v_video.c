@@ -102,22 +102,6 @@ extern int          fuzztable[SCREENWIDTH * SCREENHEIGHT];
 extern dboolean     vanilla;
 
 //
-// V_CopyRect
-//
-void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn)
-{
-    byte    *src = screens[srcscrn] + srcy * SCREENWIDTH + srcx;
-    byte    *dest = screens[destscrn] + desty * SCREENWIDTH + destx;
-
-    while (height--)
-    {
-        memcpy(dest, src, width);
-        src += SCREENWIDTH;
-        dest += SCREENWIDTH;
-    }
-}
-
-//
 // V_FillRect
 //
 void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
