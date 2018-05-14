@@ -1146,11 +1146,11 @@ state_t hereticstates[NUMHSTATES] =
     { HSPR_IMPX, 24,                    7, NULL,                   HS_IMP_XCRASH3      }, // HS_IMP_XCRASH2
     { HSPR_IMPX, 25,                   -1, NULL,                   HS_NULL             }, // HS_IMP_XCRASH3
     { HSPR_IMPX, 12,                    5, NULL,                   HS_IMP_CHUNKA2      }, // HS_IMP_CHUNKA1
-    { HSPR_IMPX, 13,                  700, NULL,                   HS_IMP_CHUNKA3      }, // HS_IMP_CHUNKA2
-    { HSPR_IMPX, 14,                  700, NULL,                   HS_NULL             }, // HS_IMP_CHUNKA3
+    { HSPR_IMPX, 13,                   -1, NULL,                   HS_IMP_CHUNKA3      }, // HS_IMP_CHUNKA2
+    { HSPR_IMPX, 14,                   -1, NULL,                   HS_NULL             }, // HS_IMP_CHUNKA3
     { HSPR_IMPX, 15,                    5, NULL,                   HS_IMP_CHUNKB2      }, // HS_IMP_CHUNKB1
-    { HSPR_IMPX, 16,                  700, NULL,                   HS_IMP_CHUNKB3      }, // HS_IMP_CHUNKB2
-    { HSPR_IMPX, 17,                  700, NULL,                   HS_NULL             }, // HS_IMP_CHUNKB3
+    { HSPR_IMPX, 16,                   -1, NULL,                   HS_IMP_CHUNKB3      }, // HS_IMP_CHUNKB2
+    { HSPR_IMPX, 17,                   -1, NULL,                   HS_NULL             }, // HS_IMP_CHUNKB3
     { HSPR_FX10, 0 | FF_FULLBRIGHT,     6, NULL,                   HS_IMPFX2           }, // HS_IMPFX1
     { HSPR_FX10, 1 | FF_FULLBRIGHT,     6, NULL,                   HS_IMPFX3           }, // HS_IMPFX2
     { HSPR_FX10, 2 | FF_FULLBRIGHT,     6, NULL,                   HS_IMPFX1           }, // HS_IMPFX3
@@ -6822,7 +6822,7 @@ mobjinfo_t hereticmobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ hsfx_None,
         /* flags                */ MF_NOBLOCKMAP,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_FOOTCLIP,
         /* flags3               */ 0,
         /* raisestate           */ HS_NULL,
         /* frames               */ 0,
@@ -6865,7 +6865,7 @@ mobjinfo_t hereticmobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ hsfx_None,
         /* flags                */ MF_NOBLOCKMAP,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_FOOTCLIP,
         /* flags3               */ 0,
         /* raisestate           */ HS_NULL,
         /* frames               */ 0,
