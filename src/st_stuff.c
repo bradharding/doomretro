@@ -1521,6 +1521,17 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         callback("LIFEGEM2", &lifegem);
         callback("LTFACE", &ltface);
         callback("RTFACE", &rtface);
+
+        // back screen
+        callback((gamemode == shareware ? "FLOOR04" : "FLAT513"), &grnrock);
+        callback("BORDT", &brdr_t);
+        callback("BORDB", &brdr_b);
+        callback("BORDL", &brdr_l);
+        callback("BORDR", &brdr_r);
+        callback("BORDTL", &brdr_tl);
+        callback("BORDTR", &brdr_tr);
+        callback("BORDBL", &brdr_bl);
+        callback("BORDBR", &brdr_br);
     }
     else
     {
@@ -1608,25 +1619,25 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         callback("BRDR_TR", &brdr_tr);
         callback("BRDR_BL", &brdr_bl);
         callback("BRDR_BR", &brdr_br);
-
-        // [BH] fix display of viewborder for wads that have these patches without offsets
-        brdr_t->leftoffset = 0;
-        brdr_t->topoffset = -5;
-        brdr_b->leftoffset = 0;
-        brdr_b->topoffset = 0;
-        brdr_l->leftoffset = -5;
-        brdr_l->topoffset = 0;
-        brdr_r->leftoffset = 0;
-        brdr_r->topoffset = 0;
-        brdr_tl->leftoffset = -5;
-        brdr_tl->topoffset = -5;
-        brdr_tr->leftoffset = 0;
-        brdr_tr->topoffset = -5;
-        brdr_bl->leftoffset = -5;
-        brdr_bl->topoffset = 0;
-        brdr_br->leftoffset = 0;
-        brdr_br->topoffset = 0;
     }
+
+    // [BH] fix display of viewborder for wads that have these patches without offsets
+    brdr_t->leftoffset = 0;
+    brdr_t->topoffset = -5;
+    brdr_b->leftoffset = 0;
+    brdr_b->topoffset = 0;
+    brdr_l->leftoffset = -5;
+    brdr_l->topoffset = 0;
+    brdr_r->leftoffset = 0;
+    brdr_r->topoffset = 0;
+    brdr_tl->leftoffset = -5;
+    brdr_tl->topoffset = -5;
+    brdr_tr->leftoffset = 0;
+    brdr_tr->topoffset = -5;
+    brdr_bl->leftoffset = -5;
+    brdr_bl->topoffset = 0;
+    brdr_br->leftoffset = 0;
+    brdr_br->topoffset = 0;
 
     emptytallpercent = (gamemission == heretic || V_EmptyPatch(tallpercent));
     tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));

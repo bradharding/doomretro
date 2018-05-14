@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "doomstat.h"
 #include "i_colors.h"
 #include "m_config.h"
 #include "m_random.h"
@@ -1277,27 +1278,60 @@ void R_FillBackScreen(void)
     windowx = viewwindowx / 2;
     windowy = viewwindowy / 2;
 
-    for (x = 0; x < width; x += 8)
-        V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
+    if (gamemission == heretic)
+    {
+        for (x = 0; x < width - 16; x += 16)
+            V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
 
-    for (x = 0; x < width; x += 8)
-        V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
+        V_DrawPatch(windowx + width - 16, windowy - 8, 1, brdr_t);
 
-    for (y = 0; y < height - 8; y += 8)
-        V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
+        for (x = 0; x < width - 16; x += 16)
+            V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
 
-    V_DrawPatch(windowx - 8, windowy + y - 2 * (r_screensize >= 2), 1, brdr_l);
+        V_DrawPatch(windowx + width - 16, windowy + height, 1, brdr_b);
 
-    for (y = 0; y < height - 8; y += 8)
-        V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
+        for (y = 0; y < height - 16; y += 16)
+            V_DrawPatch(windowx - 9, windowy + y, 1, brdr_l);
 
-    V_DrawPatch(windowx + width, windowy + y - 2 * (r_screensize >= 2), 1, brdr_r);
+        V_DrawPatch(windowx - 9, windowy + height - 16, 1, brdr_l);
 
-    // Draw beveled edge.
-    V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);
-    V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
-    V_DrawPatch(windowx - 8, windowy + height, 1, brdr_bl);
-    V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
+        for (y = 0; y < height - 16; y += 16)
+            V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
+
+        V_DrawPatch(windowx + width, windowy + height - 16, 1, brdr_r);
+
+        V_DrawPatch(windowx - 9, windowy - 8, 1, brdr_tl);
+        V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
+        V_DrawPatch(windowx - 9, windowy + height, 1, brdr_bl);
+        V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
+    }
+    else
+    {
+        for (x = 0; x < width - 8; x += 8)
+            V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
+
+        V_DrawPatch(windowx + width - 8, windowy - 8, 1, brdr_t);
+
+        for (x = 0; x < width - 8; x += 8)
+            V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
+
+        V_DrawPatch(windowx + width - 8, windowy + height, 1, brdr_b);
+
+        for (y = 0; y < height - 8; y += 8)
+            V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
+
+        V_DrawPatch(windowx - 8, windowy + height - 8, 1, brdr_l);
+
+        for (y = 0; y < height - 8; y += 8)
+            V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
+
+        V_DrawPatch(windowx + width, windowy + height - 8, 1, brdr_r);
+
+        V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);
+        V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
+        V_DrawPatch(windowx - 8, windowy + height, 1, brdr_bl);
+        V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
+    }
 }
 
 //
