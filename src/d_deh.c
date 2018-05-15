@@ -1684,7 +1684,6 @@ static const struct deh_mobjflags_s deh_mobjflags[] =
     { "COUNTKILL",    MF_COUNTKILL    },    // count toward the kills total
     { "COUNTITEM",    MF_COUNTITEM    },    // count toward the items total
     { "SKULLFLY",     MF_SKULLFLY     },    // special handling for flying skulls
-    { "NOTDMATCH",    MF_NOTDMATCH    },    // do not spawn in deathmatch
 
     // killough 10/98: TRANSLATION consists of 2 bits, not 1:
     { "TRANSLATION",  0x04000000      },    // for BOOM bug-compatibility

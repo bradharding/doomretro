@@ -202,15 +202,11 @@ enum
     // Neither a cacodemon nor a missile.
     MF_SKULLFLY         = 0x01000000,
 
-    // Don't spawn this object
-    //  in death match mode (e.g. key cards).
-    MF_NOTDMATCH        = 0x02000000,
-
     // Player sprites in multiplayer modes are modified
     //  using an internal color lookup table for re-indexing.
     // If 0x4 0x8 or 0xc,
     //  use a translation table for player colormaps
-    MF_TRANSLATION      = 0x0c000000,
+    MF_TRANSLATION      = 0x0C000000,
     // Hmm ???.
     MF_TRANSSHIFT       = 26,
 
