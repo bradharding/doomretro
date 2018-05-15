@@ -313,7 +313,7 @@ void HU_Start(void)
     if (gamemission == heretic)
     {
         w_title.x = (ORIGINALWIDTH - M_StringWidth(s)) / 2;
-        w_title.y -= 11;
+        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 14;
     }
 
     while (M_StringWidth(s) > (r_messagescale == r_messagescale_small ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
