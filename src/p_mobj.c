@@ -1206,6 +1206,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     else
         bit = 1 << (gameskill - 1);
 
+    // Check for boss spots
+    if (mthing->type == 56)
+    {
+        P_AddBossSpot(mthing->x << FRACBITS, mthing->y << FRACBITS, ANG45 * (mthing->angle / 45));
+        return NULL;
+    }
+
     if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)))
         C_Warning("Thing %s at (%i,%i) has no skill flags set.", commify(index), mthing->x, mthing->y);
 

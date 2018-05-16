@@ -120,14 +120,13 @@ void P_InitMonsters(void)
     bossspotcount = 0;
 }
 
-void P_AddBossSpot(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
+void P_AddBossSpot(fixed_t x, fixed_t y, angle_t angle)
 {
     if (bossspotcount == MAX_BOSS_SPOTS)
         I_Error("Too many boss spots.");
 
     bossspots[bossspotcount].x = x;
     bossspots[bossspotcount].y = y;
-    bossspots[bossspotcount].y = x;
     bossspots[bossspotcount].angle = angle;
     bossspotcount++;
 }

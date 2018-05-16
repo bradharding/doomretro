@@ -191,6 +191,7 @@ void P_InitHereticMobjs(void);
 //
 // P_ENEMY
 //
+void P_AddBossSpot(fixed_t x, fixed_t y, angle_t angle);
 void P_InitMonsters(void);
 void P_NoiseAlert(mobj_t *target);
 
