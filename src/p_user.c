@@ -411,10 +411,15 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
+    ammotype_t  ammotype = wpnlev1info[newweapon].ammotype;
+
     if (gamemission == heretic)
     {
         if (newweapon == wp_staff && viewplayer->weaponowned[wp_gauntlets] && viewplayer->readyweapon != wp_gauntlets)
             newweapon = (weapontype_t)wp_gauntlets;
+
+        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < wpnlev1info[newweapon].minammo)
+            newweapon = wp_nochange;
 
         if (viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
             viewplayer->pendingweapon = newweapon;
@@ -444,11 +449,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 
     // Don't switch to a weapon without any or enough ammo.
-    else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !viewplayer->ammo[am_clip])
-        || (newweapon == wp_shotgun && !viewplayer->ammo[am_shell])
-        || (newweapon == wp_missile && !viewplayer->ammo[am_misl])
-        || (newweapon == wp_plasma && !viewplayer->ammo[am_cell])
-        || (newweapon == wp_bfg && viewplayer->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
+    else if (ammotype != am_noammo && viewplayer->ammo[ammotype] < wpnlev1info[newweapon].minammo)
         newweapon = wp_nochange;
 
     // Select the preferred shotgun.
