@@ -2300,6 +2300,7 @@ void P_SetupLevel(int ep, int map)
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
     nojump = P_GetMapNoJump((ep - 1) * 10 + map);
+    P_InitAmbientSound();
     P_InitMonsters();
 
     if (gamemission == heretic)

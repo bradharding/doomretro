@@ -1206,6 +1206,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     else
         bit = 1 << (gameskill - 1);
 
+    // Ambient sound sequences
+    if (mthing->type >= 1200 && mthing->type < 1300)
+    {
+        P_AddAmbientSfx(mthing->type - 1200);
+        return NULL;
+    }
+
     // Check for boss spots
     if (mthing->type == 56)
     {

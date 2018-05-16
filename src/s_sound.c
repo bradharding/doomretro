@@ -430,7 +430,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     return (*vol > 0);
 }
 
-static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
+ void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
     sfxinfo_t   *sfx = (gamemission == heretic ? &HS_sfx[sfx_id] : &S_sfx[sfx_id]);
     mobj_t      *mo = viewplayer->mo;

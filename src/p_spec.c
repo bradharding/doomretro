@@ -132,6 +132,182 @@ struct
     { "END",      -1           }
 };
 
+#define MAX_AMBIENT_SFX 8       // Per level
+
+// Types
+
+typedef enum
+{
+    afxcmd_play,                // (sound)
+    afxcmd_playabsvol,          // (sound, volume)
+    afxcmd_playrelvol,          // (sound, volume)
+    afxcmd_delay,               // (ticks)
+    afxcmd_delayrand,           // (andbits)
+    afxcmd_end                  // ()
+} afxcmd_t;
+
+// Data
+
+int *levelambientsfx[MAX_AMBIENT_SFX];
+int *ambsfxptr;
+int ambsfxcount;
+int ambsfxtics;
+int ambsfxvolume;
+
+// Startup
+int ambsndseqinit[] =
+{
+    afxcmd_end
+};
+
+// Scream
+int ambsndseq1[] =
+{
+    afxcmd_play, hsfx_amb1,
+    afxcmd_end
+};
+
+// Squish
+int ambsndseq2[] =
+{
+    afxcmd_play, hsfx_amb2,
+    afxcmd_end
+};
+
+// Drops
+int ambsndseq3[] =
+{
+    afxcmd_play, hsfx_amb3,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_play, hsfx_amb7,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_play, hsfx_amb3,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_play, hsfx_amb7,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_play, hsfx_amb3,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_play, hsfx_amb7,
+    afxcmd_delay, 16,
+    afxcmd_delayrand, 31,
+    afxcmd_end
+};
+
+// SlowFootSteps
+int ambsndseq4[] =
+{
+    afxcmd_play, hsfx_amb4,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 15,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_end
+};
+
+// Heartbeat
+int ambsndseq5[] =
+{
+    afxcmd_play, hsfx_amb5,
+    afxcmd_delay, 35,
+    afxcmd_play, hsfx_amb5,
+    afxcmd_delay, 35,
+    afxcmd_play, hsfx_amb5,
+    afxcmd_delay, 35,
+    afxcmd_play, hsfx_amb5,
+    afxcmd_end
+};
+
+// Bells
+int ambsndseq6[] =
+{
+    afxcmd_play, hsfx_amb6,
+    afxcmd_delay, 17,
+    afxcmd_playrelvol, hsfx_amb6, -8,
+    afxcmd_delay, 17,
+    afxcmd_playrelvol, hsfx_amb6, -8,
+    afxcmd_delay, 17,
+    afxcmd_playrelvol, hsfx_amb6, -8,
+    afxcmd_end
+};
+
+// Growl
+int ambsndseq7[] =
+{
+    afxcmd_play, hsfx_bstsit,
+    afxcmd_end
+};
+
+// Magic
+int ambsndseq8[] = {
+    afxcmd_play, hsfx_amb8,
+    afxcmd_end
+};
+
+// Laughter
+int ambsndseq9[] = {
+    afxcmd_play, hsfx_amb9,
+    afxcmd_delay, 16,
+    afxcmd_playrelvol, hsfx_amb9, -4,
+    afxcmd_delay, 16,
+    afxcmd_playrelvol, hsfx_amb9, -4,
+    afxcmd_delay, 16,
+    afxcmd_playrelvol, hsfx_amb10, -4,
+    afxcmd_delay, 16,
+    afxcmd_playrelvol, hsfx_amb10, -4,
+    afxcmd_delay, 16,
+    afxcmd_playrelvol, hsfx_amb10, -4,
+    afxcmd_end
+};
+
+// FastFootsteps
+int ambsndseq10[] = {
+    afxcmd_play, hsfx_amb4,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb4, -3,
+    afxcmd_delay, 8,
+    afxcmd_playrelvol, hsfx_amb11, -3,
+    afxcmd_end
+};
+
+int *ambientsfx[] =
+{
+    ambsndseq1,                 // Scream
+    ambsndseq2,                 // Squish
+    ambsndseq3,                 // Drops
+    ambsndseq4,                 // SlowFootsteps
+    ambsndseq5,                 // Heartbeat
+    ambsndseq6,                 // Bells
+    ambsndseq7,                 // Growl
+    ambsndseq8,                 // Magic
+    ambsndseq9,                 // Laughter
+    ambsndseq10                 // FastFootsteps
+};
+
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
@@ -3220,4 +3396,75 @@ static void P_SpawnPushers(void)
 
                 break;
         }
+}
+
+void P_InitAmbientSound(void)
+{
+    ambsfxcount = 0;
+    ambsfxvolume = 0;
+    ambsfxtics = 10 * TICRATE;
+    ambsfxptr = ambsndseqinit;
+}
+
+void P_AddAmbientSfx(int sequence)
+{
+    if (ambsfxcount == MAX_AMBIENT_SFX)
+        I_Error("Too many ambient sound sequences");
+
+    levelambientsfx[ambsfxcount++] = ambientsfx[sequence];
+}
+
+void P_AmbientSound(void)
+{
+    dboolean    done = false;
+
+    if (!ambsfxcount || --ambsfxtics)
+        return;
+
+    do
+    {
+        afxcmd_t    cmd = *ambsfxptr++;
+        int         sound;
+
+        switch (cmd)
+        {
+            case afxcmd_play:
+                ambsfxvolume = M_Random() >> 2;
+                S_StartSoundAtVolume(NULL, *ambsfxptr++, NORM_PITCH, ambsfxvolume);
+                break;
+
+            case afxcmd_playabsvol:
+                sound = *ambsfxptr++;
+                ambsfxvolume = *ambsfxptr++;
+                S_StartSoundAtVolume(NULL, sound, NORM_PITCH, ambsfxvolume);
+                break;
+
+            case afxcmd_playrelvol:
+                sound = *ambsfxptr++;
+                ambsfxvolume += *ambsfxptr++;
+                S_StartSoundAtVolume(NULL, sound, NORM_PITCH, BETWEEN(0, ambsfxvolume, 127));
+                break;
+
+            case afxcmd_delay:
+                ambsfxtics = *ambsfxptr++;
+                done = true;
+                break;
+
+            case afxcmd_delayrand:
+                ambsfxtics = M_Random() & *ambsfxptr++;
+                done = true;
+                break;
+
+            case afxcmd_end:
+                ambsfxtics = 6 * TICRATE + M_Random();
+                ambsfxptr = levelambientsfx[M_Random() % ambsfxcount];
+                done = true;
+                break;
+
+            default:
+                I_Error("P_AmbientSound: Unknown afxcmd %d", cmd);
+                break;
+        }
+    }
+    while (!done);
 }

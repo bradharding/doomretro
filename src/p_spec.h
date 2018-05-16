@@ -76,6 +76,8 @@ void P_SetTimer(int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
 void P_SetLifts(void);
+void P_InitAmbientSound(void);
+void P_AddAmbientSfx(int sequence);
 
 // every tic
 void P_UpdateSpecials(void);
