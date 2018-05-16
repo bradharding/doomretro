@@ -3092,10 +3092,17 @@ void A_ImpExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo->momx = M_NegRandom() << 10;
     mo->momy = M_NegRandom() << 10;
     mo->momz = 9 * FRACUNIT;
+
+    if (r_corpses_mirrored && (M_Random() & 1))
+        mo->flags2 |= MF2_MIRRORED;
+
     mo = P_SpawnMobj(actor->x, actor->y, actor->z, HMT_IMPCHUNK2);
     mo->momx = M_NegRandom() << 10;
     mo->momy = M_NegRandom() << 10;
     mo->momz = 9 * FRACUNIT;
+
+    if (r_corpses_mirrored && (M_Random() & 1))
+        mo->flags2 |= MF2_MIRRORED;
 
     if (actor->special1.i == 666)
         // Extreme death crash
