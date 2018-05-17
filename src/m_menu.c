@@ -690,35 +690,9 @@ void M_DrawString(int x, int y, char *str)
     for (int i = 0; i < len; i++)
     {
         int         j = -1;
-        int         k = 0;
-        dboolean    overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
-
-        while (kern[k].char1)
-        {
-            if (prev == kern[k].char1 && str[i] == kern[k].char2)
-            {
-                x += kern[k].adjust;
-                break;
-            }
-
-            k++;
-        }
-
-        k = 0;
-
-        while (overlap[k].char1)
-        {
-            if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
-            {
-                overlapping = true;
-                break;
-            }
-
-            k++;
-        }
 
         if (gamemission == heretic)
         {
@@ -734,6 +708,33 @@ void M_DrawString(int x, int y, char *str)
         }
         else
         {
+            int         k = 0;
+            dboolean    overlapping = false;
+
+            while (kern[k].char1)
+            {
+                if (prev == kern[k].char1 && str[i] == kern[k].char2)
+                {
+                    x += kern[k].adjust;
+                    break;
+                }
+
+                k++;
+            }
+
+            k = 0;
+
+            while (overlap[k].char1)
+            {
+                if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
+                {
+                    overlapping = true;
+                    break;
+                }
+
+                k++;
+            }
+
             if (j == -1)
                 x += 9;
             else
