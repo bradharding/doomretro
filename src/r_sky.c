@@ -95,7 +95,11 @@ void R_InitSkyMap(void)
                     break;
 
                 case 4:
-                    skytexture = R_TextureNumForName("SKY4");
+                    skytexture = R_TextureNumForName(gamemission == heretic ? "SKY1" : "SKY4");
+                    break;
+
+                case 5:
+                    skytexture = R_TextureNumForName("SKY3");
                     break;
             }
         }
