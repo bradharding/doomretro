@@ -158,7 +158,7 @@ void P_ExplodeMissile(mobj_t *mo)
     mo->flags &= ~MF_MISSILE;
 
     // [BH] make explosion translucent
-    if (mo->type == MT_ROCKET)
+    if (mo->type == MT_ROCKET && gamemission != heretic)
     {
         mo->colfunc = tlcolfunc;
         mo->flags2 &= ~MF2_CASTSHADOW;
@@ -273,7 +273,7 @@ static void P_XYMovement(mobj_t *mo)
     mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    dboolean    corpse = ((flags & MF_CORPSE) && (type != MT_BARREL || gamemission == heretic));
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
@@ -371,7 +371,7 @@ static void P_XYMovement(mobj_t *mo)
                     // Does not handle sky floors.
 
                     // [BH] still play sound when firing BFG into sky
-                    if (type == MT_BFG)
+                    if (type == MT_BFG && gamemission != heretic)
                         S_StartSound(mo, mo->info->deathsound);
 
                     P_RemoveMobj(mo);
@@ -610,7 +610,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     // spawn a teleport fog at old spot
     //  because of removal of the body?
-    mo = P_SpawnMobj(mobj->x, mobj->y, z, MT_TFOG);
+    mo = P_SpawnMobj(mobj->x, mobj->y, z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
     mo->angle = mobj->angle;
 
     // initiate teleport sound
@@ -619,7 +619,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     // spawn a teleport fog at the new spot
     if (x != mobj->x || y != mobj->y)
     {
-        mo = P_SpawnMobj(x, y, z, MT_TFOG);
+        mo = P_SpawnMobj(x, y, z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
         mo->angle = ANG45 * (mthing->angle / 45);
         S_StartSound(mo, sfx_telept);
     }
@@ -739,7 +739,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
-        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
+        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || (mobj->type == MT_BARREL && gamemission != heretic))
             && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
             P_ApplyTorque(mobj);
         else
@@ -855,7 +855,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     sector_t    *sector;
     static int  prevx, prevy;
     static int  prevbob;
-    int         height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ?
+    int         height = (z == ONCEILINGZ && (type != MT_KEEN || gamemission == heretic) && info->projectilepassheight ?
                     info->projectilepassheight : info->height);
 
     mobj->type = type;
@@ -903,7 +903,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = NORM_PITCH;
 
-    if ((mobj->flags & MF_SHOOTABLE) && type != playermobjtype && type != MT_BARREL)
+    if ((mobj->flags & MF_SHOOTABLE) && type != playermobjtype && (type != MT_BARREL || gamemission == heretic))
         mobj->pitch += M_RandomInt(-16, 16);
 
     // set subsector and/or block links
@@ -1066,7 +1066,7 @@ void P_RespawnSpecials(void)
     z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     // spawn a teleport fog at the new spot
-    mo = P_SpawnMobj(x, y, z, MT_IFOG);
+    mo = P_SpawnMobj(x, y, z, (gamemission == heretic ? HMT_TFOG : MT_IFOG));
     S_StartSound(mo, sfx_itmbk);
 
     // spawn it
@@ -1248,17 +1248,17 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (nomonsters && i != MT_KEEN)
+        if (nomonsters && (i != MT_KEEN || gamemission == heretic))
             return NULL;
 
         totalkills++;
         monstercount[i]++;
     }
-    else if (i == MT_BARREL)
+    else if (i == MT_BARREL && gamemission != heretic)
         barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
-    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
+    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && (i != MT_MISC62 || gamemission == heretic))
         return NULL;
 
     // spawn it
