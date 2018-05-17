@@ -746,7 +746,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The frames per second at which to cap the\nframerate (<b>off</b>, or <b>1</b> to <b>1,000</b>)."),
+        "The frames per second at which to cap the\nframerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\ndisabled when this CVAR is <b>35</b>."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)
@@ -758,7 +758,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_motionblur, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when the player turns\nquickly."),
     CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLVALUEALIAS,
-        "Toggles using the pillarboxes either side of the\nscreen for palette effects."),
+        "Toggles use of the black pillarboxes either side of\nthe screen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
