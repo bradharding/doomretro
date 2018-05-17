@@ -746,7 +746,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The frames per second at which to cap the\nframerate (<b>off</b>, or <b>35</b> to <b>1,000</b>)."),
+        "The frames per second at which to cap the\nframerate (<b>off</b>, or <b>1</b> to <b>1,000</b>)."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)

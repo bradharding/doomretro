@@ -541,7 +541,7 @@ enum
 
 #define version_default                         PACKAGE_VERSIONSTRING
 
-#define vid_capfps_min                          35
+#define vid_capfps_min                          1
 #define vid_capfps_default                      200
 #define vid_capfps_max                          1000
 
