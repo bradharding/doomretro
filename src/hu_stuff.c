@@ -280,7 +280,6 @@ void HU_Init(void)
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
-    HU_InitMessages();
     HU_AltInit();
     HU_SetTranslucency();
 }
@@ -309,12 +308,6 @@ void HU_Start(void)
 
     // create the map title widget
     HUlib_initTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
-
-    if (gamemission == heretic)
-    {
-        w_title.x = (ORIGINALWIDTH - M_StringWidth(s)) / 2;
-        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 14;
-    }
 
     while (M_StringWidth(s) > (r_messagescale == r_messagescale_small ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
     {
@@ -980,7 +973,21 @@ void HU_InitMessages(void)
         }
     }
 
-    if (r_messagescale == r_messagescale_small)
+    if (gamemission == heretic)
+    {
+
+        if (r_messagescale == r_messagescale_small)
+        {
+            w_title.x = (SCREENWIDTH - M_StringWidth(automaptitle)) / 2;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 12 * SCREENSCALE;
+        }
+        else
+        {
+            w_title.x = (ORIGINALWIDTH - M_StringWidth(automaptitle)) / 2;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 14;
+        }
+    }
+    else if (r_messagescale == r_messagescale_small)
     {
         w_title.x = HU_TITLEX * SCREENSCALE;
         w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
