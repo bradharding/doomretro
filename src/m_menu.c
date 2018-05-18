@@ -2863,20 +2863,6 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        // Console
-        else if (key == keyboardconsole && !keydown)
-        {
-            keydown = key;
-
-            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
-            {
-                C_ShowConsole();
-                return true;
-            }
-
-            return false;
-        }
-
         // Help key
         else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
         {
@@ -3055,6 +3041,20 @@ dboolean M_Responder(event_t *ev)
     if (key == KEY_F11)
     {
         M_ChangeGamma(modstate & KMOD_SHIFT);
+        return false;
+    }
+
+    // Console
+    if (key == keyboardconsole && !keydown && !paused && !splashscreen)
+    {
+        keydown = key;
+
+        if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
+        {
+            C_ShowConsole();
+            return true;
+        }
+
         return false;
     }
 

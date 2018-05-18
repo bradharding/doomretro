@@ -362,10 +362,10 @@ void D_Display(void)
 
     if (!dowipe || !wipe || gamemission == heretic)
     {
-        C_Drawer();
-
         // menus go directly to the screen
         M_Drawer();             // menu is drawn even on top of everything
+
+        C_Drawer();
 
         if (drawdisk)
             HU_DrawDisk();
@@ -394,8 +394,8 @@ void D_Display(void)
         done = wipe_ScreenWipe(tics);
         blurred = false;
 
-        C_Drawer();
         M_Drawer();             // menu is drawn even on top of wipes
+        C_Drawer();
         blitfunc();             // blit buffer
         mapblitfunc();
     } while (!done);
