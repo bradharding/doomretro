@@ -491,6 +491,79 @@ extern char     cheatkey;
 extern int      episode;
 extern menu_t   EpiDef;
 
+static void ST_GodModeCheat(void)
+{
+    // [BH] if player is dead, resurrect them first
+    if (viewplayer->health <= 0)
+        P_ResurrectPlayer(initial_health);
+
+    viewplayer->cheats ^= CF_GODMODE;
+
+    if (viewplayer->cheats & CF_GODMODE)
+    {
+        // [BH] remember player's current health,
+        //  and only set to 100% if less than 100%
+        oldhealth = viewplayer->health;
+        P_GiveBody(god_health, false);
+
+        if (gamemission == heretic)
+        {
+            C_Input(hcheat_god.sequence);
+            HU_PlayerMessage(s_STSTR_GODON, false);
+        }
+        else
+        {
+            C_Input(cheat_god.sequence);
+            HU_PlayerMessage(s_STSTR_DQDON, false);
+        }
+
+        // [BH] always display message
+        if (!consoleactive)
+            message_dontfuckwithme = true;
+
+        // [BH] play sound
+        S_StartSound(NULL, sfx_getpow);
+
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        viewplayer->cheated++;
+    }
+    else
+    {
+        if (gamemission == heretic)
+        {
+            C_Input(hcheat_god.sequence);
+            HU_PlayerMessage(s_STSTR_GODOFF, false);
+        }
+        else
+        {
+            C_Input(cheat_god.sequence);
+            HU_PlayerMessage(s_STSTR_DQDOFF, false);
+        }
+
+        // [BH] always display message
+        if (!consoleactive)
+            message_dontfuckwithme = true;
+
+        // [BH] restore player's health
+        viewplayer->health = oldhealth;
+        viewplayer->mo->health = oldhealth;
+
+        if (!oldhealth)
+        {
+            // [BH] The player originally used this cheat to
+            // resurrect themselves, and now they have the audacity
+            // to disable it. Kill them!
+            viewplayer->attacker = NULL;
+            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
+        }
+        else
+        {
+            // [BH] play sound
+            S_StartSound(NULL, sfx_getpow);
+        }
+    }
+}
+
 // Respond to keyboard input events,
 //  intercept cheats.
 dboolean ST_Responder(event_t *ev)
@@ -506,67 +579,28 @@ dboolean ST_Responder(event_t *ev)
             // 'dqd' cheat for toggleable god mode
             if (cht_CheckCheat(&cheat_god, ev->data2) && gameskill != sk_nightmare)
             {
-                // [BH] if player is dead, resurrect them first
-                if (viewplayer->health <= 0)
-                    P_ResurrectPlayer(initial_health);
-
-                viewplayer->cheats ^= CF_GODMODE;
-
-                if (viewplayer->cheats & CF_GODMODE)
+                if (gamemission == heretic)
                 {
-                    // [BH] remember player's current health,
-                    //  and only set to 100% if less than 100%
-                    oldhealth = viewplayer->health;
-                    P_GiveBody(god_health, false);
+                    P_DamageMobj(viewplayer->mo, NULL, viewplayer->mo, 10000, false);
 
                     C_Input(cheat_god.sequence);
 
-                    HU_PlayerMessage(s_STSTR_DQDON, false);
+                    HU_PlayerMessage(s_STSTR_CHEATIDDQD, false);
 
-                    // [BH] always display message
                     if (!consoleactive)
                         message_dontfuckwithme = true;
-
-                    // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
                 else
-                {
-                    C_Input(cheat_god.sequence);
-
-                    HU_PlayerMessage(s_STSTR_DQDOFF, false);
-
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
-
-                    // [BH] restore player's health
-                    viewplayer->health = oldhealth;
-                    viewplayer->mo->health = oldhealth;
-
-                    if (!oldhealth)
-                    {
-                        // [BH] The player originally used this cheat to
-                        // resurrect themselves, and now they have the audacity
-                        // to disable it. Kill them!
-                        viewplayer->attacker = NULL;
-                        P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
-                    }
-                    else
-                    {
-                        // [BH] play sound
-                        S_StartSound(NULL, sfx_getpow);
-                    }
-                }
+                    ST_GodModeCheat();
             }
+
+            // 'quicken' cheat for toggleable god mode
+            else if (cht_CheckCheat(&hcheat_god, ev->data2) && gameskill != sk_nightmare && gamemission == heretic)
+                ST_GodModeCheat();
 
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                     && viewplayer->health > 0 && gamemission != heretic)
             {
                 dboolean    ammogiven = false;
                 dboolean    armorgiven = false;
@@ -625,64 +659,81 @@ dboolean ST_Responder(event_t *ev)
             // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                     && viewplayer->health > 0 && !viewplayer->chickentics)
             {
-                dboolean    ammogiven = false;
-                dboolean    armorgiven = false;
-                dboolean    berserkgiven = false;
-                dboolean    keysgiven = false;
-                dboolean    weaponsgiven = false;
-
-                // [BH] note if doesn't have full armor before giving it
-                if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
+                if (gamemission == heretic)
                 {
-                    armorgiven = true;
-                    viewplayer->armorpoints = idkfa_armor;
-                    viewplayer->armortype = idkfa_armor_class;
-                }
+                    for (int i = 1; i < 8; i++)
+                        viewplayer->weaponowned[i] = false;
 
-                // [BH] note if any weapons given that player didn't have already
-                weaponsgiven = P_GiveAllWeapons();
+                    viewplayer->pendingweapon = wp_staff;
 
-                // [BH] give player a berserk power-up so they can still use fists
-                berserkgiven = P_GivePower(pw_strength);
+                    C_Input(cheat_god.sequence);
 
-                // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(false, false);
+                    HU_PlayerMessage(s_STSTR_CHEATIDKFA, false);
 
-                ammogiven = P_GiveFullAmmo(false);
-
-                // [BH] only give the player the keycards or skull keys from the
-                //  current level, and note if any keys given
-                keysgiven = P_GiveAllCardsInMap();
-
-                // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (!vid_widescreen || (r_hud && !r_althud)))
-                {
-                    st_facecount = ST_EVILGRINCOUNT;
-                    st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
-                }
-
-                // [BH] only acknowledge cheat if player was given something
-                if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
-                {
-                    // [BH] flash screen
-                    P_AddBonus();
-
-                    C_Input(cheat_ammo.sequence);
-
-                    HU_PlayerMessage(s_STSTR_KFAADDED, false);
-
-                    // [BH] always display message
                     if (!consoleactive)
                         message_dontfuckwithme = true;
+                }
+                else
+                {
+                    dboolean    ammogiven = false;
+                    dboolean    armorgiven = false;
+                    dboolean    berserkgiven = false;
+                    dboolean    keysgiven = false;
+                    dboolean    weaponsgiven = false;
 
-                    // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
+                    // [BH] note if doesn't have full armor before giving it
+                    if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
+                    {
+                        armorgiven = true;
+                        viewplayer->armorpoints = idkfa_armor;
+                        viewplayer->armortype = idkfa_armor_class;
+                    }
 
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
+                    // [BH] note if any weapons given that player didn't have already
+                    weaponsgiven = P_GiveAllWeapons();
+
+                    // [BH] give player a berserk power-up so they can still use fists
+                    berserkgiven = P_GivePower(pw_strength);
+
+                    // [BH] give player a backpack if they don't have one
+                    P_GiveBackpack(false, false);
+
+                    ammogiven = P_GiveFullAmmo(false);
+
+                    // [BH] only give the player the keycards or skull keys from the
+                    //  current level, and note if any keys given
+                    keysgiven = P_GiveAllCardsInMap();
+
+                    // [BH] show evil grin if player was given any new weapons
+                    if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
+                        && (!vid_widescreen || (r_hud && !r_althud)))
+                    {
+                        st_facecount = ST_EVILGRINCOUNT;
+                        st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
+                    }
+
+                    // [BH] only acknowledge cheat if player was given something
+                    if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
+                    {
+                        // [BH] flash screen
+                        P_AddBonus();
+
+                        C_Input(cheat_ammo.sequence);
+
+                        HU_PlayerMessage(s_STSTR_KFAADDED, false);
+
+                        // [BH] always display message
+                        if (!consoleactive)
+                            message_dontfuckwithme = true;
+
+                        // [BH] play sound
+                        S_StartSound(NULL, sfx_getpow);
+
+                        stat_cheated = SafeAdd(stat_cheated, 1);
+                        viewplayer->cheated++;
+                    }
                 }
             }
 

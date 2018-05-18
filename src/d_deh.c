@@ -459,6 +459,22 @@ char    *s_STSTR_RHON = "";
 char    *s_STSTR_RHOFF = "";
 char    *s_STSTR_VMON = "";
 char    *s_STSTR_VMOFF = "";
+char    *s_STSTR_CHEATWEAPONS = "";
+char    *s_STSTR_CHEATFLIGHTON = "";
+char    *s_STSTR_CHEATFLIGHTOFF = "";
+char    *s_STSTR_CHEATPOWERON = "";
+char    *s_STSTR_CHEATPOWEROFF = "";
+char    *s_STSTR_CHEATHEALTH = "";
+char    *s_STSTR_CHEATKEYS = "";
+char    *s_STSTR_CHEATSOUNDON = "";
+char    *s_STSTR_CHEATSOUNDOFF = "";
+char    *s_STSTR_CHEATARTIFACTS1 = "";
+char    *s_STSTR_CHEATARTIFACTS2 = "";
+char    *s_STSTR_CHEATARTIFACTS3 = "";
+char    *s_STSTR_CHEATCHICKENON = "";
+char    *s_STSTR_CHEATCHICKENOFF = "";
+char    *s_STSTR_CHEATIDDQD = "";
+char    *s_STSTR_CHEATIDKFA = "";
 
 char    *s_E1TEXT = E1TEXT;
 char    *s_E2TEXT = E2TEXT;
@@ -1063,6 +1079,22 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_RHOFF,                "STSTR_RHOFF"                },
     { &s_STSTR_VMON,                 "STSTR_VMON"                 },
     { &s_STSTR_VMOFF,                "STSTR_VMOFF"                },
+    { &s_STSTR_CHEATWEAPONS,         "STSTR_CHEATWEAPONS"         },
+    { &s_STSTR_CHEATFLIGHTON,        "STSTR_CHEATFLIGHTON"        },
+    { &s_STSTR_CHEATFLIGHTOFF,       "STSTR_CHEATFLIGHTOFF"       },
+    { &s_STSTR_CHEATPOWERON,         "STSTR_CHEATPOWERON"         },
+    { &s_STSTR_CHEATPOWEROFF,        "STSTR_CHEATPOWEROFF"        },
+    { &s_STSTR_CHEATHEALTH,          "STSTR_CHEATHEALTH"          },
+    { &s_STSTR_CHEATKEYS,            "STSTR_CHEATKEYS"            },
+    { &s_STSTR_CHEATSOUNDON,         "STSTR_CHEATSOUNDON"         },
+    { &s_STSTR_CHEATSOUNDOFF,        "STSTR_CHEATSOUNDOFF"        },
+    { &s_STSTR_CHEATARTIFACTS1,      "STSTR_CHEATARTIFACTS1"      },
+    { &s_STSTR_CHEATARTIFACTS2,      "STSTR_CHEATARTIFACTS2"      },
+    { &s_STSTR_CHEATARTIFACTS3,      "STSTR_CHEATARTIFACTS3"      },
+    { &s_STSTR_CHEATCHICKENON,       "STSTR_CHEATCHICKENON"       },
+    { &s_STSTR_CHEATCHICKENOFF,      "STSTR_CHEATCHICKENOFF"      },
+    { &s_STSTR_CHEATIDDQD,           "STSTR_CHEATIDDQD"           },
+    { &s_STSTR_CHEATIDKFA,           "STSTR_CHEATIDKFA"           },
 
     { &s_E1TEXT,                     "E1TEXT"                     },
     { &s_E2TEXT,                     "E2TEXT"                     },
