@@ -11,7 +11,7 @@
 * The color of the console’s background has been given a slight green tint and can now also be changed using the new `con_backcolor` CVAR. It is `12` by default.
 * A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
 * The [*DOOM II* monster exclusion bug](https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug) present in *Vanilla DOOM* has been fixed.
-* The `vid_widescreen` CVAR can now be changed in the console when not during a game.
+* The `vid_widescreen` CVAR can now be changed in the console when not playing a game.
 * The `vid_capfps` CVAR can now be set to a value less than `35`.
 * Intermission and finale text is now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
