@@ -127,6 +127,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                                 NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,                        BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                                      BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (r_color,                                           NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (r_corpses_color,                                   BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,                                BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,                               BOOLVALUEALIAS    ),
@@ -625,6 +626,8 @@ static void M_CheckCVARs(void)
 
     if (r_brightmaps != false && r_brightmaps != true)
         r_brightmaps = r_brightmaps_default;
+
+    r_color = BETWEEN(r_color_min, r_color, r_color_max);
 
     if (r_corpses_color != false && r_corpses_color != true)
         r_corpses_color = r_corpses_color_default;

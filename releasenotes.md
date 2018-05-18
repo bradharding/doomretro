@@ -15,6 +15,7 @@
 * The `vid_capfps` CVAR can now be set to a value less than `35`.
 * Intermission and finale text is now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
+* The amount of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 
 ---
 

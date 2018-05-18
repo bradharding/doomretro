@@ -97,6 +97,7 @@ extern int          r_bloodsplats_max;
 extern int          r_bloodsplats_total;
 extern dboolean     r_bloodsplats_translucency;
 extern dboolean     r_brightmaps;
+extern int          r_color;
 extern dboolean     r_corpses_color;
 extern dboolean     r_corpses_mirrored;
 extern dboolean     r_corpses_moreblood;
@@ -330,7 +331,7 @@ enum
 
 #define episode_min                             1
 #define episode_default                         1
-#define episode_max                             4
+#define episode_max                             5
 
 #define expansion_min                           1
 #define expansion_default                       1
@@ -419,6 +420,10 @@ enum
 #define r_bloodsplats_translucency_default      true
 
 #define r_brightmaps_default                    true
+
+#define r_color_min                             0
+#define r_color_default                         100
+#define r_color_max                             100
 
 #define r_corpses_color_default                 true
 

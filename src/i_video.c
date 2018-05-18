@@ -76,6 +76,8 @@
 #endif
 
 // CVARs
+int                 r_color = r_color_default;
+float               r_gamma = r_gamma_default;
 int                 vid_capfps = vid_capfps_default;
 int                 vid_display = vid_display_default;
 #if !defined(_WIN32)
@@ -171,9 +173,7 @@ const float gammalevels[GAMMALEVELS] =
     1.55f, 1.60f, 1.65f, 1.70f, 1.75f, 1.80f, 1.85f, 1.90f, 1.95f, 2.0f
 };
 
-// Gamma correction level to use
 int                 gammaindex;
-float               r_gamma = r_gamma_default;
 
 static SDL_Rect     src_rect;
 static SDL_Rect     map_rect;
@@ -969,9 +969,15 @@ void I_SetPalette(byte *playpal)
 {
     for (int i = 0; i < 256; i++)
     {
-        colors[i].r = gammatable[gammaindex][*playpal++];
-        colors[i].g = gammatable[gammaindex][*playpal++];
-        colors[i].b = gammatable[gammaindex][*playpal++];
+        byte    r = gammatable[gammaindex][*playpal++];
+        byte    g = gammatable[gammaindex][*playpal++];
+        byte    b = gammatable[gammaindex][*playpal++];
+        double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+        double  color = r_color / 100.0;
+
+        colors[i].r = (byte)(p + (r - p) * color);
+        colors[i].g = (byte)(p + (g - p) * color);
+        colors[i].b = (byte)(p + (b - p) * color);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);

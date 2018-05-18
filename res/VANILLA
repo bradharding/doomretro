@@ -32,6 +32,7 @@ movebob 100%
 playername "you"
 r_blood red
 r_brightmaps off
+r_color 100
 r_corpses_color off
 r_corpses_mirrored off
 r_corpses_moreblood off
