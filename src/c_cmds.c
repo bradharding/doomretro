@@ -339,6 +339,7 @@ static void playername_cvar_func2(char *cmd, char *parms);
 static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
+static void r_color_cvar_func2(char *cmd, char *parms);
 static dboolean r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
 static void r_dither_cvar_func2(char *cmd, char *parms);
@@ -621,6 +622,8 @@ consolecmd_t consolecmds[] =
         "Toggles the translucency of blood splats."),
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
+    CVAR_INT(r_color, "", int_cvars_func1, r_color_cvar_func2, CF_PERCENT, NOVALUEALIAS,
+        "The amount of color on the screen (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -5059,6 +5062,22 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS),
                 C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS));
+    }
+}
+
+//
+// r_color CVAR
+//
+static void r_color_cvar_func2(char *cmd, char *parms)
+{
+    const int   r_color_old = r_color;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_color != r_color_old)
+    {
+        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+        M_SaveCVARs();
     }
 }
 
