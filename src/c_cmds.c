@@ -746,7 +746,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The frames per second at which to cap the\nframerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\ndisabled when this CVAR is <b>35</b>."),
+        "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\ndisabled when this CVAR is <b>35</b>."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)
@@ -4932,7 +4932,10 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
                 if (value > viewplayer->ammo[ammotype])
+                {
                     P_AddBonus();
+                    S_StartSound(NULL, SFX_ITEMUP);
+                }
 
                 viewplayer->ammo[ammotype] = MIN(value, viewplayer->maxammo[ammotype]);
                 P_CheckAmmo(readyweapon);
@@ -4954,7 +4957,10 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (value != viewplayer->armorpoints)
             {
                 if (value > viewplayer->armorpoints)
+                {
                     P_AddBonus();
+                    S_StartSound(NULL, SFX_ITEMUP);
+                }
 
                 viewplayer->armorpoints = MIN(value, max_armor);
 
@@ -4985,7 +4991,11 @@ static void player_cvars_func2(char *cmd, char *parms)
                     viewplayer->mo->health = value;
                 }
                 else
+                {
                     P_ResurrectPlayer(value);
+                    P_AddBonus();
+                    S_StartSound(NULL, SFX_ITEMUP);
+                }
             }
             else
             {
@@ -4996,7 +5006,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     viewplayer->health = value;
                     viewplayer->mo->health = value;
                     P_AddBonus();
-                    S_StartSound(NULL, sfx_getpow);
+                    S_StartSound(NULL, SFX_ITEMUP);
                 }
 
                 C_HideConsole();
