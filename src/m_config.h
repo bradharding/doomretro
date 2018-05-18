@@ -454,7 +454,7 @@ enum
 #define r_fov_max                               135
 
 #define r_gamma_min                             gammalevels[0]
-#define r_gamma_default                         0.75f
+#define r_gamma_default                         0.90f
 #define r_gamma_max                             gammalevels[GAMMALEVELS - 1]
 
 #define r_homindicator_default                  false
