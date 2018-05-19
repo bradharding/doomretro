@@ -326,7 +326,7 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fputs(commify(*(int *)cvars[i].location), file);
+                    fputs(commify(v), file);
 
                 break;
             }
@@ -349,7 +349,7 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", commify(*(int *)cvars[i].location));
+                    fprintf(file, "%s%%", commify(v));
 
                 break;
             }
@@ -368,7 +368,18 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fputs(striptrailingzero(*(float *)cvars[i].location, 2), file);
+                {
+                    static char buf[128];
+                    int         len;
+
+                    M_snprintf(buf, sizeof(buf), "%.2f", v);
+                    len = (int)strlen(buf);
+
+                    if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
+                        buf[len - 1] = '\0';
+
+                    fputs(buf, file);
+                }
 
                 break;
             }
@@ -387,7 +398,7 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
+                    fprintf(file, "%s%%", striptrailingzero(v, 1));
 
                 break;
             }
