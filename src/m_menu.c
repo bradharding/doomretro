@@ -3739,7 +3739,7 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if ((!saveStringEnter || !whichSkull) && windowfocused)
+    if ((!saveStringEnter || !whichSkull) && windowfocused && !consoleheight)
         if (--skullAnimCounter <= 0)
         {
             whichSkull ^= 1;
