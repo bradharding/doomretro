@@ -690,6 +690,29 @@ static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2,
             c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
 }
 
+static void C_DrawEdge(int height)
+{
+    // draw bottom edge
+    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
+        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
+
+    // soften edges
+    for (int i = 0; i < height; i += CONSOLEWIDTH)
+    {
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
+    }
+
+    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
+        screens[0][i] = tinttab25[screens[0][i]];
+
+    // draw shadow
+    if (gamestate != GS_TITLESCREEN)
+        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
+            for (int j = height; j < height + i; j++)
+                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
+}
+
 static void C_DrawBackground(int height)
 {
     static dboolean blurred;
@@ -737,25 +760,7 @@ static void C_DrawBackground(int height)
     // draw branding
     V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
-    // draw bottom edge
-    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
-        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
-
-    // soften edges
-    for (int i = 0; i < height; i += CONSOLEWIDTH)
-    {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
-    }
-
-    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[screens[0][i]];
-
-    // draw shadow
-    if (gamestate != GS_TITLESCREEN)
-        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
-            for (int j = height; j < height + i; j++)
-                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
+    C_DrawEdge(height);
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
@@ -1180,7 +1185,12 @@ void C_Drawer(void)
         }
     }
     else
+    {
         consoleactive = false;
+
+        if (menuactive)
+            C_DrawEdge(3 * CONSOLEWIDTH);
+    }
 }
 
 dboolean C_ExecuteInputString(const char *input)

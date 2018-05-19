@@ -17,7 +17,7 @@
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * The amount of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.9`.
-* The console may now be opened using the <kbd>~</kbd> key while the menu is open.
+* The console may now be opened using the <kbd>~</kbd> key while the menu is open. The bottom edge of the console now appears at the top of the screen while the menu is open to indicate this.
 
 ---
 
