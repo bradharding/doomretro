@@ -631,7 +631,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_INT(r_color, "", int_cvars_func1, r_color_cvar_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of the color on the screen (<b>0%</b> to\n<b>100%</b>)."),
+        "The intensity of color on the screen (<b>0%</b> to\n<b>100%</b>)."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

@@ -5,8 +5,8 @@
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
-* The player can now jump if the new `+jump` action is bound to a control using the `bind` CCMD.
-* Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
+* The player can now jump once the new `+jump` action has been bound to a control using the `bind` CCMD.
+* Improvements have been made to *BOOM-*compatible translucent wall textures when the `r_dither` CVAR is `on`.
 * Further improvements have been made to the support of `MAPINFO` lumps.
 * The console’s background has been given a slightly green tint and can now also be changed using the new `con_backcolor` CVAR. It is `12` by default.
 * A bug has been fixed whereby entering `give cellpack` in the console would give the player a box of bullets instead.
@@ -15,7 +15,7 @@
 * The `vid_capfps` CVAR can now be set to a value less than `35`.
 * Intermission and finale text is now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
-* The amount of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
+* The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.9`.
 * The console may now be opened using the <kbd>~</kbd> key while the menu is open. The bottom edge of the console now appears at the top of the screen while the menu is open to indicate this.
 
