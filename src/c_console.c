@@ -64,7 +64,7 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
+#define CONSOLELINES            (gamestate != GS_TITLESCREEN || menuactive ? 11 : 27)
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
@@ -636,7 +636,7 @@ void C_ShowConsole(void)
     showcaret = true;
     caretwait = 0;
 
-    if (gamestate == GS_TITLESCREEN && !devparm)
+    if (gamestate == GS_TITLESCREEN && !devparm && !menuactive)
         S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
 
     SDL_StartTextInput();
@@ -649,7 +649,7 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
-    if (gamestate == GS_TITLESCREEN)
+    if (gamestate == GS_TITLESCREEN && !menuactive)
     {
         consoleheight = 0;
         consoleactive = false;
@@ -707,7 +707,7 @@ static void C_DrawEdge(int height)
         screens[0][i] = tinttab25[screens[0][i]];
 
     // draw shadow
-    if (gamestate != GS_TITLESCREEN)
+    if (gamestate != GS_TITLESCREEN || menuactive)
         for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
             for (int j = height; j < height + i; j++)
                 screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
@@ -974,7 +974,7 @@ void C_Drawer(void)
         const int notabs[8] = { 0 };
 
         // adjust console height
-        if (gamestate == GS_TITLESCREEN)
+        if (gamestate == GS_TITLESCREEN && !menuactive)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < I_GetTimeMS())
         {
