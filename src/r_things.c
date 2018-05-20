@@ -42,6 +42,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "p_local.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -91,7 +92,6 @@ dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
-extern dboolean         inhelpscreens;
 extern dboolean         notranslucency;
 extern dboolean         SHT2A0;
 extern dboolean         skippsprinterp;

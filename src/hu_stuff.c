@@ -49,6 +49,7 @@
 #include "i_swap.h"
 #include "i_timer.h"
 #include "m_argv.h"
+#include "m_menu.h"
 #include "m_config.h"
 #include "p_local.h"
 #include "r_main.h"
@@ -1032,7 +1033,6 @@ void HU_Erase(void)
 extern fixed_t  m_x, m_y;
 extern fixed_t  m_h, m_w;
 extern dboolean message_dontpause;
-extern dboolean inhelpscreens;
 extern int      direction;
 
 void HU_Ticker(void)

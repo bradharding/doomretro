@@ -109,5 +109,6 @@ extern dboolean firstevent;
 extern byte     grays[256];
 extern dboolean returntowidescreen;
 extern dboolean startingnewgame;
+extern dboolean inhelpscreens;
 
 #endif

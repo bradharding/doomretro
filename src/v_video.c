@@ -49,6 +49,7 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "r_main.h"
@@ -1556,7 +1557,6 @@ char            lbmname1[MAX_PATH];
 char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
-extern dboolean inhelpscreens;
 extern char     maptitle[128];
 extern dboolean splashscreen;
 extern int      titlesequence;

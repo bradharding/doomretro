@@ -1188,7 +1188,7 @@ void C_Drawer(void)
     {
         consoleactive = false;
 
-        if (menuactive)
+        if (menuactive && !inhelpscreens)
             C_DrawEdge(3 * CONSOLEWIDTH);
     }
 }
