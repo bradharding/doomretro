@@ -418,10 +418,8 @@ void P_ChangeWeapon(weapontype_t newweapon)
         if (newweapon == wp_staff && viewplayer->weaponowned[wp_gauntlets] && viewplayer->readyweapon != wp_gauntlets)
             newweapon = (weapontype_t)wp_gauntlets;
 
-        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < wpnlev1info[newweapon].minammo)
-            newweapon = wp_nochange;
-
-        if (viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
+        if ((ammotype == am_noammo || viewplayer->ammo[ammotype] >= wpnlev1info[newweapon].minammo)
+            && viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
             viewplayer->pendingweapon = newweapon;
 
         return;
