@@ -666,7 +666,7 @@ dboolean ST_Responder(event_t *ev)
                     for (int i = 1; i < 8; i++)
                         viewplayer->weaponowned[i] = false;
 
-                    viewplayer->pendingweapon = wp_staff;
+                    viewplayer->pendingweapon = (weapontype_t)wp_staff;
 
                     C_Input(cheat_god.sequence);
 
