@@ -81,6 +81,7 @@ void P_AddAmbientSfx(int sequence);
 
 // every tic
 void P_UpdateSpecials(void);
+void P_AmbientSound(void);
 
 dboolean P_SectorActive(special_e t, sector_t *sec);
 dboolean P_SectorHasLightSpecial(sector_t *sec);
