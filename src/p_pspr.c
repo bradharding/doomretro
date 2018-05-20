@@ -917,7 +917,6 @@ void A_FireGoldWandPL2(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t angle;
     fixed_t momz;
 
-    
     player->ammo[am_goldwand] -= USE_GWND_AMMO_1;
     pufftype = HMT_GOLDWANDPUFF2;
     P_BulletSlope(mo);

@@ -16,8 +16,9 @@
 * Intermission and finale text is now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
-* The default of the `r_gamma` CVAR has been changed from `0.75` to `0.9`.
-* The console may now be opened using the <kbd>~</kbd> key while the menu is open. The bottom edge of the console now appears at the top of the screen while the menu is open to indicate this.
+* The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
+* The console may now be opened using the <kbd>~</kbd> key while the menu is open.
+* To better indicate the existance of the console, its bottom edge now appears at the top of the screen while the menu is open.
 
 ---
 

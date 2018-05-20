@@ -1748,7 +1748,6 @@ static void ST_createWidgets(void)
         STlib_initPercent(&w_health, 86, 170, tallnum, &viewplayer->health, tallpercent);
         STlib_initPercent(&w_armor, 253, 170, tallnum, &viewplayer->armorpoints, tallpercent);
         STlib_initNum(&w_ready, 134, 162, tallnum, &viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
-
     }
     else
     {
