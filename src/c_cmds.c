@@ -4463,7 +4463,7 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Output(removenewlines(consolecmds[i].description));
+                C_Output("%s", removenewlines(consolecmds[i].description));
 
                 if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output("It is currently set to its default of <b>%s</b>.",
@@ -4596,7 +4596,7 @@ static void int_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Output(removenewlines(consolecmds[i].description));
+                C_Output("%s", removenewlines(consolecmds[i].description));
 
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
@@ -4656,7 +4656,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Output(removenewlines(consolecmds[i].description));
+                C_Output("%s", removenewlines(consolecmds[i].description));
 
                 if (consolecmds[i].flags & CF_READONLY)
                     C_Output("It is currently set to <b>\"%s\"</b> and is read-only.",
@@ -4684,7 +4684,7 @@ static void time_cvars_func2(char *cmd, char *parms)
         {
             const int   tics = *(int *)consolecmds[i].variable / TICRATE;
 
-            C_Output(removenewlines(consolecmds[i].description));
+            C_Output("%s", removenewlines(consolecmds[i].description));
             C_Output("It is currently set to <b>%02i:%02i:%02i</b> and is read-only.",
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
             break;
@@ -4753,7 +4753,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(am_gridsize))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(am_gridsize))].description));
 
         if (M_StringCompare(am_gridsize, am_gridsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(am_gridsize));
@@ -4846,7 +4846,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_left))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_left))].description));
 
         if (gp_deadzone_left == gp_deadzone_left_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_left, 1));
@@ -4856,7 +4856,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_right))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_right))].description));
 
         if (gp_deadzone_right == gp_deadzone_right_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_right, 1));
@@ -4959,7 +4959,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
+            C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
             C_Output("It is currently set to <b>%i</b>.", (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
         }
     }
@@ -4987,7 +4987,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(armor))].description));
+            C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(armor))].description));
             C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
         }
     }
@@ -5029,7 +5029,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(health))].description));
+            C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(health))].description));
             C_Output("It is currently set to <b>%i%%</b>.", viewplayer->health);
         }
     }
@@ -5065,7 +5065,7 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_blood))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_blood))].description));
 
         if (r_blood == r_blood_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5122,7 +5122,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_bloodsplats_translucency))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_bloodsplats_translucency))].description));
 
         if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5156,7 +5156,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_detail))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_detail))].description));
 
         if (r_detail == r_detail_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5189,7 +5189,7 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_dither))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_dither))].description));
 
         if (r_dither == r_dither_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5221,7 +5221,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_fixmaperrors))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_fixmaperrors))].description));
 
         if (r_fixmaperrors == r_fixmaperrors_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5276,7 +5276,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_gamma))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_gamma))].description));
 
         if (r_gamma == r_gamma_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5315,7 +5315,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_hud_translucency))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_hud_translucency))].description));
 
         if (r_hud_translucency == r_hud_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5342,7 +5342,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_lowpixelsize))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_lowpixelsize))].description));
 
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(r_lowpixelsize));
@@ -5370,7 +5370,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_messagepos))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_messagepos))].description));
 
         if (M_StringCompare(r_messagepos, r_messagepos_default))
             C_Output("It is currently set to its default of <b>%s</b>.", r_messagepos);
@@ -5403,7 +5403,7 @@ static void r_messagescale_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_messagescale))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_messagescale))].description));
 
         if (r_messagescale == r_messagescale_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5442,7 +5442,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_screensize))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_screensize))].description));
 
         if (r_screensize == r_screensize_default)
             C_Output("It is currently set to its default of <b>%i</b>.", r_screensize);
@@ -5480,7 +5480,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_shadows_translucency))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_shadows_translucency))].description));
 
         if (r_shadows_translucency == r_shadows_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5561,7 +5561,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_textures))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_textures))].description));
 
         if (r_textures == r_textures_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5602,7 +5602,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_translucency))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_translucency))].description));
 
         if (r_translucency == r_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5658,7 +5658,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(s_musicvolume))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(s_musicvolume))].description));
 
         if (s_musicvolume == s_musicvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_musicvolume);
@@ -5668,7 +5668,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(s_sfxvolume))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(s_sfxvolume))].description));
 
         if (s_sfxvolume == s_sfxvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_sfxvolume);
@@ -5751,18 +5751,13 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *description = removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description);
-
-        strreplace(description, "%", "%%");
-        C_Output(description);
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description));
 
         if (turbo == turbo_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
         else
             C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                 turbo, turbo_default);
-
-        free(description);
     }
 }
 
@@ -5788,7 +5783,7 @@ static void units_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(units))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(units))].description));
 
         if (units == units_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5885,7 +5880,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_scaleapi))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(vid_scaleapi))].description));
 
         if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scaleapi);
@@ -5918,7 +5913,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_scalefilter))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(vid_scalefilter))].description));
 
         if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scalefilter);
@@ -5947,7 +5942,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_screenresolution))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(vid_screenresolution))].description));
 
         if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_screenresolution));
@@ -6062,7 +6057,7 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowpos))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(vid_windowpos))].description));
 
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
             C_Output("It is currently set to its default of <b>%s</b>.", vid_windowpos);
@@ -6091,7 +6086,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowsize))].description));
+        C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(vid_windowsize))].description));
 
         if (M_StringCompare(vid_windowsize, vid_windowsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_windowsize));
