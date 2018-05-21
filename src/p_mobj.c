@@ -1221,7 +1221,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)))
-        C_Warning("Thing %s at (%i,%i) has no skill flags set.", commify(index), mthing->x, mthing->y);
+        C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.",
+            commify(index), mthing->x, mthing->y);
 
     if (!(mthing->options & bit))
         return NULL;
@@ -1241,7 +1242,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (i == NUMMOBJTYPES)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
-        C_Warning("Thing %s at (%i,%i) has an unknown type of %s.", commify(index), mthing->x, mthing->y, commify(type));
+        C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
+            commify(index), mthing->x, mthing->y, commify(type));
         return NULL;
     }
 

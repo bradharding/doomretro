@@ -148,11 +148,11 @@ static byte *crosshaircolor;
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((int)((float)FRACUNIT * (1.00f + F_PANINC / 200.0f)))
+#define M_ZOOMIN        ((fixed_t)((double)FRACUNIT * (1.0 + F_PANINC / 200.0)))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
+#define M_ZOOMOUT       ((fixed_t)((double)FRACUNIT / (1.0 + F_PANINC / 200.0)))
 
 #define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
