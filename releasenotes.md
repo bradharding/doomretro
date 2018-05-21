@@ -1,6 +1,6 @@
 ### DOOM Retro v2.7
 
-* DOOM Retro now supports the shareware, registered and retail versions of *Heretic* by [Raven Software](http://www.ravensoftware.com).
+* *DOOM Retro* now supports the shareware, registered and retail versions of *Heretic* by [Raven Software](http://www.ravensoftware.com).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.

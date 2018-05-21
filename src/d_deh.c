@@ -2647,7 +2647,6 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX];
     long    value;  // All deh values are ints or longs
     int     indexnum;
-    int     i;      // looper
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
     // NOTE: different format from normal
@@ -2699,7 +2698,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
                     indexnum);
 
             // Write BEX-oriented line to match:
-            for (i = 0; i < arrlen(deh_bexptrs); i++)
+            for (int i = 0; i < arrlen(deh_bexptrs); i++)
                 if (!memcmp(&deh_bexptrs[i].cptr, &deh_codeptr[value], sizeof(actionf_t)))
                 {
                     if (devparm)

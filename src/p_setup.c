@@ -1307,7 +1307,7 @@ static void P_LoadLineDefs2(void)
             C_Warning("Linedef %s has the two-sided flag set but has no second sidedef.", commify(i));
         }
 
-        ld->frontsector = sides[ld->sidenum[0]].sector;
+        ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : 0);
         ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : 0);
 
         // killough 4/11/98: handle special types
