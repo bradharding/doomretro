@@ -2866,7 +2866,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     {
         int         ep = -1;
         int         map = -1;
-        char        lump[8];
+        char        lump[6];
         char        wad[MAX_PATH];
         dboolean    replaced;
         dboolean    pwad;
@@ -2883,7 +2883,14 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 sscanf(lump, "MAP%2i", &map);
         }
         else
-            sscanf(lump, "E%1iM%1i", &ep, &map);
+        {
+            sscanf(lump, "E%1iM%1iB", &ep, &map);
+
+            if (gamemode != shareware && strlen(lump) == 5 && ep != -1)
+                M_StringCopy(speciallumpname, lump, 6);
+            else
+                sscanf(lump, "E%1iM%1i", &ep, &map);
+        }
 
         if (ep-- == -1 || map-- == -1)
             continue;
@@ -2892,6 +2899,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), sizeof(mapinfoname));
+        speciallumpname[0] = '\0';
 
         switch (gamemission)
         {
