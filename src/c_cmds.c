@@ -2737,7 +2737,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         else if (M_StringCompare(map, "E1M8B") && gamemission == doom && (gamemode == registered || gamemode == retail))
         {
             mapcmdepisode = 1;
-            mapcmdmap = 4;
+            mapcmdmap = 8;
             M_StringCopy(speciallumpname, "E1M8B", 6);
             M_StringCopy(mapcmdlump, "E1M8B", 6);
             result = true;

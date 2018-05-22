@@ -41,7 +41,7 @@
 
 extern dboolean skipblstart;    // MaxW: Skip initial blocklist short
 
-void P_SetupLevel(int ep, int map, char speciallumpname[9]);
+void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);
 
 // Called by startup code.

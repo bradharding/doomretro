@@ -607,7 +607,7 @@ void G_DoLoadLevel(void)
     else
         C_Print(titlestring, mapnumandtitle);
 
-    P_SetupLevel(ep, gamemap, speciallumpname);
+    P_SetupLevel(ep, gamemap);
     HU_InitMessages();
 
     R_InitSkyMap();

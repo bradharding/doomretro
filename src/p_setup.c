@@ -2190,7 +2190,7 @@ extern dboolean massacre;
 //
 // P_SetupLevel
 //
-void P_SetupLevel(int ep, int map, char speciallumpname[6])
+void P_SetupLevel(int ep, int map)
 {
     char    lumpname[6];
     int     lumpnum;
