@@ -2547,7 +2547,7 @@ static void load_cmd_func2(char *cmd, char *parms)
 // map CCMD
 //
 extern dboolean samelevel;
-extern int  idclevtics;
+extern int      idclevtics;
 
 static dboolean map_cmd_func1(char *cmd, char *parms)
 {
@@ -2725,6 +2725,22 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
             }
+        }
+        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && (gamemode == registered || gamemode == retail))
+        {
+            mapcmdepisode = 1;
+            mapcmdmap = 4;
+            M_StringCopy(speciallumpname, "E1M4B", 9);
+            M_StringCopy(mapcmdlump, "E1M4B", 7);
+            result = true;
+        }
+        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && (gamemode == registered || gamemode == retail))
+        {
+            mapcmdepisode = 1;
+            mapcmdmap = 4;
+            M_StringCopy(speciallumpname, "E1M8B", 9);
+            M_StringCopy(mapcmdlump, "E1M8B", 7);
+            result = true;
         }
         else
         {

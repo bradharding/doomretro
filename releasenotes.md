@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7
 
 * *DOOM Retro* now supports the shareware, registered and retail versions of *Heretic* by [Raven Software](http://www.ravensoftware.com).
+* John Romero’s *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.

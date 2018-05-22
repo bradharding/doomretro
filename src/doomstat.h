@@ -87,6 +87,7 @@ extern skill_t          gameskill;
 extern int              pendinggameskill;
 extern int              gameepisode;
 extern int              gamemap;
+extern char             speciallumpname[9];
 
 extern dboolean         freeze;
 

@@ -2172,7 +2172,7 @@ extern dboolean massacre;
 //
 // P_SetupLevel
 //
-void P_SetupLevel(int ep, int map)
+void P_SetupLevel(int ep, int map, char speciallumpname[9])
 {
     char    lumpname[6];
     int     lumpnum;
@@ -2212,12 +2212,20 @@ void P_SetupLevel(int ep, int map)
     P_InitThinkers();
 
     // find map name
-    if (gamemode == commercial)
-        M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
+    if (speciallumpname[0] != '\0')
+    {
+        lumpnum = W_GetNumForName(speciallumpname);
+        speciallumpname[0] = '\0';
+    }
     else
-        M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", ep, map);
+    {
+        if (gamemode == commercial)
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
+        else
+            M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", ep, map);
 
-    lumpnum = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) : W_GetNumForName(lumpname));
+        lumpnum = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) : W_GetNumForName(lumpname));
+    }
 
     mapformat = P_CheckMapFormat(lumpnum);
 

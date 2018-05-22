@@ -81,6 +81,7 @@ skill_t         gameskill;
 int             pendinggameskill;
 int             gameepisode;
 int             gamemap;
+char            speciallumpname[9] = "";
 
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
@@ -606,7 +607,7 @@ void G_DoLoadLevel(void)
     else
         C_Print(titlestring, mapnumandtitle);
 
-    P_SetupLevel(ep, gamemap);
+    P_SetupLevel(ep, gamemap, speciallumpname);
     HU_InitMessages();
 
     R_InitSkyMap();
