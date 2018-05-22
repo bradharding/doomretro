@@ -2002,13 +2002,31 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
-        case heretic:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map,
-                ((E1M4B && ep == 1 && map == 4) || (E1M8B && ep == 1 && map == 8) ? "B" : ""));
+                (((E1M4B || speciallumpname[0] != '\0') && ep == 1 && map == 4)
+                    || ((E1M8B || speciallumpname[0] != '\0') && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
+            {
+                mapnumonly = true;
+                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
+                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
+                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
+            }
+            else
+                M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
+
+            break;
+
+        case heretic:
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", ep, map);
+
+            if (*mapinfoname)
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2172,7 +2190,7 @@ extern dboolean massacre;
 //
 // P_SetupLevel
 //
-void P_SetupLevel(int ep, int map, char speciallumpname[9])
+void P_SetupLevel(int ep, int map, char speciallumpname[6])
 {
     char    lumpname[6];
     int     lumpnum;
@@ -2604,8 +2622,8 @@ int P_GetMapMusic(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B :
-        (E1M8B && map == 8 ? s_CAPTION_E1M8B : "")));
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : ((E1M4B || speciallumpname[0] != '\0') && map == 4 ? s_CAPTION_E1M4B :
+        ((E1M8B || speciallumpname[0] != '\0') && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)

@@ -2730,16 +2730,16 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
-            M_StringCopy(speciallumpname, "E1M4B", 9);
-            M_StringCopy(mapcmdlump, "E1M4B", 7);
+            M_StringCopy(speciallumpname, "E1M4B", 6);
+            M_StringCopy(mapcmdlump, "E1M4B", 6);
             result = true;
         }
         else if (M_StringCompare(map, "E1M8B") && gamemission == doom && (gamemode == registered || gamemode == retail))
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
-            M_StringCopy(speciallumpname, "E1M8B", 9);
-            M_StringCopy(mapcmdlump, "E1M8B", 7);
+            M_StringCopy(speciallumpname, "E1M8B", 6);
+            M_StringCopy(mapcmdlump, "E1M8B", 6);
             result = true;
         }
         else

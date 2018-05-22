@@ -81,7 +81,7 @@ skill_t         gameskill;
 int             pendinggameskill;
 int             gameepisode;
 int             gamemap;
-char            speciallumpname[9] = "";
+char            speciallumpname[6] = "";
 
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
