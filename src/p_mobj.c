@@ -83,6 +83,7 @@ extern fixed_t      animatedliquiddiffs[64];
 extern int          deadlookdir;
 extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
+extern dboolean     canmodify;
 extern dboolean     usemouselook;
 
 void A_Recoil(weapontype_t weapon);
@@ -1231,7 +1232,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         return NULL;
     }
 
-    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)))
+    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors))
         C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.",
             mobjinfo[i].name1, mthing->x, mthing->y);
 
