@@ -129,7 +129,7 @@ dboolean            r_translucency = r_translucency_default;
 
 extern dboolean     canmodify;
 extern dboolean     canmouselook;
-extern int          barreltics;
+extern int          barrelms;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern lighttable_t **walllights;
@@ -745,11 +745,10 @@ static void R_SetupFrame(void)
         }
     }
 
-    if (barreltics && !consoleactive && !menuactive && !paused)
+    if (barrelms > I_GetTimeMS() && !consoleactive && !menuactive && !paused)
     {
         viewx += M_RandomInt(-2, 2) * FRACUNIT;
         viewy += M_RandomInt(-2, 2) * FRACUNIT;
-        barreltics--;
     }
 
     extralight = viewplayer->extralight << 2;

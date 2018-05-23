@@ -169,7 +169,7 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_mapscompleted = 0;
 
-extern dboolean barreltics;
+extern dboolean barrelms;
 extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
@@ -1113,7 +1113,7 @@ void G_PlayerReborn(void)
 
     markpointnum = 0;
     infight = false;
-    barreltics = 0;
+    barrelms = 0;
 }
 
 //

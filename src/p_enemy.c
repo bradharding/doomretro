@@ -43,6 +43,7 @@
 #include "g_game.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -52,10 +53,10 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define BARRELTICS  (2 * TICRATE)
+#define BARRELMS    1250
 #define BARRELRANGE (512 * FRACUNIT)
 
-int barreltics = 0;
+int barrelms = 0;
 
 typedef enum
 {
@@ -1785,7 +1786,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
-            barreltics = BARRELTICS;
+            barrelms = I_GetTimeMS() + BARRELMS;
 
             if (gp_vibrate_barrels && vibrate)
             {

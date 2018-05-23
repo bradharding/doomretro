@@ -20,6 +20,7 @@
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
 * The console may now be opened using the <kbd>~</kbd> key while the menu is open.
 * To better indicate the existance of the console, its bottom edge now appears at the top of the screen while the menu is open.
+* A bug has been fixed whereby the screen wouldn’t shake for long enough when near an exploding barrel and the `r_shake_barrels` CVAR was `on`.
 
 ---
 
