@@ -1220,9 +1220,20 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         return NULL;
     }
 
+    // killough 8/23/98: use table for faster lookup
+    i = P_FindDoomedNum(type);
+
+    if (i == NUMMOBJTYPES)
+    {
+        // [BH] make unknown thing type non-fatal and show console warning instead
+        C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
+            commify(index), mthing->x, mthing->y, commify(type));
+        return NULL;
+    }
+
     if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)))
-        C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.",
-            commify(index), mthing->x, mthing->y);
+        C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.",
+            mobjinfo[i].name1, mthing->x, mthing->y);
 
     if (!(mthing->options & bit))
         return NULL;
@@ -1235,17 +1246,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     // find which type to spawn
-
-    // killough 8/23/98: use table for faster lookup
-    i = P_FindDoomedNum(type);
-
-    if (i == NUMMOBJTYPES)
-    {
-        // [BH] make unknown thing type non-fatal and show console warning instead
-        C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
-            commify(index), mthing->x, mthing->y, commify(type));
-        return NULL;
-    }
 
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
