@@ -2803,6 +2803,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
 static void map_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[1024];
+    static char prevspeciallumpname[9];
 
     if (!*parms)
     {
@@ -2810,8 +2811,9 @@ static void map_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
+    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && M_StringCompare(speciallumpname, prevspeciallumpname));
     gameepisode = mapcmdepisode;
+    M_StringCopy(prevspeciallumpname, speciallumpname, 9);
 
     if (gamemission == doom && gameepisode <= 4)
     {
