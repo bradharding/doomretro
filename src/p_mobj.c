@@ -1227,8 +1227,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (i == NUMMOBJTYPES)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
-        C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
-            commify(index), mthing->x, mthing->y, commify(type));
+        if (type != 32000)
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
+                commify(index), mthing->x, mthing->y, commify(type));
+
         return NULL;
     }
 
