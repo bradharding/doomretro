@@ -64,7 +64,7 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define CONSOLELINES            (gamestate != GS_TITLESCREEN || menuactive ? 11 : 27)
+#define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
@@ -636,7 +636,7 @@ void C_ShowConsole(void)
     showcaret = true;
     caretwait = 0;
 
-    if (gamestate == GS_TITLESCREEN && !devparm && !menuactive)
+    if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
 
     SDL_StartTextInput();
@@ -649,7 +649,7 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
-    if (gamestate == GS_TITLESCREEN && !menuactive)
+    if (gamestate == GS_TITLESCREEN)
     {
         consoleheight = 0;
         consoleactive = false;
@@ -688,29 +688,6 @@ static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2,
     for (int y = y1; y < y2; y += CONSOLEWIDTH)
         for (int x = y + x1; x < y + x2; x++)
             c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
-}
-
-static void C_DrawEdge(int height)
-{
-    // draw bottom edge
-    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
-        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
-
-    // soften edges
-    for (int i = 0; i < height; i += CONSOLEWIDTH)
-    {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
-    }
-
-    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[screens[0][i]];
-
-    // draw shadow
-    if (gamestate != GS_TITLESCREEN || menuactive)
-        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
-            for (int j = height; j < height + i; j++)
-                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
 }
 
 static void C_DrawBackground(int height)
@@ -760,7 +737,25 @@ static void C_DrawBackground(int height)
     // draw branding
     V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
-    C_DrawEdge(height);
+    // draw bottom edge
+    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
+        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
+
+    // soften edges
+    for (int i = 0; i < height; i += CONSOLEWIDTH)
+    {
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
+    }
+
+    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
+        screens[0][i] = tinttab25[screens[0][i]];
+
+    // draw shadow
+    if (gamestate != GS_TITLESCREEN)
+        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
+            for (int j = height; j < height + i; j++)
+                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
@@ -977,7 +972,7 @@ void C_Drawer(void)
         const int notabs[8] = { 0 };
 
         // adjust console height
-        if (gamestate == GS_TITLESCREEN && !menuactive)
+        if (gamestate == GS_TITLESCREEN)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < I_GetTimeMS())
         {
@@ -1188,12 +1183,7 @@ void C_Drawer(void)
         }
     }
     else
-    {
         consoleactive = false;
-
-        if (menuactive && !inhelpscreens)
-            C_DrawEdge(3 * CONSOLEWIDTH);
-    }
 }
 
 dboolean C_ExecuteInputString(const char *input)

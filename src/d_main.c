@@ -362,14 +362,10 @@ void D_Display(void)
 
     if (!dowipe || !wipe || gamemission == heretic)
     {
-        if (messageToPrint)
-            C_Drawer();
+        C_Drawer();
 
         // menus go directly to the screen
         M_Drawer();
-
-        if (!messageToPrint)
-            C_Drawer();
 
         if (drawdisk)
             HU_DrawDisk();
