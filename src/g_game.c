@@ -544,7 +544,6 @@ void G_DoLoadLevel(void)
 {
     int     ep;
     int     map = (gameepisode - 1) * 10 + gamemap;
-    char    *author = P_GetMapAuthor(map);
 
     HU_DrawDisk();
 
@@ -602,10 +601,7 @@ void G_DoLoadLevel(void)
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
 
-    if (*author)
-        C_Print(titlestring, "%s by %s", mapnumandtitle, author);
-    else
-        C_Print(titlestring, mapnumandtitle);
+    C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
     HU_InitMessages();
