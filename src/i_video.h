@@ -79,6 +79,7 @@ void I_CreateExternalAutomap(dboolean output);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
+void I_SetPillarboxes(void);
 void I_SetMotionBlur(int percent);
 
 // Wait for vertical retrace or pause a bit.

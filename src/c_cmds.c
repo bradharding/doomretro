@@ -371,6 +371,7 @@ static dboolean vid_capfps_cvar_func1(char *cmd, char *parms);
 static void vid_capfps_cvar_func2(char *cmd, char *parms);
 static void vid_display_cvar_func2(char *cmd, char *parms);
 static void vid_fullscreen_cvar_func2(char *cmd, char *parms);
+static void vid_pillarboxes_cvar_func2(char *cmd, char *parms);
 static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms);
 static void vid_scaleapi_cvar_func2(char *cmd, char *parms);
 static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parms);
@@ -772,7 +773,7 @@ consolecmd_t consolecmds[] =
         "Toggles between fullscreen and a window."),
     CVAR_INT(vid_motionblur, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when the player turns\nquickly (<b>0%</b> to <b>100%</b>)."),
-    CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_pillarboxes_cvar_func2, BOOLVALUEALIAS,
         "Toggles use of the black pillarboxes either side of\nthe screen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
@@ -5878,6 +5879,19 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 
     if (vid_fullscreen != vid_fullscreen_old)
         I_ToggleFullscreen();
+}
+
+//
+// vid_pillarboxes CVAR
+//
+static void vid_pillarboxes_cvar_func2(char *cmd, char *parms)
+{
+    const dboolean  vid_pillarboxes_old = vid_pillarboxes;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (vid_pillarboxes != vid_pillarboxes_old)
+        I_SetPillarboxes();
 }
 
 //

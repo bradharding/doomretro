@@ -21,6 +21,7 @@
 * The console may now be opened using the <kbd>~</kbd> key while the menu is open.
 * To better indicate the existance of the console, its bottom edge now appears at the top of the screen while the menu is open.
 * A bug has been fixed whereby the screen wouldn’t shake for long enough when near an exploding barrel and the `r_shake_barrels` CVAR was `on`.
+* The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 
 ---
 

@@ -1761,6 +1761,14 @@ void I_ToggleFullscreen(void)
     }
 }
 
+void I_SetPillarboxes(void)
+{
+    I_SetPalette(playpal + st_palette * 768);
+
+    if (!vid_pillarboxes)
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+}
+
 static void I_InitGammaTables(void)
 {
     for (int i = 0; i < GAMMALEVELS; i++)
