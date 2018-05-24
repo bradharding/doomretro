@@ -18,7 +18,7 @@
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
-* A bug has been fixed whereby the screen wouldn’t shake for long enough when near an exploding barrel and the `r_shake_barrels` CVAR was `on`.
+* A bug has been fixed whereby the screen wouldn’t shake for long enough when the player was near an exploding barrel and the `r_shake_barrels` CVAR was `on`.
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 
 ---

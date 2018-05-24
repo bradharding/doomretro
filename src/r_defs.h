@@ -715,7 +715,8 @@ enum
     Zombieman                                          =  3004,
     Cacodemon                                          =  3005,
     LostSoul                                           =  3006,
-    MusicSource                                        = 14164
+    MusicSource                                        = 14164,
+    VisualModeCamera                                   = 32000
 };
 
 //

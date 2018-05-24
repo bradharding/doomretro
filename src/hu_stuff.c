@@ -838,12 +838,10 @@ static void HU_DrawAltHUD(void)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
-        ammotype_t          ammotype;
+        ammotype_t          ammotype = weaponinfo[weapon].ammotype;
 
         if (gamemission == heretic)
             ammotype = (viewplayer->powers[pw_weaponlevel2] ? wpnlev2info[weapon].ammotype : wpnlev1info[weapon].ammotype);
-        else
-            ammotype = weaponinfo[weapon].ammotype;
 
         if (ammotype != am_noammo)
         {
@@ -856,10 +854,10 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color);
             althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
             althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
-        }
 
-        if (altweapon[weapon])
-            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
+            if (altweapon[weapon])
+                althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
+        }
     }
 
     for (int i = 1; i <= NUMCARDS; i++)
