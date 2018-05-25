@@ -603,7 +603,7 @@ static void I_GetEvent(void)
 
                                 windowwidth = Event->window.data1;
                                 windowheight = Event->window.data2;
-                                M_snprintf(size, sizeof(size), "%ix%i", windowwidth, windowheight);
+                                M_snprintf(size, sizeof(size), "%sx%s", commify(windowwidth), commify(windowheight));
                                 vid_windowsize = strdup(size);
                                 M_SaveCVARs();
 
@@ -1146,30 +1146,36 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    int width = -1;
-    int height = -1;
+    char width[7] = "";
+    char height[7] = "";
 
-    if (sscanf(vid_windowsize, "%10ix%10i", &width, &height) != 2)
+    if (sscanf(vid_windowsize, "%[^x]x%[^x]", &width, &height) != 2)
     {
         windowheight = SCREENHEIGHT + windowborderheight;
         windowwidth = SCREENHEIGHT * 16 / 10 + windowborderwidth;
         vid_windowsize = vid_windowsize_default;
         M_SaveCVARs();
     }
-    else if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
-    {
-        char    size[16];
-
-        windowwidth = ORIGINALWIDTH + windowborderwidth;
-        windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
-        M_snprintf(size, sizeof(size), "%ix%i", windowwidth, windowheight);
-        vid_windowsize = strdup(size);
-        M_SaveCVARs();
-    }
     else
     {
-        windowwidth = width;
-        windowheight = height;
+        int w = atoi(uncommify(width));
+        int h = atoi(uncommify(height));
+
+        if (w < ORIGINALWIDTH + windowborderwidth || h < ORIGINALWIDTH * 3 / 4 + windowborderheight)
+        {
+            char    size[16];
+
+            windowwidth = ORIGINALWIDTH + windowborderwidth;
+            windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
+            M_snprintf(size, sizeof(size), "%sx%s", commify(windowwidth), commify(windowheight));
+            vid_windowsize = strdup(size);
+            M_SaveCVARs();
+        }
+        else
+        {
+            windowwidth = w;
+            windowheight = h;
+        }
     }
 }
 
