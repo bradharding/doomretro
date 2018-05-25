@@ -748,8 +748,8 @@ static void R_SetupFrame(void)
 
     if (barrelms > (time = I_GetTimeMS()) && !consoleactive && !menuactive && !paused)
     {
-        viewx += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
-        viewy += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
+        viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+        viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
     }
 
     extralight = viewplayer->extralight << 2;
