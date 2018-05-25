@@ -1742,10 +1742,24 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases),
                     description1);
             else if (consolecmds[i].flags & CF_FLOAT)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%s</b>\t%s", ++count, consolecmds[i].name,
-                    striptrailingzero(*(float *)consolecmds[i].variable,
-                    ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
-                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
+            {
+                if (consolecmds[i].flags & CF_PERCENT)
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%%</b>\t%s", ++count, consolecmds[i].name,
+                        striptrailingzero(*(float *)consolecmds[i].variable, 1), description1);
+                else
+                {
+                    static char buf[128];
+                    int         len;
+
+                    M_snprintf(buf, sizeof(buf), "%.2f", *(float *)consolecmds[i].variable);
+                    len = (int)strlen(buf);
+
+                    if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
+                        buf[len - 1] = '\0';
+
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name, buf, description1);
+                }
+            }
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%.14s%s%s</b>\t%s", ++count, consolecmds[i].name,
                     (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
@@ -5306,15 +5320,22 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        static char buf[128];
+        int         len;
+
+        M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
+        len = (int)strlen(buf);
+
+        if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
+            buf[len - 1] = '\0';
+
         C_Output("%s", removenewlines(consolecmds[C_GetIndex(stringize(r_gamma))].description));
 
         if (r_gamma == r_gamma_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2)));
+            C_Output("It is currently set to its default of <b>%s</b>.", (r_gamma == 1.0f ? "off" : buf));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2)),
-                (r_gamma_default == 1.0f ? "off" : striptrailingzero(r_gamma_default, 2)));
+                (r_gamma == 1.0f ? "off" : buf), (r_gamma_default == 1.0f ? "off" : buf));
     }
 }
 
