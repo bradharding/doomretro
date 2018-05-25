@@ -1,7 +1,7 @@
 ### DOOM Retro v2.7
 
 * *DOOM Retro* now supports the shareware, registered and retail versions of *Heretic* by [Raven Software](http://www.ravensoftware.com).
-* John Romero’s *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
+* John Romero’s [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -18,7 +18,7 @@
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
-* A bug has been fixed whereby the screen wouldn’t shake for long enough when the player was near an exploding barrel and the `r_shake_barrels` CVAR was `on`.
+* Improvements have been made to the effect when the player is near an exploding barrel and the `r_shake_barrels` CVAR is `on`.
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 
 ---
