@@ -1747,8 +1747,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t\"%.14s%s\"</b>\t%s", ++count, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%.14s%s%s</b>\t%s", ++count, consolecmds[i].name,
+                    (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
+                    (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""),
                     (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
             else if (consolecmds[i].flags & CF_POSITION)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
@@ -4687,8 +4688,9 @@ static void str_cvars_func2(char *cmd, char *parms)
                 C_Output("%s", removenewlines(consolecmds[i].description));
 
                 if (consolecmds[i].flags & CF_READONLY)
-                    C_Output("It is currently set to <b>\"%s\"</b> and is read-only.",
-                        *(char **)consolecmds[i].variable);
+                    C_Output("It is currently set to <b>%s%s%s</b> and is read-only.",
+                        (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
+                        (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""));
                 else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                     C_Output("It is currently set to its default of <b>\"%s\"</b>.",
                         *(char **)consolecmds[i].variable);

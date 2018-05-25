@@ -407,7 +407,8 @@ void M_SaveCVARs(void)
                 if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE))
                     fputs(*(char **)cvars[i].location, file);
                 else
-                    fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+                    fprintf(file, "%s%s%s", (M_StringCompare(cvars[i].name, "version") ? "" : "\""),
+                        *(char **)cvars[i].location, (M_StringCompare(cvars[i].name, "version") ? "" : "\""));
 
                 break;
 
