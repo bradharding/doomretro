@@ -53,7 +53,6 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define BARRELMS    1250
 #define BARRELRANGE (512 * FRACUNIT)
 
 int barrelms = 0;
