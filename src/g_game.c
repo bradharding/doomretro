@@ -542,8 +542,8 @@ static void G_ResetPlayer(void)
 //
 void G_DoLoadLevel(void)
 {
-    int     ep;
-    int     map = (gameepisode - 1) * 10 + gamemap;
+    int ep;
+    int map = (gameepisode - 1) * 10 + gamemap;
 
     HU_DrawDisk();
 

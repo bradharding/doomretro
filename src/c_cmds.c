@@ -568,7 +568,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
-        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nall <b>barrels</b> or all <b>missiles</b>."),
+        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nor explodes all <b>barrels</b> or <b>missiles</b>."),
     CMD_CHEAT(kitty, false),
     CMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),

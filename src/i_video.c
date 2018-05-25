@@ -1146,10 +1146,10 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    char width[7] = "";
-    char height[7] = "";
+    char    *width = malloc(7);
+    char    *height = malloc(7);
 
-    if (sscanf(vid_windowsize, "%[^x]x%[^x]", &width, &height) != 2)
+    if (sscanf(vid_windowsize, "%[^x]x%[^x]", width, height) != 2)
     {
         windowheight = SCREENHEIGHT + windowborderheight;
         windowwidth = SCREENHEIGHT * 16 / 10 + windowborderwidth;
@@ -1177,6 +1177,9 @@ void GetWindowSize(void)
             windowheight = h;
         }
     }
+
+    free(width);
+    free(height);
 }
 
 static dboolean ValidScreenMode(int width, int height)
