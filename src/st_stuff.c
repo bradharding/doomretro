@@ -417,6 +417,17 @@ static const int mus[IDMUS_MAX][6] =
 // STATUS BAR CODE
 //
 
+static void DrSmallNumber(int val, int x, int y)
+{
+    if (val == 1)
+        return;
+
+    if (val > 9)
+        V_DrawPatch(x, y, 0, shortnum[val / 10]);
+
+    V_DrawPatch(x + 4, y, 0, shortnum[val % 10]);
+}
+
 static void ShadeLine(int x, int y, int height, int shade)
 {
     byte    *dest = screens[0] + y * SCREENWIDTH + x;
@@ -1461,6 +1472,25 @@ static char ammopic[][8] =
     { "INAMLOB" }
 };
 
+static char patcharti[][10] = {
+    { "ARTIBOX"  }, // none
+    { "ARTIINVU" }, // invulnerability
+    { "ARTIINVS" }, // invisibility
+    { "ARTIPTN2" }, // health
+    { "ARTISPHL" }, // superhealth
+    { "ARTIPWBK" }, // tomeofpower
+    { "ARTITRCH" }, // torch
+    { "ARTIFBMB" }, // firebomb
+    { "ARTIEGGC" }, // egg
+    { "ARTISOAR" }, // fly
+    { "ARTIATLP" }  // teleport
+};
+
+dboolean    inventory;
+int         artifactflash;
+int         curpos;
+int         inv_ptr;
+
 static void ST_drawWidgets(dboolean refresh)
 {
     STlib_updatePercent(&w_health, refresh);
@@ -1470,6 +1500,17 @@ static void ST_drawWidgets(dboolean refresh)
 
     if (gamemission == heretic)
     {
+        if (artifactflash)
+        {
+            V_DrawPatch(182, 161, 0, W_CacheLumpNum(W_GetNumForName("USEARTIA") + artifactflash - 1));
+            artifactflash--;
+        }
+        else if (viewplayer->readyartifact > 0)
+        {
+            V_DrawPatch(179, 160, 0, W_CacheLumpName(patcharti[viewplayer->readyartifact]));
+            DrSmallNumber(viewplayer->inventory[inv_ptr].count, 201, 182);
+        }
+
         if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo && viewplayer->health > 0)
             V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
 

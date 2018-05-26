@@ -66,6 +66,7 @@ dboolean    r_shadows = r_shadows_default;
 
 mobjtype_t  pufftype = MT_PUFF;
 mobj_t      *missilemobj;
+mapthing_t  playerstart;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -1190,6 +1191,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     // check for players specially
     if (type == Player1Start)
     {
+        playerstart = *mthing;
         P_SpawnPlayer(mthing);
         return NULL;
     }

@@ -42,6 +42,7 @@
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "m_random.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -61,6 +62,9 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
+extern int      artifactflash;
+extern int      curpos;
+extern int      inv_ptr;
 
 void G_RemoveChoppers(void);
 
@@ -364,6 +368,7 @@ static void P_DeathThink(void)
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
+        inv_ptr = 0;
     }
     else
         deathcount++;
@@ -757,4 +762,190 @@ void P_PlayerThink(void)
     else
         viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING
             || (viewplayer->powers[pw_infrared] & 8));
+}
+
+void P_ArtiTele(void)
+{
+    P_TeleportMove(viewplayer->mo, playerstart.x << FRACBITS, playerstart.y << FRACBITS, ANG45 * (playerstart.angle / 45), false);
+    S_StartSound(NULL, hsfx_wpnup);
+}
+
+void P_PlayerNextArtifact(void)
+{
+    inv_ptr--;
+
+    if (inv_ptr < 6)
+    {
+        curpos--;
+
+        if (curpos < 0)
+            curpos = 0;
+    }
+
+    if (inv_ptr < 0)
+    {
+        inv_ptr = viewplayer->inventoryslotnum - 1;
+
+        if (inv_ptr < 6)
+            curpos = inv_ptr;
+        else
+            curpos = 6;
+    }
+
+    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
+}
+
+void P_PlayerRemoveArtifact(int slot)
+{
+    int i;
+    viewplayer->artifactcount--;
+
+    if (!(--viewplayer->inventory[slot].count))
+    {
+        // Used last of a type - compact the artifact list
+        viewplayer->readyartifact = arti_none;
+        viewplayer->inventory[slot].type = arti_none;
+
+        for (i = slot + 1; i < viewplayer->inventoryslotnum; i++)
+            viewplayer->inventory[i - 1] = viewplayer->inventory[i];
+
+        viewplayer->inventoryslotnum--;
+
+        // Set position markers and get next readyArtifact
+        inv_ptr--;
+
+        if (inv_ptr < 6)
+        {
+            curpos--;
+
+            if (curpos < 0)
+                curpos = 0;
+        }
+
+        if (inv_ptr >= viewplayer->inventoryslotnum)
+            inv_ptr = viewplayer->inventoryslotnum - 1;
+
+        if (inv_ptr < 0)
+            inv_ptr = 0;
+
+        viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
+    }
+}
+
+void P_PlayerUseArtifact(artitype_t arti)
+{
+    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
+        if (viewplayer->inventory[i].type == arti)
+        {
+            // Found match - try to use
+            if (P_UseArtifact(arti))
+            {
+                // Artifact was used - remove it from inventory
+                P_PlayerRemoveArtifact(i);
+                S_StartSound(NULL, hsfx_artiuse);
+                artifactflash = 4;
+            }
+            else
+                // Unable to use artifact, advance pointer
+                P_PlayerNextArtifact();
+
+            break;
+        }
+}
+
+dboolean P_UseArtifact(artitype_t arti)
+{
+    mobj_t *mo;
+    angle_t angle;
+
+    switch (arti)
+    {
+        case arti_invulnerability:
+            if (!P_GivePower(pw_invulnerability))
+                return false;
+
+            break;
+
+        case arti_invisibility:
+            if (!P_GivePower(pw_invisibility))
+                return false;
+
+            break;
+
+        case arti_health:
+            if (!P_GiveBody(25, true))
+                return false;
+
+            break;
+
+        case arti_superhealth:
+            if (!P_GiveBody(100, true))
+                return false;
+
+            break;
+
+        case arti_tomeofpower:
+            if (viewplayer->chickentics)
+            {
+                // Attempt to undo chicken
+                if (!P_UndoPlayerChicken())
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
+                else
+                {
+                    viewplayer->chickentics = 0;
+                    S_StartSound(viewplayer->mo, hsfx_wpnup);
+                }
+            }
+            else
+            {
+                if (!P_GivePower(pw_weaponlevel2))
+                    return false;
+
+                if (viewplayer->readyweapon == wp_staff)
+                    P_SetPsprite(ps_weapon, HS_STAFFREADY2_1);
+                else if (viewplayer->readyweapon == wp_gauntlets)
+                    P_SetPsprite(ps_weapon, HS_GAUNTLETREADY2_1);
+            }
+
+            break;
+
+        case arti_torch:
+            if (!P_GivePower(pw_infrared))
+                return false;
+
+            break;
+
+        case arti_firebomb:
+            angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
+            mo = P_SpawnMobj(viewplayer->mo->x + 24 * finecosine[angle],
+                viewplayer->mo->y + 24 * finesine[angle],
+                viewplayer->mo->z - 15 * FRACUNIT * (viewplayer->mo->flags2 & MF2_FEETARECLIPPED),
+                HMT_FIREBOMB);
+            mo->target = viewplayer->mo;
+            break;
+
+        case arti_egg:
+            mo = viewplayer->mo;
+            P_SpawnPlayerMissile(mo, HMT_EGGFX);
+            P_SPMAngle(mo, HMT_EGGFX, mo->angle - (ANG45 / 6));
+            P_SPMAngle(mo, HMT_EGGFX, mo->angle + (ANG45 / 6));
+            P_SPMAngle(mo, HMT_EGGFX, mo->angle - (ANG45 / 3));
+            P_SPMAngle(mo, HMT_EGGFX, mo->angle + (ANG45 / 3));
+            break;
+
+        case arti_fly:
+            if (!P_GivePower(pw_flight))
+                return false;
+
+            break;
+
+        case arti_teleport:
+            P_ArtiTele();
+            break;
+
+        default:
+            return false;
+    }
+
+    return true;
 }

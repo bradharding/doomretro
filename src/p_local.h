@@ -128,6 +128,9 @@ void P_MovePlayer(void);
 void P_PlayerThink(void);
 void P_ResurrectPlayer(int health);
 void P_ChangeWeapon(weapontype_t newweapon);
+void P_PlayerRemoveArtifact(int slot);
+void P_PlayerUseArtifact(artitype_t arti);
+dboolean P_UseArtifact(artitype_t arti);
 
 //
 // P_MOBJ
@@ -153,6 +156,7 @@ extern int          iquehead;
 extern int          iquetail;
 extern mobjtype_t   pufftype;
 extern mobj_t       *missilemobj;
+extern mapthing_t   playerstart;
 
 void P_RespawnSpecials(void);
 

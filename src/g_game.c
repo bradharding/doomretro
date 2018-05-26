@@ -169,6 +169,9 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_mapscompleted = 0;
 
+dboolean        usearti = true;
+int             inventorytics;
+
 extern dboolean barrelms;
 extern int      st_palette;
 extern int      pagetic;
@@ -176,6 +179,10 @@ extern dboolean transferredsky;
 
 extern int      timer;
 extern int      countdown;
+
+extern dboolean inventory;
+extern int      curpos;
+extern int      inv_ptr;
 
 void G_RemoveChoppers(void)
 {
@@ -364,7 +371,34 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             || (gamepadbuttons & (gamepaduse | gamepaduse2)))
         {
             cmd->buttons |= BT_USE;
-            dclicks = 0;        // clear double clicks if hit use button
+            dclicks = 0;                // clear double clicks if hit use button
+        }
+
+        if (gamekeydown[keyboarduseartifact])
+        {
+            if (gamekeydown[keyboardrun])
+            {
+                if (viewplayer->inventory[inv_ptr].type != arti_none)
+                {
+                    gamekeydown[keyboarduseartifact] = false;
+                    cmd->arti = 0xFF;   // skip artifact code
+                }
+            }
+            else
+            {
+                if (inventory)
+                {
+                    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
+                    inventory = false;
+                    cmd->arti = 0;
+                    usearti = false;
+                }
+                else if (usearti)
+                {
+                    cmd->arti = viewplayer->inventory[inv_ptr].type;
+                    usearti = false;
+                }
+            }
         }
     }
 
@@ -753,6 +787,55 @@ dboolean G_Responder(event_t *ev)
                 keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
             }
+            else if (key == keyboardinvleft)
+            {
+                inventorytics = 5 * TICRATE;
+
+                if (!inventory)
+                {
+                    inventory = true;
+                    break;
+                }
+
+                inv_ptr--;
+
+                if (inv_ptr < 0)
+                    inv_ptr = 0;
+                else
+                {
+                    curpos--;
+
+                    if (curpos < 0)
+                        curpos = 0;
+                }
+            }
+            else if (key == keyboardinvright)
+            {
+                inventorytics = 5 * TICRATE;
+
+                if (!inventory)
+                {
+                    inventory = true;
+                    break;
+                }
+
+                inv_ptr++;
+
+                if (inv_ptr >= viewplayer->inventoryslotnum)
+                {
+                    inv_ptr--;
+
+                    if (inv_ptr < 0)
+                        inv_ptr = 0;
+                }
+                else
+                {
+                    curpos++;
+
+                    if (curpos > 6)
+                        curpos = 6;
+                }
+            }
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
@@ -772,6 +855,14 @@ dboolean G_Responder(event_t *ev)
 
         case ev_keyup:
             keydown = 0;
+
+            if (ev->type == ev_keyup && ev->data1 == keyboarduseartifact)
+            {
+                if (!inventory)
+                    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
+
+                usearti = true;
+            }
 
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
@@ -1051,6 +1142,14 @@ void G_Ticker(void)
         default:
             break;
     }
+
+    // turn inventory off after a certain amount of time
+    if (inventory && !--inventorytics)
+    {
+        viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
+        inventory = false;
+        cmd->arti = 0;
+    }
 }
 
 //
@@ -1110,6 +1209,8 @@ void G_PlayerReborn(void)
     markpointnum = 0;
     infight = false;
     barrelms = 0;
+    inv_ptr = 0;
+    curpos = 0;
 }
 
 //

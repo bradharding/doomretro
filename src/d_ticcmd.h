@@ -50,6 +50,7 @@ typedef struct
     short   angleturn;      // <<16 for angle delta
     byte    buttons;
     int     lookdir;
+    byte    arti;
 } ticcmd_t;
 
 #endif
