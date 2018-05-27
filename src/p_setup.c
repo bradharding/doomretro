@@ -2192,8 +2192,9 @@ extern dboolean massacre;
 //
 void P_SetupLevel(int ep, int map)
 {
-    char    lumpname[6];
-    int     lumpnum;
+    char        lumpname[6];
+    int         lumpnum;
+    static int  prevlumpnum;
 
     totalkills = 0;
     totalitems = 0;
@@ -2209,12 +2210,6 @@ void P_SetupLevel(int ep, int map)
     // Initial height of PointOfView
     // will be set by player think.
     viewplayer->viewz = 1;
-
-    if (!(samelevel = (map == current_map && ep == current_episode)))
-    {
-        viewplayer->cheats &= ~CF_ALLMAP;
-        viewplayer->cheats &= ~CF_ALLMAP_THINGS;
-    }
 
     idclev = false;
 
@@ -2243,6 +2238,12 @@ void P_SetupLevel(int ep, int map)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", ep, map);
 
         lumpnum = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) : W_GetNumForName(lumpname));
+    }
+
+    if (!(samelevel = (lumpnum == prevlumpnum)))
+    {
+        viewplayer->cheats &= ~CF_ALLMAP;
+        viewplayer->cheats &= ~CF_ALLMAP_THINGS;
     }
 
     mapformat = P_CheckMapFormat(lumpnum);
