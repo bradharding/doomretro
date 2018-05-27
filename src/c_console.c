@@ -141,6 +141,8 @@ static int              zerowidth;
 
 static byte             c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
+static int              consolebrandcolor1 = 4;
+static int              consolebrandcolor2 = 180;
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
 static int              consolehighfpscolor = 116;
@@ -155,7 +157,7 @@ static int              consoleoutputcolor = 88;
 static int              consoleboldcolor = 4;
 static int              consoleitalicscolor = 98;
 static int              consoleheadercolor1 = 4;
-static int              consoleheadercolor2 = 184;
+static int              consoleheadercolor2 = 180;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
@@ -544,8 +546,8 @@ void C_Init(void)
 
     if (gamemission == heretic)
     {
-        brand = W_CacheLumpName("DRBRAND2");
-
+        consolebrandcolor1 = 35;
+        consolebrandcolor2 = 154;
         consolecaretcolor = 35;
         consolelowfpscolor = 154;
         consolehighfpscolor = 220;
@@ -564,14 +566,14 @@ void C_Init(void)
         consolewarningcolor = 154;
         consolewarningboldcolor = 158;
         consoledividercolor = 15;
-        consoleedgecolor = 156 << 8;
+        consoleedgecolor = 154 << 8;
         consolescrollbartrackcolor = 15 << 8;
         consolescrollbarfacecolor = 20;
     }
     else
     {
-        brand = W_CacheLumpName("DRBRAND1");
-
+        consolebrandcolor1 = nearestcolors[consolebrandcolor1];
+        consolebrandcolor2 = nearestcolors[consolebrandcolor2];
         consolecaretcolor = nearestcolors[consolecaretcolor];
         consolelowfpscolor = nearestcolors[consolelowfpscolor];
         consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -603,6 +605,7 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
 
+    brand = W_CacheLumpName("DRBRAND");
     dot = W_CacheLumpName("DRFON046");
     trademark = W_CacheLumpName("DRFON153");
     copyright = W_CacheLumpName("DRFON169");
@@ -738,7 +741,7 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
+    V_DrawConsolePatch2(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, 4, consolebrandcolor1, 180, consolebrandcolor2);
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
@@ -1079,19 +1082,19 @@ void C_Drawer(void)
             else if (type == headerstring)
             {
                 if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, 4, consoleheadercolor1, 184, consoleheadercolor2);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
