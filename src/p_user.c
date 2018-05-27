@@ -676,6 +676,15 @@ void P_PlayerThink(void)
         viewplayer->jumptics = 18;
     }
 
+    if (cmd->arti)
+    {
+        // Use an artifact
+        if (cmd->arti == 0xFF)
+            P_PlayerNextArtifact();
+        else
+            P_PlayerUseArtifact(cmd->arti);
+    }
+
     // Check for weapon change.
 
     // A special event has no other buttons.

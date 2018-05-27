@@ -1176,6 +1176,20 @@ static void G_PlayerFinishLevel(void)
         viewplayer->readyweapon = wp_chainsaw;
 
     viewplayer->fistorchainsaw = (viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
+
+    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
+        viewplayer->inventory[i].count = 1;
+
+    viewplayer->artifactcount = viewplayer->inventoryslotnum;
+
+    if (viewplayer->chickentics)
+    {
+        viewplayer->readyweapon = viewplayer->mo->special1.i;
+        viewplayer->chickentics = 0;
+    }
+
+    viewplayer->rain1 = NULL;
+    viewplayer->rain2 = NULL;
 }
 
 //

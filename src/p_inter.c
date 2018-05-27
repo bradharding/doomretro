@@ -2001,6 +2001,211 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         mo->flags2 |= MF2_MIRRORED;
 }
 
+void P_MinotaurSlam(mobj_t *source, mobj_t *target)
+{
+    angle_t angle = R_PointToAngle2(source->x, source->y, target->x, target->y) >> ANGLETOFINESHIFT;
+    fixed_t thrust = 16 * FRACUNIT + (M_Random() << 10);
+
+    target->momx += FixedMul(thrust, finecosine[angle]);
+    target->momy += FixedMul(thrust, finesine[angle]);
+    P_DamageMobj(target, NULL, NULL, HITDICE(6), true);
+
+    if (target->player)
+        target->reactiontime = 14 + (M_Random() & 7);
+}
+
+void P_TouchWhirlwind(mobj_t *target)
+{
+    target->angle += M_NegRandom() << 20;
+    target->momx += M_NegRandom() << 10;
+    target->momy += M_NegRandom() << 10;
+
+    if ((leveltime & 16) && !(target->flags3 & MF3_BOSS))
+    {
+        target->momz += MIN(M_Random(), 160) << 10;
+
+        if (target->momz > 12 * FRACUNIT)
+            target->momz = 12 * FRACUNIT;
+    }
+
+    if (!(leveltime & 7))
+        P_DamageMobj(target, NULL, NULL, 3, false);
+}
+
+dboolean P_ChickenMorphPlayer(void)
+{
+    mobj_t  *pmo;
+    mobj_t  *fog;
+    mobj_t  *chicken;
+    fixed_t x, y, z;
+    angle_t angle;
+    int     oldflags3;
+
+    if (viewplayer->chickentics)
+    {
+        if (viewplayer->chickentics < CHICKENTICS - TICRATE && !viewplayer->powers[pw_weaponlevel2])
+            P_GivePower(pw_weaponlevel2);
+
+        return false;
+    }
+
+    if (viewplayer->powers[pw_invulnerability])
+        return false;
+
+    pmo = viewplayer->mo;
+    x = pmo->x;
+    y = pmo->y;
+    z = pmo->z;
+    angle = pmo->angle;
+    oldflags3 = pmo->flags3;
+    P_SetMobjState(pmo, HS_FREETARGMOBJ);
+    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, MT_TFOG);
+    S_StartSound(fog, hsfx_telept);
+    chicken = P_SpawnMobj(x, y, z, HMT_CHICPLAYER);
+    chicken->special1.i = viewplayer->readyweapon;
+    chicken->angle = angle;
+    chicken->player = viewplayer;
+    viewplayer->health = chicken->health = MAXCHICKENHEALTH;
+    viewplayer->mo = chicken;
+    viewplayer->armorpoints = viewplayer->armortype = 0;
+    viewplayer->powers[pw_invisibility] = 0;
+    viewplayer->powers[pw_weaponlevel2] = 0;
+    if (oldflags3 & MF3_FLY)
+        chicken->flags3 |= MF3_FLY;
+
+    viewplayer->chickentics = CHICKENTICS;
+    P_ActivateBeak();
+    return true;
+}
+
+dboolean P_ChickenMorph(mobj_t *actor)
+{
+    mobj_t      *fog;
+    mobj_t      *chicken;
+    mobj_t      *target;
+    mobjtype_t  motype;
+    fixed_t     x, y, z;
+    angle_t     angle;
+    int         ghost;
+
+    if (actor->player)
+        return false;
+
+    motype = actor->type;
+
+    switch (motype)
+    {
+        case HMT_POD:
+        case HMT_CHICKEN:
+        case HMT_HEAD:
+        case HMT_MINOTAUR:
+        case HMT_SORCERER1:
+        case HMT_SORCERER2:
+            return false;
+
+        default:
+            break;
+    }
+
+    x = actor->x;
+    y = actor->y;
+    z = actor->z;
+    angle = actor->angle;
+    ghost = actor->flags & MF_FUZZ;
+    target = actor->target;
+    P_SetMobjState(actor, HS_FREETARGMOBJ);
+    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, MT_TFOG);
+    S_StartSound(fog, sfx_telept);
+    chicken = P_SpawnMobj(x, y, z, HMT_CHICKEN);
+    chicken->special2.i = motype;
+    chicken->special1.i = CHICKENTICS + M_Random();
+    chicken->flags |= ghost;
+    chicken->target = target;
+    chicken->angle = angle;
+    return true;
+}
+
+dboolean P_AutoUseChaosDevice(void)
+{
+    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
+        if (viewplayer->inventory[i].type == arti_teleport)
+        {
+            P_PlayerUseArtifact(arti_teleport);
+            viewplayer->health = viewplayer->mo->health = (viewplayer->health + 1) / 2;
+            return true;
+        }
+
+    return false;
+}
+
+void P_AutoUseHealth(int savehealth)
+{
+    int count;
+    int normalcount = 0;
+    int normalslot = 0;
+    int supercount = 0;
+    int superslot = 0;
+
+    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
+    {
+        if (viewplayer->inventory[i].type == arti_health)
+        {
+            normalslot = i;
+            normalcount = viewplayer->inventory[i].count;
+        }
+        else if (viewplayer->inventory[i].type == arti_superhealth)
+        {
+            superslot = i;
+            supercount = viewplayer->inventory[i].count;
+        }
+    }
+
+    if (gameskill == sk_baby && normalcount * 25 >= savehealth)
+    {
+        // Use quartz flasks
+        count = (savehealth + 24) / 25;
+
+        for (int i = 0; i < count; i++)
+        {
+            viewplayer->health += 25;
+            P_PlayerRemoveArtifact(normalslot);
+        }
+    }
+    else if (supercount * 100 >= savehealth)
+    {
+        // Use mystic urns
+        count = (savehealth + 99) / 100;
+
+        for (int i = 0; i < count; i++)
+        {
+            viewplayer->health += 100;
+            P_PlayerRemoveArtifact(superslot);
+        }
+    }
+    else if (gameskill == sk_baby && supercount * 100 + normalcount * 25 >= savehealth)
+    {
+        // Use mystic urns and quartz flasks
+        count = (savehealth + 24) / 25;
+        savehealth -= count * 25;
+
+        for (int i = 0; i < count; i++)
+        {
+            viewplayer->health += 25;
+            P_PlayerRemoveArtifact(normalslot);
+        }
+
+        count = (savehealth + 99) / 100;
+
+        for (int i = 0; i < count; i++)
+        {
+            viewplayer->health += 100;
+            P_PlayerRemoveArtifact(normalslot);
+        }
+    }
+
+    viewplayer->mo->health = viewplayer->health;
+}
+
 dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //

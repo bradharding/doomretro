@@ -174,7 +174,13 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
-static patch_t              *lbar;
+static patch_t              *lifebar;
+static patch_t              *invbar;
+static patch_t              *selectbox;
+static patch_t              *invgeml1;
+static patch_t              *invgeml2;
+static patch_t              *invgemr1;
+static patch_t              *invgemr2;
 static patch_t              *barback;
 patch_t                     *ltfctop;
 patch_t                     *rtfctop;
@@ -275,6 +281,35 @@ int                         idclevtics;
 dboolean                    idmus;
 
 dboolean                    samelevel;
+
+static char ammopic[][8] =
+{
+    { "INAMGLD" },
+    { "INAMBOW" },
+    { "INAMBST" },
+    { "INAMRAM" },
+    { "INAMPNX" },
+    { "INAMLOB" }
+};
+
+static char patcharti[][10] = {
+    { "ARTIBOX" }, // none
+    { "ARTIINVU" }, // invulnerability
+    { "ARTIINVS" }, // invisibility
+    { "ARTIPTN2" }, // health
+    { "ARTISPHL" }, // superhealth
+    { "ARTIPWBK" }, // tomeofpower
+    { "ARTITRCH" }, // torch
+    { "ARTIFBMB" }, // firebomb
+    { "ARTIEGGC" }, // egg
+    { "ARTISOAR" }, // fly
+    { "ARTIATLP" }  // teleport
+};
+
+dboolean                    inventory;
+int                         artifactflash;
+int                         curpos;
+int                         inv_ptr;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;
@@ -461,7 +496,7 @@ static void ST_refreshBackground(void)
             int healthpos = BETWEEN(0, healthmarker, 100) * 256 / 100;
 
             V_DrawPatch(0, 158, 0, barback);
-            V_DrawPatch(34, 160, 0, lbar);
+            V_DrawPatch(34, 160, 0, (inventory ? invbar : lifebar));
             V_DrawPatch(0, 148, 0, ltfctop);
             V_DrawPatch(290, 148, 0, rtfctop);
             V_DrawPatch(0, 190, 0, chainback);
@@ -1462,69 +1497,69 @@ static void ST_doPaletteStuff(void)
     }
 }
 
-static char ammopic[][8] =
-{
-    { "INAMGLD" },
-    { "INAMBOW" },
-    { "INAMBST" },
-    { "INAMRAM" },
-    { "INAMPNX" },
-    { "INAMLOB" }
-};
-
-static char patcharti[][10] = {
-    { "ARTIBOX"  }, // none
-    { "ARTIINVU" }, // invulnerability
-    { "ARTIINVS" }, // invisibility
-    { "ARTIPTN2" }, // health
-    { "ARTISPHL" }, // superhealth
-    { "ARTIPWBK" }, // tomeofpower
-    { "ARTITRCH" }, // torch
-    { "ARTIFBMB" }, // firebomb
-    { "ARTIEGGC" }, // egg
-    { "ARTISOAR" }, // fly
-    { "ARTIATLP" }  // teleport
-};
-
-dboolean    inventory;
-int         artifactflash;
-int         curpos;
-int         inv_ptr;
-
 static void ST_drawWidgets(dboolean refresh)
 {
+    if (gamemission == heretic)
+    {
+        if (inventory)
+        {
+            int x = inv_ptr - curpos;
+
+            for (int i = 0; i < 7; i++)
+            {
+                if (viewplayer->inventoryslotnum > x + i && viewplayer->inventory[x + i].type != arti_none)
+                {
+                    V_DrawPatch(50 + i * 31, 160, 0, W_CacheLumpName(patcharti[viewplayer->inventory[x + i].type]));
+                    DrSmallNumber(viewplayer->inventory[x + i].count, 69 + i * 31, 182);
+                }
+            }
+
+            V_DrawPatch(50 + curpos * 31, 189, 0, selectbox);
+
+            if (x)
+                V_DrawPatch(38, 159, 0, (!(leveltime & 4) ? invgeml1 : invgeml2));
+
+            if (viewplayer->inventoryslotnum - x > 7)
+                V_DrawPatch(269, 159, 0, (!(leveltime & 4) ? invgemr1 : invgemr2));
+        }
+        else
+        {
+            STlib_updatePercent(&w_health, refresh);
+            STlib_updatePercent(&w_armor, refresh);
+
+            STlib_updateBigNum(&w_ready);
+
+            if (artifactflash)
+            {
+                V_DrawPatch(182, 161, 0, W_CacheLumpNum(W_GetNumForName("USEARTIA") + artifactflash - 1));
+                artifactflash--;
+            }
+            else if (viewplayer->readyartifact > 0)
+            {
+                V_DrawPatch(179, 160, 0, W_CacheLumpName(patcharti[viewplayer->readyartifact]));
+                DrSmallNumber(viewplayer->inventory[inv_ptr].count, 201, 182);
+            }
+
+            if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo && viewplayer->health > 0)
+                V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
+
+            if (viewplayer->cards[it_yellowkey] > 0)
+                V_DrawPatch(153, 164, 0, W_CacheLumpName("YKEYICON"));
+
+            if (viewplayer->cards[it_greenkey] > 0)
+                V_DrawPatch(153, 172, 0, W_CacheLumpName("GKEYICON"));
+
+            if (viewplayer->cards[it_bluekey] > 0)
+                V_DrawPatch(153, 180, 0, W_CacheLumpName("BKEYICON"));
+        }
+
+        return;
+    }
+
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
     STlib_updateBigNum(&w_ready);
-
-    if (gamemission == heretic)
-    {
-        if (artifactflash)
-        {
-            V_DrawPatch(182, 161, 0, W_CacheLumpNum(W_GetNumForName("USEARTIA") + artifactflash - 1));
-            artifactflash--;
-        }
-        else if (viewplayer->readyartifact > 0)
-        {
-            V_DrawPatch(179, 160, 0, W_CacheLumpName(patcharti[viewplayer->readyartifact]));
-            DrSmallNumber(viewplayer->inventory[inv_ptr].count, 201, 182);
-        }
-
-        if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo && viewplayer->health > 0)
-            V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
-
-        if (viewplayer->cards[it_yellowkey] > 0)
-            V_DrawPatch(153, 164, 0, W_CacheLumpName("YKEYICON"));
-
-        if (viewplayer->cards[it_greenkey] > 0)
-            V_DrawPatch(153, 172, 0, W_CacheLumpName("GKEYICON"));
-
-        if (viewplayer->cards[it_bluekey] > 0)
-            V_DrawPatch(153, 180, 0, W_CacheLumpName("BKEYICON"));
-
-        return;
-    }
 
     for (int i = 0; i < 4; i++)
     {
@@ -1604,7 +1639,13 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         }
 
         callback("FONTB05", &tallpercent);
-        callback("LIFEBAR", &lbar);
+        callback("LIFEBAR", &lifebar);
+        callback("INVBAR", &invbar);
+        callback("SELECTBO", &selectbox);
+        callback("INVGEML1", &invgeml1);
+        callback("INVGEML2", &invgeml2);
+        callback("INVGEMR1", &invgemr1);
+        callback("INVGEMR2", &invgemr2);
         callback("BARBACK", &barback);
         callback("LTFCTOP", &ltfctop);
         callback("RTFCTOP", &rtfctop);

@@ -115,6 +115,7 @@ void P_RepositionMace(mobj_t *mo);
 void P_SetPsprite(size_t position, statenum_t stnum);
 void P_PostChickenWeapon(weapontype_t weapon);
 void P_UpdateBeak(mobj_t *actor, player_t *player, pspdef_t *psp);
+void P_ActivateBeak(void);
 
 //
 // P_USER
@@ -130,6 +131,7 @@ void P_ResurrectPlayer(int health);
 void P_ChangeWeapon(weapontype_t newweapon);
 void P_PlayerRemoveArtifact(int slot);
 void P_PlayerUseArtifact(artitype_t arti);
+void P_PlayerNextArtifact(void);
 dboolean P_UseArtifact(artitype_t arti);
 
 //
@@ -312,7 +314,8 @@ extern mobj_t       **blocklinks;   // for thing chains
 //
 // P_INTER
 //
-#define MAXHEALTH   100
+#define MAXHEALTH           100
+#define MAXCHICKENHEALTH    30
 
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 

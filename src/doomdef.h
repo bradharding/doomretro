@@ -297,4 +297,6 @@ enum
 #define ORIG_FRICTION_FACTOR    2048    // original value
 
 #define TELEFOGHEIGHT           (32 * FRACUNIT)
+
+#define CHICKENTICS             (40 * TICRATE)
 #endif
