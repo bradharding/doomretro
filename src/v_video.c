@@ -535,6 +535,47 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawConsolePatch2(int x, int y, patch_t *patch, int color1a, int color1b, int color2a, int color2b)
+{
+    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
+    int     w = SHORT(patch->width);
+
+    for (int col = 0; col < w; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        byte        topdelta;
+
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = desttop + topdelta * SCREENWIDTH;
+            byte    length = column->length;
+            int     count = length;
+
+            while (count--)
+            {
+                int height = topdelta + length - count;
+
+                if (y + height > CONSOLETOP && *source)
+                {
+                    if (*source == color1a)
+                        *dest = tinttab50[(color1b << 8) + *dest];
+                    else if (*source == color2a)
+                        *dest = tinttab50[(color2b << 8) + *dest];
+                    else
+                        *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                }
+
+                source++;
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 dboolean V_EmptyPatch(patch_t *patch)
 {
     int w = SHORT(patch->width);

@@ -154,7 +154,8 @@ static int              consoletimestampcolor = 100;
 static int              consoleoutputcolor = 88;
 static int              consoleboldcolor = 4;
 static int              consoleitalicscolor = 98;
-static int              consoleheadercolor = 180;
+static int              consoleheadercolor1 = 4;
+static int              consoleheadercolor2 = 184;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
@@ -558,7 +559,8 @@ void C_Init(void)
         consoleoutputcolor = 25;
         consoleboldcolor = 35;
         consoleitalicscolor = 16;
-        consoleheadercolor = 154;
+        consoleheadercolor1 = 35;
+        consoleheadercolor2 = 154;
         consolewarningcolor = 154;
         consolewarningboldcolor = 158;
         consoledividercolor = 15;
@@ -583,7 +585,8 @@ void C_Init(void)
         consoleoutputcolor = nearestcolors[consoleoutputcolor];
         consoleboldcolor = nearestcolors[consoleboldcolor];
         consoleitalicscolor = nearestcolors[consoleitalicscolor];
-        consoleheadercolor = nearestcolors[consoleheadercolor];
+        consoleheadercolor1 = nearestcolors[consoleheadercolor1];
+        consoleheadercolor2 = nearestcolors[consoleheadercolor2];
         consolewarningcolor = nearestcolors[consolewarningcolor];
         consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
         consoledividercolor = nearestcolors[consoledividercolor];
@@ -1076,19 +1079,19 @@ void C_Drawer(void)
             else if (type == headerstring)
             {
                 if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, 4, consoleheadercolor1, 184, consoleheadercolor2);
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);

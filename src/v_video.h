@@ -69,6 +69,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *tinttab);
 void V_DrawConsolePatch(int x, int y, patch_t *patch);
+void V_DrawConsolePatch2(int x, int y, patch_t *patch, int color1a, int color1b, int color2a, int color2b);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
