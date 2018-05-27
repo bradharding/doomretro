@@ -2820,7 +2820,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
 static void map_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[1024];
-    static char prevspeciallumpname[9];
+    static char prevmapcmdlump[6];
 
     if (!*parms)
     {
@@ -2828,9 +2828,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && M_StringCompare(speciallumpname, prevspeciallumpname));
     gameepisode = mapcmdepisode;
-    M_StringCopy(prevspeciallumpname, speciallumpname, 9);
 
     if (gamemission == doom && gameepisode <= 4)
     {
@@ -2839,7 +2837,8 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
 
     gamemap = mapcmdmap;
-    M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."), mapcmdlump);
+    M_snprintf(buffer, sizeof(buffer), (M_StringCompare(mapcmdlump, prevmapcmdlump) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
+    M_StringCopy(prevmapcmdlump, mapcmdlump, 6);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false);
     message_dontfuckwithme = true;
