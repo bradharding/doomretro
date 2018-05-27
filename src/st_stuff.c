@@ -306,10 +306,10 @@ static char patcharti[][10] = {
     { "ARTIATLP" }  // teleport
 };
 
-dboolean                    inventory;
-int                         artifactflash;
-int                         curpos;
-int                         inv_ptr;
+dboolean                    inventory = false;
+int                         artifactflash = 0;
+int                         curpos = 0;
+int                         inv_ptr = 0;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;

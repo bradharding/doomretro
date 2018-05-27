@@ -747,7 +747,7 @@ dboolean P_GiveArtifact(artitype_t arti, mobj_t *mo)
 {
     int i = 0;
 
-    while (viewplayer->inventory[i].type != arti && i < viewplayer->inventoryslotnum)
+    while (i < viewplayer->inventoryslotnum && viewplayer->inventory[i].type != arti)
         i++;
 
     if (i == viewplayer->inventoryslotnum)
@@ -764,7 +764,7 @@ dboolean P_GiveArtifact(artitype_t arti, mobj_t *mo)
         viewplayer->inventory[i].count++;
     }
 
-    if (viewplayer->artifactcount == 0)
+    if (!viewplayer->artifactcount)
         viewplayer->readyartifact = arti;
 
     viewplayer->artifactcount++;
@@ -2059,7 +2059,7 @@ dboolean P_ChickenMorphPlayer(void)
     angle = pmo->angle;
     oldflags3 = pmo->flags3;
     P_SetMobjState(pmo, HS_FREETARGMOBJ);
-    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, MT_TFOG);
+    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, HMT_TFOG);
     S_StartSound(fog, hsfx_telept);
     chicken = P_SpawnMobj(x, y, z, HMT_CHICPLAYER);
     chicken->special1.i = viewplayer->readyweapon;

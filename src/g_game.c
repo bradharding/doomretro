@@ -856,7 +856,7 @@ dboolean G_Responder(event_t *ev)
         case ev_keyup:
             keydown = 0;
 
-            if (ev->type == ev_keyup && ev->data1 == keyboarduseartifact)
+            if (ev->data1 == keyboarduseartifact)
             {
                 if (!inventory)
                     viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;

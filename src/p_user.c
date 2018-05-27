@@ -369,6 +369,7 @@ static void P_DeathThink(void)
         facingkiller = false;
         skipaction = true;
         inv_ptr = 0;
+        curpos = 0;
     }
     else
         deathcount++;
@@ -781,24 +782,13 @@ void P_ArtiTele(void)
 
 void P_PlayerNextArtifact(void)
 {
-    inv_ptr--;
-
-    if (inv_ptr < 6)
-    {
-        curpos--;
-
-        if (curpos < 0)
-            curpos = 0;
-    }
+    if (--inv_ptr < 6)
+        curpos = MAX(0, curpos - 1);
 
     if (inv_ptr < 0)
     {
         inv_ptr = viewplayer->inventoryslotnum - 1;
-
-        if (inv_ptr < 6)
-            curpos = inv_ptr;
-        else
-            curpos = 6;
+        curpos = MIN(inv_ptr, 6);
     }
 
     viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
@@ -806,37 +796,24 @@ void P_PlayerNextArtifact(void)
 
 void P_PlayerRemoveArtifact(int slot)
 {
-    int i;
     viewplayer->artifactcount--;
 
-    if (!(--viewplayer->inventory[slot].count))
+    if (!--viewplayer->inventory[slot].count)
     {
         // Used last of a type - compact the artifact list
         viewplayer->readyartifact = arti_none;
         viewplayer->inventory[slot].type = arti_none;
 
-        for (i = slot + 1; i < viewplayer->inventoryslotnum; i++)
+        for (int i = slot + 1; i < viewplayer->inventoryslotnum; i++)
             viewplayer->inventory[i - 1] = viewplayer->inventory[i];
 
         viewplayer->inventoryslotnum--;
 
         // Set position markers and get next readyArtifact
-        inv_ptr--;
+        if (--inv_ptr < 6)
+            curpos = MAX(0, curpos - 1);
 
-        if (inv_ptr < 6)
-        {
-            curpos--;
-
-            if (curpos < 0)
-                curpos = 0;
-        }
-
-        if (inv_ptr >= viewplayer->inventoryslotnum)
-            inv_ptr = viewplayer->inventoryslotnum - 1;
-
-        if (inv_ptr < 0)
-            inv_ptr = 0;
-
+        inv_ptr = BETWEEN(0, inv_ptr, viewplayer->inventoryslotnum - 1);
         viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
     }
 }
