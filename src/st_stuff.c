@@ -190,7 +190,7 @@ static patch_t              *lifegem;
 static patch_t              *ltface;
 static patch_t              *rtface;
 
-int                         healthmarker;
+static int                  healthmarker;
 static int                  chainwiggle;
 
 // 0-9, tall numbers
