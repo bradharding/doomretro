@@ -357,6 +357,7 @@ cheatseq_t hcheat_artifact3 = CHEAT("gimme", 0);
 cheatseq_t hcheat_warp = CHEAT("engage", 0);
 cheatseq_t hcheat_chicken = CHEAT("cockadoodledoo", 0);
 cheatseq_t hcheat_massacre = CHEAT("massacre", 0);
+cheatseq_t hcheat_amap = CHEAT("ravmap", 0);
 
 static dboolean movekey(char key)
 {

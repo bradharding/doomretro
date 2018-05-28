@@ -86,7 +86,6 @@ int am_wallcolor = am_wallcolor_default;
 #define HTSWALLCOLOR         40
 #define HWALLCOLOR           96
 
-
 // Automap color priorities
 #define WALLPRIORITY            9
 #define ALLMAPWALLPRIORITY      8

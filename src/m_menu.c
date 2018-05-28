@@ -2877,7 +2877,6 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-
         // Help key
         else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
         {

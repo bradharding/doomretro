@@ -916,7 +916,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             case HSPR_PTN2:
                 if (P_GiveArtifact(arti_health, special))
                 {
-                    if (!viewplayer->cards[it_greenkey] && message)
+                    if (message)
                         HU_PlayerMessage(s_TXT_ARTIHEALTH, false);
 
                     P_SetDormantArtifact(special);
