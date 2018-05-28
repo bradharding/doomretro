@@ -3330,7 +3330,7 @@ dboolean M_Responder(event_t *ev)
                 C_IntCVAROutput(stringize(skilllevel), skilllevel);
 
             M_SetWindowCaption();
-            skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef);
+            skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
             return skipaction;
         }
 
