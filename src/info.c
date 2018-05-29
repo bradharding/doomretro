@@ -1586,7 +1586,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* activesound          */ sfx_None,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP),
         /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ | MF2_DONTMAP | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
-        /* flags3               */ 0,
+        /* flags3               */ (MF3_SLIDE | MF3_TELESTOMP | MF3_WINDTHRUST),
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,

@@ -150,24 +150,38 @@ dboolean P_SetMobjStateNF(mobj_t *mobj, statenum_t state)
 //
 void P_ExplodeMissile(mobj_t *mo)
 {
+    if (mo->type == HMT_WHIRLWIND && gamemission == heretic)
+        if (++mo->special2.i < 60)
+            return;
+
     mo->momx = 0;
     mo->momy = 0;
     mo->momz = 0;
 
     P_SetMobjState(mo, mo->info->deathstate);
 
-    mo->tics = MAX(1, mo->tics - (M_Random() & 3));
     mo->flags &= ~MF_MISSILE;
 
-    // [BH] make explosion translucent
-    if (mo->type == MT_ROCKET && gamemission != heretic)
+    if (gamemission != heretic)
     {
-        mo->colfunc = tlcolfunc;
-        mo->flags2 &= ~MF2_CASTSHADOW;
+        mo->tics = MAX(1, mo->tics - (M_Random() & 3));
+
+        // [BH] make explosion translucent
+        if (mo->type == MT_ROCKET)
+        {
+            mo->colfunc = tlcolfunc;
+            mo->flags2 &= ~MF2_CASTSHADOW;
+        }
     }
 
     if (mo->info->deathsound)
         S_StartSound(mo, mo->info->deathsound);
+}
+
+void P_FloorBounceMissile(mobj_t *mo)
+{
+    mo->momz = -mo->momz;
+    P_SetMobjState(mo, mobjinfo[mo->type].deathstate);
 }
 
 void P_ThrustMobj(mobj_t *mo, angle_t angle, fixed_t move)
@@ -265,6 +279,8 @@ dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax)
 //
 #define STOPSPEED       0x1000
 #define WATERFRICTION   0xFB00
+#define LOWFRICTION     0xF900
+#define FLYFRICTION     0xEB00
 
 static int  puffcount;
 
@@ -275,8 +291,10 @@ static void P_XYMovement(mobj_t *mo)
     mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
+    int         flags3 = mo->flags3;
     dboolean    corpse = ((flags & MF_CORPSE) && (type != MT_BARREL || gamemission == heretic));
     int         stepdir = 0;
+    int         special = mo->subsector->sector->special;
 
     if (!(mo->momx | mo->momy))
     {
@@ -285,10 +303,50 @@ static void P_XYMovement(mobj_t *mo)
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
             mo->momz = 0;
-            P_SetMobjState(mo, mo->info->spawnstate);
+
+            if (gamemission == heretic)
+            {
+                mo->momx = 0;
+                mo->momy = 0;
+                P_SetMobjState(mo, mo->info->seestate);
+            }
+            else
+                P_SetMobjState(mo, mo->info->spawnstate);
         }
 
         return;
+    }
+
+    if (mo->flags3 & MF3_WINDTHRUST)
+    {
+        static int  windtab[3] = { 2048 * 5, 2048 * 10, 2048 * 25 };
+
+        switch (special)
+        {
+            case 40:
+            case 41:
+            case 42:
+                P_ThrustMobj(mo, 0, windtab[special - 40]);
+                break;
+
+            case 43:
+            case 44:
+            case 45:
+                P_ThrustMobj(mo, ANG90, windtab[special - 43]);
+                break;
+
+            case 46:
+            case 47:
+            case 48:
+                P_ThrustMobj(mo, ANG270, windtab[special - 46]);
+                break;
+
+            case 49:
+            case 50:
+            case 51:
+                P_ThrustMobj(mo, ANG180, windtab[special - 49]);
+                break;
+        }
     }
 
     player = mo->player;
@@ -355,7 +413,7 @@ static void P_XYMovement(mobj_t *mo)
                     mo->momy = (mo->momy + y) / 2;
                 }
             }
-            else if (player)
+            else if (flags3 & MF3_SLIDE)
             {
                 // try to slide along it
                 P_SlideMove(mo);
@@ -371,6 +429,14 @@ static void P_XYMovement(mobj_t *mo)
                     // Hack to prevent missiles exploding
                     // against the sky.
                     // Does not handle sky floors.
+
+                    if (type == HMT_BLOODYSKULL && gamemission == heretic)
+                    {
+                        mo->momx = 0;
+                        mo->momy = 0;
+                        mo->momz = -FRACUNIT;
+                        return;
+                    }
 
                     // [BH] still play sound when firing BFG into sky
                     if (type == MT_BFG && gamemission != heretic)
@@ -437,6 +503,10 @@ static void P_XYMovement(mobj_t *mo)
         // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
         if (player && player->mo == mo)
         {
+            if (player->chickentics)
+                if ((unsigned int)((player->mo->state - states) - HS_CHICPLAY_RUN1) < 4)
+                    P_SetMobjState(mo, HS_CHICPLAY);
+
             player->momx = 0;
             player->momy = 0;
         }
@@ -446,6 +516,16 @@ static void P_XYMovement(mobj_t *mo)
         // [BH] reduce friction for corpses in water
         mo->momx = FixedMul(mo->momx, WATERFRICTION);
         mo->momy = FixedMul(mo->momy, WATERFRICTION);
+    }
+    else if ((flags3 & MF3_FLY) && mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
+    {
+        mo->momx = FixedMul(mo->momx, FLYFRICTION);
+        mo->momy = FixedMul(mo->momy, FLYFRICTION);
+    }
+    else if (special == 15)
+    {
+        mo->momx = FixedMul(mo->momx, LOWFRICTION);
+        mo->momy = FixedMul(mo->momy, LOWFRICTION);
     }
     else
     {
@@ -505,6 +585,9 @@ static void P_ZMovement(mobj_t *mo)
             mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
     }
 
+    if (player && (mo->flags3 & MF3_FLY) && mo->z > mo->floorz && (leveltime & 2))
+        mo->z += finesine[(FINEANGLES / 20 * leveltime >> 2) & FINEMASK];
+
     // clip movement
     if (mo->z <= mo->floorz)
     {
@@ -529,7 +612,7 @@ static void P_ZMovement(mobj_t *mo)
             {
                 player->jumptics = 7;
 
-                if (mo->momz < -GRAVITY * 8)
+                if (mo->momz < -GRAVITY * 8 && !(mo->flags3 & MF3_FLY))
                 {
                     // Squat down.
                     // Decrease viewheight for a moment
@@ -545,6 +628,10 @@ static void P_ZMovement(mobj_t *mo)
             mo->momz = 0;
         }
 
+        if (gamemission == heretic)
+            if (mo->z - mo->momz > mo->floorz)
+                P_HitFloor(mo);
+
         mo->z = mo->floorz;
 
         if (mo->info->crashstate && (flags & MF_CORPSE))
@@ -555,9 +642,21 @@ static void P_ZMovement(mobj_t *mo)
 
         if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
-            P_ExplodeMissile(mo);
+            if (gamemission == heretic)
+            {
+                mo->z = mo->floorz;
+
+                if (mo->flags3 & MF3_FLOORBOUNCE)
+                    P_FloorBounceMissile(mo);
+                else if (mo->type != HMT_MNTRFX2)
+                    P_ExplodeMissile(mo);
+            }
+            else
+                P_ExplodeMissile(mo);
+
             return;
         }
+
     }
     else if (!(flags & MF_NOGRAVITY))
     {
@@ -581,7 +680,16 @@ static void P_ZMovement(mobj_t *mo)
         if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
             if (mo->subsector->sector->ceilingpic == skyflatnum)
-                P_RemoveMobj(mo);
+            {
+                if (mo->type == HMT_BLOODYSKULL && gamemission == heretic)
+                {
+                    mo->momx = 0;
+                    mo->momy = 0;
+                    mo->momz = -FRACUNIT;
+                }
+                else
+                    P_RemoveMobj(mo);
+            }
             else
                 P_ExplodeMissile(mo);
         }
@@ -616,14 +724,14 @@ static void P_NightmareRespawn(mobj_t *mobj)
     mo->angle = mobj->angle;
 
     // initiate teleport sound
-    S_StartSound(mo, sfx_telept);
+    S_StartSound(mo, SFX_TELEPT);
 
     // spawn a teleport fog at the new spot
     if (x != mobj->x || y != mobj->y)
     {
         mo = P_SpawnMobj(x, y, z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
         mo->angle = ANG45 * (mthing->angle / 45);
-        S_StartSound(mo, sfx_telept);
+        S_StartSound(mo, SFX_TELEPT);
     }
 
     // spawn the new monster

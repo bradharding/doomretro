@@ -54,6 +54,7 @@
 #define SFX_PSTOP   (gamemission == heretic ? hsfx_pstop : sfx_pstop)
 #define SFX_STNMOV  (gamemission == heretic ? hsfx_dormov : sfx_stnmov)
 #define SFX_SWTCHN  (gamemission == heretic ? hsfx_switch : sfx_swtchn)
+#define SFX_TELEPT  (gamemission == heretic ? hsfx_telept : sfx_telept)
 
 //
 // SoundFX struct.
