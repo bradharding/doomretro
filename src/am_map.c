@@ -237,6 +237,8 @@ int                 direction;
 
 static am_frame_t   am_frame;
 
+static byte         *autopage;
+
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
 static void PUTDOT(unsigned int x, unsigned int y, byte *color);
@@ -445,6 +447,9 @@ void AM_Init(void)
     AM_setColors();
 
     AM_getGridSize();
+
+    if (gamemission == heretic)
+        autopage = W_CacheLumpName("AUTOPAGE");
 }
 
 static void AM_initVariables(const dboolean mainwindow)
@@ -1222,7 +1227,23 @@ void AM_Ticker(void)
 //
 void AM_clearFB(void)
 {
-    memset(mapscreen, backcolor, maparea);
+    if (gamemission != heretic)
+    {
+        memset(mapscreen, backcolor, maparea);
+        return;
+    }
+
+    for (int y = 0; y < 158; y++)
+        for (int x = 0; x < 320; x++)
+        {
+            byte    dot = autopage[y * 320 + x];
+            int     i = (y * 640 + x) * 2;
+
+            screens[0][i] = dot;
+            screens[0][i + 1] = dot;
+            screens[0][i + 640] = dot;
+            screens[0][i + 640 + 1] = dot;
+        }
 }
 
 //
