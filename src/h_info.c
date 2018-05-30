@@ -1414,7 +1414,7 @@ mobjinfo_t hereticmobjinfo[] =
 {
     // HMT_MISC0
     {
-        /* doomednum            */ 81,
+        /* doomednum            */ CrystalVial,
         /* spawnstate           */ HS_ITEM_PTN1_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1457,7 +1457,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ITEMSHIELD1
     {
-        /* doomednum            */ 85,
+        /* doomednum            */ SilverShield,
         /* spawnstate           */ HS_ITEM_SHLD1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1500,7 +1500,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ITEMSHIELD2
     {
-        /* doomednum            */ 31,
+        /* doomednum            */ EnchantedShield,
         /* spawnstate           */ HS_ITEM_SHD2_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1543,7 +1543,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC1
     {
-        /* doomednum            */ 8,
+        /* doomednum            */ BagOfHolding,
         /* spawnstate           */ HS_ITEM_BAGH1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1586,7 +1586,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC2
     {
-        /* doomednum            */ 35,
+        /* doomednum            */ MapScroll,
         /* spawnstate           */ HS_ITEM_SPMP1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1629,7 +1629,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTIINVISIBILITY
     {
-        /* doomednum            */ 75,
+        /* doomednum            */ Shadowsphere,
         /* spawnstate           */ HS_ARTI_INVS1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1672,7 +1672,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC3
     {
-        /* doomednum            */ 82,
+        /* doomednum            */ QuartzFlask,
         /* spawnstate           */ HS_ARTI_PTN2_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1715,7 +1715,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTIFLY
     {
-        /* doomednum            */ 83,
+        /* doomednum            */ WingsOfWrath,
         /* spawnstate           */ HS_ARTI_SOAR1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1758,7 +1758,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTIINVULNERABILITY
     {
-        /* doomednum            */ 84,
+        /* doomednum            */ RingOfInvulnerability,
         /* spawnstate           */ HS_ARTI_INVU1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1801,7 +1801,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTITOMEOFPOWER
     {
-        /* doomednum            */ 86,
+        /* doomednum            */ TomeOfPower,
         /* spawnstate           */ HS_ARTI_PWBK1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1844,7 +1844,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTIEGG
     {
-        /* doomednum            */ 30,
+        /* doomednum            */ MorphOvum,
         /* spawnstate           */ HS_ARTI_EGGC1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1930,7 +1930,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTISUPERHEAL
     {
-        /* doomednum            */ 32,
+        /* doomednum            */ MysticUrn,
         /* spawnstate           */ HS_ARTI_SPHL1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1973,7 +1973,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC4
     {
-        /* doomednum            */ 33,
+        /* doomednum            */ Torch,
         /* spawnstate           */ HS_ARTI_TRCH1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2016,7 +2016,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC5
     {
-        /* doomednum            */ 34,
+        /* doomednum            */ TimeBombOfTheAncients,
         /* spawnstate           */ HS_ARTI_FBMB1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2102,7 +2102,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_ARTITELEPORT
     {
-        /* doomednum            */ 36,
+        /* doomednum            */ ChaosDevice,
         /* spawnstate           */ HS_ARTI_ATLP1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2145,7 +2145,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_POD
     {
-        /* doomednum            */ 2035,
+        /* doomednum            */ Gasbag,
         /* spawnstate           */ HS_POD_WAIT1,
         /* spawnhealth          */ 45,
         /* gibhealth            */ 0,
@@ -2231,7 +2231,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_PODGENERATOR
     {
-        /* doomednum            */ 43,
+        /* doomednum            */ GasbagGenerator,
         /* spawnstate           */ HS_PODGENERATOR,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2532,7 +2532,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SKULLHANG70
     {
-        /* doomednum            */ 17,
+        /* doomednum            */ HangingSkull1,
         /* spawnstate           */ HS_SKULLHANG70_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */  0,
@@ -2575,7 +2575,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SKULLHANG60
     {
-        /* doomednum            */ 24,
+        /* doomednum            */ HangingSkull2,
         /* spawnstate           */ HS_SKULLHANG60_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2618,7 +2618,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SKULLHANG45
     {
-        /* doomednum            */ 25,
+        /* doomednum            */ HangingSkull3,
         /* spawnstate           */ HS_SKULLHANG45_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2661,7 +2661,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SKULLHANG35
     {
-        /* doomednum            */ 26,
+        /* doomednum            */ HangingSkull4,
         /* spawnstate           */ HS_SKULLHANG35_1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2704,7 +2704,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_CHANDELIER
     {
-        /* doomednum            */ 28,
+        /* doomednum            */ Chandelier,
         /* spawnstate           */ HS_CHANDELIER1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2747,7 +2747,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SERPTORCH
     {
-        /* doomednum            */ 27,
+        /* doomednum            */ SerpentTorch,
         /* spawnstate           */ HS_SERPTORCH1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2790,7 +2790,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SMALLPILLAR
     {
-        /* doomednum            */ 29,
+        /* doomednum            */ SmallPillar,
         /* spawnstate           */ HS_SMALLPILLAR,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2833,7 +2833,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_STALAGMITESMALL
     {
-        /* doomednum            */ 37,
+        /* doomednum            */ StalagmiteSmall,
         /* spawnstate           */ HS_STALAGMITESMALL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2876,7 +2876,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_STALAGMITELARGE
     {
-        /* doomednum            */ 38,
+        /* doomednum            */ StalagmiteLarge,
         /* spawnstate           */ HS_STALAGMITELARGE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2919,7 +2919,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_STALACTITESMALL
     {
-        /* doomednum            */ 39,
+        /* doomednum            */ StalactiteSmall,
         /* spawnstate           */ HS_STALACTITESMALL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -2962,7 +2962,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_STALACTITELARGE
     {
-        /* doomednum            */ 40,
+        /* doomednum            */ StalactiteLarge,
         /* spawnstate           */ HS_STALACTITELARGE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3005,7 +3005,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC6
     {
-        /* doomednum            */ 76,
+        /* doomednum            */ FireBrazier,
         /* spawnstate           */ HS_FIREBRAZIER1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3048,7 +3048,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_BARREL
     {
-        /* doomednum            */ 44,
+        /* doomednum            */ Barrel2,
         /* spawnstate           */ HS_BARREL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3091,7 +3091,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC7
     {
-        /* doomednum            */ 47,
+        /* doomednum            */ BrownPillar,
         /* spawnstate           */ HS_BRPILLAR,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3134,7 +3134,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC8
     {
-        /* doomednum            */ 48,
+        /* doomednum            */ Moss1,
         /* spawnstate           */ HS_MOSS1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3177,7 +3177,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC9
     {
-        /* doomednum            */ 49,
+        /* doomednum            */ Moss2,
         /* spawnstate           */ HS_MOSS2,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3220,7 +3220,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC10
     {
-        /* doomednum            */ 50,
+        /* doomednum            */ WallTorch,
         /* spawnstate           */ HS_WALLTORCH1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3263,7 +3263,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC11
     {
-        /* doomednum            */ 51,
+        /* doomednum            */ HangingCorpse,
         /* spawnstate           */ HS_HANGINGCORPSE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3306,7 +3306,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_KEYGIZMOBLUE
     {
-        /* doomednum            */ 94,
+        /* doomednum            */ BlueKeyMarker,
         /* spawnstate           */ HS_KEYGIZMO1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3349,7 +3349,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_KEYGIZMOGREEN
     {
-        /* doomednum            */ 95,
+        /* doomednum            */ GreenKeyMarker,
         /* spawnstate           */ HS_KEYGIZMO1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3392,7 +3392,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_KEYGIZMOYELLOW
     {
-        /* doomednum            */ 96,
+        /* doomednum            */ YellowKeyMarker,
         /* spawnstate           */ HS_KEYGIZMO1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3478,7 +3478,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC12
     {
-        /* doomednum            */ 87,
+        /* doomednum            */ Volcano,
         /* spawnstate           */ HS_VOLCANO1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3607,7 +3607,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_TELEGLITGEN
     {
-        /* doomednum            */ 74,
+        /* doomednum            */ TeleportGlitterNormalRed,
         /* spawnstate           */ HS_TELEGLITGEN1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3650,7 +3650,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_TELEGLITGEN2
     {
-        /* doomednum            */ 52,
+        /* doomednum            */ TeleportGlitterExitBlue,
         /* spawnstate           */ HS_TELEGLITGEN2,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3822,7 +3822,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_TELEPORTMAN
     {
-        /* doomednum            */ 14,
+        /* doomednum            */ TeleportDestination,
         /* spawnstate           */ HS_NULL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -3994,7 +3994,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC13
     {
-        /* doomednum            */ 2005,
+        /* doomednum            */ GauntletsOfTheNecromancer,
         /* spawnstate           */ HS_WGNT,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -4123,7 +4123,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC14
     {
-        /* doomednum            */ 53,
+        /* doomednum            */ DragonClaw,
         /* spawnstate           */ HS_BLSR,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -4381,7 +4381,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_WMACE
     {
-        /* doomednum            */ 2002,
+        /* doomednum            */ Firemace,
         /* spawnstate           */ HS_WMCE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -4596,7 +4596,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_WSKULLROD
     {
-        /* doomednum            */ 2004,
+        /* doomednum            */ Hellstaff,
         /* spawnstate           */ HS_WSKL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -5069,7 +5069,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_WPHOENIXROD
     {
-        /* doomednum            */ 2003,
+        /* doomednum            */ PhoenixRod,
         /* spawnstate           */ HS_WPHX,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -5284,7 +5284,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MISC15
     {
-        /* doomednum            */ 2001,
+        /* doomednum            */ EtherealCrossbow,
         /* spawnstate           */ HS_WBOW,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -5800,7 +5800,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MUMMY
     {
-        /* doomednum            */ 68,
+        /* doomednum            */ Golem,
         /* spawnstate           */ HS_MUMMY_LOOK1,
         /* spawnhealth          */ 80,
         /* gibhealth            */ 0,
@@ -5843,7 +5843,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MUMMYLEADER
     {
-        /* doomednum            */ 45,
+        /* doomednum            */ Nitrogolem,
         /* spawnstate           */ HS_MUMMY_LOOK1,
         /* spawnhealth          */ 100,
         /* gibhealth            */ 0,
@@ -5886,7 +5886,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MUMMYGHOST
     {
-        /* doomednum            */ 69,
+        /* doomednum            */ GolemGhost,
         /* spawnstate           */ HS_MUMMY_LOOK1,
         /* spawnhealth          */ 80,
         /* gibhealth            */ 0,
@@ -5929,7 +5929,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MUMMYLEADERGHOST
     {
-        /* doomednum            */ 46,
+        /* doomednum            */ NitrogolemGhost,
         /* spawnstate           */ HS_MUMMY_LOOK1,
         /* spawnhealth          */ 100,
         /* gibhealth            */ 0,
@@ -6058,7 +6058,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_BEAST
     {
-        /* doomednum            */ 70,
+        /* doomednum            */ Weredragon,
         /* spawnstate           */ HS_BEAST_LOOK1,
         /* spawnhealth          */ 220,
         /* gibhealth            */ 0,
@@ -6273,7 +6273,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SNAKE
     {
-        /* doomednum            */ 92,
+        /* doomednum            */ Ophidian,
         /* spawnstate           */ HS_SNAKE_LOOK1,
         /* spawnhealth          */ 280,
         /* gibhealth            */ 0,
@@ -6402,7 +6402,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_HEAD
     {
-        /* doomednum            */ 6,
+        /* doomednum            */ IronLich,
         /* spawnstate           */ HS_HEAD_LOOK,
         /* spawnhealth          */ 700,
         /* gibhealth            */ 0,
@@ -6617,7 +6617,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_CLINK
     {
-        /* doomednum            */ 90,
+        /* doomednum            */ Sabreclaw,
         /* spawnstate           */ HS_CLINK_LOOK1,
         /* spawnhealth          */ 150,
         /* gibhealth            */ 0,
@@ -6660,7 +6660,7 @@ mobjinfo_t hereticmobjinfo[] =
 
 // HMT_WIZARD
     {
-        /* doomednum            */ 15,
+        /* doomednum            */ DiscipleOfDSparil,
         /* spawnstate           */ HS_WIZARD_LOOK1,
         /* spawnhealth          */ 180,
         /* gibhealth            */ 0,
@@ -6746,7 +6746,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_IMP
     {
-        /* doomednum            */ 66,
+        /* doomednum            */ Gargoyle,
         /* spawnstate           */ HS_IMP_LOOK1,
         /* spawnhealth          */ 40,
         /* gibhealth            */ 0,
@@ -6789,7 +6789,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_IMPLEADER
     {
-        /* doomednum            */ 5,
+        /* doomednum            */ FireGargoyle,
         /* spawnstate           */ HS_IMP_LOOK1,
         /* spawnhealth          */ 80,
         /* gibhealth            */ 0,
@@ -6961,7 +6961,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_KNIGHT
     {
-        /* doomednum            */ 64,
+        /* doomednum            */ UndeadWarrior,
         /* spawnstate           */ HS_KNIGHT_STND1,
         /* spawnhealth          */ 200,
         /* gibhealth            */ 0,
@@ -7004,7 +7004,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_KNIGHTGHOST
     {
-        /* doomednum            */ 65,
+        /* doomednum            */ UndeadWarriorGhost,
         /* spawnstate           */ HS_KNIGHT_STND1,
         /* spawnhealth          */ 200,
         /* gibhealth            */ 0,
@@ -7133,7 +7133,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SORCERER1
     {
-        /* doomednum            */ 7,
+        /* doomednum            */ DSparil,
         /* spawnstate           */ HS_SRCR1_LOOK1,
         /* spawnhealth          */ 2000,
         /* gibhealth            */ 0,
@@ -7434,7 +7434,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_MINOTAUR
     {
-        /* doomednum            */ 9,
+        /* doomednum            */ Maulotaur,
         /* spawnstate           */ HS_MNTR_LOOK1,
         /* spawnhealth          */ 3000,
         /* gibhealth            */ 0,
@@ -7606,7 +7606,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AKYY
     {
-        /* doomednum            */ 73,
+        /* doomednum            */ GreenKey,
         /* spawnstate           */ HS_AKYY1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -7649,7 +7649,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_BKYY
     {
-        /* doomednum            */ 79,
+        /* doomednum            */ BlueKey,
         /* spawnstate           */ HS_BKYY1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -7692,7 +7692,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_CKEY
     {
-        /* doomednum            */ 80,
+        /* doomednum            */ YellowKey,
         /* spawnstate           */ HS_CKYY1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -7735,7 +7735,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMGWNDWIMPY
     {
-        /* doomednum            */ 10,
+        /* doomednum            */ WandCrystal,
         /* spawnstate           */ HS_AMG1,
         /* spawnhealth          */ AMMO_GWND_WIMPY,
         /* gibhealth            */ 0,
@@ -7778,7 +7778,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMGWNDHEFTY
     {
-        /* doomednum            */ 12,
+        /* doomednum            */ CrystalGeode,
         /* spawnstate           */ HS_AMG2_1,
         /* spawnhealth          */ AMMO_GWND_HEFTY,
         /* gibhealth            */ 0,
@@ -7821,7 +7821,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMMACEWIMPY
     {
-        /* doomednum            */ 13,
+        /* doomednum            */ MaceSpheres,
         /* spawnstate           */ HS_AMM1,
         /* spawnhealth          */ AMMO_MACE_WIMPY,
         /* gibhealth            */ 0,
@@ -7864,7 +7864,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMMACEHEFTY
     {
-        /* doomednum            */ 16,
+        /* doomednum            */ PileOfMaceSpheres,
         /* spawnstate           */ HS_AMM2,
         /* spawnhealth          */ AMMO_MACE_HEFTY,
         /* gibhealth            */ 0,
@@ -7907,7 +7907,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMCBOWWIMPY
     {
-        /* doomednum            */ 18,
+        /* doomednum            */ EtherealArrows,
         /* spawnstate           */ HS_AMC1,
         /* spawnhealth          */ AMMO_CBOW_WIMPY,
         /* gibhealth            */ 0,
@@ -7950,7 +7950,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMCBOWHEFTY
     {
-        /* doomednum            */ 19,
+        /* doomednum            */ QuiverOfEtherealArrows,
         /* spawnstate           */ HS_AMC2_1,
         /* spawnhealth          */ AMMO_CBOW_HEFTY,
         /* gibhealth            */ 0,
@@ -7993,7 +7993,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMSKRDWIMPY
     {
-        /* doomednum            */ 20,
+        /* doomednum            */ LesserRunes,
         /* spawnstate           */ HS_AMS1_1,
         /* spawnhealth          */ AMMO_SKRD_WIMPY,
         /* gibhealth            */ 0,
@@ -8036,7 +8036,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMSKRDHEFTY
     {
-        /* doomednum            */ 21,
+        /* doomednum            */ GreaterRunes,
         /* spawnstate           */ HS_AMS2_1,
         /* spawnhealth          */ AMMO_SKRD_HEFTY,
         /* gibhealth            */ 0,
@@ -8079,7 +8079,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMPHRDWIMPY
     {
-        /* doomednum            */ 22,
+        /* doomednum            */ FlameOrb,
         /* spawnstate           */ HS_AMP1_1,
         /* spawnhealth          */ AMMO_PHRD_WIMPY,
         /* gibhealth            */ 0,
@@ -8122,7 +8122,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMPHRDHEFTY
     {
-        /* doomednum            */ 23,
+        /* doomednum            */ InfernoOrb,
         /* spawnstate           */ HS_AMP2_1,
         /* spawnhealth          */ AMMO_PHRD_HEFTY,
         /* gibhealth            */ 0,
@@ -8165,7 +8165,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMBLSRWIMPY
     {
-        /* doomednum            */ 54,
+        /* doomednum            */ ClawOrb,
         /* spawnstate           */ HS_AMB1_1,
         /* spawnhealth          */ AMMO_BLSR_WIMPY,
         /* gibhealth            */ 0,
@@ -8208,7 +8208,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_AMBLSRHEFTY
     {
-        /* doomednum            */ 55,
+        /* doomednum            */ EnergyOrb,
         /* spawnstate           */ HS_AMB2_1,
         /* spawnhealth          */ AMMO_BLSR_HEFTY,
         /* gibhealth            */ 0,
@@ -8251,7 +8251,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SOUNDWIND
     {
-        /* doomednum            */ 42,
+        /* doomednum            */ LoopingSoundWind,
         /* spawnstate           */ HS_SND_WIND,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -8294,7 +8294,7 @@ mobjinfo_t hereticmobjinfo[] =
 
     // HMT_SOUNDWATERFALL
     {
-        /* doomednum            */ 41,
+        /* doomednum            */ LoopingSoundWaterfall,
         /* spawnstate           */ HS_SND_WATERFALL,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,

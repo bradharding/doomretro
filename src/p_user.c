@@ -522,7 +522,7 @@ dboolean P_UndoPlayerChicken(void)
     int             oldflags3 = pmo->flags3;
 
     P_SetMobjState(pmo, HS_FREETARGMOBJ);
-    mo = P_SpawnMobj(x, y, z, MT_PLAYER);
+    mo = P_SpawnMobj(x, y, z, HMT_PLAYER);
 
     if (!P_TestMobjLocation(mo))
     {

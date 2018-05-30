@@ -1153,7 +1153,6 @@ static void P_LoadThings(int lump)
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
             for (int j = 0; thingfix[j].mission != -1; j++)
-            {
                 if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].epsiode
                     && gamemap == thingfix[j].map && i == thingfix[j].thing && mt.type == thingfix[j].type
                     && mt.x == SHORT(thingfix[j].oldx) && mt.y == SHORT(thingfix[j].oldy))
@@ -1190,7 +1189,6 @@ static void P_LoadThings(int lump)
 
                     break;
                 }
-            }
 
         // Change each Wolfenstein SS into Zombiemen in BFG Edition
         if (gamemission != heretic && mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
