@@ -1723,7 +1723,9 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Stairs_RaiseBy16_Fast:
-            if (EV_BuildStairs(line, turbo16))
+            if (gamemission == heretic)
+                EV_DoDoor(line, doorBlazeRaise);
+            else if (EV_BuildStairs(line, turbo16))
                 line->special = 0;
 
             break;
