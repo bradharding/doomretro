@@ -355,6 +355,19 @@ static dboolean PIT_CheckLine(line_t *ld)
     // killough 7/24/98: allow player to move out of 1s wall, to prevent sticking
     if (!ld->backsector)                                // one sided line
     {
+        if ((tmthing->flags & MF_MISSILE) && gamemission == heretic)
+            // Missiles can trigger impact specials
+            if (ld->special)
+            {
+                if (numspechit >= spechit_max)
+                {
+                    spechit_max = (spechit_max ? spechit_max * 2 : 8);
+                    spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
+                }
+
+                spechit[numspechit] = ld;
+            }
+
         blockline = ld;
         return (tmunstuck && !untouched(ld)
             && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
@@ -366,7 +379,8 @@ static dboolean PIT_CheckLine(line_t *ld)
             return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
 
         // [BH] monster-blockers don't affect corpses
-        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS))
+        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS)
+            && (tmthing->type != HMT_POD || gamemission != heretic))
             return false;                               // block monsters only
     }
 
@@ -460,23 +474,27 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check if a mobj passed over/under another object
     if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
     {
-        if (tmthing->z >= thing->z + thing->height)
+        if (gamemission == heretic)
+            if ((tmthing->type == HMT_IMP || tmthing->type == HMT_WIZARD) && (thing->type == HMT_IMP || thing->type == HMT_WIZARD))
+                return false;
+
+        if (tmthing->z >= thing->z + thing->height && !(thing->flags & MF_SPECIAL))
             return true;        // over thing
-        else if (tmthing->z + tmthing->height <= thing->z)
+        else if (tmthing->z + tmthing->height <= thing->z && !(thing->flags & MF_SPECIAL))
             return true;        // under thing
     }
 
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && (flags & MF_SOLID))
     {
-        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & (gamemission == heretic ? 8 : 7)) + 1) * tmthing->info->damage, true);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = 0;
         tmthing->momy = 0;
         tmthing->momz = 0;
 
-        P_SetMobjState(tmthing, tmthing->info->spawnstate);
+        P_SetMobjState(tmthing, (gamemission == heretic ? tmthing->info->seestate : tmthing->info->spawnstate));
 
         return false;           // stop moving
     }
@@ -485,6 +503,11 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if (tmflags & MF_MISSILE)
     {
         int height = thing->info->projectilepassheight;
+
+        // Check for passing through a ghost
+        if (gamemission == heretic)
+            if ((thing->flags & MF_FUZZ) && (tmthing->flags3 & MF3_THRUGHOST))
+                return true;
 
         if (!height || infiniteheight)
             height = thing->height;
@@ -535,29 +558,63 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             return !(flags & MF_SOLID);                         // didn't do any damage
 
         // damage/explode
-        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
-
-        if (thing->type != MT_BARREL)
+        if (gamemission == heretic)
         {
-            if (tmthing->type == MT_PLASMA)
+            if (tmthing->flags3 & MF3_RIP)
             {
-                viewplayer->shotshit++;
-                stat_shotshit = SafeAdd(stat_shotshit, 1);
+                if (!(thing->flags & MF_NOBLOOD))
+                    P_RipperBlood(tmthing);
+
+                S_StartSound(tmthing, hsfx_ripslop);
+                P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 3) + 2) * tmthing->damage, true);
+
+                if (thing->flags3 & MF3_PUSHABLE && !(tmthing->flags3 & MF3_CANNOTPUSH))
+                {
+                    thing->momx += tmthing->momx >> 2;
+                    thing->momy += tmthing->momy >> 2;
+                }
+
+                numspechit = 0;
+                return true;
             }
-            else if (tmthing->type == MT_ROCKET)
+
+            if (!(thing->flags & MF_NOBLOOD) && M_Random() < 192)
+                P_BloodSplatter(tmthing->x, tmthing->y, tmthing->z, thing);
+
+            P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 8) + 1) * tmthing->info->damage, true);
+        }
+        else
+        {
+            P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
+
+            if (thing->type != MT_BARREL)
             {
-                if (tmthing->nudge == 1)
+                if (tmthing->type == MT_PLASMA)
                 {
                     viewplayer->shotshit++;
                     stat_shotshit = SafeAdd(stat_shotshit, 1);
                 }
+                else if (tmthing->type == MT_ROCKET)
+                {
+                    if (tmthing->nudge == 1)
+                    {
+                        viewplayer->shotshit++;
+                        stat_shotshit = SafeAdd(stat_shotshit, 1);
+                    }
 
-                tmthing->nudge++;
+                    tmthing->nudge++;
+                }
             }
         }
 
         // don't traverse anymore
         return false;
+    }
+
+    if ((thing->flags3 & MF3_PUSHABLE) && !(tmthing->flags3 & MF3_CANNOTPUSH))
+    {
+        thing->momx += tmthing->momx >> 2;
+        thing->momy += tmthing->momy >> 2;
     }
 
     // check for special pickup
@@ -691,6 +748,7 @@ dboolean P_TestMobjLocation(mobj_t *mobj)
 
         return true;
     }
+
     mobj->flags = flags;
     return false;
 }
@@ -914,6 +972,20 @@ void P_FakeZMovement(mobj_t *mo)
     }
 }
 
+void CheckMissileImpact(mobj_t * mobj)
+{
+    int i;
+
+    if (!numspechit || !(mobj->flags & MF_MISSILE) || !mobj->target)
+        return;
+
+    if (!mobj->target->player)
+        return;
+
+    for (i = numspechit - 1; i >= 0; i--)
+        P_ShootSpecialLine(mobj->target, spechit[i]);
+}
+
 //
 // P_TryMove
 // Attempt to move to a new position,
@@ -938,10 +1010,36 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         // killough 8/1/98: Possibly allow escape if otherwise stuck
         if (tmceilingz - tmfloorz < thing->height       // doesn't fit
             // mobj must lower to fit
-            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
+            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height && !(thing->flags3 & MF3_FLY))
             // too big a step up
             || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
             return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
+
+        if (gamemission == heretic)
+        {
+            if (thing->flags3 & MF3_FLY)
+            {
+                if (thing->z + thing->height > tmceilingz)
+                {
+                    thing->momz = -8 * FRACUNIT;
+                    return false;
+                }
+                else if (thing->z < tmfloorz && tmfloorz - tmdropoffz > 24 * FRACUNIT)
+                {
+                    thing->momz = 8 * FRACUNIT;
+                    return false;
+                }
+            }
+
+            if (!(thing->flags & MF_TELEPORT) && thing->type != HMT_MNTRFX2 && tmfloorz - thing->z > 24 * FRACUNIT)
+            {
+                CheckMissileImpact(thing);
+                return false;
+            }
+
+            if ((thing->flags & MF_MISSILE) && tmfloorz > thing->z)
+                CheckMissileImpact(thing);
+        }
 
         if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
@@ -1669,6 +1767,10 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
+    if (gamemission == heretic)
+        if (th->flags & MF_FUZZ && shootthing->player->readyweapon == wp_staff)
+            return true;
+
     dist = FixedMul(attackrange, in->frac);
 
     // check angles to see if the thing can be aimed at
@@ -1893,16 +1995,19 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
         && !(thing->flags & MF_CORPSE))
         return true;
 
-    // Boss spider and cyborg
-    // take no damage from concussion.
     type = thing->type;
 
-    if (type == MT_CYBORG || type == MT_SPIDER)
+    if (gamemission == heretic)
+    {
+        if (type == HMT_MINOTAUR || type == HMT_SORCERER1 || type == HMT_SORCERER2)
+            return true;
+    }
+    else if (type == MT_CYBORG || type == MT_SPIDER)
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (type == MT_BOSSBRAIN)
+    if (gamemission != heretic && type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius
@@ -1932,7 +2037,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
         P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist, true);
 
         // [BH] count number of times player's rockets hit a monster
-        if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
+        if (gamemission != heretic && bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
         {
             if (bombspot->nudge == 1)
             {

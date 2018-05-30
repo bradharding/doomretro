@@ -1112,7 +1112,7 @@ static void P_LoadThings(int lump)
                 case HMT_WMACE:
                     if (gamemode != shareware)
                     {
-                        //P_AddMaceSpot(mt);
+                        P_AddMaceSpot(&mt);
                         spawn = false;
                         break;
                     }

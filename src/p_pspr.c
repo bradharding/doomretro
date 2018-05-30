@@ -119,7 +119,7 @@ void P_OpenWeapons(void)
     macespotcount = 0;
 }
 
-void P_AddMaceSpot(mapthing_t * mthing)
+void P_AddMaceSpot(mapthing_t *mthing)
 {
     if (macespotcount == MAXMACESPOTS)
         I_Error("Too many mace spots.");

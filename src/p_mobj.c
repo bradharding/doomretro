@@ -751,14 +751,6 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 }
 
-static void PlayerLandedOnThing(mobj_t *mo)
-{
-    mo->player->deltaviewheight = mo->momz >> 3;
-
-    if (mo->momz < -23 * FRACUNIT)
-        P_NoiseAlert(mo);
-}
-
 //
 // P_MobjThinker
 //
@@ -816,17 +808,22 @@ void P_MobjThinker(mobj_t *mobj)
     {
         if ((flags2 & MF2_PASSMOBJ) && !infiniteheight)
         {
-            mobj_t *onmo;
+            mobj_t  *onmo = P_CheckOnmobj(mobj);
 
-            if (!(onmo = P_CheckOnmobj(mobj)))
+            if (!onmo)
             {
                 P_ZMovement(mobj);
                 mobj->flags2 &= ~MF2_ONMOBJ;
             }
-            else if (player)
+            else if (player && (onmo->player || (onmo->type == HMT_POD && gamemission == heretic)))
             {
                 if (mobj->momz < -GRAVITY * 8)
-                    PlayerLandedOnThing(mobj);
+                {
+                    player->deltaviewheight = mobj->momz >> 3;
+
+                    if (mobj->momz < -23 * FRACUNIT)
+                        P_NoiseAlert(mobj);
+                }
 
                 if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
                 {
@@ -864,9 +861,12 @@ void P_MobjThinker(mobj_t *mobj)
     //  calling action functions at transitions
     if (mobj->tics != -1)
     {
+        mobj->tics--;
+
         // you can cycle through multiple states in a tic
-        if (!--mobj->tics)
-            P_SetMobjState(mobj, mobj->state->nextstate);
+        while (!mobj->tics)
+            if (!P_SetMobjState(mobj, mobj->state->nextstate))
+                return;
     }
     else
     {
@@ -1045,7 +1045,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
 
-    mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
+    mobj->thinker.function = (type == MT_MUSICSOURCE && gamemission != heretic ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
     if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && sector->isliquid && !sector->heightsec)
@@ -1216,6 +1216,9 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->message = NULL;
     viewplayer->damagecount = 0;
     viewplayer->bonuscount = 0;
+    viewplayer->chickentics = 0;
+    viewplayer->rain1 = NULL;
+    viewplayer->rain2 = NULL;
     viewplayer->extralight = 0;
     viewplayer->fixedcolormap = 0;
     viewplayer->viewheight = VIEWHEIGHT;
@@ -1338,8 +1341,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         if (type != VisualModeCamera)
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type of %s.",
-                commify(index), mthing->x, mthing->y, commify(type));
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.",
+                commify(index), mthing->x, mthing->y);
 
         return NULL;
     }
@@ -1648,6 +1651,20 @@ void P_BloodSplatter(fixed_t x, fixed_t y, fixed_t z, mobj_t * originator)
     mo->momz = FRACUNIT * 2;
 }
 
+void P_RipperBlood(mobj_t *mo)
+{
+    mobj_t  *th;
+    fixed_t x = mo->x + (M_NegRandom() << 12);
+    fixed_t y = mo->y + (M_NegRandom() << 12);
+    fixed_t z = mo->z + (M_NegRandom() << 12);
+
+    th = P_SpawnMobj(x, y, z, HMT_BLOOD);
+    th->flags |= MF_NOGRAVITY;
+    th->momx = mo->momx >> 1;
+    th->momy = mo->momy >> 1;
+    th->tics += M_Random() & 3;
+}
+
 int P_GetThingFloorType(mobj_t *thing)
 {
     return terraintypes[thing->subsector->sector->floorpic];
@@ -1725,11 +1742,36 @@ dboolean P_CheckMissileSpawn(mobj_t *th)
 //
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 {
-    fixed_t z = source->z + 4 * 8 * FRACUNIT;
+    fixed_t z = source->z + 32 * FRACUNIT;
     mobj_t  *th;
     angle_t an;
     int     dist;
     int     speed;
+
+    if (gamemission == heretic)
+        switch (type)
+        {
+            case HMT_MNTRFX1:       // Minotaur swing attack missile
+                z = source->z + 40 * FRACUNIT;
+                break;
+
+            case HMT_MNTRFX2:       // Minotaur floor fire missile
+                z = ONFLOORZ;
+                break;
+
+            case HMT_SRCRFX1:       // Sorcerer Demon fireball
+                z = source->z + 48 * FRACUNIT;
+                break;
+
+            case HMT_KNIGHTAXE:     // Knight normal axe
+            case HMT_REDAXE:        // Knight red power axe
+                z = source->z + 36 * FRACUNIT;
+                break;
+
+            default:
+                z = source->z + 32 * FRACUNIT;
+                break;
+        }
 
     if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
@@ -1744,7 +1786,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     // fuzzy player
     if (dest->flags & MF_FUZZ)
-        an += M_NegRandom() << 20;
+        an += M_NegRandom() << (gamemission == heretic ? 21 : 20);
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;
@@ -1753,12 +1795,9 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     th->momy = FixedMul(speed, finesine[an]);
     dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / speed);
     th->momz = (dest->z - source->z) / dist;
-
-    P_CheckMissileSpawn(th);
-
     th->flags2 |= MF2_MONSTERMISSILE;
 
-    return th;
+    return (P_CheckMissileSpawn(th) ? th : NULL);
 }
 
 mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz)
@@ -1844,8 +1883,6 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     th = P_SpawnMobj(x, y, z, type);
 
-    P_NoiseAlert(source);
-
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);
 
@@ -1855,19 +1892,47 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momx = FixedMul(th->info->speed, finecosine[an]);
     th->momy = FixedMul(th->info->speed, finesine[an]);
     th->momz = FixedMul(th->info->speed, slope);
-
-    if (type == MT_ROCKET && r_rockettrails && !hacx)
-    {
-        th->flags2 |= MF2_SMOKETRAIL;
-        puffcount = 0;
-        th->nudge = 1;
-    }
-
     th->interpolate = -1;
 
-    P_CheckMissileSpawn(th);
+    if (gamemission == heretic)
+    {
+        if (th->type == HMT_BLASTERFX1)
+        {
+            // Ultra-fast ripper spawning missile
+            th->x += (th->momx >> 3);
+            th->y += (th->momy >> 3);
+            th->z += (th->momz >> 3);
+        }
+        else
+        {
+            // Normal missile
+            th->x += (th->momx >> 1);
+            th->y += (th->momy >> 1);
+            th->z += (th->momz >> 1);
+        }
 
-    A_Recoil(source->player->readyweapon);
+        if (!P_TryMove(th, th->x, th->y, false))
+        {
+            // Exploded immediately
+            P_ExplodeMissile(th);
+            return NULL;
+        }
+    }
+    else
+    {
+        P_NoiseAlert(source);
+
+        if (type == MT_ROCKET && r_rockettrails && !hacx)
+        {
+            th->flags2 |= MF2_SMOKETRAIL;
+            puffcount = 0;
+            th->nudge = 1;
+        }
+
+        P_CheckMissileSpawn(th);
+
+        A_Recoil(source->player->readyweapon);
+    }
 
     return th;
 }
