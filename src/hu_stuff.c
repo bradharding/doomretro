@@ -140,17 +140,15 @@ static struct
 {
     char    *patchnamea;
     char    *patchnameb;
+    char    *patchnamec;
     patch_t *patch;
 } keypics[NUMCARDS] = {
-    { "BKEYA0", "BKEYB0", NULL },
-    { "YKEYA0", "YKEYB0", NULL },
-    { "RKEYA0", "RKEYB0", NULL },
-    { "BSKUA0", "BSKUB0", NULL },
-    { "YSKUA0", "YSKUB0", NULL },
-    { "RSKUA0", "RSKUB0", NULL },
-    { "BKYYA0", "BKYYA0", NULL },
-    { "CKYYA0", "CKYYA0", NULL },
-    { "AKYYA0", "AKYYA0", NULL }
+    { "BKEYA0", "BKEYB0", "BKYYA0", NULL },
+    { "YKEYA0", "YKEYB0", "CKYYA0", NULL },
+    { "RKEYA0", "RKEYB0", "AKYYA0", NULL },
+    { "BSKUA0", "BSKUB0", "BKYYA0", NULL },
+    { "YSKUA0", "YSKUB0", "CKYYA0", NULL },
+    { "RSKUA0", "RSKUB0", "AKYYA0", NULL }
 };
 
 static void HU_AltInit(void);
@@ -170,6 +168,8 @@ static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
     int lump;
 
+    if (gamemission == heretic)
+        return W_CacheLumpName(keypics[keypicnum].patchnamec);
     if (dehacked && (lump = W_CheckNumForName(keypics[keypicnum].patchnamea)) >= 0)
         return W_CacheLumpNum(lump);
     else if ((lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
@@ -253,24 +253,15 @@ void HU_Init(void)
 
     ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
-    if (gamemission == heretic)
-    {
-        keypics[it_bluekey].patch = HU_LoadHUDKeyPatch(it_bluekey);
-        keypics[it_yellowkey].patch = HU_LoadHUDKeyPatch(it_yellowkey);
-        keypics[it_greenkey].patch = HU_LoadHUDKeyPatch(it_greenkey);
-    }
-    else
-    {
-        keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
-        keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
-        keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
+    keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
+    keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
+    keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
 
-        if (gamemode != shareware)
-        {
-            keypics[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
-            keypics[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
-            keypics[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
-        }
+    if (gamemode != shareware)
+    {
+        keypics[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
+        keypics[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
+        keypics[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 
     if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)

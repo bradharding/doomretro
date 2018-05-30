@@ -174,10 +174,6 @@ typedef enum
     it_yellowskull,
     it_redskull,
 
-    it_bluekey,
-    it_yellowkey,
-    it_greenkey,
-
     NUMCARDS
 } card_t;
 

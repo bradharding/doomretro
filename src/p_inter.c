@@ -497,15 +497,15 @@ void P_InitCards(void)
                 switch (thing->sprite)
                 {
                     case HSPR_BKYY:
-                        viewplayer->cards[it_bluekey] = CARDNOTFOUNDYET;
+                        viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
                         break;
 
                     case HSPR_CKYY:
-                        viewplayer->cards[it_yellowkey] = CARDNOTFOUNDYET;
+                        viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
                         break;
 
                     case HSPR_AKYY:
-                        viewplayer->cards[it_greenkey] = CARDNOTFOUNDYET;
+                        viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
                         break;
 
                     default:
@@ -890,26 +890,26 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
 
             case HSPR_BKYY:
-                if (!viewplayer->cards[it_bluekey] && message)
+                if (!viewplayer->cards[it_bluecard] && message)
                     HU_PlayerMessage(s_TXT_GOTBLUEKEY, false);
 
-                P_GiveCard(it_bluekey);
+                P_GiveCard(it_bluecard);
                 sound = hsfx_keyup;
                 break;
 
             case HSPR_CKYY:
-                if (!viewplayer->cards[it_yellowkey] && message)
+                if (!viewplayer->cards[it_yellowcard] && message)
                     HU_PlayerMessage(s_TXT_GOTYELLOWKEY, false);
 
-                P_GiveCard(it_yellowkey);
+                P_GiveCard(it_yellowcard);
                 sound = hsfx_keyup;
                 break;
 
             case HSPR_AKYY:
-                if (!viewplayer->cards[it_greenkey] && message)
+                if (!viewplayer->cards[it_redcard] && message)
                     HU_PlayerMessage(s_TXT_GOTGREENKEY, false);
 
-                P_GiveCard(it_greenkey);
+                P_GiveCard(it_redcard);
                 sound = hsfx_keyup;
                 break;
 

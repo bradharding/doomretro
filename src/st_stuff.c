@@ -1543,13 +1543,13 @@ static void ST_drawWidgets(dboolean refresh)
             if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo && viewplayer->health > 0)
                 V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
 
-            if (viewplayer->cards[it_yellowkey] > 0)
+            if (viewplayer->cards[it_yellowcard] > 0)
                 V_DrawPatch(153, 164, 0, W_CacheLumpName("YKEYICON"));
 
-            if (viewplayer->cards[it_greenkey] > 0)
+            if (viewplayer->cards[it_redcard] > 0)
                 V_DrawPatch(153, 172, 0, W_CacheLumpName("GKEYICON"));
 
-            if (viewplayer->cards[it_bluekey] > 0)
+            if (viewplayer->cards[it_bluecard] > 0)
                 V_DrawPatch(153, 180, 0, W_CacheLumpName("BKEYICON"));
         }
 
