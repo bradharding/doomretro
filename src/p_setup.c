@@ -1093,23 +1093,23 @@ static void P_LoadThings(int lump)
         {
             switch (i)
             {
-                case HMT_WSKULLROD:
-                case HMT_WPHOENIXROD:
-                case HMT_AMSKRDWIMPY:
-                case HMT_AMSKRDHEFTY:
-                case HMT_AMPHRDWIMPY:
-                case HMT_AMPHRDHEFTY:
-                case HMT_AMMACEWIMPY:
-                case HMT_AMMACEHEFTY:
-                case HMT_ARTISUPERHEAL:
-                case HMT_ARTITELEPORT:
-                case HMT_ITEMSHIELD2:
+                case 13:
+                case 16:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 31:
+                case 32:
+                case 36:
+                case 2003:
+                case 2004:
                     if (gamemode == shareware)
                         spawn = false;
 
                     break;
 
-                case HMT_WMACE:
+                case 2002:
                     if (gamemode != shareware)
                     {
                         P_AddMaceSpot(&mt);
@@ -1193,7 +1193,7 @@ static void P_LoadThings(int lump)
             }
 
         // Change each Wolfenstein SS into Zombiemen in BFG Edition
-        if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+        if (gamemission != heretic && mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
             mt.type = Zombieman;
 
         if (spawn)
