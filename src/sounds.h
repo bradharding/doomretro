@@ -48,6 +48,7 @@
 #define SFX_BDOPN   (gamemission == heretic ? hsfx_doropn : sfx_bdopn)
 #define SFX_DORCLS  (gamemission == heretic ? hsfx_doropn : sfx_dorcls)
 #define SFX_DOROPN  (gamemission == heretic ? hsfx_doropn : sfx_doropn)
+#define SFX_GETPOW  (gamemission == heretic ? hsfx_chat : sfx_getpow)
 #define SFX_ITEMUP  (gamemission == heretic ? hsfx_itemup : sfx_itemup)
 #define SFX_NOWAY   (gamemission == heretic ? hsfx_plroof : sfx_noway)
 #define SFX_OOF     (gamemission == heretic ? hsfx_plroof : sfx_oof)

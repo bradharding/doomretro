@@ -965,7 +965,6 @@ void HU_InitMessages(void)
 
     if (gamemission == heretic)
     {
-
         if (r_messagescale == r_messagescale_small)
         {
             w_title.x = (SCREENWIDTH - M_StringWidth(automaptitle)) / 2;

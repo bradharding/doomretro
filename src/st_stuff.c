@@ -569,7 +569,7 @@ static void ST_GodModeCheat(void)
             message_dontfuckwithme = true;
 
         // [BH] play sound
-        S_StartSound(NULL, sfx_getpow);
+        S_StartSound(NULL, SFX_GETPOW);
 
         stat_cheated = SafeAdd(stat_cheated, 1);
         viewplayer->cheated++;
@@ -606,7 +606,7 @@ static void ST_GodModeCheat(void)
         else
         {
             // [BH] play sound
-            S_StartSound(NULL, sfx_getpow);
+            S_StartSound(NULL, SFX_GETPOW);
         }
     }
 }
@@ -696,7 +696,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
+                    S_StartSound(NULL, SFX_GETPOW);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
@@ -776,7 +776,7 @@ dboolean ST_Responder(event_t *ev)
                             message_dontfuckwithme = true;
 
                         // [BH] play sound
-                        S_StartSound(NULL, sfx_getpow);
+                        S_StartSound(NULL, SFX_GETPOW);
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         viewplayer->cheated++;
@@ -827,7 +827,7 @@ dboolean ST_Responder(event_t *ev)
                                 message_dontfuckwithme = true;
 
                             // [BH] play sound
-                            S_StartSound(NULL, sfx_getpow);
+                            S_StartSound(NULL, SFX_GETPOW);
 
                             stat_cheated = SafeAdd(stat_cheated, 1);
                             viewplayer->cheated++;
@@ -858,7 +858,7 @@ dboolean ST_Responder(event_t *ev)
                     message_dontfuckwithme = true;
 
                 // [BH] play sound
-                S_StartSound(NULL, sfx_getpow);
+                S_StartSound(NULL, SFX_GETPOW);
 
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
@@ -980,7 +980,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
+                    S_StartSound(NULL, SFX_GETPOW);
 
                     idbehold = false;
                     return true;
@@ -1037,7 +1037,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
+                    S_StartSound(NULL, SFX_GETPOW);
 
                     viewplayer->cheats |= CF_CHOPPERS;
 
@@ -1077,7 +1077,7 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] play sound
-                S_StartSound(NULL, sfx_getpow);
+                S_StartSound(NULL, SFX_GETPOW);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 viewplayer->cheated++;
@@ -1100,13 +1100,14 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] play sound
-                S_StartSound(NULL, sfx_getpow);
+                S_StartSound(NULL, SFX_GETPOW);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 viewplayer->cheated++;
             }
 
-            else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
+            else if ((automapactive || mapwindow) && ((gamemission != heretic && cht_CheckCheat(&cheat_amap, ev->data2))
+                || (gamemission == heretic && cht_CheckCheat(&hcheat_amap, ev->data2))))
             {
                 if (viewplayer->cheats & CF_ALLMAP)
                 {
@@ -1126,7 +1127,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheated++;
                 }
 
-                S_StartSound(NULL, sfx_getpow);
+                S_StartSound(NULL, SFX_GETPOW);
             }
         }
 
@@ -1189,7 +1190,7 @@ dboolean ST_Responder(event_t *ev)
                     message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, sfx_getpow);
+                    S_StartSound(NULL, SFX_GETPOW);
 
                     // [BH] delay map change by 1 second to allow message to be displayed
                     samelevel = (gameepisode == epsd && gamemap == map);

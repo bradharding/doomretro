@@ -4465,6 +4465,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         SC_Close();
         HU_PlayerMessage(s_STSTR_VMON, false);
 
+        C_Warning("Any changes to CVARs won't be saved while vanilla mode is on.");
+
         if (gamestate == GS_LEVEL)
             C_HideConsole();
     }
