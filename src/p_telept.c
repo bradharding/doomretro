@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "doomstat.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
@@ -61,7 +62,8 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
         {
             mobj_t  *m = (mobj_t *)th;
 
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
+            if (((m->type == MT_TELEPORTMAN && gamemission != heretic) || (m->type == HMT_TELEPORTMAN && gamemission == heretic))
+                && m->subsector->sector->id == i)
             {
                 fixed_t     oldx = thing->x;
                 fixed_t     oldy = thing->y;
@@ -79,9 +81,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                     fixed_t newy = m->y;
 
                     // spawn teleport fog at source
-                    fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+                    fog = P_SpawnMobj(oldx, oldy, oldz, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
                     fog->angle = thing->angle;
-                    S_StartSound(fog, sfx_telept);
+                    S_StartSound(fog, SFX_TELEPT);
 
                     // spawn teleport fog at destination
                     thing->z = thing->floorz;
@@ -95,9 +97,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                         player->viewz = thing->z + player->viewheight;
                     }
 
-                    fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
+                    fog = P_SpawnMobj(newx, newy, thing->z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
                     fog->angle = m->angle;
-                    S_StartSound(fog, sfx_telept);
+                    S_StartSound(fog, SFX_TELEPT);
 
                     if (player)
                     {
