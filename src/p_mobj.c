@@ -586,7 +586,7 @@ static void P_ZMovement(mobj_t *mo)
     }
 
     if (player && (mo->flags3 & MF3_FLY) && mo->z > mo->floorz && (leveltime & 2))
-        mo->z += finesine[(FINEANGLES / 20 * leveltime >> 2) & FINEMASK];
+        mo->z += finesine[(FINEANGLES / 160 * gametic) & FINEMASK] / 16;  // [JN] Smooth floating
 
     // clip movement
     if (mo->z <= mo->floorz)
