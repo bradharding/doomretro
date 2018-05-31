@@ -1888,7 +1888,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         if (source)
         {
-            if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
+            if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL && gamemission != heretic)
             {
                 if (target->player)
                     C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
@@ -1905,18 +1905,18 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
-                        weaponinfo[readyweapon].description);
+                        (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                        weaponinfo[readyweapon].description);
+                        (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
 
             }
             else
             {
-                if (source->type == MT_TFOG)
+                if ((gamemission != heretic && source->type == MT_TFOG) || (gamemission == heretic && source->type == HMT_TFOG))
                     C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
                         (target->player ? titlecase(playername) : name), (defaultplayername ? "were" : "was"));
                 else
