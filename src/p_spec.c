@@ -1581,7 +1581,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Stairs_RaiseBy8:
-            if (EV_BuildStairs(line, build8))
+            if (EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false))
                 line->special = 0;
 
             break;
@@ -1725,7 +1725,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         case W1_Stairs_RaiseBy16_Fast:
             if (gamemission == heretic)
                 EV_DoDoor(line, doorBlazeRaise);
-            else if (EV_BuildStairs(line, turbo16))
+            else if (EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true))
                 line->special = 0;
 
             break;
@@ -1895,7 +1895,14 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_OpenStay_Fast:
-            EV_DoDoor(line, doorBlazeOpen);
+            if (gamemission == heretic)
+            {
+                if (EV_BuildStairs(line, FLOORSPEED, 16 * FRACUNIT, false))
+                    line->special = 0;
+            }
+            else
+                EV_DoDoor(line, doorBlazeOpen);
+
             break;
 
         case WR_Door_CloseStay_Fast:
@@ -2062,11 +2069,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Stairs_RaiseBy8:
-            EV_BuildStairs(line, build8);
+            EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false);
             break;
 
         case WR_Stairs_RaiseBy16_Fast:
-            EV_BuildStairs(line, turbo16);
+            EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true);
             break;
 
         case WR_Floor_RaiseDonut_ChangesTexture:

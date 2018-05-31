@@ -569,6 +569,12 @@ enum
 
 enum
 {
+    W1_Stairs_RaiseBy16                                            = 106,
+    S1_Stairs_RaiseBy16                                            = 107,
+};
+
+enum
+{
     Normal                                              =  0,
     LightBlinks_Randomly                                =  1,
     LightBlinks_2Hz                                     =  2,

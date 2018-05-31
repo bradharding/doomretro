@@ -394,7 +394,18 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         // Switches
         case S1_Stairs_RaiseBy8:
-            if (EV_BuildStairs(line, build8))
+            if (gamemission == heretic)
+            {
+                if (EV_BuildStairs(line, FLOORSPEED, 8 * FRACUNIT, false))
+                    P_ChangeSwitchTexture(line, false);
+            }
+            else if (EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false))
+                P_ChangeSwitchTexture(line, false);
+
+            break;
+
+        case S1_Stairs_RaiseBy16:
+            if (gamemission == heretic && EV_BuildStairs(line, FLOORSPEED, 16 * FRACUNIT, false))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -540,7 +551,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Stairs_RaiseBy16_Fast:
-            if (EV_BuildStairs(line, turbo16))
+            if (EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -886,13 +897,13 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Stairs_RaiseBy8:
-            if (EV_BuildStairs(line, build8))
+            if (EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Stairs_RaiseBy16_Fast:
-            if (EV_BuildStairs(line, turbo16))
+            if (EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true))
                 P_ChangeSwitchTexture(line, true);
 
             break;

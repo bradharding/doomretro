@@ -637,7 +637,7 @@ static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
     return start;
 }
 
-dboolean EV_BuildStairs(line_t *line, stair_e type)
+dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean crushing)
 {
     int         ssec = -1;
     int         minssec = -1;
@@ -648,9 +648,6 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         int         secnum = ssec;
         sector_t    *sec = sectors + secnum;
         floormove_t *floor;
-        fixed_t     stairsize = 0;
-        fixed_t     speed = 0;
-        dboolean    crushing = false;
         dboolean    okay;
         int         height;
         int         texture;
@@ -668,26 +665,10 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         floor->direction = 1;
         floor->sector = sec;
 
-        switch (type)
-        {
-            case build8:
-                speed = FLOORSPEED / 4;
-                stairsize = 8 * FRACUNIT;
-                crushing = false;
-                break;
-
-            case turbo16:
-                speed = FLOORSPEED * 4;
-                stairsize = 16 * FRACUNIT;
-                crushing = true;
-                break;
-        }
-
         floor->speed = speed;
         height = sec->floorheight + stairsize;
         floor->floordestheight = height;
         floor->crush = crushing;
-        floor->type = buildStair;
         floor->stopsound = (sec->floorheight != floor->floordestheight);
 
         texture = sec->floorpic;
@@ -732,8 +713,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
-                floor->type = buildStair;
-                floor->crush = (type != build8);
+                floor->crush = crushing;
                 floor->stopsound = (sec->floorheight != height);
                 okay = true;
                 break;
