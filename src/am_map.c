@@ -49,6 +49,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -85,6 +86,9 @@ int am_wallcolor = am_wallcolor_default;
 #define HTELEPORTERCOLOR     96
 #define HTSWALLCOLOR         40
 #define HWALLCOLOR           96
+#define HBLUEKEYCOLOR        157
+#define HYELLOWKEYCOLOR      137
+#define HGREENKEYCOLOR       198
 
 // Automap color priorities
 #define WALLPRIORITY            9
@@ -238,6 +242,8 @@ int                 direction;
 static am_frame_t   am_frame;
 
 static byte         *autopage;
+
+static mpoint_t     keypoints[3];
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
@@ -472,6 +478,35 @@ static void AM_initVariables(const dboolean mainwindow)
         m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
+    }
+
+    if (gamemission == heretic)
+    {
+        memset(keypoints, 0, sizeof(vertex_t) * 3);
+
+        if (gameskill == sk_baby)
+        {
+            for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+            {
+                mobj_t  *mo = (mobj_t *)th;
+
+                if (mo->type == HMT_CKEY)
+                {
+                    keypoints[0].x = mo->x >> FRACTOMAPBITS;
+                    keypoints[0].y = mo->y >> FRACTOMAPBITS;
+                }
+                else if (mo->type == HMT_AKYY)
+                {
+                    keypoints[1].x = mo->x >> FRACTOMAPBITS;
+                    keypoints[1].y = mo->y >> FRACTOMAPBITS;
+                }
+                else if (mo->type == HMT_BKYY)
+                {
+                    keypoints[2].x = mo->x >> FRACTOMAPBITS;
+                    keypoints[2].y = mo->y >> FRACTOMAPBITS;
+                }
+            }
+        }
     }
 
     // inform the status bar of the change
@@ -1803,12 +1838,15 @@ static void AM_drawThings(void)
                 if (pass && !enemies)
                     break;
 
-                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ? (!pass ?
-                    enemies++ : enemies--), 0 : 1))
+                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ? (!pass ? enemies++ : enemies--), 0 : 1))
                 {
                     thing = thing->snext;
                     continue;
                 }
+
+                if (gamemission == heretic && gameskill == sk_baby && 
+                    (thing->type == HMT_CKEY || thing->type == HMT_AKYY || thing->type == HMT_BKYY))
+                    return;
 
                 if (!(thing->flags2 & MF2_DONTMAP))
                 {
@@ -1838,6 +1876,53 @@ static void AM_drawThings(void)
                 thing = thing->snext;
             }
         }
+    }
+}
+
+#define KEYSQUARELINES  8
+
+void AM_drawkeys(void)
+{
+    const mline_t keysquare[KEYSQUARELINES] =
+    {
+        { {      0,      0 }, {  18725, -37449 } },
+        { {  18725, -37449 }, {  37449, -37449 } },
+        { {  37449, -37449 }, {  37449,  37449 } },
+        { {  37449,  37449 }, {  18725,  37449 } },
+        { {  18725,  37449 }, {      0,      0 } },
+        { {      0,      0 }, { -74898,      0 } },
+        { { -74898,      0 }, { -74898, -37449 } },
+        { { -56174,      0 }, { -56174, -18725 } }
+    };
+
+    if (keypoints[0].x || keypoints[0].y)
+    {
+        mpoint_t    point = keypoints[0];
+
+        if (am_rotatemode)
+            AM_rotatePoint(&point);
+
+        AM_drawLineCharacter(keysquare, KEYSQUARELINES, 0, 0, HYELLOWKEYCOLOR, point.x, point.y);
+    }
+
+    if (keypoints[1].x || keypoints[1].y)
+    {
+        mpoint_t    point = keypoints[1];
+
+        if (am_rotatemode)
+            AM_rotatePoint(&point);
+
+        AM_drawLineCharacter(keysquare, KEYSQUARELINES, 0, 0, HGREENKEYCOLOR, point.x, point.y);
+    }
+
+    if (keypoints[2].x || keypoints[2].y)
+    {
+        mpoint_t    point = keypoints[2];
+
+        if (am_rotatemode)
+            AM_rotatePoint(&point);
+
+        AM_drawLineCharacter(keysquare, KEYSQUARELINES, 0, 0, HBLUEKEYCOLOR, point.x, point.y);
     }
 }
 
@@ -2030,7 +2115,12 @@ void AM_Drawer(void)
     AM_clearFB();
     AM_drawWalls();
 
-    if (am_grid && gamemission != heretic)
+    if (gamemission == heretic)
+    {
+        if (gameskill == sk_baby)
+            AM_drawkeys();
+    }
+    else if (am_grid)
         AM_drawGrid();
 
     if (am_path)
