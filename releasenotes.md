@@ -21,6 +21,7 @@
 * Improvements have been made to the effect when the player is near an exploding barrel and the `r_shake_barrels` CVAR is `on`.
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 * A bug has been fixed whereby projectiles wouldn’t pass through some map decorations when the `infiniteheight` CVAR was `off`.
+* Lost souls can no longer pass through non-solid objects when attacking if the `infiniteheight` CVAR is `on`.
 
 ---
 

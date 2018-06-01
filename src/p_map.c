@@ -485,7 +485,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     }
 
     // check for skulls slamming into things
-    if ((tmflags & MF_SKULLFLY) && (flags & MF_SOLID))
+    if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight))
     {
         P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & (gamemission == heretic ? 8 : 7)) + 1) * tmthing->info->damage, true);
 
