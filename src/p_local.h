@@ -202,6 +202,7 @@ void P_InitHereticMobjs(void);
 #define BARRELMS    1500
 
 void P_AddBossSpot(fixed_t x, fixed_t y, angle_t angle);
+void P_DSparilTeleport(mobj_t *actor);
 void P_InitMonsters(void);
 void P_NoiseAlert(mobj_t *target);
 

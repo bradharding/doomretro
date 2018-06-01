@@ -741,7 +741,7 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch2(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, 4, consolebrandcolor1, 180, consolebrandcolor2);
+    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, 4, consolebrandcolor1, 180, consolebrandcolor2);
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
@@ -1082,19 +1082,19 @@ void C_Drawer(void)
             else if (type == headerstring)
             {
                 if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                    V_DrawConsolePatch2(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, 4, consoleheadercolor1, 180, consoleheadercolor2);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, 4, consoleheadercolor1, 180, consoleheadercolor2);
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);

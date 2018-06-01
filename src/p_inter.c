@@ -2250,6 +2250,83 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (tplayer && gameskill == sk_baby && adjust)
         damage >>= (damage > 1);
 
+    if (gamemission == heretic && inflicter)
+    {
+        switch (inflicter->type)
+        {
+            case HMT_EGGFX:
+                if (tplayer)
+                    P_ChickenMorphPlayer();
+                else
+                    P_ChickenMorph(target);
+
+                return;
+
+            case HMT_WHIRLWIND:
+                P_TouchWhirlwind(target);
+                return;
+
+            case HMT_MINOTAUR:
+                if (inflicter->flags & MF_SKULLFLY)
+                {
+                    P_MinotaurSlam(inflicter, target);
+                    return;
+                }
+
+                break;
+
+            case HMT_MACEFX4:
+                if ((target->flags3 & MF3_BOSS) || type == HMT_HEAD)
+                    break;
+                else if (tplayer)
+                {
+                    if (tplayer->powers[pw_invulnerability])
+                        break;
+
+                    if (P_AutoUseChaosDevice())
+                        return;
+                }
+
+                damage = 10000;
+                break;
+
+            case HMT_PHOENIXFX2:
+                if (tplayer && M_Random() < 128)
+                    target->reactiontime += 4;
+
+                break;
+
+            case HMT_RAINPLR1:
+            case HMT_RAINPLR2:
+            case HMT_RAINPLR3:
+            case HMT_RAINPLR4:
+                if (target->flags3 & MF3_BOSS)
+                    damage = (M_Random() & 7) + 1;
+
+                break;
+
+            case HMT_HORNRODFX2:
+            case HMT_PHOENIXFX1:
+                if (type == HMT_SORCERER2 && M_Random() < 96)
+                {
+                    P_DSparilTeleport(target);
+                    return;
+                }
+
+                break;
+
+            case HMT_BLASTERFX1:
+            case HMT_RIPPER:
+                if (type == HMT_HEAD && !(damage = M_Random() & 1))
+                    return;
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
@@ -2318,6 +2395,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             tplayer->armorpoints -= saved;
             damage -= saved;
         }
+
+        if (gamemission == heretic && damage >= tplayer->health && gameskill == sk_baby && !tplayer->chickentics)
+            P_AutoUseHealth(damage - tplayer->health + 1);
 
         tplayer->health -= damage;
         target->health -= damage;
