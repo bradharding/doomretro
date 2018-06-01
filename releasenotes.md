@@ -20,6 +20,7 @@
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
 * Improvements have been made to the effect when the player is near an exploding barrel and the `r_shake_barrels` CVAR is `on`.
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
+* A bug has been fixed whereby projectiles wouldn’t pass through some map decorations when the `infiniteheight` CVAR was `off`.
 
 ---
 
