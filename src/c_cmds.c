@@ -4251,34 +4251,37 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         dboolean    spawn = true;
         static char buffer[128];
 
-        if (gamemode != commercial)
+        if (gamemission != heretic)
         {
-            if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
+            if (gamemode != commercial)
             {
-                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
+                {
+                    M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
 
-                if (!*buffer)
-                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+                    if (!*buffer)
+                        M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
-                buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>DOOM</b></i>.", buffer);
-                spawn = false;
+                    buffer[0] = toupper(buffer[0]);
+                    C_Warning("%s can't be spawned in <i><b>DOOM</b></i>.", buffer);
+                    spawn = false;
+                }
+
+                if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
+                {
+                    M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+
+                    if (!*buffer)
+                        M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+
+                    buffer[0] = toupper(buffer[0]);
+                    C_Warning("%s can't be spawned in <i><b>DOOM Shareware</b></i>.", buffer);
+                    spawn = false;
+                }
             }
-
-            if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
-            {
-                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
-
-                if (!*buffer)
-                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
-
-                buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>DOOM Shareware</b></i>.", buffer);
-                spawn = false;
-            }
+            else if (spawncmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                spawncmdtype = Zombieman;
         }
-        else if (spawncmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
-            spawncmdtype = Zombieman;
 
         if (spawn)
         {

@@ -1875,7 +1875,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
-    if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+    if (gamemission != heretic && (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL))
         target->flags2 &= ~MF2_CASTSHADOW;
 
     if (chex)
@@ -1888,7 +1888,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         if (source)
         {
-            if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL && gamemission != heretic)
+            if (inflicter && ((gamemission != heretic && inflicter->type == MT_BARREL && type != MT_BARREL)
+                || (gamemission == heretic && inflicter->type == HMT_POD && type != HMT_POD)))
             {
                 if (target->player)
                     C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
@@ -1903,12 +1904,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
                 if (target->player)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
-                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        ((gamemission != heretic && type == MT_BARREL) || (gamemission == heretic && type == HMT_POD) ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
                         (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
-                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        ((gamemission != heretic && type == MT_BARREL) || (gamemission == heretic && type == HMT_POD) ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
                         (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
