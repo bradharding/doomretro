@@ -270,7 +270,7 @@ enum
 #define am_gridsize_default                     "128x128"
 
 #define am_gridcolor_min                        0
-#define am_gridcolor_default                    7
+#define am_gridcolor_default                    6
 #define am_gridcolor_max                        255
 
 #define am_markcolor_min                        0
