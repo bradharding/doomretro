@@ -333,6 +333,56 @@ dboolean P_GiveAllWeapons(void)
 {
     dboolean    result = false;
 
+    if (gamemission == heretic)
+    {
+        if (!viewplayer->weaponowned[wp_goldwand])
+        {
+            viewplayer->weaponowned[wp_goldwand] = true;
+            result = true;
+        }
+
+        if (!viewplayer->weaponowned[wp_crossbow])
+        {
+            viewplayer->weaponowned[wp_crossbow] = true;
+            result = true;
+        }
+
+        if (!viewplayer->weaponowned[wp_blaster])
+        {
+            viewplayer->weaponowned[wp_blaster] = true;
+            result = true;
+        }
+
+        if (gamemode != shareware)
+        {
+            if (!viewplayer->weaponowned[wp_skullrod])
+            {
+                viewplayer->weaponowned[wp_skullrod] = true;
+                result = true;
+            }
+
+            if (!viewplayer->weaponowned[wp_phoenixrod])
+            {
+                viewplayer->weaponowned[wp_phoenixrod] = true;
+                result = true;
+            }
+
+            if (!viewplayer->weaponowned[wp_mace])
+            {
+                viewplayer->weaponowned[wp_mace] = true;
+                result = true;
+            }
+        }
+
+        if (!viewplayer->weaponowned[wp_gauntlets])
+        {
+            viewplayer->weaponowned[wp_gauntlets] = true;
+            result = true;
+        }
+
+        return result;
+    }
+
     if (!viewplayer->weaponowned[wp_shotgun])
     {
         viewplayer->weaponowned[wp_shotgun] = true;

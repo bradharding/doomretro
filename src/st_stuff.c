@@ -785,6 +785,39 @@ dboolean ST_Responder(event_t *ev)
                 }
             }
 
+            else if (cht_CheckCheat(&hcheat_weapons, ev->data2) && gameskill != sk_nightmare
+                && viewplayer->health > 0 && gamemission == heretic)
+            {
+                dboolean    ammogiven = false;
+                dboolean    armorgiven = false;
+                dboolean    weaponsgiven = false;
+
+                if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
+                {
+                    armorgiven = true;
+                    viewplayer->armorpoints = idkfa_armor;
+                    viewplayer->armortype = idkfa_armor_class;
+                }
+
+                weaponsgiven = P_GiveAllWeapons();
+                P_GiveBackpack(false, false);
+                ammogiven = P_GiveFullAmmo(false);
+
+                if (ammogiven || armorgiven || weaponsgiven)
+                {
+                    P_AddBonus();
+                    C_Input(hcheat_weapons.sequence);
+                    HU_PlayerMessage(s_STSTR_CHEATWEAPONS, false);
+
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+
+                    S_StartSound(NULL, SFX_GETPOW);
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    viewplayer->cheated++;
+                }
+            }
+
             // 'mus' cheat for changing music
             else if (cht_CheckCheat(&cheat_mus_xy, ev->data2)
                      // [BH] can only enter cheat if music is playing

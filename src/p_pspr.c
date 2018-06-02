@@ -76,7 +76,7 @@ static struct
     fixed_t     x, y;
 } macespots[MAXMACESPOTS];
 
-static int WeaponAmmoUsePL1[NUMWEAPONS] =
+static int weaponammousepl1[NUMWEAPONS] =
 {
     0,                          // staff
     USE_GWND_AMMO_1,            // gold wand
@@ -89,7 +89,7 @@ static int WeaponAmmoUsePL1[NUMWEAPONS] =
     0                           // beak
 };
 
-static int WeaponAmmoUsePL2[NUMWEAPONS] =
+static int weaponammousepl2[NUMWEAPONS] =
 {
     0,                          // staff
     USE_GWND_AMMO_2,            // gold wand
@@ -297,7 +297,7 @@ dboolean P_CheckAmmo(weapontype_t weapon)
 dboolean P_CheckHereticAmmo(weapontype_t weapon)
 {
     ammotype_t  ammotype = wpnlev1info[weapon].ammotype;
-    int         *ammouse = (viewplayer->powers[pw_weaponlevel2] ? WeaponAmmoUsePL2 : WeaponAmmoUsePL1);
+    int         *ammouse = (viewplayer->powers[pw_weaponlevel2] ? weaponammousepl2 : weaponammousepl1);
     int         count = ammouse[viewplayer->readyweapon];
 
     if (ammotype == am_noammo || viewplayer->ammo[ammotype] >= count)
