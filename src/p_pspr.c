@@ -1079,7 +1079,7 @@ void A_FireMacePL2(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *mo = P_SpawnPlayerMissile(player->mo, HMT_MACEFX4);
 
     player->ammo[am_mace] -= USE_MACE_AMMO_2;
-    
+
     if (mo)
     {
         mo->momx += player->mo->momx;
@@ -1135,7 +1135,6 @@ void A_DeathBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp)
                     actor->special1.m = linetarget;
                     angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
                     newangle = true;
-                   
                     break;
                 }
                 angle += ANG45 / 2;

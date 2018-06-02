@@ -2487,7 +2487,7 @@ void A_VolcanoBlast(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         mobj_t  *blast = P_SpawnMobj(actor->x, actor->y, actor->z + 44 * FRACUNIT, HMT_VOLCANOBLAST);
         angle_t angle = M_Random() << 24;
-        
+
         blast->target = actor;
         blast->angle = angle;
         angle >>= ANGLETOFINESHIFT;
