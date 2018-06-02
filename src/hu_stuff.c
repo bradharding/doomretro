@@ -468,7 +468,7 @@ static void HU_DrawHUD(void)
 
     ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
 
-    if (health > 0 && (ammo = viewplayer->ammo[ammotype]))
+    if (health > 0 && ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
     {
         int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo, tallnum, 0) + 1) / 2;
         static dboolean ammoanim;
@@ -622,7 +622,7 @@ static void HU_DrawHereticHUD(void)
     else
         ammotype = (pendingweapon != wp_nochange ? wpnlev1info[pendingweapon].ammotype : wpnlev1info[readyweapon].ammotype);
 
-    if (health > 0 && (ammo = viewplayer->ammo[ammotype]))
+    if (health > 0 && ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
     {
         int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo, tallnum2, 2) + 1) / 2;
         static dboolean ammoanim;
