@@ -90,10 +90,13 @@ byte                    *tempscreen;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
-static patch_t          *healthpatch;
 static patch_t          *armorpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
+
+static patch_t          *healthpatch;
+static char             *healthnames[3] = { "PTN1A0", "PTN1B0", "PTN1C0" };
+static int              healthpatchcounter;
 
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
@@ -249,10 +252,7 @@ void HU_Init(void)
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (gamemission == heretic)
-    {
-        healthpatch = W_CacheLumpName("PTN1A0");
         armorpatch = W_CacheLumpName("SHLDA0");
-    }
     else
     {
         if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
@@ -572,6 +572,14 @@ static void HU_DrawHereticHUD(void)
     int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
     static dboolean     showkey;
+
+    if (--healthpatchcounter <= 0)
+    {
+        static int  i;
+
+        healthpatch = W_CacheLumpName(healthnames[(i = (i == 2 ? 0 : i + 1))]);
+        healthpatchcounter = 6;
+    }
 
     hudfunc(HUD_HEALTH_X - (SHORT(healthpatch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(healthpatch->height) - 3, healthpatch, tinttab66);
 
