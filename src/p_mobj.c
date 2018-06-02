@@ -658,6 +658,13 @@ static void P_ZMovement(mobj_t *mo)
         }
 
     }
+    else if (mo->flags3 & MF3_LOGRAV)
+    {
+        if (!mo->momz)
+            mo->momz = -(GRAVITY >> 3) * 2;
+        else
+            mo->momz -= GRAVITY >> 3;
+    }
     else if (!(flags & MF_NOGRAVITY))
     {
         if (!mo->momz)
