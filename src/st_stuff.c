@@ -1417,7 +1417,7 @@ static void ST_updateWidgets(void)
 
     // refresh everything if this is him coming back to life
     // [BH] but only if not paused and no menu
-    if (!freeze && !paused && !menuactive && !consoleactive)
+    if (!freeze && !paused && !menuactive && !consoleactive && gamemission != heretic)
         ST_updateFaceWidget();
 }
 
@@ -1433,8 +1433,12 @@ void ST_Ticker(void)
         }
         else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
         {
-            st_randomnumber = M_Random();
-            ST_updateFaceWidget();
+            if (gamemission != heretic)
+            {
+                st_randomnumber = M_Random();
+                ST_updateFaceWidget();
+            }
+
             st_oldhealth = viewplayer->health;
         }
     }
@@ -1508,13 +1512,11 @@ static void ST_drawWidgets(dboolean refresh)
             int x = inv_ptr - curpos;
 
             for (int i = 0; i < 7; i++)
-            {
                 if (viewplayer->inventoryslotnum > x + i && viewplayer->inventory[x + i].type != arti_none)
                 {
                     V_DrawPatch(50 + i * 31, 160, 0, W_CacheLumpName(patcharti[viewplayer->inventory[x + i].type]));
                     DrSmallNumber(viewplayer->inventory[x + i].count, 69 + i * 31, 182);
                 }
-            }
 
             V_DrawPatch(50 + curpos * 31, 189, 0, selectbox);
 

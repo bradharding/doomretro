@@ -75,7 +75,6 @@ int am_wallcolor = am_wallcolor_default;
 #define HALLMAPCDWALLCOLOR   10
 #define HALLMAPFDWALLCOLOR   6
 #define HALLMAPWALLCOLOR     8
-#define HBACKCOLOR           104
 #define HCDWALLCOLOR         80
 #define HCROSSHAIRCOLOR      35
 #define HFDWALLCOLOR         112
@@ -367,7 +366,6 @@ void AM_setColors(void)
         playercolor = HPLAYERCOLOR;
         pathcolor = HPATHCOLOR;
         markcolor = HMARKCOLOR;
-        backcolor = HBACKCOLOR;
         crosshaircolor = tinttab60 + (HCROSSHAIRCOLOR << 8);
 
         for (int x = 0; x < 256; x++)
@@ -1904,7 +1902,7 @@ static void AM_drawMarks(void)
             digits++;
 
         x += (digits - 1) * MARKWIDTH / 2;
-        x -= (number > 1 && number % 10 == 1);
+        x -= (number % 10 == 1);
         x -= (number / 10 == 1);
 
         do
@@ -1936,7 +1934,8 @@ static void AM_drawMarks(void)
 
             x -= MARKWIDTH - 1;
             number /= 10;
-        } while (number > 0);
+        }
+        while (number > 0);
     }
 }
 
