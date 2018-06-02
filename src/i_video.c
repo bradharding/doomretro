@@ -1706,6 +1706,8 @@ void I_ToggleWidescreen(dboolean toggle)
     returntowidescreen = false;
     setsizeneeded = true;
 
+    HU_InitMessages();
+
     if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
         I_SDLError("SDL_SetPaletteColors");
 }

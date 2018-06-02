@@ -968,12 +968,12 @@ void HU_InitMessages(void)
         if (r_messagescale == r_messagescale_small)
         {
             w_title.x = (SCREENWIDTH - M_StringWidth(automaptitle)) / 2;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 12 * SCREENSCALE;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 12 * SCREENSCALE + 20 * vid_widescreen;
         }
         else
         {
             w_title.x = (ORIGINALWIDTH - M_StringWidth(automaptitle)) / 2;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 14;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 14 + 10 * vid_widescreen;
         }
     }
     else if (r_messagescale == r_messagescale_small)
