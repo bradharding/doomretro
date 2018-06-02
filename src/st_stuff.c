@@ -195,6 +195,7 @@ static int                  chainwiggle;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
+patch_t                     *tallnum2[10];
 
 // tall % sign
 patch_t                     *tallpercent;
@@ -1635,6 +1636,8 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         {
             M_snprintf(namebuf, sizeof(namebuf), "IN%i", i);
             callback(namebuf, &tallnum[i]);
+            M_snprintf(namebuf, sizeof(namebuf), "FONTB%02i", i + 16);
+            callback(namebuf, &tallnum2[i]);
             M_snprintf(namebuf, sizeof(namebuf), "SMALLIN%i", i);
             callback(namebuf, &shortnum[i]);
         }

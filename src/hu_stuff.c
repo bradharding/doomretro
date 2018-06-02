@@ -90,6 +90,8 @@ byte                    *tempscreen;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
+static patch_t          *healthpatch;
+static patch_t          *armorpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -109,6 +111,7 @@ static int              coloroffset;
 
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
+extern patch_t          *tallnum2[10];
 extern patch_t          *tallpercent;
 extern short            tallpercentwidth;
 extern dboolean         emptytallpercent;
@@ -130,10 +133,16 @@ static struct
     int     mobjnum;
     patch_t *patch;
 } ammopic[NUMAMMO] = {
-    { "CLIPA0", MT_CLIP,   NULL },
-    { "SHELA0", MT_MISC22, NULL },
-    { "CELLA0", MT_MISC20, NULL },
-    { "ROCKA0", MT_MISC18, NULL }
+    { "CLIPA0", MT_CLIP,         NULL },
+    { "SHELA0", MT_MISC22,       NULL },
+    { "CELLA0", MT_MISC20,       NULL },
+    { "ROCKA0", MT_MISC18,       NULL },
+    { "AMG1A0", HMT_AMGWNDWIMPY, NULL },
+    { "AMC1A0", HMT_AMCBOWWIMPY, NULL },
+    { "AMB1A0", HMT_AMBLSRWIMPY, NULL },
+    { "AMS1A0", HMT_AMSKRDWIMPY, NULL },
+    { "AMP1A0", HMT_AMPHRDWIMPY, NULL },
+    { "AMM1A0", HMT_AMMACEWIMPY, NULL }
 };
 
 static struct
@@ -239,19 +248,22 @@ void HU_Init(void)
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
-        greenarmorpatch = W_CacheLumpNum(lump);
+    if (gamemission == heretic)
+    {
+        healthpatch = W_CacheLumpName("PTN1A0");
+        armorpatch = W_CacheLumpName("SHLDA0");
+    }
+    else
+    {
+        if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
+            greenarmorpatch = W_CacheLumpNum(lump);
 
-    if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
-        bluearmorpatch = W_CacheLumpNum(lump);
+        if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
+            bluearmorpatch = W_CacheLumpNum(lump);
+    }
 
-    ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
-    ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
-
-    if (gamemode != shareware)
-        ammopic[am_cell].patch = HU_LoadHUDAmmoPatch(am_cell);
-
-    ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
+    for (int i = 0; i < NUMAMMO; i++)
+        ammopic[i].patch = HU_LoadHUDAmmoPatch(i);
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
@@ -316,7 +328,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numset, int gap, void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = val;
     patch_t *patch;
@@ -340,27 +352,27 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfu
 
     if (val > 99)
     {
-        patch = tallnum[val / 100];
+        patch = numset[val / 100];
         hudnumfunc(*x, y, patch, tinttab);
-        *x += SHORT(patch->width);
+        *x += SHORT(patch->width) + gap;
     }
 
     val %= 100;
 
     if (val > 9 || oldval > 99)
     {
-        patch = tallnum[val / 10];
+        patch = numset[val / 10];
         hudnumfunc(*x, y, patch, tinttab);
-        *x += SHORT(patch->width);
+        *x += SHORT(patch->width) + gap;
     }
 
     val %= 10;
-    patch = tallnum[val];
+    patch = numset[val];
     hudnumfunc(*x, y, patch, tinttab);
     *x += SHORT(patch->width);
 }
 
-static int HUDNumberWidth(int val)
+static int HUDNumberWidth(int val, patch_t **numset, int gap)
 {
     int oldval = val;
     int width = 0;
@@ -383,15 +395,15 @@ static int HUDNumberWidth(int val)
     }
 
     if (val > 99)
-        width += SHORT(tallnum[val / 100]->width);
+        width += SHORT(numset[val / 100]->width) + gap;
 
     val %= 100;
 
     if (val > 9 || oldval > 99)
-        width += SHORT(tallnum[val / 10]->width);
+        width += SHORT(numset[val / 10]->width) + gap;
 
     val %= 10;
-    width += SHORT(tallnum[val]->width);
+    width += SHORT(numset[val]->width);
     return width;
 }
 
@@ -407,7 +419,7 @@ static void HU_DrawHUD(void)
     ammotype_t          ammotype;
     int                 ammo;
     const int           armor = viewplayer->armorpoints;
-    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth + 1) / 2;
+    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum, 0) + tallpercentwidth + 1) / 2;
     static dboolean     healthanim;
     byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
     patch_t             *patch = faces[st_faceindex];
@@ -422,14 +434,14 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHighlightedHUDNumberPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
             V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum, 0, hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
@@ -454,19 +466,11 @@ static void HU_DrawHUD(void)
         }
     }
 
-    if (gamemission == heretic)
-    {
-        if (viewplayer->powers[pw_weaponlevel2])
-            ammotype = (pendingweapon != wp_nochange ? wpnlev2info[pendingweapon].ammotype : wpnlev2info[readyweapon].ammotype);
-        else
-            ammotype = (pendingweapon != wp_nochange ? wpnlev1info[pendingweapon].ammotype : wpnlev1info[readyweapon].ammotype);
-    }
-    else
-        ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
+    ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
 
     if (health > 0 && (ammo = viewplayer->ammo[ammotype]))
     {
-        int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo) + 1) / 2;
+        int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo, tallnum, 0) + 1) / 2;
         static dboolean ammoanim;
 
         tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
@@ -474,7 +478,7 @@ static void HU_DrawHUD(void)
         if ((patch = ammopic[ammotype].patch))
             hudfunc(HUD_AMMO_X - (SHORT(patch->width) + 1) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, tallnum, 0,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
         if (!gamepaused)
@@ -529,21 +533,166 @@ static void HU_DrawHUD(void)
 
     if (armor)
     {
-        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor) + tallpercentwidth + 1) / 2;
+        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor, tallnum, 0) + tallpercentwidth + 1) / 2;
 
         if ((patch = (viewplayer->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
             hudfunc(HUD_ARMOR_X - (SHORT(patch->width) + 1) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
         if (armorhighlight > currenttime)
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
 
             if (!emptytallpercent)
                 V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
         }
         else
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum, 0, hudnumfunc);
+
+            if (!emptytallpercent)
+                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+        }
+    }
+}
+
+static void HU_DrawHereticHUD(void)
+{
+    const int           health = viewplayer->health;
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    ammotype_t          ammotype;
+    int                 ammo;
+    const int           armor = viewplayer->armorpoints;
+    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum2, 2)) / 2;
+    static dboolean     healthanim;
+    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
+    patch_t             *patch;
+    const dboolean      gamepaused = (menuactive || paused || consoleactive);
+    const int           currenttime = I_GetTimeMS();
+    int                 keypic_x = HUD_KEYS_X;
+    static int          keywait;
+    static dboolean     showkey;
+
+    hudfunc(HUD_HEALTH_X - (SHORT(healthpatch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(healthpatch->height) - 3, healthpatch, tinttab66);
+
+    if (healthhighlight > currenttime)
+    {
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum2, 2, V_DrawHighlightedHUDNumberPatch);
+
+        if (!emptytallpercent)
+            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+    }
+    else
+    {
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum2, 2, hudnumfunc);
+
+        if (!emptytallpercent)
+            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+    }
+
+    if (!gamepaused)
+    {
+        static int  healthwait;
+
+        if (health > 0 && health <= HUD_HEALTH_MIN)
+        {
+            if (healthwait < currenttime)
+            {
+                healthanim = !healthanim;
+                healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
+            }
+        }
+        else
+        {
+            healthanim = false;
+            healthwait = 0;
+        }
+    }
+
+    if (viewplayer->powers[pw_weaponlevel2])
+        ammotype = (pendingweapon != wp_nochange ? wpnlev2info[pendingweapon].ammotype : wpnlev2info[readyweapon].ammotype);
+    else
+        ammotype = (pendingweapon != wp_nochange ? wpnlev1info[pendingweapon].ammotype : wpnlev1info[readyweapon].ammotype);
+
+    if (health > 0 && (ammo = viewplayer->ammo[ammotype]))
+    {
+        int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo, tallnum2, 2) + 1) / 2;
+        static dboolean ammoanim;
+
+        tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
+
+        if ((patch = ammopic[ammotype].patch))
+            hudfunc(HUD_AMMO_X - (SHORT(patch->width) + 1) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
+
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, tallnum2, 2,
+            (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
+
+        if (!gamepaused)
+        {
+            static int  ammowait;
+
+            if (ammo <= HUD_AMMO_MIN)
+            {
+                if (ammowait < currenttime)
+                {
+                    ammoanim = !ammoanim;
+                    ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                }
+            }
+            else
+            {
+                ammoanim = false;
+                ammowait = 0;
+            }
+        }
+    }
+
+    for (int i = 1; i <= NUMCARDS; i++)
+        for (int j = 0; j < NUMCARDS; j++)
+            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
+            {
+                keypic_x -= SHORT(patch->width);
+                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+                keypic_x -= 4;
+            }
+
+    if (viewplayer->neededcardflash)
+    {
+        if ((patch = keypics[viewplayer->neededcard].patch))
+        {
+            if (!gamepaused && keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+
+            if (showkey)
+                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+        }
+    }
+    else
+    {
+        showkey = false;
+        keywait = 0;
+    }
+
+    if (armor)
+    {
+        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor, tallnum2, 2) + 1) / 2;
+
+        hudfunc(HUD_ARMOR_X - (SHORT(armorpatch->width) + 1) / 2, HUD_ARMOR_Y - SHORT(armorpatch->height) - 3, armorpatch, tinttab66);
+
+        if (armorhighlight > currenttime)
+        {
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum2, 2, V_DrawHighlightedHUDNumberPatch);
+
+            if (!emptytallpercent)
+                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+        }
+        else
+        {
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum2, 2, hudnumfunc);
 
             if (!emptytallpercent)
                 hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
@@ -1000,6 +1149,8 @@ void HU_Drawer(void)
         {
             if (r_althud)
                 HU_DrawAltHUD();
+            else if (gamemission == heretic)
+                HU_DrawHereticHUD();
             else
                 HU_DrawHUD();
         }
