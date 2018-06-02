@@ -277,7 +277,7 @@ static void god_cmd_func2(char *cmd, char *parms);
 static void help_cmd_func2(char *cmd, char *parms);
 static void if_cmd_func2(char *cmd, char *parms);
 static dboolean kill_cmd_func1(char *cmd, char *parms);
-static void kill_cmd_func2(char *cmd, char *parms);
+void kill_cmd_func2(char *cmd, char *parms);
 static void load_cmd_func2(char *cmd, char *parms);
 static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
@@ -2345,7 +2345,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static void kill_cmd_func2(char *cmd, char *parms)
+void kill_cmd_func2(char *cmd, char *parms)
 {
     char        *parm = removenonalpha(parms);
     static char buffer[1024];

@@ -535,6 +535,8 @@ void ST_AutomapEvent(int type)
         st_firsttime = true;
 }
 
+void kill_cmd_func2(char *cmd, char *parms);
+
 extern char     cheatkey;
 extern int      episode;
 extern menu_t   EpiDef;
@@ -816,6 +818,16 @@ dboolean ST_Responder(event_t *ev)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
+            }
+
+            else if (cht_CheckCheat(&hcheat_massacre, ev->data2) && gameskill != sk_nightmare
+                && gamemission == heretic)
+            {
+                C_Input(hcheat_massacre.sequence);
+                kill_cmd_func2("kill", "all");
+                S_StartSound(NULL, SFX_GETPOW);
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                viewplayer->cheated++;
             }
 
             // 'mus' cheat for changing music
