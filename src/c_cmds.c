@@ -620,7 +620,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The intensity of the effect when the player has the\nberserk power-up and their fists equipped (<b>0</b> to\n<b>8</b>)."),
+        "The intensity of the effect when the player has the\nberserk power-up and their fists equipped (<b>0</b> to <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood of the player and monsters\n(<b>all</b>, <b>none</b> or <b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -632,7 +632,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_INT(r_color, "", int_cvars_func1, r_color_cvar_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of color on the screen (<b>0%</b> to\n<b>100%</b>)."),
+        "The intensity of color on the screen (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -710,9 +710,9 @@ consolecmd_t consolecmds[] =
     CMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles regenerating health."),
     CMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
-        "Resets a <i>CVAR</i> to its default value."),
+        "Resets a <i>CVAR</i> to its default."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
-        "Resets all CVARs to their default values."),
+        "Resets all CVARs to their defaults."),
     CMD(respawnitems, "", null_func1, respawnitems_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning items."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
@@ -3986,6 +3986,11 @@ static void C_VerifyResetAll(const int key)
         keyboardback2 = KEYDOWN2_DEFAULT;
         keyboardconsole = KEYCONSOLE_DEFAULT;
         keyboardfire = KEYFIRE_DEFAULT;
+        keyboardforward = KEYUP_DEFAULT;
+        keyboardforward2 = KEYUP2_DEFAULT;
+        keyboardinvleft = KEYINVLEFT_DEFAULT;
+        keyboardinvright = KEYINVRIGHT_DEFAULT;
+        keyboardjump = KEYJUMP_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardmenu = KEY_ESCAPE;
         keyboardmouselook = KEYMOUSELOOK_DEFAULT;
@@ -3999,10 +4004,9 @@ static void C_VerifyResetAll(const int key)
         keyboardstrafeleft2 = KEYSTRAFELEFT2_DEFAULT;
         keyboardstraferight = KEYSTRAFERIGHT_DEFAULT;
         keyboardstraferight2 = KEYSTRAFERIGHT2_DEFAULT;
-        keyboardforward = KEYUP_DEFAULT;
-        keyboardforward2 = KEYUP2_DEFAULT;
         keyboarduse = KEYUSE_DEFAULT;
         keyboarduse2 = KEYUSE2_DEFAULT;
+        keyboarduseartifact = KEYUSEARTIFACT_DEFAULT;
         keyboardweapon1 = KEYWEAPON1_DEFAULT;
         keyboardweapon2 = KEYWEAPON2_DEFAULT;
         keyboardweapon3 = KEYWEAPON3_DEFAULT;
@@ -4010,17 +4014,16 @@ static void C_VerifyResetAll(const int key)
         keyboardweapon5 = KEYWEAPON5_DEFAULT;
         keyboardweapon6 = KEYWEAPON6_DEFAULT;
         keyboardweapon7 = KEYWEAPON7_DEFAULT;
-        keyboardjump = KEYJUMP_DEFAULT;
 
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
+        mousejump = MOUSEJUMP_DEFAULT;
         mousemouselook = MOUSEMOUSELOOK_DEFAULT;
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
         mouserun = MOUSERUN_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
         mouseuse = MOUSEUSE_DEFAULT;
-        mousejump = MOUSEJUMP_DEFAULT;
 
         gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
         gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
@@ -4035,6 +4038,9 @@ static void C_VerifyResetAll(const int key)
         gamepadback = GAMEPADBACK_DEFAULT;
         gamepadfire = GAMEPADFIRE_DEFAULT;
         gamepadforward = GAMEPADFORWARD_DEFAULT;
+        gamepadinvleft = GAMEPADINVLEFT_DEFAULT;
+        gamepadinvright = GAMEPADINVRIGHT_DEFAULT;
+        gamepadjump = GAMEPADJUMP_DEFAULT;
         gamepadleft = GAMEPADLEFT_DEFAULT;
         gamepadmenu = GAMEPADMENU_DEFAULT;
         gamepadmouselook = GAMEPADMOUSELOOK_DEFAULT;
@@ -4047,6 +4053,7 @@ static void C_VerifyResetAll(const int key)
         gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
         gamepaduse = GAMEPADUSE_DEFAULT;
         gamepaduse2 = GAMEPADUSE2_DEFAULT;
+        gamepaduseartifact = GAMEPADUSEARTIFACT_DEFAULT;
         gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
@@ -4054,14 +4061,13 @@ static void C_VerifyResetAll(const int key)
         gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
-        gamepadjump = GAMEPADJUMP_DEFAULT;
 
 #if defined(_WIN32)
         wad = "";
         M_SaveCVARs();
 #endif
 
-        C_Output("All CVARs have been reset to their default values.");
+        C_Output("All CVARs have been reset to their defaults.");
     }
 }
 
@@ -4069,7 +4075,7 @@ static void resetall_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[128];
 
-    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all\nCVARs to their default values?\n\n%s",
+    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset\nall CVARs to their defaults?\n\n%s",
         s_PRESSYN);
     M_StartMessage(buffer, C_VerifyResetAll, true);
     SDL_StopTextInput();
