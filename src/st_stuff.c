@@ -543,7 +543,6 @@ extern menu_t   EpiDef;
 
 static void ST_GodModeCheat(void)
 {
-    // [BH] if player is dead, resurrect them first
     if (viewplayer->health <= 0)
         P_ResurrectPlayer(initial_health);
 
@@ -551,66 +550,44 @@ static void ST_GodModeCheat(void)
 
     if (viewplayer->cheats & CF_GODMODE)
     {
-        // [BH] remember player's current health,
-        //  and only set to 100% if less than 100%
         oldhealth = viewplayer->health;
         P_GiveBody(god_health, false);
+        HU_PlayerMessage((gamemission == heretic ? s_STSTR_GODON : s_STSTR_DQDON), false);
 
-        if (gamemission == heretic)
-        {
-            C_Input(hcheat_god.sequence);
-            HU_PlayerMessage(s_STSTR_GODON, false);
-        }
-        else
-        {
-            C_Input(cheat_god.sequence);
-            HU_PlayerMessage(s_STSTR_DQDON, false);
-        }
-
-        // [BH] always display message
         if (!consoleactive)
             message_dontfuckwithme = true;
 
-        // [BH] play sound
         S_StartSound(NULL, SFX_GETPOW);
-
         stat_cheated = SafeAdd(stat_cheated, 1);
         viewplayer->cheated++;
     }
     else
     {
-        if (gamemission == heretic)
-        {
-            C_Input(hcheat_god.sequence);
-            HU_PlayerMessage(s_STSTR_GODOFF, false);
-        }
-        else
-        {
-            C_Input(cheat_god.sequence);
-            HU_PlayerMessage(s_STSTR_DQDOFF, false);
-        }
+        HU_PlayerMessage((gamemission == heretic ? s_STSTR_GODOFF : s_STSTR_DQDOFF), false);
 
-        // [BH] always display message
         if (!consoleactive)
             message_dontfuckwithme = true;
 
-        // [BH] restore player's health
         viewplayer->health = oldhealth;
         viewplayer->mo->health = oldhealth;
+        S_StartSound(NULL, SFX_GETPOW);
+    }
+}
 
-        if (!oldhealth)
-        {
-            // [BH] The player originally used this cheat to
-            // resurrect themselves, and now they have the audacity
-            // to disable it. Kill them!
-            viewplayer->attacker = NULL;
-            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
-        }
-        else
-        {
-            // [BH] play sound
-            S_StartSound(NULL, SFX_GETPOW);
-        }
+static void ST_NoClippingModeCheat(void)
+{
+    viewplayer->cheats ^= CF_NOCLIP;
+    HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
+
+    if (!consoleactive)
+        message_dontfuckwithme = true;
+
+    S_StartSound(NULL, SFX_GETPOW);
+
+    if (viewplayer->cheats & CF_NOCLIP)
+    {
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        viewplayer->cheated++;
     }
 }
 
@@ -632,21 +609,25 @@ dboolean ST_Responder(event_t *ev)
                 if (gamemission == heretic)
                 {
                     P_DamageMobj(viewplayer->mo, NULL, viewplayer->mo, 10000, false);
-
                     C_Input(cheat_god.sequence);
-
                     HU_PlayerMessage(s_STSTR_CHEATIDDQD, false);
 
                     if (!consoleactive)
                         message_dontfuckwithme = true;
                 }
                 else
+                {
+                    C_Input(cheat_god.sequence);
                     ST_GodModeCheat();
+                }
             }
 
             // 'quicken' cheat for toggleable god mode
             else if (cht_CheckCheat(&hcheat_god, ev->data2) && gameskill != sk_nightmare && gamemission == heretic)
+            {
+                C_Input(hcheat_god.sequence);
                 ST_GodModeCheat();
+            }
 
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare
@@ -820,6 +801,7 @@ dboolean ST_Responder(event_t *ev)
                 }
             }
 
+            // massacre cheat
             else if (cht_CheckCheat(&hcheat_massacre, ev->data2) && gameskill != sk_nightmare
                 && gamemission == heretic)
             {
@@ -831,9 +813,7 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // 'mus' cheat for changing music
-            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2)
-                     // [BH] can only enter cheat if music is playing
-                     && !nomusic && musicVolume)
+            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2) && !nomusic && musicVolume && gamemission != heretic)
             {
                 char   buf[3];
 
@@ -887,30 +867,23 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // no clipping mode cheat
-            else if (((cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial)
-                     || (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial))
-                     && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+            else if (cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial
+                     && gameskill != sk_nightmare && gamemission != heretic && viewplayer->health > 0)
             {
-                viewplayer->cheats ^= CF_NOCLIP;
-
-                C_Input(gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence);
-
-                HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
-
-                // [BH] always display message
-                if (!consoleactive)
-                    message_dontfuckwithme = true;
-
-                // [BH] play sound
-                S_StartSound(NULL, SFX_GETPOW);
-
-                if (viewplayer->cheats & CF_NOCLIP)
-                {
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
-                }
+                C_Input(cheat_noclip.sequence);
+                ST_NoClippingModeCheat();
+            }
+            else if (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial
+                && gameskill != sk_nightmare && gamemission != heretic && viewplayer->health > 0)
+            {
+                C_Input(cheat_commercial_noclip.sequence);
+                ST_NoClippingModeCheat();
+            }
+            else if (cht_CheckCheat(&hcheat_noclip, ev->data2) && gameskill != sk_nightmare
+                && gamemission == heretic && viewplayer->health > 0)
+            {
+                C_Input(hcheat_noclip.sequence);
+                ST_NoClippingModeCheat();
             }
 
             // 'behold?' power-up cheats
