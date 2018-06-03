@@ -547,7 +547,7 @@ void C_Init(void)
     if (gamemission == heretic)
     {
         consolebrandcolor1 = 35;
-        consolebrandcolor2 = 154;
+        consolebrandcolor2 = 216;
         consolecaretcolor = 35;
         consolelowfpscolor = 154;
         consolehighfpscolor = 220;
@@ -562,11 +562,11 @@ void C_Init(void)
         consoleboldcolor = 35;
         consoleitalicscolor = 16;
         consoleheadercolor1 = 35;
-        consoleheadercolor2 = 154;
+        consoleheadercolor2 = 216;
         consolewarningcolor = 154;
         consolewarningboldcolor = 158;
         consoledividercolor = 15;
-        consoleedgecolor = 154 << 8;
+        consoleedgecolor = 216 << 8;
         consolescrollbartrackcolor = 15 << 8;
         consolescrollbarfacecolor = 20;
     }
@@ -699,6 +699,7 @@ static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2,
 static void C_DrawBackground(int height)
 {
     static dboolean blurred;
+    const int       color = (gamemission == heretic ? 210 : nearestcolors[con_backcolor]) << 8;
 
     height = (height + 5) * CONSOLEWIDTH;
 
@@ -730,7 +731,7 @@ static void C_DrawBackground(int height)
             screens[0][i] = tinttab50[(227 << 8) + c_blurscreen[i]];
     else
         for (int i = 0; i < height; i++)
-            screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
+            screens[0][i] = tinttab50[color + c_blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
