@@ -86,4 +86,20 @@ extern cheatseq_t   cheat_clev_xy;
 extern cheatseq_t   cheat_mypos;
 extern cheatseq_t   cheat_amap;
 
+extern cheatseq_t   hcheat_god;
+extern cheatseq_t   hcheat_noclip;
+extern cheatseq_t   hcheat_weapons;
+extern cheatseq_t   hcheat_power;
+extern cheatseq_t   hcheat_health;
+extern cheatseq_t   hcheat_keys;
+extern cheatseq_t   hcheat_sound;
+extern cheatseq_t   hcheat_ticker;
+extern cheatseq_t   hcheat_artifact1;
+extern cheatseq_t   hcheat_artifact2;
+extern cheatseq_t   hcheat_artifact3;
+extern cheatseq_t   hcheat_warp;
+extern cheatseq_t   hcheat_chicken;
+extern cheatseq_t   hcheat_massacre;
+extern cheatseq_t   hcheat_amap;
+
 #endif

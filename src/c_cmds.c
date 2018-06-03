@@ -1021,7 +1021,7 @@ static dboolean alive_func1(char *cmd, char *parms)
 
 static dboolean cheat_func1(char *cmd, char *parms)
 {
-    if (M_StringCompare(cmd, cheat_clev.sequence))
+    if (M_StringCompare(cmd, cheat_clev.sequence) && gamemission != heretic)
     {
         dboolean    result;
 
@@ -1055,38 +1055,46 @@ static dboolean cheat_func1(char *cmd, char *parms)
         return false;
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
+    else if (M_StringCompare(cmd, hcheat_god.sequence))
+        return (gameskill != sk_nightmare && gamemission == heretic);
     else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(cmd, hcheat_weapons.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
+    else if (M_StringCompare(cmd, hcheat_massacre.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
-        return (!nomusic && musicVolume);
+        return (!nomusic && musicVolume && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
-        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
-        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[2].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[3].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_buddha.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
-        return true;
+        return (gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_amap.sequence))
-        return (automapactive || mapwindow);
+        return ((automapactive || mapwindow) && gamemission != heretic);
+    else if (M_StringCompare(cmd, hcheat_amap.sequence))
+        return ((automapactive || mapwindow) && gamemission == heretic);
 
     return false;
 }
