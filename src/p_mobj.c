@@ -1355,9 +1355,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         return NULL;
     }
 
-    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors))
-        C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.",
-            mobjinfo[i].name1, mthing->x, mthing->y);
+    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors) && type != VisualModeCamera)
+    {
+        if (mobjinfo[i].name1[0] != '\0')
+            C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
+        else
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(index), mthing->x, mthing->y);
+    }
 
     if (!(mthing->options & bit))
         return NULL;
