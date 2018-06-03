@@ -1951,40 +1951,38 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
 mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle)
 {
-    mobj_t *th;
-    angle_t an;
+    mobj_t  *th;
+    angle_t an = angle;
     fixed_t x, y, z;
     fixed_t slope;
 
-    //
-    // see which target is to be aimed at
-    //
-    an = angle;
-    slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
-
-    if (!linetarget)
+    if (usemouselook && !autoaim)
+        slope = ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+    else
     {
-        an += 1 << 26;
+        // see which target is to be aimed at
         slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
 
         if (!linetarget)
         {
-            an -= 2 << 26;
-            slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
-        }
+            slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
-        if (!linetarget)
-        {
-            an = angle;
-            slope = ((source->player->lookdir) << FRACBITS) / 173;
+            if (!linetarget)
+                slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+
+            if (!linetarget)
+            {
+                an = angle;
+                slope = (usemouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+            }
         }
     }
 
     x = source->x;
     y = source->y;
-    z = source->z + 4 * 8 * FRACUNIT + ((source->player->lookdir) << FRACBITS) / 173;
+    z = source->z + 4 * 8 * FRACUNIT;
 
-    if (source->flags2 & MF2_FEETARECLIPPED)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_lowerview)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
@@ -1992,11 +1990,13 @@ mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle)
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);
 
-    th->target = source;
+    P_SetTarget(&th->target, source);
     th->angle = an;
-    th->momx = FixedMul(th->info->speed, finecosine[an >> ANGLETOFINESHIFT]);
-    th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
+    an >>= ANGLETOFINESHIFT;
+    th->momx = FixedMul(th->info->speed, finecosine[an]);
+    th->momy = FixedMul(th->info->speed, finesine[an]);
     th->momz = FixedMul(th->info->speed, slope);
+    th->interpolate = -1;
     return (P_CheckMissileSpawn(th) ? th : NULL);
 }
 
