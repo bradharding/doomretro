@@ -964,6 +964,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     long            frame = state->frame;
     spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
     int             lump = sprframe->lump[0];
+    int             lookdir = viewplayer->lookdir;
+    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered ? spriteoffset[lump] : newspriteoffset[lump]);
@@ -1025,7 +1027,12 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         }
     }
 
-    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale) - viewplayer->lookdir * 0x5C0;
+    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
+
+    if (lookdir < 0)
+        vis->texturemid -= lookdir * info[viewplayer->readyweapon].lookdown;
+    else if (lookdir > 0)
+        vis->texturemid -= lookdir * info[viewplayer->readyweapon].lookup;
 
     if (invisibility)
     {

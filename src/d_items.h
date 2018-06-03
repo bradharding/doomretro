@@ -61,6 +61,8 @@ typedef struct
     int             tics;
     int             prev;
     int             next;
+    int             lookup;
+    int             lookdown;
     dboolean        altered;
 } weaponinfo_t;
 
