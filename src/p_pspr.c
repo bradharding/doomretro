@@ -431,7 +431,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
+    if (gamemission != heretic && readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(actor, sfx_sawidl);
     else if (gamemission == heretic && readyweapon == wp_staff && psp->state == &states[HS_STAFFREADY2_1] && M_Random() < 128)
         S_StartSound(player->mo, hsfx_stfcrk);
@@ -462,7 +462,8 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  the missile launcher and BFG do not auto fire
     if (player->cmd.buttons & BT_ATTACK)
     {
-        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg))
+        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg && gamemission != heretic)
+            || (readyweapon != wp_phoenixrod && gamemission == heretic))
         {
             player->attackdown = true;
             P_FireWeapon();
