@@ -317,7 +317,7 @@ static void P_XYMovement(mobj_t *mo)
         return;
     }
 
-    if (mo->flags3 & MF3_WINDTHRUST)
+    if ((mo->flags3 & MF3_WINDTHRUST) && !freeze)
     {
         static int  windtab[3] = { 2048 * 5, 2048 * 10, 2048 * 25 };
 
