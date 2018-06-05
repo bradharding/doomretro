@@ -764,7 +764,10 @@ dboolean P_GivePower(int power)
         /* pw_invisibility    */ INVISTICS,
         /* pw_ironfeet        */ IRONTICS,
         /* pw_allmap          */ STARTFLASHING + 1,
-        /* pw_infrared        */ INFRATICS
+        /* pw_infrared        */ INFRATICS,
+        /* pw_weaponlevel2    */ WPNLEV2TICS,
+        /* pw_flight          */ FLIGHTTICS
+
    };
 
     if (viewplayer->powers[power] < 0)
@@ -787,6 +790,12 @@ dboolean P_GivePower(int power)
         case pw_infrared:
             viewplayer->fixedcolormap = 1;
             break;
+
+        case pw_flight:
+            viewplayer->mo->flags |= MF_NOGRAVITY;
+
+            if (viewplayer->mo->z <= viewplayer->mo->floorz)
+                viewplayer->flyheight = 10;
     }
 
     viewplayer->powers[power] = tics[power];
@@ -1901,6 +1910,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (target->player)
     {
         target->flags &= ~MF_SOLID;
+        target->flags3 &= ~MF3_FLY;
+        target->player->powers[pw_flight] = 0;
+        target->player->powers[pw_weaponlevel2] = 0;
         viewplayer->playerstate = PST_DEAD;
         P_DropWeapon();
 
@@ -2121,6 +2133,7 @@ dboolean P_ChickenMorphPlayer(void)
     viewplayer->armorpoints = viewplayer->armortype = 0;
     viewplayer->powers[pw_invisibility] = 0;
     viewplayer->powers[pw_weaponlevel2] = 0;
+
     if (oldflags3 & MF3_FLY)
         chicken->flags3 |= MF3_FLY;
 

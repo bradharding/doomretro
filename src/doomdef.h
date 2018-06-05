@@ -272,10 +272,12 @@ typedef enum
 //
 enum
 {
-    INVULNTICS =  30 * TICRATE,
-    INVISTICS  =  60 * TICRATE,
-    INFRATICS  = 120 * TICRATE,
-    IRONTICS   =  60 * TICRATE
+    INVULNTICS  =  30 * TICRATE,
+    INVISTICS   =  60 * TICRATE,
+    INFRATICS   = 120 * TICRATE,
+    IRONTICS    =  60 * TICRATE,
+    WPNLEV2TICS =  40 * TICRATE,
+    FLIGHTTICS  =  60 * TICRATE
 };
 
 #define STARTFLASHING           127

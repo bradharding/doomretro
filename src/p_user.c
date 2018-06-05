@@ -212,6 +212,7 @@ void P_MovePlayer(void)
     ticcmd_t    *cmd = &viewplayer->cmd;
     char        forwardmove = cmd->forwardmove;
     char        sidemove = cmd->sidemove;
+    int         fly;
 
     mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
@@ -222,30 +223,27 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if (forwardmove | sidemove)
+    if ((forwardmove | sidemove) && (onground || (mo->flags3 & MF3_FLY)))
     {
-        if (onground)
+        int     friction;
+        int     movefactor = P_GetMoveFactor(mo, &friction);
+        angle_t angle = mo->angle;
+
+        // killough 11/98:
+        // On sludge, make bobbing depend on efficiency.
+        // On ice, make it depend on effort.
+        int     bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
+
+        if (forwardmove)
         {
-            int     friction;
-            int     movefactor = P_GetMoveFactor(mo, &friction);
-            angle_t angle = mo->angle;
+            P_Bob(angle, forwardmove * bobfactor);
+            P_Thrust(angle, forwardmove * movefactor);
+        }
 
-            // killough 11/98:
-            // On sludge, make bobbing depend on efficiency.
-            // On ice, make it depend on effort.
-            int     bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
-
-            if (forwardmove)
-            {
-                P_Bob(angle, forwardmove * bobfactor);
-                P_Thrust(angle, forwardmove * movefactor);
-            }
-
-            if (sidemove)
-            {
-                P_Bob((angle -= ANG90), sidemove * bobfactor);
-                P_Thrust(angle, sidemove * movefactor);
-            }
+        if (sidemove)
+        {
+            P_Bob((angle -= ANG90), sidemove * bobfactor);
+            P_Thrust(angle, sidemove * movefactor);
         }
     }
 
@@ -260,6 +258,38 @@ void P_MovePlayer(void)
 
         if (ABS(viewplayer->lookdir) < 16 * MLOOKUNIT)
             viewplayer->lookdir = 0;
+    }
+
+    if ((fly = cmd->lookfly >> 4) > 7)
+        fly -= 16;
+
+    if (fly && viewplayer->powers[pw_flight])
+    {
+        if (fly != TOCENTER)
+        {
+            viewplayer->flyheight = fly * 2;
+
+            if (!(mo->flags3 & MF3_FLY))
+            {
+                mo->flags3 |= MF3_FLY;
+                mo->flags |= MF_NOGRAVITY;
+            }
+        }
+        else
+        {
+            mo->flags3 &= ~MF3_FLY;
+            mo->flags &= ~MF_NOGRAVITY;
+        }
+    }
+    else if (fly > 0)
+        P_PlayerUseArtifact(arti_fly);
+
+    if (mo->flags3 & MF3_FLY)
+    {
+        mo->momz = viewplayer->flyheight * FRACUNIT;
+
+        if (viewplayer->flyheight)
+            viewplayer->flyheight /= 2;
     }
 }
 
@@ -739,13 +769,11 @@ void P_PlayerThink(void)
         viewplayer->powers[pw_ironfeet]--;
 
     if (viewplayer->powers[pw_flight])
-    {
         if (!--viewplayer->powers[pw_flight])
         {
             viewplayer->mo->flags3 &= ~MF3_FLY;
             viewplayer->mo->flags &= ~MF_NOGRAVITY;
         }
-    }
 
     if (viewplayer->powers[pw_weaponlevel2])
     {

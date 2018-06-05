@@ -44,6 +44,7 @@
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
 
+#define TOCENTER            -8
 #define FLOATSPEED          (4 * FRACUNIT)
 
 #define VIEWHEIGHT          (41 * FRACUNIT)

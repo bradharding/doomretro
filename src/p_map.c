@@ -181,12 +181,15 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 {
     int movefactor;
-    int friction = P_GetFriction(mo, &movefactor);
+    int friction;
+
+    if (viewplayer->chickentics)
+        return 2500;
 
     // If the floor is icy or muddy, it's harder to get moving. This is where
     // the different friction factors are applied to 'trying to move'. In
     // p_mobj.c, the friction factors are applied as you coast and slow down.
-    if (friction < ORIG_FRICTION)
+    if ((friction = P_GetFriction(mo, &movefactor)) < ORIG_FRICTION)
     {
         // phares 3/11/98: you start off slowly, then increase as
         // you get better footing
@@ -938,6 +941,9 @@ void P_FakeZMovement(mobj_t *mo)
             if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
                 mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
+
+    if (mo->player && (mo->flags3 & MF3_FLY) && mo->z > mo->floorz && (leveltime & 2))
+        mo->z += finesine[(FINEANGLES / 20 * leveltime >> 2) & FINEMASK];
 
     // clip movement
     if (mo->z <= mo->floorz)

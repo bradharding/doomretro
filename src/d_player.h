@@ -223,6 +223,7 @@ typedef struct player_s
     artitype_t      readyartifact;
     int             artifactcount;
     int             inventoryslotnum;
+    int             flyheight;
 
     fixed_t         recoil;
     fixed_t         oldrecoil;
