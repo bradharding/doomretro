@@ -775,6 +775,9 @@ static void M_CheckCVARs(void)
     vid_motionblur = BETWEEN(vid_motionblur_min, vid_motionblur, vid_motionblur_max);
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
+#if defined(__MACOSX__)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_metal)
+#endif
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
 #if !defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)

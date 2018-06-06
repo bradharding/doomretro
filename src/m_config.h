@@ -567,6 +567,9 @@ enum
 #define vid_pillarboxes_default                 false
 
 #define vid_scaleapi_direct3d                   "direct3d"
+#if defined(__MACOSX__)
+#define vid_scaleapi_metal                      "metal"
+#endif
 #define vid_scaleapi_opengl                     "opengl"
 #if !defined(_WIN32)
 #define vid_scaleapi_opengles                   "opengles"
