@@ -750,6 +750,7 @@ static void R_SetupFrame(void)
     {
         viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
         viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+        viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
     }
 
     extralight = viewplayer->extralight << 2;
