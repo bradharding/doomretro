@@ -98,6 +98,9 @@ void G_PrevWeapon(void);
 void G_NextHereticWeapon(void);
 void G_PrevHereticWeapon(void);
 
+void G_InventoryLeft(void);
+void G_InventoryRight(void);
+
 extern fixed_t  forwardmove[2];
 extern fixed_t  sidemove[2];
 extern fixed_t  angleturn[3];

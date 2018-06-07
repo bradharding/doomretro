@@ -883,10 +883,12 @@ static void grid_action_func(void)
 
 static void invleft_action_func(void)
 {
+    G_InventoryLeft();
 }
 
 static void invright_action_func(void)
 {
+    G_InventoryRight();
 }
 
 static void jump_action_func(void)
@@ -965,6 +967,8 @@ static void use_action_func(void)
 
 static void useartifact_action_func(void)
 {
+    if (viewplayer->cmd.arti)
+        P_PlayerUseArtifact(viewplayer->cmd.arti);
 }
 
 static void weapon1_action_func(void)

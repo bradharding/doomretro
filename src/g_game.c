@@ -273,6 +273,57 @@ void G_PrevHereticWeapon(void)
         viewplayer->pendingweapon = i;
 }
 
+void G_InventoryLeft(void)
+{
+    inventorytics = 5 * TICRATE;
+
+    if (!inventory)
+    {
+        inventory = true;
+        return;
+    }
+
+    inv_ptr--;
+
+    if (inv_ptr < 0)
+        inv_ptr = 0;
+    else
+    {
+        curpos--;
+
+        if (curpos < 0)
+            curpos = 0;
+    }
+}
+
+void G_InventoryRight(void)
+{
+    inventorytics = 5 * TICRATE;
+
+    if (!inventory)
+    {
+        inventory = true;
+        return;
+    }
+
+    inv_ptr++;
+
+    if (inv_ptr >= viewplayer->inventoryslotnum)
+    {
+        inv_ptr--;
+
+        if (inv_ptr < 0)
+            inv_ptr = 0;
+    }
+    else
+    {
+        curpos++;
+
+        if (curpos > 6)
+            curpos = 6;
+    }
+}
+
 //
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs.
@@ -788,54 +839,9 @@ dboolean G_Responder(event_t *ev)
                 G_ToggleAlwaysRun(ev_keydown);
             }
             else if (key == keyboardinvleft)
-            {
-                inventorytics = 5 * TICRATE;
-
-                if (!inventory)
-                {
-                    inventory = true;
-                    break;
-                }
-
-                inv_ptr--;
-
-                if (inv_ptr < 0)
-                    inv_ptr = 0;
-                else
-                {
-                    curpos--;
-
-                    if (curpos < 0)
-                        curpos = 0;
-                }
-            }
+                G_InventoryLeft();
             else if (key == keyboardinvright)
-            {
-                inventorytics = 5 * TICRATE;
-
-                if (!inventory)
-                {
-                    inventory = true;
-                    break;
-                }
-
-                inv_ptr++;
-
-                if (inv_ptr >= viewplayer->inventoryslotnum)
-                {
-                    inv_ptr--;
-
-                    if (inv_ptr < 0)
-                        inv_ptr = 0;
-                }
-                else
-                {
-                    curpos++;
-
-                    if (curpos > 6)
-                        curpos = 6;
-                }
-            }
+                G_InventoryRight();
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
