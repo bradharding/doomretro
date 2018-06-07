@@ -471,6 +471,8 @@ void D_PageTicker(void)
 //
 void D_PageDrawer(void)
 {
+    static dboolean advisor;
+
     if (splashscreen)
     {
         I_SetPalette(palette1 + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
@@ -483,8 +485,12 @@ void D_PageDrawer(void)
         else if (rawpagelump)
             V_DrawRawScreen(rawpagelump);
 
-        if (ADVISOR && (pagelump == titlelump || rawpagelump == rawtitlelump) && pagetic && pagetic <= 17 * TICRATE)
+        if (ADVISOR && ((pagelump == titlelump && !rawpagelump) || (rawpagelump == rawtitlelump && !pagelump))
+            && ((pagetic && pagetic <= 17 * TICRATE) || advisor))
+        {
+            advisor = true;
             V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
+        }
     }
 }
 
