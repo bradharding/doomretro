@@ -927,7 +927,7 @@ dboolean ST_Responder(event_t *ev)
                             }
                         }
 
-                        C_Input(cheat_powerup[i].sequence);
+                        C_Input(cheat_powerup[i - 1].sequence);
 
                         HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
@@ -967,7 +967,7 @@ dboolean ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        C_Input(cheat_powerup[i].sequence);
+                        C_Input(cheat_powerup[i - 1].sequence);
 
                         HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false);
