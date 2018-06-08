@@ -384,7 +384,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
         /* prev */         wp_mace,
         /* next */         wp_staff,
         /* lookup */       1472,
-        /* lookdown */     1472
+        /* lookdown */     182
     }
 };
 
@@ -558,6 +558,6 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
         /* prev */         wp_mace,
         /* next */         wp_staff,
         /* lookup */       1472,
-        /* lookdown */     1472
+        /* lookdown */     182
     }
 };
