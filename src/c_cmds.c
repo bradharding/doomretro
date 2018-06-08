@@ -1028,7 +1028,8 @@ static dboolean alive_func1(char *cmd, char *parms)
 
 static dboolean cheat_func1(char *cmd, char *parms)
 {
-    if (M_StringCompare(cmd, cheat_clev.sequence) && gamemission != heretic)
+    if ((M_StringCompare(cmd, cheat_clev.sequence) && gamemission != heretic)
+        || (M_StringCompare(cmd, hcheat_warp.sequence) && gamemission == heretic))
     {
         dboolean    result;
 

@@ -356,6 +356,7 @@ cheatseq_t hcheat_artifact1 = CHEAT("gimme", 0);
 cheatseq_t hcheat_artifact2 = CHEAT("gimme", 0);
 cheatseq_t hcheat_artifact3 = CHEAT("gimme", 0);
 cheatseq_t hcheat_warp = CHEAT("engage", 0);
+cheatseq_t hcheat_warp_xy = CHEAT("engage", 2);
 cheatseq_t hcheat_chicken = CHEAT("cockadoodledoo", 0);
 cheatseq_t hcheat_massacre = CHEAT("massacre", 0);
 cheatseq_t hcheat_amap = CHEAT("ravmap", 0);
@@ -1102,8 +1103,7 @@ dboolean ST_Responder(event_t *ev)
                 viewplayer->cheated++;
             }
 
-            else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare
-                && viewplayer->health > 0)
+            else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
                 viewplayer->cheats ^= CF_BUDDHA;
 
@@ -1153,17 +1153,19 @@ dboolean ST_Responder(event_t *ev)
         // 'clev' change-level cheat
         if (!menuactive && !paused)
         {
-            if (!consolecheat[0] && cht_CheckCheat(&cheat_clev, ev->data2))
+            if (!consolecheat[0] && ((cht_CheckCheat(&cheat_clev, ev->data2) && gamemission != heretic)
+                || (cht_CheckCheat(&hcheat_warp, ev->data2) && gamemission == heretic)))
                 idclev = true;
 
-            if (cht_CheckCheat(&cheat_clev_xy, ev->data2))
+            if ((cht_CheckCheat(&cheat_clev_xy, ev->data2) && gamemission != heretic)
+                || (cht_CheckCheat(&hcheat_warp_xy, ev->data2) && gamemission == heretic))
             {
                 char   buf[3];
                 char   lump[6];
                 int    epsd;
                 int    map;
 
-                cht_GetParam(&cheat_clev_xy, buf);
+                cht_GetParam((gamemission == heretic ? &hcheat_warp_xy : &cheat_clev_xy), buf);
 
                 if (gamemode == commercial)
                 {
@@ -1192,7 +1194,7 @@ dboolean ST_Responder(event_t *ev)
                     static char message[128];
                     static char prevlump[6];
 
-                    C_Input("%s%c%c", cheat_clev_xy.sequence, buf[0], buf[1]);
+                    C_Input("%s%c%c", (gamemission == heretic ? hcheat_warp_xy.sequence : cheat_clev_xy.sequence), buf[0], buf[1]);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2), buf[0], buf[1]);
