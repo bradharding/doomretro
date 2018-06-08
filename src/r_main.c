@@ -690,7 +690,7 @@ static void R_SetupFrame(void)
     mobj_t  *mo = viewplayer->mo;
     int     tempCentery = viewheight / 2;
     int     pitch = 0;
-    int     time;
+    int     time = I_GetTimeMS();
 
     mo->flags2 |= MF2_DONTDRAW;
 
@@ -698,7 +698,7 @@ static void R_SetupFrame(void)
 
     // Figure out how far into the current tic we're in as a fixed_t
     if (vid_capfps != TICRATE)
-        fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
+        fractionaltic = time * TICRATE % 1000 * FRACUNIT / 1000;
 
     if (vid_capfps != TICRATE
         // Don't interpolate on the first tic of a level, otherwise
@@ -746,7 +746,7 @@ static void R_SetupFrame(void)
         }
     }
 
-    if (barrelms > (time = I_GetTimeMS()) && !consoleactive && !menuactive && !paused)
+    if (barrelms > time && !consoleactive && !menuactive && !paused)
     {
         viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
         viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;

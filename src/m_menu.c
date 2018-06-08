@@ -1072,7 +1072,7 @@ static int      caretwait;
 int             caretcolor;
 
 //
-//  M_SaveGame & Cie.
+//  M_SaveGame
 //
 static void M_DrawSave(void)
 {
