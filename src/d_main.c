@@ -471,8 +471,6 @@ void D_PageTicker(void)
 //
 void D_PageDrawer(void)
 {
-    static dboolean advisor;
-
     if (splashscreen)
     {
         I_SetPalette(palette1 + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
@@ -480,6 +478,8 @@ void D_PageDrawer(void)
     }
     else
     {
+        static dboolean advisor;
+
         if (pagelump)
             V_DrawPagePatch(pagelump);
         else if (rawpagelump)

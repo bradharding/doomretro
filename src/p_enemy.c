@@ -3160,8 +3160,7 @@ void P_DSparilTeleport(mobj_t *actor)
         x = bossspots[i % bossspotcount].x;
         y = bossspots[i % bossspotcount].y;
         z = bossspots[i % bossspotcount].z;
-    }
-    while (P_ApproxDistance(actor->x - x, actor->y - y) < 128 * FRACUNIT);
+    } while (P_ApproxDistance(actor->x - x, actor->y - y) < 128 * FRACUNIT);
 
     prevx = actor->x;
     prevy = actor->y;

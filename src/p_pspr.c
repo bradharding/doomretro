@@ -322,8 +322,7 @@ dboolean P_CheckHereticAmmo(weapontype_t weapon)
             viewplayer->pendingweapon = (weapontype_t)wp_phoenixrod;
         else
             viewplayer->pendingweapon = (weapontype_t)wp_staff;
-    }
-    while (viewplayer->pendingweapon == wp_nochange);
+    } while (viewplayer->pendingweapon == wp_nochange);
 
     if (viewplayer->powers[pw_weaponlevel2])
         P_SetPsprite(ps_weapon, wpnlev2info[viewplayer->readyweapon].downstate);

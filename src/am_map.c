@@ -1934,8 +1934,7 @@ static void AM_drawMarks(void)
 
             x -= MARKWIDTH - 1;
             number /= 10;
-        }
-        while (number > 0);
+        } while (number > 0);
     }
 }
 
