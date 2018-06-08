@@ -1097,7 +1097,7 @@ static dboolean cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_buddha.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return (gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_amap.sequence))
