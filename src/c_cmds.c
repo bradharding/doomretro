@@ -827,6 +827,7 @@ static dboolean strafe(void)
 static void alwaysrun_action_func(void)
 {
     G_ToggleAlwaysRun(ev_none);
+    I_InitKeyboard();
 }
 
 static void automap_action_func(void)
