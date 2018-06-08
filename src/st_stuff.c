@@ -1155,6 +1155,13 @@ dboolean ST_Responder(event_t *ev)
                 viewplayer->cheated++;
             }
 
+            else if (cht_CheckCheat(&hcheat_ticker, ev->data2) && gamemission == heretic)
+            {
+                C_Input(hcheat_ticker.sequence);
+                vid_showfps = !vid_showfps;
+                S_StartSound(NULL, SFX_GETPOW);
+            }
+
             else if ((automapactive || mapwindow) && ((gamemission != heretic && cht_CheckCheat(&cheat_amap, ev->data2))
                 || (gamemission == heretic && cht_CheckCheat(&hcheat_amap, ev->data2))))
             {
