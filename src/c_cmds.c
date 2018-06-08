@@ -4477,7 +4477,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
     if (vanilla)
     {
-        SC_Open("VANILLA");
+        SC_Open((gamemission == heretic ? "VANILLA2" : "VANILLA1"));
 
         while (SC_GetString())
         {

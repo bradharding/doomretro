@@ -516,7 +516,8 @@
     <None Include="..\res\doomretro.wad" />
     <None Include="..\res\DRCOMPAT" />
     <None Include="..\res\DRTEXT2" />
-    <None Include="..\res\VANILLA" />
+    <None Include="..\res\VANILLA1" />
+    <None Include="..\res\VANILLA2" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\doomretro.manifest" />
   </ItemGroup>
