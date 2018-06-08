@@ -1125,6 +1125,36 @@ dboolean ST_Responder(event_t *ev)
                 viewplayer->cheated++;
             }
 
+            else if (cht_CheckCheat(&hcheat_chicken, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0
+                && gamemission == heretic)
+            {
+                C_Input(hcheat_chicken.sequence);
+
+                if (viewplayer->chickentics)
+                {
+                    if (P_UndoPlayerChicken())
+                    {
+                        HU_PlayerMessage(s_STSTR_CHEATCHICKENOFF, false);
+
+                        if (!consoleactive)
+                            message_dontfuckwithme = true;
+                    }
+                }
+                else if (P_ChickenMorphPlayer())
+                {
+                    HU_PlayerMessage(s_STSTR_CHEATCHICKENON, false);
+
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+                }
+
+                // [BH] play sound
+                S_StartSound(NULL, SFX_GETPOW);
+
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                viewplayer->cheated++;
+            }
+
             else if ((automapactive || mapwindow) && ((gamemission != heretic && cht_CheckCheat(&cheat_amap, ev->data2))
                 || (gamemission == heretic && cht_CheckCheat(&hcheat_amap, ev->data2))))
             {

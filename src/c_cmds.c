@@ -1074,6 +1074,8 @@ static dboolean cheat_func1(char *cmd, char *parms)
         return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
     else if (M_StringCompare(cmd, hcheat_massacre.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
+    else if (M_StringCompare(cmd, hcheat_chicken.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
         return (!nomusic && musicVolume && gamemission != heretic);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))

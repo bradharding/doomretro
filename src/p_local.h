@@ -135,6 +135,7 @@ void P_PlayerRemoveArtifact(int slot);
 void P_PlayerUseArtifact(artitype_t arti);
 void P_PlayerNextArtifact(void);
 dboolean P_UseArtifact(artitype_t arti);
+dboolean P_UndoPlayerChicken(void);
 
 //
 // P_MOBJ
@@ -324,6 +325,7 @@ extern mobj_t       **blocklinks;   // for thing chains
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 
 void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust);
+dboolean P_ChickenMorphPlayer(void);
 
 extern int      god_health;
 extern int      idfa_armor;
