@@ -799,6 +799,8 @@ static void WI_initStats(void)
     cnt_par = -1;
     cnt_pause = TICRATE;
 
+    C_AddConsoleDivider();
+
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
     

@@ -113,6 +113,8 @@ void F_StartFinale(void)
     acceleratestage = 0;
     midstage = 0;
 
+    C_AddConsoleDivider();
+
     // Okay - IWAD dependent stuff.
     // This has been changed severely, and
     //  some stuff might have changed in the process.

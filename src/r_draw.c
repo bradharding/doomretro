@@ -1242,6 +1242,8 @@ void R_FillBackScreen(void)
 {
     byte    *src;
     byte    *dest;
+    int     a = 8;
+    int     b = 8;
     int     x1, y1;
     int     x2, y2;
 
@@ -1278,57 +1280,35 @@ void R_FillBackScreen(void)
 
     if (gamemission == heretic)
     {
-        for (int x = x1; x < x2 - 16; x += 16)
-        {
-            V_DrawPatch(x, y1 - 8, 1, brdr_t);
-            V_DrawPatch(x, y2, 1, brdr_b);
-        }
-
-        V_DrawPatch(x2 - 16, y1 - 8, 1, brdr_t);
-        V_DrawPatch(x2 - 16, y2, 1, brdr_b);
-
-        for (int y = y1; y < y2 - 16; y += 16)
-        {
-            V_DrawPatch(x1 - 9, y, 1, brdr_l);
-            V_DrawPatch(x2, y, 1, brdr_r);
-        }
-
-        V_DrawPatch(x1 - 9, y2 - 16, 1, brdr_l);
-        V_DrawPatch(x2, y2 - 16, 1, brdr_r);
-
-        V_DrawPatch(x1 - 9, y1 - 8, 1, brdr_tl);
-        V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
-        V_DrawPatch(x1 - 9, y2, 1, brdr_bl);
-        V_DrawPatch(x2, y2, 1, brdr_br);
+        a = 16;
+        b = 9;
 
         V_DrawPatch(0, 148, 1, ltfctop);
         V_DrawPatch(290, 148, 1, rtfctop);
     }
-    else
+
+    for (int x = x1; x < x2 - a; x += a)
     {
-        for (int x = x1; x < x2 - 8; x += 8)
-        {
-            V_DrawPatch(x, y1 - 8, 1, brdr_t);
-            V_DrawPatch(x, y2, 1, brdr_b);
-        }
-
-        V_DrawPatch(x2 - 8, y1 - 8, 1, brdr_t);
-        V_DrawPatch(x2 - 8, y2, 1, brdr_b);
-
-        for (int y = y1; y < y2 - 8; y += 8)
-        {
-            V_DrawPatch(x1 - 8, y, 1, brdr_l);
-            V_DrawPatch(x2, y, 1, brdr_r);
-        }
-
-        V_DrawPatch(x1 - 8, y2 - 8, 1, brdr_l);
-        V_DrawPatch(x2, y2 - 8, 1, brdr_r);
-
-        V_DrawPatch(x1 - 8, y1 - 8, 1, brdr_tl);
-        V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
-        V_DrawPatch(x1 - 8, y2, 1, brdr_bl);
-        V_DrawPatch(x2, y2, 1, brdr_br);
+        V_DrawPatch(x, y1 - 8, 1, brdr_t);
+        V_DrawPatch(x, y2, 1, brdr_b);
     }
+
+    V_DrawPatch(x2 - a, y1 - 8, 1, brdr_t);
+    V_DrawPatch(x2 - a, y2, 1, brdr_b);
+
+    for (int y = y1; y < y2 - a; y += a)
+    {
+        V_DrawPatch(x1 - b, y, 1, brdr_l);
+        V_DrawPatch(x2, y, 1, brdr_r);
+    }
+
+    V_DrawPatch(x1 - b, y2 - a, 1, brdr_l);
+    V_DrawPatch(x2, y2 - a, 1, brdr_r);
+
+    V_DrawPatch(x1 - b, y1 - 8, 1, brdr_tl);
+    V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
+    V_DrawPatch(x1 - b, y2, 1, brdr_bl);
+    V_DrawPatch(x2, y2, 1, brdr_br);
 }
 
 //

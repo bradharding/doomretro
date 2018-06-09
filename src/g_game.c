@@ -1532,8 +1532,6 @@ static void G_DoCompleted(void)
 
     C_CCMDOutput("exitmap");
 
-    C_AddConsoleDivider();
-
     WI_Start(&wminfo);
 }
 
