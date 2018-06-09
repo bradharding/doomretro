@@ -2296,14 +2296,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
 
-    if (gamemission != heretic && type == MT_BARREL && corpse)
+    if (type == MT_BARREL && corpse)
         return;
 
     if (flags & MF_SKULLFLY)
     {
-        if (gamemission == heretic && type == HMT_MINOTAUR)
-            return;
-
         target->momx = 0;
         target->momy = 0;
         target->momz = 0;
@@ -2397,13 +2394,12 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflicter
-        && (gamemission != heretic && (!tplayer || !inflicter->player) && !(flags & MF_NOCLIP) && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
-        || (gamemission == heretic && (!source || !splayer || splayer->readyweapon != wp_gauntlets) && !(inflicter->flags3 & MF3_NODMGTHRUST)))
+    if (inflicter && (!tplayer || !inflicter->player) && !(flags & MF_NOCLIP)
+        && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         int             mass = (corpse ? MAX(200, info->mass) : info->mass);
-        fixed_t         thrust = damage * (FRACUNIT >> 3) * (gamemission == heretic ? 150 : 100) / mass;
+        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
@@ -2413,20 +2409,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
 
         ang >>= ANGLETOFINESHIFT;
-
-        if (gamemission == heretic && source && splayer && source == inflicter && splayer->powers[pw_weaponlevel2] && splayer->readyweapon == wp_staff)
-        {
-            target->momx += FixedMul(10 * FRACUNIT, finecosine[ang]);
-            target->momy += FixedMul(10 * FRACUNIT, finesine[ang]);
-
-            if (!(flags & MF_NOGRAVITY))
-                target->momz += 5 * FRACUNIT;
-        }
-        else
-        {
-            target->momx += FixedMul(thrust, finecosine[ang]);
-            target->momy += FixedMul(thrust, finesine[ang]);
-        }
+        target->momx += FixedMul(thrust, finecosine[ang]);
+        target->momy += FixedMul(thrust, finesine[ang]);
 
         // killough 11/98: thrust objects hanging off ledges
         if ((target->flags2 & MF2_FALLING) && target->gear >= MAXGEAR)
@@ -2437,7 +2421,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         return;
 
     // player specific
-    if (splayer && (gamemission == heretic || type != MT_BARREL))
+    if (splayer && type != MT_BARREL)
     {
         splayer->damageinflicted += damage;
         stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
@@ -2521,42 +2505,25 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (target->health <= 0)
         {
-            if (gamemission == heretic)
-            {
-                target->special1.i = damage;
+            int gibhealth = info->gibhealth;
 
-                if (target->type == HMT_POD && source && source->type != HMT_POD)
-                    target->target = source;
+            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+                target->colfunc = tlredcolfunc;
+            else if (type == MT_BRUISER || type == MT_KNIGHT)
+                target->colfunc = redtogreencolfunc;
 
-                if (tplayer && inflicter && !tplayer->chickentics)
-                {
-                    if ((inflicter->flags3 & MF3_FIREDAMAGE) || (inflicter->type == HMT_PHOENIXFX1 && target->health > -50 && damage > 25))
-                        target->flags3 |= MF3_FIREDAMAGE;
-                }
-            }
-            else
-            {
-
-                int gibhealth = info->gibhealth;
-
-                if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
-                    target->colfunc = tlredcolfunc;
-                else if (type == MT_BRUISER || type == MT_KNIGHT)
-                    target->colfunc = redtogreencolfunc;
-
-                // [crispy] the lethal pellet of a point-blank SSG blast
-                // gets an extra damage boost for the occasional gib chance
-                if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
-                    && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
-                    target->health = gibhealth - 1;
-            }
+            // [crispy] the lethal pellet of a point-blank SSG blast
+            // gets an extra damage boost for the occasional gib chance
+            if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
+                && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
+                target->health = gibhealth - 1;
 
             P_KillMobj(target, inflicter, source);
             return;
         }
     }
 
-    if (M_Random() < info->painchance && !(flags & MF_SKULLFLY))
+    if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY))
     {
         target->flags |= MF_JUSTHIT;                            // fight back!
         P_SetMobjState(target, info->painstate);
@@ -2564,14 +2531,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     target->reactiontime = 0;                                   // we're awake now...
 
-    if (!target->threshold && source && source != target)
+    if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
-        if (gamemission != heretic && (type != MT_VILE || source->type == MT_VILE))
-            return;
-
-        if (gamemission == heretic && ((source->flags3 & MF3_BOSS) || type == HMT_SORCERER2 || source->type == HMT_WIZARD))
-            return;
-
         // if not intent on another player,
         // chase after this one
         if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
