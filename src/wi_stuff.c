@@ -799,11 +799,16 @@ static void WI_initStats(void)
     cnt_par = -1;
     cnt_pause = TICRATE;
 
-    C_TabbedOutput(tabs, "Kills\t%i%%", (wbs->skills * 100) / wbs->maxkills);
-    C_TabbedOutput(tabs, "Items\t%i%%", (wbs->sitems * 100) / wbs->maxitems);
-    C_TabbedOutput(tabs, "Secrets\t%i%%", (wbs->ssecret * 100) / wbs->maxsecret);
-    C_TabbedOutput(tabs, "Time\t%.2i:%.2i", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
-    C_TabbedOutput(tabs, "Par\t%.2i:%.2i", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
+    C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
+    C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
+    
+    if (totalsecret)
+        C_TabbedOutput(tabs, "Secrets\t<b>%i%%</b>", (wbs->ssecret * 100) / wbs->maxsecret);
+
+    C_TabbedOutput(tabs, "Time\t<b>%.2i:%.2i</b>", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
+
+    if (wbs->partime)
+        C_TabbedOutput(tabs, "Par\t<b>%.2i:%.2i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_initAnimatedBack();
 }
