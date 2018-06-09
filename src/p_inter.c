@@ -2180,7 +2180,7 @@ dboolean P_ChickenMorph(mobj_t *actor)
     target = actor->target;
     P_SetMobjState(actor, HS_FREETARGMOBJ);
     fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, MT_TFOG);
-    S_StartSound(fog, sfx_telept);
+    S_StartSound(fog, hsfx_telept);
     chicken = P_SpawnMobj(x, y, z, HMT_CHICKEN);
     chicken->special2.i = motype;
     chicken->special1.i = CHICKENTICS + M_Random();

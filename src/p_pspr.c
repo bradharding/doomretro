@@ -231,8 +231,6 @@ static void P_BringUpWeapon(void)
 
     if (viewplayer->pendingweapon == wp_nochange)
         viewplayer->pendingweapon = viewplayer->readyweapon;
-    else if (viewplayer->pendingweapon == wp_chainsaw)
-        S_StartSound(viewplayer->mo, sfx_sawup);
 
     if (gamemission == heretic)
     {
@@ -245,7 +243,12 @@ static void P_BringUpWeapon(void)
             new = wpnlev1info[viewplayer->pendingweapon].upstate;
     }
     else
+    {
+        if (viewplayer->pendingweapon == wp_chainsaw)
+            S_StartSound(viewplayer->mo, sfx_sawup);
+
         new = weaponinfo[viewplayer->pendingweapon].upstate;
+    }
 
     viewplayer->pendingweapon = wp_nochange;
     viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
@@ -1150,7 +1153,7 @@ void A_DeathBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
 
         P_SetMobjState(actor, actor->info->spawnstate);
-        S_StartSound(actor, sfx_pstop);
+        S_StartSound(actor, hsfx_pstop);
     }
     else
     {
