@@ -746,6 +746,12 @@ static void R_SetupFrame(void)
         }
     }
 
+    if (viewplayer->chickentics && viewplayer->chickenpeck)
+    {
+        viewx += viewplayer->chickenpeck * finecosine[viewangle >> ANGLETOFINESHIFT];
+        viewy += viewplayer->chickenpeck * finesine[viewangle >> ANGLETOFINESHIFT];
+    }
+
     if (barrelms > time && !consoleactive && !menuactive && !paused)
     {
         viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
