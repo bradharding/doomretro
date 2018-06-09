@@ -453,13 +453,14 @@ static void P_UpdateHealthStat(int num)
 //
 dboolean P_GiveBody(int num, dboolean stat)
 {
+    int maxhealth = (viewplayer->chickentics ? MAXCHICKENHEALTH : MAXHEALTH);
     int oldhealth;
 
-    if (viewplayer->health >= MAXHEALTH)
+    if (viewplayer->health >= maxhealth)
         return false;
 
     oldhealth = viewplayer->health;
-    viewplayer->health = MIN(oldhealth + num, MAXHEALTH);
+    viewplayer->health = MIN(oldhealth + num, maxhealth);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 

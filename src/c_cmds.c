@@ -5074,7 +5074,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         if (*parms)
         {
             sscanf(parms, "%10i", &value);
-            value = BETWEEN(health_min, value, maxhealth);
+            value = BETWEEN(health_min, value, (viewplayer->chickentics ? MAXCHICKENHEALTH : maxhealth));
 
             if (viewplayer->health <= 0)
             {
