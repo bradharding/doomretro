@@ -1317,7 +1317,7 @@ void R_FillBackScreen(void)
 
         for (int y = y1; y < y2 - 8; y += 8)
         {
-            V_DrawPatch(x1 - 9, y, 1, brdr_l);
+            V_DrawPatch(x1 - 8, y, 1, brdr_l);
             V_DrawPatch(x2, y, 1, brdr_r);
         }
 
