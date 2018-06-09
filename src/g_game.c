@@ -249,6 +249,9 @@ void G_NextHereticWeapon(void)
     weapontype_t    readyweapon = viewplayer->readyweapon;
     weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
+    if (viewplayer->chickentics)
+        return;
+
     do
     {
         i = wpnlev1info[i].next;
@@ -263,6 +266,9 @@ void G_PrevHereticWeapon(void)
     weapontype_t    pendingweapon = viewplayer->pendingweapon;
     weapontype_t    readyweapon = viewplayer->readyweapon;
     weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+
+    if (viewplayer->chickentics)
+        return;
 
     do
     {
@@ -453,8 +459,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if (!idclev && !idmus)
-    {
+    if (!idclev && !idmus && !viewplayer->chickentics)
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
             int key = *weapon_keys[i];
@@ -477,7 +482,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 }
             }
         }
-    }
 
     if (mousebuttons[mouseforward])
         forward += forwardmove[run];
