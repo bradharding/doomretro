@@ -1488,7 +1488,7 @@ void ST_Ticker(void)
             ST_updateWidgets();
             st_oldhealth = viewplayer->health;
         }
-        else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
+        else if (r_hud && !paused && !menuactive && !consoleactive)
         {
             if (gamemission != heretic)
             {
