@@ -1965,15 +1965,19 @@ static void P_CalcSegsLength(void)
     for (int i = 0; i < numsegs; i++)
     {
         seg_t   *li = segs + i;
-        int64_t dx = (int64_t)li->v2->x - li->v1->x;
-        int64_t dy = (int64_t)li->v2->y - li->v1->y;
 
-        li->length = (int64_t)sqrt((double)dx * dx + (double)dy * dy) >> 1;
+        li->dx = (int64_t)li->v2->x - li->v1->x;
+        li->dy = (int64_t)li->v2->y - li->v1->y;
 
-        // [crispy] re-calculate angle used for rendering
+        li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) >> 1;
+
+        // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
         li->angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
-        li->fakecontrast = (!dy ? -LIGHTBRIGHT : (!dx ? LIGHTBRIGHT : 0));
+        li->fakecontrast = (!li->dy ? -LIGHTBRIGHT : (!li->dx ? LIGHTBRIGHT : 0));
+
+        li->dx >>= 1;
+        li->dy >>= 1;
     }
 }
 

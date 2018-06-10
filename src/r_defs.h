@@ -872,6 +872,8 @@ typedef struct
 
     angle_t             angle;
 
+    int64_t             dx, dy;
+
     int64_t             length;
 
     side_t              *sidedef;

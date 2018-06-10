@@ -537,7 +537,8 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t dx, dy;
+    int64_t dx = curline->dx;
+    int64_t dy = curline->dy;
     int64_t dx1, dy1;
     int64_t len;
     int     worldtop;
@@ -572,8 +573,6 @@ void R_StoreWallRange(const int start, const int stop)
     rw_normalangle = curline->angle + ANG90;
 
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
-    dx = ((int64_t)curline->v2->x - curline->v1->x) >> 1;
-    dy = ((int64_t)curline->v2->y - curline->v1->y) >> 1;
     dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
     dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
     len = curline->length;
