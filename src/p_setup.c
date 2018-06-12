@@ -336,7 +336,6 @@ static void P_LoadSegs(int lump)
 
         v1 = (unsigned short)SHORT(ml->v1);
         v2 = (unsigned short)SHORT(ml->v2);
-        li->angle = SHORT(ml->angle) << FRACBITS;
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef >= numlines)
@@ -530,9 +529,6 @@ static void P_LoadSegs_V4(int lump)
 
         v1 = ml->v1;
         v2 = ml->v2;
-
-        li->angle = SHORT(ml->angle) << FRACBITS;
-        li->offset = SHORT(ml->offset) << FRACBITS;
         linedef = (unsigned short)SHORT(ml->linedef);
 
         // e6y: check for wrong indexes
@@ -940,7 +936,6 @@ static void P_LoadZSegs(const byte *data)
         li->v2 = &vertexes[v2];
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
-        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
 
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
