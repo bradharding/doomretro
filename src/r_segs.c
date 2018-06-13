@@ -239,7 +239,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     sector_t        tempsec;        // killough 4/13/98
 
     curline = ds->curline;
-    colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
+    colfunc = (linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     frontsector = curline->frontsector;
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
@@ -260,7 +260,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     mfloorclip = ds->sprbottomclip;
 
     // find positioning
-    if (curline->linedef->flags & ML_DONTPEGBOTTOM)
+    if (linedef->flags & ML_DONTPEGBOTTOM)
         dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) + texheight - viewz
             + curline->sidedef->rowoffset;
     else
@@ -537,8 +537,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t dx = curline->dx;
-    int64_t dy = curline->dy;
+    int64_t dx, dy;
     int64_t dx1, dy1;
     int64_t len;
     int     worldtop;
@@ -556,6 +555,8 @@ void R_StoreWallRange(const int start, const int stop)
     if (automapactive)
         return;
 
+    dx = curline->dx;
+    dy = curline->dy;
     sidedef = curline->sidedef;
 
     // killough 1/98 -- fix 2s line HOM
