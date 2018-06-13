@@ -760,6 +760,7 @@ dboolean P_GivePower(int power)
 {
     static const int tics[NUMPOWERS] =
     {
+        /* pw_none            */ 0,
         /* pw_invulnerability */ INVULNTICS,
         /* pw_strength        */ 1,
         /* pw_invisibility    */ INVISTICS,
@@ -768,7 +769,6 @@ dboolean P_GivePower(int power)
         /* pw_infrared        */ INFRATICS,
         /* pw_weaponlevel2    */ WPNLEV2TICS,
         /* pw_flight          */ FLIGHTTICS
-
    };
 
     if (viewplayer->powers[power] < 0)
