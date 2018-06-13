@@ -701,7 +701,7 @@ void P_PlayerThink(void)
             break;
         }
 
-    if ((cmd->buttons & BT_JUMP) && onground && !viewplayer->jumptics)
+    if ((cmd->buttons & BT_JUMP) && (mo->floorz - mo->z <= 8 * FRACUNIT || (mo->flags2 & MF2_ONMOBJ)) && !viewplayer->jumptics)
     {
         mo->momz = JUMPHEIGHT;
         viewplayer->jumptics = 18;

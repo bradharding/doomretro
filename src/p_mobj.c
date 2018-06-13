@@ -567,7 +567,7 @@ static void P_ZMovement(mobj_t *mo)
     int         flags = mo->flags;
 
     // check for smooth step up
-    if (player && player->mo == mo && mo->z < mo->floorz)
+    if (player && player->mo == mo && mo->z < mo->floorz && !viewplayer->jumptics)
     {
         player->viewheight -= mo->floorz - mo->z;
         player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
