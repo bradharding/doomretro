@@ -48,7 +48,7 @@
 #define SIL_TOP     2
 #define SIL_BOTH    3
 
-#define MAXDRAWSEGS 256
+#define MAXDRAWSEGS 1280
 #define MAXOPENINGS 16384
 
 //
@@ -1081,7 +1081,6 @@ typedef struct
 //
 typedef struct visplane_s
 {
-    struct visplane_s   *next;          // Next visplane in hash chain -- killough
     int                 picnum;
     int                 lightlevel;
     int                 minx;

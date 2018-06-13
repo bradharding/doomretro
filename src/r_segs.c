@@ -239,7 +239,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     sector_t        tempsec;        // killough 4/13/98
 
     curline = ds->curline;
-    colfunc = (linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
+    colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     frontsector = curline->frontsector;
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
@@ -260,7 +260,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     mfloorclip = ds->sprbottomclip;
 
     // find positioning
-    if (linedef->flags & ML_DONTPEGBOTTOM)
+    if (curline->linedef->flags & ML_DONTPEGBOTTOM)
         dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) + texheight - viewz
             + curline->sidedef->rowoffset;
     else
@@ -639,22 +639,22 @@ void R_StoreWallRange(const int start, const int stop)
         ds_p->scale2 = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
         ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
 
-        if (ds_p->scale1 < ds_p->scale2)
+        if (rw_scale < ds_p->scale2)
         {
-            ds_p->minscale = ds_p->scale1;
+            ds_p->minscale = rw_scale;
             ds_p->maxscale = ds_p->scale2;
         }
         else
         {
             ds_p->minscale = ds_p->scale2;
-            ds_p->maxscale = ds_p->scale1;
+            ds_p->maxscale = rw_scale;
         }
     }
     else
     {
-        ds_p->scale2 = ds_p->scale1;
-        ds_p->minscale = ds_p->scale1;
-        ds_p->maxscale = ds_p->scale1;
+        ds_p->scale2 = rw_scale;
+        ds_p->minscale = rw_scale;
+        ds_p->maxscale = rw_scale;
     }
 
     // calculate texture boundaries and decide if floor/ceiling marks are needed
