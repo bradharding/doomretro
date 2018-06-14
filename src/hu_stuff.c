@@ -719,6 +719,7 @@ static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
+static patch_t  *altgempatch;
 
 int             white;
 static int      lightgray;
@@ -751,6 +752,7 @@ static void HU_AltInit(void)
 
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
+    altgempatch = W_CacheLumpName("DRHUDGEM");
 
     for (int i = 0; i < NUMCARDS; i++)
         if (lumpinfo[i]->wadfile->type == PWAD)
@@ -761,15 +763,11 @@ static void HU_AltInit(void)
         else
             altkeypics[i].color = nearestcolors[altkeypics[i].color];
 
-    altkeypics[0].patch = altkeypatch;
-    altkeypics[1].patch = altkeypatch;
-    altkeypics[2].patch = altkeypatch;
-    altkeypics[3].patch = altskullpatch;
-    altkeypics[4].patch = altskullpatch;
-    altkeypics[5].patch = altskullpatch;
-
     if (gamemission == heretic)
     {
+        for (int i = 0; i < NUMCARDS; i++)
+            altkeypics[i].patch = altgempatch;
+
         altleftpatch = W_CacheLumpName("DRHUDL_2");
         altrightpatch = W_CacheLumpName("DRHUDR_2");
 
@@ -783,13 +781,20 @@ static void HU_AltInit(void)
 
         altkeypics[0].color = 196;
         altkeypics[1].color = yellow;
-        altkeypics[2].color = red;
+        altkeypics[2].color = green;
         altkeypics[3].color = 196;
         altkeypics[4].color = yellow;
-        altkeypics[5].color = red;
+        altkeypics[5].color = green;
     }
     else
     {
+        altkeypics[0].patch = altkeypatch;
+        altkeypics[1].patch = altkeypatch;
+        altkeypics[2].patch = altkeypatch;
+        altkeypics[3].patch = altskullpatch;
+        altkeypics[4].patch = altskullpatch;
+        altkeypics[5].patch = altskullpatch;
+
         for (int i = 1; i < NUMWEAPONS; i++)
         {
             M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
