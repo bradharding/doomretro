@@ -1072,6 +1072,8 @@ static dboolean cheat_func1(char *cmd, char *parms)
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, hcheat_weapons.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
+    else if (M_StringCompare(cmd, hcheat_keys.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
     else if (M_StringCompare(cmd, hcheat_massacre.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
     else if (M_StringCompare(cmd, hcheat_chicken.sequence))
@@ -2073,11 +2075,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all keycards and skull keys.");
+                C_Warning("The player already has all %s.", (gamemission == heretic ? "keys" : "keycards and skull keys"));
                 return;
             }
         }
-        else if (M_StringCompare(parm, "keycards"))
+        else if (M_StringCompare(parm, "keycards") && gamemission != heretic)
         {
             if (P_GiveAllKeyCards())
             {
@@ -2091,7 +2093,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "skullkeys"))
+        else if (M_StringCompare(parm, "skullkeys") && gamemission != heretic)
         {
             if (P_GiveAllSkullKeys())
             {

@@ -802,6 +802,24 @@ dboolean ST_Responder(event_t *ev)
                 }
             }
 
+            else if (cht_CheckCheat(&hcheat_keys, ev->data2) && gameskill != sk_nightmare
+                && viewplayer->health > 0 && gamemission == heretic)
+            {
+                if (P_GiveAllCardsInMap())
+                {
+                    P_AddBonus();
+                    C_Input(hcheat_keys.sequence);
+                    HU_PlayerMessage(s_STSTR_CHEATKEYS, false);
+
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+
+                    S_StartSound(NULL, SFX_GETPOW);
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    viewplayer->cheated++;
+                }
+            }
+
             // massacre cheat
             else if (cht_CheckCheat(&hcheat_massacre, ev->data2) && gameskill != sk_nightmare
                 && gamemission == heretic)

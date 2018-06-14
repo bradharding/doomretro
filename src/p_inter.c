@@ -641,6 +641,9 @@ void P_InitCards(void)
 //
 static void P_GiveCard(card_t card)
 {
+    if (gamemission == heretic && card > it_redcard)
+        return;
+
     viewplayer->cards[card] = ++cardsfound;
 
     if (card == viewplayer->neededcard)
