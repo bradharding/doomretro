@@ -688,7 +688,7 @@ static void R_SetupFrame(void)
 {
     int     cm = 0;
     mobj_t  *mo = viewplayer->mo;
-    int     tempCentery = viewheight / 2;
+    int     tempcentery = viewheight / 2;
     int     pitch = 0;
     int     time = I_GetTimeMS();
 
@@ -725,7 +725,7 @@ static void R_SetupFrame(void)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil
                     - viewplayer->oldrecoil, fractionaltic), LOOKDIRMAX);
 
-            tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
+            tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
     else
@@ -742,7 +742,7 @@ static void R_SetupFrame(void)
             if (weaponrecoil)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
 
-            tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
+            tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
 
@@ -761,9 +761,9 @@ static void R_SetupFrame(void)
 
     extralight = viewplayer->extralight << 2;
 
-    if (centery != tempCentery)
+    if (centery != tempcentery)
     {
-        centery = tempCentery;
+        centery = tempcentery;
         centeryfrac = centery << FRACBITS;
         yslope = yslopes[LOOKDIRMAX + pitch];
     }

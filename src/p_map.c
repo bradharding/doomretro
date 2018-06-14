@@ -368,7 +368,7 @@ static dboolean PIT_CheckLine(line_t *ld)
                     spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
                 }
 
-                spechit[numspechit] = ld;
+                spechit[numspechit++] = ld;
             }
 
         blockline = ld;
@@ -524,8 +524,9 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (tmthing->target
             && (tmthing->target->type == thing->type
-                || (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
-                || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))
+                || (gamemission != heretic
+                    && ((tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
+                        || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))))
         {
             // Don't hit same species as originator.
             if (thing == tmthing->target)
@@ -631,7 +632,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
     // [BH] don't hit if either thing is a corpse, which may still be solid if
     // they are still going through their death sequence.
-    if (!(thing->flags2 & MF2_RESURRECTING) && ((flags & MF_CORPSE) || (tmflags & MF_CORPSE)))
+    if (!(thing->flags2 & MF2_RESURRECTING) && (corpse || (tmflags & MF_CORPSE)))
         return true;
 
     // RjY
@@ -870,7 +871,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     int         xh;
     int         yl;
     int         yh;
-    subsector_t *newsubsec;
+    sector_t    *newsec;
     fixed_t     x = thing->x;
     fixed_t     y = thing->y;
     mobj_t      oldmo = *thing; // save the old mobj before the fake zmovement
@@ -889,13 +890,13 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    newsubsec = R_PointInSubsector(x, y);
+    newsec = R_PointInSubsector(x, y)->sector;
     ceilingline = NULL;
 
     // the base floor/ceiling is from the subsector that contains the
     // point. Any contacted lines the step closer together will adjust them
-    tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
-    tmceilingz = newsubsec->sector->ceilingheight;
+    tmfloorz = tmdropoffz = newsec->floorheight;
+    tmceilingz = newsec->ceilingheight;
 
     validcount++;
     numspechit = 0;
@@ -956,6 +957,16 @@ void P_FakeZMovement(mobj_t *mo)
             mo->momz = 0;
 
         mo->z = mo->floorz;
+
+        if (gamemission == heretic && mo->info->crashstate && (mo->flags & MF_CORPSE))
+            return;
+    }
+    else if (mo->flags3 & MF3_LOGRAV)
+    {
+        if (!mo->momz)
+            mo->momz = -(GRAVITY >> 3) * 2;
+        else
+            mo->momz -= GRAVITY >> 3;
     }
     else if (!(mo->flags & MF_NOGRAVITY))
     {
@@ -1006,7 +1017,12 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     floatok = false;
 
     if (!P_CheckPosition(thing, x, y))
+    {
+        if (gamemission == heretic)
+            CheckMissileImpact(thing);
+
         return false;           // solid wall or thing
+    }
 
     flags = thing->flags;
 
@@ -1019,7 +1035,12 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height && !(thing->flags3 & MF3_FLY))
             // too big a step up
             || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
+        {
+            if (gamemission == heretic)
+                CheckMissileImpact(thing);
+
             return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
+        }
 
         if (gamemission == heretic)
         {
@@ -1639,6 +1660,9 @@ static dboolean PTR_AimTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
+    if (gamemission == heretic && th->type == HMT_POD)
+        return true;                    // can't auto-aim at pods
+
     // check angles to see if the thing can be aimed at
     dist = FixedMul(attackrange, in->frac);
     thingtopslope = FixedDiv(th->z + th->height - shootz, dist);
@@ -1881,6 +1905,10 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     x2 = t1->x + (distance >> FRACBITS) * finecosine[angle];
     y2 = t1->y + (distance >> FRACBITS) * finesine[angle];
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
+
+    if (t1->flags2 & MF2_FEETARECLIPPED)
+        shootz -= FOOTCLIPSIZE;
+
     attackrange = distance;
     aimslope = slope;
 

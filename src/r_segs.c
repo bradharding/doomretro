@@ -371,7 +371,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_x = rw_x;
-            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;
+            dc_iscale = UINT_MAX / rw_scale;
         }
 
         // draw the wall tiers
