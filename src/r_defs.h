@@ -1083,8 +1083,8 @@ typedef struct visplane_s
 {
     int                 picnum;
     int                 lightlevel;
-    int                 minx;
-    int                 maxx;
+    int                 left;
+    int                 right;
     fixed_t             height;
     fixed_t             xoffs, yoffs;   // killough 2/28/98: Support scrolling flats
 

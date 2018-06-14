@@ -45,7 +45,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXVISPLANES    384                     // must be a power of 2
+#define MAXVISPLANES    384
 
 visplane_t          *visplanes = NULL;
 visplane_t          *lastvisplane;
@@ -144,8 +144,6 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
-    angle_t angle;
-
     // opening / clipping determination
     for (int i = 0; i < viewwidth; i++)
     {
@@ -158,12 +156,9 @@ void R_ClearPlanes(void)
 
     // texture calculation
     memset(cachedheight, 0, sizeof(cachedheight));
-
-    // left to right mapping
-    angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 }
 
-static void R_RaiseVisplanes(visplane_t** vp)
+static void R_RaiseVisplanes(visplane_t **vp)
 {
     if (lastvisplane - visplanes == numvisplanes)
     {
@@ -201,17 +196,14 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
             && xoffs == check->xoffs && yoffs == check->yoffs)
             return check;
 
-    if (check < lastvisplane)
-        return check;
-
     R_RaiseVisplanes(&check);
 
     lastvisplane++;
     check->height = height;
     check->picnum = picnum;
     check->lightlevel = lightlevel;
-    check->minx = viewwidth;
-    check->maxx = -1;
+    check->left = viewwidth;
+    check->right = -1;
 
     if (!(picnum & PL_SKYFLAT) && isliquid[picnum] && r_liquid_current && !xoffs && !yoffs)
     {
@@ -239,25 +231,25 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     int unionh;
     int x;
 
-    if (start < pl->minx)
+    if (start < pl->left)
     {
-        intrl = pl->minx;
+        intrl = pl->left;
         unionl = start;
     }
     else
     {
-        unionl = pl->minx;
+        unionl = pl->left;
         intrl = start;
     }
 
-    if (stop > pl->maxx)
+    if (stop > pl->right)
     {
-        intrh = pl->maxx;
+        intrh = pl->right;
         unionh = stop;
     }
     else
     {
-        unionh = pl->maxx;
+        unionh = pl->right;
         intrh = stop;
     }
 
@@ -267,8 +259,8 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     // visplane (e.g. both skies)
     if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
     {
-        pl->minx = unionl;
-        pl->maxx = unionh;
+        pl->left = unionl;
+        pl->right = unionh;
     }
     else
     {
@@ -281,8 +273,8 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         lastvisplane->yoffs = pl->yoffs;
 
         pl = lastvisplane++;
-        pl->minx = start;
-        pl->maxx = stop;
+        pl->left = start;
+        pl->right = stop;
         memset(pl->top, USHRT_MAX, sizeof(pl->top));
     }
 
@@ -302,10 +294,10 @@ static void R_MakeSpans(visplane_t *pl)
     yoffs = pl->yoffs;
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    pl->top[pl->minx - 1] = USHRT_MAX;
-    pl->top[pl->maxx + 1] = USHRT_MAX;
+    pl->top[pl->left - 1] = USHRT_MAX;
+    pl->top[pl->right + 1] = USHRT_MAX;
 
-    for (int x = pl->minx; x <= pl->maxx + 1; x++)
+    for (int x = pl->left; x <= pl->right + 1; x++)
     {
         unsigned short  t1 = pl->top[x - 1];
         unsigned short  b1 = pl->bottom[x - 1];
@@ -398,7 +390,7 @@ static byte *R_DistortedFlat(int flatnum)
 void R_DrawPlanes(void)
 {
     for (visplane_t *pl = visplanes; pl < lastvisplane; pl++)
-        if (pl->minx <= pl->maxx)
+        if (pl->left <= pl->right)
         {
             int picnum = pl->picnum;
 
@@ -460,7 +452,7 @@ void R_DrawPlanes(void)
                 tex_patch = R_CacheTextureCompositePatchNum(texture);
                 offset = skycolumnoffset >> FRACBITS;
 
-                for (int x = pl->minx; x <= pl->maxx; x++)
+                for (int x = pl->left; x <= pl->right; x++)
                 {
                     dc_yl = pl->top[x];
                     dc_yh = pl->bottom[x];
