@@ -775,7 +775,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     junk.tag = 666;
-    EV_DoDoor(&junk, doorOpen);
+    EV_DoDoor(&junk, doorOpen, VDOORSPEED);
 }
 
 //
@@ -1935,7 +1935,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                 {
                     case 6:
                         junk.tag = 666;
-                        EV_DoDoor(&junk, doorBlazeOpen);
+                        EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
                         return;
                         break;
 

@@ -383,9 +383,9 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-dboolean EV_DoDoor(line_t *line, vldoor_e type);
+dboolean EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed);
 
-dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed);
 
 void T_VerticalDoor(vldoor_t *door);
 void P_SpawnDoorCloseIn30(sector_t *sec);
