@@ -609,12 +609,15 @@ dboolean ST_Responder(event_t *ev)
             {
                 if (gamemission == heretic)
                 {
-                    P_DamageMobj(viewplayer->mo, NULL, viewplayer->mo, 10000, false);
-                    C_Input(cheat_god.sequence);
-                    HU_PlayerMessage(s_STSTR_CHEATIDDQD, false);
+                    if (viewplayer->health > 0)
+                    {
+                        P_DamageMobj(viewplayer->mo, NULL, viewplayer->mo, 10000, false);
+                        C_Input(cheat_god.sequence);
+                        HU_PlayerMessage(s_STSTR_CHEATIDDQD, false);
 
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                        if (!consoleactive)
+                            message_dontfuckwithme = true;
+                    }
                 }
                 else
                 {
