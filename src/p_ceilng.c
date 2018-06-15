@@ -163,7 +163,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
 
                     case silentCrushAndRaise:
-                        S_StartSectorSound(&ceiling->sector->soundorg, SFX_PSTOP);
+                        if (gamemission != heretic)
+                            S_StartSectorSound(&ceiling->sector->soundorg, sfx_pstop);
 
                     case crushAndRaise:
                         ceiling->speed = CEILSPEED;
