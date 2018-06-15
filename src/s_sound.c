@@ -237,6 +237,19 @@ static void S_StopChannel(int cnum)
     }
 }
 
+void S_StopSectorSound(degenmobj_t *origin)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; ++cnum)
+        if (channels[cnum].sfxinfo && channels[cnum].origin == (mobj_t *)origin)
+        {
+            S_StopChannel(cnum);
+            break;
+        }
+}
+
 void S_StopSounds(void)
 {
     if (nosfx)

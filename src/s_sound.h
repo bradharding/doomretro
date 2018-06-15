@@ -94,6 +94,7 @@ void S_StartSound(mobj_t *mobj, int sfx_id);
 void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume);
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
 
+void S_StopSectorSound(degenmobj_t *origin);
 void S_StopSounds(void);
 
 void S_UnlinkSound(mobj_t *origin);

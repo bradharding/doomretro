@@ -135,6 +135,7 @@ void T_VerticalDoor(vldoor_t *door)
             T_GradualLightingToDoor(door);
 
             if (res == pastdest)
+            {
                 switch (door->type)
                 {
                     case doorBlazeRaise:
@@ -151,6 +152,10 @@ void T_VerticalDoor(vldoor_t *door)
                     case genClose:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
+
+                        if (gamemission == heretic)
+                            S_StartSectorSound(&door->sector->soundorg, hsfx_dorcls);
+
                         break;
 
                     case doorClose30ThenOpen:
@@ -167,7 +172,9 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
+            }
             else if (res == crushed)
+            {
                 switch (door->type)
                 {
                     case doorBlazeClose:
@@ -187,6 +194,7 @@ void T_VerticalDoor(vldoor_t *door)
                         S_StartSectorSound(&door->sector->soundorg, SFX_DOROPN);
                         break;
                 }
+            }
 
             break;
 
@@ -219,6 +227,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeCdO:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
+                        S_StopSectorSound(&door->sector->soundorg);
                         break;
 
                     default:
