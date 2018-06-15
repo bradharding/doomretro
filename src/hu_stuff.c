@@ -1243,9 +1243,6 @@ void HU_Ticker(void)
                 len--;
             }
 
-            if (gamemission == heretic)
-                w_message.l->x = (ORIGINALWIDTH - M_StringWidth(s)) / 2;
-
             HUlib_addMessageToSText(&w_message, 0, s);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;

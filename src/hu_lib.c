@@ -49,6 +49,8 @@
 #include "v_data.h"
 #include "v_video.h"
 
+int M_StringWidth(char *string);
+
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern int      message_x;
@@ -443,6 +445,9 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
         return; // if not on, don't draw
+
+    if (gamemission == heretic)
+        s->l->x = (ORIGINALWIDTH - M_StringWidth(s->l->l)) / 2;
 
     // draw everything
     for (int i = 0; i < s->h; i++)
