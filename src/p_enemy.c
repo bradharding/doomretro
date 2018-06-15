@@ -57,41 +57,6 @@
 
 int barrelms = 0;
 
-typedef enum
-{
-    DI_EAST,
-    DI_NORTHEAST,
-    DI_NORTH,
-    DI_NORTHWEST,
-    DI_WEST,
-    DI_SOUTHWEST,
-    DI_SOUTH,
-    DI_SOUTHEAST,
-    DI_NODIR,
-    NUMDIRS
-} dirtype_t;
-
-static dirtype_t opposite[] =
-{
-    DI_WEST,
-    DI_SOUTHWEST,
-    DI_SOUTH,
-    DI_SOUTHEAST,
-    DI_EAST,
-    DI_NORTHEAST,
-    DI_NORTH,
-    DI_NORTHWEST,
-    DI_NODIR
-};
-
-static dirtype_t diags[] =
-{
-    DI_NORTHWEST,
-    DI_NORTHEAST,
-    DI_SOUTHWEST,
-    DI_SOUTHEAST
-};
-
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 //
@@ -232,12 +197,11 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->reactiontime)
         return false;                   // do not attack yet
 
-    dist = P_ApproxDistance(actor->x - target->x, actor->y - target->y) - 64 * FRACUNIT;
+    dist = (P_ApproxDistance(actor->x - target->x, actor->y - target->y) >> FRACBITS) - 64;
 
     if (!actor->info->meleestate)
-        dist -= 128 * FRACUNIT;         // no melee attack, so fire more
+        dist -= 128;                    // no melee attack, so fire more
 
-    dist >>= FRACBITS;
     type = actor->type;
 
     if (gamemission == heretic)
@@ -316,7 +280,6 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
     fixed_t     tryx, tryy;
     fixed_t     deltax, deltay;
     fixed_t     origx, origy;
-    dboolean    try_ok;
     int         movefactor;
     int         friction = ORIG_FRICTION;
     int         speed;
@@ -336,21 +299,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
     tryx = (origx = actor->x) + (deltax = speed * xspeed[actor->movedir]);
     tryy = (origy = actor->y) + (deltay = speed * yspeed[actor->movedir]);
 
-    try_ok = P_TryMove(actor, tryx, tryy, dropoff);
-
-    // killough 10/98:
-    // Let normal momentum carry them, instead of steptoeing them across ice.
-
-    if (try_ok && friction > ORIG_FRICTION)
-    {
-        actor->x = origx;
-        actor->y = origy;
-        movefactor *= FRACUNIT / ORIG_FRICTION_FACTOR / 4;
-        actor->momx += FixedMul(deltax, movefactor);
-        actor->momy += FixedMul(deltay, movefactor);
-    }
-
-    if (!try_ok)
+    if (!P_TryMove(actor, tryx, tryy, dropoff))
     {
         // open any specials
         int good;
@@ -392,7 +341,20 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
         return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
+    {
         actor->flags &= ~MF_INFLOAT;
+
+        // killough 10/98:
+        // Let normal momentum carry them, instead of steptoeing them across ice.
+        if (friction > ORIG_FRICTION)
+        {
+            actor->x = origx;
+            actor->y = origy;
+            movefactor *= FRACUNIT / ORIG_FRICTION_FACTOR / 4;
+            actor->momx += FixedMul(deltax, movefactor);
+            actor->momy += FixedMul(deltay, movefactor);
+        }
+    }
 
     // killough 11/98: fall more slowly, under gravity, if felldown==true
     if (!(actor->flags & MF_FLOAT) && !felldown)
@@ -463,7 +425,7 @@ static dboolean P_TryWalk(mobj_t *actor)
 static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 {
     dirtype_t       d[2];
-    const dirtype_t olddir = (dirtype_t)actor->movedir;
+    const dirtype_t olddir = actor->movedir;
     const dirtype_t turnaround = opposite[olddir];
     dboolean        attempts[NUMDIRS - 1];
 
@@ -693,7 +655,6 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 {
     mobj_t  *mo;
-    fixed_t dist;
 
     if (infight)
         // player is dead, look for monsters
@@ -717,15 +678,13 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
         return false;
     }
 
-    dist = P_ApproxDistance(mo->x - actor->x, mo->y - actor->y);
-
     if (!allaround)
     {
         const angle_t   an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
 
         if (an > ANG90 && an < ANG270)
             // if real close, react anyway
-            if (dist > MELEERANGE)
+            if (P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
             {
                 // Use last known enemy if no players sighted -- killough 2/15/98
                 if (actor->lastenemy && actor->lastenemy->health > 0)
@@ -742,7 +701,8 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
     if (mo->flags & MF_FUZZ)
     {
         // player is invisible
-        if (dist > 2 * MELEERANGE && P_ApproxDistance(mo->momx, mo->momy) < 5 * FRACUNIT)
+        if (P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > 2 * MELEERANGE
+            && P_ApproxDistance(mo->momx, mo->momy) < 5 * FRACUNIT)
             return false;       // player is sneaking - can't detect
 
         if (M_Random() < 225)
@@ -750,7 +710,10 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
     }
 
     P_SetTarget(&actor->target, mo);
-    actor->threshold = 60;
+
+    if (gamemission != heretic)
+        actor->threshold = 60;
+
     return true;
 }
 
@@ -868,6 +831,10 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             actor->threshold--;
     }
 
+    // monsters move faster in nightmare mode
+    if (gamemission == heretic && gameskill == sk_nightmare)
+        actor->tics = MAX(3, actor->tics - actor->tics / 2);
+
     // turn towards movement direction if not there yet
     if (actor->movedir < 8)
     {
@@ -935,7 +902,19 @@ nomissile:
 
     // make active sound
     if (info->activesound && M_Random() < 3)
-        S_StartSound(actor, info->activesound);
+    {
+        if (gamemission == heretic)
+        {
+            if (actor->type == HMT_WIZARD && M_Random() < 128)
+                S_StartSound(actor, actor->info->seesound);
+            else if (actor->type == HMT_SORCERER2)
+                S_StartSound(NULL, actor->info->activesound);
+            else
+                S_StartSound(actor, info->activesound);
+        }
+        else
+            S_StartSound(actor, info->activesound);
+    }
 }
 
 //

@@ -356,6 +356,41 @@ typedef union
     struct mobj_s       *m;
 } specialval_t;
 
+typedef enum
+{
+    DI_EAST,
+    DI_NORTHEAST,
+    DI_NORTH,
+    DI_NORTHWEST,
+    DI_WEST,
+    DI_SOUTHWEST,
+    DI_SOUTH,
+    DI_SOUTHEAST,
+    DI_NODIR,
+    NUMDIRS
+} dirtype_t;
+
+static dirtype_t opposite[] =
+{
+    DI_WEST,
+    DI_SOUTHWEST,
+    DI_SOUTH,
+    DI_SOUTHEAST,
+    DI_EAST,
+    DI_NORTHEAST,
+    DI_NORTH,
+    DI_NORTHWEST,
+    DI_NODIR
+};
+
+static dirtype_t diags[] =
+{
+    DI_NORTHWEST,
+    DI_NORTHEAST,
+    DI_SOUTHWEST,
+    DI_SOUTHEAST
+};
+
 // Map Object definition.
 typedef struct mobj_s
 {
@@ -411,7 +446,7 @@ typedef struct mobj_s
     int                 damage;
 
     // Movement direction, movement generation (zig-zagging).
-    int                 movedir;                // 0-7
+    dirtype_t           movedir;                // 0-7
     int                 movecount;              // when 0, select a new dir
 
     // Thing being chased/attacked (or NULL),
