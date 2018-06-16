@@ -154,7 +154,8 @@ static void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 //
 static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 {
-    int oldammo;
+    int             oldammo;
+    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
 
     if (ammotype == am_noammo)
         return 0;
@@ -174,9 +175,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
     oldammo = viewplayer->ammo[ammotype];
     viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
 
-    if (vid_widescreen && r_hud && !r_althud && num
-        && ((gamemission != heretic && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
-            || (gamemission == heretic && ammotype == wpnlev1info[viewplayer->readyweapon].ammotype)))
+    if (vid_widescreen && r_hud && !r_althud && num && ammotype == info[viewplayer->readyweapon].ammotype)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     if (stat)
@@ -188,40 +187,63 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 
     // We were down to zero, so select a new weapon.
     // Preferences are not user selectable.
-    switch (ammotype)
+    if (gamemission == heretic)
     {
-        case am_clip:
-            if (viewplayer->readyweapon == wp_fist)
-            {
-                if (viewplayer->weaponowned[wp_chaingun])
-                    viewplayer->pendingweapon = wp_chaingun;
-                else
-                    viewplayer->pendingweapon = wp_pistol;
-            }
+        static weapontype_t ammochange[] =
+        {
+            wp_nochange,
+            wp_nochange,
+            wp_nochange,
+            wp_nochange,
+            wp_goldwand,
+            wp_crossbow,
+            wp_blaster,
+            wp_skullrod,
+            wp_phoenixrod,
+            wp_mace
+        };
 
-            break;
+        if (viewplayer->readyweapon == wp_staff || viewplayer->readyweapon == wp_gauntlets)
+            if (viewplayer->weaponowned[ammochange[ammotype]])
+                viewplayer->pendingweapon = ammochange[ammotype];
+    }
+    else
+    {
+        switch (ammotype)
+        {
+            case am_clip:
+                if (viewplayer->readyweapon == wp_fist)
+                {
+                    if (viewplayer->weaponowned[wp_chaingun])
+                        viewplayer->pendingweapon = wp_chaingun;
+                    else
+                        viewplayer->pendingweapon = wp_pistol;
+                }
 
-        case am_shell:
-            if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
-            {
-                if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->preferredshotgun == wp_supershotgun
-                    && viewplayer->ammo[am_shell] >= 2)
-                    viewplayer->pendingweapon = wp_supershotgun;
-                else if (viewplayer->weaponowned[wp_shotgun])
-                    viewplayer->pendingweapon = wp_shotgun;
-            }
+                break;
 
-            break;
+            case am_shell:
+                if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
+                {
+                    if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->preferredshotgun == wp_supershotgun
+                        && viewplayer->ammo[am_shell] >= 2)
+                        viewplayer->pendingweapon = wp_supershotgun;
+                    else if (viewplayer->weaponowned[wp_shotgun])
+                        viewplayer->pendingweapon = wp_shotgun;
+                }
 
-        case am_cell:
-            if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
-                if (viewplayer->weaponowned[wp_plasma])
-                    viewplayer->pendingweapon = wp_plasma;
+                break;
 
-            break;
+            case am_cell:
+                if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
+                    if (viewplayer->weaponowned[wp_plasma])
+                        viewplayer->pendingweapon = wp_plasma;
 
-        default:
-            break;
+                break;
+
+            default:
+                break;
+        }
     }
 
     return num;
@@ -246,9 +268,11 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
     {
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
+            weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
+
             result = true;
 
-            if (vid_widescreen && r_hud && !r_althud && i == weaponinfo[viewplayer->readyweapon].ammotype)
+            if (vid_widescreen && r_hud && !r_althud && i == info[viewplayer->readyweapon].ammotype)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
 
@@ -300,9 +324,10 @@ void P_AddBonus(void)
 //
 static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean stat)
 {
-    dboolean    gaveammo = false;
-    dboolean    gaveweapon = false;
-    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
+    dboolean        gaveammo = false;
+    dboolean        gaveweapon = false;
+    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
+    ammotype_t      ammotype = info[weapon].ammotype;
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
@@ -312,10 +337,12 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-        viewplayer->pendingweapon = weapon;
+
+        if (info[weapon].priority == -1 || info[weapon].priority > info[viewplayer->readyweapon].priority)
+            viewplayer->pendingweapon = weapon;
     }
 
-    if (gaveammo && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
+    if (gaveammo && ammotype == info[viewplayer->readyweapon].ammotype)
     {
         if (vid_widescreen && r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;

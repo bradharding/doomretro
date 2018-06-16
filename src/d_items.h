@@ -49,6 +49,7 @@ typedef struct
 {
     char            *description;
     ammotype_t      ammotype;
+    int             priority;
     int             minammo;
     int             upstate;
     int             downstate;

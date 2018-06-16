@@ -45,6 +45,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "fist",
         /* ammotype */     am_noammo,
+        /* priority */     -1,
         /* minammo */      0,
         /* upstate */      S_PUNCHUP,
         /* downstate */    S_PUNCHDOWN,
@@ -64,6 +65,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "pistol",
         /* ammotype */     am_clip,
+        /* priority */     -1,
         /* minammo */      1,
         /* upstate */      S_PISTOLUP,
         /* downstate */    S_PISTOLDOWN,
@@ -83,6 +85,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "shotgun",
         /* ammotype */     am_shell,
+        /* priority */     -1,
         /* minammo */      1,
         /* upstate */      S_SGUNUP,
         /* downstate */    S_SGUNDOWN,
@@ -102,6 +105,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "chaingun",
         /* ammotype */     am_clip,
+        /* priority */     -1,
         /* minammo */      1,
         /* upstate */      S_CHAINUP,
         /* downstate */    S_CHAINDOWN,
@@ -121,6 +125,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "rocket launcher",
         /* ammotype */     am_misl,
+        /* priority */     -1,
         /* minammo */      1,
         /* upstate */      S_MISSILEUP,
         /* downstate */    S_MISSILEDOWN,
@@ -140,6 +145,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "plasma rifle",
         /* ammotype */     am_cell,
+        /* priority */     -1,
         /* minammo */      1,
         /* upstate */      S_PLASMAUP,
         /* downstate */    S_PLASMADOWN,
@@ -159,6 +165,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "BFG-9000",
         /* ammotype */     am_cell,
+        /* priority */     -1,
         /* minammo */      BFGCELLS,
         /* upstate */      S_BFGUP,
         /* downstate */    S_BFGDOWN,
@@ -178,6 +185,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "chainsaw",
         /* ammotype */     am_noammo,
+        /* priority */     -1,
         /* minammo */      0,
         /* upstate */      S_SAWUP,
         /* downstate */    S_SAWDOWN,
@@ -197,6 +205,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     {
         /* description */  "super shotgun",
         /* ammotype */     am_shell,
+        /* priority */     -1,
         /* minammo */      2,
         /* upstate */      S_DSGUNUP,
         /* downstate */    S_DSGUNDOWN,
@@ -219,6 +228,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "staff",
         /* ammotype */     am_noammo,
+        /* priority */     1,
         /* minammo */      0,
         /* upstate */      HS_STAFFUP,
         /* downstate */    HS_STAFFDOWN,
@@ -238,6 +248,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "gold wand",
         /* ammotype */     am_goldwand,
+        /* priority */     3,
         /* minammo */      0,
         /* upstate */      HS_GOLDWANDUP,
         /* downstate */    HS_GOLDWANDDOWN,
@@ -257,6 +268,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "crossbow",
         /* ammotype */     am_crossbow,
+        /* priority */     4,
         /* minammo */      0,
         /* upstate */      HS_CRBOWUP,
         /* downstate */    HS_CRBOWDOWN,
@@ -276,6 +288,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "blaster",
         /* ammotype */     am_blaster,
+        /* priority */     5,
         /* minammo */      0,
         /* upstate */      HS_BLASTERUP,
         /* downstate */    HS_BLASTERDOWN,
@@ -295,6 +308,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "skull rod",
         /* ammotype */     am_skullrod,
+        /* priority */     6,
         /* minammo */      0,
         /* upstate */      HS_HORNRODUP,
         /* downstate */    HS_HORNRODDOWN,
@@ -314,6 +328,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "phoenix rod",
         /* ammotype */     am_phoenixrod,
+        /* priority */     7,
         /* minammo */      0,
         /* upstate */      HS_PHOENIXUP,
         /* downstate */    HS_PHOENIXDOWN,
@@ -333,6 +348,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "mace",
         /* ammotype */     am_mace,
+        /* priority */     8,
         /* minammo */      0,
         /* upstate */      HS_MACEUP,
         /* downstate */    HS_MACEDOWN,
@@ -352,6 +368,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "gauntlets",
         /* ammotype */     am_noammo,
+        /* priority */     2,
         /* minammo */      0,
         /* upstate */      HS_GAUNTLETUP,
         /* downstate */    HS_GAUNTLETDOWN,
@@ -371,6 +388,7 @@ weaponinfo_t wpnlev1info[NUMHWEAPONS] =
     {
         /* description */  "beak",
         /* ammotype */     am_noammo,
+        /* priority */     0,
         /* minammo */      0,
         /* upstate */      HS_BEAKUP,
         /* downstate */    HS_BEAKDOWN,
@@ -393,6 +411,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "staff",
         /* ammotype */     am_noammo,
+        /* priority */     1,
         /* minammo */      0,
         /* upstate */      HS_STAFFUP2,
         /* downstate */    HS_STAFFDOWN2,
@@ -412,6 +431,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "gold wand",
         /* ammotype */     am_goldwand,
+        /* priority */     3,
         /* minammo */      0,
         /* upstate */      HS_GOLDWANDUP,
         /* downstate */    HS_GOLDWANDDOWN,
@@ -431,6 +451,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "crossbow",
         /* ammotype */     am_crossbow,
+        /* priority */     4,
         /* minammo */      0,
         /* upstate */      HS_CRBOWUP,
         /* downstate */    HS_CRBOWDOWN,
@@ -450,6 +471,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "blaster",
         /* ammotype */     am_blaster,
+        /* priority */     5,
         /* minammo */      0,
         /* upstate */      HS_BLASTERUP,
         /* downstate */    HS_BLASTERDOWN,
@@ -469,6 +491,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "skull rod",
         /* ammotype */     am_skullrod,
+        /* priority */     6,
         /* minammo */      0,
         /* upstate */      HS_HORNRODUP,
         /* downstate */    HS_HORNRODDOWN,
@@ -488,6 +511,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "phoenix rod",
         /* ammotype */     am_phoenixrod,
+        /* priority */     7,
         /* minammo */      0,
         /* upstate */      HS_PHOENIXUP,
         /* downstate */    HS_PHOENIXDOWN,
@@ -507,6 +531,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "mace",
         /* ammotype */     am_mace,
+        /* priority */     8,
         /* minammo */      0,
         /* upstate */      HS_MACEUP,
         /* downstate */    HS_MACEDOWN,
@@ -526,6 +551,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "gauntlets",
         /* ammotype */     am_noammo,
+        /* priority */     2,
         /* minammo */      0,
         /* upstate */      HS_GAUNTLETUP2,
         /* downstate */    HS_GAUNTLETDOWN2,
@@ -545,6 +571,7 @@ weaponinfo_t wpnlev2info[NUMHWEAPONS] =
     {
         /* description */  "beak",
         /* ammotype */     am_noammo,
+        /* priority */     0,
         /* minammo */      0,
         /* upstate */      HS_BEAKUP,
         /* downstate */    HS_BEAKDOWN,
