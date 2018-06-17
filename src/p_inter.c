@@ -1882,27 +1882,31 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
-    if (type == MT_SKULL)
+    if (gamemission != heretic)
     {
-        target->momx = 0;
-        target->momy = 0;
-        target->momz = 0;
+        if (type == MT_SKULL)
+        {
+            target->momx = 0;
+            target->momy = 0;
+            target->momz = 0;
+        }
+        else
+            target->flags &= ~MF_NOGRAVITY;
     }
-    else
-        target->flags &= ~MF_NOGRAVITY;
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
+    target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
 
     // killough 8/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
 
-    if (type != MT_BARREL)
+    if (gamemission == heretic || type != MT_BARREL)
     {
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
+        if (r_corpses_mirrored && (gamemission == heretic || (type != MT_CHAINGUY && type != MT_CYBORG)))
         {
             static int  prev;
             int         r = M_RandomInt(1, 10);
@@ -1929,13 +1933,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             P_UpdateKillStat(type, 1);
         }
     }
-    else if (type == MT_BARREL && !chex && !hacx)
+    else if (type == MT_BARREL && gamemission != heretic && !chex && !hacx)
     {
         viewplayer->mobjcount[type]++;
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
     }
 
-    if (type == MT_BARREL && source)
+    if (type == MT_BARREL && gamemission != heretic && source)
         P_SetTarget(&target->target, source);
 
     if (target->player)
