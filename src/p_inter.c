@@ -189,7 +189,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
     // Preferences are not user selectable.
     if (gamemission == heretic)
     {
-        static weapontype_t ammochange[] =
+        static hweapontype_t ammochange[] =
         {
             wp_nochange,
             wp_nochange,
@@ -205,7 +205,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 
         if (viewplayer->readyweapon == wp_staff || viewplayer->readyweapon == wp_gauntlets)
             if (viewplayer->weaponowned[ammochange[ammotype]])
-                viewplayer->pendingweapon = ammochange[ammotype];
+                viewplayer->pendingweapon = (weapontype_t)ammochange[ammotype];
     }
     else
     {
