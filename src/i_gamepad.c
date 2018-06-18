@@ -50,37 +50,31 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 
-float               gp_deadzone_left = gp_deadzone_left_default;
-float               gp_deadzone_right = gp_deadzone_right_default;
-dboolean            gp_invertyaxis = gp_invertyaxis_default;
-dboolean            gp_swapthumbsticks = gp_swapthumbsticks_default;
-int                 gp_vibrate_barrels = gp_vibrate_barrels_default;
-int                 gp_vibrate_damage = gp_vibrate_damage_default;
-int                 gp_vibrate_weapons = gp_vibrate_weapons_default;
+float                   gp_deadzone_left = gp_deadzone_left_default;
+float                   gp_deadzone_right = gp_deadzone_right_default;
+dboolean                gp_invertyaxis = gp_invertyaxis_default;
+dboolean                gp_swapthumbsticks = gp_swapthumbsticks_default;
+int                     gp_vibrate_barrels = gp_vibrate_barrels_default;
+int                     gp_vibrate_damage = gp_vibrate_damage_default;
+int                     gp_vibrate_weapons = gp_vibrate_weapons_default;
 
-static SDL_Joystick *gamepad;
+static SDL_Joystick     *gamepad;
 
-int                 gamepadbuttons = 0;
-short               gamepadthumbLX = 0;
-short               gamepadthumbLY = 0;
-short               gamepadthumbRX = 0;
-short               gamepadthumbRY = 0;
-float               gamepadsensitivity;
-short               gamepadleftdeadzone;
-short               gamepadrightdeadzone;
+int                     gamepadbuttons = 0;
+short                   gamepadthumbLX = 0;
+short                   gamepadthumbLY = 0;
+short                   gamepadthumbRX = 0;
+short                   gamepadthumbRY = 0;
+float                   gamepadsensitivity;
+short                   gamepadleftdeadzone;
+short                   gamepadrightdeadzone;
 
-dboolean            vibrate = false;
-int                 barrelvibrationtics = 0;
-int                 damagevibrationtics = 0;
-int                 weaponvibrationtics = 0;
-int                 idlemotorspeed;
-int                 restoremotorspeed;
-
-extern dboolean     idclev;
-extern dboolean     idmus;
-extern dboolean     idbehold;
-extern dboolean     menuactive;
-extern dboolean     message_clearable;
+dboolean                vibrate = false;
+int                     barrelvibrationtics = 0;
+int                     damagevibrationtics = 0;
+int                     weaponvibrationtics = 0;
+int                     idlemotorspeed;
+int                     restoremotorspeed;
 
 #if defined(_WIN32)
 typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
@@ -92,6 +86,12 @@ static HMODULE          pXInputDLL;
 #endif
 
 static void (*gamepadthumbsfunc)(short, short, short, short);
+
+extern dboolean         idclev;
+extern dboolean         idmus;
+extern dboolean         idbehold;
+extern dboolean         menuactive;
+extern dboolean         message_clearable;
 
 void I_InitGamepad(void)
 {

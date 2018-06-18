@@ -188,7 +188,7 @@ enum
 
     HSPR_BLD2,   // [BH] blood splats
 
-                // [BH] Sprites 145 to 244 (100 extra sprite names to use in DeHackEd patches)
+    // [BH] Sprites 145 to 244 (100 extra sprite names to use in DeHackEd patches)
     HSPR_SP00, HSPR_SP01, HSPR_SP02, HSPR_SP03, HSPR_SP04, HSPR_SP05, HSPR_SP06, HSPR_SP07, HSPR_SP08, HSPR_SP09,
     HSPR_SP10, HSPR_SP11, HSPR_SP12, HSPR_SP13, HSPR_SP14, HSPR_SP15, HSPR_SP16, HSPR_SP17, HSPR_SP18, HSPR_SP19,
     HSPR_SP20, HSPR_SP21, HSPR_SP22, HSPR_SP23, HSPR_SP24, HSPR_SP25, HSPR_SP26, HSPR_SP27, HSPR_SP28, HSPR_SP29,
@@ -1417,8 +1417,8 @@ enum
     NUMHSTATES
 };
 
-extern state_t hereticstates[];
-extern char *hereticsprnames[];
+extern state_t  hereticstates[];
+extern char     *hereticsprnames[];
 
 enum
 {
@@ -1587,6 +1587,6 @@ enum
     NUMHMOBJTYPES
 };
 
-extern mobjinfo_t hereticmobjinfo[];
+extern mobjinfo_t   hereticmobjinfo[NUMHMOBJTYPES];
 
-#endif /* #ifndef HERETIC_INFO_H */
+#endif
