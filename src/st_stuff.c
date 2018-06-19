@@ -698,17 +698,29 @@ dboolean ST_Responder(event_t *ev)
             {
                 if (gamemission == heretic)
                 {
+                    dboolean    weapons = false;
+
                     for (int i = 1; i < 8; i++)
-                        viewplayer->weaponowned[i] = false;
+                        if (viewplayer->weaponowned[i])
+                        {
+                            weapons = true;
+                            break;
+                        }
 
-                    viewplayer->pendingweapon = (weapontype_t)wp_staff;
+                    if (weapons)
+                    {
+                        for (int i = 1; i < 8; i++)
+                            viewplayer->weaponowned[i] = false;
 
-                    C_Input(cheat_god.sequence);
+                        viewplayer->pendingweapon = (weapontype_t)wp_staff;
 
-                    HU_PlayerMessage(s_STSTR_CHEATIDKFA, false);
+                        C_Input(cheat_god.sequence);
 
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                        HU_PlayerMessage(s_STSTR_CHEATIDKFA, false);
+
+                        if (!consoleactive)
+                            message_dontfuckwithme = true;
+                    }
                 }
                 else
                 {
