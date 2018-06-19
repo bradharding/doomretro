@@ -247,7 +247,6 @@ void A_MinotaurCharge(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_MntrFloorFire(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_ESound(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-
 state_t states[NUMSTATES] =
 {
   //  sprite     frame               tics  action             nextstate             state

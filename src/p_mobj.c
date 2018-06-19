@@ -1125,28 +1125,27 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
     } *hash;
 
     mobjtype_t  i;
-    int         nummobjtypes = (gamemission == heretic ? NUMMOBJTYPES : NUMHMOBJTYPES);
 
     if (!hash)
     {
-        hash = Z_Malloc(sizeof(*hash) * nummobjtypes, PU_CACHE, (void **)&hash);
+        hash = Z_Malloc(sizeof(*hash) * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
 
-        for (i = 0; i < nummobjtypes; i++)
-            hash[i].first = nummobjtypes;
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            hash[i].first = NUMMOBJTYPES;
 
-        for (i = 0; i < nummobjtypes; i++)
+        for (i = 0; i < NUMMOBJTYPES; i++)
             if (mobjinfo[i].doomednum != -1)
             {
-                unsigned int    h = (unsigned int)mobjinfo[i].doomednum % nummobjtypes;
+                unsigned int    h = (unsigned int)mobjinfo[i].doomednum % NUMMOBJTYPES;
 
                 hash[i].next = hash[h].first;
                 hash[h].first = i;
             }
     }
 
-    i = hash[type % nummobjtypes].first;
+    i = hash[type % NUMMOBJTYPES].first;
 
-    while (i < nummobjtypes && (unsigned int)mobjinfo[i].doomednum != type)
+    while (i < NUMMOBJTYPES && (unsigned int)mobjinfo[i].doomednum != type)
         i = hash[i].next;
 
     return i;
@@ -2001,22 +2000,10 @@ mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle)
     return (P_CheckMissileSpawn(th) ? th : NULL);
 }
 
-void P_InitExtraMobjs(void)
-{
-    for (int i = MT_EXTRA00; i <= MT_EXTRA99; i++)
-    {
-        memset(&mobjinfo[i], 0, sizeof(mobjinfo_t));
-        mobjinfo[i].doomednum = -1;
-    }
-}
-
 void P_InitHereticMobjs(void)
 {
     for (int i = 0; i < NUMHSTATES; i++)
         memcpy(&states[i], &hereticstates[i], sizeof(state_t));
-
-    for (int i = 0; i < NUMHMOBJTYPES; i++)
-        memcpy(&mobjinfo[i], &hereticmobjinfo[i], sizeof(mobjinfo_t));
 
     playermobjtype = HMT_PLAYER;
 }

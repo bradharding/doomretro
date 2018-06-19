@@ -224,11 +224,6 @@ typedef enum
     MT_EXTRA90, MT_EXTRA91, MT_EXTRA92, MT_EXTRA93, MT_EXTRA94,
     MT_EXTRA95, MT_EXTRA96, MT_EXTRA97, MT_EXTRA98, MT_EXTRA99,
 
-    NUMMOBJTYPES
-} mobjtype_t;
-
-enum
-{
     HMT_MISC0,
     HMT_ITEMSHIELD1,
     HMT_ITEMSHIELD2,
@@ -391,8 +386,8 @@ enum
     HMT_SOUNDWIND,
     HMT_SOUNDWATERFALL,
 
-    NUMHMOBJTYPES
-};
+    NUMMOBJTYPES
+} mobjtype_t;
 
 typedef struct
 {
@@ -439,8 +434,7 @@ typedef struct
     void        (*altcolfunc)(void);
 } mobjinfo_t;
 
-extern mobjinfo_t   mobjinfo[NUMMOBJTYPES];
-extern mobjinfo_t   hereticmobjinfo[NUMHMOBJTYPES];
+extern mobjinfo_t   mobjinfo[];
 extern mobjtype_t   playermobjtype;
 
 #endif

@@ -1696,8 +1696,6 @@ static void D_DoomMainSetup(void)
 
     modifiedgame = false;
 
-    P_InitExtraMobjs();
-
     for (int i = 0; i < MAXALIASES; i++)
     {
         aliases[i].name[0] = '\0';
