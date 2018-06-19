@@ -1882,17 +1882,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
-    if (gamemission != heretic)
+    if (type == MT_SKULL)
     {
-        if (type == MT_SKULL)
-        {
-            target->momx = 0;
-            target->momy = 0;
-            target->momz = 0;
-        }
-        else
-            target->flags &= ~MF_NOGRAVITY;
+        target->momx = 0;
+        target->momy = 0;
+        target->momz = 0;
     }
+    else
+        target->flags &= ~MF_NOGRAVITY;
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->flags2 &= ~MF2_PASSMOBJ;
