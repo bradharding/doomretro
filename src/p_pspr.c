@@ -1721,9 +1721,9 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 }
 
 //
-// A_BFGsound
+// A_BFGSound
 //
-void A_BFGsound(mobj_t *actor, player_t *player, pspdef_t *psp)
+void A_BFGSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     S_StartSound(actor, sfx_bfg);
 }
