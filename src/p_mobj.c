@@ -1808,8 +1808,9 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / speed);
     th->momz = (dest->z - source->z) / dist;
     th->flags2 |= MF2_MONSTERMISSILE;
+    P_CheckMissileSpawn(th);
 
-    return (P_CheckMissileSpawn(th) ? th : NULL);
+    return th;
 }
 
 mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz)
