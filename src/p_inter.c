@@ -191,10 +191,10 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
     {
         static hweapontype_t ammochange[] =
         {
-            wp_nochange,
-            wp_nochange,
-            wp_nochange,
-            wp_nochange,
+            0,
+            0,
+            0,
+            0,
             wp_goldwand,
             wp_crossbow,
             wp_blaster,
