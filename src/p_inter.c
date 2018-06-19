@@ -1930,13 +1930,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             P_UpdateKillStat(type, 1);
         }
     }
-    else if (type == MT_BARREL && gamemission != heretic && !chex && !hacx)
+    else if (type == MT_BARREL && !chex && !hacx)
     {
         viewplayer->mobjcount[type]++;
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
     }
 
-    if (type == MT_BARREL && gamemission != heretic && source)
+    if (type == MT_BARREL && source)
         P_SetTarget(&target->target, source);
 
     if (target->player)
@@ -1969,7 +1969,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
-    if (gamemission != heretic && (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL))
+    if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
         target->flags2 &= ~MF2_CASTSHADOW;
 
     if (chex)
@@ -1982,8 +1982,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         if (source)
         {
-            if (inflicter && ((gamemission != heretic && inflicter->type == MT_BARREL && type != MT_BARREL)
-                || (gamemission == heretic && inflicter->type == HMT_POD && type != HMT_POD)))
+            if (inflicter && ((inflicter->type == MT_BARREL && type != MT_BARREL)
+                || (inflicter->type == HMT_POD && type != HMT_POD)))
             {
                 if (target->player)
                     C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
@@ -1998,12 +1998,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
                 if (target->player)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
-                        ((gamemission != heretic && type == MT_BARREL) || (gamemission == heretic && type == HMT_POD) ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (type == MT_BARREL || type == HMT_POD ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
                         (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
-                        ((gamemission != heretic && type == MT_BARREL) || (gamemission == heretic && type == HMT_POD) ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (type == MT_BARREL || type == HMT_POD ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
                         (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
@@ -2011,7 +2011,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             }
             else
             {
-                if ((gamemission != heretic && source->type == MT_TFOG) || (gamemission == heretic && source->type == HMT_TFOG))
+                if (source->type == MT_TFOG || source->type == HMT_TFOG)
                     C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
                         (target->player ? titlecase(playername) : name), (defaultplayername ? "were" : "was"));
                 else

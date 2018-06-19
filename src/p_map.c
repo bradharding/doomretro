@@ -382,8 +382,7 @@ static dboolean PIT_CheckLine(line_t *ld)
             return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
 
         // [BH] monster-blockers don't affect corpses
-        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS)
-            && (tmthing->type != HMT_POD || gamemission != heretic))
+        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS) && tmthing->type != HMT_POD)
             return false;                               // block monsters only
     }
 
@@ -477,9 +476,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check if a mobj passed over/under another object
     if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
     {
-        if (gamemission == heretic)
-            if ((tmthing->type == HMT_IMP || tmthing->type == HMT_WIZARD) && (thing->type == HMT_IMP || thing->type == HMT_WIZARD))
-                return false;
+        if ((tmthing->type == HMT_IMP || tmthing->type == HMT_WIZARD) && (thing->type == HMT_IMP || thing->type == HMT_WIZARD))
+            return false;
 
         if (tmthing->z >= thing->z + thing->height && !(thing->flags & MF_SPECIAL))
             return true;        // over thing
@@ -508,9 +506,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         int height = thing->info->projectilepassheight;
 
         // Check for passing through a ghost
-        if (gamemission == heretic)
-            if ((thing->flags & MF_FUZZ) && (tmthing->flags3 & MF3_THRUGHOST))
-                return true;
+        if ((thing->flags & MF_FUZZ) && (tmthing->flags3 & MF3_THRUGHOST))
+            return true;
 
         if (!height || infiniteheight)
             height = thing->height;
@@ -524,9 +521,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (tmthing->target
             && (tmthing->target->type == thing->type
-                || (gamemission != heretic
-                    && ((tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
-                        || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))))
+                || (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
+                || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))
         {
             // Don't hit same species as originator.
             if (thing == tmthing->target)
@@ -1660,7 +1656,7 @@ static dboolean PTR_AimTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
-    if (gamemission == heretic && th->type == HMT_POD)
+    if (th->type == HMT_POD)
         return true;                    // can't auto-aim at pods
 
     // check angles to see if the thing can be aimed at
@@ -2031,17 +2027,12 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 
     type = thing->type;
 
-    if (gamemission == heretic)
-    {
-        if (type == HMT_MINOTAUR || type == HMT_SORCERER1 || type == HMT_SORCERER2)
-            return true;
-    }
-    else if (type == MT_CYBORG || type == MT_SPIDER)
+    if (type == MT_CYBORG || type == MT_SPIDER || type == HMT_MINOTAUR || type == HMT_SORCERER1 || type == HMT_SORCERER2)
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (gamemission != heretic && type == MT_BOSSBRAIN)
+    if (type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius
@@ -2071,7 +2062,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
         P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist, true);
 
         // [BH] count number of times player's rockets hit a monster
-        if (gamemission != heretic && bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
+        if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
         {
             if (bombspot->nudge == 1)
             {

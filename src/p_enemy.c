@@ -204,31 +204,27 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 
     type = actor->type;
 
-    if (gamemission == heretic)
+    if (type == MT_VILE)
     {
-        if (actor->type == HMT_IMP)
-            dist >>= 1;                 // Imp's fly attack from far away
+        if (dist > 14 * 64)
+            return false;               // too far away
     }
-    else
+    else if (type == MT_UNDEAD)
     {
-        if (type == MT_VILE)
-        {
-            if (dist > 14 * 64)
-                return false;           // too far away
-        }
-        else if (type == MT_UNDEAD)
-        {
-            if (dist < 196)
-                return false;           // close for fist attack
+        if (dist < 196)
+            return false;               // close for fist attack
 
-            dist >>= 1;
-        }
-        else if (type == MT_CYBORG || type == MT_SPIDER || type == MT_SKULL)
-            dist >>= 1;
+        dist >>= 1;
+    }
+    else if (type == MT_CYBORG)
+    {
+        dist >>= 1;
 
-        if (type == MT_CYBORG && dist > 160)
+        if (dist > 160)
             dist = 160;
     }
+    else if (type == MT_SPIDER || type == MT_SKULL || type == HMT_IMP)
+        dist >>= 1;
 
     if (dist > 200)
         dist = 200;
@@ -903,15 +899,10 @@ nomissile:
     // make active sound
     if (info->activesound && M_Random() < 3)
     {
-        if (gamemission == heretic)
-        {
-            if (actor->type == HMT_WIZARD && M_Random() < 128)
-                S_StartSound(actor, actor->info->seesound);
-            else if (actor->type == HMT_SORCERER2)
-                S_StartSound(NULL, actor->info->activesound);
-            else
-                S_StartSound(actor, info->activesound);
-        }
+        if (actor->type == HMT_WIZARD && M_Random() < 128)
+            S_StartSound(actor, actor->info->seesound);
+        else if (actor->type == HMT_SORCERER2)
+            S_StartSound(NULL, actor->info->activesound);
         else
             S_StartSound(actor, info->activesound);
     }
@@ -2572,7 +2563,7 @@ void A_NoBlocking(mobj_t *actor, player_t *player, pspdef_t *psp)
             P_DropItem(actor, HMT_ARTITOMEOFPOWER, 0, 4);
             break;
 
-        case MT_HEAD:
+        case HMT_HEAD:
             P_DropItem(actor, HMT_AMBLSRWIMPY, 10, 84);
             P_DropItem(actor, HMT_ARTIEGG, 0, 51);
             break;

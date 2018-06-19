@@ -727,7 +727,7 @@ static void C_DrawBackground(int height)
 
     if (gamemission == heretic)
         for (int i = 0; i < height; i++)
-            screens[0][i] = tinttab50[(209 << 8) + c_blurscreen[i]];
+            screens[0][i] = tinttab50[(52 << 8) + c_blurscreen[i]];
     else
         for (int i = 0; i < height; i++)
             screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];

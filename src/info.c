@@ -11960,7 +11960,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ hsfx_impact,
         /* flags                */ (MF_COUNTKILL | MF_FLOAT | MF_NOGRAVITY | MF_SHOOTABLE | MF_SOLID),
-        /* flags2               */ MF2_PASSMOBJ | MF2_CASTSHADOW,
+        /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ),
         /* flags3               */ MF3_SPAWNFLOAT,
         /* raisestate           */ HS_NULL,
         /* frames               */ 0,
