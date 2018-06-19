@@ -38,7 +38,7 @@
 
 #include "d_items.h"
 #include "info.h"
-#include "h_info.h"
+#include "states.h"
 
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {

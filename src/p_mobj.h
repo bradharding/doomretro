@@ -41,7 +41,7 @@
 
 #include "doomdata.h"
 #include "info.h"
-#include "h_info.h"
+#include "states.h"
 #include "tables.h"
 
 #define REDBLOOD            184

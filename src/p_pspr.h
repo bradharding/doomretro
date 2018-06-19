@@ -51,7 +51,7 @@
 // i.e. the Thing Attributes table
 // and the Frame Sequence table.
 #include "info.h"
-#include "h_info.h"
+#include "states.h"
 
 //
 // Frame flags:
