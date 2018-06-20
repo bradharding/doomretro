@@ -150,7 +150,7 @@ dboolean P_SetMobjStateNF(mobj_t *mobj, statenum_t state)
 //
 void P_ExplodeMissile(mobj_t *mo)
 {
-    if (mo->type == HMT_WHIRLWIND && gamemission == heretic)
+    if (mo->type == HMT_WHIRLWIND)
         if (++mo->special2.i < 60)
             return;
 
@@ -292,7 +292,7 @@ static void P_XYMovement(mobj_t *mo)
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
     int         flags3 = mo->flags3;
-    dboolean    corpse = ((flags & MF_CORPSE) && (type != MT_BARREL || gamemission == heretic));
+    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
     int         stepdir = 0;
     int         special = mo->subsector->sector->special;
 
@@ -430,7 +430,7 @@ static void P_XYMovement(mobj_t *mo)
                     // against the sky.
                     // Does not handle sky floors.
 
-                    if (type == HMT_BLOODYSKULL && gamemission == heretic)
+                    if (type == HMT_BLOODYSKULL)
                     {
                         mo->momx = 0;
                         mo->momy = 0;
@@ -439,7 +439,7 @@ static void P_XYMovement(mobj_t *mo)
                     }
 
                     // [BH] still play sound when firing BFG into sky
-                    if (type == MT_BFG && gamemission != heretic)
+                    if (type == MT_BFG)
                         S_StartSound(mo, mo->info->deathsound);
 
                     P_RemoveMobj(mo);
@@ -688,7 +688,7 @@ static void P_ZMovement(mobj_t *mo)
         {
             if (mo->subsector->sector->ceilingpic == skyflatnum)
             {
-                if (mo->type == HMT_BLOODYSKULL && gamemission == heretic)
+                if (mo->type == HMT_BLOODYSKULL)
                 {
                     mo->momx = 0;
                     mo->momy = 0;
@@ -725,9 +725,14 @@ static void P_NightmareRespawn(mobj_t *mobj)
     if (!P_CheckPosition(mobj, x, y))
         return;         // no respawn
 
+
     // spawn a teleport fog at old spot
     //  because of removal of the body?
-    mo = P_SpawnMobj(mobj->x, mobj->y, z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
+    if (gamemission == heretic)
+        mo = P_SpawnMobj(mobj->x, mobj->y, mobj->subsector->sector->floorheight + TELEFOGHEIGHT, HMT_TFOG);
+    else
+        mo = P_SpawnMobj(mobj->x, mobj->y, z, MT_TFOG);
+
     mo->angle = mobj->angle;
 
     // initiate teleport sound
@@ -736,7 +741,11 @@ static void P_NightmareRespawn(mobj_t *mobj)
     // spawn a teleport fog at the new spot
     if (x != mobj->x || y != mobj->y)
     {
-        mo = P_SpawnMobj(x, y, z, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
+        if (gamemission == heretic)
+            mo = P_SpawnMobj(x, y, R_PointInSubsector(x, y)->sector->floorheight + TELEFOGHEIGHT, HMT_TFOG);
+        else
+            mo = P_SpawnMobj(x, y, z, MT_TFOG);
+
         mo->angle = ANG45 * (mthing->angle / 45);
         S_StartSound(mo, SFX_TELEPT);
     }
@@ -822,7 +831,7 @@ void P_MobjThinker(mobj_t *mobj)
                 P_ZMovement(mobj);
                 mobj->flags2 &= ~MF2_ONMOBJ;
             }
-            else if (player && (onmo->player || (onmo->type == HMT_POD && gamemission == heretic)))
+            else if (player && (onmo->player || onmo->type == HMT_POD))
             {
                 if (mobj->momz < -GRAVITY * 8)
                 {
@@ -891,7 +900,7 @@ void P_MobjThinker(mobj_t *mobj)
 void P_BlasterMobjThinker(mobj_t *mobj)
 {
     // Handle movement
-    if (mobj->momx || mobj->momy || (mobj->z != mobj->floorz) || mobj->momz)
+    if (mobj->momx || mobj->momy || mobj->z != mobj->floorz || mobj->momz)
     {
         fixed_t     xfrac = mobj->momx >> 3;
         fixed_t     yfrac = mobj->momy >> 3;
@@ -927,7 +936,7 @@ void P_BlasterMobjThinker(mobj_t *mobj)
                 return;
             }
 
-            if (changexy && (M_Random() < 64))
+            if (changexy && M_Random() < 64)
             {
                 fixed_t z = mobj->z - 8 * FRACUNIT;
 
@@ -972,8 +981,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     sector_t    *sector;
     static int  prevx, prevy;
     static int  prevbob;
-    int         height = (z == ONCEILINGZ && (type != MT_KEEN || gamemission == heretic) && info->projectilepassheight ?
-                    info->projectilepassheight : info->height);
+    int         height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
 
     mobj->type = type;
     mobj->info = info;
@@ -1052,7 +1060,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
 
-    mobj->thinker.function = (type == MT_MUSICSOURCE && gamemission != heretic ? MusInfoThinker : P_MobjThinker);
+    mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
     if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && sector->isliquid && !sector->heightsec)
@@ -1328,14 +1336,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         bit = 1 << (gameskill - 1);
 
     // Ambient sound sequences
-    if (mthing->type >= 1200 && mthing->type < 1300)
+    if (type >= SequenceScream && type < SequenceScream + 100)
     {
-        P_AddAmbientSfx(mthing->type - 1200);
+        P_AddAmbientSfx(type - SequenceScream);
         return NULL;
     }
 
     // Check for boss spots
-    if (mthing->type == 56 && gamemission == heretic)
+    if (mthing->type == DSparilTeleportLocation)
     {
         P_AddBossSpot(mthing->x << FRACBITS, mthing->y << FRACBITS, ANG45 * (mthing->angle / 45));
         return NULL;
@@ -1753,36 +1761,35 @@ dboolean P_CheckMissileSpawn(mobj_t *th)
 //
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 {
-    fixed_t z = source->z + 32 * FRACUNIT;
+    fixed_t z;
     mobj_t  *th;
     angle_t an;
     int     dist;
     int     speed;
 
-    if (gamemission == heretic)
-        switch (type)
-        {
-            case HMT_MNTRFX1:       // Minotaur swing attack missile
-                z = source->z + 40 * FRACUNIT;
-                break;
+    switch (type)
+    {
+        case HMT_MNTRFX1:       // Minotaur swing attack missile
+            z = source->z + 40 * FRACUNIT;
+            break;
 
-            case HMT_MNTRFX2:       // Minotaur floor fire missile
-                z = ONFLOORZ;
-                break;
+        case HMT_MNTRFX2:       // Minotaur floor fire missile
+            z = ONFLOORZ;
+            break;
 
-            case HMT_SRCRFX1:       // Sorcerer Demon fireball
-                z = source->z + 48 * FRACUNIT;
-                break;
+        case HMT_SRCRFX1:       // Sorcerer Demon fireball
+            z = source->z + 48 * FRACUNIT;
+            break;
 
-            case HMT_KNIGHTAXE:     // Knight normal axe
-            case HMT_REDAXE:        // Knight red power axe
-                z = source->z + 36 * FRACUNIT;
-                break;
+        case HMT_KNIGHTAXE:     // Knight normal axe
+        case HMT_REDAXE:        // Knight red power axe
+            z = source->z + 36 * FRACUNIT;
+            break;
 
-            default:
-                z = source->z + 32 * FRACUNIT;
-                break;
-        }
+        default:
+            z = source->z + 32 * FRACUNIT;
+            break;
+    }
 
     if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
