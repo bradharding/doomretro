@@ -76,7 +76,7 @@ void G_RemoveChoppers(void);
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-static void P_Thrust(angle_t angle, fixed_t move)
+void P_Thrust(angle_t angle, fixed_t move)
 {
     angle >>= ANGLETOFINESHIFT;
 
@@ -85,7 +85,7 @@ static void P_Thrust(angle_t angle, fixed_t move)
         viewplayer->mo->momx += FixedMul(move, finecosine[angle]);
         viewplayer->mo->momy += FixedMul(move, finesine[angle]);
     }
-    else if (viewplayer->mo->subsector->sector->special == 15)
+    else if (viewplayer->mo->subsector->sector->special == Friction)
     {
         viewplayer->mo->momx += FixedMul(move >> 2, finecosine[angle]);
         viewplayer->mo->momy += FixedMul(move >> 2, finesine[angle]);

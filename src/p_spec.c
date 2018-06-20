@@ -332,6 +332,17 @@ short           bloodend;
 short           slimestart;
 short           slimeend;
 
+mobj_t          lavainflictor;
+
+void P_Thrust(angle_t angle, fixed_t move);
+
+void P_InitLava(void)
+{
+    memset(&lavainflictor, 0, sizeof(mobj_t));
+    lavainflictor.type = HMT_PHOENIXFX2;
+    lavainflictor.flags3 = (MF3_FIREDAMAGE | MF3_NODMGTHRUST);
+}
+
 void P_InitTerrainTypes(void)
 {
     int size = (numflats + 1) * sizeof(int);
@@ -2323,8 +2334,87 @@ void P_PlayerInSpecialSector(void)
 {
     sector_t    *sector = viewplayer->mo->subsector->sector;
 
+    if (gamemission == heretic)
+    {
+        static int pushtab[5] =
+        {
+            2048 * 5,
+            2048 * 10,
+            2048 * 25,
+            2048 * 30,
+            2048 * 35
+        };
+
+        switch (sector->special)
+        {
+            case DamageNegative2Or5PercentHealth:
+                if (!(leveltime & 31))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 4, true);
+
+                break;
+
+            case DamageNegative5Or10PercentHealth:
+                if (!(leveltime & 15))
+                {
+                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 5, true);
+                    P_HitFloor(viewplayer->mo);
+                }
+
+                break;
+
+            case DamageNegative10Or20PercentHealth:
+                if (!(leveltime & 15))
+                {
+                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 8, true);
+                    P_HitFloor(viewplayer->mo);
+                }
+
+                break;
+
+            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
+                P_Thrust(0, 2048 * 28);
+
+                if (!(leveltime & 15))
+                {
+                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 5, true);
+                    P_HitFloor(viewplayer->mo);
+                }
+
+                break;
+
+            case Secret:
+                viewplayer->secretcount++;
+                sector->special = 0;
+                break;
+
+            case ScrollNorth_Slow:
+            case ScrollNorth_Medium:
+            case ScrollNorth_Fast:
+                P_Thrust(ANG90, pushtab[sector->special - 25]);
+                break;
+
+            case ScrollEast_Slow:
+            case ScrollEast_Medium:
+            case ScrollEast_Fast:
+                P_Thrust(0, pushtab[sector->special - 20]);
+                break;
+
+            case ScrollSouth_Slow:
+            case ScrollSouth_Medium:
+            case ScrollSouth_Fast:
+                P_Thrust(ANG270, pushtab[sector->special - 30]);
+                break;
+
+            case ScrollWest_Slow:
+            case ScrollWest_Medium:
+            case ScrollWest_Fast:
+                P_Thrust(ANG180, pushtab[sector->special - 35]);
+                break;
+        }
+    }
+
     // jff add if to handle old vs generalized types
-    if (sector->special < 32)   // regular sector specials
+    else if (sector->special < 32)   // regular sector specials
     {
         switch (sector->special)
         {
