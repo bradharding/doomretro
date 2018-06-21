@@ -251,6 +251,8 @@
 		AB5A825D1A8DB9EB00AF539F /* s_sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = s_sound.h; path = ../src/s_sound.h; sourceTree = SOURCE_ROOT; };
 		AB5A825E1A8DB9EB00AF539F /* sounds.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = sounds.c; path = ../src/sounds.c; sourceTree = SOURCE_ROOT; };
 		AB5A825F1A8DB9EB00AF539F /* sounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sounds.h; path = ../src/sounds.h; sourceTree = SOURCE_ROOT; };
+		AB5A820F1A8DB9EB00AF539F /* sprites.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = sprites.c; path = ../src/sprites.c; sourceTree = SOURCE_ROOT; };
+		AB5A82101A8DB9EB00AF539F /* sprites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sprites.h; path = ../src/sprites.h; sourceTree = SOURCE_ROOT; };
 		AB5A82601A8DB9EB00AF539F /* st_lib.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = st_lib.c; path = ../src/st_lib.c; sourceTree = SOURCE_ROOT; };
 		AB5A82611A8DB9EB00AF539F /* st_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = st_lib.h; path = ../src/st_lib.h; sourceTree = SOURCE_ROOT; };
 		AB5A82621A8DB9EB00AF539F /* st_stuff.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = st_stuff.c; path = ../src/st_stuff.c; sourceTree = SOURCE_ROOT; };
