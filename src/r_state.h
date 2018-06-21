@@ -108,8 +108,8 @@ extern side_t       *sides;
 extern int          numtextures;
 
 extern int          numthings;
-
 extern int          numdecorations;
+extern int          numbarrels;
 
 typedef enum
 {

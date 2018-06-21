@@ -23,6 +23,7 @@
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 * A bug has been fixed whereby projectiles wouldn’t pass through some map decorations when the `infiniteheight` CVAR was `off`.
 * Restoring behavior present in *Vanilla DOOM*, lost souls will no longer pass through non-solid objects while attacking if the `infiniteheight` CVAR is `on`.
+* The `mapstats` CCMD now shows the total number of barrels in the current map.
 
 ---
 

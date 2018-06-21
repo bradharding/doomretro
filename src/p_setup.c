@@ -132,8 +132,8 @@ int             numsides;
 side_t          *sides;
 
 int             numthings;
-
 int             numdecorations;
+int             numbarrels;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -1078,6 +1078,7 @@ static void P_LoadThings(int lump)
 
     M_Seed(numthings);
     numdecorations = 0;
+    numbarrels = 0;
 
     for (int i = 0; i < numthings; i++)
     {

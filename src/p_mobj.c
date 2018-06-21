@@ -1458,7 +1458,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (mobj->info->spawnstate == S_PLAY_DIE7 || mobj->info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
 
-    if (mobj->flags2 & MF2_DECORATION)
+    if (type == Barrel)
+        numbarrels++;
+    else if (mobj->flags2 & MF2_DECORATION)
         numdecorations++;
 
     return mobj;
