@@ -1124,9 +1124,15 @@ void C_Drawer(void)
 
             if (*middletext)
             {
+                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
                 x += C_TextWidth(middletext, false, true);
+
+                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
             }
         }
 
@@ -1140,14 +1146,7 @@ void C_Drawer(void)
             }
 
             if (showcaret)
-            {
-                if (selectend > caretpos)
-                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
-                        consoleselectedinputbackgroundcolor, false, NULL);
-                else
-                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR,
-                        false, NULL);
-            }
+                V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR, false, NULL);
         }
         else
         {
@@ -1167,9 +1166,15 @@ void C_Drawer(void)
 
             if (*middletext)
             {
+                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
                 x += C_TextWidth(middletext, false, true);
+
+                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
             }
         }
 
