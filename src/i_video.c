@@ -945,6 +945,8 @@ void I_Blit_Automap_NearestLinear(void)
     SDL_RenderPresent(maprenderer);
 }
 
+void (*blitfunc)(void);
+void (*mapblitfunc)(void);
 static void nullfunc(void) {}
 
 void I_UpdateBlitFunc(dboolean shake)

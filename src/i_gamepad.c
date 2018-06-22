@@ -85,6 +85,7 @@ static XINPUTSETSTATE   pXInputSetState;
 static HMODULE          pXInputDLL;
 #endif
 
+void (*gamepadfunc)(void);
 static void (*gamepadthumbsfunc)(short, short, short, short);
 
 extern dboolean         idclev;

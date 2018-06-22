@@ -115,6 +115,8 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external);
 // erases all stext lines
 void HUlib_eraseSText(hu_stext_t *s);
 
+extern void (*althudtextfunc)(int, int, patch_t *, int);
+
 extern dboolean STCFN034;
 extern dboolean idbehold;
 extern dboolean s_STSTR_BEHOLD2;

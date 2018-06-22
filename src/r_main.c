@@ -457,6 +457,37 @@ void R_ExecuteSetViewSize(void)
     }
 }
 
+void (*colfunc)(void);
+void (*wallcolfunc)(void);
+void (*bmapwallcolfunc)(void);
+void (*segcolfunc)(void);
+void (*transcolfunc)(void);
+void (*basecolfunc)(void);
+void (*fuzzcolfunc)(void);
+void (*tlcolfunc)(void);
+void (*tl50colfunc)(void);
+void (*tl50segcolfunc)(void);
+void (*tl33colfunc)(void);
+void (*tlgreencolfunc)(void);
+void (*tlredcolfunc)(void);
+void (*tlredwhitecolfunc1)(void);
+void (*tlredwhitecolfunc2)(void);
+void (*tlredwhite50colfunc)(void);
+void (*tlbluecolfunc)(void);
+void (*tlgreen33colfunc)(void);
+void (*tlred33colfunc)(void);
+void (*tlblue25colfunc)(void);
+void (*redtobluecolfunc)(void);
+void (*tlredtoblue33colfunc)(void);
+void (*skycolfunc)(void);
+void (*redtogreencolfunc)(void);
+void (*tlredtogreen33colfunc)(void);
+void (*psprcolfunc)(void);
+void (*spanfunc)(void);
+void (*bloodsplatcolfunc)(void);
+void (*megaspherecolfunc)(void);
+void (*supershotguncolfunc)(void);
+
 void R_InitColumnFunctions(void)
 {
     if (r_textures)

@@ -358,7 +358,7 @@ static int64_t  shadowtopscreen;
 static int64_t  shadowshift;
 int             fuzzpos;
 
-void (*shadowcolfunc)(void);
+static void (*shadowcolfunc)(void);
 
 static void R_BlastShadowColumn(const rcolumn_t *column)
 {

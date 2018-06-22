@@ -94,6 +94,9 @@ void I_SetGamma(float value);
 void I_WindowResizeBlit(void);
 #endif
 
+extern void (*blitfunc)(void);
+extern void (*mapblitfunc)(void);
+
 extern dboolean     sendpause;
 extern dboolean     quitting;
 
@@ -110,9 +113,6 @@ extern const float  gammalevels[GAMMALEVELS];
 extern dboolean     blurred;
 extern dboolean     splashscreen;
 extern dboolean     noinput;
-
-void (*blitfunc)(void);
-void (*mapblitfunc)(void);
 
 extern int          windowx;
 extern int          windowy;
