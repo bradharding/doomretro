@@ -259,6 +259,7 @@
 		AB5A82631A8DB9EB00AF539F /* st_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = st_stuff.h; path = ../src/st_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A820F1A8DB9EB00AF539F /* states.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = states.c; path = ../src/states.c; sourceTree = SOURCE_ROOT; };
 		AB5A82101A8DB9EB00AF539F /* states.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = states.h; path = ../src/states.h; sourceTree = SOURCE_ROOT; };
+		AB5A82641A8DB9EB00AF539F /* stdint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdint.h; path = ../src/stdint.h; sourceTree = SOURCE_ROOT; };
 		AB5A82651A8DB9EB00AF539F /* tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tables.h; path = ../src/tables.h; sourceTree = SOURCE_ROOT; };
 		AB5A82661A8DB9EB00AF539F /* v_data.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = v_data.c; path = ../src/v_data.c; sourceTree = SOURCE_ROOT; };
 		AB5A82671A8DB9EB00AF539F /* v_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = v_data.h; path = ../src/v_data.h; sourceTree = SOURCE_ROOT; };
@@ -496,6 +497,7 @@
 				AB5A82631A8DB9EB00AF539F /* st_stuff.h */,
 				AB5A820F1A8DB9EB00AF539F /* states.c */,
 				AB5A82101A8DB9EB00AF539F /* states.h */,
+				AB5A82641A8DB9EB00AF539F /* stdint.h */,
 				AB5A82651A8DB9EB00AF539F /* tables.h */,
 				AB5A82661A8DB9EB00AF539F /* v_data.c */,
 				AB5A82671A8DB9EB00AF539F /* v_data.h */,
