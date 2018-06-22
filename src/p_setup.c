@@ -1089,17 +1089,17 @@ static void P_LoadThings(int lump)
         {
             switch (i)
             {
-                case 13:
-                case 16:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 31:
-                case 32:
-                case 36:
-                case 2003:
-                case 2004:
+                case MaceSpheres:
+                case PileOfMaceSpheres:
+                case LesserRunes:
+                case GreaterRunes:
+                case FlameOrb:
+                case InfernoOrb:
+                case EnchantedShield:
+                case MysticUrn:
+                case ChaosDevice:
+                case PhoenixRod:
+                case Hellstaff:
                     if (gamemode == shareware)
                         spawn = false;
 
@@ -2683,6 +2683,7 @@ void P_Init(void)
 
     P_InitPicAnims();
     P_InitTerrainTypes();
+    P_InitLava();
     InitMapInfo();
 
     if (gamemission == heretic)

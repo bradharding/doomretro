@@ -15,4 +15,3 @@ interface MidiRPC
    void MidiRPC_ResumeSong(void);
    void MidiRPC_StopServer(void);
 }
-

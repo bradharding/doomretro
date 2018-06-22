@@ -725,7 +725,6 @@ static void P_NightmareRespawn(mobj_t *mobj)
     if (!P_CheckPosition(mobj, x, y))
         return;         // no respawn
 
-
     // spawn a teleport fog at old spot
     //  because of removal of the body?
     if (gamemission == heretic)

@@ -70,6 +70,7 @@ extern int      *terraintypes;
 // at game start
 void P_InitPicAnims(void);
 void P_InitTerrainTypes(void);
+void P_InitLava(void);
 
 // at map load
 void P_SetTimer(int minutes);

@@ -115,7 +115,6 @@ enum
     NUMHSPRITES
 };
 
-
 typedef struct
 {
     char        name[9];
