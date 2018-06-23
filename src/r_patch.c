@@ -425,8 +425,7 @@ static void createTextureCompositePatch(int id)
     composite_patch->posts = (rpost_t *)((unsigned char *)composite_patch->columns + columnsDataSize);
 
     // sanity check that we've got all the memory allocated we need
-    assert((((byte *)composite_patch->posts + numPostsTotal * sizeof(rpost_t))
-        - (byte *)composite_patch->data) == dataSize);
+    assert((((byte *)composite_patch->posts + numPostsTotal * sizeof(rpost_t)) - (byte *)composite_patch->data) == dataSize);
 
     memset(composite_patch->pixels, 0xFF, composite_patch->width * composite_patch->height);
 

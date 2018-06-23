@@ -55,6 +55,27 @@
 
 #define BARRELRANGE (512 * FRACUNIT)
 
+static dirtype_t opposite[] =
+{
+    DI_WEST,
+    DI_SOUTHWEST,
+    DI_SOUTH,
+    DI_SOUTHEAST,
+    DI_EAST,
+    DI_NORTHEAST,
+    DI_NORTH,
+    DI_NORTHWEST,
+    DI_NODIR
+};
+
+static dirtype_t diags[] =
+{
+    DI_NORTHWEST,
+    DI_NORTHEAST,
+    DI_SOUTHWEST,
+    DI_SOUTHEAST
+};
+
 int barrelms = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);

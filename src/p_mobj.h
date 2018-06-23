@@ -370,27 +370,6 @@ typedef enum
     NUMDIRS
 } dirtype_t;
 
-static dirtype_t opposite[] =
-{
-    DI_WEST,
-    DI_SOUTHWEST,
-    DI_SOUTH,
-    DI_SOUTHEAST,
-    DI_EAST,
-    DI_NORTHEAST,
-    DI_NORTH,
-    DI_NORTHWEST,
-    DI_NODIR
-};
-
-static dirtype_t diags[] =
-{
-    DI_NORTHWEST,
-    DI_NORTHEAST,
-    DI_SOUTHWEST,
-    DI_SOUTHEAST
-};
-
 // Map Object definition.
 typedef struct mobj_s
 {

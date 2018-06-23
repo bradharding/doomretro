@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#ifndef SPRITES_H
-#define SPRITES_H
+#if !defined(__SPRITES_H__)
+#define __SPRITES_H__
 
 typedef enum
 {

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#ifndef STATES_H
-#define STATES_H
+#if !defined(__STATES_H__)
+#define __STATES_H__
 
 #include "doomtype.h"
 #include "d_think.h"
