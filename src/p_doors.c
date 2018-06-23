@@ -647,11 +647,6 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     // for proper sound
     switch (line->special)
     {
-        case DR_Door_OpenWaitClose_AlsoMonsters:
-        case DR_Door_Blue_OpenWaitClose:
-            if (gamemission != heretic)
-                break;
-
         case DR_Door_OpenWaitClose_Fast:
         case D1_Door_OpenStay_Fast:
             S_StartSectorSound(&sec->soundorg, SFX_BDOPN);
