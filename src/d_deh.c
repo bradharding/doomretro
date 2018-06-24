@@ -2510,6 +2510,18 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags2 = value;
                 }
             }
+            else if (M_StringCompare(key, "Name1"))
+                M_StringCopy(mobjinfo[indexnum].name1, strval, 100);
+            else if (M_StringCompare(key, "Plural1"))
+                M_StringCopy(mobjinfo[indexnum].plural1, strval, 100);
+            else if (M_StringCompare(key, "Name2"))
+                M_StringCopy(mobjinfo[indexnum].name2, strval, 100);
+            else if (M_StringCompare(key, "Plural2"))
+                M_StringCopy(mobjinfo[indexnum].plural2, strval, 100);
+            else if (M_StringCompare(key, "Name3"))
+                M_StringCopy(mobjinfo[indexnum].name3, strval, 100);
+            else if (M_StringCompare(key, "Plural3"))
+                M_StringCopy(mobjinfo[indexnum].plural3, strval, 100);
             else
             {
                 pix = (int *)&mobjinfo[indexnum];
