@@ -78,7 +78,6 @@
 typedef enum
 {
     ANIM_ALWAYS,
-    ANIM_RANDOM,
     ANIM_LEVEL
 } animenum_t;
 
@@ -105,12 +104,10 @@ typedef struct
     point_t     loc;
 
     // ALWAYS: n/a,
-    // RANDOM: period deviation (<256),
     // LEVEL: level
     int         data1;
 
     // ALWAYS: n/a,
-    // RANDOM: random base period,
     // LEVEL: n/a
     int         data2;
 
@@ -125,7 +122,7 @@ typedef struct
     // next frame number to animate
     int         ctr;
 
-    // used by RANDOM and LEVEL when animating
+    // used by LEVEL when animating
     int         state;
 } anim_t;
 
@@ -506,8 +503,6 @@ static void WI_initAnimatedBack(void)
         // specify the next time to draw it
         if (a->type == ANIM_ALWAYS)
             a->nexttic = bcnt + 1 + (M_Random() % a->period);
-        else if (a->type == ANIM_RANDOM)
-            a->nexttic = bcnt + 1 + a->data2 + (M_Random() % a->data1);
         else if (a->type == ANIM_LEVEL)
             a->nexttic = bcnt + 1;
     }
@@ -534,17 +529,6 @@ static void WI_updateAnimatedBack(void)
                         a->ctr = 0;
 
                     a->nexttic = bcnt + a->period;
-                    break;
-
-                case ANIM_RANDOM:
-                    if (++a->ctr == a->nanims)
-                    {
-                        a->ctr = -1;
-                        a->nexttic = bcnt + a->data2 + (M_Random() % a->data1);
-                    }
-                    else
-                        a->nexttic = bcnt + a->period;
-
                     break;
 
                 case ANIM_LEVEL:

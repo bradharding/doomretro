@@ -248,9 +248,6 @@ void I_PollDirectInputGamepad(void)
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
             gamepadthumbsfunc(0, 1, 2, 3);
-
-            if (gp_invertyaxis)
-                gamepadthumbRY = -gamepadthumbRY;
         }
         else
         {
@@ -346,9 +343,6 @@ void I_PollXInputGamepad(void)
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
             gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
-
-            if (gp_invertyaxis)
-                gamepadthumbRY = -gamepadthumbRY;
         }
         else
         {
