@@ -1604,7 +1604,7 @@ typedef struct
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 31      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 33      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1652,6 +1652,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Pain sound",               // .painsound
     "Close attack frame",       // .meleestate
     "Far attack frame",         // .missilestate
+    "Crash frame",              // .crashstate
     "Death frame",              // .deathstate
     "Exploding frame",          // .xdeathstate
     "Death sound",              // .deathsound
@@ -1664,7 +1665,8 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Missile damage",           // .damage
     "Action sound",             // .activesound
     "Bits",                     // .flags
-    "Retro Bits",               // .flags2
+    "Retro bits",               // .flags2
+    "More retro bits",          // .flags3
     "Respawn frame",            // .raisestate
     "Frames",                   // .frames
     "Fullbright",               // .fullbright
