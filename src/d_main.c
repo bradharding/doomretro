@@ -2119,7 +2119,7 @@ static void D_DoomMainSetup(void)
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
-            D_StartTitle(!!M_CheckParm("-nosplash"));    // start up intro loop
+            D_StartTitle(!!M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
     }
 
     C_Output("Startup took %s seconds to complete.",

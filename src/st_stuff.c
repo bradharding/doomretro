@@ -509,7 +509,7 @@ static void ST_refreshBackground(void)
             V_DrawPatch(276, 190, 0, rtface);
             ShadeChain();
         }
-        else if (STBAR >= 3 || r_detail == r_detail_low)
+        else if (STBAR >= 3 || r_detail == r_detail_low || SCREENSCALE == 1)
         {
             V_DrawPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
