@@ -1391,7 +1391,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         totalkills++;
         monstercount[i]++;
     }
-    else if (i == MT_BARREL && gamemission != heretic)
+    else if (i == MT_BARREL)
         barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
@@ -1457,9 +1457,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (mobj->info->spawnstate == S_PLAY_DIE7 || mobj->info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
 
-    if (type == Barrel)
-        numbarrels++;
-    else if (mobj->flags2 & MF2_DECORATION)
+    if ((mobj->flags2 & MF2_DECORATION) && i != MT_BARREL)
         numdecorations++;
 
     return mobj;

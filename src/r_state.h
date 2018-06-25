@@ -109,7 +109,6 @@ extern int          numtextures;
 
 extern int          numthings;
 extern int          numdecorations;
-extern int          numbarrels;
 
 typedef enum
 {
