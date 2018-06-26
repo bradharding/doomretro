@@ -504,7 +504,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
 void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
+    S_StartSoundAtVolume(mobj, sfx_id, (mobj && mobj->pitch ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
 }
 
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
