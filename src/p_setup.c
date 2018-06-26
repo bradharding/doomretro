@@ -57,6 +57,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "sc_man.h"
+#include "sprites.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

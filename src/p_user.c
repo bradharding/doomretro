@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
+#include "info.h"
 #include "m_config.h"
 #include "m_random.h"
 #include "p_inter.h"

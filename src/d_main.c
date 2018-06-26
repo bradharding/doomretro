@@ -58,6 +58,7 @@
 #include "f_wipe.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "info.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"

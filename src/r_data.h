@@ -42,6 +42,7 @@
 #include "r_defs.h"
 #include "r_patch.h"
 #include "r_state.h"
+#include "sprites.h"
 
 #define LOOKDIRMAX  89
 #define LOOKDIRS    (LOOKDIRMAX * 2 + 1)

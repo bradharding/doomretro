@@ -55,6 +55,7 @@
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "info.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
