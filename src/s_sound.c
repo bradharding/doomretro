@@ -82,8 +82,6 @@ typedef struct
 
     // handle of the sound being played
     int             handle;
-
-    int             pitch;
 } channel_t;
 
 // [crispy] "sound objects" hold the coordinates of removed map objects
@@ -496,15 +494,12 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     //  mix/output buffer.
     // e6y: [Fix] Crash with zero-length sounds.
     if ((handle = I_StartSound(sfx, cnum, volume, sep, pitch)) != -1)
-    {
         channels[cnum].handle = handle;
-        channels[cnum].pitch = pitch;
-    }
 }
 
 void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartSoundAtVolume(mobj, sfx_id, (mobj && mobj->pitch ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
+    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
 }
 
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)

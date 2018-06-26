@@ -862,7 +862,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
-        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || (mobj->type == MT_BARREL && gamemission != heretic))
+        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
             && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
             P_ApplyTorque(mobj);
         else
@@ -1028,7 +1028,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = NORM_PITCH;
 
-    if ((mobj->flags & MF_SHOOTABLE) && type != playermobjtype && (type != MT_BARREL || gamemission == heretic))
+    if ((mobj->flags & MF_SHOOTABLE) && type != playermobjtype && type != MT_BARREL)
         mobj->pitch += M_RandomInt(-16, 16);
 
     // set subsector and/or block links
@@ -1386,7 +1386,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (nomonsters && (i != MT_KEEN || gamemission == heretic))
+        if (nomonsters && i != MT_KEEN)
             return NULL;
 
         totalkills++;
@@ -1396,7 +1396,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
-    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && (i != MT_MISC62 || gamemission == heretic))
+    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
         return NULL;
 
     // spawn it

@@ -402,7 +402,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
         if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH)))
             return -1;
 
-        if (s_randompitch && pitch != NORM_PITCH)
+        if (s_randompitch && pitch && pitch != NORM_PITCH)
             if ((newsnd = PitchShift(snd, pitch)))
             {
                 LockAllocatedSound(newsnd);
