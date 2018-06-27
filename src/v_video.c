@@ -1456,22 +1456,17 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 {
     byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
 
-    if (color == 251)
+    if (color == 251 && shadow)
     {
-        if (shadow)
-        {
-            *dest = tinttab50[*dest];
-            *(dest + 1) = tinttab50[*(dest + 1)];
-            *(dest + SCREENWIDTH) = tinttab50[*(dest + SCREENWIDTH)];
-            *(dest + SCREENWIDTH + 1) = tinttab50[*(dest + SCREENWIDTH + 1)];
-        }
+        for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
+            for (int x = 0; x < SCREENSCALE; x++)
+                *(dest + y + x) = tinttab50[*(dest + y + x)];
     }
     else if (color && color != 32)
     {
-        *dest = color;
-        *(dest + 1) = color;
-        *(dest + SCREENWIDTH) = color;
-        *(dest + SCREENWIDTH + 1) = color;
+        for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
+            for (int x = 0; x < SCREENSCALE; x++)
+                *(dest + y + x) = color;
     }
 }
 
