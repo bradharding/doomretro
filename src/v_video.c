@@ -1461,7 +1461,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
         for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
             for (int x = 0; x < SCREENSCALE; x++)
             {
-                byte    *dot = *screens + y + x;
+                byte    *dot = dest + y + x;
 
                 *dot = tinttab50[*dot];
             }
