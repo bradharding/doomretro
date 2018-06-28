@@ -155,7 +155,7 @@ static byte *crosshaircolor;
 #define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
 // translates between frame-buffer and map distances
-#define FTOM(x)         (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define FTOM(x)         (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
