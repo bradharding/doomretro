@@ -1460,7 +1460,11 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     {
         for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
             for (int x = 0; x < SCREENSCALE; x++)
-                *(dest + y + x) = tinttab50[*(dest + y + x)];
+            {
+                byte    *dot = *screens + y + x;
+
+                *dot = tinttab50[*dot];
+            }
     }
     else if (color && color != 32)
     {
@@ -1614,8 +1618,7 @@ dboolean V_ScreenShot(void)
             break;
 
         case GS_TITLESCREEN:
-            M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")),
-                sizeof(mapname));
+            M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
             break;
 
         default:

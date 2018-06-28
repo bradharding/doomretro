@@ -273,7 +273,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
     int             angle_num;
-    int             i;
+    int             i = 0;
     static int      MISFA0;
     static int      MISFB0;
     dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
@@ -291,8 +291,6 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
         if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
             SHT2A0 = true;
-
-        i = 0;
 
         while (*weaponsprites[i].spr1)
         {

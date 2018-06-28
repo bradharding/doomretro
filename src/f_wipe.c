@@ -54,14 +54,13 @@ static byte *wipe_scr;
 
 static void wipe_shittyColMajorXform(short *array)
 {
-    short   *dest = malloc(SCREENWIDTH * SCREENHEIGHT);
+    short   dest[SCREENWIDTH * SCREENHEIGHT];
 
     for (int y = 0; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH / 2; x++)
             dest[y + x * SCREENHEIGHT] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
-    free(dest);
 }
 
 static int  *y;

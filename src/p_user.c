@@ -79,22 +79,24 @@ void G_RemoveChoppers(void);
 //
 void P_Thrust(angle_t angle, fixed_t move)
 {
+    mobj_t  *mo = viewplayer->mo;
+
     angle >>= ANGLETOFINESHIFT;
 
-    if (viewplayer->powers[pw_flight] && viewplayer->mo->z > viewplayer->mo->floorz)
+    if (viewplayer->powers[pw_flight] && mo->z > mo->floorz)
     {
-        viewplayer->mo->momx += FixedMul(move, finecosine[angle]);
-        viewplayer->mo->momy += FixedMul(move, finesine[angle]);
+        mo->momx += FixedMul(move, finecosine[angle]);
+        mo->momy += FixedMul(move, finesine[angle]);
     }
-    else if (viewplayer->mo->subsector->sector->special == Friction)
+    else if (mo->subsector->sector->special == Friction)
     {
-        viewplayer->mo->momx += FixedMul(move >> 2, finecosine[angle]);
-        viewplayer->mo->momy += FixedMul(move >> 2, finesine[angle]);
+        mo->momx += FixedMul(move >> 2, finecosine[angle]);
+        mo->momy += FixedMul(move >> 2, finesine[angle]);
     }
     else
     {
-        viewplayer->mo->momx += FixedMul(move, finecosine[angle]);
-        viewplayer->mo->momy += FixedMul(move, finesine[angle]);
+        mo->momx += FixedMul(move, finecosine[angle]);
+        mo->momy += FixedMul(move, finesine[angle]);
     }
 }
 
