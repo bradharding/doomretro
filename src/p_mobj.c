@@ -607,28 +607,6 @@ static void P_ZMovement(mobj_t *mo)
         if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
 
-        if (mo->momz < 0)
-        {
-            if (player && player->mo == mo)
-            {
-                player->jumptics = 7;
-
-                if (mo->momz < -GRAVITY * 8 && !(mo->flags3 & MF3_FLY))
-                {
-                    // Squat down.
-                    // Decrease viewheight for a moment
-                    // after hitting the ground (hard),
-                    // and utter appropriate sound.
-                    player->deltaviewheight = mo->momz >> 3;
-
-                    if (mo->health > 0)
-                        S_StartSound(mo, SFX_OOF);
-                }
-            }
-
-            mo->momz = 0;
-        }
-
         if (gamemission == heretic)
             if (mo->z - mo->momz > mo->floorz)
                 P_HitFloor(mo);
@@ -658,6 +636,27 @@ static void P_ZMovement(mobj_t *mo)
             return;
         }
 
+        if (mo->momz < 0)
+        {
+            if (player && player->mo == mo)
+            {
+                player->jumptics = 7;
+
+                if (mo->momz < -GRAVITY * 8 && !(mo->flags3 & MF3_FLY))
+                {
+                    // Squat down.
+                    // Decrease viewheight for a moment
+                    // after hitting the ground (hard),
+                    // and utter appropriate sound.
+                    player->deltaviewheight = mo->momz >> 3;
+
+                    if (mo->health > 0)
+                        S_StartSound(mo, SFX_OOF);
+                }
+            }
+
+            mo->momz = 0;
+        }
     }
     else if (mo->flags3 & MF3_LOGRAV)
     {
