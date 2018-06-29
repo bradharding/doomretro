@@ -709,7 +709,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(rambo, false),
     CMD_CHEAT(ravmap, false),
     CMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
-        "Toggles regenerating health."),
+        "Toggles regenerating the player's health when\nbelow 100%."),
     CMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a <i>CVAR</i> to its default."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, false, "",

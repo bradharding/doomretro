@@ -1458,19 +1458,19 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 
     if (color == 251 && shadow)
     {
-        for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
-            for (int x = 0; x < SCREENSCALE; x++)
+        for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
+            for (int xx = 0; xx < SCREENSCALE; xx++)
             {
-                byte    *dot = dest + y + x;
+                byte    *dot = dest + yy + xx;
 
                 *dot = tinttab50[*dot];
             }
     }
     else if (color && color != 32)
     {
-        for (int y = 0; y < SCREENSCALE * SCREENWIDTH; y += SCREENWIDTH)
-            for (int x = 0; x < SCREENSCALE; x++)
-                *(dest + y + x) = color;
+        for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
+            for (int xx = 0; xx < SCREENSCALE; xx++)
+                *(dest + yy + xx) = color;
     }
 }
 
@@ -1479,9 +1479,8 @@ void GetPixelSize(dboolean reset)
     int width = -1;
     int height = -1;
 
-    sscanf(r_lowpixelsize, "%10ix%10i", &width, &height);
-
-    if (width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
+    if (sscanf(r_lowpixelsize, "%10ix%10i", &width, &height) == 2
+        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
     {
         pixelwidth = width;
         pixelheight = height * SCREENWIDTH;

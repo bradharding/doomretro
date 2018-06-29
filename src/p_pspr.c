@@ -939,7 +939,7 @@ void A_FireGoldWandPL2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_FireMacePL1B(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *mo = player->mo;
+    mobj_t  *mo;
     mobj_t  *ball;
     angle_t angle;
 
@@ -949,7 +949,7 @@ void A_FireMacePL1B(mobj_t *actor, player_t *player, pspdef_t *psp)
     player->ammo[am_mace] -= USE_MACE_AMMO_1;
     mo = player->mo;
     ball = P_SpawnMobj(mo->x, mo->y, mo->z + 28 * FRACUNIT - FOOTCLIPSIZE * !!(mo->flags2 & MF2_FEETARECLIPPED), HMT_MACEFX2);
-    ball->momz = 2 * FRACUNIT + ((player->lookdir) << (FRACBITS - 5));
+    ball->momz = 2 * FRACUNIT + (player->lookdir << (FRACBITS - 5));
     angle = mo->angle;
     ball->target = mo;
     ball->angle = angle;
@@ -1042,7 +1042,9 @@ void A_MaceBallImpact2(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (actor->z != actor->floorz || actor->momz < 2 * FRACUNIT)
     {
         // Explode
-        actor->momx = actor->momy = actor->momz = 0;
+        actor->momx = 0;
+        actor->momy = 0;
+        actor->momz = 0;
         actor->flags |= MF_NOGRAVITY;
         actor->flags3 &= ~(MF3_LOGRAV | MF3_FLOORBOUNCE);
     }
