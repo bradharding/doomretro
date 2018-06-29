@@ -607,19 +607,7 @@ static void P_ZMovement(mobj_t *mo)
         if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
 
-        if (gamemission == heretic)
-            if (mo->z - mo->momz > mo->floorz)
-                P_HitFloor(mo);
-
-        mo->z = mo->floorz;
-
-        if (mo->info->crashstate && (flags & MF_CORPSE))
-        {
-            P_SetMobjState(mo, mo->info->crashstate);
-            return;
-        }
-
-        if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
+        if (flags & MF_MISSILE)
         {
             if (gamemission == heretic)
             {
@@ -635,6 +623,12 @@ static void P_ZMovement(mobj_t *mo)
 
             return;
         }
+
+        if (gamemission == heretic)
+            if (mo->z - mo->momz > mo->floorz)
+                P_HitFloor(mo);
+
+        mo->z = mo->floorz;
 
         if (mo->momz < 0)
         {
@@ -656,6 +650,12 @@ static void P_ZMovement(mobj_t *mo)
             }
 
             mo->momz = 0;
+        }
+
+        if (mo->info->crashstate && (flags & MF_CORPSE))
+        {
+            P_SetMobjState(mo, mo->info->crashstate);
+            return;
         }
     }
     else if (mo->flags3 & MF3_LOGRAV)
