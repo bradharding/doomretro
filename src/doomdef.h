@@ -64,10 +64,10 @@
 //
 #if defined(__GNUC__)
 
-#if defined(__clang__)
-#define PACKEDATTR  __attribute__((packed))
+#if defined(_WIN32) && !defined(__clang__)
+#define PACKEDATTR __attribute__((packed,gcc_struct))
 #else
-#define PACKEDATTR  __attribute__((packed,gcc_struct))
+#define PACKEDATTR __attribute__((packed))
 #endif
 
 #else
