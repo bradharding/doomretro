@@ -1464,7 +1464,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     // move the fire between the vile and the player
     fire->x = target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
     fire->y = target->y - FixedMul(24 * FRACUNIT, finesine[an]);
-    P_RadiusAttack(fire, actor, 70);
+    P_RadiusAttack(fire, actor, 70, true);
 }
 
 //
@@ -1786,7 +1786,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
     }
 
-    P_RadiusAttack(actor, actor->target, 128);
+    P_RadiusAttack(actor, actor->target, 128, true);
 }
 
 void P_Massacre(void)
@@ -2214,7 +2214,7 @@ void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_RadiusAttack(actor, actor->target, actor->info->damage);
+    P_RadiusAttack(actor, actor->target, actor->info->damage, false);
 }
 
 //
@@ -2500,7 +2500,7 @@ void A_VolcBallImpact(mobj_t *actor, player_t *player, pspdef_t *psp)
         actor->z += 28 * FRACUNIT;
     }
 
-    P_RadiusAttack(actor, actor->target, 25);
+    P_RadiusAttack(actor, actor->target, 25, true);
 
     for (unsigned int i = 0; i < 4; i++)
     {

@@ -2010,6 +2010,7 @@ void P_UseLines(void)
 static mobj_t   *bombsource;
 static mobj_t   *bombspot;
 static int      bombdamage;
+static dboolean bombvertical;
 
 //
 // PIT_RadiusAttack
@@ -2033,7 +2034,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (type == MT_BOSSBRAIN)
+    if (!bombvertical || type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius
@@ -2082,7 +2083,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean vertical)
 {
     fixed_t dist = (damage + MAXRADIUS) << FRACBITS;
     int     yh = (spot->y + dist - bmaporgy) >> MAPBLOCKSHIFT;
@@ -2093,6 +2094,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
     bombspot = spot;
     bombsource = source;
     bombdamage = damage;
+    bombvertical = vertical;
 
     for (int y = yl; y <= yh; y++)
         for (int x = xl; x <= xh; x++)
