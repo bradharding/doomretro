@@ -78,10 +78,10 @@ typedef struct
 //
 typedef struct
 {
-    char    istexture;      // if false, it is a flat
-    char    endname[9];
-    char    startname[9];
-    int     speed;
+    signed char istexture;              // if false, it is a flat
+    char        endname[9];
+    char        startname[9];
+    int         speed;
 } PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
