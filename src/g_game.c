@@ -686,11 +686,8 @@ void G_DoLoadLevel(void)
     // died.
     P_FreeSecNodeList();
 
-    C_AddConsoleDivider();
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
-
-    C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
     HU_InitMessages();

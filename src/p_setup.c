@@ -2350,6 +2350,17 @@ void P_SetupLevel(int ep, int map)
 
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
+
+    if (!consolestrings
+        || (!M_StringStartsWith(console[consolestrings - 1].string, "map ")
+            && !M_StringStartsWith(console[consolestrings - 1].string, "idclev"))
+        && (consolestrings == 1
+            || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
+                && !M_StringStartsWith(console[consolestrings - 2].string, "idclev"))))
+        C_Input("map %s", lumpname);
+
+    C_AddConsoleDivider();
+    C_Print(titlestring, mapnumandtitle);
 }
 
 static int  liquidlumps;
