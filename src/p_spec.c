@@ -132,18 +132,18 @@ struct
     { "END",      -1           }
 };
 
-#define MAX_AMBIENT_SFX 8       // Per level
+#define MAX_AMBIENT_SFX 8               // Per level
 
 // Types
 
 typedef enum
 {
-    afxcmd_play,                // (sound)
-    afxcmd_playabsvol,          // (sound, volume)
-    afxcmd_playrelvol,          // (sound, volume)
-    afxcmd_delay,               // (ticks)
-    afxcmd_delayrand,           // (andbits)
-    afxcmd_end                  // ()
+    afxcmd_play,                        // (sound)
+    afxcmd_playabsvol,                  // (sound, volume)
+    afxcmd_playrelvol,                  // (sound, volume)
+    afxcmd_delay,                       // (ticks)
+    afxcmd_delayrand,                   // (andbits)
+    afxcmd_end                          // ()
 } afxcmd_t;
 
 // Data
@@ -296,16 +296,16 @@ int ambsndseq10[] = {
 
 int *ambientsfx[] =
 {
-    ambsndseq1,                 // Scream
-    ambsndseq2,                 // Squish
-    ambsndseq3,                 // Drops
-    ambsndseq4,                 // SlowFootsteps
-    ambsndseq5,                 // Heartbeat
-    ambsndseq6,                 // Bells
-    ambsndseq7,                 // Growl
-    ambsndseq8,                 // Magic
-    ambsndseq9,                 // Laughter
-    ambsndseq10                 // FastFootsteps
+    ambsndseq1,                         // Scream
+    ambsndseq2,                         // Squish
+    ambsndseq3,                         // Drops
+    ambsndseq4,                         // SlowFootsteps
+    ambsndseq5,                         // Heartbeat
+    ambsndseq6,                         // Bells
+    ambsndseq7,                         // Growl
+    ambsndseq8,                         // Magic
+    ambsndseq9,                         // Laughter
+    ambsndseq10                         // FastFootsteps
 };
 
 // killough 3/7/98: Initialize generalized scrolling
@@ -407,15 +407,15 @@ void P_InitPicAnims(void)
 
 animdef_t hanimdefs[] =
 {
-    { false, "FLTWAWA3", "FLTWAWA1", 8 }, // Water
-    { false, "FLTSLUD3", "FLTSLUD1", 8 }, // Sludge
-    { false, "FLTTELE4", "FLTTELE1", 6 }, // Teleport
-    { false, "FLTFLWW3", "FLTFLWW1", 9 }, // River - West
-    { false, "FLTLAVA4", "FLTLAVA1", 8 }, // Lava
-    { false, "FLATHUH4", "FLATHUH1", 8 }, // Super Lava
-    { true,  "LAVAFL3",  "LAVAFL1",  6 }, // Texture: Lavaflow
-    { true,  "WATRWAL3", "WATRWAL1", 4 }, // Texture: Waterfall
-    { -1 }
+    { false, "FLTWAWA3", "FLTWAWA1", 8 },   // Water
+    { false, "FLTSLUD3", "FLTSLUD1", 8 },   // Sludge
+    { false, "FLTTELE4", "FLTTELE1", 6 },   // Teleport
+    { false, "FLTFLWW3", "FLTFLWW1", 9 },   // River - West
+    { false, "FLTLAVA4", "FLTLAVA1", 8 },   // Lava
+    { false, "FLATHUH4", "FLATHUH1", 8 },   // Super Lava
+    { true,  "LAVAFL3",  "LAVAFL1",  6 },   // Texture: Lavaflow
+    { true,  "WATRWAL3", "WATRWAL1", 4 },   // Texture: Waterfall
+    { -1,    "",         "",         0 }
 };
 
 //
@@ -482,7 +482,8 @@ void P_SetLiquids(void)
         lastanim++;
     }
 
-    W_UnlockLumpNum(lump);
+    if (gamemission != heretic)
+        W_UnlockLumpNum(lump);
 
     // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
     SC_Open("DRCOMPAT");
