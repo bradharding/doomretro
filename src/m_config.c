@@ -58,6 +58,9 @@ extern dboolean returntowidescreen;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
+void alias_cmd_func2(char *cmd, char *parms);
+void bind_cmd_func2(char *cmd, char *parms);
+
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
 #define CONFIG_VARIABLE_INT_PERCENT(name, set)      { #name, &name, DEFAULT_INT_PERCENT,   set          }
@@ -765,7 +768,14 @@ static void M_CheckCVARs(void)
     if (units != units_imperial && units != units_metric)
         units = units_default;
 
-    version = version_default;
+    if (!M_StringCompare(version, version_default) && !keyboardinvleft && !keyboardinvright && !keyboarduseartifact)
+    {
+        bind_cmd_func2("bind", "'[' +invleft");
+        bind_cmd_func2("bind", "']' +invright");
+        bind_cmd_func2("bind", "enter +useartifact");
+        version = version_default;
+    }
+
     vid_capfps = (vid_capfps < vid_capfps_min ? 0 : BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max));
     vid_display = MAX(vid_display_min, vid_display);
 
@@ -814,9 +824,6 @@ static void M_CheckCVARs(void)
     if (wipe != false && wipe != true)
         wipe = wipe_default;
 }
-
-void alias_cmd_func2(char *cmd, char *parms);
-void bind_cmd_func2(char *cmd, char *parms);
 
 //
 // M_LoadCVARs
