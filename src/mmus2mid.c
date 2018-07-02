@@ -119,10 +119,10 @@ static UBYTE MUS2MIDcontrol[15] =
 };
 
 // some strings of bytes used in the midi format
-static UBYTE midikey[] = { 0x00, 0xFF, 0x59, 0x02, 0x00, 0x00 };                // C major
-static UBYTE miditempo[] = { 0x00, 0xFF, 0x51, 0x03, 0x09, 0xA3, 0x1A };        // uS/qnote
-static UBYTE midihdr[] = { 'M', 'T', 'h', 'd', 0, 0, 0, 6, 0, 1, 0, 0, 0, 0 };  // header (length 6, format 1)
-static UBYTE trackhdr[] = { 'M', 'T', 'r', 'k' };                               // track header
+static UBYTE    midikey[] = { 0x00, 0xFF, 0x59, 0x02, 0x00, 0x00 };                 // C major
+static UBYTE    miditempo[] = { 0x00, 0xFF, 0x51, 0x03, 0x09, 0xA3, 0x1A };         // uS/qnote
+static UBYTE    midihdr[] = { 'M', 'T', 'h', 'd', 0, 0, 0, 6, 0, 1, 0, 0, 0, 0 };   // header (length 6, format 1)
+static UBYTE    trackhdr[] = { 'M', 'T', 'r', 'k' };                                // track header
 
 //
 // TWriteByte()
@@ -162,7 +162,7 @@ static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 // TWriteVarLen()
 //
-// write the ULONG value to tracknum-th track, in midi format, which is
+// write the ULONG value to MIDItrack track, in midi format, which is
 // big endian, 7 bits per byte, with all bytes but the last flagged by
 // bit 8 being set, allowing the length to vary.
 //
@@ -182,7 +182,7 @@ static dboolean TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value)
         buffer += (value & 0x7F);
     }
 
-    while (1)                           // write bytes out in opposite order
+    while (true)                        // write bytes out in opposite order
     {
         // proff: Added typecast to avoid warning
         if (!TWriteByte(mididata, MIDItrack, (char)(buffer & 0xFF)))    // ensure buffer masked
@@ -318,8 +318,6 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     UBYTE               *hptr;
     size_t              muslen;
     static MUSheader    MUSh;
-    ULONG               DeltaTime;
-    ULONG               TotalTime = 0;
     UBYTE               MIDIchan2track[MIDI_TRACKS];
     char                MUS2MIDchannel[MIDI_TRACKS];
 
@@ -547,11 +545,10 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
         if (last(event))
         {
-            DeltaTime = ReadTime(&musptr);
-            TotalTime += DeltaTime;
+            ULONG   DeltaTime = ReadTime(&musptr);
 
             for (int i = 0; i < MIDI_TRACKS; i++)   // jff 3/13/98 update all tracks
-                track[i].deltaT += DeltaTime;   // whether allocated yet or not
+                track[i].deltaT += DeltaTime;       // whether allocated yet or not
         }
     } while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
 

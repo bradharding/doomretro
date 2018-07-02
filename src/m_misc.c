@@ -542,7 +542,7 @@ char *commify(int64_t value)
             }
             else
                 break;
-        } while (1);
+        } while (true);
     }
 
     p = strdup(result);
@@ -763,7 +763,7 @@ void strreplace(char *target, char *needle, const char *replacement)
     int     needle_len = (int)strlen(needle);
     int     repl_len = (int)strlen(replacement);
 
-    while (1)
+    while (true)
     {
         char    *p = stristr(tmp, needle);
 

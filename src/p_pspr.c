@@ -1476,7 +1476,7 @@ void A_GauntletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     // turn to face target
     angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
 
-    if (angle - player->mo->angle > ANG180)
+    if ((signed int)(angle - player->mo->angle) > ANG180)
     {
         if (angle - player->mo->angle < -ANG90 / 20)
             player->mo->angle = angle + ANG90 / 21;

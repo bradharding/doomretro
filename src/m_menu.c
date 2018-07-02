@@ -2353,7 +2353,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
     int     cx = x;
     int     cy = y;
 
-    while (1)
+    while (true)
     {
         int c = *ch++;
 

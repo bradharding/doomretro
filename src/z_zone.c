@@ -153,7 +153,7 @@ void Z_FreeTags(int lowtag, int hightag)
 
         end_block = block->prev;
 
-        while (1)
+        while (true)
         {
             memblock_t  *next = block->next;
 

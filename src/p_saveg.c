@@ -1184,7 +1184,7 @@ void P_UnArchiveThinkers(void)
     thingindex = 0;
 
     // read in saved thinkers
-    while (1)
+    while (true)
     {
         byte    tclass = saveg_read8();
 
@@ -1413,7 +1413,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
 void P_UnArchiveSpecials(void)
 {
     // read in saved thinkers
-    while (1)
+    while (true)
     {
         byte    tclass = saveg_read8();
 

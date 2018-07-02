@@ -418,7 +418,7 @@ static void D_DoomLoop(void)
     viewplayer = &tempplayer;
     viewplayer->damagecount = 0;
 
-    while (1)
+    while (true)
     {
         TryRunTics();                   // will run at least one tic
 
