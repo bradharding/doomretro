@@ -1574,26 +1574,6 @@ static void SetVideoMode(dboolean output)
 
             if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
-                {
-#if defined(_WIN32)
-                    if (SDL_GL_SetSwapInterval(-1) < 0)
-                    {
-                        typedef BOOL(APIENTRY *WGLSWAPINTERVALEXT)(int);
-
-                        WGLSWAPINTERVALEXT  wglSwapIntervalEXT = SDL_GL_GetProcAddress("wglSwapIntervalEXT");
-
-                        if (wglSwapIntervalEXT)
-                            wglSwapIntervalEXT(-1);
-                        else
-                            SDL_GL_SetSwapInterval(1);
-                    }
-#else
-                    if (SDL_GL_SetSwapInterval(-1) < 0)
-                        SDL_GL_SetSwapInterval(1);
-#endif
-                }
-
                 refreshrate = displaymode.refresh_rate;
 
                 if (refreshrate < vid_capfps || !vid_capfps)
