@@ -773,8 +773,9 @@ static void M_CheckCVARs(void)
         bind_cmd_func2("bind", "'[' +invleft");
         bind_cmd_func2("bind", "']' +invright");
         bind_cmd_func2("bind", "enter +useartifact");
-        version = version_default;
     }
+
+    version = version_default;
 
     vid_capfps = (vid_capfps < vid_capfps_min ? 0 : BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max));
     vid_display = MAX(vid_display_min, vid_display);
