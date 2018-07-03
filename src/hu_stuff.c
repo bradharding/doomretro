@@ -425,7 +425,7 @@ static void HU_DrawHUD(void)
     patch_t             *patch = faces[st_faceindex];
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
-    int                 keypic_x = HUD_KEYS_X;
+    int                 keypic_x = (armor ? HUD_KEYS_X : SCREENWIDTH - 13);
     static int          keywait;
     static dboolean     showkey;
 
