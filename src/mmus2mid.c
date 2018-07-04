@@ -146,8 +146,7 @@ static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
     if (pos >= (size_t)track[MIDItrack].alloced)
     {
         // double allocation or set initial TRACKBUFFERSIZE
-        track[MIDItrack].alloced = (track[MIDItrack].alloced ? 2 * track[MIDItrack].alloced :
-            TRACKBUFFERSIZE);
+        track[MIDItrack].alloced = (track[MIDItrack].alloced ? 2 * track[MIDItrack].alloced : TRACKBUFFERSIZE);
 
         // attempt to reallocate
         mididata->track[MIDItrack].data = I_Realloc(mididata->track[MIDItrack].data,
@@ -286,8 +285,7 @@ dboolean mmuscheckformat(UBYTE *mus, int size)
 {
     UBYTE   *hptr = mus;
 
-    while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
-        && strncmp((const char *)hptr, "MUS\x1a", 4))
+    while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN && strncmp((const char *)hptr, "MUS\x1a", 4))
         hptr++;
 
     if (hptr < mus + size - sizeof(MUSheader) && !strncmp((const char *)hptr, "MUS\x1a", 4))
@@ -330,8 +328,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     // or DMX doesn't use the MUS header at all somehow.
     hptr = mus;
 
-    while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
-        && strncmp((const char *)hptr, "MUS\x1a", 4))
+    while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN && strncmp((const char *)hptr, "MUS\x1a", 4))
         hptr++;
 
     // if we found a likely header start, reset the mus pointer to that location,
@@ -400,8 +397,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
         if (MUS2MIDchannel[MUSchannel] == -1)
         {
             // set MIDIchannel and MIDItrack
-            MIDIchannel = MUS2MIDchannel[MUSchannel] =
-                (MUSchannel == 15 ? 9 : FirstChannelAvailable(MUS2MIDchannel));
+            MIDIchannel = MUS2MIDchannel[MUSchannel] = (MUSchannel == 15 ? 9 : FirstChannelAvailable(MUS2MIDchannel));
 
             // proff: Added typecast to avoid warning
             MIDItrack = MIDIchan2track[MIDIchannel] = (unsigned char)TrackCnt++;
@@ -574,8 +570,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
             // jff 1/23/98 fix failure to set data NULL, len 0 for unused tracks
             // shorten allocation to proper length (important for Allegro)
-            mididata->track[i].data = I_Realloc(mididata->track[i].data,
-                sizeof(unsigned char *) * mididata->track[i].len);
+            mididata->track[i].data = I_Realloc(mididata->track[i].data, sizeof(unsigned char *) * mididata->track[i].len);
         }
         else
         {
@@ -631,7 +626,7 @@ void MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
             ntrks++;
         }
 
-    if ((*mid = (UBYTE *)malloc(total)) == NULL)
+    if (!(*mid = (UBYTE *)malloc(total)))
         return;
 
     // fill in number of tracks and bigendian divisions (ticks/qnote)

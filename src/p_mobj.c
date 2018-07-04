@@ -237,7 +237,7 @@ dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax)
     angle_t angle;
     mobj_t  *target = (mobj_t *)actor->special1.m;
 
-    if (target == NULL)
+    if (!target)
         return false;
 
     if (!(target->flags & MF_SHOOTABLE))

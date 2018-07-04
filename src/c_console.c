@@ -848,8 +848,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             if (patch)
             {
                 V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 :
-                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))),
-                    color2, italics, tinttab);
+                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
 
@@ -885,8 +884,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
-                (r_hud_translucency ? tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }
@@ -1052,8 +1050,7 @@ void C_Drawer(void)
 
         for (i = start; i < end; i++)
         {
-            const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
-                                    - CONSOLELINEHEIGHT / 2 + 1;
+            const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
             const stringtype_t  type = console[i].type;
 
             if (type == playermessagestring || type == obituarystring)
@@ -1603,8 +1600,7 @@ dboolean C_Responder(event_t *ev)
                 if (modstate & KMOD_CTRL)
                 {
                     if (consolestrings > CONSOLELINES)
-                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                            MAX(0, outputhistory - 1));
+                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
                 }
 
                 // previous input
@@ -1669,8 +1665,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEUP:
                 // scroll output up
                 if (consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                        MAX(0, outputhistory - 1));
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 break;
 
@@ -1742,8 +1737,7 @@ dboolean C_Responder(event_t *ev)
                     if (selectstart < selectend)
                     {
                         C_AddToUndoHistory();
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
-                            selectend - selectstart));
+                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
 
                         for (i = selectend; i < len; i++)
                             consoleinput[selectstart + i - selectend] = consoleinput[i];
@@ -1819,8 +1813,7 @@ dboolean C_Responder(event_t *ev)
         if (ev->data1 > 0)
         {
             if (consolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                    MAX(0, outputhistory - 1));
+                outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
         }
 
         // scroll output down
