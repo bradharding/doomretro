@@ -1740,13 +1740,15 @@ static void D_DoomMainSetup(void)
 
         if (p < myargc - 1)
         {
-            scale = BETWEEN(10, atoi(myargv[p + 1]), 400);
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. "
-                "The player will be %i%% their normal speed.", scale);
+            scale = atoi(myargv[p + 1]);
+
+            if (scale >= 10 && scale <= 400)
+                C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be %i%% their normal speed.", scale);
+            else
+                scale = 100;
         }
         else
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. "
-                "The player will be twice as fast.");
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be twice as fast.");
 
         G_SetMovementSpeed(scale);
 
