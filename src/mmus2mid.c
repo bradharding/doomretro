@@ -149,8 +149,7 @@ static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
         track[MIDItrack].alloced = (track[MIDItrack].alloced ? 2 * track[MIDItrack].alloced : TRACKBUFFERSIZE);
 
         // attempt to reallocate
-        mididata->track[MIDItrack].data = I_Realloc(mididata->track[MIDItrack].data,
-            sizeof(unsigned char *) * track[MIDItrack].alloced);
+        mididata->track[MIDItrack].data = (unsigned char *)I_Realloc(mididata->track[MIDItrack].data, track[MIDItrack].alloced);
     }
 
     mididata->track[MIDItrack].data[pos] = byte;
@@ -233,9 +232,9 @@ static ULONG ReadTime(UBYTE **musptrp)
 // Returns the maximum channel number unassigned unless that is 9 in which
 // case 10 is returned.
 //
-static char FirstChannelAvailable(char MUS2MIDchannel[])
+static char FirstChannelAvailable(signed char MUS2MIDchannel[])
 {
-    char    max = -1;
+    signed char max = -1;
 
     // find the largest MIDI channel assigned so far
     for (int i = 0; i < 15; i++)
@@ -310,14 +309,14 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     UWORD               TrackCnt = 0;
     UBYTE               evt;
     UBYTE               MIDIchannel;
-    UBYTE               MIDItrack = 0;
+    UBYTE               MIDItrack;
     int                 data;
     UBYTE               *musptr;
     UBYTE               *hptr;
     size_t              muslen;
     static MUSheader    MUSh;
     UBYTE               MIDIchan2track[MIDI_TRACKS];
-    char                MUS2MIDchannel[MIDI_TRACKS];
+    signed char         MUS2MIDchannel[MIDI_TRACKS];
 
     // haleyjd 04/04/10: don't bite off more than you can chew
     if (size < sizeof(MUSheader))
@@ -367,8 +366,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     mididata->divisions = 89;
 
     // allocate for midi tempo/key track, allow for end of track
-    mididata->track[0].data = I_Realloc(mididata->track[0].data,
-        sizeof(unsigned char *) * (sizeof(midikey) + sizeof(miditempo) + 4));
+    mididata->track[0].data = (unsigned char *)I_Realloc(mididata->track[0].data, sizeof(midikey) + sizeof(miditempo) + 4);
 
     // key C major
     memcpy(mididata->track[0].data, midikey, sizeof(midikey));
@@ -383,10 +381,9 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     do
     {
         UBYTE   MUSchannel;
-        int     event;
 
         // get a mus event, decode its type and channel fields
-        event = *musptr++;
+        int     event = *musptr++;
 
         if ((evt = event_type(event)) == SCORE_END)     // jff 1/23/98 use symbol
             break;                                      // if end of score event, leave
@@ -536,7 +533,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 break;
 
             default:
-                return false;   // exit with error
+                return false;
         }
 
         if (last(event))
@@ -570,7 +567,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
             // jff 1/23/98 fix failure to set data NULL, len 0 for unused tracks
             // shorten allocation to proper length (important for Allegro)
-            mididata->track[i].data = I_Realloc(mididata->track[i].data, sizeof(unsigned char *) * mididata->track[i].len);
+            mididata->track[i].data = (unsigned char *)I_Realloc(mididata->track[i].data, mididata->track[i].len);
         }
         else
         {
