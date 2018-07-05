@@ -196,8 +196,8 @@ void P_CalcHeight(void)
             {
                 sector_t    *sector = mo->subsector->sector;
 
-                if (!P_IsSelfReferencingSector(sector) && (!sector->heightsec
-                    || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
+                if (!P_IsSelfReferencingSector(sector)
+                    && (!sector->heightsec || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
                     viewplayer->viewz -= FOOTCLIPSIZE;
             }
         }
@@ -393,8 +393,8 @@ static void P_DeathThink(void)
     if (consoleactive)
         return;
 
-    if (((viewplayer->cmd.buttons & BT_USE) || ((viewplayer->cmd.buttons & BT_ATTACK)
-        && !viewplayer->damagecount && deathcount > TICRATE * 2) || gamekeydown[KEY_ENTER]))
+    if (((viewplayer->cmd.buttons & BT_USE) || gamekeydown[KEY_ENTER]
+        || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2)))
     {
         deathcount = 0;
         damagevibrationtics = 1;
@@ -420,7 +420,7 @@ void P_ResurrectPlayer(int health)
     P_RemoveMobj(mo);
 
     // spawn a teleport fog
-    thing = P_SpawnMobj(viewx + 20 * viewcos, viewy + 20 * viewsin, ONFLOORZ, MT_TFOG);
+    thing = P_SpawnMobj(viewx + 20 * viewcos, viewy + 20 * viewsin, ONFLOORZ, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
     thing->angle = viewangle;
     S_StartSound(thing, sfx_telept);
 
@@ -801,8 +801,7 @@ void P_PlayerThink(void)
     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & 8))
         viewplayer->fixedcolormap = INVERSECOLORMAP;
     else
-        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING
-            || (viewplayer->powers[pw_infrared] & 8));
+        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING || (viewplayer->powers[pw_infrared] & 8));
 }
 
 void P_ArtiTele(void)
