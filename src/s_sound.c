@@ -130,9 +130,8 @@ static void InitSfxModule(void)
 {
     if (I_InitSound())
     {
-        C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels%s.", SAMPLERATE / 1000.0f,
-            s_channels, (M_StringCompare(SDL_GetCurrentAudioDriver(), "directsound") ?
-            " using the <i><b>DirectSound</b></i> API" : ""));
+        C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels%s.", SAMPLERATE / 1000.0f, s_channels,
+            (M_StringCompare(SDL_GetCurrentAudioDriver(), "directsound") ? " using the <i><b>DirectSound</b></i> API" : ""));
         return;
     }
 
@@ -365,8 +364,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 
     // Find an open channel
     for (cnum = 0; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
-        if (origin && channels[cnum].origin == origin
-            && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
+        if (origin && channels[cnum].origin == origin && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
         {
             S_StopChannel(cnum);
             break;
@@ -474,8 +472,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
     // kill old sound
     for (cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity
-            && channels[cnum].origin == origin)
+        if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity && channels[cnum].origin == origin)
         {
             S_StopChannel(cnum);
             break;
@@ -543,42 +540,43 @@ void S_UpdateSounds(mobj_t *listener)
         channel_t   *c = &channels[cnum];
         sfxinfo_t   *sfx = c->sfxinfo;
 
-        if (sfx)
+        if (!sfx)
+            continue;
+
+        if (I_SoundIsPlaying(c->handle))
         {
-            if (I_SoundIsPlaying(c->handle))
+            // initialize parameters
+            int     volume = snd_SfxVolume;
+            mobj_t  *origin;
+
+            if (sfx->link)
             {
-                // initialize parameters
-                int     volume = snd_SfxVolume;
-                int     sep = NORM_SEP;
-                mobj_t  *origin = c->origin;
+                volume += sfx->volume;
 
-                if (sfx->link)
+                if (volume < 1)
                 {
-                    volume += sfx->volume;
-
-                    if (volume < 1)
-                    {
-                        S_StopChannel(cnum);
-                        continue;
-                    }
-                    else if (volume > snd_SfxVolume)
-                        volume = snd_SfxVolume;
+                    S_StopChannel(cnum);
+                    continue;
                 }
-
-                // check non-local sounds for distance clipping
-                //  or modify their parms
-                if (origin && listener != origin)
-                {
-                    if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
-                        S_StopChannel(cnum);
-                    else
-                        I_UpdateSoundParams(c->handle, volume, sep);
-                }
+                else if (volume > snd_SfxVolume)
+                    volume = snd_SfxVolume;
             }
-            else
-                // if channel is allocated but sound has stopped, free it
-                S_StopChannel(cnum);
+
+            // check non-local sounds for distance clipping
+            //  or modify their parms
+            if ((origin = c->origin) && listener != origin)
+            {
+                int sep;
+
+                if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
+                    S_StopChannel(cnum);
+                else
+                    I_UpdateSoundParams(c->handle, volume, NORM_SEP);
+            }
         }
+        else
+            // if channel is allocated but sound has stopped, free it
+            S_StopChannel(cnum);
     }
 }
 

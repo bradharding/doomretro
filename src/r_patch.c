@@ -139,9 +139,7 @@ static dboolean CheckIfPatch(int lump)
     width = SHORT(patch->width);
     height = SHORT(patch->height);
 
-    result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4);
-
-    if (result)
+    if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
     {
         // The dimensions seem like they might be valid for a patch, so
         // check the column directory for extra security. All columns
@@ -180,8 +178,7 @@ static void createPatch(int id)
     int                 numPostsUsedSoFar;
 
     if (!CheckIfPatch(patchNum))
-        I_Error("createPatch: Unknown patch format %s.",
-            (patchNum < numlumps ? lumpinfo[patchNum]->name : NULL));
+        I_Error("createPatch: Unknown patch format %s.", (patchNum < numlumps ? lumpinfo[patchNum]->name : NULL));
 
     oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 

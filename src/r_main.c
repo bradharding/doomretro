@@ -296,8 +296,7 @@ static void R_InitTextureMapping(void)
         else if (tangent < -limit)
             viewangletox[i] = viewwidth + 1;
         else
-            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS,
-                viewwidth + 1);
+            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
@@ -861,10 +860,10 @@ void R_RenderPlayerView(void)
     {
         if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                nearestcolors[(leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)], false);
+                nearestcolors[((leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK))], false);
         else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                nearestcolors[viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK], false);
+                nearestcolors[(viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)], false);
 
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
         R_DrawPlanes();

@@ -350,13 +350,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     run = (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
 
-    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
-        || (gamepadbuttons & gamepadmouselook));
+    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook] || (gamepadbuttons & gamepadmouselook));
 
     // use two stage accelerative turning
     // on the keyboard
-    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft)
-        || (gamepadbuttons & gamepadright))
+    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft) || (gamepadbuttons & gamepadright))
         turnheld++;
     else
         turnheld = 0;
@@ -401,8 +399,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else if (gamepadthumbLY > 0)
         forward -= (int)(forwardmove[run] * gamepadthumbLYdown);
 
-    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2]
-        || (gamepadbuttons & gamepadstraferight))
+    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
         side += sidemove[run];
     else if (gamepadthumbLX > 0)
         side += (int)(sidemove[run] * gamepadthumbLXright);
@@ -720,8 +717,7 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(evtype_t type)
 {
 #if defined(_WIN32)
-    alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
-        (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
+    alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
     alwaysrun = !alwaysrun;
 #endif
@@ -771,8 +767,7 @@ dboolean G_Responder(event_t *ev)
                 || (ev->type == ev_gamepad
                     && gamepadwait < I_GetTime()
                     && gamepadbuttons
-                    && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
-                        GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+                    && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
             && !keydown)
         {
             keydown = ev->data1;
