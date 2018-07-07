@@ -117,7 +117,11 @@ void I_InitGamepad(void)
 #if defined(_WIN32)
             char        *XInputVersion;
             static int  initcount;
+#endif
 
+            gamepadfunc = I_PollDirectInputGamepad;
+
+#if defined(_WIN32)
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
                 XInputVersion = "XInput 1.4";
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
@@ -149,8 +153,6 @@ void I_InitGamepad(void)
                 else
                     FreeLibrary(pXInputDLL);
             }
-            else
-                gamepadfunc = I_PollDirectInputGamepad;
 
             if (initcount == 1)
 #endif
