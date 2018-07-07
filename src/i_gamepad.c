@@ -94,10 +94,11 @@ extern dboolean         idbehold;
 extern dboolean         menuactive;
 extern dboolean         message_clearable;
 
+static void nullfunc(void) {}
+
 void I_InitGamepad(void)
 {
-    gamepadfunc = I_PollDirectInputGamepad;
-    I_SetGamepadThumbSticks();
+    gamepadfunc = nullfunc;
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
@@ -140,8 +141,6 @@ void I_InitGamepad(void)
                     if (pXInputGetState(0, &state) == ERROR_SUCCESS)
                     {
                         gamepadfunc = I_PollXInputGamepad;
-                        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
-                            I_PollThumbs_XInput_RightHanded);
 
                         if (initcount++ == 1)
                             C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
@@ -150,6 +149,8 @@ void I_InitGamepad(void)
                 else
                     FreeLibrary(pXInputDLL);
             }
+            else
+                gamepadfunc = I_PollDirectInputGamepad;
 
             if (initcount == 1)
 #endif
@@ -162,6 +163,7 @@ void I_InitGamepad(void)
                     C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
             }
 
+            I_SetGamepadThumbSticks();
             SDL_JoystickEventState(SDL_ENABLE);
         }
     }
@@ -375,9 +377,7 @@ void I_SetGamepadRightDeadZone(void)
 void I_SetGamepadThumbSticks(void)
 {
     if (gamepadfunc == I_PollXInputGamepad)
-        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
-            I_PollThumbs_XInput_RightHanded);
+        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded : I_PollThumbs_XInput_RightHanded);
     else
-        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
-            I_PollThumbs_DirectInput_RightHanded);
+        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded : I_PollThumbs_DirectInput_RightHanded);
 }
