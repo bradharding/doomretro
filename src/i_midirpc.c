@@ -307,5 +307,4 @@ void I_MidiRPCClientShutDown(void)
 
     clientInit = false;
 }
-
 #endif

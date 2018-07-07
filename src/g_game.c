@@ -347,9 +347,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         return;
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
-
-    run = (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
-
+    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
     usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook] || (gamepadbuttons & gamepadmouselook));
 
     // use two stage accelerative turning
@@ -390,9 +388,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
-        forward += forwardmove[run];
+        forward = forwardmove[run];
     else if (gamepadthumbLY < 0)
-        forward += (int)(forwardmove[run] * gamepadthumbLYup);
+        forward = (int)(forwardmove[run] * gamepadthumbLYup);
 
     if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
@@ -400,9 +398,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         forward -= (int)(forwardmove[run] * gamepadthumbLYdown);
 
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
-        side += sidemove[run];
+        side = sidemove[run];
     else if (gamepadthumbLX > 0)
-        side += (int)(sidemove[run] * gamepadthumbLXright);
+        side = (int)(sidemove[run] * gamepadthumbLXright);
 
     if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
         || (gamepadbuttons & gamepadstrafeleft))

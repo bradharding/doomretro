@@ -216,8 +216,7 @@ void FindNearestColors(byte *palette)
     if (W_CheckMultipleLumps("PLAYPAL") > 1)
     {
         for (int i = 0; i < PALETTESIZE; i++)
-            nearestcolors[i] = FindNearestColor(palette, originalcolors[i].red, originalcolors[i].green,
-                originalcolors[i].blue);
+            nearestcolors[i] = FindNearestColor(palette, originalcolors[i].red, originalcolors[i].green, originalcolors[i].blue);
     }
     else
         for (int i = 0; i < PALETTESIZE; i++)
@@ -249,8 +248,8 @@ int FindDominantColor(patch_t *patch)
     }
 
     for (int i = 0; i < PALETTESIZE; i++)
-        if (colorcount[i] > dominantcolorcount && (originalcolors[i].red >= 128
-            || originalcolors[i].green >= 128 || originalcolors[i].blue >= 128))
+        if (colorcount[i] > dominantcolorcount
+            && (originalcolors[i].red >= 128 || originalcolors[i].green >= 128 || originalcolors[i].blue >= 128))
         {
             dominantcolor = i;
             dominantcolorcount = colorcount[i];

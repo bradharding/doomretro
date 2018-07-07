@@ -24,7 +24,7 @@
 * A bug has been fixed whereby projectiles wouldn’t pass through some map decorations when the `infiniteheight` CVAR was `off`.
 * Restoring behavior present in *Vanilla DOOM*, lost souls will no longer pass through non-solid objects while attacking if the `infiniteheight` CVAR is `on`.
 * The `mapstats` CCMD now shows the total number of barrels in the current map.
-* Keycards and skull keys are now shown further to the right of the widescreen HUD when the player has no armor.
+* Keycards and skull keys are now shown in the right hand corner of the widescreen HUD when the player has no armor.
 * The automap will now be shown in the same colors as *Vanilla DOOM* when vanilla mode is enabled.
 
 ---

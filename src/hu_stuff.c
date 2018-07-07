@@ -136,16 +136,16 @@ static struct
     int     mobjnum;
     patch_t *patch;
 } ammopic[NUMAMMO] = {
-    { "CLIPA0", MT_CLIP,         NULL },
-    { "SHELA0", MT_MISC22,       NULL },
-    { "CELLA0", MT_MISC20,       NULL },
-    { "ROCKA0", MT_MISC18,       NULL },
-    { "AMG1A0", HMT_AMGWNDWIMPY, NULL },
-    { "AMC1A0", HMT_AMCBOWWIMPY, NULL },
-    { "AMB1A0", HMT_AMBLSRWIMPY, NULL },
-    { "AMS1A0", HMT_AMSKRDWIMPY, NULL },
-    { "AMP1A0", HMT_AMPHRDWIMPY, NULL },
-    { "AMM1A0", HMT_AMMACEWIMPY, NULL }
+    { "CLIPA0", MT_CLIP         },
+    { "SHELA0", MT_MISC22       },
+    { "CELLA0", MT_MISC20       },
+    { "ROCKA0", MT_MISC18       },
+    { "AMG1A0", HMT_AMGWNDWIMPY },
+    { "AMC1A0", HMT_AMCBOWWIMPY },
+    { "AMB1A0", HMT_AMBLSRWIMPY },
+    { "AMS1A0", HMT_AMSKRDWIMPY },
+    { "AMP1A0", HMT_AMPHRDWIMPY },
+    { "AMM1A0", HMT_AMMACEWIMPY }
 };
 
 static struct
@@ -155,12 +155,12 @@ static struct
     char    *patchnamec;
     patch_t *patch;
 } keypics[NUMCARDS] = {
-    { "BKEYA0", "BKEYB0", "BKYYA0", NULL },
-    { "YKEYA0", "YKEYB0", "CKYYA0", NULL },
-    { "RKEYA0", "RKEYB0", "AKYYA0", NULL },
-    { "BSKUA0", "BSKUB0", "BKYYA0", NULL },
-    { "YSKUA0", "YSKUB0", "CKYYA0", NULL },
-    { "RSKUA0", "RSKUB0", "AKYYA0", NULL }
+    { "BKEYA0", "BKEYB0", "BKYYA0" },
+    { "YKEYA0", "YKEYB0", "CKYYA0" },
+    { "RKEYA0", "RKEYB0", "AKYYA0" },
+    { "BSKUA0", "BSKUB0", "BKYYA0" },
+    { "YSKUA0", "YSKUB0", "CKYYA0" },
+    { "RSKUA0", "RSKUB0", "AKYYA0" }
 };
 
 static void HU_AltInit(void);
@@ -169,8 +169,7 @@ static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
     int lump;
 
-    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
-        && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
+    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL) && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
         return W_CacheLumpNum(lump);
     else
         return NULL;
@@ -328,7 +327,8 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numset, int gap, void (*hudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numset, int gap,
+    void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = val;
     patch_t *patch;
@@ -421,7 +421,8 @@ static void HU_DrawHUD(void)
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum, 0) + tallpercentwidth) / 2;
     static dboolean     healthanim;
-    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
+    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
+                            || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
     patch_t             *patch = faces[st_faceindex];
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
@@ -565,7 +566,8 @@ static void HU_DrawHereticHUD(void)
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum2, 2)) / 2;
     static dboolean     healthanim;
-    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
+    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
+                            || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
     patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
@@ -822,8 +824,8 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - altminuspatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70
-            && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altminuspatch, WHITE, color);
+        althudfunc(x - altminuspatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
+            || (val >= 100 && val <= 199)) ? 1 : 2), y, altminuspatch, WHITE, color);
     }
 
     if (val > 99)
@@ -1056,10 +1058,8 @@ static void HU_DrawAltHUD(void)
 
     if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
-        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2,
-            (invert ? colormaps[0][32 * 256 + darkgray] : darkgray), false);
-        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2,
-            (invert ? colormaps[0][32 * 256 + gray] : gray), false);
+        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, (invert ? colormaps[0][32 * 256 + darkgray] : darkgray), false);
+        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, (invert ? colormaps[0][32 * 256 + gray] : gray), false);
     }
 }
 
@@ -1205,15 +1205,14 @@ void HU_Ticker(void)
             int x = (m_x + m_w / 2) >> MAPBITS;
             int y = (m_y + m_h / 2) >> MAPBITS;
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
-                R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
         }
         else
         {
             int angle = (int)((double)viewangle * 90.0f / ANG90);
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
-                viewx >> FRACBITS, viewy >> FRACBITS, viewplayer->mo->z >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle), viewx >> FRACBITS, viewy >> FRACBITS,
+                viewplayer->mo->z >> FRACBITS);
         }
 
         HUlib_addMessageToSText(&w_message, 0, buffer);
@@ -1226,7 +1225,7 @@ void HU_Ticker(void)
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
             int     len = (int)strlen(viewplayer->message);
-            char    *s = malloc(133);
+            char    s[133];
             int     maxwidth = ORIGINALWIDTH - 6;
 
             if ((vid_widescreen && r_althud) || r_messagescale == r_messagescale_small)
@@ -1248,8 +1247,6 @@ void HU_Ticker(void)
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = false;
-
-            free(s);
         }
 
         viewplayer->message = NULL;
