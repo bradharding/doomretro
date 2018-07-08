@@ -328,8 +328,7 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1),
-            PU_STATIC, 0);
+        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
@@ -578,9 +577,8 @@ static void R_InitColormaps(void)
     dc_colormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
 
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
-    C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
-        (numcolormaps == 1 ? "the" : commify(numcolormaps)), (numcolormaps == 1 ? "" : "s"),
-        (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+    C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.", (numcolormaps == 1 ? "the" : commify(numcolormaps)),
+        (numcolormaps == 1 ? "" : "s"), (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
     // [BH] There's a typo in dcolors.c, the source code of the utility id
     // Software used to construct the palettes and colormaps for DOOM (see

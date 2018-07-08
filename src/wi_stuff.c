@@ -173,8 +173,7 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-#define ANIM(type, period, nanims, x, y, nexttic) \
-            { (type), (period), (nanims), { (x), (y) }, (nexttic), 0, { NULL, NULL, NULL }, 0, 0, 0 }
+#define ANIM(type, period, nanims, x, y, nexttic)   { (type), (period), (nanims), { (x), (y) }, (nexttic) }
 
 static anim_t epsd0animinfo[] =
 {
@@ -402,8 +401,7 @@ static void WI_drawLF(void)
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
-                lnames[wbs->last], false);
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1, lnames[wbs->last], false);
             y += SHORT(lnames[wbs->last]->height) + 2;
         }
         else
@@ -449,8 +447,7 @@ static void WI_drawEL(void)
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
-                lnames[wbs->next], false);
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1, lnames[wbs->next], false);
         else
             WI_drawWILV(y, nextmapname);
     }
@@ -1138,8 +1135,7 @@ static void WI_loadData(void)
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
-        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"),
-            sizeof(bg_lumpname));
+        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
         bg_lumpname[8] = '\0';
     }
     else

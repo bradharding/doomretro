@@ -94,8 +94,7 @@ static int FindInList(searchlist_t *list, char *name)
     return -1;
 }
 
-static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname,
-    char *startname2, char *endname2)
+static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname, char *startname2, char *endname2)
 {
     int startlump;
 

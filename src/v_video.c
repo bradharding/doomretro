@@ -480,8 +480,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
                         if (*source)
                         {
                             if (italics)
-                                *(dest + italicize[height]) = (!tinttab ? color :
-                                    tinttab[(color << 8) + *(dest + italicize[height])]);
+                                *(dest + italicize[height]) = (!tinttab ? color : tinttab[(color << 8) + *(dest + italicize[height])]);
                             else
                                 *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
                         }
@@ -1096,8 +1095,7 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1146,8 +1144,7 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1182,8 +1179,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1224,8 +1220,7 @@ void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1264,8 +1259,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1334,8 +1328,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         while (column->topdelta != 0xFF)
         {
@@ -1649,8 +1642,8 @@ dboolean V_ScreenShot(void)
     {
         do
         {
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s (%s).png", screenshotfolder,
-                makevalidfilename(mapname), commify(count++));
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s (%s).png", screenshotfolder, makevalidfilename(mapname),
+                commify(count++));
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(maprenderer, lbmpath2);

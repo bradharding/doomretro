@@ -104,16 +104,12 @@ static dboolean IsFreedoom(const char *iwadname)
 
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
-            header.numlumps--)
-        {
-            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E'
-                && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
             {
                 result = true;
                 break;
             }
-        }
     }
 
     fclose(fp);
@@ -212,9 +208,8 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     free(fileinfo);
 
-    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"),
-        commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
-        (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
+    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), commify(numlumps - startlump),
+        (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
 
     if (!packagewadadded)
     {
@@ -265,16 +260,12 @@ dboolean HasDehackedLump(const char *pwadname)
 
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
-            header.numlumps--)
-        {
-            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A'
-                && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
             {
                 result = true;
                 break;
             }
-        }
     }
 
     fclose(fp);
@@ -309,8 +300,7 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-    for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
-        header.numlumps--)
+    for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
     {
         if (*n == 'E' && n[2] == 'M' && !n[4])
             result = doom;
@@ -324,8 +314,7 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
     {
         if (M_StringCompare(leaf, "pl2.wad") || M_StringCompare(leaf, "plut3.wad"))
             result = pack_plut;
-        else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad")
-            || M_StringCompare(leaf, "resist.wad"))
+        else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad") || M_StringCompare(leaf, "resist.wad"))
             result = pack_tnt;
     }
 
@@ -435,7 +424,7 @@ void W_Init(void)
 
     // set up caching
     if (!(cachelump = calloc(sizeof(*cachelump), numlumps)))
-        I_Error ("W_Init: Couldn't allocate lumpcache");
+        I_Error("W_Init: Couldn't allocate lumpcache");
 }
 
 //

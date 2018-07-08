@@ -133,13 +133,13 @@ void P_CalcHeight(void)
         fixed_t momy = viewplayer->momy;
         fixed_t bob;
 
-        if (momx | momy)
+        if ((viewplayer->mo->flags3 & MF3_FLY) && !onground)
+            bob = FRACUNIT / 2;
+        else if (momx | momy)
             bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) / 2;
         else
             bob = (MAXBOB * stillbob / 400) / 2;
 
-        if ((viewplayer->mo->flags3 & MF3_FLY) && !onground)
-            bob = FRACUNIT / 2;
 
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
@@ -871,7 +871,7 @@ void P_PlayerUseArtifact(artitype_t arti)
 
 dboolean P_UseArtifact(artitype_t arti)
 {
-    mobj_t *mo;
+    mobj_t  *mo;
     angle_t angle;
 
     switch (arti)
@@ -933,10 +933,8 @@ dboolean P_UseArtifact(artitype_t arti)
 
         case arti_firebomb:
             angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
-            mo = P_SpawnMobj(viewplayer->mo->x + 24 * finecosine[angle],
-                viewplayer->mo->y + 24 * finesine[angle],
-                viewplayer->mo->z - 15 * FRACUNIT * (viewplayer->mo->flags2 & MF2_FEETARECLIPPED),
-                HMT_FIREBOMB);
+            mo = P_SpawnMobj(viewplayer->mo->x + 24 * finecosine[angle], viewplayer->mo->y + 24 * finesine[angle],
+                viewplayer->mo->z - 15 * FRACUNIT * (viewplayer->mo->flags2 & MF2_FEETARECLIPPED), HMT_FIREBOMB);
             mo->target = viewplayer->mo;
             break;
 

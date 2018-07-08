@@ -363,10 +363,8 @@ cheatseq_t hcheat_amap = CHEAT("ravmap", 0);
 
 static dboolean movekey(char key)
 {
-    return (key == keyboardright || key == keyboardleft
-        || key == keyboardforward || key == keyboardforward2
-        || key == keyboardback || key == keyboardback2
-        || key == keyboardstrafeleft || key == keyboardstraferight);
+    return (key == keyboardright || key == keyboardleft || key == keyboardforward || key == keyboardforward2
+        || key == keyboardback || key == keyboardback2 || key == keyboardstrafeleft || key == keyboardstraferight);
 }
 
 static void ST_initCheats(void)

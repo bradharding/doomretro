@@ -348,8 +348,7 @@ static void P_LoadSegs(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.",
-                commify(i), commify(side));
+            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -542,8 +541,7 @@ static void P_LoadSegs_V4(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.",
-                commify(i), commify(side));
+            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -816,8 +814,7 @@ static void P_LoadNodes(int lump)
                 // haleyjd 11/06/10: check for invalid subsector reference
                 if (no->children[j] >= numsubsectors)
                 {
-                    C_Warning("Node %s references an invalid subsector of %s.",
-                        commify(i), commify(no->children[j]));
+                    C_Warning("Node %s references an invalid subsector of %s.", commify(i), commify(no->children[j]));
                     no->children[j] = 0;
                 }
 
@@ -901,8 +898,7 @@ static void P_LoadZSegs(const byte *data)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.",
-                commify(i), commify(side));
+            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -1104,7 +1100,7 @@ static void P_LoadThings(int lump)
 
                     break;
 
-                case 2002:
+                case Firemace:
                     if (gamemode != shareware)
                     {
                         P_AddMaceSpot(&mt);
@@ -1227,8 +1223,7 @@ static void P_LoadLineDefs(int lump)
 
         ld->tranlump = -1;   // killough 4/11/98: no translucency by default
 
-        ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ?
-            ST_POSITIVE : ST_NEGATIVE)));
+        ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE)));
 
         if (v1->x < v2->x)
         {
@@ -1282,8 +1277,7 @@ static void P_LoadLineDefs2(void)
         for (int j = 0; j < 2; j++)
             if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
             {
-                C_Warning("Linedef %s references an invalid sidedef of %s.",
-                    commify(i), commify(ld->sidenum[j]));
+                C_Warning("Linedef %s references an invalid sidedef of %s.", commify(i), commify(ld->sidenum[j]));
                 ld->sidenum[j] = NO_INDEX;
             }
 
@@ -2107,15 +2101,13 @@ void P_MapName(int ep, int map)
 
     if (strlen(maptitle) >= 4)
     {
-        if (toupper(maptitle[0]) == 'M' && toupper(maptitle[1]) == 'A' && toupper(maptitle[2]) == 'P'
-            && isdigit(maptitle[3]))
+        if (toupper(maptitle[0]) == 'M' && toupper(maptitle[1]) == 'A' && toupper(maptitle[2]) == 'P' && isdigit(maptitle[3]))
         {
             maptitle[0] = 'M';
             maptitle[1] = 'A';
             maptitle[2] = 'P';
         }
-        else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M'
-            && isdigit(maptitle[3]))
+        else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]))
         {
             maptitle[0] = 'E';
             maptitle[2] = 'M';
@@ -2245,8 +2237,7 @@ void P_SetupLevel(int ep, int map)
 
     mapformat = P_CheckMapFormat(lumpnum);
 
-    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve
-        || (nerve && gamemission == doom2)) && !FREEDOOM);
+    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve || (nerve && gamemission == doom2)) && !FREEDOOM);
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT * 2;
@@ -2601,9 +2592,8 @@ static void InitMapInfo(void)
     SC_Close();
     mapcount = mapmax;
 
-    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line),
-        (sc_Line > 0 ? "s" : ""), (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ?
-        "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
+    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line), (sc_Line > 0 ? "s" : ""),
+        (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 }
 
 static int QualifyMap(int map)
@@ -2613,9 +2603,9 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
-        (breach && map == 1 ? s_AUTHOR_BESTOR : (((E1M4B || speciallumpname[0] != '\0') && map == 4)
-        || ((E1M8B || speciallumpname[0] != '\0') && map == 8) ? s_AUTHOR_ROMERO : "")));
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author : (breach && map == 1 ?
+        s_AUTHOR_BESTOR : (((E1M4B || speciallumpname[0] != '\0') && map == 4) || ((E1M8B || speciallumpname[0] != '\0') && map == 8) ?
+        s_AUTHOR_ROMERO : "")));
 }
 
 void P_GetMapLiquids(int map)
