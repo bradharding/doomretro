@@ -381,7 +381,9 @@ static void R_RenderSegLoop(void)
             dc_yl = yl;
             dc_yh = yh;
 
-            if (midbrightmap)
+            if (missingmidtexture)
+                R_DrawColorColumn();
+            else if (midbrightmap)
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
                 dc_texturemid = rw_midtexturemid;
@@ -390,8 +392,6 @@ static void R_RenderSegLoop(void)
                 bmapwallcolfunc();
                 R_UnlockTextureCompositePatchNum(midtexture);
             }
-            else if (missingmidtexture)
-                R_DrawColorColumn();
             else
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
@@ -419,7 +419,9 @@ static void R_RenderSegLoop(void)
                     dc_yl = yl;
                     dc_yh = mid;
 
-                    if (topbrightmap)
+                    if (missingtoptexture)
+                        R_DrawColorColumn();
+                    else if (topbrightmap)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
@@ -429,8 +431,6 @@ static void R_RenderSegLoop(void)
                         bmapwallcolfunc();
                         R_UnlockTextureCompositePatchNum(toptexture);
                     }
-                    else if (missingtoptexture)
-                        R_DrawColorColumn();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
@@ -463,7 +463,9 @@ static void R_RenderSegLoop(void)
                     dc_yl = mid;
                     dc_yh = yh;
 
-                    if (bottombrightmap)
+                    if (missingbottomtexture)
+                        R_DrawColorColumn();
+                    else if (bottombrightmap)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_brightmap = bottombrightmap;
@@ -473,8 +475,6 @@ static void R_RenderSegLoop(void)
                         bmapwallcolfunc();
                         R_UnlockTextureCompositePatchNum(bottomtexture);
                     }
-                    else if (missingbottomtexture)
-                        R_DrawColorColumn();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
@@ -668,7 +668,7 @@ void R_StoreWallRange(const int start, const int stop)
     {
         // single sided line
         if ((missingmidtexture = sidedef->missingmidtexture))
-            midtexture = 1;
+            midtexture = -1;
         else
         {
             fixed_t height;
@@ -774,7 +774,7 @@ void R_StoreWallRange(const int start, const int stop)
         {
             // top texture
             if ((missingtoptexture = sidedef->missingtoptexture))
-                toptexture = 1;
+                toptexture = -1;
             else
             {
                 fixed_t height;
@@ -792,7 +792,7 @@ void R_StoreWallRange(const int start, const int stop)
         {
             // bottom texture
             if ((missingbottomtexture = sidedef->missingbottomtexture))
-                bottomtexture = 1;
+                bottomtexture = -1;
             else
             {
                 fixed_t height;
