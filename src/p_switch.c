@@ -86,8 +86,7 @@ void P_InitSwitchList(void)
     for (int i = 0; ; i++)
     {
         if (index + 1 >= max_numswitches)
-            switchlist = I_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ?
-                max_numswitches * 2 : 8)));
+            switchlist = I_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
         {
@@ -100,12 +99,10 @@ void P_InitSwitchList(void)
             // Ignore switches referencing unknown texture names, instead of exiting.
             // Warn if either one is missing, but only add if both are valid.
             if ((texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1)) == -1)
-                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown texture of <b>%s</b>.", i,
-                    alphSwitchList[i].name1);
+                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown texture of <b>%s</b>.", i, alphSwitchList[i].name1);
 
             if ((texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2)) == -1)
-                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown texture of <b>%s</b>.", i,
-                    alphSwitchList[i].name2);
+                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown texture of <b>%s</b>.", i, alphSwitchList[i].name2);
 
             if (texture1 != -1 && texture2 != -1)
             {

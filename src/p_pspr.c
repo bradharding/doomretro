@@ -360,10 +360,9 @@ void P_FireWeapon(void)
         if (!P_CheckHereticAmmo(readyweapon) || (automapactive && !am_followmode))
             return;
 
-        P_SetPsprite(ps_weapon, (viewplayer->refire ? wpinfo[viewplayer->readyweapon].holdatkstate :
-            wpinfo[viewplayer->readyweapon].atkstate));
+        P_SetPsprite(ps_weapon, (viewplayer->refire ? wpinfo[readyweapon].holdatkstate : wpinfo[readyweapon].atkstate));
 
-        if (viewplayer->readyweapon == wp_gauntlets && !viewplayer->refire)
+        if (readyweapon == wp_gauntlets && !viewplayer->refire)
             S_StartSound(viewplayer->mo, hsfx_gntuse);
     }
     else
@@ -371,7 +370,7 @@ void P_FireWeapon(void)
         if (!P_CheckAmmo(readyweapon) || (automapactive && !am_followmode))
             return;
 
-        P_SetPsprite(ps_weapon, weaponinfo[viewplayer->readyweapon].atkstate);
+        P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
     }
 
     if (gp_vibrate_weapons && vibrate)
@@ -1592,8 +1591,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     for (int i = 0; i < 20; i++)
-        P_LineAttack(actor, actor->angle + (M_NegRandom() << ANGLETOFINESHIFT), MISSILERANGE,
-            bulletslope + (M_NegRandom() << 5), 5 * (M_Random() % 3 + 1));
+        P_LineAttack(actor, actor->angle + (M_NegRandom() << ANGLETOFINESHIFT), MISSILERANGE, bulletslope + (M_NegRandom() << 5),
+            5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);
 

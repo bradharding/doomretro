@@ -46,8 +46,8 @@
 //
 dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    mobjtype_t  teleportman;
-    mobjtype_t  tfog;
+    mobjtype_t  teleportman = MT_TELEPORTMAN;
+    mobjtype_t  tfog = MT_TFOG;
 
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
@@ -62,11 +62,6 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     {
         teleportman = HMT_TELEPORTMAN;
         tfog = HMT_TFOG;
-    }
-    else
-    {
-        teleportman = MT_TELEPORTMAN;
-        tfog = MT_TFOG;
     }
 
     // killough 1/31/98: improve performance by using
@@ -249,8 +244,8 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
         if (l != line && l->backsector)
         {
             // Get the thing's position along the source linedef
-            fixed_t     pos = ABS(line->dx) > ABS(line->dy) ? FixedDiv(thing->x - line->v1->x, line->dx) :
-                            FixedDiv(thing->y - line->v1->y, line->dy);
+            fixed_t     pos = (ABS(line->dx) > ABS(line->dy) ? FixedDiv(thing->x - line->v1->x, line->dx) :
+                            FixedDiv(thing->y - line->v1->y, line->dy));
 
             // Get the angle between the two linedefs, for rotating
             // orientation and momentum. Rotate 180 degrees, and flip

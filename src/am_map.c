@@ -1599,19 +1599,19 @@ static void AM_drawWalls(void)
                     AM_rotatePoint(&l.b);
                 }
 
-                if ((special && (special == W1_Teleport || special == W1_ExitLevel
-                    || special == WR_Teleport || special == W1_ExitLevel_GoesToSecretLevel
-                    || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
-                    || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
-                    || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
-                    || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
-                    || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
-                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
-                    && ((flags & ML_TELEPORTTRIGGERED) || cheating
-                        || (backsector && isteleport[backsector->floorpic])))
+                if ((special
+                    && (special == W1_Teleport
+                        || special == W1_ExitLevel
+                        || special == WR_Teleport || special == W1_ExitLevel_GoesToSecretLevel
+                        || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
+                        || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
+                        || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
+                        || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
+                        || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
+                        || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
+                    && ((flags & ML_TELEPORTTRIGGERED) || cheating || (backsector && isteleport[backsector->floorpic])))
                 {
-                    if (cheating || (mapped && !secret && backsector
-                        && backsector->ceilingheight != backsector->floorheight))
+                    if (cheating || (mapped && !secret && backsector && backsector->ceilingheight != backsector->floorheight))
                     {
                         AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
                         continue;
@@ -1651,8 +1651,8 @@ static void AM_drawWalls(void)
     }
 }
 
-static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
-    angle_t angle, byte color, fixed_t x, fixed_t y)
+static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale, angle_t angle, byte color,
+    fixed_t x, fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1685,8 +1685,8 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
     }
 }
 
-static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
-    angle_t angle, byte *color, const fixed_t x, const fixed_t y)
+static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale, angle_t angle, byte *color,
+    const fixed_t x, const fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1813,8 +1813,7 @@ static void AM_drawThings(void)
                 if (pass && !enemies)
                     break;
 
-                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ? (!pass ?
-                    enemies++ : enemies--), 0 : 1))
+                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ? (!pass ? enemies++ : enemies--), 0 : 1))
                 {
                     thing = thing->snext;
                     continue;
@@ -1967,8 +1966,7 @@ static void AM_drawPath(void)
             for (int i = 1; i < pathpointnum; i++)
                 if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
-                    AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y,
-                        &pathcolor);
+                    AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, &pathcolor);
         }
     }
 }

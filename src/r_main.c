@@ -501,8 +501,8 @@ void R_InitColumnFunctions(void)
         if (r_skycolor != r_skycolor_default)
             skycolfunc = R_DrawSkyColorColumn;
         else
-            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !canmouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
+                R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
         spanfunc = R_DrawSpan;
 
@@ -752,8 +752,8 @@ static void R_SetupFrame(void)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
             if (weaponrecoil)
-                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil
-                    - viewplayer->oldrecoil, fractionaltic), LOOKDIRMAX);
+                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
+                    fractionaltic), LOOKDIRMAX);
 
             tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
         }

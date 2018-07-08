@@ -434,8 +434,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     divline_t   dl;
 
     // avoid precision problems with two routines
-    if (dlTrace.dx > FRACUNIT * 16 || dlTrace.dy > FRACUNIT * 16
-        || dlTrace.dx < -FRACUNIT * 16 || dlTrace.dy < -FRACUNIT * 16)
+    if (dlTrace.dx > FRACUNIT * 16 || dlTrace.dy > FRACUNIT * 16 || dlTrace.dx < -FRACUNIT * 16 || dlTrace.dy < -FRACUNIT * 16)
     {
         s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dlTrace);
         s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dlTrace);

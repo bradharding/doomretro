@@ -1332,7 +1332,8 @@ static void P_HitSlideLine(line_t *ld)
     // Check for the special cases of horz or vert walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
-    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT && slidemo->z <= slidemo->floorz
+    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
+        && slidemo->z <= slidemo->floorz
         && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
@@ -1776,8 +1777,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         }
 
         // Spawn bullet puffs.
-        P_SpawnPuff(dlTrace.x + FixedMul(dlTrace.dx, frac), dlTrace.y + FixedMul(dlTrace.dy, frac), z,
-            shootangle);
+        P_SpawnPuff(dlTrace.x + FixedMul(dlTrace.dx, frac), dlTrace.y + FixedMul(dlTrace.dy, frac), z, shootangle);
 
         hitwall = true;
 
@@ -1926,8 +1926,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
     {
         sector_t    *backsector = line->backsector;
 
-        if (backsector && backsector->ceilingdata
-            && backsector->interpfloorheight != backsector->interpceilingheight)
+        if (backsector && backsector->ceilingdata && backsector->interpfloorheight != backsector->interpceilingheight)
             return false;
     }
 

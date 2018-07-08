@@ -968,13 +968,14 @@ void I_UpdateBlitFunc(dboolean shake)
 //
 void I_SetPalette(byte *playpal)
 {
+    double  color = r_color / 100.0;
+
     for (int i = 0; i < 256; i++)
     {
         byte    r = gammatable[gammaindex][*playpal++];
         byte    g = gammatable[gammaindex][*playpal++];
         byte    b = gammatable[gammaindex][*playpal++];
         double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
-        double  color = r_color / 100.0;
 
         colors[i].r = (byte)(p + (r - p) * color);
         colors[i].g = (byte)(p + (g - p) * color);
@@ -984,8 +985,7 @@ void I_SetPalette(byte *playpal)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g, palette[0].colors->b,
-            SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g, palette[0].colors->b, SDL_ALPHA_OPAQUE);
 }
 
 static void I_RestoreFocus(void)

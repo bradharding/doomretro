@@ -88,11 +88,6 @@
 #endif
 #endif
 
-#if defined(_WIN32)
-#define FILTER1 "IWAD and PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0"
-#define FILTER2 "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0"
-#endif
-
 //
 // D_DoomLoop()
 // Not a globally visible function,
@@ -1024,12 +1019,12 @@ static int D_OpenWADLauncher(void)
     M_StringCopy(szFile, wad, sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = (M_StringCompare(iwadfolder, iwadfolder_default) ? FILTER1 : FILTER2);
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = iwadfolder;
-    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
+    ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
