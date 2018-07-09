@@ -359,9 +359,6 @@ static void R_RenderSegLoop(void)
             floorclip[rw_x] = top;
         }
 
-        if (yh < yl)
-            continue;
-
         // texturecolumn and lighting are independent of wall tiers
         if (segtextured)
         {
@@ -378,7 +375,7 @@ static void R_RenderSegLoop(void)
         }
 
         // draw the wall tiers
-        if (midtexture)
+        if (midtexture && yh >= yl)
         {
             // single sided line
             dc_yl = yl;
