@@ -253,13 +253,15 @@ int ambsndseq7[] =
 };
 
 // Magic
-int ambsndseq8[] = {
+int ambsndseq8[] =
+{
     afxcmd_play, hsfx_amb8,
     afxcmd_end
 };
 
 // Laughter
-int ambsndseq9[] = {
+int ambsndseq9[] =
+{
     afxcmd_play, hsfx_amb9,
     afxcmd_delay, 16,
     afxcmd_playrelvol, hsfx_amb9, -4,
@@ -275,7 +277,8 @@ int ambsndseq9[] = {
 };
 
 // FastFootsteps
-int ambsndseq10[] = {
+int ambsndseq10[] =
+{
     afxcmd_play, hsfx_amb4,
     afxcmd_delay, 8,
     afxcmd_playrelvol, hsfx_amb11, -3,

@@ -171,8 +171,8 @@ static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 
     if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL) && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
         return W_CacheLumpNum(lump);
-    else
-        return NULL;
+
+    return NULL;
 }
 
 static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
@@ -185,8 +185,8 @@ static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
         return W_CacheLumpNum(lump);
     else if ((lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
         return W_CacheLumpNum(lump);
-    else
-        return NULL;
+
+    return NULL;
 }
 
 void HU_SetTranslucency(void)

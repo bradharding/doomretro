@@ -1060,7 +1060,7 @@ void C_Drawer(void)
                 {
                     static char buffer[CONSOLETEXTMAXLENGTH];
 
-                    M_snprintf(buffer, sizeof(buffer), "%s (%i)", console[i].string, console[i].count);
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, commify(console[i].count));
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
                 }
@@ -1099,8 +1099,7 @@ void C_Drawer(void)
             }
             else
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
-                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs,
-                    true, true);
+                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs, true, true);
         }
 
         // draw input text to left of caret
@@ -1108,8 +1107,7 @@ void C_Drawer(void)
             lefttext[i] = consoleinput[i];
 
         lefttext[i] = '\0';
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR,
-            NULL, notabs, false, true);
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true);
         x += C_TextWidth(lefttext, false, true);
 
         // draw any selected text to left of caret
@@ -1125,8 +1123,8 @@ void C_Drawer(void)
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor, consoleselectedinputbackgroundcolor,
+                    NOBOLDCOLOR, NULL, notabs, false, true);
                 x += C_TextWidth(middletext, false, true);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
@@ -1167,8 +1165,8 @@ void C_Drawer(void)
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor, consoleselectedinputbackgroundcolor,
+                    NOBOLDCOLOR, NULL, notabs, false, true);
                 x += C_TextWidth(middletext, false, true);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)

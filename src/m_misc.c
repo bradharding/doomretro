@@ -785,7 +785,8 @@ void strreplace(char *target, char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
-static const long hextable[] = {
+static const long hextable[] =
+{
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,

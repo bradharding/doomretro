@@ -297,7 +297,8 @@ sfxinfo_t S_sfx[] =
     { "secret", sg_none,    60,                    0, -1, 0 }
 };
 
-sfxinfo_t HS_sfx[] = {
+sfxinfo_t HS_sfx[] =
+{
     { "",        sg_none,    0,                    0,  0, 0 },
     { "gldhit",  sg_none,   32,                    0, -1, 0 },
     { "gntful",  sg_none,   32,                    0, -1, 0 },

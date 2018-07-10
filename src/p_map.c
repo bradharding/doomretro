@@ -1078,8 +1078,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         }
 
         // killough 11/98: prevent falling objects from going up too many steps
-        if ((thing->flags2 & MF2_FALLING) && tmfloorz - thing->z > FixedMul(thing->momx, thing->momx)
-            + FixedMul(thing->momy, thing->momy))
+        if ((thing->flags2 & MF2_FALLING)
+            && tmfloorz - thing->z > FixedMul(thing->momx, thing->momx) + FixedMul(thing->momy, thing->momy))
             return false;
     }
 
@@ -1716,14 +1716,13 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
             if (!li->backsector)
             {
-                if (FixedDiv(openbottom - shootz, dist) <= aimslope
-                    && FixedDiv(opentop - shootz, dist) >= aimslope)
+                if (FixedDiv(openbottom - shootz, dist) <= aimslope && FixedDiv(opentop - shootz, dist) >= aimslope)
                     return true;      // shot continues
             }
             else
             {
                 if ((li->frontsector->interpfloorheight == li->backsector->interpfloorheight
-                        || FixedDiv(openbottom - shootz, dist) <= aimslope)
+                    || FixedDiv(openbottom - shootz, dist) <= aimslope)
                     && (li->frontsector->interpceilingheight == li->backsector->interpceilingheight
                         || FixedDiv(opentop - shootz, dist) >= aimslope))
                     return true;      // shot continues

@@ -293,7 +293,8 @@ static char ammopic[][8] =
     { "INAMLOB" }
 };
 
-static char patcharti[][10] = {
+static char patcharti[][10] =
+{
     { "ARTIBOX" }, // none
     { "ARTIINVU" }, // invulnerability
     { "ARTIINVS" }, // invisibility

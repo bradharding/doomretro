@@ -299,7 +299,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             if (!fixedcolormap)
                 dc_colormap[0] = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
-            dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
+            dc_iscale = UINT_MAX / (unsigned int)spryscale;
 
             // draw the texture
             R_BlastMaskedSegColumn(column);

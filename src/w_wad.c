@@ -273,7 +273,8 @@ dboolean HasDehackedLump(const char *pwadname)
     return result;
 }
 
-char *iwadsrequired[] = {
+char *iwadsrequired[] =
+{
     "doom.wad",
     "doom2.wad",
     "tnt.wad",
