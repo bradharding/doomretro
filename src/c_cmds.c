@@ -1463,22 +1463,22 @@ void bind_cmd_func2(char *cmd, char *parms)
     {
         while (*actions[action].action)
         {
-            if (M_StringCompare(parm2, actions[action].action))
+            if (M_StringCompare(parms, actions[action].action))
             {
-                if (actions[i].keyboard1)
-                    *(int *)actions[i].keyboard1 = 0;
+                if (actions[action].keyboard1)
+                    *(int *)actions[action].keyboard1 = 0;
 
-                if (actions[i].keyboard2)
-                    *(int *)actions[i].keyboard2 = 0;
+                if (actions[action].keyboard2)
+                    *(int *)actions[action].keyboard2 = 0;
 
-                if (actions[i].mouse1)
-                    *(int *)actions[i].mouse1 = -1;
+                if (actions[action].mouse1)
+                    *(int *)actions[action].mouse1 = -1;
 
-                if (actions[i].gamepad1)
-                    *(int *)actions[i].gamepad1 = 0;
+                if (actions[action].gamepad1)
+                    *(int *)actions[action].gamepad1 = 0;
 
-                if (actions[i].gamepad2)
-                    *(int *)actions[i].gamepad2 = 0;
+                if (actions[action].gamepad2)
+                    *(int *)actions[action].gamepad2 = 0;
 
                 break;
             }

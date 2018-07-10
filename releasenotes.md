@@ -26,6 +26,7 @@
 * The `mapstats` CCMD now shows the total number of barrels in the current map.
 * Keycards and skull keys are now shown in the right hand corner of the widescreen HUD when the player has no armor.
 * The automap will now be shown in the same colors as *Vanilla DOOM* when vanilla mode is enabled.
+* A bug has been fixed whereby entering an action as a parameter for the `unbind` CCMD wouldn’t unbind the controls that action was bound to.
 
 ---
 
