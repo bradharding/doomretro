@@ -669,7 +669,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_hud_translucency, "", bool_cvars_func1, r_hud_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display\nwhen in widescreen mode."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the bobbing effect of liquid sectors."),
+        "Toggles the bobbing effect of liquid sectors and\nthe sprites in them."),
     CVAR_BOOL(r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles clipping the bottom of sprites in liquid\nsectors."),
     CVAR_BOOL(r_liquid_current, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
