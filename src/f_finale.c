@@ -409,33 +409,27 @@ static void F_TextWrite(void)
 // Casting by id Software.
 //   in order of appearance
 //
-typedef struct
+static mobjtype_t castordertype[] =
 {
-    char        **name;
-    mobjtype_t  type;
-} castinfo_t;
-
-static castinfo_t castorder[] =
-{
-    { &s_CC_ZOMBIE,  MT_POSSESSED },
-    { &s_CC_SHOTGUN, MT_SHOTGUY   },
-    { &s_CC_HEAVY,   MT_CHAINGUY  },
-    { &s_CC_IMP,     MT_TROOP     },
-    { &s_CC_DEMON,   MT_SERGEANT  },
-    { &s_CC_SPECTRE, MT_SHADOWS   },
-    { &s_CC_LOST,    MT_SKULL     },
-    { &s_CC_CACO,    MT_HEAD      },
-    { &s_CC_HELL,    MT_KNIGHT    },
-    { &s_CC_BARON,   MT_BRUISER   },
-    { &s_CC_ARACH,   MT_BABY      },
-    { &s_CC_PAIN,    MT_PAIN      },
-    { &s_CC_REVEN,   MT_UNDEAD    },
-    { &s_CC_MANCU,   MT_FATSO     },
-    { &s_CC_ARCH,    MT_VILE      },
-    { &s_CC_SPIDER,  MT_SPIDER    },
-    { &s_CC_CYBER,   MT_CYBORG    },
-    { &playername,   MT_PLAYER    },
-    { NULL,          0            }
+    MT_POSSESSED,
+    MT_SHOTGUY,
+    MT_CHAINGUY,
+    MT_TROOP,
+    MT_SERGEANT,
+    MT_SHADOWS,
+    MT_SKULL,
+    MT_HEAD,
+    MT_KNIGHT,
+    MT_BRUISER,
+    MT_BABY,
+    MT_PAIN,
+    MT_UNDEAD,
+    MT_FATSO,
+    MT_VILE,
+    MT_SPIDER,
+    MT_CYBORG,
+    MT_PLAYER,
+    -1
 };
 
 static int      castnum;
@@ -458,7 +452,7 @@ static void F_StartCast(void)
     firstevent = true;
     wipegamestate = GS_NONE;    // force a screen wipe
     castnum = 0;
-    caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+    caststate = &states[mobjinfo[castordertype[castnum]].seestate];
     casttics = caststate->tics;
     castrot = 0;
     castdeath = false;
@@ -489,13 +483,13 @@ static void F_CastTicker(void)
         castdeath = false;
         castdeathflip = false;
 
-        if (!castorder[castnum].name)
+        if (castordertype[castnum] == -1)
             castnum = 0;
 
-        if (mobjinfo[castorder[castnum].type].seesound)
-            S_StartSound(NULL, mobjinfo[castorder[castnum].type].seesound);
+        if (mobjinfo[castordertype[castnum]].seesound)
+            S_StartSound(NULL, mobjinfo[castordertype[castnum]].seesound);
 
-        caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+        caststate = &states[mobjinfo[castordertype[castnum]].seestate];
         castframes = 0;
     }
     else
@@ -606,18 +600,18 @@ static void F_CastTicker(void)
         castattacking = true;
 
         if (castonmelee)
-            caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
+            caststate = &states[mobjinfo[castordertype[castnum]].meleestate];
         else
-            caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
+            caststate = &states[mobjinfo[castordertype[castnum]].missilestate];
 
         castonmelee = !castonmelee;
 
         if (caststate == &states[S_NULL])
         {
             if (castonmelee)
-                caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
+                caststate = &states[mobjinfo[castordertype[castnum]].meleestate];
             else
-                caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
+                caststate = &states[mobjinfo[castordertype[castnum]].missilestate];
         }
 
         if (caststate == &states[S_PLAY_ATK1])
@@ -625,12 +619,12 @@ static void F_CastTicker(void)
     }
 
     if (castattacking)
-        if (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
+        if (castframes == 24 || caststate == &states[mobjinfo[castordertype[castnum]].seestate])
         {
 stopattack:
             castattacking = false;
             castframes = 0;
-            caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+            caststate = &states[mobjinfo[castordertype[castnum]].seestate];
         }
 
     casttics = caststate->tics;
@@ -702,7 +696,7 @@ static dboolean F_CastResponder(event_t *ev)
 
     S_StartSound(viewplayer->mo, sfx_dshtgn);
 
-    type = castorder[castnum].type;
+    type = castordertype[castnum];
 
     // go into death frame
     castdeath = true;
@@ -786,12 +780,12 @@ static void F_CastDrawer(void)
     dboolean        flip;
     patch_t         *patch;
     int             y = ORIGINALHEIGHT - 30;
-    mobjtype_t      type = castorder[castnum].type;
+    mobjtype_t      type = castordertype[castnum];
 
     // erase the entire screen to a background
     V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall));
 
-    F_CastPrint(*castorder[castnum].name);
+    F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
 
     // draw the current frame in the middle of the screen
     sprdef = &sprites[caststate->sprite];
