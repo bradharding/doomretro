@@ -1299,6 +1299,8 @@ linefix_t linefix[] =
     { pack_tnt,         1,   7,    1006,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Floor_RaiseToNextHighestFloor_Fast,           16 },
     { pack_tnt,         1,   7,    1007,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Floor_RaiseToNextHighestFloor_Fast,           16 },
 
+    { pack_tnt,         1,   8,     480,    1, "",         "",            "METAL2",      DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+
     { pack_tnt,         1,  11,    1087,    0, "",         "",            "GRAY4",       DEFAULT,         2, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { pack_tnt,         1,  18,      52,    1, "",         "MIDBARS3",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
