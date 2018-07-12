@@ -369,12 +369,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else
     {
         if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
-            cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
+            cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright * gamepadsensitivity);
 
         if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
-            cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
+            cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamepadthumbRX < 0)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
@@ -400,13 +400,22 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
         side = sidemove[run];
     else if (gamepadthumbLX > 0)
-        side = (int)(sidemove[run] * gamepadthumbLXright);
+    {
+        if (numgamepadaxes > 1)
+            side = (int)(sidemove[run] * gamepadthumbLXright);
+        else
+            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadsensitivity);
+    }
 
-    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
-        || (gamepadbuttons & gamepadstrafeleft))
+    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamepadbuttons & gamepadstrafeleft))
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
-        side -= (int)(sidemove[run] * gamepadthumbLXleft);
+    {
+        if (numgamepadaxes > 1)
+            side -= (int)(sidemove[run] * gamepadthumbLXleft);
+        else
+            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadsensitivity);
+    }
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)
         cmd->buttons |= BT_JUMP;

@@ -68,6 +68,7 @@ short                   gamepadthumbRY = 0;
 float                   gamepadsensitivity;
 short                   gamepadleftdeadzone;
 short                   gamepadrightdeadzone;
+int                     numgamepadaxes = 0;
 
 dboolean                vibrate = false;
 int                     barrelvibrationtics = 0;
@@ -167,6 +168,7 @@ void I_InitGamepad(void)
 
             I_SetGamepadThumbSticks();
             SDL_JoystickEventState(SDL_ENABLE);
+            numgamepadaxes = SDL_JoystickNumAxes(gamepad);
         }
     }
 }
@@ -362,8 +364,7 @@ void I_PollXInputGamepad(void)
 
 void I_SetGamepadSensitivity(void)
 {
-    gamepadsensitivity = (!gp_sensitivity ? 0.0f :
-        GP_SENSITIVITY_OFFSET + GP_SENSITIVITY_FACTOR * gp_sensitivity / gp_sensitivity_max);
+    gamepadsensitivity = (!gp_sensitivity ? 0.0f : 4.0f * gp_sensitivity / gp_sensitivity_max + 0.2f);
 }
 
 void I_SetGamepadLeftDeadZone(void)
