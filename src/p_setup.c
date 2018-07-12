@@ -2183,7 +2183,7 @@ void P_SetupLevel(int ep, int map)
 {
     char        lumpname[6];
     int         lumpnum;
-    static int  prevlumpnum;
+    static int  prevlumpnum = -1;
 
     totalkills = 0;
     totalitems = 0;
