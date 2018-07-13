@@ -338,9 +338,9 @@ dboolean P_CheckHereticAmmo(weapontype_t weapon)
 //
 // P_SubtractAmmo
 //
-static void P_SubtractAmmo(weapontype_t weapon, int amount)
+static void P_SubtractAmmo(int amount)
 {
-    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
+    ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
     if (ammotype != am_noammo)
         viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - amount);
@@ -685,7 +685,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(wp_missile, 1);
+    P_SubtractAmmo(1);
     P_SpawnPlayerMissile(actor, MT_ROCKET);
 
     player->shotsfired++;
@@ -697,7 +697,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(wp_bfg, bfgcells);
+    P_SubtractAmmo(bfgcells);
     P_SpawnPlayerMissile(actor, MT_BFG);
 }
 
@@ -714,7 +714,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobjtype_t  type = MT_PLASMA1;
 
-    P_SubtractAmmo(wp_bfg, 1);
+    P_SubtractAmmo(1);
 
     player->extralight = 2;
 
@@ -758,7 +758,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(wp_plasma, 1);
+    P_SubtractAmmo(1);
 
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
 
@@ -1515,7 +1515,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_pistol);
 
-    P_SubtractAmmo(wp_pistol, 1);
+    P_SubtractAmmo(1);
 
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
 
@@ -1547,7 +1547,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_shotgn);
 
-    P_SubtractAmmo(wp_shotgun, 1);
+    P_SubtractAmmo(1);
 
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
 
@@ -1582,7 +1582,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_dshtgn);
 
-    P_SubtractAmmo(wp_supershotgun, 2);
+    P_SubtractAmmo(2);
 
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
 
@@ -1637,7 +1637,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_NoiseAlert(actor);
     S_StartSound(actor, sfx_pistol);
 
-    P_SubtractAmmo(wp_chaingun, 1);
+    P_SubtractAmmo(1);
 
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
 
