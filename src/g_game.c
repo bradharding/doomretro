@@ -1667,8 +1667,7 @@ void G_LoadedGameMessage(void)
     {
         static char buffer[1024];
 
-        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED),
-            titlecase(savedescription));
+        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED), titlecase(savedescription));
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;
     }

@@ -50,8 +50,6 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 
-#define clamp(value, deadzone)  (ABS(value) < deadzone ? 0 : value)
-
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;
 dboolean                gp_invertyaxis = gp_invertyaxis_default;
@@ -188,6 +186,11 @@ void I_ShutdownGamepad(void)
         gamepad = NULL;
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
     }
+}
+
+static short __inline clamp(short value, short deadzone)
+{
+    return (ABS(value) < deadzone ? 0 : value);
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)

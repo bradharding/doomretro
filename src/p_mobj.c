@@ -1343,7 +1343,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     // Check for boss spots
-    if (gamemission == heretic && mthing->type == DSparilTeleportLocation)
+    if (gamemission == heretic && type == DSparilTeleportLocation)
     {
         P_AddBossSpot(mthing->x << FRACBITS, mthing->y << FRACBITS, ANG45 * (mthing->angle / 45));
         return NULL;
@@ -1356,8 +1356,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         if (type != VisualModeCamera)
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.",
-                commify(index), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(index), mthing->x, mthing->y);
 
         return NULL;
     }
@@ -1439,7 +1438,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     // [BH] randomly mirror weapons
-    if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1))
+    if (r_mirroredweapons && gamemission != heretic && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] spawn blood splats around corpses
@@ -1487,6 +1486,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->angle = angle;
     th->flags = info->flags;
     th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+    th->flags3 = info->flags3;
 
     th->state = st;
     th->tics = MAX(1, st->tics - (M_Random() & 3));
@@ -1569,8 +1569,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     dboolean    fuzz = (target->flags & MF_FUZZ);
-    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood :
-                    MT_BLOOD)) : MT_BLOOD);
+    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood : MT_BLOOD)) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
     int         blood = (fuzz ? FUZZYBLOOD : info->blood);
     sector_t    *sector;
