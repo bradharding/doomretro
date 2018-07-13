@@ -401,7 +401,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         side = sidemove[run];
     else if (gamepadthumbLX > 0)
     {
-        if (numgamepadaxes > 1)
+        if (numgamepadaxes == 2)
             side = (int)(sidemove[run] * gamepadthumbLXright);
         else
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadsensitivity);
@@ -411,7 +411,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
     {
-        if (numgamepadaxes > 1)
+        if (numgamepadaxes == 2)
             side -= (int)(sidemove[run] * gamepadthumbLXleft);
         else
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadsensitivity);

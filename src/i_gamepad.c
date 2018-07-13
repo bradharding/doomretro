@@ -50,6 +50,8 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 
+#define clamp(value, deadzone)  (ABS(value) < deadzone ? 0 : value)
+
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;
 dboolean                gp_invertyaxis = gp_invertyaxis_default;
@@ -188,11 +190,6 @@ void I_ShutdownGamepad(void)
     }
 }
 
-static short __inline clamp(short value, short deadzone)
-{
-    return (ABS(value) < deadzone ? 0 : MAX(-SHRT_MAX, value));
-}
-
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
 {
     gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
@@ -213,7 +210,7 @@ void I_PollDirectInputGamepad(void)
 {
     if (gamepad && !noinput)
     {
-        int hat = SDL_JoystickGetHat(gamepad, 0);
+        int hat;
 
         gamepadbuttons = ((SDL_JoystickGetButton(gamepad, 0) << 14)
             | (SDL_JoystickGetButton(gamepad, 1) << 12)
@@ -228,7 +225,7 @@ void I_PollDirectInputGamepad(void)
             | (SDL_JoystickGetButton(gamepad, 10) << 6)
             | (SDL_JoystickGetButton(gamepad, 11) << 7));
 
-        if (hat)
+        if ((hat = SDL_JoystickGetHat(gamepad, 0)))
             gamepadbuttons |= ((!!(hat & SDL_HAT_UP))
                 | ((!!(hat & SDL_HAT_RIGHT)) << 3)
                 | ((!!(hat & SDL_HAT_DOWN)) << 1)
@@ -369,12 +366,12 @@ void I_SetGamepadSensitivity(void)
 
 void I_SetGamepadLeftDeadZone(void)
 {
-    gamepadleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
+    gamepadleftdeadzone = (short)(gp_deadzone_left * SDL_JOYSTICK_AXIS_MAX / 100.0f);
 }
 
 void I_SetGamepadRightDeadZone(void)
 {
-    gamepadrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
+    gamepadrightdeadzone = (short)(gp_deadzone_right * SDL_JOYSTICK_AXIS_MAX / 100.0f);
 }
 
 void I_SetGamepadThumbSticks(void)
