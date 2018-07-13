@@ -1343,7 +1343,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     // Check for boss spots
-    if (mthing->type == DSparilTeleportLocation)
+    if (gamemission == heretic && mthing->type == DSparilTeleportLocation)
     {
         P_AddBossSpot(mthing->x << FRACBITS, mthing->y << FRACBITS, ANG45 * (mthing->angle / 45));
         return NULL;
