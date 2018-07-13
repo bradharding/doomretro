@@ -366,12 +366,12 @@ void I_SetGamepadSensitivity(void)
 
 void I_SetGamepadLeftDeadZone(void)
 {
-    gamepadleftdeadzone = (short)(gp_deadzone_left * SDL_JOYSTICK_AXIS_MAX / 100.0f);
+    gamepadleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
 }
 
 void I_SetGamepadRightDeadZone(void)
 {
-    gamepadrightdeadzone = (short)(gp_deadzone_right * SDL_JOYSTICK_AXIS_MAX / 100.0f);
+    gamepadrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
 }
 
 void I_SetGamepadThumbSticks(void)
