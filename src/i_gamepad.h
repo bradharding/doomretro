@@ -40,6 +40,7 @@
 #define __I_GAMEPAD_H__
 
 #include "doomtype.h"
+#include "SDL_joystick.h"
 
 #define GAMEPAD_DPAD_UP         0x0001
 #define GAMEPAD_DPAD_DOWN       0x0002
