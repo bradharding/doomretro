@@ -62,7 +62,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
-    return (int)((int64_t)(y - line->v1->y) * line->dx + (int64_t)(line->v1->x - x) * line->dy >= 0);
+    return (int)((int64_t)(y - line->v1->y) * line->dx + (int64_t)(line->v1->x - x) * line->dy > 0);
 }
 
 //
