@@ -777,7 +777,6 @@ static void F_CastDrawer(void)
     spriteframe_t   *sprframe;
     int             lump;
     int             rot = 0;
-    dboolean        flip;
     patch_t         *patch;
     int             y = ORIGINALHEIGHT - 30;
     mobjtype_t      type = castordertype[castnum];
@@ -795,7 +794,6 @@ static void F_CastDrawer(void)
         rot = castrot;
 
     lump = sprframe->lump[rot];
-    flip = !!(sprframe->flip & (1 << rot));
     patch = W_CacheLumpNum(lump + firstspritelump);
     patch->topoffset = (r_fixspriteoffsets ? newspritetopoffset[lump] : spritetopoffset[lump]) >> FRACBITS;
 
@@ -804,7 +802,7 @@ static void F_CastDrawer(void)
     else if (type == MT_PAIN || (type == MT_HEAD && !castdeath))
         y -= 20;
 
-    if (flip || castdeathflip)
+    if ((sprframe->flip & (1 << rot)) || castdeathflip)
     {
         patch->leftoffset = (spritewidth[lump] - (r_fixspriteoffsets ? newspriteoffset[lump] : spriteoffset[lump])) >> FRACBITS;
 

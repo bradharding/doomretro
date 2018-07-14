@@ -269,13 +269,13 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
             if (c == 176)
             {
-                if (STCFN034 || gamemission == heretic)
+                if (STCFN034)
                     continue;
                 else
                     j = 66;
             }
 
-            if (STCFN034 || gamemission == heretic)
+            if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
@@ -443,9 +443,6 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
         return; // if not on, don't draw
-
-    if (gamemission == heretic)
-        s->l->x = (ORIGINALWIDTH - M_StringWidth(s->l->l)) / 2;
 
     // draw everything
     for (int i = 0; i < s->h; i++)

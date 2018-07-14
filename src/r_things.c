@@ -169,7 +169,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 // properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
-static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
+static void R_InitSpriteDefs(void)
 {
     size_t  numentries = lastspritelump - firstspritelump + 1;
 
@@ -182,7 +182,7 @@ static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
     if (!numentries)
         return;
 
-    sprites = Z_Calloc(numsprites, sizeof(*sprites), PU_STATIC, NULL);
+    sprites = Z_Calloc(NUMSPRITES, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
     // killough 1/31/98
@@ -201,9 +201,9 @@ static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (unsigned int i = 0; i < numsprites; i++)
+    for (unsigned int i = 0; i < NUMSPRITES; i++)
     {
-        const char  *spritename = namelist[i];
+        const char  *spritename = sprnames[i];
         int         j = hash[R_SpriteNameHash(spritename) % numentries].index;
 
         if (j >= 0)
@@ -275,8 +275,7 @@ static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
 
                             for (int rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
-                                    I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
-                                        frame + 'A', namelist[i]);
+                                    I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations", frame + 'A', sprnames[i]);
 
                             break;
                     }
@@ -298,7 +297,7 @@ static void R_InitSpriteDefs(char **namelist, unsigned int numsprites)
 
     free(hash); // free hash table
 
-    firstbloodsplatlump = sprites[gamemission == heretic ? HSPR_BLD2 : SPR_BLD2].spriteframes[0].lump[0];
+    firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 }
 
 //
@@ -317,12 +316,12 @@ static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 // R_InitSprites
 // Called at program start.
 //
-void R_InitSprites(char **namelist, unsigned int numsprites)
+void R_InitSprites(void)
 {
     for (int i = 0; i < SCREENWIDTH; i++)
         negonearray[i] = -1;
 
-    R_InitSpriteDefs(namelist, numsprites);
+    R_InitSpriteDefs();
 }
 
 //
@@ -965,7 +964,6 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
     int             lump = sprframe->lump[0];
     int             lookdir = viewplayer->lookdir;
-    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered ? spriteoffset[lump] : newspriteoffset[lump]);
@@ -1027,12 +1025,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         }
     }
 
-    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
-
-    if (lookdir < 0)
-        vis->texturemid -= lookdir * info[viewplayer->readyweapon].lookdown;
-    else if (lookdir > 0)
-        vis->texturemid -= lookdir * info[viewplayer->readyweapon].lookup;
+    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale) - viewplayer->lookdir * 0x5C0;
 
     if (invisibility)
     {

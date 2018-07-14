@@ -169,9 +169,6 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_mapscompleted = 0;
 
-dboolean        usearti = true;
-int             inventorytics;
-
 extern dboolean barrelms;
 extern int      st_palette;
 extern int      pagetic;
@@ -180,10 +177,6 @@ extern dboolean transferredsky;
 extern int      timer;
 extern int      countdown;
 
-extern dboolean inventory;
-extern int      curpos;
-extern int      inv_ptr;
-
 void G_RemoveChoppers(void)
 {
     viewplayer->cheats &= ~CF_CHOPPERS;
@@ -191,9 +184,6 @@ void G_RemoveChoppers(void)
     viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
 }
-
-void (*prevweaponfunc)(void);
-void (*nextweaponfunc)(void);
 
 void G_NextWeapon(void)
 {
@@ -241,93 +231,6 @@ void G_PrevWeapon(void)
 
     if (i == wp_fist && viewplayer->powers[pw_strength])
         S_StartSound(NULL, sfx_getpow);
-}
-
-void G_NextHereticWeapon(void)
-{
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
-
-    if (viewplayer->chickentics)
-        return;
-
-    do
-    {
-        i = wpnlev1info[i].next;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[wpnlev1info[i].ammotype] < wpnlev1info[i].minammo);
-
-    if (i != readyweapon)
-        viewplayer->pendingweapon = i;
-}
-
-void G_PrevHereticWeapon(void)
-{
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
-
-    if (viewplayer->chickentics)
-        return;
-
-    do
-    {
-        i = wpnlev1info[i].prev;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[wpnlev1info[i].ammotype] < wpnlev1info[i].minammo);
-
-    if (i != readyweapon)
-        viewplayer->pendingweapon = i;
-}
-
-void G_InventoryLeft(void)
-{
-    inventorytics = 5 * TICRATE;
-
-    if (!inventory)
-    {
-        inventory = true;
-        return;
-    }
-
-    inv_ptr--;
-
-    if (inv_ptr < 0)
-        inv_ptr = 0;
-    else
-    {
-        curpos--;
-
-        if (curpos < 0)
-            curpos = 0;
-    }
-}
-
-void G_InventoryRight(void)
-{
-    inventorytics = 5 * TICRATE;
-
-    if (!inventory)
-    {
-        inventory = true;
-        return;
-    }
-
-    inv_ptr++;
-
-    if (inv_ptr >= viewplayer->inventoryslotnum)
-    {
-        inv_ptr--;
-
-        if (inv_ptr < 0)
-            inv_ptr = 0;
-    }
-    else
-    {
-        curpos++;
-
-        if (curpos > 6)
-            curpos = 6;
-    }
 }
 
 //
@@ -434,36 +337,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->buttons |= BT_USE;
             dclicks = 0;                // clear double clicks if hit use button
         }
-
-        if (gamekeydown[keyboarduseartifact])
-        {
-            if (gamekeydown[keyboardrun])
-            {
-                if (viewplayer->inventory[inv_ptr].type != arti_none)
-                {
-                    gamekeydown[keyboarduseartifact] = false;
-                    cmd->arti = 0xFF;   // skip artifact code
-                }
-            }
-            else
-            {
-                if (inventory)
-                {
-                    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
-                    inventory = false;
-                    cmd->arti = 0;
-                    usearti = false;
-                }
-                else if (usearti)
-                {
-                    cmd->arti = viewplayer->inventory[inv_ptr].type;
-                    usearti = false;
-                }
-            }
-        }
     }
 
-    if (!idclev && !idmus && !viewplayer->chickentics)
+    if (!idclev && !idmus)
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
             int key = *weapon_keys[i];
@@ -580,33 +456,20 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
 static void G_SetInitialWeapon(void)
 {
-    if (gamemission != heretic)
+    viewplayer->weaponowned[wp_fist] = true;
+    viewplayer->weaponowned[wp_pistol] = true;
+
+    viewplayer->ammo[am_clip] = initial_bullets;
+
+    if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
     {
-        viewplayer->weaponowned[wp_fist] = true;
-        viewplayer->weaponowned[wp_pistol] = true;
-
-        viewplayer->ammo[am_clip] = initial_bullets;
-
-        if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
-        {
-            viewplayer->readyweapon = wp_fist;
-            viewplayer->pendingweapon = wp_fist;
-        }
-        else
-        {
-            viewplayer->readyweapon = wp_pistol;
-            viewplayer->pendingweapon = wp_pistol;
-        }
+        viewplayer->readyweapon = wp_fist;
+        viewplayer->pendingweapon = wp_fist;
     }
     else
     {
-        viewplayer->weaponowned[wp_staff] = true;
-        viewplayer->weaponowned[wp_goldwand] = true;
-
-        viewplayer->ammo[am_goldwand] = 50;
-
-        viewplayer->readyweapon = (weapontype_t)wp_goldwand;
-        viewplayer->pendingweapon = (weapontype_t)wp_goldwand;
+        viewplayer->readyweapon = wp_pistol;
+        viewplayer->pendingweapon = wp_pistol;
     }
 
     for (int i = 0; i < NUMAMMO; i++)
@@ -790,7 +653,7 @@ dboolean G_Responder(event_t *ev)
             else
             {
                 M_StartControlPanel();
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
+                S_StartSound(NULL, sfx_swtchn);
             }
 
             return true;
@@ -824,9 +687,9 @@ dboolean G_Responder(event_t *ev)
             key = ev->data1;
 
             if (key == keyboardprevweapon && !menuactive && !paused)
-                prevweaponfunc();
+                G_PrevWeapon();
             else if (key == keyboardnextweapon && !menuactive && !paused)
-                nextweaponfunc();
+                G_NextWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown)
             {
                 keydown = KEY_PAUSE;
@@ -841,10 +704,6 @@ dboolean G_Responder(event_t *ev)
                 keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
             }
-            else if (key == keyboardinvleft)
-                G_InventoryLeft();
-            else if (key == keyboardinvright)
-                G_InventoryRight();
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
@@ -864,14 +723,6 @@ dboolean G_Responder(event_t *ev)
 
         case ev_keyup:
             keydown = 0;
-
-            if (ev->data1 == keyboarduseartifact)
-            {
-                if (!inventory)
-                    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
-
-                usearti = true;
-            }
 
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
@@ -898,9 +749,9 @@ dboolean G_Responder(event_t *ev)
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
-                    nextweaponfunc();
+                    G_NextWeapon();
                 else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
-                    prevweaponfunc();
+                    G_PrevWeapon();
             }
 
             if (!automapactive || am_followmode)
@@ -925,9 +776,9 @@ dboolean G_Responder(event_t *ev)
                 if (ev->data1 < 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELDOWN)
-                        nextweaponfunc();
+                        G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELDOWN)
-                        prevweaponfunc();
+                        G_PrevWeapon();
 
                     if (mouseactionlist[MOUSE_WHEELDOWN][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
@@ -935,9 +786,9 @@ dboolean G_Responder(event_t *ev)
                 else if (ev->data1 > 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELUP)
-                        nextweaponfunc();
+                        G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELUP)
-                        prevweaponfunc();
+                        G_PrevWeapon();
 
                     if (mouseactionlist[MOUSE_WHEELUP][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
@@ -957,7 +808,7 @@ dboolean G_Responder(event_t *ev)
 
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
-                        nextweaponfunc();
+                        G_NextWeapon();
                         gamepadpress = false;
                     }
                 }
@@ -967,7 +818,7 @@ dboolean G_Responder(event_t *ev)
 
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
-                        prevweaponfunc();
+                        G_PrevWeapon();
                         gamepadpress = false;
                     }
                 }
@@ -1151,14 +1002,6 @@ void G_Ticker(void)
         default:
             break;
     }
-
-    // turn inventory off after a certain amount of time
-    if (inventory && !--inventorytics)
-    {
-        viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
-        inventory = false;
-        cmd->arti = 0;
-    }
 }
 
 //
@@ -1185,20 +1028,6 @@ static void G_PlayerFinishLevel(void)
         viewplayer->readyweapon = wp_chainsaw;
 
     viewplayer->fistorchainsaw = (viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
-
-    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
-        viewplayer->inventory[i].count = 1;
-
-    viewplayer->artifactcount = viewplayer->inventoryslotnum;
-
-    if (viewplayer->chickentics)
-    {
-        viewplayer->readyweapon = viewplayer->mo->special1.i;
-        viewplayer->chickentics = 0;
-    }
-
-    viewplayer->rain1 = NULL;
-    viewplayer->rain2 = NULL;
 }
 
 //
@@ -1232,8 +1061,6 @@ void G_PlayerReborn(void)
     markpointnum = 0;
     infight = false;
     barrelms = 0;
-    inv_ptr = 0;
-    curpos = 0;
 }
 
 //

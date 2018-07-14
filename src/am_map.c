@@ -71,20 +71,6 @@ int am_thingcolor = am_thingcolor_default;
 int am_tswallcolor = am_tswallcolor_default;
 int am_wallcolor = am_wallcolor_default;
 
-// Heretic colors
-#define HALLMAPCDWALLCOLOR   10
-#define HALLMAPFDWALLCOLOR   6
-#define HALLMAPWALLCOLOR     8
-#define HCDWALLCOLOR         80
-#define HCROSSHAIRCOLOR      35
-#define HFDWALLCOLOR         112
-#define HMARKCOLOR           19
-#define HPATHCOLOR           19
-#define HPLAYERCOLOR         35
-#define HTELEPORTERCOLOR     96
-#define HTSWALLCOLOR         40
-#define HWALLCOLOR           96
-
 // Automap color priorities
 #define WALLPRIORITY            9
 #define ALLMAPWALLPRIORITY      8
@@ -352,68 +338,36 @@ void AM_setColors(void)
 {
     byte    *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
 
-    if (gamemission == heretic)
-    {
-        *(priority + HWALLCOLOR) = WALLPRIORITY;
-        *(priority + HALLMAPWALLCOLOR) = ALLMAPWALLPRIORITY;
-        *(priority + HCDWALLCOLOR) = CDWALLPRIORITY;
-        *(priority + HALLMAPCDWALLCOLOR) = ALLMAPCDWALLPRIORITY;
-        *(priority + HFDWALLCOLOR) = FDWALLPRIORITY;
-        *(priority + HALLMAPFDWALLCOLOR) = ALLMAPFDWALLPRIORITY;
-        *(priority + HTELEPORTERCOLOR) = TELEPORTERPRIORITY;
-        *(priority + HTSWALLCOLOR) = TSWALLPRIORITY;
+    *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
+    *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
+    *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
+    *(priority + nearestcolors[am_allmapcdwallcolor]) = ALLMAPCDWALLPRIORITY;
+    *(priority + nearestcolors[am_fdwallcolor]) = FDWALLPRIORITY;
+    *(priority + nearestcolors[am_allmapfdwallcolor]) = ALLMAPFDWALLPRIORITY;
+    *(priority + nearestcolors[am_teleportercolor]) = TELEPORTERPRIORITY;
+    *(priority + nearestcolors[am_tswallcolor]) = TSWALLPRIORITY;
+    *(priority + nearestcolors[am_gridcolor]) = GRIDPRIORITY;
 
-        playercolor = HPLAYERCOLOR;
-        pathcolor = HPATHCOLOR;
-        markcolor = HMARKCOLOR;
-        crosshaircolor = tinttab60 + (HCROSSHAIRCOLOR << 8);
+    playercolor = nearestcolors[am_playercolor];
+    thingcolor = nearestcolors[am_thingcolor];
+    pathcolor = nearestcolors[am_pathcolor];
+    markcolor = nearestcolors[am_markcolor];
+    backcolor = nearestcolors[am_backcolor];
+    crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
 
-        for (int x = 0; x < 256; x++)
-            for (int y = 0; y < 256; y++)
-                *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
+    for (int x = 0; x < 256; x++)
+        for (int y = 0; y < 256; y++)
+            *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
-        wallcolor = priorities + (HWALLCOLOR << 8);
-        allmapwallcolor = priorities + (HALLMAPWALLCOLOR << 8);
-        cdwallcolor = priorities + (HCDWALLCOLOR << 8);
-        allmapcdwallcolor = priorities + (HALLMAPCDWALLCOLOR << 8);
-        fdwallcolor = priorities + (HFDWALLCOLOR << 8);
-        allmapfdwallcolor = priorities + (HALLMAPFDWALLCOLOR << 8);
-        teleportercolor = priorities + (HTELEPORTERCOLOR << 8);
-        tswallcolor = priorities + (HTSWALLCOLOR << 8);
-    }
-    else
-    {
-        *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
-        *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
-        *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
-        *(priority + nearestcolors[am_allmapcdwallcolor]) = ALLMAPCDWALLPRIORITY;
-        *(priority + nearestcolors[am_fdwallcolor]) = FDWALLPRIORITY;
-        *(priority + nearestcolors[am_allmapfdwallcolor]) = ALLMAPFDWALLPRIORITY;
-        *(priority + nearestcolors[am_teleportercolor]) = TELEPORTERPRIORITY;
-        *(priority + nearestcolors[am_tswallcolor]) = TSWALLPRIORITY;
-        *(priority + nearestcolors[am_gridcolor]) = GRIDPRIORITY;
-
-        playercolor = nearestcolors[am_playercolor];
-        thingcolor = nearestcolors[am_thingcolor];
-        pathcolor = nearestcolors[am_pathcolor];
-        markcolor = nearestcolors[am_markcolor];
-        backcolor = nearestcolors[am_backcolor];
-        crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
-
-        for (int x = 0; x < 256; x++)
-            for (int y = 0; y < 256; y++)
-                *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
-
-        wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
-        allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
-        cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
-        allmapcdwallcolor = priorities + (nearestcolors[am_allmapcdwallcolor] << 8);
-        fdwallcolor = priorities + (nearestcolors[am_fdwallcolor] << 8);
-        allmapfdwallcolor = priorities + (nearestcolors[am_allmapfdwallcolor] << 8);
-        teleportercolor = priorities + (nearestcolors[am_teleportercolor] << 8);
-        tswallcolor = priorities + (nearestcolors[am_tswallcolor] << 8);
-        gridcolor = priorities + (nearestcolors[am_gridcolor] << 8);
-    }
+    wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
+    allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
+    cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
+    allmapcdwallcolor = priorities + (nearestcolors[am_allmapcdwallcolor] << 8);
+    fdwallcolor = priorities + (nearestcolors[am_fdwallcolor] << 8);
+    allmapfdwallcolor = priorities + (nearestcolors[am_allmapfdwallcolor] << 8);
+    teleportercolor = priorities + (nearestcolors[am_teleportercolor] << 8);
+    tswallcolor = priorities + (nearestcolors[am_tswallcolor] << 8);
+    gridcolor = priorities + (nearestcolors[am_gridcolor] << 8);
 }
 
 void AM_getGridSize(void)
@@ -444,9 +398,6 @@ void AM_Init(void)
     AM_setColors();
 
     AM_getGridSize();
-
-    if (gamemission == heretic)
-        autopage = W_CacheLumpName("AUTOPAGE");
 }
 
 static void AM_initVariables(const dboolean mainwindow)
@@ -1224,36 +1175,8 @@ void AM_Ticker(void)
 //
 void AM_clearFB(void)
 {
-    if (gamemission != heretic)
-    {
-        memset(mapscreen, backcolor, maparea);
-        return;
-    }
-
-    for (int y = 0; y < 158; y++)
-        for (int x = 0; x < 320; x++)
-        {
-            byte    dot = autopage[y * 320 + x];
-            int     i = (y * 640 + x) * 2;
-
-            screens[0][i] = dot;
-            screens[0][i + 1] = dot;
-            screens[0][i + 640] = dot;
-            screens[0][i + 640 + 1] = dot;
-        }
-
-    if (vid_widescreen)
-        for (int y = 0; y < 10; y++)
-            for (int x = 0; x < 320; x++)
-            {
-                byte    dot = autopage[y * 320 + x];
-                int     i = ((y + 158) * 640 + x) * 2;
-
-                screens[0][i] = dot;
-                screens[0][i + 1] = dot;
-                screens[0][i + 640] = dot;
-                screens[0][i + 640 + 1] = dot;
-            }
+    memset(mapscreen, backcolor, maparea);
+    return;
 }
 
 //
@@ -2038,7 +1961,7 @@ void AM_Drawer(void)
     AM_clearFB();
     AM_drawWalls();
 
-    if (am_grid && gamemission != heretic)
+    if (am_grid)
         AM_drawGrid();
 
     if (am_path)

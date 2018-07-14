@@ -245,7 +245,6 @@ void P_Ticker(void)
 
     P_RunThinkers();
     P_UpdateSpecials();
-    P_AmbientSound();
     P_RespawnSpecials();
 
     P_MapEnd();

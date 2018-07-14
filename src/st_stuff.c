@@ -174,28 +174,9 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
-static patch_t              *lifebar;
-static patch_t              *invbar;
-static patch_t              *selectbox;
-static patch_t              *invgeml1;
-static patch_t              *invgeml2;
-static patch_t              *invgemr1;
-static patch_t              *invgemr2;
-static patch_t              *barback;
-patch_t                     *ltfctop;
-patch_t                     *rtfctop;
-static patch_t              *chain;
-static patch_t              *chainback;
-static patch_t              *lifegem;
-static patch_t              *ltface;
-static patch_t              *rtface;
-
-static int                  healthmarker;
-static int                  chainwiggle;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
-patch_t                     *tallnum2[10];
 
 // tall % sign
 patch_t                     *tallpercent;
@@ -283,36 +264,6 @@ dboolean                    idmus;
 
 dboolean                    samelevel;
 
-static char ammopic[][8] =
-{
-    { "INAMGLD" },
-    { "INAMBOW" },
-    { "INAMBST" },
-    { "INAMRAM" },
-    { "INAMPNX" },
-    { "INAMLOB" }
-};
-
-static char patcharti[][10] =
-{
-    { "ARTIBOX" }, // none
-    { "ARTIINVU" }, // invulnerability
-    { "ARTIINVS" }, // invisibility
-    { "ARTIPTN2" }, // health
-    { "ARTISPHL" }, // superhealth
-    { "ARTIPWBK" }, // tomeofpower
-    { "ARTITRCH" }, // torch
-    { "ARTIFBMB" }, // firebomb
-    { "ARTIEGGC" }, // egg
-    { "ARTISOAR" }, // fly
-    { "ARTIATLP" }  // teleport
-};
-
-dboolean                    inventory = false;
-int                         artifactflash = 0;
-int                         curpos = 0;
-int                         inv_ptr = 0;
-
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;
 
@@ -344,23 +295,6 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 
 cheatseq_t cheat_buddha = CHEAT("mumu", 0);
-
-cheatseq_t hcheat_god = CHEAT("quicken", 0);
-cheatseq_t hcheat_noclip = CHEAT("kitty", 0);
-cheatseq_t hcheat_weapons = CHEAT("rambo", 0);
-cheatseq_t hcheat_power = CHEAT("shazam", 0);
-cheatseq_t hcheat_health = CHEAT("ponce", 0);
-cheatseq_t hcheat_keys = CHEAT("skel", 0);
-cheatseq_t hcheat_sound = CHEAT("noise", 0);
-cheatseq_t hcheat_ticker = CHEAT("ticker", 0);
-cheatseq_t hcheat_artifact1 = CHEAT("gimme", 0);
-cheatseq_t hcheat_artifact2 = CHEAT("gimme", 0);
-cheatseq_t hcheat_artifact3 = CHEAT("gimme", 0);
-cheatseq_t hcheat_warp = CHEAT("engage", 0);
-cheatseq_t hcheat_warp_xy = CHEAT("engage", 2);
-cheatseq_t hcheat_chicken = CHEAT("cockadoodledoo", 0);
-cheatseq_t hcheat_massacre = CHEAT("massacre", 0);
-cheatseq_t hcheat_amap = CHEAT("ravmap", 0);
 
 static dboolean movekey(char key)
 {
@@ -453,62 +387,13 @@ static const int mus[IDMUS_MAX][6] =
 //
 // STATUS BAR CODE
 //
-
-static void DrSmallNumber(int val, int x, int y)
-{
-    if (val == 1)
-        return;
-
-    if (val > 9)
-        V_DrawPatch(x, y, 0, shortnum[val / 10]);
-
-    V_DrawPatch(x + 4, y, 0, shortnum[val % 10]);
-}
-
-static void ShadeLine(int x, int y, int height, int shade)
-{
-    byte    *dest = screens[0] + y * SCREENWIDTH + x;
-    byte    *shades = colormaps[0] + 9 * 256 + shade * 2 * 256;
-
-    while (height--)
-    {
-        *dest = *(shades + *dest);
-        dest += SCREENWIDTH;
-    }
-}
-
-static void ShadeChain(void)
-{
-    for (int i = 0; i < 32; i++)
-    {
-        ShadeLine(554 + i, 380, 20, i / 4);
-        ShadeLine(38 + i, 380, 20, 7 - (i / 4));
-    }
-}
-
 static int ST_calcPainOffset(void);
 
 static void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        if (gamemission == heretic)
-        {
-            int chainy = ((healthmarker == viewplayer->mo->health) ? 191 : 191 + chainwiggle);
-            int healthpos = BETWEEN(0, healthmarker, 100) * 256 / 100;
-
-            V_DrawPatch(0, 158, 0, barback);
-            V_DrawPatch(34, 160, 0, (inventory ? invbar : lifebar));
-            V_DrawPatch(0, 148, 0, ltfctop);
-            V_DrawPatch(290, 148, 0, rtfctop);
-            V_DrawPatch(0, 190, 0, chainback);
-            V_DrawPatch(2 + (healthpos % 17), chainy, 0, chain);
-            V_DrawPatch(17 + healthpos, chainy, 0, lifegem);
-            V_DrawPatch(0, 190, 0, ltface);
-            V_DrawPatch(276, 190, 0, rtface);
-            ShadeChain();
-        }
-        else if (STBAR >= 3 || r_detail == r_detail_low || SCREENSCALE == 1)
+        if (STBAR >= 3 || r_detail == r_detail_low || SCREENSCALE == 1)
         {
             V_DrawPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
@@ -541,56 +426,6 @@ extern char     cheatkey;
 extern int      episode;
 extern menu_t   EpiDef;
 
-static void ST_GodModeCheat(void)
-{
-    if (viewplayer->health <= 0)
-        P_ResurrectPlayer(initial_health);
-
-    viewplayer->cheats ^= CF_GODMODE;
-
-    if (viewplayer->cheats & CF_GODMODE)
-    {
-        oldhealth = viewplayer->health;
-        P_GiveBody(god_health, false);
-        HU_PlayerMessage((gamemission == heretic ? s_STSTR_GODON : s_STSTR_DQDON), false);
-
-        if (!consoleactive)
-            message_dontfuckwithme = true;
-
-        S_StartSound(NULL, SFX_GETPOW);
-        stat_cheated = SafeAdd(stat_cheated, 1);
-        viewplayer->cheated++;
-    }
-    else
-    {
-        HU_PlayerMessage((gamemission == heretic ? s_STSTR_GODOFF : s_STSTR_DQDOFF), false);
-
-        if (!consoleactive)
-            message_dontfuckwithme = true;
-
-        viewplayer->health = oldhealth;
-        viewplayer->mo->health = oldhealth;
-        S_StartSound(NULL, SFX_GETPOW);
-    }
-}
-
-static void ST_NoClippingModeCheat(void)
-{
-    viewplayer->cheats ^= CF_NOCLIP;
-    HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
-
-    if (!consoleactive)
-        message_dontfuckwithme = true;
-
-    S_StartSound(NULL, SFX_GETPOW);
-
-    if (viewplayer->cheats & CF_NOCLIP)
-    {
-        stat_cheated = SafeAdd(stat_cheated, 1);
-        viewplayer->cheated++;
-    }
-}
-
 // Respond to keyboard input events,
 //  intercept cheats.
 dboolean ST_Responder(event_t *ev)
@@ -606,35 +441,54 @@ dboolean ST_Responder(event_t *ev)
             // 'dqd' cheat for toggleable god mode
             if (cht_CheckCheat(&cheat_god, ev->data2) && gameskill != sk_nightmare)
             {
-                if (gamemission == heretic)
-                {
-                    if (viewplayer->health > 0)
-                    {
-                        P_DamageMobj(viewplayer->mo, NULL, viewplayer->mo, 10000, false);
-                        C_Input(cheat_god.sequence);
-                        HU_PlayerMessage(s_STSTR_CHEATIDDQD, false);
+                // [BH] if player is dead, resurrect them first
+                if (viewplayer->health <= 0)
+                    P_ResurrectPlayer(initial_health);
 
-                        if (!consoleactive)
-                            message_dontfuckwithme = true;
-                    }
+                viewplayer->cheats ^= CF_GODMODE;
+
+                if (viewplayer->cheats & CF_GODMODE)
+                {
+                    // [BH] remember player's current health,
+                    //  and only set to 100% if less than 100%
+                    oldhealth = viewplayer->health;
+                    P_GiveBody(god_health, false);
+
+                    C_Input(cheat_god.sequence);
+
+                    HU_PlayerMessage(s_STSTR_DQDON, false);
+
+                    // [BH] always display message
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+
+                    // [BH] play sound
+                    S_StartSound(NULL, sfx_getpow);
+
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    viewplayer->cheated++;
                 }
                 else
                 {
                     C_Input(cheat_god.sequence);
-                    ST_GodModeCheat();
+
+                    HU_PlayerMessage(s_STSTR_DQDOFF, false);
+
+                    // [BH] always display message
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+
+                    // [BH] restore player's health
+                    viewplayer->health = oldhealth;
+                    viewplayer->mo->health = oldhealth;
+
+                    // [BH] play sound
+                    S_StartSound(NULL, sfx_getpow);
                 }
             }
 
-            // 'quicken' cheat for toggleable god mode
-            else if (cht_CheckCheat(&hcheat_god, ev->data2) && gameskill != sk_nightmare && gamemission == heretic)
-            {
-                C_Input(hcheat_god.sequence);
-                ST_GodModeCheat();
-            }
-
             // 'fa' cheat for killer fucking arsenal
-            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare
-                     && viewplayer->health > 0 && gamemission != heretic)
+            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
                 dboolean    ammogiven = false;
                 dboolean    armorgiven = false;
@@ -683,7 +537,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, SFX_GETPOW);
+                    S_StartSound(NULL, sfx_getpow);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
@@ -693,103 +547,15 @@ dboolean ST_Responder(event_t *ev)
             // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0 && !viewplayer->chickentics)
-            {
-                if (gamemission == heretic)
-                {
-                    dboolean    weapons = false;
-
-                    for (int i = 1; i < 8; i++)
-                        if (viewplayer->weaponowned[i])
-                        {
-                            weapons = true;
-                            break;
-                        }
-
-                    if (weapons)
-                    {
-                        for (int i = 1; i < 8; i++)
-                            viewplayer->weaponowned[i] = false;
-
-                        viewplayer->pendingweapon = (weapontype_t)wp_staff;
-
-                        C_Input(cheat_god.sequence);
-
-                        HU_PlayerMessage(s_STSTR_CHEATIDKFA, false);
-
-                        if (!consoleactive)
-                            message_dontfuckwithme = true;
-                    }
-                }
-                else
-                {
-                    dboolean    ammogiven = false;
-                    dboolean    armorgiven = false;
-                    dboolean    berserkgiven = false;
-                    dboolean    keysgiven = false;
-                    dboolean    weaponsgiven = false;
-
-                    // [BH] note if doesn't have full armor before giving it
-                    if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
-                    {
-                        armorgiven = true;
-                        viewplayer->armorpoints = idkfa_armor;
-                        viewplayer->armortype = idkfa_armor_class;
-                    }
-
-                    // [BH] note if any weapons given that player didn't have already
-                    weaponsgiven = P_GiveAllWeapons();
-
-                    // [BH] give player a berserk power-up so they can still use fists
-                    berserkgiven = P_GivePower(pw_strength);
-
-                    // [BH] give player a backpack if they don't have one
-                    P_GiveBackpack(false, false);
-
-                    ammogiven = P_GiveFullAmmo(false);
-
-                    // [BH] only give the player the keycards or skull keys from the
-                    //  current level, and note if any keys given
-                    keysgiven = P_GiveAllCardsInMap();
-
-                    // [BH] show evil grin if player was given any new weapons
-                    if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                        && (!vid_widescreen || (r_hud && !r_althud)))
-                    {
-                        st_facecount = ST_EVILGRINCOUNT;
-                        st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
-                    }
-
-                    // [BH] only acknowledge cheat if player was given something
-                    if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
-                    {
-                        // [BH] flash screen
-                        P_AddBonus();
-
-                        C_Input(cheat_ammo.sequence);
-
-                        HU_PlayerMessage(s_STSTR_KFAADDED, false);
-
-                        // [BH] always display message
-                        if (!consoleactive)
-                            message_dontfuckwithme = true;
-
-                        // [BH] play sound
-                        S_StartSound(NULL, SFX_GETPOW);
-
-                        stat_cheated = SafeAdd(stat_cheated, 1);
-                        viewplayer->cheated++;
-                    }
-                }
-            }
-
-            else if (cht_CheckCheat(&hcheat_weapons, ev->data2) && gameskill != sk_nightmare
-                && viewplayer->health > 0 && gamemission == heretic)
+                     && viewplayer->health > 0)
             {
                 dboolean    ammogiven = false;
                 dboolean    armorgiven = false;
+                dboolean    berserkgiven = false;
+                dboolean    keysgiven = false;
                 dboolean    weaponsgiven = false;
 
+                // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
                 {
                     armorgiven = true;
@@ -797,56 +563,53 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->armortype = idkfa_armor_class;
                 }
 
+                // [BH] note if any weapons given that player didn't have already
                 weaponsgiven = P_GiveAllWeapons();
+
+                // [BH] give player a berserk power-up so they can still use fists
+                berserkgiven = P_GivePower(pw_strength);
+
+                // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
+
                 ammogiven = P_GiveFullAmmo(false);
 
-                if (ammogiven || armorgiven || weaponsgiven)
-                {
-                    P_AddBonus();
-                    C_Input(hcheat_weapons.sequence);
-                    HU_PlayerMessage(s_STSTR_CHEATWEAPONS, false);
+                // [BH] only give the player the keycards or skull keys from the
+                //  current level, and note if any keys given
+                keysgiven = P_GiveAllCardsInMap();
 
+                // [BH] show evil grin if player was given any new weapons
+                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
+                    && (!vid_widescreen || (r_hud && !r_althud)))
+                {
+                    st_facecount = ST_EVILGRINCOUNT;
+                    st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
+                }
+
+                // [BH] only acknowledge cheat if player was given something
+                if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
+                {
+                    // [BH] flash screen
+                    P_AddBonus();
+
+                    C_Input(cheat_ammo.sequence);
+
+                    HU_PlayerMessage(s_STSTR_KFAADDED, false);
+
+                    // [BH] always display message
                     if (!consoleactive)
                         message_dontfuckwithme = true;
 
-                    S_StartSound(NULL, SFX_GETPOW);
+                    // [BH] play sound
+                    S_StartSound(NULL, sfx_getpow);
+
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
-            }
-
-            else if (cht_CheckCheat(&hcheat_keys, ev->data2) && gameskill != sk_nightmare
-                && viewplayer->health > 0 && gamemission == heretic)
-            {
-                if (P_GiveAllCardsInMap())
-                {
-                    P_AddBonus();
-                    C_Input(hcheat_keys.sequence);
-                    HU_PlayerMessage(s_STSTR_CHEATKEYS, false);
-
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
-
-                    S_StartSound(NULL, SFX_GETPOW);
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
-                }
-            }
-
-            // massacre cheat
-            else if (cht_CheckCheat(&hcheat_massacre, ev->data2) && gameskill != sk_nightmare
-                && gamemission == heretic)
-            {
-                C_Input(hcheat_massacre.sequence);
-                kill_cmd_func2("kill", "all");
-                S_StartSound(NULL, SFX_GETPOW);
-                stat_cheated = SafeAdd(stat_cheated, 1);
-                viewplayer->cheated++;
             }
 
             // 'mus' cheat for changing music
-            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2) && !nomusic && musicVolume && gamemission != heretic)
+            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2) && !nomusic && musicVolume)
             {
                 char   buf[3];
 
@@ -886,7 +649,7 @@ dboolean ST_Responder(event_t *ev)
                                 message_dontfuckwithme = true;
 
                             // [BH] play sound
-                            S_StartSound(NULL, SFX_GETPOW);
+                            S_StartSound(NULL, sfx_getpow);
 
                             stat_cheated = SafeAdd(stat_cheated, 1);
                             viewplayer->cheated++;
@@ -900,23 +663,30 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // no clipping mode cheat
-            else if (cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial
-                     && gameskill != sk_nightmare && gamemission != heretic && viewplayer->health > 0)
+            else if (((cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial)
+                || (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial))
+                && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
-                C_Input(cheat_noclip.sequence);
-                ST_NoClippingModeCheat();
-            }
-            else if (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial
-                && gameskill != sk_nightmare && gamemission != heretic && viewplayer->health > 0)
-            {
-                C_Input(cheat_commercial_noclip.sequence);
-                ST_NoClippingModeCheat();
-            }
-            else if (cht_CheckCheat(&hcheat_noclip, ev->data2) && gameskill != sk_nightmare
-                && gamemission == heretic && viewplayer->health > 0)
-            {
-                C_Input(hcheat_noclip.sequence);
-                ST_NoClippingModeCheat();
+                viewplayer->cheats ^= CF_NOCLIP;
+
+                C_Input(gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence);
+
+                HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
+
+                // [BH] always display message
+                if (!consoleactive)
+                    message_dontfuckwithme = true;
+
+                // [BH] play sound
+                S_StartSound(NULL, sfx_getpow);
+
+                if (viewplayer->cheats & CF_NOCLIP)
+                {
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    viewplayer->cheated++;
+                }
             }
 
             // 'behold?' power-up cheats
@@ -1032,7 +802,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, SFX_GETPOW);
+                    S_StartSound(NULL, sfx_getpow);
 
                     idbehold = false;
                     return true;
@@ -1089,7 +859,7 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, SFX_GETPOW);
+                    S_StartSound(NULL, sfx_getpow);
 
                     viewplayer->cheats |= CF_CHOPPERS;
 
@@ -1129,7 +899,7 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] play sound
-                S_StartSound(NULL, SFX_GETPOW);
+                S_StartSound(NULL, sfx_getpow);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 viewplayer->cheated++;
@@ -1151,51 +921,13 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] play sound
-                S_StartSound(NULL, SFX_GETPOW);
+                S_StartSound(NULL, sfx_getpow);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 viewplayer->cheated++;
             }
 
-            else if (cht_CheckCheat(&hcheat_chicken, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0
-                && gamemission == heretic)
-            {
-                C_Input(hcheat_chicken.sequence);
-
-                if (viewplayer->chickentics)
-                {
-                    if (P_UndoPlayerChicken())
-                    {
-                        HU_PlayerMessage(s_STSTR_CHEATCHICKENOFF, false);
-
-                        if (!consoleactive)
-                            message_dontfuckwithme = true;
-                    }
-                }
-                else if (P_ChickenMorphPlayer())
-                {
-                    HU_PlayerMessage(s_STSTR_CHEATCHICKENON, false);
-
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
-                }
-
-                // [BH] play sound
-                S_StartSound(NULL, SFX_GETPOW);
-
-                stat_cheated = SafeAdd(stat_cheated, 1);
-                viewplayer->cheated++;
-            }
-
-            else if (cht_CheckCheat(&hcheat_ticker, ev->data2) && gamemission == heretic)
-            {
-                C_Input(hcheat_ticker.sequence);
-                vid_showfps = !vid_showfps;
-                S_StartSound(NULL, SFX_GETPOW);
-            }
-
-            else if ((automapactive || mapwindow) && ((gamemission != heretic && cht_CheckCheat(&cheat_amap, ev->data2))
-                || (gamemission == heretic && cht_CheckCheat(&hcheat_amap, ev->data2))))
+            else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
             {
                 if (viewplayer->cheats & CF_ALLMAP)
                 {
@@ -1215,26 +947,24 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheated++;
                 }
 
-                S_StartSound(NULL, SFX_GETPOW);
+                S_StartSound(NULL, sfx_getpow);
             }
         }
 
         // 'clev' change-level cheat
         if (!menuactive && !paused)
         {
-            if (!consolecheat[0] && ((cht_CheckCheat(&cheat_clev, ev->data2) && gamemission != heretic)
-                || (cht_CheckCheat(&hcheat_warp, ev->data2) && gamemission == heretic)))
+            if (!consolecheat[0] && cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;
 
-            if ((cht_CheckCheat(&cheat_clev_xy, ev->data2) && gamemission != heretic)
-                || (cht_CheckCheat(&hcheat_warp_xy, ev->data2) && gamemission == heretic))
+            if (cht_CheckCheat(&cheat_clev_xy, ev->data2))
             {
                 char   buf[3];
                 char   lump[6];
                 int    epsd;
                 int    map;
 
-                cht_GetParam((gamemission == heretic ? &hcheat_warp_xy : &cheat_clev_xy), buf);
+                cht_GetParam(&cheat_clev_xy, buf);
 
                 if (gamemode == commercial)
                 {
@@ -1263,7 +993,7 @@ dboolean ST_Responder(event_t *ev)
                     static char message[128];
                     static char prevlump[6];
 
-                    C_Input("%s%c%c", (gamemission == heretic ? hcheat_warp_xy.sequence : cheat_clev_xy.sequence), buf[0], buf[1]);
+                    C_Input("%s%c%c", cheat_clev_xy.sequence, buf[0], buf[1]);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2), buf[0], buf[1]);
@@ -1280,7 +1010,7 @@ dboolean ST_Responder(event_t *ev)
                     message_dontfuckwithme = true;
 
                     // [BH] play sound
-                    S_StartSound(NULL, SFX_GETPOW);
+                    S_StartSound(NULL, sfx_getpow);
 
                     // [BH] delay map change by 1 second to allow message to be displayed
                     samelevel = (gameepisode == epsd && gamemap == map);
@@ -1490,7 +1220,7 @@ static void ST_updateWidgets(void)
 {
     static int      largeammo = 1994;   // means "n/a"
     weapontype_t    readyweapon = viewplayer->readyweapon;
-    ammotype_t      ammotype = (gamemission == heretic ? wpnlev1info[readyweapon].ammotype : weaponinfo[readyweapon].ammotype);
+    ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
 
     w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammotype]);
     w_ready.data = readyweapon;
@@ -1506,7 +1236,7 @@ static void ST_updateWidgets(void)
 
     // refresh everything if this is him coming back to life
     // [BH] but only if not paused and no menu
-    if (!freeze && !paused && !menuactive && !consoleactive && gamemission != heretic)
+    if (!freeze && !paused && !menuactive && !consoleactive)
         ST_updateFaceWidget();
 }
 
@@ -1522,12 +1252,8 @@ void ST_Ticker(void)
         }
         else if (r_hud && !paused && !menuactive && !consoleactive)
         {
-            if (gamemission != heretic)
-            {
-                st_randomnumber = M_Random();
-                ST_updateFaceWidget();
-            }
-
+            st_randomnumber = M_Random();
+            ST_updateFaceWidget();
             st_oldhealth = viewplayer->health;
         }
     }
@@ -1541,19 +1267,6 @@ void ST_Ticker(void)
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         }
-
-    if (gamemission == heretic)
-    {
-        int health = MAX(0, viewplayer->mo->health);
-
-        if ((leveltime & 1) && health > 0)
-            chainwiggle = M_Random() & 1;
-
-        if (health < healthmarker)
-            healthmarker -= BETWEEN(1, (healthmarker - health) >> 2, 8);
-        else if (health > healthmarker)
-            healthmarker += BETWEEN(1, (health - healthmarker) >> 2, 8);
-    }
 }
 
 int st_palette = 0;
@@ -1594,64 +1307,6 @@ static void ST_doPaletteStuff(void)
 
 static void ST_drawWidgets(dboolean refresh)
 {
-    if (gamemission == heretic)
-    {
-        if (inventory)
-        {
-            int x = inv_ptr - curpos;
-
-            for (int i = 0; i < 7; i++)
-                if (viewplayer->inventoryslotnum > x + i && viewplayer->inventory[x + i].type != arti_none)
-                {
-                    V_DrawPatch(50 + i * 31, 160, 0, W_CacheLumpName(patcharti[viewplayer->inventory[x + i].type]));
-                    DrSmallNumber(viewplayer->inventory[x + i].count, 69 + i * 31, 182);
-                }
-
-            V_DrawPatch(50 + curpos * 31, 189, 0, selectbox);
-
-            if (x)
-                V_DrawPatch(38, 159, 0, (!(leveltime & 4) ? invgeml1 : invgeml2));
-
-            if (viewplayer->inventoryslotnum - x > 7)
-                V_DrawPatch(269, 159, 0, (!(leveltime & 4) ? invgemr1 : invgemr2));
-        }
-        else
-        {
-            STlib_updatePercent(&w_health, refresh);
-            STlib_updatePercent(&w_armor, refresh);
-
-            STlib_updateBigNum(&w_ready);
-
-            if (artifactflash)
-            {
-                V_DrawPatch(182, 161, 0, W_CacheLumpNum(W_GetNumForName("USEARTIA") + artifactflash - 1));
-                artifactflash--;
-            }
-            else if (viewplayer->readyartifact > 0)
-            {
-                V_DrawPatch(179, 160, 0, W_CacheLumpName(patcharti[viewplayer->readyartifact]));
-                DrSmallNumber(viewplayer->inventory[inv_ptr].count, 201, 182);
-            }
-
-            if (wpnlev1info[viewplayer->readyweapon].ammotype != am_noammo && viewplayer->health > 0)
-                V_DrawPatch(111, 172, 0, W_CacheLumpName(ammopic[viewplayer->readyweapon - 1]));
-
-            if (viewplayer->cards[it_yellowcard] > 0)
-                V_DrawPatch(153, 164, 0, W_CacheLumpName("YKEYICON"));
-
-            if (viewplayer->cards[it_redcard] > 0)
-                V_DrawPatch(153, 172, 0, W_CacheLumpName("GKEYICON"));
-
-            if (viewplayer->cards[it_bluecard] > 0)
-                V_DrawPatch(153, 180, 0, W_CacheLumpName("BKEYICON"));
-        }
-
-        return;
-    }
-
-    STlib_updatePercent(&w_health, refresh);
-    STlib_updatePercent(&w_armor, refresh);
-
     STlib_updateBigNum(&w_ready);
 
     for (int i = 0; i < 4; i++)
@@ -1659,6 +1314,9 @@ static void ST_drawWidgets(dboolean refresh)
         STlib_updateSmallNum(&w_ammo[i]);
         STlib_updateSmallNum(&w_maxammo[i]);
     }
+
+    STlib_updatePercent(&w_health, refresh);
+    STlib_updatePercent(&w_armor, refresh);
 
     shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
@@ -1718,136 +1376,94 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
+    int     facenum = 0;
     char    namebuf[9];
 
     // Load the numbers, tall and short
-    if (gamemission == heretic)
+    for (int i = 0; i < 10; i++)
     {
-        for (int i = 0; i < 10; i++)
-        {
-            M_snprintf(namebuf, sizeof(namebuf), "IN%i", i);
-            callback(namebuf, &tallnum[i]);
-            M_snprintf(namebuf, sizeof(namebuf), "FONTB%02i", i + 16);
-            callback(namebuf, &tallnum2[i]);
-            M_snprintf(namebuf, sizeof(namebuf), "SMALLIN%i", i);
-            callback(namebuf, &shortnum[i]);
-        }
-
-        callback("FONTB05", &tallpercent);
-        callback("LIFEBAR", &lifebar);
-        callback("INVBAR", &invbar);
-        callback("SELECTBO", &selectbox);
-        callback("INVGEML1", &invgeml1);
-        callback("INVGEML2", &invgeml2);
-        callback("INVGEMR1", &invgemr1);
-        callback("INVGEMR2", &invgemr2);
-        callback("BARBACK", &barback);
-        callback("LTFCTOP", &ltfctop);
-        callback("RTFCTOP", &rtfctop);
-        callback("CHAIN", &chain);
-        callback("CHAINBAC", &chainback);
-        callback("LIFEGEM2", &lifegem);
-        callback("LTFACE", &ltface);
-        callback("RTFACE", &rtface);
-
-        // back screen
-        callback((gamemode == shareware ? "FLOOR04" : "FLAT513"), &grnrock);
-        callback("BORDT", &brdr_t);
-        callback("BORDB", &brdr_b);
-        callback("BORDL", &brdr_l);
-        callback("BORDR", &brdr_r);
-        callback("BORDTL", &brdr_tl);
-        callback("BORDTR", &brdr_tr);
-        callback("BORDBL", &brdr_bl);
-        callback("BORDBR", &brdr_br);
+        M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
+        callback(namebuf, &tallnum[i]);
+        M_snprintf(namebuf, sizeof(namebuf), "STYSNUM%i", i);
+        callback(namebuf, &shortnum[i]);
     }
-    else
+
+    callback("STTPRCNT", &tallpercent);
+    emptytallpercent = V_EmptyPatch(tallpercent);
+    tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
+
+    // key cards
+    for (int i = 0; i < 6; i++)
     {
-        int facenum = 0;
-
-        for (int i = 0; i < 10; i++)
-        {
-            M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
-            callback(namebuf, &tallnum[i]);
-            M_snprintf(namebuf, sizeof(namebuf), "STYSNUM%i", i);
-            callback(namebuf, &shortnum[i]);
-        }
-
-        callback("STTPRCNT", &tallpercent);
-
-        // key cards
-        for (int i = 0; i < 6; i++)
-        {
-            M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
-            callback(namebuf, &keys[i]);
-        }
-
-        // arms background
-        callback("STARMS", &armsbg);
-        callback("STARMS2", &armsbg2);
-
-        armsbg->leftoffset = 0;
-        armsbg->topoffset = 0;
-        armsbg2->leftoffset = 0;
-        armsbg2->topoffset = 0;
-
-        // arms ownership widgets
-        // [BH] now manually drawn
-        for (int i = 0; i < 6; i++)
-        {
-            M_snprintf(namebuf, sizeof(namebuf), "STGNUM%i", i + 2);
-
-            // gray #
-            callback(namebuf, &arms[i][0]);
-
-            // yellow #
-            arms[i][1] = shortnum[i + 2];
-        }
-
-        // status bar background bits
-        callback("STBAR", &sbar);
-        callback("STBAR2", &sbar2); // [BH] double resolution
-
-        sbar->leftoffset = 0;
-        sbar->topoffset = 0;
-        sbar2->leftoffset = 0;
-        sbar2->topoffset = 0;
-
-        // face states
-        for (int i = 0; i < ST_NUMPAINFACES; i++)
-        {
-            for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)
-            {
-                M_snprintf(namebuf, sizeof(namebuf), "STFST%i%i", i, j);
-                callback(namebuf, &faces[facenum++]);
-            }
-
-            M_snprintf(namebuf, sizeof(namebuf), "STFTR%i0", i);          // turn right
-            callback(namebuf, &faces[facenum++]);
-            M_snprintf(namebuf, sizeof(namebuf), "STFTL%i0", i);          // turn left
-            callback(namebuf, &faces[facenum++]);
-            M_snprintf(namebuf, sizeof(namebuf), "STFOUCH%i", i);         // ouch!
-            callback(namebuf, &faces[facenum++]);
-            M_snprintf(namebuf, sizeof(namebuf), "STFEVL%i", i);          // evil grin ;)
-            callback(namebuf, &faces[facenum++]);
-            M_snprintf(namebuf, sizeof(namebuf), "STFKILL%i", i);         // pissed off
-            callback(namebuf, &faces[facenum++]);
-        }
-
-        callback("STFGOD0", &faces[facenum++]);
-        callback("STFDEAD0", &faces[facenum++]);
-
-        // back screen
-        callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
-        callback("BRDR_T", &brdr_t);
-        callback("BRDR_B", &brdr_b);
-        callback("BRDR_L", &brdr_l);
-        callback("BRDR_R", &brdr_r);
-        callback("BRDR_TL", &brdr_tl);
-        callback("BRDR_TR", &brdr_tr);
-        callback("BRDR_BL", &brdr_bl);
-        callback("BRDR_BR", &brdr_br);
+        M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
+        callback(namebuf, &keys[i]);
     }
+
+    // arms background
+    callback("STARMS", &armsbg);
+    callback("STARMS2", &armsbg2);
+
+    armsbg->leftoffset = 0;
+    armsbg->topoffset = 0;
+    armsbg2->leftoffset = 0;
+    armsbg2->topoffset = 0;
+
+    // arms ownership widgets
+    // [BH] now manually drawn
+    for (int i = 0; i < 6; i++)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "STGNUM%i", i + 2);
+
+        // gray #
+        callback(namebuf, &arms[i][0]);
+
+        // yellow #
+        arms[i][1] = shortnum[i + 2];
+    }
+
+    // status bar background bits
+    callback("STBAR", &sbar);
+    callback("STBAR2", &sbar2); // [BH] double resolution
+
+    sbar->leftoffset = 0;
+    sbar->topoffset = 0;
+    sbar2->leftoffset = 0;
+    sbar2->topoffset = 0;
+
+    // face states
+    for (int i = 0; i < ST_NUMPAINFACES; i++)
+    {
+        for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)
+        {
+            M_snprintf(namebuf, sizeof(namebuf), "STFST%i%i", i, j);
+            callback(namebuf, &faces[facenum++]);
+        }
+
+        M_snprintf(namebuf, sizeof(namebuf), "STFTR%i0", i);          // turn right
+        callback(namebuf, &faces[facenum++]);
+        M_snprintf(namebuf, sizeof(namebuf), "STFTL%i0", i);          // turn left
+        callback(namebuf, &faces[facenum++]);
+        M_snprintf(namebuf, sizeof(namebuf), "STFOUCH%i", i);         // ouch!
+        callback(namebuf, &faces[facenum++]);
+        M_snprintf(namebuf, sizeof(namebuf), "STFEVL%i", i);          // evil grin ;)
+        callback(namebuf, &faces[facenum++]);
+        M_snprintf(namebuf, sizeof(namebuf), "STFKILL%i", i);         // pissed off
+        callback(namebuf, &faces[facenum++]);
+    }
+
+    callback("STFGOD0", &faces[facenum++]);
+    callback("STFDEAD0", &faces[facenum++]);
+
+    // back screen
+    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
+    callback("BRDR_T", &brdr_t);
+    callback("BRDR_B", &brdr_b);
+    callback("BRDR_L", &brdr_l);
+    callback("BRDR_R", &brdr_r);
+    callback("BRDR_TL", &brdr_tl);
+    callback("BRDR_TR", &brdr_tr);
+    callback("BRDR_BL", &brdr_bl);
+    callback("BRDR_BR", &brdr_br);
 
     // [BH] fix display of viewborder for wads that have these patches without offsets
     brdr_t->leftoffset = 0;
@@ -1866,9 +1482,6 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     brdr_bl->topoffset = 0;
     brdr_br->leftoffset = 0;
     brdr_br->topoffset = 0;
-
-    emptytallpercent = (gamemission == heretic || V_EmptyPatch(tallpercent));
-    tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 }
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
@@ -1909,6 +1522,16 @@ static void ST_initData(void)
 
 static void ST_createWidgets(void)
 {
+    // ready weapon ammo
+    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
+        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
+
+    // the last weapon type
+    w_ready.data = viewplayer->readyweapon;
+
+    // health percentage
+    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
+
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
 
@@ -1919,30 +1542,15 @@ static void ST_createWidgets(void)
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
-    // health, ammo and armor
-    if (gamemission == heretic)
-    {
-        STlib_initPercent(&w_health, 86, 170, tallnum, &viewplayer->health, tallpercent);
-        STlib_initPercent(&w_armor, 253, 170, tallnum, &viewplayer->armorpoints, tallpercent);
-        STlib_initNum(&w_ready, 134, 162, tallnum, &viewplayer->ammo[wpnlev1info[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
-    }
-    else
-    {
-        STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
-        STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
-        STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
-            &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
-    }
-
-    // the last weapon type
-    w_ready.data = viewplayer->readyweapon;
+    // armor percentage
+    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
 
     // keyboxes 0-2
     STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0]);
     STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1]);
     STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
-    usesmallnums = (SCREENSCALE > 1 && ((!STYSNUM0 && STBAR == 2) || gamemode == shareware));
+    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
 
     // ammo count (all four kinds)
     STlib_initNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);

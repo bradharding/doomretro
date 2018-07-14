@@ -116,201 +116,6 @@ static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
 
-int             *terraintypes;
-
-struct
-{
-    char        *name;
-    int         type;
-} terraintypedefs[] =
-{
-    { "FLTWAWA1", FLOOR_WATER  },
-    { "FLTFLWW1", FLOOR_WATER  },
-    { "FLTLAVA1", FLOOR_LAVA   },
-    { "FLATHUH1", FLOOR_LAVA   },
-    { "FLTSLUD1", FLOOR_SLUDGE },
-    { "END",      -1           }
-};
-
-#define MAX_AMBIENT_SFX 8               // Per level
-
-// Types
-
-typedef enum
-{
-    afxcmd_play,                        // (sound)
-    afxcmd_playabsvol,                  // (sound, volume)
-    afxcmd_playrelvol,                  // (sound, volume)
-    afxcmd_delay,                       // (ticks)
-    afxcmd_delayrand,                   // (andbits)
-    afxcmd_end                          // ()
-} afxcmd_t;
-
-// Data
-
-int *levelambientsfx[MAX_AMBIENT_SFX];
-int *ambsfxptr;
-int ambsfxcount;
-int ambsfxtics;
-int ambsfxvolume;
-
-// Startup
-int ambsndseqinit[] =
-{
-    afxcmd_end
-};
-
-// Scream
-int ambsndseq1[] =
-{
-    afxcmd_play, hsfx_amb1,
-    afxcmd_end
-};
-
-// Squish
-int ambsndseq2[] =
-{
-    afxcmd_play, hsfx_amb2,
-    afxcmd_end
-};
-
-// Drops
-int ambsndseq3[] =
-{
-    afxcmd_play, hsfx_amb3,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_play, hsfx_amb7,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_play, hsfx_amb3,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_play, hsfx_amb7,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_play, hsfx_amb3,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_play, hsfx_amb7,
-    afxcmd_delay, 16,
-    afxcmd_delayrand, 31,
-    afxcmd_end
-};
-
-// SlowFootSteps
-int ambsndseq4[] =
-{
-    afxcmd_play, hsfx_amb4,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 15,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_end
-};
-
-// Heartbeat
-int ambsndseq5[] =
-{
-    afxcmd_play, hsfx_amb5,
-    afxcmd_delay, 35,
-    afxcmd_play, hsfx_amb5,
-    afxcmd_delay, 35,
-    afxcmd_play, hsfx_amb5,
-    afxcmd_delay, 35,
-    afxcmd_play, hsfx_amb5,
-    afxcmd_end
-};
-
-// Bells
-int ambsndseq6[] =
-{
-    afxcmd_play, hsfx_amb6,
-    afxcmd_delay, 17,
-    afxcmd_playrelvol, hsfx_amb6, -8,
-    afxcmd_delay, 17,
-    afxcmd_playrelvol, hsfx_amb6, -8,
-    afxcmd_delay, 17,
-    afxcmd_playrelvol, hsfx_amb6, -8,
-    afxcmd_end
-};
-
-// Growl
-int ambsndseq7[] =
-{
-    afxcmd_play, hsfx_bstsit,
-    afxcmd_end
-};
-
-// Magic
-int ambsndseq8[] =
-{
-    afxcmd_play, hsfx_amb8,
-    afxcmd_end
-};
-
-// Laughter
-int ambsndseq9[] =
-{
-    afxcmd_play, hsfx_amb9,
-    afxcmd_delay, 16,
-    afxcmd_playrelvol, hsfx_amb9, -4,
-    afxcmd_delay, 16,
-    afxcmd_playrelvol, hsfx_amb9, -4,
-    afxcmd_delay, 16,
-    afxcmd_playrelvol, hsfx_amb10, -4,
-    afxcmd_delay, 16,
-    afxcmd_playrelvol, hsfx_amb10, -4,
-    afxcmd_delay, 16,
-    afxcmd_playrelvol, hsfx_amb10, -4,
-    afxcmd_end
-};
-
-// FastFootsteps
-int ambsndseq10[] =
-{
-    afxcmd_play, hsfx_amb4,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb4, -3,
-    afxcmd_delay, 8,
-    afxcmd_playrelvol, hsfx_amb11, -3,
-    afxcmd_end
-};
-
-int *ambientsfx[] =
-{
-    ambsndseq1,                         // Scream
-    ambsndseq2,                         // Squish
-    ambsndseq3,                         // Drops
-    ambsndseq4,                         // SlowFootsteps
-    ambsndseq5,                         // Heartbeat
-    ambsndseq6,                         // Bells
-    ambsndseq7,                         // Growl
-    ambsndseq8,                         // Magic
-    ambsndseq9,                         // Laughter
-    ambsndseq10                         // FastFootsteps
-};
-
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
@@ -334,33 +139,6 @@ short           bloodstart;
 short           bloodend;
 short           slimestart;
 short           slimeend;
-
-mobj_t          lavainflictor;
-
-void P_Thrust(angle_t angle, fixed_t move);
-
-void P_InitLava(void)
-{
-    memset(&lavainflictor, 0, sizeof(mobj_t));
-    lavainflictor.type = HMT_PHOENIXFX2;
-    lavainflictor.flags3 = (MF3_FIREDAMAGE | MF3_NODMGTHRUST);
-}
-
-void P_InitTerrainTypes(void)
-{
-    int size = (numflats + 1) * sizeof(int);
-
-    terraintypes = Z_Malloc(size, PU_STATIC, 0);
-    memset(terraintypes, 0, size);
-
-    for (int i = 0; terraintypedefs[i].type != -1; i++)
-    {
-        int lump = W_CheckNumForName(terraintypedefs[i].name);
-
-        if (lump != -1)
-            terraintypes[lump - firstflat] = terraintypedefs[i].type;
-    }
-}
 
 //
 // P_InitPicAnims
@@ -408,26 +186,13 @@ void P_InitPicAnims(void)
     }
 }
 
-animdef_t hanimdefs[] =
-{
-    { false, "FLTWAWA3", "FLTWAWA1", 8 },   // Water
-    { false, "FLTSLUD3", "FLTSLUD1", 8 },   // Sludge
-    { false, "FLTTELE4", "FLTTELE1", 6 },   // Teleport
-    { false, "FLTFLWW3", "FLTFLWW1", 9 },   // River - West
-    { false, "FLTLAVA4", "FLTLAVA1", 8 },   // Lava
-    { false, "FLATHUH4", "FLATHUH1", 8 },   // Super Lava
-    { true,  "LAVAFL3",  "LAVAFL1",  6 },   // Texture: Lavaflow
-    { true,  "WATRWAL3", "WATRWAL1", 4 },   // Texture: Waterfall
-    { -1,    "",         "",         0 }
-};
-
 //
 // P_SetLiquids
 //
 void P_SetLiquids(void)
 {
     int         lump = W_GetNumForName("ANIMATED");
-    animdef_t   *animdefs = (gamemission == heretic ? hanimdefs : W_CacheLumpNum(lump));
+    animdef_t   *animdefs = W_CacheLumpNum(lump);
 
     for (int i = 0; i < numflats; i++)
         isliquid[i] = false;
@@ -485,8 +250,7 @@ void P_SetLiquids(void)
         lastanim++;
     }
 
-    if (gamemission != heretic)
-        W_UnlockLumpNum(lump);
+    W_UnlockLumpNum(lump);
 
     // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
     SC_Open("DRCOMPAT");
@@ -1110,7 +874,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1129,7 +893,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1148,7 +912,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1167,7 +931,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
             }
@@ -1187,7 +951,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1206,7 +970,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1225,7 +989,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1239,7 +1003,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1250,7 +1014,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(viewplayer->mo, SFX_NOWAY);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1738,9 +1502,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Stairs_RaiseBy16_Fast:
-            if (gamemission == heretic)
-                EV_DoDoor(line, doorBlazeRaise, VDOORSPEED * 3);
-            else if (EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true))
+            if (EV_BuildStairs(line, FLOORSPEED * 4, 16 * FRACUNIT, true))
                 line->special = 0;
 
             break;
@@ -1910,14 +1672,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_OpenStay_Fast:
-            if (gamemission == heretic)
-            {
-                if (EV_BuildStairs(line, FLOORSPEED, 16 * FRACUNIT, false))
-                    line->special = 0;
-            }
-            else
-                EV_DoDoor(line, doorBlazeOpen, VDOORSPEED * 4);
-
+            EV_DoDoor(line, doorBlazeOpen, VDOORSPEED * 4);
             break;
 
         case WR_Door_CloseStay_Fast:
@@ -2338,87 +2093,8 @@ void P_PlayerInSpecialSector(void)
 {
     sector_t    *sector = viewplayer->mo->subsector->sector;
 
-    if (gamemission == heretic)
-    {
-        static int pushtab[5] =
-        {
-            2048 * 5,
-            2048 * 10,
-            2048 * 25,
-            2048 * 30,
-            2048 * 35
-        };
-
-        switch (sector->special)
-        {
-            case DamageNegative2Or5PercentHealth:
-                if (!(leveltime & 31))
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 4, true);
-
-                break;
-
-            case DamageNegative5Or10PercentHealth:
-                if (!(leveltime & 15))
-                {
-                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 5, true);
-                    P_HitFloor(viewplayer->mo);
-                }
-
-                break;
-
-            case DamageNegative10Or20PercentHealth:
-                if (!(leveltime & 15))
-                {
-                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 8, true);
-                    P_HitFloor(viewplayer->mo);
-                }
-
-                break;
-
-            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                P_Thrust(0, 2048 * 28);
-
-                if (!(leveltime & 15))
-                {
-                    P_DamageMobj(viewplayer->mo, &lavainflictor, NULL, 5, true);
-                    P_HitFloor(viewplayer->mo);
-                }
-
-                break;
-
-            case Secret:
-                viewplayer->secretcount++;
-                sector->special = 0;
-                break;
-
-            case ScrollNorth_Slow:
-            case ScrollNorth_Medium:
-            case ScrollNorth_Fast:
-                P_Thrust(ANG90, pushtab[sector->special - 25]);
-                break;
-
-            case ScrollEast_Slow:
-            case ScrollEast_Medium:
-            case ScrollEast_Fast:
-                P_Thrust(0, pushtab[sector->special - 20]);
-                break;
-
-            case ScrollSouth_Slow:
-            case ScrollSouth_Medium:
-            case ScrollSouth_Fast:
-                P_Thrust(ANG270, pushtab[sector->special - 30]);
-                break;
-
-            case ScrollWest_Slow:
-            case ScrollWest_Medium:
-            case ScrollWest_Fast:
-                P_Thrust(ANG180, pushtab[sector->special - 35]);
-                break;
-        }
-    }
-
     // jff add if to handle old vs generalized types
-    else if (sector->special < 32)   // regular sector specials
+    if (sector->special < 32)   // regular sector specials
     {
         switch (sector->special)
         {
@@ -3499,75 +3175,4 @@ static void P_SpawnPushers(void)
 
                 break;
         }
-}
-
-void P_InitAmbientSound(void)
-{
-    ambsfxcount = 0;
-    ambsfxvolume = 0;
-    ambsfxtics = 10 * TICRATE;
-    ambsfxptr = ambsndseqinit;
-}
-
-void P_AddAmbientSfx(int sequence)
-{
-    if (ambsfxcount == MAX_AMBIENT_SFX)
-        I_Error("Too many ambient sound sequences");
-
-    levelambientsfx[ambsfxcount++] = ambientsfx[sequence];
-}
-
-void P_AmbientSound(void)
-{
-    dboolean    done = false;
-
-    if (!ambsfxcount || --ambsfxtics)
-        return;
-
-    do
-    {
-        afxcmd_t    cmd = *ambsfxptr++;
-        int         sound;
-
-        switch (cmd)
-        {
-            case afxcmd_play:
-                ambsfxvolume = M_Random() >> 2;
-                S_StartSoundAtVolume(NULL, *ambsfxptr++, NORM_PITCH, ambsfxvolume);
-                break;
-
-            case afxcmd_playabsvol:
-                sound = *ambsfxptr++;
-                ambsfxvolume = *ambsfxptr++;
-                S_StartSoundAtVolume(NULL, sound, NORM_PITCH, ambsfxvolume);
-                break;
-
-            case afxcmd_playrelvol:
-                sound = *ambsfxptr++;
-                ambsfxvolume += *ambsfxptr++;
-                S_StartSoundAtVolume(NULL, sound, NORM_PITCH, BETWEEN(0, ambsfxvolume, 127));
-                break;
-
-            case afxcmd_delay:
-                ambsfxtics = *ambsfxptr++;
-                done = true;
-                break;
-
-            case afxcmd_delayrand:
-                ambsfxtics = M_Random() & *ambsfxptr++;
-                done = true;
-                break;
-
-            case afxcmd_end:
-                ambsfxtics = 6 * TICRATE + M_Random();
-                ambsfxptr = levelambientsfx[M_Random() % ambsfxcount];
-                done = true;
-                break;
-
-            default:
-                I_Error("P_AmbientSound: Unknown afxcmd %d", cmd);
-                break;
-        }
-    }
-    while (!done);
 }

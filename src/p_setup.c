@@ -1080,39 +1080,7 @@ static void P_LoadThings(int lump)
         mapthing_t  mt = data[i];
         dboolean    spawn = true;
 
-        if (gamemission == heretic)
-        {
-            switch (i)
-            {
-                case MaceSpheres:
-                case PileOfMaceSpheres:
-                case LesserRunes:
-                case GreaterRunes:
-                case FlameOrb:
-                case InfernoOrb:
-                case EnchantedShield:
-                case MysticUrn:
-                case ChaosDevice:
-                case PhoenixRod:
-                case Hellstaff:
-                    if (gamemode == shareware)
-                        spawn = false;
-
-                    break;
-
-                case Firemace:
-                    if (gamemode != shareware)
-                    {
-                        P_AddMaceSpot(&mt);
-                        spawn = false;
-                        break;
-                    }
-
-                default:
-                    break;
-            }
-        }
-        else if (gamemode != commercial)
+        if (gamemode != commercial)
         {
             switch (SHORT(mt.type))
             {
@@ -1182,7 +1150,7 @@ static void P_LoadThings(int lump)
                 }
 
         // Change each Wolfenstein SS into Zombiemen in BFG Edition
-        if (gamemission != heretic && mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+        if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
             mt.type = Zombieman;
 
         if (spawn)
@@ -2012,24 +1980,6 @@ void P_MapName(int ep, int map)
 
             break;
 
-        case heretic:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", ep, map);
-
-            if (*mapinfoname)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
-            {
-                mapnumonly = true;
-                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
-                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
-            }
-            else
-                M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
-
-            break;
-
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
@@ -2315,16 +2265,8 @@ void P_SetupLevel(int ep, int map)
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
     nojump = P_GetMapNoJump((ep - 1) * 10 + map);
-    P_InitAmbientSound();
-    P_InitMonsters();
-
-    if (gamemission == heretic)
-        P_OpenWeapons();
 
     P_LoadThings(lumpnum + ML_THINGS);
-
-    if (gamemission == heretic)
-        P_CloseWeapons();
 
     P_InitCards();
 
@@ -2676,18 +2618,8 @@ dboolean P_GetMapNoJump(int map)
 //
 void P_Init(void)
 {
-    if (gamemission == heretic)
-        P_InitHereticSwitchList();
-    else
-        P_InitSwitchList();
-
+    P_InitSwitchList();
     P_InitPicAnims();
-    P_InitTerrainTypes();
-    P_InitLava();
     InitMapInfo();
-
-    if (gamemission == heretic)
-        R_InitSprites(hereticsprnames, NUMHSPRITES);
-    else
-        R_InitSprites(sprnames, NUMSPRITES);
+    R_InitSprites();
 }

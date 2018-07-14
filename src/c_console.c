@@ -545,58 +545,29 @@ void C_Init(void)
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
-    if (gamemission == heretic)
-    {
-        consolebrandcolor1 = 35;
-        consolebrandcolor2 = 215;
-        consolecaretcolor = 35;
-        consolelowfpscolor = 154;
-        consolehighfpscolor = 220;
-        consoleinputcolor = 35;
-        consoleselectedinputcolor = 35;
-        consoleselectedinputbackgroundcolor = 14;
-        consoleinputtooutputcolor = 35;
-        consoletitlecolor = 25;
-        consoleplayermessagecolor = 142;
-        consoletimestampcolor = 15;
-        consoleoutputcolor = 25;
-        consoleboldcolor = 35;
-        consoleitalicscolor = 16;
-        consoleheadercolor1 = 35;
-        consoleheadercolor2 = 215;
-        consolewarningcolor = 154;
-        consolewarningboldcolor = 158;
-        consoledividercolor = 15;
-        consoleedgecolor = 215 << 8;
-        consolescrollbartrackcolor = 15 << 8;
-        consolescrollbarfacecolor = 20;
-    }
-    else
-    {
-        consolebrandcolor1 = nearestcolors[consolebrandcolor1];
-        consolebrandcolor2 = nearestcolors[consolebrandcolor2];
-        consolecaretcolor = nearestcolors[consolecaretcolor];
-        consolelowfpscolor = nearestcolors[consolelowfpscolor];
-        consolehighfpscolor = nearestcolors[consolehighfpscolor];
-        consoleinputcolor = nearestcolors[consoleinputcolor];
-        consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
-        consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
-        consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
-        consoletitlecolor = nearestcolors[consoletitlecolor];
-        consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
-        consoletimestampcolor = nearestcolors[consoletimestampcolor];
-        consoleoutputcolor = nearestcolors[consoleoutputcolor];
-        consoleboldcolor = nearestcolors[consoleboldcolor];
-        consoleitalicscolor = nearestcolors[consoleitalicscolor];
-        consoleheadercolor1 = nearestcolors[consoleheadercolor1];
-        consoleheadercolor2 = nearestcolors[consoleheadercolor2];
-        consolewarningcolor = nearestcolors[consolewarningcolor];
-        consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
-        consoledividercolor = nearestcolors[consoledividercolor];
-        consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
-        consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
-        consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
-    }
+    consolebrandcolor1 = nearestcolors[consolebrandcolor1];
+    consolebrandcolor2 = nearestcolors[consolebrandcolor2];
+    consolecaretcolor = nearestcolors[consolecaretcolor];
+    consolelowfpscolor = nearestcolors[consolelowfpscolor];
+    consolehighfpscolor = nearestcolors[consolehighfpscolor];
+    consoleinputcolor = nearestcolors[consoleinputcolor];
+    consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
+    consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
+    consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
+    consoletitlecolor = nearestcolors[consoletitlecolor];
+    consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
+    consoletimestampcolor = nearestcolors[consoletimestampcolor];
+    consoleoutputcolor = nearestcolors[consoleoutputcolor];
+    consoleboldcolor = nearestcolors[consoleboldcolor];
+    consoleitalicscolor = nearestcolors[consoleitalicscolor];
+    consoleheadercolor1 = nearestcolors[consoleheadercolor1];
+    consoleheadercolor2 = nearestcolors[consoleheadercolor2];
+    consolewarningcolor = nearestcolors[consolewarningcolor];
+    consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
+    consoledividercolor = nearestcolors[consoledividercolor];
+    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
+    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
+    consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
@@ -644,7 +615,7 @@ void C_ShowConsole(void)
     caretwait = 0;
 
     if (gamestate == GS_TITLESCREEN && !devparm)
-        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
+        S_StartSound(NULL, sfx_swtchn);
 
     SDL_StartTextInput();
 }
@@ -660,7 +631,7 @@ void C_HideConsole(void)
     {
         consoleheight = 0;
         consoleactive = false;
-        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
+        S_StartSound(NULL, sfx_swtchx);
     }
 }
 
@@ -726,12 +697,8 @@ static void C_DrawBackground(int height)
     else
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
-    if (gamemission == heretic)
-        for (int i = 0; i < height; i++)
-            screens[0][i] = tinttab50[(52 << 8) + c_blurscreen[i]];
-    else
-        for (int i = 0; i < height; i++)
-            screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
+    for (int i = 0; i < height; i++)
+        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {

@@ -593,9 +593,6 @@ char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
 char    *s_CAPTION_E1M4B = "";
 char    *s_CAPTION_E1M8B = "";
-char    *s_CAPTION_HERETIC_SHAREWARE = "";
-char    *s_CAPTION_HERETIC_REGISTERED = "";
-char    *s_CAPTION_HERETIC_RETAIL = "";
 
 char    *s_AUTHOR_BESTOR = "";
 char    *s_AUTHOR_ROMERO = "";
@@ -1213,9 +1210,6 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE3,             "CAPTION_BTSXE3"             },
     { &s_CAPTION_E1M4B,              "CAPTION_E1M4B"              },
     { &s_CAPTION_E1M8B,              "CAPTION_E1M8B"              },
-    { &s_CAPTION_HERETIC_SHAREWARE,  "CAPTION_HERETIC_SHAREWARE"  },
-    { &s_CAPTION_HERETIC_REGISTERED, "CAPTION_HERETIC_REGISTERED" },
-    { &s_CAPTION_HERETIC_RETAIL,     "CAPTION_HERETIC_RETAIL"     },
     { &s_AUTHOR_BESTOR,              "AUTHOR_BESTOR"              },
     { &s_AUTHOR_ROMERO,              "AUTHOR_ROMERO"              },
 

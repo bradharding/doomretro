@@ -98,8 +98,6 @@ typedef enum
     pack_plut,          // Plutonia pack
     pack_nerve,         // No Rest for the Living
 
-    heretic,            // Heretic
-
     none
 } GameMission_t;
 
@@ -197,21 +195,6 @@ typedef enum
     wp_nochange
 } weapontype_t;
 
-typedef enum
-{
-    wp_staff,
-    wp_goldwand,
-    wp_crossbow,
-    wp_blaster,
-    wp_skullrod,
-    wp_phoenixrod,
-    wp_mace,
-    wp_gauntlets,
-    wp_beak,
-
-    NUMHWEAPONS
-} hweapontype_t;
-
 // Ammunition types defined.
 typedef enum
 {
@@ -219,13 +202,6 @@ typedef enum
     am_shell,   // Shotgun/double-barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
-
-    am_goldwand,
-    am_crossbow,
-    am_blaster,
-    am_skullrod,
-    am_phoenixrod,
-    am_mace,
 
     NUMAMMO,
 
@@ -242,28 +218,8 @@ enum
     pw_ironfeet,
     pw_allmap,
     pw_infrared,
-    pw_weaponlevel2,
-    pw_flight,
-    pw_shield,
-    pw_health2,
     NUMPOWERS
 };
-
-typedef enum
-{
-    arti_none,
-    arti_invulnerability,
-    arti_invisibility,
-    arti_health,
-    arti_superhealth,
-    arti_tomeofpower,
-    arti_torch,
-    arti_firebomb,
-    arti_egg,
-    arti_fly,
-    arti_teleport,
-    NUMARTIFACTS
-} artitype_t;
 
 //
 // Power up durations,
@@ -275,9 +231,7 @@ enum
     INVULNTICS  =  30 * TICRATE,
     INVISTICS   =  60 * TICRATE,
     INFRATICS   = 120 * TICRATE,
-    IRONTICS    =  60 * TICRATE,
-    WPNLEV2TICS =  40 * TICRATE,
-    FLIGHTTICS  =  60 * TICRATE
+    IRONTICS    =  60 * TICRATE
 };
 
 #define STARTFLASHING           127
@@ -293,8 +247,4 @@ enum
 #define MORE_FRICTION_MOMENTUM  15000   // mud factor based on momentum
 #define ORIG_FRICTION           0xE800  // original value
 #define ORIG_FRICTION_FACTOR    2048    // original value
-
-#define TELEFOGHEIGHT           (32 * FRACUNIT)
-
-#define CHICKENTICS             (40 * TICRATE)
 #endif

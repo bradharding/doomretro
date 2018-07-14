@@ -234,21 +234,6 @@ void V_DrawPagePatch(patch_t *patch)
     DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 }
 
-void V_DrawRawScreen(byte *raw)
-{
-    for (int y = 0; y < ORIGINALHEIGHT; y++)
-        for (int x = 0; x < ORIGINALWIDTH; x++)
-        {
-            byte    src = raw[y * ORIGINALWIDTH + x];
-            byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
-
-            *dest = src;
-            *(dest + 1) = src;
-            *(dest + SCREENWIDTH) = src;
-            *(dest + SCREENWIDTH + 1) = src;
-        }
-}
-
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;

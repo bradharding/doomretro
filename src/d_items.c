@@ -57,9 +57,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   37500,
         /* tics */         10,
         /* prev */         wp_bfg,
-        /* next */         wp_chainsaw,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_chainsaw
     },
 
     {
@@ -77,9 +75,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   45000,
         /* tics */         10,
         /* prev */         wp_chainsaw,
-        /* next */         wp_shotgun,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_shotgun
     },
 
     {
@@ -97,9 +93,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   52500,
         /* tics */         10,
         /* prev */         wp_pistol,
-        /* next */         wp_supershotgun,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_supershotgun
     },
 
     {
@@ -117,9 +111,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   45000,
         /* tics */         10,
         /* prev */         wp_supershotgun,
-        /* next */         wp_missile,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_missile
     },
 
     {
@@ -137,9 +129,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   60000,
         /* tics */         20,
         /* prev */         wp_chaingun,
-        /* next */         wp_plasma,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_plasma
     },
 
     {
@@ -157,9 +147,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   52500,
         /* tics */         10,
         /* prev */         wp_missile,
-        /* next */         wp_bfg,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_bfg
     },
 
     {
@@ -177,9 +165,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   45000,
         /* tics */         30,
         /* prev */         wp_plasma,
-        /* next */         wp_fist,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_fist
     },
 
     {
@@ -197,9 +183,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   45000,
         /* tics */         10,
         /* prev */         wp_fist,
-        /* next */         wp_pistol,
-        /* lookup */       1472,
-        /* lookdown */     1472
+        /* next */         wp_pistol
     },
 
     {
@@ -217,374 +201,6 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* motorspeed */   60000,
         /* tics */         10,
         /* prev */         wp_shotgun,
-        /* next */         wp_chaingun,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    }
-};
-
-weaponinfo_t wpnlev1info[NUMHWEAPONS] =
-{
-    {
-        /* description */  "staff",
-        /* ammotype */     am_noammo,
-        /* priority */     1,
-        /* minammo */      0,
-        /* upstate */      HS_STAFFUP,
-        /* downstate */    HS_STAFFDOWN,
-        /* readystate */   HS_STAFFREADY,
-        /* atkstate */     HS_STAFFATK1_1,
-        /* holdatkstate */ HS_STAFFATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         (weapontype_t)wp_beak,
-        /* next */         (weapontype_t)wp_gauntlets,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "gold wand",
-        /* ammotype */     am_goldwand,
-        /* priority */     3,
-        /* minammo */      0,
-        /* upstate */      HS_GOLDWANDUP,
-        /* downstate */    HS_GOLDWANDDOWN,
-        /* readystate */   HS_GOLDWANDREADY,
-        /* atkstate */     HS_GOLDWANDATK1_1,
-        /* holdatkstate */ HS_GOLDWANDATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         (weapontype_t)wp_gauntlets,
-        /* next */         (weapontype_t)wp_crossbow,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "crossbow",
-        /* ammotype */     am_crossbow,
-        /* priority */     4,
-        /* minammo */      0,
-        /* upstate */      HS_CRBOWUP,
-        /* downstate */    HS_CRBOWDOWN,
-        /* readystate */   HS_CRBOW1,
-        /* atkstate */     HS_CRBOWATK1_1,
-        /* holdatkstate */ HS_CRBOWATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         (weapontype_t)wp_goldwand,
-        /* next */         (weapontype_t)wp_blaster,
-        /* lookup */       1472,
-        /* lookdown */     184
-    },
-
-    {
-        /* description */  "blaster",
-        /* ammotype */     am_blaster,
-        /* priority */     5,
-        /* minammo */      0,
-        /* upstate */      HS_BLASTERUP,
-        /* downstate */    HS_BLASTERDOWN,
-        /* readystate */   HS_BLASTERREADY,
-        /* atkstate */     HS_BLASTERATK1_1,
-        /* holdatkstate */ HS_BLASTERATK1_3,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         (weapontype_t)wp_crossbow,
-        /* next */         (weapontype_t)wp_skullrod,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "skull rod",
-        /* ammotype */     am_skullrod,
-        /* priority */     6,
-        /* minammo */      0,
-        /* upstate */      HS_HORNRODUP,
-        /* downstate */    HS_HORNRODDOWN,
-        /* readystate */   HS_HORNRODREADY,
-        /* atkstate */     HS_HORNRODATK1_1,
-        /* holdatkstate */ HS_HORNRODATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_blaster,
-        /* next */         wp_phoenixrod,
-        /* lookup */       1472,
-        /* lookdown */     182
-    },
-
-    {
-        /* description */  "phoenix rod",
-        /* ammotype */     am_phoenixrod,
-        /* priority */     7,
-        /* minammo */      0,
-        /* upstate */      HS_PHOENIXUP,
-        /* downstate */    HS_PHOENIXDOWN,
-        /* readystate */   HS_PHOENIXREADY,
-        /* atkstate */     HS_PHOENIXATK1_1,
-        /* holdatkstate */ HS_PHOENIXATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_skullrod,
-        /* next */         wp_mace,
-        /* lookup */       1472,
-        /* lookdown */     182
-    },
-
-    {
-        /* description */  "mace",
-        /* ammotype */     am_mace,
-        /* priority */     8,
-        /* minammo */      0,
-        /* upstate */      HS_MACEUP,
-        /* downstate */    HS_MACEDOWN,
-        /* readystate */   HS_MACEREADY,
-        /* atkstate */     HS_MACEATK1_1,
-        /* holdatkstate */ HS_MACEATK1_2,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_phoenixrod,
-        /* next */         wp_beak,
-        /* lookup */       1472,
-        /* lookdown */     736
-    },
-
-    {
-        /* description */  "gauntlets",
-        /* ammotype */     am_noammo,
-        /* priority */     2,
-        /* minammo */      0,
-        /* upstate */      HS_GAUNTLETUP,
-        /* downstate */    HS_GAUNTLETDOWN,
-        /* readystate */   HS_GAUNTLETREADY,
-        /* atkstate */     HS_GAUNTLETATK1_1,
-        /* holdatkstate */ HS_GAUNTLETATK1_3,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_staff,
-        /* next */         wp_goldwand,
-        /* lookup */       1472,
-        /* lookdown */     368
-    },
-
-    {
-        /* description */  "beak",
-        /* ammotype */     am_noammo,
-        /* priority */     0,
-        /* minammo */      0,
-        /* upstate */      HS_BEAKUP,
-        /* downstate */    HS_BEAKDOWN,
-        /* readystate */   HS_BEAKREADY,
-        /* atkstate */     HS_BEAKATK1_1,
-        /* holdatkstate */ HS_BEAKATK1_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_mace,
-        /* next */         wp_staff,
-        /* lookup */       1472,
-        /* lookdown */     182
-    }
-};
-
-weaponinfo_t wpnlev2info[NUMHWEAPONS] =
-{
-    {
-        /* description */  "staff",
-        /* ammotype */     am_noammo,
-        /* priority */     1,
-        /* minammo */      0,
-        /* upstate */      HS_STAFFUP2,
-        /* downstate */    HS_STAFFDOWN2,
-        /* readystate */   HS_STAFFREADY2_1,
-        /* atkstate */     HS_STAFFATK2_1,
-        /* holdatkstate */ HS_STAFFATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_beak,
-        /* next */         wp_gauntlets,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "gold wand",
-        /* ammotype */     am_goldwand,
-        /* priority */     3,
-        /* minammo */      0,
-        /* upstate */      HS_GOLDWANDUP,
-        /* downstate */    HS_GOLDWANDDOWN,
-        /* readystate */   HS_GOLDWANDREADY,
-        /* atkstate */     HS_GOLDWANDATK2_1,
-        /* holdatkstate */ HS_GOLDWANDATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_gauntlets,
-        /* next */         wp_crossbow,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "crossbow",
-        /* ammotype */     am_crossbow,
-        /* priority */     4,
-        /* minammo */      0,
-        /* upstate */      HS_CRBOWUP,
-        /* downstate */    HS_CRBOWDOWN,
-        /* readystate */   HS_CRBOW1,
-        /* atkstate */     HS_CRBOWATK2_1,
-        /* holdatkstate */ HS_CRBOWATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_goldwand,
-        /* next */         wp_blaster,
-        /* lookup */       1472,
-        /* lookdown */     184
-    },
-
-    {
-        /* description */  "blaster",
-        /* ammotype */     am_blaster,
-        /* priority */     5,
-        /* minammo */      0,
-        /* upstate */      HS_BLASTERUP,
-        /* downstate */    HS_BLASTERDOWN,
-        /* readystate */   HS_BLASTERREADY,
-        /* atkstate */     HS_BLASTERATK2_1,
-        /* holdatkstate */ HS_BLASTERATK2_3,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_crossbow,
-        /* next */         wp_skullrod,
-        /* lookup */       1472,
-        /* lookdown */     1472
-    },
-
-    {
-        /* description */  "skull rod",
-        /* ammotype */     am_skullrod,
-        /* priority */     6,
-        /* minammo */      0,
-        /* upstate */      HS_HORNRODUP,
-        /* downstate */    HS_HORNRODDOWN,
-        /* readystate */   HS_HORNRODREADY,
-        /* atkstate */     HS_HORNRODATK2_1,
-        /* holdatkstate */ HS_HORNRODATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_blaster,
-        /* next */         wp_phoenixrod,
-        /* lookup */       1472,
-        /* lookdown */     182
-    },
-
-    {
-        /* description */  "phoenix rod",
-        /* ammotype */     am_phoenixrod,
-        /* priority */     7,
-        /* minammo */      0,
-        /* upstate */      HS_PHOENIXUP,
-        /* downstate */    HS_PHOENIXDOWN,
-        /* readystate */   HS_PHOENIXREADY,
-        /* atkstate */     HS_PHOENIXATK2_1,
-        /* holdatkstate */ HS_PHOENIXATK2_2,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_skullrod,
-        /* next */         wp_mace,
-        /* lookup */       1472,
-        /* lookdown */     182
-    },
-
-    {
-        /* description */  "mace",
-        /* ammotype */     am_mace,
-        /* priority */     8,
-        /* minammo */      0,
-        /* upstate */      HS_MACEUP,
-        /* downstate */    HS_MACEDOWN,
-        /* readystate */   HS_MACEREADY,
-        /* atkstate */     HS_MACEATK2_1,
-        /* holdatkstate */ HS_MACEATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_phoenixrod,
-        /* next */         wp_beak,
-        /* lookup */       1472,
-        /* lookdown */     736
-    },
-
-    {
-        /* description */  "gauntlets",
-        /* ammotype */     am_noammo,
-        /* priority */     2,
-        /* minammo */      0,
-        /* upstate */      HS_GAUNTLETUP2,
-        /* downstate */    HS_GAUNTLETDOWN2,
-        /* readystate */   HS_GAUNTLETREADY2_1,
-        /* atkstate */     HS_GAUNTLETATK2_1,
-        /* holdatkstate */ HS_GAUNTLETATK2_3,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_staff,
-        /* next */         wp_goldwand,
-        /* lookup */       1472,
-        /* lookdown */     368
-    },
-
-    {
-        /* description */  "beak",
-        /* ammotype */     am_noammo,
-        /* priority */     0,
-        /* minammo */      0,
-        /* upstate */      HS_BEAKUP,
-        /* downstate */    HS_BEAKDOWN,
-        /* readystate */   HS_BEAKREADY,
-        /* atkstate */     HS_BEAKATK2_1,
-        /* holdatkstate */ HS_BEAKATK2_1,
-        /* flashstate */   HS_NULL,
-        /* recoil */       0,
-        /* motorspeed */   0,
-        /* tics */         0,
-        /* prev */         wp_mace,
-        /* next */         wp_staff,
-        /* lookup */       1472,
-        /* lookdown */     182
+        /* next */         wp_chaingun
     }
 };

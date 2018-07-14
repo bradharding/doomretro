@@ -138,6 +138,7 @@ static dboolean     forcewipe;
 
 dboolean            splashscreen;
 
+static byte         *playpal;
 static int          startuptimer;
 
 dboolean            realframe;
@@ -232,7 +233,7 @@ void D_Display(void)
     {
         drawdisk = false;
 
-        if (wipe && gamemission != heretic)
+        if (wipe)
             wipe_StartScreen();
 
         if (forcewipe)
@@ -244,7 +245,7 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate && !splashscreen)
-            I_SetPalette(W_CacheLumpName("PLAYPAL"));
+            I_SetPalette(playpal);
 
         switch (gamestate)
         {
@@ -319,20 +320,6 @@ void D_Display(void)
     {
         M_DarkBackground();
 
-        if (gamemission == heretic)
-        {
-            patch_t *patch = W_CacheLumpName("PAUSED");
-
-            patch->leftoffset = 0;
-            patch->topoffset = 0;
-
-            if (vid_widescreen)
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
-            else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, patch, false);
-        }
         if (M_PAUSE)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
@@ -356,7 +343,7 @@ void D_Display(void)
     if (loadaction != ga_nothing)
         G_LoadedGameMessage();
 
-    if (!dowipe || !wipe || gamemission == heretic)
+    if (!dowipe || !wipe)
     {
         C_Drawer();
 
@@ -431,15 +418,10 @@ int             titlesequence;
 int             pagetic;
 
 static patch_t  *pagelump;
-static byte     *rawpagelump;
 static patch_t  *splashlump;
 static patch_t  *titlelump;
-static byte     *rawtitlelump;
 static patch_t  *creditlump;
-static byte     *rawcreditlump;
-static byte     *palette1;
-static byte     *palette2;
-static byte     *playpal;
+static byte     *splashpal;
 
 //
 // D_PageTicker
@@ -469,25 +451,11 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        I_SetPalette(palette1 + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
+        I_SetPalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
         V_DrawBigPatch(0, 0, 0, splashlump);
     }
-    else
-    {
-        static dboolean advisor;
-
-        if (pagelump)
-            V_DrawPagePatch(pagelump);
-        else if (rawpagelump)
-            V_DrawRawScreen(rawpagelump);
-
-        if (ADVISOR && ((pagelump == titlelump && !rawpagelump) || (rawpagelump == rawtitlelump && !pagelump))
-            && ((pagetic && pagetic <= 17 * TICRATE) || advisor))
-        {
-            advisor = true;
-            V_DrawPatchWithShadow(4, 160, W_CacheLumpName("ADVISOR"), false);
-        }
-    }
+    else if (pagelump)
+        V_DrawPagePatch(pagelump);
 }
 
 //
@@ -500,7 +468,7 @@ void D_FadeScreen(void)
 
     for (int i = 0; i < 11; i++)
     {
-        I_SetPalette((gamemission == heretic ? palette2 : palette1) + i * 768);
+        I_SetPalette(splashpal + i * 768);
         blitfunc();
     }
 }
@@ -545,24 +513,14 @@ void D_DoAdvanceTitle(void)
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
-            if (!TITLEPIC && !TITLE && !devparm)
+            if (!TITLEPIC && !devparm)
                 M_StartControlPanel();
         }
 
-        if (gamemission == heretic)
-        {
-            if (rawpagelump == rawcreditlump)
-                forcewipe = true;
+        if (pagelump == creditlump)
+            forcewipe = true;
 
-            rawpagelump = rawtitlelump;
-        }
-        else
-        {
-            if (pagelump == creditlump)
-                forcewipe = true;
-
-            pagelump = titlelump;
-        }
+        pagelump = titlelump;
 
         pagetic = 20 * TICRATE;
 
@@ -573,7 +531,7 @@ void D_DoAdvanceTitle(void)
         }
 
         M_SetWindowCaption();
-        S_StartMusic(gamemission == heretic ? hmus_titl : (gamemode == commercial ? mus_dm2ttl : mus_intro));
+        S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
 
         if (devparm)
             C_ShowConsole();
@@ -582,10 +540,7 @@ void D_DoAdvanceTitle(void)
     {
         forcewipe = true;
 
-        if (gamemission == heretic)
-            rawpagelump = rawcreditlump;
-        else
-            pagelump = creditlump;
+        pagelump = creditlump;
 
         pagetic = 10 * TICRATE;
     }
@@ -770,6 +725,8 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         char    *iwad;
         char    *title;
     } unsupported[] = {
+        { "heretic.wad",  "Heretic" },
+        { "heretic1.wad", "Heretic" },
         { "hexen.wad",    "Hexen"   },
         { "hexdd.wad",    "Hexen"   },
         { "strife0.wad",  "Strife"  },
@@ -1606,19 +1563,15 @@ static void D_ProcessDehInWad(void)
 
     if (hacx || FREEDOOM)
     {
-        ProcessDehFile(NULL, W_GetNumForName("DRTEXT1"));
-
         for (int i = 0; i < numlumps; i++)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
     }
     else
     {
-        for (int i = 0; i < numlumps; i++)
+        for (int i = numlumps - 1; i >= 0; i--)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
-
-        ProcessDehFile(NULL, W_GetNumForName(gamemission == heretic ? "DRTEXT2" : "DRTEXT1"));
     }
 }
 
@@ -1842,9 +1795,6 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
 
-    ADVISOR = (W_CheckNumForName("ADVISOR") >= 0);
-    TITLE = (W_CheckNumForName("TITLE") >= 0);
-
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
     I_InitGamepad();
@@ -1858,20 +1808,6 @@ static void D_DoomMainSetup(void)
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
-
-    playermobjtype = MT_PLAYER;
-
-    if (gamemission == heretic)
-    {
-        P_InitHereticMobjs();
-        prevweaponfunc = G_PrevHereticWeapon;
-        nextweaponfunc = G_NextHereticWeapon;
-    }
-    else
-    {
-        prevweaponfunc = G_PrevWeapon;
-        nextweaponfunc = G_NextWeapon;
-    }
 
     D_SetSaveGameFolder(true);
 
@@ -2061,20 +1997,10 @@ static void D_DoomMainSetup(void)
     }
 
     splashlump = W_CacheLumpName("SPLASH");
-    palette1 = W_CacheLumpName("DRPAL1");
-    palette2 = W_CacheLumpName("DRPAL2");
+    splashpal = W_CacheLumpName("SPLSHPAL");
+    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+    creditlump = W_CacheLumpName("CREDIT");
     playpal = W_CacheLumpName("PLAYPAL");
-
-    if (gamemission == heretic)
-    {
-        rawtitlelump = W_CacheLumpName("TITLE");
-        rawcreditlump = W_CacheLumpName("CREDIT");
-    }
-    else
-    {
-        titlelump = W_CacheLumpName(TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
-        creditlump = W_CacheLumpName("CREDIT");
-    }
 
     if (gameaction != ga_loadgame)
     {

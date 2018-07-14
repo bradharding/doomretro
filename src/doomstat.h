@@ -114,7 +114,6 @@ extern dboolean         E1M4B;
 extern dboolean         E1M8B;
 extern dboolean         sprfix18;
 
-extern dboolean         ADVISOR;
 extern dboolean         DMENUPIC;
 extern dboolean         FREEDOOM;
 extern dboolean         FREEDM;
@@ -141,7 +140,6 @@ extern int              STBAR;
 extern dboolean         STCFN034;
 extern dboolean         STCFN121;
 extern dboolean         STYSNUM0;
-extern dboolean         TITLE;
 extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
 extern dboolean         DSSECRET;

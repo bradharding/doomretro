@@ -389,9 +389,6 @@ void R_ExecuteSetViewSize(void)
 
     viewwidth = scaledviewwidth;
 
-    if (gamemission == heretic && !vid_widescreen)
-        viewheight -= 20;
-
     centerx = viewwidth / 2;
     centery = viewheight / 2;
     centerxfrac = centerx << FRACBITS;
@@ -773,12 +770,6 @@ static void R_SetupFrame(void)
 
             tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
-    }
-
-    if (viewplayer->chickentics && viewplayer->chickenpeck)
-    {
-        viewx += viewplayer->chickenpeck * finecosine[viewangle >> ANGLETOFINESHIFT];
-        viewy += viewplayer->chickenpeck * finesine[viewangle >> ANGLETOFINESHIFT];
     }
 
     if (barrelms > time && !consoleactive && !menuactive && !paused)

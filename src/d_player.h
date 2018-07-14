@@ -215,15 +215,6 @@ typedef struct player_s
     int             oldlookdir;
 
     unsigned int    jumptics;
-    int             chickentics;
-    int             chickenpeck;
-    mobj_t          *rain1;
-    mobj_t          *rain2;
-    inventory_t     inventory[NUMINVENTORYSLOTS];
-    artitype_t      readyartifact;
-    int             artifactcount;
-    int             inventoryslotnum;
-    int             flyheight;
 
     fixed_t         recoil;
     fixed_t         oldrecoil;

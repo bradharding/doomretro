@@ -513,13 +513,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\releasenotes.md" />
-    <None Include="..\res\DRTEXT1" />
+    <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\doomretro.wad" />
     <None Include="..\res\DRCOMPAT" />
-    <None Include="..\res\DRTEXT2" />
-    <None Include="..\res\VANILLA1" />
-    <None Include="..\res\VANILLA2" />
+    <None Include="..\res\VANILLA" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\doomretro.manifest" />
   </ItemGroup>

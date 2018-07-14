@@ -119,21 +119,6 @@ void P_InitSwitchList(void)
     buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
 }
 
-void P_InitHereticSwitchList(void)
-{
-    switchlist = I_Realloc(switchlist, sizeof(*switchlist) * 5);
-
-    switchlist[0] = R_TextureNumForName("SW1OFF");
-    switchlist[1] = R_TextureNumForName("SW1ON");
-    switchlist[2] = R_TextureNumForName("SW2OFF");
-    switchlist[3] = R_TextureNumForName("SW2ON");
-    switchlist[4] = -1;
-
-    numswitches = 2;
-
-    buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
-}
-
 //
 // Start a button counting down until it turns off.
 //
@@ -203,7 +188,7 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
             if (useagain)
                 P_StartButton(line, where, switchlist[i], BUTTONTIME);
 
-            S_StartSectorSound(&line->soundorg, SFX_SWTCHN);
+            S_StartSectorSound(&line->soundorg, sfx_swtchn);
             break;
         }
     }
@@ -391,18 +376,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         // Switches
         case S1_Stairs_RaiseBy8:
-            if (gamemission == heretic)
-            {
-                if (EV_BuildStairs(line, FLOORSPEED, 8 * FRACUNIT, false))
-                    P_ChangeSwitchTexture(line, false);
-            }
-            else if (EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false))
-                P_ChangeSwitchTexture(line, false);
-
-            break;
-
-        case S1_Stairs_RaiseBy16:
-            if (gamemission == heretic && EV_BuildStairs(line, FLOORSPEED, 16 * FRACUNIT, false))
+            if (EV_BuildStairs(line, FLOORSPEED / 4, 8 * FRACUNIT, false))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -946,7 +920,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (EV_DoDoor(line, doorNormal, VDOORSPEED))
                 P_ChangeSwitchTexture(line, true);
             else if (thing->player)
-                S_StartSound(thing, SFX_OOF);
+                S_StartSound(thing, sfx_oof);
 
             break;
 

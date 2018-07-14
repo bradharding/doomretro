@@ -74,8 +74,8 @@ dboolean        species_infighting;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int             maxammo[NUMAMMO] =  { 200, 50, 300, 50, 100, 50, 200, 200, 20, 150 };
-int             clipammo[NUMAMMO] = {  10,  4,  20,  1,   1,  1,   1,   1,  1,   1 };
+int             maxammo[NUMAMMO] =  { 200, 50, 300, 50 };
+int             clipammo[NUMAMMO] = {  10,  4,  20,  1 };
 
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
@@ -154,8 +154,7 @@ static void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 //
 static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 {
-    int             oldammo;
-    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
+    int oldammo;
 
     if (ammotype == am_noammo)
         return 0;
@@ -170,12 +169,12 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 
     // give double ammo in trainer mode, you'll need in nightmare
     if (gameskill == sk_baby || gameskill == sk_nightmare)
-        num += (gamemission == heretic ? num >> 1 : num);
+        num <<= 1;
 
     oldammo = viewplayer->ammo[ammotype];
     viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
 
-    if (vid_widescreen && r_hud && !r_althud && num && ammotype == info[viewplayer->readyweapon].ammotype)
+    if (vid_widescreen && r_hud && !r_althud && num && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     if (stat)
@@ -187,63 +186,40 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 
     // We were down to zero, so select a new weapon.
     // Preferences are not user selectable.
-    if (gamemission == heretic)
+    switch (ammotype)
     {
-        static hweapontype_t ammochange[] =
-        {
-            0,
-            0,
-            0,
-            0,
-            wp_goldwand,
-            wp_crossbow,
-            wp_blaster,
-            wp_skullrod,
-            wp_phoenixrod,
-            wp_mace
-        };
+        case am_clip:
+            if (viewplayer->readyweapon == wp_fist)
+            {
+                if (viewplayer->weaponowned[wp_chaingun])
+                    viewplayer->pendingweapon = wp_chaingun;
+                else
+                    viewplayer->pendingweapon = wp_pistol;
+            }
 
-        if (viewplayer->readyweapon == wp_staff || viewplayer->readyweapon == wp_gauntlets)
-            if (viewplayer->weaponowned[ammochange[ammotype]])
-                viewplayer->pendingweapon = (weapontype_t)ammochange[ammotype];
-    }
-    else
-    {
-        switch (ammotype)
-        {
-            case am_clip:
-                if (viewplayer->readyweapon == wp_fist)
-                {
-                    if (viewplayer->weaponowned[wp_chaingun])
-                        viewplayer->pendingweapon = wp_chaingun;
-                    else
-                        viewplayer->pendingweapon = wp_pistol;
-                }
+            break;
 
-                break;
+        case am_shell:
+            if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
+            {
+                if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->preferredshotgun == wp_supershotgun
+                    && viewplayer->ammo[am_shell] >= 2)
+                    viewplayer->pendingweapon = wp_supershotgun;
+                else if (viewplayer->weaponowned[wp_shotgun])
+                    viewplayer->pendingweapon = wp_shotgun;
+            }
 
-            case am_shell:
-                if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
-                {
-                    if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->preferredshotgun == wp_supershotgun
-                        && viewplayer->ammo[am_shell] >= 2)
-                        viewplayer->pendingweapon = wp_supershotgun;
-                    else if (viewplayer->weaponowned[wp_shotgun])
-                        viewplayer->pendingweapon = wp_shotgun;
-                }
+            break;
 
-                break;
+        case am_cell:
+            if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
+                if (viewplayer->weaponowned[wp_plasma])
+                    viewplayer->pendingweapon = wp_plasma;
 
-            case am_cell:
-                if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
-                    if (viewplayer->weaponowned[wp_plasma])
-                        viewplayer->pendingweapon = wp_plasma;
+            break;
 
-                break;
-
-            default:
-                break;
-        }
+        default:
+            break;
     }
 
     return num;
@@ -268,11 +244,9 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
     {
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
-            weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
-
             result = true;
 
-            if (vid_widescreen && r_hud && !r_althud && i == info[viewplayer->readyweapon].ammotype)
+            if (vid_widescreen && r_hud && !r_althud && i == weaponinfo[viewplayer->readyweapon].ammotype)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
 
@@ -324,10 +298,9 @@ void P_AddBonus(void)
 //
 static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean stat)
 {
-    dboolean        gaveammo = false;
-    dboolean        gaveweapon = false;
-    weaponinfo_t    *info = (gamemission == heretic ? wpnlev1info : weaponinfo);
-    ammotype_t      ammotype = info[weapon].ammotype;
+    dboolean    gaveammo = false;
+    dboolean    gaveweapon = false;
+    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
@@ -338,11 +311,11 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
 
-        if (info[weapon].priority == -1 || info[weapon].priority > info[viewplayer->readyweapon].priority)
+        if (weaponinfo[weapon].priority == -1 || weaponinfo[weapon].priority > weaponinfo[viewplayer->readyweapon].priority)
             viewplayer->pendingweapon = weapon;
     }
 
-    if (gaveammo && ammotype == info[viewplayer->readyweapon].ammotype)
+    if (gaveammo && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
     {
         if (vid_widescreen && r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
@@ -359,56 +332,6 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
 dboolean P_GiveAllWeapons(void)
 {
     dboolean    result = false;
-
-    if (gamemission == heretic)
-    {
-        if (!viewplayer->weaponowned[wp_goldwand])
-        {
-            viewplayer->weaponowned[wp_goldwand] = true;
-            result = true;
-        }
-
-        if (!viewplayer->weaponowned[wp_crossbow])
-        {
-            viewplayer->weaponowned[wp_crossbow] = true;
-            result = true;
-        }
-
-        if (!viewplayer->weaponowned[wp_blaster])
-        {
-            viewplayer->weaponowned[wp_blaster] = true;
-            result = true;
-        }
-
-        if (gamemode != shareware)
-        {
-            if (!viewplayer->weaponowned[wp_skullrod])
-            {
-                viewplayer->weaponowned[wp_skullrod] = true;
-                result = true;
-            }
-
-            if (!viewplayer->weaponowned[wp_phoenixrod])
-            {
-                viewplayer->weaponowned[wp_phoenixrod] = true;
-                result = true;
-            }
-
-            if (!viewplayer->weaponowned[wp_mace])
-            {
-                viewplayer->weaponowned[wp_mace] = true;
-                result = true;
-            }
-        }
-
-        if (!viewplayer->weaponowned[wp_gauntlets])
-        {
-            viewplayer->weaponowned[wp_gauntlets] = true;
-            result = true;
-        }
-
-        return result;
-    }
 
     if (!viewplayer->weaponowned[wp_shotgun])
     {
@@ -480,14 +403,13 @@ static void P_UpdateHealthStat(int num)
 //
 dboolean P_GiveBody(int num, dboolean stat)
 {
-    int maxhealth = (viewplayer->chickentics ? MAXCHICKENHEALTH : MAXHEALTH);
     int oldhealth;
 
-    if (viewplayer->health >= maxhealth)
+    if (viewplayer->health >= MAXHEALTH)
         return false;
 
     oldhealth = viewplayer->health;
-    viewplayer->health = MIN(oldhealth + num, maxhealth);
+    viewplayer->health = MIN(oldhealth + num, MAXHEALTH);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
@@ -570,57 +492,34 @@ void P_InitCards(void)
 
         while (thing)
         {
-            if (gamemission == heretic)
+            switch (thing->sprite)
             {
-                switch (thing->sprite)
-                {
-                    case HSPR_BKYY:
-                        viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_BKEY:
+                    viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
+                    break;
 
-                    case HSPR_CKYY:
-                        viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_RKEY:
+                    viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
+                    break;
 
-                    case HSPR_AKYY:
-                        viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_YKEY:
+                    viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                    break;
 
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                switch (thing->sprite)
-                {
-                    case SPR_BKEY:
-                        viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_BSKU:
+                    viewplayer->cards[it_blueskull] = CARDNOTFOUNDYET;
+                    break;
 
-                    case SPR_RKEY:
-                        viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_RSKU:
+                    viewplayer->cards[it_redskull] = CARDNOTFOUNDYET;
+                    break;
 
-                    case SPR_YKEY:
-                        viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
-                        break;
+                case SPR_YSKU:
+                    viewplayer->cards[it_yellowskull] = CARDNOTFOUNDYET;
+                    break;
 
-                    case SPR_BSKU:
-                        viewplayer->cards[it_blueskull] = CARDNOTFOUNDYET;
-                        break;
-
-                    case SPR_RSKU:
-                        viewplayer->cards[it_redskull] = CARDNOTFOUNDYET;
-                        break;
-
-                    case SPR_YSKU:
-                        viewplayer->cards[it_yellowskull] = CARDNOTFOUNDYET;
-                        break;
-
-                    default:
-                        break;
-                }
+                default:
+                    break;
             }
 
             thing = thing->snext;
@@ -668,9 +567,6 @@ void P_InitCards(void)
 //
 static void P_GiveCard(card_t card)
 {
-    if (gamemission == heretic && card > it_redcard)
-        return;
-
     viewplayer->cards[card] = ++cardsfound;
 
     if (card == viewplayer->neededcard)
@@ -796,9 +692,7 @@ dboolean P_GivePower(int power)
         /* pw_invisibility    */ INVISTICS,
         /* pw_ironfeet        */ IRONTICS,
         /* pw_allmap          */ STARTFLASHING + 1,
-        /* pw_infrared        */ INFRATICS,
-        /* pw_weaponlevel2    */ WPNLEV2TICS,
-        /* pw_flight          */ FLIGHTTICS
+        /* pw_infrared        */ INFRATICS
    };
 
     if (viewplayer->powers[power] < 0)
@@ -821,78 +715,10 @@ dboolean P_GivePower(int power)
         case pw_infrared:
             viewplayer->fixedcolormap = 1;
             break;
-
-        case pw_flight:
-            viewplayer->mo->flags |= MF_NOGRAVITY;
-
-            if (viewplayer->mo->z <= viewplayer->mo->floorz)
-                viewplayer->flyheight = 10;
     }
 
     viewplayer->powers[power] = tics[power];
     return true;
-}
-
-dboolean P_GiveArtifact(artitype_t arti, mobj_t *mo)
-{
-    int i = 0;
-
-    while (i < viewplayer->inventoryslotnum && viewplayer->inventory[i].type != arti)
-        i++;
-
-    if (i == viewplayer->inventoryslotnum)
-    {
-        viewplayer->inventory[i].count = 1;
-        viewplayer->inventory[i].type = arti;
-        viewplayer->inventoryslotnum++;
-    }
-    else
-    {
-        if (viewplayer->inventory[i].count >= 16)
-            return false;   // Player already has 16 of this item
-
-        viewplayer->inventory[i].count++;
-    }
-
-    if (!viewplayer->artifactcount)
-        viewplayer->readyartifact = arti;
-
-    viewplayer->artifactcount++;
-
-    if (mo && (mo->flags & MF_COUNTITEM))
-        viewplayer->itemcount++;
-
-    return true;
-}
-
-void P_SetDormantArtifact(mobj_t *arti)
-{
-    arti->flags &= ~MF_SPECIAL;
-    P_SetMobjState(arti, HS_DEADARTI1);
-    S_StartSound(arti, hsfx_artiup);
-}
-
-void A_RestoreArtifact(mobj_t *actor, player_t *player, pspdef_t *psp)
-{
-    actor->flags |= MF_SPECIAL;
-    P_SetMobjState(actor, actor->info->spawnstate);
-    S_StartSound(actor, hsfx_respawn);
-}
-
-void A_RestoreSpecialThing1(mobj_t *actor, player_t *player, pspdef_t *psp)
-{
-    if (actor->type == HMT_WMACE)
-        // Do random mace placement
-        P_RepositionMace(actor);
-
-    actor->flags2 &= ~MF2_DONTDRAW;
-    S_StartSound(actor, hsfx_respawn);
-}
-
-void A_RestoreSpecialThing2(mobj_t *actor, player_t *player, pspdef_t *psp)
-{
-    actor->flags |= MF_SPECIAL;
-    P_SetMobjState(actor, actor->info->spawnstate);
 }
 
 //
@@ -901,9 +727,10 @@ void A_RestoreSpecialThing2(mobj_t *actor, player_t *player, pspdef_t *psp)
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
 {
     fixed_t     delta;
-    int         sound;
+    int         sound = sfx_itemup;
     static int  prevsound;
     static int  prevtic;
+    int         temp;
 
     if (freeze)
         return;
@@ -917,858 +744,483 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         return;
 
     // Identify by sprite.
-    if (gamemission == heretic)
+    switch (special->sprite)
     {
-        sound = hsfx_itemup;
-
-        switch (special->sprite)
-        {
-            case HSPR_PTN1:
-                if (!P_GiveBody(10, stat))
-                   return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_ITEMHEALTH, false);
-
-                break;
-
-            case HSPR_SHLD:
-                if (!P_GiveArmor(1, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_ITEMSHIELD1, false);
-
-                break;
-
-            case HSPR_SHD2:
-                if (!P_GiveArmor(2, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_ITEMSHIELD2, false);
-
-                break;
-
-            case HSPR_BAGH:
-                if (!viewplayer->backpack)
-                {
-                    for (int i = 0; i < NUMAMMO; i++)
-                        viewplayer->maxammo[i] *= 2;
-
-                    viewplayer->backpack = true;
-                }
-
-                P_GiveAmmo(am_goldwand, AMMO_GWND_WIMPY, stat);
-                P_GiveAmmo(am_blaster, AMMO_BLSR_WIMPY, stat);
-                P_GiveAmmo(am_crossbow, AMMO_CBOW_WIMPY, stat);
-                P_GiveAmmo(am_skullrod, AMMO_SKRD_WIMPY, stat);
-                P_GiveAmmo(am_phoenixrod, AMMO_PHRD_WIMPY, stat);
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_ITEMBAGOFHOLDING, false);
-
-                break;
-
-            case HSPR_SPMP:
-                if (!P_GivePower(pw_allmap))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_ITEMSUPERMAP, false);
-
-                break;
-
-            case HSPR_BKYY:
-                if (!viewplayer->cards[it_bluecard] && message)
-                    HU_PlayerMessage(s_TXT_GOTBLUEKEY, false);
-
-                P_GiveCard(it_bluecard);
-                sound = hsfx_keyup;
-                break;
-
-            case HSPR_CKYY:
-                if (!viewplayer->cards[it_yellowcard] && message)
-                    HU_PlayerMessage(s_TXT_GOTYELLOWKEY, false);
-
-                P_GiveCard(it_yellowcard);
-                sound = hsfx_keyup;
-                break;
-
-            case HSPR_AKYY:
-                if (!viewplayer->cards[it_redcard] && message)
-                    HU_PlayerMessage(s_TXT_GOTGREENKEY, false);
-
-                P_GiveCard(it_redcard);
-                sound = hsfx_keyup;
-                break;
-
-            case HSPR_PTN2:
-                if (P_GiveArtifact(arti_health, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIHEALTH, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
+        // green armor
+        case SPR_ARM1:
+            if (!P_GiveArmor(green_armor_class, stat))
                 return;
 
-            case HSPR_SOAR:
-                if (P_GiveArtifact(arti_fly, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIFLY, false);
+            if (message)
+                HU_PlayerMessage(s_GOTARMOR, false);
 
-                    P_SetDormantArtifact(special);
-                }
+            break;
 
+        // blue armor
+        case SPR_ARM2:
+            if (!P_GiveArmor(blue_armor_class, stat))
                 return;
 
-            case HSPR_INVU:
-                if (P_GiveArtifact(arti_invulnerability, special))
+            if (message)
+                HU_PlayerMessage(s_GOTMEGA, false);
+
+            break;
+
+        // bonus health
+        case SPR_BON1:
+            if (!(viewplayer->cheats & CF_GODMODE))
+            {
+                viewplayer->health++;       // can go over 100%
+
+                if (viewplayer->health > maxhealth)
+                    viewplayer->health = maxhealth;
+                else
                 {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIINVULNERABILITY, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_PWBK:
-                if (P_GiveArtifact(arti_tomeofpower, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTITOMEOFPOWER, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_INVS:
-                if (P_GiveArtifact(arti_invisibility, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIINVISIBILITY, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_EGGC:
-                if (P_GiveArtifact(arti_egg, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIEGG, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_SPHL:
-                if (P_GiveArtifact(arti_superhealth, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTISUPERHEALTH, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_TRCH:
-                if (P_GiveArtifact(arti_torch, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTITORCH, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_FBMB:
-                if (P_GiveArtifact(arti_firebomb, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTIFIREBOMB, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_ATLP:
-                if (P_GiveArtifact(arti_teleport, special))
-                {
-                    if (message)
-                        HU_PlayerMessage(s_TXT_ARTITELEPORT, false);
-
-                    P_SetDormantArtifact(special);
-                }
-
-                return;
-
-            case HSPR_AMG1:
-                if (!P_GiveAmmo(am_goldwand, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOGOLDWAND1, false);
-
-                break;
-
-            case HSPR_AMG2:
-                if (!P_GiveAmmo(am_goldwand, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOGOLDWAND2, false);
-
-                break;
-
-            case HSPR_AMM1:
-                if (!P_GiveAmmo(am_mace, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOMACE1, false);
-
-                break;
-
-            case HSPR_AMM2:
-                if (!P_GiveAmmo(am_mace, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOMACE2, false);
-
-                break;
-
-            case HSPR_AMC1:
-                if (!P_GiveAmmo(am_crossbow, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOCROSSBOW1, false);
-
-                break;
-
-            case HSPR_AMC2:
-                if (!P_GiveAmmo(am_crossbow, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOCROSSBOW2, false);
-
-                break;
-
-            case HSPR_AMB1:
-                if (!P_GiveAmmo(am_blaster, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOBLASTER1, false);
-
-                break;
-
-            case HSPR_AMB2:
-                if (!P_GiveAmmo(am_blaster, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOBLASTER2, false);
-
-                break;
-
-            case HSPR_AMS1:
-                if (!P_GiveAmmo(am_skullrod, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOSKULLROD1, false);
-
-                break;
-
-            case HSPR_AMS2:
-                if (!P_GiveAmmo(am_skullrod, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOSKULLROD2, false);
-
-                break;
-
-            case HSPR_AMP1:
-                if (!P_GiveAmmo(am_phoenixrod, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOPHOENIXROD1, false);
-
-                break;
-
-            case HSPR_AMP2:
-                if (!P_GiveAmmo(am_phoenixrod, special->health, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_AMMOPHOENIXROD2, false);
-
-                break;
-
-            case HSPR_WMCE:
-                if (!P_GiveWeapon((weapontype_t)wp_mace, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNMACE, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            case HSPR_WBOW:
-                if (!P_GiveWeapon((weapontype_t)wp_crossbow, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNCROSSBOW, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            case HSPR_WBLS:
-                if (!P_GiveWeapon((weapontype_t)wp_blaster, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNBLASTER, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            case HSPR_WSKL:
-                if (!P_GiveWeapon((weapontype_t)wp_skullrod, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNSKULLROD, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            case HSPR_WPHX:
-                if (!P_GiveWeapon((weapontype_t)wp_phoenixrod, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNPHOENIXROD, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            case HSPR_WGNT:
-                if (!P_GiveWeapon((weapontype_t)wp_gauntlets, false, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_TXT_WPNGAUNTLETS, false);
-
-                sound = sfx_wpnup;
-                break;
-
-            default:
-                break;
-        }
-    }
-    else
-    {
-        int temp;
-
-        sound = sfx_itemup;
-
-        switch (special->sprite)
-        {
-            // green armor
-            case SPR_ARM1:
-                if (!P_GiveArmor(green_armor_class, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTARMOR, false);
-
-                break;
-
-            // blue armor
-            case SPR_ARM2:
-                if (!P_GiveArmor(blue_armor_class, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTMEGA, false);
-
-                break;
-
-            // bonus health
-            case SPR_BON1:
-                if (!(viewplayer->cheats & CF_GODMODE))
-                {
-                    viewplayer->health++;       // can go over 100%
-
-                    if (viewplayer->health > maxhealth)
-                        viewplayer->health = maxhealth;
-                    else
-                    {
-                        P_UpdateHealthStat(1);
-                        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-                    }
-
-                    viewplayer->mo->health = viewplayer->health;
-                }
-
-                if (message)
-                    HU_PlayerMessage(s_GOTHTHBONUS, false);
-
-                break;
-
-            // bonus armor
-            case SPR_BON2:
-                if (viewplayer->armorpoints < max_armor)
-                {
-                    viewplayer->armorpoints++;
-                    P_UpdateArmorStat(1);
-                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-                }
-
-                if (!viewplayer->armortype)
-                    viewplayer->armortype = GREENARMOR;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTARMBONUS, false);
-
-                break;
-
-            // soulsphere
-            case SPR_SOUL:
-                if (!(viewplayer->cheats & CF_GODMODE))
-                {
-                    P_UpdateHealthStat(soul_health - viewplayer->health);
-                    viewplayer->health += soul_health;
-
-                    if (viewplayer->health > max_soul)
-                        viewplayer->health = max_soul;
-
-                    viewplayer->mo->health = viewplayer->health;
+                    P_UpdateHealthStat(1);
                     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 }
 
+                viewplayer->mo->health = viewplayer->health;
+            }
+
+            if (message)
+                HU_PlayerMessage(s_GOTHTHBONUS, false);
+
+            break;
+
+        // bonus armor
+        case SPR_BON2:
+            if (viewplayer->armorpoints < max_armor)
+            {
+                viewplayer->armorpoints++;
+                P_UpdateArmorStat(1);
+                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+            }
+
+            if (!viewplayer->armortype)
+                viewplayer->armortype = GREENARMOR;
+
+            if (message)
+                HU_PlayerMessage(s_GOTARMBONUS, false);
+
+            break;
+
+        // soulsphere
+        case SPR_SOUL:
+            if (!(viewplayer->cheats & CF_GODMODE))
+            {
+                P_UpdateHealthStat(soul_health - viewplayer->health);
+                viewplayer->health += soul_health;
+
+                if (viewplayer->health > max_soul)
+                    viewplayer->health = max_soul;
+
+                viewplayer->mo->health = viewplayer->health;
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+            }
+
+            if (message)
+                HU_PlayerMessage(s_GOTSUPER, false);
+
+            sound = sfx_getpow;
+            break;
+
+        // mega health
+        case SPR_MEGA:
+            P_GiveMegaHealth(stat);
+            P_GiveArmor(blue_armor_class, stat);
+
+            if (message)
+                HU_PlayerMessage(s_GOTMSPHERE, false);
+
+            sound = sfx_getpow;
+            break;
+
+        // blue keycard
+        case SPR_BKEY:
+            if (viewplayer->cards[it_bluecard] <= 0)
+            {
+                P_GiveCard(it_bluecard);
+
                 if (message)
-                    HU_PlayerMessage(s_GOTSUPER, false);
+                    HU_PlayerMessage(s_GOTBLUECARD, false);
 
-                sound = sfx_getpow;
                 break;
+            }
 
-            // mega health
-            case SPR_MEGA:
-                P_GiveMegaHealth(stat);
-                P_GiveArmor(blue_armor_class, stat);
+            return;
+
+        // yellow keycard
+        case SPR_YKEY:
+            if (viewplayer->cards[it_yellowcard] <= 0)
+            {
+                P_GiveCard(it_yellowcard);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTMSPHERE, false);
+                    HU_PlayerMessage(s_GOTYELWCARD, false);
 
-                sound = sfx_getpow;
                 break;
+            }
 
-            // blue keycard
-            case SPR_BKEY:
-                if (viewplayer->cards[it_bluecard] <= 0)
-                {
-                    P_GiveCard(it_bluecard);
+            return;
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTBLUECARD, false);
+        // red keycard
+        case SPR_RKEY:
+            if (viewplayer->cards[it_redcard] <= 0)
+            {
+                P_GiveCard(it_redcard);
 
-                    break;
-                }
+                if (message)
+                    HU_PlayerMessage(s_GOTREDCARD, false);
 
+                break;
+            }
+
+            return;
+
+        // blue skull key
+        case SPR_BSKU:
+            if (viewplayer->cards[it_blueskull] <= 0)
+            {
+                P_GiveCard(it_blueskull);
+
+                if (message)
+                    HU_PlayerMessage(s_GOTBLUESKUL, false);
+
+                break;
+            }
+
+            return;
+
+        // yellow skull key
+        case SPR_YSKU:
+            if (viewplayer->cards[it_yellowskull] <= 0)
+            {
+                P_GiveCard(it_yellowskull);
+
+                if (message)
+                    HU_PlayerMessage(s_GOTYELWSKUL, false);
+
+                break;
+            }
+
+            return;
+
+        // red skull key
+        case SPR_RSKU:
+            if (viewplayer->cards[it_redskull] <= 0)
+            {
+                P_GiveCard(it_redskull);
+
+                if (message)
+                    HU_PlayerMessage(s_GOTREDSKULL, false);
+
+                break;
+            }
+
+            return;
+
+        // stimpack
+        case SPR_STIM:
+            if (!P_GiveBody(10, stat))
                 return;
 
-            // yellow keycard
-            case SPR_YKEY:
-                if (viewplayer->cards[it_yellowcard] <= 0)
-                {
-                    P_GiveCard(it_yellowcard);
+            if (message)
+                HU_PlayerMessage(s_GOTSTIM, false);
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTYELWCARD, false);
+            break;
 
-                    break;
-                }
-
+        // medikit
+        case SPR_MEDI:
+            if (!P_GiveBody(25, stat))
                 return;
 
-            // red keycard
-            case SPR_RKEY:
-                if (viewplayer->cards[it_redcard] <= 0)
+            if (message)
+            {
+                if (viewplayer->health < 50)
                 {
-                    P_GiveCard(it_redcard);
+                    static char buffer[1024];
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTREDCARD, false);
-
-                    break;
+                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername,
+                        (M_StringCompare(playername, playername_default) ? "you" : "they"));
+                    HU_PlayerMessage(buffer, false);
                 }
+                else
+                    HU_PlayerMessage((viewplayer->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), false);
+            }
 
+            break;
+
+        // invulnerability power-up
+        case SPR_PINV:
+            if (!P_GivePower(pw_invulnerability))
                 return;
 
-            // blue skull key
-            case SPR_BSKU:
-                if (viewplayer->cards[it_blueskull] <= 0)
-                {
-                    P_GiveCard(it_blueskull);
+            if (message)
+                HU_PlayerMessage(s_GOTINVUL, false);
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTBLUESKUL, false);
+            sound = sfx_getpow;
+            break;
 
-                    break;
-                }
-
+        // berserk power-up
+        case SPR_PSTR:
+            if (!P_GivePower(pw_strength))
                 return;
 
-            // yellow skull key
-            case SPR_YSKU:
-                if (viewplayer->cards[it_yellowskull] <= 0)
-                {
-                    P_GiveCard(it_yellowskull);
+            if (message)
+                HU_PlayerMessage(s_GOTBERSERK, false);
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTYELWSKUL, false);
+            if (viewplayer->readyweapon != wp_fist)
+                viewplayer->pendingweapon = wp_fist;
 
-                    break;
-                }
+            viewplayer->fistorchainsaw = wp_fist;
+            sound = sfx_getpow;
+            break;
 
+        // partial invisibility power-up
+        case SPR_PINS:
+            if (!P_GivePower(pw_invisibility))
                 return;
 
-            // red skull key
-            case SPR_RSKU:
-                if (viewplayer->cards[it_redskull] <= 0)
-                {
-                    P_GiveCard(it_redskull);
+            if (message)
+                HU_PlayerMessage(s_GOTINVIS, false);
 
-                    if (message)
-                        HU_PlayerMessage(s_GOTREDSKULL, false);
+            sound = sfx_getpow;
+            break;
 
-                    break;
-                }
-
+        // radiation shielding suit power-up
+        case SPR_SUIT:
+            if (!P_GivePower(pw_ironfeet))
                 return;
 
-            // stimpack
-            case SPR_STIM:
-                if (!P_GiveBody(10, stat))
-                    return;
+            if (message)
+                HU_PlayerMessage(s_GOTSUIT, false);
 
-                if (message)
-                    HU_PlayerMessage(s_GOTSTIM, false);
+            sound = sfx_getpow;
+            break;
+
+        // computer area map power-up
+        case SPR_PMAP:
+            P_GivePower(pw_allmap);
+
+            if (message)
+                HU_PlayerMessage(s_GOTMAP, false);
+
+            sound = sfx_getpow;
+            break;
+
+        // light amplification visor power-up
+        case SPR_PVIS:
+            if (!P_GivePower(pw_infrared))
+                return;
+
+            if (message)
+                HU_PlayerMessage(s_GOTVISOR, false);
+
+            sound = sfx_getpow;
+            break;
+
+        // clip
+        case SPR_CLIP:
+            if (!(temp = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
+                return;
+
+            if (message)
+            {
+                if (temp == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
+                    HU_PlayerMessage(s_GOTCLIP, false);
+                else
+                    HU_PlayerMessage((temp == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
+            }
 
-                break;
-
-            // medikit
-            case SPR_MEDI:
-                if (!P_GiveBody(25, stat))
-                    return;
-
-                if (message)
-                {
-                    if (viewplayer->health < 50)
-                    {
-                        static char buffer[1024];
+            break;
+
+        // box of bullets
+        case SPR_AMMO:
+            if (!P_GiveAmmo(am_clip, 5, stat))
+                return;
 
-                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername,
-                            (M_StringCompare(playername, playername_default) ? "you" : "they"));
-                        HU_PlayerMessage(buffer, false);
-                    }
-                    else
-                        HU_PlayerMessage((viewplayer->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), false);
-                }
+            if (message)
+                HU_PlayerMessage(s_GOTCLIPBOX, false);
 
-                break;
+            break;
 
-            // invulnerability power-up
-            case SPR_PINV:
-                if (!P_GivePower(pw_invulnerability))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTINVUL, false);
-
-                sound = sfx_getpow;
-                break;
-
-            // berserk power-up
-            case SPR_PSTR:
-                if (!P_GivePower(pw_strength))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTBERSERK, false);
-
-                if (viewplayer->readyweapon != wp_fist)
-                    viewplayer->pendingweapon = wp_fist;
+        // rocket
+        case SPR_ROCK:
+            if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
+                return;
 
-                viewplayer->fistorchainsaw = wp_fist;
-                sound = sfx_getpow;
-                break;
+            if (message)
+            {
+                if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                    HU_PlayerMessage(s_GOTROCKET, false);
+                else
+                    HU_PlayerMessage(s_GOTROCKETX2, false);
+            }
 
-            // partial invisibility power-up
-            case SPR_PINS:
-                if (!P_GivePower(pw_invisibility))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTINVIS, false);
-
-                sound = sfx_getpow;
-                break;
-
-            // radiation shielding suit power-up
-            case SPR_SUIT:
-                if (!P_GivePower(pw_ironfeet))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTSUIT, false);
+            break;
 
-                sound = sfx_getpow;
-                break;
-
-            // computer area map power-up
-            case SPR_PMAP:
-                P_GivePower(pw_allmap);
-
-                if (message)
-                    HU_PlayerMessage(s_GOTMAP, false);
-
-                sound = sfx_getpow;
-                break;
-
-            // light amplification visor power-up
-            case SPR_PVIS:
-                if (!P_GivePower(pw_infrared))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTVISOR, false);
-
-                sound = sfx_getpow;
-                break;
-
-            // clip
-            case SPR_CLIP:
-                if (!(temp = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
-                    return;
-
-                if (message)
-                {
-                    if (temp == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
-                        HU_PlayerMessage(s_GOTCLIP, false);
-                    else
-                        HU_PlayerMessage((temp == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
-                }
-
-                break;
-
-            // box of bullets
-            case SPR_AMMO:
-                if (!P_GiveAmmo(am_clip, 5, stat))
-                    return;
-
-                if (message)
-                    HU_PlayerMessage(s_GOTCLIPBOX, false);
-
-                break;
-
-            // rocket
-            case SPR_ROCK:
-                if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
-                    return;
-
-                if (message)
-                {
-                    if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
-                        HU_PlayerMessage(s_GOTROCKET, false);
-                    else
-                        HU_PlayerMessage(s_GOTROCKETX2, false);
-                }
-
-                break;
+        // box of rockets
+        case SPR_BROK:
+            if (!P_GiveAmmo(am_misl, 5, stat))
+                return;
 
-            // box of rockets
-            case SPR_BROK:
-                if (!P_GiveAmmo(am_misl, 5, stat))
-                    return;
+            if (message)
+                HU_PlayerMessage(s_GOTROCKBOX, false);
 
-                if (message)
-                    HU_PlayerMessage(s_GOTROCKBOX, false);
+            break;
 
-                break;
-
-            // cell
-            case SPR_CELL:
-                if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
-                    return;
+        // cell
+        case SPR_CELL:
+            if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
+                return;
 
-                if (message)
-                {
-                    if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
-                        HU_PlayerMessage(s_GOTCELL, false);
-                    else
-                        HU_PlayerMessage(s_GOTCELLX2, false);
-                }
+            if (message)
+            {
+                if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                    HU_PlayerMessage(s_GOTCELL, false);
+                else
+                    HU_PlayerMessage(s_GOTCELLX2, false);
+            }
 
-                break;
+            break;
 
-            // cell pack
-            case SPR_CELP:
-                if (!P_GiveAmmo(am_cell, 5, stat))
-                    return;
+        // cell pack
+        case SPR_CELP:
+            if (!P_GiveAmmo(am_cell, 5, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTCELLBOX, false);
+            if (message)
+                HU_PlayerMessage(s_GOTCELLBOX, false);
 
-                break;
+            break;
 
-            // shells
-            case SPR_SHEL:
-                if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
-                    return;
+        // shells
+        case SPR_SHEL:
+            if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
+                return;
 
-                if (message)
-                {
-                    if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
-                        HU_PlayerMessage(s_GOTSHELLS, false);
-                    else
-                        HU_PlayerMessage(s_GOTSHELLSX2, false);
-                }
+            if (message)
+            {
+                if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                    HU_PlayerMessage(s_GOTSHELLS, false);
+                else
+                    HU_PlayerMessage(s_GOTSHELLSX2, false);
+            }
 
-                break;
+            break;
 
-            // box of shells
-            case SPR_SBOX:
-                if (!P_GiveAmmo(am_shell, 5, stat))
-                    return;
+        // box of shells
+        case SPR_SBOX:
+            if (!P_GiveAmmo(am_shell, 5, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTSHELLBOX, false);
+            if (message)
+                HU_PlayerMessage(s_GOTSHELLBOX, false);
 
-                break;
+            break;
 
-            // backpack
-            case SPR_BPAK:
-                if (!P_GiveBackpack(true, stat))
-                    return;
+        // backpack
+        case SPR_BPAK:
+            if (!P_GiveBackpack(true, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTBACKPACK, false);
+            if (message)
+                HU_PlayerMessage(s_GOTBACKPACK, false);
 
-                break;
+            break;
 
-            // BFG-9000
-            case SPR_BFUG:
-                if (!P_GiveWeapon(wp_bfg, false, stat))
-                    return;
+        // BFG-9000
+        case SPR_BFUG:
+            if (!P_GiveWeapon(wp_bfg, false, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTBFG9000, false);
+            if (message)
+                HU_PlayerMessage(s_GOTBFG9000, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // chaingun
-            case SPR_MGUN:
-                if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
-                    return;
+        // chaingun
+        case SPR_MGUN:
+            if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTCHAINGUN, false);
+            if (message)
+                HU_PlayerMessage(s_GOTCHAINGUN, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // chainsaw
-            case SPR_CSAW:
-                if (!P_GiveWeapon(wp_chainsaw, false, stat))
-                    return;
+        // chainsaw
+        case SPR_CSAW:
+            if (!P_GiveWeapon(wp_chainsaw, false, stat))
+                return;
 
-                viewplayer->fistorchainsaw = wp_chainsaw;
+            viewplayer->fistorchainsaw = wp_chainsaw;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTCHAINSAW, false);
+            if (message)
+                HU_PlayerMessage(s_GOTCHAINSAW, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // rocket launcher
-            case SPR_LAUN:
-                if (!P_GiveWeapon(wp_missile, false, stat))
-                    return;
+        // rocket launcher
+        case SPR_LAUN:
+            if (!P_GiveWeapon(wp_missile, false, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTLAUNCHER, false);
+            if (message)
+                HU_PlayerMessage(s_GOTLAUNCHER, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // plasma rifle
-            case SPR_PLAS:
-                if (!P_GiveWeapon(wp_plasma, false, stat))
-                    return;
+        // plasma rifle
+        case SPR_PLAS:
+            if (!P_GiveWeapon(wp_plasma, false, stat))
+                return;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTPLASMA, false);
+            if (message)
+                HU_PlayerMessage(s_GOTPLASMA, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // shotgun
-            case SPR_SHOT:
-                temp = viewplayer->weaponowned[wp_shotgun];
+        // shotgun
+        case SPR_SHOT:
+            temp = viewplayer->weaponowned[wp_shotgun];
 
-                if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
-                    return;
+            if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
+                return;
 
-                if (!temp)
-                    viewplayer->preferredshotgun = wp_shotgun;
+            if (!temp)
+                viewplayer->preferredshotgun = wp_shotgun;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTSHOTGUN, false);
+            if (message)
+                HU_PlayerMessage(s_GOTSHOTGUN, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            // super shotgun
-            case SPR_SGN2:
-                temp = viewplayer->weaponowned[wp_supershotgun];
+        // super shotgun
+        case SPR_SGN2:
+            temp = viewplayer->weaponowned[wp_supershotgun];
 
-                if (!P_GiveWeapon(wp_supershotgun, (special->flags & MF_DROPPED), stat))
-                    return;
+            if (!P_GiveWeapon(wp_supershotgun, (special->flags & MF_DROPPED), stat))
+                return;
 
-                if (!temp)
-                    viewplayer->preferredshotgun = wp_supershotgun;
+            if (!temp)
+                viewplayer->preferredshotgun = wp_supershotgun;
 
-                if (message)
-                    HU_PlayerMessage(s_GOTSHOTGUN2, false);
+            if (message)
+                HU_PlayerMessage(s_GOTSHOTGUN2, false);
 
-                sound = sfx_wpnup;
-                break;
+            sound = sfx_wpnup;
+            break;
 
-            default:
-                break;
-        }
+        default:
+            break;
     }
 
     if ((special->flags & MF_COUNTITEM) && stat)
@@ -1898,12 +1350,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     // killough 8/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
 
-    if (gamemission == heretic || type != MT_BARREL)
+    if (type != MT_BARREL)
     {
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (gamemission == heretic || (type != MT_CHAINGUY && type != MT_CYBORG)))
+        if (r_corpses_mirrored && (type != MT_CHAINGUY && type != MT_CYBORG))
         {
             static int  prev;
             int         r = M_RandomInt(1, 10);
@@ -1942,9 +1394,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (target->player)
     {
         target->flags &= ~MF_SOLID;
-        target->flags3 &= ~MF3_FLY;
-        target->player->powers[pw_flight] = 0;
-        target->player->powers[pw_weaponlevel2] = 0;
         viewplayer->playerstate = PST_DEAD;
         P_DropWeapon();
 
@@ -1982,12 +1431,11 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         if (source)
         {
-            if (inflicter && ((inflicter->type == MT_BARREL && type != MT_BARREL)
-                || (inflicter->type == HMT_POD && type != HMT_POD)))
+            if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
             {
                 if (target->player)
-                    C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
-                        (defaultplayername ? "were" : "was"), (gibbed ? "gibbed" : "killed"));
+                    C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername), (defaultplayername ? "were" : "was"),
+                        (gibbed ? "gibbed" : "killed"));
                 else
                     C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
                         (gibbed ? "gibbed" : "killed"));
@@ -1998,20 +1446,20 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
                 if (target->player)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
-                        (type == MT_BARREL || type == HMT_POD ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
-                        (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
+                        weaponinfo[readyweapon].description);
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
-                        (type == MT_BARREL || type == HMT_POD ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                        (gamemission == heretic ? wpnlev1info[readyweapon].description : weaponinfo[readyweapon].description));
+                        weaponinfo[readyweapon].description);
 
             }
             else
             {
-                if (source->type == MT_TFOG || source->type == HMT_TFOG)
+                if (source->type == MT_TFOG)
                     C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
                         (target->player ? titlecase(playername) : name), (defaultplayername ? "were" : "was"));
                 else
@@ -2025,8 +1473,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     else
                         C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a ")),
-                            name);
+                            (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a ")), name);
 
                 }
             }
@@ -2096,212 +1543,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         mo->flags2 |= MF2_MIRRORED;
 }
 
-void P_MinotaurSlam(mobj_t *source, mobj_t *target)
-{
-    angle_t angle = R_PointToAngle2(source->x, source->y, target->x, target->y) >> ANGLETOFINESHIFT;
-    fixed_t thrust = 16 * FRACUNIT + (M_Random() << 10);
-
-    target->momx += FixedMul(thrust, finecosine[angle]);
-    target->momy += FixedMul(thrust, finesine[angle]);
-    P_DamageMobj(target, NULL, NULL, HITDICE(6), true);
-
-    if (target->player)
-        target->reactiontime = 14 + (M_Random() & 7);
-}
-
-void P_TouchWhirlwind(mobj_t *target)
-{
-    target->angle += M_NegRandom() << 20;
-    target->momx += M_NegRandom() << 10;
-    target->momy += M_NegRandom() << 10;
-
-    if ((leveltime & 16) && !(target->flags3 & MF3_BOSS))
-    {
-        target->momz += MIN(M_Random(), 160) << 10;
-
-        if (target->momz > 12 * FRACUNIT)
-            target->momz = 12 * FRACUNIT;
-    }
-
-    if (!(leveltime & 7))
-        P_DamageMobj(target, NULL, NULL, 3, false);
-}
-
-dboolean P_ChickenMorphPlayer(void)
-{
-    mobj_t  *pmo;
-    mobj_t  *fog;
-    mobj_t  *chicken;
-    fixed_t x, y, z;
-    angle_t angle;
-    int     oldflags3;
-
-    if (viewplayer->chickentics)
-    {
-        if (viewplayer->chickentics < CHICKENTICS - TICRATE && !viewplayer->powers[pw_weaponlevel2])
-            P_GivePower(pw_weaponlevel2);
-
-        return false;
-    }
-
-    if (viewplayer->powers[pw_invulnerability])
-        return false;
-
-    pmo = viewplayer->mo;
-    x = pmo->x;
-    y = pmo->y;
-    z = pmo->z;
-    angle = pmo->angle;
-    oldflags3 = pmo->flags3;
-    P_SetMobjState(pmo, HS_FREETARGMOBJ);
-    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, HMT_TFOG);
-    S_StartSound(fog, hsfx_telept);
-    chicken = P_SpawnMobj(x, y, z, HMT_CHICPLAYER);
-    chicken->special1.i = viewplayer->readyweapon;
-    chicken->angle = angle;
-    chicken->player = viewplayer;
-    viewplayer->health = chicken->health = MAXCHICKENHEALTH;
-    viewplayer->mo = chicken;
-    viewplayer->armorpoints = viewplayer->armortype = 0;
-    viewplayer->powers[pw_invisibility] = 0;
-    viewplayer->powers[pw_weaponlevel2] = 0;
-
-    if (oldflags3 & MF3_FLY)
-        chicken->flags3 |= MF3_FLY;
-
-    viewplayer->chickentics = CHICKENTICS;
-    P_ActivateBeak();
-    return true;
-}
-
-dboolean P_ChickenMorph(mobj_t *actor)
-{
-    mobj_t      *fog;
-    mobj_t      *chicken;
-    mobj_t      *target;
-    mobjtype_t  motype;
-    fixed_t     x, y, z;
-    angle_t     angle;
-    int         ghost;
-
-    if (actor->player)
-        return false;
-
-    motype = actor->type;
-
-    switch (motype)
-    {
-        case HMT_POD:
-        case HMT_CHICKEN:
-        case HMT_HEAD:
-        case HMT_MINOTAUR:
-        case HMT_SORCERER1:
-        case HMT_SORCERER2:
-            return false;
-
-        default:
-            break;
-    }
-
-    x = actor->x;
-    y = actor->y;
-    z = actor->z;
-    angle = actor->angle;
-    ghost = actor->flags & MF_FUZZ;
-    target = actor->target;
-    P_SetMobjState(actor, HS_FREETARGMOBJ);
-    fog = P_SpawnMobj(x, y, z + TELEFOGHEIGHT, MT_TFOG);
-    S_StartSound(fog, hsfx_telept);
-    chicken = P_SpawnMobj(x, y, z, HMT_CHICKEN);
-    chicken->special2.i = motype;
-    chicken->special1.i = CHICKENTICS + M_Random();
-    chicken->flags |= ghost;
-    chicken->target = target;
-    chicken->angle = angle;
-    return true;
-}
-
-dboolean P_AutoUseChaosDevice(void)
-{
-    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
-        if (viewplayer->inventory[i].type == arti_teleport)
-        {
-            P_PlayerUseArtifact(arti_teleport);
-            viewplayer->health = viewplayer->mo->health = (viewplayer->health + 1) / 2;
-            return true;
-        }
-
-    return false;
-}
-
-void P_AutoUseHealth(int savehealth)
-{
-    int count;
-    int normalcount = 0;
-    int normalslot = 0;
-    int supercount = 0;
-    int superslot = 0;
-
-    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
-    {
-        if (viewplayer->inventory[i].type == arti_health)
-        {
-            normalslot = i;
-            normalcount = viewplayer->inventory[i].count;
-        }
-        else if (viewplayer->inventory[i].type == arti_superhealth)
-        {
-            superslot = i;
-            supercount = viewplayer->inventory[i].count;
-        }
-    }
-
-    if (gameskill == sk_baby && normalcount * 25 >= savehealth)
-    {
-        // Use quartz flasks
-        count = (savehealth + 24) / 25;
-
-        for (int i = 0; i < count; i++)
-        {
-            viewplayer->health += 25;
-            P_PlayerRemoveArtifact(normalslot);
-        }
-    }
-    else if (supercount * 100 >= savehealth)
-    {
-        // Use mystic urns
-        count = (savehealth + 99) / 100;
-
-        for (int i = 0; i < count; i++)
-        {
-            viewplayer->health += 100;
-            P_PlayerRemoveArtifact(superslot);
-        }
-    }
-    else if (gameskill == sk_baby && supercount * 100 + normalcount * 25 >= savehealth)
-    {
-        // Use mystic urns and quartz flasks
-        count = (savehealth + 24) / 25;
-        savehealth -= count * 25;
-
-        for (int i = 0; i < count; i++)
-        {
-            viewplayer->health += 25;
-            P_PlayerRemoveArtifact(normalslot);
-        }
-
-        count = (savehealth + 99) / 100;
-
-        for (int i = 0; i < count; i++)
-        {
-            viewplayer->health += 100;
-            P_PlayerRemoveArtifact(normalslot);
-        }
-    }
-
-    viewplayer->mo->health = viewplayer->health;
-}
-
 dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
@@ -2344,83 +1585,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (tplayer && gameskill == sk_baby && adjust)
         damage >>= (damage > 1);
-
-    if (gamemission == heretic && inflicter)
-    {
-        switch (inflicter->type)
-        {
-            case HMT_EGGFX:
-                if (tplayer)
-                    P_ChickenMorphPlayer();
-                else
-                    P_ChickenMorph(target);
-
-                return;
-
-            case HMT_WHIRLWIND:
-                P_TouchWhirlwind(target);
-                return;
-
-            case HMT_MINOTAUR:
-                if (inflicter->flags & MF_SKULLFLY)
-                {
-                    P_MinotaurSlam(inflicter, target);
-                    return;
-                }
-
-                break;
-
-            case HMT_MACEFX4:
-                if ((target->flags3 & MF3_BOSS) || type == HMT_HEAD)
-                    break;
-                else if (tplayer)
-                {
-                    if (tplayer->powers[pw_invulnerability])
-                        break;
-
-                    if (P_AutoUseChaosDevice())
-                        return;
-                }
-
-                damage = 10000;
-                break;
-
-            case HMT_PHOENIXFX2:
-                if (tplayer && M_Random() < 128)
-                    target->reactiontime += 4;
-
-                break;
-
-            case HMT_RAINPLR1:
-            case HMT_RAINPLR2:
-            case HMT_RAINPLR3:
-            case HMT_RAINPLR4:
-                if (target->flags3 & MF3_BOSS)
-                    damage = (M_Random() & 7) + 1;
-
-                break;
-
-            case HMT_HORNRODFX2:
-            case HMT_PHOENIXFX1:
-                if (type == HMT_SORCERER2 && M_Random() < 96)
-                {
-                    P_DSparilTeleport(target);
-                    return;
-                }
-
-                break;
-
-            case HMT_BLASTERFX1:
-            case HMT_RIPPER:
-                if (type == HMT_HEAD && !(damage = M_Random() & 1))
-                    return;
-
-                break;
-
-            default:
-                break;
-        }
-    }
 
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
@@ -2490,9 +1654,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             tplayer->armorpoints -= saved;
             damage -= saved;
         }
-
-        if (gamemission == heretic && damage >= tplayer->health && gameskill == sk_baby && !tplayer->chickentics)
-            P_AutoUseHealth(damage - tplayer->health + 1);
 
         tplayer->health -= damage;
         target->health -= damage;

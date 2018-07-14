@@ -46,9 +46,6 @@
 //
 dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    mobjtype_t  teleportman = MT_TELEPORTMAN;
-    mobjtype_t  tfog = MT_TFOG;
-
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
     if (side || (thing->flags & MF_MISSILE))
@@ -58,12 +55,6 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     if (thing->flags2 & MF2_MASSACRE)
         return false;
 
-    if (gamemission == heretic)
-    {
-        teleportman = HMT_TELEPORTMAN;
-        tfog = HMT_TFOG;
-    }
-
     // killough 1/31/98: improve performance by using
     // P_FindSectorFromLineTag instead of simple linear search.
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
@@ -71,7 +62,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
         {
             mobj_t  *m = (mobj_t *)th;
 
-            if (m->type == teleportman && m->subsector->sector->id == i)
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
             {
                 fixed_t     oldx = thing->x;
                 fixed_t     oldy = thing->y;
@@ -89,9 +80,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                     fixed_t newy = m->y;
 
                     // spawn teleport fog at source
-                    fog = P_SpawnMobj(oldx, oldy, oldz, tfog);
+                    fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
                     fog->angle = thing->angle;
-                    S_StartSound(fog, SFX_TELEPT);
+                    S_StartSound(fog, sfx_telept);
 
                     // spawn teleport fog at destination
                     thing->z = thing->floorz;
@@ -105,9 +96,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                         player->viewz = thing->z + player->viewheight;
                     }
 
-                    fog = P_SpawnMobj(newx, newy, thing->z, tfog);
+                    fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
                     fog->angle = m->angle;
-                    S_StartSound(fog, SFX_TELEPT);
+                    S_StartSound(fog, sfx_telept);
 
                     if (player)
                     {

@@ -184,9 +184,6 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
     int movefactor;
     int friction;
 
-    if (viewplayer->chickentics)
-        return 2500;
-
     // If the floor is icy or muddy, it's harder to get moving. This is where
     // the different friction factors are applied to 'trying to move'. In
     // p_mobj.c, the friction factors are applied as you coast and slow down.
@@ -359,19 +356,6 @@ static dboolean PIT_CheckLine(line_t *ld)
     // killough 7/24/98: allow player to move out of 1s wall, to prevent sticking
     if (!ld->backsector)                                // one sided line
     {
-        if ((tmthing->flags & MF_MISSILE) && gamemission == heretic)
-            // Missiles can trigger impact specials
-            if (ld->special)
-            {
-                if (numspechit >= spechit_max)
-                {
-                    spechit_max = (spechit_max ? spechit_max * 2 : 8);
-                    spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
-                }
-
-                spechit[numspechit++] = ld;
-            }
-
         blockline = ld;
         return (tmunstuck && !untouched(ld)
             && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
@@ -383,7 +367,7 @@ static dboolean PIT_CheckLine(line_t *ld)
             return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
 
         // [BH] monster-blockers don't affect corpses
-        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS) && tmthing->type != HMT_POD)
+        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS))
             return false;                               // block monsters only
     }
 
@@ -477,9 +461,6 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check if a mobj passed over/under another object
     if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
     {
-        if ((tmthing->type == HMT_IMP || tmthing->type == HMT_WIZARD) && (thing->type == HMT_IMP || thing->type == HMT_WIZARD))
-            return false;
-
         if (tmthing->z >= thing->z + thing->height && !(thing->flags & MF_SPECIAL))
             return true;        // over thing
         else if (tmthing->z + tmthing->height <= thing->z && !(thing->flags & MF_SPECIAL))
@@ -489,14 +470,14 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight))
     {
-        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & (gamemission == heretic ? 8 : 7)) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = 0;
         tmthing->momy = 0;
         tmthing->momz = 0;
 
-        P_SetMobjState(tmthing, (gamemission == heretic ? tmthing->info->seestate : tmthing->info->spawnstate));
+        P_SetMobjState(tmthing, tmthing->info->spawnstate);
 
         return false;           // stop moving
     }
@@ -505,10 +486,6 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if (tmflags & MF_MISSILE)
     {
         int height = thing->info->projectilepassheight;
-
-        // Check for passing through a ghost
-        if ((thing->flags & MF_FUZZ) && (tmthing->flags3 & MF3_THRUGHOST))
-            return true;
 
         if (!height || infiniteheight)
             height = thing->height;
@@ -528,7 +505,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             // Don't hit same species as originator.
             if (thing == tmthing->target)
                 return true;
-            else if (thing->type != playermobjtype && !infight && !species_infighting)
+            else if (thing->type != MT_PLAYER && !infight && !species_infighting)
                 // Explode, but do no damage.
                 // Let players missile other players.
                 return false;
@@ -559,63 +536,29 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             return !(flags & MF_SOLID);                         // didn't do any damage
 
         // damage/explode
-        if (gamemission == heretic)
+        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
+
+        if (thing->type != MT_BARREL)
         {
-            if (tmthing->flags3 & MF3_RIP)
+            if (tmthing->type == MT_PLASMA)
             {
-                if (!(thing->flags & MF_NOBLOOD))
-                    P_RipperBlood(tmthing);
-
-                S_StartSound(tmthing, hsfx_ripslop);
-                P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 3) + 2) * tmthing->damage, true);
-
-                if (thing->flags3 & MF3_PUSHABLE && !(tmthing->flags3 & MF3_CANNOTPUSH))
-                {
-                    thing->momx += tmthing->momx >> 2;
-                    thing->momy += tmthing->momy >> 2;
-                }
-
-                numspechit = 0;
-                return true;
+                viewplayer->shotshit++;
+                stat_shotshit = SafeAdd(stat_shotshit, 1);
             }
-
-            if (!(thing->flags & MF_NOBLOOD) && M_Random() < 192)
-                P_BloodSplatter(tmthing->x, tmthing->y, tmthing->z, thing);
-
-            P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 8) + 1) * tmthing->info->damage, true);
-        }
-        else
-        {
-            P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
-
-            if (thing->type != MT_BARREL)
+            else if (tmthing->type == MT_ROCKET)
             {
-                if (tmthing->type == MT_PLASMA)
+                if (tmthing->nudge == 1)
                 {
                     viewplayer->shotshit++;
                     stat_shotshit = SafeAdd(stat_shotshit, 1);
                 }
-                else if (tmthing->type == MT_ROCKET)
-                {
-                    if (tmthing->nudge == 1)
-                    {
-                        viewplayer->shotshit++;
-                        stat_shotshit = SafeAdd(stat_shotshit, 1);
-                    }
 
-                    tmthing->nudge++;
-                }
+                tmthing->nudge++;
             }
         }
 
         // don't traverse anymore
         return false;
-    }
-
-    if ((thing->flags3 & MF3_PUSHABLE) && !(tmthing->flags3 & MF3_CANNOTPUSH))
-    {
-        thing->momx += tmthing->momx >> 2;
-        thing->momy += tmthing->momy >> 2;
     }
 
     // check for special pickup
@@ -940,9 +883,6 @@ void P_FakeZMovement(mobj_t *mo)
                 mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
 
-    if (mo->player && (mo->flags3 & MF3_FLY) && mo->z > mo->floorz && (leveltime & 2))
-        mo->z += finesine[(FINEANGLES / 20 * leveltime >> 2) & FINEMASK];
-
     // clip movement
     if (mo->z <= mo->floorz)
     {
@@ -954,16 +894,6 @@ void P_FakeZMovement(mobj_t *mo)
             mo->momz = 0;
 
         mo->z = mo->floorz;
-
-        if (gamemission == heretic && mo->info->crashstate && (mo->flags & MF_CORPSE))
-            return;
-    }
-    else if (mo->flags3 & MF3_LOGRAV)
-    {
-        if (!mo->momz)
-            mo->momz = -(GRAVITY >> 3) * 2;
-        else
-            mo->momz -= GRAVITY >> 3;
     }
     else if (!(mo->flags & MF_NOGRAVITY))
     {
@@ -1014,12 +944,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     floatok = false;
 
     if (!P_CheckPosition(thing, x, y))
-    {
-        if (gamemission == heretic)
-            CheckMissileImpact(thing);
-
         return false;           // solid wall or thing
-    }
 
     flags = thing->flags;
 
@@ -1029,41 +954,10 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         // killough 8/1/98: Possibly allow escape if otherwise stuck
         if (tmceilingz - tmfloorz < thing->height       // doesn't fit
             // mobj must lower to fit
-            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height && !(thing->flags3 & MF3_FLY))
+            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
             // too big a step up
             || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
-        {
-            if (gamemission == heretic)
-                CheckMissileImpact(thing);
-
             return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
-        }
-
-        if (gamemission == heretic)
-        {
-            if (thing->flags3 & MF3_FLY)
-            {
-                if (thing->z + thing->height > tmceilingz)
-                {
-                    thing->momz = -8 * FRACUNIT;
-                    return false;
-                }
-                else if (thing->z < tmfloorz && tmfloorz - tmdropoffz > 24 * FRACUNIT)
-                {
-                    thing->momz = 8 * FRACUNIT;
-                    return false;
-                }
-            }
-
-            if (!(thing->flags & MF_TELEPORT) && thing->type != HMT_MNTRFX2 && tmfloorz - thing->z > 24 * FRACUNIT)
-            {
-                CheckMissileImpact(thing);
-                return false;
-            }
-
-            if ((thing->flags & MF_MISSILE) && tmfloorz > thing->z)
-                CheckMissileImpact(thing);
-        }
 
         if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
@@ -1341,7 +1235,7 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmymove) > ABS(tmxmove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, SFX_OOF);             // oooff!
+                S_StartSound(slidemo, sfx_oof);             // oooff!
 
             tmxmove /= 2;                                   // absorb half the momentum
             tmymove = -tmymove / 2;
@@ -1357,7 +1251,7 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, SFX_OOF);             // oooff!
+                S_StartSound(slidemo, sfx_oof);             // oooff!
 
             tmxmove = -tmxmove / 2;                         // absorb half the momentum
             tmymove /= 2;
@@ -1388,7 +1282,7 @@ static void P_HitSlideLine(line_t *ld)
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
         if (slidemo->player && slidemo->health > 0)
-            S_StartSound(slidemo, SFX_OOF);                 // oooff!
+            S_StartSound(slidemo, sfx_oof);                 // oooff!
     }
     else
     {
@@ -1658,9 +1552,6 @@ static dboolean PTR_AimTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
-    if (th->type == HMT_POD)
-        return true;                    // can't auto-aim at pods
-
     // check angles to see if the thing can be aimed at
     dist = FixedMul(attackrange, in->frac);
     thingtopslope = FixedDiv(th->z + th->height - shootz, dist);
@@ -1793,10 +1684,6 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
-    if (gamemission == heretic)
-        if (th->flags & MF_FUZZ && shootthing->player->readyweapon == wp_staff)
-            return true;
-
     dist = FixedMul(attackrange, in->frac);
 
     // check angles to see if the thing can be aimed at
@@ -1816,14 +1703,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     // Spawn bullet puffs or blood spots,
     // depending on target type.
-    if (gamemission == heretic)
-    {
-        if (pufftype == HMT_BLASTERPUFF1)
-            S_StartSound(P_SpawnMobj(x, y, z, HMT_BLASTERPUFF2), hsfx_blshit);
-        else
-            P_SpawnPuff(x, y, z, shootangle);
-    }
-    else if (th->flags & MF_NOBLOOD)
+    if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z, shootangle);
     else
     {
@@ -1833,7 +1713,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
         else if (r_blood != r_blood_none && th->blood)
         {
-            if (type != playermobjtype)
+            if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
             else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
                 P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
@@ -1842,9 +1722,6 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     if (la_damage)
     {
-        if (gamemission == heretic && !(in->d.thing->flags & MF_NOBLOOD) && M_Random() < 192)
-            P_BloodSplatter(x, y, z, in->d.thing);
-
         successfulshot = true;
         P_DamageMobj(th, shootthing, shootthing, la_damage, true);
     }
@@ -1936,7 +1813,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
         if (openrange <= 0)
         {
             if (!autousing)
-                S_StartSound(usething, SFX_NOWAY);
+                S_StartSound(usething, sfx_noway);
 
             // can't use through a wall
             return false;
@@ -1999,7 +1876,7 @@ void P_UseLines(void)
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_NoWayTraverse))
             if (!autousing)
-                S_StartSound(usething, SFX_NOWAY);
+                S_StartSound(usething, sfx_noway);
 }
 
 //
@@ -2027,7 +1904,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 
     type = thing->type;
 
-    if (type == MT_CYBORG || type == MT_SPIDER || type == HMT_MINOTAUR || type == HMT_SORCERER1 || type == HMT_SORCERER2)
+    if (type == MT_CYBORG || type == MT_SPIDER)
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
@@ -2196,7 +2073,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
     {
-        if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != playermobjtype
+        if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
             int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) : MT_BLOOD);

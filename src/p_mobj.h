@@ -416,7 +416,6 @@ typedef struct mobj_s
     state_t             *state;
     int                 flags;
     int                 flags2;
-    int                 flags3;
 
     specialval_t        special1;               // special info
     specialval_t        special2;               // special info

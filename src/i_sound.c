@@ -352,10 +352,7 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
     if (sfx->link)
         sfx = sfx->link;
 
-    if (gamemission == heretic)
-        M_StringCopy(namebuf, sfx->name, 9);
-    else
-        M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
+    M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
     if ((lumpnum = W_CheckNumForName(namebuf)) == -1)
         C_Warning("The <b>%s</b> SFX lump can't be found.", uppercase(namebuf));

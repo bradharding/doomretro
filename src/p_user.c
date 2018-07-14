@@ -63,9 +63,6 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
-extern int      artifactflash;
-extern int      curpos;
-extern int      inv_ptr;
 
 void G_RemoveChoppers(void);
 
@@ -79,25 +76,8 @@ void G_RemoveChoppers(void);
 //
 void P_Thrust(angle_t angle, fixed_t move)
 {
-    mobj_t  *mo = viewplayer->mo;
-
-    angle >>= ANGLETOFINESHIFT;
-
-    if (viewplayer->powers[pw_flight] && mo->z > mo->floorz)
-    {
-        mo->momx += FixedMul(move, finecosine[angle]);
-        mo->momy += FixedMul(move, finesine[angle]);
-    }
-    else if (mo->subsector->sector->special == Friction)
-    {
-        mo->momx += FixedMul(move >> 2, finecosine[angle]);
-        mo->momy += FixedMul(move >> 2, finesine[angle]);
-    }
-    else
-    {
-        mo->momx += FixedMul(move, finecosine[angle]);
-        mo->momy += FixedMul(move, finesine[angle]);
-    }
+    viewplayer->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    viewplayer->mo->momy += FixedMul(move, finesine[angle]);
 }
 
 //
@@ -133,9 +113,7 @@ void P_CalcHeight(void)
         fixed_t momy = viewplayer->momy;
         fixed_t bob;
 
-        if ((viewplayer->mo->flags3 & MF3_FLY) && !onground)
-            bob = FRACUNIT / 2;
-        else if (momx | momy)
+        if (momx | momy)
             bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) / 2;
         else
             bob = (MAXBOB * stillbob / 400) / 2;
@@ -166,10 +144,7 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        if (viewplayer->chickentics)
-            viewplayer->viewz = mo->z + viewplayer->viewheight - 20 * FRACUNIT;
-        else
-            viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
     }
     else
         viewplayer->viewz = mo->z + viewplayer->viewheight;
@@ -215,7 +190,6 @@ void P_MovePlayer(void)
     ticcmd_t    *cmd = &viewplayer->cmd;
     signed char forwardmove = cmd->forwardmove;
     signed char sidemove = cmd->sidemove;
-    int         fly;
 
     mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
@@ -226,7 +200,7 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if ((forwardmove | sidemove) && (onground || (mo->flags3 & MF3_FLY)))
+    if ((forwardmove | sidemove) && onground)
     {
         int     friction;
         int     movefactor = P_GetMoveFactor(mo, &friction);
@@ -261,38 +235,6 @@ void P_MovePlayer(void)
 
         if (ABS(viewplayer->lookdir) < 16 * MLOOKUNIT)
             viewplayer->lookdir = 0;
-    }
-
-    if ((fly = cmd->lookfly >> 4) > 7)
-        fly -= 16;
-
-    if (fly && viewplayer->powers[pw_flight])
-    {
-        if (fly != TOCENTER)
-        {
-            viewplayer->flyheight = fly * 2;
-
-            if (!(mo->flags3 & MF3_FLY))
-            {
-                mo->flags3 |= MF3_FLY;
-                mo->flags |= MF_NOGRAVITY;
-            }
-        }
-        else
-        {
-            mo->flags3 &= ~MF3_FLY;
-            mo->flags &= ~MF_NOGRAVITY;
-        }
-    }
-    else if (fly > 0)
-        P_PlayerUseArtifact(arti_fly);
-
-    if (mo->flags3 & MF3_FLY)
-    {
-        mo->momz = viewplayer->flyheight * FRACUNIT;
-
-        if (viewplayer->flyheight)
-            viewplayer->flyheight /= 2;
     }
 }
 
@@ -401,8 +343,6 @@ static void P_DeathThink(void)
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
-        inv_ptr = 0;
-        curpos = 0;
     }
     else
         deathcount++;
@@ -420,7 +360,7 @@ void P_ResurrectPlayer(int health)
     P_RemoveMobj(mo);
 
     // spawn a teleport fog
-    thing = P_SpawnMobj(viewx + 20 * viewcos, viewy + 20 * viewsin, ONFLOORZ, (gamemission == heretic ? HMT_TFOG : MT_TFOG));
+    thing = P_SpawnMobj(viewx + 20 * viewcos, viewy + 20 * viewsin, ONFLOORZ, MT_TFOG);
     thing->angle = viewangle;
     S_StartSound(thing, sfx_telept);
 
@@ -428,7 +368,7 @@ void P_ResurrectPlayer(int health)
     P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
     // respawn the player
-    thing = P_SpawnMobj(viewx, viewy, ONFLOORZ, playermobjtype);
+    thing = P_SpawnMobj(viewx, viewy, ONFLOORZ, MT_PLAYER);
     thing->angle = viewangle;
     thing->player = viewplayer;
     thing->health = health;
@@ -450,19 +390,7 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
-    ammotype_t  ammotype = wpnlev1info[newweapon].ammotype;
-
-    if (gamemission == heretic)
-    {
-        if (newweapon == wp_staff && viewplayer->weaponowned[wp_gauntlets] && viewplayer->readyweapon != wp_gauntlets)
-            newweapon = (weapontype_t)wp_gauntlets;
-
-        if ((ammotype == am_noammo || viewplayer->ammo[ammotype] >= wpnlev1info[newweapon].minammo)
-            && viewplayer->weaponowned[newweapon] && newweapon != viewplayer->readyweapon)
-            viewplayer->pendingweapon = newweapon;
-
-        return;
-    }
+    ammotype_t  ammotype = weaponinfo[newweapon].ammotype;
 
     if (newweapon == wp_fist)
     {
@@ -486,7 +414,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 
     // Don't switch to a weapon without any or enough ammo.
-    else if (ammotype != am_noammo && viewplayer->ammo[ammotype] < wpnlev1info[newweapon].minammo)
+    else if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].minammo)
         newweapon = wp_nochange;
 
     // Select the preferred shotgun.
@@ -512,87 +440,6 @@ void P_ChangeWeapon(weapontype_t newweapon)
         if ((viewplayer->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
             G_RemoveChoppers();
     }
-}
-
-void P_ChickenPlayerThink(void)
-{
-    mobj_t  *mo;
-
-    if (viewplayer->health > 0)
-        P_UpdateBeak(NULL, viewplayer, &viewplayer->psprites[ps_weapon]);   // Handle beak movement
-
-    if (viewplayer->chickentics & 15)
-        return;
-
-    mo = viewplayer->mo;
-
-    if (!(mo->momx + mo->momy) && M_Random() < 160)
-        mo->angle += M_NegRandom() << 19;                                   // Twitch view angle
-
-    if (mo->z <= mo->floorz && M_Random() < 32)
-    {
-        mo->momz += FRACUNIT;                                               // Jump and noise
-        P_SetMobjState(mo, HS_CHICPLAY_PAIN);
-        return;
-    }
-
-    if (M_Random() < 48)
-        S_StartSound(mo, hsfx_chicact);                                     // Just noise
-}
-
-dboolean P_UndoPlayerChicken(void)
-{
-    mobj_t          *fog;
-    mobj_t          *mo;
-    mobj_t          *pmo = viewplayer->mo;
-    fixed_t         x = pmo->x;
-    fixed_t         y = pmo->y;
-    fixed_t         z = pmo->z;
-    angle_t         angle = pmo->angle;
-    weapontype_t    weapon = pmo->special1.i;
-    int             oldflags = pmo->flags;
-    int             oldflags2 = pmo->flags2;
-    int             oldflags3 = pmo->flags3;
-
-    P_SetMobjState(pmo, HS_FREETARGMOBJ);
-    mo = P_SpawnMobj(x, y, z, HMT_PLAYER);
-
-    if (!P_TestMobjLocation(mo))
-    {
-        // Didn't fit
-        P_RemoveMobj(mo);
-        mo = P_SpawnMobj(x, y, z, HMT_CHICPLAYER);
-        mo->angle = angle;
-        mo->health = viewplayer->health;
-        mo->special1.i = weapon;
-        mo->player = viewplayer;
-        mo->flags = oldflags;
-        mo->flags2 = oldflags2;
-        mo->flags3 = oldflags3;
-        viewplayer->mo = mo;
-        viewplayer->chickentics = 2 * 35;
-        return false;
-    }
-
-    mo->angle = angle;
-    mo->player = viewplayer;
-    mo->reactiontime = 18;
-
-    if (oldflags3 & MF3_FLY)
-    {
-        mo->flags3 |= MF3_FLY;
-        mo->flags |= MF_NOGRAVITY;
-    }
-
-    viewplayer->chickentics = 0;
-    viewplayer->powers[pw_weaponlevel2] = 0;
-    viewplayer->health = mo->health = MAXHEALTH;
-    viewplayer->mo = mo;
-    angle >>= ANGLETOFINESHIFT;
-    fog = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], z + TELEFOGHEIGHT, HMT_TFOG);
-    S_StartSound(fog, hsfx_telept);
-    P_PostChickenWeapon(weapon);
-    return true;
 }
 
 //
@@ -671,9 +518,6 @@ void P_PlayerThink(void)
         return;
     }
 
-    if (viewplayer->chickentics)
-        P_ChickenPlayerThink();
-
     if (viewplayer->jumptics)
         viewplayer->jumptics--;
 
@@ -710,15 +554,6 @@ void P_PlayerThink(void)
         viewplayer->jumptics = 18;
     }
 
-    if (cmd->arti)
-    {
-        // Use an artifact
-        if (cmd->arti == 0xFF)
-            P_PlayerNextArtifact();
-        else
-            P_PlayerUseArtifact(cmd->arti);
-    }
-
     // Check for weapon change.
 
     // A special event has no other buttons.
@@ -747,16 +582,6 @@ void P_PlayerThink(void)
     else
         viewplayer->usedown = false;
 
-    // Chicken counter
-    if (viewplayer->chickentics)
-    {
-        if (viewplayer->chickenpeck)
-            viewplayer->chickenpeck -= 3;   // Chicken attack counter
-
-        if (!--viewplayer->chickentics)
-            P_UndoPlayerChicken();          // Attempt to undo the chicken
-    }
-
     // Counters, time dependent power ups.
     if (viewplayer->powers[pw_invulnerability] > 0)
         viewplayer->powers[pw_invulnerability]--;
@@ -771,30 +596,6 @@ void P_PlayerThink(void)
     if (viewplayer->powers[pw_ironfeet] > 0)
         viewplayer->powers[pw_ironfeet]--;
 
-    if (viewplayer->powers[pw_flight])
-        if (!--viewplayer->powers[pw_flight])
-        {
-            viewplayer->mo->flags3 &= ~MF3_FLY;
-            viewplayer->mo->flags &= ~MF_NOGRAVITY;
-        }
-
-    if (viewplayer->powers[pw_weaponlevel2])
-    {
-        if (!--viewplayer->powers[pw_weaponlevel2])
-        {
-            if (viewplayer->readyweapon == wp_phoenixrod
-                && viewplayer->psprites[ps_weapon].state != &states[HS_PHOENIXREADY]
-                && viewplayer->psprites[ps_weapon].state != &states[HS_PHOENIXUP])
-            {
-                P_SetPsprite(ps_weapon, HS_PHOENIXREADY);
-                viewplayer->ammo[am_phoenixrod] -= USE_PHRD_AMMO_2;
-                viewplayer->refire = 0;
-            }
-            else if (viewplayer->readyweapon == wp_gauntlets || viewplayer->readyweapon == wp_staff)
-                viewplayer->pendingweapon = viewplayer->readyweapon;
-        }
-    }
-
     P_ReduceDamageCount();
 
     // Handling colormaps.
@@ -802,164 +603,4 @@ void P_PlayerThink(void)
         viewplayer->fixedcolormap = INVERSECOLORMAP;
     else
         viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING || (viewplayer->powers[pw_infrared] & 8));
-}
-
-void P_ArtiTele(void)
-{
-    P_TeleportMove(viewplayer->mo, playerstart.x << FRACBITS, playerstart.y << FRACBITS, ANG45 * (playerstart.angle / 45), false);
-    S_StartSound(NULL, hsfx_wpnup);
-}
-
-void P_PlayerNextArtifact(void)
-{
-    if (--inv_ptr < 6)
-        curpos = MAX(0, curpos - 1);
-
-    if (inv_ptr < 0)
-    {
-        inv_ptr = viewplayer->inventoryslotnum - 1;
-        curpos = MIN(inv_ptr, 6);
-    }
-
-    viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
-}
-
-void P_PlayerRemoveArtifact(int slot)
-{
-    viewplayer->artifactcount--;
-
-    if (!--viewplayer->inventory[slot].count)
-    {
-        // Used last of a type - compact the artifact list
-        viewplayer->readyartifact = arti_none;
-        viewplayer->inventory[slot].type = arti_none;
-
-        for (int i = slot + 1; i < viewplayer->inventoryslotnum; i++)
-            viewplayer->inventory[i - 1] = viewplayer->inventory[i];
-
-        viewplayer->inventoryslotnum--;
-
-        // Set position markers and get next readyArtifact
-        if (--inv_ptr < 6)
-            curpos = MAX(0, curpos - 1);
-
-        inv_ptr = BETWEEN(0, inv_ptr, viewplayer->inventoryslotnum - 1);
-        viewplayer->readyartifact = viewplayer->inventory[inv_ptr].type;
-    }
-}
-
-void P_PlayerUseArtifact(artitype_t arti)
-{
-    for (int i = 0; i < viewplayer->inventoryslotnum; i++)
-        if (viewplayer->inventory[i].type == arti)
-        {
-            // Found match - try to use
-            if (P_UseArtifact(arti))
-            {
-                // Artifact was used - remove it from inventory
-                P_PlayerRemoveArtifact(i);
-                S_StartSound(NULL, hsfx_artiuse);
-                artifactflash = 4;
-            }
-            else
-                // Unable to use artifact, advance pointer
-                P_PlayerNextArtifact();
-
-            break;
-        }
-}
-
-dboolean P_UseArtifact(artitype_t arti)
-{
-    mobj_t  *mo;
-    angle_t angle;
-
-    switch (arti)
-    {
-        case arti_invulnerability:
-            if (!P_GivePower(pw_invulnerability))
-                return false;
-
-            break;
-
-        case arti_invisibility:
-            if (!P_GivePower(pw_invisibility))
-                return false;
-
-            break;
-
-        case arti_health:
-            if (!P_GiveBody(25, true))
-                return false;
-
-            break;
-
-        case arti_superhealth:
-            if (!P_GiveBody(100, true))
-                return false;
-
-            break;
-
-        case arti_tomeofpower:
-            if (viewplayer->chickentics)
-            {
-                // Attempt to undo chicken
-                if (!P_UndoPlayerChicken())
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
-                else
-                {
-                    viewplayer->chickentics = 0;
-                    S_StartSound(viewplayer->mo, hsfx_wpnup);
-                }
-            }
-            else
-            {
-                if (!P_GivePower(pw_weaponlevel2))
-                    return false;
-
-                if (viewplayer->readyweapon == wp_staff)
-                    P_SetPsprite(ps_weapon, HS_STAFFREADY2_1);
-                else if (viewplayer->readyweapon == wp_gauntlets)
-                    P_SetPsprite(ps_weapon, HS_GAUNTLETREADY2_1);
-            }
-
-            break;
-
-        case arti_torch:
-            if (!P_GivePower(pw_infrared))
-                return false;
-
-            break;
-
-        case arti_firebomb:
-            angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
-            mo = P_SpawnMobj(viewplayer->mo->x + 24 * finecosine[angle], viewplayer->mo->y + 24 * finesine[angle],
-                viewplayer->mo->z - 15 * FRACUNIT * (viewplayer->mo->flags2 & MF2_FEETARECLIPPED), HMT_FIREBOMB);
-            mo->target = viewplayer->mo;
-            break;
-
-        case arti_egg:
-            mo = viewplayer->mo;
-            P_SpawnPlayerMissile(mo, HMT_EGGFX);
-            P_SPMAngle(mo, HMT_EGGFX, mo->angle - (ANG45 / 6));
-            P_SPMAngle(mo, HMT_EGGFX, mo->angle + (ANG45 / 6));
-            P_SPMAngle(mo, HMT_EGGFX, mo->angle - (ANG45 / 3));
-            P_SPMAngle(mo, HMT_EGGFX, mo->angle + (ANG45 / 3));
-            break;
-
-        case arti_fly:
-            if (!P_GivePower(pw_flight))
-                return false;
-
-            break;
-
-        case arti_teleport:
-            P_ArtiTele();
-            break;
-
-        default:
-            return false;
-    }
-
-    return true;
 }

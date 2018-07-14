@@ -62,13 +62,9 @@ typedef struct
     int             tics;
     int             prev;
     int             next;
-    int             lookup;
-    int             lookdown;
     dboolean        altered;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];
-extern weaponinfo_t wpnlev1info[NUMHWEAPONS];
-extern weaponinfo_t wpnlev2info[NUMHWEAPONS];
 
 #endif

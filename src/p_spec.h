@@ -65,24 +65,17 @@ extern short    rrockend;
 extern short    slimestart;
 extern short    slimeend;
 
-extern int      *terraintypes;
-
 // at game start
 void P_InitPicAnims(void);
-void P_InitTerrainTypes(void);
-void P_InitLava(void);
 
 // at map load
 void P_SetTimer(int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
 void P_SetLifts(void);
-void P_InitAmbientSound(void);
-void P_AddAmbientSfx(int sequence);
 
 // every tic
 void P_UpdateSpecials(void);
-void P_AmbientSound(void);
 
 dboolean P_SectorActive(special_e t, sector_t *sec);
 dboolean P_SectorHasLightSpecial(sector_t *sec);
@@ -256,7 +249,6 @@ extern int      maxbuttons;
 void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
 
 void P_InitSwitchList(void);
-void P_InitHereticSwitchList(void);
 
 //
 // P_PLATS

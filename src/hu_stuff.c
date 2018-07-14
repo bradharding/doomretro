@@ -139,28 +139,21 @@ static struct
     { "CLIPA0", MT_CLIP         },
     { "SHELA0", MT_MISC22       },
     { "CELLA0", MT_MISC20       },
-    { "ROCKA0", MT_MISC18       },
-    { "AMG1A0", HMT_AMGWNDWIMPY },
-    { "AMC1A0", HMT_AMCBOWWIMPY },
-    { "AMB1A0", HMT_AMBLSRWIMPY },
-    { "AMS1A0", HMT_AMSKRDWIMPY },
-    { "AMP1A0", HMT_AMPHRDWIMPY },
-    { "AMM1A0", HMT_AMMACEWIMPY }
+    { "ROCKA0", MT_MISC18       }
 };
 
 static struct
 {
     char    *patchnamea;
     char    *patchnameb;
-    char    *patchnamec;
     patch_t *patch;
 } keypics[NUMCARDS] = {
-    { "BKEYA0", "BKEYB0", "BKYYA0" },
-    { "YKEYA0", "YKEYB0", "CKYYA0" },
-    { "RKEYA0", "RKEYB0", "AKYYA0" },
-    { "BSKUA0", "BSKUB0", "BKYYA0" },
-    { "YSKUA0", "YSKUB0", "CKYYA0" },
-    { "RSKUA0", "RSKUB0", "AKYYA0" }
+    { "BKEYA0", "BKEYB0" },
+    { "YKEYA0", "YKEYB0" },
+    { "RKEYA0", "RKEYB0" },
+    { "BSKUA0", "BSKUB0" },
+    { "YSKUA0", "YSKUB0" },
+    { "RSKUA0", "RSKUB0" }
 };
 
 static void HU_AltInit(void);
@@ -179,8 +172,6 @@ static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
     int lump;
 
-    if (gamemission == heretic)
-        return W_CacheLumpName(keypics[keypicnum].patchnamec);
     if (dehacked && (lump = W_CheckNumForName(keypics[keypicnum].patchnamea)) >= 0)
         return W_CacheLumpNum(lump);
     else if ((lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
@@ -218,27 +209,13 @@ void HU_Init(void)
     int lump;
 
     // load the heads-up font
-    if (gamemission == heretic)
+    for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
     {
-        for (int i = 1; i <= 59; i++)
-        {
-            char    buffer[9];
+        char    buffer[9];
 
-            M_snprintf(buffer, sizeof(buffer), "FONTA%.2d", i);
-            hu_font[i - 1] = W_CacheLumpName(buffer);
-            caretcolor = FindDominantColor(hu_font[i - 1]);
-        }
-    }
-    else
-    {
-        for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
-        {
-            char    buffer[9];
-
-            M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
-            hu_font[i] = W_CacheLumpName(buffer);
-            caretcolor = FindDominantColor(hu_font[i]);
-        }
+        M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
+        hu_font[i] = W_CacheLumpName(buffer);
+        caretcolor = FindDominantColor(hu_font[i]);
     }
 
     if (W_CheckNumForName("STTMINUS") >= 0)
@@ -250,16 +227,11 @@ void HU_Init(void)
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    if (gamemission == heretic)
-        armorpatch = W_CacheLumpName("SHLDA0");
-    else
-    {
-        if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
-            greenarmorpatch = W_CacheLumpNum(lump);
+    if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
+        greenarmorpatch = W_CacheLumpNum(lump);
 
-        if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
-            bluearmorpatch = W_CacheLumpNum(lump);
-    }
+    if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
+        bluearmorpatch = W_CacheLumpNum(lump);
 
     for (int i = 0; i < NUMAMMO; i++)
         ammopic[i].patch = HU_LoadHUDAmmoPatch(i);
@@ -556,129 +528,6 @@ static void HU_DrawHUD(void)
     }
 }
 
-static void HU_DrawHereticHUD(void)
-{
-    const int           health = viewplayer->health;
-    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-    const weapontype_t  readyweapon = viewplayer->readyweapon;
-    ammotype_t          ammotype;
-    int                 ammo;
-    const int           armor = viewplayer->armorpoints;
-    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum2, 2)) / 2;
-    static dboolean     healthanim;
-    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
-                            || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
-    patch_t             *patch;
-    const dboolean      gamepaused = (menuactive || paused || consoleactive);
-    const int           currenttime = I_GetTimeMS();
-    int                 keypic_x = (armor ? HUD_KEYS_X : SCREENWIDTH - 13);
-    static int          keywait;
-    static dboolean     showkey;
-
-    if (--healthpatchcounter <= 0)
-    {
-        static int  i;
-
-        healthpatch = W_CacheLumpName(healthnames[(i = (i == 2 ? 0 : i + 1))]);
-        healthpatchcounter = 6;
-    }
-
-    hudfunc(HUD_HEALTH_X - SHORT(healthpatch->width) / 2, HUD_HEALTH_Y - SHORT(healthpatch->height) - 3, healthpatch, tinttab);
-    DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum2, 2,
-        (healthhighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
-
-    if (!gamepaused)
-    {
-        static int  healthwait;
-
-        if (health > 0 && health <= HUD_HEALTH_MIN)
-        {
-            if (healthwait < currenttime)
-            {
-                healthanim = !healthanim;
-                healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
-            }
-        }
-        else
-        {
-            healthanim = false;
-            healthwait = 0;
-        }
-    }
-
-    ammotype = (pendingweapon != wp_nochange ? wpnlev1info[pendingweapon].ammotype : wpnlev1info[readyweapon].ammotype);
-
-    if (health > 0 && ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
-    {
-        int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo, tallnum2, 2) + 1) / 2;
-        static dboolean ammoanim;
-
-        tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
-        patch = ammopic[ammotype].patch;
-        hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab);
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, tallnum2, 2,
-            (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
-
-        if (!gamepaused)
-        {
-            static int  ammowait;
-
-            if (ammo <= HUD_AMMO_MIN)
-            {
-                if (ammowait < currenttime)
-                {
-                    ammoanim = !ammoanim;
-                    ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
-                }
-            }
-            else
-            {
-                ammoanim = false;
-                ammowait = 0;
-            }
-        }
-    }
-
-    for (int i = 1; i <= NUMCARDS; i++)
-        for (int j = 0; j < NUMCARDS; j++)
-            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
-            {
-                keypic_x -= SHORT(patch->width);
-                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-                keypic_x -= 4;
-            }
-
-    if (viewplayer->neededcardflash)
-    {
-        if ((patch = keypics[viewplayer->neededcard].patch))
-        {
-            if (!gamepaused && keywait < currenttime)
-            {
-                showkey = !showkey;
-                keywait = currenttime + HUD_KEY_WAIT;
-                viewplayer->neededcardflash--;
-            }
-
-            if (showkey)
-                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-        }
-    }
-    else
-    {
-        showkey = false;
-        keywait = 0;
-    }
-
-    if (armor)
-    {
-        int armor_x = HUD_ARMOR_X - HUDNumberWidth(armor, tallnum2, 2) / 2;
-
-        hudfunc(HUD_ARMOR_X - SHORT(armorpatch->width) / 2, HUD_ARMOR_Y - SHORT(armorpatch->height) - 3, armorpatch, tinttab66);
-        DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum2, 2,
-            (armorhighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
-    }
-}
-
 #define ALTHUD_LEFT_X   21
 #define ALTHUD_RIGHT_X  (SCREENWIDTH - 179)
 #define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
@@ -765,55 +614,29 @@ static void HU_AltInit(void)
         else
             altkeypics[i].color = nearestcolors[altkeypics[i].color];
 
-    if (gamemission == heretic)
+    altkeypics[0].patch = altkeypatch;
+    altkeypics[1].patch = altkeypatch;
+    altkeypics[2].patch = altkeypatch;
+    altkeypics[3].patch = altskullpatch;
+    altkeypics[4].patch = altskullpatch;
+    altkeypics[5].patch = altskullpatch;
+
+    for (int i = 1; i < NUMWEAPONS; i++)
     {
-        for (int i = 0; i < NUMCARDS; i++)
-            altkeypics[i].patch = altgempatch;
-
-        altleftpatch = W_CacheLumpName("DRHUDL_2");
-        altrightpatch = W_CacheLumpName("DRHUDR_2");
-
-        white = 35;
-        lightgray = 27;
-        gray = 20;
-        darkgray = 12;
-        green = 220;
-        red = 154;
-        yellow = 144;
-
-        altkeypics[0].color = 196;
-        altkeypics[1].color = yellow;
-        altkeypics[2].color = green;
-        altkeypics[3].color = 196;
-        altkeypics[4].color = yellow;
-        altkeypics[5].color = green;
+        M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
+        altweapon[i] = W_CacheLumpName(buffer);
     }
-    else
-    {
-        altkeypics[0].patch = altkeypatch;
-        altkeypics[1].patch = altkeypatch;
-        altkeypics[2].patch = altkeypatch;
-        altkeypics[3].patch = altskullpatch;
-        altkeypics[4].patch = altskullpatch;
-        altkeypics[5].patch = altskullpatch;
 
-        for (int i = 1; i < NUMWEAPONS; i++)
-        {
-            M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-            altweapon[i] = W_CacheLumpName(buffer);
-        }
+    altleftpatch = W_CacheLumpName("DRHUDL");
+    altrightpatch = W_CacheLumpName("DRHUDR");
 
-        altleftpatch = W_CacheLumpName("DRHUDL");
-        altrightpatch = W_CacheLumpName("DRHUDR");
-
-        white = nearestcolors[WHITE];
-        lightgray = nearestcolors[LIGHTGRAY];
-        gray = nearestcolors[GRAY];
-        darkgray = nearestcolors[DARKGRAY];
-        green = nearestcolors[GREEN];
-        red = nearestcolors[RED];
-        yellow = nearestcolors[YELLOW];
-    }
+    white = nearestcolors[WHITE];
+    lightgray = nearestcolors[LIGHTGRAY];
+    gray = nearestcolors[GRAY];
+    darkgray = nearestcolors[DARKGRAY];
+    green = nearestcolors[GREEN];
+    red = nearestcolors[RED];
+    yellow = nearestcolors[YELLOW];
 }
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
@@ -964,9 +787,6 @@ static void HU_DrawAltHUD(void)
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
         ammotype_t          ammotype = weaponinfo[weapon].ammotype;
 
-        if (gamemission == heretic)
-            ammotype = (viewplayer->powers[pw_weaponlevel2] ? wpnlev2info[weapon].ammotype : wpnlev1info[weapon].ammotype);
-
         if (ammotype != am_noammo)
         {
             int ammo = viewplayer->ammo[ammotype];
@@ -1094,20 +914,7 @@ void HU_InitMessages(void)
         }
     }
 
-    if (gamemission == heretic)
-    {
-        if (r_messagescale == r_messagescale_small)
-        {
-            w_title.x = (SCREENWIDTH - M_StringWidth(automaptitle)) / 2;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 24 + 20 * vid_widescreen;
-        }
-        else
-        {
-            w_title.x = (ORIGINALWIDTH - M_StringWidth(automaptitle)) / 2;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 12 + 10 * vid_widescreen;
-        }
-    }
-    else if (r_messagescale == r_messagescale_small)
+    if (r_messagescale == r_messagescale_small)
     {
         w_title.x = HU_TITLEX * SCREENSCALE;
         w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
@@ -1131,8 +938,6 @@ void HU_Drawer(void)
         {
             if (r_althud)
                 HU_DrawAltHUD();
-            else if (gamemission == heretic)
-                HU_DrawHereticHUD();
             else
                 HU_DrawHUD();
         }

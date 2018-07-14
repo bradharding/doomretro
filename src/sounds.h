@@ -44,19 +44,6 @@
 // so that the individual game logic and sound driver code agree
 #define NORM_PITCH  127
 
-#define SFX_BDCLS   (gamemission == heretic ? hsfx_doropn : sfx_bdcls)
-#define SFX_BDOPN   (gamemission == heretic ? hsfx_doropn : sfx_bdopn)
-#define SFX_DORCLS  (gamemission == heretic ? hsfx_doropn : sfx_dorcls)
-#define SFX_DOROPN  (gamemission == heretic ? hsfx_doropn : sfx_doropn)
-#define SFX_GETPOW  (gamemission == heretic ? hsfx_chat : sfx_getpow)
-#define SFX_ITEMUP  (gamemission == heretic ? hsfx_itemup : sfx_itemup)
-#define SFX_NOWAY   (gamemission == heretic ? hsfx_plroof : sfx_noway)
-#define SFX_OOF     (gamemission == heretic ? hsfx_plroof : sfx_oof)
-#define SFX_PSTOP   (gamemission == heretic ? hsfx_pstop : sfx_pstop)
-#define SFX_STNMOV  (gamemission == heretic ? hsfx_dormov : sfx_stnmov)
-#define SFX_SWTCHN  (gamemission == heretic ? hsfx_switch : sfx_swtchn)
-#define SFX_TELEPT  (gamemission == heretic ? hsfx_telept : sfx_telept)
-
 //
 // SoundFX struct.
 //
@@ -116,11 +103,9 @@ typedef struct
 
 // the complete set of sound effects
 extern sfxinfo_t    S_sfx[];
-extern sfxinfo_t    HS_sfx[];
 
 // the complete set of music
 extern musicinfo_t  S_music[];
-extern musicinfo_t  HS_music[];
 
 extern musicinfo_t  *mus_playing;
 

@@ -195,9 +195,6 @@ void S_Init(void)
     for (int i = 1; i < NUMSFX; i++)
         S_sfx[i].lumpnum = -1;
 
-    for (int i = 1; i < NUMHSFX; i++)
-        HS_sfx[i].lumpnum = -1;
-
     if (!nomusic)
     {
         InitMusicModule();
@@ -261,9 +258,7 @@ static int S_GetMusicNum(void)
 {
     static int mnum;
 
-    if (gamemission == heretic)
-        mnum = (gameepisode - 1) * 9 + gamemap - 1;
-    else if (gamemode == commercial)
+    if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
         {
@@ -441,7 +436,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
  void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
-    sfxinfo_t   *sfx = (gamemission == heretic ? &HS_sfx[sfx_id] : &S_sfx[sfx_id]);
+    sfxinfo_t   *sfx =&S_sfx[sfx_id];
     mobj_t      *mo = viewplayer->mo;
     int         sep;
     int         cnum;
@@ -597,7 +592,7 @@ void S_StartMusic(int music_id)
 
 void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
 {
-    musicinfo_t *music = (gamemission == heretic ? &HS_music[music_id] : &S_music[music_id]);
+    musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];
     void        *handle = NULL;
     int         mapinfomusic;
@@ -611,10 +606,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     // shutdown old music
     S_StopMusic();
 
-    if (gamemission == heretic)
-        M_StringCopy(namebuf, music->name, 9);
-    else
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
+    M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
 
     // get lumpnum if necessary
     if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)

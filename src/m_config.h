@@ -623,8 +623,6 @@ enum
 #define GAMEPADBACK_DEFAULT                     0
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 #define GAMEPADFORWARD_DEFAULT                  0
-#define GAMEPADINVLEFT_DEFAULT                  0
-#define GAMEPADINVRIGHT_DEFAULT                 0
 #define GAMEPADJUMP_DEFAULT                     0
 #define GAMEPADLEFT_DEFAULT                     0
 #define GAMEPADMENU_DEFAULT                     GAMEPAD_START
@@ -638,7 +636,6 @@ enum
 #define GAMEPADSTRAFERIGHT_DEFAULT              0
 #define GAMEPADUSE_DEFAULT                      GAMEPAD_A
 #define GAMEPADUSE2_DEFAULT                     GAMEPAD_RIGHT_THUMB
-#define GAMEPADUSEARTIFACT_DEFAULT              0
 #define GAMEPADWEAPON_DEFAULT                   0
 
 #define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
@@ -655,8 +652,6 @@ enum
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 #define KEYDOWN2_DEFAULT                        's'
 #define KEYFIRE_DEFAULT                         KEY_CTRL
-#define KEYINVLEFT_DEFAULT                      '['
-#define KEYINVRIGHT_DEFAULT                     ']'
 #define KEYJUMP_DEFAULT                         0
 #define KEYLEFT_DEFAULT                         KEY_LEFTARROW
 #define KEYMOUSELOOK_DEFAULT                    0
@@ -678,7 +673,6 @@ enum
 #define KEYUP2_DEFAULT                          'w'
 #define KEYUSE_DEFAULT                          ' '
 #define KEYUSE2_DEFAULT                         'e'
-#define KEYUSEARTIFACT_DEFAULT                  KEY_ENTER
 #define KEYWEAPON1_DEFAULT                      '1'
 #define KEYWEAPON2_DEFAULT                      '2'
 #define KEYWEAPON3_DEFAULT                      '3'

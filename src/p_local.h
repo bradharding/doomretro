@@ -92,32 +92,13 @@
 //
 // P_PSPR
 //
-
-#define USE_GWND_AMMO_1     1
-#define USE_GWND_AMMO_2     1
-#define USE_CBOW_AMMO_1     1
-#define USE_CBOW_AMMO_2     1
-#define USE_BLSR_AMMO_1     1
-#define USE_BLSR_AMMO_2     5
-#define USE_SKRD_AMMO_1     1
-#define USE_SKRD_AMMO_2     5
-#define USE_PHRD_AMMO_1     1
-#define USE_PHRD_AMMO_2     1
-#define USE_MACE_AMMO_1     1
-#define USE_MACE_AMMO_2     5
-
 void P_OpenWeapons(void);
 void P_CloseWeapons(void);
 void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);
 void P_DropWeapon(void);
-void P_RepositionMace(mobj_t *mo);
 void P_SetPsprite(size_t position, statenum_t stnum);
-void P_PostChickenWeapon(weapontype_t weapon);
-void P_UpdateBeak(mobj_t *actor, player_t *player, pspdef_t *psp);
-void P_ActivateBeak(void);
-void P_AddMaceSpot(mapthing_t *mthing);
 
 //
 // P_USER
@@ -131,23 +112,12 @@ void P_MovePlayer(void);
 void P_PlayerThink(void);
 void P_ResurrectPlayer(int health);
 void P_ChangeWeapon(weapontype_t newweapon);
-void P_PlayerRemoveArtifact(int slot);
-void P_PlayerUseArtifact(artitype_t arti);
-void P_PlayerNextArtifact(void);
-dboolean P_UseArtifact(artitype_t arti);
-dboolean P_UndoPlayerChicken(void);
 
 //
 // P_MOBJ
 //
-#define FLOOR_SOLID         0
-#define FLOOR_WATER         1
-#define FLOOR_LAVA          2
-#define FLOOR_SLUDGE        3
-
 #define ONFLOORZ            INT_MIN
 #define ONCEILINGZ          INT_MAX
-#define FLOATRANDZ          (INT_MAX - 1)
 
 // Time interval for item respawning.
 #define ITEMQUEUESIZE       512
@@ -184,28 +154,17 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
-void P_BloodSplatter(fixed_t x, fixed_t y, fixed_t z, mobj_t *originator);
-void P_RipperBlood(mobj_t *mo);
-dboolean P_CheckMissileSpawn(mobj_t *th);
+void P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
-mobj_t *P_SPMAngle(mobj_t * source, mobjtype_t type, angle_t angle);
-dboolean P_SeekerMissile(mobj_t *actor, angle_t thresh, angle_t turnmax);
-void P_ThrustMobj(mobj_t *mo, angle_t angle, fixed_t move);
-int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta);
 void P_ExplodeMissile(mobj_t *mo);
-void P_InitExtraMobjs(void);
-void P_InitHereticMobjs(void);
 
 //
 // P_ENEMY
 //
 #define BARRELMS    1500
 
-void P_AddBossSpot(fixed_t x, fixed_t y, angle_t angle);
-void P_DSparilTeleport(mobj_t *actor);
-void P_InitMonsters(void);
 void P_NoiseAlert(mobj_t *target);
 
 //
@@ -319,13 +278,11 @@ extern mobj_t       **blocklinks;   // for thing chains
 //
 // P_INTER
 //
-#define MAXHEALTH           100
-#define MAXCHICKENHEALTH    30
+#define MAXHEALTH   100
 
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 
 void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust);
-dboolean P_ChickenMorphPlayer(void);
 
 extern int      god_health;
 extern int      idfa_armor;

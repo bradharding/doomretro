@@ -218,7 +218,7 @@ void T_MoveFloor(floormove_t *floor)
     if (!(leveltime & 7)
         // [BH] don't make sound once floor is at its destination height
         && sec->floorheight != floor->floordestheight)
-        S_StartSectorSound(&sec->soundorg, SFX_STNMOV);
+        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
     {
@@ -295,7 +295,7 @@ void T_MoveFloor(floormove_t *floor)
 
         // [BH] don't make stop sound if floor already at its destination height
         if (floor->stopsound)
-            S_StartSectorSound(&sec->soundorg, SFX_PSTOP);
+            S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
 }
 
@@ -343,7 +343,7 @@ void T_MoveElevator(elevator_t *elevator)
 
     // make floor move sound
     if (!(leveltime & 7))
-        S_StartSectorSound(&elevator->sector->soundorg, SFX_STNMOV);
+        S_StartSectorSound(&elevator->sector->soundorg, sfx_stnmov);
 
     if (res == pastdest)                        // if destination height achieved
     {
@@ -352,7 +352,7 @@ void T_MoveElevator(elevator_t *elevator)
         P_RemoveThinker(&elevator->thinker);     // remove elevator from actives
 
         // make floor stop sound
-        S_StartSectorSound(&elevator->sector->soundorg, SFX_PSTOP);
+        S_StartSectorSound(&elevator->sector->soundorg, sfx_pstop);
     }
 }
 

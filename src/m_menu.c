@@ -66,7 +66,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define LINEHEIGHT  (gamemission == heretic ? 20 : 17)
+#define LINEHEIGHT  17
 #define OFFSET      (vid_widescreen ? 0 : 17)
 
 int             episode = episode_default;
@@ -132,9 +132,6 @@ static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
 
-static int      fontbbaselump;
-static int      skullbaselump;
-
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
 
@@ -182,9 +179,7 @@ static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
 static void M_DrawOptions(void);
-static void M_DrawHereticOptions(void);
 static void M_DrawSound(void);
-static void M_DrawHereticSound(void);
 static void M_DrawLoad(void);
 static void M_DrawSave(void);
 
@@ -358,25 +353,6 @@ static menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
-    56, 33,
-    endgame
-};
-
-static menuitem_t HereticOptionsMenu[] =
-{
-    {  1, "", M_EndGame,           &s_M_ENDGAME          },
-    {  1, "", M_ChangeMessages,    &s_M_MESSAGES         },
-    {  2, "", M_ChangeSensitivity, &s_M_MOUSESENSITIVITY },
-    { -1, "", 0,                   NULL                  },
-    {  1, "", M_Sound,             &s_M_MORE             }
-};
-
-static menu_t HereticOptionsDef =
-{
-    5,
-    &MainDef,
-    HereticOptionsMenu,
-    M_DrawHereticOptions,
     56, 33,
     endgame
 };
@@ -689,58 +665,42 @@ void M_DrawString(int x, int y, char *str)
     for (int i = 0; i < len; i++)
     {
         int         j = -1;
+        int         k = 0;
+        dboolean    overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
 
-        if (gamemission == heretic)
+        while (kern[k].char1)
         {
-            if (j == -1)
-                x += 6;
-            else
+            if (prev == kern[k].char1 && str[i] == kern[k].char2)
             {
-                patch_t *patch = W_CacheLumpNum(fontbbaselump + toupper(str[i]) - 33);
-
-                V_DrawPatchWithShadow(x, y, patch, false);
-                x += SHORT(patch->width);
+                x += kern[k].adjust;
+                break;
             }
+
+            k++;
         }
+
+        k = 0;
+
+        while (overlap[k].char1)
+        {
+            if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
+            {
+                overlapping = true;
+                break;
+            }
+
+            k++;
+        }
+
+        if (j == -1)
+            x += 9;
         else
         {
-            int         k = 0;
-            dboolean    overlapping = false;
-
-            while (kern[k].char1)
-            {
-                if (prev == kern[k].char1 && str[i] == kern[k].char2)
-                {
-                    x += kern[k].adjust;
-                    break;
-                }
-
-                k++;
-            }
-
-            k = 0;
-
-            while (overlap[k].char1)
-            {
-                if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
-                {
-                    overlapping = true;
-                    break;
-                }
-
-                k++;
-            }
-
-            if (j == -1)
-                x += 9;
-            else
-            {
-                M_DrawChar(x, y, j, overlapping);
-                x += (int)strlen(redcharset[j]) / 18 - 2;
-            }
+            M_DrawChar(x, y, j, overlapping);
+            x += (int)strlen(redcharset[j]) / 18 - 2;
         }
 
         prev = str[i];
@@ -1039,7 +999,7 @@ static void M_LoadSelect(int choice)
         char    name[SAVESTRINGSIZE];
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
-        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
+        S_StartSound(NULL, sfx_pistol);
         I_WaitVBL(2 * TICRATE);
         functionkey = 0;
         quickSaveSlot = choice;
@@ -1390,7 +1350,7 @@ static void M_DeleteSavegameResponse(int key)
 
         if (remove(buffer) == -1)
         {
-            S_StartSound(NULL, SFX_OOF);
+            S_StartSound(NULL, sfx_oof);
             return;
         }
 
@@ -1489,14 +1449,6 @@ static void M_DrawSound(void)
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, (float)(musicVolume * !nomusic), 4.0f, 6);
 }
 
-static void M_DrawHereticSound(void)
-{
-    M_DarkBackground();
-
-    M_DrawThermo(SoundDef.x - 10, SoundDef.y + LINEHEIGHT * 1 + OFFSET, 16, (float)(sfxVolume * !nosfx), 4.0f, 6);
-    M_DrawThermo(SoundDef.x - 10, SoundDef.y + LINEHEIGHT * 3 + OFFSET, 16, (float)(musicVolume * !nomusic), 4.0f, 6);
-}
-
 static void M_Sound(int choice)
 {
     M_SetupNextMenu(&SoundDef);
@@ -1512,7 +1464,7 @@ static void M_SfxVol(int choice)
                 if (sfxVolume > 0)
                 {
                     S_SetSfxVolume(--sfxVolume * MAX_SFX_VOLUME / 31);
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                    S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
@@ -1524,7 +1476,7 @@ static void M_SfxVol(int choice)
                 if (sfxVolume < 31)
                 {
                     S_SetSfxVolume(++sfxVolume * MAX_SFX_VOLUME / 31);
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                    S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
@@ -1545,7 +1497,7 @@ static void M_MusicVol(int choice)
                 if (musicVolume > 0)
                 {
                     S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 31);
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                    S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
@@ -1557,7 +1509,7 @@ static void M_MusicVol(int choice)
                 if (musicVolume < 31)
                 {
                     S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 31);
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                    S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
@@ -1573,43 +1525,28 @@ static void M_MusicVol(int choice)
 //
 static void M_DrawMainMenu(void)
 {
+    patch_t *patch = W_CacheLumpName("M_DOOM");
+
     M_DarkBackground();
 
-    if (gamemission == heretic)
+    if (M_DOOM)
     {
-        patch_t *patch = W_CacheLumpName("M_HTIC");
-        int     frame = (gametic / 3) % 18;
-
-        M_DrawPatchWithShadow(88, 2 + OFFSET, patch);
-        M_DrawPatchWithShadow(37, 12 + OFFSET, W_CacheLumpNum(skullbaselump + (17 - frame)));
-        M_DrawPatchWithShadow(236, 12 + OFFSET, W_CacheLumpNum(skullbaselump + frame));
-
-        MainDef.x = 110;
-        MainDef.y = 68;
+        M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
+        MainDef.x = 97;
+        MainDef.y = 72;
     }
     else
     {
-        patch_t *patch = W_CacheLumpName("M_DOOM");
+        int y = 11 + OFFSET;
+        int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
+        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
 
-        if (M_DOOM)
+        M_DrawCenteredPatchWithShadow(y, patch);
+
+        if (gamemode != commercial)
         {
-            M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
-            MainDef.x = 97;
-            MainDef.y = 72;
-        }
-        else
-        {
-            int y = 11 + OFFSET;
-            int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
-            int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
-
-            M_DrawCenteredPatchWithShadow(y, patch);
-
-            if (gamemode != commercial)
-            {
-                V_DrawPixel(98, y, dot1, false);
-                V_DrawPixel(99, y + 1, dot2, false);
-            }
+            V_DrawPixel(98, y, dot1, false);
+            V_DrawPixel(99, y + 1, dot2, false);
         }
     }
 }
@@ -1621,26 +1558,23 @@ static void M_DrawNewGame(void)
 {
     M_DarkBackground();
 
-    if (gamemission != heretic)
+    if (M_NEWG)
     {
-        if (M_NEWG)
-        {
-            M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
-            NewDef.x = (chex ? 98 : 48);
-            NewDef.y = 63;
-        }
-        else
-            M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
-
-        if (M_SKILL)
-        {
-            M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
-            NewDef.x = (chex ? 98 : 48);
-            NewDef.y = 63;
-        }
-        else
-            M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
     }
+    else
+        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+
+    if (M_SKILL)
+    {
+        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
+    }
+    else
+        M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
 }
 
 static void M_NewGame(int choice)
@@ -1657,8 +1591,6 @@ static void M_DrawEpisode(void)
 {
     M_DarkBackground();
 
-    if (gamemission != heretic)
-    {
         if (M_NEWG)
         {
             M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
@@ -1676,7 +1608,6 @@ static void M_DrawEpisode(void)
         }
         else
             M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
-    }
 }
 
 void M_SetWindowCaption(void)
@@ -1739,7 +1670,7 @@ static void M_ChooseSkill(int choice)
     }
 
     HU_DrawDisk();
-    S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
+    S_StartSound(NULL, sfx_pistol);
     I_WaitVBL(2 * TICRATE);
     quickSaveSlot = -1;
     vibrate = false;
@@ -1828,20 +1759,6 @@ static void M_DrawOptions(void)
             gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
-}
-
-static void M_DrawHereticOptions(void)
-{
-    M_DarkBackground();
-
-    M_DrawString(OptionsDef.x + 105, OptionsDef.y + 16 * msgs + OFFSET + 3, (messages ? s_M_ON : s_M_OFF));
-
-    if (usinggamepad && !M_MSENS)
-        M_DrawThermo(OptionsDef.x - 10, OptionsDef.y + 16 * 4 + OFFSET - 5, 9,
-            gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
-    else
-        M_DrawThermo(OptionsDef.x - 10, OptionsDef.y + 16 * 4 + OFFSET - 5, 9,
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
@@ -2020,7 +1937,7 @@ static void M_QuitResponse(int key)
 
 static char *M_SelectEndMessage(void)
 {
-    if (deh_strlookup[p_QUITMSG].assigned == 2 || gamemission == heretic)
+    if (deh_strlookup[p_QUITMSG].assigned == 2)
         return s_QUITMSG;
     else
         return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
@@ -2040,7 +1957,7 @@ static void M_SliderSound(void)
     if (wait < I_GetTime())
     {
         wait = I_GetTime() + 7;
-        S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+        S_StartSound(NULL, sfx_stnmov);
     }
 }
 
@@ -2153,14 +2070,14 @@ static void M_SizeDisplay(int choice)
                 else
                     returntowidescreen = false;
 
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else if (r_screensize > r_screensize_min)
             {
                 R_SetViewSize(--r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
 
@@ -2173,7 +2090,7 @@ static void M_SizeDisplay(int choice)
                 {
                     r_hud = false;
                     C_StrCVAROutput(stringize(r_hud), "off");
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                    S_StartSound(NULL, sfx_stnmov);
                     M_SaveCVARs();
                 }
             }
@@ -2197,14 +2114,14 @@ static void M_SizeDisplay(int choice)
                     }
                 }
 
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else
             {
                 R_SetViewSize(++r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
 
@@ -2222,43 +2139,27 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
 {
     int xx = x;
 
-    if (gamemission == heretic)
+    if (chex || hacx)
     {
-        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDLT"));
-        xx += 32;
-
-        for (int count = thermWidth; count--; xx += 8)
-            M_DrawPatchWithShadow(xx, y, W_CacheLumpName((count & 1) ? "M_SLDMD1" : "M_SLDMD2"));
-
-        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_SLDRT"));
-
-        V_DrawPatch(x + 32 + offset + (int)(thermDot * factor), y + 7, 0, W_CacheLumpName("M_SLDKB"));
-
+        xx--;
+        y -= 2;
     }
-    else
-    {
-        if (chex || hacx)
-        {
-            xx--;
-            y -= 2;
-        }
 
-        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
+    xx += 8;
+
+    for (int i = 0; i < thermWidth; i++)
+    {
+        V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
         xx += 8;
-
-        for (int i = 0; i < thermWidth; i++)
-        {
-            V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
-            xx += 8;
-        }
-
-        M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
-
-        for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
-            V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
-
-        V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
     }
+
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
+
+    for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
+        V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
+
+    V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
 void M_StartMessage(char *string, void *routine, dboolean input)
@@ -2282,7 +2183,7 @@ static int M_CharacterWidth(char ch, char prev)
     if (c < 0 || c >= HU_FONTSIZE)
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
     else
-        return (STCFN034 || gamemission == heretic ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
+        return (STCFN034 ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
 
 //
@@ -2362,7 +2263,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
             continue;
         }
 
-        if (STCFN034 || gamemission == heretic)
+        if (STCFN034)
         {
             w = SHORT(hu_font[c]->width);
 
@@ -2435,7 +2336,7 @@ void M_ChangeGamma(dboolean shift)
 
         r_gamma = gammalevels[gammaindex];
 
-        S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_stnmov));
+        S_StartSound(NULL, sfx_stnmov);
 
         if (r_gamma == 1.0f)
             C_StrCVAROutput(stringize(r_gamma), "off");
@@ -2812,7 +2713,7 @@ dboolean M_Responder(event_t *ev)
         if (endinggame)
             endinggame = false;
         else
-            S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx)));
+            S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
 
         return true;
     }
@@ -3062,12 +2963,12 @@ dboolean M_Responder(event_t *ev)
             {
                 paused = false;
                 S_ResumeSound();
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
+                S_StartSound(NULL, sfx_swtchx);
             }
             else
             {
                 M_StartControlPanel();
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchn));
+                S_StartSound(NULL, sfx_swtchn);
             }
         }
 
@@ -3092,7 +2993,7 @@ dboolean M_Responder(event_t *ev)
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                    S_StartSound(NULL,  sfx_pstop);
 
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
@@ -3111,15 +3012,14 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn++;
 
-                    if (currentMenu == &MainDef && itemOn == 3 && gamemission != heretic
-                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef && itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn++;
 
                     if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                         itemOn++;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
-                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                        S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
@@ -3169,7 +3069,7 @@ dboolean M_Responder(event_t *ev)
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
-                    S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                    S_StartSound(NULL, sfx_pstop);
 
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
@@ -3185,8 +3085,7 @@ dboolean M_Responder(event_t *ev)
                     else
                         itemOn--;
 
-                    if (currentMenu == &MainDef && itemOn == 3 && gamemission != heretic
-                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef && itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn--;
 
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
@@ -3196,7 +3095,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = currentMenu->numitems - 1;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
-                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                        S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
@@ -3231,8 +3130,7 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1)))
-            && !inhelpscreens)
+        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1))) && !inhelpscreens)
         {
             // Slide slider left
             if (currentMenu->menuitems[itemOn].routine && currentMenu->menuitems[itemOn].status == 2)
@@ -3241,14 +3139,13 @@ dboolean M_Responder(event_t *ev)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_pistol));
+                S_StartSound(NULL, sfx_pistol);
             }
 
             return false;
         }
 
-        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef
-            && itemOn == 1))) && !inhelpscreens)
+        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1))) && !inhelpscreens)
         {
             // Slide slider right
             if (currentMenu->menuitems[itemOn].routine && currentMenu->menuitems[itemOn].status == 2)
@@ -3257,7 +3154,7 @@ dboolean M_Responder(event_t *ev)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_keyup : sfx_pistol));
+                S_StartSound(NULL, sfx_pistol);
             }
 
             return false;
@@ -3272,7 +3169,7 @@ dboolean M_Responder(event_t *ev)
             {
                 functionkey = 0;
                 M_ClearMenus();
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
+                S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(r_screensize);
 
                 if (returntowidescreen && gamestate == GS_LEVEL)
@@ -3290,14 +3187,14 @@ dboolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && currentMenu == &MainDef && itemOn == 3 && gamemission != heretic)
+                    if (gamestate != GS_LEVEL && currentMenu == &MainDef && itemOn == 3)
                         return true;
 
                     if (gamestate != GS_LEVEL && currentMenu == &OptionsDef && !itemOn)
                         return true;
 
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
-                        S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_pistol));
+                        S_StartSound(NULL, sfx_pistol);
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
@@ -3327,13 +3224,13 @@ dboolean M_Responder(event_t *ev)
             {
                 currentMenu = currentMenu->prevMenu;
                 itemOn = currentMenu->lastOn;
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_swtchn));
+                S_StartSound(NULL, sfx_swtchn);
             }
             else
             {
                 functionkey = 0;
                 M_ClearMenus();
-                S_StartSound(NULL, (gamemission == heretic ? hsfx_dorcls : sfx_swtchx));
+                S_StartSound(NULL, sfx_swtchx);
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
@@ -3362,7 +3259,7 @@ dboolean M_Responder(event_t *ev)
                 return true;
             }
             else
-                S_StartSound(NULL, SFX_OOF);
+                S_StartSound(NULL, sfx_oof);
 
             return false;
         }
@@ -3375,8 +3272,7 @@ dboolean M_Responder(event_t *ev)
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
-                    if (currentMenu == &MainDef && i == 3 && gamemission != heretic
-                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef && i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
                     if (currentMenu == &MainDef && i == 2 && !savegames)
@@ -3389,7 +3285,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
 
                     if (itemOn != i)
-                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                        S_StartSound(NULL, sfx_pstop);
 
                     itemOn = i;
 
@@ -3436,8 +3332,7 @@ dboolean M_Responder(event_t *ev)
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
-                    if (currentMenu == &MainDef && i == 3 && gamemission != heretic
-                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef && i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
                     if (currentMenu == &MainDef && i == 2 && !savegames)
@@ -3450,7 +3345,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
 
                     if (itemOn != i)
-                        S_StartSound(NULL, (gamemission == heretic ? hsfx_switch : sfx_pstop));
+                        S_StartSound(NULL, sfx_pstop);
 
                     itemOn = i;
 
@@ -3640,7 +3535,7 @@ void M_Drawer(void)
         else
         {
             patch_t         *patch = W_CacheLumpName(skullName[whichSkull]);
-            int             yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex + (gamemission == heretic) * 2;
+            int             yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
             unsigned int    max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
@@ -3648,7 +3543,7 @@ void M_Drawer(void)
 
             if (currentMenu == &MainDef)
             {
-                patch_t *patch = W_CacheLumpName(gamemission == heretic ? "M_HTIC" : "M_DOOM");
+                patch_t *patch = W_CacheLumpName("M_DOOM");
 
                 if (SHORT(patch->height) >= ORIGINALHEIGHT)
                     yy -= OFFSET;
@@ -3657,7 +3552,7 @@ void M_Drawer(void)
             if (M_SKULL1)
                 M_DrawPatchWithShadow(x - 32, yy, patch);
             else
-                M_DrawPatchWithShadow(x - (gamemission == heretic ? 29 : 26), yy + 2, patch);
+                M_DrawPatchWithShadow(x - 26, yy + 2, patch);
 
             for (unsigned int i = 0; i < max; i++)
             {
@@ -3666,7 +3561,7 @@ void M_Drawer(void)
                     char    *name = currentMenu->menuitems[i].name;
                     char    **text = currentMenu->menuitems[i].text;
 
-                    if (M_StringCompare(name, "M_NMARE") && gamemission != heretic)
+                    if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
                             M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
@@ -3765,25 +3660,6 @@ void M_Init(void)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
-
-    if (gamemission == heretic)
-    {
-        if (gamemode == retail)
-            EpiDef.numitems = 5;
-
-        EpiDef.x = 60;
-        EpiDef.y = 50;
-        NewDef.x = 34;
-        NewDef.y = 50;
-        OptionsDef = HereticOptionsDef;
-        SoundDef.x = 70;
-        SoundDef.y = 54;
-        SoundDef.routine = M_DrawHereticSound;
-        skullName[0] = "M_SLCTR1";
-        skullName[1] = "M_SLCTR2";
-        fontbbaselump = W_GetNumForName("FONTB_S") + 1;
-        skullbaselump = W_GetNumForName("M_SKL00");
-    }
 
 #if !defined(_WIN32)
     s_DOSY = s_OTHERY;

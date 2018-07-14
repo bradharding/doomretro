@@ -188,8 +188,6 @@ static void fire_action_func(void);
 static void followmode_action_func(void);
 static void forward_action_func(void);
 static void grid_action_func(void);
-static void invleft_action_func(void);
-static void invright_action_func(void);
 static void jump_action_func(void);
 static void left_action_func(void);
 static void mark_action_func(void);
@@ -203,7 +201,6 @@ static void screenshot_action_func(void);
 static void strafeleft_action_func(void);
 static void straferight_action_func(void);
 static void use_action_func(void);
-static void useartifact_action_func(void);
 static void weapon1_action_func(void);
 static void weapon2_action_func(void);
 static void weapon3_action_func(void);
@@ -223,8 +220,6 @@ action_t actions[] =
     { "+followmode",  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,              &gamepadautomapfollowmode, NULL         },
     { "+forward",     forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,     &gamepadforward,           NULL         },
     { "+grid",        grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,              &gamepadautomapgrid,       NULL         },
-    { "+invleft",     invleft_action_func,     &keyboardinvleft,           NULL,                  NULL,              &gamepadinvleft,           NULL         },
-    { "+invright",    invright_action_func,    &keyboardinvright,          NULL,                  NULL,              &gamepadinvright,          NULL         },
     { "+jump",        jump_action_func,        &keyboardjump,              NULL,                  &mousejump,        &gamepadjump,              NULL         },
     { "+left",        left_action_func,        &keyboardleft,              NULL,                  NULL,              &gamepadleft,              NULL         },
     { "+mark",        mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,              &gamepadautomapmark,       NULL         },
@@ -241,7 +236,6 @@ action_t actions[] =
     { "+strafeleft",  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,              &gamepadstrafeleft,        NULL         },
     { "+straferight", straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,              &gamepadstraferight,       NULL         },
     { "+use",         use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,         &gamepaduse,               &gamepaduse2 },
-    { "+useartifact", useartifact_action_func, &keyboarduseartifact,       NULL,                  &mouseuseartifact, &gamepaduseartifact,       NULL         },
     { "+weapon1",     weapon1_action_func,     &keyboardweapon1,           NULL,                  NULL,              &gamepadweapon1,           NULL         },
     { "+weapon2",     weapon2_action_func,     &keyboardweapon2,           NULL,                  NULL,              &gamepadweapon2,           NULL         },
     { "+weapon3",     weapon3_action_func,     &keyboardweapon3,           NULL,                  NULL,              &gamepadweapon3,           NULL         },
@@ -489,7 +483,6 @@ consolecmd_t consolecmds[] =
         "Clears the console."),
     CMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Shows a list of console commands."),
-    CMD_CHEAT(cockadoodledoo, false),
     CVAR_INT(con_backcolor, con_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the console's background (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -502,9 +495,8 @@ consolecmd_t consolecmds[] =
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
-    CMD_CHEAT(engage, true),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM</b></i> or <i><b>Heretic</b></i> episode in\nthe menu (<b>1</b> to <b>5</b>)."),
+        "The currently selected <i><b>DOOM</b></i> episode in the menu (<b>1</b> to <b>5</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, false, "",
@@ -539,7 +531,6 @@ consolecmd_t consolecmds[] =
         "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer receives damage (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(gp_vibrate_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer fires their weapon (<b>0%</b> to <b>200%</b>)."),
-    CMD_CHEAT(gimme, true),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CMD(help, "", null_func1, help_cmd_func2, false, "",
@@ -570,7 +561,6 @@ consolecmd_t consolecmds[] =
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nor explodes all <b>barrels</b> or <b>missiles</b>."),
-    CMD_CHEAT(kitty, false),
     CMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -587,7 +577,6 @@ consolecmd_t consolecmds[] =
         "Shows a list of the available maps."),
     CMD(mapstats, "", game_func1, mapstats_cmd_func2, false, "",
         "Shows statistics about the current map."),
-    CMD_CHEAT(massacre, false),
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles player messages."),
     CVAR_BOOL(mouselook, "", bool_cvars_func1, mouselook_cvar_func2, BOOLVALUEALIAS,
@@ -599,7 +588,6 @@ consolecmd_t consolecmds[] =
         "Starts a new game."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles no clipping mode."),
-    CMD_CHEAT(noise, false),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles the presence of monsters in maps."),
     CMD(notarget, "", game_func1, notarget_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
@@ -612,10 +600,8 @@ consolecmd_t consolecmds[] =
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows statistics about the player."),
-    CMD_CHEAT(ponce, false),
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player <i>message</i>."),
-    CMD_CHEAT(quicken, false),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits <i><b>"PACKAGE_NAME"</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -706,8 +692,6 @@ consolecmd_t consolecmds[] =
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and <i><b>BOOM</b></i>-\ncompatible wall textures."),
-    CMD_CHEAT(rambo, false),
-    CMD_CHEAT(ravmap, false),
     CMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles regenerating the player's health when\nbelow 100%."),
     CMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
@@ -736,8 +720,6 @@ consolecmd_t consolecmds[] =
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu\n(<b>1</b> to <b>6</b>)."),
-    CMD_CHEAT(shazam, false),
-    CMD_CHEAT(skel, false),
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
@@ -748,7 +730,6 @@ consolecmd_t consolecmds[] =
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Shows a list of things in the current map."),
-    CMD_CHEAT(ticker, false),
     CMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
         "Sets a time limit on each map."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -883,16 +864,6 @@ static void grid_action_func(void)
         AM_toggleGrid();
 }
 
-static void invleft_action_func(void)
-{
-    G_InventoryLeft();
-}
-
-static void invright_action_func(void)
-{
-    G_InventoryRight();
-}
-
 static void jump_action_func(void)
 {
     viewplayer->cmd.buttons |= BT_JUMP;
@@ -925,12 +896,12 @@ static void menu_action_func(void)
 
 static void nextweapon_action_func(void)
 {
-    nextweaponfunc();
+    G_NextWeapon();
 }
 
 static void prevweapon_action_func(void)
 {
-    prevweaponfunc();
+    G_PrevWeapon();
 }
 
 static void right_action_func(void)
@@ -965,12 +936,6 @@ static void straferight_action_func(void)
 static void use_action_func(void)
 {
     P_UseLines();
-}
-
-static void useartifact_action_func(void)
-{
-    if (viewplayer->cmd.arti)
-        P_PlayerUseArtifact(viewplayer->cmd.arti);
 }
 
 static void weapon1_action_func(void)
@@ -1030,8 +995,7 @@ static dboolean alive_func1(char *cmd, char *parms)
 
 static dboolean cheat_func1(char *cmd, char *parms)
 {
-    if ((M_StringCompare(cmd, cheat_clev.sequence) && gamemission != heretic)
-        || (M_StringCompare(cmd, hcheat_warp.sequence) && gamemission == heretic))
+    if (M_StringCompare(cmd, cheat_clev.sequence))
     {
         dboolean    result;
 
@@ -1065,54 +1029,38 @@ static dboolean cheat_func1(char *cmd, char *parms)
         return false;
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
-    else if (M_StringCompare(cmd, hcheat_god.sequence))
-        return (gameskill != sk_nightmare && gamemission == heretic);
     else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(cmd, hcheat_weapons.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
-    else if (M_StringCompare(cmd, hcheat_keys.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
-    else if (M_StringCompare(cmd, hcheat_massacre.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
-    else if (M_StringCompare(cmd, hcheat_chicken.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
-    else if (M_StringCompare(cmd, hcheat_ticker.sequence))
-        return (gamemission == heretic);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
-        return (!nomusic && musicVolume && gamemission != heretic);
+        return (!nomusic && musicVolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
-        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
-        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
-    else if (M_StringCompare(cmd, hcheat_noclip.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission == heretic);
+        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[2].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[3].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0 && gamemission != heretic);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_buddha.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
-        return (gamemission != heretic);
+        return true;
     else if (M_StringCompare(cmd, cheat_amap.sequence))
-        return ((automapactive || mapwindow) && gamemission != heretic);
-    else if (M_StringCompare(cmd, hcheat_amap.sequence))
-        return ((automapactive || mapwindow) && gamemission == heretic);
+        return (automapactive || mapwindow);
 
     return false;
 }
@@ -2076,11 +2024,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all %s.", (gamemission == heretic ? "keys" : "keycards and skull keys"));
+                C_Warning("The player already has all keycards and skull keys.");
                 return;
             }
         }
-        else if (M_StringCompare(parm, "keycards") && gamemission != heretic)
+        else if (M_StringCompare(parm, "keycards"))
         {
             if (P_GiveAllKeyCards())
             {
@@ -2094,7 +2042,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "skullkeys") && gamemission != heretic)
+        else if (M_StringCompare(parm, "skullkeys"))
         {
             if (P_GiveAllSkullKeys())
             {
@@ -2431,7 +2379,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && type != playermobjtype && type != MT_BARREL
+                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL
                             && type != MT_BOSSBRAIN && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
@@ -3366,7 +3314,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
                     const int           flags = thing->flags;
 
                     if (((flags & MF_SHOOTABLE) || (flags & MF_CORPSE) || (thing->flags2 & MF2_MONSTERMISSILE))
-                        && type != playermobjtype && type != MT_BARREL && type != MT_BOSSBRAIN)
+                        && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
                         P_RemoveMobj(thing);
 
                     thing = thing->snext;
@@ -4016,8 +3964,6 @@ static void C_VerifyResetAll(const int key)
         keyboardfire = KEYFIRE_DEFAULT;
         keyboardforward = KEYUP_DEFAULT;
         keyboardforward2 = KEYUP2_DEFAULT;
-        keyboardinvleft = KEYINVLEFT_DEFAULT;
-        keyboardinvright = KEYINVRIGHT_DEFAULT;
         keyboardjump = KEYJUMP_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardmenu = KEY_ESCAPE;
@@ -4034,7 +3980,6 @@ static void C_VerifyResetAll(const int key)
         keyboardstraferight2 = KEYSTRAFERIGHT2_DEFAULT;
         keyboarduse = KEYUSE_DEFAULT;
         keyboarduse2 = KEYUSE2_DEFAULT;
-        keyboarduseartifact = KEYUSEARTIFACT_DEFAULT;
         keyboardweapon1 = KEYWEAPON1_DEFAULT;
         keyboardweapon2 = KEYWEAPON2_DEFAULT;
         keyboardweapon3 = KEYWEAPON3_DEFAULT;
@@ -4066,8 +4011,6 @@ static void C_VerifyResetAll(const int key)
         gamepadback = GAMEPADBACK_DEFAULT;
         gamepadfire = GAMEPADFIRE_DEFAULT;
         gamepadforward = GAMEPADFORWARD_DEFAULT;
-        gamepadinvleft = GAMEPADINVLEFT_DEFAULT;
-        gamepadinvright = GAMEPADINVRIGHT_DEFAULT;
         gamepadjump = GAMEPADJUMP_DEFAULT;
         gamepadleft = GAMEPADLEFT_DEFAULT;
         gamepadmenu = GAMEPADMENU_DEFAULT;
@@ -4081,7 +4024,6 @@ static void C_VerifyResetAll(const int key)
         gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
         gamepaduse = GAMEPADUSE_DEFAULT;
         gamepaduse2 = GAMEPADUSE2_DEFAULT;
-        gamepaduseartifact = GAMEPADUSEARTIFACT_DEFAULT;
         gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
@@ -4285,37 +4227,34 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         dboolean    spawn = true;
         static char buffer[128];
 
-        if (gamemission != heretic)
+        if (gamemode != commercial)
         {
-            if (gamemode != commercial)
+            if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
             {
-                if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
-                {
-                    M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
 
-                    if (!*buffer)
-                        M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+                if (!*buffer)
+                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
-                    buffer[0] = toupper(buffer[0]);
-                    C_Warning("%s can't be spawned in <i><b>DOOM</b></i>.", buffer);
-                    spawn = false;
-                }
-
-                if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
-                {
-                    M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
-
-                    if (!*buffer)
-                        M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
-
-                    buffer[0] = toupper(buffer[0]);
-                    C_Warning("%s can't be spawned in <i><b>DOOM Shareware</b></i>.", buffer);
-                    spawn = false;
-                }
+                buffer[0] = toupper(buffer[0]);
+                C_Warning("%s can't be spawned in <i><b>DOOM</b></i>.", buffer);
+                spawn = false;
             }
-            else if (spawncmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
-                spawncmdtype = Zombieman;
+
+            if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
+            {
+                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+
+                if (!*buffer)
+                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+
+                buffer[0] = toupper(buffer[0]);
+                C_Warning("%s can't be spawned in <i><b>DOOM Shareware</b></i>.", buffer);
+                spawn = false;
+            }
         }
+        else if (spawncmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+            spawncmdtype = Zombieman;
 
         if (spawn)
         {
@@ -4487,7 +4426,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
     if (vanilla)
     {
-        SC_Open((gamemission == heretic ? "VANILLA2" : "VANILLA1"));
+        SC_Open("VANILLA");
 
         while (SC_GetString())
         {
@@ -5032,7 +4971,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (value > viewplayer->ammo[ammotype])
                 {
                     P_AddBonus();
-                    S_StartSound(NULL, SFX_ITEMUP);
+                    S_StartSound(NULL, sfx_itemup);
                 }
 
                 viewplayer->ammo[ammotype] = MIN(value, viewplayer->maxammo[ammotype]);
@@ -5057,7 +4996,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (value > viewplayer->armorpoints)
                 {
                     P_AddBonus();
-                    S_StartSound(NULL, SFX_ITEMUP);
+                    S_StartSound(NULL, sfx_itemup);
                 }
 
                 viewplayer->armorpoints = MIN(value, max_armor);
@@ -5079,7 +5018,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         if (*parms)
         {
             sscanf(parms, "%10i", &value);
-            value = BETWEEN(health_min, value, (viewplayer->chickentics ? MAXCHICKENHEALTH : maxhealth));
+            value = BETWEEN(health_min, value, maxhealth);
 
             if (viewplayer->health <= 0)
             {
@@ -5092,7 +5031,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     P_ResurrectPlayer(value);
                     P_AddBonus();
-                    S_StartSound(NULL, SFX_ITEMUP);
+                    S_StartSound(NULL, sfx_itemup);
                 }
             }
             else
@@ -5104,7 +5043,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     viewplayer->health = value;
                     viewplayer->mo->health = value;
                     P_AddBonus();
-                    S_StartSound(NULL, SFX_ITEMUP);
+                    S_StartSound(NULL, sfx_itemup);
                 }
 
                 C_HideConsole();

@@ -300,9 +300,7 @@ static struct
     { "tnt",      pack_tnt   },
     { "doom",     doom       },
     { "doom1",    doom       },
-    { "hacx",     doom2      },
-    { "heretic",  heretic    },
-    { "heretic1", heretic    }
+    { "hacx",     doom2      }
 };
 
 // When given an IWAD with the '-iwad' parameter,
@@ -584,15 +582,6 @@ void D_IdentifyVersion(void)
         else
             gamemode = shareware;
     }
-    else if (gamemission == heretic)
-    {
-        if (W_CheckNumForName("E4M1") > 0)
-            gamemode = retail;
-        else if (W_CheckNumForName("E3M1") > 0)
-            gamemode = registered;
-        else
-            gamemode = shareware;
-    }
     else
         // DOOM 2 of some kind.
         gamemode = commercial;
@@ -630,15 +619,6 @@ void D_SetGameDescription(void)
             gamedescription = s_CAPTION_REGISTERED;
         else if (gamemode == shareware)
             gamedescription = s_CAPTION_SHAREWARE;
-    }
-    else if (gamemission == heretic)
-    {
-        if (gamemode == retail)
-            gamedescription = s_CAPTION_HERETIC_RETAIL;
-        else if (gamemode == registered)
-            gamedescription = s_CAPTION_HERETIC_REGISTERED;
-        else if (gamemode == shareware)
-            gamedescription = s_CAPTION_HERETIC_SHAREWARE;
     }
     else
     {
