@@ -779,8 +779,7 @@ dboolean G_Responder(event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELDOWN)
                         G_PrevWeapon();
-
-                    if (mouseactionlist[MOUSE_WHEELDOWN][0])
+                    else if (mouseactionlist[MOUSE_WHEELDOWN][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
                 }
                 else if (ev->data1 > 0)
@@ -789,8 +788,7 @@ dboolean G_Responder(event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELUP)
                         G_PrevWeapon();
-
-                    if (mouseactionlist[MOUSE_WHEELUP][0])
+                    else if (mouseactionlist[MOUSE_WHEELUP][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
                 }
             }

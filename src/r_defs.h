@@ -274,10 +274,10 @@ typedef struct line_s
 
     enum
     {                                   // cph:
-        RF_TOP_TILE = 1,                // Upper texture needs tiling
-        RF_MID_TILE = 2,                // Mid texture needs tiling
-        RF_BOT_TILE = 4,                // Lower texture needs tiling
-        RF_IGNORE   = 8,                // Renderer can skip this line
+        RF_TOP_TILE =  1,               // Upper texture needs tiling
+        RF_MID_TILE =  2,               // Mid texture needs tiling
+        RF_BOT_TILE =  4,               // Lower texture needs tiling
+        RF_IGNORE   =  8,               // Renderer can skip this line
         RF_CLOSED   = 16                // Line blocks view
     } r_flags;
 
@@ -285,11 +285,8 @@ typedef struct line_s
     degenmobj_t         soundorg;
 } line_t;
 
-#define BOOMLINESPECIALS    142
-
 enum
 {
-    NoSpecial                                                      =   0,
     DR_Door_OpenWaitClose_AlsoMonsters                             =   1,
     W1_Door_OpenStay                                               =   2,
     W1_Door_CloseStay                                              =   3,
@@ -432,7 +429,8 @@ enum
     S1_Floor_RaiseBy512                                            = 140,
     W1_Crusher_StartWithSlowDamage_Silent                          = 141,
 
-    // Extended line specials from BOOM
+    BOOMLINESPECIALS                                               = 142,
+
     W1_Floor_RaiseBy512                                            = 142,
     W1_Lift_RaiseBy24_ChangesTexture                               = 143,
     W1_Lift_RaiseBy32_ChangesTexture                               = 144,

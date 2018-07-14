@@ -375,8 +375,7 @@ void AM_getGridSize(void)
     int width = -1;
     int height = -1;
 
-    if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2
-        && width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
+    if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2 && width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
     {
         gridwidth = width << MAPBITS;
         gridheight = height << MAPBITS;
@@ -1299,8 +1298,7 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 //
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
-static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
-    void (*putdot)(unsigned int, unsigned int, byte *))
+static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color, void (*putdot)(unsigned int, unsigned int, byte *))
 {
     int dx = x1 - x0;
     int dy = y1 - y0;

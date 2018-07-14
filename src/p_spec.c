@@ -663,13 +663,13 @@ fixed_t P_FindShortestTextureAround(int secnum)
     for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
         {
-            const side_t    *side;
+            short   texture;
 
-            if ((side = getSide(secnum, i, 0))->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
-                minsize = textureheight[side->bottomtexture];
+            if ((texture = getSide(secnum, i, 0)->bottomtexture) > 0 && textureheight[texture] < minsize)
+                minsize = textureheight[texture];
 
-            if ((side = getSide(secnum, i, 1))->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
-                minsize = textureheight[side->bottomtexture];
+            if ((texture = getSide(secnum, i, 1)->bottomtexture) > 0 && textureheight[texture] < minsize)
+                minsize = textureheight[texture];
         }
 
     return minsize;
@@ -696,13 +696,13 @@ fixed_t P_FindShortestUpperAround(int secnum)
     for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
         {
-            const side_t    *side;
+            short   texture;
 
-            if ((side = getSide(secnum, i, 0))->toptexture > 0 && textureheight[side->toptexture] < minsize)
-                minsize = textureheight[side->toptexture];
+            if ((texture = getSide(secnum, i, 0)->toptexture) > 0 && textureheight[texture] < minsize)
+                minsize = textureheight[texture];
 
-            if ((side = getSide(secnum, i, 1))->toptexture > 0 && textureheight[side->toptexture] < minsize)
-                minsize = textureheight[side->toptexture];
+            if ((texture = getSide(secnum, i, 1)->toptexture) > 0 && textureheight[texture] < minsize)
+                minsize = textureheight[texture];
         }
 
     return minsize;
@@ -2377,15 +2377,13 @@ void P_SpawnSpecials(void)
     if (p)
     {
         P_SetTimer(atoi(myargv[p + 1]));
-        C_Output("A <b>-timer</b> parameter was found on the command-line. "
-            "The time limit for each map is %i minutes.", timer);
+        C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
     }
 
     if (M_CheckParm("-avg"))
     {
         P_SetTimer(20);
-        C_Output("An <b>-avg</b> parameter was found on the command-line. "
-            "The time limit for each map is %i minutes.", timer);
+        C_Output("An <b>-avg</b> parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
     }
 
     // Init special SECTORs.

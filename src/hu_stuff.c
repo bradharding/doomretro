@@ -570,7 +570,6 @@ static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
-static patch_t  *altgempatch;
 
 int             white;
 static int      lightgray;
@@ -603,7 +602,6 @@ static void HU_AltInit(void)
 
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
-    altgempatch = W_CacheLumpName("DRHUDGEM");
 
     for (int i = 0; i < NUMCARDS; i++)
         if (lumpinfo[i]->wadfile->type == PWAD)

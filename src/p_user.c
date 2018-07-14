@@ -118,7 +118,6 @@ void P_CalcHeight(void)
         else
             bob = (MAXBOB * stillbob / 400) / 2;
 
-
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
 
