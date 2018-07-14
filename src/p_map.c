@@ -955,7 +955,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 
     P_SetThingPosition(thing);
 
-    if (thing->player)
+    if (thing->player && thing->player->mo != thing)
     {
         fixed_t dist = (fixed_t)hypot((x - oldx) >> FRACBITS, (y - oldy) >> FRACBITS);
 
