@@ -102,7 +102,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return (int)((int64_t)(y - line->y) * line->dx + (int64_t)(line->x - x) * line->dy >= 0);
+    return (int)((int64_t)(y - line->y) * line->dx + (int64_t)(line->x - x) * line->dy > 0);
 }
 
 //

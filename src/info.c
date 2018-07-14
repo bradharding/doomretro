@@ -42,10 +42,8 @@
 #include "sounds.h"
 
 #define EMPTYMOBJ   { -1, 0, 0, 0, S_NULL, sfx_None, 0, sfx_None, S_NULL, 0, sfx_None, S_NULL, \
-                      S_NULL, S_NULL, S_NULL, sfx_None, 0, 0, 0, 0, 0, 0, 0, sfx_None, \
-                      0, 0, S_NULL, 0, false, 0, 0, "", "", "", "", "", "" },
-
-mobjtype_t playermobjtype;
+                      S_NULL, S_NULL, S_NULL, sfx_None, 0, 0, 0, 0, 0, 0, 0, sfx_None, 0, 0, \
+                      S_NULL, 0, false, 0, 0, "", "", "", "", "", "" },
 
 mobjinfo_t mobjinfo[] =
 {

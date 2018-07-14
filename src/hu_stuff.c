@@ -90,13 +90,8 @@ byte                    *tempscreen;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
-static patch_t          *armorpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
-
-static patch_t          *healthpatch;
-static char             *healthnames[3] = { "PTN1A0", "PTN1B0", "PTN1C0" };
-static int              healthpatchcounter;
 
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;

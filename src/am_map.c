@@ -222,8 +222,6 @@ int                 direction;
 
 static am_frame_t   am_frame;
 
-static byte         *autopage;
-
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
 static void PUTDOT(unsigned int x, unsigned int y, byte *color);
