@@ -92,8 +92,6 @@
 //
 // P_PSPR
 //
-void P_OpenWeapons(void);
-void P_CloseWeapons(void);
 void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);
@@ -129,9 +127,6 @@ extern mapthing_t   itemrespawnque[ITEMQUEUESIZE];
 extern int          itemrespawntime[ITEMQUEUESIZE];
 extern int          iquehead;
 extern int          iquetail;
-extern mobjtype_t   pufftype;
-extern mobj_t       *missilemobj;
-extern mapthing_t   playerstart;
 
 void P_RespawnSpecials(void);
 
@@ -143,12 +138,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type);
 
 void P_RemoveMobj(mobj_t *mobj);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
-dboolean P_SetMobjStateNF(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
-void P_BlasterMobjThinker(mobj_t *mobj);
-
-int P_HitFloor(mobj_t *thing);
-int P_GetThingFloorType(mobj_t *thing);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
@@ -156,8 +146,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
 void P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
-mobj_t *P_SpawnMissileAngle(mobj_t *source, mobjtype_t type, angle_t angle, fixed_t momz);
-mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
+void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 
 //

@@ -1713,17 +1713,6 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RadiusAttack(actor, actor->target, 128, true);
 }
 
-void P_Massacre(void)
-{
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-    {
-        mobj_t  *mo = (mobj_t *)th;
-
-        if ((mo->flags & MF_COUNTKILL) && mo->health > 0)
-            P_DamageMobj(mo, NULL, NULL, 10000, false);
-    }
-}
-
 //
 // A_BossDeath
 // Possibly trigger special effects if on first boss level

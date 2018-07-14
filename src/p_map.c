@@ -182,12 +182,12 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 {
     int movefactor;
-    int friction;
+    int friction = P_GetFriction(mo, &movefactor);
 
     // If the floor is icy or muddy, it's harder to get moving. This is where
     // the different friction factors are applied to 'trying to move'. In
     // p_mobj.c, the friction factors are applied as you coast and slow down.
-    if ((friction = P_GetFriction(mo, &movefactor)) < ORIG_FRICTION)
+    if (friction < ORIG_FRICTION)
     {
         // phares 3/11/98: you start off slowly, then increase as
         // you get better footing
@@ -357,8 +357,7 @@ static dboolean PIT_CheckLine(line_t *ld)
     if (!ld->backsector)                                // one sided line
     {
         blockline = ld;
-        return (tmunstuck && !untouched(ld)
-            && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
+        return (tmunstuck && !untouched(ld) && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
     }
 
     if (!(tmthing->flags & MF_MISSILE))
@@ -676,27 +675,6 @@ static dboolean PIT_CheckOnmobjZ(mobj_t * thing)
     return false;
 }
 
-dboolean P_TestMobjLocation(mobj_t *mobj)
-{
-    int flags = mobj->flags;
-
-    mobj->flags &= ~MF_PICKUP;
-
-    if (P_CheckPosition(mobj, mobj->x, mobj->y))
-    {
-        // XY is ok, now check Z
-        mobj->flags = flags;
-
-        if (mobj->z < mobj->floorz || mobj->z + mobj->height > mobj->ceilingz)
-            return false;
-
-        return true;
-    }
-
-    mobj->flags = flags;
-    return false;
-}
-
 //
 // MOVEMENT CLIPPING
 //
@@ -731,7 +709,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     int         xh;
     int         yl;
     int         yh;
-    subsector_t *newsubsec;
+    sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
     tmthing = thing;
@@ -744,7 +722,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    newsubsec = R_PointInSubsector(x, y);
+    newsec = R_PointInSubsector(x, y)->sector;
     floorline = NULL;                           // killough 8/1/98
     blockline = NULL;
     ceilingline = NULL;
@@ -755,8 +733,8 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     // the base floor/ceiling is from the subsector that contains the
     // point. Any contacted lines the step closer together will adjust them
-    tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
-    tmceilingz = newsubsec->sector->ceilingheight;
+    tmfloorz = tmdropoffz = newsec->floorheight;
+    tmceilingz = newsec->ceilingheight;
     validcount++;
     numspechit = 0;
 
@@ -914,20 +892,6 @@ void P_FakeZMovement(mobj_t *mo)
 
         mo->z = mo->ceilingz - mo->height;
     }
-}
-
-void CheckMissileImpact(mobj_t * mobj)
-{
-    int i;
-
-    if (!numspechit || !(mobj->flags & MF_MISSILE) || !mobj->target)
-        return;
-
-    if (!mobj->target->player)
-        return;
-
-    for (i = numspechit - 1; i >= 0; i--)
-        P_ShootSpecialLine(mobj->target, spechit[i]);
 }
 
 //

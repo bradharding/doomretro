@@ -65,9 +65,6 @@ dboolean    r_floatbob = r_floatbob_default;
 dboolean    r_rockettrails = r_rockettrails_default;
 dboolean    r_shadows = r_shadows_default;
 
-mobj_t      *missilemobj;
-mapthing_t  playerstart;
-
 static fixed_t floatbobdiffs[64] =
 {
      25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
@@ -137,8 +134,8 @@ void P_ExplodeMissile(mobj_t *mo)
 
     P_SetMobjState(mo, mo->info->deathstate);
 
-    mo->flags &= ~MF_MISSILE;
     mo->tics = MAX(1, mo->tics - (M_Random() & 3));
+    mo->flags &= ~MF_MISSILE;
 
     // [BH] make explosion translucent
     if (mo->type == MT_ROCKET)
@@ -168,7 +165,6 @@ static void P_XYMovement(mobj_t *mo)
     int         flags2 = mo->flags2;
     dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
     int         stepdir = 0;
-    int         special = mo->subsector->sector->special;
 
     if (!(mo->momx | mo->momy))
     {
@@ -225,8 +221,7 @@ static void P_XYMovement(mobj_t *mo)
             // killough 8/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz
-                && P_GetFriction(mo, NULL) > ORIG_FRICTION)
+            if (!(flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)
             {
                 fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx
                             + (blockline->dy >> FRACBITS) * mo->momy)
@@ -415,14 +410,6 @@ static void P_ZMovement(mobj_t *mo)
         if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
 
-        if (flags & MF_MISSILE)
-        {
-            P_ExplodeMissile(mo);
-            return;
-        }
-
-        mo->z = mo->floorz;
-
         if (mo->momz < 0)
         {
             if (player && player->mo == mo)
@@ -443,6 +430,14 @@ static void P_ZMovement(mobj_t *mo)
             }
 
             mo->momz = 0;
+        }
+
+        mo->z = mo->floorz;
+
+        if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
+        {
+            P_ExplodeMissile(mo);
+            return;
         }
     }
     else if (!(flags & MF_NOGRAVITY))
@@ -624,8 +619,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
-        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
-            && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
+        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL) && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
             P_ApplyTorque(mobj);
         else
         {
@@ -741,12 +735,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
 
-    if (z == ONFLOORZ)
-        mobj->z = mobj->floorz;
-    else if (z == ONCEILINGZ)
-        mobj->z = mobj->ceilingz - mobj->height;
-    else
-        mobj->z = z;
+    mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
     mobj->oldx = mobj->x;
     mobj->oldy = mobj->y;
@@ -1007,7 +996,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     // check for players specially
     if (type == Player1Start)
     {
-        playerstart = *mthing;
         P_SpawnPlayer(mthing);
         return NULL;
     }
@@ -1381,7 +1369,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster.
 //
-mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
+void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
     angle_t an = source->angle;
@@ -1442,6 +1430,4 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     P_CheckMissileSpawn(th);
 
     A_Recoil(source->player->readyweapon);
-
-    return th;
 }
