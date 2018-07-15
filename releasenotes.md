@@ -28,6 +28,7 @@
 * The automap will now be shown in the same colors as *Vanilla DOOM* when vanilla mode is enabled.
 * A bug has been fixed whereby entering an action as a parameter for the `unbind` CCMD wouldn’t unbind the controls that action was bound to.
 * If a gamepad with only one thumbstick is connected, movement will then be digital rather than analog and that one thumbstick will both turn the player left/right and move the player forward/back.
+* There is no longer any gap between the path and the player arrow in the automap when the `am_path` CVAR is `on`.
 
 ---
 
@@ -73,6 +74,7 @@
 * The `vid_screenresolution` and `vid_windowsize` CVARs are now validated better at startup and when changed in the console.
 * Player messages will now always be positioned correctly when the `r_messagepos` CVAR is changed from its default of `(3,2)`.
 * The map title in the automap is now always positioned correctly when the `r_messagescale` CVAR is `small`.
+  
 
 ---
 

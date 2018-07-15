@@ -1859,12 +1859,18 @@ static void AM_drawPath(void)
 {
     if (pathpointnum >= 1)
     {
+        mpoint_t    player;
+
+        player.x = viewplayer->mo->x >> FRACTOMAPBITS;
+        player.y = viewplayer->mo->y >> FRACTOMAPBITS;
+
         if (am_rotatemode)
         {
+            mpoint_t    end;
+
             for (int i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start;
-                mpoint_t    end;
 
                 start.x = pathpoints[i - 1].x;
                 start.y = pathpoints[i - 1].y;
@@ -1876,9 +1882,11 @@ static void AM_drawPath(void)
 
                 AM_rotatePoint(&start);
                 AM_rotatePoint(&end);
-
                 AM_drawMline2(start.x, start.y, end.x, end.y, &pathcolor);
             }
+
+            AM_rotatePoint(&player);
+            AM_drawMline2(end.x, end.y, player.x, player.y, &thingcolor);
         }
         else
         {
@@ -1886,6 +1894,8 @@ static void AM_drawPath(void)
                 if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
                     AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, &pathcolor);
+
+            AM_drawMline2(pathpoints[pathpointnum - 1].x, pathpoints[pathpointnum - 1].y, player.x, player.y, &thingcolor);
         }
     }
 }
