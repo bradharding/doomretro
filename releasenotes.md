@@ -15,6 +15,7 @@
 * The `vid_capfps` CVAR can now be set to a value less than `35`.
 * Intermission and finale text is now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
+* A bug has been fixed whereby the blood of monsters could be the wrong color in some rare instances after loading a savegame.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
 * The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
 * The default of the `am_gridcolor` CVAR has been changed from `7` to `6`.
