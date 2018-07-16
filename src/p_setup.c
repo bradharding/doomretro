@@ -2531,8 +2531,8 @@ static void InitMapInfo(void)
     C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line), (sc_Line > 0 ? "s" : ""),
         (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 
-    if (nojump && (keyboardjump || gamepadjump || mousejump))
-        C_Output("Jumping has been disabled.");
+    if (nojump && (keyboardjump || gamepadjump || mousejump != -1))
+        C_Warning("Jumping has been disabled for this PWAD.");
 }
 
 static int QualifyMap(int map)

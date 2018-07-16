@@ -493,15 +493,19 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         fixed_t slope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
 
         if (!linetarget)
+        {
             slope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
-        if (!linetarget)
-            slope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+            if (!linetarget)
+            {
+                slope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
-        if (!linetarget)
-        {
-            slope = 0;
-            an = actor->angle;
+                if (!linetarget)
+                {
+                    slope = 0;
+                    an = actor->angle;
+                }
+            }
         }
 
         an1 += an - actor->angle;
@@ -840,12 +844,10 @@ void P_MovePsprites(void)
         // bob the weapon based on movement speed
         fixed_t momx = viewplayer->momx;
         fixed_t momy = viewplayer->momy;
-        fixed_t bob;
+        fixed_t bob = MAXBOB * stillbob / 400;
 
         if (momx | momy)
-            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400);
-        else
-            bob = MAXBOB * stillbob / 400;
+            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * weaponbob / 100, bob);
 
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)

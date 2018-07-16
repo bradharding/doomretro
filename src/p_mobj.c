@@ -718,6 +718,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->blood = info->blood;
 
+    // [BH] don't give dehacked monsters fuzzy blood when they are no longer fuzzy
     if (mobj->blood == FUZZYBLOOD && !(mobj->flags & MF_FUZZ))
         mobj->blood = REDBLOOD;
 
