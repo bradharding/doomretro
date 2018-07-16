@@ -59,6 +59,5 @@ int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);
 int P_GetMapTitlePatch(int map);
-dboolean P_GetMapNoJump(int map);
 
 #endif
