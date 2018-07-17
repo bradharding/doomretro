@@ -53,10 +53,10 @@
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);
 int I_GetSfxLumpNum(sfxinfo_t *sfx);
-void I_UpdateSoundParams(int handle, int vol, int sep);
+void I_UpdateSoundParams(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
-void I_StopSound(int handle);
-dboolean I_SoundIsPlaying(int handle);
+void I_StopSound(int channel);
+dboolean I_SoundIsPlaying(int channel);
 void I_UpdateSound(void);
 
 dboolean I_InitMusic(void);

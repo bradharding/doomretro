@@ -360,12 +360,9 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
     return lumpnum;
 }
 
-void I_UpdateSoundParams(int handle, int vol, int sep)
+void I_UpdateSoundParams(int channel, int vol, int sep)
 {
-    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
-        return;
-
-    Mix_SetPanning(handle, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255), BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
+    Mix_SetPanning(channel, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255), BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
 }
 
 //
@@ -377,9 +374,6 @@ void I_UpdateSoundParams(int handle, int vol, int sep)
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 {
     allocated_sound_t   *snd;
-
-    if (!sound_initialized || channel < 0 || channel >= s_channels_max)
-        return -1;
 
     // Release a sound effect if there is already one playing on this channel
     ReleaseSoundOnChannel(channel);
@@ -418,21 +412,15 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
     return channel;
 }
 
-void I_StopSound(int handle)
+void I_StopSound(int channel)
 {
-    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
-        return;
-
     // Sound data is no longer needed; release the sound data being used for this channel
-    ReleaseSoundOnChannel(handle);
+    ReleaseSoundOnChannel(channel);
 }
 
-dboolean I_SoundIsPlaying(int handle)
+dboolean I_SoundIsPlaying(int channel)
 {
-    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
-        return false;
-
-    return Mix_Playing(handle);
+    return Mix_Playing(channel);
 }
 
 // Periodically called to update the sound system
