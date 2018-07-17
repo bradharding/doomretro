@@ -365,8 +365,7 @@ void I_UpdateSoundParams(int handle, int vol, int sep)
     if (!sound_initialized || handle < 0 || handle >= s_channels_max)
         return;
 
-    Mix_SetPanning(handle, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255),
-        BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
+    Mix_SetPanning(handle, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255), BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
 }
 
 //
@@ -440,7 +439,7 @@ dboolean I_SoundIsPlaying(int handle)
 void I_UpdateSound(void)
 {
     // Check all channels to see if a sound has finished
-    for (int i = 0; i < s_channels_max; i++)
+    for (int i = 0; i < s_channels; i++)
         if (channels_playing[i] && !I_SoundIsPlaying(i))
             // Sound has finished playing on this channel, but sound data has not been released to cache
             ReleaseSoundOnChannel(i);

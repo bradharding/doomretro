@@ -177,13 +177,13 @@ static char *mapcmdnames[] =
     "LIQUID",
     "MUSIC",
     "NEXT",
+    "NOBRIGHTMAP",
     "NOLIQUID",
     "PAR",
     "PISTOLSTART",
     "SECRETNEXT",
     "SKY1",
     "TITLEPATCH",
-    "NOBRIGHTMAP",
     NULL
 };
 
@@ -193,13 +193,13 @@ static int mapcmdids[] =
     MCMD_LIQUID,
     MCMD_MUSIC,
     MCMD_NEXT,
+    MCMD_NOBRIGHTMAP,
     MCMD_NOLIQUID,
     MCMD_PAR,
     MCMD_PISTOLSTART,
     MCMD_SECRETNEXT,
     MCMD_SKY1,
     MCMD_TITLEPATCH,
-    MCMD_NOBRIGHTMAP
 };
 
 dboolean        canmodify;

@@ -1,6 +1,6 @@
 ### DOOM Retro v2.7
 
-* With John Romero’s express permission, his maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
+* With John Romero’s express permission, his recent maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -13,7 +13,7 @@
 * The [*DOOM II* monster exclusion bug](https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug) present in *Vanilla DOOM* has been fixed.
 * The `vid_widescreen` CVAR can now be changed in the console when not playing a game.
 * The `vid_capfps` CVAR can now be set to a value less than `35`.
-* Intermission and finale text is now also output to the console.
+* Intermission and finale texts are now also output to the console.
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * A bug has been fixed whereby the blood of monsters could be the wrong color in some rare instances.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
@@ -29,7 +29,7 @@
 * A bug has been fixed whereby entering an action as a parameter for the `unbind` CCMD wouldn’t unbind the controls that action was bound to.
 * If a gamepad with only one thumbstick is connected, movement will then be digital rather than analog and that one thumbstick will both turn the player left/right and move the player forward/back.
 * There is no longer any gap between the end of the player’s path and their arrow in the automap when the `am_path` CVAR is `on`.
-* The player can now respawn when pressing <kbd>SPACE</kbd> even if the key isn’t bound to the `+use` action.
+* The player can now be respawned by pressing <kbd>SPACE</kbd> even if the key isn’t bound to the `+use` action.
 
 ---
 
