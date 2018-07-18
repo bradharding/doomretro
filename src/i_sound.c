@@ -332,17 +332,6 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
     return true;
 }
 
-// Load a SFX chunk into memory and ensure that it is locked.
-static dboolean LockSound(sfxinfo_t *sfxinfo)
-{
-    // If the sound isn't loaded, load it now
-    if (!GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH) && !CacheSFX(sfxinfo))
-        return false;
-
-    LockAllocatedSound(GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH));
-    return true;
-}
-
 // Retrieve the raw data lump index for a given SFX name.
 int I_GetSfxLumpNum(sfxinfo_t *sfx)
 {
@@ -379,7 +368,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
     ReleaseSoundOnChannel(channel);
 
     // Get the sound data
-    if (!LockSound(sfxinfo))
+    if (!CacheSFX(sfxinfo))
         return -1;
 
     if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch)))
