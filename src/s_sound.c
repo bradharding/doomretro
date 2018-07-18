@@ -158,8 +158,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Output("A <b>-nosound</b> parameter was found on the command-line. Both sound effects and music "
-            "have been disabled.");
+        C_Output("A <b>-nosound</b> parameter was found on the command-line. Both sound effects and music have been disabled.");
         nomusic = true;
         nosfx = true;
     }
@@ -236,7 +235,7 @@ void S_StopSectorSound(degenmobj_t *origin)
     if (nosfx)
         return;
 
-    for (int cnum = 0; cnum < s_channels; ++cnum)
+    for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == (mobj_t *)origin)
         {
             S_StopChannel(cnum);
@@ -436,7 +435,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
  void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
-    sfxinfo_t   *sfx =&S_sfx[sfx_id];
+    sfxinfo_t   *sfx = &S_sfx[sfx_id];
     mobj_t      *mo = viewplayer->mo;
     int         sep;
     int         cnum;
@@ -462,8 +461,6 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
         sep = NORM_SEP;
     else if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
         return;
-    else if (origin->x == mo->x && origin->y == mo->y)
-        sep = NORM_SEP;
 
     // kill old sound
     for (cnum = 0; cnum < s_channels; cnum++)

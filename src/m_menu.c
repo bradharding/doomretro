@@ -2721,7 +2721,6 @@ dboolean M_Responder(event_t *ev)
     // F-Keys
     if ((!menuactive || functionkey) && !paused && !splashscreen)
     {
-
         // Screen size down
         if (key == KEY_MINUS)
         {

@@ -75,10 +75,9 @@ static dboolean BuildNewTic(void)
     if (menuactive)
         M_Ticker();
 
-    if (maketic - gametic >= 5)
+    if (maketic - gametic > 2)
         return false;
 
-    memset(&cmd, 0, sizeof(ticcmd_t));
     G_BuildTiccmd(&cmd);
     netcmds[maketic++ % BACKUPTICS] = cmd;
 

@@ -288,7 +288,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     dt = 1.0 / mixer_freq;
     alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
-    for (unsigned int i = 2; i < expanded_length * 2; ++i)
+    for (unsigned int i = 2; i < expanded_length * 2; i++)
         expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
     return true;
@@ -298,7 +298,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 // Returns true if successful
 static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
-
     // need to load the sound
     int             lumpnum = sfxinfo->lumpnum;
     byte            *data = W_CacheLumpNum(lumpnum);
@@ -426,7 +425,7 @@ dboolean I_AnySoundStillPlaying(void)
 {
     dboolean    result = false;
 
-    for (int i = 0; i < s_channels_max; i++)
+    for (int i = 0; i < s_channels; i++)
         result |= Mix_Playing(i);
 
     return result;

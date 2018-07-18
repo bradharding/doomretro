@@ -752,7 +752,6 @@ dboolean ST_Responder(event_t *ev)
                         }
                         else
                         {
-
                             // [BH] cancel 'idchoppers' cheat if necessary
                             if (i == pw_invulnerability && (viewplayer->cheats & CF_CHOPPERS))
                             {
