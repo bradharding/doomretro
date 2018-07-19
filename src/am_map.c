@@ -1885,7 +1885,7 @@ static void AM_drawPath(void)
                 AM_drawMline2(start.x, start.y, end.x, end.y, &pathcolor);
             }
 
-            if (pathpointnum > 1)
+            if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & MF_NOCLIP))
             {
                 AM_rotatePoint(&player);
                 AM_drawMline2(end.x, end.y, player.x, player.y, &pathcolor);
@@ -1898,7 +1898,7 @@ static void AM_drawPath(void)
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
                     AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, &pathcolor);
 
-            if (pathpointnum > 1)
+            if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & MF_NOCLIP))
                 AM_drawMline2(pathpoints[pathpointnum - 1].x, pathpoints[pathpointnum - 1].y, player.x, player.y, &pathcolor);
         }
     }
