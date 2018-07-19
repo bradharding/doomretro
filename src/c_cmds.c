@@ -496,7 +496,7 @@ consolecmd_t consolecmds[] =
     CMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM</b></i> episode in the menu (<b>1</b> to <b>5</b>)."),
+        "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, false, "",
