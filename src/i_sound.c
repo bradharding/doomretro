@@ -47,8 +47,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CACHESIZE   (64 * 1024 * 1024)
-
 typedef struct allocated_sound_s allocated_sound_t;
 
 struct allocated_sound_s
@@ -133,25 +131,10 @@ static dboolean FindAndFreeSound(void)
     return false;
 }
 
-// Enforce SFX cache size limit. We are just about to allocate "len" bytes on the heap for a new
-// sound effect, so free up some space so that we keep allocated_sounds_size < snd_cachesize
-static void ReserveCacheSpace(int len)
-{
-    // Keep freeing sound effects that aren't currently being played, until there is enough space
-    // for the new sound.
-    while (allocated_sounds_size + len > CACHESIZE)
-        // Free a sound. If there is nothing more to free, stop.
-        if (!FindAndFreeSound())
-            break;
-}
-
 // Allocate a block for a new sound effect.
 static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
 {
     allocated_sound_t   *snd;
-
-    // Keep allocated sounds within the cache size.
-    ReserveCacheSpace(len);
 
     // Allocate the sound structure and data. The data will immediately follow the structure, which
     // acts as a header.
