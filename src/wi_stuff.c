@@ -972,7 +972,7 @@ void WI_checkForAccelerate(void)
     else
         viewplayer->attackdown = false;
 
-    if (viewplayer->cmd.buttons & BT_USE)
+    if ((viewplayer->cmd.buttons & BT_USE) || keystate[SDL_SCANCODE_SPACE])
     {
         if (!viewplayer->usedown)
             acceleratestage = 1;
