@@ -1702,7 +1702,7 @@ static void M_Expansion(int choice)
 {
     gamemission = (choice == ex1 ? doom2 : pack_nerve);
     D_SetSaveGameFolder(false);
-    savegames = false;
+    M_ReadSaveStrings();
     M_SetupNextMenu(&NewDef);
 }
 
@@ -1922,15 +1922,8 @@ static void M_QuitResponse(int key)
             S_StartSound(NULL, quitsounds[M_Random() & 7]);
 
         // wait until all sounds stopped or 3 seconds has passed
-        while (i > 0)
-        {
+        while (i-- > 0 && I_AnySoundStillPlaying())
             I_Sleep(100);
-
-            if (!I_AnySoundStillPlaying())
-                break;
-
-            i--;
-        }
     }
 
     I_Quit(true);

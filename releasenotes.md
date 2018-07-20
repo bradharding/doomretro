@@ -29,7 +29,7 @@
 * A bug has been fixed whereby entering an action as a parameter for the `unbind` CCMD wouldn’t unbind the controls that action was bound to.
 * If a gamepad with only one thumbstick is connected, movement will then be digital rather than analog and that one thumbstick will both turn the player left/right and move the player forward/back.
 * There is no longer any gap between the end of the player’s path and their arrow in the automap when the `am_path` CVAR is `on`.
-* <kbd>SPACE</kbd> can now be used to respawn the player, and advance the intermission and finale screens, even if the key isn’t bound to the `+use` action.
+* <kbd>SPACE</kbd> can now be pressed to respawn the player, as well as advance the intermission and finale screens, even if the key isn’t bound to the `+use` action.
 * The direction the player is looking is no longer recentered when they go through a teleport and the `mouselook` CVAR is `on`.
 
 ---
