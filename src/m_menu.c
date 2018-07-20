@@ -1702,6 +1702,7 @@ static void M_Expansion(int choice)
 {
     gamemission = (choice == ex1 ? doom2 : pack_nerve);
     D_SetSaveGameFolder(false);
+    savegames = false;
     M_SetupNextMenu(&NewDef);
 }
 
