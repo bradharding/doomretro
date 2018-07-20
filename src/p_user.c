@@ -342,6 +342,7 @@ static void P_DeathThink(void)
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
+        gamekeydown[' '] = false;
     }
     else
         deathcount++;
