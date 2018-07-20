@@ -69,7 +69,6 @@ static int                  mixer_freq;
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
 static allocated_sound_t    *allocated_sounds_head;
 static allocated_sound_t    *allocated_sounds_tail;
-static int                  allocated_sounds_size;
 
 // Hook a sound into the linked list at the head.
 static void AllocatedSoundLink(allocated_sound_t *snd)
@@ -103,9 +102,6 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 {
     // Unlink from linked list.
     AllocatedSoundUnlink(snd);
-
-    // Keep track of the amount of allocated sound data:
-    allocated_sounds_size -= snd->chunk.alen;
 
     free(snd);
 }
@@ -153,9 +149,6 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     snd->pitch = NORM_PITCH;
     snd->sfxinfo = sfxinfo;
     snd->use_count = 0;
-
-    // Keep track of how much memory all these cached sounds are using...
-    allocated_sounds_size += len;
 
     AllocatedSoundLink(snd);
     return snd;

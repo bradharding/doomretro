@@ -633,10 +633,7 @@ void P_MobjThinker(mobj_t *mobj)
     //  calling action functions at transitions
     if (mobj->tics != -1)
     {
-        mobj->tics--;
-
-        // you can cycle through multiple states in a tic
-        while (!mobj->tics)
+        if (!--mobj->tics)
             if (!P_SetMobjState(mobj, mobj->state->nextstate))
                 return;
     }
@@ -644,12 +641,8 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // check for nightmare respawn
         if ((flags & MF_COUNTKILL) && (gameskill == sk_nightmare || respawnmonsters))
-        {
-            mobj->movecount++;
-
-            if (mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && M_Random() <= 4)
+            if (++mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && M_Random() <= 4)
                 P_NightmareRespawn(mobj);
-        }
     }
 }
 
