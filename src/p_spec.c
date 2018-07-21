@@ -132,52 +132,8 @@ dboolean        *isteleport;
 //
 void P_InitPicAnims(void)
 {
-    int size = (numflats + 1) * sizeof(dboolean);
+    int         size = (numflats + 1) * sizeof(dboolean);
 
-    terraintypes = Z_Malloc(size, PU_STATIC, NULL);
-    isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
-
-    // [BH] indicate obvious teleport textures for automap
-    if (BTSX)
-    {
-        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
-    }
-    else
-    {
-        isteleport[R_CheckFlatNumForName("GATE1")] = true;
-        isteleport[R_CheckFlatNumForName("GATE2")] = true;
-        isteleport[R_CheckFlatNumForName("GATE3")] = true;
-        isteleport[R_CheckFlatNumForName("GATE4")] = true;
-    }
-}
-
-//
-// P_SetLiquids
-//
-void P_SetLiquids(void)
-{
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
@@ -191,11 +147,9 @@ void P_SetLiquids(void)
     short       lavaend = R_CheckFlatNumForName("LAVA4");
     short       bloodstart = R_CheckFlatNumForName("BLOOD1");
     short       bloodend = R_CheckFlatNumForName("BLOOD3");
-    short       slimestart = R_CheckFlatNumForName("SLIME01");
-    short       slimeend = R_CheckFlatNumForName("SLIME12");
 
-    for (int i = 0; i < numflats; i++)
-        terraintypes[i] = SOLID;
+    terraintypes = Z_Calloc(1, size, PU_STATIC, NULL);
+    isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
 
     // Init animation
     lastanim = anims;
@@ -265,7 +219,6 @@ void P_SetLiquids(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-    {
         if (M_StringCompare(sc_String, "NOLIQUID"))
         {
             int lump;
@@ -277,9 +230,50 @@ void P_SetLiquids(void)
             if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
                 terraintypes[lump] = SOLID;
         }
-    }
 
     SC_Close();
+
+    // [BH] indicate obvious teleport textures for automap
+    if (BTSX)
+    {
+        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
+    }
+    else
+    {
+        isteleport[R_CheckFlatNumForName("GATE1")] = true;
+        isteleport[R_CheckFlatNumForName("GATE2")] = true;
+        isteleport[R_CheckFlatNumForName("GATE3")] = true;
+        isteleport[R_CheckFlatNumForName("GATE4")] = true;
+    }
+}
+
+//
+// P_SetLiquids
+//
+void P_SetLiquids(void)
+{
     numliquid = 0;
 
     for (int i = 0; i < numsectors; i++)
