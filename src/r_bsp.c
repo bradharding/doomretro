@@ -293,8 +293,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             if (ceilinglightlevel)
                 *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
-        else if (heightsec && viewz >= heightsec->interpceilingheight
-            && sec->interpceilingheight > s->interpceilingheight)
+        else if (heightsec && viewz >= heightsec->interpceilingheight && sec->interpceilingheight > s->interpceilingheight)
         {
             // Above-ceiling hack
             tempsec->interpceilingheight = s->interpceilingheight;
@@ -583,7 +582,7 @@ void R_RenderBSPNode(int bspnum)
         R_RenderBSPNode(bsp->children[side]);
 
         // Possibly divide back space.
-        if (!R_CheckBBox(bsp->bbox[side ^= 1]))
+        if (!R_CheckBBox(bsp->bbox[(side ^= 1)]))
             return;
 
         bspnum = bsp->children[side];

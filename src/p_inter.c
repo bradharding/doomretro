@@ -1330,7 +1330,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     mobj_t      *mo;
-    int         gibhealth;
+    int         gibhealth = info->gibhealth;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
@@ -1406,7 +1406,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-    gibhealth = info->gibhealth;
 
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate)))
         P_SetMobjState(target, info->xdeathstate);
@@ -1486,15 +1485,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 C_Obituary("%s %s crushed.", titlecase(playername), (defaultplayername ? "were" : "was"));
             else
             {
-                if (sector->isliquid)
+                if (sector->terraintype != SOLID)
                 {
                     short   floorpic = sector->floorpic;
                     char    *liquid = "liquid";
 
                     if (floorpic >= nukagestart && floorpic <= nukageend)
                         liquid = "nukage";
-                    else if ((floorpic >= fwaterstart && floorpic <= fwaterend)
-                        || (floorpic >= swaterstart && floorpic <= swaterend))
+                    else if ((floorpic >= fwaterstart && floorpic <= fwaterend) || (floorpic >= swaterstart && floorpic <= swaterend))
                         liquid = "water";
                     else if (floorpic >= lavastart && floorpic <= lavaend)
                         liquid = "lava";

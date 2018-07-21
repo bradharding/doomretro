@@ -153,7 +153,7 @@ void P_CalcHeight(void)
         dboolean    liquid = true;
 
         for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (!seclist->m_sector->isliquid)
+            if (seclist->m_sector->terraintype == SOLID)
             {
                 liquid = false;
                 break;

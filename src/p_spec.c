@@ -124,7 +124,7 @@ static void P_SpawnPushers(void);       // phares 3/20/98
 extern int      numflats;
 extern dboolean canmodify;
 
-dboolean        *isliquid;
+terraintype_t   *terraintypes;
 dboolean        *isteleport;
 
 short           nukagestart;
@@ -147,7 +147,7 @@ void P_InitPicAnims(void)
 {
     int size = (numflats + 1) * sizeof(dboolean);
 
-    isliquid = Z_Malloc(size, PU_STATIC, NULL);
+    terraintypes = Z_Malloc(size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
 
     // [BH] indicate obvious teleport textures for automap
@@ -195,7 +195,7 @@ void P_SetLiquids(void)
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
     for (int i = 0; i < numflats; i++)
-        isliquid[i] = false;
+        terraintypes[i] = SOLID;
 
     // Init animation
     lastanim = anims;
@@ -236,7 +236,7 @@ void P_SetLiquids(void)
             lastanim->istexture = false;
 
             for (int j = 0; j < lastanim->numpics; j++)
-                isliquid[lastanim->basepic + j] = true;
+                terraintypes[lastanim->basepic + j] = LIQUID;
         }
 
         if (lastanim->numpics < 2)
@@ -266,7 +266,7 @@ void P_SetLiquids(void)
             SC_MustGetString();
 
             if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
-                isliquid[lump] = false;
+                terraintypes[lump] = SOLID;
         }
     }
 
@@ -274,9 +274,9 @@ void P_SetLiquids(void)
     numliquid = 0;
 
     for (int i = 0; i < numsectors; i++)
-        if (isliquid[sectors[i].floorpic])
+        if (terraintypes[sectors[i].floorpic] != SOLID)
         {
-            sectors[i].isliquid = true;
+            sectors[i].terraintype = LIQUID;
             numliquid++;
         }
 
@@ -1052,8 +1052,7 @@ dboolean P_SectorHasLightSpecial(sector_t *sec)
 {
     short   special = sec->special;
 
-    return (special && special != Secret && special != Door_CloseStay_After30sec
-        && special != Door_OpenClose_OpensAfter5Min);
+    return (special && special != Secret && special != Door_CloseStay_After30sec && special != Door_OpenClose_OpensAfter5Min);
 }
 
 //

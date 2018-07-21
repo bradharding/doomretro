@@ -2551,7 +2551,7 @@ char *P_GetMapAuthor(int map)
 void P_GetMapLiquids(int map)
 {
     for (int i = 0; i < liquidlumps; i++)
-        sectors[mapinfo[QualifyMap(map)].liquid[i]].isliquid = true;
+        sectors[mapinfo[QualifyMap(map)].liquid[i]].terraintype = LIQUID;
 }
 
 int P_GetMapMusic(int map)
@@ -2573,7 +2573,7 @@ int P_GetMapNext(int map)
 void P_GetMapNoLiquids(int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
-        sectors[mapinfo[QualifyMap(map)].noliquid[i]].isliquid = false;
+        sectors[mapinfo[QualifyMap(map)].noliquid[i]].terraintype = SOLID;
 }
 
 int P_GetMapPar(int map)

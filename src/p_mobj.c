@@ -565,7 +565,7 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     // [BH] don't clip sprite if no longer in liquid
-    if (!sector->isliquid)
+    if (sector->terraintype == SOLID)
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
 
     // [BH] bob objects in liquid
@@ -742,7 +742,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
-    if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && sector->isliquid && !sector->heightsec)
+    if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && sector->terraintype != SOLID && !sector->heightsec)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
     prevx = x;
@@ -1109,7 +1109,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_moreblood && !mobj->subsector->sector->isliquid)
+        if (r_corpses_moreblood && mobj->subsector->sector->terraintype == SOLID)
             P_SpawnMoreBlood(mobj);
     }
 
@@ -1282,7 +1282,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        if (!sec->isliquid && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
+        if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
             int             patch = firstbloodsplatlump + (M_Random() & 7);

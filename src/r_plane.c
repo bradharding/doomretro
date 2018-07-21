@@ -205,7 +205,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->left = viewwidth;
     check->right = -1;
 
-    if (!(picnum & PL_SKYFLAT) && isliquid[picnum] && r_liquid_current && !xoffs && !yoffs)
+    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] != SOLID && r_liquid_current && !xoffs && !yoffs)
     {
         check->xoffs = animatedliquidxoffs;
         check->yoffs = animatedliquidyoffs;
@@ -470,7 +470,7 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                if (isliquid[picnum] && r_liquid_swirl)
+                if (terraintypes[picnum] != SOLID && r_liquid_swirl)
                 {
                     ds_source = R_DistortedFlat(picnum);
                     R_MakeSpans(pl);

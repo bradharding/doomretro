@@ -78,6 +78,12 @@ typedef struct
     fixed_t             x, y, z;
 } degenmobj_t;
 
+typedef enum
+{
+    SOLID,
+    LIQUID
+} terraintype_t;
+
 //
 // The SECTORS record, at runtime.
 // Stores things/mobjs.
@@ -184,7 +190,8 @@ typedef struct sector_s
     // and which isn't, etc.
     int                 sky;
 
-    dboolean            isliquid;
+    terraintype_t       terraintype;
+
     dboolean            islift;
 } sector_t;
 
