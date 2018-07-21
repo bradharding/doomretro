@@ -1487,26 +1487,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             {
                 if (sector->terraintype != SOLID)
                 {
-                    short   floorpic = sector->floorpic;
-                    char    *liquid = "liquid";
-
-                    if (floorpic >= nukagestart && floorpic <= nukageend)
-                        liquid = "nukage";
-                    else if ((floorpic >= fwaterstart && floorpic <= fwaterend) || (floorpic >= swaterstart && floorpic <= swaterend))
-                        liquid = "water";
-                    else if (floorpic >= lavastart && floorpic <= lavaend)
-                        liquid = "lava";
-                    else if (floorpic >= bloodstart && floorpic <= bloodend)
-                        liquid = "blood";
-                    else if (floorpic >= slimestart && floorpic <= slimeend)
-                        liquid = "slime";
+                    char    *liquids[] = { "", "nukage", "water", "lava", "blood", "slime" };
 
                     C_Obituary("%s %s %s in %s.", titlecase(playername), (defaultplayername ? "were" : "was"),
-                        (gibbed ? "gibbed" : "killed"), liquid);
+                        (gibbed ? "gibbed" : "killed"), liquids[sector->terraintype]);
                 }
-
-                C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
-                    (defaultplayername ? "yourself" : "themselves"));
+                else
+                    C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
+                        (defaultplayername ? "yourself" : "themselves"));
             }
         }
     }

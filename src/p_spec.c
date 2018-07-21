@@ -127,19 +127,6 @@ extern dboolean canmodify;
 terraintype_t   *terraintypes;
 dboolean        *isteleport;
 
-short           nukagestart;
-short           nukageend;
-short           fwaterstart;
-short           fwaterend;
-short           swaterstart;
-short           swaterend;
-short           lavastart;
-short           lavaend;
-short           bloodstart;
-short           bloodend;
-short           slimestart;
-short           slimeend;
-
 //
 // P_InitPicAnims
 //
@@ -194,6 +181,19 @@ void P_SetLiquids(void)
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
+    short       nukagestart = R_CheckFlatNumForName("NUKAGE1");
+    short       nukageend = R_CheckFlatNumForName("NUKAGE3");
+    short       fwaterstart = R_CheckFlatNumForName("FWATER1");
+    short       fwaterend = R_CheckFlatNumForName("FWATER4");
+    short       swaterstart = R_CheckFlatNumForName("SWATER1");
+    short       swaterend = R_CheckFlatNumForName("SWATER4");
+    short       lavastart = R_CheckFlatNumForName("LAVA1");
+    short       lavaend = R_CheckFlatNumForName("LAVA4");
+    short       bloodstart = R_CheckFlatNumForName("BLOOD1");
+    short       bloodend = R_CheckFlatNumForName("BLOOD3");
+    short       slimestart = R_CheckFlatNumForName("SLIME01");
+    short       slimeend = R_CheckFlatNumForName("SLIME12");
+
     for (int i = 0; i < numflats; i++)
         terraintypes[i] = SOLID;
 
@@ -235,8 +235,17 @@ void P_SetLiquids(void)
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
 
-            for (int j = 0; j < lastanim->numpics; j++)
-                terraintypes[lastanim->basepic + j] = LIQUID;
+            for (int j = lastanim->basepic; j < lastanim->basepic + lastanim->numpics; j++)
+                if (j >= nukagestart && j <= nukageend)
+                    terraintypes[j] = NUKAGE;
+                else if ((j >= fwaterstart && j <= fwaterend) || (j >= swaterstart && j <= swaterend))
+                    terraintypes[j] = WATER;
+                else if (j >= lavastart && j <= lavaend)
+                    terraintypes[j] = LAVA;
+                else if (j >= bloodstart && j <= bloodend)
+                    terraintypes[j] = BLOOD;
+                else
+                    terraintypes[j] = SLIME;
         }
 
         if (lastanim->numpics < 2)
@@ -276,22 +285,9 @@ void P_SetLiquids(void)
     for (int i = 0; i < numsectors; i++)
         if (terraintypes[sectors[i].floorpic] != SOLID)
         {
-            sectors[i].terraintype = LIQUID;
+            sectors[i].terraintype = terraintypes[sectors[i].floorpic];
             numliquid++;
         }
-
-    nukagestart = R_CheckFlatNumForName("NUKAGE1");
-    nukageend = R_CheckFlatNumForName("NUKAGE3");
-    fwaterstart = R_CheckFlatNumForName("FWATER1");
-    fwaterend = R_CheckFlatNumForName("FWATER4");
-    swaterstart = R_CheckFlatNumForName("SWATER1");
-    swaterend = R_CheckFlatNumForName("SWATER4");
-    lavastart = R_CheckFlatNumForName("LAVA1");
-    lavaend = R_CheckFlatNumForName("LAVA4");
-    bloodstart = R_CheckFlatNumForName("BLOOD1");
-    bloodend = R_CheckFlatNumForName("BLOOD3");
-    slimestart = R_CheckFlatNumForName("SLIME01");
-    slimeend = R_CheckFlatNumForName("SLIME12");
 }
 
 //

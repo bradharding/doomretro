@@ -81,7 +81,11 @@ typedef struct
 typedef enum
 {
     SOLID,
-    LIQUID
+    NUKAGE,
+    WATER,
+    LAVA,
+    BLOOD,
+    SLIME
 } terraintype_t;
 
 //
