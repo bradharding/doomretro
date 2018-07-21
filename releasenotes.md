@@ -32,6 +32,7 @@
 * There is no longer any gap between the end of the player’s path and their arrow in the automap when the `am_path` CVAR is `on`.
 * <kbd>SPACE</kbd> can now be pressed to respawn the player, as well as advance the intermission and finale screens, even if the key isn’t bound to the `+use` action.
 * The direction the player is looking is no longer recentered when they go through a teleport and the `mouselook` CVAR is `on`.
+* An obituary is now displayed when the player is crushed by a moving ceiling and the `con_obituaries` CVAR is `on`.
 
 ---
 

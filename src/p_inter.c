@@ -1481,27 +1481,35 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         else if (target->player)
         {
             sector_t    *sector = target->player->mo->subsector->sector;
-            char        *liquid = "";
 
-            if (sector->isliquid)
+            if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
+                C_Obituary("%s %s crushed.", titlecase(playername), (defaultplayername ? "were" : "was"));
+            else
             {
-                short   floorpic = sector->floorpic;
+                if (sector->isliquid)
+                {
+                    short   floorpic = sector->floorpic;
+                    char    *liquid = "liquid";
 
-                if (floorpic >= nukagestart && floorpic <= nukageend)
-                    liquid = " in nukage";
-                else if ((floorpic >= fwaterstart && floorpic <= fwaterend)
-                    || (floorpic >= swaterstart && floorpic <= swaterend))
-                    liquid = " in water";
-                else if (floorpic >= lavastart && floorpic <= lavaend)
-                    liquid = " in lava";
-                else if (floorpic >= bloodstart && floorpic <= bloodend)
-                    liquid = " in blood";
-                else if (floorpic >= slimestart && floorpic <= slimeend)
-                    liquid = " in slime";
+                    if (floorpic >= nukagestart && floorpic <= nukageend)
+                        liquid = "nukage";
+                    else if ((floorpic >= fwaterstart && floorpic <= fwaterend)
+                        || (floorpic >= swaterstart && floorpic <= swaterend))
+                        liquid = "water";
+                    else if (floorpic >= lavastart && floorpic <= lavaend)
+                        liquid = "lava";
+                    else if (floorpic >= bloodstart && floorpic <= bloodend)
+                        liquid = "blood";
+                    else if (floorpic >= slimestart && floorpic <= slimeend)
+                        liquid = "slime";
+
+                    C_Obituary("%s %s %s in %s.", titlecase(playername), (defaultplayername ? "were" : "was"),
+                        (gibbed ? "gibbed" : "killed"), liquid);
+                }
+
+                C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
+                    (defaultplayername ? "yourself" : "themselves"));
             }
-
-            C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
-                (defaultplayername ? "yourself" : "themselves"), liquid);
         }
     }
 
