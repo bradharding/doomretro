@@ -245,6 +245,7 @@ typedef struct
     int         deathstate;
     int         xdeathstate;
     int         deathsound;
+    mobjtype_t  droppeditem;
     int         speed;
     int         radius;
     int         pickupradius;

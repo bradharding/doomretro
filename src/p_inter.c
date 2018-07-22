@@ -1326,7 +1326,6 @@ void P_UpdateKillStat(mobjtype_t type, int value)
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 {
     dboolean    gibbed;
-    mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     mobj_t      *mo;
@@ -1398,7 +1397,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         P_DropWeapon();
 
         if (automapactive)
-            AM_Stop();          // don't die in auto map, switch view prior to dying
+            AM_Stop();          // don't die in automap, switch view prior to dying
 
         viewplayer->deaths++;
         stat_deaths = SafeAdd(stat_deaths, 1);
@@ -1499,40 +1498,24 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
-    switch (type)
+    if (info->droppeditem)
     {
-        case MT_WOLFSS:
-        case MT_POSSESSED:
-            item = MT_CLIP;
-            break;
+        if (tossdrop)
+        {
+            mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, info->droppeditem);
+            mo->momx = M_NegRandom() << 8;
+            mo->momy = M_NegRandom() << 8;
+            mo->momz = FRACUNIT * 2 + (M_Random() << 10);
+        }
+        else
+            mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, info->droppeditem);
 
-        case MT_SHOTGUY:
-            item = MT_SHOTGUN;
-            break;
+        mo->angle = target->angle + (M_NegRandom() << 20);
+        mo->flags |= MF_DROPPED;    // special versions of items
 
-        case MT_CHAINGUY:
-            item = MT_CHAINGUN;
-            break;
-
-        default:
-            return;
+        if (r_mirroredweapons && (M_Random() & 1))
+            mo->flags2 |= MF2_MIRRORED;
     }
-
-    if (tossdrop)
-    {
-        mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, item);
-        mo->momx = M_NegRandom() << 8;
-        mo->momy = M_NegRandom() << 8;
-        mo->momz = FRACUNIT * 2 + (M_Random() << 10);
-    }
-    else
-        mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, item);
-
-    mo->angle = target->angle + (M_NegRandom() << 20);
-    mo->flags |= MF_DROPPED;    // special versions of items
-
-    if (r_mirroredweapons && (M_Random() & 1))
-        mo->flags2 |= MF2_MIRRORED;
 }
 
 dboolean P_CheckMeleeRange(mobj_t *actor);
