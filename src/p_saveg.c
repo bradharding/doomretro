@@ -1063,7 +1063,6 @@ void P_UnArchiveWorld(void)
         sec->floordata = NULL;
         sec->lightingdata = NULL;
         soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
-        sec->terraintype = terraintypes[sec->floorpic];
     }
 
     // do lines
