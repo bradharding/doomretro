@@ -1092,8 +1092,6 @@ void P_UnArchiveWorld(void)
             si->missingmidtexture = saveg_read_bool();
         }
     }
-
-    P_SetLifts();
 }
 
 //
