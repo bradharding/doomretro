@@ -1946,6 +1946,10 @@ static void give_cmd_func2(char *cmd, char *parms)
             if (P_GiveAllCardsInMap())
                 result = true;
 
+            for (int i = 0; i < NUMPOWERS; i++)
+                if (P_GivePower(i))
+                    result = true;
+
             if (result)
             {
                 P_AddBonus();
