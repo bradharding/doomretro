@@ -1482,19 +1482,17 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             sector_t    *sector = target->player->mo->subsector->sector;
 
             if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
-                C_Obituary("%s %s crushed.", titlecase(playername), (defaultplayername ? "were" : "was"));
+                C_Obituary("%s %s crushed to death.", titlecase(playername), (defaultplayername ? "were" : "was"));
             else
             {
                 if (sector->terraintype != SOLID)
                 {
                     char    *liquids[] = { "", "nukage", "water", "lava", "blood", "slime" };
 
-                    C_Obituary("%s %s %s in %s.", titlecase(playername), (defaultplayername ? "were" : "was"),
-                        (gibbed ? "gibbed" : "killed"), liquids[sector->terraintype]);
+                    C_Obituary("%s died in %s.", titlecase(playername), liquids[sector->terraintype]);
                 }
                 else
-                    C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
-                        (defaultplayername ? "yourself" : "themselves"));
+                    C_Obituary("%s blew %s up.", titlecase(playername), (defaultplayername ? "yourself" : "themselves"));
             }
         }
     }
