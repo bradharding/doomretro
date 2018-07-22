@@ -2070,8 +2070,9 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 
     nofit = false;
     crushchange = crunch;
+    sector->terraintype = terraintypes[sector->floorpic];
 
-    if ((isliquidsector = sector->terraintype = terraintypes[sector->floorpic]))
+    if ((isliquidsector = (sector->terraintype != SOLID)))
     {
         bloodsplat_t    *splat = sector->splatlist;
 
