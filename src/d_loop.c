@@ -97,10 +97,8 @@ static void NetUpdate(void)
         newtics -= skiptics;
         skiptics = 0;
 
-        // build new ticcmds for console player
-        while (newtics--)
-            if (!BuildNewTic())
-                break;
+        if (newtics)
+            BuildNewTic();
     }
     else
         skiptics -= newtics;
