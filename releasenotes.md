@@ -2,7 +2,7 @@
 
 * With John Romero’s express permission, his recent maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * *DOOM Retro’s* splash screen has been redesigned.
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.

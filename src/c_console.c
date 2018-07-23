@@ -1270,10 +1270,12 @@ dboolean C_Responder(event_t *ev)
     static int  autocomplete = -1;
     static int  inputhistory = -1;
     int         i;
-    const int   len = (int)strlen(consoleinput);
+    int         len;
 
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
         return false;
+
+    len = (int)strlen(consoleinput);
 
     if (ev->type == ev_keydown)
     {

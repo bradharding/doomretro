@@ -2390,14 +2390,13 @@ dboolean M_Responder(event_t *ev)
     int         ch = 0;
     int         key = -1;
     static int  keywait;
-    SDL_Keymod  modstate = SDL_GetModState();
 
     if (startingnewgame || dowipe)
         return false;
 
-    if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
+    if (ev->type == ev_gamepad)
     {
-        if (menuactive)
+        if (menuactive && gamepadwait < I_GetTime())
         {
             // activate menu item
             if (gamepadbuttons & GAMEPAD_A)
@@ -2468,7 +2467,7 @@ dboolean M_Responder(event_t *ev)
         else
         {
             // open menu
-            if (gamepadbuttons & gamepadmenu)
+            if ((gamepadbuttons & gamepadmenu) && gamepadwait < I_GetTime())
             {
                 key = keyboardmenu;
                 gamepadwait = I_GetTime() + 8;
@@ -2476,6 +2475,7 @@ dboolean M_Responder(event_t *ev)
             }
         }
     }
+
     if (ev->type == ev_mouse && mousewait < I_GetTime() && menuactive)
     {
         // activate menu item
@@ -2688,7 +2688,7 @@ dboolean M_Responder(event_t *ev)
     {
         ch = (key == KEY_ENTER ? 'y' : tolower(ch));
 
-        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && !(modstate & (KMOD_ALT | KMOD_CTRL))
+        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL))
             && key != functionkey)
         {
             functionkey = 0;
@@ -2827,13 +2827,12 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4 || (modstate & KMOD_ALT))
-            && !keydown)
+        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4 || (SDL_GetModState() & KMOD_ALT)) && !keydown)
         {
             keydown = key;
 
-            // Quit DOOM
-            if (modstate & KMOD_ALT)
+            // Quit DOOM Retro
+            if (SDL_GetModState() & KMOD_ALT)
             {
                 S_StartSound(NULL, sfx_swtchn);
                 M_QuitResponse('y');
@@ -2916,7 +2915,7 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        // Quit DOOM
+        // Quit DOOM Retro
         else if (key == KEY_F10 && !keydown)
         {
             keydown = key;
@@ -2930,7 +2929,7 @@ dboolean M_Responder(event_t *ev)
     // gamma toggle
     if (key == KEY_F11)
     {
-        M_ChangeGamma(modstate & KMOD_SHIFT);
+        M_ChangeGamma(SDL_GetModState() & KMOD_SHIFT);
         return false;
     }
 
@@ -3258,7 +3257,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-        else if (ch && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+        else if (ch && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)))
         {
             for (int i = itemOn + 1; i < currentMenu->numitems; i++)
             {
