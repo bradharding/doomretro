@@ -1147,8 +1147,8 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    char    *width = malloc(7);
-    char    *height = malloc(7);
+    char    *width = malloc(11);
+    char    *height = malloc(11);
 
     if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) != 2)
     {
