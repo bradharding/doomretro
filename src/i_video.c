@@ -218,9 +218,7 @@ dboolean MouseShouldBeGrabbed(void)
 
 static void SetShowCursor(dboolean show)
 {
-    if (SDL_SetRelativeMouseMode(!show) < 0)
-        I_SDLError("SDL_SetRelativeMouseMode");
-
+    SDL_SetRelativeMouseMode(!show);
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
@@ -327,8 +325,7 @@ void I_CapFPS(int fps)
 
         if (CapFPSEvent)
         {
-            CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0,
-                (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+            CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
 
             if (!CapFPSTimer)
             {
@@ -422,7 +419,7 @@ static void I_GetEvent(void)
 
     while (SDL_PollEvent(Event))
     {
-        event_t     event;
+        event_t         event;
 
 #if !defined(_WIN32)
         static dboolean enterdown;
@@ -985,7 +982,7 @@ void I_SetPalette(byte *playpal)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g, palette[0].colors->b, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, colors[0].r, colors[0].g, colors[0].b, SDL_ALPHA_OPAQUE);
 }
 
 static void I_RestoreFocus(void)
