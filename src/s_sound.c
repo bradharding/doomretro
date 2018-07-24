@@ -412,6 +412,14 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     if (adx)
         dist = FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
+    if (!dist)  // killough 11/98: handle zero-distance as special case
+    {
+        *sep = NORM_SEP;
+        *vol = snd_SfxVolume;
+
+        return (*vol > 0);
+    }
+
     if (dist > S_CLIPPING_DIST)
         return false;
 
@@ -437,7 +445,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
     mobj_t      *mo = viewplayer->mo;
-    int         sep;
+    int         sep = NORM_SEP;
     int         cnum;
     int         handle;
 
@@ -457,10 +465,9 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     }
 
     // Check to see if it is audible, and if not, modify the parms
-    if (!origin || origin == mo)
-        sep = NORM_SEP;
-    else if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
-        return;
+    if (origin && origin != mo)
+        if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
+            return;
 
     // kill old sound
     for (cnum = 0; cnum < s_channels; cnum++)
