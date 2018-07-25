@@ -1449,10 +1449,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                         weaponinfo[readyweapon].description);
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
-                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
-                        (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                        weaponinfo[readyweapon].description);
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an " : "a "), name,
+                        (defaultplayername ? "your" : "their"), weaponinfo[readyweapon].description,
+                        (readyweapon == wp_fist && source->player->powers[pw_strength] ? " while berserk" : ""));
 
             }
             else
