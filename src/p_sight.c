@@ -81,22 +81,6 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 }
 
 //
-// P_InterceptVector2
-// Returns the fractional intercept point
-// along the first divline.
-// This is only called by the addthings and addlines traversers.
-//
-static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
-{
-    fixed_t den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
-
-    if (!den)
-        return 0;
-
-    return FixedDiv(FixedMul((v1->x - v2->x) >> 8, v1->dy) + FixedMul((v2->y - v1->y) >> 8, v1->dx), den);
-}
-
-//
 // P_CrossSubsector
 // Returns true
 //  if strace crosses the given subsector successfully.
@@ -182,7 +166,7 @@ static dboolean P_CrossSubsector(int num)
             return false;
 
         // crosses a two sided line
-        frac = P_InterceptVector2(&los.strace, &divl);
+        frac = P_InterceptVector(&los.strace, &divl);
 
         if (front->floorheight != back->floorheight)
             los.bottomslope = MAX(los.bottomslope, FixedDiv(openbottom - los.sightzstart, frac));
