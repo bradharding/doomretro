@@ -59,7 +59,7 @@ struct lumpinfo_s
 {
     char        name[9];
     int         size;
-    void        *data;
+    void        *cache;
 
     // killough 1/31/98: hash table fields, used for ultra-fast hash table lookup
     int         index;
@@ -89,7 +89,7 @@ int W_CheckMultipleLumps(const char *name);
 int W_LumpLength(int lump);
 void W_ReadLump(int lump, void *dest);
 
-void *W_CacheLumpNum(int lump);
+void *W_CacheLumpNum(int lumpnum);
 
 #define W_CacheLumpName(name)   W_CacheLumpNum(W_GetNumForName(name))
 #define W_CacheLumpName2(name)  W_CacheLumpNum(W_GetNumForName2(name))
@@ -98,7 +98,7 @@ void W_Init(void);
 
 unsigned int W_LumpNameHash(const char *s);
 
-void W_UnlockLumpNum(int lump);
+void W_UnlockLumpNum(int lumpnum);
 
 #define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
 

@@ -74,12 +74,6 @@ typedef struct
 #pragma pack(pop)
 #endif
 
-static struct
-{
-    void            *cache;
-    unsigned int    locks;
-} *cachelump;
-
 // Location of each lump on disk.
 lumpinfo_t          **lumpinfo;
 int                 numlumps;
@@ -156,7 +150,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     lumpinfo_t      *filelumps;
 
     // open the file and add to directory
-    wadfile_t   *wadfile = W_OpenFile(filename);
+    wadfile_t       *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
         return NULL;
@@ -194,12 +188,12 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     for (int i = startlump; i < numlumps; i++)
     {
-        lumpinfo_t *lump_p = &filelumps[i - startlump];
+        lumpinfo_t  *lump_p = &filelumps[i - startlump];
 
         lump_p->wadfile = wadfile;
         lump_p->position = LONG(filerover->filepos);
         lump_p->size = LONG(filerover->size);
-        lump_p->data = NULL;
+        lump_p->cache = NULL;
         strncpy(lump_p->name, filerover->name, 8);
         lumpinfo[i] = lump_p;
 
@@ -226,7 +220,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 // Must be mod'ed with table size.
 // Can be used for any 8-character names.
 // by Lee Killough
-unsigned W_LumpNameHash(const char *s)
+unsigned int W_LumpNameHash(const char *s)
 {
     unsigned int    hash;
 
@@ -422,10 +416,6 @@ void W_Init(void)
         lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
         lumpinfo[j]->index = i;
     }
-
-    // set up caching
-    if (!(cachelump = calloc(sizeof(*cachelump), numlumps)))
-        I_Error("W_Init: Couldn't allocate lumpcache");
 }
 
 //
@@ -488,28 +478,19 @@ void W_ReadLump(int lump, void *dest)
         I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
 }
 
-void *W_CacheLumpNum(int lump)
+void *W_CacheLumpNum(int lumpnum)
 {
-    const int   locks = 1;
+    lumpinfo_t  *lump = lumpinfo[lumpnum];
 
-    if (!cachelump[lump].cache)         // read the lump in
-        W_ReadLump(lump, Z_Malloc(W_LumpLength(lump), PU_CACHE, &cachelump[lump].cache));
+    if (!lump->cache)
+        W_ReadLump(lumpnum, Z_Malloc(W_LumpLength(lumpnum), PU_CACHE, &lump->cache));
 
-    // cph - if wasn't locked but now is, tell z_zone to hold it
-    if (!cachelump[lump].locks && locks)
-        Z_ChangeTag(cachelump[lump].cache, PU_STATIC);
-
-    cachelump[lump].locks += locks;
-
-    return cachelump[lump].cache;
+    return lump->cache;
 }
 
-void W_UnlockLumpNum(int lump)
+void W_UnlockLumpNum(int lumpnum)
 {
-    const int   unlocks = 1;
+    lumpinfo_t  *lump = lumpinfo[lumpnum];
 
-    cachelump[lump].locks -= unlocks;
-
-    if (unlocks && !cachelump[lump].locks)
-        Z_ChangeTag(cachelump[lump].cache, PU_CACHE);
+    Z_ChangeTag(lump->cache, PU_CACHE);
 }

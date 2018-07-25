@@ -50,7 +50,7 @@
 // gametic is the tic about to (or currently being) run
 // maketic is the tic that hasn't had control made for it yet
 //
-// a gametic cannot be run until nettics > gametic for all players
+// a gametic cannot be run until nettics > gametic for the player
 //
 
 ticcmd_t    netcmds[BACKUPTICS];
@@ -131,7 +131,7 @@ void TryRunTics(void)
         return;
 
     // run the count tics
-    while (counts-- > 0)
+    while (counts--)
     {
         if (advancetitle)
             D_DoAdvanceTitle();

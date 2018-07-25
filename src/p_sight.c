@@ -192,8 +192,8 @@ static dboolean P_CrossBSPNode(int bspnum)
     while (!(bspnum & NF_SUBSECTOR))
     {
         const node_t    *bsp = nodes + bspnum;
-        int             side1 = P_DivlineSide(los.strace.x, los.strace.y, (divline_t *)bsp) & 1;
-        int             side2 = P_DivlineSide(los.t2x, los.t2y, (divline_t *)bsp);
+        int             side1 = R_PointOnSide(los.strace.x, los.strace.y, bsp);
+        int             side2 = R_PointOnSide(los.t2x, los.t2y, bsp);
 
         if (side1 == side2)
             bspnum = bsp->children[side1];              // doesn't touch the other side
