@@ -265,12 +265,12 @@ extern int      numspechit;
 
 static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 {
-    fixed_t     tryx, tryy;
-    fixed_t     deltax, deltay;
-    fixed_t     origx, origy;
-    int         movefactor;
-    int         friction = ORIG_FRICTION;
-    int         speed;
+    fixed_t tryx, tryy;
+    fixed_t deltax, deltay;
+    fixed_t origx, origy;
+    int     movefactor;
+    int     friction = ORIG_FRICTION;
+    int     speed;
 
     if (actor->movedir == DI_NODIR)
         return false;

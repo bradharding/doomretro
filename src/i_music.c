@@ -168,7 +168,7 @@ void I_PlaySong(void *handle, dboolean looping)
 #endif
 
     if (handle)
-        Mix_PlayMusic((Mix_Music *)handle, (looping ? -1 : 1));
+        Mix_PlayMusic(handle, (looping ? -1 : 1));
 }
 
 void I_PauseSong(void)
@@ -264,7 +264,7 @@ void *I_RegisterSong(void *data, int size)
         {
             if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
                 midimusictype = true;
-            else if (mmuscheckformat((byte *)data, size))       // Is it a MUS?
+            else if (mmuscheckformat((UBYTE *)data, size))       // Is it a MUS?
                 musmusictype = true;
         }
 
@@ -272,19 +272,15 @@ void *I_RegisterSong(void *data, int size)
         if (musmusictype)
         {
             MIDI    mididata;
-            UBYTE   *mid;
-            int     midlen;
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (!mmus2mid((byte *)data, (size_t)size, &mididata))
+            if (!mmus2mid((UBYTE *)data, (size_t)size, &mididata))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
-            MIDIToMidi(&mididata, &mid, &midlen);
+            MIDIToMidi(&mididata, &(UBYTE *)data, &size);
 
-            data = mid;
-            size = midlen;
             midimusictype = true;   // now it's a MIDI
         }
 

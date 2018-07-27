@@ -64,7 +64,7 @@ static int  maketic;
 //
 static int  lasttime;
 
-static dboolean BuildNewTic(void)
+static void BuildNewTic(void)
 {
     ticcmd_t    cmd;
 
@@ -76,12 +76,10 @@ static dboolean BuildNewTic(void)
         M_Ticker();
 
     if (maketic - gametic > 2)
-        return false;
+        return;
 
     G_BuildTiccmd(&cmd);
     netcmds[maketic++ % BACKUPTICS] = cmd;
-
-    return true;
 }
 
 static void NetUpdate(void)
