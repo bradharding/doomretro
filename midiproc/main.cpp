@@ -76,7 +76,7 @@ static bool InitSDL()
     if (SDL_Init(SDL_INIT_AUDIO) == -1)
         return false;
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
         return false;
 
     return true;
