@@ -272,6 +272,8 @@ void *I_RegisterSong(void *data, int size)
         if (musmusictype)
         {
             MIDI    mididata;
+            UBYTE   *mid;
+            int     midlen;
 
             memset(&mididata, 0, sizeof(MIDI));
 
@@ -279,8 +281,10 @@ void *I_RegisterSong(void *data, int size)
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
-            MIDIToMidi(&mididata, &(UBYTE *)data, &size);
+            MIDIToMidi(&mididata, &mid, &midlen);
 
+            data = mid;
+            size = midlen;
             midimusictype = true;   // now it's a MIDI
         }
 
