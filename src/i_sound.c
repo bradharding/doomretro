@@ -276,8 +276,8 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
     int             lumpnum = sfxinfo->lumpnum;
-    byte            *data = W_CacheLumpNum(lumpnum);
-    unsigned int    lumplen = W_LumpLength(lumpnum);
+    byte            *data = lumpinfo[lumpnum]->cache;
+    unsigned int    lumplen = lumpinfo[lumpnum]->size;
     unsigned int    length;
 
     // Check the header, and ensure this is a valid sound
@@ -301,27 +301,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
     if (!ExpandSoundData(sfxinfo, data + 24, ((data[3] << 8) | data[2]), length - 32))
         return false;
 
-    // don't need the original lump any more
-    W_UnlockLumpNum(lumpnum);
-
     return true;
-}
-
-// Retrieve the raw data lump index for a given SFX name.
-int I_GetSfxLumpNum(sfxinfo_t *sfx)
-{
-    char    namebuf[9];
-    int     lumpnum;
-
-    if (sfx->link)
-        sfx = sfx->link;
-
-    M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
-
-    if ((lumpnum = W_CheckNumForName(namebuf)) == -1)
-        C_Warning("The <b>%s</b> SFX lump can't be found.", uppercase(namebuf));
-
-    return lumpnum;
 }
 
 void I_UpdateSoundParams(int channel, int vol, int sep)

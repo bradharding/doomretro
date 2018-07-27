@@ -52,7 +52,6 @@
 
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);
-int I_GetSfxLumpNum(sfxinfo_t *sfx);
 void I_UpdateSoundParams(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int channel);
