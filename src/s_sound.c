@@ -187,12 +187,24 @@ void S_Init(void)
         // Allocating the internal channels for mixing
         // (the maximum number of sounds rendered
         // simultaneously) within zone memory.
-    }
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
         sobjs = Z_Malloc(s_channels_max * sizeof(sobj_t), PU_STATIC, NULL);
 
-    for (int i = 1; i < NUMSFX; i++)
-        S_sfx[i].lumpnum = -1;
+        // [BH] precache all SFX
+        for (int i = 1; i < NUMSFX; i++)
+        {
+            sfxinfo_t   *sfx = &S_sfx[i];
+            char        namebuf[9];
+
+            if (sfx->link)
+                sfx = sfx->link;
+
+            M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
+
+            if ((S_sfx[i].lumpnum = W_CheckNumForName(namebuf)) >= 0)
+                W_CacheLumpNum(S_sfx[i].lumpnum);
+        }
+    }
 
     if (!nomusic)
     {
@@ -479,11 +491,6 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
     // try to find a channel
     if ((cnum = S_GetChannel(origin, sfx)) < 0)
-        return;
-
-    // Get lumpnum if necessary
-    // killough 2/28/98: make missing sounds non-fatal
-    if (sfx->lumpnum < 0 && (sfx->lumpnum = I_GetSfxLumpNum(sfx)) < 0)
         return;
 
     // Assigns the handle to one of the channels in the
