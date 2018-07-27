@@ -202,7 +202,10 @@ void S_Init(void)
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
             if ((S_sfx[i].lumpnum = W_CheckNumForName(namebuf)) >= 0)
+            {
                 W_CacheLumpNum(S_sfx[i].lumpnum);
+                W_UnlockLumpNum(S_sfx[i].lumpnum);
+            }
         }
     }
 
