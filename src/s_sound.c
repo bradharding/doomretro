@@ -187,9 +187,9 @@ void S_Init(void)
         // Allocating the internal channels for mixing
         // (the maximum number of sounds rendered
         // simultaneously) within zone memory.
-        channels = Z_Calloc(s_channels, sizeof(channel_t), PU_STATIC, NULL);
-        sobjs = Z_Malloc(s_channels * sizeof(sobj_t), PU_STATIC, NULL);
     }
+        channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
+        sobjs = Z_Malloc(s_channels_max * sizeof(sobj_t), PU_STATIC, NULL);
 
     for (int i = 1; i < NUMSFX; i++)
         S_sfx[i].lumpnum = -1;
