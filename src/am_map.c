@@ -172,14 +172,11 @@ fixed_t             m_x = INT_MAX, m_y = INT_MAX;
 static fixed_t      m_x2, m_y2;
 
 // width/height of window on map (map coords)
-fixed_t             m_w;
-fixed_t             m_h;
+fixed_t             m_w, m_h;
 
 // based on level size
-static fixed_t      min_x;
-static fixed_t      min_y;
-static fixed_t      max_x;
-static fixed_t      max_y;
+static fixed_t      min_x, min_y;
+static fixed_t      max_x, max_y;
 
 static fixed_t      min_scale_mtof;         // used to tell when to stop zooming out
 static fixed_t      max_scale_mtof;         // used to tell when to stop zooming in
@@ -281,8 +278,10 @@ static void AM_findMinMaxBoundaries(void)
     fixed_t a;
     fixed_t b;
 
-    min_x = min_y = INT_MAX;
-    max_x = max_y = INT_MIN;
+    min_x = INT_MAX;
+    min_y = INT_MAX;
+    max_x = INT_MIN;
+    max_y = INT_MIN;
 
     for (int i = 0; i < numvertexes; i++)
     {
@@ -627,8 +626,7 @@ void AM_addToPath(void)
     const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
-        if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
-            && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
+        if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
             return;
 
     if (pathpointnum >= pathpointnum_max)
@@ -1085,7 +1083,7 @@ dboolean AM_Responder(const event_t *ev)
 //
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 {
-    const fixed_t   cosine = finecosine[angle >>= ANGLETOFINESHIFT];
+    const fixed_t   cosine = finecosine[(angle >>= ANGLETOFINESHIFT)];
     const fixed_t   sine = finesine[angle];
     const fixed_t   temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
 

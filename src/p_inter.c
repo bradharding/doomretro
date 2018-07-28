@@ -303,8 +303,16 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
     ammotype_t  ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
+    {
         // give one clip with a dropped weapon, two clips with a found weapon
-        gaveammo = !!P_GiveAmmo(ammotype, (dropped ? 1 : 2), stat);
+        if ((gaveammo = !!P_GiveAmmo(ammotype, (dropped ? 1 : 2), stat)) && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
+        {
+            if (vid_widescreen && r_hud && !r_althud)
+                ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
+            return true;
+        }
+    }
 
     if (!viewplayer->weaponowned[weapon])
     {
@@ -313,14 +321,6 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
 
         if (weaponinfo[weapon].priority == -1 || weaponinfo[weapon].priority > weaponinfo[viewplayer->readyweapon].priority)
             viewplayer->pendingweapon = weapon;
-    }
-
-    if (gaveammo && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
-    {
-        if (vid_widescreen && r_hud && !r_althud)
-            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
-
-        return true;
     }
 
     return (gaveweapon || gaveammo);
@@ -1328,7 +1328,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     dboolean    gibbed;
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
-    mobj_t      *mo;
     int         gibhealth = info->gibhealth;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
@@ -1499,6 +1498,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     // This determines the kind of object spawned during the death frame of a thing.
     if (info->droppeditem)
     {
+        mobj_t  *mo;
+
         if (tossdrop)
         {
             mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, info->droppeditem);

@@ -1,6 +1,6 @@
 ### DOOM Retro v2.7
 
-* With John Romero’s express permission, his recent maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
+* With John Romero’s express permission, his recently released maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * *DOOM Retro’s* splash screen has been redesigned.
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
@@ -27,7 +27,7 @@
 * Restoring behavior present in *Vanilla DOOM*, lost souls will no longer pass through non-solid objects while attacking if the `infiniteheight` CVAR is `on`.
 * The `mapstats` CCMD now shows the total number of barrels in the current map.
 * Keycards and skull keys are now shown in the right hand corner of the widescreen HUD when the player has no armor.
-* The automap will now be shown in the same colors as *Vanilla DOOM* when vanilla mode is enabled.
+* The automap will now be shown in exactly the same colors as *Vanilla DOOM* when vanilla mode is enabled.
 * A bug has been fixed whereby entering an action as a parameter for the `unbind` CCMD wouldn’t unbind the controls that action was bound to.
 * If a gamepad with only one thumbstick is connected, movement will then be digital rather than analog and that one thumbstick will both turn the player left/right and move the player forward/back.
 * There is no longer any gap between the end of the player’s path and their arrow in the automap when the `am_path` CVAR is `on`.

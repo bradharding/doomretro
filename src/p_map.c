@@ -1037,8 +1037,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
             // increased, the momentum gradually decreases to 0 for
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
-            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << -(mo->gear - OVERDRIVE) :
-                y >> (mo->gear - OVERDRIVE))), x);
+            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << -(mo->gear - OVERDRIVE) : y >> (mo->gear - OVERDRIVE))), x);
 
             // Apply momentum away from the pivot linedef.
             x = FixedMul(ld->dy, dist);
@@ -1117,7 +1116,7 @@ void P_ApplyTorque(mobj_t *mo)
 static dboolean P_ThingHeightClip(mobj_t *thing)
 {
     dboolean    onfloor = (thing->z == thing->floorz);
-    fixed_t     oldfloorz = thing->floorz; // haleyjd
+    fixed_t     oldfloorz = thing->floorz;      // haleyjd
     int         flags2 = thing->flags2;
     player_t    *player = thing->player;
 
@@ -1126,7 +1125,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     // what about stranding a monster partially off an edge?
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
-    thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
+    thing->dropoffz = tmdropoffz;               // killough 11/98: remember dropoffs
 
     if ((flags2 & MF2_FEETARECLIPPED) && r_liquid_bob && !player)
         thing->z = thing->floorz;
