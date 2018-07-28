@@ -1502,8 +1502,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
         if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
         {
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", count++, (control[0] == '=' ? "+" : control),
-                    keyactionlist[value]);
+                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
             else
                 C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, keyactionlist[value]);
         }
@@ -1533,9 +1532,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
     C_Header(tabs, CMDLISTTITLE);
 
     for (int i = 0; *consolecmds[i].name; i++)
-        if (consolecmds[i].type == CT_CMD
-            && *consolecmds[i].description
-            && (!*parms || wildcard(consolecmds[i].name, parms)))
+        if (consolecmds[i].type == CT_CMD && *consolecmds[i].description && (!*parms || wildcard(consolecmds[i].name, parms)))
         {
             char    description1[255];
             char    description2[255] = "";
@@ -1550,8 +1547,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_StringCopy(description2, p, sizeof(description2));
             }
 
-            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name,
-                consolecmds[i].format, description1);
+            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name, consolecmds[i].format, description1);
 
             if (*description2)
                 C_TabbedOutput(tabs, "\t\t%s", description2);
@@ -1643,8 +1639,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         }
                     }
 
-                    if ((console[i].type == playermessagestring || console[i].type == obituarystring)
-                        && con_timestamps)
+                    if ((console[i].type == playermessagestring || console[i].type == obituarystring) && con_timestamps)
                     {
                         for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
                             fputc(' ', file);
@@ -1698,8 +1693,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype] : 0),
-                    description1);
+                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype] : 0), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? viewplayer->armorpoints : 0), description1);
@@ -1714,8 +1708,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases),
-                    description1);
+                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases), description1);
             else if (consolecmds[i].flags & CF_FLOAT)
             {
                 if (consolecmds[i].flags & CF_PERCENT)

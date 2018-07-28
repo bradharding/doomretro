@@ -1404,7 +1404,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate)))
         P_SetMobjState(target, info->xdeathstate);
     else
