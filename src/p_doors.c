@@ -223,7 +223,6 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeCdO:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
-                        S_StopSectorSound(&door->sector->soundorg);
                         break;
 
                     default:
