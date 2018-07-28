@@ -240,25 +240,6 @@ static void ReleaseSoundOnChannel(int channel)
         FreeAllocatedSound(snd);
 }
 
-static dboolean ConvertibleRatio(int freq1, int freq2)
-{
-    int ratio;
-
-    if (freq1 > freq2)
-        return ConvertibleRatio(freq2, freq1);
-    else if (freq2 % freq1)
-        return false;
-    else
-    {
-        ratio = freq2 / freq1;
-
-        while (!(ratio & 1))
-            ratio = ratio >> 1;
-
-        return (ratio == 1);
-    }
-}
-
 // Generic sound expansion function for any sample rate.
 static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
@@ -273,9 +254,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     chunk = &snd->chunk;
 
     // If we can, use the standard/optimized SDL conversion routines.
-    if (samplerate <= mixer_freq
-        && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq))
+    if (samplerate <= mixer_freq && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq) > 0)
     {
         convertor.len = length;
         convertor.buf = malloc(convertor.len * convertor.len_mult);
