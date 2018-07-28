@@ -205,6 +205,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         return false;
 
     // jff 02/04/98 add check here for generalized floor/ceil mover
+    if (line->special >= GenCrusherBase)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
@@ -269,7 +270,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenStairs;
         }
-        else if (line->special >= GenCrusherBase)
+        else
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
