@@ -805,7 +805,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             else
                 continue;
 
-            if (!italics)
+            if (kerning)
                 for (int j = 0; kern[j].char1; j++)
                     if (prevletter == kern[j].char1 && letter == kern[j].char2)
                     {
