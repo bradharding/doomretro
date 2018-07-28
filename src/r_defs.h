@@ -988,7 +988,7 @@ typedef struct
 //
 // Now what is a visplane, anyway?
 //
-typedef struct visplane_s
+typedef struct
 {
     int                 picnum;
     int                 lightlevel;

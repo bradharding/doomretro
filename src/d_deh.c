@@ -1237,6 +1237,7 @@ deh_strs deh_strlookup[] =
     { &s_OB_MPBFG_SPLASH,            "OB_MPBFG_SPLASH"            },
     { &s_OB_MPTELEFRAG,              "OB_MPTELEFRAG"              },
     { &s_OB_RAILGUN,                 "OB_RAILGUN"                 },
+    { &s_OB_MPBFG_MBF,               "OB_MPBFG_MBF"               },
     { &s_OB_MONTELEFRAG,             "OB_MONTELEFRAG"             },
     { &s_OB_DEFAULT,                 "OB_DEFAULT"                 },
     { &s_OB_FRIENDLY1,               "OB_FRIENDLY1"               },

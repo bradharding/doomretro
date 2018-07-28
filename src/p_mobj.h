@@ -363,7 +363,6 @@ typedef struct mobj_s
     int                 flags2;
 
     int                 health;
-    int                 damage;
 
     // Movement direction, movement generation (zig-zagging).
     dirtype_t           movedir;                // 0-7

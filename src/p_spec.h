@@ -505,11 +505,11 @@ typedef enum
     elevateCurrent
 } elevator_e;
 
-typedef enum
+enum
 {
     build8,     // slowly build by 8
     turbo16     // quickly build by 16
-} stair_e;
+};
 
 typedef struct
 {

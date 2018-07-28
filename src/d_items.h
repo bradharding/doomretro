@@ -55,7 +55,6 @@ typedef struct
     int             downstate;
     int             readystate;
     int             atkstate;
-    int             holdatkstate;
     int             flashstate;
     int             recoil;
     int             motorspeed;

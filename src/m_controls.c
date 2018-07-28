@@ -89,7 +89,6 @@ int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
-int mouseuseartifact = MOUSEUSEARTIFACT_DEFAULT;
 
 int gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
 int gamepadautomap = GAMEPADAUTOMAP_DEFAULT;

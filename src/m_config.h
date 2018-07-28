@@ -690,7 +690,6 @@ enum
 #define MOUSESTRAFE_DEFAULT                     -1
 #define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1
-#define MOUSEUSEARTIFACT_DEFAULT                -1
 
 typedef enum
 {

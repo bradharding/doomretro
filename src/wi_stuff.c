@@ -107,10 +107,6 @@ typedef struct
     // LEVEL: level
     int         data1;
 
-    // ALWAYS: n/a,
-    // LEVEL: n/a
-    int         data2;
-
     // actual graphics for frames of animations
     patch_t     *p[3];
 
@@ -121,9 +117,6 @@ typedef struct
 
     // next frame number to animate
     int         ctr;
-
-    // used by LEVEL when animating
-    int         state;
 } anim_t;
 
 static point_t lnodes[NUMEPISODES][NUMMAPS] =
