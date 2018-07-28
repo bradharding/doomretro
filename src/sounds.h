@@ -188,69 +188,6 @@ enum
     NUMMUSIC
 };
 
-enum
-{
-    hmus_e1m1,
-    hmus_e1m2,
-    hmus_e1m3,
-    hmus_e1m4,
-    hmus_e1m5,
-    hmus_e1m6,
-    hmus_e1m7,
-    hmus_e1m8,
-    hmus_e1m9,
-
-    hmus_e2m1,
-    hmus_e2m2,
-    hmus_e2m3,
-    hmus_e2m4,
-    hmus_e2m5,
-    hmus_e2m6,
-    hmus_e2m7,
-    hmus_e2m8,
-    hmus_e2m9,
-
-    hmus_e3m1,
-    hmus_e3m2,
-    hmus_e3m3,
-    hmus_e3m4,
-    hmus_e3m5,
-    hmus_e3m6,
-    hmus_e3m7,
-    hmus_e3m8,
-    hmus_e3m9,
-
-    hmus_e4m1,
-    hmus_e4m2,
-    hmus_e4m3,
-    hmus_e4m4,
-    hmus_e4m5,
-    hmus_e4m6,
-    hmus_e4m7,
-    hmus_e4m8,
-    hmus_e4m9,
-
-    hmus_e5m1,
-    hmus_e5m2,
-    hmus_e5m3,
-    hmus_e5m4,
-    hmus_e5m5,
-    hmus_e5m6,
-    hmus_e5m7,
-    hmus_e5m8,
-    hmus_e5m9,
-
-    hmus_e6m1,
-    hmus_e6m2,
-    hmus_e6m3,
-
-    hmus_titl,
-    hmus_intr,
-    hmus_cptd,
-
-    NUMHMUSIC
-};
-
 //
 // Identifiers for all sfx in game.
 //
