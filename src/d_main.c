@@ -357,6 +357,10 @@ void D_Display(void)
         blitfunc();             // blit buffer
         mapblitfunc();
 
+        // Figure out how far into the current tic we're in as a fixed_t
+        if (vid_capfps != TICRATE)
+            fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
+
         return;
     }
 
