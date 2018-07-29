@@ -7154,6 +7154,7 @@ char autocompletelist[][255] =
     "reset s_randommusic",
     "reset s_randompitch",
     "reset s_sfxvolume",
+    "reset s_stereo",
     "reset savegame",
     "reset skilllevel",
     "reset stillbob",
