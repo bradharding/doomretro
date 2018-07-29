@@ -172,6 +172,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                                       NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (s_stereo,                                          BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,                                          NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (skilllevel,                                        NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOVALUEALIAS      ),
@@ -756,6 +757,10 @@ static void M_CheckCVARs(void)
 
     s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;
+
+    if (s_stereo != false && s_stereo != true)
+        s_stereo = s_stereo_default;
+
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);

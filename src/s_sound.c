@@ -100,6 +100,7 @@ int                 s_musicvolume = s_musicvolume_default;
 dboolean            s_randommusic = s_randommusic_default;
 dboolean            s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
+dboolean            s_stereo = s_stereo_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
@@ -435,7 +436,8 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     angle >>= ANGLETOFINESHIFT;
 
     // stereo separation
-    *sep = NORM_SEP - FixedMul(S_STEREO_SWING, finesine[angle]);
+    if (s_stereo)
+        *sep = NORM_SEP - FixedMul(S_STEREO_SWING, finesine[angle]);
 
     // volume calculation
     *vol = (dist < S_CLOSE_DIST ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);

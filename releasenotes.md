@@ -34,6 +34,7 @@
 * <kbd>SPACE</kbd> can now be pressed to respawn the player, as well as advance the intermission and finale screens, even if the key isn’t bound to the `+use` action.
 * The direction the player is looking is no longer recentered when they go through a teleport and the `mouselook` CVAR is `on`.
 * An obituary is now displayed when the player is crushed to death by a moving ceiling and the `con_obituaries` CVAR is `on`.
+* Whether sound effects are played in stereo or mono can now be changed using the new `s_stereo` CVAR. It is `on` by default.
 
 ---
 

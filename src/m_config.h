@@ -139,6 +139,7 @@ extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
+extern dboolean     s_stereo;
 extern int          savegame;
 extern int          skilllevel;
 extern unsigned int stat_barrelsexploded;
@@ -523,6 +524,8 @@ enum
 #define s_sfxvolume_min                         0
 #define s_sfxvolume_default                     100
 #define s_sfxvolume_max                         100
+
+#define s_stereo_default                        true
 
 #define savegame_min                            1
 #define savegame_default                        1
