@@ -67,6 +67,7 @@ r_translucency off
 s_channels 8
 s_randommusic off
 s_randompitch off
+s_stereo on
 stillbob 0%
 tossdrop off
 turbo 100%
