@@ -562,12 +562,12 @@ void S_UpdateSounds(mobj_t *listener)
             //  or modify their parms
             if ((origin = c->origin) && listener != origin)
             {
-                int sep;
+                int sep = NORM_SEP;
 
                 if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
                     S_StopChannel(cnum);
                 else
-                    I_UpdateSoundParams(c->handle, volume, NORM_SEP);
+                    I_UpdateSoundParams(c->handle, volume, sep);
             }
         }
         else
