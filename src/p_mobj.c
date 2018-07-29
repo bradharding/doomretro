@@ -1216,7 +1216,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     dboolean    fuzz = (target->flags & MF_FUZZ);
     int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood : MT_BLOOD)) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
-    int         blood = (fuzz ? FUZZYBLOOD : target->blood);
+    int         blood = (fuzz ? FUZZYBLOOD : info->blood);
     sector_t    *sector;
 
     angle += ANG180;
