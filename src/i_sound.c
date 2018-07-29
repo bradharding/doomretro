@@ -243,7 +243,7 @@ static void ReleaseSoundOnChannel(int channel)
 // Generic sound expansion function for any sample rate.
 static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
-    uint32_t            expanded_length = (uint32_t)((((uint64_t)length) * mixer_freq) / samplerate);
+    unsigned int        expanded_length = (unsigned int)((((uint64_t)length) * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
     SDL_AudioCVT        convertor;
     Mix_Chunk           *chunk;
@@ -318,7 +318,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParams(int channel, int vol, int sep)
 {
-    Mix_SetPanning(channel, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255), BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
+    Mix_SetPanning(channel, BETWEEN(0, (254 - sep) * vol / 127, 255), BETWEEN(0, sep * vol / 127, 255));
 }
 
 //

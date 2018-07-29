@@ -396,12 +396,8 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int *vol, int *sep)
 {
     fixed_t dist = 0;
-    fixed_t adx;
-    fixed_t ady;
+    fixed_t adx, ady;
     angle_t angle;
-
-    if (nosfx || !listener)
-        return false;
 
     // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
@@ -415,7 +411,8 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     if (adx)
         dist = FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
-    if (!dist)  // killough 11/98: handle zero-distance as special case
+    // killough 11/98: handle zero-distance as special case
+    if (!dist)
     {
         *sep = NORM_SEP;
         *vol = snd_SfxVolume;
@@ -485,8 +482,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     if ((cnum = S_GetChannel(origin, sfx)) < 0)
         return;
 
-    // Assigns the handle to one of the channels in the
-    //  mix/output buffer.
+    // Assigns the handle to one of the channels in the mix/output buffer.
     // e6y: [Fix] Crash with zero-length sounds.
     if ((handle = I_StartSound(sfx, cnum, volume, sep, pitch)) != -1)
         channels[cnum].handle = handle;
@@ -560,8 +556,7 @@ void S_UpdateSounds(mobj_t *listener)
                     volume = snd_SfxVolume;
             }
 
-            // check non-local sounds for distance clipping
-            //  or modify their parms
+            // check non-local sounds for distance clipping or modify their parms
             if ((origin = c->origin) && listener != origin)
             {
                 int sep = NORM_SEP;

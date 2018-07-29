@@ -1,6 +1,6 @@
 ### DOOM Retro v2.7
 
-* With John Romero’s express permission, his recently released maps [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
+* With John Romero’s express permission, [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * *DOOM Retro’s* splash screen has been redesigned.
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
@@ -32,7 +32,7 @@
 * If a gamepad with only one thumbstick is connected, movement will then be digital rather than analog and that one thumbstick will both turn the player left/right and move the player forward/back.
 * There is no longer any gap between the end of the player’s path and their arrow in the automap when the `am_path` CVAR is `on`.
 * <kbd>SPACE</kbd> can now be pressed to respawn the player, as well as advance the intermission and finale screens, even if the key isn’t bound to the `+use` action.
-* The direction the player is looking is no longer recentered when they go through a teleport and the `mouselook` CVAR is `on`.
+* The direction the player is looking is no longer recentered vertically when they go through a teleport and the `mouselook` CVAR is `on`.
 * An obituary is now displayed when the player is crushed to death by a moving ceiling and the `con_obituaries` CVAR is `on`.
 * Whether sound effects are played in stereo or mono can now be changed using the new `s_stereo` CVAR. It is `on` by default.
 
