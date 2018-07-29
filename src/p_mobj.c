@@ -303,8 +303,7 @@ static void P_XYMovement(mobj_t *mo)
                 x = mo->x + (M_RandomInt(-radius, radius) << FRACBITS);
                 y = mo->y + (M_RandomInt(-radius, radius) << FRACBITS);
 
-                if (R_PointInSubsector(x, y)->sector->floorheight <= floorz)
-                    P_SpawnBloodSplat(x, y, blood, floorz, mo);
+                P_SpawnBloodSplat(x, y, blood, floorz, mo);
             }
         }
     }
