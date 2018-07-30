@@ -245,38 +245,17 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 {
     unsigned int        expanded_length = (unsigned int)((((uint64_t)length) * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    SDL_AudioCVT        convertor;
-    Mix_Chunk           *chunk;
+    Sint16              *expanded = (Sint16 *)(&snd->chunk)->abuf;
+    int                 expand_ratio = (length << 8) / expanded_length;
 
     if (!snd)
         return false;
 
-    chunk = &snd->chunk;
-
-    // If we can, use the standard/optimized SDL conversion routines.
-    if (samplerate <= mixer_freq && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq) > 0)
+    for (unsigned int i = 0; i < expanded_length; i++)
     {
-        convertor.len = length;
-        convertor.buf = malloc(convertor.len * convertor.len_mult);
-        assert(convertor.buf);
-        memcpy(convertor.buf, data, length);
+        byte    src = data[(i * expand_ratio) >> 8];
 
-        SDL_ConvertAudio(&convertor);
-
-        memcpy(chunk->abuf, convertor.buf, chunk->alen);
-        free(convertor.buf);
-    }
-    else
-    {
-        Sint16  *expanded = (Sint16 *)chunk->abuf;
-        int     expand_ratio = (length << 8) / expanded_length;
-
-        for (unsigned int i = 0; i < expanded_length; i++)
-        {
-            int src = (i * expand_ratio) >> 8;
-
-            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src] << 8)) - 32768;
-        }
+        expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
     }
 
     return true;
