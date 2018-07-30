@@ -1691,7 +1691,7 @@ static const char *deh_state[] =
 static const char *deh_sfxinfo[] =
 {
     "Offset",           // pointer to a name string, changed in text
-    "Zero/One",          // .singularity (int, one at a time flag)
+    "Zero/One",         // .singularity (int, one at a time flag)
     "Value",            // .priority
     "Zero 1",           // .link (sfxinfo_t*) referenced sound if linked
     "Zero 2",           // .pitch
@@ -2673,7 +2673,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         else  if (M_StringCompare(key, deh_sfxinfo[7]))     // Neg. One 1
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[8]))      // Neg. One 2
-             S_sfx[indexnum].lumpnum = value;
+            /* nop */;
         else if (devparm)
             C_Warning("Invalid sound string index for \"%s\"", key);
     }

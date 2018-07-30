@@ -45,9 +45,9 @@
 #define NORM_PITCH  127
 
 //
-// SoundFX struct.
+// SFX struct.
 //
-typedef struct sfxinfo_struct sfxinfo_t;
+typedef struct sfxinfo_s sfxinfo_t;
 
 enum
 {
@@ -60,45 +60,48 @@ enum
     sg_saw
 };
 
-struct sfxinfo_struct
+struct sfxinfo_s
 {
     // up to 6-character name
-    char        name[9];
+    char            name[9];
 
     // SFX singularity (only one at a time)
-    int         singularity;
+    int             singularity;
 
     // SFX priority
-    int         priority;
+    int             priority;
 
     // referenced sound if a link
-    sfxinfo_t   *link;
+    sfxinfo_t       *link;
 
     // volume if a link
-    int         volume;
+    int             volume;
 
-    // lump number of SFX
-    int         lumpnum;
+    // SFX data
+    void            *data;
+
+    // SFX size
+    unsigned int    size;
 };
 
 //
-// MusicInfo struct.
+// music struct
 //
 typedef struct
 {
     // up to 6-character name
-    char        name[9];
+    char            name[9];
 
-    char        title[32];
+    char            title[32];
 
     // lump number of music
-    int         lumpnum;
+    int             lumpnum;
 
     // music data
-    void        *data;
+    void            *data;
 
     // music handle once registered
-    void        *handle;
+    void            *handle;
 } musicinfo_t;
 
 // the complete set of sound effects

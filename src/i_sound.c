@@ -266,13 +266,12 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
-    int             lumpnum = sfxinfo->lumpnum;
-    byte            *data = lumpinfo[lumpnum]->cache;
-    unsigned int    lumplen = lumpinfo[lumpnum]->size;
+    byte            *data = sfxinfo->data;
+    unsigned int    size = sfxinfo->size;
     unsigned int    length;
 
     // Check the header, and ensure this is a valid sound
-    if (lumplen < 8 || data[0] != 0x03 || data[1] != 0x00)
+    if (size < 8 || data[0] != 0x03 || data[1] != 0x00)
         return false;   // Invalid sound
 
     length = ((data[7] << 24) | (data[6] << 16) | (data[5] << 8) | data[4]);
@@ -283,7 +282,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
     // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
     // although the actual cut-off length seems to vary slightly depending on the sample rate. This
     // needs further investigation to better understand the correct behavior.
-    if (length > lumplen - 8 || length <= 48)
+    if (length > size - 8 || length <= 48)
         return false;
 
     // The DMX sound library seems to skip the first 16 and last 16 bytes of the lump - reason unknown.

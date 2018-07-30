@@ -196,16 +196,18 @@ void S_Init(void)
         {
             sfxinfo_t   *sfx = &S_sfx[i];
             char        namebuf[9];
+            int         lumpnum;
 
             if (sfx->link)
                 sfx = sfx->link;
 
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
-            if ((S_sfx[i].lumpnum = W_CheckNumForName(namebuf)) >= 0)
+            if ((lumpnum = W_CheckNumForName(namebuf)) >= 0)
             {
-                W_CacheLumpNum(S_sfx[i].lumpnum);
-                W_UnlockLumpNum(S_sfx[i].lumpnum);
+                sfx->data = W_CacheLumpNum(lumpnum);
+                sfx->size = W_LumpLength(lumpnum);
+                W_UnlockLumpNum(lumpnum);
             }
         }
     }
