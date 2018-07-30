@@ -44,7 +44,6 @@
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
 
-#define TOCENTER            -8
 #define FLOATSPEED          (4 * FRACUNIT)
 
 #define VIEWHEIGHT          (41 * FRACUNIT)
@@ -224,7 +223,6 @@ extern line_t   *blockline;
 
 extern dboolean infight;
 
-dboolean P_TestMobjLocation(mobj_t *mobj);
 dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 mobj_t *P_CheckOnmobj(mobj_t *thing);
 void P_FakeZMovement(mobj_t *mo);
