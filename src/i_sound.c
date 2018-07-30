@@ -247,6 +247,8 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
     Sint16              *expanded = (Sint16 *)(&snd->chunk)->abuf;
     int                 expand_ratio = (length << 8) / expanded_length;
+    double              dt;
+    double              alpha;
 
     if (!snd)
         return false;
@@ -257,6 +259,13 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
         expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
     }
+
+    // Apply low-pass filter
+    dt = 1.0 / mixer_freq;
+    alpha = dt / (1.0 / (M_PI * samplerate) + dt);
+
+    for (unsigned int i = 2; i < expanded_length * 2; i++)
+        expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
     return true;
 }
