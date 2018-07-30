@@ -263,15 +263,16 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
 // Load and convert a sound effect
 // Returns true if successful
-static dboolean CacheSFX(sfxinfo_t *sfxinfo)
+dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
-    byte            *data = sfxinfo->data;
-    unsigned int    size = sfxinfo->size;
+    int             lumpnum = sfxinfo->lumpnum;
+    byte            *data = W_CacheLumpNum(lumpnum);
+    unsigned int    lumplen = W_LumpLength(lumpnum);
     unsigned int    length;
 
     // Check the header, and ensure this is a valid sound
-    if (size < 8 || data[0] != 0x03 || data[1] != 0x00)
+    if (lumplen < 8 || data[0] != 0x03 || data[1] != 0x00)
         return false;   // Invalid sound
 
     length = ((data[7] << 24) | (data[6] << 16) | (data[5] << 8) | data[4]);
@@ -282,7 +283,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
     // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
     // although the actual cut-off length seems to vary slightly depending on the sample rate. This
     // needs further investigation to better understand the correct behavior.
-    if (length > size - 8 || length <= 48)
+    if (length > lumplen - 8 || length <= 48)
         return false;
 
     // The DMX sound library seems to skip the first 16 and last 16 bytes of the lump - reason unknown.
@@ -290,6 +291,8 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
     // Sample rate conversion
     if (!ExpandSoundData(sfxinfo, data + 24, ((data[3] << 8) | data[2]), length - 32))
         return false;
+
+    W_UnlockLumpNum(lumpnum);
 
     return true;
 }
@@ -311,10 +314,6 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 
     // Release a sound effect if there is already one playing on this channel
     ReleaseSoundOnChannel(channel);
-
-    // Get the sound data
-    if (!CacheSFX(sfxinfo))
-        return -1;
 
     if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch)))
     {

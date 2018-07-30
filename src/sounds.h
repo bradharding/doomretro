@@ -77,11 +77,8 @@ struct sfxinfo_s
     // volume if a link
     int             volume;
 
-    // SFX data
-    void            *data;
-
-    // SFX size
-    unsigned int    size;
+    // SFX lumpnum
+    int             lumpnum;
 };
 
 //

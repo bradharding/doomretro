@@ -149,6 +149,7 @@ static void InitMusicModule(void)
     C_Warning("Music couldn't be initialized.");
     nomusic = true;
 }
+dboolean CacheSFX(sfxinfo_t *sfxinfo);
 
 //
 // Initializes sound stuff, including volume
@@ -196,19 +197,14 @@ void S_Init(void)
         {
             sfxinfo_t   *sfx = &S_sfx[i];
             char        namebuf[9];
-            int         lumpnum;
 
             if (sfx->link)
                 sfx = sfx->link;
 
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
-            if ((lumpnum = W_CheckNumForName(namebuf)) >= 0)
-            {
-                sfx->data = W_CacheLumpNum(lumpnum);
-                sfx->size = W_LumpLength(lumpnum);
-                W_UnlockLumpNum(lumpnum);
-            }
+            if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
+                CacheSFX(sfx);
         }
     }
 
