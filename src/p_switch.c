@@ -47,12 +47,14 @@
 #include "z_zone.h"
 
 // killough 2/8/98: Remove switch limit
-static int  *switchlist;        // killough
-static int  max_numswitches;    // killough
-static int  numswitches;        // killough
+static int          *switchlist;        // killough
+static int          max_numswitches;    // killough
+static int          numswitches;        // killough
 
-button_t    *buttonlist = NULL;
-int         maxbuttons = MAXBUTTONS;
+button_t            *buttonlist = NULL;
+int                 maxbuttons = MAXBUTTONS;
+
+extern texture_t    **textures;
 
 //
 // P_InitSwitchList()
@@ -106,8 +108,26 @@ void P_InitSwitchList(void)
 
             if (texture1 != -1 && texture2 != -1)
             {
+                texture_t   *texture;
+
                 switchlist[index++] = texture1;
                 switchlist[index++] = texture2;
+
+                texture = textures[texture1];
+
+                for (int j = 0; j < texture->patchcount; j++)
+                {
+                    W_CacheLumpNum(texture->patches[j].patch);
+                    W_UnlockLumpNum(texture->patches[j].patch);
+                }
+
+                texture = textures[texture2];
+
+                for (int j = 0; j < texture->patchcount; j++)
+                {
+                    W_CacheLumpNum(texture->patches[j].patch);
+                    W_UnlockLumpNum(texture->patches[j].patch);
+                }
             }
         }
     }
