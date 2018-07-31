@@ -239,8 +239,7 @@ void I_InitWindows32(void)
     oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 
     windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
-    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
-        + GetSystemMetrics(SM_CYCAPTION);
+    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2 + GetSystemMetrics(SM_CYCAPTION);
 
     SetUnhandledExceptionFilter(ExceptionHandler);
 }

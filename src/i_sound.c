@@ -241,17 +241,17 @@ static void ReleaseSoundOnChannel(int channel)
 }
 
 // Generic sound expansion function for any sample rate.
-static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
     unsigned int        expanded_length = (unsigned int)((((uint64_t)length) * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
     Sint16              *expanded = (Sint16 *)(&snd->chunk)->abuf;
     int                 expand_ratio = (length << 8) / expanded_length;
-    double              dt;
-    double              alpha;
+    double              dt = 1.0 / mixer_freq;
+    double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
     if (!snd)
-        return false;
+        return;
 
     for (unsigned int i = 0; i < expanded_length; i++)
     {
@@ -261,18 +261,15 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     }
 
     // Apply low-pass filter
-    dt = 1.0 / mixer_freq;
-    alpha = dt / (1.0 / (M_PI * samplerate) + dt);
-
     for (unsigned int i = 2; i < expanded_length * 2; i++)
         expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
-    return true;
+    return;
 }
 
 // Load and convert a sound effect
 // Returns true if successful
-dboolean CacheSFX(sfxinfo_t *sfxinfo)
+void CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
     int             lumpnum = sfxinfo->lumpnum;
@@ -282,7 +279,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
     // Check the header, and ensure this is a valid sound
     if (lumplen < 8 || data[0] != 0x03 || data[1] != 0x00)
-        return false;   // Invalid sound
+        return; // Invalid sound
 
     length = ((data[7] << 24) | (data[6] << 16) | (data[5] << 8) | data[4]);
 
@@ -293,17 +290,14 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     // although the actual cut-off length seems to vary slightly depending on the sample rate. This
     // needs further investigation to better understand the correct behavior.
     if (length > lumplen - 8 || length <= 48)
-        return false;
+        return;
 
     // The DMX sound library seems to skip the first 16 and last 16 bytes of the lump - reason unknown.
 
     // Sample rate conversion
-    if (!ExpandSoundData(sfxinfo, data + 24, ((data[3] << 8) | data[2]), length - 32))
-        return false;
+    ExpandSoundData(sfxinfo, data + 24, ((data[3] << 8) | data[2]), length - 32);
 
     W_UnlockLumpNum(lumpnum);
-
-    return true;
 }
 
 void I_UpdateSoundParams(int channel, int vol, int sep)

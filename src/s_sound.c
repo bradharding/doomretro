@@ -149,7 +149,6 @@ static void InitMusicModule(void)
     C_Warning("Music couldn't be initialized.");
     nomusic = true;
 }
-dboolean CacheSFX(sfxinfo_t *sfxinfo);
 
 //
 // Initializes sound stuff, including volume
