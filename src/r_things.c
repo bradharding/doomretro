@@ -253,7 +253,7 @@ static void R_InitSpriteDefs(void)
                             break;
 
                         case 1:
-                            // must have all 8 frames
+                            // must have all 16 frames
                             for (int rot = 0; rot < 16; rot += 2)
                             {
                                 if (sprtemp[frame].lump[rot + 1] == -1)

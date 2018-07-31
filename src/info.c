@@ -5803,7 +5803,7 @@ mobjinfo_t mobjinfo[] =
 
     // MT_PUSH
     {
-        /* doomednum            */ 5001,
+        /* doomednum            */ Pusher,
         /* spawnstate           */ S_TNT1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -5845,7 +5845,7 @@ mobjinfo_t mobjinfo[] =
 
     // MT_PULL
     {
-        /* doomednum            */ 5002,
+        /* doomednum            */ Puller,
         /* spawnstate           */ S_TNT1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,

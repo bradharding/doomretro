@@ -784,8 +784,13 @@ void R_PrecacheLevel(void)
             {
                 short   *lump = sprites[i].spriteframes[j].lump;
 
-                for (int k = 0; k < 16; k++)
-                    precache_lump(firstspritelump + lump[k]);
+                if (sprites[i].spriteframes[j].rotate == 1)
+                {
+                    for (int k = 0; k < 16; k++)
+                        precache_lump(firstspritelump + lump[k]);
+                }
+                else
+                    precache_lump(firstspritelump + lump[0]);
             }
 
     free(hitlist);
