@@ -217,6 +217,6 @@ extern gamestate_t      wipegamestate;
 //  as well as tracking projectiles etc.
 extern int              skyflatnum;
 
-extern ticcmd_t         netcmds[BACKUPTICS];
+extern ticcmd_t         localcmds[BACKUPTICS];
 
 #endif

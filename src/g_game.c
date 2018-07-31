@@ -921,7 +921,7 @@ void G_Ticker(void)
     // get commands, check consistency,
     // and build new consistency check
     cmd = &viewplayer->cmd;
-    memcpy(cmd, &netcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
+    memcpy(cmd, &localcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
     if (viewplayer->cmd.buttons & BT_SPECIAL)

@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -44,101 +43,51 @@
 #include "i_timer.h"
 #include "m_menu.h"
 
-//
-// NETWORKING
-//
-// gametic is the tic about to (or currently being) run
-// maketic is the tic that hasn't had control made for it yet
-//
-// a gametic cannot be run until nettics > gametic for the player
-//
+static int      maketic;
+ticcmd_t        localcmds[BACKUPTICS];
 
-ticcmd_t    netcmds[BACKUPTICS];
-
-static int  maketic;
-
-//
-// NetUpdate
-// Builds ticcmds for console player,
-// sends out a packet
-//
-static int  lasttime;
-
-static void BuildNewTic(void)
-{
-    ticcmd_t    cmd;
-
-    I_StartTic();
-    D_ProcessEvents();
-
-    // Always run the menu
-    if (menuactive)
-        M_Ticker();
-
-    if (maketic - gametic > 2)
-        return;
-
-    G_BuildTiccmd(&cmd);
-    netcmds[maketic++ % BACKUPTICS] = cmd;
-}
-
-static void NetUpdate(void)
-{
-    int         nowtime = I_GetTime();
-    int         newtics = nowtime - lasttime;
-    static int  skiptics;
-
-    lasttime = nowtime;
-
-    if (skiptics <= newtics)
-    {
-        newtics -= skiptics;
-        skiptics = 0;
-
-        if (newtics)
-            BuildNewTic();
-    }
-    else
-        skiptics -= newtics;
-}
-
-//
-// Start game loop
-//
-// Called after the screen is set but before the game starts running.
-//
-void D_StartGameLoop(void)
-{
-    lasttime = I_GetTime();
-}
-
-//
-// TryRunTics
-//
 extern dboolean advancetitle;
+
+void D_BuildNewTiccmds(void)
+{
+    static int  lastmadetic;
+    int         newtics = I_GetTime() - lastmadetic;
+
+    lastmadetic += newtics;
+
+    while (newtics--)
+    {
+        I_StartTic();
+
+        if (maketic - gametic > BACKUPTICS / 2)
+            break;
+
+        G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
+    }
+}
 
 void TryRunTics(void)
 {
-    // get real tics
-    int counts;
+    int runtics;
 
-    // get available tics
-    NetUpdate();
+    D_BuildNewTiccmds();
 
-    if (!(counts = maketic - gametic) && vid_capfps != TICRATE)
+    if (!(runtics = maketic - gametic) && vid_capfps != TICRATE)
         return;
 
-    // run the count tics
-    while (counts--)
+    while (runtics--)
     {
         if (advancetitle)
             D_DoAdvanceTitle();
+
+        if (menuactive)
+            M_Ticker();
 
         G_Ticker();
         gametic++;
         gametime++;
 
-        if (netcmds[0].buttons & BT_SPECIAL)
-            netcmds[0].buttons = 0;
+        if (localcmds[0].buttons & BT_SPECIAL)
+            localcmds[0].buttons = 0;
     }
 }

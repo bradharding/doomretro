@@ -39,13 +39,10 @@
 #if !defined(__D_LOOP_H__)
 #define __D_LOOP_H__
 
-// Networking and tic handling related.
-#define BACKUPTICS  128
+// Tic handling related.
+#define BACKUPTICS  12
 
 // how many ticks to run?
 void TryRunTics(void);
-
-// Called at start of game loop to initialize timers
-void D_StartGameLoop(void);
 
 #endif
