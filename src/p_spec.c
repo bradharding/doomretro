@@ -62,11 +62,11 @@
 //
 typedef struct
 {
-    dboolean    istexture;
-    int         picnum;
-    int         basepic;
-    int         numpics;
-    int         speed;
+    dboolean        istexture;
+    int             picnum;
+    int             basepic;
+    int             numpics;
+    int             speed;
 } anim_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -78,10 +78,10 @@ typedef struct
 //
 typedef struct
 {
-    signed char istexture;              // if false, it is a flat
-    char        endname[9];
-    char        startname[9];
-    int         speed;
+    signed char     istexture;              // if false, it is a flat
+    char            endname[9];
+    char            startname[9];
+    int             speed;
 } PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -90,15 +90,15 @@ typedef struct
 
 #define MAXANIMS    32
 
-unsigned int    stat_secretsrevealed = 0;
+unsigned int        stat_secretsrevealed = 0;
 
-dboolean        r_liquid_bob = r_liquid_bob_default;
+dboolean            r_liquid_bob = r_liquid_bob_default;
 
-fixed_t         animatedliquiddiff;
-fixed_t         animatedliquidxdir;
-fixed_t         animatedliquidydir;
-fixed_t         animatedliquidxoffs;
-fixed_t         animatedliquidyoffs;
+fixed_t             animatedliquiddiff;
+fixed_t             animatedliquidxdir;
+fixed_t             animatedliquidydir;
+fixed_t             animatedliquidxoffs;
+fixed_t             animatedliquidyoffs;
 
 fixed_t animatedliquiddiffs[64] =
 {
@@ -112,20 +112,21 @@ fixed_t animatedliquiddiffs[64] =
      4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
 };
 
-static anim_t   *lastanim;
-static anim_t   *anims;                 // new structure w/o limits -- killough
-static size_t   maxanims;
+static anim_t       *lastanim;
+static anim_t       *anims;                 // new structure w/o limits -- killough
+static size_t       maxanims;
+
+terraintype_t       *terraintypes;
+dboolean            *isteleport;
 
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
-extern int      numflats;
-extern dboolean canmodify;
-
-terraintype_t   *terraintypes;
-dboolean        *isteleport;
+extern dboolean     canmodify;
+extern int          numflats;
+extern texture_t    **textures;
 
 //
 // P_InitPicAnims
@@ -267,6 +268,26 @@ void P_InitPicAnims(void)
         isteleport[R_CheckFlatNumForName("GATE3")] = true;
         isteleport[R_CheckFlatNumForName("GATE4")] = true;
     }
+
+    for (anim_t *anim = anims; anim < lastanim; anim++)
+        for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
+        {
+            if (anim->istexture)
+            {
+                texture_t   *texture = textures[i];
+
+                for (int j = 0; j < texture->patchcount; j++)
+                {
+                    W_CacheLumpNum(texture->patches[j].patch);
+                    W_UnlockLumpNum(texture->patches[j].patch);
+                }
+            }
+            else
+            {
+                W_CacheLumpNum(firstflat + i);
+                W_UnlockLumpNum(firstflat + i);
+            }
+        }
 }
 
 //
