@@ -784,7 +784,7 @@ void R_PrecacheLevel(void)
             {
                 short   *lump = sprites[i].spriteframes[j].lump;
 
-                for (int k = 0; k < 8; k++)
+                for (int k = 0; k < 16; k++)
                     precache_lump(firstspritelump + lump[k]);
             }
 
