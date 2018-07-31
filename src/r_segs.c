@@ -691,6 +691,8 @@ void R_StoreWallRange(const int start, const int stop)
     }
     else
     {
+        int liquidoffset = 0;
+
         // two sided line
         if (linedef->r_flags & RF_CLOSED)
         {
@@ -719,6 +721,16 @@ void R_StoreWallRange(const int start, const int stop)
         // hack to allow height changes in outdoor areas
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
+
+        // [BH] animate liquid sectors
+        if (r_liquid_bob
+            && backsector->terraintype != SOLID
+            && backsector->interpfloorheight >= frontsector->interpfloorheight
+            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight))
+        {
+            liquidoffset = animatedliquiddiff;
+            worldlow += liquidoffset;
+        }
 
         markfloor = (worldlow != worldbottom
             || backsector->floorpic != frontsector->floorpic
@@ -789,7 +801,7 @@ void R_StoreWallRange(const int start, const int stop)
                 height = textureheight[bottomtexture];
                 bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : height >> FRACBITS);
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
-                rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow)
+                rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
             }
         }
