@@ -158,7 +158,7 @@ static dboolean CheckIfPatch(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
     return result;
 }
 
@@ -308,7 +308,7 @@ static void createPatch(int id)
         }
     }
 
-    W_UnlockLumpNum(patchNum);
+    W_ReleaseLumpNum(patchNum);
     free(numPostsInColumn);
 }
 
@@ -407,7 +407,7 @@ static void createTextureCompositePatch(int id)
             }
         }
 
-        W_UnlockLumpNum(patchNum);
+        W_ReleaseLumpNum(patchNum);
     }
 
     postsDataSize = numPostsTotal * sizeof(rpost_t);
@@ -517,7 +517,7 @@ static void createTextureCompositePatch(int id)
             }
         }
 
-        W_UnlockLumpNum(patchNum);
+        W_ReleaseLumpNum(patchNum);
     }
 
     for (int x = 0; x < texture->width; x++)

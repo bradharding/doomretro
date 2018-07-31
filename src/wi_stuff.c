@@ -1139,7 +1139,7 @@ static void WI_loadData(void)
 
 static void WI_unloadCallback(char *name, patch_t **variable)
 {
-    W_UnlockLumpName(name);
+    W_ReleaseLumpName(name);
     *variable = NULL;
 }
 

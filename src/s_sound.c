@@ -650,7 +650,7 @@ void S_StopMusic(void)
 
         I_StopSong();
         I_UnRegisterSong(mus_playing->handle);
-        W_UnlockLumpNum(mus_playing->lumpnum);
+        W_ReleaseLumpNum(mus_playing->lumpnum);
         mus_playing->data = NULL;
         mus_playing = NULL;
     }

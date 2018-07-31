@@ -214,7 +214,7 @@ void P_InitPicAnims(void)
         lastanim++;
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 
     // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
     SC_Open("DRCOMPAT");
@@ -279,13 +279,13 @@ void P_InitPicAnims(void)
                 for (int j = 0; j < texture->patchcount; j++)
                 {
                     W_CacheLumpNum(texture->patches[j].patch);
-                    W_UnlockLumpNum(texture->patches[j].patch);
+                    W_ReleaseLumpNum(texture->patches[j].patch);
                 }
             }
             else
             {
                 W_CacheLumpNum(firstflat + i);
-                W_UnlockLumpNum(firstflat + i);
+                W_ReleaseLumpNum(firstflat + i);
             }
         }
 }

@@ -281,7 +281,7 @@ static void R_InitTextures(void)
         patchlookup[i] = W_CheckNumForName(name);
     }
 
-    W_UnlockLumpNum(names_lump);                                // cph - release the lump
+    W_ReleaseLumpNum(names_lump);                                // cph - release the lump
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
@@ -360,7 +360,7 @@ static void R_InitTextures(void)
 
     for (i = 0; i < 2; i++)                                     // cph - release the TEXTUREx lumps
         if (maptex_lump[i] != -1)
-            W_UnlockLumpNum(maptex_lump[i]);
+            W_ReleaseLumpNum(maptex_lump[i]);
 
     // Create translation table for global animation.
     // killough 4/9/98: make column offsets 32-bit;
@@ -722,7 +722,7 @@ int R_TextureNumForName(char *name)
 static inline void precache_lump(int l)
 {
     W_CacheLumpNum(l);
-    W_UnlockLumpNum(l);
+    W_ReleaseLumpNum(l);
 }
 
 void R_PrecacheLevel(void)

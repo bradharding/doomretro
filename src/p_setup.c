@@ -303,7 +303,7 @@ static void P_LoadVertexes(int lump)
     }
 
     // Free buffer memory.
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -497,7 +497,7 @@ static void P_LoadSegs(int lump)
             }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 static void P_LoadSegs_V4(int lump)
@@ -603,7 +603,7 @@ static void P_LoadSegs_V4(int lump)
             boomlinespecials = true;
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -625,7 +625,7 @@ static void P_LoadSubsectors(int lump)
         subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 static void P_LoadSubsectors_V4(int lump)
@@ -644,7 +644,7 @@ static void P_LoadSubsectors_V4(int lump)
         subsectors[i].firstline = (int)data[i].firstseg;
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -765,7 +765,7 @@ static void P_LoadSectors(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -822,7 +822,7 @@ static void P_LoadNodes(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 static void P_LoadNodes_V4(int lump)
@@ -862,7 +862,7 @@ static void P_LoadNodes_V4(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 static void P_LoadZSegs(const byte *data)
@@ -1055,7 +1055,7 @@ static void P_LoadZNodes(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -1154,7 +1154,7 @@ static void P_LoadThings(int lump)
     }
 
     M_Seed((unsigned int)time(NULL));
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -1224,7 +1224,7 @@ static void P_LoadLineDefs(int lump)
             sides[*ld->sidenum].special = ld->special;
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 // killough 4/4/98: delay using sidedefs until they are loaded
@@ -1355,7 +1355,7 @@ static void P_LoadSideDefs2(int lump)
         }
     }
 
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 }
 
 //
@@ -1701,7 +1701,7 @@ static void RejectOverrun(int rejectlump, const byte **rejectmatrix)
         memset(newreject + length, 0, required - length);
 
         // unlock the original lump, it is no longer needed
-        W_UnlockLumpNum(rejectlump);
+        W_ReleaseLumpNum(rejectlump);
     }
 }
 
@@ -1712,7 +1712,7 @@ static void P_LoadReject(int lumpnum)
 {
     // dump any old cached reject lump, then cache the new one
     if (rejectlump != -1)
-        W_UnlockLumpNum(rejectlump);
+        W_ReleaseLumpNum(rejectlump);
 
     rejectlump = lumpnum + ML_REJECT;
     rejectmatrix = W_CacheLumpNum(rejectlump);
@@ -2114,7 +2114,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     }
 
     if (nodes)
-        W_UnlockLumpNum(b);
+        W_ReleaseLumpNum(b);
 
     return format;
 }
@@ -2153,7 +2153,7 @@ void P_SetupLevel(int ep, int map)
     if (rejectlump != -1)
     {
         // cph - unlock the reject table
-        W_UnlockLumpNum(rejectlump);
+        W_ReleaseLumpNum(rejectlump);
         rejectlump = -1;
     }
 

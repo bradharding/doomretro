@@ -297,7 +297,7 @@ void CacheSFX(sfxinfo_t *sfxinfo)
     // Sample rate conversion
     ExpandSoundData(sfxinfo, data + 24, ((data[3] << 8) | data[2]), length - 32);
 
-    W_UnlockLumpNum(lumpnum);
+    W_ReleaseLumpNum(lumpnum);
 }
 
 void I_UpdateSoundParams(int channel, int vol, int sep)

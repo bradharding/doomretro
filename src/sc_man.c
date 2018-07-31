@@ -84,7 +84,7 @@ void SC_Close(void)
     if (ScriptOpen)
     {
         if (ScriptLumpNum >= 0)
-            W_UnlockLumpNum(ScriptLumpNum);
+            W_ReleaseLumpNum(ScriptLumpNum);
         else
             Z_Free(ScriptBuffer);
 

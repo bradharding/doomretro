@@ -488,7 +488,7 @@ void *W_CacheLumpNum(int lumpnum)
     return lump->cache;
 }
 
-void W_UnlockLumpNum(int lumpnum)
+void W_ReleaseLumpNum(int lumpnum)
 {
     lumpinfo_t  *lump = lumpinfo[lumpnum];
 

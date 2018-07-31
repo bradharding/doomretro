@@ -98,9 +98,9 @@ void W_Init(void);
 
 unsigned int W_LumpNameHash(const char *s);
 
-void W_UnlockLumpNum(int lumpnum);
+void W_ReleaseLumpNum(int lumpnum);
 
-#define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
+#define W_ReleaseLumpName(name) W_ReleaseLumpNum(W_GetNumForName(name))
 
 GameMission_t IWADRequiredByPWAD(char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);

@@ -118,7 +118,7 @@ void P_InitSwitchList(void)
                 for (int j = 0; j < texture->patchcount; j++)
                 {
                     W_CacheLumpNum(texture->patches[j].patch);
-                    W_UnlockLumpNum(texture->patches[j].patch);
+                    W_ReleaseLumpNum(texture->patches[j].patch);
                 }
 
                 texture = textures[texture2];
@@ -126,7 +126,7 @@ void P_InitSwitchList(void)
                 for (int j = 0; j < texture->patchcount; j++)
                 {
                     W_CacheLumpNum(texture->patches[j].patch);
-                    W_UnlockLumpNum(texture->patches[j].patch);
+                    W_ReleaseLumpNum(texture->patches[j].patch);
                 }
             }
         }
@@ -134,7 +134,7 @@ void P_InitSwitchList(void)
 
     numswitches = index / 2;
     switchlist[index] = -1;
-    W_UnlockLumpNum(lump);
+    W_ReleaseLumpNum(lump);
 
     buttonlist = calloc(maxbuttons, sizeof(*buttonlist));
 }

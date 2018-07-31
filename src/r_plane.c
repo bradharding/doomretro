@@ -481,7 +481,7 @@ void R_DrawPlanes(void)
 
                     ds_source = W_CacheLumpNum(lumpnum);
                     R_MakeSpans(pl);
-                    W_UnlockLumpNum(lumpnum);
+                    W_ReleaseLumpNum(lumpnum);
                 }
             }
         }
