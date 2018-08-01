@@ -853,7 +853,7 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-static dboolean M_CheckSaveGame(int choice)
+static dboolean M_CheckSaveGame(void)
 {
     FILE    *handle = fopen(P_SaveGameFile(itemOn), "rb");
     int     ep;
@@ -994,7 +994,7 @@ static void M_DrawSaveLoadBorder(int x, int y)
 //
 static void M_LoadSelect(int choice)
 {
-    if (M_CheckSaveGame(choice))
+    if (M_CheckSaveGame())
     {
         char    name[SAVESTRINGSIZE];
 

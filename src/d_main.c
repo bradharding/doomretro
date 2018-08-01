@@ -837,7 +837,10 @@ static dboolean D_CheckParms(void)
                 if (W_MergeFile(myargv[1], false))
                 {
                     modifiedgame = true;
-                    pwadfile = removeext(leafname(myargv[1]));
+
+                    if (IWADRequiredByPWAD(myargv[1]) != none)
+                        pwadfile = removeext(leafname(myargv[1]));
+
                     LoadCfgFile(myargv[1]);
                     LoadDehFile(myargv[1]);
                 }
@@ -866,7 +869,10 @@ static dboolean D_CheckParms(void)
                     if (W_MergeFile(myargv[1], false))
                     {
                         modifiedgame = true;
-                        pwadfile = removeext(leafname(myargv[1]));
+
+                        if (IWADRequiredByPWAD(myargv[1]) != none)
+                            pwadfile = removeext(leafname(myargv[1]));
+
                         LoadCfgFile(myargv[1]);
                         LoadDehFile(myargv[1]);
                     }
@@ -882,7 +888,10 @@ static dboolean D_CheckParms(void)
                         if (W_MergeFile(myargv[1], false))
                         {
                             modifiedgame = true;
-                            pwadfile = removeext(leafname(myargv[1]));
+
+                            if (IWADRequiredByPWAD(myargv[1]) != none)
+                                pwadfile = removeext(leafname(myargv[1]));
+
                             LoadCfgFile(myargv[1]);
                             LoadDehFile(myargv[1]);
                         }
@@ -1054,7 +1063,10 @@ static int D_OpenWADLauncher(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        pwadfile = removeext(leafname(file));
+
+                        if (IWADRequiredByPWAD(file) != none)
+                            pwadfile = removeext(leafname(file));
+
                         LoadCfgFile(file);
                         LoadDehFile(file);
                     }
@@ -1073,7 +1085,10 @@ static int D_OpenWADLauncher(void)
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
-                            pwadfile = removeext(leafname(file));
+
+                            if (IWADRequiredByPWAD(file) != none)
+                                pwadfile = removeext(leafname(file));
+
                             LoadCfgFile(file);
                             LoadDehFile(file);
                         }
@@ -1089,7 +1104,10 @@ static int D_OpenWADLauncher(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
-                                pwadfile = removeext(leafname(file));
+
+                                if (IWADRequiredByPWAD(file) != none)
+                                    pwadfile = removeext(leafname(file));
+
                                 LoadCfgFile(file);
                                 LoadDehFile(file);
                             }
@@ -1413,8 +1431,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
-                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
-                            && !D_IsDehFile(fullpath))
+                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
                         {
                             D_CheckSupportedPWAD(fullpath);
 
@@ -1722,7 +1739,9 @@ static void D_DoomMainSetup(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        pwadfile = removeext(leafname(file));
+
+                        if (IWADRequiredByPWAD(file) != none)
+                            pwadfile = removeext(leafname(file));
                     }
                 }
             }
