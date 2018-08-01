@@ -736,7 +736,7 @@ void R_PrecacheLevel(void)
 
     for (int i = 0; i < numflats; i++)
         if (hitlist[i])
-            W_PrecacheLumpNum(firstflat + i);
+            W_CacheLumpNum(firstflat + i);
 
     // Precache textures.
     memset(hitlist, 0, numtextures);
@@ -762,7 +762,7 @@ void R_PrecacheLevel(void)
             texture_t   *texture = textures[i];
 
             for (int j = 0; j < texture->patchcount; j++)
-                W_PrecacheLumpNum(texture->patches[j].patch);
+                W_CacheLumpNum(texture->patches[j].patch);
         }
 
     // Precache sprites.
@@ -780,10 +780,10 @@ void R_PrecacheLevel(void)
                 if (sprites[i].spriteframes[j].rotate == 1)
                 {
                     for (int k = 0; k < 16; k++)
-                        W_PrecacheLumpNum(firstspritelump + lump[k]);
+                        W_CacheLumpNum(firstspritelump + lump[k]);
                 }
                 else
-                    W_PrecacheLumpNum(firstspritelump + lump[0]);
+                    W_CacheLumpNum(firstspritelump + lump[0]);
             }
 
     free(hitlist);

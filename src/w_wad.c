@@ -481,7 +481,7 @@ void *W_CacheLumpNum(int lumpnum)
     lumpinfo_t  *lump = lumpinfo[lumpnum];
 
     if (!lump->cache)
-        W_ReadLump(lumpnum, Z_Malloc(W_LumpLength(lumpnum), PU_CACHE, &lump->cache));
+        W_ReadLump(lumpnum, Z_Malloc(lumpinfo[lumpnum]->size, PU_CACHE, &lump->cache));
 
     return lump->cache;
 }
@@ -491,10 +491,4 @@ void W_ReleaseLumpNum(int lumpnum)
     lumpinfo_t  *lump = lumpinfo[lumpnum];
 
     Z_ChangeTag(lump->cache, PU_CACHE);
-}
-
-void W_PrecacheLumpNum(int lumpnum)
-{
-    W_CacheLumpNum(lumpnum);
-    W_ReleaseLumpNum(lumpnum);
 }

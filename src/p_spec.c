@@ -277,10 +277,10 @@ void P_InitPicAnims(void)
                 texture_t   *texture = textures[i];
 
                 for (int j = 0; j < texture->patchcount; j++)
-                    W_PrecacheLumpNum(texture->patches[j].patch);
+                    W_CacheLumpNum(texture->patches[j].patch);
             }
             else
-                W_PrecacheLumpNum(firstflat + i);
+                W_CacheLumpNum(firstflat + i);
         }
 }
 

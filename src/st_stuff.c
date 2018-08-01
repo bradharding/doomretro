@@ -257,7 +257,6 @@ static int                  st_randomnumber;
 int                         oldhealth = 100;
 
 dboolean                    idclev;
-
 int                         idclevtics;
 
 dboolean                    idmus;
@@ -419,8 +418,6 @@ void ST_AutomapEvent(int type)
     if (type == AM_MSGENTERED)
         st_firsttime = true;
 }
-
-void kill_cmd_func2(char *cmd, char *parms);
 
 extern char     cheatkey;
 extern int      episode;

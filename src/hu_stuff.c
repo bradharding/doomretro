@@ -131,10 +131,10 @@ static struct
     int     mobjnum;
     patch_t *patch;
 } ammopic[NUMAMMO] = {
-    { "CLIPA0", MT_CLIP         },
-    { "SHELA0", MT_MISC22       },
-    { "CELLA0", MT_MISC20       },
-    { "ROCKA0", MT_MISC18       }
+    { "CLIPA0", MT_CLIP   },
+    { "SHELA0", MT_MISC22 },
+    { "CELLA0", MT_MISC20 },
+    { "ROCKA0", MT_MISC18 }
 };
 
 static struct

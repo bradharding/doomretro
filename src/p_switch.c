@@ -116,12 +116,12 @@ void P_InitSwitchList(void)
                 texture = textures[texture1];
 
                 for (int j = 0; j < texture->patchcount; j++)
-                    W_PrecacheLumpNum(texture->patches[j].patch);
+                    W_CacheLumpNum(texture->patches[j].patch);
 
                 texture = textures[texture2];
 
                 for (int j = 0; j < texture->patchcount; j++)
-                    W_PrecacheLumpNum(texture->patches[j].patch);
+                    W_CacheLumpNum(texture->patches[j].patch);
             }
         }
     }
