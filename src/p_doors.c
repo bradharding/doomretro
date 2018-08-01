@@ -48,14 +48,14 @@
 
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
-    if (door->topheight - door->sector->floorheight)
+    sector_t    *sec = door->sector;
+
+    if (door->topheight - sec->floorheight)
     {
         if (door->lighttag)
-            EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                door->topheight - door->sector->floorheight));
-        else if (!P_SectorHasLightSpecial(door->sector))
-            EV_LightByAdjacentSectors(door->sector, FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                door->topheight - door->sector->floorheight));
+            EV_LightTurnOnPartway(door->line, FixedDiv(sec->ceilingheight - sec->floorheight, door->topheight - sec->floorheight));
+        else if (!P_SectorHasLightSpecial(sec))
+            EV_LightByAdjacentSectors(sec, FixedDiv(sec->ceilingheight - sec->floorheight, door->topheight - sec->floorheight));
     }
 }
 

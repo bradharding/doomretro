@@ -494,3 +494,9 @@ void W_ReleaseLumpNum(int lumpnum)
 
     Z_ChangeTag(lump->cache, PU_CACHE);
 }
+
+void W_PrecacheLumpNum(int lumpnum)
+{
+    W_CacheLumpNum(lumpnum);
+    W_ReleaseLumpNum(lumpnum);
+}

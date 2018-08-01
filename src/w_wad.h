@@ -102,6 +102,8 @@ void W_ReleaseLumpNum(int lumpnum);
 
 #define W_ReleaseLumpName(name) W_ReleaseLumpNum(W_GetNumForName(name))
 
+void W_PrecacheLumpNum(int lumpnum);
+
 GameMission_t IWADRequiredByPWAD(char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);
 

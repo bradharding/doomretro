@@ -495,7 +495,6 @@ void D_DoAdvanceTitle(void)
             forcewipe = true;
 
         pagelump = titlelump;
-
         pagetic = 20 * TICRATE;
 
         if (splashscreen)
@@ -513,9 +512,7 @@ void D_DoAdvanceTitle(void)
     else if (titlesequence == 2)
     {
         forcewipe = true;
-
         pagelump = creditlump;
-
         pagetic = 10 * TICRATE;
     }
 

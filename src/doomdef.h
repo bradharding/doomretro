@@ -171,7 +171,6 @@ typedef enum
     it_blueskull,
     it_yellowskull,
     it_redskull,
-
     NUMCARDS
 } card_t;
 
@@ -202,7 +201,6 @@ typedef enum
     am_shell,   // Shotgun/double-barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
-
     NUMAMMO,
 
     am_noammo

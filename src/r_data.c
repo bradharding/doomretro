@@ -718,13 +718,6 @@ int R_TextureNumForName(char *name)
 // Totally rewritten by Lee Killough to use less memory,
 // to avoid using alloca(), and to improve performance.
 // cph - new wad lump handling, calls cache functions but acquires no locks
-
-static inline void precache_lump(int l)
-{
-    W_CacheLumpNum(l);
-    W_ReleaseLumpNum(l);
-}
-
 void R_PrecacheLevel(void)
 {
     byte    *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
@@ -743,7 +736,7 @@ void R_PrecacheLevel(void)
 
     for (int i = 0; i < numflats; i++)
         if (hitlist[i])
-            precache_lump(firstflat + i);
+            W_PrecacheLumpNum(firstflat + i);
 
     // Precache textures.
     memset(hitlist, 0, numtextures);
@@ -769,7 +762,7 @@ void R_PrecacheLevel(void)
             texture_t   *texture = textures[i];
 
             for (int j = 0; j < texture->patchcount; j++)
-                precache_lump(texture->patches[j].patch);
+                W_PrecacheLumpNum(texture->patches[j].patch);
         }
 
     // Precache sprites.
@@ -787,10 +780,10 @@ void R_PrecacheLevel(void)
                 if (sprites[i].spriteframes[j].rotate == 1)
                 {
                     for (int k = 0; k < 16; k++)
-                        precache_lump(firstspritelump + lump[k]);
+                        W_PrecacheLumpNum(firstspritelump + lump[k]);
                 }
                 else
-                    precache_lump(firstspritelump + lump[0]);
+                    W_PrecacheLumpNum(firstspritelump + lump[0]);
             }
 
     free(hitlist);

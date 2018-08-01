@@ -344,7 +344,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
         }
     }
 
-    // killough 11/98: fall more slowly, under gravity, if felldown==true
+    // killough 11/98: fall more slowly, under gravity, if felldown == true
     if (!(actor->flags & MF_FLOAT) && !felldown)
         actor->z = actor->floorz;
 
