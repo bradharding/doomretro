@@ -59,7 +59,7 @@ void D_BuildNewTiccmds(void)
     {
         I_StartTic();
 
-        if (maketic - gametic > BACKUPTICS / 2)
+        if (maketic - gametime > BACKUPTICS / 2)
             break;
 
         G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
@@ -72,7 +72,7 @@ void TryRunTics(void)
 
     D_BuildNewTiccmds();
 
-    if (!(runtics = maketic - gametic) && vid_capfps != TICRATE)
+    if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)
         return;
 
     while (runtics--)
@@ -84,7 +84,6 @@ void TryRunTics(void)
             M_Ticker();
 
         G_Ticker();
-        gametic++;
         gametime++;
 
         if (localcmds[0].buttons & BT_SPECIAL)

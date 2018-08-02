@@ -182,14 +182,14 @@ void D_Display(void)
     static dboolean     pausedstate = false;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          borderdrawcount;
-    static int          saved_gametic = -1;
+    static int          saved_gametime = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
     dboolean            done;
 
-    if (vid_capfps != TICRATE && (realframe = (gametic > saved_gametic)))
-        saved_gametic = gametic;
+    if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
+        saved_gametime = gametime;
 
     // change the view size if needed
     if (setsizeneeded)

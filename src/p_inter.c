@@ -1232,11 +1232,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     P_RemoveMobj(special);
     P_AddBonus();
 
-    if (sound == prevsound && gametic == prevtic)
+    if (sound == prevsound && gametime == prevtic)
         return;
 
     prevsound = sound;
-    prevtic = gametic;
+    prevtic = gametime;
     S_StartSound(viewplayer->mo, sound);
 }
 

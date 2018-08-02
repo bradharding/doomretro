@@ -331,7 +331,7 @@ void C_PlayerMessage(const char *string, ...)
 
     if (i >= 0 && console[i].type == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
-        console[i].tics = gametic;
+        console[i].tics = gametime;
         console[i].count++;
     }
     else
@@ -341,7 +341,7 @@ void C_PlayerMessage(const char *string, ...)
 
         strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = playermessagestring;
-        console[consolestrings].tics = gametic;
+        console[consolestrings].tics = gametime;
         console[consolestrings++].count = 1;
     }
 
@@ -360,7 +360,7 @@ void C_Obituary(const char *string, ...)
 
     if (i >= 0 && console[i].type == obituarystring && M_StringCompare(console[i].string, buffer))
     {
-        console[i].tics = gametic;
+        console[i].tics = gametime;
         console[i].count++;
     }
     else
@@ -370,7 +370,7 @@ void C_Obituary(const char *string, ...)
 
         strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = obituarystring;
-        console[consolestrings].tics = gametic;
+        console[consolestrings].tics = gametime;
         console[consolestrings++].count = 1;
     }
 

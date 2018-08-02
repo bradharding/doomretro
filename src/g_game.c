@@ -89,7 +89,6 @@ static dboolean sendsave;               // send a save event next tic
 
 dboolean        viewactive;
 
-int             gametic;
 int             gametime;
 int             totalkills;             // for intermission
 int             totalitems;
@@ -921,7 +920,7 @@ void G_Ticker(void)
     // get commands, check consistency,
     // and build new consistency check
     cmd = &viewplayer->cmd;
-    memcpy(cmd, &localcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
+    memcpy(cmd, &localcmds[gametime % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
     if (viewplayer->cmd.buttons & BT_SPECIAL)

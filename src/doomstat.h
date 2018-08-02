@@ -190,7 +190,6 @@ extern gamestate_t      gamestate;
 //  according to user inputs. Partly load from
 //  WAD, partly set at startup time.
 
-extern int              gametic;
 extern int              gametime;
 extern struct tm        *gamestarttime;
 

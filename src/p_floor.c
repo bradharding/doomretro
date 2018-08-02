@@ -64,7 +64,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
     if (!elevator || floorOrCeiling == 1)
         sector->oldceilingheight = sector->ceilingheight;
 
-    sector->oldgametic = gametic;
+    sector->oldgametime = gametime;
 
     switch (floorOrCeiling)
     {
