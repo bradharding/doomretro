@@ -695,7 +695,7 @@ static void R_ProjectSprite(mobj_t *thing)
     tx -= (flip ? width - offset : offset);
 
     // off the right side?
-    if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) > viewwidth)
+    if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
         return;
 
     // off the left side
@@ -843,7 +843,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     tx -= (width >> 1);
 
     // off the right side?
-    if ((x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) > viewwidth)
+    if ((x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
         return;
 
     // off the left side
@@ -1144,9 +1144,6 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     const int   x1 = splat->x1;
     const int   x2 = splat->x2;
 
-    if (x1 > x2)
-        return;
-
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
     {
@@ -1255,9 +1252,6 @@ static void R_DrawSprite(const vissprite_t *spr)
     int         clipbot[SCREENWIDTH];
     const int   x1 = spr->x1;
     const int   x2 = spr->x2;
-
-    if (x1 > x2)
-        return;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
