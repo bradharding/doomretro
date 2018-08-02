@@ -719,7 +719,7 @@ int R_TextureNumForName(char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    dboolean    *hitlist = malloc(MAX(numtextures, numflats));
+    dboolean    *hitlist = malloc(sizeof(dboolean) * MAX(numtextures, numflats));
 
     if (!hitlist)
         return;
