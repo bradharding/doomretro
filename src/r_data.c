@@ -720,7 +720,7 @@ int R_TextureNumForName(char *name)
 // cph - new wad lump handling, calls cache functions but acquires no locks
 void R_PrecacheLevel(void)
 {
-    byte    *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
+    byte    *hitlist = malloc(MAX(numtextures, numflats));
 
     if (!hitlist)
         return;
@@ -764,27 +764,6 @@ void R_PrecacheLevel(void)
             for (int j = 0; j < texture->patchcount; j++)
                 W_CacheLumpNum(texture->patches[j].patch);
         }
-
-    // Precache sprites.
-    memset(hitlist, 0, NUMSPRITES);
-
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-        hitlist[((mobj_t *)th)->sprite] = 1;
-
-    for (int i = 0; i < NUMSPRITES; i++)
-        if (hitlist[i])
-            for (int j = 0; j < sprites[i].numframes; j++)
-            {
-                short   *lump = sprites[i].spriteframes[j].lump;
-
-                if (sprites[i].spriteframes[j].rotate == 1)
-                {
-                    for (int k = 0; k < 16; k++)
-                        W_CacheLumpNum(firstspritelump + lump[k]);
-                }
-                else
-                    W_CacheLumpNum(firstspritelump + lump[0]);
-            }
 
     free(hitlist);
 }
