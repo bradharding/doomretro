@@ -19,8 +19,9 @@
 * The bottom of lost souls are now clipped when touching a liquid sector.
 * A bug has been fixed whereby the blood of monsters could be the wrong color in some rare instances.
 * The intensity of color on the screen can now be changed using the new `r_color` CVAR. It can be a value between `0%` (completely grayscale) and `100%` (the default). It is `100%` when vanilla mode is enabled.
-* The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
 * The default of the `am_gridcolor` CVAR has been changed from `7` to `6`.
+* The default of the `m_sensitivity` CVAR has been changed from `32` to `16`.
+* The default of the `r_gamma` CVAR has been changed from `0.75` to `0.90`.
 * Improvements have been made to the effect when the player is near an exploding barrel and the `r_shake_barrels` CVAR is `on`.
 * The screen’s pillarboxes are now updated immediately when changing the `vid_pillarboxes` CVAR in the console.
 * A bug has been fixed whereby projectiles wouldn’t pass through some map decorations when the `infiniteheight` CVAR was `off`.
