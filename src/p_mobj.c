@@ -1371,6 +1371,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     angle_t an = source->angle;
     fixed_t x, y, z;
     fixed_t slope;
+    int     speed;
 
     if (usemouselook && !autoaim)
         slope = ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
@@ -1409,9 +1410,10 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     P_SetTarget(&th->target, source);
     th->angle = an;
     an >>= ANGLETOFINESHIFT;
-    th->momx = FixedMul(th->info->speed, finecosine[an]);
-    th->momy = FixedMul(th->info->speed, finesine[an]);
-    th->momz = FixedMul(th->info->speed, slope);
+    speed = th->info->speed;
+    th->momx = FixedMul(speed, finecosine[an]);
+    th->momy = FixedMul(speed, finesine[an]);
+    th->momz = FixedMul(speed, slope);
     th->interpolate = -1;
 
     P_NoiseAlert(source);

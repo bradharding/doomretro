@@ -715,8 +715,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
         if (phs)
         {
-            if (viewz < phs->interpfloorheight ?
-                fz >= heightsec->interpfloorheight : gzt < heightsec->interpfloorheight)
+            if (viewz < phs->interpfloorheight ? fz >= heightsec->interpfloorheight : gzt < heightsec->interpfloorheight)
                 return;
 
             if (viewz > phs->interpceilingheight ?

@@ -717,21 +717,20 @@ int R_TextureNumForName(char *name)
 //
 // Totally rewritten by Lee Killough to use less memory,
 // to avoid using alloca(), and to improve performance.
-// cph - new wad lump handling, calls cache functions but acquires no locks
 void R_PrecacheLevel(void)
 {
-    byte    *hitlist = malloc(MAX(numtextures, numflats));
+    dboolean    *hitlist = malloc(MAX(numtextures, numflats));
 
     if (!hitlist)
         return;
 
     // Precache flats.
-    memset(hitlist, 0, numflats);
+    memset(hitlist, false, numflats);
 
     for (int i = 0; i < numsectors; i++)
     {
-        hitlist[sectors[i].floorpic] = 1;
-        hitlist[sectors[i].ceilingpic] = 1;
+        hitlist[sectors[i].floorpic] = true;
+        hitlist[sectors[i].ceilingpic] = true;
     }
 
     for (int i = 0; i < numflats; i++)
@@ -739,13 +738,13 @@ void R_PrecacheLevel(void)
             W_CacheLumpNum(firstflat + i);
 
     // Precache textures.
-    memset(hitlist, 0, numtextures);
+    memset(hitlist, false, numtextures);
 
     for (int i = 0; i < numsides; i++)
     {
-        hitlist[sides[i].toptexture] = 1;
-        hitlist[sides[i].midtexture] = 1;
-        hitlist[sides[i].bottomtexture] = 1;
+        hitlist[sides[i].toptexture] = true;
+        hitlist[sides[i].midtexture] = true;
+        hitlist[sides[i].bottomtexture] = true;
     }
 
     // Sky texture is always present.
@@ -754,7 +753,7 @@ void R_PrecacheLevel(void)
     //  while the sky texture is stored like
     //  a wall texture, with an episode dependent
     //  name.
-    hitlist[skytexture] = 1;
+    hitlist[skytexture] = true;
 
     for (int i = 0; i < numtextures; i++)
         if (hitlist[i])
