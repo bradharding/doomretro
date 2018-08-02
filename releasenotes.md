@@ -1,3 +1,9 @@
+### DOOM Retro v2.7.1
+
+---
+
+###### Friday, August 3, 2018
+
 ### DOOM Retro v2.7
 
 * With John Romero’s express permission, [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
