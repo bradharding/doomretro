@@ -58,7 +58,7 @@
 // Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
-// In the source code release: (160*FRACUNIT). Changed back to the
+// In the source code release: (160 * FRACUNIT). Changed back to the
 // Vanilla value of 200 (why was this changed?)
 #define S_CLOSE_DIST    200
 
@@ -70,7 +70,7 @@
 
 #define NORM_SEP        128
 
-#define TIDNUM(x)       ((int)(x->id & 0xFFFF)) // thing identifier
+#define TIDNUM(x)       (int)(x->id & 0xFFFF)   // thing identifier
 
 typedef struct
 {
@@ -205,10 +205,9 @@ void S_Init(void)
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
                 if (!CacheSFX(sfx))
                 {
-                    C_Warning("The <b>%s</b> lump is not a valid sound effect.", uppercase(namebuf));
+                    C_Warning("The <b>%s</b> lump isn't a valid sound effect.", uppercase(namebuf));
                     sfx->lumpnum = -1;
                 }
-
         }
     }
 
@@ -289,15 +288,15 @@ static int S_GetMusicNum(void)
         int spmus[] =
         {
             // Song - Who? - Where?
-            mus_e3m4,           // American     e4m1
-            mus_e3m2,           // Romero       e4m2
-            mus_e3m3,           // Shawn        e4m3
-            mus_e1m5,           // American     e4m4
-            mus_e2m7,           // Tim          e4m5
-            mus_e2m4,           // Romero       e4m6
-            mus_e2m6,           // J.Anderson   e4m7 CHIRON.WAD
-            mus_e2m5,           // Shawn        e4m8
-            mus_e1m9            // Tim          e4m9
+            mus_e3m4,   // American     E4M1
+            mus_e3m2,   // Romero       E4M2
+            mus_e3m3,   // Shawn        E4M3
+            mus_e1m5,   // American     E4M4
+            mus_e2m7,   // Tim          E4M5
+            mus_e2m4,   // Romero       E4M6
+            mus_e2m6,   // J.Anderson   E4M7 CHIRON.WAD
+            mus_e2m5,   // Shawn        E4M8
+            mus_e1m9    // Tim          E4M9
         };
 
         if (gameepisode < 4)

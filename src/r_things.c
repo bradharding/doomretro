@@ -1368,16 +1368,16 @@ void R_DrawMasked(void)
     // draw all blood splats
     i = num_bloodsplatvissprite;
 
-    while (i > 0)
-        R_DrawBloodSplatSprite(&bloodsplatvissprites[--i]);
+    while (i-- > 0)
+        R_DrawBloodSplatSprite(&bloodsplatvissprites[i]);
 
     R_SortVisSprites();
 
     // draw all other vissprites back to front
     i = num_vissprite;
 
-    while (i > 0)
-        R_DrawSprite(vissprite_ptrs[--i]);
+    while (i-- > 0)
+        R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked mid textures
     for (drawseg_t *ds = ds_p; ds-- > drawsegs;)

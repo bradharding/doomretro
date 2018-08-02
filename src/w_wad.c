@@ -99,7 +99,7 @@ static dboolean IsFreedoom(const char *iwadname)
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
-            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+            if (n[0] == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
             {
                 result = true;
                 break;
@@ -167,8 +167,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     if (strncmp(header.identification, "IWAD", 4) && strncmp(header.identification, "PWAD", 4))
         I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
-    wadfile->type = (!strncmp(header.identification, "IWAD", 4)
-        || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
+    wadfile->type = (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
@@ -255,7 +254,7 @@ dboolean HasDehackedLump(const char *pwadname)
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
-            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
+            if (n[0] == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
             {
                 result = true;
                 break;
@@ -481,14 +480,12 @@ void *W_CacheLumpNum(int lumpnum)
     lumpinfo_t  *lump = lumpinfo[lumpnum];
 
     if (!lump->cache)
-        W_ReadLump(lumpnum, Z_Malloc(lumpinfo[lumpnum]->size, PU_CACHE, &lump->cache));
+        W_ReadLump(lumpnum, Z_Malloc(lump->size, PU_CACHE, &lump->cache));
 
     return lump->cache;
 }
 
 void W_ReleaseLumpNum(int lumpnum)
 {
-    lumpinfo_t  *lump = lumpinfo[lumpnum];
-
-    Z_ChangeTag(lump->cache, PU_CACHE);
+    Z_ChangeTag(lumpinfo[lumpnum]->cache, PU_CACHE);
 }

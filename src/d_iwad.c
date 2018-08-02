@@ -419,8 +419,7 @@ char *D_FindWADByName(char *filename)
     for (int i = 0; i < num_iwad_dirs; i++)
     {
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
-        // the "directory" may actually refer directly to an IWAD
-        // file.
+        // the "directory" may actually refer directly to an IWAD file.
         if (M_StringCompare(leafname(iwad_dirs[i]), filename) && M_FileExists(iwad_dirs[i]))
             return strdup(iwad_dirs[i]);
 
