@@ -205,7 +205,7 @@ void S_Init(void)
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
                 if (!CacheSFX(sfx))
                 {
-                    C_Warning("The <b>%s</b> lump isn't a valid sound effect.", uppercase(namebuf));
+                    C_Warning("The <b>%s</b> lump isn't a valid sound effect and won't be played.", uppercase(namebuf));
                     sfx->lumpnum = -1;
                 }
         }

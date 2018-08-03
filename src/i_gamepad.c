@@ -68,7 +68,6 @@ short                   gamepadthumbRY = 0;
 float                   gamepadsensitivity;
 short                   gamepadleftdeadzone;
 short                   gamepadrightdeadzone;
-int                     numgamepadaxes = 0;
 
 dboolean                vibrate = false;
 int                     barrelvibrationtics = 0;
@@ -168,7 +167,6 @@ void I_InitGamepad(void)
 
             I_SetGamepadThumbSticks();
             SDL_JoystickEventState(SDL_ENABLE);
-            numgamepadaxes = SDL_JoystickNumAxes(gamepad);
         }
     }
 }

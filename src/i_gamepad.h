@@ -82,7 +82,6 @@ extern int      restoremotorspeed;
 extern float    gamepadsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
-extern int      numgamepadaxes;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

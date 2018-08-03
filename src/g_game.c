@@ -302,22 +302,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
         side = sidemove[run];
     else if (gamepadthumbLX > 0)
-    {
-        if (numgamepadaxes == 2)
-            side = (int)(sidemove[run] * gamepadthumbLXright);
-        else
-            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadsensitivity);
-    }
+        side = (int)(sidemove[run] * gamepadthumbLXright);
 
     if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamepadbuttons & gamepadstrafeleft))
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
-    {
-        if (numgamepadaxes == 2)
-            side -= (int)(sidemove[run] * gamepadthumbLXleft);
-        else
-            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadsensitivity);
-    }
+        side -= (int)(sidemove[run] * gamepadthumbLXleft);
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)
         cmd->buttons |= BT_JUMP;

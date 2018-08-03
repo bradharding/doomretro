@@ -1923,8 +1923,8 @@ static void D_DoomMainSetup(void)
     {
         if (gamemode == commercial)
         {
-            if (strlen(myargv[p + 1]) == 5 && toupper(myargv[p + 1][0]) == 'M'
-                && toupper(myargv[p + 1][1]) == 'A' && toupper(myargv[p + 1][2]) == 'P')
+            if (strlen(myargv[p + 1]) == 5 && toupper(myargv[p + 1][0]) == 'M' && toupper(myargv[p + 1][1]) == 'A'
+                && toupper(myargv[p + 1][2]) == 'P' && isdigit(myargv[p + 1][3]) && isdigit(myargv[p + 1][4]))
                 startmap = (myargv[p + 1][3] - '0') * 10 + myargv[p + 1][4] - '0';
             else
                 startmap = atoi(myargv[p + 1]);
@@ -1933,8 +1933,8 @@ static void D_DoomMainSetup(void)
         }
         else
         {
-            if (strlen(myargv[p + 1]) == 4 && toupper(myargv[p + 1][0]) == 'E' &&
-                toupper(myargv[p + 1][2]) == 'M')
+            if (strlen(myargv[p + 1]) == 4 && toupper(myargv[p + 1][0]) == 'E' && isdigit(myargv[p + 1][1])
+                && toupper(myargv[p + 1][2]) == 'M' && isdigit(myargv[p + 1][3]))
             {
                 startepisode = myargv[p + 1][1] - '0';
                 startmap = myargv[p + 1][3] - '0';
@@ -2006,7 +2006,7 @@ static void D_DoomMainSetup(void)
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
-            D_StartTitle(!!M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
+            D_StartTitle(M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
     }
 
     C_Output("Startup took %s seconds to complete.", striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1));
