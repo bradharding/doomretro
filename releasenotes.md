@@ -1,3 +1,9 @@
+### DOOM Retro v2.7.2
+
+---
+
+###### Saturday, August 4, 2018
+
 ### DOOM Retro v2.7.1
 
 * The player will now move correctly when using a gamepad.
