@@ -3,6 +3,7 @@
 * The `r_diskicon` CVAR will now be turned `on` when vanilla mode is enabled.
 * Minor changes have been made to text that is output to the console.
 * The `restartmap` CCMD will now restart the correct map when playing *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad*.
+* The background of the help screen when pressing the <kbd>F1</kbd> key is now displayed better when a custom colormap from a PWAD is in use.
 
 ---
 

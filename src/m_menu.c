@@ -49,6 +49,7 @@
 #include "dstrings.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -573,7 +574,7 @@ static void M_DarkBlueBackground(void)
             byte    *dot = *screens + x;
             byte    *copy;
 
-            *dot = blues[*dot];
+            *dot = nearestcolors[blues[*dot]];
             copy = dot + 1;
             *copy = *dot;
             copy += SCREENWIDTH;
