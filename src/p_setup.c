@@ -2163,6 +2163,7 @@ void P_SetupLevel(int ep, int map)
     if (speciallumpname[0] != '\0')
     {
         lumpnum = W_GetNumForName(speciallumpname);
+        M_StringCopy(lumpname, speciallumpname, sizeof(lumpname));
         speciallumpname[0] = '\0';
     }
     else
