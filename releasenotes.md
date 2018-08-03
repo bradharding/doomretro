@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7.1
 
+* The `r_diskicon` CVAR will now be turned `on` when vanilla mode is enabled.
+
 ---
 
 ###### Friday, August 3, 2018
