@@ -4089,6 +4089,10 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
 static void restartmap_cmd_func2(char *cmd, char *parms)
 {
     viewplayer->playerstate = PST_REBORN;
+
+    if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
+        M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
+
     G_DoLoadLevel();
     C_HideConsoleFast();
 }
