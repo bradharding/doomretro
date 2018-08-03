@@ -1,0 +1,71 @@
+===========================================================================
+Advanced engine needed  : Limit-removing source ports
+Primary purpose         : Single Player, Co-op, Deathmatch
+===========================================================================
+Title                   : Tech Gone Bad
+Filename                : e1m8b.wad
+Release date            : Jan 15, 2016
+Authors                 : John Romero
+Email Address           : john@romero.com
+Others Files By Author  : doom1.wad, doom2.wad
+Misc. Author Info       : My previous Doom levels were made in 1995 for The
+			  Ultimate Doom (e4m2, e4m6), so this is a warm-up.			  
+
+Additional Credits to   : John C., Adrian C., Tom H., Kevin C., Sandy P., Dave T.
+  			  Pascal "CodeImp" vd Heiden for Doom Builder
+  			  The Doomworld Community
+  			  Linguica and J.P. LeBreton for Testing expertise
+
+General Description     : My Boss level replacement for e1m8...22 years later
+
+After exiting the Computer Station you knew the worst was up ahead. You still hadn't
+reached the place where the demons were coming from. The steel door shuts
+behind you as you realize you're there; you're at the Phobos Anomaly. Cracks from
+hell are all over the place as seepage from the portal invades the entire installation.
+Now it's time to find the portal and stop the demons from coming through. You know
+UAC had hundreds of scientists working at a high-tech lab somewhere in this area, and
+the portal must be connected to it somehow. Time to lock and load.
+
+===========================================================================
+* What is included *
+
+New levels              : 1
+Sounds                  : No
+Music                   : No
+Graphics                : No
+Dehacked/BEX Patch      : No
+Demos                   : No
+Other                   : No
+Other files required    : Doom1.wad or Doom.wad
+
+* Play Information *
+
+Game                    : Doom 1
+Map #                   : E1M8
+Single Player           : Designed for
+Cooperative 2-4 Player  : Designed for
+Deathmatch 2-4 Player   : Designed for
+Other game styles       : No
+Difficulty Settings     : Yes
+
+* Construction *
+
+Base                    : New from scratch
+Build Time              : 2 weeks, in spare time
+Editor(s) used          : DooM Builder 2
+May Not Run With        : Doom2.exe
+Tested With             : ZDoom 2.7.1, Crispy Doom
+Known bugs              : No
+
+* Copyright / Permissions *
+
+Authors may NOT use the contents of this file as a base for
+modification or reuse.  Permissions have been obtained from original 
+authors for any of their resources modified or included in this file.
+
+
+You MAY distribute this file, provided you include this text file, with
+no modifications.  You may distribute this file in any electronic
+format (BBS, Diskette, CD, etc) as long as you include this file 
+intact.  I have received permission from the original authors of any
+modified or included content in this file to allow further distribution.

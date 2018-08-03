@@ -1,0 +1,73 @@
+===========================================================================
+Advanced engine needed  : Limit-removing source ports
+Primary purpose         : Single Player, Co-op, Deathmatch
+===========================================================================
+Title                   : Phobos Mission Control
+Filename                : e1m4b.wad
+Release date            : April 26, 2016
+Authors                 : John Romero
+Email Address           : john@romero.com
+Others Files By Author  : doom1.wad, doom.wad, doom2.wad
+Misc. Author Info       : This is a warm-up for my new classic FPS.
+
+Additional Credits to   : John C., Adrian C., Tom H., Kevin C., Sandy P., Dave T.
+  			  Pascal "CodeImp" vd Heiden for Doom Builder
+  			  The Doomworld Community
+  			  Linguica, Matthias Worch and Ian Dunbar for Testing expertise
+
+General Description     : Tom Hall originally created the framework for E1M4.
+						  It makes sense that if I was creating an entire E1 of
+						  just my work, this would be the level I would remake.
+
+To Run This WAD			: The easiest way is to download ZDOOM from ZDOOM.ORG. You can 
+						  drag the WAD file onto the EXE (or APP), then warp to the
+						  level by typing IDCLEV14 when you're in the game.
+
+With the Toxin Refinery in the rear-view, you make your way to Phobos Mission Control
+where the computers crunching the data from the Phobos Anomaly are located. You need 
+to use them to gain access to the Phobos Lab, but remember hearing that the computers 
+were tied into all areas of the installation and that you never knew when the environment
+around you would change. You need to keep your eyes alert to all movement - this
+place is not what it seems...
+
+===========================================================================
+* What is included *
+
+New levels              : 1
+Sounds                  : No
+Music                   : No
+Graphics                : No
+Dehacked/BEX Patch      : No
+Demos                   : No
+Other                   : No
+Other files required    : Doom1.wad or Doom.wad
+
+* Play Information *
+
+Game                    : Doom 1
+Map #                   : E1M4
+Single Player           : Designed for
+Cooperative 2-4 Player  : Designed for
+Deathmatch 2-4 Player   : Designed for
+Other game styles       : No
+Difficulty Settings     : Yes
+
+* Construction *
+
+Base                    : New from scratch
+Build Time              : 2 weeks in my spare time
+Editor(s) used          : DooM Builder 2, GZDoom Builder
+May Not Run With        : Doom2.exe
+Tested With             : ZDoom 2.7.1, PrBoom, Doomsday, Crispy Doom
+Known bugs              : No
+
+* Copyright / Permissions *
+
+Authors may NOT use the contents of this file as a base for
+modification or reuse.  Permissions have been obtained from original 
+authors for any of their resources modified or included in this file.
+
+You MAY distribute this file, provided you include this text file, with
+no modifications.  You may distribute this file in any electronic
+format (BBS, Diskette, CD, etc) as long as you include this file 
+intact.
