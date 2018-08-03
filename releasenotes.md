@@ -1,6 +1,8 @@
 ### DOOM Retro v2.7.1
 
 * The `r_diskicon` CVAR will now be turned `on` when vanilla mode is enabled.
+* Minor changes have been made to text that is output to the console.
+* The `restartmap` CCMD will now restart the correct map when playing *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad*.
 
 ---
 
