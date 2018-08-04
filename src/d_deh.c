@@ -1967,7 +1967,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_Stop,            "A_Stop"            },
 
     // This NULL entry must be the last in the list
-    { NULL,              "A_NULL"            }    // Ty 05/16/98
+    { NULL,              ""                  }    // Ty 05/16/98
 };
 
 // to hold startup code pointers from INFO.C
@@ -1978,30 +1978,23 @@ dboolean CheckPackageWADVersion(void)
     DEHFILE infile;
     DEHFILE *filein = &infile;
     char    inbuffer[32];
+    int     i = W_GetNumForName("VERSION");
 
-    for (int i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
+    infile.size = W_LumpLength(i);
+    infile.inp = infile.lump = W_CacheLumpNum(i);
+
+    while (dehfgets(inbuffer, sizeof(inbuffer), filein))
+    {
+        lfstrip(inbuffer);
+
+        if (M_StringCompare(inbuffer, PACKAGE_NAMEANDVERSIONSTRING))
         {
-            infile.size = W_LumpLength(i);
-            infile.inp = infile.lump = W_CacheLumpNum(i);
-
-            while (dehfgets(inbuffer, sizeof(inbuffer), filein))
-            {
-                lfstrip(inbuffer);
-
-                if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ')
-                    continue;   // Blank line or comment line
-
-                if (M_StringCompare(inbuffer, PACKAGE_NAMEANDVERSIONSTRING))
-                {
-                    Z_ChangeTag(infile.lump, PU_CACHE);
-                    return true;
-                }
-            }
-
             Z_ChangeTag(infile.lump, PU_CACHE);
+            return true;
         }
+    }
 
+    Z_ChangeTag(infile.lump, PU_CACHE);
     return false;
 }
 

@@ -451,7 +451,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     int         cnum;
     int         handle;
 
-    if (nosfx)
+    if (nosfx || sfx->lumpnum == -1)
         return;
 
     // Initialize sound parameters
@@ -465,9 +465,6 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
         if (volume > snd_SfxVolume)
             volume = snd_SfxVolume;
     }
-
-    if (sfx->lumpnum == -1)
-        return;
 
     // Check to see if it is audible, and if not, modify the parms
     if (origin && origin != mo)
