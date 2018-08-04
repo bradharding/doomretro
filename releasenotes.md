@@ -1,3 +1,7 @@
+### DOOM Retro v2.7.2
+
+---
+
 ###### Saturday, August 4, 2018
 
 ### DOOM Retro v2.7.1
