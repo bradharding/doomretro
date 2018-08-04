@@ -171,6 +171,7 @@ typedef struct sector_s
     short               floorpic;
     short               ceilingpic;
     short               lightlevel;
+    short               originallightlevel;
 
     // killough 3/7/98: support flat heights drawn at another sector's heights
     struct sector_s     *heightsec;     // other sector, or NULL if no other sector
