@@ -3087,7 +3087,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             leafname(lumpinfo[i]->wadfile->path));
     }
 
-    C_TabbedOutput(tabs, "Type\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :
+    C_TabbedOutput(tabs, "Compatibility\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :
         (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing")),
         (numsegs < 32768 || !boomlinespecials ? "" : " and limit removing"));
 
@@ -3113,8 +3113,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", commify(numnodes));
 
-    C_TabbedOutput(tabs, "Node format\t<b>%s</b>", (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ?
-        "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed extended")));
+    C_TabbedOutput(tabs, "Node format\t<b>%s nodes</b>", (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ?
+        "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed, extended")));
 
     C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", commify(numsectors));
 
@@ -3209,7 +3209,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
 
         if (musmusictype)
-            C_TabbedOutput(tabs, "Music format\t<b>MIDI (converted from MUS)</b>");
+            C_TabbedOutput(tabs, "Music format\t<b>MUS converted to MIDI</b>");
         else if (midimusictype || musictype == MUS_MID)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
         else if (musictype == MUS_OGG)
