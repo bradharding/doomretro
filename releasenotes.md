@@ -1,11 +1,3 @@
-### DOOM Retro v2.7.2
-
-* The player will now move correctly when using a gamepad.
-* If the super shotgun was selected by the player more recently than the shotgun, it will now be selected when pressing the <kbd>3</kbd> key, and vice versa.
-* Improvements have been made to the gradual lighting effect under doors.
-
----
-
 ###### Saturday, August 4, 2018
 
 ### DOOM Retro v2.7.1
@@ -15,6 +7,8 @@
 * Minor changes have been made to text that is output to the console.
 * The `restartmap` CCMD will now restart the correct map when playing *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad*.
 * The help screen’s background when pressing the <kbd>F1</kbd> key is now displayed better when using a custom colormap from a PWAD.
+* If the super shotgun was selected by the player more recently than the shotgun, it will now be selected when pressing the <kbd>3</kbd> key, and vice versa.
+* Improvements have been made to the gradual lighting effect under doors.
 
 ---
 
