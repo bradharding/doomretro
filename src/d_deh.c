@@ -1967,7 +1967,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_Stop,            "A_Stop"            },
 
     // This NULL entry must be the last in the list
-    { NULL,              ""                  }    // Ty 05/16/98
+    { NULL,              "A_NULL"            }    // Ty 05/16/98
 };
 
 // to hold startup code pointers from INFO.C
