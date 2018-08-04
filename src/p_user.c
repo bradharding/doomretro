@@ -420,7 +420,9 @@ void P_ChangeWeapon(weapontype_t newweapon)
     // Select the preferred shotgun.
     else if (newweapon == wp_shotgun)
     {
-        if ((!viewplayer->weaponowned[wp_shotgun] || viewplayer->readyweapon == wp_shotgun)
+        if ((!viewplayer->weaponowned[wp_shotgun]
+            || viewplayer->readyweapon == wp_shotgun
+            || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->readyweapon != wp_supershotgun))
             && viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2)
             newweapon = viewplayer->preferredshotgun = wp_supershotgun;
         else if (viewplayer->readyweapon == wp_supershotgun
