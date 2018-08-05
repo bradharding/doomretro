@@ -2376,8 +2376,8 @@ void kill_cmd_func2(char *cmd, char *parms)
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL
-                            && type != MT_BOSSBRAIN && (type != MT_HEAD || !hacx))
+                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
+                            && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
                             P_DamageMobj(thing, NULL, NULL, thing->health, false);
@@ -2570,8 +2570,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if ((M_StringCompare(map, "previous") || M_StringCompare(map, "prev"))
-            && gamestate != GS_TITLESCREEN)
+        else if ((M_StringCompare(map, "previous") || M_StringCompare(map, "prev")) && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {

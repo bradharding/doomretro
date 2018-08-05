@@ -2216,8 +2216,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
 
                 if (devparm)
-                    C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i,
-                        indexnum);
+                    C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
 
                 found = true;
             }

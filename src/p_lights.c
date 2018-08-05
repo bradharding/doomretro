@@ -359,5 +359,5 @@ void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
             min = temp->lightlevel;
     }
 
-    sector->lightlevel = (level * sector->originallightlevel + (FRACUNIT - level) * min) >> FRACBITS;
+    sector->lightlevel = (level * sector->oldlightlevel + (FRACUNIT - level) * min) >> FRACBITS;
 }
