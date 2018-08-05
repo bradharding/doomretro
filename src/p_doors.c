@@ -181,6 +181,7 @@ void T_VerticalDoor(vldoor_t *door)
 
                     // [BH] play correct sound when raising fast doors
                     case doorBlazeRaise:
+                    case genBlazeRaise:
                         door->direction = 1;
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                         break;
