@@ -717,8 +717,6 @@ static void R_SetupFrame(void)
     int     tempcentery = viewheight / 2;
     int     pitch = 0;
 
-    mo->flags2 |= MF2_DONTDRAW;
-
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
         // Don't interpolate on the first tic of a level, otherwise

@@ -75,7 +75,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP),
-        /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ | MF2_DONTMAP | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ | MF2_DONTMAP | MF2_DONTDRAW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
