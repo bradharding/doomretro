@@ -716,7 +716,6 @@ static void R_SetupFrame(void)
     mobj_t  *mo = viewplayer->mo;
     int     tempcentery = viewheight / 2;
     int     pitch = 0;
-    int     time = I_GetTimeMS();
 
     mo->flags2 |= MF2_DONTDRAW;
 
@@ -767,11 +766,16 @@ static void R_SetupFrame(void)
         }
     }
 
-    if (barrelms > time && !consoleactive && !menuactive && !paused)
+    if (barrelms)
     {
-        viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
-        viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
-        viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
+        int time = I_GetTimeMS();
+
+        if (barrelms > time && !consoleactive && !menuactive && !paused)
+        {
+            viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+            viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+            viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
+        }
     }
 
     extralight = viewplayer->extralight << 2;
