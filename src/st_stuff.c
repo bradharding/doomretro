@@ -943,6 +943,8 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheated++;
                 }
 
+                C_Input(cheat_amap.sequence);
+
                 S_StartSound(NULL, sfx_getpow);
             }
         }
