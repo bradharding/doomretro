@@ -1697,8 +1697,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, "idclev"))
-        C_CCMDOutput("newgame");
+    C_CCMDOutput("newgame");
 
     G_DoLoadLevel();
 }
