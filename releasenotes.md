@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7.2
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The number in the leftmost column of the output of the `thinglist` CCMD will now show the actual ID number of each thing.
 
 ---
@@ -14,7 +16,7 @@
 * The `restartmap` CCMD will now restart the correct map when playing *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad*.
 * The help screen’s background when pressing the <kbd>F1</kbd> key is now displayed better when using a custom colormap from a PWAD.
 * If the super shotgun was selected by the player more recently than the shotgun, it will now be selected when pressing the <kbd>3</kbd> key, and vice versa.
-* Improvements have been made to the gradual lighting effect under doors.
+* Improvements have been made to the gradual lighting effect under doors and crushing ceilings.
 
 ---
 
