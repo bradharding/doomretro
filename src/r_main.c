@@ -142,13 +142,48 @@ extern lighttable_t **walllights;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    return ((int)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >> 32) > 0);
+    fixed_t nx = node->x;
+    fixed_t ny = node->y;
+    fixed_t ndx = node->dx;
+    fixed_t ndy = node->dy;
+
+    if (!ndx)
+        return (x <= nx ? (ndy > 0) : (ndy < 0));
+
+    if (!ndy)
+        return (y <= ny ? (ndx < 0) : (ndx > 0));
+
+    x -= nx;
+    y -= ny;
+
+    // Try to quickly decide by looking at sign bits.
+    if ((ndy ^ ndx ^ x ^ y) < 0)
+        return ((ndy ^ x) < 0); // (left is negative)
+
+    return (FixedMul(y, ndx >> FRACBITS) >= FixedMul(ndy >> FRACBITS, x));
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
-        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
+    fixed_t lx = line->v1->x;
+    fixed_t ly = line->v1->y;
+    fixed_t ldx = line->v2->x - lx;
+    fixed_t ldy = line->v2->y - ly;
+
+    if (!ldx)
+        return (x <= lx ? (ldy > 0) : (ldy < 0));
+
+    if (!ldy)
+        return (y <= ly ? (ldx < 0) : (ldx > 0));
+
+    x -= lx;
+    y -= ly;
+
+    // Try to quickly decide by looking at sign bits.
+    if ((ldy ^ ldx ^ x ^ y) < 0)
+        return ((ldy ^ x) < 0); // (left is negative)
+
+    return (FixedMul(y, ldx >> FRACBITS) >= FixedMul(ldy >> FRACBITS, x));
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
