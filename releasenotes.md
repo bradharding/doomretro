@@ -2,7 +2,8 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The number in the leftmost column of the output of the `thinglist` CCMD will now show the actual ID number of each thing.
+* The number in the leftmost column of the output of the `thinglist` CCMD has been changed to the actual ID of each thing.
+* Further improvements have been made to the support of `DEHACKED` lumps.
 
 ---
 

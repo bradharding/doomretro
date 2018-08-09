@@ -708,11 +708,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->shadowoffset = info->shadowoffset;
 
-    mobj->blood = info->blood;
-
     // [BH] don't give dehacked monsters fuzzy blood when they are no longer fuzzy
-    if (mobj->blood == FUZZYBLOOD && !(mobj->flags & MF_FUZZ))
-        mobj->blood = REDBLOOD;
+    mobj->blood = (info->blood == MT_FUZZYBLOOD && !(mobj->flags & MF_FUZZ) ? MT_BLOOD : info->blood);
 
     // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = NORM_PITCH;
@@ -987,7 +984,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     fixed_t x, y, z;
     short   type = mthing->type;
     int     flags;
-    int     id = index;
 
     // check for players specially
     if (type == Player1Start)
@@ -1035,7 +1031,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (type >= 14100 && type <= 14164)
     {
         // Use the ambient number
-        id = type - 14100;              // Mus change
+        index = type - 14100;           // Mus change
         type = MusicSource;             // MT_MUSICSOURCE
     }
 
@@ -1064,7 +1060,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
-    mobj->id = id;
+    mobj->id = index;
 
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
@@ -1212,18 +1208,17 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    dboolean    fuzz = (target->flags & MF_FUZZ);
-    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood : MT_BLOOD)) : MT_BLOOD);
+    int         type = (r_blood == r_blood_all ? (target->blood ? target->blood : MT_BLOOD) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
-    int         blood = (fuzz ? FUZZYBLOOD : info->blood);
-    sector_t    *sector;
+    int         blood = info->blood;
+    state_t     *st = &states[info->spawnstate];
 
     angle += ANG180;
 
     for (int i = (damage >> 2) + 1; i > 0; i--)
     {
-        mobj_t  *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
-        state_t *st = &states[info->spawnstate];
+        mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
+        sector_t    *sector;
 
         th->type = type;
         th->info = info;
