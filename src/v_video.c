@@ -52,6 +52,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "r_draw.h"
 #include "r_main.h"
 #include "SDL_image.h"
 #include "v_video.h"
@@ -95,12 +96,7 @@ static const byte redtoyellow[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
-#define _FUZZ(a, b) _fuzzrange[M_Random() % ((b) - (a) + 1) + a]
-
-static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
-
-extern int          fuzztable[SCREENWIDTH * SCREENHEIGHT];
-extern dboolean     vanilla;
+extern dboolean vanilla;
 
 //
 // V_FillRect
@@ -324,7 +320,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     int         w = SHORT(patch->width) << FRACBITS;
     const int   black = nearestcolors[0] << 8;
     const byte  *translucency = tinttab40 + black;
-    int         _fuzzpos = 0;
+    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -341,7 +337,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
             byte    *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
-            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
+            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                 *dest = translucency[*dest];
 
             dest += SCREENWIDTH;
@@ -352,7 +348,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
+            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                 *dest = translucency[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1270,7 +1266,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width) << FRACBITS;
-    int     _fuzzpos = 0;
+    int     fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1289,9 +1285,9 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
             while (count--)
             {
                 if (!menuactive && !paused && !consoleactive)
-                    fuzztable[_fuzzpos] = _FUZZ(0, 2);
+                    fuzztable[fuzzpos] = FUZZ(-1, 1);
 
-                *dest = fullcolormap[6 * 256 + dest[fuzztable[_fuzzpos++]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
                 dest += SCREENWIDTH;
             }
 
@@ -1304,7 +1300,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width) << FRACBITS;
-    int     _fuzzpos = 0;
+    int     fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1323,9 +1319,9 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
             while (count--)
             {
                 if (!menuactive && !paused && !consoleactive)
-                    fuzztable[_fuzzpos] = _FUZZ(0, 2);
+                    fuzztable[fuzzpos] = FUZZ(-1, 1);
 
-                *dest = fullcolormap[6 * 256 + dest[fuzztable[_fuzzpos++]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
                 dest += SCREENWIDTH;
             }
 
