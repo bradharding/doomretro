@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7.2
 
+* The number in the leftmost column of the output of the `thinglist` CCMD will now show the actual ID number of each thing.
+
 ---
 
 ###### Saturday, August 4, 2018

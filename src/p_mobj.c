@@ -987,7 +987,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     fixed_t x, y, z;
     short   type = mthing->type;
     int     flags;
-    int     id = 0;
+    int     id = index;
 
     // check for players specially
     if (type == Player1Start)

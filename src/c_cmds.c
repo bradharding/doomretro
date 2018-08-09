@@ -4303,7 +4303,6 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 static void thinglist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 40, 268, 0, 0, 0, 0, 0, 0 };
-    int         count = 0;
 
     C_Header(tabs, THINGLISTTITLE);
 
@@ -4311,8 +4310,8 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
 
-        C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, titlecase(mobj->info->name1),
-            mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i,%i,%i)", (mobj->id ? commify(mobj->id) : ""), (mobj->id ? "." : ""),
+            titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
     }
 }
 
