@@ -2828,38 +2828,28 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4 || (SDL_GetModState() & KMOD_ALT)) && !keydown)
+        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4) && !keydown)
         {
             keydown = key;
 
-            // Quit DOOM Retro
-            if (SDL_GetModState() & KMOD_ALT)
+            // Sound Volume
+            if (functionkey == KEY_F4)
             {
-                S_StartSound(NULL, sfx_swtchn);
-                M_QuitResponse('y');
-                return false;
+                functionkey = 0;
+                currentMenu->lastOn = itemOn;
+                M_ClearMenus();
+                S_StartSound(NULL, sfx_swtchx);
             }
             else
             {
-                // Sound Volume
-                if (functionkey == KEY_F4)
-                {
-                    functionkey = 0;
-                    currentMenu->lastOn = itemOn;
-                    M_ClearMenus();
-                    S_StartSound(NULL, sfx_swtchx);
-                }
-                else
-                {
-                    functionkey = KEY_F4;
-                    M_StartControlPanel();
-                    currentMenu = &SoundDef;
-                    itemOn = currentMenu->lastOn;
-                    S_StartSound(NULL, sfx_swtchn);
-                }
-
-                return false;
+                functionkey = KEY_F4;
+                M_StartControlPanel();
+                currentMenu = &SoundDef;
+                itemOn = currentMenu->lastOn;
+                S_StartSound(NULL, sfx_swtchn);
             }
+
+            return false;
         }
 
         // Toggle graphic detail

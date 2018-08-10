@@ -53,6 +53,7 @@
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -457,11 +458,18 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                 {
-                    if (altdown && event.data1 == KEY_TAB)
-                    {
-                        event.data1 = 0;
-                        event.data2 = 0;
-                    }
+                    if (altdown)
+                        
+                        if (event.data1 == KEY_F4)
+                        {
+                            I_Sleep(300);
+                            I_Quit(true);
+                        }
+                        else if (event.data1 == KEY_TAB)
+                        {
+                            event.data1 = 0;
+                            event.data2 = 0;
+                        }
 
                     if (!isdigit(event.data2))
                     {
