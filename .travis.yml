@@ -49,10 +49,15 @@ dist: trusty
 addons:
     apt:
         packages:
+            - clang-6.0
+            - gcc-8
             - cmake3
             - libsdl2-dev
             - libsdl2-mixer-dev
             - libsdl2-image-dev
 
 script:
-    - mkdir build && cd build && cmake .. && make
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
