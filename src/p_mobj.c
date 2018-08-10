@@ -703,6 +703,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
+    mobj->id = (type == MusicSource ? type - 14100 : thingid);
+    thingid++;
 
     P_SetShadowColumnFunction(mobj);
 
@@ -976,7 +978,7 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
 {
     int     i;
     int     bit;
@@ -1012,7 +1014,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         if (type != VisualModeCamera)
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(index), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(thingid), mthing->x, mthing->y);
 
         return NULL;
     }
@@ -1022,18 +1024,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         if (mobjinfo[i].name1[0] != '\0')
             C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
         else
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(index), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(thingid), mthing->x, mthing->y);
     }
 
     if (!(mthing->options & bit))
         return NULL;
 
     if (type >= 14100 && type <= 14164)
-    {
-        // Use the ambient number
-        index = type - 14100;           // Mus change
-        type = MusicSource;             // MT_MUSICSOURCE
-    }
+        type = MusicSource;
 
     // find which type to spawn
 
@@ -1060,7 +1058,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
-    mobj->id = index;
 
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;

@@ -4132,7 +4132,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 static int  spawncmdtype = NUMMOBJTYPES;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters);
 
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
@@ -4217,7 +4217,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             mthing.type = spawncmdtype;
             mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
 
-            if ((thing = P_SpawnMapThing(&mthing, 0, false)))
+            if ((thing = P_SpawnMapThing(&mthing, false)))
             {
                 thing->angle = R_PointToAngle2(thing->x, thing->y, viewx, viewy);
 

@@ -98,7 +98,7 @@ struct mapinfo_s
     int         titlepatch;
 };
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters);
 
 //
 // MAP related Lookup tables.
@@ -131,6 +131,7 @@ int             numsides;
 side_t          *sides;
 
 int             numthings;
+int             thingid;
 int             numdecorations;
 
 // BLOCKMAP
@@ -1069,6 +1070,7 @@ static void P_LoadThings(int lump)
         I_Error("There are no things in this map.");
 
     M_Seed(numthings);
+    thingid = 0;
     numdecorations = 0;
 
     for (int i = 0; i < numthings; i++)
@@ -1113,15 +1115,17 @@ static void P_LoadThings(int lump)
                     && mt.x == SHORT(thingfix[j].oldx) && mt.y == SHORT(thingfix[j].oldy))
                 {
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
+                    {
                         spawn = false;
+                        break;
+                    }
                     else
                     {
                         mt.x = SHORT(thingfix[j].newx);
                         mt.y = SHORT(thingfix[j].newy);
 
                         if (devparm)
-                            C_Warning("The position of thing %s has been changed to (%i,%i).",
-                                commify(thingfix[j].thing), mt.x, mt.y);
+                            C_Warning("The position of thing %s has been changed to (%i,%i).", commify(i), mt.x, mt.y);
                     }
 
                     if (thingfix[j].angle != DEFAULT)
@@ -1129,8 +1133,7 @@ static void P_LoadThings(int lump)
                         mt.angle = SHORT(thingfix[j].angle);
 
                         if (devparm)
-                            C_Warning("The angle of thing %s has been changed to %i.",
-                                commify(thingfix[j].thing), thingfix[j].angle);
+                            C_Warning("The angle of thing %s has been changed to %i.", commify(i), thingfix[j].angle);
                     }
 
                     if (thingfix[j].options != DEFAULT)
@@ -1138,8 +1141,7 @@ static void P_LoadThings(int lump)
                         mt.options = thingfix[j].options;
 
                         if (devparm)
-                            C_Warning("The flags of thing %s have been changed to %i.",
-                                commify(thingfix[j].thing), thingfix[j].options);
+                            C_Warning("The flags of thing %s have been changed to %i.", commify(i), thingfix[j].options);
                     }
 
                     break;
@@ -1150,7 +1152,7 @@ static void P_LoadThings(int lump)
             mt.type = Zombieman;
 
         if (spawn)
-            P_SpawnMapThing(&mt, i, nomonsters);
+            P_SpawnMapThing(&mt, nomonsters);
     }
 
     M_Seed((unsigned int)time(NULL));
