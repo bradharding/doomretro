@@ -40,7 +40,7 @@
 #define __M_RANDOM_H__
 
 int M_Random(void);
-int M_NegRandom(void);
+int M_SubRandom(void);
 int M_RandomInt(int lower, int upper);
 int M_RandomIntNoRepeat(int lower, int upper, int previous);
 void M_Seed(unsigned int value);

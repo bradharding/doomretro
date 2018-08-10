@@ -384,7 +384,7 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle + (M_NegRandom() << 18);
+    angle_t angle = actor->angle + (M_SubRandom() << 18);
     int     slope = P_AimLineAttack(actor, angle, MELEERANGE);
     int     damage = (M_Random() % 10 + 1) << 1;
 
@@ -410,7 +410,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle + (M_NegRandom() << 18);
+    angle_t angle = actor->angle + (M_SubRandom() << 18);
     int     slope = P_AimLineAttack(actor, angle, MELEERANGE + 1);
 
     // use MELEERANGE + 1 so the puff doesn't skip the flash
@@ -579,7 +579,7 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
     angle_t angle = actor->angle;
 
     if (!accurate)
-        angle += M_NegRandom() << 18;
+        angle += M_SubRandom() << 18;
 
     P_LineAttack(actor, angle, MISSILERANGE, bulletslope, 5 * (M_Random() % 3 + 1));
 }
@@ -669,7 +669,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     for (int i = 0; i < 20; i++)
-        P_LineAttack(actor, actor->angle + (M_NegRandom() << ANGLETOFINESHIFT), MISSILERANGE, bulletslope + (M_NegRandom() << 5),
+        P_LineAttack(actor, actor->angle + (M_SubRandom() << ANGLETOFINESHIFT), MISSILERANGE, bulletslope + (M_SubRandom() << 5),
             5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);

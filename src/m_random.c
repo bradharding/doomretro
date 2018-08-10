@@ -48,7 +48,7 @@ int M_Random(void)
     return (fastrand() & 255);
 }
 
-int M_NegRandom(void)
+int M_SubRandom(void)
 {
     return ((fastrand() & 511) - 255);
 }
