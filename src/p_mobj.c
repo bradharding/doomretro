@@ -1148,6 +1148,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->colfunc = info->colfunc;
     th->altcolfunc = info->altcolfunc;
+    th->id = thingid++;
 
     P_SetThingPosition(th);
 
@@ -1233,6 +1234,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->colfunc = info->colfunc;
         th->altcolfunc = info->altcolfunc;
         th->blood = blood;
+        th->id = thingid++;
 
         P_SetThingPosition(th);
 
