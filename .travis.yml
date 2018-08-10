@@ -49,8 +49,6 @@ dist: trusty
 addons:
     apt:
         packages:
-            - clang-6.0
-            - gcc-8
             - cmake3
             - libsdl2-dev
             - libsdl2-mixer-dev
