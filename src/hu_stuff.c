@@ -1064,7 +1064,17 @@ void HU_PlayerMessage(char *message, dboolean external)
     if (message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
-        M_StringCopy(buffer, message, sizeof(buffer));
+    {
+        size_t  len = strlen(message);
+
+        for (int i = 0, j = 0; i < len; i++)
+        {
+            if (message[i] == '%')
+                buffer[j++] = '%';
+
+            buffer[j++] = message[i];
+        }
+    }
 
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
