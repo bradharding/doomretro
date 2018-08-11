@@ -1065,7 +1065,7 @@ void HU_PlayerMessage(char *message, dboolean external)
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
     {
-        size_t  len = strlen(message);
+        int len = (int)strlen(message);
 
         for (int i = 0, j = 0; i < len; i++)
         {

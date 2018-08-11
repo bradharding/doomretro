@@ -275,8 +275,8 @@ void XInputVibration(int motorspeed)
     {
         XINPUT_VIBRATION    vibration;
 
-        ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         vibration.wLeftMotorSpeed = motorspeed;
+        vibration.wRightMotorSpeed = 0;
         currentmotorspeed = motorspeed;
         pXInputSetState(0, &vibration);
     }

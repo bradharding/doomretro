@@ -394,10 +394,11 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int *vol, int *sep)
+static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
 {
     fixed_t dist = 0;
     fixed_t adx, ady;
+    mobj_t  *listener = viewplayer->mo;
     angle_t angle;
 
     // calculate the distance to sound origin and clip it if necessary
@@ -446,7 +447,6 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
  void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
-    mobj_t      *mo = viewplayer->mo;
     int         sep = NORM_SEP;
     int         cnum;
     int         handle;
@@ -467,8 +467,8 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     }
 
     // Check to see if it is audible, and if not, modify the parms
-    if (origin && origin != mo)
-        if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
+    if (origin && origin != viewplayer->mo)
+        if (!S_AdjustSoundParams(origin->x, origin->y, &volume, &sep))
             return;
 
     // kill old sound
@@ -521,9 +521,9 @@ void S_ResumeSound(void)
 }
 
 //
-// Updates music & sounds
+// Updates sounds
 //
-void S_UpdateSounds(mobj_t *listener)
+void S_UpdateSounds(void)
 {
     if (nosfx)
         return;
@@ -544,7 +544,7 @@ void S_UpdateSounds(mobj_t *listener)
             mobj_t  *origin = c->origin;
 
             // check non-local sounds for distance clipping or modify their parms
-            if (origin && listener != origin)
+            if (origin && origin != viewplayer->mo)
             {
                 int sep = NORM_SEP;
                 int volume = snd_SfxVolume;
@@ -560,7 +560,7 @@ void S_UpdateSounds(mobj_t *listener)
                         volume = snd_SfxVolume;
                 }
 
-                if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
+                if (!S_AdjustSoundParams(origin->x, origin->y, &volume, &sep))
                     S_StopChannel(cnum);
                 else
                     I_UpdateSoundParams(c->handle, volume, sep);
