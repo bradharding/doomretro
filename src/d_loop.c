@@ -48,10 +48,11 @@ ticcmd_t        localcmds[BACKUPTICS];
 
 extern dboolean advancetitle;
 
-void D_BuildNewTiccmds(void)
+void TryRunTics(void)
 {
     static int  lastmadetic;
     int         newtics = I_GetTime() - lastmadetic;
+    int         runtics;
 
     lastmadetic += newtics;
 
@@ -64,13 +65,6 @@ void D_BuildNewTiccmds(void)
 
         G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
     }
-}
-
-void TryRunTics(void)
-{
-    int runtics;
-
-    D_BuildNewTiccmds();
 
     if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)
         return;

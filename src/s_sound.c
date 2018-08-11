@@ -541,26 +541,24 @@ void S_UpdateSounds(mobj_t *listener)
         if (I_SoundIsPlaying(c->handle))
         {
             // initialize parameters
-            int     volume = snd_SfxVolume;
-            mobj_t  *origin;
-
-            if (sfx->link)
-            {
-                volume += sfx->volume;
-
-                if (volume < 1)
-                {
-                    S_StopChannel(cnum);
-                    continue;
-                }
-                else if (volume > snd_SfxVolume)
-                    volume = snd_SfxVolume;
-            }
+            mobj_t  *origin = c->origin;
 
             // check non-local sounds for distance clipping or modify their parms
-            if ((origin = c->origin) && listener != origin)
+            if (origin && listener != origin)
             {
                 int sep = NORM_SEP;
+                int volume = snd_SfxVolume;
+
+                if (sfx->link)
+                {
+                    if ((volume += sfx->volume) < 1)
+                    {
+                        S_StopChannel(cnum);
+                        continue;
+                    }
+                    else if (volume > snd_SfxVolume)
+                        volume = snd_SfxVolume;
+                }
 
                 if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
                     S_StopChannel(cnum);

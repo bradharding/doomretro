@@ -370,12 +370,7 @@ void I_UpdateSound(void)
 
 dboolean I_AnySoundStillPlaying(void)
 {
-    dboolean    result = false;
-
-    for (int i = 0; i < s_channels; i++)
-        result |= Mix_Playing(i);
-
-    return result;
+    return Mix_Playing(-1);
 }
 
 void I_ShutdownSound(void)
