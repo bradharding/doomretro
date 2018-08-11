@@ -180,8 +180,6 @@ static SDL_Rect     src_rect;
 static SDL_Rect     map_rect;
 
 int                 fps;
-int                 minfps = INT_MAX;
-int                 maxfps;
 int                 refreshrate;
 
 #if defined(_WIN32)
@@ -723,12 +721,7 @@ static void CalculateFPS(void)
 
     if (starttime < (currenttime = SDL_GetPerformanceCounter()) - performancefrequency)
     {
-        if ((fps = frames))
-        {
-            minfps = MIN(minfps, fps);
-            maxfps = MAX(maxfps, fps);
-        }
-
+        fps = frames;
         frames = 0;
         starttime = currenttime;
     }

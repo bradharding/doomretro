@@ -5948,8 +5948,6 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
 //
 // vid_showfps CVAR
 //
-extern int      minfps;
-extern int      maxfps;
 extern uint64_t starttime;
 extern int      frames;
 
@@ -5963,16 +5961,11 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
     {
         I_UpdateBlitFunc(!!viewplayer->damagecount);
 
-        if (!vid_showfps)
-        {
-            C_Output("The minimum was %s FPS (%.1fms) and the maximum was %s FPS (%.1fms).",
-                commify(minfps), 1000.0 / minfps, commify(maxfps), 1000.0 / maxfps);
-            minfps = INT_MAX;
-            maxfps = 0;
+        if (vid_showfps)
+            starttime = SDL_GetPerformanceCounter();
+        else
             frames = -1;
-        }
 
-        starttime = SDL_GetPerformanceCounter();
     }
 }
 
