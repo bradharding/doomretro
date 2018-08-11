@@ -36,6 +36,13 @@
 ========================================================================
 */
 
+#if defined(_WIN32)
+#include <Windows.h>
+#include <ShellAPI.h>
+
+#include "SDL_syswm.h"
+#endif
+
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -52,11 +59,6 @@ int windowborderwidth;
 int windowborderheight;
 
 #if defined(_WIN32)
-
-#include "SDL_syswm.h"
-
-#include <Windows.h>
-#include <ShellAPI.h>
 
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER   92

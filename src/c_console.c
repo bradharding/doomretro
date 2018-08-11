@@ -42,6 +42,9 @@
 
 #include <ctype.h>
 
+#include "SDL_image.h"
+#include "SDL_mixer.h"
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -58,8 +61,6 @@
 #include "r_main.h"
 #include "s_sound.h"
 #include "sc_man.h"
-#include "SDL_image.h"
-#include "SDL_mixer.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"

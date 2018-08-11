@@ -41,6 +41,7 @@
 
 #include "SDL.h"
 #include "SDL_mixer.h"
+
 #include "midiproc.h"
 
 // Currently playing music track

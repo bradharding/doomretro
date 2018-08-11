@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include "SDL_mixer.h"
+
 #include "c_console.h"
 #include "i_midirpc.h"
 #include "i_system.h"
@@ -43,7 +45,6 @@
 #include "m_misc.h"
 #include "mmus2mid.h"
 #include "s_sound.h"
-#include "SDL_mixer.h"
 #include "version.h"
 #include "z_zone.h"
 

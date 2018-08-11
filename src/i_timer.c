@@ -36,8 +36,9 @@
 ========================================================================
 */
 
-#include "doomdef.h"
 #include "SDL.h"
+
+#include "doomdef.h"
 
 //
 // I_GetTime

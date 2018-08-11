@@ -39,8 +39,9 @@
 #if !defined(__S_SOUND_H__)
 #define __S_SOUND_H__
 
-#include "r_defs.h"
 #include "SDL_mixer.h"
+
+#include "r_defs.h"
 #include "sounds.h"
 
 #define CHANNELS            2

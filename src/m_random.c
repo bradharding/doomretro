@@ -40,7 +40,7 @@ static unsigned int seed;
 
 static int fastrand(void)
 {
-    return (((seed = 214013 * seed + 2531011) >> 16) & 0x7FFF);
+    return (((seed = 214013 * seed + 2531011) >> 16) & 32767);
 }
 
 int M_Random(void)
@@ -63,6 +63,7 @@ int M_RandomIntNoRepeat(int lower, int upper, int previous)
     int randomint;
 
     while ((randomint = M_RandomInt(lower, upper)) == previous);
+
     return randomint;
 }
 

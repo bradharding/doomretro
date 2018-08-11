@@ -41,6 +41,8 @@
 #include <Shlobj.h>
 #endif
 
+#include "SDL_image.h"
+
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -54,7 +56,6 @@
 #include "m_random.h"
 #include "r_draw.h"
 #include "r_main.h"
-#include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
