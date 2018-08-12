@@ -258,6 +258,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 static void bindlist_cmd_func2(char *cmd, char *parms);
 static void clear_cmd_func2(char *cmd, char *parms);
 static void cmdlist_cmd_func2(char *cmd, char *parms);
+static dboolean condump_cmd_func1(char *cmd, char *parms);
 static void condump_cmd_func2(char *cmd, char *parms);
 static void cvarlist_cmd_func2(char *cmd, char *parms);
 static void endgame_cmd_func2(char *cmd, char *parms);
@@ -489,7 +490,7 @@ consolecmd_t consolecmds[] =
         "Toggles obituaries in the console when monsters\nare killed or resurrected."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles timestamps next to player messages and\nobituaries in the console."),
-    CMD(condump, "", null_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
+    CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Shows a list of console variables."),
@@ -1588,103 +1589,105 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 //
 // condump CCMD
 //
+static dboolean condump_cmd_func1(char *cmd, char *parms)
+{
+    return (consolestrings > 1);
+}
+
 static void condump_cmd_func2(char *cmd, char *parms)
 {
-    if (consolestrings)
+    char        filename[MAX_PATH];
+    FILE        *file;
+    const char  *appdatafolder = M_GetAppDataFolder();
+
+    M_MakeDirectory(appdatafolder);
+
+    if (!*parms)
     {
-        char        filename[MAX_PATH];
-        FILE        *file;
-        const char  *appdatafolder = M_GetAppDataFolder();
+        int count = 0;
 
-        M_MakeDirectory(appdatafolder);
+        M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
 
-        if (!*parms)
+        while (M_FileExists(filename))
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt", appdatafolder, ++count);
+    }
+    else
+        M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parms);
+
+    if ((file = fopen(filename, "wt")))
+    {
+        for (int i = 1; i < consolestrings - 1; i++)
         {
-            int count = 0;
-
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
-
-            while (M_FileExists(filename))
-                M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt", appdatafolder, ++count);
-        }
-        else
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parms);
-
-        if ((file = fopen(filename, "wt")))
-        {
-            for (int i = 1; i < consolestrings - 1; i++)
+            if (console[i].type == dividerstring)
+                fprintf(file, "%s\n", DIVIDERSTRING);
+            else
             {
-                if (console[i].type == dividerstring)
-                    fprintf(file, "%s\n", DIVIDERSTRING);
-                else
+                char            *string = strdup(console[i].string);
+                int             len;
+                unsigned int    outpos = 0;
+                int             tabcount = 0;
+
+                strreplace(string, "<b>", "");
+                strreplace(string, "</b>", "");
+                strreplace(string, "<i>", "");
+                strreplace(string, "</i>", "");
+                len = (int)strlen(string);
+
+                if (console[i].type == warningstring)
+                    fputs("! ", file);
+
+                for (int inpos = 0; inpos < len; inpos++)
                 {
-                    char            *string = strdup(console[i].string);
-                    int             len;
-                    unsigned int    outpos = 0;
-                    int             tabcount = 0;
+                    const unsigned char letter = string[inpos];
 
-                    strreplace(string, "<b>", "");
-                    strreplace(string, "</b>", "");
-                    strreplace(string, "<i>", "");
-                    strreplace(string, "</i>", "");
-                    len = (int)strlen(string);
-
-                    if (console[i].type == warningstring)
-                        fputs("! ", file);
-
-                    for (int inpos = 0; inpos < len; inpos++)
+                    if (letter != '\n')
                     {
-                        const unsigned char letter = string[inpos];
-
-                        if (letter != '\n')
+                        if (letter == '\t')
                         {
-                            if (letter == '\t')
+                            const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
+
+                            if (outpos < tabstop)
                             {
-                                const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
-
-                                if (outpos < tabstop)
-                                {
-                                    for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
-                                        fputc(' ', file);
-
-                                    outpos = tabstop;
-                                    tabcount++;
-                                }
-                                else
-                                {
+                                for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
                                     fputc(' ', file);
-                                    outpos++;
-                                }
+
+                                outpos = tabstop;
+                                tabcount++;
                             }
                             else
                             {
-                                const int   c = letter - CONSOLEFONTSTART;
+                                fputc(' ', file);
+                                outpos++;
+                            }
+                        }
+                        else
+                        {
+                            const int   c = letter - CONSOLEFONTSTART;
 
-                                if (((c >= 0 && c < CONSOLEFONTSIZE && letter != '~')
-                                    || letter == 153 || letter == 169 || letter == 174 || letter == 215))
-                                {
-                                    fputc(letter, file);
-                                    outpos++;
-                                }
+                            if (((c >= 0 && c < CONSOLEFONTSIZE && letter != '~')
+                                || letter == 153 || letter == 169 || letter == 174 || letter == 215))
+                            {
+                                fputc(letter, file);
+                                outpos++;
                             }
                         }
                     }
-
-                    if ((console[i].type == playermessagestring || console[i].type == obituarystring) && con_timestamps)
-                    {
-                        for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
-                            fputc(' ', file);
-
-                        fputs(C_GetTimeStamp(console[i].tics), file);
-                    }
-
-                    fputc('\n', file);
                 }
-            }
 
-            fclose(file);
-            C_Output("Dumped the console to <b>%s</b>.", filename);
+                if ((console[i].type == playermessagestring || console[i].type == obituarystring) && con_timestamps)
+                {
+                    for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
+                        fputc(' ', file);
+
+                    fputs(C_GetTimeStamp(console[i].tics), file);
+                }
+
+                fputc('\n', file);
+            }
         }
+
+        fclose(file);
+        C_Output("Dumped the console to <b>%s</b>.", filename);
     }
 }
 
