@@ -243,8 +243,8 @@ action_t actions[] =
     { "+weapon5",     weapon5_action_func,     &keyboardweapon5,           NULL,                  NULL,              &gamepadweapon5,           NULL         },
     { "+weapon6",     weapon6_action_func,     &keyboardweapon6,           NULL,                  NULL,              &gamepadweapon6,           NULL         },
     { "+weapon7",     weapon7_action_func,     &keyboardweapon7,           NULL,                  NULL,              &gamepadweapon7,           NULL         },
-    { "+zoomin",      NULL,                    NULL,                       NULL,                  NULL,              &gamepadautomapzoomin,     NULL         },
-    { "+zoomout",     NULL,                    NULL,                       NULL,                  NULL,              &gamepadautomapzoomout,    NULL         },
+    { "+zoomin",      NULL,                    &keyboardautomapzoomin,     NULL,                  NULL,              &gamepadautomapzoomin,     NULL         },
+    { "+zoomout",     NULL,                    &keyboardautomapzoomout,    NULL,                  NULL,              &gamepadautomapzoomout,    NULL         },
     { "",             NULL,                    NULL,                       NULL,                  NULL,              NULL,                      NULL         }
 };
 
