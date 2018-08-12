@@ -394,7 +394,7 @@ static void P_ZMovement(mobj_t *mo)
     // clip movement
     if (mo->z <= mo->floorz)
     {
-        // [BH] remove blood the moment it hits the ground and spawn a blood splat in its place
+        // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
         if ((mo->flags2 & MF2_BLOOD) && mo->blood)
         {
             P_RemoveMobj(mo);
@@ -405,8 +405,12 @@ static void P_ZMovement(mobj_t *mo)
                 int y = mo->y;
 
                 P_SpawnBloodSplat(x, y, mo->blood, mo->floorz, NULL);
-                P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
-                P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+
+                if (mo->blood != FUZZYBLOOD)
+                {
+                    P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+                    P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+                }
             }
 
             return;
