@@ -400,7 +400,14 @@ static void P_ZMovement(mobj_t *mo)
             P_RemoveMobj(mo);
 
             if (r_bloodsplats_max)
-                P_SpawnBloodSplat(mo->x, mo->y, mo->blood, mo->floorz, NULL);
+            {
+                int x = mo->x;
+                int y = mo->y;
+
+                P_SpawnBloodSplat(x, y, mo->blood, mo->floorz, NULL);
+                P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+                P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+            }
 
             return;
         }

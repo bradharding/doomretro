@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Slightly more blood splats are now spawned when blood hits the floor.
 * Minor changes have been made to text that is output to the console.
 * The number in the leftmost column of the output to the `thinglist` CCMD is now the actual ID of each thing.
 * Further improvements have been made to the support of `DEHACKED` lumps.
