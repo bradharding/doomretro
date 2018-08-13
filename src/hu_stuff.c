@@ -1059,7 +1059,7 @@ void HU_SetPlayerMessage(char *message, dboolean external)
 
 void HU_PlayerMessage(char *message, dboolean external)
 {
-    char buffer[1024] = "";
+    char    buffer[1024] = "";
 
     if (message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);

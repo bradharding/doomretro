@@ -1123,8 +1123,7 @@ void GetWindowPosition(void)
     int x = 0;
     int y = 0;
 
-    if (M_StringCompare(vid_windowpos, vid_windowpos_centered)
-        || M_StringCompare(vid_windowpos, vid_windowpos_centred))
+    if (M_StringCompare(vid_windowpos, vid_windowpos_centered) || M_StringCompare(vid_windowpos, vid_windowpos_centred))
     {
         windowx = 0;
         windowy = 0;
@@ -1291,8 +1290,7 @@ static void PositionOnCurrentDisplay(void)
     manuallypositioning = true;
 
     if (!windowx && !windowy)
-        SDL_SetWindowPosition(window,
-            displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
+        SDL_SetWindowPosition(window, displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
             displays[displayindex].y + (displays[displayindex].h - windowheight) / 2);
     else
         SDL_SetWindowPosition(window, windowx, windowy);
@@ -1481,8 +1479,7 @@ static void SetVideoMode(dboolean output)
             else
             {
                 if (output)
-                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL "
-                        "%i.%i</b></i> API.", major, minor);
+                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL %i.%i</b></i> API.", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1495,14 +1492,12 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL "
-                    "ES</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES</b></i> API.");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES "
-                    "2</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES 2</b></i> API.");
         }
 #elif defined(__MACOSX__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
@@ -1514,8 +1509,8 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D "
-                    "%s</b></i> API.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D %s</b></i> API.",
+                    (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1548,10 +1543,8 @@ static void SetVideoMode(dboolean output)
             if (nearestlinear)
             {
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
-                    SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
-                    commify(upscaledheight * SCREENHEIGHT));
-                C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
-                    commify(height * 4 / 3), commify(height));
+                    SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH), commify(upscaledheight * SCREENHEIGHT));
+                C_Output("It is then scaled down to %s\xD7%s using linear filtering.", commify(height * 4 / 3), commify(height));
             }
             else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
@@ -1655,16 +1648,15 @@ static void SetVideoMode(dboolean output)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
-        SCREENWIDTH, SCREENHEIGHT)))
+    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
 
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError("SDL_CreateTexture");
     }
 
@@ -1738,8 +1730,8 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? (M_StringCompare(vid_screenresolution,
-        vid_screenresolution_desktop) ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN) : 0)) < 0)
+    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? (M_StringCompare(vid_screenresolution, vid_screenresolution_desktop) ?
+        SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN) : 0)) < 0)
     {
         menuactive = false;
         C_ShowConsole();

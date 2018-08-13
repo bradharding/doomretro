@@ -408,8 +408,10 @@ static void P_ZMovement(mobj_t *mo)
 
                 if (mo->blood != FUZZYBLOOD)
                 {
-                    P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
-                    P_SpawnBloodSplat(x + M_RandomInt(-3, 3) * FRACUNIT, y + M_RandomInt(-3, 3) * FRACUNIT, mo->blood, mo->floorz, NULL);
+                    P_SpawnBloodSplat(x + (M_RandomInt(-3, 3) << FRACBITS), y + (M_RandomInt(-3, 3) << FRACBITS),
+                        mo->blood, mo->floorz, NULL);
+                    P_SpawnBloodSplat(x + (M_RandomInt(-3, 3) << FRACBITS), y + (M_RandomInt(-3, 3) << FRACBITS),
+                        mo->blood, mo->floorz, NULL);
                 }
             }
 
@@ -678,14 +680,13 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     sector_t    *sector;
     static int  prevx, prevy;
     static int  prevbob;
-    int         height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
 
     mobj->type = type;
     mobj->info = info;
     mobj->x = x;
     mobj->y = y;
     mobj->radius = info->radius;
-    mobj->height = height;
+    mobj->height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
     mobj->health = info->spawnhealth;
