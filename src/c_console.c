@@ -618,12 +618,14 @@ void C_ShowConsole(void)
     if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
 
+    I_CapFPS(60);
     SDL_StartTextInput();
 }
 
 void C_HideConsole(void)
 {
     SDL_StopTextInput();
+    I_CapFPS(vid_capfps);
 
     consoledirection = -1;
     consoleanim = 0;
@@ -639,6 +641,7 @@ void C_HideConsole(void)
 void C_HideConsoleFast(void)
 {
     SDL_StopTextInput();
+    I_CapFPS(vid_capfps);
 
     consoledirection = -1;
     consoleanim = 0;
