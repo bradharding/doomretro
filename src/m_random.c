@@ -50,7 +50,7 @@ int M_Random(void)
 
 int M_SubRandom(void)
 {
-    return ((fastrand() & 511) - 255);
+    return ((fastrand() & 510) - 255);
 }
 
 int M_RandomInt(int lower, int upper)
