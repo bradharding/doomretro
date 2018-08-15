@@ -83,7 +83,7 @@
 #define KILLCMDFORMAT       "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT       "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
-#define PLAYCMDFORMAT       "<i>sound</i>|<i>music</i>"
+#define PLAYCMDFORMAT       "<i>soundeffect</i>|<i>music</i>"
 #define PRINTCMDFORMAT      "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
@@ -596,7 +596,7 @@ consolecmd_t consolecmds[] =
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only\na pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
-        "Plays a <i>sound</i> or <i>music</i> lump."),
+        "Plays a <i>sound effect</i> or <i>music</i> lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
