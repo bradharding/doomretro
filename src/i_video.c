@@ -309,7 +309,7 @@ void I_CapFPS(int fps)
         CapFPSTimer = 0;
     }
 
-    if (!fps || vid_capfps == TICRATE)
+    if (!fps || fps == TICRATE)
     {
         if (CapFPSEvent)
         {
