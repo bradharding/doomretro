@@ -77,6 +77,7 @@
 #endif
 
 // CVARs
+dboolean            m_acceleration = m_acceleration_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
 int                 vid_capfps = vid_capfps_default;
@@ -659,8 +660,18 @@ static void I_ReadMouse(void)
 
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
-        ev.data2 = AccelerateMouse(x);
-        ev.data3 = -AccelerateMouse(y);
+
+        if (m_acceleration)
+        {
+            ev.data2 = AccelerateMouse(x);
+            ev.data3 = -AccelerateMouse(y);
+        }
+        else
+        {
+            ev.data2 = x;
+            ev.data3 = -y;
+        }
+
         D_PostEvent(&ev);
         button = false;
     }

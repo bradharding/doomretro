@@ -82,6 +82,7 @@ extern int          gp_vibrate_weapons;
 extern dboolean     infighting;
 extern dboolean     infiniteheight;
 extern char         *iwadfolder;
+extern dboolean     m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
@@ -379,6 +380,8 @@ enum
 #define infiniteheight_default                  false
 
 #define iwadfolder_default                      "C:\\"
+
+#define m_acceleration_default                  true
 
 #define m_doubleclick_use_default               false
 

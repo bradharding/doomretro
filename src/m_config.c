@@ -116,6 +116,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (infighting,                                        BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (infiniteheight,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (m_acceleration,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_invertyaxis,                                     BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_novertical,                                      BOOLVALUEALIAS    ),

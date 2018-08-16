@@ -564,6 +564,8 @@ consolecmd_t consolecmds[] =
         "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nor explodes all <b>barrels</b> or <b>missiles</b>."),
     CMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
+    CVAR_BOOL(m_acceleration, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles acceleration of the mouse."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button for the\n<b>+use</b> action."),
     CVAR_BOOL(m_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
