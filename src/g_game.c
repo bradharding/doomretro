@@ -1697,7 +1697,8 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    C_CCMDOutput("newgame");
+    if (consolestrings == 1 || !M_StringStartsWith(console[consolestrings - 2].string, "map "))
+        C_CCMDOutput("newgame");
 
     G_DoLoadLevel();
 }
