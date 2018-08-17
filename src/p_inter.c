@@ -1229,15 +1229,16 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         stat_itemspickedup = SafeAdd(stat_itemspickedup, 1);
     }
 
+    if (sound != prevsound || gametime != prevtic)
+    {
+        prevsound = sound;
+        prevtic = gametime;
+        S_StartSound(special, sound);
+    }
+
     P_RemoveMobj(special);
     P_AddBonus();
 
-    if (sound == prevsound && gametime == prevtic)
-        return;
-
-    prevsound = sound;
-    prevtic = gametime;
-    S_StartSound(viewplayer->mo, sound);
 }
 
 //
