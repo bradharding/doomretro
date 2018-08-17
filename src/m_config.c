@@ -606,6 +606,9 @@ static void M_CheckCVARs(void)
     if (infiniteheight != false && infiniteheight != true)
         infiniteheight = infiniteheight_default;
 
+    if (m_acceleration != false && m_acceleration != true)
+        m_acceleration = m_acceleration_default;
+
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = m_doubleclick_use_default;
 
