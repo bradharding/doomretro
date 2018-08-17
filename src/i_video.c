@@ -458,7 +458,7 @@ static void I_GetEvent(void)
                 if (event.data1)
                 {
                     if (altdown)
-                        
+                    {
                         if (event.data1 == KEY_F4)
                         {
                             I_Sleep(300);
@@ -469,6 +469,7 @@ static void I_GetEvent(void)
                             event.data1 = 0;
                             event.data2 = 0;
                         }
+                    }
 
                     if (!isdigit(event.data2))
                     {

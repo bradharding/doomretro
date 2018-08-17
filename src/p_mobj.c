@@ -715,7 +715,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
-    mobj->id = (type == MusicSource ? type - 14100 : thingid);
+    mobj->id = (thingid == MusicSource ? thingid - 14100 : thingid);
     thingid++;
 
     P_SetShadowColumnFunction(mobj);
