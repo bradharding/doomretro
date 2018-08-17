@@ -50,6 +50,7 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 
+dboolean                gp_analog = gp_analog_default;
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;
 dboolean                gp_invertyaxis = gp_invertyaxis_default;
@@ -188,7 +189,7 @@ void I_ShutdownGamepad(void)
 
 static short __inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : MAX(-SHRT_MAX, value));
+    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)

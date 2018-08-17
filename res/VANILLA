@@ -21,6 +21,7 @@ autoload off
 autouse off
 centerweapon off
 facebackcolor none
+gp_analog off
 infighting off
 infiniteheight on
 m_acceleration off
