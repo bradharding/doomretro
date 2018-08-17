@@ -65,8 +65,6 @@ static dboolean             sound_initialized;
 static allocated_sound_t    *channels_playing[s_channels_max];
 
 static int                  mixer_freq;
-Uint16                      mixer_format;
-int                         mixer_channels;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
@@ -386,6 +384,8 @@ void I_ShutdownSound(void)
 dboolean I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
+    Uint16              mixer_format;
+    int                 mixer_channels;
 
     // No sounds yet
     for (int i = 0; i < s_channels_max; i++)

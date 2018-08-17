@@ -496,6 +496,7 @@ static void I_GetEvent(void)
 
                     D_PostEvent(&event);
                 }
+
                 break;
 
             case SDL_KEYUP:

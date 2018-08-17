@@ -54,6 +54,7 @@ dboolean                gp_analog = gp_analog_default;
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;
 dboolean                gp_invertyaxis = gp_invertyaxis_default;
+int                     gp_sensitivity = gp_sensitivity_default;
 dboolean                gp_swapthumbsticks = gp_swapthumbsticks_default;
 int                     gp_vibrate_barrels = gp_vibrate_barrels_default;
 int                     gp_vibrate_damage = gp_vibrate_damage_default;

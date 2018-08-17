@@ -72,7 +72,6 @@
 
 int             episode = episode_default;
 int             expansion = expansion_default;
-int             gp_sensitivity = gp_sensitivity_default;
 int             m_sensitivity = m_sensitivity_default;
 dboolean        messages = messages_default;
 int             r_detail = r_detail_default;
