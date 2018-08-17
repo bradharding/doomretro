@@ -145,7 +145,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     } while (!snd);
 
     // Skip past the chunk structure for the audio buffer
-    snd->chunk.abuf = (byte *)(snd + 1);
+    snd->chunk.abuf = (Uint8 *)(snd + 1);
     snd->chunk.alen = len;
     snd->chunk.allocated = 1;
     snd->chunk.volume = MIX_MAX_VOLUME;
@@ -301,7 +301,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParams(int channel, int vol, int sep)
 {
-    Mix_SetPanning(channel, BETWEEN(0, (254 - sep) * vol / 127, 255), BETWEEN(0, sep * vol / 127, 255));
+    Mix_SetPanning(channel, (254 - sep) * vol / 127, sep * vol / 127);
 }
 
 //
