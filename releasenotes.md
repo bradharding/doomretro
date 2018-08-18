@@ -9,7 +9,6 @@
 * A bug has been fixed whereby the `+zoomin` and `+zoomout` actions couldn’t be rebound from their default <kbd>+</kbd> and <kbd>&ndash;</kbd> keys using the `bind` CCMD.
 * Mouse acceleration can now be disabled using the new `m_acceleration` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
 * Movement of a gamepad's thumbsticks can now be either analog or digital using the new `gp_analog` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
-* When the player picks up an item, the sound effect you hear will now come from the item’s location rather than the player’s.
 
 ---
 
