@@ -2116,7 +2116,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
 
                         buffer[0] = toupper(buffer[0]);
-                        C_Warning("%s can't be given to the player in <i><b>DOOM</b></i>.", buffer);
+                        C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
                         return;
                     }
 
@@ -2129,7 +2129,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
 
                         buffer[0] = toupper(buffer[0]);
-                        C_Warning("%s can't be given to the player in <i><b>DOOM Shareware</b></i>.", buffer);
+                        C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
                         return;
                     }
 
@@ -4221,7 +4221,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>DOOM</b></i>.", buffer);
+                C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
                 spawn = false;
             }
 
@@ -4233,7 +4233,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>DOOM Shareware</b></i>.", buffer);
+                C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
                 spawn = false;
             }
         }
