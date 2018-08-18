@@ -1077,34 +1077,27 @@ static void P_LoadThings(int lump)
     {
         mapthing_t  mt = data[i];
         dboolean    spawn = true;
+        short       type = SHORT(mt.type);
 
-        if (gamemode != commercial)
+        if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner)
         {
-            switch (SHORT(mt.type))
-            {
-                case Arachnotron:
-                case ArchVile:
-                case BossBrain:
-                case MonstersSpawner:
-                case HellKnight:
-                case Mancubus:
-                case PainElemental:
-                case HeavyWeaponDude:
-                case Revenant:
-                case WolfensteinSS:
-                    spawn = false;
-                    break;
-            }
-        }
+            static char buffer[128];
 
-        if (!spawn)
-            continue;   // [BH] Fix <https://doomwiki.org/wiki/Doom_II_monster_exclusion_bug>.
+            M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(type)].plural1, sizeof(buffer));
+
+            if (!*buffer)
+                M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(type)].name1);
+
+            buffer[0] = toupper(buffer[0]);
+            C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+            continue;
+        }
 
         // Do spawn all other stuff.
         mt.x = SHORT(mt.x);
         mt.y = SHORT(mt.y);
         mt.angle = SHORT(mt.angle);
-        mt.type = SHORT(mt.type);
+        mt.type = type;
         mt.options = SHORT(mt.options);
 
         // [BH] Apply any level-specific fixes.
