@@ -580,7 +580,6 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-
                     HU_PlayerMessage(s_STSTR_KFAADDED, false);
 
                     // [BH] always display message

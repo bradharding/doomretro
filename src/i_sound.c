@@ -299,7 +299,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParams(int channel, int vol, int sep)
 {
-    Mix_SetPanning(channel, (254 - sep) * vol / 127, sep * vol / 127);
+    Mix_SetPanning(channel, (254 - sep) * vol / 128, sep * vol / 128);
 }
 
 //

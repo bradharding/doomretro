@@ -84,20 +84,20 @@ int             gamemap;
 char            speciallumpname[6] = "";
 
 dboolean        paused;
-dboolean        sendpause;              // send a pause event next tic
-static dboolean sendsave;               // send a save event next tic
+dboolean        sendpause;                      // send a pause event next tic
+static dboolean sendsave;                       // send a save event next tic
 
 dboolean        viewactive;
 
 int             gametime;
-int             totalkills;             // for intermission
+int             totalkills;                     // for intermission
 int             totalitems;
 int             totalsecret;
 int             totalpickups;
 int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
 
-wbstartstruct_t wminfo;                 // parms for world map/intermission
+wbstartstruct_t wminfo;                         // parms for world map/intermission
 
 dboolean        autoload = autoload_default;
 
@@ -105,7 +105,7 @@ dboolean        autoload = autoload_default;
 
 fixed_t  forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t  sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
-fixed_t  angleturn[3] = { 640, 1280, 320 };      // + slow turn
+fixed_t  angleturn[3] = { 640, 1280, 320 };     // + slow turn
 fixed_t  gamepadangleturn[2] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
