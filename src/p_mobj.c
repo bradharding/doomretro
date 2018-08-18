@@ -1424,7 +1424,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_NoiseAlert(source);
 
-    if (type == MT_ROCKET && r_rockettrails && !hacx)
+    if (type == MT_ROCKET && r_rockettrails && !hacx && viewplayer->readyweapon == wp_missile)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;
