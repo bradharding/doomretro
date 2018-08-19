@@ -697,7 +697,7 @@ static void M_CheckCVARs(void)
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;
 
-    r_fov = BETWEENF(r_fov_min, r_fov, r_fov_max);
+    r_fov = BETWEEN(r_fov_min, r_fov, r_fov_max);
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
