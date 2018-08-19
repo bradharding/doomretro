@@ -1558,7 +1558,8 @@ dboolean C_Responder(event_t *ev)
                                 || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                 || (spaces1 == 3 && !endspace1)))
                         {
-                            M_StringCopy(consoleinput, M_StringJoin(prefix, output, NULL), sizeof(consoleinput));
+                            M_StringCopy(consoleinput, M_StringJoin(prefix, M_StringReplace(output, input, input), NULL),
+                                sizeof(consoleinput));
                             caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;

@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Slightly more blood splats are now spawned when blood hits the floor.
 * Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the console’s autocomplete feature.
 * The number in the leftmost column of the output to the `thinglist` CCMD is now the actual ID of each thing that is spawned in the current map.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * Pressing <kbd>ALT</kbd> + <kbd>F4</kbd> will now instantly quit *DOOM Retro* as originally intended.
