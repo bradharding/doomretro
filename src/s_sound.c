@@ -125,8 +125,7 @@ dboolean            nomusic;
 extern dboolean     serverMidiPlaying;
 #endif
 
-// Find and initialize a sound_module_t appropriate for the setting
-// in snd_sfxdevice.
+// Initialize sound effects.
 static void InitSfxModule(void)
 {
     if (I_InitSound())
@@ -140,7 +139,7 @@ static void InitSfxModule(void)
     nosfx = true;
 }
 
-// Initialize music according to snd_musicdevice.
+// Initialize music.
 static void InitMusicModule(void)
 {
     if (I_InitMusic())
@@ -152,8 +151,7 @@ static void InitMusicModule(void)
 
 //
 // Initializes sound stuff, including volume
-// Sets channels, SFX and music volume,
-//  allocates channel buffer, sets S_sfx lookup.
+// Sets channels, SFX and music volume, allocates channel buffer, sets S_sfx lookup.
 //
 void S_Init(void)
 {
@@ -190,9 +188,7 @@ void S_Init(void)
         InitSfxModule();
         S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 31);
 
-        // Allocating the internal channels for mixing
-        // (the maximum number of sounds rendered
-        // simultaneously) within zone memory.
+        // Allocating the internal channels for mixing (the maximum number of sounds rendered simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
         sobjs = Z_Malloc(s_channels_max * sizeof(sobj_t), PU_STATIC, NULL);
 

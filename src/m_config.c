@@ -579,6 +579,7 @@ static void M_CheckCVARs(void)
         con_timestamps = con_timestamps_default;
 
     episode = BETWEEN(episode_min, episode, episode_max);
+
     expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
@@ -589,6 +590,7 @@ static void M_CheckCVARs(void)
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     I_SetGamepadLeftDeadZone();
+
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     I_SetGamepadRightDeadZone();
 
@@ -605,7 +607,9 @@ static void M_CheckCVARs(void)
         gp_thumbsticks = gp_thumbsticks_default;
 
     gp_vibrate_barrels = BETWEEN(gp_vibrate_barrels_min, gp_vibrate_barrels, gp_vibrate_barrels_max);
+
     gp_vibrate_damage = BETWEEN(gp_vibrate_damage_min, gp_vibrate_damage, gp_vibrate_damage_max);
+
     gp_vibrate_weapons = BETWEEN(gp_vibrate_weapons_min, gp_vibrate_damage, gp_vibrate_weapons_max);
 
     if (infighting != false && infighting != true)
@@ -693,8 +697,7 @@ static void M_CheckCVARs(void)
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;
 
-    if (r_fov < r_fov_min || r_fov > r_fov_max)
-        r_fov = r_fov_default;
+    r_fov = BETWEENF(r_fov_min, r_fov, r_fov_max);
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
@@ -758,6 +761,7 @@ static void M_CheckCVARs(void)
         r_translucency = r_translucency_default;
 
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
+
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;
 
@@ -774,7 +778,9 @@ static void M_CheckCVARs(void)
         s_stereo = s_stereo_default;
 
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
+
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
 
     if (tossdrop != false && tossdrop != true)
@@ -788,6 +794,7 @@ static void M_CheckCVARs(void)
     version = version_default;
 
     vid_capfps = (vid_capfps < vid_capfps_min ? 0 : BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max));
+
     vid_display = MAX(vid_display_min, vid_display);
 
     if (vid_fullscreen != false && vid_fullscreen != true)

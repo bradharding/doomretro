@@ -1519,7 +1519,7 @@ dboolean C_Responder(event_t *ev)
                     else
                     {
                         i += 1 + (consoleinput[i + 1] == ' ');
-                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i), sizeof(input));
+                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i), sizeof(prefix));
 
                         if (autocomplete == -1)
                         {
@@ -1533,8 +1533,7 @@ dboolean C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
-                    while ((direction == -1 && autocomplete > 0)
-                        || (direction == 1 && autocomplete < numautocomplete - 1))
+                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocomplete < numautocomplete - 1))
                     {
                         static char output[255];
                         int         spaces2;
