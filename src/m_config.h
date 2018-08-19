@@ -77,6 +77,7 @@ extern float        gp_deadzone_right;
 extern dboolean     gp_invertyaxis;
 extern int          gp_sensitivity;
 extern dboolean     gp_swapthumbsticks;
+extern int          gp_thumbsticks;
 extern int          gp_vibrate_barrels;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
@@ -361,6 +362,10 @@ enum
 #define gp_sensitivity_max                      128
 
 #define gp_swapthumbsticks_default              false
+
+#define gp_thumbsticks_min                      1
+#define gp_thumbsticks_default                  2
+#define gp_thumbsticks_max                      2
 
 #define gp_vibrate_barrels_min                  0
 #define gp_vibrate_barrels_default              100

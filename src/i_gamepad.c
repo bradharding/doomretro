@@ -56,6 +56,7 @@ float                   gp_deadzone_right = gp_deadzone_right_default;
 dboolean                gp_invertyaxis = gp_invertyaxis_default;
 int                     gp_sensitivity = gp_sensitivity_default;
 dboolean                gp_swapthumbsticks = gp_swapthumbsticks_default;
+int                     gp_thumbsticks = gp_thumbsticks_default;
 int                     gp_vibrate_barrels = gp_vibrate_barrels_default;
 int                     gp_vibrate_damage = gp_vibrate_damage_default;
 int                     gp_vibrate_weapons = gp_vibrate_weapons_default;

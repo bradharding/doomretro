@@ -281,18 +281,23 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
 
-    if (usemouselook && gamepadthumbRY)
+    if (gamepadthumbRY)
     {
-        if (gp_invertyaxis)
-            gamepadthumbRY = -gamepadthumbRY;
+        if (usemouselook && gp_thumbsticks == 2)
+        {
+            if (gp_invertyaxis)
+                gamepadthumbRY = -gamepadthumbRY;
 
-        cmd->lookdir = (int)(48 * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown) * gamepadsensitivity);
+            cmd->lookdir = (int)(48 * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown) * gamepadsensitivity);
+        }
+        else
+            forward = (int)(forwardmove[run] * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown));
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
-        forward = forwardmove[run];
+        forward += forwardmove[run];
     else if (gamepadthumbLY < 0)
-        forward = (int)(forwardmove[run] * gamepadthumbLYup);
+        forward += (int)(forwardmove[run] * gamepadthumbLYup);
 
     if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
@@ -302,12 +307,22 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
         side = sidemove[run];
     else if (gamepadthumbLX > 0)
-        side = (int)(sidemove[run] * gamepadthumbLXright);
+    {
+        if (gp_thumbsticks == 2)
+            side = (int)(sidemove[run] * gamepadthumbLXright);
+        else
+            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbLXright * gamepadsensitivity);
+    }
 
     if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamepadbuttons & gamepadstrafeleft))
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
-        side -= (int)(sidemove[run] * gamepadthumbLXleft);
+    {
+        if (gp_thumbsticks == 2)
+            side -= (int)(sidemove[run] * gamepadthumbLXleft);
+        else
+            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbLXleft * gamepadsensitivity);
+    }
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)
         cmd->buttons |= BT_JUMP;

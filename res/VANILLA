@@ -22,6 +22,7 @@ autouse off
 centerweapon off
 facebackcolor none
 gp_analog off
+gp_thumbsticks 1
 infighting off
 infiniteheight on
 m_acceleration off

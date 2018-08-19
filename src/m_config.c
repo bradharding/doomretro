@@ -111,6 +111,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (gp_invertyaxis,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,                                    NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_thumbsticks,                                    NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_barrels,                                NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                                 NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_weapons,                                NOVALUEALIAS      ),
@@ -599,6 +600,9 @@ static void M_CheckCVARs(void)
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;
+
+    if (gp_thumbsticks < gp_thumbsticks_min || gp_thumbsticks > gp_thumbsticks_max)
+        gp_thumbsticks = gp_thumbsticks_default;
 
     gp_vibrate_barrels = BETWEEN(gp_vibrate_barrels_min, gp_vibrate_barrels, gp_vibrate_barrels_max);
     gp_vibrate_damage = BETWEEN(gp_vibrate_damage_min, gp_vibrate_damage, gp_vibrate_damage_max);
