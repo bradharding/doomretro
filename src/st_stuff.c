@@ -678,6 +678,7 @@ dboolean ST_Responder(event_t *ev)
                 {
                     S_StartSound(NULL, sfx_getpow);
                     C_Input(cheat_powerup[i - 1].sequence);
+                    C_Output("%s %c", s_STSTR_BEHOLD, cheat_powerup[i - 1].sequence[(int)strlen(cheat_powerup[i - 1].sequence) - 1]);
 
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
