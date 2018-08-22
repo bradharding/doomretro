@@ -448,13 +448,13 @@ void R_DrawTranslucentSuperShotgunColumn(void)
         byte    dot = dc_source[frac >> FRACBITS];
 
         if (dot != 71)
-            *dest = tinttabredwhite1[(*dest << 8) + colormap[dot]];
+            *dest = colormap[tinttabredwhite1[(*dest << 8) + dot]];
 
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawSkyColumn(void)
@@ -790,12 +790,12 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabredwhite1[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentRedWhiteColumn2(void)
@@ -807,12 +807,12 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabredwhite2[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite2[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentRedWhite50Column(void)
@@ -824,12 +824,12 @@ void R_DrawTranslucentRedWhite50Column(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabredwhite50[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite50[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentGreenColumn(void)
@@ -875,12 +875,12 @@ void R_DrawTranslucentRed33Column(void)
 
     while (--count)
     {
-        *dest = tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabred33[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabred33[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentGreen33Column(void)
@@ -892,12 +892,12 @@ void R_DrawTranslucentGreen33Column(void)
 
     while (--count)
     {
-        *dest = tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabgreen33[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabgreen33[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentBlue25Column(void)
@@ -909,12 +909,12 @@ void R_DrawTranslucentBlue25Column(void)
 
     while (--count)
     {
-        *dest = tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabblue25[(*dest << 8) + dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabblue25[(*dest << 8) + dc_source[frac >> FRACBITS]]];
 }
 
 //
