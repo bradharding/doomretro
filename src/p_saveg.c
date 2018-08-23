@@ -935,15 +935,18 @@ dboolean P_ReadSaveGameHeader(char *description)
     gameepisode = saveg_read8();
     gamemap = saveg_read8();
 
-    if (gamemap == 10)
+    if (gamemode != commercial)
     {
-        gamemap = 4;
-        M_StringCopy(speciallumpname, "E1M4B", 6);
-    }
-    else if (gamemap == 11)
-    {
-        gamemap = 8;
-        M_StringCopy(speciallumpname, "E1M8B", 6);
+        if (gamemap == 10)
+        {
+            gamemap = 4;
+            M_StringCopy(speciallumpname, "E1M4B", 6);
+        }
+        else if (gamemap == 11)
+        {
+            gamemap = 8;
+            M_StringCopy(speciallumpname, "E1M8B", 6);
+        }
     }
 
     saveg_read8();
