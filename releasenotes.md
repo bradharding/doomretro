@@ -11,7 +11,8 @@
 * Mouse acceleration can now be disabled using the new `m_acceleration` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
 * Movement of a gamepad's thumbsticks can now be either analog or digital using the new `gp_analog` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
 * The number of thumbsticks used on a gamepad can now be set using the new `gp_thumbsticks` CVAR. If set to `2` (the default), the left thumbstick is used to strafe left/right and move forward/back, and the right thumbstick is used to turn left/right (and look up/down if the `mouselook` CVAR is `on`). If set to `1` (which it is when vanilla mode is enabled), one thumbstick is used to turn left/right and move forward/back.
-* A bug has been fixed whereby monsters could be spawned at the incorrect height in some rare instances.
+* A bug has been fixed whereby monsters could be spawned at an incorrect height in some rare instances.
+* Some translucency effects have been improved.
 
 ---
 
