@@ -2277,6 +2277,7 @@ void P_SetupLevel(int ep, int map)
 
     if ((!consolestrings
         || (!M_StringStartsWith(console[consolestrings - 1].string, "map ")
+            && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "newgame")
             && !M_StringStartsWith(console[consolestrings - 1].string, "idclev")
             && !M_StringCompare(console[consolestrings - 1].string, "restartmap")))

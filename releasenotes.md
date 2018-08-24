@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7.3
 
+* Minor changes have been made to text that is output to the console.
+
 ---
 
 ###### Friday, August 24, 2018

@@ -1484,7 +1484,8 @@ void G_DoLoadGame(void)
 
     st_facecount = 0;
 
-    C_Input("load %s", savename);
+    if (consolestrings < 2 || !M_StringStartsWith(console[consolestrings - 3].string, "load "))
+        C_Input("load %s", savename);
 
     if (consoleactive)
     {
@@ -1557,7 +1558,8 @@ static void G_DoSaveGame(void)
         remove(savegame_file);
         rename(temp_savegame_file, savegame_file);
 
-        C_Input("save %s", savegame_file);
+        if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
+            C_Input("save %s", savegame_file);
 
         if (consoleactive)
             C_Output("<b>%s</b> saved.", savename);
@@ -1715,7 +1717,9 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    if (consolestrings == 1 || !M_StringStartsWith(console[consolestrings - 2].string, "map "))
+    if (consolestrings == 1
+        || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
+            && !M_StringStartsWith(console[consolestrings - 1].string, "load ")))
         C_CCMDOutput("newgame");
 
     G_DoLoadLevel();
