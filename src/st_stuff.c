@@ -883,15 +883,17 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_BUDDHA)
                 {
-                    HU_PlayerMessage(s_STSTR_BUDDHA, false);
-
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    HU_PlayerMessage(s_STSTR_BUDDHAON, false);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
+                else
+                    HU_PlayerMessage(s_STSTR_BUDDHAOFF, false);
+
+                // [BH] always display message
+                if (!consoleactive)
+                    message_dontfuckwithme = true;
             }
 
             else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
