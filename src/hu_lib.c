@@ -43,6 +43,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
+#include "hu_stuff.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "r_local.h"
@@ -53,7 +54,7 @@ int M_StringWidth(char *string);
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
-extern int      message_x;
+extern int      message_counter;
 extern int      white;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -175,8 +176,9 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     unsigned char   prevletter = '\0';
     int             x = HU_ALTHUDMSGX;
     int             color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? colormaps[0][32 * 256 + white] : white);
+    int             len = MIN((HU_MSGTIMEOUT - message_counter) * 3, l->len);
 
-    for (int i = 0; i < l->len; i++)
+    for (int i = 0; i < len; i++)
     {
         unsigned char   letter = l->l[i];
         unsigned char   nextletter = l->l[i + 1];
@@ -240,13 +242,14 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     static char prev;
     byte        *fb1 = (external ? mapscreen : screens[0]);
     byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
+    int         len = MIN((HU_MSGTIMEOUT - message_counter) * 3, l->len);
 
     // draw the new stuff
     x = l->x;
     y = l->y;
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
 
-    for (int i = 0; i < l->len; i++)
+    for (int i = 0; i < len; i++)
     {
         unsigned char   c = toupper(l->l[i]);
 

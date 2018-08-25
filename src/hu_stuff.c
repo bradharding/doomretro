@@ -80,7 +80,7 @@ dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
-static int              message_counter;
+int                     message_counter;
 
 int M_StringWidth(char *string);
 
