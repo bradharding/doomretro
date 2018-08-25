@@ -985,7 +985,7 @@ void HU_Ticker(void)
         else if (message_counter > 132)
             message_counter--;
 
-        HUlib_addMessageToSText(&w_message, 0, s_STSTR_BEHOLD);
+        HUlib_addMessageToSText(&w_message, s_STSTR_BEHOLD);
         message_on = true;
     }
     else if (idmypos)
@@ -1013,7 +1013,7 @@ void HU_Ticker(void)
                 viewplayer->mo->z >> FRACBITS);
         }
 
-        HUlib_addMessageToSText(&w_message, 0, buffer);
+        HUlib_addMessageToSText(&w_message, buffer);
         message_on = true;
     }
 
@@ -1040,7 +1040,7 @@ void HU_Ticker(void)
                 len--;
             }
 
-            HUlib_addMessageToSText(&w_message, 0, s);
+            HUlib_addMessageToSText(&w_message, s);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;
