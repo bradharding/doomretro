@@ -851,6 +851,7 @@ static void M_CheckCVARs(void)
 //
 void M_LoadCVARs(char *filename)
 {
+    int     bindcount = 0;
     int     cvarcount = 0;
     int     statcount = 0;
 
@@ -911,7 +912,10 @@ void M_LoadCVARs(char *filename)
         if (M_StringCompare(cvar, "bind"))
         {
             if (!togglingvanilla)
+            {
                 bind_cmd_func2("bind", value);
+                bindcount++;
+            }
 
             continue;
         }
@@ -1004,7 +1008,8 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        C_Output("Loaded %i CVARs and %i player stats from <b>%s</b>.", cvarcount, statcount, filename);
+        C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", commify(cvarcount), commify(statcount), filename);
+        C_Output("Bound %s controls.", commify(bindcount));
         M_CheckCVARs();
         cvarsloaded = true;
     }
