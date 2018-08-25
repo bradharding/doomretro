@@ -115,6 +115,15 @@ typedef struct
     int             selectend;
 } undohistory_t;
 
+typedef struct
+{
+    char            char1;
+    char            char2;
+    int             adjust;
+} kern_t;
+
+extern kern_t       kern[];
+
 void C_Print(const stringtype_t type, const char *string, ...);
 void C_Input(const char *string, ...);
 void C_IntCVAROutput(char *cvar, int value);

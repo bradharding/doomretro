@@ -627,7 +627,7 @@ static struct
     char    char1;
     char    char2;
     int     adjust;
-} kern[] = {
+} bigkern[] = {
     { '-', 'V', -2 }, { 'O', 'A', -1 }, { 'P', 'a', -3 }, { 'V', 'o', -2 },
     { 'f', 'e', -1 }, { 'f', 'f', -1 }, { 'f', 'o', -1 }, { 'l', 'e', -1 },
     { 'l', 't', -1 }, { 'l', 'u', -1 }, { 'o', 'a', -1 }, { 'o', 't', -1 },
@@ -671,11 +671,11 @@ void M_DrawString(int x, int y, char *str)
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
 
-        while (kern[k].char1)
+        while (bigkern[k].char1)
         {
-            if (prev == kern[k].char1 && str[i] == kern[k].char2)
+            if (prev == bigkern[k].char1 && str[i] == bigkern[k].char2)
             {
-                x += kern[k].adjust;
+                x += bigkern[k].adjust;
                 break;
             }
 
@@ -722,10 +722,10 @@ static int M_BigStringWidth(char *str)
         int j = chartoi[(int)str[i]];
         int k = 0;
 
-        while (kern[k].char1)
+        while (bigkern[k].char1)
         {
-            if (prev == kern[k].char1 && str[i] == kern[k].char2)
-                w += kern[k].adjust;
+            if (prev == bigkern[k].char1 && str[i] == bigkern[k].char2)
+                w += bigkern[k].adjust;
 
             k++;
         }
