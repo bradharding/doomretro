@@ -606,12 +606,10 @@ void D_SetGameDescription(void)
     else if (gamemission == doom)
     {
         // DOOM 1. But which version?
-        if (FREEDOOM)
+        if (modifiedgame)
+            gamedescription = M_StringJoin(uppercase(pwadfile), ".WAD", NULL);
+        else if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
-        else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
-        else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
         else if (gamemode == registered)
@@ -622,14 +620,12 @@ void D_SetGameDescription(void)
     else
     {
         // DOOM 2 of some kind. But which mission?
-        if (FREEDOOM)
+        if (modifiedgame)
+            gamedescription = M_StringJoin(uppercase(pwadfile), ".WAD", NULL);
+        else if (FREEDOOM)
             gamedescription = (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2);
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
-        else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
-        else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
         else if (gamemission == pack_plut)
@@ -647,11 +643,13 @@ void D_SetGameDescription(void)
             C_Output("Playing <i><b>%s: %s</b></i> and <i><b>%s: %s</b></i>.", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
+    else if (modifiedgame)
+        C_Output("Playing <b>%s</b>.", gamedescription);
     else
     {
-        if (bfgedition && !modifiedgame)
+        if (bfgedition)
             C_Output("Playing <i><b>%s (%s)</b></i>.", gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing <b>%s</b>.", gamedescription);
+            C_Output("Playing <i><b>%s</b></i>.", gamedescription);
     }
 }
