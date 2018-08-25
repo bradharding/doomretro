@@ -1579,7 +1579,6 @@ static void G_DoSaveGame(void)
     }
 
     gameaction = ga_nothing;
-
     drawdisk = false;
 }
 
