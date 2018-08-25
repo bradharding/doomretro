@@ -292,7 +292,6 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
-
 cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
 static dboolean movekey(char key)
@@ -386,8 +385,6 @@ static const int mus[IDMUS_MAX][6] =
 //
 // STATUS BAR CODE
 //
-static int ST_calcPainOffset(void);
-
 static void ST_refreshBackground(void)
 {
     if (st_statusbaron)
@@ -422,6 +419,8 @@ void ST_AutomapEvent(int type)
 extern char     cheatkey;
 extern int      episode;
 extern menu_t   EpiDef;
+
+static int ST_calcPainOffset(void);
 
 // Respond to keyboard input events,
 //  intercept cheats.

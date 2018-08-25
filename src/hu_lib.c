@@ -39,22 +39,17 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "am_map.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
-#include "hu_stuff.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
 
-int M_StringWidth(char *string);
-
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
-extern int      message_counter;
 extern int      white;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -146,11 +141,11 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
             patch = consolefont[letter - CONSOLEFONTSTART];
 
         // [BH] apply kerning to certain character pairs
-        while (kern[j].char1)
+        while (altkern[j].char1)
         {
-            if (prevletter == kern[j].char1 && letter == kern[j].char2)
+            if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
             {
-                x += kern[j].adjust;
+                x += altkern[j].adjust;
                 break;
             }
 
@@ -163,23 +158,20 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     }
 }
 
-static struct
+kern_t kern[] =
 {
-    char    char1;
-    char    char2;
-    int     adjust;
-} hu_kern[] = {
     { '.', '1',  -1 },
     { '.', '7',  -1 },
+    { '.', '\"', -1 },
     { ',', '1',  -1 },
     { ',', '7',  -1 },
     { ',', 'Y',  -1 },
-    { 'F', '.',  -1 },
     { 'T', '.',  -1 },
     { 'T', ',',  -1 },
     { 'Y', '.',  -1 },
     { 'Y', ',',  -1 },
     { 'D', '\'', -1 },
+    { 'F', '.',  -1 },
     { '3', '\"', -1 },
     { 'L', '\"', -1 },
     { 0,   0,     0 }
@@ -245,11 +237,11 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 int k = 0;
 
                 // [BH] apply kerning to certain character pairs
-                while (hu_kern[k].char1)
+                while (kern[k].char1)
                 {
-                    if (prev == hu_kern[k].char1 && c == hu_kern[k].char2)
+                    if (prev == kern[k].char1 && c == kern[k].char2)
                     {
-                        x += hu_kern[k].adjust;
+                        x += kern[k].adjust;
                         break;
                     }
 
@@ -298,13 +290,13 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen with translucency
-    maxy = y + 11;
     maxx = l->x + tw + 1;
+    maxy = y + 11;
 
     if (r_messagescale == r_messagescale_big)
     {
-        maxy *= SCREENSCALE;
         maxx *= SCREENSCALE;
+        maxy *= SCREENSCALE;
     }
 
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)

@@ -1,5 +1,6 @@
 ### DOOM Retro v2.7.3
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby gamepads may not initialize correctly when connected more than once during gameplay.
 

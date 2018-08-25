@@ -117,7 +117,6 @@ dboolean            togglingvanilla = false;
 char                *version = version_default;
 
 extern dboolean     setsizeneeded;
-extern dboolean     usemouselook;
 extern char         *packageconfig;
 extern int          st_palette;
 extern menu_t       EpiDef;
@@ -2570,8 +2569,7 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-extern dboolean samelevel;
-extern int      idclevtics;
+extern int  idclevtics;
 
 static dboolean map_cmd_func1(char *cmd, char *parms)
 {

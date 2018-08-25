@@ -123,6 +123,7 @@ typedef struct
 } kern_t;
 
 extern kern_t       kern[];
+extern kern_t       altkern[];
 
 void C_Print(const stringtype_t type, const char *string, ...);
 void C_Input(const char *string, ...);

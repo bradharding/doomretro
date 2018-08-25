@@ -399,7 +399,7 @@ void C_AddConsoleDivider(void)
     }
 }
 
-kern_t kern[] =
+kern_t altkern[] =
 {
     { ' ',  '(',  -1 }, { ' ',  'T',  -1 }, { '\"', '+',  -1 }, { '\"', '.',  -1 }, { '\"', ',',  -1 },
     { '\"', 'a',  -1 }, { '\"', 'c',  -1 }, { '\"', 'd',  -1 }, { '\"', 'e',  -1 }, { '\"', 'g',  -1 },
@@ -489,10 +489,10 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? 0 : consolefont[c]->width);
 
         if (kerning)
-            for (int j = 0; kern[j].char1; j++)
-                if (prevletter == kern[j].char1 && letter == kern[j].char2)
+            for (int j = 0; altkern[j].char1; j++)
+                if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
                 {
-                    w += kern[j].adjust;
+                    w += altkern[j].adjust;
                     break;
                 }
 
@@ -804,10 +804,10 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 continue;
 
             if (kerning)
-                for (int j = 0; kern[j].char1; j++)
-                    if (prevletter == kern[j].char1 && letter == kern[j].char2)
+                for (int j = 0; altkern[j].char1; j++)
+                    if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
                     {
-                        x += kern[j].adjust;
+                        x += altkern[j].adjust;
                         break;
                     }
 
