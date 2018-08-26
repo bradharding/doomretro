@@ -161,6 +161,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 
 kern_t kern[] =
 {
+    { ' ', '(',  -2 },
     { '.', '1',  -1 },
     { '.', '7',  -1 },
     { '.', '\"', -1 },
@@ -252,8 +253,6 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 // [BH] draw individual character
                 w = (int)strlen(smallcharset[j]) / 10 - 1;
                 HU_drawChar(x, y - 1, j);
-
-                prev = c;
             }
 
             x += w;
@@ -265,6 +264,8 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             x += w;
             tw += w;
         }
+
+        prev = c;
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
