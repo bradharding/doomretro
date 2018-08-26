@@ -184,8 +184,6 @@ char    *s_GOTMAP = GOTMAP;
 char    *s_GOTVISOR = GOTVISOR;
 
 char    *s_GOTCLIP = GOTCLIP;
-char    *s_GOTCLIPX2 = "";
-char    *s_GOTHALFCLIP = "";
 char    *s_GOTCLIPBOX = GOTCLIPBOX;
 char    *s_GOTROCKET = GOTROCKET;
 char    *s_GOTROCKETX2 = "";
@@ -752,8 +750,6 @@ deh_strs deh_strlookup[] =
     { &s_GOTVISOR,                   "GOTVISOR"                   },
 
     { &s_GOTCLIP,                    "GOTCLIP"                    },
-    { &s_GOTCLIPX2,                  "GOTCLIPX2"                  },
-    { &s_GOTHALFCLIP,                "GOTHALFCLIP"                },
     { &s_GOTCLIPBOX,                 "GOTCLIPBOX"                 },
     { &s_GOTROCKET,                  "GOTROCKET"                  },
     { &s_GOTROCKETX2,                "GOTROCKETX2"                },

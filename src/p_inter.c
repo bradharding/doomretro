@@ -1026,12 +1026,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-            {
-                if (temp == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTCLIP, false);
-                else
-                    HU_PlayerMessage((temp == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
-            }
+                HU_PlayerMessage(s_GOTCLIP, false);
 
             break;
 
