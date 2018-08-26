@@ -350,7 +350,7 @@ void AM_setColors(void)
     pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
-    crosshaircolor = tinttab[60] + (nearestcolors[am_crosshaircolor] << 8);
+    crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
@@ -1286,8 +1286,8 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != *(tinttab[60] + *color))
-            *dot = *(tinttab[60] + (*dot << 8) + *color);
+        if (*dot != *(tinttab60 + *color))
+            *dot = *(tinttab60 + (*dot << 8) + *color);
     }
 }
 
@@ -1842,7 +1842,7 @@ static void AM_drawMarks(void)
                         if (src == '2')
                             *dest = markcolor;
                         else if (src == '1')
-                            *dest = *(*dest + tinttab[66]);
+                            *dest = *(*dest + tinttab66);
                     }
                 }
             }

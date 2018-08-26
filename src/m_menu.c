@@ -476,7 +476,7 @@ static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int
 
     for (int y = y1; y < y2; y += SCREENWIDTH)
         for (int x = y + x1; x < y + x2; x++)
-            blurscreen[x] = tinttab[50][tempscreen[x] + (tempscreen[x + i] << 8)];
+            blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
 static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
@@ -507,14 +507,14 @@ void M_DarkBackground(void)
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
         for (int i = 0; i < height; i++)
-            blurscreen1[i] = tinttab[50][blurscreen1[i]];
+            blurscreen1[i] = tinttab50[blurscreen1[i]];
 
         if (mapwindow)
         {
             BlurScreen(mapscreen, tempscreen2, blurscreen2);
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                blurscreen2[i] = tinttab[50][blurscreen2[i]];
+                blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
 
         blurred = true;
@@ -530,14 +530,14 @@ void M_DarkBackground(void)
 
     for (int i = 0; i < height; i += SCREENWIDTH)
     {
-        screens[0][i] = tinttab[50][screens[0][i]];
-        screens[0][i + SCREENWIDTH - 1] = tinttab[50][screens[0][i + SCREENWIDTH - 1]];
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
     }
 
     for (int i = 1; i < SCREENWIDTH - 1; i++)
     {
-        screens[0][i] = tinttab[50][screens[0][i]];
-        screens[0][i + height - SCREENWIDTH] = tinttab[50][screens[0][i + height - SCREENWIDTH]];
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
     }
 }
 

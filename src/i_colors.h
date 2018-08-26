@@ -44,7 +44,15 @@
 
 #define PALETTESIZE 256
 
-extern byte *tinttab[101];
+extern byte *tinttab20;
+extern byte *tinttab25;
+extern byte *tinttab33;
+extern byte *tinttab40;
+extern byte *tinttab50;
+extern byte *tinttab60;
+extern byte *tinttab66;
+extern byte *tinttab75;
+
 extern byte *tranmap;
 extern byte *tinttabadditive;
 extern byte *tinttabred;
