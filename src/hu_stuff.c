@@ -1020,25 +1020,35 @@ void HU_Ticker(void)
     {
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
-            int     len = (int)strlen(viewplayer->message);
-            char    s[133];
-            int     maxwidth = ORIGINALWIDTH - 6;
+            int         len = (int)strlen(viewplayer->message);
+            char        message[133];
+            static char prevmessage[133];
+            static int  messagecount = 1;
+            int         maxwidth = ORIGINALWIDTH - 6;
 
             if ((vid_widescreen && r_althud) || r_messagescale == r_messagescale_small)
                 maxwidth *= 2;
 
-            strcpy(s, viewplayer->message);
+            M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            while (M_StringWidth(s) > maxwidth)
+            while (M_StringWidth(message) > maxwidth)
             {
-                s[len - 1] = '.';
-                s[len] = '.';
-                s[len + 1] = '.';
-                s[len + 2] = '\0';
+                message[len - 1] = '.';
+                message[len] = '.';
+                message[len + 1] = '.';
+                message[len + 2] = '\0';
                 len--;
             }
 
-            HUlib_addMessageToSText(&w_message, s);
+            if (M_StringCompare(message, prevmessage))
+                M_snprintf(message, sizeof(message), "%s (%i)", message, ++messagecount);
+            else
+            {
+                messagecount = 1;
+                M_StringCopy(prevmessage, message, sizeof(prevmessage));
+            }
+
+            HUlib_addMessageToSText(&w_message, message);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;
