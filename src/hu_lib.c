@@ -42,6 +42,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "r_local.h"
@@ -308,14 +309,14 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             byte    *dest2 = &fb2[dot];
 
             if (!*source)
-                *dest1 = tinttab50[*dest2];
+                *dest1 = tinttab[50][*dest2];
             else if (*source != 251)
             {
                 byte color = *source;
 
                 if (vid_widescreen && r_hud_translucency && !hacx)
                 {
-                    color = tinttab25[(*dest2 << 8) + color];
+                    color = tinttab[25][(*dest2 << 8) + color];
 
                     if (color >= 168 && color <= 175)
                         color -= 144;

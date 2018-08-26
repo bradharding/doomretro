@@ -117,7 +117,7 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, d
 {
     byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
     byte        *dot;
-    const byte  *tint60 = tinttab60 + (color <<= 8);
+    const byte  *tint60 = tinttab[60] + (color <<= 8);
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -129,8 +129,8 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, d
 
     if (height > 2)
     {
-        const byte  *tint20 = tinttab20 + color;
-        const byte  *tint40 = tinttab40 + color;
+        const byte  *tint20 = tinttab[20] + color;
+        const byte  *tint40 = tinttab[40] + color;
 
         dot = dest - 1 - SCREENWIDTH * 2;
         *dot = *(tint20 + *dot);
@@ -236,8 +236,8 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
     const int   black = nearestcolors[0] << 8;
-    const byte  *body = tinttab40 + black;
-    const byte  *edge = tinttab25 + black;
+    const byte  *body = tinttab[40] + black;
+    const byte  *edge = tinttab[25] + black;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -320,7 +320,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
     const int   black = nearestcolors[0] << 8;
-    const byte  *translucency = tinttab40 + black;
+    const byte  *translucency = tinttab[40] + black;
     int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
@@ -507,11 +507,11 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color1a, int color1b, 
                 if (y + height > CONSOLETOP && *source)
                 {
                     if (*source == color1a)
-                        *dest = tinttab50[(color1b << 8) + *dest];
+                        *dest = tinttab[50][(color1b << 8) + *dest];
                     else if (*source == color2a)
-                        *dest = tinttab50[(color2b << 8) + *dest];
+                        *dest = tinttab[50][(color2b << 8) + *dest];
                     else
-                        *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                        *dest = tinttab[50][(nearestcolors[*source] << 8) + *dest];
                 }
 
                 source++;
@@ -674,7 +674,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (*source++ == WHITE)
-                    *dest = tinttab60[(*dest << 8) + color];
+                    *dest = tinttab[60][(*dest << 8) + color];
 
                 dest += SCREENWIDTH;
             }
@@ -720,7 +720,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte    *shadow = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*shadow != 47 && *shadow != 191))
-                        *shadow = tinttab50[*shadow];
+                        *shadow = tinttab[50][*shadow];
                 }
 
                 srccol += DYI;
@@ -790,7 +790,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : dot);
+                *dest = (dot == 109 ? tinttab[33][*dest] : dot);
                 dest += SCREENWIDTH;
             }
 
@@ -879,7 +879,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
+                *dest = (dot == 109 ? tinttab[33][*dest] : tinttab[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
             }
 
@@ -906,7 +906,7 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab
 
             while (count--)
             {
-                *dest = tinttab75[(redtoyellow[*source++] << 8) + *dest];
+                *dest = tinttab[75][(redtoyellow[*source++] << 8) + *dest];
                 dest += SCREENWIDTH;
             }
 
@@ -971,7 +971,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 byte    dot = *source++;
 
                 if (dot)
-                    *dest = tinttab60[(dot == from ? to : (nearestcolors[dot] << 8)) + *dest];
+                    *dest = tinttab[60][(dot == from ? to : (nearestcolors[dot] << 8)) + *dest];
 
                 dest += SCREENWIDTH;
             }
@@ -1067,8 +1067,8 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
     const int   black = nearestcolors[0] << 8;
-    const byte  *body = tinttab40 + black;
-    const byte  *edge = tinttab25 + black;
+    const byte  *body = tinttab[40] + black;
+    const byte  *edge = tinttab[25] + black;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1151,7 +1151,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
     const int   black = nearestcolors[0] << 8;
-    const byte  *translucency = tinttab40 + black;
+    const byte  *translucency = tinttab[40] + black;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
@@ -1377,7 +1377,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     shadow = dest + SCREENWIDTH * 2 + 2;
 
                     if (*shadow != 47 && *shadow != 191)
-                        *shadow = tinttab50[*shadow];
+                        *shadow = tinttab[50][*shadow];
                 }
 
                 dest += SCREENWIDTH;
@@ -1416,7 +1416,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
                 byte    src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
-                    *dest = tinttab33[(*dest << 8) + src];
+                    *dest = tinttab[33][(*dest << 8) + src];
 
                 dest += SCREENWIDTH;
                 srccol += DYI;
@@ -1439,7 +1439,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
                 {
                     byte    *dot = dest + yy + xx;
 
-                    *dot = tinttab50[*dot];
+                    *dot = tinttab[50][*dot];
                 }
     }
     else if (color && color != 32)

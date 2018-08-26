@@ -171,8 +171,6 @@ unsigned int    stat_mapscompleted = 0;
 extern dboolean barrelms;
 extern int      st_palette;
 extern int      pagetic;
-extern dboolean transferredsky;
-
 extern int      timer;
 extern int      countdown;
 
@@ -1414,15 +1412,15 @@ static void G_DoWorldDone(void)
     markpointnum = 0;
 }
 
-extern dboolean setsizeneeded;
-
-void R_ExecuteSetViewSize(void);
-
 void G_LoadGame(char *name)
 {
     M_StringCopy(savename, name, sizeof(savename));
     gameaction = ga_loadgame;
 }
+
+extern dboolean setsizeneeded;
+
+void R_ExecuteSetViewSize(void);
 
 void G_DoLoadGame(void)
 {

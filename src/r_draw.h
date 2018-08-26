@@ -67,22 +67,6 @@ extern int              dc_black;
 // first pixel in a column
 extern byte             *dc_source;
 
-extern byte             *tinttab;
-extern byte             *tinttab25;
-extern byte             *tinttab33;
-extern byte             *tinttab40;
-extern byte             *tinttab66;
-extern byte             *tranmap;
-extern byte             *tinttabred;
-extern byte             *tinttabredwhite1;
-extern byte             *tinttabredwhite2;
-extern byte             *tinttabgreen;
-extern byte             *tinttabblue;
-extern byte             *tinttabred33;
-extern byte             *tinttabredwhite50;
-extern byte             *tinttabgreen33;
-extern byte             *tinttabblue25;
-
 extern const int        fuzzrange[3];
 extern int              fuzztable[SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT)];
 

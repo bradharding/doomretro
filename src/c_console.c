@@ -521,7 +521,7 @@ static void C_DrawScrollbar(void)
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
+                    screens[0][y - offset + x] = tinttab[50][screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // Draw scrollbar face
         for (int y = facestart; y < faceend; y += CONSOLEWIDTH)
@@ -663,7 +663,7 @@ static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2,
 
     for (int y = y1; y < y2; y += CONSOLEWIDTH)
         for (int x = y + x1; x < y + x2; x++)
-            c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
+            c_blurscreen[x] = tinttab[50][c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
 }
 
 static void C_DrawBackground(int height)
@@ -696,7 +696,7 @@ static void C_DrawBackground(int height)
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
+        screens[0][i] = tinttab[50][(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
@@ -711,17 +711,17 @@ static void C_DrawBackground(int height)
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
-        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
+        screens[0][i] = tinttab[50][consoleedgecolor + screens[0][i]];
 
     // soften edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
+        screens[0][i] = tinttab[50][screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab[50][screens[0][i + CONSOLEWIDTH - 1]];
     }
 
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[screens[0][i]];
+        screens[0][i] = tinttab[25][screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
@@ -850,7 +850,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab[75] : NULL));
             x += SHORT(patch->width);
         }
     }
@@ -895,7 +895,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
         const int   width = SHORT(patch->width);
 
         V_DrawConsoleTextPatch(x + (buffer[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR,
-            false, tinttab25);
+            false, tinttab[25]);
         x += (isdigit(buffer[i]) ? zerowidth : width);
     }
 }
@@ -1026,22 +1026,22 @@ void C_Drawer(void)
                     static char buffer[CONSOLETEXTMAXLENGTH];
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, commify(console[i].count));
-                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66,
-                        notabs, true, true);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleboldcolor,
+                        tinttab[66], notabs, true, true);
                 }
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleboldcolor,
-                        tinttab66, notabs, true, true);
+                        tinttab[66], notabs, true, true);
 
                     if (con_timestamps)
                         C_DrawTimeStamp(timestampx, y, console[i].tics);
             }
             else if (type == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR, consoleboldcolor,
-                    tinttab66, console[i].tabs, true, true);
+                    tinttab[66], console[i].tabs, true, true);
             else if (type == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider, consoledividercolor,
-                    NOBACKGROUNDCOLOR, false, tinttab50);
+                    NOBACKGROUNDCOLOR, false, tinttab[50]);
             else if (type == headerstring)
             {
                 if (M_StringCompare(console[i].string, BINDLISTTITLE))
@@ -1067,11 +1067,11 @@ void C_Drawer(void)
                         consoleheadercolor2);
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor, NOBACKGROUNDCOLOR, consoleboldcolor,
-                        tinttab66, console[i].tabs, true, true);
+                        tinttab[66], console[i].tabs, true, true);
             }
             else
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
-                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs, true, true);
+                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab[66], notabs, true, true);
         }
 
         // draw input text to left of caret

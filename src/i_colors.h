@@ -44,6 +44,19 @@
 
 #define PALETTESIZE 256
 
+extern byte *tinttab[101];
+extern byte *tranmap;
+extern byte *tinttabadditive;
+extern byte *tinttabred;
+extern byte *tinttabredwhite1;
+extern byte *tinttabredwhite2;
+extern byte *tinttabgreen;
+extern byte *tinttabblue;
+extern byte *tinttabred33;
+extern byte *tinttabredwhite50;
+extern byte *tinttabgreen33;
+extern byte *tinttabblue25;
+
 extern byte nearestcolors[PALETTESIZE];
 
 void I_InitTintTables(byte *palette);

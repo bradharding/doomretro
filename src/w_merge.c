@@ -282,30 +282,26 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (lump->wadfile->type == PWAD)
     {
+        if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
+            SHT2A0 = true;
+
         if (!ispackagewad)
         {
             MISFA0 += M_StringCompare(lump->name, "MISFA0");
             MISFB0 += M_StringCompare(lump->name, "MISFB0");
-        }
 
-        if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
-            SHT2A0 = true;
-
-        while (*weaponsprites[i].spr1)
-        {
-            if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)
-                || (*weaponsprites[i].spr2 && M_StringStartsWith(lump->name, weaponsprites[i].spr2)))
+            while (*weaponsprites[i].spr1)
             {
-                if (!ispackagewad)
+                if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)
+                    || (*weaponsprites[i].spr2 && M_StringStartsWith(lump->name, weaponsprites[i].spr2)))
                     weaponinfo[i].altered = true;
-            }
 
-            i++;
+                i++;
+            }
         }
     }
 
-    if (ispackagewad && M_StringStartsWith(lump->name, "MISF")
-        && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
+    if (ispackagewad && M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
         return;
 
     // first angle
