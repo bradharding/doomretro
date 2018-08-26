@@ -5189,9 +5189,6 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
             r_dither = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-
-            if (W_CheckNumForName("TRANMAP") == -1)
-                tranmap = (r_dither ? tinttab25 : tinttab50);
         }
     }
     else
