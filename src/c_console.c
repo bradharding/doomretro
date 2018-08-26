@@ -731,7 +731,7 @@ static void C_DrawBackground(int height)
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
-    const int boldcolor, byte *tinttab, const int tabs[8], const dboolean formatting, const dboolean kerning)
+    const int boldcolor, byte *translucency, const int tabs[8], const dboolean formatting, const dboolean kerning)
 {
     int             bold = 0;
     dboolean        italics = false;
@@ -746,7 +746,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
     if (color1 == consolewarningcolor)
     {
-        V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
+        V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, translucency);
         width += SHORT(warning->width) + 1;
         x += width;
     }
@@ -814,7 +814,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             if (patch)
             {
                 V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 :
-                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2, italics, tinttab);
+                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2, italics, translucency);
                 x += SHORT(patch->width);
             }
 
@@ -824,14 +824,14 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
     if (truncate < len)
     {
-        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
         x += SHORT(dot->width);
-        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
 
         if (text[truncate - 1] != '.')
         {
             x += SHORT(dot->width);
-            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
         }
     }
 }

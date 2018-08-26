@@ -292,7 +292,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numset, int gap,
+static void DrawHUDNumber(int *x, int y, int val, byte *translucency, patch_t **numset, int gap,
     void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = val;
@@ -303,7 +303,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numse
         if (minuspatch)
         {
             val = -val;
-            hudnumfunc(*x, y + 5, minuspatch, tinttab);
+            hudnumfunc(*x, y + 5, minuspatch, translucency);
             *x += minuspatchwidth;
 
             if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
@@ -318,7 +318,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numse
     if (val > 99)
     {
         patch = numset[val / 100];
-        hudnumfunc(*x, y, patch, tinttab);
+        hudnumfunc(*x, y, patch, translucency);
         *x += SHORT(patch->width) + gap;
     }
 
@@ -327,13 +327,13 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, patch_t **numse
     if (val > 9 || oldval > 99)
     {
         patch = numset[val / 10];
-        hudnumfunc(*x, y, patch, tinttab);
+        hudnumfunc(*x, y, patch, translucency);
         *x += SHORT(patch->width) + gap;
     }
 
     val %= 10;
     patch = numset[val];
-    hudnumfunc(*x, y, patch, tinttab);
+    hudnumfunc(*x, y, patch, translucency);
     *x += SHORT(patch->width);
 }
 
@@ -386,7 +386,7 @@ static void HU_DrawHUD(void)
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum, 0) + tallpercentwidth) / 2;
     static dboolean     healthanim;
-    byte                *tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
+    byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
                             || health > HUD_HEALTH_MIN ? tinttab[66] : tinttab[25]);
     patch_t             *patch = faces[st_faceindex];
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
@@ -400,17 +400,17 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
-            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, translucency);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, tallnum, 0, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, tallnum, 0, hudnumfunc);
 
         if (!emptytallpercent)
-            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, translucency);
     }
 
     if (!gamepaused)
@@ -439,12 +439,12 @@ static void HU_DrawHUD(void)
         int             ammo_x = HUD_AMMO_X - HUDNumberWidth(ammo, tallnum, 0) / 2;
         static dboolean ammoanim;
 
-        tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab[66] : tinttab[25]);
+        translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab[66] : tinttab[25]);
 
         if ((patch = ammopic[ammotype].patch))
             hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab[66]);
 
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, tallnum, 0,
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency, tallnum, 0,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
         if (!gamepaused)

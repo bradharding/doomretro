@@ -432,7 +432,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *tinttab)
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *translucency)
 {
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
@@ -462,9 +462,9 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
                         if (*source)
                         {
                             if (italics)
-                                *(dest + italicize[height]) = (!tinttab ? color : tinttab[(color << 8) + *(dest + italicize[height])]);
+                                *(dest + italicize[height]) = (!translucency ? color : translucency[(color << 8) + *(dest + italicize[height])]);
                             else
-                                *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
+                                *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
                         }
                     }
                     else if (*source == WHITE)
@@ -731,12 +731,12 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
     }
 }
 
-void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop;
     int     w;
 
-    if (!tinttab)
+    if (!translucency)
         return;
 
     desttop = screens[0] + y * SCREENWIDTH + x;
@@ -764,12 +764,12 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
     }
 }
 
-void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop;
     int     w;
 
-    if (!tinttab)
+    if (!translucency)
         return;
 
     desttop = screens[0] + y * SCREENWIDTH + x;
@@ -799,12 +799,12 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
     }
 }
 
-void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop;
     int     w;
 
-    if (!tinttab)
+    if (!translucency)
         return;
 
     desttop = screens[0] + y * SCREENWIDTH + x;
@@ -832,7 +832,7 @@ void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
     int     w = SHORT(patch->width);
@@ -850,7 +850,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
 
             while (count--)
             {
-                *dest = tinttab[(*source++ << 8) + *dest];
+                *dest = translucency[(*source++ << 8) + *dest];
                 dest += SCREENWIDTH;
             }
 
@@ -859,7 +859,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
     }
 }
 
-void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
     int     w = SHORT(patch->width);
@@ -879,7 +879,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab[33][*dest] : tinttab[(dot << 8) + *dest]);
+                *dest = (dot == 109 ? tinttab[33][*dest] : translucency[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
             }
 
@@ -888,7 +888,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
     }
 }
 
-void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
     int     w = SHORT(patch->width);
