@@ -186,9 +186,15 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     int         x, y;
     int         maxx, maxy;
     static char prev;
-    byte        *fb1 = (external ? mapscreen : screens[0]);
-    byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
+    byte        *fb1 = screens[0];
+    byte        *fb2 = screens[(r_screensize < 7 && !automapactive)];
     int         len = l->len;
+
+    if (external)
+    {
+        fb1 = mapscreen;
+        fb2 = mapscreen;
+    }
 
     // draw the new stuff
     x = l->x;

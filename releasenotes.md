@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby gamepads may not initialize correctly when connected more than once during gameplay.
-* A player message that is the same as the one before it will now have a number in parentheses appended to it.
+* A counter is now displayed at the end of player messages that are the same as previous ones.
 
 ---
 
