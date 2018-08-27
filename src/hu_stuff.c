@@ -1018,12 +1018,11 @@ void HU_Ticker(void)
     // display message if necessary
     if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
+        if ((messages || message_dontfuckwithme) && !idbehold && !idmypos)
         {
-            int         len = (int)strlen(viewplayer->message);
-            char        message[133];
-            static int  messagecount = 1;
-            int         maxwidth = ORIGINALWIDTH - 6;
+            int     len = (int)strlen(viewplayer->message);
+            char    message[133];
+            int     maxwidth = ORIGINALWIDTH - 6;
 
             if ((vid_widescreen && r_althud) || r_messagescale == r_messagescale_small)
                 maxwidth *= 2;
@@ -1039,14 +1038,6 @@ void HU_Ticker(void)
                 len--;
             }
 
-            if (M_StringCompare(message, viewplayer->prevmessage))
-                M_snprintf(message, sizeof(message), "%s (%i)", message, ++messagecount);
-            else
-            {
-                messagecount = 1;
-                M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
-            }
-
             HUlib_addMessageToSText(&w_message, message);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
@@ -1060,7 +1051,19 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, dboolean external)
 {
-    viewplayer->message = strdup(message);
+    static int  messagecount = 1;
+    char        buffer[133];
+
+    if (M_StringCompare(message, viewplayer->prevmessage))
+        M_snprintf(buffer, sizeof(buffer), "%s (%i)", message, ++messagecount);
+    else
+    {
+        M_StringCopy(buffer, message, sizeof(buffer));
+        messagecount = 1;
+        M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
+    }
+
+    viewplayer->message = strdup(buffer);
     message_external = (external && mapwindow);
 }
 
