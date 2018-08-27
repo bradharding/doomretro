@@ -229,6 +229,9 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
 
+                if (prev == ' ' && c == '(')
+                    x -= 2;
+
                 if (r_messagescale == r_messagescale_big)
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
@@ -260,7 +263,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         }
         else if (c == ' ')
         {
-            w = (i > 0 && (l->l[i - 1] == '.' || l->l[i - 1] == '!' || l->l[i - 1] == '?') ? 5 : 3);
+            w = (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3);
             x += w;
             tw += w;
         }
