@@ -1022,7 +1022,6 @@ void HU_Ticker(void)
         {
             int         len = (int)strlen(viewplayer->message);
             char        message[133];
-            static char prevmessage[133];
             static int  messagecount = 1;
             int         maxwidth = ORIGINALWIDTH - 6;
 
@@ -1040,12 +1039,12 @@ void HU_Ticker(void)
                 len--;
             }
 
-            if (M_StringCompare(message, prevmessage))
+            if (M_StringCompare(message, viewplayer->prevmessage))
                 M_snprintf(message, sizeof(message), "%s (%i)", message, ++messagecount);
             else
             {
                 messagecount = 1;
-                M_StringCopy(prevmessage, message, sizeof(prevmessage));
+                M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
             }
 
             HUlib_addMessageToSText(&w_message, message);
