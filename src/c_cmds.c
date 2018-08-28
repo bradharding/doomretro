@@ -2438,7 +2438,7 @@ void kill_cmd_func2(char *cmd, char *parms)
             if (kills)
             {
                 M_snprintf(buffer, sizeof(buffer), "%s%s monster%s %s killed.", (kills == 1 ? "" : "All "), commify(kills),
-                    (kills == 1 ? "was" : "were"), (kills == 1 ? "" : "s"));
+                    (kills == 1 ? "" : "s"), (kills == 1 ? "was" : "were"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -2470,7 +2470,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s missile%s exploded.", commify(kills), (kills == 1 ? "" : "s"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s missile%s %s exploded.", (kills == 1 ? "" : "All "), commify(kills),
+                    (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -2535,8 +2536,10 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s %s %s.", commify(kills),
-                    (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (type == MT_BARREL ? "exploded" : "killed"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s %s %s %s.", (kills == 1 ? "" : "All "), commify(kills),
+                    (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                    (kills == 1 ? (type == MT_BARREL ? "has" : "was") : (type == MT_BARREL ? "have" : "were")),
+                    (type == MT_BARREL ? "exploded" : "killed"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
