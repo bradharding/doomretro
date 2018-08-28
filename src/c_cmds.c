@@ -2437,7 +2437,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s monster%s %s killed.", (kills == 1 ? "" : "All "), commify(kills),
+                    (kills == 1 ? "was" : "were"), (kills == 1 ? "" : "s"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
