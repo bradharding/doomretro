@@ -600,7 +600,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 
     if (!consoleactive)
     {
-        HU_SetPlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false);
+        HU_SetPlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false, false);
         message_dontfuckwithme = true;
     }
 
@@ -1095,7 +1095,7 @@ void G_DoScreenShot(void)
         S_StartSound(NULL, sfx_swtchx);
 
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
-        HU_SetPlayerMessage(buffer, false);
+        HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
 
         if (menuactive)
@@ -1500,7 +1500,7 @@ void G_LoadedGameMessage(void)
         static char buffer[1024];
 
         M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED), titlecase(savedescription));
-        HU_PlayerMessage(buffer, false);
+        HU_PlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
     }
 
@@ -1567,7 +1567,7 @@ static void G_DoSaveGame(void)
             static char buffer[1024];
 
             M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
-            HU_PlayerMessage(buffer, false);
+            HU_PlayerMessage(buffer, false, false);
             blurred = false;
             message_dontfuckwithme = true;
             S_StartSound(NULL, sfx_swtchx);

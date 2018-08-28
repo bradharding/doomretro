@@ -1355,7 +1355,7 @@ static void M_DeleteSavegameResponse(int key)
         }
 
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[itemOn]));
-        HU_PlayerMessage(buffer, false);
+        HU_PlayerMessage(buffer, false, false);
         blurred = false;
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
@@ -1782,7 +1782,7 @@ static void M_ChangeMessages(int choice)
         message_dontpause = true;
 
     C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
-    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
+    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false, false);
     message_dontfuckwithme = true;
     M_SaveCVARs();
 }
@@ -2035,7 +2035,7 @@ static void M_ChangeDetail(int choice)
 
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false);
+        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false, false);
         message_dontfuckwithme = true;
     }
     else
@@ -2352,7 +2352,7 @@ void M_ChangeGamma(dboolean shift)
     gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
     if (r_gamma == 1.0f)
-        HU_PlayerMessage(s_GAMMAOFF, false);
+        HU_PlayerMessage(s_GAMMAOFF, false, false);
     else
     {
         static char buf[128];
@@ -2364,7 +2364,7 @@ void M_ChangeGamma(dboolean shift)
         if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
             buf[len - 1] = '\0';
 
-        HU_PlayerMessage(buf, false);
+        HU_PlayerMessage(buf, false, false);
     }
 
     message_dontpause = true;

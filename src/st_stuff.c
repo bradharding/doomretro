@@ -453,7 +453,7 @@ dboolean ST_Responder(event_t *ev)
                     oldhealth = viewplayer->health;
                     P_GiveBody(god_health, false);
 
-                    HU_PlayerMessage(s_STSTR_DQDON, false);
+                    HU_PlayerMessage(s_STSTR_DQDON, false, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -464,7 +464,7 @@ dboolean ST_Responder(event_t *ev)
                 }
                 else
                 {
-                    HU_PlayerMessage(s_STSTR_DQDOFF, false);
+                    HU_PlayerMessage(s_STSTR_DQDOFF, false, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -520,7 +520,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    HU_PlayerMessage(s_STSTR_FAADDED, false);
+                    HU_PlayerMessage(s_STSTR_FAADDED, false, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -582,7 +582,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    HU_PlayerMessage(s_STSTR_KFAADDED, false);
+                    HU_PlayerMessage(s_STSTR_KFAADDED, false, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -628,7 +628,7 @@ dboolean ST_Responder(event_t *ev)
                             S_ChangeMusic(musnum, 1, true, false);
 
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, uppercase(S_music[musnum].name));
-                            HU_PlayerMessage(msg, false);
+                            HU_PlayerMessage(msg, false, false);
 
                             // [BH] always display message
                             if (!consoleactive)
@@ -655,7 +655,7 @@ dboolean ST_Responder(event_t *ev)
 
                 viewplayer->cheats ^= CF_NOCLIP;
 
-                HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
+                HU_PlayerMessage(((viewplayer->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false, false);
 
                 // [BH] always display message
                 if (!consoleactive)
@@ -711,7 +711,8 @@ dboolean ST_Responder(event_t *ev)
                             }
                         }
 
-                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
+                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false,
+                            false);
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         viewplayer->cheated++;
@@ -747,7 +748,8 @@ dboolean ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false);
+                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false,
+                            false);
                     }
 
                     // [BH] reset all cheat sequences
@@ -825,7 +827,7 @@ dboolean ST_Responder(event_t *ev)
                     P_GivePower(pw_invulnerability);
                     viewplayer->powers[pw_invulnerability] = -1;
 
-                    HU_PlayerMessage(s_STSTR_CHOPPERS, false);
+                    HU_PlayerMessage(s_STSTR_CHOPPERS, false, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -882,13 +884,13 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_BUDDHA)
                 {
-                    HU_PlayerMessage(s_STSTR_BUDDHAON, false);
+                    HU_PlayerMessage(s_STSTR_BUDDHAON, false, false);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
                 else
-                    HU_PlayerMessage(s_STSTR_BUDDHAOFF, false);
+                    HU_PlayerMessage(s_STSTR_BUDDHAOFF, false, false);
 
                 // [BH] always display message
                 if (!consoleactive)
@@ -973,7 +975,7 @@ dboolean ST_Responder(event_t *ev)
                     M_snprintf(message, sizeof(message), (M_StringCompare(lump, prevlump) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), lump);
                     M_StringCopy(prevlump, lump, 6);
 
-                    HU_PlayerMessage(message, false);
+                    HU_PlayerMessage(message, false, false);
 
                     // [BH] always display message
                     viewplayer->message = message;

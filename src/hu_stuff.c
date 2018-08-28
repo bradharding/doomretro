@@ -1049,25 +1049,31 @@ void HU_Ticker(void)
     }
 }
 
-void HU_SetPlayerMessage(char *message, dboolean external)
+void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
 {
-    static int  messagecount = 1;
-    char        buffer[133];
-
-    if (M_StringCompare(message, viewplayer->prevmessage))
-        M_snprintf(buffer, sizeof(buffer), "%s (%i)", message, ++messagecount);
+    if (!counter)
+        viewplayer->message = strdup(message);
     else
     {
-        M_StringCopy(buffer, message, sizeof(buffer));
-        messagecount = 1;
-        M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
+        static int  messagecount = 1;
+        char        buffer[133];
+
+        if (M_StringCompare(message, viewplayer->prevmessage))
+            M_snprintf(buffer, sizeof(buffer), "%s (%i)", message, ++messagecount);
+        else
+        {
+            M_StringCopy(buffer, message, sizeof(buffer));
+            messagecount = 1;
+            M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
+        }
+
+        viewplayer->message = strdup(buffer);
     }
 
-    viewplayer->message = strdup(buffer);
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, dboolean external)
+void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 {
     char    buffer[1024] = "";
 
@@ -1090,7 +1096,7 @@ void HU_PlayerMessage(char *message, dboolean external)
     C_PlayerMessage(buffer);
 
     if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
-        HU_SetPlayerMessage(buffer, external);
+        HU_SetPlayerMessage(buffer, counter, external);
 }
 
 void HU_ClearMessages(void)
