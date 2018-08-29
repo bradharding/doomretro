@@ -243,6 +243,7 @@ linefix_t linefix[] =
     { doom,             2,   7,     996,    0, "",         "",            "",                 84,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   7,     997,    0, "",         "",            "",                107,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   7,     193,    1, "BROWNHUG", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             2,   7,    1125,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                          DEFAULT },
     { doom,             2,   7,    1286,    0, "",         "",            "SHAWN2",      DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   7,    1362,    0, "",         "",            "",               -182,        40, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   7,    1363,    0, "",         "",            "",               -118,        40, DEFAULT,                   DEFAULT,                                    DEFAULT },

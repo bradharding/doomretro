@@ -407,9 +407,6 @@ static void P_LoadSegs(int lump)
 
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
-            boomlinespecials = true;
-
         // [BH] Apply any map-specific fixes.
         if (canmodify && r_fixmaperrors)
             for (int j = 0; linefix[j].mission != -1; j++)
@@ -496,6 +493,9 @@ static void P_LoadSegs(int lump)
                     break;
                 }
             }
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
+            boomlinespecials = true;
     }
 
     W_ReleaseLumpNum(lump);
