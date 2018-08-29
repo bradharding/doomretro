@@ -2437,8 +2437,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s monster%s %s killed.", (kills == 1 ? "" : "All "), commify(kills),
-                    (kills == 1 ? "" : "s"), (kills == 1 ? "was" : "were"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been killed.", (kills == 1 ? "" : "All "),
+                    commify(kills), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -2448,7 +2448,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
-                C_Warning("There are no monsters %s kill.", (!totalkills ? "to" : "left to"));
+                C_Warning("There are no monsters %s kill in this map.", (!totalkills ? "to" : "left to"));
         }
         else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
         {
@@ -2470,7 +2470,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s missile%s %s exploded.", (kills == 1 ? "" : "All "), commify(kills),
+                M_snprintf(buffer, sizeof(buffer), "%s %s missile%s %s exploded.", (kills == 1 ? "The" : "All"), commify(kills),
                     (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
@@ -2536,10 +2536,9 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s %s %s %s.", (kills == 1 ? "" : "All "), commify(kills),
-                    (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
-                    (kills == 1 ? (type == MT_BARREL ? "has" : "was") : (type == MT_BARREL ? "have" : "were")),
-                    (type == MT_BARREL ? "exploded" : "killed"));
+                M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s %s.", (kills == 1 ? "The" : "All"), commify(kills),
+                    (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "has" : "have"),
+                    (type == MT_BARREL ? "exploded" : "been killed"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
