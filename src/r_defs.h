@@ -572,9 +572,10 @@ enum
     W1_Teleport_MonstersOnly_Silent                                = 268,
     WR_Teleport_MonstersOnly_Silent                                = 269,
 
-    // Extended line specials from MBF
     TransferSkyTextureToTaggedSectors                              = 271,
-    TransferSkyTextureToTaggedSectors_Flipped                      = 272
+    TransferSkyTextureToTaggedSectors_Flipped                      = 272,
+
+    INVALIDLINESPECIALS                                            = 273
 };
 
 enum
