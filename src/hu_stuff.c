@@ -687,7 +687,7 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
     {
         patch = altnum2[val / 100];
         althudfunc(x, y, patch, WHITE, color);
-        x += SHORT(patch->width) + 2;
+        x += SHORT(patch->width) + 1;
     }
 
     val %= 100;
@@ -696,7 +696,7 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
     {
         patch = altnum2[val / 10];
         althudfunc(x, y, patch, WHITE, color);
-        x += SHORT(patch->width) + 2;
+        x += SHORT(patch->width) + 1;
     }
 
     althudfunc(x, y, altnum2[val % 10], WHITE, color);
@@ -708,12 +708,12 @@ static int AltHUDNumber2Width(int val)
     int         width = 0;
 
     if (val > 99)
-        width += SHORT(altnum2[val / 100]->width) + 2;
+        width += SHORT(altnum2[val / 100]->width) + 1;
 
     val %= 100;
 
     if (val > 9 || oldval > 99)
-        width += SHORT(altnum2[val / 10]->width) + 2;
+        width += SHORT(altnum2[val / 10]->width) + 1;
 
     return (width + SHORT(altnum2[val % 10]->width));
 }
