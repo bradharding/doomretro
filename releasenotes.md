@@ -4,6 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby gamepads may not initialize correctly when connected more than once during gameplay.
 * A counter is now displayed at the end of player messages that are the same as previous ones.
+* The armor bar in the alternate widescreen HUD is now green or blue to indicate the type of armor the player has.
 
 ---
 

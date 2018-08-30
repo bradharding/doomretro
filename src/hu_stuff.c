@@ -565,10 +565,10 @@ static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
 
 int             white;
-static int      lightgray;
 static int      gray;
 static int      darkgray;
 static int      green;
+static int      blue;
 static int      red;
 static int      yellow;
 
@@ -622,10 +622,10 @@ static void HU_AltInit(void)
     altrightpatch = W_CacheLumpName("DRHUDR");
 
     white = nearestcolors[WHITE];
-    lightgray = nearestcolors[LIGHTGRAY];
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
     green = nearestcolors[GREEN];
+    blue = nearestcolors[BLUE];
     red = nearestcolors[RED];
     yellow = nearestcolors[YELLOW];
 }
@@ -754,11 +754,11 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        barcolor2 = (viewplayer->armortype == GREENARMOR ? (invert ? colormaps[0][32 * 256 + gray] : gray) :
-            (invert ? colormaps[0][32 * 256 + lightgray] : lightgray));
+        barcolor2 = (viewplayer->armortype == GREENARMOR ? (invert ? colormaps[0][32 * 256 + green] : green) :
+            (invert ? colormaps[0][32 * 256 + blue] : blue));
         barcolor1 = barcolor2 + coloroffset;
-        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, barcolor2);
-        DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, barcolor2);
+        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color);
+        DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
         armor = armor * 200 / max_armor;
 
         if (armor > 100)
