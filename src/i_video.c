@@ -374,7 +374,7 @@ static void I_SetXKBCapslockState(dboolean enabled)
 void I_ShutdownKeyboard(void)
 {
 #if defined(_WIN32)
-    if (keyboardalwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
+    if (keyboardalwaysrun == KEY_CAPSLOCK && !capslock && (GetKeyState(VK_CAPITAL) & 0xFFFF))
     {
         keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
@@ -1814,9 +1814,7 @@ void I_InitKeyboard(void)
     if (keyboardalwaysrun == KEY_CAPSLOCK)
     {
 #if defined(_WIN32)
-        capslock = !!(GetKeyState(VK_CAPITAL) & 0x0001);
-
-        if (alwaysrun != capslock)
+        if (alwaysrun != (capslock = !!(GetKeyState(VK_CAPITAL) & 0xFFFF)))
         {
             keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
