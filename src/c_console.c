@@ -1532,7 +1532,8 @@ dboolean C_Responder(event_t *ev)
                         int         len2;
 
                         autocomplete += direction;
-                        M_StringCopy(output, autocompletelist[autocomplete], sizeof(output));
+                        M_StringCopy(output, (GetCapsLockState() ? uppercase(autocompletelist[autocomplete]) :
+                            autocompletelist[autocomplete]), sizeof(output));
 
                         if (M_StringCompare(output, input))
                             continue;

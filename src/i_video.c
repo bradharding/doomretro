@@ -371,10 +371,19 @@ static void I_SetXKBCapslockState(dboolean enabled)
 }
 #endif
 
+dboolean GetCapsLockState(void)
+{
+#if defined(_WIN32)
+    return !!(GetKeyState(VK_CAPITAL) & 0xFFFF);
+#elif defined(X11)
+    return !!(SDL_GetModState() & KMOD_CAPS);
+#endif
+}
+
 void I_ShutdownKeyboard(void)
 {
 #if defined(_WIN32)
-    if (keyboardalwaysrun == KEY_CAPSLOCK && !capslock && (GetKeyState(VK_CAPITAL) & 0xFFFF))
+    if (keyboardalwaysrun == KEY_CAPSLOCK && !capslock && GetCapsLockState())
     {
         keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
@@ -1813,15 +1822,15 @@ void I_InitKeyboard(void)
 {
     if (keyboardalwaysrun == KEY_CAPSLOCK)
     {
+        capslock = GetCapsLockState();
+
 #if defined(_WIN32)
-        if (alwaysrun != (capslock = !!(GetKeyState(VK_CAPITAL) & 0xFFFF)))
+        if (alwaysrun != capslock)
         {
             keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
         }
 #elif defined(X11)
-        capslock = !!(SDL_GetModState() & KMOD_CAPS);
-
         if (alwaysrun && !capslock)
             I_SetXKBCapslockState(true);
         else if (!alwaysrun && capslock)
