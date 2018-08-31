@@ -4838,8 +4838,9 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     else
     {
         C_ShowCVARDescription(C_GetIndex(stringize(armortype)));
-        C_Output("It is currently set to <b>%s</b>.",
-            (gamestate == GS_LEVEL ? C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS) : "none"));
+
+        if (gamestate == GS_LEVEL)
+            C_Output("It is currently set to <b>%s</b>.", C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS));
     }
 }
 
@@ -4990,9 +4991,9 @@ dboolean P_CheckAmmo(weapontype_t weapon);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
-    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL
+    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL
         && (!M_StringCompare(cmd, stringize(health)) || (!(viewplayer->cheats & CF_GODMODE)
-        && !viewplayer->powers[pw_invulnerability])));
+        && !viewplayer->powers[pw_invulnerability]))));
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
@@ -5027,7 +5028,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             C_ShowCVARDescription(C_GetIndex(stringize(ammo)));
-            C_Output("It is currently set to <b>%i</b>.", (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
+
+            if (gamestate == GS_LEVEL)
+                C_Output("It is currently set to <b>%i</b>.", (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
@@ -5055,7 +5058,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             C_ShowCVARDescription(C_GetIndex(stringize(armor)));
-            C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
+
+            if (gamestate == GS_LEVEL)
+                C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
         }
     }
     else if (M_StringCompare(cmd, stringize(health)))
@@ -5097,7 +5102,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             C_ShowCVARDescription(C_GetIndex(stringize(health)));
-            C_Output("It is currently set to <b>%i%%</b>.", viewplayer->health);
+
+            if (gamestate == GS_LEVEL)
+                C_Output("It is currently set to <b>%i%%</b>.", viewplayer->health);
         }
     }
 }
