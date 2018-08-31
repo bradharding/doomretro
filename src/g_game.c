@@ -740,7 +740,7 @@ dboolean G_Responder(event_t *ev)
             int mousebutton = ev->data1;
 
             for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
-                mousebuttons[i] = mousebutton & j;
+                mousebuttons[i] = !!(mousebutton & j);
 
             if (mouseactionlist[mousebutton][0])
                 C_ExecuteInputString(mouseactionlist[mousebutton]);
