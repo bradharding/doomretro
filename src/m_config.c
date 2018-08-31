@@ -258,8 +258,9 @@ valuealias_t valuealiases[] =
     { "off",       0, CAPVALUEALIAS       }, { "none",   -1, SKYVALUEALIAS       },
     { "off",      -1, SKYVALUEALIAS       }, { "small",   0, SCALEVALUEALIAS     },
     { "big",       1, SCALEVALUEALIAS     }, { "none",    5, FACEBACKVALUEALIAS  },
-    { "off",       5, FACEBACKVALUEALIAS  }, { "green",   1, ARMORTYPEVALUEALIAS },
-    { "blue",      2, ARMORTYPEVALUEALIAS }, { "",        0, NOVALUEALIAS        }
+    { "off",       5, FACEBACKVALUEALIAS  }, { "none",    0, ARMORTYPEVALUEALIAS },
+    { "green",     1, ARMORTYPEVALUEALIAS }, { "blue",    2, ARMORTYPEVALUEALIAS },
+    { "",          0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *string)

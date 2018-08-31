@@ -471,7 +471,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(armortype, armourtype, armortype_cvar_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,
-        "The player's armor type (<b>green</b> or <b>blue</b>)."),
+        "The player's armor type (<b>none</b>, <b>green</b> or <b>blue</b>)."),
     CVAR_BOOL(autoaim, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles vertical autoaiming as the player fires\ntheir weapon while using mouselook."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
