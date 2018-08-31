@@ -4831,7 +4831,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS);
 
-        if (value != INT_MIN)
+        if (value != INT_MIN && viewplayer->armorpoints)
         {
             viewplayer->armortype = value;
 

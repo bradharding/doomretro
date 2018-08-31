@@ -5,7 +5,7 @@
 * A bug has been fixed whereby gamepads may not initialize correctly when connected more than once during gameplay.
 * A counter is now displayed at the end of player messages that are the same as previous ones.
 * The armor bar in the alternate widescreen HUD is now green or blue to indicate the type of armor the player has.
-* The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue`.
+* The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue` and can only be changed during a game and if the player has armor.
 * All elements of the alternate widescreen HUD will now be displayed correctly when the player has an invulnerability power-up.
 * A bug has been fixed whereby the player wouldn’t move correctly if a mouse button was bound to the `+run` action and held down.
 
