@@ -1736,17 +1736,36 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype] : 0), description1);
+            {
+                if (gamestate == GS_LEVEL)
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
+                        viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description1);
+                else
+                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", ++count, consolecmds[i].name, description1);
+            }
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? viewplayer->armorpoints : 0), description1);
+            {
+                if (gamestate == GS_LEVEL)
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name, viewplayer->armorpoints,
+                        description1);
+                else
+                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", ++count, consolecmds[i].name, description1);
+            }
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                (gamestate == GS_LEVEL ? C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS) : "none"), description1);
+            {
+                if (gamestate == GS_LEVEL)
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
+                        C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS), description1);
+                else
+                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", ++count, consolecmds[i].name, description1);
+            }
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? viewplayer->health : 0), description1);
+            {
+                if (gamestate == GS_LEVEL)
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name, viewplayer->health, description1);
+                else
+                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", ++count, consolecmds[i].name, description1);
+            }
             else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases), description1);
