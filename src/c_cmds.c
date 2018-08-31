@@ -103,6 +103,7 @@ alias_t             aliases[MAXALIASES];
 
 static int          ammo;
 static int          armor;
+static int          armortype;
 static int          health;
 
 static int          mapcmdepisode;
@@ -321,6 +322,8 @@ static void am_external_cvar_func2(char *cmd, char *parms);
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
+static dboolean armortype_cvar_func1(char *cmd, char *parms);
+static void armortype_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
@@ -467,6 +470,8 @@ consolecmd_t consolecmds[] =
         "The amount of ammo for the player's currently\nequipped weapon."),
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor (<b>0%</b> to <b>200%</b>)."),
+    CVAR_INT(armortype, armourtype, armortype_cvar_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,
+        "The player's armor type (<b>green</b> or <b>blue</b>)."),
     CVAR_BOOL(autoaim, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles vertical autoaiming as the player fires\ntheir weapon while using mouselook."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -1736,6 +1741,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? viewplayer->armorpoints : 0), description1);
+            else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
+                (gamestate == GS_LEVEL ? C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS) : "none"), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? viewplayer->health : 0), description1);
@@ -4784,6 +4792,36 @@ static void am_path_cvar_func2(char *cmd, char *parms)
 
     if (!am_path && am_path_old)
         pathpointnum = 0;
+}
+
+//
+// armortype CVAR
+//
+static dboolean armortype_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || (C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS) != INT_MIN && gamestate == GS_LEVEL));
+}
+
+static void armortype_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS);
+
+        if (value != INT_MIN)
+        {
+            viewplayer->armortype = value;
+
+            if (value == NOARMOR)
+                viewplayer->armorpoints = 0;
+        }
+    }
+    else
+    {
+        C_ShowCVARDescription(C_GetIndex(stringize(armortype)));
+        C_Output("It is currently set to <b>%s</b>.",
+            (gamestate == GS_LEVEL ? C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS) : "none"));
+    }
 }
 
 //
