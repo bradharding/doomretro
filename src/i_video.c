@@ -376,8 +376,8 @@ void I_ShutdownKeyboard(void)
 #if defined(_WIN32)
     if (keyboardalwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
     {
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
     }
 #elif defined(X11)
     if (keyboardalwaysrun == KEY_CAPSLOCK)
@@ -1818,8 +1818,8 @@ void I_InitKeyboard(void)
 
         if (alwaysrun != capslock)
         {
-            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-            keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+            keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
+            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
         }
 #elif defined(X11)
         capslock = !!(SDL_GetModState() & KMOD_CAPS);
