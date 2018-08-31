@@ -112,8 +112,7 @@ void R_InitSkyMap(void)
         else
             skytexturemid = 0;
 
-        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT))
-            * skyheight / SKYSTRETCH_HEIGHT;
+        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT)) * skyheight / SKYSTRETCH_HEIGHT;
     }
     else
     {

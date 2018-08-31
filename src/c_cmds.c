@@ -3856,6 +3856,36 @@ static void quit_cmd_func2(char *cmd, char *parms)
 }
 
 //
+// regenhealth CCMD
+//
+static void regenhealth_cmd_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0)
+            regenhealth = false;
+        else if (value == 1)
+            regenhealth = true;
+        else
+            return;
+    }
+    else
+        regenhealth = !regenhealth;
+
+    if (regenhealth)
+    {
+        HU_PlayerMessage(s_STSTR_RHON, false, false);
+        viewplayer->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_RHOFF, false, false);
+}
+
+//
 // reset CCMD
 //
 static void reset_cmd_func2(char *cmd, char *parms)
@@ -4063,36 +4093,6 @@ static void resetall_cmd_func2(char *cmd, char *parms)
     M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset\nall CVARs to their defaults?\n\n%s", s_PRESSYN);
     M_StartMessage(buffer, C_VerifyResetAll, true);
     SDL_StopTextInput();
-}
-
-//
-// regenhealth CCMD
-//
-static void regenhealth_cmd_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if (value == 0)
-            regenhealth = false;
-        else if (value == 1)
-            regenhealth = true;
-        else
-            return;
-    }
-    else
-        regenhealth = !regenhealth;
-
-    if (regenhealth)
-    {
-        HU_PlayerMessage(s_STSTR_RHON, false, false);
-        viewplayer->cheated++;
-        stat_cheated = SafeAdd(stat_cheated, 1);
-        M_SaveCVARs();
-    }
-    else
-        HU_PlayerMessage(s_STSTR_RHOFF, false, false);
 }
 
 //
