@@ -320,6 +320,18 @@ void I_PollXInputGamepad(void)
         ZeroMemory(&state, sizeof(XINPUT_STATE));
         pXInputGetState(0, &state);
 
+        if (weaponvibrationtics)
+            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
+                XInputVibration(idlemotorspeed);
+
+        if (damagevibrationtics)
+            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
+                XInputVibration(idlemotorspeed);
+
+        if (barrelvibrationtics)
+            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
+                XInputVibration(idlemotorspeed);
+
         if (state.dwPacketNumber == packetnumber)
             return;
 
@@ -360,18 +372,6 @@ void I_PollXInputGamepad(void)
             gamepadthumbRX = 0;
             gamepadthumbRY = 0;
         }
-
-        if (weaponvibrationtics)
-            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (damagevibrationtics)
-            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (barrelvibrationtics)
-            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
-                XInputVibration(idlemotorspeed);
     }
 #endif
 }
