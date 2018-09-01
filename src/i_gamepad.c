@@ -118,7 +118,7 @@ void I_InitGamepad(void)
         else
         {
 #if defined(_WIN32)
-            char        *XInputVersion;
+            char        *version = malloc(6);
             static int  initcount;
 #endif
 
@@ -126,11 +126,11 @@ void I_InitGamepad(void)
 
 #if defined(_WIN32)
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                XInputVersion = "XInput 1.4";
+                version = "1.4";
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                XInputVersion = "XInput 9.1.0";
+                version = "9.1.0";
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                XInputVersion = "XInput 1.3";
+                version = "1.3";
 
             initcount++;
 
@@ -150,12 +150,14 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
 
                         if (initcount++ == 1)
-                            C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
+                            C_Output("A gamepad is connected. Using <i><b>XInput %s</b></i>.", version);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
+
+            free(version);
 
             if (initcount == 1)
 #endif

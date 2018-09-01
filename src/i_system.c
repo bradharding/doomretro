@@ -197,8 +197,8 @@ void I_PrintSystemInfo(void)
 {
     int cores = SDL_GetCPUCount();
 
-    C_Output("There %s %i logical core%s and %sGB of system RAM.", (cores > 1 ? "are" : "is"), cores,
-        (cores > 1 ? "s" : ""), commify(SDL_GetSystemRAM() / 1000));
+    C_Output("There %s %i logical core%s and %sGB of system RAM.", (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""),
+        commify(SDL_GetSystemRAM() / 1000));
 }
 
 //

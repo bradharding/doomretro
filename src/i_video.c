@@ -360,8 +360,14 @@ void I_ShutdownGraphics(void)
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-#if defined(X11)
-static void I_SetXKBCapslockState(dboolean enabled)
+#if defined(_WIN32)
+static void ToggleCapsLockState(void)
+{
+    keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
+    keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
+}
+#elif defined(X11)
+static void SetCapsLockState(dboolean enabled)
 {
     Display *dpy = XOpenDisplay(0);
 
@@ -384,13 +390,10 @@ void I_ShutdownKeyboard(void)
 {
 #if defined(_WIN32)
     if (keyboardalwaysrun == KEY_CAPSLOCK && !capslock && GetCapsLockState())
-    {
-        keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
-    }
+        ToggleCapsLockState();
 #elif defined(X11)
     if (keyboardalwaysrun == KEY_CAPSLOCK)
-        I_SetXKBCapslockState(false);
+        SetCapsLockState(false);
 #endif
 }
 
@@ -1826,15 +1829,12 @@ void I_InitKeyboard(void)
 
 #if defined(_WIN32)
         if (alwaysrun != capslock)
-        {
-            keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
-            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
-        }
+            ToggleCapsLockState();
 #elif defined(X11)
         if (alwaysrun && !capslock)
-            I_SetXKBCapslockState(true);
+            SetCapsLockState(true);
         else if (!alwaysrun && capslock)
-            I_SetXKBCapslockState(false);
+            SetCapsLockState(false);
 #endif
     }
 }
