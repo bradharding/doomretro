@@ -118,7 +118,7 @@ void I_InitGamepad(void)
         else
         {
 #if defined(_WIN32)
-            char        *version = malloc(6);
+            char        *XInputVersion;
             static int  initcount;
 #endif
 
@@ -126,11 +126,11 @@ void I_InitGamepad(void)
 
 #if defined(_WIN32)
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                version = "1.4";
+                XInputVersion = "XInput 1.4";
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                version = "9.1.0";
+                XInputVersion = "XInput 9.1.0";
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                version = "1.3";
+                XInputVersion = "XInput 1.3";
 
             initcount++;
 
@@ -150,14 +150,12 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
 
                         if (initcount++ == 1)
-                            C_Output("A gamepad is connected. Using <i><b>XInput %s</b></i>.", version);
+                            C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
-
-            free(version);
 
             if (initcount == 1)
 #endif
@@ -316,26 +314,21 @@ void I_PollXInputGamepad(void)
     if (gamepad && !noinput)
     {
         XINPUT_STATE    state;
+        static DWORD    packetnumber;
         XINPUT_GAMEPAD  Gamepad;
 
         ZeroMemory(&state, sizeof(XINPUT_STATE));
         pXInputGetState(0, &state);
+
+        if (state.dwPacketNumber == packetnumber)
+            return;
+
+        packetnumber = state.dwPacketNumber;
         Gamepad = state.Gamepad;
+
         gamepadbuttons = (Gamepad.wButtons
             | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
             | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
-
-        if (weaponvibrationtics)
-            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (damagevibrationtics)
-            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (barrelvibrationtics)
-            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
-                XInputVibration(idlemotorspeed);
 
         if (gamepadbuttons)
         {
@@ -367,6 +360,18 @@ void I_PollXInputGamepad(void)
             gamepadthumbRX = 0;
             gamepadthumbRY = 0;
         }
+
+        if (weaponvibrationtics)
+            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
+                XInputVibration(idlemotorspeed);
+
+        if (damagevibrationtics)
+            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
+                XInputVibration(idlemotorspeed);
+
+        if (barrelvibrationtics)
+            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
+                XInputVibration(idlemotorspeed);
     }
 #endif
 }
