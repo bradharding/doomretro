@@ -8,7 +8,6 @@
 * Further improvements have been made to the support of `MAPINFO` lumps.
 * The armor bar in the alternate widescreen HUD is now green or blue to indicate the type of armor the player has.
 * The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue` and can only be changed during a game and if the player has armor.
-* All elements of the alternate widescreen HUD will now be displayed correctly when the player has an invulnerability power-up.
 * A bug has been fixed whereby the player wouldn’t move correctly while running if the `+run` action was bound to a mouse button.
 
 ---
