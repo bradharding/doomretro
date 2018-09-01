@@ -278,15 +278,13 @@ void XInputVibration(int motorspeed)
 #if defined(_WIN32)
     static int  currentmotorspeed;
 
-    motorspeed = MIN(motorspeed, 65535);
-
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
     {
         XINPUT_VIBRATION    vibration;
 
-        vibration.wLeftMotorSpeed = motorspeed;
+        currentmotorspeed = MIN(motorspeed, MAXWORD);
+        vibration.wLeftMotorSpeed = currentmotorspeed;
         vibration.wRightMotorSpeed = 0;
-        currentmotorspeed = motorspeed;
         pXInputSetState(0, &vibration);
     }
 #endif
@@ -315,10 +313,6 @@ void I_PollXInputGamepad(void)
     {
         XINPUT_STATE    state;
         static DWORD    packetnumber;
-        XINPUT_GAMEPAD  Gamepad;
-
-        ZeroMemory(&state, sizeof(XINPUT_STATE));
-        pXInputGetState(0, &state);
 
         if (weaponvibrationtics)
             if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
@@ -332,45 +326,51 @@ void I_PollXInputGamepad(void)
             if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
                 XInputVibration(idlemotorspeed);
 
+        ZeroMemory(&state, sizeof(XINPUT_STATE));
+        pXInputGetState(0, &state);
+
         if (state.dwPacketNumber == packetnumber)
             return;
-
-        packetnumber = state.dwPacketNumber;
-        Gamepad = state.Gamepad;
-
-        gamepadbuttons = (Gamepad.wButtons
-            | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
-            | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
-
-        if (gamepadbuttons)
-        {
-            vibrate = true;
-            idclev = false;
-            idmus = false;
-
-            if (idbehold)
-            {
-                message_clearable = true;
-                HU_ClearMessages();
-                idbehold = false;
-            }
-        }
-
-        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
-        {
-            event_t  ev;
-
-            ev.type = ev_gamepad;
-            D_PostEvent(&ev);
-            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
-        }
         else
         {
-            gamepadbuttons = 0;
-            gamepadthumbLX = 0;
-            gamepadthumbLY = 0;
-            gamepadthumbRX = 0;
-            gamepadthumbRY = 0;
+            XINPUT_GAMEPAD  Gamepad = state.Gamepad;
+
+            packetnumber = state.dwPacketNumber;
+
+            gamepadbuttons = (Gamepad.wButtons
+                | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
+                | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
+
+            if (gamepadbuttons)
+            {
+                vibrate = true;
+                idclev = false;
+                idmus = false;
+
+                if (idbehold)
+                {
+                    message_clearable = true;
+                    HU_ClearMessages();
+                    idbehold = false;
+                }
+            }
+
+            if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+            {
+                event_t  ev;
+
+                ev.type = ev_gamepad;
+                D_PostEvent(&ev);
+                gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+            }
+            else
+            {
+                gamepadbuttons = 0;
+                gamepadthumbLX = 0;
+                gamepadthumbLY = 0;
+                gamepadthumbRX = 0;
+                gamepadthumbRY = 0;
+            }
         }
     }
 #endif

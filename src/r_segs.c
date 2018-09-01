@@ -706,12 +706,10 @@ void R_StoreWallRange(const int start, const int stop)
             ds_p->sprbottomclip = NULL;
             ds_p->silhouette = SIL_NONE;
 
-            if (frontsector->interpfloorheight > backsector->interpfloorheight
-                || backsector->interpfloorheight > viewz)
+            if (frontsector->interpfloorheight > backsector->interpfloorheight || backsector->interpfloorheight > viewz)
                 ds_p->silhouette = SIL_BOTTOM;
 
-            if (frontsector->interpceilingheight < backsector->interpceilingheight
-                || backsector->interpceilingheight < viewz)
+            if (frontsector->interpceilingheight < backsector->interpceilingheight || backsector->interpceilingheight < viewz)
                 ds_p->silhouette |= SIL_TOP;
         }
 
