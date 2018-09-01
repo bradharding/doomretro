@@ -381,7 +381,7 @@ dboolean GetCapsLockState(void)
 {
 #if defined(_WIN32)
     return !!(GetKeyState(VK_CAPITAL) & 0xFFFF);
-#elif defined(X11)
+#else
     return !!(SDL_GetModState() & KMOD_CAPS);
 #endif
 }
