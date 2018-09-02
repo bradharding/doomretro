@@ -443,17 +443,15 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         const unsigned char letter = text[i];
         const int           c = letter - CONSOLEFONTSTART;
 
-        if (letter == '<'
-            && i < len - 2
-            && (text[i + 1] == 'b' || text[i + 1] == 'i')
-            && text[i + 2] == '>' && formatting)
+        if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i') && text[i + 2] == '>' && formatting)
             i += 2;
-        else if (letter == '<'
-            && i < len - 3
-            && text[i + 1] == '/'
-            && (text[i + 2] == 'b' || text[i + 2] == 'i')
-            && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>' && formatting)
             i += 3;
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'i' && text[i + 3] == '>' && formatting)
+        {
+            w++;
+            i += 3;
+        }
         else if (letter == 153)
         {
             w += SHORT(trademark->width);
