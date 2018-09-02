@@ -1193,13 +1193,12 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
     unsigned int    outcode2 = 0;
 
     *x0 = CXMTOF(*x0);
+    *x1 = CXMTOF(*x1);
 
     if (*x0 < -1)
         outcode1 = LEFT;
     else if (*x0 >= (int)mapwidth)
         outcode1 = RIGHT;
-
-    *x1 = CXMTOF(*x1);
 
     if (*x1 < -1)
         outcode2 = LEFT;
@@ -1210,13 +1209,15 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
         return false;
 
     *y0 = CYMTOF(*y0);
+    *y1 = CYMTOF(*y1);
+
+    if (!(*x0 - *x1) && !(*y0 - *y1))
+        return false;
 
     if (*y0 < -1)
         outcode1 |= TOP;
     else if (*y0 >= (int)mapheight)
         outcode1 |= BOTTOM;
-
-    *y1 = CYMTOF(*y1);
 
     if (*y1 < -1)
         outcode2 |= TOP;
@@ -1301,21 +1302,18 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color, void (*put
 
     if (!dy)
     {
-        if (dx)
-        {
-            // horizontal line
-            const int   sx = SIGN(dx);
+        // horizontal line
+        const int   sx = SIGN(dx);
 
-            x0 = BETWEEN(-1, x0, mapwidth - 1);
-            x1 = BETWEEN(-1, x1, mapwidth - 1);
+        x0 = BETWEEN(-1, x0, mapwidth - 1);
+        x1 = BETWEEN(-1, x1, mapwidth - 1);
 
-            y0 *= mapwidth;
+        y0 *= mapwidth;
 
-            putdot(x0, y0, color);
+        putdot(x0, y0, color);
 
-            while (x0 != x1)
-                putdot((x0 += sx), y0, color);
-        }
+        while (x0 != x1)
+            putdot((x0 += sx), y0, color);
     }
     else if (!dx)
     {
