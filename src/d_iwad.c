@@ -606,7 +606,7 @@ void D_SetGameDescription(void)
     else if (gamemission == doom)
     {
         // DOOM 1. But which version?
-        if (modifiedgame)
+        if (modifiedgame && *pwadfile)
             gamedescription = M_StringJoin(uppercase(pwadfile), ".WAD", NULL);
         else if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
@@ -620,7 +620,7 @@ void D_SetGameDescription(void)
     else
     {
         // DOOM 2 of some kind. But which mission?
-        if (modifiedgame)
+        if (modifiedgame && *pwadfile)
             gamedescription = M_StringJoin(uppercase(pwadfile), ".WAD", NULL);
         else if (FREEDOOM)
             gamedescription = (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2);
