@@ -1355,7 +1355,8 @@ static void M_DeleteSavegameResponse(int key)
         }
 
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[itemOn]));
-        HU_PlayerMessage(buffer, false, false);
+        C_Output(buffer);
+        HU_SetPlayerMessage(buffer, false, false);
         blurred = false;
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
@@ -1781,8 +1782,19 @@ static void M_ChangeMessages(int choice)
     if (menuactive)
         message_dontpause = true;
 
-    C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
-    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false, false);
+    if (messages)
+    {
+        C_StrCVAROutput(stringize(messages), "on");
+        C_Output(s_MSGON);
+        HU_SetPlayerMessage(s_MSGON, false, false);
+    }
+    else
+    {
+        C_StrCVAROutput(stringize(messages), "off");
+        C_Output(s_MSGOFF);
+        HU_SetPlayerMessage(s_MSGOFF, false, false);
+    }
+
     message_dontfuckwithme = true;
     M_SaveCVARs();
 }
@@ -2035,7 +2047,17 @@ static void M_ChangeDetail(int choice)
 
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false, false);
+        if (r_detail == r_detail_low)
+        {
+            C_Output(s_DETAILLO);
+            HU_SetPlayerMessage(s_DETAILLO, false, false);
+        }
+        else
+        {
+            C_Output(s_DETAILHI);
+            HU_SetPlayerMessage(s_DETAILHI, false, false);
+        }
+
         message_dontfuckwithme = true;
     }
     else
@@ -2352,7 +2374,10 @@ void M_ChangeGamma(dboolean shift)
     gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
     if (r_gamma == 1.0f)
-        HU_PlayerMessage(s_GAMMAOFF, false, false);
+    {
+        C_Output(s_GAMMAOFF);
+        HU_SetPlayerMessage(s_GAMMAOFF, false, false);
+    }
     else
     {
         static char buf[128];
@@ -2364,7 +2389,8 @@ void M_ChangeGamma(dboolean shift)
         if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
             buf[len - 1] = '\0';
 
-        HU_PlayerMessage(buf, false, false);
+        C_Output(buf);
+        HU_SetPlayerMessage(buf, false, false);
     }
 
     message_dontpause = true;
