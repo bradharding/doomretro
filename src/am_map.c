@@ -178,10 +178,10 @@ fixed_t             m_w, m_h;
 static fixed_t      min_x, min_y;
 static fixed_t      max_x, max_y;
 
-static fixed_t      min_scale_mtof;         // used to tell when to stop zooming out
-static fixed_t      max_scale_mtof;         // used to tell when to stop zooming in
+static fixed_t      min_scale_mtof; // used to tell when to stop zooming out
+static fixed_t      max_scale_mtof; // used to tell when to stop zooming in
 
-                                            // old stuff for recovery later
+// old stuff for recovery later
 static fixed_t      old_m_w, old_m_h;
 static fixed_t      old_m_x, old_m_y;
 
@@ -191,8 +191,8 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
-mpoint_t            *markpoints;            // where the points are
-int                 markpointnum;           // next point to be assigned
+mpoint_t            *markpoints;    // where the points are
+int                 markpointnum;   // next point to be assigned
 int                 markpointnum_max;
 
 mpoint_t            *pathpoints;
@@ -1211,7 +1211,7 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
     *y0 = CYMTOF(*y0);
     *y1 = CYMTOF(*y1);
 
-    if (!(*x0 - *x1) && !(*y0 - *y1))
+    if (!((*x0 - *x1) | (*y0 - *y1)))
         return false;
 
     if (*y0 < -1)
