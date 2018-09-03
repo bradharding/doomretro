@@ -536,12 +536,14 @@ void AM_toggleFollowMode(void)
         m_paninc.x = 0;
         m_paninc.y = 0;
         C_StrCVAROutput(stringize(am_followmode), "on");
-        HU_PlayerMessage(s_AMSTR_FOLLOWON, false, true);
+        C_Output(s_AMSTR_FOLLOWON);
+        HU_SetPlayerMessage(s_AMSTR_FOLLOWON, false, true);
     }
     else
     {
         C_StrCVAROutput(stringize(am_followmode), "off");
-        HU_PlayerMessage(s_AMSTR_FOLLOWOFF, false, true);
+        C_Output(s_AMSTR_FOLLOWOFF);
+        HU_SetPlayerMessage(s_AMSTR_FOLLOWOFF, false, true);
     }
 
     message_dontfuckwithme = true;
@@ -553,12 +555,14 @@ void AM_toggleGrid(void)
     if ((am_grid = !am_grid))
     {
         C_StrCVAROutput(stringize(am_grid), "on");
-        HU_PlayerMessage(s_AMSTR_GRIDON, false, true);
+        C_Output(s_AMSTR_GRIDON);
+        HU_SetPlayerMessage(s_AMSTR_GRIDON, false, true);
     }
     else
     {
         C_StrCVAROutput(stringize(am_grid), "off");
-        HU_PlayerMessage(s_AMSTR_GRIDOFF, false, true);
+        C_Output(s_AMSTR_GRIDOFF);
+        HU_SetPlayerMessage(s_AMSTR_GRIDOFF, false, true);
     }
 
     message_dontfuckwithme = true;
@@ -588,7 +592,8 @@ void AM_addMark(void)
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
-    HU_PlayerMessage(message, false, true);
+    C_Output(message);
+    HU_SetPlayerMessage(message, false, true);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -602,7 +607,8 @@ void AM_clearMarks(void)
         if (++markpress == 5)
         {
             // clear all marks
-            HU_PlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
+            C_Output(s_AMSTR_MARKSCLEARED);
+            HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             message_dontfuckwithme = true;
             message_clearable = true;
             markpointnum = 0;
@@ -613,7 +619,8 @@ void AM_clearMarks(void)
 
             // clear one mark
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
-            HU_PlayerMessage(message, false, true);
+            C_Output(message);
+            HU_SetPlayerMessage(message, false, true);
             message_dontfuckwithme = true;
             message_clearable = true;
         }
@@ -646,12 +653,14 @@ void AM_toggleRotateMode(void)
     if ((am_rotatemode = !am_rotatemode))
     {
         C_StrCVAROutput(stringize(am_rotatemode), "on");
-        HU_PlayerMessage(s_AMSTR_ROTATEON, false, true);
+        C_Output(s_AMSTR_ROTATEON);
+        HU_SetPlayerMessage(s_AMSTR_ROTATEON, false, true);
     }
     else
     {
         C_StrCVAROutput(stringize(am_rotatemode), "off");
-        HU_PlayerMessage(s_AMSTR_ROTATEOFF, false, true);
+        C_Output(s_AMSTR_ROTATEOFF);
+        HU_SetPlayerMessage(s_AMSTR_ROTATEOFF, false, true);
     }
 
     message_dontfuckwithme = true;
