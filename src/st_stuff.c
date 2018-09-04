@@ -453,6 +453,9 @@ dboolean ST_Responder(event_t *ev)
                     oldhealth = viewplayer->health;
                     P_GiveBody(god_health, false);
 
+                    if (oldhealth < 100)
+                        P_AddBonus();
+
                     HU_PlayerMessage(s_STSTR_DQDON, false, false);
 
                     // [BH] always display message
