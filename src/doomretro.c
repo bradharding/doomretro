@@ -55,10 +55,14 @@
 #include "m_misc.h"
 #include "version.h"
 
-extern int  windowborderwidth;
-extern int  windowborderheight;
+int windowborderwidth = 0;
+int windowborderheight = 0;
 
 #if defined(_WIN32)
+
+#if !defined(SM_CXPADDEDBORDER)
+#define SM_CXPADDEDBORDER   92
+#endif
 
 static void I_SetProcessDPIAware(void)
 {
@@ -238,6 +242,9 @@ void I_InitWindows32(void)
     SetClassLongPtr(hwnd, GCLP_HICON, (LONG_PTR)icon);
 
     oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+
+    windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
+    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2 + GetSystemMetrics(SM_CYCAPTION);
 
     SetUnhandledExceptionFilter(ExceptionHandler);
 }

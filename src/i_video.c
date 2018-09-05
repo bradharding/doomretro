@@ -145,8 +145,6 @@ static int          screenheight;
 // Window width and height
 int                 windowwidth;
 int                 windowheight;
-int                 windowborderwidth = 0;
-int                 windowborderheight = 0;
 
 int                 windowx;
 int                 windowy;
@@ -788,7 +786,7 @@ static void I_Blit(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -808,7 +806,7 @@ static void I_Blit_NearestLinear(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -826,7 +824,7 @@ static void I_Blit_ShowFPS(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -847,7 +845,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -866,7 +864,7 @@ static void I_Blit_Shake(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -888,7 +886,7 @@ static void I_Blit_NearestLinear_Shake(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -908,7 +906,7 @@ static void I_Blit_ShowFPS_Shake(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -931,7 +929,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(renderer);
@@ -946,7 +944,7 @@ void I_Blit_Automap(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(maprenderer);
@@ -964,7 +962,7 @@ void I_Blit_Automap_NearestLinear(void)
 
 #if defined(_WIN32)
     if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, INFINITE);
+        WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
     SDL_RenderPresent(maprenderer);
@@ -1173,8 +1171,6 @@ void GetWindowSize(void)
 {
     char    *width = malloc(11);
     char    *height = malloc(11);
-
-    SDL_GetWindowBordersSize(window, &windowborderheight, &windowborderwidth, NULL, NULL);
 
     if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) != 2)
     {
