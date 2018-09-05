@@ -145,6 +145,8 @@ static int          screenheight;
 // Window width and height
 int                 windowwidth;
 int                 windowheight;
+int                 windowborderwidth = 0;
+int                 windowborderheight = 0;
 
 int                 windowx;
 int                 windowy;
@@ -1171,6 +1173,8 @@ void GetWindowSize(void)
 {
     char    *width = malloc(11);
     char    *height = malloc(11);
+
+    SDL_GetWindowBordersSize(window, &windowborderheight, &windowborderwidth, NULL, NULL);
 
     if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) != 2)
     {
