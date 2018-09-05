@@ -55,8 +55,8 @@
 #include "m_misc.h"
 #include "version.h"
 
-int windowborderwidth;
-int windowborderheight;
+int windowborderwidth = 0;
+int windowborderheight = 0;
 
 #if defined(_WIN32)
 
