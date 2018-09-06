@@ -757,17 +757,15 @@ static void HU_DrawAltHUD(void)
         barcolor2 = (viewplayer->armortype == GREENARMOR ? green : blue);
         barcolor1 = barcolor2 + coloroffset;
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
-        armor = armor * 200 / max_armor;
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, color);
 
-        if (armor > 100)
+        if ((armor = armor * 200 / max_armor) > 100)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, barcolor1, true);
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, (armor == 200));
         }
         else
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
-
-        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, color);
     }
     else
         althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, darkgray);
