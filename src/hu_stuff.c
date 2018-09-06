@@ -526,7 +526,6 @@ static void HU_DrawHUD(void)
 #define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
 
 #define WHITE           4
-#define LIGHTGRAY       86
 #define GRAY            92
 #define DARKGRAY        102
 #define GREEN           114
@@ -632,14 +631,14 @@ static void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
 {
-    const int   oldval = ABS(val);
-    patch_t     *patch;
+    int     oldval;
+    patch_t *patch;
 
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - altminuspatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
-            || (val >= 100 && val <= 199)) ? 1 : 2), y, altminuspatch, WHITE, color);
+        althudfunc(x - altminuspatchwidth - (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
+            || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color);
     }
 
     if (val > 99)
@@ -650,6 +649,7 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
         x += SHORT(patch->width) + 2;
     }
 
+    oldval = val;
     val %= 100;
 
     if (val > 9 || oldval > 99)
@@ -759,7 +759,7 @@ static void HU_DrawAltHUD(void)
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
         althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, color);
 
-        if ((armor = armor * 200 / max_armor) > 100)
+        if ((armor *= 200 / max_armor) > 100)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, barcolor1, true);
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, (armor == 200));
