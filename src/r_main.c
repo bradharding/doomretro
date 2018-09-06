@@ -165,25 +165,8 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    fixed_t lx = line->v1->x;
-    fixed_t ly = line->v1->y;
-    fixed_t ldx = line->v2->x - lx;
-    fixed_t ldy = line->v2->y - ly;
-
-    if (!ldx)
-        return (x <= lx ? (ldy > 0) : (ldy < 0));
-
-    if (!ldy)
-        return (y <= ly ? (ldx < 0) : (ldx > 0));
-
-    x -= lx;
-    y -= ly;
-
-    // Try to quickly decide by looking at sign bits.
-    if ((ldy ^ ldx ^ x ^ y) < 0)
-        return ((ldy ^ x) < 0); // (left is negative)
-
-    return (FixedMul(y, ldx >> FRACBITS) >= FixedMul(ldy >> FRACBITS, x));
+    return ((int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
+        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
