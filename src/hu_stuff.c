@@ -739,7 +739,7 @@ static void HU_DrawAltHUD(void)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, barcolor1, true);
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200), 8, barcolor2, (health == 200));
-        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, color);
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2);
         althudfunc(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
         althudfunc(ALTHUD_LEFT_X + 60 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor2);
@@ -747,7 +747,7 @@ static void HU_DrawAltHUD(void)
     else
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true);
-        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, color);
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
         althudfunc(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
     }
@@ -756,7 +756,6 @@ static void HU_DrawAltHUD(void)
     {
         barcolor2 = (viewplayer->armortype == GREENARMOR ? green : blue);
         barcolor1 = barcolor2 + coloroffset;
-        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color);
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
         armor = armor * 200 / max_armor;
 
@@ -767,9 +766,11 @@ static void HU_DrawAltHUD(void)
         }
         else
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
+
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, color);
     }
     else
-        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, darkgray);
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y, altarmpatch, WHITE, darkgray);
 
     if (health)
     {
