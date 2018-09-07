@@ -326,7 +326,6 @@ void I_PollXInputGamepad(void)
             if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
                 XInputVibration(idlemotorspeed);
 
-        ZeroMemory(&state, sizeof(XINPUT_STATE));
         pXInputGetState(0, &state);
 
         if (state.dwPacketNumber == packetnumber)
