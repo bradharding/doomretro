@@ -69,6 +69,8 @@
 #define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
 #define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
 
+#define SHAKEANGLE          (M_RandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+
 #define I_SDLError(func)    I_Error("The call to "func"() failed in %s() on line %i of %s with the error:\n" \
                                 "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
@@ -859,8 +861,7 @@ static void I_Blit_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
-        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
 
 #if defined(_WIN32)
     if (CapFPSEvent)
@@ -879,8 +880,7 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
-        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
@@ -901,8 +901,7 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
-        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
 
 #if defined(_WIN32)
     if (CapFPSEvent)
@@ -922,8 +921,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
-        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 

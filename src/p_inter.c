@@ -810,11 +810,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (!(viewplayer->cheats & CF_GODMODE))
             {
                 P_UpdateHealthStat(soul_health - viewplayer->health);
-                viewplayer->health += soul_health;
-
-                if (viewplayer->health > max_soul)
-                    viewplayer->health = max_soul;
-
+                viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
                 viewplayer->mo->health = viewplayer->health;
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
