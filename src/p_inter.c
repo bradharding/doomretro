@@ -1437,8 +1437,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
                         weaponinfo[readyweapon].description);
                 else
-                    C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
-                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an " : "a "), name,
+                    C_Obituary("%s %s %s %s with %s %s%s.", titlecase(playername),
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"), name,
                         (defaultplayername ? "your" : "their"), weaponinfo[readyweapon].description,
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? " while you went berserk" : ""));
 
@@ -1457,9 +1457,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             (defaultplayername ? playername : titlecase(playername)));
                     else
-                        C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                        C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a ")), name);
+                            (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")), name);
 
                 }
             }

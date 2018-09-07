@@ -4,7 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby gamepads may not initialize correctly when connected more than once during gameplay.
-* A counter is now displayed at the end of player messages that are the same as the ones preceding them, resembling how those same messages are displayed in the console.
+* A counter is now displayed at the end of player messages when they are the same as those preceding them, resembling how those same messages are displayed in the console.
 * Further improvements have been made to the support of `MAPINFO` lumps.
 * The armor bar in the alternate widescreen HUD is now green or blue to indicate the type of armor the player has.
 * The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue`.

@@ -48,14 +48,12 @@ int ABS(int a)
 
 int MAX(int a, int b)
 {
-    b = a - b;
-    return (a - (b & (b >> 31)));
+    return (a - (b & ((b = a - b) >> 31)));
 }
 
 int MIN(int a, int b)
 {
-    a -= b;
-    return (b + (a & (a >> 31)));
+    return (b + (a & ((a -= b) >> 31)));
 }
 
 int BETWEEN(int a, int b, int c)
