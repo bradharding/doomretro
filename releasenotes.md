@@ -10,6 +10,8 @@
 * The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue`.
 * A bug has been fixed whereby the player wouldn’t move correctly while running if the `+run` action was bound to a mouse button.
 * The player will now bob again when moving on a sector that has a rising or lowering floor or ceiling, and the `movebob` CVAR is not `0%`.
+* A gamepad’s right thumbstick can no longer be used to move forward when the `mouselook` CVAR is `off` and the `gp_thumbsticks` CVAR is `2`.
+* Looking up and down using a gamepad’s right thumbstick is now smooth when the `mouselook` CVAR is `on`.
 
 ---
 

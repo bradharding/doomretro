@@ -288,7 +288,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
             cmd->lookdir = (int)(48 * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown) * gamepadsensitivity);
         }
-        else
+        else if (gp_thumbsticks == 1)
         {
             cmd->lookdir = 0;
             forward = (int)(forwardmove[run] * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown));
