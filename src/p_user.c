@@ -100,7 +100,7 @@ static void P_Bob(angle_t angle, fixed_t move)
 // P_CalcHeight
 // Calculate the walking/running height adjustment
 //
-void P_CalcHeight(void)
+void P_CalcHeight(dboolean checkliquid)
 {
     mobj_t  *mo = viewplayer->mo;
 
@@ -148,7 +148,7 @@ void P_CalcHeight(void)
     else
         viewplayer->viewz = mo->z + viewplayer->viewheight;
 
-    if (mo->flags2 & MF2_FEETARECLIPPED)
+    if (checkliquid && (mo->flags2 & MF2_FEETARECLIPPED))
     {
         dboolean    liquid = true;
 
@@ -303,7 +303,7 @@ static void P_DeathThink(void)
     }
 
     viewplayer->deltaviewheight = 0;
-    P_CalcHeight();
+    P_CalcHeight(true);
 
     if (attacker && attacker != mo && !facingkiller)
     {
@@ -528,7 +528,7 @@ void P_PlayerThink(void)
     else
         P_MovePlayer();
 
-    P_CalcHeight();
+    P_CalcHeight(true);
 
     if (freeze)
         return;

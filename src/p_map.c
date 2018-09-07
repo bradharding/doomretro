@@ -1144,7 +1144,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
 
         // [BH] immediately update player's view
         if (player)
-            player->viewz = MIN(player->mo->z + player->viewheight, player->mo->ceilingz - 4 * FRACUNIT);
+            P_CalcHeight(false);
 
         // killough 11/98: Possibly upset balance of objects hanging off ledges
         if ((flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)

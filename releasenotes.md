@@ -9,6 +9,7 @@
 * The armor bar in the alternate widescreen HUD is now green or blue to indicate the type of armor the player has.
 * The type of armor the player has can now be changed using the new `armortype` CVAR. It can be `none`, `green` or `blue`.
 * A bug has been fixed whereby the player wouldn’t move correctly while running if the `+run` action was bound to a mouse button.
+* The player will now bob again when moving on a sector that has a rising or lowering floor or ceiling, and the `movebob` CVAR is not `0%`.
 
 ---
 

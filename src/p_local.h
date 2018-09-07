@@ -104,7 +104,7 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define MAXBOB              0x100000
 #define MLOOKUNIT           8
 
-void P_CalcHeight(void);
+void P_CalcHeight(dboolean checkliquid);
 void P_MovePlayer(void);
 void P_PlayerThink(void);
 void P_ResurrectPlayer(int health);
