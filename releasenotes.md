@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7.4
 
-* The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, is now paused when freeze mode is on.
+* Minor changes have been made to text that is output to the console.
+* The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
 
 ---
 
