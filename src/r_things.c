@@ -1360,7 +1360,7 @@ void R_DrawMasked(void)
 {
     int i;
 
-    pausesprites = (menuactive || paused || consoleactive);
+    pausesprites = (menuactive || paused || consoleactive || freeze);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency);
 
