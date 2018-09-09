@@ -436,6 +436,9 @@ static void P_ZMovement(mobj_t *mo)
                     // and utter appropriate sound.
                     player->deltaviewheight = mo->momz >> 3;
 
+                    // [crispy] squat down weapon sprite as well
+                    mo->player->pspdymax = mo->momz >> 2;
+
                     if (mo->health > 0)
                         S_StartSound(mo, sfx_oof);
                 }

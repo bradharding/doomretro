@@ -118,6 +118,17 @@ void P_CalcHeight(void)
         else
             bob = (MAXBOB * stillbob / 400) / 2;
 
+        if (viewplayer->pspdymax)
+        {
+            viewplayer->pspdy -= FRACUNIT;
+
+            if (viewplayer->pspdy < viewplayer->pspdymax)
+                viewplayer->pspdy = -viewplayer->pspdy;
+
+            if (!viewplayer->pspdy)
+                viewplayer->pspdymax = 0;
+        }
+
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
 
