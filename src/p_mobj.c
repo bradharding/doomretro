@@ -428,6 +428,8 @@ static void P_ZMovement(mobj_t *mo)
             {
                 player->jumptics = 7;
 
+                player->pspdymax = mo->momz >> 1;
+
                 if (mo->momz < -GRAVITY * 8)
                 {
                     // Squat down.
@@ -435,9 +437,6 @@ static void P_ZMovement(mobj_t *mo)
                     // after hitting the ground (hard),
                     // and utter appropriate sound.
                     player->deltaviewheight = mo->momz >> 3;
-
-                    // [crispy] squat down weapon sprite as well
-                    mo->player->pspdymax = mo->momz >> 2;
 
                     if (mo->health > 0)
                         S_StartSound(mo, sfx_oof);
