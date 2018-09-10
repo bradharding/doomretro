@@ -316,7 +316,7 @@ void M_SaveCVARs(void)
         }
 
         // Print the name
-        fprintf(file, "%s ", cvars[i].name);
+        fprintf(file, "%s=", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
@@ -876,7 +876,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
+    if (!togglingvanilla && M_StringStartsWith(filename, PACKAGE))
     {
         for (int i = 0; *actions[i].action; i++)
         {
@@ -905,7 +905,7 @@ void M_LoadCVARs(char *filename)
         char    cvar[64] = "";
         char    value[256] = "";
 
-        if (fscanf(file, "%63s %255[^\n]\n", cvar, value) != 2)
+        if (fscanf(file, "%63[^=]=%255[^\n]\n", cvar, value) != 2)
             continue;
 
         if (cvar[0] == ';')

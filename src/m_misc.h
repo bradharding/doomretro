@@ -63,6 +63,7 @@ char *M_GetResourceFolder(void);
 // on OSX, this is ~/Library/Application Support/DOOM Retro/.
 char *M_GetAppDataFolder(void);
 
+char *M_GetConfigFile(void);
 char *M_GetExecutableFolder(void);
 dboolean M_StrToInt(const char *str, unsigned int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);

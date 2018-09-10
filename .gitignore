@@ -239,19 +239,19 @@ $RECYCLE.BIN/
 savegames/
 screenshots/
 msvc/Release/condump*.txt
-msvc/Release/doomretro.cfg
+msvc/Release/doomretro*.ini
 msvc/Release/doomretro.lib
 msvc/Release/doomretro.wad
 msvc/Debug/condump*.txt
-msvc/Debug/doomretro.cfg
+msvc/Debug/doomretro*.ini
 msvc/Debug/doomretro.lib
 msvc/Debug/doomretro.wad
 msvc/x64/Release/condump*.txt
-msvc/x64/Release/doomretro.cfg
+msvc/x64/Release/doomretro*.ini
 msvc/x64/Release/doomretro.lib
 msvc/x64/Release/doomretro.wad
 msvc/x64/Debug/condump*.txt
-msvc/x64/Debug/doomretro.cfg
+msvc/x64/Debug/doomretro*.ini
 msvc/x64/Debug/doomretro.lib
 msvc/x64/Debug/doomretro.wad
 
