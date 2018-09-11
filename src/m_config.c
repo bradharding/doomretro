@@ -202,6 +202,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS      ),
 #endif
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (weaponbounce,                                      BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (weaponrecoil,                                      BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (wipe,                                              BOOLVALUEALIAS    ),
     BLANKLINE,
@@ -840,6 +841,9 @@ static void M_CheckCVARs(void)
         r_hud = true;
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
+
+    if (weaponbounce != false && weaponbounce != true)
+        weaponbounce = weaponbounce_default;
 
     if (weaponrecoil != false && weaponrecoil != true)
         weaponrecoil = weaponrecoil_default;

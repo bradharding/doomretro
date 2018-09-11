@@ -211,9 +211,8 @@ typedef struct player_s
     fixed_t         recoil;
     fixed_t         oldrecoil;
 
-    // [crispy] squat down weapon sprite a bit after hitting the ground
-    fixed_t         pspdy;
-    fixed_t         pspdymax;
+    fixed_t         bounce;
+    fixed_t         bouncemax;
 
     // For playerstats cmd
     int             damageinflicted;

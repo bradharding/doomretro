@@ -2,7 +2,7 @@
 
 * Minor changes have been made to text that is output to the console.
 * The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
-* The player’s weapon will now lower slightly when they drop down from a greater height.
+* The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
 
 ---
 

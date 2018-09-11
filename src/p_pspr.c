@@ -56,8 +56,9 @@
 
 dboolean        autoaim = autoaim_default;
 dboolean        centerweapon = centerweapon_default;
-dboolean        weaponrecoil = weaponrecoil_default;
 int             weaponbob = weaponbob_default;
+dboolean        weaponbounce = weaponbounce_default;
+dboolean        weaponrecoil = weaponrecoil_default;
 
 unsigned int    stat_shotsfired = 0;
 unsigned int    stat_shotshit = 0;

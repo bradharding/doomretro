@@ -80,5 +80,6 @@ vid_motionblur 0%
 vid_pillarboxes off
 vid_showfps off
 weaponbob 100%
+weaponbounce off
 weaponrecoil off
 wipe on

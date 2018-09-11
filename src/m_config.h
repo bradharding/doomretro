@@ -207,6 +207,7 @@ extern char         *vid_windowsize;
 extern char         *wad;
 #endif
 extern int          weaponbob;
+extern dboolean     weaponbounce;
 extern dboolean     weaponrecoil;
 extern dboolean     wipe;
 
@@ -623,6 +624,8 @@ enum
 #define weaponbob_min                           0
 #define weaponbob_default                       75
 #define weaponbob_max                           100
+
+#define weaponbounce_default                    true
 
 #define weaponrecoil_default                    false
 
