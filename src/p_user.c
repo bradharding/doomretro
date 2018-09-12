@@ -274,7 +274,7 @@ static void P_DeathThink(void)
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
     freeze = false;
-    infight = infighting;
+    infight = (infighting && !(viewplayer->cheats & CF_NOTARGET));
 
     P_MovePsprites();
 
