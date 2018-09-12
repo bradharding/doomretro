@@ -1,10 +1,12 @@
 ### DOOM Retro v2.8
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Rather than `doomretro.cfg`, *DOOM Retro’s* settings are now saved in <code>doomretro-<i>username</i>.ini</code>.
 * Minor changes have been made to text that is output to the console.
 * The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
 * The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
+* If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, then the state of that key will now be toggled as necessary when *DOOM Retro* gains or loses focus, not just when it is closed.
 
 ---
 

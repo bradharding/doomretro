@@ -268,7 +268,7 @@ char *M_GetConfigFile(void)
     }
     else
 #endif
-    return PACKAGE_INI;
+        return PACKAGE_INI;
 }
 
 // Return a newly-malloced string with all the strings given as arguments

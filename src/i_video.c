@@ -595,6 +595,8 @@ static void I_GetEvent(void)
                             if (menuactive || consoleactive)
                                 S_ResumeSound();
 
+                            I_InitKeyboard();
+
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -609,6 +611,8 @@ static void I_GetEvent(void)
                                 else
                                     sendpause = true;
                             }
+
+                            I_ShutdownKeyboard();
 
                             break;
 
