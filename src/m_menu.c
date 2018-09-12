@@ -2187,6 +2187,9 @@ void M_StartMessage(char *string, void *routine, dboolean input)
     messageNeedsInput = input;
     blurred = false;
     menuactive = true;
+
+    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+    I_UpdateBlitFunc(false);
 }
 
 //
