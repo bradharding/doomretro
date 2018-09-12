@@ -1,8 +1,9 @@
 ### DOOM Retro v2.8
 
+* Rather than `doomretro.cfg`, *DOOM Retro’s* settings are now saved in <code>doomretro-<i>username</i>.ini</code>.
 * Minor changes have been made to text that is output to the console.
 * The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
-* The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
+* The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
 
 ---

@@ -256,12 +256,13 @@ char *M_GetExecutableFolder(void)
 char *M_GetConfigFile(void)
 {
 #if defined(_WIN32)
-    static char buffer[MAX_PATH];
-    TCHAR       username[64];
-    DWORD       size = 64;
+    TCHAR   username[64];
+    DWORD   size = 64;
 
     if (GetUserName(username, &size))
     {
+        static char buffer[MAX_PATH];
+
         M_snprintf(buffer, MAX_PATH, PACKAGE_INI_USER, username);
         return buffer;
     }

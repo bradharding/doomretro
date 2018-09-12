@@ -585,7 +585,7 @@ consolecmd_t consolecmds[] =
     CMD(map, warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT,
         "Warps to a map."),
     CMD(maplist, "", null_func1, maplist_cmd_func2, false, "",
-        "Shows a list of the available maps."),
+        "Shows a list of the maps in the currently loaded\nWADs."),
     CMD(mapstats, "", game_func1, mapstats_cmd_func2, false, "",
         "Shows statistics about the current map."),
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -800,7 +800,7 @@ consolecmd_t consolecmds[] =
         "The last WAD to be opened by the WAD launcher."),
 #endif
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the player's weapon bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
+        "The amount the player's weapon bobs when they\nmove (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the player's weapon bouncing when the\nplayer drops from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

@@ -267,9 +267,9 @@ valuealias_t valuealiases[] =
 static void SaveBind(FILE *file, char *control, char *string)
 {
     if (strlen(control) == 1)
-        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), string);
+        fprintf(file, "'%s'=%s\n", (control[0] == '=' ? "+" : control), string);
     else
-        fprintf(file, "bind %s %s\n", control, string);
+        fprintf(file, "%s=%s\n", control, string);
 }
 
 static void SaveBindByValue(FILE *file, char *action, int value, controltype_t type)
@@ -466,7 +466,7 @@ void M_SaveCVARs(void)
 
         for (int i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name)
-                fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
+                fprintf(file, "%s=\"%s\"\n", aliases[i].name, aliases[i].string);
     }
 
     fclose(file);
