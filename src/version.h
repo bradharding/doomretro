@@ -46,11 +46,10 @@
 
 #define PACKAGE                         "doomretro"
 #define PACKAGE_AUTHOR                  "Brad Harding <brad@doomretro.com>"
+#define PACKAGE_CONFIG                  "doomretro.cfg"
 #define PACKAGE_COPYRIGHT               "\xA9 2013\x962018 Brad Harding. All rights reserved."
 #define PACKAGE_FILENAME                "doomretro.exe"
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
-#define PACKAGE_INI                     "doomretro.ini"
-#define PACKAGE_INI_USER                "doomretro-%s.ini"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%i.save"

@@ -1,85 +1,85 @@
-﻿alwaysrun=off
-am_allmapcdwallcolor=99
-am_allmapfdwallcolor=99
-am_allmapwallcolor=99
-am_backcolor=0
-am_cdwallcolor=231
-am_crosshaircolor=96
-am_external=off
-am_fdwallcolor=64
-am_gridcolor=104
-am_gridsize=128x128
-am_markcolor=103
-am_path=off
-am_playercolor=209
-am_rotatemode=off
-am_teleportercolor=184
-am_thingcolor=112
-am_tswallcolor=96
-am_wallcolor=176
-autoload=off
-autouse=off
-centerweapon=off
-facebackcolor=none
-gp_analog=off
-gp_thumbsticks=1
-infighting=off
-infiniteheight=on
-m_acceleration=off
-m_doubleclick_use=on
-m_novertical=off
-m_sensitivity=8
-messages=on
-mouselook=off
-movebob=100%
-playername="you"
-r_blood=red
-r_brightmaps=off
-r_color=100
-r_corpses_color=off
-r_corpses_mirrored=off
-r_corpses_moreblood=off
-r_corpses_nudge=off
-r_corpses_slide=off
-r_corpses_smearblood=off
-r_detail=low
-r_diskicon=on
-r_fixmaperrors=off
-r_fixspriteoffsets=off
-r_floatbob=off
-r_fov=90
-r_gamma=off
-r_homindicator=off
-r_liquid_bob=off
-r_liquid_clipsprites=off
-r_liquid_current=off
-r_liquid_lowerview=off
-r_liquid_swirl=off
-r_lowpixelsize=2x2
-r_messagepos=(0,0)
-r_messagescale=big
-r_mirroredweapons=off
-r_playersprites=on
-r_rockettrails=off
-r_screensize=6
-r_shadows=off
-r_shake_barrels=off
-r_shake_damage=0%
-r_skycolor=none
-r_textures=on
-r_translucency=off
-s_channels=8
-s_randommusic=off
-s_randompitch=off
-s_stereo=on
-stillbob=0%
-tossdrop=off
-turbo=100%
-vid_capfps=35
-vid_motionblur=0%
-vid_pillarboxes=off
-vid_showfps=off
-weaponbob=100%
-weaponbounce=off
-weaponrecoil=off
-wipe=on
+﻿alwaysrun off
+am_allmapcdwallcolor 99
+am_allmapfdwallcolor 99
+am_allmapwallcolor 99
+am_backcolor 0
+am_cdwallcolor 231
+am_crosshaircolor 96
+am_external off
+am_fdwallcolor 64
+am_gridcolor 104
+am_gridsize 128x128
+am_markcolor 103
+am_path off
+am_playercolor 209
+am_rotatemode off
+am_teleportercolor 184
+am_thingcolor 112
+am_tswallcolor 96
+am_wallcolor 176
+autoload off
+autouse off
+centerweapon off
+facebackcolor none
+gp_analog off
+gp_thumbsticks 1
+infighting off
+infiniteheight on
+m_acceleration off
+m_doubleclick_use on
+m_novertical off
+m_sensitivity 8
+messages on
+mouselook off
+movebob 100%
+playername "you"
+r_blood red
+r_brightmaps off
+r_color 100
+r_corpses_color off
+r_corpses_mirrored off
+r_corpses_moreblood off
+r_corpses_nudge off
+r_corpses_slide off
+r_corpses_smearblood off
+r_detail low
+r_diskicon on
+r_fixmaperrors off
+r_fixspriteoffsets off
+r_floatbob off
+r_fov 90
+r_gamma off
+r_homindicator off
+r_liquid_bob off
+r_liquid_clipsprites off
+r_liquid_current off
+r_liquid_lowerview off
+r_liquid_swirl off
+r_lowpixelsize 2x2
+r_messagepos (0,0)
+r_messagescale big
+r_mirroredweapons off
+r_playersprites on
+r_rockettrails off
+r_screensize 6
+r_shadows off
+r_shake_barrels off
+r_shake_damage 0%
+r_skycolor none
+r_textures on
+r_translucency off
+s_channels 8
+s_randommusic off
+s_randompitch off
+s_stereo on
+stillbob 0%
+tossdrop off
+turbo 100%
+vid_capfps 35
+vid_motionblur 0%
+vid_pillarboxes off
+vid_showfps off
+weaponbob 100%
+weaponbounce off
+weaponrecoil off
+wipe on

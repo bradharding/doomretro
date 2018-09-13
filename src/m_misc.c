@@ -145,7 +145,7 @@ char *M_GetAppDataFolder(void)
     return executableFolder;
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
-    // a portable installation, and we write doomretro.ini to the executable directory.
+    // a portable installation, and we write doomretro.cfg to the executable directory.
     char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
                 DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
     DIR     *resourceDir = opendir(resourceFolder);
@@ -251,24 +251,6 @@ char *M_GetExecutableFolder(void)
 #else
     return ".";
 #endif
-}
-
-char *M_GetConfigFile(void)
-{
-#if defined(_WIN32)
-    TCHAR   username[64];
-    DWORD   size = 64;
-
-    if (GetUserName(username, &size))
-    {
-        static char buffer[MAX_PATH];
-
-        M_snprintf(buffer, MAX_PATH, PACKAGE_INI_USER, username);
-        return buffer;
-    }
-    else
-#endif
-        return PACKAGE_INI;
 }
 
 // Return a newly-malloced string with all the strings given as arguments

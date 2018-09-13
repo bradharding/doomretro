@@ -267,9 +267,9 @@ valuealias_t valuealiases[] =
 static void SaveBind(FILE *file, char *control, char *string)
 {
     if (strlen(control) == 1)
-        fprintf(file, "'%s'=%s\n", (control[0] == '=' ? "+" : control), string);
+        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), string);
     else
-        fprintf(file, "%s=%s\n", control, string);
+        fprintf(file, "bind %s %s\n", control, string);
 }
 
 static void SaveBindByValue(FILE *file, char *action, int value, controltype_t type)
@@ -317,7 +317,7 @@ void M_SaveCVARs(void)
         }
 
         // Print the name
-        fprintf(file, "%s=", cvars[i].name);
+        fprintf(file, "%s ", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
@@ -466,7 +466,7 @@ void M_SaveCVARs(void)
 
         for (int i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name)
-                fprintf(file, "%s=\"%s\"\n", aliases[i].name, aliases[i].string);
+                fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
     }
 
     fclose(file);
@@ -880,7 +880,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && M_StringStartsWith(filename, PACKAGE))
+    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
     {
         for (int i = 0; *actions[i].action; i++)
         {
@@ -909,7 +909,7 @@ void M_LoadCVARs(char *filename)
         char    cvar[64] = "";
         char    value[256] = "";
 
-        if (fscanf(file, "%63[^=]=%255[^\n]\n", cvar, value) != 2)
+        if (fscanf(file, "%63s %255[^\n]\n", cvar, value) != 2)
             continue;
 
         if (cvar[0] == ';')
