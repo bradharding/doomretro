@@ -4495,13 +4495,41 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
     if (vanilla)
     {
+        for (int i = 0; *actions[i].action; i++)
+        {
+            if (actions[i].keyboard1)
+                *(int *)actions[i].keyboard1 = 0;
+
+            if (actions[i].keyboard2)
+                *(int *)actions[i].keyboard2 = 0;
+
+            if (actions[i].mouse1)
+                *(int *)actions[i].mouse1 = -1;
+
+            if (actions[i].gamepad1)
+                *(int *)actions[i].gamepad1 = 0;
+
+            if (actions[i].gamepad2)
+                *(int *)actions[i].gamepad2 = 0;
+        }
+
         SC_Open("VANILLA");
 
         while (SC_GetString())
         {
             char    *cvar = strdup(sc_String);
 
-            if (SC_GetString())
+            if (M_StringCompare(cvar, "bind"))
+            {
+                if (SC_GetString())
+                {
+                    char    *control = strdup(sc_String);
+
+                    if (SC_GetString())
+                        bind_cmd_func2("bind", M_StringJoin(control, " ", sc_String, NULL));
+                }
+            }
+            else if (SC_GetString())
                 C_ValidateInput(M_StringJoin(cvar, " ", sc_String, NULL));
 
             free(cvar);

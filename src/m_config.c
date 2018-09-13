@@ -880,7 +880,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
+    if (togglingvanilla || M_StringEndsWith(filename, PACKAGE_CONFIG))
     {
         for (int i = 0; *actions[i].action; i++)
         {
@@ -917,12 +917,8 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(cvar, "bind"))
         {
-            if (!togglingvanilla)
-            {
-                bind_cmd_func2("bind", value);
-                bindcount++;
-            }
-
+            bind_cmd_func2("bind", value);
+            bindcount++;
             continue;
         }
         else if (M_StringCompare(cvar, "alias"))
