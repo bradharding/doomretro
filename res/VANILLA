@@ -106,6 +106,7 @@ bind right +right
 bind shift +run
 bind lefttrigger +run
 bind alt +strafe
+bind mouse2 +strafe
 bind ',' +strafeleft
 bind '.' +straferight
 bind space +use
