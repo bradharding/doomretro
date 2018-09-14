@@ -433,7 +433,7 @@ dboolean P_GiveMegaHealth(dboolean stat)
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             if (stat)
-                P_UpdateHealthStat(mega_health - viewplayer->health);
+                P_UpdateHealthStat(MAX(0, mega_health - viewplayer->health));
         }
 
         if (viewplayer->health < mega_health)
