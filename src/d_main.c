@@ -1741,9 +1741,6 @@ static void D_DoomMainSetup(void)
 
     W_Init();
 
-    if (!CheckPackageWADVersion())
-        I_Error("%s is the wrong version.", packagewad);
-
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
@@ -1781,6 +1778,10 @@ static void D_DoomMainSetup(void)
     D_IdentifyVersion();
     InitGameVersion();
     D_ProcessDehInWad();
+
+    if (!M_StringCompare(s_VERSION, PACKAGE_NAMEANDVERSIONSTRING))
+        I_Error("%s is the wrong version.", packagewad);
+
     D_SetGameDescription();
 
     if (nerve && expansion == 2)

@@ -518,7 +518,6 @@
     <None Include="..\res\doomretro.wad" />
     <None Include="..\res\DRCOMPAT" />
     <None Include="..\res\VANILLA" />
-    <None Include="..\res\VERSION" />
     <None Include="..\src\doomretro.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -62,6 +62,8 @@ typedef struct
 extern dboolean dehacked;
 extern deh_strs deh_strlookup[];
 
+extern char     *s_VERSION;
+
 extern char     *s_D_DEVSTR;
 
 extern char     *s_PRESSKEY;
@@ -486,7 +488,5 @@ extern char     *startup2;
 extern char     *startup3;
 extern char     *startup4;
 extern char     *startup5;
-
-dboolean CheckPackageWADVersion(void);
 
 #endif
