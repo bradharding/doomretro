@@ -291,7 +291,7 @@ void M_SaveCVARs(void)
     int     p;
     FILE    *file;
 
-    if (!cvarsloaded || vanilla)
+    if (!cvarsloaded || vanilla || togglingvanilla)
         return;
 
     p = M_CheckParmWithArgs("-config", 1, 1);
@@ -880,7 +880,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (togglingvanilla || M_StringEndsWith(filename, PACKAGE_CONFIG))
+    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
     {
         for (int i = 0; *actions[i].action; i++)
         {

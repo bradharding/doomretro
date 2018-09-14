@@ -4493,26 +4493,26 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
     togglingvanilla = true;
 
+    for (int i = 0; *actions[i].action; i++)
+    {
+        if (actions[i].keyboard1)
+            *(int *)actions[i].keyboard1 = 0;
+
+        if (actions[i].keyboard2)
+            *(int *)actions[i].keyboard2 = 0;
+
+        if (actions[i].mouse1)
+            *(int *)actions[i].mouse1 = -1;
+
+        if (actions[i].gamepad1)
+            *(int *)actions[i].gamepad1 = 0;
+
+        if (actions[i].gamepad2)
+            *(int *)actions[i].gamepad2 = 0;
+    }
+
     if (vanilla)
     {
-        for (int i = 0; *actions[i].action; i++)
-        {
-            if (actions[i].keyboard1)
-                *(int *)actions[i].keyboard1 = 0;
-
-            if (actions[i].keyboard2)
-                *(int *)actions[i].keyboard2 = 0;
-
-            if (actions[i].mouse1)
-                *(int *)actions[i].mouse1 = -1;
-
-            if (actions[i].gamepad1)
-                *(int *)actions[i].gamepad1 = 0;
-
-            if (actions[i].gamepad2)
-                *(int *)actions[i].gamepad2 = 0;
-        }
-
         SC_Open("VANILLA");
 
         while (SC_GetString())
@@ -4527,6 +4527,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
                     if (SC_GetString())
                         bind_cmd_func2("bind", M_StringJoin(control, " ", sc_String, NULL));
+
+                    free(control);
                 }
             }
             else if (SC_GetString())
@@ -4538,23 +4540,19 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         SC_Close();
         C_Output(s_STSTR_VMON);
         HU_SetPlayerMessage(s_STSTR_VMON, false, false);
-
         C_Warning("Any changes to CVARs won't be saved while vanilla mode is on.");
-
-        if (gamestate == GS_LEVEL)
-            C_HideConsole();
     }
     else
     {
         M_LoadCVARs(packageconfig);
         C_Output(s_STSTR_VMOFF);
         HU_SetPlayerMessage(s_STSTR_VMOFF, false, false);
-
-        if (gamestate == GS_LEVEL)
-            C_HideConsole();
     }
 
     togglingvanilla = false;
+
+    if (gamestate == GS_LEVEL)
+        C_HideConsole();
 }
 
 //
