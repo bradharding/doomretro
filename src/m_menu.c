@@ -500,7 +500,7 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
-    height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
+    height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred)
     {
@@ -3461,7 +3461,7 @@ void M_Drawer(void)
 
         M_DarkBackground();
 
-        if (vid_widescreen)
+        if (vid_widescreen && gamestate == GS_LEVEL)
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
         else
             y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;
