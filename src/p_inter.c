@@ -113,7 +113,7 @@ unsigned int    stat_monsterskilled_zombiemen = 0;
 
 extern int      idclevtics;
 
-static void P_UpdateAmmoStat(ammotype_t ammotype, int num)
+void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 {
     switch (ammotype)
     {
@@ -391,7 +391,7 @@ dboolean P_GiveAllWeapons(void)
     return result;
 }
 
-static void P_UpdateHealthStat(int num)
+void P_UpdateHealthStat(int num)
 {
     viewplayer->itemspickedup_health += num;
     stat_itemspickedup_health = SafeAdd(stat_itemspickedup_health, num);
@@ -446,7 +446,7 @@ dboolean P_GiveMegaHealth(dboolean stat)
     return result;
 }
 
-static void P_UpdateArmorStat(int num)
+void P_UpdateArmorStat(int num)
 {
     viewplayer->itemspickedup_armor += num;
     stat_itemspickedup_armor = SafeAdd(stat_itemspickedup_armor, num);

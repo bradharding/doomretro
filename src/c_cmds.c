@@ -55,6 +55,7 @@
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "info.h"
 #include "m_cheat.h"
 #include "m_config.h"
@@ -5099,6 +5100,8 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 if (value > viewplayer->ammo[ammotype])
                 {
+                    P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
+                    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }
@@ -5126,6 +5129,8 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 if (value > viewplayer->armorpoints)
                 {
+                    P_UpdateArmorStat(value - viewplayer->armorpoints);
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }
@@ -5173,8 +5178,10 @@ static void player_cvars_func2(char *cmd, char *parms)
                     P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
                 else
                 {
+                    P_UpdateHealthStat(value - viewplayer->health);
                     viewplayer->health = value;
                     viewplayer->mo->health = value;
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }

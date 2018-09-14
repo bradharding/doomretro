@@ -52,6 +52,9 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat);
 dboolean P_GiveFullAmmo(dboolean stat);
 void P_AddBonus(void);
 void G_RemoveChoppers(void);
+void P_UpdateAmmoStat(ammotype_t ammotype, int num);
+void P_UpdateArmorStat(int num);
+void P_UpdateHealthStat(int num);
 void P_UpdateKillStat(mobjtype_t type, int value);
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
 
