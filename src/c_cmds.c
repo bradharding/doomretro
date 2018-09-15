@@ -3285,9 +3285,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
+        if (((gamemode == commercial || gameepisode > 1) && lumps == 1) || (gamemode != commercial && gameepisode == 1 && lumps == 2))
+        {
             C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
+            C_TabbedOutput(tabs, "Music composer\t<b>Bobby Prince</b>");
+        }
 
         if (musmusictype)
             C_TabbedOutput(tabs, "Music format\t<b>MUS converted to MIDI</b>");

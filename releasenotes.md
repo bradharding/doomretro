@@ -8,6 +8,7 @@
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, then the state of that key will now be toggled as necessary when *DOOM Retro’s* window gains or loses focus, not just when it is closed.
 * Any screen shake or palette effects will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quick save a game.
 * Certain controls will now be unbound when vanilla mode is on.
+* If a map from an IWAD is loaded, the music’s composer (that is, [Bobby Prince](https://doomwiki.org/wiki/Robert_Prince)) is now displayed by the `mapstats` CCMD.
 
 ---
 
