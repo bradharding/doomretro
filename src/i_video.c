@@ -1829,12 +1829,7 @@ void I_InitGraphics(void)
 
 #if !defined(_WIN32)
     if (*vid_driver)
-    {
-        char    envstring[255];
-
-        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", vid_driver);
-        SDL_setenv(envstring, true);
-    }
+        SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
 #endif
 
     SDL_InitSubSystem(SDL_INIT_VIDEO);
