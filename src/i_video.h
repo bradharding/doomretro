@@ -71,7 +71,6 @@ void GetWindowPosition(void);
 void GetWindowSize(void);
 void GetScreenResolution(void);
 
-
 // Takes full 8 bit values.
 void I_SetPalette(byte *playpal);
 

@@ -163,7 +163,7 @@ static void P_XYMovement(mobj_t *mo)
     mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    dboolean    corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
@@ -180,6 +180,7 @@ static void P_XYMovement(mobj_t *mo)
     }
 
     player = mo->player;
+    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
 
     // [BH] give smoke trails to rockets
     if (flags2 & MF2_SMOKETRAIL)
@@ -223,8 +224,7 @@ static void P_XYMovement(mobj_t *mo)
             // Add ability for objects other than players to bounce on ice
             if (!(flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)
             {
-                fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx
-                            + (blockline->dy >> FRACBITS) * mo->momy)
+                fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
                             / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
                             + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
                 fixed_t x = FixedMul(r, blockline->dx);
@@ -284,8 +284,8 @@ static void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood
-        && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
+    if (corpse && !(flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood && (mo->momx || mo->momy)
+        && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
         int blood = mobjinfo[mo->blood].blood;
 
@@ -309,8 +309,7 @@ static void P_XYMovement(mobj_t *mo)
     }
 
     if ((corpse || (flags2 & MF2_FALLING))
-        && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
-            || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
+        && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4 || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && mo->floorz != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
 
@@ -388,7 +387,7 @@ static void P_ZMovement(mobj_t *mo)
         fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
         if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
-            mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
+            mo->z += SIGN(delta) * FLOATSPEED;
     }
 
     // clip movement

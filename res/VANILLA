@@ -1,4 +1,5 @@
-﻿alwaysrun off
+﻿; CVARs
+alwaysrun off
 am_allmapcdwallcolor 99
 am_allmapfdwallcolor 99
 am_allmapwallcolor 99
@@ -84,6 +85,7 @@ weaponbounce off
 weaponrecoil off
 wipe on
 
+; bound controls
 bind tab +automap
 bind back +automap
 bind down +back
