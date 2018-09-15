@@ -169,9 +169,9 @@ static const char *root_path_subdirs[] =
 // Location where Steam is installed
 static registryvalue_t steam_install_location =
 {
-    HKEY_LOCAL_MACHINE,
+    HKEY_CURRENT_USER,
     "Software\\Valve\\Steam",
-    "InstallPath"
+    "SteamPath"
 };
 
 // Subdirs of the steam install directory where IWADs are found
