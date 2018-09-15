@@ -583,8 +583,8 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
 
     // [BH] bob objects in liquid
-    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight
-        && !mobj->momz && !sector->heightsec && r_liquid_bob)
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
+        && !sector->heightsec && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] otherwise bob certain power-ups
@@ -627,7 +627,7 @@ void P_MobjThinker(mobj_t *mobj)
             P_ZMovement(mobj);
 
         if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
-            return;             // mobj was removed
+            return;                                             // mobj was removed
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {

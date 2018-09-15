@@ -339,7 +339,7 @@ void D_IdentifyIWADByName(char *name)
 //
 static void AddDoomWADPath(void)
 {
-    char    *doomwadpath = getenv("DOOMWADPATH");
+    char    *doomwadpath = SDL_getenv("DOOMWADPATH");
     char    *p;
 
     if (!doomwadpath)
@@ -379,7 +379,7 @@ static void BuildIWADDirList(void)
         return;
 
     // Add DOOMWADDIR if it is in the environment
-    if ((doomwaddir = getenv("DOOMWADDIR")))
+    if ((doomwaddir = SDL_getenv("DOOMWADDIR")))
         AddIWADDir(doomwaddir);
 
     // Add dirs from DOOMWADPATH

@@ -167,7 +167,7 @@ char *M_GetAppDataFolder(void)
         // On Linux, store generated application files in /home/<username>/.config/doomretro
         char            *buffer;
 
-        if (!(buffer = getenv("HOME")))
+        if (!(buffer = SDL_getenv("HOME")))
             buffer = getpwuid(getuid())->pw_dir;
 
         return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S, PACKAGE, NULL);

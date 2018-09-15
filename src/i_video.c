@@ -71,9 +71,6 @@
 
 #define SHAKEANGLE          (M_RandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
-#define I_SDLError(func)    I_Error("The call to "func"() failed in %s() on line %i of %s with the error:\n" \
-                                "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
-
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0
 #endif
@@ -648,10 +645,7 @@ static void I_GetEvent(void)
                                 windowy = Event->window.data2;
                                 M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
                                 vid_windowpos = strdup(pos);
-
-                                if ((vid_display = SDL_GetWindowDisplayIndex(window) + 1) < 1)
-                                    I_SDLError("SDL_GetWindowDisplayIndex");
-
+                                vid_display = SDL_GetWindowDisplayIndex(window) + 1;
                                 M_SaveCVARs();
                             }
 
@@ -1019,10 +1013,7 @@ static void I_RestoreFocus(void)
     SDL_SysWMinfo   info;
 
     SDL_VERSION(&info.version);
-
-    if (!SDL_GetWindowWMInfo(window, &info))
-        I_SDLError("SDL_GetWindowWMInfo");
-
+    SDL_GetWindowWMInfo(window, &info);
     SetFocus(info.info.win.window);
 #endif
 }
@@ -1032,8 +1023,7 @@ static void GetDisplays(void)
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
 
     for (int i = 0; i < numdisplays; i++)
-        if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
-            I_SDLError("SDL_GetDisplayBounds");
+        SDL_GetDisplayBounds(i, &displays[i]);
 }
 
 void I_CreateExternalAutomap(dboolean output)
@@ -1062,57 +1052,40 @@ void I_CreateExternalAutomap(dboolean output)
 
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
-    if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP)))
-        I_SDLError("SDL_CreateWindow");
+    mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, flags)))
-        I_SDLError("SDL_CreateRenderer");
-
-    if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT) < 0)
-        I_SDLError("SDL_RenderSetLogicalSize");
-
-    if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
-        I_SDLError("SDL_CreateRGBSurface");
+    maprenderer = SDL_CreateRenderer(mapwindow, -1, flags);
+    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT);
+    mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
 
     if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
-    {
-        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
-            I_SDLError("SDL_CreateRGBSurface");
-    }
-    else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
-        I_SDLError("SDL_CreateRGBSurface");
+        mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
+    else
+        mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
-        SCREENWIDTH, SCREENHEIGHT)))
-        I_SDLError("SDL_CreateTexture");
+    maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
 
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
-            I_SDLError("SDL_CreateTexture");
+        maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
 
         mapblitfunc = I_Blit_Automap_NearestLinear;
     }
     else
         mapblitfunc = I_Blit_Automap;
 
-    if (!(mappalette = SDL_AllocPalette(256)))
-        I_SDLError("SDL_AllocPalette");
-
-    if (SDL_SetSurfacePalette(mapsurface, mappalette) < 0)
-        I_SDLError("SDL_SetSurfacePalette");
-
-    if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
-        I_SDLError("SDL_SetPaletteColors");
+    mappalette = SDL_AllocPalette(256);
+    SDL_SetSurfacePalette(mapsurface, mappalette);
+    SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     mapscreen = mapsurface->pixels;
     map_rect.w = SCREENWIDTH;
@@ -1407,9 +1380,8 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0, (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP))))
-                I_SDLError("SDL_CreateWindow");
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0, (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP));
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
@@ -1422,12 +1394,10 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, windowflags)))
-                I_SDLError("SDL_CreateWindow");
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, windowflags);
 
-            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) < 0)
-                I_SDLError("SDL_SetWindowFullscreen");
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
@@ -1448,9 +1418,8 @@ static void SetVideoMode(dboolean output)
 
         if (!windowx && !windowy)
         {
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
-                I_SDLError("SDL_CreateWindow");
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags);
 
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s centered on the screen.",
@@ -1458,8 +1427,7 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
-                I_SDLError("SDL_CreateWindow");
+            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags);
 
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
@@ -1475,11 +1443,8 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    if (!(renderer = SDL_CreateRenderer(window, -1, rendererflags)))
-        I_SDLError("SDL_CreateRenderer");
-
-    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
-        I_SDLError("SDL_RenderSetLogicalSize");
+    renderer = SDL_CreateRenderer(window, -1, rendererflags);
+    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
     {
@@ -1657,42 +1622,31 @@ static void SetVideoMode(dboolean output)
         }
     }
 
-    if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
-        I_SDLError("SDL_CreateRGBSurface");
+    surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
 
     screens[0] = surface->pixels;
 
     if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask))
-    {
-        if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
-            I_SDLError("SDL_CreateRGBSurface");
-    }
-    else if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
-        I_SDLError("SDL_CreateRGBSurface");
+        buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
+    else
+        buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
 
     SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
-        I_SDLError("SDL_CreateTexture");
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
 
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
-
-        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
-            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
-            I_SDLError("SDL_CreateTexture");
+        texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH,
+            upscaledheight * SCREENHEIGHT);
     }
 
-    if (!(palette = SDL_AllocPalette(256)))
-        I_SDLError("SDL_AllocPalette");
-
-    if (SDL_SetSurfacePalette(surface, palette) < 0)
-        I_SDLError("SDL_SetSurfacePalette");
-
+    palette = SDL_AllocPalette(256);
+    SDL_SetSurfacePalette(surface, palette);
     I_SetPalette(playpal + st_palette * 768);
 
     src_rect.w = SCREENWIDTH;
@@ -1704,10 +1658,7 @@ void I_ToggleWidescreen(dboolean toggle)
     if (toggle)
     {
         vid_widescreen = true;
-
-        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 10 / 16) < 0)
-            I_SDLError("SDL_RenderSetLogicalSize");
-
+        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
     else
@@ -1717,9 +1668,7 @@ void I_ToggleWidescreen(dboolean toggle)
         if (gamestate == GS_LEVEL)
             ST_doRefresh();
 
-        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
-            I_SDLError("SDL_RenderSetLogicalSize");
-
+        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
     }
 
@@ -1728,8 +1677,7 @@ void I_ToggleWidescreen(dboolean toggle)
 
     HU_InitMessages();
 
-    if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
-        I_SDLError("SDL_SetPaletteColors");
+    SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
 #if defined(_WIN32)
@@ -1885,13 +1833,11 @@ void I_InitGraphics(void)
         char    envstring[255];
 
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", vid_driver);
-        putenv(envstring);
+        SDL_setenv(envstring, true);
     }
 #endif
 
-    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-        I_SDLError("SDL_InitSubSystem");
-
+    SDL_InitSubSystem(SDL_INIT_VIDEO);
     GetDisplays();
 
 #if defined(_DEBUG)
