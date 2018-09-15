@@ -41,6 +41,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_iwad.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
@@ -868,6 +869,7 @@ void M_LoadCVARs(char *filename)
     {
         M_CheckCVARs();
         M_SaveCVARs();
+        D_InitIWADFolder();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
         return;

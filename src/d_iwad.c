@@ -45,6 +45,7 @@
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "version.h"
@@ -434,6 +435,15 @@ char *D_FindWADByName(char *filename)
 
     // File not found
     return NULL;
+}
+
+void D_InitIWADFolder(void)
+{
+    BuildIWADDirList();
+
+    for (int i = 0; i < num_iwad_dirs; i++)
+        if (M_FolderExists(iwad_dirs[i]))
+            iwadfolder = iwad_dirs[i];
 }
 
 //
