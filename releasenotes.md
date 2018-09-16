@@ -1,5 +1,6 @@
 ### DOOM Retro v2.8
 
+* When *DOOM Retro* is opened for the first time, a common *DOOM* installation will try to be found and the WAD launcher will default to that folder.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
