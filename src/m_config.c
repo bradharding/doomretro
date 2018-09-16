@@ -868,8 +868,8 @@ void M_LoadCVARs(char *filename)
     if (!file)
     {
         M_CheckCVARs();
-        M_SaveCVARs();
         D_InitIWADFolder();
+        M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
         return;
