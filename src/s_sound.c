@@ -445,12 +445,13 @@ static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
     return (*vol > 0);
 }
 
- void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
+static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
     int         sep = NORM_SEP;
     int         cnum;
     int         handle;
+    int         volume = snd_SfxVolume;
 
     if (nosfx || sfx->lumpnum == -1)
         return;
@@ -492,12 +493,12 @@ static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
 
 void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
+    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH));
 }
 
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
 {
-    S_StartSoundAtVolume((mobj_t *)degenmobj, sfx_id, NORM_PITCH, snd_SfxVolume);
+    S_StartSoundAtVolume((mobj_t *)degenmobj, sfx_id, NORM_PITCH);
 }
 
 //

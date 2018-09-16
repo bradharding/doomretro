@@ -92,7 +92,6 @@ void S_Start(void);
 //  using <sfx_id> from sounds.h
 //
 void S_StartSound(mobj_t *mobj, int sfx_id);
-void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume);
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
 
 void S_StopSounds(void);
