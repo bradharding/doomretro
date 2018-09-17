@@ -80,8 +80,6 @@
 
 #define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define CARETBLINKTIME          350
-
 console_t               *console;
 
 dboolean                consoleactive;

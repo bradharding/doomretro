@@ -1024,8 +1024,6 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-#define CARETBLINKTIME  350
-
 static dboolean showcaret;
 static int      caretwait;
 int             caretcolor;
