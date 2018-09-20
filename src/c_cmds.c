@@ -5409,6 +5409,7 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
     {
         setsizeneeded = true;
         R_InitLightTables();
+        S_StartSound(NULL, sfx_stnmov);
     }
 }
 
