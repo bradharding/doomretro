@@ -459,10 +459,6 @@ dboolean ST_Responder(event_t *ev)
                     C_Output(s_STSTR_DQDON);
                     HU_SetPlayerMessage(s_STSTR_DQDON, false, false);
 
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
-
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
@@ -471,14 +467,12 @@ dboolean ST_Responder(event_t *ev)
                     C_Output(s_STSTR_DQDOFF);
                     HU_SetPlayerMessage(s_STSTR_DQDOFF, false, false);
 
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
-
                     // [BH] restore player's health
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
                 }
+
+                message_dontfuckwithme = true;
             }
 
             // 'fa' cheat for killer fucking arsenal
@@ -527,10 +521,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
-
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    message_dontfuckwithme = true;
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
@@ -590,10 +581,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
-
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    message_dontfuckwithme = true;
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
@@ -637,10 +625,7 @@ dboolean ST_Responder(event_t *ev)
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, uppercase(S_music[musnum].name));
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
-
-                            // [BH] always display message
-                            if (!consoleactive)
-                                message_dontfuckwithme = true;
+                            message_dontfuckwithme = true;
                         }
                         else
                             idmus = false;
@@ -674,9 +659,7 @@ dboolean ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
                 }
 
-                // [BH] always display message
-                if (!consoleactive)
-                    message_dontfuckwithme = true;
+                message_dontfuckwithme = true;
 
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
@@ -807,9 +790,7 @@ dboolean ST_Responder(event_t *ev)
                     cheat_buddha.chars_read = 0;
                     cheatkey = '\0';
 
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    message_dontfuckwithme = true;
 
                     idbehold = false;
                     return true;
@@ -862,10 +843,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Output(s_STSTR_CHOPPERS);
                     HU_SetPlayerMessage(s_STSTR_CHOPPERS, false, false);
-
-                    // [BH] always display message
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    message_dontfuckwithme = true;
 
                     viewplayer->cheats |= CF_CHOPPERS;
 
@@ -930,9 +908,7 @@ dboolean ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(s_STSTR_BUDDHAOFF, false, false);
                 }
 
-                // [BH] always display message
-                if (!consoleactive)
-                    message_dontfuckwithme = true;
+                message_dontfuckwithme = true;
             }
 
             else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
@@ -1034,7 +1010,6 @@ dboolean ST_Responder(event_t *ev)
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
                     drawdisk = true;
-                    C_HideConsole();
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
