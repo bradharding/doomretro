@@ -219,7 +219,7 @@ static void P_RunThinkers(void)
 
     while (currentthinker != &thinkercap)
     {
-        if (currentthinker->function)
+        if (currentthinker->function && (!freeze || (mobj_t *)currentthinker == viewplayer->mo))
             currentthinker->function(currentthinker);
 
         currentthinker = currentthinker->next;

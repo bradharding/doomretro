@@ -70,9 +70,6 @@ void T_VerticalDoor(vldoor_t *door)
 {
     result_e    res;
 
-    if (freeze)
-        return;
-
     switch (door->direction)
     {
         case 0:

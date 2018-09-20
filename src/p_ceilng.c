@@ -63,9 +63,6 @@ void T_MoveCeiling(ceiling_t *ceiling)
 {
     result_e    res;
 
-    if (freeze)
-        return;
-
     switch (ceiling->direction)
     {
         case 0:

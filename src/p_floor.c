@@ -209,9 +209,6 @@ void T_MoveFloor(floormove_t *floor)
     sector_t    *sec;
     result_e    res;
 
-    if (freeze)
-        return;
-
     sec = floor->sector;
     res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction, false);
 
@@ -314,9 +311,6 @@ void T_MoveFloor(floormove_t *floor)
 void T_MoveElevator(elevator_t *elevator)
 {
     result_e    res;
-
-    if (freeze)
-        return;
 
     if (elevator->direction < 0)                // moving down
     {
