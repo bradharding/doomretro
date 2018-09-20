@@ -7,10 +7,11 @@
 * The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, then that key will now be toggled on or off as necessary when *DOOM Retro’s* window gains or loses focus, not just when it is closed.
-* Any screen shake or palette effects will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
+* Any screen shake or palette effect will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
 * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Robert_Prince), is now displayed by the `mapstats` CCMD.
 * The console is now automatically closed when entering a cheat.
+* When a monster is killed and it drops an item, some of the momentum of the monster’s corpse is now applied to that item.
 
 ---
 
