@@ -750,7 +750,7 @@ void MusInfoThinker(mobj_t *thing)
 
 void T_MAPMusic(void)
 {
-    if (musinfo.tics < 0 || !musinfo.mapthing)
+    if (!musinfo.mapthing || musinfo.tics < 0)
         return;
 
     if (musinfo.tics > 0)

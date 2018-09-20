@@ -1471,7 +1471,8 @@ static void SetVideoMode(dboolean output)
             else
             {
                 if (output)
-                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL %i.%i</b></i> API.", major, minor);
+                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL %i.%i</b></i> API.",
+                        major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {

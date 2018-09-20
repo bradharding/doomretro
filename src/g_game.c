@@ -442,8 +442,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         mousey = 0;
     }
 
-    cmd->forwardmove += BETWEEN(-MAXPLMOVE, forward, MAXPLMOVE);
-    cmd->sidemove += BETWEEN(-MAXPLMOVE, side, MAXPLMOVE);
+    if (forward)
+        cmd->forwardmove += BETWEEN(-MAXPLMOVE, forward, MAXPLMOVE);
+
+    if (side)
+        cmd->sidemove += BETWEEN(-MAXPLMOVE, side, MAXPLMOVE);
 
     // special buttons
     if (sendpause)
@@ -680,7 +683,7 @@ dboolean G_Responder(event_t *ev)
             return true;        // status window ate it
 
         if (AM_Responder(ev))
-            return true;        // Automap ate it
+            return true;        // automap ate it
     }
 
     if (gamestate == GS_FINALE)
@@ -1201,7 +1204,6 @@ static void G_DoCompleted(void)
     }
 
     if (gamemode != commercial)
-    {
         switch (gamemap)
         {
             case 8:
@@ -1219,7 +1221,6 @@ static void G_DoCompleted(void)
                 viewplayer->didsecret = true;
                 break;
         }
-    }
 
     wminfo.didsecret = viewplayer->didsecret;
     wminfo.epsd = gameepisode - 1;
