@@ -1046,6 +1046,8 @@ dboolean ST_Responder(event_t *ev)
             cheatkey = '\0';
             return true;
         }
+
+        C_HideConsole();
     }
 
     return false;

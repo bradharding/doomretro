@@ -10,6 +10,7 @@
 * Any screen shake or palette effects will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
 * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
 * If a map from an IWAD is loaded, [Bobby Prince](https://doomwiki.org/wiki/Robert_Prince), the music’s composer, is now displayed by the `mapstats` CCMD.
+* The console is now automatically closed when entering a cheat.
 
 ---
 
