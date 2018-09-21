@@ -72,12 +72,14 @@
 #define MCMD_MUSIC              4
 #define MCMD_NEXT               5
 #define MCMD_NOBRIGHTMAP        6
-#define MCMD_NOLIQUID           7
-#define MCMD_PAR                8
-#define MCMD_PISTOLSTART        9
-#define MCMD_SECRETNEXT         10
-#define MCMD_SKY1               11
-#define MCMD_TITLEPATCH         12
+#define MCMD_NOJUMP             7
+#define MCMD_NOLIQUID           8
+#define MCMD_NOMOUSELOOK        9
+#define MCMD_PAR                10
+#define MCMD_PISTOLSTART        11
+#define MCMD_SECRETNEXT         12
+#define MCMD_SKY1               13
+#define MCMD_TITLEPATCH         14
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -179,7 +181,9 @@ static char *mapcmdnames[] =
     "MUSIC",
     "NEXT",
     "NOBRIGHTMAP",
+    "NOJUMP",
     "NOLIQUID",
+    "NOMOUSELOOK",
     "PAR",
     "PISTOLSTART",
     "SECRETNEXT",
@@ -195,7 +199,9 @@ static int mapcmdids[] =
     MCMD_MUSIC,
     MCMD_NEXT,
     MCMD_NOBRIGHTMAP,
+    MCMD_NOJUMP,
     MCMD_NOLIQUID,
+    MCMD_NOMOUSELOOK,
     MCMD_PAR,
     MCMD_PISTOLSTART,
     MCMD_SECRETNEXT,
@@ -219,6 +225,7 @@ mapformat_t     mapformat;
 dboolean        boomlinespecials;
 dboolean        blockmaprecreated;
 dboolean        nojump = false;
+dboolean        nomouselook = false;
 
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxdir;
@@ -2451,6 +2458,10 @@ static void InitMapInfo(void)
                             break;
                         }
 
+                        case MCMD_NOJUMP:
+                            nojump = true;
+                            break;
+
                         case MCMD_NOLIQUID:
                         {
                             int lump;
@@ -2462,6 +2473,10 @@ static void InitMapInfo(void)
 
                             break;
                         }
+
+                        case MCMD_NOMOUSELOOK:
+                            nomouselook = true;
+                            break;
 
                         case MCMD_PAR:
                             SC_MustGetNumber();
@@ -2520,8 +2535,10 @@ static void InitMapInfo(void)
 
             mapmax = MAX(map, mapmax);
         }
-        else if (SC_Compare("nojump"))
+        else if (SC_Compare("NOJUMP"))
             nojump = true;
+        else if (SC_Compare("NOMOUSELOOK"))
+            nomouselook = true;
     }
 
     SC_Close();
@@ -2530,8 +2547,11 @@ static void InitMapInfo(void)
     C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line), (sc_Line > 0 ? "s" : ""),
         (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 
-    if (nojump && (keyboardjump || gamepadjump || mousejump != -1))
+    if (nojump)
         C_Warning("Jumping has been disabled for this PWAD.");
+
+    if (nomouselook)
+        C_Warning("Mouselook has been disabled for this PWAD.");
 }
 
 static int QualifyMap(int map)

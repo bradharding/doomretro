@@ -123,6 +123,7 @@ extern mapformat_t  mapformat;
 extern dboolean     boomlinespecials;
 extern dboolean     blockmaprecreated;
 extern dboolean     nojump;
+extern dboolean     nomouselook;
 
 //
 // POV data.

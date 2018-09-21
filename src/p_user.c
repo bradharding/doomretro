@@ -234,7 +234,8 @@ void P_MovePlayer(void)
         }
     }
 
-    viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
+    if (canmouselook)
+        viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
 
     if (viewplayer->lookdir && !usemouselook)
     {
