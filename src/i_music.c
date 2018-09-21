@@ -263,30 +263,28 @@ void *I_RegisterSong(void *data, int size)
         // Check for MIDI or MUS format first:
         if (size >= 14)
         {
-            if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
+            if (!memcmp(data, "MThd", 4))                       // is it a MIDI?
                 midimusictype = true;
-            else if (mmuscheckformat((UBYTE *)data, size))       // Is it a MUS?
+            else if (mmuscheckformat((UBYTE *)data, size))      // is it a MUS?
+            {
+                MIDI    mididata;
+                UBYTE   *mid;
+                int     midlen;
+
                 musmusictype = true;
-        }
 
-        // If it's a MUS, convert it to MIDI now
-        if (musmusictype)
-        {
-            MIDI    mididata;
-            UBYTE   *mid;
-            int     midlen;
+                memset(&mididata, 0, sizeof(MIDI));
 
-            memset(&mididata, 0, sizeof(MIDI));
+                if (!mmus2mid((UBYTE *)data, (size_t)size, &mididata))
+                    return NULL;
 
-            if (!mmus2mid((UBYTE *)data, (size_t)size, &mididata))
-                return NULL;
+                // Hurrah! Let's make it a mid and give it to SDL_mixer
+                MIDIToMidi(&mididata, &mid, &midlen);
 
-            // Hurrah! Let's make it a mid and give it to SDL_mixer
-            MIDIToMidi(&mididata, &mid, &midlen);
-
-            data = mid;
-            size = midlen;
-            midimusictype = true;   // now it's a MIDI
+                data = mid;
+                size = midlen;
+                midimusictype = true;                           // now it's a MIDI
+            }
         }
 
 #if defined(_WIN32)
