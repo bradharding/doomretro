@@ -1329,19 +1329,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (type != MT_CHAINGUY && type != MT_CYBORG))
-        {
-            static int  prev;
-            int         r = M_RandomInt(1, 10);
-
-            if (r <= 5 + prev)
-            {
-                prev--;
-                target->flags2 |= MF2_MIRRORED;
-            }
-            else
-                prev++;
-        }
+        if (r_corpses_mirrored && (type != MT_CHAINGUY && type != MT_CYBORG) && (M_Random() & 1))
+            target->flags2 |= MF2_MIRRORED;
     }
 
     if (target->flags & MF_COUNTKILL)
