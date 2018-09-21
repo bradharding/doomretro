@@ -129,14 +129,20 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 //
 static void P_BringUpWeapon(void)
 {
+    statenum_t  newstate;
+
     if (viewplayer->pendingweapon == wp_nochange)
         viewplayer->pendingweapon = viewplayer->readyweapon;
-    else if (viewplayer->pendingweapon == wp_chainsaw)
+
+    if (viewplayer->pendingweapon == wp_chainsaw)
         S_StartSound(viewplayer->mo, sfx_sawup);
 
-    viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
-    P_SetPsprite(ps_weapon, weaponinfo[viewplayer->pendingweapon].upstate);
+    newstate = weaponinfo[viewplayer->pendingweapon].upstate;
+
     viewplayer->pendingweapon = wp_nochange;
+    viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
+
+    P_SetPsprite(ps_weapon, newstate);
 }
 
 //
