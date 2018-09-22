@@ -72,14 +72,15 @@
 #define MCMD_MUSIC              4
 #define MCMD_NEXT               5
 #define MCMD_NOBRIGHTMAP        6
-#define MCMD_NOJUMP             7
-#define MCMD_NOLIQUID           8
-#define MCMD_NOMOUSELOOK        9
-#define MCMD_PAR                10
-#define MCMD_PISTOLSTART        11
-#define MCMD_SECRETNEXT         12
-#define MCMD_SKY1               13
-#define MCMD_TITLEPATCH         14
+#define MCMD_NOFREELOOK         7
+#define MCMD_NOJUMP             8
+#define MCMD_NOLIQUID           9
+#define MCMD_NOMOUSELOOK        10
+#define MCMD_PAR                11
+#define MCMD_PISTOLSTART        12
+#define MCMD_SECRETNEXT         13
+#define MCMD_SKY1               14
+#define MCMD_TITLEPATCH         15
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -183,6 +184,7 @@ static char *mapcmdnames[] =
     "MUSIC",
     "NEXT",
     "NOBRIGHTMAP",
+    "NOFREELOOK",
     "NOJUMP",
     "NOLIQUID",
     "NOMOUSELOOK",
@@ -201,6 +203,7 @@ static int mapcmdids[] =
     MCMD_MUSIC,
     MCMD_NEXT,
     MCMD_NOBRIGHTMAP,
+    MCMD_NOFREELOOK,
     MCMD_NOJUMP,
     MCMD_NOLIQUID,
     MCMD_NOMOUSELOOK,
@@ -2476,6 +2479,7 @@ static void InitMapInfo(void)
                             break;
                         }
 
+                        case MCMD_NOFREELOOK:
                         case MCMD_NOMOUSELOOK:
                             info->nomouselook = true;
                             break;
@@ -2539,7 +2543,7 @@ static void InitMapInfo(void)
         }
         else if (SC_Compare("NOJUMP"))
             nojump = true;
-        else if (SC_Compare("NOMOUSELOOK"))
+        else if (SC_Compare("NOMOUSELOOK") || SC_Compare("NOFREELOOK"))
             nomouselook = true;
     }
 
