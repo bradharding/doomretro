@@ -544,6 +544,9 @@ void G_DoLoadLevel(void)
     if (pistolstart || P_GetMapPistolStart(map))
         G_ResetPlayer();
 
+    nojump = P_GetMapNoJump(map);
+    nomouselook = P_GetMapNoMouselook(map);
+
     if (pendinggameskill)
     {
         gameskill = pendinggameskill - 1;

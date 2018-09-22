@@ -91,7 +91,9 @@ struct mapinfo_s
     int         music;
     char        name[128];
     int         next;
+    dboolean    nojump;
     int         noliquid[NUMLIQUIDS];
+    dboolean    nomouselook;
     int         par;
     dboolean    pistolstart;
     int         secretnext;
@@ -2459,7 +2461,7 @@ static void InitMapInfo(void)
                         }
 
                         case MCMD_NOJUMP:
-                            nojump = true;
+                            info->nojump = true;
                             break;
 
                         case MCMD_NOLIQUID:
@@ -2475,7 +2477,7 @@ static void InitMapInfo(void)
                         }
 
                         case MCMD_NOMOUSELOOK:
-                            nomouselook = true;
+                            info->nomouselook = true;
                             break;
 
                         case MCMD_PAR:
@@ -2588,10 +2590,20 @@ int P_GetMapNext(int map)
     return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].next : 0);
 }
 
+dboolean P_GetMapNoJump(int map)
+{
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].nojump : nojump);
+}
+
 void P_GetMapNoLiquids(int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
         sectors[mapinfo[QualifyMap(map)].noliquid[i]].terraintype = SOLID;
+}
+
+dboolean P_GetMapNoMouselook(int map)
+{
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].nomouselook : nomouselook);
 }
 
 int P_GetMapPar(int map)
