@@ -198,8 +198,7 @@ static void R_FixWiggle(sector_t *sector)
 
 static lighttable_t **GetLightTable(const int lightlevel)
 {
-    return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast,
-        LIGHTLEVELS - 1)];
+    return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
 }
 
 static void R_BlastMaskedSegColumn(const rcolumn_t *column)
@@ -220,8 +219,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
         if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
             {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;
                 colfunc();
             }
@@ -675,7 +673,7 @@ void R_StoreWallRange(const int start, const int stop)
 
             midtexture = texturetranslation[sidedef->midtexture];
             height = textureheight[midtexture];
-            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : height >> FRACBITS);
+            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : (height >> FRACBITS));
             midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
             rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight + height - viewz : worldtop)
                 + FixedMod(sidedef->rowoffset, height);
@@ -779,7 +777,7 @@ void R_StoreWallRange(const int start, const int stop)
 
                 toptexture = texturetranslation[sidedef->toptexture];
                 height = textureheight[toptexture];
-                toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : height >> FRACBITS);
+                toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : (height >> FRACBITS));
                 topbrightmap = (usebrightmaps && !nobrightmap[toptexture] ? brightmap[toptexture] : NULL);
                 rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop : backsector->interpceilingheight + height - viewz)
                     + FixedMod(sidedef->rowoffset, height);
@@ -797,7 +795,7 @@ void R_StoreWallRange(const int start, const int stop)
 
                 bottomtexture = texturetranslation[sidedef->bottomtexture];
                 height = textureheight[bottomtexture];
-                bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : height >> FRACBITS);
+                bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : (height >> FRACBITS));
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);

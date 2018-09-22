@@ -76,7 +76,7 @@ void G_RemoveChoppers(void);
 //
 void P_Thrust(angle_t angle, fixed_t move)
 {
-    viewplayer->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    viewplayer->mo->momx += FixedMul(move, finecosine[(angle >>= ANGLETOFINESHIFT)]);
     viewplayer->mo->momy += FixedMul(move, finesine[angle]);
 }
 
@@ -92,7 +92,7 @@ void P_Thrust(angle_t angle, fixed_t move)
 //
 static void P_Bob(angle_t angle, fixed_t move)
 {
-    viewplayer->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    viewplayer->momx += FixedMul(move, finecosine[(angle >>= ANGLETOFINESHIFT)]);
     viewplayer->momy += FixedMul(move, finesine[angle]);
 }
 

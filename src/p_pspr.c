@@ -125,7 +125,6 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 // P_BringUpWeapon
 // Starts bringing the pending weapon up
 // from the bottom of the screen.
-// Uses player
 //
 static void P_BringUpWeapon(void)
 {
@@ -133,8 +132,7 @@ static void P_BringUpWeapon(void)
 
     if (viewplayer->pendingweapon == wp_nochange)
         viewplayer->pendingweapon = viewplayer->readyweapon;
-
-    if (viewplayer->pendingweapon == wp_chainsaw)
+    else if (viewplayer->pendingweapon == wp_chainsaw)
         S_StartSound(viewplayer->mo, sfx_sawup);
 
     newstate = weaponinfo[viewplayer->pendingweapon].upstate;
