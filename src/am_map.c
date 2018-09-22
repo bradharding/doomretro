@@ -1552,7 +1552,7 @@ static void AM_drawWalls(void)
                     if (mapped || cheating)
                         AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, wallcolor);
                     else if (allmap)
-                        AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                        AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapwallcolor);
                 }
                 else if (backsector->floorheight != frontsector->floorheight)
                 {

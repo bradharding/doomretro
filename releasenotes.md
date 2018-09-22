@@ -14,6 +14,7 @@
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Bobby_Prince), is now displayed by the `mapstats` CCMD.
 * The console is now automatically closed when a cheat is entered.
 * When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum of the monster’s corpse is now also applied to that item.
+* A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had the computer area map power-up.
 
 ---
 
