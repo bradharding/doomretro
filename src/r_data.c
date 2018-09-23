@@ -69,6 +69,7 @@ static int  missingflatnum;
 
 int         firstspritelump;
 int         lastspritelump;
+int         numspritelumps;
 
 dboolean    notranslucency;
 dboolean    telefragonmap30;
@@ -432,7 +433,6 @@ static void R_InitFlats(void)
 static void R_InitSpriteLumps(void)
 {
     dboolean    fixspriteoffsets = false;
-    int         numspritelumps;
 
     SC_Open("DRCOMPAT");
 
