@@ -103,10 +103,10 @@ dboolean        autoload = autoload_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
-fixed_t  forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
-fixed_t  sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
-fixed_t  angleturn[3] = { 640, 1280, 320 };     // + slow turn
-fixed_t  gamepadangleturn[2] = { 640, 960 };
+fixed_t         forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
+fixed_t         sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
+fixed_t         angleturn[3] = { 640, 1280, 320 };     // + slow turn
+static fixed_t  gamepadangleturn[2] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -1068,7 +1068,6 @@ void G_PlayerReborn(void)
 
     G_SetInitialWeapon();
 
-    markpointnum = 0;
     infight = false;
     barrelms = 0;
 }
@@ -1414,7 +1413,6 @@ static void G_DoWorldDone(void)
     gamemap = wminfo.next + 1;
     G_DoLoadLevel();
     viewactive = true;
-    markpointnum = 0;
 }
 
 void G_LoadGame(char *name)
@@ -1597,7 +1595,6 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
     d_episode = ep;
     d_map = map;
     gameaction = ga_newgame;
-    markpointnum = 0;
     startingnewgame = true;
     infight = false;
 }
@@ -1614,7 +1611,6 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     d_episode = ep;
     d_map = map;
     gameaction = ga_loadlevel;
-    markpointnum = 0;
     infight = false;
     sector_list = NULL;
 
@@ -1633,7 +1629,6 @@ static void G_DoNewGame(void)
     st_facecount = ST_STRAIGHTFACECOUNT;
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
-    markpointnum = 0;
     infight = false;
 }
 

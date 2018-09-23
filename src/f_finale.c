@@ -87,7 +87,7 @@ extern int              acceleratestage;        // accelerate intermission scree
 //
 // F_ConsoleFinaleText
 //
-void F_ConsoleFinaleText(void)
+static void F_ConsoleFinaleText(void)
 {
     char    *text = strdup(finaletext);
     char    *p = strtok(text, "\n");

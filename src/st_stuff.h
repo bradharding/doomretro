@@ -42,7 +42,6 @@
 // Size of status bar.
 // Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH
-#define ST_Y                    (SCREENHEIGHT - SBARHEIGHT)
 
 // Number of status faces.
 #define ST_NUMPAINFACES         5

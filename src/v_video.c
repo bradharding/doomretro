@@ -61,9 +61,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define BLACK       nearestcolors[0]
-#define DARKGRAY    nearestcolors[1]
-#define WHITE       4
+#define BLACK   nearestcolors[0]
+#define WHITE   4
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];

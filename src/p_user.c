@@ -74,7 +74,7 @@ void G_RemoveChoppers(void);
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-void P_Thrust(angle_t angle, fixed_t move)
+static void P_Thrust(angle_t angle, fixed_t move)
 {
     viewplayer->mo->momx += FixedMul(move, finecosine[(angle >>= ANGLETOFINESHIFT)]);
     viewplayer->mo->momy += FixedMul(move, finesine[angle]);

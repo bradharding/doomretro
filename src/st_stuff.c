@@ -261,7 +261,7 @@ int                         idclevtics;
 
 dboolean                    idmus;
 
-dboolean                    samelevel;
+static dboolean             samelevel;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;

@@ -2260,6 +2260,9 @@ void P_SetupLevel(int ep, int map)
 
     r_bloodsplats_total = 0;
 
+    markpointnum = 0;
+    markpointnum_max = 0;
+
     pathpointnum = 0;
     pathpointnum_max = 0;
 

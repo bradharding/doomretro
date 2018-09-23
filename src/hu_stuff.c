@@ -62,7 +62,6 @@
 // Locally used constants, shortcuts.
 //
 #define HU_TITLEX       3
-#define HU_TITLEY       (ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2)
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -73,8 +72,8 @@ dboolean                message_dontfuckwithme;
 dboolean                message_clearable;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
-int                     message_x;
-int                     message_y;
+static int              message_x;
+static int              message_y;
 
 dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;

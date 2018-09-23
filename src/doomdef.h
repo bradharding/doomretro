@@ -44,10 +44,6 @@
 #include "m_controls.h"
 
 #if defined(_WIN32)
-#define snprintf    _snprintf
-#if (_MSC_VER < 1400)
-#define vsnprintf   _vsnprintf
-#endif
 #define strcasecmp  stricmp
 #define strncasecmp strnicmp
 #else
@@ -65,9 +61,9 @@
 #if defined(__GNUC__)
 
 #if defined(_WIN32) && !defined(__clang__)
-#define PACKEDATTR __attribute__((packed,gcc_struct))
+#define PACKEDATTR  __attribute__((packed,gcc_struct))
 #else
-#define PACKEDATTR __attribute__((packed))
+#define PACKEDATTR  __attribute__((packed))
 #endif
 
 #else

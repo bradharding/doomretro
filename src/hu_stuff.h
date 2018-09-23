@@ -54,9 +54,6 @@
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
-#define HUD_X                       (11 * SCREENSCALE / 2)
-#define HUD_Y                       (311 * SCREENSCALE / 2)
-
 #define HUD_HEALTH_X                40
 #define HUD_HEALTH_Y                (SCREENHEIGHT - SBARHEIGHT - 23)
 #define HUD_HEALTH_MIN              20

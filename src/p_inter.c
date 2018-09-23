@@ -1574,8 +1574,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE) || idclevtics
-            || (damage < 1000 && tplayer->powers[pw_invulnerability]))
+        if ((tplayer->cheats & CF_GODMODE) || idclevtics || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
         if (adjust && tplayer->armortype)

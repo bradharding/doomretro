@@ -322,6 +322,9 @@ void R_InitSprites(void)
         negonearray[i] = -1;
 
     R_InitSpriteDefs();
+
+    num_vissprite_alloc = 128;
+    vissprites = malloc(num_vissprite_alloc * sizeof(*vissprites));
 }
 
 //

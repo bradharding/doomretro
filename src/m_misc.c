@@ -456,7 +456,7 @@ int M_snprintf(char *buf, int buf_len, const char *s, ...)
 }
 
 #if !defined(strndup)
-char *strndup(const char *s, size_t n)
+static char *strndup(const char *s, size_t n)
 {
     size_t  len = strnlen(s, n);
     char    *new = malloc(len + 1);

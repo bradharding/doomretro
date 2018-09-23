@@ -47,8 +47,8 @@
 
 #define MAXVISPLANES    384
 
-visplane_t          *visplanes = NULL;
-visplane_t          *lastvisplane;
+static visplane_t   *visplanes = NULL;
+static visplane_t   *lastvisplane;
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
 static int          numvisplanes;
