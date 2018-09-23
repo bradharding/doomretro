@@ -125,7 +125,6 @@ static int          upscaledheight;
 static dboolean     software;
 
 static int          displayindex;
-static int          am_displayindex;
 static int          numdisplays;
 static SDL_Rect     displays[MAXDISPLAYS];
 
@@ -183,7 +182,6 @@ int                 fps;
 int                 refreshrate;
 
 #if defined(_WIN32)
-static UINT         CapFPSTimer;
 static HANDLE       CapFPSEvent;
 #endif
 
@@ -303,6 +301,8 @@ dboolean keystate(int key)
 void I_CapFPS(int fps)
 {
 #if defined(_WIN32)
+    static UINT CapFPSTimer;
+
     if (CapFPSTimer)
     {
         timeKillEvent(CapFPSTimer);
@@ -738,13 +738,14 @@ static void GetUpscaledTextureSize(int width, int height)
 static uint64_t performancefrequency;
 uint64_t        starttime;
 int             frames = -1;
-static uint64_t currenttime;
 
 static void CalculateFPS(void)
 {
+    uint64_t    currenttime = SDL_GetPerformanceCounter();
+
     frames++;
 
-    if (starttime < (currenttime = SDL_GetPerformanceCounter()) - performancefrequency)
+    if (starttime < currenttime - performancefrequency)
     {
         fps = frames;
         frames = 0;
@@ -1028,9 +1029,10 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(dboolean output)
 {
-    Uint32  rmask, gmask, bmask, amask;
-    int     bpp;
-    int     flags = SDL_RENDERER_TARGETTEXTURE;
+    Uint32      rmask, gmask, bmask, amask;
+    int         bpp;
+    int         flags = SDL_RENDERER_TARGETTEXTURE;
+    static int  am_displayindex;
 
     mapscreen = *screens;
     mapblitfunc = nullfunc;

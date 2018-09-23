@@ -75,7 +75,6 @@ static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // 1/11/98 killough: removed limit on special lines crossed
 line_t          **spechit;
-static int      spechit_max;
 int             numspechit;
 
 static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
@@ -398,6 +397,8 @@ static dboolean PIT_CheckLine(line_t *ld)
     // if contacted a special line, add it to the list
     if (ld->special)
     {
+        static int  spechit_max;
+
         // 1/11/98 killough: remove limit on lines hit, by array doubling
         if (numspechit >= spechit_max)
         {

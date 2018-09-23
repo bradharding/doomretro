@@ -43,13 +43,13 @@
 #include "i_timer.h"
 #include "m_menu.h"
 
-static int      maketic;
 ticcmd_t        localcmds[BACKUPTICS];
 
 extern dboolean advancetitle;
 
 void TryRunTics(void)
 {
+    static int  maketic;
     static int  lastmadetic;
     int         newtics = I_GetTime() - lastmadetic;
     int         runtics;

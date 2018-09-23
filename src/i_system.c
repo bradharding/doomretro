@@ -239,12 +239,11 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static dboolean already_quitting;
-
 void I_Error(const char *error, ...)
 {
-    va_list argptr;
-    char    msgbuf[512];
+    va_list         argptr;
+    char            msgbuf[512];
+    static dboolean already_quitting;
 
     if (already_quitting)
         exit(-1);

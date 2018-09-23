@@ -114,7 +114,6 @@ fixed_t animatedliquiddiffs[64] =
 
 static anim_t       *lastanim;
 static anim_t       *anims;                 // new structure w/o limits -- killough
-static size_t       maxanims;
 
 terraintype_t       *terraintypes;
 dboolean            *isteleport;
@@ -157,6 +156,8 @@ void P_InitPicAnims(void)
 
     for (int i = 0; animdefs[i].istexture != -1; i++)
     {
+        static size_t   maxanims;
+
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
         {

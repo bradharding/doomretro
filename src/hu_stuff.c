@@ -72,8 +72,6 @@ dboolean                message_dontfuckwithme;
 dboolean                message_clearable;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
-static int              message_x;
-static int              message_y;
 
 dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;
@@ -116,7 +114,6 @@ extern int              st_faceindex;
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
-static void (*godhudfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
 void (*althudtextfunc)(int, int, patch_t *, int);
@@ -178,7 +175,6 @@ void HU_SetTranslucency(void)
     {
         hudfunc = V_DrawTranslucentHUDPatch;
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
-        godhudfunc = V_DrawTranslucentYellowHUDPatch;
         althudfunc = V_DrawTranslucentAltHUDPatch;
         althudtextfunc =  V_DrawTranslucentAltHUDText;
         fillrectfunc = V_FillTransRect;
@@ -188,7 +184,6 @@ void HU_SetTranslucency(void)
     {
         hudfunc = V_DrawHUDPatch;
         hudnumfunc = V_DrawHUDPatch;
-        godhudfunc = V_DrawYellowHUDPatch;
         althudfunc = V_DrawAltHUDPatch;
         althudtextfunc = V_DrawAltHUDText;
         fillrectfunc = V_FillRect;
@@ -559,8 +554,6 @@ static patch_t  *altarmpatch;
 static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
-static patch_t  *altkeypatch;
-static patch_t  *altskullpatch;
 
 int             white;
 static int      gray;
@@ -573,6 +566,8 @@ static int      yellow;
 static void HU_AltInit(void)
 {
     char    buffer[9];
+    patch_t *altkeypatch;
+    patch_t *altskullpatch;
 
     for (int i = 0; i < 10; i++)
     {
@@ -873,11 +868,12 @@ void HU_DrawDisk(void)
 
 void HU_InitMessages(void)
 {
-    if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2
-        || message_x < 0 || message_x >= SCREENWIDTH || message_y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
+    int x, y;
+
+    if (sscanf(r_messagepos, "(%10i,%10i)", &x, &y) != 2 || x < 0 || x >= SCREENWIDTH || y < 0 || y >= SCREENHEIGHT - SBARHEIGHT)
     {
-        message_x = HU_MSGX;
-        message_y = HU_MSGY;
+        x = HU_MSGX;
+        y = HU_MSGY;
         r_messagepos = r_messagepos_default;
         M_SaveCVARs();
     }
@@ -886,13 +882,13 @@ void HU_InitMessages(void)
     {
         if (r_messagescale == r_messagescale_small)
         {
-            w_message.l->x = BETWEEN(0, message_x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, message_y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
+            w_message.l->x = BETWEEN(0, x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
         }
         else
         {
-            w_message.l->x = BETWEEN(0, message_x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, message_y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+            w_message.l->x = BETWEEN(0, x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
         }
     }
 

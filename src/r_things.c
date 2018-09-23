@@ -450,6 +450,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const rpatch_t  *patch = R_CachePatchNum(id);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
+    int             baseclip;
 
     spryscale = vis->scale;
     dc_colormap[0] = vis->colormap[0];
@@ -465,7 +466,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         colfunc = vis->colfunc;
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-    dc_baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
+    baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -475,7 +476,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         if ((dc_numposts = column->numposts))
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
-            dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
+            dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
             R_BlastSpriteColumn(column);
         }
     }

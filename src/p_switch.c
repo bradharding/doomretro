@@ -48,7 +48,6 @@
 
 // killough 2/8/98: Remove switch limit
 static int          *switchlist;        // killough
-static int          max_numswitches;    // killough
 static int          numswitches;        // killough
 
 button_t            *buttonlist = NULL;
@@ -87,6 +86,8 @@ void P_InitSwitchList(void)
 
     for (int i = 0; ; i++)
     {
+        static int  max_numswitches;
+
         if (index + 1 >= max_numswitches)
             switchlist = I_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)));
 

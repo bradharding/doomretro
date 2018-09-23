@@ -109,8 +109,6 @@ dboolean        startingnewgame;
 
 static char     savegamestrings[10][SAVESTRINGSIZE];
 
-static char     endstring[160];
-
 static short    itemOn;                 // menu item skull is on
 static short    skullAnimCounter;       // skull animation counter
 static short    whichSkull;             // which skull to draw
@@ -119,16 +117,8 @@ static int      functionkey;
 
 static dboolean usinggamepad;
 
-// graphic name of skulls
-static char     *skullName[2] = { "M_SKULL1", "M_SKULL2" };
-
 // current menudef
 static menu_t   *currentMenu;
-
-static byte     tempscreen1[SCREENWIDTH * SCREENHEIGHT];
-static byte     tempscreen2[SCREENWIDTH * SCREENHEIGHT];
-static byte     blurscreen1[SCREENWIDTH * SCREENHEIGHT];
-static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
 
@@ -500,6 +490,11 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
+    static byte tempscreen1[SCREENWIDTH * SCREENHEIGHT];
+    static byte tempscreen2[SCREENWIDTH * SCREENHEIGHT];
+    static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
+    static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+
     height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred)
@@ -1949,6 +1944,8 @@ static char *M_SelectEndMessage(void)
 
 void M_QuitDOOM(int choice)
 {
+    static char endstring[160];
+
     quitting = true;
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", M_SelectEndMessage(), (usinggamepad ? s_DOSA : s_DOSY));
     M_StartMessage(endstring, M_QuitResponse, true);
@@ -3516,6 +3513,8 @@ void M_Drawer(void)
     if (currentMenu != &ReadDef)
     {
         // DRAW SKULL
+        char    *skullName[2] = { "M_SKULL1", "M_SKULL2" };
+
         if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {
             patch_t *patch = W_CacheLumpName(skullName[whichSkull]);

@@ -43,8 +43,6 @@
 #include "m_config.h"
 #include "p_local.h"
 
-static unsigned int maxdrawsegs;
-
 static dboolean     segtextured;        // True if any of the segs textures might be visible.
 
 static dboolean     markfloor;          // False if the back side is the same plane.
@@ -535,14 +533,15 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t dx, dy;
-    int64_t dx1, dy1;
-    int64_t len;
-    int     worldtop;
-    int     worldbottom;
-    int     worldhigh;
-    int     worldlow;
-    side_t  *sidedef;
+    int64_t             dx, dy;
+    int64_t             dx1, dy1;
+    int64_t             len;
+    int                 worldtop;
+    int                 worldbottom;
+    int                 worldhigh;
+    int                 worldlow;
+    side_t              *sidedef;
+    static unsigned int maxdrawsegs;
 
     linedef = curline->linedef;
 

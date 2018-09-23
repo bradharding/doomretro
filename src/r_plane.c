@@ -51,7 +51,6 @@ static visplane_t   *visplanes = NULL;
 static visplane_t   *lastvisplane;
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
-static int          numvisplanes;
 
 int                *openings;                   // dropoff overflow
 int                *lastopening;                // dropoff overflow
@@ -160,6 +159,8 @@ void R_ClearPlanes(void)
 
 static void R_RaiseVisplanes(visplane_t **vp)
 {
+    static int  numvisplanes;
+
     if (lastvisplane - visplanes == numvisplanes)
     {
         int         numvisplanes_old = numvisplanes;

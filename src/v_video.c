@@ -798,39 +798,6 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
     }
 }
 
-void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, byte *translucency)
-{
-    byte    *desttop;
-    int     w;
-
-    if (!translucency)
-        return;
-
-    desttop = screens[0] + y * SCREENWIDTH + x;
-    w = SHORT(patch->width);
-
-    for (int col = 0; col < w; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = desttop + column->topdelta * SCREENWIDTH;
-            int     count = column->length;
-
-            while (count--)
-            {
-                *dest = redtoyellow[*source++];
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -879,33 +846,6 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
                 byte    dot = *source++;
 
                 *dest = (dot == 109 ? tinttab33[*dest] : translucency[(dot << 8) + *dest]);
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
-void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *translucency)
-{
-    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
-    int     w = SHORT(patch->width);
-
-    for (int col = 0; col < w; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = desttop + column->topdelta * SCREENWIDTH;
-            int     count = column->length;
-
-            while (count--)
-            {
-                *dest = tinttab75[(redtoyellow[*source++] << 8) + *dest];
                 dest += SCREENWIDTH;
             }
 

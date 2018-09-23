@@ -139,7 +139,6 @@ fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
 byte            *dc_blood;
 byte            *dc_brightmap;
-int             dc_baseclip;
 int             dc_floorclip;
 int             dc_ceilingclip;
 int             dc_numposts;

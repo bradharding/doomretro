@@ -83,7 +83,6 @@ dboolean        M_MSENS;
 dboolean        M_MSGOFF;
 dboolean        M_MSGON;
 dboolean        M_NEWG;
-dboolean        M_NGAME;
 dboolean        M_NMARE;
 dboolean        M_OPTTTL;
 dboolean        M_PAUSE;

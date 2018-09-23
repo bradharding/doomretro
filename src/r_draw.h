@@ -58,7 +58,6 @@ extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
 extern byte             *dc_blood;
 extern byte             *dc_brightmap;
-extern int              dc_baseclip;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
 extern int              dc_numposts;
