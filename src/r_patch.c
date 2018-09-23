@@ -104,6 +104,9 @@ void R_InitPatches(void)
 
     for (int i = 0; i < numspritelumps; i++)
         R_CachePatchNum(firstspritelump + i);
+
+    for (int i = 0; i < numtextures; i++)
+        R_CacheTextureCompositePatchNum(i);
 }
 
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
