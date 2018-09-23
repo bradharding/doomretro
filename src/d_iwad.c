@@ -445,7 +445,8 @@ void D_InitIWADFolder(void)
         if (M_FolderExists(iwad_dirs[i]))
             iwadfolder = iwad_dirs[i];
 
-    strreplace(iwadfolder, "/", "\\");
+    if (num_iwad_dirs)
+	    strreplace(iwadfolder, "/", "\\");
 }
 
 //
