@@ -490,8 +490,6 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
-    static byte tempscreen1[SCREENWIDTH * SCREENHEIGHT];
-    static byte tempscreen2[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
@@ -499,14 +497,16 @@ void M_DarkBackground(void)
 
     if (!blurred)
     {
-        BlurScreen(screens[0], tempscreen1, blurscreen1);
+        byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
+
+        BlurScreen(screens[0], tempscreen, blurscreen1);
 
         for (int i = 0; i < height; i++)
             blurscreen1[i] = tinttab50[blurscreen1[i]];
 
         if (mapwindow)
         {
-            BlurScreen(mapscreen, tempscreen2, blurscreen2);
+            BlurScreen(mapscreen, tempscreen, blurscreen2);
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];

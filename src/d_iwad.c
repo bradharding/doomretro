@@ -446,7 +446,7 @@ void D_InitIWADFolder(void)
             iwadfolder = iwad_dirs[i];
 
     if (num_iwad_dirs)
-	    strreplace(iwadfolder, "/", "\\");
+        strreplace(iwadfolder, "/", "\\");
 }
 
 //
