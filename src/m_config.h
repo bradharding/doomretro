@@ -392,7 +392,11 @@ enum
 
 #define infiniteheight_default                  false
 
+#if defined(_WIN32)
 #define iwadfolder_default                      "C:\\"
+#else
+#define iwadfolder_default                      "/"
+#endif
 
 #define m_acceleration_default                  true
 
