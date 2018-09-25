@@ -1095,14 +1095,15 @@ static void P_LoadThings(int lump)
         dboolean    spawn = true;
         short       type = SHORT(mt.type);
 
-        if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner)
+        if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
         {
+            int         doomednum = P_FindDoomedNum(type);
             static char buffer[128];
 
-            M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(type)].plural1, sizeof(buffer));
+            M_StringCopy(buffer, mobjinfo[doomednum].plural1, sizeof(buffer));
 
             if (!*buffer)
-                M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(type)].name1);
+                M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
             C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
