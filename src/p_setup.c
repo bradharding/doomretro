@@ -2387,7 +2387,7 @@ static void InitMapInfo(void)
             // Process optional tokens
             while (SC_GetString())
             {
-                if (SC_Compare("MAP"))
+                if (SC_Compare("MAP") || SC_Compare("DEFAULTMAP"))
                 {
                     SC_UnGet();
                     break;
