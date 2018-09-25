@@ -15,6 +15,7 @@
 * The console is now automatically closed when a cheat is entered.
 * When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum of the monster’s corpse is now also applied to that item.
 * A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had the computer area map power-up.
+* Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures.
 
 ---
 
