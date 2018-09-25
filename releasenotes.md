@@ -4,7 +4,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
-* The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
+* The fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
@@ -12,10 +12,10 @@
 * Any screen shake or palette effect will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
 * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Bobby_Prince), is now displayed by the `mapstats` CCMD.
-* The console is now automatically closed when a cheat is entered.
-* When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum of the monster’s corpse is now also applied to that item.
-* A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had the computer area map power-up.
-* Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures.
+* The console will now automatically close when a cheat is entered.
+* When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum applied to the monster’s corpse is now also applied to that item.
+* A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had a computer area map power-up.
+* Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures when the `r_brightmaps` CVAR is `on`.
 
 ---
 
