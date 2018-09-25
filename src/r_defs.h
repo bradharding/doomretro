@@ -573,9 +573,7 @@ enum
     WR_Teleport_MonstersOnly_Silent                                = 269,
 
     TransferSkyTextureToTaggedSectors                              = 271,
-    TransferSkyTextureToTaggedSectors_Flipped                      = 272,
-
-    INVALIDLINESPECIALS                                            = 273
+    TransferSkyTextureToTaggedSectors_Flipped                      = 272
 };
 
 enum

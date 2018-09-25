@@ -504,9 +504,7 @@ static void P_LoadSegs(int lump)
                 }
             }
 
-        if (li->linedef->special >= INVALIDLINESPECIALS)
-            C_Warning("The special of linedef %s is invalid.", commify(linedef));
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 
@@ -612,9 +610,7 @@ static void P_LoadSegs_V4(int lump)
 
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= INVALIDLINESPECIALS)
-            C_Warning("The special of linedef %s is invalid.", commify(linedef));
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 
@@ -944,9 +940,7 @@ static void P_LoadZSegs(const byte *data)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= INVALIDLINESPECIALS)
-            C_Warning("The special of linedef %s is invalid.", commify(linedef));
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 }
