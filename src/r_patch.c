@@ -66,6 +66,7 @@
 **---------------------------------------------------------------------------
 */
 
+#include "c_console.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "r_main.h"
@@ -184,8 +185,11 @@ static void createPatch(int id)
     const unsigned char *oldColumnPixelData;
     int                 numPostsUsedSoFar;
 
-    if (!CheckIfPatch(patchNum))
-        I_Error("createPatch: Unknown patch format %s.", (patchNum < numlumps ? lumpinfo[patchNum]->name : NULL));
+    if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+    {
+        C_Warning("The patch <b>%s</b> is of an unknown format.", lumpinfo[patchNum]->name);
+        return;
+    }
 
     oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
