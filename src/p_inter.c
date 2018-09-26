@@ -1453,7 +1453,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     C_Obituary("%s died in %s.", titlecase(playername), liquids[sector->terraintype]);
                 }
                 else
-                    C_Obituary("%s blew %s up.", titlecase(playername), (defaultplayername ? "yourself" : "themselves"));
+                {
+                    short   floorpic = sector->floorpic;
+
+                    if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
+                        C_Obituary("%s died on molten rock.", titlecase(playername));
+                    else
+                        C_Obituary("%s blew %s up.", titlecase(playername), (defaultplayername ? "yourself" : "themselves"));
+                }
             }
         }
     }

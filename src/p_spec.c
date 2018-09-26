@@ -151,6 +151,11 @@ void P_InitPicAnims(void)
     terraintypes = Z_Calloc(1, size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
 
+    RROCK05 = R_CheckFlatNumForName("RROCK05");
+    RROCK08 = R_CheckFlatNumForName("RROCK08");
+    SLIME09 = R_CheckFlatNumForName("SLIME09");
+    SLIME12 = R_CheckFlatNumForName("SLIME12");
+
     // Init animation
     lastanim = anims;
 
