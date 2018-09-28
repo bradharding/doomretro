@@ -999,9 +999,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         } psp_interpolate_t;
 
         static psp_interpolate_t    psp_inter;
-        static dboolean             skippsprinterp2;
 
-        if (realframe)
+        if (realframe && !skippsprinterp)
         {
             psp_inter.x1 = psp_inter.x1_prev;
             psp_inter.texturemid = psp_inter.texturemid_prev;
@@ -1010,7 +1009,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         psp_inter.x1_prev = vis->x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
-        if (lump == psp_inter.lump && !(skippsprinterp || skippsprinterp2))
+        if (lump == psp_inter.lump && !skippsprinterp)
         {
             int deltax = vis->x2 - vis->x1;
 
@@ -1023,11 +1022,6 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
             psp_inter.x1 = vis->x1;
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
-
-            skippsprinterp2 = false;
-
-            if (skippsprinterp)
-                skippsprinterp2 = true;
 
             skippsprinterp = false;
         }
