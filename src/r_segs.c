@@ -421,8 +421,8 @@ static void R_RenderSegLoop(void)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                        dc_texheight = toptexheight;
                         dc_iscale -= SPARKLEFIX;
+                        dc_texheight = toptexheight;
                         dc_brightmap = topbrightmap;
                         bmapwallcolfunc();
                         R_UnlockTextureCompositePatchNum(toptexture);
@@ -465,8 +465,7 @@ static void R_RenderSegLoop(void)
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_brightmap = bottombrightmap;
-                        dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                        dc_iscale -= SPARKLEFIX;
+                        dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
                         bmapwallcolfunc();
                         R_UnlockTextureCompositePatchNum(bottomtexture);
@@ -474,8 +473,7 @@ static void R_RenderSegLoop(void)
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
-                        dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                        dc_iscale -= SPARKLEFIX;
+                        dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
                         wallcolfunc();
                         R_UnlockTextureCompositePatchNum(bottomtexture);
