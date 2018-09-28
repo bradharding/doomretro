@@ -13,6 +13,8 @@
 * Any screen shake or palette effect will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
 * The <kbd>F12</kbd> key may now be bound to an action using the `bind` CCMD.
 * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
+* Minor improvements have been made to *DOOM Retro’s* renderer.
+* The player’s weapon will now rise more smoothly at the start of a map.
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Bobby_Prince), is now displayed by the `mapstats` CCMD.
 * The console will now automatically close when a cheat is entered.
 * When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum applied to the monster’s corpse is now also applied to that item.
