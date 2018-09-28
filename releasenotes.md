@@ -1,4 +1,4 @@
-### DOOM Retro v2.8
+### DOOM Retro v2.7.4
 
 * When *DOOM Retro* is opened for the first time, the WAD launcher will now try to find a common *DOOM* or *DOOM II* installation.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
