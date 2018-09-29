@@ -515,7 +515,6 @@
     <None Include="..\releasenotes.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
-    <None Include="..\res\doomretro.wad" />
     <None Include="..\res\DRCOMPAT" />
     <None Include="..\res\VANILLA" />
     <None Include="..\src\doomretro.manifest" />
