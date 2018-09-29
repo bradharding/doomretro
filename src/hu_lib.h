@@ -42,6 +42,8 @@
 // We are referring to patches.
 #include "r_defs.h"
 
+#define HU_TITLEX           3
+
 // font stuff
 #define HU_MAXLINES         4
 #define HU_MAXLINELENGTH    512
@@ -97,6 +99,7 @@ dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
 void HUlib_drawTextLine(hu_textline_t *l, dboolean external);
+void HUlib_drawAltAutomapTextLine(hu_textline_t *l);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l);

@@ -159,6 +159,45 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     }
 }
 
+void HUlib_drawAltAutomapTextLine(hu_textline_t *l)
+{
+    unsigned char   prevletter = '\0';
+    int             x = HU_TITLEX;
+    int             len = l->len;
+
+    for (int i = 0; i < len; i++)
+    {
+        unsigned char   letter = l->l[i];
+        unsigned char   nextletter = l->l[i + 1];
+        patch_t         *patch;
+        int             j = 0;
+
+        if (letter == 194 && nextletter == 176)
+        {
+            patch = degree;
+            i++;
+        }
+        else
+            patch = consolefont[letter - CONSOLEFONTSTART];
+
+        // [BH] apply kerning to certain character pairs
+        while (altkern[j].char1)
+        {
+            if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+            {
+                x += altkern[j].adjust;
+                break;
+            }
+
+            j++;
+        }
+
+        althudtextfunc(x, SCREENHEIGHT - SBARHEIGHT - 16, patch, white);
+        x += SHORT(patch->width);
+        prevletter = letter;
+    }
+}
+
 kern_t kern[] =
 {
     { ' ', '(',  -2 },
@@ -410,7 +449,7 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        if (vid_widescreen && r_althud && !automapactive)
+        if (vid_widescreen && r_althud)
             HUlib_drawAltHUDTextLine(l);
         else
             HUlib_drawTextLine(l, external);

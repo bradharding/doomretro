@@ -21,6 +21,7 @@
 * A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had a computer area map power-up.
 * Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures when the `r_brightmaps` CVAR is `on`.
 * The correct obituary will now be displayed when the player dies on molten rock.
+* If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, player messages and the map’s title will now be displayed in the alternate character set.
 
 ---
 

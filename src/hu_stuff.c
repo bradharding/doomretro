@@ -61,7 +61,6 @@
 //
 // Locally used constants, shortcuts.
 //
-#define HU_TITLEX       3
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -890,17 +889,17 @@ void HU_InitMessages(void)
             w_message.l->x = BETWEEN(0, x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
             w_message.l->y = BETWEEN(0, y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
         }
-    }
 
-    if (r_messagescale == r_messagescale_small)
-    {
-        w_title.x = HU_TITLEX * SCREENSCALE;
-        w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
-    }
-    else
-    {
-        w_title.x = HU_TITLEX;
-        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+        if (r_messagescale == r_messagescale_small)
+        {
+            w_title.x = HU_TITLEX * SCREENSCALE;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
+        }
+        else
+        {
+            w_title.x = HU_TITLEX;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+        }
     }
 }
 
@@ -909,7 +908,12 @@ void HU_Drawer(void)
     HUlib_drawSText(&w_message, message_external);
 
     if (automapactive)
-        HUlib_drawTextLine(&w_title, false);
+    {
+        if (vid_widescreen && r_althud)
+            HUlib_drawAltAutomapTextLine(&w_title);
+        else
+            HUlib_drawTextLine(&w_title, false);
+    }
     else
     {
         if (vid_widescreen && r_hud)
@@ -921,7 +925,12 @@ void HU_Drawer(void)
         }
 
         if (mapwindow)
-            HUlib_drawTextLine(&w_title, true);
+        {
+            if (vid_widescreen && r_althud)
+                HUlib_drawAltAutomapTextLine(&w_title);
+            else
+                HUlib_drawTextLine(&w_title, true);
+        }
     }
 }
 
