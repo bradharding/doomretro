@@ -637,6 +637,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
     int     w = SHORT(patch->width);
+    byte    *tinttab = (automapactive ? tinttab25 : tinttab60);
 
     for (int col = 0; col < w; col++, desttop++)
     {
@@ -653,7 +654,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (*source++ == WHITE)
-                    *dest = tinttab60[(*dest << 8) + color];
+                    *dest = tinttab[(*dest << 8) + color];
 
                 dest += SCREENWIDTH;
             }

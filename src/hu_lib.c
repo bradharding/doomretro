@@ -163,7 +163,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 void HUlib_drawAltAutomapTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
-    int             x = HU_TITLEX;
+    int             x = 6;
     int             len = l->len;
 
     for (int i = 0; i < len; i++)
