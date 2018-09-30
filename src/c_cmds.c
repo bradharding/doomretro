@@ -2480,8 +2480,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "" : "All "),
-                    commify(kills), (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s%s in this map %s been killed.", (kills == 1 ? "" : "All "),
+                    commify(kills), (kills == 1 ? "" : "s"), (kills < prevkills ? " remaining" : ""), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -4699,8 +4699,7 @@ static dboolean int_cvars_func1(char *cmd, char *parms)
 static void int_cvars_func2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_INTEGER))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_INTEGER))
         {
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
@@ -4722,11 +4721,9 @@ static void int_cvars_func2(char *cmd, char *parms)
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
                     if (consolecmds[i].flags & CF_READONLY)
-                        C_Output("It is currently set to <b>%i%%</b> and is read-only.",
-                            *(int *)consolecmds[i].variable);
+                        C_Output("It is currently set to <b>%i%%</b> and is read-only.", *(int *)consolecmds[i].variable);
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output("It is currently set to its default of <b>%i%%</b>.",
-                            *(int *)consolecmds[i].variable);
+                        C_Output("It is currently set to its default of <b>%i%%</b>.", *(int *)consolecmds[i].variable);
                     else
                         C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                             *(int *)consolecmds[i].variable, (int)consolecmds[i].defaultnumber);

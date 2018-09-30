@@ -1001,7 +1001,7 @@ void HU_Ticker(void)
         }
         else
         {
-            int angle = (int)((double)viewangle * 90.0f / ANG90);
+            int angle = (int)(viewangle * 90.0 / ANG90);
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle), viewx >> FRACBITS, viewy >> FRACBITS,
                 viewplayer->mo->z >> FRACBITS);
