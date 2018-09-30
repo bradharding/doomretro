@@ -132,11 +132,11 @@ static byte *crosshaircolor;
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((fixed_t)((double)FRACUNIT * (1.0 + F_PANINC / 200.0)))
+#define M_ZOOMIN        ((fixed_t)(FRACUNIT * (1.0 + F_PANINC / 200.0)))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       ((fixed_t)((double)FRACUNIT / (1.0 + F_PANINC / 200.0)))
+#define M_ZOOMOUT       ((fixed_t)(FRACUNIT / (1.0 + F_PANINC / 200.0)))
 
 #define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
@@ -1422,7 +1422,7 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
+    const fixed_t   minlen = (fixed_t)(sqrt(m_w * m_w + m_h * m_h));
     fixed_t         startx = m_x - (minlen - m_w) / 2;
     fixed_t         starty = m_y - (minlen - m_h) / 2;
     fixed_t         end;
@@ -1820,7 +1820,7 @@ static void AM_drawMarks(void)
         x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
         y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
 
-        while (temp /= 10)
+        while ((temp /= 10))
             digits++;
 
         x += (digits - 1) * MARKWIDTH / 2;
@@ -1949,8 +1949,8 @@ static void AM_setFrameVariables(void)
     if (am_rotatemode)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
-        const double    dx = (double)(m_x2 - x);
-        const double    dy = (double)(m_y2 - y);
+        const double    dx = m_x2 - x;
+        const double    dy = m_y2 - y;
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];

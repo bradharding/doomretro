@@ -1013,7 +1013,7 @@ void M_LoadCVARs(char *filename)
     if (!togglingvanilla)
     {
         C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", commify(cvarcount), commify(statcount), filename);
-        C_Output("Bound %s controls.", commify(bindcount));
+        C_Output("Bound %s keyboard, mouse and gamepad controls.", commify(bindcount));
         M_CheckCVARs();
         cvarsloaded = true;
     }

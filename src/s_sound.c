@@ -690,7 +690,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     musinfo.current_item = lumpnum;
 }
 
-musinfo_t musinfo;
+musinfo_t   musinfo;
 
 //
 // S_ParseMusInfo
