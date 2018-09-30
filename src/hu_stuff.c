@@ -272,10 +272,21 @@ void HU_Start(void)
 
     while (M_StringWidth(s) > (r_messagescale == r_messagescale_small ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
     {
-        s[len - 1] = '.';
-        s[len] = '.';
-        s[len + 1] = '.';
-        s[len + 2] = '\0';
+        if (len >= 2 && s[len - 2] == ' ')
+        {
+            s[len - 2] = '.';
+            s[len - 1] = '.';
+            s[len] = '.';
+            s[len + 1] = '\0';
+        }
+        else
+        {
+            s[len - 1] = '.';
+            s[len] = '.';
+            s[len + 1] = '.';
+            s[len + 2] = '\0';
+        }
+
         len--;
     }
 
@@ -1027,10 +1038,21 @@ void HU_Ticker(void)
 
             while (M_StringWidth(message) > maxwidth)
             {
-                message[len - 1] = '.';
-                message[len] = '.';
-                message[len + 1] = '.';
-                message[len + 2] = '\0';
+                if (len >= 2 && message[len - 2] == ' ')
+                {
+                    message[len - 2] = '.';
+                    message[len - 1] = '.';
+                    message[len] = '.';
+                    message[len + 1] = '\0';
+                }
+                else
+                {
+                    message[len - 1] = '.';
+                    message[len] = '.';
+                    message[len + 1] = '.';
+                    message[len + 2] = '\0';
+                }
+
                 len--;
             }
 
