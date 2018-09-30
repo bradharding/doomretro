@@ -485,7 +485,7 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    sscanf(strparm, "%10i", &parm);
+    sscanf(strparm, "%10d", &parm);
     return parm;
 }
 
@@ -970,7 +970,7 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_INT_UNSIGNED:
                     M_StringCopy(value, uncommify(value), sizeof(value));
-                    sscanf(value, "%10u", (unsigned int *)cvars[i].location);
+                    sscanf(value, "%10d", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
