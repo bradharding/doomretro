@@ -1238,10 +1238,21 @@ void M_UpdateSaveGameName(int i)
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
-            savegamestrings[i][len - 1] = '.';
-            savegamestrings[i][len] = '.';
-            savegamestrings[i][len + 1] = '.';
-            savegamestrings[i][len + 2] = '\0';
+            if (len >= 2 && savegamestrings[i][len - 2] == ' ')
+            {
+                savegamestrings[i][len - 2] = '.';
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '\0';
+            }
+            else
+            {
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '.';
+                savegamestrings[i][len + 2] = '\0';
+            }
+
             len--;
         }
     }
