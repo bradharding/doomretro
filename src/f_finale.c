@@ -244,8 +244,8 @@ void F_Ticker(void)
 
     if (finalestage == F_STAGE_TEXT)
     {
-        if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed())
-            + (midstage ? NEWTEXTWAIT : TEXTWAIT) || (midstage && acceleratestage))
+        if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
+            || (midstage && acceleratestage))
         {
             if (gamemode != commercial)
             {

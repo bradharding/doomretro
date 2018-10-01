@@ -68,22 +68,22 @@ dboolean        serverMidiPlaying;
 // Shutdown music
 void I_ShutdownMusic(void)
 {
-    if (music_initialized)
-    {
-        Mix_HaltMusic();
-        music_initialized = false;
+    if (!music_initialized)
+        return;
 
-        if (sdl_was_initialized)
-        {
-            Mix_CloseAudio();
-            SDL_QuitSubSystem(SDL_INIT_AUDIO);
-            sdl_was_initialized = false;
-        }
+    Mix_HaltMusic();
+    music_initialized = false;
+
+    if (sdl_was_initialized)
+    {
+        Mix_CloseAudio();
+        SDL_QuitSubSystem(SDL_INIT_AUDIO);
+        sdl_was_initialized = false;
+    }
 
 #if defined(_WIN32)
-        I_MidiRPCClientShutDown();
+    I_MidiRPCClientShutDown();
 #endif
-    }
 }
 
 static dboolean SDLIsInitialized(void)

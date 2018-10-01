@@ -392,19 +392,19 @@ static byte     *splashpal;
 //
 void D_PageTicker(void)
 {
-    if (!menuactive && !startingnewgame && !consoleactive)
+    static int  pagewait;
+
+    if (menuactive || startingnewgame || consoleactive)
+        return;
+
+    if (pagewait < I_GetTime())
     {
-        static int  pagewait;
-
-        if (pagewait < I_GetTime())
-        {
-            pagetic--;
-            pagewait = I_GetTime();
-        }
-
-        if (pagetic < 0)
-            D_AdvanceTitle();
+        pagetic--;
+        pagewait = I_GetTime();
     }
+
+    if (pagetic < 0)
+        D_AdvanceTitle();
 }
 
 //
@@ -451,8 +451,6 @@ void D_AdvanceTitle(void)
 //
 void D_DoAdvanceTitle(void)
 {
-    static dboolean flag = true;
-
     viewplayer->playerstate = PST_LIVE;  // not reborn
     advancetitle = false;
     paused = false;
@@ -468,6 +466,8 @@ void D_DoAdvanceTitle(void)
     }
     else if (titlesequence == 1)
     {
+        static dboolean flag = true;
+
         if (flag)
         {
             flag = false;
@@ -701,7 +701,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 #if defined(_WIN32)
             PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s yet.", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
             error = true;
             return true;
