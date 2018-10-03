@@ -342,9 +342,9 @@ int W_WadType(char *filename)
 // Returns -1 if name not found.
 //
 // Rewritten by Lee Killough to use hash table for performance. Significantly
-// cuts down on time -- increases Doom performance over 300%. This is the
-// single most important optimization of the original Doom sources, because
-// lump name lookup is used so often, and the original Doom used a sequential
+// cuts down on time -- increases DOOM performance over 300%. This is the
+// single most important optimization of the original DOOM sources, because
+// lump name lookup is used so often, and the original DOOM used a sequential
 // search. For large wads with > 1000 lumps this meant an average of over
 // 500 were probed during every search. Now the average is under 2 probes per
 // search. There is no significant benefit to packing the names into longwords

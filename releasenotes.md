@@ -7,20 +7,20 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * The fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
-* The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR. It is `on` by default and `off` when vanilla mode is on.
+* The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, then that key will now be toggled on or off as necessary when *DOOM Retro’s* window gains or loses focus, and not just when it is closed.
 * Any screen shake or palette effect will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
-* The <kbd>F12</kbd> key may now be bound to an action using the `bind` CCMD.
+* The <kbd>F12</kbd> key can now be bound to an action using the `bind` CCMD.
 * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
 * Minor improvements have been made to *DOOM Retro’s* renderer.
 * The player’s weapon will now rise more smoothly at the start of a map.
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Bobby_Prince), is now displayed by the `mapstats` CCMD.
 * The console will now automatically close when a cheat is entered.
-* When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the momentum applied to the monster’s corpse is now also applied to that item.
+* When the `tossdrop` CVAR is `on`, if a monster is killed and then drops an item, some of the corpse’s momentum is now also applied to that item.
 * A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had a computer area map power-up.
 * Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures when the `r_brightmaps` CVAR is `on`.
-* The correct obituary will now be displayed when the player dies on molten rock.
+* The correct obituary will now be displayed in the console when the player dies on molten rock.
 * If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
 
 ---

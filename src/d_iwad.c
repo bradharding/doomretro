@@ -133,7 +133,7 @@ static registryvalue_t root_path_keys[] =
         "PATH"
     },
 
-    // Doom 3: BFG Edition
+    // DOOM 3: BFG Edition
     {
         HKEY_LOCAL_MACHINE,
         "Software\\GOG.com\\Games\\1135892318",

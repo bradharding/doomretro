@@ -4642,8 +4642,7 @@ static void color_cvars_func2(char *cmd, char *parms)
     if (strlen(parms) == 7 && parms[0] == '#')
     {
         M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(W_CacheLumpName("PLAYPAL"),
-            hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)),
-            hextodec(M_SubString(parms, 5, 2))));
+            hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)), hextodec(M_SubString(parms, 5, 2))));
         int_cvars_func2(cmd, buffer);
     }
     else
@@ -4662,8 +4661,7 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
         return true;
 
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_FLOAT))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_FLOAT))
         {
             float   value = FLT_MIN;
 
@@ -4753,19 +4751,16 @@ static void int_cvars_func2(char *cmd, char *parms)
 static void str_cvars_func2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_STRING))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parms, EMPTYVALUE) && **(char **)consolecmds[i].variable
-                && !(consolecmds[i].flags & CF_READONLY))
+            if (M_StringCompare(parms, EMPTYVALUE) && **(char **)consolecmds[i].variable && !(consolecmds[i].flags & CF_READONLY))
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
             else if (*parms)
             {
-                if (!M_StringCompare(parms, *(char **)consolecmds[i].variable)
-                    && !(consolecmds[i].flags & CF_READONLY))
+                if (!M_StringCompare(parms, *(char **)consolecmds[i].variable) && !(consolecmds[i].flags & CF_READONLY))
                 {
                     C_StripQuotes(parms);
                     *(char **)consolecmds[i].variable = strdup(parms);
@@ -4781,8 +4776,7 @@ static void str_cvars_func2(char *cmd, char *parms)
                         (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
                         (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""));
                 else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
-                    C_Output("It is currently set to its default of <b>\"%s\"</b>.",
-                        *(char **)consolecmds[i].variable);
+                    C_Output("It is currently set to its default of <b>\"%s\"</b>.", *(char **)consolecmds[i].variable);
                 else
                     C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
                         *(char **)consolecmds[i].variable, consolecmds[i].defaultstring);

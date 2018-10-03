@@ -850,20 +850,20 @@ static byte saveg_read8(FILE *file)
 //
 static dboolean M_CheckSaveGame(void)
 {
-    FILE    *handle = fopen(P_SaveGameFile(itemOn), "rb");
+    FILE    *file = fopen(P_SaveGameFile(itemOn), "rb");
     int     ep;
     int     mission;
 
-    if (!handle)
+    if (!file)
         return true;
 
     for (int i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
-        saveg_read8(handle);
+        saveg_read8(file);
 
-    ep = saveg_read8(handle);
-    saveg_read8(handle);
-    mission = saveg_read8(handle);
-    fclose(handle);
+    ep = saveg_read8(file);
+    saveg_read8(file);
+    mission = saveg_read8(file);
+    fclose(file);
 
     // switch expansions if necessary
     if (mission == doom2)
