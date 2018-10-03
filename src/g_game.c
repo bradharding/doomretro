@@ -944,6 +944,7 @@ void G_Ticker(void)
                 if ((paused = !paused))
                 {
                     S_PauseSound();
+                    S_StartSound(NULL, sfx_swtchn);
 
                     if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
