@@ -22,7 +22,7 @@
 * Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures when the `r_brightmaps` CVAR is `on`.
 * The correct obituary will now be displayed in the console when the player dies on molten rock.
 * If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
-* The secret maps will no longer be chosen when entering `map random` in the console.
+* The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
 
 ---
 
