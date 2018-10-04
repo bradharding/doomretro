@@ -1375,7 +1375,7 @@ void GetPixelSize(dboolean reset)
     int width = -1;
     int height = -1;
 
-    if (sscanf(r_lowpixelsize, "%10ux%10u", &width, &height) == 2
+    if (sscanf(r_lowpixelsize, "%10dx%10d", &width, &height) == 2
         && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
     {
         pixelwidth = width;

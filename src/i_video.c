@@ -1211,7 +1211,7 @@ void GetScreenResolution(void)
         int width = -1;
         int height = -1;
 
-        if (sscanf(vid_screenresolution, "%10ux%10u", &width, &height) != 2 || !ValidScreenMode(width, height))
+        if (sscanf(vid_screenresolution, "%10dx%10d", &width, &height) != 2 || !ValidScreenMode(width, height))
         {
             screenwidth = 0;
             screenheight = 0;

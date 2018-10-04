@@ -864,8 +864,6 @@ static char savename[256];
 //
 void G_Ticker(void)
 {
-    ticcmd_t            *cmd;
-
     // Game state the last time G_Ticker was called.
     static gamestate_t  oldgamestate;
 
@@ -932,8 +930,7 @@ void G_Ticker(void)
 
     // get commands, check consistency,
     // and build new consistency check
-    cmd = &viewplayer->cmd;
-    memcpy(cmd, &localcmds[gametime % BACKUPTICS], sizeof(ticcmd_t));
+    memcpy(&viewplayer->cmd, &localcmds[gametime % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
     if (viewplayer->cmd.buttons & BT_SPECIAL)
