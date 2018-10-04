@@ -2701,7 +2701,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             {
                 if (gamemap == 9)
                 {
-                    if (gameepisode != (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
+                    if (gameepisode != (gamemode == retail ? 4 : (gamemode == shareware ? 1 : 3)))
                     {
                         mapcmdepisode = gameepisode + 1;
                         mapcmdmap = 1;
@@ -2779,19 +2779,19 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             if (gamemode == commercial)
             {
                 mapcmdepisode = gameepisode;
-                mapcmdmap = M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : (bfgedition ? 33 : 32)), gamemap);
+                mapcmdmap = M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 8 : 30), gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                 result = true;
             }
             else
             {
-                mapcmdepisode = M_RandomIntNoRepeat(1, (gamemode == retail ? 4 : (gamemode == shareware ? 1 : 3)), gameepisode);
-                mapcmdmap = M_RandomIntNoRepeat(1, 9, gamemap);
+                mapcmdepisode = (gamemode == shareware ? 1 : M_RandomIntNoRepeat(1, (gamemode == retail ? 4 : 3), gameepisode));
+                mapcmdmap = M_RandomIntNoRepeat(1, 8, gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
             }
         }
-        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && (gamemode == registered || gamemode == retail))
+        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && gamemode != shareware)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
@@ -2799,7 +2799,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             M_StringCopy(mapcmdlump, "E1M4B", 6);
             result = true;
         }
-        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && (gamemode == registered || gamemode == retail))
+        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && gamemode != shareware)
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
