@@ -391,8 +391,7 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
         if ((dc_yh = MIN((int)((topscreen + post->length * spryscale - 256) >> FRACBITS), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT + 512) >> FRACBITS))) <= dc_yh)
             {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;
                 colfunc();
             }
@@ -413,8 +412,7 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
         if ((dc_yh = MIN((int)((topscreen + post->length * pspritescale) >> FRACBITS), viewheight - 1)) >= 0)
             if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
             {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;
                 colfunc();
             }
@@ -480,8 +478,6 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             R_BlastSpriteColumn(column);
         }
     }
-
-    R_UnlockPatchNum(id);
 }
 
 //
@@ -529,8 +525,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             R_BlastSpriteColumn(column);
         }
     }
-
-    R_UnlockPatchNum(id);
 }
 
 //
@@ -557,8 +551,6 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
         if ((dc_numposts = column->numposts))
             R_BlastPlayerSpriteColumn(column);
     }
-
-    R_UnlockPatchNum(id);
 }
 
 //
@@ -590,8 +582,6 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
             R_BlastBloodSplatColumn(column);
         }
     }
-
-    R_UnlockPatchNum(id);
 }
 
 //

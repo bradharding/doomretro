@@ -69,15 +69,11 @@ typedef struct
     unsigned char   *pixels;
     rcolumn_t       *columns;
     rpost_t         *posts;
-
-    unsigned int    locks;
 } rpatch_t;
 
 const rpatch_t *R_CachePatchNum(int id);
-void R_UnlockPatchNum(int id);
 
 const rpatch_t *R_CacheTextureCompositePatchNum(int id);
-void R_UnlockTextureCompositePatchNum(int id);
 
 const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex);
 const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex);

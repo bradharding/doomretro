@@ -465,8 +465,6 @@ void R_DrawPlanes(void)
                         skycolfunc();
                     }
                 }
-
-                R_UnlockTextureCompositePatchNum(texture);
             }
             else
             {

@@ -301,8 +301,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             R_BlastMaskedSegColumn(column);
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
-
-    R_UnlockTextureCompositePatchNum(texnum);
 }
 
 //
@@ -386,7 +384,6 @@ static void R_RenderSegLoop(void)
                 dc_texheight = midtexheight;
                 dc_brightmap = midbrightmap;
                 bmapwallcolfunc();
-                R_UnlockTextureCompositePatchNum(midtexture);
             }
             else
             {
@@ -394,7 +391,6 @@ static void R_RenderSegLoop(void)
                 dc_texturemid = rw_midtexturemid;
                 dc_texheight = midtexheight;
                 wallcolfunc();
-                R_UnlockTextureCompositePatchNum(midtexture);
             }
 
             ceilingclip[rw_x] = viewheight;
@@ -425,7 +421,6 @@ static void R_RenderSegLoop(void)
                         dc_texheight = toptexheight;
                         dc_brightmap = topbrightmap;
                         bmapwallcolfunc();
-                        R_UnlockTextureCompositePatchNum(toptexture);
                     }
                     else
                     {
@@ -434,7 +429,6 @@ static void R_RenderSegLoop(void)
                         dc_iscale -= SPARKLEFIX;
                         dc_texheight = toptexheight;
                         wallcolfunc();
-                        R_UnlockTextureCompositePatchNum(toptexture);
                     }
 
                     ceilingclip[rw_x] = mid;
@@ -468,7 +462,6 @@ static void R_RenderSegLoop(void)
                         dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
                         bmapwallcolfunc();
-                        R_UnlockTextureCompositePatchNum(bottomtexture);
                     }
                     else
                     {
@@ -476,7 +469,6 @@ static void R_RenderSegLoop(void)
                         dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
                         wallcolfunc();
-                        R_UnlockTextureCompositePatchNum(bottomtexture);
                     }
 
                     floorclip[rw_x] = mid;

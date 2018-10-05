@@ -607,18 +607,7 @@ const rpatch_t *R_CachePatchNum(int id)
     if (!patches[id].data)
         createPatch(id);
 
-    if (!patches[id].locks)
-        Z_ChangeTag(patches[id].data, PU_STATIC);
-
-    patches[id].locks++;
-
     return &patches[id];
-}
-
-void R_UnlockPatchNum(int id)
-{
-    if (!--patches[id].locks)
-        Z_ChangeTag(patches[id].data, PU_CACHE);
 }
 
 const rpatch_t *R_CacheTextureCompositePatchNum(int id)
@@ -626,19 +615,7 @@ const rpatch_t *R_CacheTextureCompositePatchNum(int id)
     if (!texture_composites[id].data)
         createTextureCompositePatch(id);
 
-    // cph - if wasn't locked but now is, tell z_zone to hold it
-    if (!texture_composites[id].locks)
-        Z_ChangeTag(texture_composites[id].data, PU_STATIC);
-
-    texture_composites[id].locks++;
-
     return &texture_composites[id];
-}
-
-void R_UnlockTextureCompositePatchNum(int id)
-{
-    if (!--texture_composites[id].locks)
-        Z_ChangeTag(texture_composites[id].data, PU_CACHE);
 }
 
 const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex)
