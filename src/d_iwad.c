@@ -500,7 +500,9 @@ static char *SaveGameIWADName(void)
     // Note that we match on gamemission rather than on IWAD name.
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
-    if (hacx)
+    if (FREEDOOM)
+        return (gamemode == commercial ? "freedoom2" : "freedoom");
+    else if (hacx)
         return "hacx";
 
     for (size_t i = 0; i < arrlen(iwads); i++)
