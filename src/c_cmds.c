@@ -1004,7 +1004,7 @@ static int C_GetIndex(const char *cmd)
     return i;
 }
 
-static void C_ShowCVARDescription(int index)
+static void C_ShowDescription(int index)
 {
     char    description1[255];
     char    description2[255] = "";
@@ -1161,6 +1161,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (!*parm1)
     {
+        C_ShowDescription(C_GetIndex(stringize(alias)));
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
         return;
     }
@@ -1249,6 +1250,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (!*parm1)
     {
+        C_ShowDescription(C_GetIndex(stringize(bind)));
         C_Output("<b>%s</b> %s", cmd, BINDCMDFORMAT);
         return;
     }
@@ -1839,7 +1841,10 @@ static void endgame_cmd_func2(char *cmd, char *parms)
 static void exec_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
+    {
+        C_ShowDescription(C_GetIndex(stringize(exec)));
         C_Output("<b>%s</b> %s", cmd, EXECCMDFORMAT);
+    }
     else
     {
         FILE    *file = fopen(parms, "r");
@@ -1995,7 +2000,10 @@ static void give_cmd_func2(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm)
+    {
+        C_ShowDescription(C_GetIndex(stringize(give)));
         C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
+    }
     else
     {
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
@@ -2256,6 +2264,7 @@ static void if_cmd_func2(char *cmd, char *parms)
 
     if (!*parm1 || !*parm2 || !*parm3)
     {
+        C_ShowDescription(C_GetIndex(stringize(if)));
         C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
         return;
     }
@@ -2402,7 +2411,10 @@ void kill_cmd_func2(char *cmd, char *parms)
     static char buffer[1024];
 
     if (!*parm)
+    {
+        C_ShowDescription(C_GetIndex(stringize(kill)));
         C_Output("<b>%s</b> %s", cmd, KILLCMDFORMAT);
+    }
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
     {
         viewplayer->health = 0;
@@ -2604,6 +2616,7 @@ static void load_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(load)));
         C_Output("<b>%s</b> %s", cmd, LOADCMDFORMAT);
         return;
     }
@@ -2871,6 +2884,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(map)));
         C_Output("<b>%s</b> %s", cmd, MAPCMDFORMAT);
         return;
     }
@@ -3538,7 +3552,10 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
 static void play_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
+    {
+        C_ShowDescription(C_GetIndex(stringize(play)));
         C_Output("<b>%s</b> %s", cmd, PLAYCMDFORMAT);
+    }
     else if (playcmdtype == 1)
         S_StartSound(NULL, playcmdid);
     else
@@ -3933,6 +3950,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(reset)));
         C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
         return;
     }
@@ -4243,6 +4261,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(save)));
         C_Output("<b>%s</b> %s", cmd, SAVECMDFORMAT);
         return;
     }
@@ -4291,6 +4310,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
+        C_ShowDescription(C_GetIndex(stringize(spawn)));
         C_Output("<b>%s</b> %s", cmd, SPAWNCMDFORMAT);
         return;
     }
@@ -4364,6 +4384,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(teleport)));
         C_Output("<b>%s</b> %s", cmd, TELEPORTCMDFORMAT);
         return;
     }
@@ -4447,6 +4468,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(timer)));
         C_Output("<b>%s</b> %s", cmd, TIMERCMDFORMAT);
         return;
     }
@@ -4468,6 +4490,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
+        C_ShowDescription(C_GetIndex(stringize(unbind)));
         C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
         return;
     }
@@ -4584,7 +4607,7 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_ShowCVARDescription(i);
+                C_ShowDescription(i);
 
                 if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output("It is currently set to its default of <b>%s</b>.",
@@ -4714,7 +4737,7 @@ static void int_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_ShowCVARDescription(i);
+                C_ShowDescription(i);
 
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
@@ -4769,7 +4792,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             }
             else
             {
-                C_ShowCVARDescription(i);
+                C_ShowDescription(i);
 
                 if (consolecmds[i].flags & CF_READONLY)
                     C_Output("It is currently set to <b>%s%s%s</b> and is read-only.",
@@ -4796,7 +4819,7 @@ static void time_cvars_func2(char *cmd, char *parms)
         {
             const int   tics = *(int *)consolecmds[i].variable / TICRATE;
 
-            C_ShowCVARDescription(i);
+            C_ShowDescription(i);
 
             C_Output("It is currently set to <b>%02i:%02i:%02i</b> and is read-only.",
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
@@ -4866,7 +4889,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(am_gridsize)));
+        C_ShowDescription(C_GetIndex(stringize(am_gridsize)));
 
         if (M_StringCompare(am_gridsize, am_gridsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(am_gridsize));
@@ -4913,7 +4936,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(armortype)));
+        C_ShowDescription(C_GetIndex(stringize(armortype)));
 
         if (gamestate == GS_LEVEL)
             C_Output("It is currently set to <b>%s</b>.", C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS));
@@ -4990,7 +5013,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(gp_deadzone_left)));
+        C_ShowDescription(C_GetIndex(stringize(gp_deadzone_left)));
 
         if (gp_deadzone_left == gp_deadzone_left_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_left, 1));
@@ -5000,7 +5023,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(gp_deadzone_right)));
+        C_ShowDescription(C_GetIndex(stringize(gp_deadzone_right)));
 
         if (gp_deadzone_right == gp_deadzone_right_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_right, 1));
@@ -5105,7 +5128,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowCVARDescription(C_GetIndex(stringize(ammo)));
+            C_ShowDescription(C_GetIndex(stringize(ammo)));
 
             if (gamestate == GS_LEVEL)
                 C_Output("It is currently set to <b>%i</b>.", (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
@@ -5137,7 +5160,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowCVARDescription(C_GetIndex(stringize(armor)));
+            C_ShowDescription(C_GetIndex(stringize(armor)));
 
             if (gamestate == GS_LEVEL)
                 C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
@@ -5183,7 +5206,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowCVARDescription(C_GetIndex(stringize(health)));
+            C_ShowDescription(C_GetIndex(stringize(health)));
 
             if (gamestate == GS_LEVEL)
                 C_Output("It is currently set to <b>%i%%</b>.", viewplayer->health);
@@ -5221,7 +5244,7 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_blood)));
+        C_ShowDescription(C_GetIndex(stringize(r_blood)));
 
         if (r_blood == r_blood_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5278,7 +5301,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_bloodsplats_translucency)));
+        C_ShowDescription(C_GetIndex(stringize(r_bloodsplats_translucency)));
 
         if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5312,7 +5335,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_detail)));
+        C_ShowDescription(C_GetIndex(stringize(r_detail)));
 
         if (r_detail == r_detail_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5342,7 +5365,7 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_dither)));
+        C_ShowDescription(C_GetIndex(stringize(r_dither)));
 
         if (r_dither == r_dither_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5374,7 +5397,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_fixmaperrors)));
+        C_ShowDescription(C_GetIndex(stringize(r_fixmaperrors)));
 
         if (r_fixmaperrors == r_fixmaperrors_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5439,7 +5462,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
             buf[len - 1] = '\0';
 
-        C_ShowCVARDescription(C_GetIndex(stringize(r_gamma)));
+        C_ShowDescription(C_GetIndex(stringize(r_gamma)));
 
         if (r_gamma == r_gamma_default)
             C_Output("It is currently set to its default of <b>%s</b>.", (r_gamma == 1.0f ? "off" : buf));
@@ -5476,7 +5499,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_hud_translucency)));
+        C_ShowDescription(C_GetIndex(stringize(r_hud_translucency)));
 
         if (r_hud_translucency == r_hud_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5503,7 +5526,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_lowpixelsize)));
+        C_ShowDescription(C_GetIndex(stringize(r_lowpixelsize)));
 
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(r_lowpixelsize));
@@ -5531,7 +5554,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_messagepos)));
+        C_ShowDescription(C_GetIndex(stringize(r_messagepos)));
 
         if (M_StringCompare(r_messagepos, r_messagepos_default))
             C_Output("It is currently set to its default of <b>%s</b>.", r_messagepos);
@@ -5564,7 +5587,7 @@ static void r_messagescale_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_messagescale)));
+        C_ShowDescription(C_GetIndex(stringize(r_messagescale)));
 
         if (r_messagescale == r_messagescale_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5603,7 +5626,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_screensize)));
+        C_ShowDescription(C_GetIndex(stringize(r_screensize)));
 
         if (r_screensize == r_screensize_default)
             C_Output("It is currently set to its default of <b>%i</b>.", r_screensize);
@@ -5641,7 +5664,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_shadows_translucency)));
+        C_ShowDescription(C_GetIndex(stringize(r_shadows_translucency)));
 
         if (r_shadows_translucency == r_shadows_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5722,7 +5745,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_textures)));
+        C_ShowDescription(C_GetIndex(stringize(r_textures)));
 
         if (r_textures == r_textures_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5763,7 +5786,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(r_translucency)));
+        C_ShowDescription(C_GetIndex(stringize(r_translucency)));
 
         if (r_translucency == r_translucency_default)
             C_Output("It is currently set to its default of <b>%s</b>.",
@@ -5819,7 +5842,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(s_musicvolume)));
+        C_ShowDescription(C_GetIndex(stringize(s_musicvolume)));
 
         if (s_musicvolume == s_musicvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_musicvolume);
@@ -5829,7 +5852,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(s_sfxvolume)));
+        C_ShowDescription(C_GetIndex(stringize(s_sfxvolume)));
 
         if (s_sfxvolume == s_sfxvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_sfxvolume);
@@ -5912,7 +5935,7 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(turbo)));
+        C_ShowDescription(C_GetIndex(stringize(turbo)));
 
         if (turbo == turbo_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
@@ -5943,7 +5966,7 @@ static void units_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(units)));
+        C_ShowDescription(C_GetIndex(stringize(units)));
 
         if (units == units_default)
             C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(units, UNITSVALUEALIAS));
@@ -6054,7 +6077,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(vid_scaleapi)));
+        C_ShowDescription(C_GetIndex(stringize(vid_scaleapi)));
 
         if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scaleapi);
@@ -6086,7 +6109,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(vid_scalefilter)));
+        C_ShowDescription(C_GetIndex(stringize(vid_scalefilter)));
 
         if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scalefilter);
@@ -6114,7 +6137,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(vid_screenresolution)));
+        C_ShowDescription(C_GetIndex(stringize(vid_screenresolution)));
 
         if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_screenresolution));
@@ -6221,7 +6244,7 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(vid_windowpos)));
+        C_ShowDescription(C_GetIndex(stringize(vid_windowpos)));
 
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
             C_Output("It is currently set to its default of <b>%s</b>.", vid_windowpos);
@@ -6249,7 +6272,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowCVARDescription(C_GetIndex(stringize(vid_windowsize)));
+        C_ShowDescription(C_GetIndex(stringize(vid_windowsize)));
 
         if (M_StringCompare(vid_windowsize, vid_windowsize_default))
             C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_windowsize));
