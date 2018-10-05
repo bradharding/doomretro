@@ -470,18 +470,11 @@ void R_DrawPlanes(void)
             {
                 // regular flat
                 if (terraintypes[picnum] != SOLID && r_liquid_swirl)
-                {
                     ds_source = R_DistortedFlat(picnum);
-                    R_MakeSpans(pl);
-                }
                 else
-                {
-                    int lumpnum = firstflat + flattranslation[picnum];
+                    ds_source = W_CacheLumpNum(firstflat + flattranslation[picnum]);
 
-                    ds_source = W_CacheLumpNum(lumpnum);
-                    R_MakeSpans(pl);
-                    W_ReleaseLumpNum(lumpnum);
-                }
+                R_MakeSpans(pl);
             }
         }
 }
