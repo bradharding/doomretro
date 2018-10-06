@@ -290,15 +290,16 @@ static void R_MakeSpans(visplane_t *pl)
     // spanstart holds the start of a plane span
     // initialized to 0 at start
     static int  spanstart[SCREENHEIGHT];
+    int         stop = pl->right + 1;
 
     xoffs = pl->xoffs;
     yoffs = pl->yoffs;
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     pl->top[pl->left - 1] = USHRT_MAX;
-    pl->top[pl->right + 1] = USHRT_MAX;
+    pl->top[stop] = USHRT_MAX;
 
-    for (int x = pl->left; x <= pl->right + 1; x++)
+    for (int x = pl->left; x <= stop; x++)
     {
         unsigned short  t1 = pl->top[x - 1];
         unsigned short  b1 = pl->bottom[x - 1];
@@ -399,7 +400,7 @@ void R_DrawPlanes(void)
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
             {
                 int             texture;
-                int             offset;
+                int             offset = skycolumnoffset >> FRACBITS;
                 angle_t         flip = 0;
                 const rpatch_t  *tex_patch;
 
@@ -451,7 +452,6 @@ void R_DrawPlanes(void)
                 dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
                 dc_iscale = skyiscale;
                 tex_patch = R_CacheTextureCompositePatchNum(texture);
-                offset = skycolumnoffset >> FRACBITS;
 
                 for (int x = pl->left; x <= pl->right; x++)
                 {

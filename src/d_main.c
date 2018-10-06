@@ -643,7 +643,7 @@ static void LoadDehFile(char *path)
         }
         else
         {
-            char    *dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
+            dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
 
             if (dehpath && !DehFileProcessed(dehpath))
             {

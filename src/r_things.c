@@ -444,8 +444,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
-    const int       id = vis->patch + firstspritelump;
-    const rpatch_t  *patch = R_CachePatchNum(id);
+    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
     int             baseclip;
@@ -488,8 +487,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
-    const int       id = vis->patch + firstspritelump;
-    const rpatch_t  *patch = R_CachePatchNum(id);
+    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
 
@@ -534,8 +532,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
 {
     fixed_t         frac = vis->startfrac;
     const fixed_t   x2 = vis->x2;
-    const int       id = vis->patch + firstspritelump;
-    const rpatch_t  *patch = R_CachePatchNum(id);
+    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
 
     dc_colormap[0] = vis->colormap[0];
     colfunc = vis->colfunc;
@@ -561,8 +558,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
-    const int       id = vis->patch + firstspritelump;
-    const rcolumn_t *columns = R_CachePatchNum(id)->columns;
+    const rcolumn_t *columns = R_CachePatchNum(vis->patch + firstspritelump)->columns;
 
     colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
