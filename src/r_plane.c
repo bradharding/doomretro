@@ -433,7 +433,7 @@ void R_DrawPlanes(void)
                     dc_texheight = textureheight[texture] >> FRACBITS;
 
                     if (canmouselook)
-                        dc_texturemid *= dc_texheight / SKYSTRETCH_HEIGHT;
+                        dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
 
                     // We sometimes flip the picture horizontally.
                     //
