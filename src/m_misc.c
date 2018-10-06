@@ -753,7 +753,7 @@ char *removeext(const char *file)
 
 dboolean isvowel(const char ch)
 {
-    return !!strchr("aeiou", ch);
+    return !!strchr("aeiouAEIOU", ch);
 }
 
 char *striptrailingzero(float value, int precision)

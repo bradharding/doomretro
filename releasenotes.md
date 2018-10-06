@@ -24,7 +24,7 @@
 * If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
 * The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
 * If a CCMD that requires one or more parameters is entered in the console without any parameters, a description of that CCMD will now be displayed.
-* Savegames will now be saved in the correct folder when playing [*Freedoom*](http://freedoom.github.io/).
+* Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
 
 ---
 
