@@ -436,15 +436,16 @@ void R_DrawPlanes(void)
                         dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
 
                     // We sometimes flip the picture horizontally.
-                    //
+
                     // DOOM always flipped the picture, so we make it optional,
                     // to make it easier to use the new feature, while to still
                     // allow old sky textures to be used.
                     flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ? 0u : ~0u);
                 }
-                else        // Normal DOOM sky, only one allowed per level
+                else
                 {
-                    texture = skytexture;                   // Default texture
+                    // Normal DOOM sky, only one allowed per level
+                    texture = skytexture;
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_texturemid = skytexturemid;
                 }
