@@ -876,31 +876,22 @@ void R_StoreWallRange(const int start, const int stop)
     didsolidcol = false;
     R_RenderSegLoop();
 
-    if (backsector && didsolidcol)
-    {
-        ds_p->silhouette |= SIL_TOP;
-        ds_p->silhouette |= SIL_BOTTOM;
-    }
+    if ((backsector && didsolidcol) || maskedtexture)
+        ds_p->silhouette = SIL_BOTH;
 
     // save sprite clipping info
-    if (((ds_p->silhouette & SIL_TOP) || maskedtexture) && !ds_p->sprtopclip)
+    if ((ds_p->silhouette & SIL_TOP) && !ds_p->sprtopclip)
     {
         memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprtopclip = lastopening - start;
         lastopening += rw_stopx - start;
     }
 
-    if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture) && !ds_p->sprbottomclip)
+    if ((ds_p->silhouette & SIL_BOTTOM) && !ds_p->sprbottomclip)
     {
         memcpy(lastopening, floorclip + start, sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;
         lastopening += rw_stopx - start;
-    }
-
-    if (maskedtexture)
-    {
-        ds_p->silhouette |= SIL_TOP;
-        ds_p->silhouette |= SIL_BOTTOM;
     }
 
     ds_p++;
