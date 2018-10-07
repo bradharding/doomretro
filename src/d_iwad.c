@@ -523,7 +523,7 @@ void D_SetSaveGameFolder(dboolean output)
 {
     char    *iwad_name = SaveGameIWADName();
     char    *appdatafolder = M_GetAppDataFolder();
-    int     p = M_CheckParmWithArgs("-savedir", 1, 1);
+    int     p = M_CheckParmsWithArgs("-save", "-savedir", 1, 1);
 
     if (!iwad_name)
         iwad_name = "unknown";
