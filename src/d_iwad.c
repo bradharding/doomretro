@@ -521,23 +521,24 @@ extern char *pwadfile;
 //
 void D_SetSaveGameFolder(dboolean output)
 {
-    char    *iwad_name = SaveGameIWADName();
-    char    *appdatafolder = M_GetAppDataFolder();
-    int     p = M_CheckParmsWithArgs("-save", "-savedir", 1, 1);
-
-    if (!iwad_name)
-        iwad_name = "unknown";
+    int p = M_CheckParmsWithArgs("-save", "-savedir", 1, 1);
 
     if (p)
         savegamefolder = M_StringJoin(myargv[p + 1], DIR_SEPARATOR_S, NULL);
     else
     {
+        char    *iwad_name = SaveGameIWADName();
+        char    *appdatafolder = M_GetAppDataFolder();
+
+        if (!iwad_name)
+            iwad_name = "unknown";
+
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
+        M_MakeDirectory(savegamefolder);
+        savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     }
 
-    M_MakeDirectory(savegamefolder);
-    savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
     if (output)

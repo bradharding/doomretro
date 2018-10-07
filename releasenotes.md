@@ -25,6 +25,8 @@
 * The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
 * If a CCMD that requires one or more parameters is entered in the console without any parameters, a description of that CCMD will now be displayed.
 * Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
+* The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
+* `-save` may be now be used as an alternative to `-savedir` on the command-line.
 
 ---
 
