@@ -143,7 +143,7 @@ static void R_RecalcLineFlags(line_t *linedef)
             || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs,
                 sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
                 + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
-                + sizeof(frontsector->floorlightsec) + sizeof(frontsector->ceilinglightsec)
+                + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
                 + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
                 + sizeof(frontsector->lightlevel)))
         {
