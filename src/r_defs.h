@@ -285,7 +285,8 @@ typedef struct line_s
     int                 r_validcount;   // cph: if == gametime, r_flags already done
 
     enum
-    {                                   // cph:
+    {
+        RF_NONE     =  0,               // cph:
         RF_TOP_TILE =  1,               // Upper texture needs tiling
         RF_MID_TILE =  2,               // Mid texture needs tiling
         RF_BOT_TILE =  4,               // Lower texture needs tiling

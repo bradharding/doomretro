@@ -52,6 +52,8 @@
 #define MINZ                (FRACUNIT * 4)
 #define BASEYCENTER         (ORIGINALHEIGHT / 2)
 
+#define MAXVISSPRITES       128
+
 //
 // Sprite rotation 0 is facing the viewer,
 //  rotation 1 is one angle turn CLOCKWISE around the axis.
@@ -308,7 +310,7 @@ static vissprite_t              *vissprites;
 static vissprite_t              **vissprite_ptrs;
 static unsigned int             num_vissprite;
 static unsigned int             num_bloodsplatvissprite;
-static unsigned int             num_vissprite_alloc;
+static unsigned int             num_vissprite_alloc = MAXVISSPRITES;
 
 static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 
@@ -323,7 +325,6 @@ void R_InitSprites(void)
 
     R_InitSpriteDefs();
 
-    num_vissprite_alloc = 128;
     vissprites = malloc(num_vissprite_alloc * sizeof(*vissprites));
 }
 
@@ -344,7 +345,7 @@ static vissprite_t *R_NewVisSprite(void)
 {
     if (num_vissprite >= num_vissprite_alloc)
     {
-        num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
+        num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : MAXVISSPRITES);
         vissprites = I_Realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
     }
 

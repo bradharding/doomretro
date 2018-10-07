@@ -67,7 +67,8 @@ void R_ClearDrawSegs(void)
 // CPhipps -
 // Instead of clipsegs, let's try using an array with one entry for each column,
 // indicating whether it's blocked by a solid wall yet or not.
-byte    *solidcol;
+static int  memcmpsize;
+byte        *solidcol;
 
 // CPhipps -
 // R_ClipWallSegment
@@ -105,6 +106,11 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
 //
 void R_InitClipSegs(void)
 {
+    memcmpsize = sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
+        + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
+        + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
+        + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
+        + sizeof(frontsector->lightlevel);
     solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
 }
 
@@ -140,14 +146,9 @@ static void R_RecalcLineFlags(line_t *linedef)
         if (backsector->interpceilingheight != frontsector->interpceilingheight
             || backsector->interpfloorheight != frontsector->interpfloorheight
             || curline->sidedef->midtexture
-            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs,
-                sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
-                + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
-                + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
-                + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
-                + sizeof(frontsector->lightlevel)))
+            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs, memcmpsize))
         {
-            linedef->r_flags = 0;
+            linedef->r_flags = RF_NONE;
             return;
         }
         else
@@ -336,8 +337,6 @@ static void R_AddLine(seg_t *line)
     int     x2;
     angle_t angle1;
     angle_t angle2;
-    angle_t span;
-    angle_t tspan;
 
     curline = line;
 
@@ -349,34 +348,34 @@ static void R_AddLine(seg_t *line)
     angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
 
     // Back side? I.e. backface culling?
-    if ((span = angle1 - angle2) >= ANG180)
+    if (angle1 - angle2 >= ANG180)
         return;
 
     // Global angle needed by segcalc.
     angle1 -= viewangle;
     angle2 -= viewangle;
 
-    if ((tspan = angle1 + clipangle) > 2 * clipangle)
+    if ((int)angle1 < (int)angle2)
     {
-        tspan -= 2 * clipangle;
-
-        // Totally off the left edge?
-        if (tspan >= span)
-            return;
-
-        angle1 = clipangle;
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we
+        // change it to the correct sign
+        if (angle1 >= ANG180 && angle1 < ANG270)
+            angle1 = INT_MAX;           // which is ANG180 - 1
+        else
+            angle2 = INT_MIN;
     }
 
-    if ((tspan = clipangle - angle2) > 2 * clipangle)
-    {
-        tspan -= 2 * clipangle;
+    if ((int)angle2 >= (int)clipangle)
+        return;                         // Both off left edge
 
-        // Totally off the left edge?
-        if (tspan >= span)
-            return;
+    if ((int)angle1 <= -(int)clipangle)
+        return;                         // Both off right edge
 
-        angle2 = 0 - clipangle;
-    }
+    if ((int)angle1 >= (int)clipangle)
+        angle1 = clipangle;             // Clip at left edge
+
+    if ((int)angle2 <= -(int)clipangle)
+        angle2 = 0 - clipangle;         // Clip at right edge
 
     // The seg is in the view range,
     // but not necessarily visible.
@@ -427,11 +426,11 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
         { 3, 0, 2, 1 },
         { 3, 0, 2, 0 },
         { 3, 1, 2, 0 },
-        { 0 },
+        { 0, 0, 0, 0 },
         { 2, 0, 2, 1 },
         { 0, 0, 0, 0 },
         { 3, 1, 3, 0 },
-        { 0 },
+        { 0, 0, 0, 0 },
         { 2, 0, 3, 1 },
         { 2, 1, 3, 1 },
         { 2, 1, 3, 0 }
