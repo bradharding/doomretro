@@ -115,7 +115,7 @@ static void R_MapPlane(int y, int x1, int x2)
         viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
-        ds_colormap = cachedcolormap[y] = (fixedcolormap ? fixedcolormap : planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
+        ds_colormap = cachedcolormap[y] = (fixedcolormap ? fixedcolormap : planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
     }
     else
     {

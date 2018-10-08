@@ -101,7 +101,7 @@ extern dboolean telefragonmap30;
 //
 // PIT_StompThing
 //
-static dboolean telefrag;       // killough 8/9/98: whether to telefrag at exit
+static dboolean telefrag;   // killough 8/9/98: whether to telefrag at exit
 
 static dboolean PIT_StompThing(mobj_t *thing)
 {
@@ -118,10 +118,10 @@ static dboolean PIT_StompThing(mobj_t *thing)
     blockdist = thing->radius + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
-        return true;    // didn't hit it
+        return true;        // didn't hit it
 
     // monsters don't stomp things except on boss level
-    if (!telefrag)      // killough 8/9/98: make consistent across all levels
+    if (!telefrag)          // killough 8/9/98: make consistent across all levels
         return false;
 
     if (tmthing->flags2 & MF2_PASSMOBJ)
