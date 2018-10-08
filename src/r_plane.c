@@ -343,8 +343,8 @@ static byte *R_DistortedFlat(int flatnum)
     static int  lastflat = -1;
     static int  swirltic = -1;
     static int  offset[4096];
-    static byte *normalflat;
     static byte distortedflat[4096];
+    byte        *normalflat;
     int         leveltic = leveltime;
 
     // Already swirled this one?
@@ -375,8 +375,9 @@ static byte *R_DistortedFlat(int flatnum)
             }
 
         swirltic = leveltime;
-        normalflat = lumpinfo[firstflat + flatnum]->cache;
     }
+
+    normalflat = lumpinfo[firstflat + flatnum]->cache;
 
     for (int i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];

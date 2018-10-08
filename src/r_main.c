@@ -732,8 +732,9 @@ static void R_SetupFrame(void)
 {
     int     cm = 0;
     mobj_t  *mo = viewplayer->mo;
-    int     tempcentery = viewheight / 2;
     int     pitch = 0;
+
+    centery = viewheight / 2;
 
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
@@ -761,7 +762,7 @@ static void R_SetupFrame(void)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
                     fractionaltic), LOOKDIRMAX);
 
-            tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
+            centery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
     else
@@ -778,7 +779,7 @@ static void R_SetupFrame(void)
             if (weaponrecoil)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
 
-            tempcentery += (pitch << 1) * (r_screensize + 3) / 10;
+            centery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
 
@@ -796,12 +797,8 @@ static void R_SetupFrame(void)
 
     extralight = viewplayer->extralight << 2;
 
-    if (centery != tempcentery)
-    {
-        centery = tempcentery;
-        centeryfrac = centery << FRACBITS;
-        yslope = yslopes[LOOKDIRMAX + pitch];
-    }
+    centeryfrac = centery << FRACBITS;
+    yslope = yslopes[LOOKDIRMAX + pitch];
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
