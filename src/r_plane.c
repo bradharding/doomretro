@@ -91,15 +91,16 @@ extern dboolean     canmouselook;
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
-    static fixed_t  cacheddistance[SCREENHEIGHT];
-    static fixed_t  cachedviewcosdistance[SCREENHEIGHT];
-    static fixed_t  cachedviewsindistance[SCREENHEIGHT];
-    static fixed_t  cachedxstep[SCREENHEIGHT];
-    static fixed_t  cachedystep[SCREENHEIGHT];
-    fixed_t         distance;
-    fixed_t         viewcosdistance;
-    fixed_t         viewsindistance;
-    int             dx;
+    static fixed_t      cacheddistance[SCREENHEIGHT];
+    static fixed_t      cachedviewcosdistance[SCREENHEIGHT];
+    static fixed_t      cachedviewsindistance[SCREENHEIGHT];
+    static fixed_t      cachedxstep[SCREENHEIGHT];
+    static fixed_t      cachedystep[SCREENHEIGHT];
+    static lighttable_t *cachedcolormap[SCREENHEIGHT];
+    fixed_t             distance;
+    fixed_t             viewcosdistance;
+    fixed_t             viewsindistance;
+    int                 dx;
 
     if (planeheight != cachedheight[y])
     {
@@ -114,6 +115,7 @@ static void R_MapPlane(int y, int x1, int x2)
         viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
+        ds_colormap = cachedcolormap[y] = (fixedcolormap ? fixedcolormap : planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
     }
     else
     {
@@ -122,13 +124,12 @@ static void R_MapPlane(int y, int x1, int x2)
         viewsindistance = cachedviewsindistance[y];
         ds_xstep = cachedxstep[y];
         ds_ystep = cachedystep[y];
+        ds_colormap = cachedcolormap[y];
     }
 
     dx = x1 - centerx;
     ds_xfrac = viewx + xoffs + viewcosdistance + dx * ds_xstep;
     ds_yfrac = -viewy + yoffs - viewsindistance + dx * ds_ystep;
-
-    ds_colormap = (fixedcolormap ? fixedcolormap : planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
 
     ds_y = y;
     ds_x1 = x1;
