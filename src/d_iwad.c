@@ -524,7 +524,10 @@ void D_SetSaveGameFolder(dboolean output)
     int p = M_CheckParmsWithArgs("-save", "-savedir", 1, 1);
 
     if (p)
-        savegamefolder = M_StringJoin(myargv[p + 1], DIR_SEPARATOR_S, NULL);
+    {
+        if (myargv[p + 1][strlen(myargv[p + 1]) - 1] != DIR_SEPARATOR)
+            savegamefolder = M_StringJoin(myargv[p + 1], DIR_SEPARATOR_S, NULL);
+    }
     else
     {
         char    *iwad_name = SaveGameIWADName();
