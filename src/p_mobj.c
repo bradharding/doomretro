@@ -427,7 +427,7 @@ static void P_ZMovement(mobj_t *mo)
             {
                 player->jumptics = 7;
 
-                if (weaponbounce)
+                if (weaponbounce && !freeze)
                     player->bouncemax = mo->momz >> 1;
 
                 if (mo->momz < -GRAVITY * 8)
