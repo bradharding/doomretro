@@ -857,21 +857,22 @@ void R_RenderPlayerView(void)
     R_ClearSprites();
 
     if (automapactive)
-        R_RenderBSPNode(numnodes - 1);
-    else
     {
-        if (r_homindicator)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                nearestcolors[((leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK))], false);
-        else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                nearestcolors[(viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)], false);
-
-        R_RenderBSPNode(numnodes - 1);  // head node is the last node output
-        R_DrawPlanes();
-        R_DrawMasked();
-
-        if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
-            V_InvertScreen();
+        R_RenderBSPNode(numnodes - 1);
+        return;
     }
+
+    if (r_homindicator)
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+            nearestcolors[((leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK))], false);
+    else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+            nearestcolors[(viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)], false);
+
+    R_RenderBSPNode(numnodes - 1);  // head node is the last node output
+    R_DrawPlanes();
+    R_DrawMasked();
+
+    if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
+        V_InvertScreen();
 }

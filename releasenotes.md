@@ -21,13 +21,13 @@
 * A bug has been fixed whereby the `am_allmapfdwallcolor` CVAR was used instead of the `am_allmapwallcolor` CVAR to draw solid walls in the automap when the player had a computer area map power-up.
 * Brightmaps have now been applied to the `SW2GARG`, `SW2LION` and `SW2SATYR` textures when the `r_brightmaps` CVAR is `on`.
 * The correct obituary will now be displayed in the console when the player dies on molten rock.
-* If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
+* If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, both player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
 * The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
-* If a CCMD that requires one or more parameters is entered in the console without any parameters, a description of that CCMD will now be displayed.
+* If a CCMD that requires one or more parameters is entered in the console without those parameters, a description of that CCMD will now be displayed.
 * Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
-* A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR was `on` and no clipping mode was enabled.
+* A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR and no clipping mode were on.
 
 ---
 
