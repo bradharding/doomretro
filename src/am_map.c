@@ -1422,7 +1422,7 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    const fixed_t   minlen = (fixed_t)(sqrt(m_w * m_w + m_h * m_h));
+    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + m_h * m_h));
     fixed_t         startx = m_x - (minlen - m_w) / 2;
     fixed_t         starty = m_y - (minlen - m_h) / 2;
     fixed_t         end;
