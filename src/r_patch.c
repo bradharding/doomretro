@@ -69,6 +69,7 @@
 #include "c_console.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "r_main.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -187,7 +188,11 @@ static void createPatch(int id)
 
     if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
-        C_Warning("The patch <b>%s</b> is of an unknown format.", lumpinfo[patchNum]->name);
+        char    *name = lumpinfo[patchNum]->name;
+
+        if (!M_StringCompare(name, "HI_START") && !M_StringCompare(name, "HI_END"))
+            C_Warning("The patch <b>%s</b> is of an unknown format.", name);
+
         return;
     }
 
