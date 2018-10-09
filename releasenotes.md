@@ -27,6 +27,7 @@
 * Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
+* A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR was `on` and no clipping mode was enabled.
 
 ---
 
