@@ -1422,19 +1422,22 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + m_h * m_h));
-    fixed_t         startx = m_x - (minlen - m_w) / 2;
-    fixed_t         starty = m_y - (minlen - m_h) / 2;
+    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
+    const fixed_t   startx = m_x - (minlen - m_w) / 2;
+    const fixed_t   starty = m_y - (minlen - m_h) / 2;
+    fixed_t         start;
     fixed_t         end;
 
     // Figure out start of vertical gridlines
-    if ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
-        startx += gridwidth - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
+    start = startx;
+
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
+        start -= (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth;
 
     end = startx + minlen;
 
     // draw vertical gridlines
-    for (fixed_t x = startx; x < end; x += gridwidth)
+    for (fixed_t x = start; x < end; x += gridwidth)
     {
         mline_t ml;
 
@@ -1453,13 +1456,15 @@ static void AM_drawGrid(void)
     }
 
     // Figure out start of horizontal gridlines
-    if ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight)
-        starty += gridheight - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
+    start = starty;
+
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
+        start -= (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth;
 
     end = starty + minlen;
 
     // draw horizontal gridlines
-    for (fixed_t y = starty; y < end; y += gridheight)
+    for (fixed_t y = start; y < end; y += gridheight)
     {
         mline_t ml;
 
