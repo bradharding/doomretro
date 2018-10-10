@@ -1436,7 +1436,7 @@ static void AM_drawGrid(void)
 
     end = startx + minlen;
 
-    // draw vertical gridlines
+    // Draw vertical gridlines
     for (fixed_t x = start; x < end; x += gridwidth)
     {
         mline_t ml;
@@ -1463,7 +1463,7 @@ static void AM_drawGrid(void)
 
     end = starty + minlen;
 
-    // draw horizontal gridlines
+    // Draw horizontal gridlines
     for (fixed_t y = start; y < end; y += gridheight)
     {
         mline_t ml;
@@ -1512,8 +1512,8 @@ static void AM_drawWalls(void)
             {
                 const sector_t  *backsector = line.backsector;
                 const sector_t  *frontsector = line.frontsector;
-                const short     mapped = (flags & ML_MAPPED);
-                const short     secret = (flags & ML_SECRET);
+                const short     mapped = flags & ML_MAPPED;
+                const short     secret = flags & ML_SECRET;
                 const short     special = line.special;
                 static mline_t  l;
 

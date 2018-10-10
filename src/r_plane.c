@@ -256,8 +256,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 
     for (x = intrl; x <= intrh && pl->top[x] == USHRT_MAX; x++);
 
-    // [crispy] fix HOM if ceilingplane and floorplane are the same
-    // visplane (e.g. both skies)
+    // [crispy] fix HOM if ceilingplane and floorplane are the same visplane (e.g. both skies)
     if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
     {
         pl->left = unionl;
@@ -335,8 +334,7 @@ static void R_MakeSpans(visplane_t *pl)
 //
 // R_DistortedFlat
 //
-// Generates a distorted flat from a normal one using a two-dimensional
-// sine wave pattern.
+// Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
 //
 static byte *R_DistortedFlat(int flatnum)
 {
@@ -470,11 +468,8 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                if (terraintypes[picnum] != SOLID && r_liquid_swirl)
-                    ds_source = R_DistortedFlat(picnum);
-                else
-                    ds_source = lumpinfo[firstflat + flattranslation[picnum]]->cache;
-
+                ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
+                    lumpinfo[firstflat + flattranslation[picnum]]->cache);
                 R_MakeSpans(pl);
             }
         }

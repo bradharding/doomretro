@@ -3604,7 +3604,7 @@ static void C_PlayerStats_Game(void)
 
     C_Header(tabs, PLAYERSTATSTITLE);
 
-    if ((viewplayer->cheats & CF_ALLMAP) || (viewplayer->cheats & CF_ALLMAP_THINGS))
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
     else
     {

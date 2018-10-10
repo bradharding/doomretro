@@ -12,7 +12,10 @@
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, then that key will now be toggled on or off as necessary when *DOOM Retro’s* window gains or loses focus, and not just when it is closed.
 * Any screen shake or palette effect will now be canceled when pressing <kbd>F7</kbd> to end a game, or <kbd>F9</kbd> to quicksave a game.
 * The <kbd>F12</kbd> key can now be bound to an action using the `bind` CCMD.
-* Certain controls that weren’t present in *Vanilla DOOM* will now be unbound while vanilla mode is on.
+* The following changes have been made to vanilla mode:
+  * Certain controls that weren’t present in *Vanilla DOOM* will now be unbound.
+  * The right mouse button will be bound to the `+strafe` action.
+  * The automap’s grid is now turned off since it was off by default and its state was never saved in *Vanilla DOOM*.
 * Minor improvements have been made to *DOOM Retro’s* renderer.
 * The player’s weapon will now rise more smoothly at the start of a map.
 * If the original music of *DOOM* or *DOOM II* is being played in a map, then the music’s composer, [Bobby Prince](https://doomwiki.org/wiki/Bobby_Prince), is now displayed by the `mapstats` CCMD.
@@ -23,7 +26,6 @@
 * The correct obituary will now be displayed in the console when the player dies on molten rock.
 * If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, both player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
 * A bug has been fixed whereby gridlines in the top and bottom right corners of the automap weren’t being displayed in some instances when the `am_grid` CVAR was `on`.
-* The automap’s grid is now turned off when vanilla mode is enabled since it was off by default and its state was never saved in *Vanilla DOOM*.
 * The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
 * If a CCMD that requires one or more parameters is entered in the console without those parameters, a description of that CCMD will now be displayed.
 * Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
