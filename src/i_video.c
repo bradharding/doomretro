@@ -1824,8 +1824,6 @@ void I_InitGraphics(void)
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
-    SDL_DisableScreenSaver();
-
     while (i < UCHAR_MAX)
         keys[i++] = true;
 
