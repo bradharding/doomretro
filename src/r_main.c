@@ -826,7 +826,10 @@ static void R_SetupFrame(void)
         static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
 
         // killough 3/20/98: use fullcolormap
-        fixedcolormap = fullcolormap + viewplayer->fixedcolormap * 256 * sizeof(lighttable_t);
+        fixedcolormap = fullcolormap;
+        
+        if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+            fixedcolormap += 32 * 256 * sizeof(lighttable_t);
 
         usebrightmaps = false;
         walllights = scalelightfixed;
