@@ -52,7 +52,7 @@
 #define B           8
 #define X           16
 
-static byte general[PALETTESIZE] =
+static byte general[256] =
 {
     0,   X,   0,   0,   R|B, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, // 000 to 015
     R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R, // 016 to 031
@@ -107,7 +107,7 @@ static struct
     byte    red;
     byte    green;
     byte    blue;
-} originalcolors[PALETTESIZE] = {
+} originalcolors[256] = {
     {   0,   0,   0 }, {  31,  23,  11 }, {  23,  15,   7 }, {  75,  75,  75 },
     { 255, 255, 255 }, {  27,  27,  27 }, {  19,  19,  19 }, {  11,  11,  11 },
     {   7,   7,   7 }, {  47,  55,  31 }, {  35,  43,  15 }, {  23,  31,   7 },
@@ -174,14 +174,14 @@ static struct
     { 207,   0, 207 }, { 159,   0, 155 }, { 111,   0, 107 }, { 167, 107, 107 }
 };
 
-byte    nearestcolors[PALETTESIZE];
+byte    nearestcolors[256];
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
     int best_difference = INT_MAX;
     int best_color = 0;
 
-    for (int i = 0; i < PALETTESIZE; i++)
+    for (int i = 0; i < 256; i++)
     {
         int r1 = red;
         int g1 = green;
@@ -214,11 +214,11 @@ void FindNearestColors(byte *palette)
 {
     if (W_CheckMultipleLumps("PLAYPAL") > 1)
     {
-        for (int i = 0; i < PALETTESIZE; i++)
+        for (int i = 0; i < 256; i++)
             nearestcolors[i] = FindNearestColor(palette, originalcolors[i].red, originalcolors[i].green, originalcolors[i].blue);
     }
     else
-        for (int i = 0; i < PALETTESIZE; i++)
+        for (int i = 0; i < 256; i++)
             nearestcolors[i] = i;
 }
 
@@ -227,7 +227,7 @@ int FindDominantColor(patch_t *patch)
     int     w = SHORT(patch->width);
     int     dominantcolor = -1;
     int     dominantcolorcount = 0;
-    byte    colorcount[PALETTESIZE] = { 0 };
+    byte    colorcount[256] = { 0 };
 
     for (int col = 0; col < w; col++)
     {
@@ -246,7 +246,7 @@ int FindDominantColor(patch_t *patch)
         }
     }
 
-    for (int i = 0; i < PALETTESIZE; i++)
+    for (int i = 0; i < 256; i++)
         if (colorcount[i] > dominantcolorcount
             && (originalcolors[i].red >= 128 || originalcolors[i].green >= 128 || originalcolors[i].blue >= 128))
         {
@@ -257,15 +257,15 @@ int FindDominantColor(patch_t *patch)
     return dominantcolor;
 }
 
-static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESIZE], int colors)
+static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int colors)
 {
-    byte    *result = Z_Malloc(PALETTESIZE * PALETTESIZE, PU_STATIC, NULL);
+    byte    *result = Z_Malloc(256 * 256, PU_STATIC, NULL);
 
-    for (int foreground = 0; foreground < PALETTESIZE; foreground++)
+    for (int foreground = 0; foreground < 256; foreground++)
     {
         if ((filter[foreground] & colors) || colors == ALL)
         {
-            for (int background = 0; background < PALETTESIZE; background++)
+            for (int background = 0; background < 256; background++)
             {
                 byte    *color1 = palette + background * 3;
                 byte    *color2 = palette + foreground * 3;
@@ -299,7 +299,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
             }
         }
         else
-            for (int background = 0; background < PALETTESIZE; background++)
+            for (int background = 0; background < 256; background++)
                 *(result + (background << 8) + foreground) = foreground;
     }
 

@@ -27,7 +27,7 @@
 * The correct obituary will now be displayed in the console when the player dies on molten rock.
 * If both the `r_althud` and `vid_widescreen` CVARs are `on`, and the automap is open, both player messages and the map’s title will now be displayed using *DOOM Retro’s* alternate character set.
 * A bug has been fixed whereby gridlines in the top and bottom right corners of the automap weren’t being displayed in some instances when the `am_grid` CVAR was `on`.
-* The secret maps will no longer be chosen when entering `map last`, `map next` or `map random` in the console.
+* The secret maps will no longer be included when entering `map last`, `map next` or `map random` in the console.
 * If a CCMD that requires one or more parameters is entered in the console without those parameters, a description of that CCMD will now be displayed.
 * Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
