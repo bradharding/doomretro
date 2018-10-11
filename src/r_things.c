@@ -563,7 +563,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
 
     colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
-    dc_blood = tinttab75 + (dc_colormap[0][vis->blood] << 8);
+    dc_blood = tinttab75 + ((dc_solidblood = dc_colormap[0][vis->blood]) << 8);
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
@@ -899,7 +899,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->patch = splat->patch;
 
     // get light level
-    if (fixedcolormap)
         vis->colormap = fixedcolormap;
     else
         vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];

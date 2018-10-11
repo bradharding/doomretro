@@ -137,6 +137,7 @@ fixed_t         dc_iscale;
 fixed_t         dc_texturemid;
 fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
+byte            dc_solidblood;
 byte            *dc_blood;
 byte            *dc_brightmap;
 int             dc_floorclip;
@@ -301,11 +302,11 @@ void R_DrawSolidBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = *dc_blood;
+        *dest = dc_solidblood;
         dest += SCREENWIDTH;
     }
 
-    *dest = *dc_blood;
+    *dest = dc_solidblood;
 }
 
 void R_DrawWallColumn(void)
