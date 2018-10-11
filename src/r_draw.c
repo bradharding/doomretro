@@ -143,7 +143,9 @@ byte            *dc_brightmap;
 int             dc_floorclip;
 int             dc_ceilingclip;
 int             dc_numposts;
-int             dc_black;
+byte            dc_black;
+byte            *dc_black25;
+byte            *dc_black40;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -196,89 +198,81 @@ void R_DrawShadowColumn(void)
     byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     if (count == 1)
-        *dest = tinttab25[*dest + dc_black];
+        *dest = *(*dest + dc_black25);
     else if (count == 2)
     {
-        const byte  *edge = tinttab25 + dc_black;
-
-        *dest = edge[*dest];
+        *dest = *(*dest + dc_black25);
         dest += SCREENWIDTH;
-        *dest = edge[*dest];
+        *dest = *(*dest + dc_black25);
     }
     else
     {
-        const byte  *edge = tinttab25 + dc_black;
-        const byte  *body = tinttab40 + dc_black;
-
         count--;
-        *dest = edge[*dest];
+        *dest = *(*dest + dc_black25);
         dest += SCREENWIDTH;
 
         while (--count)
         {
-            *dest = body[*dest];
+            *dest = *(*dest + dc_black40);
             dest += SCREENWIDTH;
         }
 
-        *dest = (dc_yh == dc_floorclip ? body[*dest] : edge[*dest]);
+        *dest = *(*dest + (dc_yh == dc_floorclip ? dc_black40 : dc_black25));
     }
 }
 
 void R_DrawFuzzyShadowColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const byte  *translucency = tinttab25 + dc_black;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3)))
-        *dest = translucency[*dest];
+        *dest = *(*dest + dc_black25);
 
     dest += SCREENWIDTH;
 
     while (--count)
     {
-        *dest = translucency[*dest];
+        *dest = *(*dest + dc_black25);
         dest += SCREENWIDTH;
     }
 
     if (dc_yh < dc_floorclip && (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3))))
-        *dest = translucency[*dest];
+        *dest = *(*dest + dc_black25);
 }
 
 void R_DrawSolidShadowColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_black >> 8;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     while (--count)
     {
-        *dest = black;
+        *dest = dc_black;
         dest += SCREENWIDTH;
     }
 
-    *dest = black;
+    *dest = dc_black;
 }
 
 void R_DrawSolidFuzzyShadowColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_black >> 8;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3)))
-        *dest = black;
+        *dest = dc_black;
 
     dest += SCREENWIDTH;
 
     while (--count)
     {
-        *dest = black;
+        *dest = dc_black;
         dest += SCREENWIDTH;
     }
 
     if (dc_yh < dc_floorclip && (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3))))
-        *dest = black;
+        *dest = dc_black;
 }
 
 void R_DrawBloodSplatColumn(void)
