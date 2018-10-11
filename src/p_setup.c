@@ -679,7 +679,7 @@ static void P_LoadSectors(int lump)
         ss->ceilingheight = SHORT(ms->ceilingheight) << FRACBITS;
         ss->floorpic = R_FlatNumForName(ms->floorpic);
         ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
-        ss->lightlevel = ss->oldlightlevel = SHORT(ms->lightlevel);
+        ss->lightlevel = ss->oldlightlevel = MAX(0, SHORT(ms->lightlevel));
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
         ss->nextsec = -1;
