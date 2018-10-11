@@ -33,6 +33,7 @@
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
 * A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR and no clipping mode were on.
+* If the player has more than one power-up, the countdown bar in the alternate widescreen HUD will now always show the power-up to run out first.
 
 ---
 

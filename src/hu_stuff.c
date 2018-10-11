@@ -835,29 +835,29 @@ static void HU_DrawAltHUD(void)
     if ((powerup = viewplayer->powers[pw_invulnerability]))
     {
         max = INVULNTICS;
-        powerupbar = (powerup == -1 ? max : powerup);
+        powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
     if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = INVISTICS;
-        powerupbar = (powerup == -1 ? max : powerup);
+        powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
     if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = IRONTICS;
-        powerupbar = (powerup == -1 ? max : powerup);
+        powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
     if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = INFRATICS;
-        powerupbar = (powerup == -1 ? max : powerup);
+        powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
-    if (!powerupbar && viewplayer->powers[pw_strength]
-        && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange) || viewplayer->pendingweapon == wp_fist))
+    if (powerupbar == INT_MAX || (!powerupbar && viewplayer->powers[pw_strength]
+        && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange) || viewplayer->pendingweapon == wp_fist)))
     {
         max = STARTFLASHING + 1;
         powerupbar = STARTFLASHING + 1;
