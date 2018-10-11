@@ -791,9 +791,12 @@ dboolean ST_Responder(event_t *ev)
                     cheatkey = '\0';
 
                     message_dontfuckwithme = true;
-
                     idbehold = false;
+
+                    C_HideConsole();
+
                     return true;
+
                 }
             }
 
