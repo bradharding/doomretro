@@ -618,7 +618,7 @@ void R_InitColumnFunctions(void)
         else if (info->flags & MF_FUZZ)
         {
             info->colfunc = fuzzcolfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = fuzzcolfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {

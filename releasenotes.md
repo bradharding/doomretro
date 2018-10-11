@@ -6,6 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * The fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
+* The fuzz effect of spectres is now rendered correctly when the player has an invulnerability power-up.
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The player’s weapon will now bounce slightly when they drop down from a greater height. This can be disabled using the new `weaponbounce` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * Monsters will no longer infight if no target mode is on and the player dies.
