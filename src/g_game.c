@@ -1228,12 +1228,11 @@ static void G_DoCompleted(void)
 
     if (secretexit && secretnextmap > 0)
         wminfo.next = secretnextmap - 1;
-    else if (nextmap > 0)
-        wminfo.next = nextmap - 1;
     else if (gamemode == commercial)
     {
-        // wminfo.next is 0 biased, unlike gamemap
-        if (secretexit)
+        if (nextmap > 0)
+            wminfo.next = nextmap - 1;
+        else if (secretexit)
         {
             switch (gamemap)
             {
@@ -1289,7 +1288,9 @@ static void G_DoCompleted(void)
     }
     else
     {
-        if (secretexit)
+        if (nextmap > 0)
+            wminfo.next = nextmap - (gameepisode - 1) * 10 - 1;
+        else if (secretexit)
             wminfo.next = 8;            // go to secret level
         else if (gamemap == 9)
         {
