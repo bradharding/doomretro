@@ -1395,7 +1395,7 @@ static void SetVideoMode(dboolean output)
             ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0, (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP));
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
@@ -1409,9 +1409,7 @@ static void SetVideoMode(dboolean output)
             ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, windowflags);
-
-            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
@@ -1720,8 +1718,7 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? (M_StringCompare(vid_screenresolution, vid_screenresolution_desktop) ?
-        SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN) : 0)) < 0)
+    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)) < 0)
     {
         menuactive = false;
         C_ShowConsole();
