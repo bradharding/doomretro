@@ -4138,8 +4138,9 @@ static void C_VerifyResetAll(const int key)
 
 #if defined(_WIN32)
         wad = "";
-        M_SaveCVARs();
 #endif
+
+        M_SaveCVARs();
 
         C_Output("All CVARs have been reset to their defaults.");
     }
