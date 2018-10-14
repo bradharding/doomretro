@@ -315,24 +315,20 @@ void T_MoveElevator(elevator_t *elevator)
     if (elevator->direction < 0)                // moving down
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1,
-            elevator->direction, true);
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
 
         // jff 4/7/98 don't move ceil if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0,
-                elevator->direction, true);
+            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
     }
     else                                        // up
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0,
-            elevator->direction, true);
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
 
         // jff 4/7/98 don't move floor if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1,
-                elevator->direction, true);
+            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
     }
 
     // make floor move sound

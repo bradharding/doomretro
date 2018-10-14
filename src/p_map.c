@@ -1120,8 +1120,8 @@ void P_ApplyTorque(mobj_t *mo)
 //
 static dboolean P_ThingHeightClip(mobj_t *thing)
 {
-    dboolean    onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz;      // haleyjd
+    dboolean    onfloor = (thing->z == oldfloorz);
     int         flags2 = thing->flags2;
     player_t    *player = thing->player;
 
@@ -1132,12 +1132,12 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;               // killough 11/98: remember dropoffs
 
-    if ((flags2 & MF2_FEETARECLIPPED) && r_liquid_bob && !player)
-        thing->z = thing->floorz;
+    if ((flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bob)
+        thing->z = tmfloorz;
     else if (flags2 & MF2_FLOATBOB)
     {
-        if (thing->floorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
-            thing->z = thing->z - oldfloorz + thing->floorz;
+        if (tmfloorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
+            thing->z = thing->z - oldfloorz + tmfloorz;
 
         if (thing->z + thing->height > thing->ceilingz)
             thing->z = thing->ceilingz - thing->height;
@@ -1145,7 +1145,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     else if (onfloor)
     {
         // walking monsters rise and fall with the floor
-        thing->z = thing->floorz;
+        thing->z = tmfloorz;
 
         // [BH] immediately update player's view
         if (player)
@@ -1162,7 +1162,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
             thing->z = thing->ceilingz - thing->height;
     }
 
-    return (thing->ceilingz - thing->floorz >= thing->height);
+    return (thing->ceilingz - tmfloorz >= thing->height);
 }
 
 //

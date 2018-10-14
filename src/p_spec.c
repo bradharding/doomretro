@@ -2604,8 +2604,7 @@ void T_Scroll(scroll_t *s)
             // killough 4/4/98: Underwater, carry things even w/o gravity
             sec = sectors + s->affectee;
             height = sec->floorheight;
-            waterheight = (sec->heightsec && sec->heightsec->floorheight > height ?
-                sec->heightsec->floorheight : INT_MIN);
+            waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : INT_MIN);
 
             // Move objects only if on floor or underwater,
             // non-floating, and clipped.
@@ -2613,8 +2612,7 @@ void T_Scroll(scroll_t *s)
             {
                 mobj_t  *thing = node->m_thing;
 
-                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height)
-                    || thing->z < waterheight))
+                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
                 {
                     thing->momx += dx;
                     thing->momy += dy;
