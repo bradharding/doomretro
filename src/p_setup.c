@@ -1975,7 +1975,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
+                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
@@ -1993,7 +1993,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
+                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(bfgedition && (!modifiedgame || nerve) ?
@@ -2022,7 +2022,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
+                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
@@ -2040,7 +2040,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
+                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
