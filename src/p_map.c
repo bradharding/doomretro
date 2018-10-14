@@ -419,9 +419,17 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
     dboolean    unblocking = false;
-    int         flags = thing->flags;
-    int         tmflags = tmthing->flags;
-    dboolean    corpse = (flags & MF_CORPSE);
+    int         flags;
+    int         tmflags;
+    dboolean    corpse;
+
+    // don't clip against self
+    if (thing == tmthing)
+        return true;
+
+    flags = thing->flags;
+    tmflags = tmthing->flags;
+    corpse = (flags & MF_CORPSE);
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (r_corpses_nudge && corpse && (tmflags & MF_SHOOTABLE) && !thing->nudge && thing->z == tmthing->z)
@@ -447,10 +455,6 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;            // didn't hit it
-
-    // don't clip against self
-    if (thing == tmthing)
-        return true;
 
     // [BH] check if things are stuck and allow move if it makes them further apart
     if (!thing->player && !corpse)
