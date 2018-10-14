@@ -157,7 +157,7 @@ typedef struct
 static const unsigned int   mapwidth = SCREENWIDTH;
 static const unsigned int   mapheight = SCREENHEIGHT - SBARHEIGHT;
 static const unsigned int   maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
-static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT) - SCREENWIDTH;
+static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
 
 dboolean            automapactive;
 

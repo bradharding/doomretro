@@ -426,11 +426,14 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap with a change in\nceiling height when the player has a computer\narea map power-up (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+        "The color of lines in the automap with a change in\nceiling height when the player has a computer\narea map power-up "
+        "(<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap with a change in\nfloor height when the player has a computer\narea map power-up (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+        "The color of lines in the automap with a change in\nfloor height when the player has a computer\narea map power-up (<b>0</b> "
+        "to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of solid walls in the automap when the\nplayer has a computer area map power-up (<b>0</b> to\n<b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+        "The color of solid walls in the automap when the\nplayer has a computer area map power-up (<b>0</b> to\n<b>255</b>, or "
+        "<b>#</b><i>rrggbb</i>)."),
     CVAR_INT(am_backcolor, am_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (<b>0</b> to <b>255</b>,\nor <b>#</b><i>rrggbb</i>)."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -518,7 +521,8 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the "
+        "player."),
     CMD(god, "", alive_func1, god_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_BOOL(gp_analog, gp_analogue, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -759,7 +763,8 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\ndisabled when this CVAR is <b>35</b>."),
+        "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\n"
+        "disabled when this CVAR is <b>35</b>."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)
@@ -777,7 +782,8 @@ consolecmd_t consolecmds[] =
         "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
 #elif defined(__MACOSX__)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"metal\"</b>,\n<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"metal\"</b>,\n<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or "
+        "<b>\"software\"</b>)."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
@@ -3274,8 +3280,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                     striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1), striptrailingzero(metricdepth, 1));
             else
                 C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s kilometers</b>",
-                    striptrailingzero(metricwidth / METERSPERKILOMETER, 1),
-                    striptrailingzero(metricheight / METERSPERKILOMETER, 1),
+                    striptrailingzero(metricwidth / METERSPERKILOMETER, 1), striptrailingzero(metricheight / METERSPERKILOMETER, 1),
                     striptrailingzero(metricdepth / METERSPERKILOMETER, 1));
         }
         else
@@ -3284,8 +3289,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s feet</b>", commify(width), commify(height), commify(depth));
             else
                 C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s miles</b>",
-                    striptrailingzero((float)width / FEETPERMILE, 2),
-                    striptrailingzero((float)height / FEETPERMILE, 2),
+                    striptrailingzero((float)width / FEETPERMILE, 2), striptrailingzero((float)height / FEETPERMILE, 2),
                     striptrailingzero((float)depth / FEETPERMILE, 2));
         }
     }
@@ -3617,8 +3621,7 @@ static void C_PlayerStats_Game(void)
         for (int i = 0; i < totallines; i++)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
 
-        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-",
-            striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
+        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
@@ -3764,17 +3767,13 @@ static void C_PlayerStats_Game(void)
     C_TabbedOutput(tabs, "Damage received\t<b>%s%%</b>\t<b>%s%%</b>",
         commify(viewplayer->damagereceived), commify(stat_damagereceived));
 
-    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>",
-        commify(viewplayer->deaths), commify(stat_deaths));
+    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->deaths), commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>",
-        commify(viewplayer->cheated), commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->cheated), commify(stat_cheated));
 
-    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>",
-        commify(viewplayer->shotsfired), commify(stat_shotsfired));
+    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->shotsfired), commify(stat_shotsfired));
 
-    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>",
-        commify(viewplayer->shotshit), commify(stat_shotshit));
+    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->shotshit), commify(stat_shotshit));
 
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
         (viewplayer->shotsfired ? striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1) : "0"),
@@ -3861,8 +3860,7 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time played\t-\t<b>%02i:%02i:%02i</b>",
-        time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    C_TabbedOutput(tabs, "Time played\t-\t<b>%02i:%02i:%02i</b>", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t-\t<b>%s</b>", commify(stat_damageinflicted));
 
@@ -5248,12 +5246,10 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_blood)));
 
         if (r_blood == r_blood_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS),
-                C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS));
+                C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS), C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS));
     }
 }
 
@@ -5339,12 +5335,10 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_detail)));
 
         if (r_detail == r_detail_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS),
-                C_LookupAliasFromValue(r_detail_default, DETAILVALUEALIAS));
+                C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS), C_LookupAliasFromValue(r_detail_default, DETAILVALUEALIAS));
     }
 }
 
@@ -5369,12 +5363,10 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_dither)));
 
         if (r_dither == r_dither_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_dither_default, BOOLVALUEALIAS));
+                C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS), C_LookupAliasFromValue(r_dither_default, BOOLVALUEALIAS));
     }
 }
 
@@ -5401,12 +5393,10 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_fixmaperrors)));
 
         if (r_fixmaperrors == r_fixmaperrors_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS));
+                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS), C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS));
     }
 }
 
@@ -5503,8 +5493,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_hud_translucency)));
 
         if (r_hud_translucency == r_hud_translucency_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS),
@@ -5560,8 +5549,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
         if (M_StringCompare(r_messagepos, r_messagepos_default))
             C_Output("It is currently set to its default of <b>%s</b>.", r_messagepos);
         else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                r_messagepos, r_messagepos_default);
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.", r_messagepos, r_messagepos_default);
     }
 }
 
@@ -5591,8 +5579,7 @@ static void r_messagescale_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_messagescale)));
 
         if (r_messagescale == r_messagescale_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS),
@@ -5632,8 +5619,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
         if (r_screensize == r_screensize_default)
             C_Output("It is currently set to its default of <b>%i</b>.", r_screensize);
         else
-            C_Output("It is currently set to <b>%i</b> and its default is <b>%i</b>.",
-                r_screensize, r_screensize_default);
+            C_Output("It is currently set to <b>%i</b> and its default is <b>%i</b>.", r_screensize, r_screensize_default);
     }
 }
 
@@ -5749,12 +5735,10 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_textures)));
 
         if (r_textures == r_textures_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS));
+                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS), C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS));
     }
 }
 
@@ -5790,12 +5774,10 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_translucency)));
 
         if (r_translucency == r_translucency_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
+                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS), C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
     }
 }
 
@@ -5848,8 +5830,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         if (s_musicvolume == s_musicvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_musicvolume);
         else
-            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
-                s_musicvolume, s_musicvolume_default);
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.", s_musicvolume, s_musicvolume_default);
     }
     else
     {
@@ -5858,8 +5839,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         if (s_sfxvolume == s_sfxvolume_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", s_sfxvolume);
         else
-            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
-                s_sfxvolume, s_sfxvolume_default);
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.", s_sfxvolume, s_sfxvolume_default);
     }
 }
 
@@ -6115,7 +6095,8 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
         if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scalefilter);
         else
-            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.", vid_scalefilter, vid_scalefilter_default);
+            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+                vid_scalefilter, vid_scalefilter_default);
     }
 }
 

@@ -747,7 +747,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->oldy = mobj->y;
     mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
-    mobj->interpolate = true;
 
     mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
@@ -1145,7 +1144,6 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->tics = MAX(1, st->tics - (M_Random() & 3));
     th->sprite = st->sprite;
     th->frame = st->frame;
-    th->interpolate = true;
 
     th->colfunc = info->colfunc;
     th->altcolfunc = info->altcolfunc;
@@ -1230,7 +1228,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->tics = MAX(1, st->tics - (M_Random() & 3));
         th->sprite = st->sprite;
         th->frame = st->frame;
-        th->interpolate = true;
 
         th->colfunc = info->colfunc;
         th->altcolfunc = info->altcolfunc;

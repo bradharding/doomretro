@@ -1718,7 +1718,7 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)) < 0)
+    if (SDL_SetWindowFullscreen(window, (vid_fullscreen ? 0 : SDL_WINDOW_FULLSCREEN_DESKTOP)) < 0)
     {
         menuactive = false;
         C_ShowConsole();
