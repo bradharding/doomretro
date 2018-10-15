@@ -407,17 +407,6 @@ static int AccelerateMouse(int value)
         return value;
 }
 
-// Warp the mouse back to the middle of the screen
-static void CenterMouse(void)
-{
-    // Warp to the screen center
-    SDL_WarpMouseInWindow(window, displaycenterx, displaycentery);
-
-    // Clear any relative movement caused by warping
-    SDL_PumpEvents();
-    SDL_GetRelativeMouseState(NULL, NULL);
-}
-
 dboolean        altdown;
 dboolean        noinput = true;
 dboolean        waspaused;
@@ -427,6 +416,8 @@ static void I_GetEvent(void)
 {
     SDL_Event   SDLEvent;
     SDL_Event   *Event = &SDLEvent;
+
+    SDL_PumpEvents();
 
     while (SDL_PollEvent(Event))
     {
@@ -707,15 +698,11 @@ static void UpdateGrab(void)
     static dboolean currently_grabbed;
 
     if (grab && !currently_grabbed)
-    {
         SetShowCursor(false);
-        CenterMouse();
-    }
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
         SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
-        SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
     }
 
