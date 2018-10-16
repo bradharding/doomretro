@@ -186,12 +186,13 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
         // Find lowest & highest floors around sector
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
+
+        plat->thinker.function = T_PlatRaise;
         P_AddThinker(&plat->thinker);
 
         plat->type = type;
         plat->sector = sec;
         plat->sector->floordata = plat;
-        plat->thinker.function = T_PlatRaise;
         plat->tag = line->tag;
         plat->low = sec->floorheight;
 

@@ -1202,10 +1202,10 @@ void P_UnArchiveThinkers(void)
                 P_SetThingPosition(mobj);
 
                 mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
+                P_AddThinker(&mobj->thinker);
                 mobj->colfunc = mobj->info->colfunc;
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
-                P_AddThinker(&mobj->thinker);
                 thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
                 break;
             }

@@ -2335,9 +2335,11 @@ dboolean EV_DoDonut(line_t *line)
 
             // Spawn rising slime
             floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-            P_AddThinker(&floor->thinker);
-            s2->floordata = floor;
+
             floor->thinker.function = T_MoveFloor;
+            P_AddThinker(&floor->thinker);
+
+            s2->floordata = floor;
             floor->type = donutRaise;
             floor->direction = 1;
             floor->sector = s2;
@@ -2348,9 +2350,11 @@ dboolean EV_DoDonut(line_t *line)
 
             // Spawn lowering donut-hole
             floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-            P_AddThinker(&floor->thinker);
-            s1->floordata = floor;
+
             floor->thinker.function = T_MoveFloor;
+            P_AddThinker(&floor->thinker);
+
+            s1->floordata = floor;
             floor->type = lowerFloor;
             floor->direction = -1;
             floor->sector = s1;
@@ -2644,7 +2648,6 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 {
     scroll_t    *s = Z_Calloc(1, sizeof(*s), PU_LEVSPEC, NULL);
 
-    s->thinker.function = T_Scroll;
     s->type = type;
     s->dx = dx;
     s->dy = dy;
@@ -2654,6 +2657,8 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
         s->last_height = sectors[control].floorheight + sectors[control].ceilingheight;
 
     s->affectee = affectee;
+
+    s->thinker.function = T_Scroll;
     P_AddThinker(&s->thinker);
 }
 
@@ -2917,7 +2922,6 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 {
     pusher_t    *p = Z_Calloc(1, sizeof(*p), PU_LEVSPEC, NULL);
 
-    p->thinker.function = T_Pusher;
     p->source = source;
     p->type = type;
     p->x_mag = x_mag >> FRACBITS;
@@ -2932,6 +2936,8 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
     }
 
     p->affectee = affectee;
+
+    p->thinker.function = T_Pusher;
     P_AddThinker(&p->thinker);
 }
 

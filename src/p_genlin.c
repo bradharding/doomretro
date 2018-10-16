@@ -100,9 +100,11 @@ manual_floor:
         // new floor thinker
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-        P_AddThinker(&floor->thinker);
-        sec->floordata = floor;
+
         floor->thinker.function = T_MoveFloor;
+        P_AddThinker(&floor->thinker);
+
+        sec->floordata = floor;
         floor->crush = Crsh;
         floor->direction = (Dirn ? 1 : -1);
         floor->sector = sec;
@@ -290,9 +292,11 @@ manual_ceiling:
         // new ceiling thinker
         rtn = true;
         ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
-        P_AddThinker(&ceiling->thinker);
-        sec->ceilingdata = ceiling;
+
         ceiling->thinker.function = T_MoveCeiling;
+        P_AddThinker(&ceiling->thinker);
+
+        sec->ceilingdata = ceiling;
         ceiling->crush = Crsh;
         ceiling->direction = (Dirn ? 1 : -1);
         ceiling->sector = sec;
@@ -486,10 +490,12 @@ manual_lift:
         // Setup the plat thinker
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
+
+        plat->thinker.function = T_PlatRaise;
         P_AddThinker(&plat->thinker);
+
         plat->sector = sec;
         plat->sector->floordata = plat;
-        plat->thinker.function = T_PlatRaise;
         plat->tag = line->tag;
         plat->type = genLift;
         plat->high = sec->floorheight;
@@ -631,9 +637,11 @@ manual_stair:
         // new floor thinker
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-        P_AddThinker(&floor->thinker);
-        sec->floordata = floor;
+
         floor->thinker.function = T_MoveFloor;
+        P_AddThinker(&floor->thinker);
+
+        sec->floordata = floor;
         floor->direction = (Dirn ? 1 : -1);
         floor->sector = sec;
 
@@ -737,10 +745,10 @@ manual_stair:
                 secnum = newsecnum;
                 floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
+                floor->thinker.function = T_MoveFloor;
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;
-                floor->thinker.function = T_MoveFloor;
                 floor->direction = (Dirn ? 1 : -1);
                 floor->sector = sec;
                 floor->speed = speed;
@@ -820,9 +828,11 @@ manual_crusher:
         // new ceiling thinker
         rtn = true;
         ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
-        P_AddThinker(&ceiling->thinker);
-        sec->ceilingdata = ceiling;     // jff 2/22/98
+
         ceiling->thinker.function = T_MoveCeiling;
+        P_AddThinker(&ceiling->thinker);
+
+        sec->ceilingdata = ceiling;     // jff 2/22/98
         ceiling->crush = true;
         ceiling->direction = -1;
         ceiling->sector = sec;
@@ -915,10 +925,11 @@ manual_locked:
         // new door thinker
         rtn = true;
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
-        P_AddThinker(&door->thinker);
-        sec->ceilingdata = door;        // jff 2/22/98
 
         door->thinker.function = T_VerticalDoor;
+        P_AddThinker(&door->thinker);
+
+        sec->ceilingdata = door;        // jff 2/22/98
         door->sector = sec;
         door->topwait = VDOORWAIT;
         door->line = line;
@@ -1018,10 +1029,12 @@ manual_door:
         // new door thinker
         rtn = true;
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
-        P_AddThinker(&door->thinker);
-        sec->ceilingdata = door;
 
         door->thinker.function = T_VerticalDoor;
+        P_AddThinker(&door->thinker);
+
+        sec->ceilingdata = door;
+
         door->sector = sec;
 
         // setup delay for door remaining open/closed

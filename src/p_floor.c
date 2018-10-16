@@ -339,7 +339,7 @@ void T_MoveElevator(elevator_t *elevator)
     {
         elevator->sector->floordata = NULL;
         elevator->sector->ceilingdata = NULL;
-        P_RemoveThinker(&elevator->thinker);     // remove elevator from actives
+        P_RemoveThinker(&elevator->thinker);    // remove elevator from actives
 
         // make floor stop sound
         S_StartSectorSound(&elevator->sector->soundorg, sfx_pstop);
@@ -366,9 +366,11 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
         // new floor thinker
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-        P_AddThinker(&floor->thinker);
-        sec->floordata = floor;
+
         floor->thinker.function = T_MoveFloor;
+        P_AddThinker(&floor->thinker);
+
+        sec->floordata = floor;
         floor->type = floortype;
 
         switch (floortype)
@@ -649,9 +651,11 @@ dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean
         // new floor thinker
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
-        P_AddThinker(&floor->thinker);
-        sec->floordata = floor;
+
         floor->thinker.function = T_MoveFloor;
+        P_AddThinker(&floor->thinker);
+
+        sec->floordata = floor;
         floor->direction = 1;
         floor->sector = sec;
 
@@ -695,10 +699,11 @@ dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean
                 sec = tsec;
                 secnum = tsec->id;
                 floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
+
+                floor->thinker.function = T_MoveFloor;
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;
-                floor->thinker.function = T_MoveFloor;
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = speed;
@@ -741,10 +746,12 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
         // create and initialize new elevator thinker
         rtn = true;
         elevator = Z_Calloc(1, sizeof(*elevator), PU_LEVSPEC, NULL);
+
+        elevator->thinker.function = T_MoveElevator;
         P_AddThinker(&elevator->thinker);
+
         sec->floordata = elevator;
         sec->ceilingdata = elevator;
-        elevator->thinker.function = T_MoveElevator;
         elevator->type = elevtype;
 
         // set up the fields according to the type of elevator action
