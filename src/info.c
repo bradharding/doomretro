@@ -4233,7 +4233,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP | MF2_TRANSLUCENT_REDONLY),
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
