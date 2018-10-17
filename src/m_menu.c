@@ -244,7 +244,7 @@ menu_t EpiDef =
     &MainDef,
     EpisodeMenu,
     M_DrawEpisode,
-    39, 69,
+    41, 69,
     ep1
 };
 
@@ -271,7 +271,7 @@ menu_t ExpDef =
     &MainDef,
     ExpansionMenu,
     M_DrawExpansion,
-    39, 69,
+    41, 69,
     ex1
 };
 
@@ -304,7 +304,7 @@ menu_t NewDef =
     &EpiDef,
     NewGameMenu,
     M_DrawNewGame,
-    39, 69,
+    45, 69,
     hurtme
 };
 
@@ -691,7 +691,7 @@ void M_DrawString(int x, int y, char *str)
         }
 
         if (j == -1)
-            x += 9;
+            x += 7;
         else
         {
             M_DrawChar(x, y, j, overlapping);
@@ -725,7 +725,7 @@ static int M_BigStringWidth(char *str)
             k++;
         }
 
-        w += (j == -1 ? 9 : (int)strlen(redcharset[j]) / 18 - 2);
+        w += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
         prev = str[i];
     }
 
@@ -1730,31 +1730,31 @@ static void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, W_CacheLumpName("M_MSGON"));
+            M_DrawPatchWithShadow(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, W_CacheLumpName("M_MSGON"));
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
     }
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, W_CacheLumpName("M_MSGOFF"));
+            M_DrawPatchWithShadow(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, W_CacheLumpName("M_MSGOFF"));
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
 
     if (r_detail == r_detail_low)
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, W_CacheLumpName("M_GDLOW"));
+            M_DrawPatchWithShadow(OptionsDef.x + 176, OptionsDef.y + 16 * detail + OFFSET, W_CacheLumpName("M_GDLOW"));
         else
-            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
     }
     else
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, W_CacheLumpName("M_GDHIGH"));
+            M_DrawPatchWithShadow(OptionsDef.x + 176, OptionsDef.y + 16 * detail + OFFSET, W_CacheLumpName("M_GDHIGH"));
         else
-            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
