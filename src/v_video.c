@@ -1502,24 +1502,31 @@ dboolean V_ScreenShot(void)
     char        mapname[128];
     int         count = 0;
 
-    switch (gamestate)
-    {
-        case GS_INTERMISSION:
-            M_StringCopy(mapname, "Intermission", sizeof(mapname));
-            break;
+    if (consoleactive)
+        M_StringCopy(mapname, "Console", sizeof(mapname));
+    else if (menuactive)
+        M_StringCopy(mapname, "Menu", sizeof(mapname));
+    else if (automapactive)
+        M_StringCopy(mapname, "Automap", sizeof(mapname));
+    else
+        switch (gamestate)
+        {
+            case GS_INTERMISSION:
+                M_StringCopy(mapname, "Intermission", sizeof(mapname));
+                break;
 
-        case GS_FINALE:
-            M_StringCopy(mapname, "Finale", sizeof(mapname));
-            break;
+            case GS_FINALE:
+                M_StringCopy(mapname, "Finale", sizeof(mapname));
+                break;
 
-        case GS_TITLESCREEN:
-            M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
-            break;
+            case GS_TITLESCREEN:
+                M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
+                break;
 
-        default:
-            M_StringCopy(mapname, (inhelpscreens ? "Help" : titlecase(maptitle)), sizeof(mapname));
-            break;
-    }
+            default:
+                M_StringCopy(mapname, (inhelpscreens ? "Help" : titlecase(maptitle)), sizeof(mapname));
+                break;
+        }
 
     if (M_StringStartsWith(mapname, "The "))
         M_snprintf(mapname, sizeof(mapname), "%s, The", M_SubString(mapname, 4, strlen(mapname) - 4));
