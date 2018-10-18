@@ -756,8 +756,8 @@ static void R_ProjectSprite(mobj_t *thing)
     }
     else
     {
-        vis->footclip = 0;
         vis->texturemid = gzt - viewz;
+        vis->footclip = 0;
     }
 
     if (flip)

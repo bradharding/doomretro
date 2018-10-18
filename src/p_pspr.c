@@ -70,8 +70,9 @@ extern dboolean canmouselook;
 extern dboolean hitwall;
 extern dboolean usemouselook;
 
-void P_CheckMissileSpawn(mobj_t *th);
-
+//
+// A_Recoil
+//
 void A_Recoil(weapontype_t weapon)
 {
     if (weaponrecoil && canmouselook)
