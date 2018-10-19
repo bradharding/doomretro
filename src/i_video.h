@@ -73,6 +73,7 @@ void GetScreenResolution(void);
 
 // Takes full 8 bit values.
 void I_SetPalette(byte *playpal);
+void I_SetSimplePalette(byte *playpal);
 
 void I_UpdateBlitFunc(dboolean shake);
 void I_Blit_Automap(void);

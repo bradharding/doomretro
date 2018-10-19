@@ -414,8 +414,12 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        I_SetPalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
-        V_DrawBigPatch(0, 0, 0, splashlump);
+        static int  prevtic;
+
+        if (pagetic != prevtic)
+            I_SetSimplePalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 94 ? pagetic - 94 : 0)) * 768);
+
+        prevtic = pagetic;
     }
     else if (pagelump)
         V_DrawPagePatch(pagelump);
@@ -463,6 +467,7 @@ void D_DoAdvanceTitle(void)
     {
         pagetic = 3 * TICRATE;
         splashscreen = true;
+        V_DrawBigPatch(0, 0, 0, splashlump);
     }
     else if (titlesequence == 1)
     {

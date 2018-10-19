@@ -1007,6 +1007,18 @@ void I_SetPalette(byte *playpal)
         SDL_SetRenderDrawColor(renderer, colors[0].r, colors[0].g, colors[0].b, SDL_ALPHA_OPAQUE);
 }
 
+void I_SetSimplePalette(byte *playpal)
+{
+    for (int i = 0; i < 256; i++)
+    {
+        colors[i].r = *playpal++;
+        colors[i].g = *playpal++;
+        colors[i].b = *playpal++;
+    }
+
+    SDL_SetPaletteColors(palette, colors, 0, 256);
+}
+
 static void I_RestoreFocus(void)
 {
 #if defined(_WIN32)
