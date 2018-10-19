@@ -125,7 +125,7 @@ dboolean            advancetitle;
 dboolean            dowipe;
 static dboolean     forcewipe;
 
-dboolean            splashscreen;
+dboolean            splashscreen = false;
 
 static byte         *playpal;
 static int          startuptimer;
@@ -417,7 +417,7 @@ void D_PageDrawer(void)
         static int  prevtic;
 
         if (pagetic != prevtic)
-            I_SetSimplePalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 94 ? pagetic - 94 : 0)) * 768);
+            I_SetSimplePalette(splashpal + (pagetic <= 9 ? (9 - pagetic) * 768 : (pagetic >= 94 ? (pagetic - 94) * 768 : 0)));
 
         prevtic = pagetic;
     }
