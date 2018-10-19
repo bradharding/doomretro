@@ -70,3 +70,8 @@ void I_InitTimer(void)
     // initialize timer
     SDL_InitSubSystem(SDL_INIT_TIMER);
 }
+
+void I_ShutdownTimer(void)
+{
+    SDL_QuitSubSystem(SDL_INIT_TIMER);
+}

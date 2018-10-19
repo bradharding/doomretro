@@ -220,13 +220,12 @@ void I_Quit(dboolean shutdown)
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
         I_ShutdownGamepad();
+        I_ShutdownTimer();
     }
 
 #if defined(_WIN32)
     I_ShutdownWindows32();
 #endif
-
-    SDL_Quit();
 
     exit(0);
 }
@@ -261,6 +260,7 @@ void I_Error(const char *error, ...)
     I_ShutdownGraphics();
     I_ShutdownKeyboard();
     I_ShutdownGamepad();
+    I_ShutdownTimer();
 
 #if defined(_WIN32)
     I_ShutdownWindows32();
@@ -278,8 +278,6 @@ void I_Error(const char *error, ...)
     va_end(argptr);
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_NAME, msgbuf, NULL);
-
-    SDL_Quit();
 
     exit(-1);
 }

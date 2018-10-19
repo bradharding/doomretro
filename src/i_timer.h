@@ -52,4 +52,6 @@ void I_Sleep(int ms);
 // Initialize timer
 void I_InitTimer(void);
 
+void I_ShutdownTimer(void);
+
 #endif
