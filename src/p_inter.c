@@ -439,8 +439,7 @@ void P_UpdateArmorStat(int num)
 
 //
 // P_GiveArmor
-// Returns false if the armor is worse
-// than the current armor.
+// Returns false if the armor is worse than the current armor.
 //
 dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
 {
@@ -1579,8 +1578,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel && damage >= target->health)
             damage = target->health - 1;
 
-        // Below certain threshold,
-        // ignore damage in GOD mode, or with INVUL power.
+        // below certain threshold, ignore damage in god mode, or with invulnerability power-up
         if ((tplayer->cheats & CF_GODMODE) || idclevtics || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
@@ -1669,8 +1667,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
-        // if not intent on another player,
-        // chase after this one
+        // if not intent on another player, chase after this one
         if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
             P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
 

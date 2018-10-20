@@ -288,7 +288,7 @@ static void R_InitPointToAngle(void)
 {
     // slope (tangent) to angle lookup
     for (int i = 0; i <= SLOPERANGE; i++)
-        tantoangle[i] = (angle_t)(0xFFFFFFFF * atan2(i, SLOPERANGE) / (M_PI * 2));
+        tantoangle[i] = (angle_t)(0xFFFFFFFF * atan((i + 0.5) / SLOPERANGE) / (M_PI * 2));
 }
 
 //
@@ -827,7 +827,7 @@ static void R_SetupFrame(void)
 
         // killough 3/20/98: use fullcolormap
         fixedcolormap = fullcolormap;
-        
+
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)
             fixedcolormap += 32 * 256 * sizeof(lighttable_t);
 

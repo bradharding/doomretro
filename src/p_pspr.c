@@ -839,10 +839,10 @@ void P_MovePsprites(void)
     pspdef_t    *weapon = &psp[ps_weapon];
     pspdef_t    *flash = &psp[ps_flash];
 
-    if (weapon->state && weapon->tics != -1 && !--weapon->tics)
+    if (weapon->tics != -1 && !--weapon->tics)
         P_SetPsprite(ps_weapon, weapon->state->nextstate);
 
-    if (flash->state && flash->tics != -1 && !--flash->tics)
+    if (flash->tics != -1 && !--flash->tics)
         P_SetPsprite(ps_flash, flash->state->nextstate);
 
     if (weapon->state->action == A_WeaponReady)

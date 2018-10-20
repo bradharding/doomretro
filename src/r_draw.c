@@ -914,9 +914,9 @@ void R_DrawTranslucentBlue25Column(void)
 //
 // Spectre/Invisibility.
 //
-#define NOFUZZ      251
+#define NOFUZZ  251
 
-const int           fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+const int       fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {
