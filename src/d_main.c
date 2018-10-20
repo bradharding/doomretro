@@ -353,14 +353,14 @@ void D_Display(void)
 static void D_DoomLoop(void)
 {
     time_t      rawtime;
-    player_t    tempplayer;
+    player_t    player;
 
     R_ExecuteSetViewSize();
 
     time(&rawtime);
     gamestarttime = localtime(&rawtime);
 
-    viewplayer = &tempplayer;
+    viewplayer = &player;
     viewplayer->damagecount = 0;
 
     while (true)
@@ -467,9 +467,12 @@ void D_DoAdvanceTitle(void)
     {
         pagetic = 3 * TICRATE;
         splashscreen = true;
+        titlesequence = 1;
         V_DrawBigPatch(0, 0, 0, splashlump);
+        return;
     }
-    else if (titlesequence == 1)
+
+    if (titlesequence == 1)
     {
         static dboolean flag = true;
 

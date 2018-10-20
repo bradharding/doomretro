@@ -995,7 +995,7 @@ static void M_LoadSelect(int choice)
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
-        I_WaitVBL(2 * TICRATE);
+        I_Sleep(1000);
         functionkey = 0;
         quickSaveSlot = choice;
         vibrate = false;
@@ -1651,7 +1651,7 @@ static void M_VerifyNightmare(int key)
     else
     {
         S_StartSound(NULL, sfx_swtchx);
-        I_WaitVBL(2 * TICRATE);
+        I_Sleep(1000);
         quickSaveSlot = -1;
         vibrate = false;
         M_ClearMenus();
@@ -1676,7 +1676,7 @@ static void M_ChooseSkill(int choice)
 
     HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
-    I_WaitVBL(2 * TICRATE);
+    I_Sleep(1000);
     quickSaveSlot = -1;
     vibrate = false;
     M_ClearMenus();
@@ -1847,7 +1847,7 @@ static void M_EndGameResponse(int key)
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
-    I_WaitVBL(2 * TICRATE);
+    I_Sleep(1000);
     MainDef.lastOn = 0;
     st_palette = 0;
     M_EndingGame();

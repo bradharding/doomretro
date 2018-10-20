@@ -84,9 +84,6 @@ void I_ToggleFullscreen(void);
 void I_SetPillarboxes(void);
 void I_SetMotionBlur(int percent);
 
-// Wait for vertical retrace or pause a bit.
-void I_WaitVBL(int count);
-
 void M_QuitDOOM(int choice);
 void R_SetViewSize(int blocks);
 
