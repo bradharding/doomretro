@@ -205,11 +205,21 @@ void S_Init(void)
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
+            {
                 if (!CacheSFX(sfx))
-                {
+                    if (W_CheckMultipleLumps(namebuf) > 1)
+                    {
+                        sfx->lumpnum = W_GetNumForName2(namebuf);
+
+                        if (!CacheSFX(sfx))
+                            sfx->lumpnum = -1;
+                        else
+                            C_Warning("The <b>%s</b> sound lump is in an unrecognized format.", uppercase(namebuf));
+                    }
+
+                if (sfx->lumpnum == -1)
                     C_Warning("The <b>%s</b> sound lump is in an unrecognized format and won't be played.", uppercase(namebuf));
-                    sfx->lumpnum = -1;
-                }
+            }
         }
     }
 

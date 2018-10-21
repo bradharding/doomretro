@@ -34,6 +34,7 @@
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
 * A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR and no clipping mode were on.
 * If the player has more than one power-up, the countdown bar in the alternate widescreen HUD will now always show the power-up to run out first.
+* If an SFX lump in a PWAD is in an unrecognized format, the original lump in the IWAD will be played instead.
 
 ---
 
