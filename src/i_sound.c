@@ -103,7 +103,6 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 {
     // Unlink from linked list.
     AllocatedSoundUnlink(snd);
-
     free(snd);
 }
 
@@ -152,6 +151,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     snd->use_count = 0;
 
     AllocatedSoundLink(snd);
+
     return snd;
 }
 
@@ -411,5 +411,6 @@ dboolean I_InitSound(void)
     Mix_AllocateChannels(s_channels_max);
     SDL_PauseAudio(0);
     sound_initialized = true;
+
     return true;
 }

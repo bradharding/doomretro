@@ -1206,12 +1206,12 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 
     if (*x0 < 0)
         outcode1 = LEFT;
-    else if (*x0 > (int)mapwidth)
+    else if (*x0 >= (int)mapwidth)
         outcode1 = RIGHT;
 
     if (*x1 < 0)
         outcode2 = LEFT;
-    else if (*x1 > (int)mapwidth)
+    else if (*x1 >= (int)mapwidth)
         outcode2 = RIGHT;
 
     if (outcode1 & outcode2)
@@ -1225,12 +1225,12 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 
     if (*y0 < 0)
         outcode1 |= TOP;
-    else if (*y0 > (int)mapheight)
+    else if (*y0 >= (int)mapheight)
         outcode1 |= BOTTOM;
 
     if (*y1 < 0)
         outcode2 |= TOP;
-    else if (*y1 > (int)mapheight)
+    else if (*y1 >= (int)mapheight)
         outcode2 |= BOTTOM;
 
     return !(outcode1 & outcode2);

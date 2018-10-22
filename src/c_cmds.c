@@ -3959,8 +3959,8 @@ static void reset_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    if (M_StringCompare(parms, "ammo") || M_StringCompare(parms, "armor")
-        || M_StringCompare(parms, "armortype") || M_StringCompare(parms, "health"))
+    if (M_StringCompare(parms, "ammo") || M_StringCompare(parms, "armor") || M_StringCompare(parms, "armour")
+        || M_StringCompare(parms, "armortype") || M_StringCompare(parms, "armourtype") || M_StringCompare(parms, "health"))
         return;
 
     resettingcvar = true;

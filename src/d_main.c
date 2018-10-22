@@ -1651,7 +1651,7 @@ static void D_DoomMainSetup(void)
         {
             scale = atoi(myargv[p + 1]);
 
-            if (scale >= 10 && scale <= 400)
+            if (scale >= 10 && scale <= 400 && scale != 100)
                 C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be %i%% their normal speed.", scale);
             else
                 scale = 100;
@@ -1659,7 +1659,8 @@ static void D_DoomMainSetup(void)
         else
             C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be twice as fast.");
 
-        G_SetMovementSpeed(scale);
+        if (scale != 100)
+            G_SetMovementSpeed(scale);
 
         if (scale > turbo_default)
         {
