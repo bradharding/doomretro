@@ -235,17 +235,23 @@ void P_MovePlayer(void)
     }
 
     if (canmouselook)
-        viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
-
-    if (viewplayer->lookdir && !usemouselook)
     {
-        if (viewplayer->lookdir > 0)
-            viewplayer->lookdir -= 16 * MLOOKUNIT;
-        else
-            viewplayer->lookdir += 16 * MLOOKUNIT;
+        if (cmd->lookdir)
+            viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
 
-        if (ABS(viewplayer->lookdir) < 16 * MLOOKUNIT)
-            viewplayer->lookdir = 0;
+        if (viewplayer->lookdir && !usemouselook)
+        {
+            if (viewplayer->lookdir > 0)
+            {
+                if ((viewplayer->lookdir -= 16 * MLOOKUNIT) < 16 * MLOOKUNIT)
+                    viewplayer->lookdir = 0;
+            }
+            else
+            {
+                if ((viewplayer->lookdir += 16 * MLOOKUNIT) > -16 * MLOOKUNIT)
+                    viewplayer->lookdir = 0;
+            }
+        }
     }
 }
 
