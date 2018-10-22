@@ -575,15 +575,17 @@ void P_PlayerThink(void)
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
         P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
-    if (autouse && !(leveltime % TICRATE))
-    {
-        autousing = true;
-        P_UseLines();
-        autousing = false;
-    }
-
     // check for use
-    if (cmd->buttons & BT_USE)
+    if (autouse)
+    {
+        if (!(leveltime % TICRATE))
+        {
+            autousing = true;
+            P_UseLines();
+            autousing = false;
+        }
+    }
+    else if (cmd->buttons & BT_USE)
     {
         if (!viewplayer->usedown)
         {
