@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_misc.h"
