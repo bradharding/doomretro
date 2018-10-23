@@ -2236,7 +2236,10 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     ix = sscanf(inbuffer, "%31s %10i (%63[^)]", key, &indexnum, name);
 
     if (*name)
+    {
         M_StringCopy(mobjinfo[indexnum].name1, lowercase(name), 100);
+        M_StringCopy(mobjinfo[indexnum].plural1, lowercase(name), 100);
+    }
 
     if (devparm)
         C_Output("count = %i, Thing %i", ix, indexnum);
