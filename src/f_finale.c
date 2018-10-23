@@ -433,7 +433,7 @@ static void F_StartCast(void)
     firstevent = true;
     wipegamestate = GS_NONE;    // force a screen wipe
     castnum = 0;
-    caststate = &states[mobjinfo[castordertype[castnum]].seestate];
+    caststate = &states[mobjinfo[castordertype[0]].seestate];
     casttics = caststate->tics;
     castrot = 0;
     castdeath = false;
@@ -460,11 +460,10 @@ static void F_CastTicker(void)
     if (caststate->tics == -1 || caststate->nextstate == S_NULL)
     {
         // switch from deathstate to next monster
-        castnum++;
         castdeath = false;
         castdeathflip = false;
 
-        if (castordertype[castnum] == -1)
+        if (castordertype[++castnum] == -1)
             castnum = 0;
 
         if (mobjinfo[castordertype[castnum]].seesound)
@@ -482,11 +481,7 @@ static void F_CastTicker(void)
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;    // Oh, gross hack!
 
-        if (caststate->action == A_RandomJump && M_Random() < caststate->misc2)
-            st = caststate->misc1;
-        else
-            st = caststate->nextstate;
-
+        st = (caststate->action == A_RandomJump && M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
         caststate = &states[st];
         castframes++;
 

@@ -295,7 +295,7 @@ static void R_InitTextures(void)
         patchlookup[i] = W_CheckNumForName(name);
     }
 
-    W_ReleaseLumpNum(names_lump);                                // cph - release the lump
+    W_ReleaseLumpNum(names_lump);                               // cph - release the lump
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
@@ -406,8 +406,8 @@ static void R_InitTextures(void)
     {
         int game = brightmaps[i].game;
 
-        if (brightmaps[i].texture[0] != '\0' && (game == DOOM1AND2
-            || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
+        if (brightmaps[i].texture[0] != '\0'
+            && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
         {
             int num = R_CheckTextureNumForName(brightmaps[i].texture);
 
