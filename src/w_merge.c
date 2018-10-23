@@ -469,7 +469,10 @@ static void DoMerge(void)
                 else if (!strncasecmp(lump->name, "S_START", 8) || !strncasecmp(lump->name, "SS_START", 8))
                     current_section = SECTION_SPRITES;
                 else if (!strncasecmp(lump->name, "HI_START", 8))
+                {
                     current_section = SECTION_HIDEF;
+                    C_Warning("All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
+                }
                 else
                     // Don't include the headers of sections
                     newlumps[num_newlumps++] = lump;
