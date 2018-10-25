@@ -120,7 +120,7 @@ void P_CalcHeight(void)
 
         if (viewplayer->bouncemax)
         {
-            viewplayer->bounce -= FRACUNIT;
+            viewplayer->bounce -= 3 * FRACUNIT / 4;
 
             if (viewplayer->bounce < viewplayer->bouncemax)
                 viewplayer->bounce = -viewplayer->bounce;
