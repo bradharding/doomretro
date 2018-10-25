@@ -3625,6 +3625,7 @@ static void M_SetupNextMenu(menu_t *menudef)
 {
     currentMenu = menudef;
     itemOn = currentMenu->lastOn;
+    whichSkull = 0;
 }
 
 //
@@ -3648,7 +3649,6 @@ void M_Init(void)
     currentMenu = &MainDef;
     menuactive = false;
     itemOn = currentMenu->lastOn;
-    whichSkull = 0;
     skullAnimCounter = 10;
     messageToPrint = false;
     messageString = NULL;
