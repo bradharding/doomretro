@@ -1007,8 +1007,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
-    // check for appropriate skill level
-    if (mthing->options & 16)
+    if (mthing->options & MTF_NETGAME)
         return NULL;
 
     if (gameskill == sk_baby)
@@ -1030,6 +1029,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
         return NULL;
     }
 
+    // check for appropriate skill level
     if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors) && type != VisualModeCamera)
     {
         if (mobjinfo[i].name1[0] != '\0')

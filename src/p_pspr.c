@@ -316,10 +316,7 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
-
-    if (!P_CheckAmmo(readyweapon))
-        P_SetPsprite(ps_weapon, weaponinfo[readyweapon].downstate);
+    P_CheckAmmo(player->readyweapon);
 }
 
 //
@@ -615,7 +612,6 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (successfulshot)
     {
-        successfulshot = false;
         player->shotshit++;
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
@@ -648,7 +644,6 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (successfulshot)
     {
-        successfulshot = false;
         player->shotshit++;
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
@@ -684,7 +679,6 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (successfulshot)
     {
-        successfulshot = false;
         player->shotshit++;
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
@@ -737,7 +731,6 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (successfulshot)
     {
-        successfulshot = false;
         player->shotshit++;
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
