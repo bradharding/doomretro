@@ -1,6 +1,6 @@
 ### DOOM Retro v2.7.4
 
-* *DOOM Retro* now uses version 2.0.9 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
+* *DOOM Retro* now uses [*SDL v2.0.9*](https://www.libsdl.org), [*SDL_mixer v2.0.4*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.0.4*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time, the WAD launcher will now try to find a common *DOOM* or *DOOM II* installation.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
