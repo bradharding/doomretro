@@ -109,6 +109,7 @@ static SDL_Palette  *palette;
 static SDL_Color    colors[256];
 static byte         *playpal;
 
+byte                *oscreen;
 byte                *mapscreen;
 SDL_Window          *mapwindow;
 SDL_Renderer        *maprenderer;
@@ -357,6 +358,8 @@ void I_ShutdownGraphics(void)
     I_CapFPS(0);
     FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    free(oscreen);
+    oscreen = NULL;
 }
 
 #if defined(_WIN32)
@@ -1853,7 +1856,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mapscreen = malloc(SCREENWIDTH * SCREENHEIGHT);
+    mapscreen = oscreen = malloc(SCREENWIDTH * SCREENHEIGHT);
     I_CreateExternalAutomap(true);
 
 #if defined(_WIN32)
