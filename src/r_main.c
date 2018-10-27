@@ -43,6 +43,7 @@
 #include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "r_sky.h"
 #include "v_video.h"
 
@@ -680,6 +681,15 @@ void R_InitColumnFunctions(void)
         }
     }
 
+    if (gamestate == GS_LEVEL)
+        for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        {
+            mobj_t  *mo = (mobj_t *)th;
+
+            mo->colfunc = mo->info->colfunc;
+            mo->altcolfunc = mo->info->altcolfunc;
+        }
+
     if (chex)
         mobjinfo[MT_BLOOD].blood = GREENBLOOD;
 }
@@ -697,7 +707,6 @@ void R_Init(void)
     R_InitLightTables();
     R_InitTranslationTables();
     R_InitPatches();
-    R_InitColumnFunctions();
 }
 
 //
