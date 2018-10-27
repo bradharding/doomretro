@@ -531,16 +531,17 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawSkyColorColumn(void)
 {
-    int     y = dc_yh - dc_yl + 1;
-    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int         y = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const byte  color = dc_colormap[0][r_skycolor];
 
     while (--y)
     {
-        *dest = r_skycolor;
+        *dest = color;
         dest += SCREENWIDTH;
     }
 
-    *dest = r_skycolor;
+    *dest = color;
 }
 
 void R_DrawRedToBlueColumn(void)
