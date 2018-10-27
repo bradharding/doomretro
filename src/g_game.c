@@ -250,8 +250,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
     usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook] || (gamepadbuttons & gamepadmouselook));
 
-    // use two stage accelerative turning
-    // on the keyboard
+    // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft) || (gamepadbuttons & gamepadright))
         turnheld++;
     else
