@@ -739,7 +739,7 @@ static void R_ProjectSprite(mobj_t *thing)
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
-        vis->colfunc = (invulnerable ? thing->altcolfunc : thing->colfunc);
+        vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec && r_liquid_clipsprites)
