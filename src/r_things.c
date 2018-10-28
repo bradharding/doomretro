@@ -55,10 +55,8 @@
 #define MAXVISSPRITES       128
 
 //
-// Sprite rotation 0 is facing the viewer,
-//  rotation 1 is one angle turn CLOCKWISE around the axis.
-// This is not the same as the angle,
-//  which increases counter clockwise (protractor).
+// Sprite rotation 0 is facing the viewer, rotation 1 is one angle turn CLOCKWISE around the axis.
+// This is not the same as the angle, which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
 fixed_t                 pspritescale;
@@ -66,8 +64,7 @@ fixed_t                 pspriteiscale;
 
 static lighttable_t     **spritelights;         // killough 1/25/98 made static
 
-// constant arrays
-//  used for psprite clipping and initializing clipping
+// constant arrays used for psprite clipping and initializing clipping
 int                     negonearray[SCREENWIDTH];
 int                     viewheightarray[SCREENWIDTH];
 
@@ -148,27 +145,21 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 
 //
 // R_InitSpriteDefs
-// Pass a null terminated list of sprite names
-// (4 chars exactly) to be used.
+// Pass a null terminated list of sprite names (4 chars exactly) to be used.
 //
-// Builds the sprite rotation matrices to account
-// for horizontally flipped sprites.
+// Builds the sprite rotation matrices to account for horizontally flipped sprites.
 //
-// Will report an error if the lumps are inconsistent.
-// Only called at startup.
+// Will report an error if the lumps are inconsistent. Only called at startup.
 //
-// Sprite lump names are 4 characters for the actor,
-//  a letter for the frame, and a number for the rotation.
+// Sprite lump names are 4 characters for the actor, a letter for the frame, and a number for the rotation.
 //
-// A sprite that is flippable will have an additional
-//  letter/number appended.
+// A sprite that is flippable will have an additional letter/number appended.
 //
 // The rotation character can be 0 to signify no rotations.
 //
 // 1/25/98, 1/31/98 killough : Rewritten for performance
 //
-// Empirically verified to have excellent hash
-// properties across standard DOOM sprites:
+// Empirically verified to have excellent hash properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
 static void R_InitSpriteDefs(void)
@@ -201,8 +192,7 @@ static void R_InitSpriteDefs(void)
         hash[j].index = i;
     }
 
-    // scan all the lump names for each of the names,
-    //  noting the highest frame letter.
+    // scan all the lump names for each of the names, noting the highest frame letter.
     for (unsigned int i = 0; i < NUMSPRITES; i++)
     {
         const char  *spritename = sprnames[i];
@@ -736,8 +726,8 @@ static void R_ProjectSprite(mobj_t *thing)
     else
         vis->shadowpos = 1;
 
-    if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
-        vis->colfunc = R_DrawPausedFuzzColumn;
+    if ((thing->flags & MF_FUZZ) && pausesprites)
+        vis->colfunc = (r_textures ? R_DrawPausedFuzzColumn : thing->colfunc);
     else
         vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
