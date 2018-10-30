@@ -354,7 +354,6 @@ static void FreeSurfaces(void)
 
 void I_ShutdownGraphics(void)
 {
-    SetShowCursor(true);
     I_CapFPS(0);
     FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
