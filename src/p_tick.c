@@ -78,18 +78,14 @@ void P_InitThinkers(void)
 //
 void P_UpdateThinker(thinker_t *thinker)
 {
-    thinker_t   *th;
-
-    // find the class the thinker belongs to
-    int         class = (thinker->function == P_RemoveThinkerDelayed ? th_delete :
-                    (thinker->function == P_MobjThinker ? th_mobj : th_misc));
+    thinker_t   *th = thinker->cnext;
 
     // Remove from current thread, if in one
-    if ((th = thinker->cnext))
+    if (th)
         (th->cprev = thinker->cprev)->cnext = th;
 
     // Add to appropriate thread
-    th = &thinkerclasscap[class];
+    th = &thinkerclasscap[(thinker->function == P_MobjThinker ? th_mobj : th_misc)];
     th->cprev->cnext = thinker;
     thinker->cnext = th;
     thinker->cprev = th->cprev;
@@ -110,47 +106,9 @@ void P_AddThinker(thinker_t *thinker)
     thinker->references = 0;    // killough 11/98: init reference counter to 0
 
     // killough 8/29/98: set sentinel pointers, and then add to appropriate list
-    thinker->cnext = thinker->cprev = NULL;
+    thinker->cnext = NULL;
+    thinker->cprev = NULL;
     P_UpdateThinker(thinker);
-}
-
-//
-// killough 11/98:
-//
-// Make currentthinker external, so that P_RemoveThinkerDelayed
-// can adjust currentthinker when thinkers self-remove.
-
-static thinker_t    *currentthinker;
-
-//
-// P_RemoveThinkerDelayed()
-//
-// Called automatically as part of the thinker loop in P_RunThinkers(),
-// on nodes which are pending deletion.
-//
-// If this thinker has no more pointers referencing it indirectly,
-// remove it, and set currentthinker to one node preceding it, so
-// that the next step in P_RunThinkers() will get its successor.
-//
-void P_RemoveThinkerDelayed(thinker_t *thinker)
-{
-    if (!thinker->references)
-    {
-        thinker_t   *next = thinker->next;
-        thinker_t   *th = thinker->cnext;
-
-        // Remove from main thinker list
-        // Note that currentthinker is guaranteed to point to us,
-        // and since we're freeing our memory, we had better change that. So
-        // point it to thinker->prev, so the iterator will correctly move on to
-        // thinker->prev->next = thinker->next
-        (next->prev = currentthinker = thinker->prev)->next = next;
-
-        // Remove from current thinker class list
-        (th->cprev = thinker->cprev)->cnext = th;
-
-        Z_Free(thinker);
-    }
 }
 
 //
@@ -158,17 +116,9 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
 //
-// killough 4/25/98:
-//
-// Instead of marking the function with -1 value cast to a function pointer,
-// set the function to P_RemoveThinkerDelayed(), so that later, it will be
-// removed automatically as part of the thinker process.
-//
 void P_RemoveThinker(thinker_t *thinker)
 {
-    thinker->function = P_RemoveThinkerDelayed;
-
-    P_UpdateThinker(thinker);
+    thinker->function = NULL;
 }
 
 //
@@ -194,38 +144,22 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 //
 // P_RunThinkers
 //
-// killough 4/25/98:
-//
-// Fix deallocator to stop using "next" pointer after node has been freed
-// (a DOOM bug).
-//
-// Process each thinker. For thinkers which are marked deleted, we must
-// load the "next" pointer prior to freeing the node. In DOOM, the "next"
-// pointer was loaded AFTER the thinker was freed, which could have caused
-// crashes.
-//
-// But if we are not deleting the thinker, we should reload the "next"
-// pointer after calling the function, in case additional thinkers are
-// added at the end of the list.
-//
-// killough 11/98:
-//
-// Rewritten to delete nodes implicitly, by making currentthinker
-// external and using P_RemoveThinkerDelayed() implicitly.
-//
 static void P_RunThinkers(void)
 {
-    currentthinker = thinkercap.next;
-
-    while (currentthinker != &thinkercap)
+    if (freeze)
     {
-        if (currentthinker->function && (!freeze || (mobj_t *)currentthinker == viewplayer->mo))
-            currentthinker->function(currentthinker);
-
-        currentthinker = currentthinker->next;
+        P_PlayerThink();
+        return;
     }
 
-    // Dedicated thinkers
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        if (th->function)
+            th->function(th);
+
+    for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
+        if (th->function)
+            th->function(th);
+
     T_MAPMusic();
 }
 

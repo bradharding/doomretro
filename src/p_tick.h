@@ -48,7 +48,6 @@ void P_Ticker(void);
 void P_InitThinkers(void);
 void P_AddThinker(thinker_t *thinker);
 void P_RemoveThinker(thinker_t *thinker);
-void P_RemoveThinkerDelayed(thinker_t *thinker);        // killough 4/25/98
 
 void P_UpdateThinker(thinker_t *thinker);               // killough 8/29/98
 
@@ -59,15 +58,14 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ);           // killough 11/98
 // pending deletion on a class list too
 enum
 {
-    th_delete,
     th_mobj,
     th_misc,
     NUMTHCLASS,
     th_all = NUMTHCLASS
 };
 
-extern thinker_t        thinkerclasscap[];
+extern thinker_t    thinkerclasscap[];
 
-#define thinkercap      thinkerclasscap[th_all]
+#define thinkercap  thinkerclasscap[th_all]
 
 #endif

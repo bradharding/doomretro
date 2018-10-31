@@ -571,8 +571,8 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
-            return;             // mobj was removed
+        if (!mobj->thinker.function)
+            return;
     }
 
     // [BH] don't clip sprite if no longer in liquid
@@ -623,8 +623,8 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
-            return;                                             // mobj was removed
+        if (!mobj->thinker.function)
+            return;
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {
