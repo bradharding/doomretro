@@ -148,7 +148,9 @@ static void P_RunThinkers(void)
 {
     if (freeze)
     {
-        P_PlayerThink();
+        thinker_t   *th = (thinker_t *)viewplayer->mo;
+
+        th->function(th);
         return;
     }
 
