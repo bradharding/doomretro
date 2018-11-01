@@ -198,7 +198,6 @@ static patch_t              *armsbg2;
 
 // weapon ownership patches
 static patch_t              *arms[6][2];
-static int                  armsnum;
 
 // ready-weapon widget
 static st_number_t          w_ready;
@@ -246,7 +245,7 @@ int                         st_facecount;
 // current face index, used by w_faces
 int                         st_faceindex;
 
-static dboolean             shotguns;
+static dboolean             st_shotguns;
 
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
@@ -1306,14 +1305,18 @@ static void ST_drawWidgets(dboolean refresh)
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
-    shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+    st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
-    // [BH] manually draw arms numbers
-    //  changes:
-    //    arms 3 highlighted when player has super shotgun but no shotgun
-    //    arms 6 and 7 not visible in shareware
-    for (int i = 0; i < armsnum; i++)
-        STlib_updateArmsIcon(&w_arms[i], refresh, i);
+    STlib_updateArmsIcon(&w_arms[0], refresh, 0);
+    STlib_updateArmsIcon(&w_arms[1], refresh, 1);
+    STlib_updateArmsIcon(&w_arms[2], refresh, 2);
+    STlib_updateArmsIcon(&w_arms[3], refresh, 3);
+
+    if (gamemode != shareware)
+    {
+        STlib_updateArmsIcon(&w_arms[4], refresh, 4);
+        STlib_updateArmsIcon(&w_arms[5], refresh, 5);
+    }
 
     if (facebackcolor != facebackcolor_default)
         V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
@@ -1521,11 +1524,16 @@ static void ST_createWidgets(void)
     STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
 
     // weapons owned
-    armsnum = (gamemode == shareware ? 4 : 6);
+    STlib_initMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY, arms[0], &viewplayer->weaponowned[1]);
+    STlib_initMultIcon(&w_arms[1], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY, arms[1], (int *)&st_shotguns);
+    STlib_initMultIcon(&w_arms[2], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY, arms[2], &viewplayer->weaponowned[3]);
+    STlib_initMultIcon(&w_arms[3], ST_ARMSX, ST_ARMSY + ST_ARMSYSPACE, arms[3], &viewplayer->weaponowned[4]);
 
-    for (int i = 0; i < armsnum; i++)
-        STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE, ST_ARMSY + i / 3 * ST_ARMSYSPACE,
-            arms[i], (i == 1 ? (int *)&shotguns : &viewplayer->weaponowned[i + 1]));
+    if (gamemode != shareware)
+    {
+        STlib_initMultIcon(&w_arms[4], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE, arms[4], &viewplayer->weaponowned[5]);
+        STlib_initMultIcon(&w_arms[5], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE, arms[5], &viewplayer->weaponowned[6]);
+    }
 
     // faces
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
