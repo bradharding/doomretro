@@ -571,7 +571,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)
+        if (mobj->thinker.deleted)
             return;
     }
 
@@ -623,7 +623,7 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)
+        if (mobj->thinker.deleted)
             return;
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
