@@ -146,14 +146,6 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 //
 static void P_RunThinkers(void)
 {
-    if (freeze)
-    {
-        thinker_t   *th = (thinker_t *)viewplayer->mo;
-
-        th->function(th);
-        return;
-    }
-
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         if (th->function)
             th->function(th);
@@ -179,16 +171,22 @@ void P_Ticker(void)
     if (consoleactive)
         return;
 
-    P_RunThinkers();
+    P_MapEnd();
+
+    if (freeze)
+    {
+        thinker_t   *th = (thinker_t *)viewplayer->mo;
+
+        th->function(th);
+        return;
+    }
+    else
+        P_RunThinkers();
+
     P_UpdateSpecials();
     P_RespawnSpecials();
 
-    P_MapEnd();
-
     // for par times
-    if (!freeze)
-    {
-        leveltime++;
-        stat_time = SafeAdd(stat_time, 1);
-    }
+    leveltime++;
+    stat_time = SafeAdd(stat_time, 1);
 }

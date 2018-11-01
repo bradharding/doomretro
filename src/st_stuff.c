@@ -1263,8 +1263,10 @@ static void ST_doPaletteStuff(void)
     int palette = 0;
     int count = viewplayer->damagecount;
 
-    if (viewplayer->powers[pw_strength] && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist
-        && viewplayer->pendingweapon == wp_nochange)) && viewplayer->health > 0 && r_berserkintensity)
+    if (viewplayer->powers[pw_strength]
+        && (viewplayer->pendingweapon == wp_fist
+            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
+        && viewplayer->health > 0 && r_berserkintensity)
     {
         if (viewplayer->bonuscount)
             palette = STARTBONUSPALS - 1 + MIN((viewplayer->bonuscount + 7) >> 3, NUMBONUSPALS);

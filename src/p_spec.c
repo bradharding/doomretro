@@ -2207,9 +2207,6 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
-    if (freeze)
-        return;
-
     if (timer)
         if (!--countdown)
             G_ExitLevel();
