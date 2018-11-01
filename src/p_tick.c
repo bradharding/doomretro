@@ -111,6 +111,31 @@ void P_AddThinker(thinker_t *thinker)
     P_UpdateThinker(thinker);
 }
 
+static thinker_t    *currentthinker;
+
+//
+// P_RemoveThinkerDelayed()
+//
+void P_RemoveThinkerDelayed(thinker_t *thinker)
+{
+    if (!thinker->references)
+    {
+        thinker_t   *next = thinker->next;
+        thinker_t   *th = thinker->cnext;
+
+        // Remove from main thinker list
+        // Note that currentthinker is guaranteed to point to us,
+        // and since we're freeing our memory, we had better change that. So
+        // point it to thinker->prev, so the iterator will correctly move on to
+        // thinker->prev->next = thinker->next
+        (next->prev = currentthinker = thinker->prev)->next = next;
+
+        // Remove from current thinker class list
+        (th->cprev = thinker->cprev)->cnext = th;
+        Z_Free(thinker);
+    }
+}
+
 //
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
@@ -118,7 +143,8 @@ void P_AddThinker(thinker_t *thinker)
 //
 void P_RemoveThinker(thinker_t *thinker)
 {
-    thinker->function = NULL;
+    thinker->function = P_RemoveThinkerDelayed;
+    P_UpdateThinker(thinker);
 }
 
 //
@@ -146,13 +172,13 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 //
 static void P_RunThinkers(void)
 {
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-        if (th->function)
-            th->function(th);
+    for (currentthinker = thinkercap.next; currentthinker != &thinkercap; currentthinker = currentthinker->next)
+        if (currentthinker->function == P_MobjThinker)
+            currentthinker->function(currentthinker);
 
-    for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
-        if (th->function)
-            th->function(th);
+    for (currentthinker = thinkercap.next; currentthinker != &thinkercap; currentthinker = currentthinker->next)
+        if (currentthinker->function != P_MobjThinker)
+            currentthinker->function(currentthinker);
 
     T_MAPMusic();
 }

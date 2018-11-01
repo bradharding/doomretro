@@ -1152,7 +1152,10 @@ void P_UnArchiveThinkers(void)
         thinker_t   *next = currentthinker->next;
 
         if (currentthinker->function == P_MobjThinker || currentthinker->function == MusInfoThinker)
+        {
             P_RemoveMobj((mobj_t *)currentthinker);
+            P_RemoveThinkerDelayed(currentthinker);
+        }
         else
             Z_Free(currentthinker);
 

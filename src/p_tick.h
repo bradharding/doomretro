@@ -48,6 +48,7 @@ void P_Ticker(void);
 void P_InitThinkers(void);
 void P_AddThinker(thinker_t *thinker);
 void P_RemoveThinker(thinker_t *thinker);
+void P_RemoveThinkerDelayed(thinker_t *thinker);
 
 void P_UpdateThinker(thinker_t *thinker);               // killough 8/29/98
 
