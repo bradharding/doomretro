@@ -109,6 +109,8 @@ void P_AddThinker(thinker_t *thinker)
     P_UpdateThinker(thinker);
 }
 
+static thinker_t    *currentthinker;
+
 //
 // P_RemoveThinkerDelayed()
 //
@@ -122,7 +124,7 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
         (next->prev = thinker->prev)->next = next;
 
         // Remove from current thinker class list
-        (th->cprev = thinker->cprev)->cnext = th;
+        (th->cprev = currentthinker = thinker->cprev)->cnext = th;
         Z_Free(thinker);
     }
 }
@@ -162,11 +164,11 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 //
 static void P_RunThinkers(void)
 {
-    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-        th->function(th);
+    for (currentthinker = thinkers[th_mobj].cnext; currentthinker != &thinkers[th_mobj]; currentthinker = currentthinker->cnext)
+        currentthinker->function(currentthinker);
 
-    for (thinker_t *th = thinkers[th_misc].cnext; th != &thinkers[th_misc]; th = th->cnext)
-        th->function(th);
+    for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
+        currentthinker->function(currentthinker);
 
     T_MAPMusic();
 }
