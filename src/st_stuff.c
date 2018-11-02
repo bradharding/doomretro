@@ -245,7 +245,7 @@ int                         st_facecount;
 // current face index, used by w_faces
 int                         st_faceindex;
 
-static dboolean             st_shotguns;
+static int                  st_shotguns;
 
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
@@ -1307,7 +1307,7 @@ static void ST_drawWidgets(dboolean refresh)
     STlib_updatePercent(&w_health, refresh);
     STlib_updatePercent(&w_armor, refresh);
 
-    st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
+    st_shotguns = (viewplayer->weaponowned[wp_shotgun] | viewplayer->weaponowned[wp_supershotgun]);
 
     STlib_updateArmsIcon(&w_arms[0], refresh, 0);
     STlib_updateArmsIcon(&w_arms[1], refresh, 1);
@@ -1527,7 +1527,7 @@ static void ST_createWidgets(void)
 
     // weapons owned
     STlib_initMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY, arms[0], &viewplayer->weaponowned[1]);
-    STlib_initMultIcon(&w_arms[1], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY, arms[1], (int *)&st_shotguns);
+    STlib_initMultIcon(&w_arms[1], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY, arms[1], &st_shotguns);
     STlib_initMultIcon(&w_arms[2], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY, arms[2], &viewplayer->weaponowned[3]);
     STlib_initMultIcon(&w_arms[3], ST_ARMSX, ST_ARMSY + ST_ARMSYSPACE, arms[3], &viewplayer->weaponowned[4]);
 

@@ -1622,6 +1622,8 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
                     frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
                     z = floorz;
                 }
+                else
+                    hitwall = true;
             }
         }
 
@@ -1639,8 +1641,6 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
         // Spawn bullet puffs.
         P_SpawnPuff(dlTrace.x + FixedMul(dlTrace.dx, frac), dlTrace.y + FixedMul(dlTrace.dy, frac), z, shootangle);
-
-        hitwall = true;
 
         // don't go any farther
         return false;
