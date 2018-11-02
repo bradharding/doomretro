@@ -136,7 +136,7 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
 //
 void P_RemoveThinker(thinker_t *thinker)
 {
-    thinker->deleted = true;
+    thinker->function = P_RemoveThinkerDelayed;
 }
 
 //
@@ -165,16 +165,10 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 static void P_RunThinkers(void)
 {
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-        if (th->deleted)
-            P_RemoveThinkerDelayed(th);
-        else
-            th->function(th);
+        th->function(th);
 
     for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
-        if (th->deleted)
-            P_RemoveThinkerDelayed(th);
-        else
-            th->function(th);
+        th->function(th);
 
     T_MAPMusic();
 }
