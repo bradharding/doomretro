@@ -34,7 +34,7 @@
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
 * A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR and no clipping mode were on.
-* If the player has more than one power-up, the countdown bar in the alternate widescreen HUD will now always show the power-up to run out first.
+* If the player has more than one power-up, the countdown bar in the alternate widescreen HUD will now always show the power-up that will run out first.
 * If an SFX lump in a PWAD is in an unrecognized format, the original lump in the IWAD will be played instead.
 * The `+use` action can no longer be used if the `autouse` CVAR is `on`.
 * Items dropped by monsters when they are killed will now be rendered correctly if dropped on a moving platform and the `vid_capfps` CVAR is a value other than `35`.

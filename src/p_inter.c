@@ -1387,15 +1387,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
     {
         char        *name = (*info->name1 ? info->name1 : "monster");
-        dboolean    defaultplayername = M_StringCompare(playername, playername_default);
 
         if (source)
         {
             if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
             {
                 if (target->player)
-                    C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername), (defaultplayername ? "were" : "was"),
-                        (gibbed ? "gibbed" : "killed"));
+                    C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
+                        (M_StringCompare(playername, playername_default) ? "were" : "was"), (gibbed ? "gibbed" : "killed"));
                 else
                     C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
                         (gibbed ? "gibbed" : "killed"));
@@ -1403,6 +1402,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             else if (source->player)
             {
                 weapontype_t    readyweapon = source->player->readyweapon;
+                dboolean        defaultplayername = M_StringCompare(playername, playername_default);
 
                 if (target->player)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
@@ -1420,7 +1420,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             {
                 if (source->type == MT_TFOG)
                     C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
-                        (target->player ? titlecase(playername) : name), (defaultplayername ? "were" : "was"));
+                        (target->player ? titlecase(playername) : name),
+                        (M_StringCompare(playername, playername_default) ? "were" : "was"));
                 else
                 {
                     char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
@@ -1428,7 +1429,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     if (target->player)
                         C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (defaultplayername ? playername : titlecase(playername)));
+                            (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                     else
                         C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1442,7 +1443,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             sector_t    *sector = target->player->mo->subsector->sector;
 
             if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
-                C_Obituary("%s %s crushed to death.", titlecase(playername), (defaultplayername ? "were" : "was"));
+                C_Obituary("%s %s crushed to death.", titlecase(playername),
+                    (M_StringCompare(playername, playername_default) ? "were" : "was"));
             else
             {
                 if (sector->terraintype != SOLID)
@@ -1458,7 +1460,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                         C_Obituary("%s died on molten rock.", titlecase(playername));
                     else
-                        C_Obituary("%s blew %s up.", titlecase(playername), (defaultplayername ? "yourself" : "themselves"));
+                        C_Obituary("%s blew %s up.", titlecase(playername),
+                            (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
                 }
             }
         }
