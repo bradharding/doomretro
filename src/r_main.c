@@ -682,7 +682,7 @@ void R_InitColumnFunctions(void)
     }
 
     if (gamestate == GS_LEVEL)
-        for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
             mobj_t  *mo = (mobj_t *)th;
 

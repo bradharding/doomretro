@@ -613,7 +613,7 @@ static dboolean P_LookForMonsters(mobj_t *actor)
     if (!P_CheckSight(viewplayer->mo, actor))
         return false;           // player can't see monster
 
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
@@ -716,7 +716,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_Fall(actor, NULL, NULL);
 
     // scan the remaining thinkers to see if all Keens are dead
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
@@ -1796,7 +1796,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->health = 0;  // P_KillMobj() sets this to -1
 
     // scan the remaining thinkers to see if all bosses are dead
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
@@ -1928,7 +1928,7 @@ static mobj_t *A_NextBrainTarget(void)
     mobj_t              *found = NULL;
 
     // find all the target spots
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 

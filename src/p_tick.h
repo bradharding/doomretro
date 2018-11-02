@@ -65,8 +65,6 @@ enum
     th_all = NUMTHCLASS
 };
 
-extern thinker_t    thinkerclasscap[];
-
-#define thinkercap  thinkerclasscap[th_all]
+extern thinker_t    thinkers[];
 
 #endif

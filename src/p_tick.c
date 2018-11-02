@@ -56,18 +56,16 @@ unsigned int    stat_time = 0;
 
 // killough 8/29/98: we maintain several separate threads, each containing
 // a special class of thinkers, to allow more efficient searches.
-thinker_t       thinkerclasscap[th_all + 1];
+thinker_t       thinkers[th_all + 1];
 
 //
 // P_InitThinkers
 //
 void P_InitThinkers(void)
 {
-    // killough 8/29/98: initialize threaded lists
-    for (int i = 0; i < NUMTHCLASS; i++)
-        thinkerclasscap[i].cprev = thinkerclasscap[i].cnext = &thinkerclasscap[i];
-
-    thinkercap.prev = thinkercap.next = &thinkercap;
+    thinkers[th_mobj].cprev = thinkers[th_mobj].cnext = &thinkers[th_mobj];
+    thinkers[th_misc].cprev = thinkers[th_misc].cnext = &thinkers[th_misc];
+    thinkers[th_all].prev = thinkers[th_all].next = &thinkers[th_all];
 }
 
 //
@@ -85,7 +83,7 @@ void P_UpdateThinker(thinker_t *thinker)
         (th->cprev = thinker->cprev)->cnext = th;
 
     // Add to appropriate thread
-    th = &thinkerclasscap[(thinker->function == P_MobjThinker ? th_mobj : th_misc)];
+    th = &thinkers[(thinker->function == P_MobjThinker ? th_mobj : th_misc)];
     th->cprev->cnext = thinker;
     thinker->cnext = th;
     thinker->cprev = th->cprev;
@@ -98,10 +96,10 @@ void P_UpdateThinker(thinker_t *thinker)
 //
 void P_AddThinker(thinker_t *thinker)
 {
-    thinkercap.prev->next = thinker;
-    thinker->next = &thinkercap;
-    thinker->prev = thinkercap.prev;
-    thinkercap.prev = thinker;
+    thinkers[th_all].prev->next = thinker;
+    thinker->next = &thinkers[th_all];
+    thinker->prev = thinkers[th_all].prev;
+    thinkers[th_all].prev = thinker;
 
     thinker->references = 0;    // killough 11/98: init reference counter to 0
 
@@ -164,10 +162,10 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 //
 static void P_RunThinkers(void)
 {
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         th->function(th);
 
-    for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_misc].cnext; th != &thinkers[th_misc]; th = th->cnext)
         th->function(th);
 
     T_MAPMusic();
@@ -178,7 +176,6 @@ static void P_RunThinkers(void)
 //
 void P_Ticker(void)
 {
-    // pause if in menu and at least one tic has been run
     if (paused || menuactive)
         return;
 
@@ -196,8 +193,8 @@ void P_Ticker(void)
         th->function(th);
         return;
     }
-    else
-        P_RunThinkers();
+
+    P_RunThinkers();
 
     P_UpdateSpecials();
     P_RespawnSpecials();

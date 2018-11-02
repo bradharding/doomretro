@@ -697,7 +697,8 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, 4, consolebrandcolor1, 180, consolebrandcolor2);
+    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, 4, consolebrandcolor1, 180,
+        consolebrandcolor2);
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
@@ -803,8 +804,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
             if (patch)
             {
-                V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 :
-                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2, italics, translucency);
+                V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
+                    (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2, italics, translucency);
                 x += SHORT(patch->width);
             }
 
@@ -1020,8 +1021,8 @@ void C_Drawer(void)
                         tinttab66, notabs, true, true);
                 }
                 else
-                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleboldcolor,
-                        tinttab66, notabs, true, true);
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
+                        consoleboldcolor, tinttab66, notabs, true, true);
 
                     if (con_timestamps)
                         C_DrawTimeStamp(timestampx, y, console[i].tics);
@@ -1069,7 +1070,8 @@ void C_Drawer(void)
             lefttext[i] = consoleinput[i];
 
         lefttext[i] = '\0';
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true);
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false,
+            true);
         x += C_TextWidth(lefttext, false, true);
 
         // draw any selected text to left of caret

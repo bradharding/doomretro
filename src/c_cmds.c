@@ -4450,7 +4450,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, THINGLISTTITLE);
 
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mobj = (mobj_t *)th;
 
