@@ -3569,7 +3569,7 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 32, yy, patch);
+                M_DrawPatchWithShadow(x - 30, yy, patch);
             else
                 M_DrawPatchWithShadow(x - 26, yy + 2, patch);
 
