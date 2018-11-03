@@ -168,7 +168,8 @@ static void P_RunThinkers(void)
         currentthinker->function(currentthinker);
 
     for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
-        currentthinker->function(currentthinker);
+        if (currentthinker->function)
+            currentthinker->function(currentthinker);
 
     T_MAPMusic();
 }
