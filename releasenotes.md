@@ -5,7 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
-* The fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
+* The fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up, are now paused when freeze mode is on.
 * The fuzz effect of spectres is now rendered correctly when the player has an invulnerability power-up.
 * The sky will now be rendered correctly when the `r_skycolor` CVAR is a value other than `none` and the player has an invulnerability power-up.
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
