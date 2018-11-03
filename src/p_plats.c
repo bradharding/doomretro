@@ -308,7 +308,7 @@ dboolean EV_StopPlat(line_t *line)
         {
             plat->oldstatus = plat->status;             // put it in stasis
             plat->status = in_stasis;
-            plat->thinker.function = NULL;
+            P_RemoveThinker(&plat->thinker);
         }
     }
 
