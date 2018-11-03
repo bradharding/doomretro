@@ -190,9 +190,7 @@ void P_Ticker(void)
 
     if (freeze)
     {
-        thinker_t   *th = (thinker_t *)viewplayer->mo;
-
-        th->function(th);
+        P_MobjThinker(viewplayer->mo);
         return;
     }
 
