@@ -50,52 +50,53 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 
-dboolean                gp_analog = gp_analog_default;
-float                   gp_deadzone_left = gp_deadzone_left_default;
-float                   gp_deadzone_right = gp_deadzone_right_default;
-dboolean                gp_invertyaxis = gp_invertyaxis_default;
-int                     gp_sensitivity = gp_sensitivity_default;
-dboolean                gp_swapthumbsticks = gp_swapthumbsticks_default;
-int                     gp_thumbsticks = gp_thumbsticks_default;
-int                     gp_vibrate_barrels = gp_vibrate_barrels_default;
-int                     gp_vibrate_damage = gp_vibrate_damage_default;
-int                     gp_vibrate_weapons = gp_vibrate_weapons_default;
+dboolean                    gp_analog = gp_analog_default;
+float                       gp_deadzone_left = gp_deadzone_left_default;
+float                       gp_deadzone_right = gp_deadzone_right_default;
+dboolean                    gp_invertyaxis = gp_invertyaxis_default;
+int                         gp_sensitivity = gp_sensitivity_default;
+dboolean                    gp_swapthumbsticks = gp_swapthumbsticks_default;
+int                         gp_thumbsticks = gp_thumbsticks_default;
+int                         gp_vibrate_barrels = gp_vibrate_barrels_default;
+int                         gp_vibrate_damage = gp_vibrate_damage_default;
+int                         gp_vibrate_weapons = gp_vibrate_weapons_default;
 
-static SDL_Joystick     *gamepad;
+static SDL_Joystick         *gamepad;
+static SDL_GameController   *controller = NULL;
 
-int                     gamepadbuttons;
-short                   gamepadthumbLX;
-short                   gamepadthumbLY;
-short                   gamepadthumbRX;
-short                   gamepadthumbRY;
-float                   gamepadsensitivity;
-short                   gamepadleftdeadzone;
-short                   gamepadrightdeadzone;
+int                         gamepadbuttons;
+short                       gamepadthumbLX;
+short                       gamepadthumbLY;
+short                       gamepadthumbRX;
+short                       gamepadthumbRY;
+float                       gamepadsensitivity;
+short                       gamepadleftdeadzone;
+short                       gamepadrightdeadzone;
 
-dboolean                vibrate = false;
-int                     barrelvibrationtics = 0;
-int                     damagevibrationtics = 0;
-int                     weaponvibrationtics = 0;
-int                     idlemotorspeed;
-int                     restoremotorspeed;
+dboolean                    vibrate = false;
+int                         barrelvibrationtics = 0;
+int                         damagevibrationtics = 0;
+int                         weaponvibrationtics = 0;
+int                         idlemotorspeed;
+int                         restoremotorspeed;
 
 #if defined(_WIN32)
 typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
 typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
 
-static XINPUTGETSTATE   pXInputGetState;
-static XINPUTSETSTATE   pXInputSetState;
-static HMODULE          pXInputDLL;
+static XINPUTGETSTATE       pXInputGetState;
+static XINPUTSETSTATE       pXInputSetState;
+static HMODULE              pXInputDLL;
 #endif
 
 void (*gamepadfunc)(void);
 static void (*gamepadthumbsfunc)(short, short, short, short);
 
-extern dboolean         idclev;
-extern dboolean         idmus;
-extern dboolean         idbehold;
-extern dboolean         menuactive;
-extern dboolean         message_clearable;
+extern dboolean             idclev;
+extern dboolean             idmus;
+extern dboolean             idbehold;
+extern dboolean             menuactive;
+extern dboolean             message_clearable;
 
 static void nullfunc(void) {}
 
@@ -103,7 +104,7 @@ void I_InitGamepad(void)
 {
     gamepadfunc = nullfunc;
 
-    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
+    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
     else
     {
@@ -170,6 +171,9 @@ void I_InitGamepad(void)
 
             I_SetGamepadThumbSticks();
             SDL_JoystickEventState(SDL_ENABLE);
+
+            if (SDL_IsGameController(0))
+                controller = SDL_GameControllerOpen(0);
         }
     }
 
@@ -202,44 +206,38 @@ static short __inline clamp(short value, short deadzone)
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
-    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
-    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
+    gamepadthumbLX = clamp(SDL_GameControllerGetAxis(controller, LX), gamepadleftdeadzone);
+    gamepadthumbLY = clamp(SDL_GameControllerGetAxis(controller, LY), gamepadleftdeadzone);
+    gamepadthumbRX = clamp(SDL_GameControllerGetAxis(controller, RX), gamepadrightdeadzone);
+    gamepadthumbRY = clamp(SDL_GameControllerGetAxis(controller, RY), gamepadrightdeadzone);
 }
 
 void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
-    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
-    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
+    gamepadthumbLX = clamp(SDL_GameControllerGetAxis(controller, RX), gamepadrightdeadzone);
+    gamepadthumbLY = clamp(SDL_GameControllerGetAxis(controller, RY), gamepadrightdeadzone);
+    gamepadthumbRX = clamp(SDL_GameControllerGetAxis(controller, LX), gamepadleftdeadzone);
+    gamepadthumbRY = clamp(SDL_GameControllerGetAxis(controller, LY), gamepadleftdeadzone);
 }
 
 void I_PollDirectInputGamepad(void)
 {
     if (gamepad && !noinput)
     {
-        int hat;
-
-        gamepadbuttons = ((SDL_JoystickGetButton(gamepad, 0) << 14)
-            | (SDL_JoystickGetButton(gamepad, 1) << 12)
-            | (SDL_JoystickGetButton(gamepad, 2) << 13)
-            | (SDL_JoystickGetButton(gamepad, 3) << 15)
-            | (SDL_JoystickGetButton(gamepad, 4) << 8)
-            | (SDL_JoystickGetButton(gamepad, 5) << 9)
-            | (SDL_JoystickGetButton(gamepad, 6) << 10)
-            | (SDL_JoystickGetButton(gamepad, 7) << 11)
-            | (SDL_JoystickGetButton(gamepad, 8) << 5)
-            | (SDL_JoystickGetButton(gamepad, 9) << 4)
-            | (SDL_JoystickGetButton(gamepad, 10) << 6)
-            | (SDL_JoystickGetButton(gamepad, 11) << 7));
-
-        if ((hat = SDL_JoystickGetHat(gamepad, 0)))
-            gamepadbuttons |= ((!!(hat & SDL_HAT_UP))
-                | ((!!(hat & SDL_HAT_RIGHT)) << 3)
-                | ((!!(hat & SDL_HAT_DOWN)) << 1)
-                | ((!!(hat & SDL_HAT_LEFT)) << 2));
+        gamepadbuttons = ((SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_UP))
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN) << 1)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT) << 2)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) << 3)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START) << 4)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK) << 5)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSHOULDER) << 8)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) << 9)
+            | ((SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
+            | ((SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A) << 12)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B) << 13)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X) << 14)
+            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y) << 15));
 
         if (gamepadbuttons)
         {
