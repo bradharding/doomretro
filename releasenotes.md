@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7.5
 
+* A bug has been fixed whereby the flash of the player’s weapon would be positioned incorrectly if the player was firing when dropping down from a higher sector and the `weaponbounce` CVAR was `on`.
+
 ---
 
 ###### Sunday, November 4, 2018
