@@ -2220,7 +2220,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    char    name[100];
     long    value;          // All deh values are ints or longs
     int     indexnum;
     int     ix;
@@ -2233,13 +2232,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         C_Output("Thing line: \"%s\"", inbuffer);
 
     // killough 8/98: allow hex numbers in input:
-    ix = sscanf(inbuffer, "%31s %10i (%63[^)]", key, &indexnum, name);
-
-    if (*name)
-    {
-        M_StringCopy(mobjinfo[indexnum].name1, lowercase(name), 100);
-        M_StringCopy(mobjinfo[indexnum].plural1, lowercase(name), 100);
-    }
+    ix = sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
         C_Output("count = %i, Thing %i", ix, indexnum);
