@@ -258,9 +258,11 @@ void I_PollDirectInputGamepad(void)
         {
             event_t ev;
 
+            gamepadthumbsfunc(SDL_CONTROLLER_AXIS_LEFTX, SDL_CONTROLLER_AXIS_LEFTY, SDL_CONTROLLER_AXIS_RIGHTX,
+                SDL_CONTROLLER_AXIS_RIGHTY);
+
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
-            gamepadthumbsfunc(0, 1, 2, 3);
         }
         else
         {
@@ -358,9 +360,10 @@ void I_PollXInputGamepad(void)
             {
                 event_t  ev;
 
+                gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+
                 ev.type = ev_gamepad;
                 D_PostEvent(&ev);
-                gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
             }
             else
             {
