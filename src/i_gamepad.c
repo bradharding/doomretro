@@ -112,26 +112,26 @@ void I_InitGamepad(void)
 
         for (int i = 0; i < numgamepads; i++)
             if ((gamepad = SDL_JoystickOpen(i)))
-                break;
+                if (SDL_IsGameController(i))
+                {
+                    controller = SDL_GameControllerOpen(i);
+                    break;
+                }
 
-        if (!gamepad)
-            SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+        if (!controller)
+            SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
         else
         {
 #if defined(_WIN32)
-            char        *XInputVersion;
             static int  initcount;
 #endif
 
             gamepadfunc = I_PollDirectInputGamepad;
 
 #if defined(_WIN32)
-            if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                XInputVersion = "XInput 1.4";
-            else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                XInputVersion = "XInput 9.1.0";
-            else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                XInputVersion = "XInput 1.3";
+            if (!(pXInputDLL = LoadLibrary("XInput1_4.dll")))
+                if (!(pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
+                    pXInputDLL = LoadLibrary("XInput1_3.dll");
 
             initcount++;
 
@@ -151,7 +151,7 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
 
                         if (initcount++ == 1)
-                            C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
+                            C_Output("An <i><b>XInput</b></i> gamepad is connected.");
                     }
                 }
                 else
@@ -164,16 +164,14 @@ void I_InitGamepad(void)
                 const char  *name = SDL_JoystickName(gamepad);
 
                 if (*name)
-                    C_Output("A gamepad called \"%s\" is connected. Using <i><b>DirectInput</b></i>.", name);
+                    C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
                 else
-                    C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
+                    C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
             }
 
             I_SetGamepadThumbSticks();
             SDL_JoystickEventState(SDL_ENABLE);
 
-            if (SDL_IsGameController(0))
-                controller = SDL_GameControllerOpen(0);
         }
     }
 
