@@ -58,7 +58,7 @@
 #define GAMEPAD_X                   0x4000
 #define GAMEPAD_Y                   0x8000
 
-#define GAMEPAD_TRIGGER_THRESHOLD   30
+#define GAMEPAD_TRIGGER_THRESHOLD   3855
 
 #define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
