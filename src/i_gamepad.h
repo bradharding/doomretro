@@ -41,34 +41,33 @@
 
 #include "doomtype.h"
 
-#define GAMEPAD_DPAD_UP             0x0001
-#define GAMEPAD_DPAD_DOWN           0x0002
-#define GAMEPAD_DPAD_LEFT           0x0004
-#define GAMEPAD_DPAD_RIGHT          0x0008
-#define GAMEPAD_START               0x0010
-#define GAMEPAD_BACK                0x0020
-#define GAMEPAD_LEFT_THUMB          0x0040
-#define GAMEPAD_RIGHT_THUMB         0x0080
-#define GAMEPAD_LEFT_SHOULDER       0x0100
-#define GAMEPAD_RIGHT_SHOULDER      0x0200
-#define GAMEPAD_LEFT_TRIGGER        0x0400
-#define GAMEPAD_RIGHT_TRIGGER       0x0800
-#define GAMEPAD_A                   0x1000
-#define GAMEPAD_B                   0x2000
-#define GAMEPAD_X                   0x4000
-#define GAMEPAD_Y                   0x8000
-#include "SDL_gamecontroller.h"
+#define GAMEPAD_A                   0x00001
+#define GAMEPAD_B                   0x00002
+#define GAMEPAD_X                   0x00004
+#define GAMEPAD_Y                   0x00008
+#define GAMEPAD_BACK                0x00010
+#define GAMEPAD_START               0x00040
+#define GAMEPAD_LEFT_THUMB          0x00080
+#define GAMEPAD_RIGHT_THUMB         0x00100
+#define GAMEPAD_LEFT_SHOULDER       0x00200
+#define GAMEPAD_RIGHT_SHOULDER      0x00400
+#define GAMEPAD_DPAD_UP             0x00800
+#define GAMEPAD_DPAD_DOWN           0x01000
+#define GAMEPAD_DPAD_LEFT           0x02000
+#define GAMEPAD_DPAD_RIGHT          0x04000
+#define GAMEPAD_LEFT_TRIGGER        0x10000
+#define GAMEPAD_RIGHT_TRIGGER       0x20000
 
 #define GAMEPAD_TRIGGER_THRESHOLD   3855
 
-#define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
-#define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYdown          (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
-#define gamepadthumbRXleft          pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRXright         pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone))
-#define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone)
+#define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYdown          (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbRXleft          pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRXright         pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone))
+#define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone)
 
 extern int      barrelvibrationtics;
 extern int      damagevibrationtics;
