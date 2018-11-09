@@ -411,7 +411,7 @@ static int AccelerateMouse(int value)
 
 static short __inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
 }
 
 dboolean        altdown;
@@ -575,6 +575,22 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
                         gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        break;
+
+                    case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+                        if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
+                            gamepadbuttons |= GAMEPAD_LEFT_TRIGGER;
+                        else
+                            gamepadbuttons &= ~GAMEPAD_LEFT_TRIGGER;
+
+                        break;
+
+                    case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+                        if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
+                            gamepadbuttons |= GAMEPAD_RIGHT_TRIGGER;
+                        else
+                            gamepadbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
+
                         break;
                 }
 
