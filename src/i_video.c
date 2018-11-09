@@ -409,6 +409,11 @@ static int AccelerateMouse(int value)
         return value;
 }
 
+static short __inline clamp(short value, short deadzone)
+{
+    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+}
+
 dboolean        altdown;
 dboolean        noinput = true;
 dboolean        waspaused;
@@ -553,7 +558,34 @@ static void I_GetEvent(void)
                 D_PostEvent(&event);
                 break;
 
-            case SDL_JOYBUTTONUP:
+            case SDL_CONTROLLERAXISMOTION:
+                switch (Event->caxis.axis)
+                {
+                    case SDL_CONTROLLER_AXIS_LEFTX:
+                        gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        break;
+
+                    case SDL_CONTROLLER_AXIS_LEFTY:
+                        gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        break;
+
+                    case SDL_CONTROLLER_AXIS_RIGHTX:
+                        gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        break;
+
+                    case SDL_CONTROLLER_AXIS_RIGHTY:
+                        gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        break;
+                }
+
+                break;
+
+            case SDL_CONTROLLERBUTTONDOWN:
+                gamepadbuttons |= 1 << Event->cbutton.button;
+                break;
+
+            case SDL_CONTROLLERBUTTONUP:
+                gamepadbuttons &= ~(1 << Event->cbutton.button);
                 keydown = 0;
                 break;
 
@@ -691,7 +723,6 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    gamepadfunc();
 }
 
 static void UpdateGrab(void)

@@ -726,7 +726,7 @@ dboolean G_Responder(event_t *ev)
                 {
                     vibrate = false;
                     idlemotorspeed = 0;
-                    XInputVibration(idlemotorspeed);
+                    I_Tactile(idlemotorspeed);
                 }
             }
 
@@ -754,7 +754,7 @@ dboolean G_Responder(event_t *ev)
             {
                 vibrate = false;
                 idlemotorspeed = 0;
-                XInputVibration(idlemotorspeed);
+                I_Tactile(idlemotorspeed);
             }
 
             if (!automapactive && !menuactive && !paused)
@@ -779,7 +779,7 @@ dboolean G_Responder(event_t *ev)
             {
                 vibrate = false;
                 idlemotorspeed = 0;
-                XInputVibration(idlemotorspeed);
+                I_Tactile(idlemotorspeed);
             }
 
             if (!automapactive && !menuactive && !paused)
@@ -946,7 +946,7 @@ void G_Ticker(void)
                     {
                         restoremotorspeed = idlemotorspeed;
                         idlemotorspeed = 0;
-                        XInputVibration(idlemotorspeed);
+                        I_Tactile(idlemotorspeed);
                     }
 
                     viewplayer->fixedcolormap = 0;
@@ -961,7 +961,7 @@ void G_Ticker(void)
                     if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
                         idlemotorspeed = restoremotorspeed;
-                        XInputVibration(idlemotorspeed);
+                        I_Tactile(idlemotorspeed);
                     }
 
                     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);

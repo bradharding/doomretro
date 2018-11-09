@@ -1176,7 +1176,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
             if (viewplayer->powers[pw_strength])
                 motorspeed *= 2;
 
-            XInputVibration(motorspeed);
+            I_Tactile(motorspeed);
             weaponvibrationtics = weaponinfo[wp_fist].tics;
         }
     }

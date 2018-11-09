@@ -3429,7 +3429,7 @@ void M_StartControlPanel(void)
     {
         restoremotorspeed = idlemotorspeed;
         idlemotorspeed = 0;
-        XInputVibration(idlemotorspeed);
+        I_Tactile(idlemotorspeed);
     }
 
     viewplayer->fixedcolormap = 0;
@@ -3611,7 +3611,7 @@ void M_ClearMenus(void)
     if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
     {
         idlemotorspeed = restoremotorspeed;
-        XInputVibration(idlemotorspeed);
+        I_Tactile(idlemotorspeed);
     }
 
     if (gamestate == GS_LEVEL)

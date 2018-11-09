@@ -1704,7 +1704,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
             if (gp_vibrate_barrels && vibrate)
             {
-                XInputVibration(20000 * gp_vibrate_barrels / 100);
+                I_Tactile(20000 * gp_vibrate_barrels / 100);
                 barrelvibrationtics = TICRATE;
             }
         }

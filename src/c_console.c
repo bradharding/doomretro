@@ -981,7 +981,7 @@ void C_Drawer(void)
             else
                 idlemotorspeed = restoremotorspeed;
 
-            XInputVibration(idlemotorspeed);
+            I_Tactile(idlemotorspeed);
         }
 
         // cancel any screen shake

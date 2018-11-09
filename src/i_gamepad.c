@@ -36,11 +36,6 @@
 ========================================================================
 */
 
-#if defined(_WIN32)
-#include <Windows.h>
-#include <XInput.h>
-#endif
-
 #include "c_console.h"
 #include "d_main.h"
 #include "hu_stuff.h"
@@ -80,18 +75,6 @@ int                         weaponvibrationtics = 0;
 int                         idlemotorspeed;
 int                         restoremotorspeed;
 
-#if defined(_WIN32)
-typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
-typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
-
-static XINPUTGETSTATE       pXInputGetState;
-static XINPUTSETSTATE       pXInputSetState;
-static HMODULE              pXInputDLL;
-#endif
-
-void (*gamepadfunc)(void);
-static void (*gamepadthumbsfunc)(short, short, short, short);
-
 extern dboolean             idclev;
 extern dboolean             idmus;
 extern dboolean             idbehold;
@@ -102,8 +85,6 @@ static void nullfunc(void) {}
 
 void I_InitGamepad(void)
 {
-    gamepadfunc = nullfunc;
-
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
     else
@@ -122,56 +103,17 @@ void I_InitGamepad(void)
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
         else
         {
-#if defined(_WIN32)
-            static int  initcount;
-#endif
+            const char  *name = SDL_GameControllerName(controller);
 
-            gamepadfunc = I_PollDirectInputGamepad;
-
-#if defined(_WIN32)
-            if (!(pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                if (!(pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                    pXInputDLL = LoadLibrary("XInput1_3.dll");
-
-            initcount++;
-
-            if (pXInputDLL)
+            if (*name)
             {
-                pXInputGetState = (XINPUTGETSTATE)GetProcAddress(pXInputDLL, "XInputGetState");
-                pXInputSetState = (XINPUTSETSTATE)GetProcAddress(pXInputDLL, "XInputSetState");
-
-                if (pXInputGetState && pXInputSetState)
-                {
-                    XINPUT_STATE    state;
-
-                    ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-                    if (pXInputGetState(0, &state) == ERROR_SUCCESS)
-                    {
-                        gamepadfunc = I_PollXInputGamepad;
-
-                        if (initcount++ == 1)
-                            C_Output("An <i><b>XInput</b></i> gamepad is connected.");
-                    }
-                }
+                if (M_StrCaseStr(name, "xinput"))
+                    C_Output("An <i><b>XInput</b></i> gamepad is connected.");
                 else
-                    FreeLibrary(pXInputDLL);
-            }
-
-            if (initcount == 1)
-#endif
-            {
-                const char  *name = SDL_JoystickName(gamepad);
-
-                if (*name)
                     C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
-                else
-                    C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
             }
-
-            I_SetGamepadThumbSticks();
-            SDL_JoystickEventState(SDL_ENABLE);
-
+            else
+                C_Output("A gamepad is connected.");
         }
     }
 
@@ -184,196 +126,18 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
-#if defined(_WIN32)
-    if (pXInputDLL)
-        FreeLibrary(pXInputDLL);
-#endif
-
-    if (gamepad)
+    if (controller)
     {
         SDL_JoystickClose(gamepad);
         gamepad = NULL;
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+        SDL_GameControllerClose(controller);
+        controller = NULL;
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
     }
 }
 
-static short __inline clamp(short value, short deadzone)
+void I_Tactile(int motorspeed)
 {
-    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
-}
-
-void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
-{
-    gamepadthumbLX = clamp(SDL_GameControllerGetAxis(controller, LX), gamepadleftdeadzone);
-    gamepadthumbLY = clamp(SDL_GameControllerGetAxis(controller, LY), gamepadleftdeadzone);
-    gamepadthumbRX = clamp(SDL_GameControllerGetAxis(controller, RX), gamepadrightdeadzone);
-    gamepadthumbRY = clamp(SDL_GameControllerGetAxis(controller, RY), gamepadrightdeadzone);
-}
-
-void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
-{
-    gamepadthumbLX = clamp(SDL_GameControllerGetAxis(controller, RX), gamepadrightdeadzone);
-    gamepadthumbLY = clamp(SDL_GameControllerGetAxis(controller, RY), gamepadrightdeadzone);
-    gamepadthumbRX = clamp(SDL_GameControllerGetAxis(controller, LX), gamepadleftdeadzone);
-    gamepadthumbRY = clamp(SDL_GameControllerGetAxis(controller, LY), gamepadleftdeadzone);
-}
-
-void I_PollDirectInputGamepad(void)
-{
-    if (gamepad && !noinput)
-    {
-        gamepadbuttons = ((SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_UP))
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN) << 1)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT) << 2)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) << 3)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START) << 4)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK) << 5)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSTICK) << 6)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_RIGHTSTICK) << 7)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSHOULDER) << 8)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) << 9)
-            | ((SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMEPAD_TRIGGER_THRESHOLD) << 10)
-            | ((SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMEPAD_TRIGGER_THRESHOLD) << 11)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A) << 12)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B) << 13)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X) << 14)
-            | (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y) << 15));
-
-        if (gamepadbuttons)
-        {
-            idclev = false;
-            idmus = false;
-
-            if (idbehold)
-            {
-                message_clearable = true;
-                HU_ClearMessages();
-                idbehold = false;
-            }
-        }
-
-        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
-        {
-            event_t ev;
-
-            gamepadthumbsfunc(SDL_CONTROLLER_AXIS_LEFTX, SDL_CONTROLLER_AXIS_LEFTY, SDL_CONTROLLER_AXIS_RIGHTX,
-                SDL_CONTROLLER_AXIS_RIGHTY);
-
-            ev.type = ev_gamepad;
-            D_PostEvent(&ev);
-        }
-        else
-        {
-            gamepadbuttons = 0;
-            gamepadthumbLX = 0;
-            gamepadthumbLY = 0;
-            gamepadthumbRX = 0;
-            gamepadthumbRY = 0;
-        }
-    }
-}
-
-void XInputVibration(int motorspeed)
-{
-#if defined(_WIN32)
-    static int  currentmotorspeed;
-
-    if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
-    {
-        XINPUT_VIBRATION    vibration;
-
-        currentmotorspeed = MIN(motorspeed, MAXWORD);
-        vibration.wLeftMotorSpeed = currentmotorspeed;
-        vibration.wRightMotorSpeed = 0;
-        pXInputSetState(0, &vibration);
-    }
-#endif
-}
-
-void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
-{
-    gamepadthumbLX = clamp(LX, gamepadleftdeadzone);
-    gamepadthumbLY = -clamp(LY, gamepadleftdeadzone);
-    gamepadthumbRX = clamp(RX, gamepadrightdeadzone);
-    gamepadthumbRY = clamp(RY, gamepadrightdeadzone);
-}
-
-void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
-{
-    gamepadthumbLX = clamp(RX, gamepadrightdeadzone);
-    gamepadthumbLY = -clamp(RY, gamepadrightdeadzone);
-    gamepadthumbRX = clamp(LX, gamepadleftdeadzone);
-    gamepadthumbRY = clamp(LY, gamepadleftdeadzone);
-}
-
-void I_PollXInputGamepad(void)
-{
-#if defined(_WIN32)
-    if (gamepad && !noinput)
-    {
-        XINPUT_STATE    state;
-        static DWORD    packetnumber;
-
-        if (weaponvibrationtics)
-            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (damagevibrationtics)
-            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        if (barrelvibrationtics)
-            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
-                XInputVibration(idlemotorspeed);
-
-        pXInputGetState(0, &state);
-
-        if (state.dwPacketNumber == packetnumber)
-            return;
-        else
-        {
-            XINPUT_GAMEPAD  Gamepad = state.Gamepad;
-
-            packetnumber = state.dwPacketNumber;
-
-            gamepadbuttons = (Gamepad.wButtons
-                | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
-                | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
-
-            if (gamepadbuttons)
-            {
-                vibrate = true;
-                idclev = false;
-                idmus = false;
-
-                if (idbehold)
-                {
-                    message_clearable = true;
-                    HU_ClearMessages();
-                    idbehold = false;
-                }
-            }
-
-            if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
-            {
-                event_t  ev;
-
-                gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
-
-                ev.type = ev_gamepad;
-                D_PostEvent(&ev);
-            }
-            else
-            {
-                gamepadbuttons = 0;
-                gamepadthumbLX = 0;
-                gamepadthumbLY = 0;
-                gamepadthumbRX = 0;
-                gamepadthumbRY = 0;
-            }
-        }
-    }
-#endif
 }
 
 void I_SetGamepadSensitivity(void)
@@ -389,12 +153,4 @@ void I_SetGamepadLeftDeadZone(void)
 void I_SetGamepadRightDeadZone(void)
 {
     gamepadrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
-}
-
-void I_SetGamepadThumbSticks(void)
-{
-    if (gamepadfunc == I_PollXInputGamepad)
-        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded : I_PollThumbs_XInput_RightHanded);
-    else
-        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded : I_PollThumbs_DirectInput_RightHanded);
 }

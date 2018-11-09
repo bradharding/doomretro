@@ -212,9 +212,9 @@ void P_FireWeapon(void)
     if (gp_vibrate_weapons && vibrate)
     {
         if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
-            XInputVibration(MAXMOTORSPEED);
+            I_Tactile(MAXMOTORSPEED);
         else
-            XInputVibration(weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100);
+            I_Tactile(weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100);
 
         weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
@@ -265,12 +265,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (pendingweapon == wp_chainsaw)
             {
                 idlemotorspeed = CHAINSAWIDLEMOTORSPEED * gp_vibrate_weapons / 100;
-                XInputVibration(idlemotorspeed);
+                I_Tactile(idlemotorspeed);
             }
             else if (idlemotorspeed)
             {
                 idlemotorspeed = 0;
-                XInputVibration(0);
+                I_Tactile(0);
             }
         }
 

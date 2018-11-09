@@ -60,14 +60,14 @@
 
 #define GAMEPAD_TRIGGER_THRESHOLD   3855
 
-#define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYdown          (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbRXleft          pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRXright         pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone))
-#define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone)
+#define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
+#define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYdown          (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadleftdeadzone)
+#define gamepadthumbRXleft          pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRXright         pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone))
+#define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SDL_JOYSTICK_AXIS_MAX - gamepadrightdeadzone)
 
 extern int      barrelvibrationtics;
 extern int      damagevibrationtics;
@@ -87,18 +87,9 @@ extern short    gamepadrightdeadzone;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
-void I_PollDirectInputGamepad(void);
-void I_PollXInputGamepad(void);
-void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY);
-void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY);
-void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
-void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
-void XInputVibration(int motorspeed);
+void I_Tactile(int motorspeed);
 void I_SetGamepadSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);
-void I_SetGamepadThumbSticks(void);
-
-extern void (*gamepadfunc)(void);
 
 #endif
