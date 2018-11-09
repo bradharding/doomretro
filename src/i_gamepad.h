@@ -57,6 +57,7 @@
 #define GAMEPAD_B                   0x2000
 #define GAMEPAD_X                   0x4000
 #define GAMEPAD_Y                   0x8000
+#include "SDL_gamecontroller.h"
 
 #define GAMEPAD_TRIGGER_THRESHOLD   3855
 
