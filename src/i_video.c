@@ -562,19 +562,35 @@ static void I_GetEvent(void)
                 switch (Event->caxis.axis)
                 {
                     case SDL_CONTROLLER_AXIS_LEFTX:
-                        gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        if (gp_swapthumbsticks)
+                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        else
+                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
-                        gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        if (gp_swapthumbsticks)
+                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        else
+                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
-                        gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        if (gp_swapthumbsticks)
+                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        else
+                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
-                        gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        if (gp_swapthumbsticks)
+                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        else
+                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
