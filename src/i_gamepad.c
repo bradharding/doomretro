@@ -86,9 +86,9 @@ void I_InitGamepad(void)
         C_Warning("Gamepad support couldn't be initialized.");
     else
     {
-        int numgamepads = SDL_NumJoysticks();
+        int numjoysticks = SDL_NumJoysticks();
 
-        for (int i = 0; i < numgamepads; i++)
+        for (int i = 0; i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)))
                 if (SDL_IsGameController(i))
                 {
@@ -128,12 +128,18 @@ void I_ShutdownGamepad(void)
 {
     if (gamecontroller)
     {
-        SDL_HapticClose(haptic);
-        haptic = NULL;
-        SDL_JoystickClose(joystick);
-        joystick = NULL;
+        if (haptic)
+        {
+            SDL_HapticClose(haptic);
+            haptic = NULL;
+        }
+
         SDL_GameControllerClose(gamecontroller);
         gamecontroller = NULL;
+
+        SDL_JoystickClose(joystick);
+        joystick = NULL;
+
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
     }
 }
@@ -144,8 +150,8 @@ void I_Tactile(int strength, int duration)
 
     if (haptic && (strength >= currentstrength || !strength))
     {
-        currentstrength = MIN(strength, UINT16_MAX);
-        SDL_HapticRumblePlay(haptic, (float)currentstrength / UINT16_MAX, duration);
+        currentstrength = MIN(strength, MAXRUMBLESTRENGTH);
+        SDL_HapticRumblePlay(haptic, (float)currentstrength / MAXRUMBLESTRENGTH, duration);
     }
 }
 

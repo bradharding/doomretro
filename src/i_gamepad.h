@@ -60,6 +60,8 @@
 
 #define GAMEPAD_TRIGGER_THRESHOLD   3855
 
+#define MAXRUMBLESTRENGTH           65535
+
 #define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)

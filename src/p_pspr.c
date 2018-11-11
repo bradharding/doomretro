@@ -52,7 +52,6 @@
 #define RAISESPEED              (6 * FRACUNIT)
 
 #define CHAINSAWIDLEMOTORSPEED  15000
-#define MAXMOTORSPEED           65535
 
 dboolean        autoaim = autoaim_default;
 dboolean        centerweapon = centerweapon_default;
@@ -212,9 +211,9 @@ void P_FireWeapon(void)
     if (gp_vibrate_weapons)
     {
         if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
-            I_Tactile(MAXMOTORSPEED, weaponinfo[readyweapon].tics * 1000 / 35);
+            I_Tactile(MAXRUMBLESTRENGTH, weaponinfo[readyweapon].rumbleduration);
         else
-            I_Tactile(weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100, weaponinfo[readyweapon].tics * 1000 / 35);
+            I_Tactile(weaponinfo[readyweapon].rumblestrength * gp_vibrate_weapons / 100, weaponinfo[readyweapon].rumbleduration);
     }
 
     if (centerweapon)
