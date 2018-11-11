@@ -69,16 +69,11 @@
 #define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone))
 #define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone)
 
-extern int      barrelvibrationtics;
-extern int      damagevibrationtics;
-extern int      weaponvibrationtics;
-
 extern int      gamepadbuttons;
 extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
 extern short    gamepadthumbRY;
-extern dboolean vibrate;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
 extern float    gamepadsensitivity;
@@ -87,7 +82,7 @@ extern short    gamepadrightdeadzone;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
-void I_Tactile(int motorspeed);
+void I_Tactile(int motorspeed, int duration);
 void I_SetGamepadSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);

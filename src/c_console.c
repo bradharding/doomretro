@@ -971,7 +971,7 @@ void C_Drawer(void)
         consoleactive = (consoledirection == 1);
 
         // cancel any gamepad vibrations
-        if (!prevconsoleactive && (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
+        if (!prevconsoleactive && (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons))
         {
             if (consoleactive)
             {
@@ -981,7 +981,7 @@ void C_Drawer(void)
             else
                 idlemotorspeed = restoremotorspeed;
 
-            I_Tactile(idlemotorspeed);
+            I_Tactile(idlemotorspeed, 10000);
         }
 
         // cancel any screen shake

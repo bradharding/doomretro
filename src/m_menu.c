@@ -998,7 +998,6 @@ static void M_LoadSelect(int choice)
         I_Sleep(1000);
         functionkey = 0;
         quickSaveSlot = choice;
-        vibrate = false;
         M_ClearMenus();
         G_LoadGame(name);
     }
@@ -1653,7 +1652,6 @@ static void M_VerifyNightmare(int key)
         S_StartSound(NULL, sfx_swtchx);
         I_Sleep(1000);
         quickSaveSlot = -1;
-        vibrate = false;
         M_ClearMenus();
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
     }
@@ -1678,7 +1676,6 @@ static void M_ChooseSkill(int choice)
     S_StartSound(NULL, sfx_pistol);
     I_Sleep(1000);
     quickSaveSlot = -1;
-    vibrate = false;
     M_ClearMenus();
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
@@ -3425,11 +3422,11 @@ void M_StartControlPanel(void)
 
     S_StopSounds();
 
-    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
+    if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
         restoremotorspeed = idlemotorspeed;
         idlemotorspeed = 0;
-        I_Tactile(idlemotorspeed);
+        I_Tactile(idlemotorspeed, 10000);
     }
 
     viewplayer->fixedcolormap = 0;
@@ -3608,10 +3605,10 @@ void M_ClearMenus(void)
 {
     menuactive = false;
 
-    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
+    if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
         idlemotorspeed = restoremotorspeed;
-        I_Tactile(idlemotorspeed);
+        I_Tactile(idlemotorspeed, 10000);
     }
 
     if (gamestate == GS_LEVEL)

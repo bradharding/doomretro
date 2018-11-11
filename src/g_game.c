@@ -721,13 +721,6 @@ dboolean G_Responder(event_t *ev)
 
                 if (keyactionlist[key][0])
                     C_ExecuteInputString(keyactionlist[key]);
-
-                if (vibrate)
-                {
-                    vibrate = false;
-                    idlemotorspeed = 0;
-                    I_Tactile(idlemotorspeed);
-                }
             }
 
             return true;        // eat key down events
@@ -750,13 +743,6 @@ dboolean G_Responder(event_t *ev)
             if (mouseactionlist[mousebutton][0])
                 C_ExecuteInputString(mouseactionlist[mousebutton]);
 
-            if (vibrate && mousebutton)
-            {
-                vibrate = false;
-                idlemotorspeed = 0;
-                I_Tactile(idlemotorspeed);
-            }
-
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
@@ -775,13 +761,6 @@ dboolean G_Responder(event_t *ev)
         }
 
         case ev_mousewheel:
-            if (vibrate)
-            {
-                vibrate = false;
-                idlemotorspeed = 0;
-                I_Tactile(idlemotorspeed);
-            }
-
             if (!automapactive && !menuactive && !paused)
             {
                 if (ev->data1 < 0)
@@ -941,14 +920,6 @@ void G_Ticker(void)
                 {
                     S_PauseSound();
                     S_StartSound(NULL, sfx_swtchn);
-
-                    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
-                    {
-                        restoremotorspeed = idlemotorspeed;
-                        idlemotorspeed = 0;
-                        I_Tactile(idlemotorspeed);
-                    }
-
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL"));
                     I_UpdateBlitFunc(false);
@@ -957,13 +928,6 @@ void G_Ticker(void)
                 {
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
-
-                    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
-                    {
-                        idlemotorspeed = restoremotorspeed;
-                        I_Tactile(idlemotorspeed);
-                    }
-
                     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
                 }
 

@@ -1702,11 +1702,8 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             barrelms = I_GetTimeMS() + BARRELMS;
 
-            if (gp_vibrate_barrels && vibrate)
-            {
-                I_Tactile(20000 * gp_vibrate_barrels / 100);
-                barrelvibrationtics = TICRATE;
-            }
+            if (gp_vibrate_barrels)
+                I_Tactile(20000 * gp_vibrate_barrels / 100, 1000);
         }
     }
 

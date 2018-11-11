@@ -209,14 +209,12 @@ void P_FireWeapon(void)
 
     P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
-    if (gp_vibrate_weapons && vibrate)
+    if (gp_vibrate_weapons)
     {
         if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
-            I_Tactile(MAXMOTORSPEED);
+            I_Tactile(MAXMOTORSPEED, weaponinfo[readyweapon].tics * 1000 / 35);
         else
-            I_Tactile(weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100);
-
-        weaponvibrationtics = weaponinfo[readyweapon].tics;
+            I_Tactile(weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100, weaponinfo[readyweapon].tics * 1000 / 35);
     }
 
     if (centerweapon)
@@ -260,17 +258,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  if player is dead, put the weapon away
     if (pendingweapon != wp_nochange || player->health <= 0)
     {
-        if (gp_vibrate_weapons && vibrate)
+        if (gp_vibrate_weapons)
         {
             if (pendingweapon == wp_chainsaw)
             {
                 idlemotorspeed = CHAINSAWIDLEMOTORSPEED * gp_vibrate_weapons / 100;
-                I_Tactile(idlemotorspeed);
-            }
-            else if (idlemotorspeed)
-            {
-                idlemotorspeed = 0;
-                I_Tactile(0);
+                I_Tactile(idlemotorspeed, 1000);
             }
         }
 

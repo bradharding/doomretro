@@ -57,7 +57,7 @@ int                         gp_vibrate_damage = gp_vibrate_damage_default;
 int                         gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 static SDL_Joystick         *gamepad;
-static SDL_GameController   *controller = NULL;
+static SDL_GameController   *controller;
 
 int                         gamepadbuttons;
 short                       gamepadthumbLX;
@@ -68,10 +68,6 @@ float                       gamepadsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
 
-dboolean                    vibrate = false;
-int                         barrelvibrationtics = 0;
-int                         damagevibrationtics = 0;
-int                         weaponvibrationtics = 0;
 int                         idlemotorspeed;
 int                         restoremotorspeed;
 
@@ -136,8 +132,15 @@ void I_ShutdownGamepad(void)
     }
 }
 
-void I_Tactile(int motorspeed)
+void I_Tactile(int motorspeed, int duration)
 {
+    static int  currentmotorspeed;
+
+    if (controller && (motorspeed >= currentmotorspeed || !motorspeed))
+    {
+        currentmotorspeed = MIN(motorspeed, UINT16_MAX);
+        SDL_GameControllerRumble(controller, currentmotorspeed, 0, duration);
+    }
 }
 
 void I_SetGamepadSensitivity(void)

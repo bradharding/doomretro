@@ -1168,16 +1168,14 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     {
         P_SetMobjState(th, S_PUFF3);
 
-        // [BH] vibrate XInput gamepads
-        if (gp_vibrate_damage && vibrate)
+        if (gp_vibrate_damage)
         {
             int motorspeed = weaponinfo[wp_fist].motorspeed * gp_vibrate_damage / 100;
 
             if (viewplayer->powers[pw_strength])
                 motorspeed *= 2;
 
-            I_Tactile(motorspeed);
-            weaponvibrationtics = weaponinfo[wp_fist].tics;
+            I_Tactile(motorspeed, weaponinfo[wp_fist].tics * 1000 / 35);
         }
     }
 }
