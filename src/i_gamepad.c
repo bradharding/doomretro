@@ -56,8 +56,9 @@ int                         gp_vibrate_barrels = gp_vibrate_barrels_default;
 int                         gp_vibrate_damage = gp_vibrate_damage_default;
 int                         gp_vibrate_weapons = gp_vibrate_weapons_default;
 
-static SDL_Joystick         *gamepad;
-static SDL_GameController   *controller;
+static SDL_Joystick         *joystick;
+static SDL_GameController   *gamecontroller;
+static SDL_Haptic           *haptic;
 
 int                         gamepadbuttons;
 short                       gamepadthumbLX;
@@ -81,25 +82,25 @@ static void nullfunc(void) {}
 
 void I_InitGamepad(void)
 {
-    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
     else
     {
         int numgamepads = SDL_NumJoysticks();
 
         for (int i = 0; i < numgamepads; i++)
-            if ((gamepad = SDL_JoystickOpen(i)))
+            if ((joystick = SDL_JoystickOpen(i)))
                 if (SDL_IsGameController(i))
                 {
-                    controller = SDL_GameControllerOpen(i);
+                    gamecontroller = SDL_GameControllerOpen(i);
                     break;
                 }
 
-        if (!controller)
-            SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+        if (!gamecontroller)
+            SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
         else
         {
-            const char  *name = SDL_GameControllerName(controller);
+            const char  *name = SDL_GameControllerName(gamecontroller);
 
             if (*name)
             {
@@ -110,6 +111,9 @@ void I_InitGamepad(void)
             }
             else
                 C_Output("A gamepad is connected.");
+
+            if (!(haptic = SDL_HapticOpenFromJoystick(joystick)) || SDL_HapticRumbleInit(haptic) < 0)
+                C_Warning("This gamepad doesn't support vibration.");
         }
     }
 
@@ -122,24 +126,26 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
-    if (controller)
+    if (gamecontroller)
     {
-        SDL_JoystickClose(gamepad);
-        gamepad = NULL;
-        SDL_GameControllerClose(controller);
-        controller = NULL;
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+        SDL_HapticClose(haptic);
+        haptic = NULL;
+        SDL_JoystickClose(joystick);
+        joystick = NULL;
+        SDL_GameControllerClose(gamecontroller);
+        gamecontroller = NULL;
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
     }
 }
 
-void I_Tactile(int motorspeed, int duration)
+void I_Tactile(int strength, int duration)
 {
-    static int  currentmotorspeed;
+    static int  currentstrength;
 
-    if (controller && (motorspeed >= currentmotorspeed || !motorspeed))
+    if (haptic && (strength >= currentstrength || !strength))
     {
-        currentmotorspeed = MIN(motorspeed, UINT16_MAX);
-        SDL_GameControllerRumble(controller, currentmotorspeed, 0, duration);
+        currentstrength = MIN(strength, UINT16_MAX);
+        SDL_HapticRumblePlay(haptic, (float)currentstrength / UINT16_MAX, duration);
     }
 }
 

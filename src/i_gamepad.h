@@ -82,7 +82,7 @@ extern short    gamepadrightdeadzone;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
-void I_Tactile(int motorspeed, int duration);
+void I_Tactile(int strength, int duration);
 void I_SetGamepadSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);
