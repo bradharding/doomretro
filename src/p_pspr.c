@@ -48,10 +48,8 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define LOWERSPEED              (6 * FRACUNIT)
-#define RAISESPEED              (6 * FRACUNIT)
-
-#define CHAINSAWIDLEMOTORSPEED  15000
+#define LOWERSPEED  (6 * FRACUNIT)
+#define RAISESPEED  (6 * FRACUNIT)
 
 dboolean        autoaim = autoaim_default;
 dboolean        centerweapon = centerweapon_default;
@@ -211,9 +209,9 @@ void P_FireWeapon(void)
     if (gp_vibrate_weapons)
     {
         if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
-            I_Tactile(MAXRUMBLESTRENGTH, weaponinfo[readyweapon].rumbleduration);
+            I_GamepadRumble(MAXRUMBLESTRENGTH, weaponinfo[readyweapon].rumbleduration);
         else
-            I_Tactile(weaponinfo[readyweapon].rumblestrength * gp_vibrate_weapons / 100, weaponinfo[readyweapon].rumbleduration);
+            I_GamepadRumble(weaponinfo[readyweapon].rumblestrength * gp_vibrate_weapons / 100, weaponinfo[readyweapon].rumbleduration);
     }
 
     if (centerweapon)
@@ -261,8 +259,8 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             if (pendingweapon == wp_chainsaw)
             {
-                idlemotorspeed = CHAINSAWIDLEMOTORSPEED * gp_vibrate_weapons / 100;
-                I_Tactile(idlemotorspeed, 1000);
+                idlerumblestrength = CHAINSAWIDLERUMBLESTRENGTH * gp_vibrate_weapons / 100;
+                I_GamepadRumble(idlerumblestrength, 1000);
             }
         }
 

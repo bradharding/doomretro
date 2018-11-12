@@ -61,6 +61,7 @@
 #define GAMEPAD_TRIGGER_THRESHOLD   3855
 
 #define MAXRUMBLESTRENGTH           65535
+#define CHAINSAWIDLERUMBLESTRENGTH  15000
 
 #define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
@@ -76,15 +77,15 @@ extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
 extern short    gamepadthumbRY;
-extern int      idlemotorspeed;
-extern int      restoremotorspeed;
+extern int      idlerumblestrength;
+extern int      restorerumblestrength;
 extern float    gamepadsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
-void I_Tactile(int strength, int duration);
+void I_GamepadRumble(int strength, int duration);
 void I_SetGamepadSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);

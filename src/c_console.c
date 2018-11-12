@@ -975,13 +975,13 @@ void C_Drawer(void)
         {
             if (consoleactive)
             {
-                restoremotorspeed = idlemotorspeed;
-                idlemotorspeed = 0;
+                restorerumblestrength = idlerumblestrength;
+                idlerumblestrength = 0;
             }
             else
-                idlemotorspeed = restoremotorspeed;
+                idlerumblestrength = restorerumblestrength;
 
-            I_Tactile(idlemotorspeed, 10000);
+            I_GamepadRumble(idlerumblestrength, 10000);
         }
 
         // cancel any screen shake

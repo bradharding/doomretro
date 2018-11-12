@@ -278,7 +278,7 @@ static void P_DeathThink(void)
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;
 
-    idlemotorspeed = 0;
+    idlerumblestrength = 0;
     freeze = false;
     infight = (infighting && !(viewplayer->cheats & CF_NOTARGET));
 

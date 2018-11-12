@@ -1175,7 +1175,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
             if (viewplayer->powers[pw_strength])
                 motorspeed *= 2;
 
-            I_Tactile(motorspeed, weaponinfo[wp_fist].rumbleduration);
+            I_GamepadRumble(motorspeed, weaponinfo[wp_fist].rumbleduration);
         }
     }
 }

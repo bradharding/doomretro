@@ -1624,7 +1624,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         tplayer->damagecount = MIN(damagecount, 100);
 
         if (gp_vibrate_damage)
-            I_Tactile((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_vibrate_damage / 100, BETWEEN(12, damage, 100));
+            I_GamepadRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_vibrate_damage / 100,
+                BETWEEN(12, damage, 100) * 1000 / TICRATE);
 
         if (tplayer->health <= 0)
         {

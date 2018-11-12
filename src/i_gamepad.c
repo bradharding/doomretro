@@ -69,8 +69,8 @@ float                       gamepadsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
 
-int                         idlemotorspeed;
-int                         restoremotorspeed;
+int                         idlerumblestrength;
+int                         restorerumblestrength;
 
 extern dboolean             idclev;
 extern dboolean             idmus;
@@ -144,15 +144,10 @@ void I_ShutdownGamepad(void)
     }
 }
 
-void I_Tactile(int strength, int duration)
+void I_GamepadRumble(int strength, int duration)
 {
-    static int  currentstrength;
-
-    if (haptic && (strength >= currentstrength || !strength))
-    {
-        currentstrength = MIN(strength, MAXRUMBLESTRENGTH);
-        SDL_HapticRumblePlay(haptic, (float)currentstrength / MAXRUMBLESTRENGTH, duration);
-    }
+    if (haptic)
+        SDL_HapticRumblePlay(haptic, (float)strength / MAXRUMBLESTRENGTH, duration);
 }
 
 void I_SetGamepadSensitivity(void)
