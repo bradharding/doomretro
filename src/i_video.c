@@ -194,6 +194,8 @@ extern int          st_palette;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
+evtype_t            lasteventtype;
+
 void ST_doRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
@@ -455,7 +457,7 @@ static void I_GetEvent(void)
                 if (noinput)
                     return;
 
-                event.type = ev_keydown;
+                event.type = lasteventtype = ev_keydown;
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 event.data2 = Event->key.keysym.sym;
 
@@ -509,7 +511,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_KEYUP:
-                event.type = ev_keyup;
+                event.type = lasteventtype = ev_keyup;
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
@@ -551,7 +553,7 @@ static void I_GetEvent(void)
 
             case SDL_MOUSEWHEEL:
                 keydown = 0;
-                event.type = ev_mousewheel;
+                event.type = lasteventtype = ev_mousewheel;
                 event.data1 = Event->wheel.y;
                 event.data2 = 0;
                 event.data3 = 0;
@@ -610,18 +612,19 @@ static void I_GetEvent(void)
                         break;
                 }
 
+                lasteventtype = ev_gamepad;
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
                 gamepadbuttons |= (1 << Event->cbutton.button);
-                event.type = ev_gamepad;
+                event.type = lasteventtype = ev_gamepad;
                 D_PostEvent(&event);
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
                 gamepadbuttons &= ~(1 << Event->cbutton.button);
                 keydown = 0;
-                event.type = ev_gamepad;
+                event.type = lasteventtype = ev_gamepad;
                 D_PostEvent(&event);
                 break;
 
@@ -733,7 +736,7 @@ static void I_ReadMouse(void)
     {
         event_t ev;
 
-        ev.type = ev_mouse;
+        ev.type = lasteventtype = ev_mouse;
         ev.data1 = mousebuttonstate;
 
         if (m_acceleration)

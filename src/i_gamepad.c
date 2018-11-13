@@ -77,6 +77,8 @@ extern dboolean             idmus;
 extern dboolean             idbehold;
 extern dboolean             menuactive;
 extern dboolean             message_clearable;
+extern evtype_t             lasteventtype;
+
 
 static void nullfunc(void) {}
 
@@ -146,7 +148,7 @@ void I_ShutdownGamepad(void)
 
 void I_GamepadRumble(int strength, int duration)
 {
-    if (haptic)
+    if (haptic && (lasteventtype == ev_gamepad || lasteventtype == ev_none))
         SDL_HapticRumblePlay(haptic, (float)strength / MAXRUMBLESTRENGTH, duration);
 }
 
