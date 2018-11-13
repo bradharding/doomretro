@@ -1170,12 +1170,12 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
         if (gp_vibrate_damage)
         {
-            int motorspeed = weaponinfo[wp_fist].rumblestrength * gp_vibrate_damage / 100;
+            int rumblestrength = weaponinfo[wp_fist].rumblestrength * gp_vibrate_damage / 100;
 
             if (viewplayer->powers[pw_strength])
-                motorspeed *= 2;
+                rumblestrength *= 2;
 
-            I_GamepadRumble(motorspeed, weaponinfo[wp_fist].rumbleduration);
+            I_GamepadRumble(rumblestrength, weaponinfo[wp_fist].rumbleduration);
         }
     }
 }

@@ -208,7 +208,7 @@ void P_FireWeapon(void)
 
     if (gp_vibrate_weapons)
     {
-        if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
+        if (readyweapon == wp_chainsaw && linetarget)
             I_GamepadRumble(MAXRUMBLESTRENGTH, weaponinfo[readyweapon].rumbleduration);
         else if (readyweapon != wp_fist)
             I_GamepadRumble(weaponinfo[readyweapon].rumblestrength * gp_vibrate_weapons / 100, weaponinfo[readyweapon].rumbleduration);
