@@ -135,11 +135,15 @@ static dboolean     error;
 
 struct tm           *gamestarttime;
 
+extern evtype_t     lasteventtype;
+
 //
 // D_PostEvent
 //
 void D_PostEvent(event_t *ev)
 {
+    lasteventtype = ev->type;
+
     if (C_Responder(ev))
         return; // console ate the event
 

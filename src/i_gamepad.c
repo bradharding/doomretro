@@ -79,9 +79,6 @@ extern dboolean             menuactive;
 extern dboolean             message_clearable;
 extern evtype_t             lasteventtype;
 
-
-static void nullfunc(void) {}
-
 void I_InitGamepad(void)
 {
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)
