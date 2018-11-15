@@ -3424,9 +3424,9 @@ void M_StartControlPanel(void)
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
-        restorerumblestrength = idlerumblestrength;
-        idlerumblestrength = 0;
-        I_GamepadRumble(idlerumblestrength, 10000);
+        restorevibrationstrength = idlevibrationstrength;
+        idlevibrationstrength = 0;
+        I_StopGamepadVibration();
     }
 
     viewplayer->fixedcolormap = 0;
@@ -3607,8 +3607,8 @@ void M_ClearMenus(void)
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
-        idlerumblestrength = restorerumblestrength;
-        I_GamepadRumble(idlerumblestrength, 10000);
+        idlevibrationstrength = restorevibrationstrength;
+        I_GamepadVibration(idlevibrationstrength);
     }
 
     if (gamestate == GS_LEVEL)

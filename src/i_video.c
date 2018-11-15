@@ -762,6 +762,7 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
+    I_UpdateGamepadVibration();
 }
 
 static void UpdateGrab(void)

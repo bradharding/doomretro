@@ -41,51 +41,57 @@
 
 #include "doomtype.h"
 
-#define GAMEPAD_A                   0x00001
-#define GAMEPAD_B                   0x00002
-#define GAMEPAD_X                   0x00004
-#define GAMEPAD_Y                   0x00008
-#define GAMEPAD_BACK                0x00010
-#define GAMEPAD_START               0x00040
-#define GAMEPAD_LEFT_THUMB          0x00080
-#define GAMEPAD_RIGHT_THUMB         0x00100
-#define GAMEPAD_LEFT_SHOULDER       0x00200
-#define GAMEPAD_RIGHT_SHOULDER      0x00400
-#define GAMEPAD_DPAD_UP             0x00800
-#define GAMEPAD_DPAD_DOWN           0x01000
-#define GAMEPAD_DPAD_LEFT           0x02000
-#define GAMEPAD_DPAD_RIGHT          0x04000
-#define GAMEPAD_LEFT_TRIGGER        0x10000
-#define GAMEPAD_RIGHT_TRIGGER       0x20000
+#define GAMEPAD_A                       0x00001
+#define GAMEPAD_B                       0x00002
+#define GAMEPAD_X                       0x00004
+#define GAMEPAD_Y                       0x00008
+#define GAMEPAD_BACK                    0x00010
+#define GAMEPAD_START                   0x00040
+#define GAMEPAD_LEFT_THUMB              0x00080
+#define GAMEPAD_RIGHT_THUMB             0x00100
+#define GAMEPAD_LEFT_SHOULDER           0x00200
+#define GAMEPAD_RIGHT_SHOULDER          0x00400
+#define GAMEPAD_DPAD_UP                 0x00800
+#define GAMEPAD_DPAD_DOWN               0x01000
+#define GAMEPAD_DPAD_LEFT               0x02000
+#define GAMEPAD_DPAD_RIGHT              0x04000
+#define GAMEPAD_LEFT_TRIGGER            0x10000
+#define GAMEPAD_RIGHT_TRIGGER           0x20000
 
-#define GAMEPAD_TRIGGER_THRESHOLD   3855
+#define GAMEPAD_TRIGGER_THRESHOLD       3855
 
-#define MAXRUMBLESTRENGTH           65535
-#define CHAINSAWIDLERUMBLESTRENGTH  15000
+#define MAXVIBRATIONSTRENGTH            65535
+#define CHAINSAWIDLEVIBRATIONSTRENGTH   15000
 
-#define gamepadthumbLXleft          (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLXright         (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYup            (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYdown          (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbRXleft          pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRXright         pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRYup            (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone))
-#define gamepadthumbRYdown          (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone)
+#define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYup                (float)(-gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLYdown              (float)(gamepadthumbLY - gamepadleftdeadzone) / ((float)SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbRXleft              pow((-gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRYup                (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone))
+#define gamepadthumbRYdown              (float)(gamepadthumbRY - gamepadrightdeadzone) / ((float)SHRT_MAX - gamepadrightdeadzone)
+
+extern int      barrelvibrationtics;
+extern int      damagevibrationtics;
+extern int      weaponvibrationtics;
 
 extern int      gamepadbuttons;
 extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
 extern short    gamepadthumbRY;
-extern int      idlerumblestrength;
-extern int      restorerumblestrength;
+extern int      idlevibrationstrength;
+extern int      restorevibrationstrength;
 extern float    gamepadsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
-void I_GamepadRumble(int strength, int duration);
+void I_GamepadVibration(int strength);
+void I_UpdateGamepadVibration(void);
+void I_StopGamepadVibration(void);
 void I_SetGamepadSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);

@@ -278,7 +278,8 @@ static void P_DeathThink(void)
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;
 
-    idlerumblestrength = 0;
+    weaponvibrationtics = 1;
+    idlevibrationstrength = 0;
     freeze = false;
     infight = (infighting && !(viewplayer->cheats & CF_NOTARGET));
 
@@ -355,6 +356,7 @@ static void P_DeathThink(void)
         || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2)))
     {
         deathcount = 0;
+        damagevibrationtics = 1;
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;

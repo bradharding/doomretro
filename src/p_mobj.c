@@ -1170,12 +1170,13 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
         if (gp_vibrate_damage)
         {
-            int rumblestrength = weaponinfo[wp_fist].rumblestrength * gp_vibrate_damage / 100;
+            int strength = weaponinfo[wp_fist].strength * gp_vibrate_damage / 100;
 
             if (viewplayer->powers[pw_strength])
-                rumblestrength *= 2;
+                strength *= 2;
 
-            I_GamepadRumble(rumblestrength, weaponinfo[wp_fist].rumbleduration);
+            I_GamepadVibration(strength);
+            weaponvibrationtics = weaponinfo[wp_fist].tics;
         }
     }
 }

@@ -57,8 +57,8 @@ typedef struct
     int             atkstate;
     int             flashstate;
     int             recoil;
-    int             rumblestrength;
-    int             rumbleduration;
+    int             strength;
+    int             tics;
     int             prev;
     int             next;
     dboolean        altered;
