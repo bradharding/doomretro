@@ -2167,10 +2167,6 @@ static void give_cmd_func2(char *cmd, char *parms)
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
                         M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
-
-                        if (!*buffer)
-                            M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
-
                         buffer[0] = toupper(buffer[0]);
                         C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
                         return;
@@ -2180,10 +2176,6 @@ static void give_cmd_func2(char *cmd, char *parms)
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
                         M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
-
-                        if (!*buffer)
-                            M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
-
                         buffer[0] = toupper(buffer[0]);
                         C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
                         return;
@@ -2400,6 +2392,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
             }
         }
     }
+
     return false;
 }
 

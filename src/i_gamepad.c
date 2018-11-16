@@ -134,9 +134,9 @@ void I_ShutdownGamepad(void)
         {
             SDL_HapticClose(haptic);
             haptic = NULL;
-            weaponvibrationtics = 0;
-            damagevibrationtics = 0;
             barrelvibrationtics = 0;
+            damagevibrationtics = 0;
+            weaponvibrationtics = 0;
         }
 
         SDL_GameControllerClose(gamecontroller);
@@ -165,6 +165,9 @@ void I_GamepadVibration(int strength)
 
 void I_UpdateGamepadVibration(void)
 {
+    if (!haptic)
+        return;
+
     if (weaponvibrationtics)
         if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
             I_GamepadVibration(idlevibrationstrength);
@@ -180,7 +183,8 @@ void I_UpdateGamepadVibration(void)
 
 void I_StopGamepadVibration(void)
 {
-    SDL_HapticRumbleStop(haptic);
+    if (haptic)
+        SDL_HapticRumbleStop(haptic);
 }
 
 void I_SetGamepadSensitivity(void)
