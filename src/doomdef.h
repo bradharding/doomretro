@@ -74,6 +74,10 @@
 // Global parameters/defines.
 //
 
+#define DOOM1AND2   0
+#define DOOM1ONLY   1
+#define DOOM2ONLY   2
+
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.
 typedef enum

@@ -168,7 +168,6 @@ static int              consolecolors[STRINGTYPES];
 
 static dboolean         scrollbardrawn;
 
-extern char             autocompletelist[][255];
 extern int              fps;
 extern int              refreshrate;
 extern dboolean         dowipe;
@@ -591,7 +590,7 @@ void C_Init(void)
     timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
-    while (*autocompletelist[++numautocomplete]);
+    while (*autocompletelist[++numautocomplete].text);
 }
 
 void C_ShowConsole(void)
@@ -1530,10 +1529,11 @@ dboolean C_Responder(event_t *ev)
                         int         spaces2;
                         dboolean    endspace2;
                         int         len2;
+                        int         game;
 
                         autocomplete += direction;
-                        M_StringCopy(output, (GetCapsLockState() ? uppercase(autocompletelist[autocomplete]) :
-                            autocompletelist[autocomplete]), sizeof(output));
+                        M_StringCopy(output, (GetCapsLockState() ? uppercase(autocompletelist[autocomplete].text) :
+                            autocompletelist[autocomplete].text), sizeof(output));
 
                         if (M_StringCompare(output, input))
                             continue;
@@ -1541,8 +1541,10 @@ dboolean C_Responder(event_t *ev)
                         len2 = (int)strlen(output);
                         spaces2 = numspaces(output);
                         endspace2 = (output[len2 - 1] == ' ');
+                        game = autocompletelist[autocomplete].game;
 
-                        if (M_StringStartsWith(output, input)
+                        if ((game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY))
+                            && M_StringStartsWith(output, input)
                             && input[strlen(input) - 1] != '+'
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
                                 || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))

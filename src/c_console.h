@@ -85,45 +85,53 @@ typedef enum
 
 typedef struct
 {
-    char            string[1024];
-    unsigned int    count;
-    stringtype_t    type;
-    int             tabs[8];
-    unsigned int    tics;
+    char                string[1024];
+    unsigned int        count;
+    stringtype_t        type;
+    int                 tabs[8];
+    unsigned int        tics;
 } console_t;
 
-extern console_t    *console;
+extern console_t        *console;
 
-extern dboolean     consoleactive;
-extern int          consoleheight;
-extern int          consoledirection;
+extern dboolean         consoleactive;
+extern int              consoleheight;
+extern int              consoledirection;
 
-extern int          consolestrings;
-extern int          consolestrings_max;
+extern int              consolestrings;
+extern int              consolestrings_max;
 
-extern char         consolecheat[255];
-extern char         consolecheatparm[3];
-extern char         consolecmdparm[255];
+extern char             consolecheat[255];
+extern char             consolecheatparm[3];
+extern char             consolecmdparm[255];
 
-extern dboolean     forceconsoleblurredraw;
+extern dboolean         forceconsoleblurredraw;
 
 typedef struct
 {
-    char            *input;
-    int             caretpos;
-    int             selectstart;
-    int             selectend;
+    char                *input;
+    int                 caretpos;
+    int                 selectstart;
+    int                 selectend;
 } undohistory_t;
 
 typedef struct
 {
-    char            char1;
-    char            char2;
-    int             adjust;
+    char                char1;
+    char                char2;
+    int                 adjust;
 } kern_t;
 
-extern kern_t       kern[];
-extern kern_t       altkern[];
+extern kern_t           kern[];
+extern kern_t           altkern[];
+
+typedef struct
+{
+    char                text[255];
+    int                 game;
+} autocomplete_t;
+
+extern autocomplete_t   autocompletelist[];
 
 void C_Print(const stringtype_t type, const char *string, ...);
 void C_Input(const char *string, ...);

@@ -193,10 +193,6 @@ static byte brighttan[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#define DOOM1AND2   0
-#define DOOM1ONLY   1
-#define DOOM2ONLY   2
-
 static struct
 {
     char    texture[9];
