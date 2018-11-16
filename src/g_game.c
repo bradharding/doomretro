@@ -923,6 +923,7 @@ void G_Ticker(void)
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL"));
                     I_UpdateBlitFunc(false);
+                    I_StopGamepadVibration();
                 }
                 else
                 {
