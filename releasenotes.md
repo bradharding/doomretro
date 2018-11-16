@@ -5,6 +5,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * The buttons on many *DirectInput* and *XInput* gamepads are now mapped correctly.
 * Gamepads will no longer vibrate if the player punches the air.
+* The `guide` button on some gamepads can now be bound to an action using the `bind` CCMD.
 * A bug has been fixed whereby the flash of the player’s weapon would sometimes be positioned incorrectly if the player was firing when dropping down from a higher sector and the `weaponbounce` CVAR was `on`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 

@@ -177,7 +177,8 @@ control_t controls[] =
     { "rightshoulder", gamepadcontrol,  GAMEPAD_RIGHT_SHOULDER }, { "lefttrigger",   gamepadcontrol,  GAMEPAD_LEFT_TRIGGER   },
     { "righttrigger",  gamepadcontrol,  GAMEPAD_RIGHT_TRIGGER  }, { "gamepad1",      gamepadcontrol,  GAMEPAD_A              },
     { "gamepad2",      gamepadcontrol,  GAMEPAD_B              }, { "gamepad3",      gamepadcontrol,  GAMEPAD_X              },
-    { "gamepad4",      gamepadcontrol,  GAMEPAD_Y              }, { "",              0,               0                      }
+    { "gamepad4",      gamepadcontrol,  GAMEPAD_Y              }, { "guide",         gamepadcontrol,  GAMEPAD_GUIDE          },
+    { "",              0,               0                      }
 };
 
 static void alwaysrun_action_func(void);

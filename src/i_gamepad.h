@@ -46,6 +46,7 @@
 #define GAMEPAD_X                       0x00004
 #define GAMEPAD_Y                       0x00008
 #define GAMEPAD_BACK                    0x00010
+#define GAMEPAD_GUIDE                   0x00020
 #define GAMEPAD_START                   0x00040
 #define GAMEPAD_LEFT_THUMB              0x00080
 #define GAMEPAD_RIGHT_THUMB             0x00100
