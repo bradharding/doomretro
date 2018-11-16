@@ -6148,6 +6148,7 @@ char autocompletelist[][255] =
     "if con_timestamps off then ",
     "if con_timestamps on ",
     "if con_timestamps on then ",
+    "if episode ",
     "if expansion ",
     "if facebackcolor ",
     "if facebackcolor black ",
