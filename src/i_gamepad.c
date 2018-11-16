@@ -134,6 +134,9 @@ void I_ShutdownGamepad(void)
         {
             SDL_HapticClose(haptic);
             haptic = NULL;
+            weaponvibrationtics = 0;
+            damagevibrationtics = 0;
+            barrelvibrationtics = 0;
         }
 
         SDL_GameControllerClose(gamecontroller);
