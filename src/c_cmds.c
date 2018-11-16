@@ -2390,12 +2390,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
             {
                 dboolean    kill = true;
 
-                if (gamemode != commercial)
-                {
-                    if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
-                        kill = false;
-                }
-                else if (killcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                if (killcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
                     killcmdtype = Zombieman;
 
                 if (!(mobjinfo[i].flags & MF_SHOOTABLE))
@@ -2608,8 +2603,25 @@ void kill_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
+            {
+                if (gamemode != commercial)
+                {
+                    if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
+                    {
+                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        return;
+                    }
+
+                    if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
+                    {
+                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        return;
+                    }
+                }
+
                 C_Warning("There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
                     (type == MT_BARREL ? "explode" : "kill"));
+            }
         }
     }
 }
