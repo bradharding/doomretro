@@ -183,7 +183,7 @@ int                 fps;
 int                 refreshrate;
 
 #if defined(_WIN32)
-static HANDLE       CapFPSEvent;
+HANDLE              CapFPSEvent;
 #endif
 
 static dboolean     capslock;
@@ -844,12 +844,6 @@ static void I_Blit(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -864,12 +858,6 @@ static void I_Blit_NearestLinear(void)
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -882,12 +870,6 @@ static void I_Blit_ShowFPS(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -903,12 +885,6 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -921,12 +897,6 @@ static void I_Blit_Shake(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -942,12 +912,6 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -961,12 +925,6 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -983,12 +941,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(renderer);
 }
 
@@ -998,12 +950,6 @@ void I_Blit_Automap(void)
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(maprenderer);
 }
 
@@ -1016,12 +962,6 @@ void I_Blit_Automap_NearestLinear(void)
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_SetRenderTarget(maprenderer, NULL);
     SDL_RenderCopy(maprenderer, maptexture_upscaled, NULL, NULL);
-
-#if defined(_WIN32)
-    if (CapFPSEvent)
-        WaitForSingleObject(CapFPSEvent, 1000);
-#endif
-
     SDL_RenderPresent(maprenderer);
 }
 

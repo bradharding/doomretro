@@ -42,10 +42,8 @@
 #pragma comment(lib, "winmm.lib")
 
 #include <Windows.h>
-#include <Commdlg.h>
-#include <Lmcons.h>
-#include <MMSystem.h>
-#include <ShellAPI.h>
+#include <commdlg.h>
+#include <mmsystem.h>
 #endif
 
 #include "am_map.h"
@@ -136,6 +134,10 @@ static dboolean     error;
 struct tm           *gamestarttime;
 
 extern evtype_t     lasteventtype;
+
+#if defined(_WIN32)
+extern HANDLE       CapFPSEvent;
+#endif
 
 //
 // D_PostEvent
@@ -321,6 +323,11 @@ void D_Display(void)
         blitfunc();             // blit buffer
         mapblitfunc();
 
+#if defined(_WIN32)
+        if (CapFPSEvent)
+            WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
         // Figure out how far into the current tic we're in as a fixed_t
         if (vid_capfps != TICRATE)
             fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
@@ -348,6 +355,11 @@ void D_Display(void)
         M_Drawer();
         blitfunc();             // blit buffer
         mapblitfunc();
+
+#if defined(_WIN32)
+        if (CapFPSEvent)
+            WaitForSingleObject(CapFPSEvent, 1000);
+#endif
     } while (!done);
 }
 
