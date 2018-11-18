@@ -326,6 +326,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
 static dboolean armortype_cvar_func1(char *cmd, char *parms);
 static void armortype_cvar_func2(char *cmd, char *parms);
+static void autotilt_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
@@ -480,6 +481,8 @@ consolecmd_t consolecmds[] =
         "Toggles vertical autoaiming as the player fires\ntheir weapon while using mouselook."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame\nafter the player dies."),
+    CVAR_BOOL(autotilt, "", bool_cvars_func1, autotilt_cvar_func2, BOOLVALUEALIAS,
+        "Toggles automatically tilting the player's view\nwhen going up and down stairs."),
     CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically using a door or switch when\nthe player is nearby."),
     CMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
@@ -4944,6 +4947,23 @@ static void armortype_cvar_func2(char *cmd, char *parms)
 
         if (gamestate == GS_LEVEL)
             C_Output("It is currently set to <b>%s</b>.", C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS));
+    }
+}
+
+
+//
+// autotilt CVAR
+//
+static void autotilt_cvar_func2(char *cmd, char *parms)
+{
+    const dboolean  autotilt_old = autotilt;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (autotilt != autotilt_old)
+    {
+        R_InitSkyMap();
+        R_InitColumnFunctions();
     }
 }
 

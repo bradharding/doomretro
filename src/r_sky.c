@@ -101,7 +101,7 @@ void R_InitSkyMap(void)
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
-    if ((canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1) && !nomouselook)))
+    if ((canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt) && !nomouselook)))
     {
         int skyheight = textureheight[skytexture] >> FRACBITS;
 

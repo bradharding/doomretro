@@ -47,6 +47,10 @@
 #include "p_local.h"
 #include "s_sound.h"
 
+#define AUTOPITCHUNIT   50
+#define AUTOPITCHMAX    300
+
+dboolean        autotilt = autotilt_default;
 dboolean        autouse = autouse_default;
 dboolean        infighting = infighting_default;
 int             movebob = movebob_default;
@@ -234,7 +238,29 @@ void P_MovePlayer(void)
         }
     }
 
-    if (canmouselook)
+    if (autotilt)
+    {
+        sector_t    *sector = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector;
+
+        if (sector->floorheight > mo->subsector->sector->floorheight)
+            viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOPITCHUNIT, AUTOPITCHMAX);
+        else if (sector->floorheight < mo->subsector->sector->floorheight)
+            viewplayer->lookdir = MAX(-AUTOPITCHMAX, viewplayer->lookdir - AUTOPITCHUNIT);
+        else
+        {
+            if (viewplayer->lookdir > 0)
+            {
+                if ((viewplayer->lookdir -= AUTOPITCHUNIT) < AUTOPITCHUNIT)
+                    viewplayer->lookdir = 0;
+            }
+            else
+            {
+                if ((viewplayer->lookdir += AUTOPITCHUNIT) > -AUTOPITCHUNIT)
+                    viewplayer->lookdir = 0;
+            }
+        }
+    }
+    else if (canmouselook)
     {
         if (cmd->lookdir)
             viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
