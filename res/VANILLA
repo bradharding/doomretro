@@ -20,6 +20,7 @@ am_thingcolor 112
 am_tswallcolor 96
 am_wallcolor 176
 autoload off
+autotilt off
 autouse off
 centerweapon off
 facebackcolor none
