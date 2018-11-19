@@ -1,5 +1,6 @@
 ### DOOM Retro v2.8
 
+* The player’s view can now be automatically tilted when going up and down stairs by enabling the new `autotilt` CVAR. It is `off` by default and when vanilla mode is enabled.
 ---
 
 ###### Sunday, November 18, 2018
