@@ -47,8 +47,8 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define AUTOPITCHUNIT   50
-#define AUTOPITCHMAX    300
+#define AUTOPITCHUNIT   30
+#define AUTOPITCHMAX    200
 
 dboolean        autotilt = autotilt_default;
 dboolean        autouse = autouse_default;
@@ -240,11 +240,12 @@ void P_MovePlayer(void)
 
     if (autotilt)
     {
-        sector_t    *sector = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector;
+        fixed_t floorheight1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
+        fixed_t floorheight2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
 
-        if (sector->floorheight > mo->subsector->sector->floorheight)
+        if (floorheight1 > mo->subsector->sector->floorheight && floorheight2 > floorheight1)
             viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOPITCHUNIT, AUTOPITCHMAX);
-        else if (sector->floorheight < mo->subsector->sector->floorheight)
+        else if (floorheight1 < mo->subsector->sector->floorheight && floorheight2 < floorheight1)
             viewplayer->lookdir = MAX(-AUTOPITCHMAX, viewplayer->lookdir - AUTOPITCHUNIT);
         else
         {
