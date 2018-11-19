@@ -240,24 +240,30 @@ void P_MovePlayer(void)
 
     if (autotilt)
     {
-        fixed_t floorheight1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
-        fixed_t floorheight2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
-
-        if (floorheight1 > mo->subsector->sector->floorheight && floorheight2 > floorheight1)
-            viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOPITCHUNIT, AUTOPITCHMAX);
-        else if (floorheight1 < mo->subsector->sector->floorheight && floorheight2 < floorheight1)
-            viewplayer->lookdir = MAX(-AUTOPITCHMAX, viewplayer->lookdir - AUTOPITCHUNIT);
-        else
+        if (onground)
         {
-            if (viewplayer->lookdir > 0)
-            {
-                if ((viewplayer->lookdir -= AUTOPITCHUNIT) < AUTOPITCHUNIT)
-                    viewplayer->lookdir = 0;
-            }
+            fixed_t floorheight = mo->subsector->sector->floorheight;
+            fixed_t step1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
+            fixed_t step2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
+            int     delta1 = step1 - floorheight;
+            int     delta2 = step2 - step1;
+
+            if (delta1 > 0 && delta2 > 0)
+                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOPITCHUNIT, AUTOPITCHMAX);
+            else if (delta1 < 0 && delta2 < 0)
+                viewplayer->lookdir = MAX(-AUTOPITCHMAX, viewplayer->lookdir - AUTOPITCHUNIT);
             else
             {
-                if ((viewplayer->lookdir += AUTOPITCHUNIT) > -AUTOPITCHUNIT)
-                    viewplayer->lookdir = 0;
+                if (viewplayer->lookdir > 0)
+                {
+                    if ((viewplayer->lookdir -= AUTOPITCHUNIT) < AUTOPITCHUNIT)
+                        viewplayer->lookdir = 0;
+                }
+                else
+                {
+                    if ((viewplayer->lookdir += AUTOPITCHUNIT) > -AUTOPITCHUNIT)
+                        viewplayer->lookdir = 0;
+                }
             }
         }
     }
