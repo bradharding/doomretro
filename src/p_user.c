@@ -240,7 +240,7 @@ void P_MovePlayer(void)
         }
     }
 
-    if (autotilt)
+    if (autotilt && !mouselook)
     {
         if (onground)
         {
