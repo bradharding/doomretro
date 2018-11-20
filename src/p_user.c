@@ -47,8 +47,10 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define AUTOPITCHUNIT   30
-#define AUTOPITCHMAX    200
+#define AUTOTILTUNIT    10
+#define AUTOTILTMAX     200
+#define MINSTEPSIZE     (8 * FRACUNIT)
+#define MAXSTEPSIZE     (24 * FRACUNIT)
 
 dboolean        autotilt = autotilt_default;
 dboolean        autouse = autouse_default;
@@ -248,20 +250,20 @@ void P_MovePlayer(void)
             int     delta1 = step1 - floorheight;
             int     delta2 = step2 - step1;
 
-            if (delta1 > 0 && delta2 > 0)
-                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOPITCHUNIT, AUTOPITCHMAX);
-            else if (delta1 < 0 && delta2 < 0)
-                viewplayer->lookdir = MAX(-AUTOPITCHMAX, viewplayer->lookdir - AUTOPITCHUNIT);
+            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta2 >= MINSTEPSIZE && delta2 <= MAXSTEPSIZE)
+                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
+            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta2 >= -MAXSTEPSIZE && delta2 <= -MINSTEPSIZE)
+                viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
             else
             {
                 if (viewplayer->lookdir > 0)
                 {
-                    if ((viewplayer->lookdir -= AUTOPITCHUNIT) < AUTOPITCHUNIT)
+                    if ((viewplayer->lookdir -= AUTOTILTUNIT) < AUTOTILTUNIT)
                         viewplayer->lookdir = 0;
                 }
                 else
                 {
-                    if ((viewplayer->lookdir += AUTOPITCHUNIT) > -AUTOPITCHUNIT)
+                    if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
                         viewplayer->lookdir = 0;
                 }
             }
