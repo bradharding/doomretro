@@ -48,7 +48,7 @@
 #include "s_sound.h"
 
 #define AUTOTILTUNIT    10
-#define AUTOTILTMAX     200
+#define AUTOTILTMAX     300
 #define MINSTEPSIZE     (8 * FRACUNIT)
 #define MAXSTEPSIZE     (24 * FRACUNIT)
 
