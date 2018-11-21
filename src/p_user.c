@@ -250,9 +250,9 @@ void P_MovePlayer(void)
             int     delta1 = step1 - floorheight;
             int     delta2 = step2 - step1;
 
-            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta2 >= MINSTEPSIZE && delta2 <= MAXSTEPSIZE)
+            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
                 viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
-            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta2 >= -MAXSTEPSIZE && delta2 <= -MINSTEPSIZE)
+            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
                 viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
             else
             {
