@@ -193,6 +193,30 @@ void P_CalcHeight(void)
 }
 
 //
+// P_CheckForSteps
+//
+dboolean P_CheckForSteps(int width)
+{
+    fixed_t floorheight = viewplayer->mo->subsector->sector->floorheight;
+    fixed_t step1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector->floorheight;
+    fixed_t step2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector->floorheight;
+    int     delta1 = step1 - floorheight;
+    int     delta2 = step2 - step1;
+
+    if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
+    {
+        viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
+        return true;
+    }
+    else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
+    {
+        viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
+        return true;
+    }
+
+    return false;
+}
+
 // P_MovePlayer
 //
 void P_MovePlayer(void)
@@ -237,17 +261,7 @@ void P_MovePlayer(void)
 
     if (autotilt && !mouselook)
     {
-        fixed_t floorheight = mo->subsector->sector->floorheight;
-        fixed_t step1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
-        fixed_t step2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
-        int     delta1 = step1 - floorheight;
-        int     delta2 = step2 - step1;
-
-        if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
-            viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
-        else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
-            viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
-        else
+        if (!P_CheckForSteps(32) && !P_CheckForSteps(24))
         {
             if (viewplayer->lookdir > 0)
             {
