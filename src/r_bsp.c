@@ -37,11 +37,9 @@
 */
 
 #include <stdlib.h>
-#include <string.h>
 
 #include "doomstat.h"
 #include "m_bbox.h"
-#include "m_config.h"
 #include "r_main.h"
 #include "r_plane.h"
 #include "r_things.h"

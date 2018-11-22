@@ -40,8 +40,6 @@
 #include <Windows.h>
 #endif
 
-#include <ctype.h>
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -58,16 +56,16 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char            identification[4];
-    int             numlumps;
-    int             infotableofs;
+    char    identification[4];
+    int     numlumps;
+    int     infotableofs;
 } PACKEDATTR wadinfo_t;
 
 typedef struct
 {
-    int             filepos;
-    int             size;
-    char            name[8];
+    int     filepos;
+    int     size;
+    char    name[8];
 } PACKEDATTR filelump_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -75,10 +73,10 @@ typedef struct
 #endif
 
 // Location of each lump on disk.
-lumpinfo_t          **lumpinfo;
-int                 numlumps;
+lumpinfo_t  **lumpinfo;
+int         numlumps;
 
-extern char         *packagewad;
+extern char *packagewad;
 
 static dboolean IsFreedoom(const char *iwadname)
 {

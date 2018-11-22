@@ -39,7 +39,6 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_colors.h"
-#include "i_swap.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_menu.h"

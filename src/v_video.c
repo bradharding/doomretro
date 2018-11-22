@@ -36,15 +36,9 @@
 ========================================================================
 */
 
-#if defined(_WIN32)
-#pragma warning( disable : 4091 )
-#include <Shlobj.h>
-#endif
-
 #include "SDL_image.h"
 
 #include "c_console.h"
-#include "d_deh.h"
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_swap.h"
@@ -56,10 +50,8 @@
 #include "m_random.h"
 #include "r_draw.h"
 #include "r_main.h"
-#include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define BLACK   nearestcolors[0]
 #define WHITE   4

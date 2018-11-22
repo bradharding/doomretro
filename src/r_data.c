@@ -44,7 +44,6 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
-#include "p_tick.h"
 #include "r_sky.h"
 #include "sc_man.h"
 #include "w_wad.h"

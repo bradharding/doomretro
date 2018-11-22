@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"

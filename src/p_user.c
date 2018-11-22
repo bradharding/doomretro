@@ -197,10 +197,9 @@ void P_CalcHeight(void)
 //
 dboolean P_CheckForSteps(int width)
 {
-    fixed_t floorheight = viewplayer->mo->subsector->sector->floorheight;
     fixed_t step1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector->floorheight;
     fixed_t step2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector->floorheight;
-    int     delta1 = step1 - floorheight;
+    int     delta1 = step1 - viewplayer->mo->subsector->sector->floorheight;
     int     delta2 = step2 - step1;
 
     if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)

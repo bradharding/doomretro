@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "doomstat.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"

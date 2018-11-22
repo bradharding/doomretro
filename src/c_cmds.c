@@ -36,9 +36,7 @@
 ========================================================================
 */
 
-#include <ctype.h>
 #include <float.h>
-#include <stdio.h>
 
 #if defined(_WIN32)
 #include <Windows.h>
@@ -56,7 +54,6 @@
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "info.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"

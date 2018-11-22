@@ -44,7 +44,6 @@
 #include "p_local.h"
 #include "s_sound.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 // killough 2/8/98: Remove switch limit
 static int          *switchlist;        // killough

@@ -43,7 +43,6 @@
 #include "p_local.h"
 #include "r_sky.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define MAXVISPLANES    384
 

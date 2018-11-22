@@ -56,7 +56,6 @@
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 //
 // STATUS BAR DATA
