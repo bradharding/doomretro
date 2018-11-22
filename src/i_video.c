@@ -62,7 +62,6 @@
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define MAXDISPLAYS         8
 

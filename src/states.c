@@ -37,8 +37,6 @@
 */
 
 #include "d_player.h"
-#include "r_defs.h"
-#include "sounds.h"
 #include "states.h"
 
 void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp);

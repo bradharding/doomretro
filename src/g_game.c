@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <time.h>
-
 #if defined(_WIN32)
 #include <Windows.h>
 #endif
@@ -66,7 +64,6 @@
 #include "v_video.h"
 #include "w_wad.h"
 #include "wi_stuff.h"
-#include "z_zone.h"
 
 static void G_DoReborn(void);
 

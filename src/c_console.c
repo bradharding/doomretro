@@ -40,8 +40,6 @@
 #include <Windows.h>
 #endif
 
-#include <ctype.h>
-
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 
@@ -57,10 +55,8 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
-#include "m_random.h"
 #include "r_main.h"
 #include "s_sound.h"
-#include "sc_man.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"

@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "d_player.h"
 #include "info.h"
 #include "r_defs.h"
 #include "sounds.h"

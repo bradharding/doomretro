@@ -38,10 +38,6 @@
 
 #include <ctype.h>
 
-#if defined(_WIN32)
-#include <Windows.h>
-#endif
-
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
@@ -63,7 +59,6 @@
 #include "s_sound.h"
 #include "v_data.h"
 #include "v_video.h"
-#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

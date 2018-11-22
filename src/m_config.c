@@ -47,9 +47,7 @@
 #include "i_gamepad.h"
 #include "m_argv.h"
 #include "m_config.h"
-#include "m_fixed.h"
 #include "m_misc.h"
-#include "p_local.h"
 #include "version.h"
 
 static dboolean cvarsloaded;

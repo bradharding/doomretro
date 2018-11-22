@@ -36,11 +36,8 @@
 ========================================================================
 */
 
-#include "c_console.h"
 #include "i_colors.h"
 #include "i_swap.h"
-#include "m_config.h"
-#include "m_fixed.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

@@ -48,11 +48,8 @@
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_midirpc.h"
-#include "i_system.h"
 #include "m_argv.h"
 #include "m_config.h"
-#include "m_controls.h"
-#include "m_misc.h"
 #include "version.h"
 
 int windowborderwidth = 0;

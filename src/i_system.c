@@ -46,7 +46,6 @@ void I_ShutdownWindows32(void);
 
 #include "c_console.h"
 #include "d_main.h"
-#include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_timer.h"
 #include "m_config.h"

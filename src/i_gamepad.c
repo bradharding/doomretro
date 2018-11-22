@@ -37,11 +37,8 @@
 */
 
 #include "c_console.h"
-#include "d_main.h"
-#include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "m_config.h"
-#include "m_controls.h"
 #include "m_fixed.h"
 #include "m_misc.h"
 

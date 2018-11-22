@@ -39,14 +39,11 @@
 #include "SDL_mixer.h"
 
 #include "c_console.h"
-#include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
-#include "m_misc.h"
 #include "s_sound.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 typedef struct allocated_sound_s allocated_sound_t;
 

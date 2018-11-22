@@ -44,8 +44,6 @@
 #include "../midiproc/midiproc.h"
 
 #include "c_console.h"
-#include "doomstat.h"
-#include "doomtype.h"
 #include "i_timer.h"
 #include "m_misc.h"
 
