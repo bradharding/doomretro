@@ -38,7 +38,6 @@
 
 #include "doomstat.h"
 #include "i_system.h"
-#include "info.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "m_random.h"

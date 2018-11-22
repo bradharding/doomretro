@@ -1,6 +1,6 @@
 ### DOOM Retro v2.8
 
-* By enabling the new `autotilt` CVAR, the player’s view will automatically tilt when going up and down stairs. This CVAR is `off` both by default and when vanilla mode is enabled. It requires the `mouselook` CVAR to be `off`.
+* By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs. This CVAR is `off` both by default and when vanilla mode is enabled. It requires the `mouselook` CVAR to be `off`.
 
 ---
 

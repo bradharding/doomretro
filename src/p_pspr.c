@@ -36,14 +36,12 @@
 ========================================================================
 */
 
-#include "d_event.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_random.h"
-#include "p_inter.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"

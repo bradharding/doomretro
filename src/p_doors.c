@@ -37,7 +37,6 @@
 */
 
 #include "d_deh.h"
-#include "doomstat.h"
 #include "hu_stuff.h"
 #include "m_config.h"
 #include "m_misc.h"

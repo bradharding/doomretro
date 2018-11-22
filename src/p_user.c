@@ -40,10 +40,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
-#include "info.h"
 #include "m_config.h"
-#include "m_random.h"
-#include "p_inter.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -110,6 +107,8 @@ void P_CalcHeight(void)
 {
     mobj_t  *mo = viewplayer->mo;
 
+    viewplayer->viewz = mo->z + viewplayer->viewheight;
+
     if (viewplayer->playerstate == PST_LIVE)
     {
         // Regular movement bobbing
@@ -117,12 +116,10 @@ void P_CalcHeight(void)
         // even if not on ground)
         fixed_t momx = viewplayer->momx;
         fixed_t momy = viewplayer->momy;
-        fixed_t bob;
+        fixed_t bob = (MAXBOB * stillbob / 400) / 2;
 
         if (momx | momy)
-            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) / 2;
-        else
-            bob = (MAXBOB * stillbob / 400) / 2;
+            bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 200, bob);
 
         if (viewplayer->bouncemax)
         {
@@ -160,10 +157,8 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz = mo->z + viewplayer->viewheight + FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        viewplayer->viewz += FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
     }
-    else
-        viewplayer->viewz = mo->z + viewplayer->viewheight;
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
@@ -242,30 +237,27 @@ void P_MovePlayer(void)
 
     if (autotilt && !mouselook)
     {
-        if (onground)
-        {
-            fixed_t floorheight = mo->subsector->sector->floorheight;
-            fixed_t step1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
-            fixed_t step2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
-            int     delta1 = step1 - floorheight;
-            int     delta2 = step2 - step1;
+        fixed_t floorheight = mo->subsector->sector->floorheight;
+        fixed_t step1 = R_PointInSubsector(viewx + 32 * viewcos, viewy + 32 * viewsin)->sector->floorheight;
+        fixed_t step2 = R_PointInSubsector(viewx + 64 * viewcos, viewy + 64 * viewsin)->sector->floorheight;
+        int     delta1 = step1 - floorheight;
+        int     delta2 = step2 - step1;
 
-            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
-                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
-            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
-                viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
+        if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
+            viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
+        else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
+            viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
+        else
+        {
+            if (viewplayer->lookdir > 0)
+            {
+                if ((viewplayer->lookdir -= AUTOTILTUNIT) < AUTOTILTUNIT)
+                    viewplayer->lookdir = 0;
+            }
             else
             {
-                if (viewplayer->lookdir > 0)
-                {
-                    if ((viewplayer->lookdir -= AUTOTILTUNIT) < AUTOTILTUNIT)
-                        viewplayer->lookdir = 0;
-                }
-                else
-                {
-                    if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
-                        viewplayer->lookdir = 0;
-                }
+                if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
+                    viewplayer->lookdir = 0;
             }
         }
     }
@@ -606,14 +598,11 @@ void P_PlayerThink(void)
         mo->momz = JUMPHEIGHT;
         viewplayer->jumptics = 18;
     }
-
-    // Check for weapon change.
-
-    // A special event has no other buttons.
-    if (cmd->buttons & BT_SPECIAL)
+    else if (cmd->buttons & BT_SPECIAL)
+        // A special event has no other buttons.
         cmd->buttons = 0;
-
-    if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
+    else if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
+        // Check for weapon change.
         P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
     // check for use

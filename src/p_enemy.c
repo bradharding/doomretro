@@ -36,13 +36,10 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
-#include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
