@@ -51,6 +51,7 @@
 #include <pwd.h>
 #endif
 
+#include <ctype.h>
 #include <string.h>
 
 #include "doomdef.h"
