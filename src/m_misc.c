@@ -52,7 +52,11 @@
 #endif
 
 #include <ctype.h>
+#include <math.h>
+#include <stdarg.h>
 #include <string.h>
+
+#include "SDL.h"
 
 #include "doomdef.h"
 #include "m_misc.h"
