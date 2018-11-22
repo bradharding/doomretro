@@ -51,8 +51,12 @@
 #include <pwd.h>
 #endif
 
+#include <string.h>
+
 #include "doomdef.h"
 #include "m_misc.h"
+#include "version.h"
+#include "w_file.h"
 
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
