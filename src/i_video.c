@@ -819,7 +819,6 @@ void I_WindowResizeBlit(void)
 {
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
 
     if (nearestlinear)
     {
@@ -841,7 +840,6 @@ static void I_Blit(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -852,7 +850,6 @@ static void I_Blit_NearestLinear(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -867,7 +864,6 @@ static void I_Blit_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -879,7 +875,6 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -893,7 +888,6 @@ static void I_Blit_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
@@ -905,7 +899,6 @@ static void I_Blit_NearestLinear_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
@@ -921,7 +914,6 @@ static void I_Blit_ShowFPS_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
@@ -934,7 +926,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
@@ -947,7 +938,6 @@ void I_Blit_Automap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_RenderPresent(maprenderer);
 }
@@ -956,7 +946,6 @@ void I_Blit_Automap_NearestLinear(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_SetRenderTarget(maprenderer, NULL);
@@ -1677,6 +1666,14 @@ static void SetVideoMode(dboolean output)
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
 }
 
+static void I_ClearRenderer(void)
+{
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+}
+
 void I_ToggleWidescreen(dboolean toggle)
 {
     if (toggle)
@@ -1695,6 +1692,8 @@ void I_ToggleWidescreen(dboolean toggle)
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
     }
+
+    I_ClearRenderer();
 
     returntowidescreen = false;
     setsizeneeded = true;
@@ -1742,6 +1741,8 @@ void I_ToggleFullscreen(void)
 
     if (nearestlinear)
         I_UpdateBlitFunc(viewplayer && !!viewplayer->damagecount);
+
+    I_ClearRenderer();
 
     if (vid_fullscreen)
         C_StrCVAROutput(stringize(vid_fullscreen), "on");
