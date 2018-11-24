@@ -476,7 +476,7 @@ static void HU_DrawHUD(void)
             {
                 keypic_x -= SHORT(patch->width);
                 hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-                keypic_x -= 4;
+                keypic_x -= 5;
             }
 
     if (viewplayer->neededcardflash)
