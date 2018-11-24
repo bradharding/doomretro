@@ -1831,7 +1831,6 @@ void I_InitKeyboard(void)
 
 void I_InitGraphics(void)
 {
-    int         i = 0;
     SDL_Event   dummy;
     SDL_version linked;
     SDL_version compiled;
@@ -1849,8 +1848,8 @@ void I_InitGraphics(void)
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
-    while (i < UCHAR_MAX)
-        keys[i++] = true;
+    for (int i = 0; i < UCHAR_MAX; i++)
+        keys[i] = true;
 
     keys['v'] = keys['V'] = false;
     keys['s'] = keys['S'] = false;

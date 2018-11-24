@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <string.h>
+
 #include "SDL_image.h"
 
 #include "c_console.h"

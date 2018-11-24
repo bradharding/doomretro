@@ -1209,12 +1209,12 @@ void R_DrawColorSpan(void)
 void R_InitBuffer(int width, int height)
 {
     // Handle resize, e.g. smaller view windows with border and/or status bar.
-    viewwindowx = (SCREENWIDTH - width) >> 1;
+    viewwindowx = (SCREENWIDTH - width) / 2;
 
     // Same with base row offset.
-    viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) >> 1);
+    viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) / 2);
 
-    for (int y = 0, i; y < SCREENHEIGHT - SBARHEIGHT; y++)
+    for (int i, y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
     {
         i = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
         ylookup0[y] = screens[0] + i;
