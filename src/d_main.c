@@ -323,6 +323,10 @@ void D_Display(void)
         blitfunc();             // blit buffer
         mapblitfunc();
 
+        if (clearcount)
+            if (!--clearcount)
+                clearfunc = nullfunc;
+
 #if defined(_WIN32)
         if (CapFPSEvent)
             WaitForSingleObject(CapFPSEvent, 1000);

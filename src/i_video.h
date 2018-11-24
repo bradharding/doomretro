@@ -96,6 +96,11 @@ void I_WindowResizeBlit(void);
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
+extern void (*clearfunc)(void);
+extern int  clearcount;
+
+void nullfunc(void);
+
 extern dboolean     sendpause;
 extern dboolean     quitting;
 

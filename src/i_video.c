@@ -795,9 +795,12 @@ static void GetUpscaledTextureSize(int width, int height)
 }
 
 void (*blitfunc)(void);
-void (*clearfunc)(void);
 void (*mapblitfunc)(void);
-static void nullfunc(void) {}
+
+int clearcount = 0;
+void (*clearfunc)(void);
+
+void nullfunc(void) {}
 
 static uint64_t performancefrequency;
 uint64_t        starttime;
@@ -1705,9 +1708,7 @@ void I_ToggleWidescreen(dboolean toggle)
     }
 
     clearfunc = I_ClearRenderer;
-    blitfunc();
-    blitfunc();
-    clearfunc = nullfunc;
+    clearcount = 2;
 
     returntowidescreen = false;
     setsizeneeded = true;
@@ -1757,9 +1758,7 @@ void I_ToggleFullscreen(void)
         I_UpdateBlitFunc(viewplayer && !!viewplayer->damagecount);
 
     clearfunc = I_ClearRenderer;
-    blitfunc();
-    blitfunc();
-    clearfunc = nullfunc;
+    clearcount = 2;
 
     if (vid_fullscreen)
         C_StrCVAROutput(stringize(vid_fullscreen), "on");
