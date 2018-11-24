@@ -62,8 +62,8 @@ int         viewwindowx;
 int         viewwindowy;
 int         fuzztable[SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT)];
 
-static byte *topleft0[SCREENHEIGHT - SBARHEIGHT];
-static byte *topleft1[SCREENHEIGHT - SBARHEIGHT];
+static byte *ylookup0[SCREENHEIGHT - SBARHEIGHT];
+static byte *ylookup1[SCREENHEIGHT - SBARHEIGHT];
 
 static const byte redtoblue[] =
 {
@@ -163,7 +163,7 @@ extern int      fuzzpos;
 void R_DrawColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -180,7 +180,7 @@ void R_DrawColumn(void)
 void R_DrawColorColumn(void)
 {
     int         y = dc_yh - dc_yl + 1;
-    byte        *dest = *(topleft0 + dc_yl) + dc_x;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
     const byte  color = dc_colormap[0][NOTEXTURECOLOR];
 
     while (--y)
@@ -195,7 +195,7 @@ void R_DrawColorColumn(void)
 void R_DrawShadowColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (y == 1)
         *dest = *(*dest + dc_black25);
@@ -224,7 +224,7 @@ void R_DrawShadowColumn(void)
 void R_DrawFuzzyShadowColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3)))
         *dest = *(*dest + dc_black25);
@@ -244,7 +244,7 @@ void R_DrawFuzzyShadowColumn(void)
 void R_DrawSolidShadowColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     while (--y)
     {
@@ -258,7 +258,7 @@ void R_DrawSolidShadowColumn(void)
 void R_DrawSolidFuzzyShadowColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++]) || (!consoleactive && !freeze && !(M_Random() & 3)))
         *dest = dc_black;
@@ -278,7 +278,7 @@ void R_DrawSolidFuzzyShadowColumn(void)
 void R_DrawBloodSplatColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     while (--y)
     {
@@ -292,7 +292,7 @@ void R_DrawBloodSplatColumn(void)
 void R_DrawSolidBloodSplatColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
 
     while (--y)
     {
@@ -306,7 +306,7 @@ void R_DrawSolidBloodSplatColumn(void)
 void R_DrawWallColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             heightmask = dc_texheight - 1;
@@ -349,7 +349,7 @@ void R_DrawWallColumn(void)
 void R_DrawBrightMapWallColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
     fixed_t frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     fixed_t heightmask = dc_texheight - 1;
     byte    dot;
@@ -396,7 +396,7 @@ void R_DrawBrightMapWallColumn(void)
 void R_DrawPlayerSpriteColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
-    byte    *dest = *(topleft1 + dc_yl) + dc_x;
+    byte    *dest = ylookup1[dc_yl] + dc_x;
     fixed_t frac = dc_texturefrac;
 
     while (--y)
@@ -412,7 +412,7 @@ void R_DrawPlayerSpriteColumn(void)
 void R_DrawSuperShotgunColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -433,7 +433,7 @@ void R_DrawSuperShotgunColumn(void)
 void R_DrawTranslucentSuperShotgunColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -454,7 +454,7 @@ void R_DrawTranslucentSuperShotgunColumn(void)
 void R_DrawSkyColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -514,7 +514,7 @@ void R_DrawSkyColumn(void)
 void R_DrawFlippedSkyColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             i;
@@ -532,7 +532,7 @@ void R_DrawFlippedSkyColumn(void)
 void R_DrawSkyColorColumn(void)
 {
     int         y = dc_yh - dc_yl + 1;
-    byte        *dest = *(topleft0 + dc_yl) + dc_x;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
     const byte  color = dc_colormap[0][r_skycolor];
 
     while (--y)
@@ -547,7 +547,7 @@ void R_DrawSkyColorColumn(void)
 void R_DrawRedToBlueColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -564,7 +564,7 @@ void R_DrawRedToBlueColumn(void)
 void R_DrawTranslucentRedToBlue33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -581,7 +581,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
 void R_DrawRedToGreenColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -598,7 +598,7 @@ void R_DrawRedToGreenColumn(void)
 void R_DrawTranslucentRedToGreen33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -615,7 +615,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
 void R_DrawTranslucentColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -632,7 +632,7 @@ void R_DrawTranslucentColumn(void)
 void R_DrawTranslucent50Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac + SPARKLEFIX;
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const lighttable_t  *colormap = dc_colormap[0];
@@ -650,7 +650,7 @@ void R_DrawTranslucent50Column(void)
 void R_DrawTranslucentColor50Column(void)
 {
     int         y = dc_yh - dc_yl + 1;
-    byte        *dest = *(topleft0 + dc_yl) + dc_x;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
     const byte  color = dc_colormap[0][NOTEXTURECOLOR];
 
     while (--y)
@@ -665,7 +665,7 @@ void R_DrawTranslucentColor50Column(void)
 void R_DrawDitheredColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac + SPARKLEFIX;
     const fixed_t       fracstep = (dc_iscale << 1) - SPARKLEFIX;
     const lighttable_t  *colormap = dc_colormap[0];
@@ -690,7 +690,7 @@ void R_DrawDitheredColumn(void)
 void R_DrawDitheredColorColumn(void)
 {
     int         y = dc_yh - dc_yl + 1;
-    byte        *dest = *(topleft0 + dc_yl) + dc_x;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
     const byte  color = dc_colormap[0][NOTEXTURECOLOR];
 
     if ((dc_yl ^ dc_x) & 1)
@@ -711,7 +711,7 @@ void R_DrawDitheredColorColumn(void)
 void R_DrawTranslucent33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -728,7 +728,7 @@ void R_DrawTranslucent33Column(void)
 void R_DrawMegaSphereColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -745,7 +745,7 @@ void R_DrawMegaSphereColumn(void)
 void R_DrawSolidMegaSphereColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -762,7 +762,7 @@ void R_DrawSolidMegaSphereColumn(void)
 void R_DrawTranslucentRedColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -779,7 +779,7 @@ void R_DrawTranslucentRedColumn(void)
 void R_DrawTranslucentRedWhiteColumn1(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -796,7 +796,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 void R_DrawTranslucentRedWhiteColumn2(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -813,7 +813,7 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 void R_DrawTranslucentRedWhite50Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -830,7 +830,7 @@ void R_DrawTranslucentRedWhite50Column(void)
 void R_DrawTranslucentGreenColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -847,7 +847,7 @@ void R_DrawTranslucentGreenColumn(void)
 void R_DrawTranslucentBlueColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -864,7 +864,7 @@ void R_DrawTranslucentBlueColumn(void)
 void R_DrawTranslucentRed33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -881,7 +881,7 @@ void R_DrawTranslucentRed33Column(void)
 void R_DrawTranslucentGreen33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -898,7 +898,7 @@ void R_DrawTranslucentGreen33Column(void)
 void R_DrawTranslucentBlue25Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -921,7 +921,7 @@ const int       fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
     int     y = dc_yh - dc_yl;
 
     if (!y)
@@ -954,7 +954,7 @@ void R_DrawFuzzColumn(void)
 
 void R_DrawPausedFuzzColumn(void)
 {
-    byte    *dest = *(topleft0 + dc_yl) + dc_x;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
     int     y = dc_yh - dc_yl;
 
     if (!y)
@@ -1102,7 +1102,7 @@ byte    *translationtables;
 void R_DrawTranslatedColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = *(topleft0 + dc_yl) + dc_x;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -1177,7 +1177,7 @@ byte            *ds_source;
 void R_DrawSpan(void)
 {
     int     x = ds_x2 - ds_x1 + 1;
-    byte    *dest = *(topleft0 + ds_y) + ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
     fixed_t xfrac = ds_xfrac;
     fixed_t yfrac = ds_yfrac;
 
@@ -1194,7 +1194,7 @@ void R_DrawSpan(void)
 void R_DrawColorSpan(void)
 {
     int         x = ds_x2 - ds_x1 + 1;
-    byte        *dest = *(topleft0 + ds_y) + ds_x1;
+    byte        *dest = ylookup0[ds_y] + ds_x1;
     const byte  color = ds_colormap[NOTEXTURECOLOR];
 
     while (--x)
@@ -1214,10 +1214,11 @@ void R_InitBuffer(int width, int height)
     // Same with base row offset.
     viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) >> 1);
 
-    for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
+    for (int y = 0, i; y < SCREENHEIGHT - SBARHEIGHT; y++)
     {
-        topleft0[y] = screens[0] + (viewwindowy + y) * SCREENWIDTH + viewwindowx;
-        topleft1[y] = screens[1] + (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+        i = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+        ylookup0[y] = screens[0] + i;
+        ylookup1[y] = screens[1] + i;
     }
 
     for (int x = 0; x < SCREENWIDTH; x++)
