@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "m_config.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -551,6 +552,42 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
     return rtn;
 }
 
+static void P_CheckLiquidSector(sector_t *sector)
+{
+    dboolean    isliquidsector;
+
+    sector->terraintype = terraintypes[sector->floorpic];
+
+    if ((isliquidsector = (sector->terraintype != SOLID)))
+    {
+        bloodsplat_t    *splat = sector->splatlist;
+
+        while (splat)
+        {
+            bloodsplat_t    *next = splat->snext;
+
+            P_UnsetBloodSplatPosition(splat);
+            r_bloodsplats_total--;
+            splat = next;
+        }
+    }
+    else
+    {
+        sector->floor_xoffs = 0;
+        sector->floor_yoffs = 0;
+    }
+
+    for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
+    {
+        mobj_t  *thing = node->m_thing;
+
+        if (isliquidsector && (thing->flags2 & MF2_FOOTCLIP) && !(thing->flags & MF_SPAWNCEILING))
+            thing->flags2 |= MF2_FEETARECLIPPED;
+        else
+            thing->flags2 &= ~MF2_FEETARECLIPPED;
+    }
+}
+
 //
 // EV_DoChange()
 //
@@ -580,16 +617,16 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
         {
             case trigChangeOnly:
                 sec->floorpic = line->frontsector->floorpic;
-                P_ChangeSector(sec, false);
                 sec->special = line->frontsector->special;
+                P_CheckLiquidSector(sec);
                 break;
 
             case numChangeOnly:
                 if ((secm = P_FindModelFloorSector(sec->floorheight, secnum)))  // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;
-                    P_ChangeSector(sec, false);
                     sec->special = secm->special;
+                    P_CheckLiquidSector(sec);
                 }
 
                 break;
