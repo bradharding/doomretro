@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <string.h>
+
 #include "doomtype.h"
 #include "i_video.h"
 #include "m_config.h"
