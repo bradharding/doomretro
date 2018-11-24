@@ -327,7 +327,7 @@ enum
 
 #define autoload_default                        true
 
-#define autotilt_default                        true
+#define autotilt_default                        false
 
 #define autouse_default                         false
 
