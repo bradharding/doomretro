@@ -5477,7 +5477,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 //
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
-    if (vid_widescreen || !*parms)
+    if (vid_widescreen || !*parms || resettingcvar)
         bool_cvars_func2(cmd, parms);
 }
 
