@@ -229,7 +229,7 @@ void T_MoveFloor(floormove_t *floor)
 
                 case genFloorChg:
                     sec->floorpic = floor->texture;
-                    P_ChangeSector(sec, false);
+                    P_CheckTerrainType(sec);
                     break;
 
                 default:
@@ -248,7 +248,7 @@ void T_MoveFloor(floormove_t *floor)
 
                 case genFloorChg:
                     sec->floorpic = floor->texture;
-                    P_ChangeSector(sec, false);
+                    P_CheckTerrainType(sec);
                     break;
 
                 default:
@@ -478,6 +478,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 else
                     sec->floorpic = line->frontsector->floorpic;
 
+                P_CheckTerrainType(sec);
                 sec->special = line->frontsector->special;
                 break;
 
@@ -552,39 +553,42 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
     return rtn;
 }
 
-static void P_CheckLiquidSector(sector_t *sector)
+void P_CheckTerrainType(sector_t *sector)
 {
-    dboolean    isliquidsector;
+    terraintype_t   oldterraintype = sector->terraintype;
 
-    sector->terraintype = terraintypes[sector->floorpic];
-
-    if ((isliquidsector = (sector->terraintype != SOLID)))
+    if ((sector->terraintype = terraintypes[sector->floorpic]) != oldterraintype)
     {
-        bloodsplat_t    *splat = sector->splatlist;
+        dboolean    isliquid = (sector->terraintype != SOLID);
 
-        while (splat)
+        if (isliquid)
         {
-            bloodsplat_t    *next = splat->snext;
+            bloodsplat_t    *splat = sector->splatlist;
 
-            P_UnsetBloodSplatPosition(splat);
-            r_bloodsplats_total--;
-            splat = next;
+            while (splat)
+            {
+                bloodsplat_t    *next = splat->snext;
+
+                P_UnsetBloodSplatPosition(splat);
+                r_bloodsplats_total--;
+                splat = next;
+            }
         }
-    }
-    else
-    {
-        sector->floor_xoffs = 0;
-        sector->floor_yoffs = 0;
-    }
-
-    for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
-    {
-        mobj_t  *thing = node->m_thing;
-
-        if (isliquidsector && (thing->flags2 & MF2_FOOTCLIP) && !(thing->flags & MF_SPAWNCEILING))
-            thing->flags2 |= MF2_FEETARECLIPPED;
         else
-            thing->flags2 &= ~MF2_FEETARECLIPPED;
+        {
+            sector->floor_xoffs = 0;
+            sector->floor_yoffs = 0;
+        }
+
+        for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
+        {
+            mobj_t  *thing = node->m_thing;
+
+            if (isliquid && !(thing->flags & MF_SPAWNCEILING) && (thing->flags2 & MF2_FOOTCLIP))
+                thing->flags2 |= MF2_FEETARECLIPPED;
+            else
+                thing->flags2 &= ~MF2_FEETARECLIPPED;
+        }
     }
 }
 
@@ -617,16 +621,16 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
         {
             case trigChangeOnly:
                 sec->floorpic = line->frontsector->floorpic;
+                P_CheckTerrainType(sec);
                 sec->special = line->frontsector->special;
-                P_CheckLiquidSector(sec);
                 break;
 
             case numChangeOnly:
                 if ((secm = P_FindModelFloorSector(sec->floorheight, secnum)))  // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;
+                    P_CheckTerrainType(sec);
                     sec->special = secm->special;
-                    P_CheckLiquidSector(sec);
                 }
 
                 break;

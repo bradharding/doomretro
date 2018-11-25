@@ -201,6 +201,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
             case raiseToNearestAndChange:
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
+                P_CheckTerrainType(sec);
                 plat->high = P_FindNextHighestFloor(sec, sec->floorheight);
                 plat->status = up;
                 sec->special = 0;
@@ -210,6 +211,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
             case raiseAndChange:
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
+                P_CheckTerrainType(sec);
                 plat->high = sec->floorheight + amount * FRACUNIT;
                 plat->status = up;
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);

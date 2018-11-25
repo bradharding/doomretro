@@ -1961,7 +1961,6 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean vertical)
 //
 static dboolean crushchange;
 static dboolean nofit;
-static dboolean isliquidsector;
 
 //
 // PIT_ChangeSector
@@ -1969,18 +1968,12 @@ static dboolean isliquidsector;
 static void PIT_ChangeSector(mobj_t *thing)
 {
     int flags = thing->flags;
-    int flags2 = thing->flags2;
-
-    if (isliquidsector && (flags2 & MF2_FOOTCLIP) && !(flags & MF_SPAWNCEILING))
-        thing->flags2 |= MF2_FEETARECLIPPED;
-    else
-        thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     if (P_ThingHeightClip(thing))
         return;         // keep checking
 
     // crunch bodies to giblets
-    if (thing->health <= 0 && (flags2 & MF2_CRUSHABLE))
+    if (thing->health <= 0 && (thing->flags2 & MF2_CRUSHABLE))
     {
         if (thing->player)
         {
@@ -2076,26 +2069,6 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 
     nofit = false;
     crushchange = crunch;
-    sector->terraintype = terraintypes[sector->floorpic];
-
-    if ((isliquidsector = (sector->terraintype != SOLID)))
-    {
-        bloodsplat_t    *splat = sector->splatlist;
-
-        while (splat)
-        {
-            bloodsplat_t    *next = splat->snext;
-
-            P_UnsetBloodSplatPosition(splat);
-            r_bloodsplats_total--;
-            splat = next;
-        }
-    }
-    else
-    {
-        sector->floor_xoffs = 0;
-        sector->floor_yoffs = 0;
-    }
 
     // Mark all things invalid
     for (n = sector->touching_thinglist; n; n = n->m_snext)
