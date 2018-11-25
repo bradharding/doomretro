@@ -1413,7 +1413,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
             if (output)
-                C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
+                C_Output("Staying at the native desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
                     commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""), ratio);
         }
         else
