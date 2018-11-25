@@ -1253,60 +1253,12 @@ void GetScreenResolution(void)
     }
 }
 
-static const resolution_t resolutions[] =
-{
-    {  960,  640, "DVGA",   "3:2"   }, {  960,  720, "",       "4:3"   }, { 1024,  640, "",       "16:10" },
-    { 1024,  768, "XGA",    "4:3"   }, { 1136,  640, "",       "16:9"  }, { 1152,  720, "",       "3:2"   },
-    { 1152,  768, "WXGA",   "3:2"   }, { 1152,  864, "XGA+",   "4:3"   }, { 1280,  720, "WXGA",   "16:9"  },
-    { 1280,  768, "WXGA",   "5:3"   }, { 1280,  800, "WXGA",   "16:10" }, { 1280,  864, "",       "3:2"   },
-    { 1280,  960, "SXGA-",  "4:3"   }, { 1280, 1024, "SXGA",   "5:4"   }, { 1360,  768, "FWXGA",  "16:9"  },
-    { 1366,  768, "FWXGA",  "16:9"  }, { 1400, 1050, "SXGA+",  "4:3"   }, { 1440,  900, "WXGA+",  "16:10" },
-    { 1440,  960, "FWXGA+", "3:2"   }, { 1600,  900, "HD+",    "16:9"  }, { 1600, 1024, "WSXGA",  "3:2"   },
-    { 1600, 1200, "UXGA",   "4:3"   }, { 1680, 1050, "WSXGA+", "16:10" }, { 1792, 1344, "",       "4:3"   },
-    { 1856, 1392, "",       "4:3"   }, { 1920, 1080, "FHD",    "16:9"  }, { 1920, 1200, "WUXGA",  "16:10" },
-    { 1920, 1280, "",       "3:2"   }, { 1920, 1440, "",       "4:3"   }, { 2048, 1152, "QWXGA",  "16:9"  },
-    { 2048, 1536, "QXGA",   "4:3"   }, { 2160, 1440, "",       "3:2"   }, { 2560, 1080, "",       "21:9"  },
-    { 2560, 1440, "QHD",    "16:9", }, { 2560, 1600, "WQXGA",  "16:10" }, { 2560, 1920, "",       "4:3"   },
-    { 2560, 2048, "QSXGA",  "5:4"   }, { 2880, 1620, "",       "16:9"  }, { 2880, 1800, "",       "16:10" },
-    { 3200, 1800, "WQXGA+", "16:9"  }, { 3200, 2048, "WQSXGA", "25:16" }, { 3200, 2400, "QUXGA",  "4:3"   },
-    { 3440, 1440, "",       "21:9"  }, { 3840, 2160, "UHD",    "16:9"  }, { 3840, 2400, "WQUXGA", "16:10" },
-    { 4096, 2160, "DCI",    "19:10" }, { 4096, 2560, "4K",     "16:10" }, { 4096, 3072, "HXGA",   "4:3"   },
-    { 5120, 2160, "4K",     "21:9"  }, { 5120, 2880, "UHD+",   "16:9"  }, { 5120, 3200, "WHXGA",  "16:10" },
-    { 5120, 4096, "HSXGA",  "5:4"   }, { 5760, 3240, "",       "16:9"  }, { 6400, 4096, "WHSXGA", "25:16" },
-    { 6400, 4800, "",       "4:3"   }, { 7680, 4320, "FUHD",   "16:9"  }, { 7680, 4800, "WHUXGA", "16:10" },
-    { 8192, 5120, "FUHD",   "16:10" }, {    0,    0, "",       ""      }
-};
-
-static char *getacronym(int width, int height)
-{
-    int i = 0;
-
-    while (resolutions[i].width)
-    {
-        if (width == resolutions[i].width && height == resolutions[i].height)
-            return resolutions[i].acronym;
-
-        i++;
-    }
-
-    return "";
-}
-
 static char *getaspectratio(int width, int height)
 {
     int         i = 0;
-    int         hcf;
+    int         hcf = gcd(width, height);
     static char ratio[10];
 
-    while (resolutions[i].width)
-    {
-        if (width == resolutions[i].width && height == resolutions[i].height)
-            return resolutions[i].aspectratio;
-
-        i++;
-    }
-
-    hcf = gcd(width, height);
     width /= hcf;
     height /= hcf;
 
@@ -1399,36 +1351,32 @@ static void SetVideoMode(dboolean output)
 
     if (vid_fullscreen)
     {
-        char    *acronym;
         char    *ratio;
 
         if (!screenwidth && !screenheight)
         {
             width = displays[displayindex].w;
             height = displays[displayindex].h;
-            acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
             if (output)
-                C_Output("Staying at the native desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""), ratio);
+                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.",
+                    commify(width), commify(height), ratio);
         }
         else
         {
             width = screenwidth;
             height = screenheight;
-            acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
             if (output)
-                C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""), ratio);
+                C_Output("Switched to a resolution of %s\xD7%s with a %s aspect ratio.", commify(width), commify(height), ratio);
         }
     }
     else
