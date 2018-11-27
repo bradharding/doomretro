@@ -511,7 +511,7 @@ void P_PlayerThink(void)
 
     if (menuactive)
     {
-        mo->angle -= ANG1 / 4;
+        mo->angle -= ANG1 / 32;
         return;
     }
 
