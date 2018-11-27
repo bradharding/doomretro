@@ -179,12 +179,12 @@ static void P_RunThinkers(void)
 //
 void P_Ticker(void)
 {
-    if (paused || menuactive)
+    if (paused)
         return;
 
     P_PlayerThink();
 
-    if (consoleactive)
+    if (menuactive || consoleactive)
         return;
 
     P_MapEnd();

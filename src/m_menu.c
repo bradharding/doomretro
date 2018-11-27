@@ -117,6 +117,8 @@ static menu_t   *currentMenu;
 
 dboolean        blurred;
 
+static angle_t  playerangle;
+
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
 
@@ -487,27 +489,21 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    byte        tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
     height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    if (!blurred)
+    BlurScreen(screens[0], tempscreen, blurscreen1);
+
+    for (int i = 0; i < height; i++)
+        blurscreen1[i] = tinttab50[blurscreen1[i]];
+
+    if (mapwindow)
     {
-        byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
+        BlurScreen(mapscreen, tempscreen, blurscreen2);
 
-        BlurScreen(screens[0], tempscreen, blurscreen1);
-
-        for (int i = 0; i < height; i++)
-            blurscreen1[i] = tinttab50[blurscreen1[i]];
-
-        if (mapwindow)
-        {
-            BlurScreen(mapscreen, tempscreen, blurscreen2);
-
-            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                blurscreen2[i] = tinttab50[blurscreen2[i]];
-        }
-
-        blurred = true;
+        for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
+            blurscreen2[i] = tinttab50[blurscreen2[i]];
     }
 
     memcpy(screens[0], blurscreen1, height);
@@ -3430,6 +3426,9 @@ void M_StartControlPanel(void)
 
     if (vid_motionblur)
         I_SetMotionBlur(0);
+
+    if (viewplayer->mo)
+        playerangle = viewplayer->mo->angle;
 }
 
 //
@@ -3608,6 +3607,9 @@ void M_ClearMenus(void)
 
     if (gamestate == GS_LEVEL)
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+
+    if (viewplayer->mo)
+        viewplayer->mo->angle = playerangle;
 }
 
 //

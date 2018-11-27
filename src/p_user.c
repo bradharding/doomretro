@@ -509,6 +509,14 @@ void P_PlayerThink(void)
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
+    if (menuactive)
+    {
+        mo->angle -= ANG1 / 4;
+        return;
+    }
+
+    cmd = &viewplayer->cmd;
+
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;
 
