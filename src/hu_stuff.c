@@ -926,7 +926,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (vid_widescreen && r_hud)
+        if (vid_widescreen && r_hud && !menuactive)
         {
             if (r_althud)
                 HU_DrawAltHUD();

@@ -1362,6 +1362,6 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    if (r_playersprites && !inhelpscreens)
+    if (r_playersprites && !inhelpscreens && !menuactive)
         R_DrawPlayerSprites();
 }

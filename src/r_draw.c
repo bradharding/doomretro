@@ -62,8 +62,8 @@ int         viewwindowx;
 int         viewwindowy;
 int         fuzztable[SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT)];
 
-static byte *ylookup0[SCREENHEIGHT - SBARHEIGHT];
-static byte *ylookup1[SCREENHEIGHT - SBARHEIGHT];
+static byte *ylookup0[SCREENHEIGHT];
+static byte *ylookup1[SCREENHEIGHT];
 
 static const byte redtoblue[] =
 {
@@ -1214,7 +1214,7 @@ void R_InitBuffer(int width, int height)
     // Same with base row offset.
     viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) / 2);
 
-    for (int i, y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
+    for (int i, y = 0; y < SCREENHEIGHT; y++)
     {
         i = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
         ylookup0[y] = screens[0] + i;

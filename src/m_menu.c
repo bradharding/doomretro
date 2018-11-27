@@ -118,7 +118,7 @@ static menu_t   *currentMenu;
 dboolean        blurred;
 
 static angle_t  playerangle;
-int             menuspindirection;
+int             spindirection;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
@@ -3428,10 +3428,13 @@ void M_StartControlPanel(void)
     if (vid_motionblur)
         I_SetMotionBlur(0);
 
-    if (viewplayer->mo)
+    if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
-        menuspindirection = (M_RandomInt(0, 1) == 0 ? -1 : 1);
+        spindirection = (M_RandomInt(0, 1) == 0 ? -1 : 1);
+
+        if (!vid_widescreen && !automapactive && !inhelpscreens)
+            R_SetViewSize(8);
     }
 }
 
@@ -3612,8 +3615,13 @@ void M_ClearMenus(void)
     if (gamestate == GS_LEVEL)
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
 
-    if (viewplayer->mo)
+    if (gamestate == GS_LEVEL)
+    {
         viewplayer->mo->angle = playerangle;
+
+        if (!vid_widescreen && !automapactive && !inhelpscreens)
+            R_SetViewSize(r_screensize);
+    }
 }
 
 //

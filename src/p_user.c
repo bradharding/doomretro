@@ -41,6 +41,7 @@
 #include "g_game.h"
 #include "i_gamepad.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -66,7 +67,7 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
-extern int      menuspindirection;
+extern int      spindirection;
 
 void G_RemoveChoppers(void);
 
@@ -510,9 +511,9 @@ void P_PlayerThink(void)
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
-    if (menuactive)
+    if (menuactive && !inhelpscreens)
     {
-        mo->angle += ANG1 / 32 * menuspindirection;
+        mo->angle += ANG1 / 32 * spindirection;
         return;
     }
 
