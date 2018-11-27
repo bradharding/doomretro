@@ -118,6 +118,7 @@ static menu_t   *currentMenu;
 dboolean        blurred;
 
 static angle_t  playerangle;
+int             menuspindirection;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
@@ -3428,7 +3429,10 @@ void M_StartControlPanel(void)
         I_SetMotionBlur(0);
 
     if (viewplayer->mo)
+    {
         playerangle = viewplayer->mo->angle;
+        menuspindirection = (M_RandomInt(0, 1) == 0 ? -1 : 1);
+    }
 }
 
 //

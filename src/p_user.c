@@ -66,6 +66,7 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
+extern int      menuspindirection;
 
 void G_RemoveChoppers(void);
 
@@ -511,7 +512,7 @@ void P_PlayerThink(void)
 
     if (menuactive)
     {
-        mo->angle -= ANG1 / 32;
+        mo->angle += ANG1 / 32 * menuspindirection;
         return;
     }
 
