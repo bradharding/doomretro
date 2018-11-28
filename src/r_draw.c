@@ -60,7 +60,7 @@ int         scaledviewwidth;
 int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
-int         fuzztable[SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT)];
+int         fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
 static byte *ylookup0[SCREENHEIGHT];
 static byte *ylookup1[SCREENHEIGHT];
@@ -1224,12 +1224,12 @@ void R_InitBuffer(int width, int height)
     for (int x = 0; x < SCREENWIDTH; x++)
         fuzztable[x] = FUZZ(0, 1);
 
-    for (int y = 1; y < SCREENHEIGHT - SBARHEIGHT - 1; y++)
+    for (int y = 1; y < SCREENHEIGHT - 1; y++)
         for (int x = 0; x < SCREENWIDTH; x++)
             fuzztable[y * SCREENWIDTH + x] = FUZZ(-1, 1);
 
     for (int x = 0; x < SCREENWIDTH; x++)
-        fuzztable[SCREENHEIGHT - SBARHEIGHT - 1 + x] = FUZZ(-1, 0);
+        fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
 }
 
 //
