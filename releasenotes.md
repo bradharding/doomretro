@@ -1,6 +1,7 @@
 ### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* If the menu is opened while playing a game, the status bar or widescreen HUD will now be hidden, along with the player’s weapon, and the player’s view will slowly rotate left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is `off` by default and `off` when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
 * The `r_hud` CVAR will now be reset correctly when using the `reset` or `resetall` CCMDs while no game is being played.
