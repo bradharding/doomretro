@@ -164,30 +164,18 @@ void P_CalcHeight(void)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        dboolean    liquid = true;
-
-        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (seclist->m_sector->terraintype == SOLID)
-            {
-                liquid = false;
-                break;
-            }
-
-        if (liquid)
+        if (viewplayer->playerstate == PST_DEAD)
         {
-            if (viewplayer->playerstate == PST_DEAD)
-            {
-                if (r_liquid_bob)
-                    viewplayer->viewz += animatedliquiddiff;
-            }
-            else if (r_liquid_lowerview)
-            {
-                sector_t    *sector = mo->subsector->sector;
+            if (r_liquid_bob)
+                viewplayer->viewz += animatedliquiddiff;
+        }
+        else if (r_liquid_lowerview)
+        {
+            sector_t    *sector = mo->subsector->sector;
 
-                if (!P_IsSelfReferencingSector(sector)
-                    && (!sector->heightsec || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
-                    viewplayer->viewz -= FOOTCLIPSIZE;
-            }
+            if (!P_IsSelfReferencingSector(sector)
+                && (!sector->heightsec || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
+                viewplayer->viewz -= FOOTCLIPSIZE;
         }
     }
 

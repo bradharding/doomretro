@@ -573,10 +573,6 @@ void P_MobjThinker(mobj_t *mobj)
             return;
     }
 
-    // [BH] don't clip sprite if no longer in liquid
-    if (sector->terraintype == SOLID)
-        mobj->flags2 &= ~MF2_FEETARECLIPPED;
-
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
         && !sector->heightsec && r_liquid_bob)
