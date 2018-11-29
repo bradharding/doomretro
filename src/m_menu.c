@@ -3604,6 +3604,9 @@ void M_Drawer(void)
 //
 void M_ClearMenus(void)
 {
+    if (!menuactive)
+        return;
+
     menuactive = false;
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
