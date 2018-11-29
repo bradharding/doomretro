@@ -8,6 +8,7 @@
 * Keycards and skull keys in the widescreen HUD are now spaced slightly further apart.
 * *DOOM Retro* will no longer hang when the player crosses a line with a *BOOM*-compatible special action of 154 (“WR Change Texture and Effect”) or 240 (“WR Change Texture and Effect to Nearest”).
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
+* Minor improvements have been made to the cast sequence at the end of *DOOM II*.
 
 ---
 

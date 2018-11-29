@@ -480,7 +480,7 @@ static void F_StartCast(void)
     S_ChangeMusic(mus_evil, true, false, false);
 
     if (mobjinfo[castordertype[castnum]].seesound)
-        S_StartSound(NULL, mobjinfo[castordertype[castnum]].seesound);
+        S_StartSound(NULL, F_RandomizeSound(mobjinfo[castordertype[castnum]].seesound));
 }
 
 //
