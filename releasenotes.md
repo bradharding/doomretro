@@ -7,6 +7,7 @@
 * The `r_hud` CVAR will now be reset correctly when using the `reset` or `resetall` CCMDs while no game is being played.
 * Keycards and skull keys in the widescreen HUD are now spaced slightly further apart.
 * *DOOM Retro* will no longer hang when the player crosses a line with a *BOOM*-compatible special action of 154 (“WR Change Texture and Effect”) or 240 (“WR Change Texture and Effect to Nearest”).
+* Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 
 ---
 
