@@ -423,6 +423,39 @@ static dboolean castattacking;
 
 dboolean        firstevent;
 
+// [crispy] randomize seestate and deathstate sounds in the cast
+static int F_RandomizeSound(int sound)
+{
+    switch (sound)
+    {
+        case sfx_posit1:
+        case sfx_posit2:
+        case sfx_posit3:
+            return sfx_posit1 + M_Random() % 3;
+            break;
+
+        case sfx_bgsit1:
+        case sfx_bgsit2:
+            return sfx_bgsit1 + M_Random() % 2;
+            break;
+
+        case sfx_podth1:
+        case sfx_podth2:
+        case sfx_podth3:
+            return sfx_podth1 + M_Random() % 3;
+            break;
+
+        case sfx_bgdth1:
+        case sfx_bgdth2:
+            return sfx_bgdth1 + M_Random() % 2;
+            break;
+
+        default:
+            return sound;
+            break;
+    }
+}
+
 //
 // F_StartCast
 //
@@ -468,7 +501,7 @@ static void F_CastTicker(void)
             castnum = 0;
 
         if (mobjinfo[castordertype[castnum]].seesound)
-            S_StartSound(NULL, mobjinfo[castordertype[castnum]].seesound);
+            S_StartSound(NULL, F_RandomizeSound(mobjinfo[castordertype[castnum]].seesound));
 
         caststate = &states[mobjinfo[castordertype[castnum]].seestate];
         castframes = 0;
@@ -695,7 +728,7 @@ static dboolean F_CastResponder(event_t *ev)
     castattacking = false;
 
     if (mobjinfo[type].deathsound)
-        S_StartSound(NULL, mobjinfo[type].deathsound);
+        S_StartSound(NULL, F_RandomizeSound(mobjinfo[type].deathsound));
 
     return true;
 }
