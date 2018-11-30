@@ -488,21 +488,28 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-    byte        tempscreen[SCREENWIDTH * SCREENHEIGHT];
+    static int  prevtic;
 
     height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    BlurScreen(screens[0], tempscreen, blurscreen1);
-
-    for (int i = 0; i < height; i++)
-        blurscreen1[i] = tinttab50[blurscreen1[i]];
-
-    if (mapwindow)
+    if (gametime != prevtic)
     {
-        BlurScreen(mapscreen, tempscreen, blurscreen2);
+        byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
-        for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-            blurscreen2[i] = tinttab50[blurscreen2[i]];
+        BlurScreen(screens[0], tempscreen, blurscreen1);
+
+        for (int i = 0; i < height; i++)
+            blurscreen1[i] = tinttab50[blurscreen1[i]];
+
+        if (mapwindow)
+        {
+            BlurScreen(mapscreen, tempscreen, blurscreen2);
+
+            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
+                blurscreen2[i] = tinttab50[blurscreen2[i]];
+        }
+
+        prevtic = gametime;
     }
 
     memcpy(screens[0], blurscreen1, height);
