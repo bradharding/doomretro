@@ -114,7 +114,6 @@ extern dboolean     message_clearable;
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
 
-extern dboolean     blurred;
 extern dboolean     splashscreen;
 extern dboolean     noinput;
 

@@ -609,10 +609,7 @@ void G_ToggleAlwaysRun(evtype_t type)
     C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
 
     if (menuactive)
-    {
         message_dontpause = true;
-        blurred = false;
-    }
 
     M_SaveCVARs();
 }
@@ -702,7 +699,6 @@ dboolean G_Responder(event_t *ev)
             {
                 keydown = KEY_PAUSE;
                 sendpause = true;
-                blurred = false;
 
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
@@ -1063,10 +1059,7 @@ void G_DoScreenShot(void)
         message_dontfuckwithme = true;
 
         if (menuactive)
-        {
             message_dontpause = true;
-            blurred = false;
-        }
 
         C_Output("<b>%s</b> saved.", lbmpath1);
 
@@ -1532,7 +1525,6 @@ static void G_DoSaveGame(void)
             M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
             C_Output(buffer);
             HU_SetPlayerMessage(buffer, false, false);
-            blurred = false;
             message_dontfuckwithme = true;
             S_StartSound(NULL, sfx_swtchx);
         }

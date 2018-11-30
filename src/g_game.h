@@ -114,6 +114,5 @@ extern int      keydown;
 extern int      quickSaveSlot;
 extern int      st_facecount;
 extern dboolean oldweaponsowned[NUMWEAPONS];
-extern dboolean blurred;
 
 #endif

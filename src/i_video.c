@@ -664,8 +664,6 @@ static void I_GetEvent(void)
 
                             if (gamestate == GS_LEVEL && !paused)
                             {
-                                blurred = false;
-
                                 if (menuactive || consoleactive)
                                     S_PauseSound();
                                 else

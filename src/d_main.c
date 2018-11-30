@@ -251,7 +251,6 @@ void D_Display(void)
         {
             viewactivestate = false;    // view was not active
             R_FillBackScreen();         // draw the pattern into the back screen
-            blurred = false;
         }
 
         // see if the border needs to be updated to the screen
@@ -354,7 +353,6 @@ void D_Display(void)
 
         wipestart = nowtime;
         done = wipe_ScreenWipe(tics);
-        blurred = false;
 
         M_Drawer();
         blitfunc();             // blit buffer
@@ -480,7 +478,6 @@ void D_DoAdvanceTitle(void)
     paused = false;
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
-    blurred = false;
     noinput = false;
 
     if (!titlesequence)

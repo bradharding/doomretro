@@ -115,8 +115,6 @@ static dboolean usinggamepad;
 // current menudef
 static menu_t   *currentMenu;
 
-dboolean        blurred;
-
 static angle_t  playerangle;
 int             spindirection;
 
@@ -1352,7 +1350,6 @@ static void M_DeleteSavegameResponse(int key)
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[itemOn]));
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
-        blurred = false;
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
 
@@ -1769,7 +1766,6 @@ dboolean    message_dontpause;
 
 static void M_ChangeMessages(int choice)
 {
-    blurred = false;
     messages = !messages;
 
     if (menuactive)
@@ -2036,7 +2032,6 @@ static void M_ChangeSensitivity(int choice)
 
 static void M_ChangeDetail(int choice)
 {
-    blurred = false;
     r_detail = !r_detail;
     C_StrCVAROutput(stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
 
@@ -2150,7 +2145,6 @@ static void M_SizeDisplay(int choice)
             break;
     }
 
-    blurred = false;
     skippsprinterp = true;
 }
 
@@ -2191,7 +2185,6 @@ void M_StartMessage(char *string, void *routine, dboolean input)
     messageString = string;
     messageRoutine = (void (*)(int))routine;
     messageNeedsInput = input;
-    blurred = false;
     menuactive = true;
 
     I_SetPalette(W_CacheLumpName("PLAYPAL"));
@@ -3421,7 +3414,6 @@ void M_StartControlPanel(void)
     menuactive = true;
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
-    blurred = false;
 
     S_StopSounds();
 

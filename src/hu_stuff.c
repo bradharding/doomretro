@@ -973,10 +973,7 @@ void HU_Ticker(void)
         message_nottobefuckedwith = false;
 
         if (message_dontpause)
-        {
             message_dontpause = false;
-            blurred = false;
-        }
 
         message_external = false;
     }
