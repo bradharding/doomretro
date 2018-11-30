@@ -2077,7 +2077,7 @@ static void M_SizeDisplay(int choice)
                 {
                     I_ToggleWidescreen(false);
 
-                    if (menuactive)
+                    if (menuactive && !automapactive)
                         R_SetViewSize(8);
 
                     C_StrCVAROutput(stringize(vid_widescreen), "off");
@@ -2091,7 +2091,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize > r_screensize_min)
             {
                 r_screensize--;
-                R_SetViewSize(menuactive && gamestate == GS_LEVEL ? 8 : r_screensize);
+                R_SetViewSize(menuactive && gamestate == GS_LEVEL && !automapactive ? 8 : r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
@@ -2123,7 +2123,7 @@ static void M_SizeDisplay(int choice)
 
                     if (vid_widescreen)
                     {
-                        if (menuactive)
+                        if (menuactive && !automapactive)
                             R_SetViewSize(7);
 
                         C_StrCVAROutput(stringize(vid_widescreen), "on");
@@ -2141,7 +2141,7 @@ static void M_SizeDisplay(int choice)
             else
             {
                 r_screensize++;
-                R_SetViewSize(menuactive && gamestate == GS_LEVEL ? 8 : r_screensize);
+                R_SetViewSize(menuactive && gamestate == GS_LEVEL && !automapactive ? 8 : r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
