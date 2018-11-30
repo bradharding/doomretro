@@ -189,13 +189,14 @@ dboolean P_CheckForSteps(int width)
 {
     sector_t    *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
     sector_t    *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;
-    fixed_t     step1 = sector1->floorheight;
-    fixed_t     step2 = sector2->floorheight;
-    int         delta1 = step1 - viewplayer->mo->subsector->sector->floorheight;
-    int         delta2 = step2 - step1;
 
     if (sector1->terraintype == sector2->terraintype)
     {
+        fixed_t step1 = sector1->floorheight;
+        fixed_t step2 = sector2->floorheight;
+        int     delta1 = step1 - viewplayer->mo->subsector->sector->floorheight;
+        int     delta2 = step2 - step1;
+
         if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
         {
             viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
@@ -500,13 +501,15 @@ void P_ChangeWeapon(weapontype_t newweapon)
 //
 void P_PlayerThink(void)
 {
-    ticcmd_t    *cmd = &viewplayer->cmd;
+    ticcmd_t    *cmd;
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
-    if (menuactive && !inhelpscreens)
+    if (menuactive)
     {
-        mo->angle += ANG1 / 32 * spindirection;
+        if (!inhelpscreens)
+            mo->angle += ANG1 / 32 * spindirection;
+
         return;
     }
 
