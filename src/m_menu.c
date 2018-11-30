@@ -2076,6 +2076,10 @@ static void M_SizeDisplay(int choice)
                 else if (vid_widescreen)
                 {
                     I_ToggleWidescreen(false);
+
+                    if (menuactive)
+                        R_SetViewSize(8);
+
                     C_StrCVAROutput(stringize(vid_widescreen), "off");
                 }
                 else
@@ -2086,7 +2090,8 @@ static void M_SizeDisplay(int choice)
             }
             else if (r_screensize > r_screensize_min)
             {
-                R_SetViewSize(--r_screensize);
+                r_screensize--;
+                R_SetViewSize(menuactive && gamestate == GS_LEVEL ? 8 : r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
@@ -2117,7 +2122,12 @@ static void M_SizeDisplay(int choice)
                     I_ToggleWidescreen(true);
 
                     if (vid_widescreen)
+                    {
+                        if (menuactive)
+                            R_SetViewSize(7);
+
                         C_StrCVAROutput(stringize(vid_widescreen), "on");
+                    }
                     else
                     {
                         R_SetViewSize(++r_screensize);
@@ -2130,7 +2140,8 @@ static void M_SizeDisplay(int choice)
             }
             else
             {
-                R_SetViewSize(++r_screensize);
+                r_screensize++;
+                R_SetViewSize(menuactive && gamestate == GS_LEVEL ? 8 : r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
