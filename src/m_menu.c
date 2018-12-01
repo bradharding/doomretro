@@ -497,13 +497,22 @@ void M_DarkBackground(void)
         byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
         if (gamestate == GS_LEVEL)
+        {
             for (int i = 0; i < height; i++)
                 screens[0][i] = colormaps[0][M_RandomInt(1, 16) * 256 + screens[0][i]];
 
-        BlurScreen(screens[0], tempscreen, blurscreen1);
+            BlurScreen(screens[0], tempscreen, blurscreen1);
 
-        for (int i = 0; i < height; i++)
-            blurscreen1[i] = tinttab50[blurscreen1[i]];
+            for (int i = 0; i < height; i++)
+                blurscreen1[i] = tinttab33[blurscreen1[i]];
+        }
+        else
+        {
+            BlurScreen(screens[0], tempscreen, blurscreen1);
+
+            for (int i = 0; i < height; i++)
+                blurscreen1[i] = tinttab50[blurscreen1[i]];
+        }
 
         if (mapwindow)
         {
