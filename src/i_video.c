@@ -1253,7 +1253,6 @@ void GetScreenResolution(void)
 
 static char *getaspectratio(int width, int height)
 {
-    int         i = 0;
     int         hcf = gcd(width, height);
     static char ratio[10];
 
