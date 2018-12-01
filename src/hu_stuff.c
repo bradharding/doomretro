@@ -921,7 +921,8 @@ void HU_InitMessages(void)
 
 void HU_Drawer(void)
 {
-    HUlib_drawSText(&w_message, message_external);
+    if (!menuactive)
+        HUlib_drawSText(&w_message, message_external);
 
     if (automapactive)
     {
