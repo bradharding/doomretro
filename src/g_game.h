@@ -99,7 +99,6 @@ extern fixed_t  angleturn[3];
 extern dboolean gamekeydown[NUMKEYS];
 extern dboolean *mousebuttons;
 extern dboolean canmodify;
-extern dboolean message_dontpause;
 extern dboolean gamepadpress;
 extern char     lbmname1[MAX_PATH];
 extern char     lbmpath1[MAX_PATH];

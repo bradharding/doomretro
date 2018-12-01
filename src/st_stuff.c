@@ -883,10 +883,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheated++;
                 }
                 else
-                {
-                    message_clearable = true;
                     HU_ClearMessages();
-                }
             }
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)

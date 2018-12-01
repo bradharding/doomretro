@@ -547,7 +547,6 @@ void AM_toggleFollowMode(void)
     }
 
     message_dontfuckwithme = true;
-    message_clearable = true;
 }
 
 void AM_toggleGrid(void)
@@ -566,7 +565,6 @@ void AM_toggleGrid(void)
     }
 
     message_dontfuckwithme = true;
-    message_clearable = true;
     M_SaveCVARs();
 }
 
@@ -595,7 +593,6 @@ void AM_addMark(void)
     C_Output(message);
     HU_SetPlayerMessage(message, false, true);
     message_dontfuckwithme = true;
-    message_clearable = true;
 }
 
 static int  markpress;
@@ -610,7 +607,6 @@ void AM_clearMarks(void)
             C_Output(s_AMSTR_MARKSCLEARED);
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             message_dontfuckwithme = true;
-            message_clearable = true;
             markpointnum = 0;
         }
         else if (markpress == 1)
@@ -622,7 +618,6 @@ void AM_clearMarks(void)
             C_Output(message);
             HU_SetPlayerMessage(message, false, true);
             message_dontfuckwithme = true;
-            message_clearable = true;
         }
     }
 }
@@ -664,7 +659,6 @@ void AM_toggleRotateMode(void)
     }
 
     message_dontfuckwithme = true;
-    message_clearable = true;
     M_SaveCVARs();
 }
 

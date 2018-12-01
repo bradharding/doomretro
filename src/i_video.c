@@ -489,7 +489,6 @@ static void I_GetEvent(void)
 
                     if (idbehold && keys[event.data2])
                     {
-                        message_clearable = true;
                         idbehold = false;
                         HU_ClearMessages();
                     }
@@ -535,7 +534,6 @@ static void I_GetEvent(void)
 
                 if (idbehold)
                 {
-                    message_clearable = true;
                     HU_ClearMessages();
                     idbehold = false;
                 }

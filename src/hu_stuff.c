@@ -67,7 +67,6 @@ static hu_textline_t    w_title;
 
 dboolean                message_on;
 dboolean                message_dontfuckwithme;
-dboolean                message_clearable;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
 
@@ -260,7 +259,6 @@ void HU_Start(void)
     message_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
-    message_clearable = false;
     message_external = false;
 
     // create the message widget
@@ -963,7 +961,6 @@ void HU_Erase(void)
 
 extern fixed_t  m_x, m_y;
 extern fixed_t  m_h, m_w;
-extern dboolean message_dontpause;
 extern int      direction;
 
 void HU_Ticker(void)
@@ -972,16 +969,12 @@ void HU_Ticker(void)
 
     // tick down message counter if message is up
     if (message_counter
-        && ((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
         && !idbehold
         && !idmypos
         && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
-
-        if (message_dontpause)
-            message_dontpause = false;
 
         message_external = false;
     }
@@ -1123,7 +1116,7 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 
 void HU_ClearMessages(void)
 {
-    if ((idbehold || (viewplayer->cheats & CF_MYPOS)) && !message_clearable)
+    if (idbehold || (viewplayer->cheats & CF_MYPOS))
         return;
 
     viewplayer->message = NULL;
@@ -1131,7 +1124,5 @@ void HU_ClearMessages(void)
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
-    message_dontpause = false;
-    message_clearable = false;
     message_external = false;
 }

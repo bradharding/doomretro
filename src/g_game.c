@@ -608,9 +608,6 @@ void G_ToggleAlwaysRun(evtype_t type)
 
     C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
 
-    if (menuactive)
-        message_dontpause = true;
-
     M_SaveCVARs();
 }
 
@@ -1057,9 +1054,6 @@ void G_DoScreenShot(void)
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
-
-        if (menuactive)
-            message_dontpause = true;
 
         C_Output("<b>%s</b> saved.", lbmpath1);
 

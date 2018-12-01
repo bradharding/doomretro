@@ -109,7 +109,6 @@ extern int          keydown;
 extern dboolean     idclev;
 extern dboolean     idmus;
 extern dboolean     idbehold;
-extern dboolean     message_clearable;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];

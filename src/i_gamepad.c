@@ -76,7 +76,6 @@ extern dboolean             idclev;
 extern dboolean             idmus;
 extern dboolean             idbehold;
 extern dboolean             menuactive;
-extern dboolean             message_clearable;
 extern evtype_t             lasteventtype;
 
 void I_InitGamepad(void)

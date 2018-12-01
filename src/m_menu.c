@@ -497,7 +497,7 @@ void M_DarkBackground(void)
         byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
         if (gamestate == GS_LEVEL)
-            for (int i = 0; i < height; i++)
+            for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
                 screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
 
         for (int i = 0; i < height; i += SCREENWIDTH)
@@ -1773,14 +1773,9 @@ static void M_Options(int choice)
 //
 // Toggle messages on/off
 //
-dboolean    message_dontpause;
-
 static void M_ChangeMessages(int choice)
 {
     messages = !messages;
-
-    if (menuactive)
-        message_dontpause = true;
 
     if (messages)
     {
@@ -2406,7 +2401,6 @@ void M_ChangeGamma(dboolean shift)
         HU_SetPlayerMessage(buf, false, false);
     }
 
-    message_dontpause = true;
     message_dontfuckwithme = true;
     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
     M_SaveCVARs();
