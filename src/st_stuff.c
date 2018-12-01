@@ -43,6 +43,7 @@
 #include "dstrings.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "m_cheat.h"
 #include "m_config.h"
@@ -1320,7 +1321,7 @@ static void ST_drawWidgets(dboolean refresh)
     }
 
     if (facebackcolor != facebackcolor_none)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false);
 
     STlib_updateMultIcon(&w_faces, refresh);
 
