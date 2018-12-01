@@ -1319,7 +1319,7 @@ static void ST_drawWidgets(dboolean refresh)
         STlib_updateArmsIcon(&w_arms[5], refresh, 5);
     }
 
-    if (facebackcolor != facebackcolor_default)
+    if (facebackcolor != facebackcolor_none)
         V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, facebackcolor, false);
 
     STlib_updateMultIcon(&w_faces, refresh);

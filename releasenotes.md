@@ -9,6 +9,7 @@
 * *DOOM Retro* will no longer hang when the player crosses a line with a *BOOM*-compatible special action of 154 (“WR Change Texture and Effect”) or 240 (“WR Change Texture and Effect to Nearest”).
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 * Minor improvements have been made to the cast sequence at the end of *DOOM II*.
+* If the `facebackcolor` CVAR is set to anything other than its default of `none` then the background of the player’s face in the widescreen HUD will now be that color.
 
 ---
 

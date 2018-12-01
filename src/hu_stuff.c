@@ -399,7 +399,15 @@ static void HU_DrawHUD(void)
     static dboolean     showkey;
 
     if (patch)
-        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
+    {
+        int x = HUD_HEALTH_X - SHORT(patch->width) / 2;
+        int y = HUD_HEALTH_Y - SHORT(patch->height) - 3;
+
+        if (facebackcolor != facebackcolor_none)
+            V_FillTransRect(0, x - 8, y, SHORT(patch->width) + 16, SHORT(patch->height), nearestcolors[facebackcolor], true);
+
+        hudfunc(x, y, patch, tinttab66);
+    }
 
     if (healthhighlight > currenttime)
     {
