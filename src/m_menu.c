@@ -500,6 +500,18 @@ void M_DarkBackground(void)
             for (int i = 0; i < height; i++)
                 screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
 
+        for (int i = 0; i < height; i += SCREENWIDTH)
+        {
+            screens[0][i] = 0;
+            screens[0][i + SCREENWIDTH - 1] = 0;
+        }
+
+        for (int i = 1; i < SCREENWIDTH - 1; i++)
+        {
+            screens[0][i] = 0;
+            screens[0][i + height - SCREENWIDTH] = 0;
+        }
+
         BlurScreen(screens[0], tempscreen, blurscreen1);
 
         for (int i = 0; i < height; i++)
@@ -523,18 +535,6 @@ void M_DarkBackground(void)
 
     if (r_detail == r_detail_low && viewactive)
         V_LowGraphicDetail();
-
-    for (int i = 0; i < height; i += SCREENWIDTH)
-    {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
-    }
-
-    for (int i = 1; i < SCREENWIDTH - 1; i++)
-    {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
-    }
 }
 
 static byte blues[] =
