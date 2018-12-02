@@ -496,9 +496,8 @@ void M_DarkBackground(void)
     {
         byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
-        if (gamestate == GS_LEVEL)
-            for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
-                screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
+        for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
+            screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
 
         for (int i = 0; i < height; i += SCREENWIDTH)
         {

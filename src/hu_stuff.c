@@ -970,6 +970,7 @@ void HU_Ticker(void)
 
     // tick down message counter if message is up
     if (message_counter
+        && !menuactive
         && !idbehold
         && !idmypos
         && !--message_counter)
