@@ -1018,7 +1018,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         if (type != VisualModeCamera)
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(thingid), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(++thingid), mthing->x, mthing->y);
 
         return NULL;
     }
@@ -1029,7 +1029,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
         if (mobjinfo[i].name1[0] != '\0')
             C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
         else
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(thingid), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(++thingid), mthing->x, mthing->y);
+
+        return NULL;
     }
 
     if (!(mthing->options & bit))
