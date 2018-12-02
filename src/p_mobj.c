@@ -1014,10 +1014,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     // killough 8/23/98: use table for faster lookup
     i = P_FindDoomedNum(type);
 
+    if (type >= 14100 && type <= 14164)
+        type = MusicSource;
+
     if (i == NUMMOBJTYPES)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
-        if (type != VisualModeCamera)
+        if (type != VisualModeCamera && type != MusicSource)
             C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(++thingid), mthing->x, mthing->y);
 
         return NULL;
@@ -1036,9 +1039,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
 
     if (!(mthing->options & bit))
         return NULL;
-
-    if (type >= 14100 && type <= 14164)
-        type = MusicSource;
 
     // find which type to spawn
 
