@@ -4455,14 +4455,15 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, THINGLISTTITLE);
 
-    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-    {
-        mobj_t  *mobj = (mobj_t *)th;
+    for (thinker_t *th = thinkers[th_all].next; th != &thinkers[th_all]; th = th->next)
+        if (th->function == P_MobjThinker || th->function == MusInfoThinker)
+        {
+            mobj_t  *mobj = (mobj_t *)th;
 
-        C_TabbedOutput(tabs, "%s%s\t%s%s\t(%i,%i,%i)", (mobj->id ? commify(mobj->id) : ""), (mobj->id ? "." : ""),
-            ((mobj->flags & MF_CORPSE) ? "Dead " : ""), titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS,
-            mobj->z >> FRACBITS);
-    }
+            C_TabbedOutput(tabs, "%s%s\t%s%s\t(%i,%i,%i)", (mobj->id ? commify(mobj->id) : ""), (mobj->id ? "." : ""),
+                ((mobj->flags & MF_CORPSE) ? "Dead " : ""), titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS,
+                mobj->z >> FRACBITS);
+        }
 }
 
 //

@@ -1,7 +1,7 @@
 ### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If the menu is opened while playing a game, the following changes have been made to its background:
+* The following changes have been made to the menu’s background when opened while playing a game:
   * The status bar or widescreen HUD will be hidden,
   * All sprites will be hidden,
   * Noise will be applied,
