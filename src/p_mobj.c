@@ -708,7 +708,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
-    mobj->id = thingid++;
+    mobj->id = -1;
 
     P_SetShadowColumnFunction(mobj);
 
@@ -996,20 +996,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     if (type == Player1Start)
     {
         P_SpawnPlayer(mthing);
-        thingid++;
         return NULL;
     }
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
-    {
-        thingid++;
         return NULL;
-    }
 
     if (mthing->options & MTF_NETGAME)
-    {
-        thingid++;
         return NULL;
-    }
 
     if (gameskill == sk_baby)
         bit = 1;
@@ -1031,7 +1024,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         if (type != VisualModeCamera)
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(++thingid), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has an unknown type.", commify(thingid), mthing->x, mthing->y);
 
         return NULL;
     }
@@ -1042,16 +1035,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
         if (mobjinfo[i].name1[0] != '\0')
             C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
         else
-            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(++thingid), mthing->x, mthing->y);
+            C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(thingid), mthing->x, mthing->y);
 
         return NULL;
     }
 
     if (!(mthing->options & bit))
-    {
-        thingid++;
         return NULL;
-    }
 
     // find which type to spawn
 
@@ -1059,10 +1049,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     {
         // don't spawn any monsters if -nomonsters
         if (nomonsters && i != MT_KEEN)
-        {
-            thingid++;
             return NULL;
-        }
 
         totalkills++;
         monstercount[i]++;
@@ -1072,10 +1059,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
 
     // [BH] don't spawn any monster corpses if -nomonsters
     if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
-    {
-        thingid++;
         return NULL;
-    }
 
     // spawn it
     x = mthing->x << FRACBITS;
@@ -1163,7 +1147,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->colfunc = info->colfunc;
     th->altcolfunc = info->altcolfunc;
-    th->id = thingid++;
+    th->id = -1;
 
     P_SetThingPosition(th);
 
@@ -1247,7 +1231,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->colfunc = info->colfunc;
         th->altcolfunc = info->altcolfunc;
         th->blood = blood;
-        th->id = thingid++;
+        th->id = -1;
 
         P_SetThingPosition(th);
 

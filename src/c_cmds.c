@@ -4460,9 +4460,9 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         {
             mobj_t  *mobj = (mobj_t *)th;
 
-            C_TabbedOutput(tabs, "%s%s\t%s%s\t(%i,%i,%i)", (mobj->id ? commify(mobj->id) : ""), (mobj->id ? "." : ""),
-                ((mobj->flags & MF_CORPSE) ? "Dead " : ""), titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS,
-                mobj->z >> FRACBITS);
+            C_TabbedOutput(tabs, "%s%s\t%s%s\t(%i,%i,%i)", (mobj->id >= 0 ? commify(mobj->id) : ""), (mobj->id ? "." : ""),
+                ((mobj->flags & MF_CORPSE) && !M_StringStartsWith(mobj->info->name1 , "Dead") ? "Dead " : ""),
+                titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         }
 }
 

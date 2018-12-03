@@ -1078,12 +1078,11 @@ static void P_LoadThings(int lump)
         I_Error("There are no things in this map.");
 
     M_Seed(numthings);
-    thingid = 0;
     numdecorations = 0;
 
-    for (int i = 0; i < numthings; i++)
+    for (thingid = 0; thingid < numthings; thingid++)
     {
-        mapthing_t  mt = data[i];
+        mapthing_t  mt = data[thingid];
         dboolean    spawn = true;
         short       type = SHORT(mt.type);
 
@@ -1113,7 +1112,7 @@ static void P_LoadThings(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; thingfix[j].mission != -1; j++)
                 if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].epsiode
-                    && gamemap == thingfix[j].map && i == thingfix[j].thing && mt.type == thingfix[j].type
+                    && gamemap == thingfix[j].map && thingid == thingfix[j].thing && mt.type == thingfix[j].type
                     && mt.x == SHORT(thingfix[j].oldx) && mt.y == SHORT(thingfix[j].oldy))
                 {
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
@@ -1127,7 +1126,7 @@ static void P_LoadThings(int lump)
                         mt.y = SHORT(thingfix[j].newy);
 
                         if (devparm)
-                            C_Warning("The position of thing %s has been changed to (%i,%i).", commify(i), mt.x, mt.y);
+                            C_Warning("The position of thing %s has been changed to (%i,%i).", commify(thingid), mt.x, mt.y);
                     }
 
                     if (thingfix[j].angle != DEFAULT)
@@ -1135,7 +1134,7 @@ static void P_LoadThings(int lump)
                         mt.angle = SHORT(thingfix[j].angle);
 
                         if (devparm)
-                            C_Warning("The angle of thing %s has been changed to %i.", commify(i), thingfix[j].angle);
+                            C_Warning("The angle of thing %s has been changed to %i.", commify(thingid), thingfix[j].angle);
                     }
 
                     if (thingfix[j].options != DEFAULT)
@@ -1143,18 +1142,23 @@ static void P_LoadThings(int lump)
                         mt.options = thingfix[j].options;
 
                         if (devparm)
-                            C_Warning("The flags of thing %s have been changed to %i.", commify(i), thingfix[j].options);
+                            C_Warning("The flags of thing %s have been changed to %i.", commify(thingid), thingfix[j].options);
                     }
 
                     break;
                 }
 
-        // Change each Wolfenstein SS into Zombiemen in BFG Edition
-        if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
-            mt.type = Zombieman;
-
         if (spawn)
-            P_SpawnMapThing(&mt, nomonsters);
+        {
+            mobj_t  *thing;
+
+            // Change each Wolfenstein SS into Zombiemen in BFG Edition
+            if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                mt.type = Zombieman;
+
+            if ((thing = P_SpawnMapThing(&mt, nomonsters)))
+                thing->id = thingid;
+        }
     }
 
     M_Seed((unsigned int)time(NULL));
