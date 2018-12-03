@@ -996,6 +996,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     if (type == Player1Start)
     {
         P_SpawnPlayer(mthing);
+        viewplayer->mo->id = thingid;
         return NULL;
     }
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
