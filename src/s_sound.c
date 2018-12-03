@@ -70,7 +70,7 @@
 
 #define NORM_SEP        128
 
-#define TIDNUM(x)       (int)(x->id & 0xFFFF)   // thing identifier
+#define TIDNUM(x)       (int)(x->musicid & 0xFFFF)  // thing identifier
 
 typedef struct
 {

@@ -424,6 +424,7 @@ typedef struct mobj_s
     int                 pitch;
 
     int                 id;
+    int                 musicid;
 } mobj_t;
 
 typedef struct bloodsplat_s
