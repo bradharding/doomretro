@@ -14,6 +14,7 @@
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 * Minor improvements have been made to the cast sequence at the end of *DOOM II*.
 * The value of the `facebackcolor` CVAR is now also applied to the background of the player’s face in the widescreen HUD.
+* The support for `MUSINFO` lumps has been fixed.
 
 ---
 
