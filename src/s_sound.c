@@ -740,7 +740,10 @@ void S_ParseMusInfo(char *mapid)
                         int lumpnum = W_CheckNumForName(sc_String);
 
                         if (lumpnum >= 0)
+                        {
                             musinfo.items[num] = lumpnum;
+                            W_CacheLumpNum(lumpnum);
+                        }
                     }
             }
 
