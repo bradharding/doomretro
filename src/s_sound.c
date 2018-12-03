@@ -650,6 +650,13 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     I_PlaySong(handle, looping);
 
     mus_playing = music;
+
+    // [crispy] musinfo.items[0] is reserved for the map's default music
+    if (!musinfo.items[0])
+    {
+        musinfo.items[0] = music->lumpnum;
+        S_music[mus_musinfo].lumpnum = -1;
+    }
 }
 
 void S_StopMusic(void)
@@ -677,7 +684,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     if (mus_playing && mus_playing->lumpnum == lumpnum)
         return;
 
-    music = &S_music[NUMMUSIC];
+    music = &S_music[mus_musinfo];
 
     if (music->lumpnum == lumpnum)
         return;

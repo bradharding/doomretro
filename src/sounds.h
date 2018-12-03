@@ -185,7 +185,8 @@ enum
     mus_read_m,
     mus_dm2ttl,
     mus_dm2int,
-    NUMMUSIC
+    NUMMUSIC,
+    mus_musinfo
 };
 
 //
