@@ -4461,8 +4461,9 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
             mobj_t  *mobj = (mobj_t *)th;
 
             C_TabbedOutput(tabs, "%s%s\t%s%s\t(%i,%i,%i)", (mobj->id >= 0 ? commify(mobj->id) : ""), (mobj->id >= 0 ? "." : ""),
-                ((mobj->flags & MF_CORPSE) && !M_StringStartsWith(mobj->info->name1 , "Dead") ? "Dead " : ""),
-                titlecase(mobj->info->name1), mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+                ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "Dead " : ""),
+                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "Voodoo Doll" : titlecase(mobj->info->name1)),
+                mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         }
 }
 

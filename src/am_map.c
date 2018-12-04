@@ -212,7 +212,6 @@ static int          gridheight;
 static dboolean     stopped = true;
 
 static dboolean     bigstate;
-static byte         *area;
 static dboolean     movement;
 int                 keydown;
 int                 direction;
@@ -399,8 +398,6 @@ void AM_Init(void)
 static void AM_initVariables(const dboolean mainwindow)
 {
     automapactive = mainwindow;
-
-    area = mapscreen + maparea;
 
     m_paninc.x = 0;
     m_paninc.y = 0;
