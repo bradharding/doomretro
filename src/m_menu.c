@@ -498,7 +498,7 @@ void M_DarkBackground(void)
         const int   black = nearestcolors[0];
 
         for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
-            screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
+            screens[0][i] = colormaps[0][M_RandomInt(0, 7) * 256 + screens[0][i]];
 
         for (int i = 0; i < height; i += SCREENWIDTH)
         {
@@ -520,7 +520,7 @@ void M_DarkBackground(void)
         if (mapwindow)
         {
             for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
-                mapscreen[i] = colormaps[0][M_RandomInt(0, 13) * 256 + mapscreen[i]];
+                mapscreen[i] = colormaps[0][M_RandomInt(0, 7) * 256 + mapscreen[i]];
 
             BlurScreen(mapscreen, tempscreen, blurscreen2);
 
