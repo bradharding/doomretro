@@ -2046,7 +2046,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has everything.");
+                C_Warning("%s already has everything.", titlecase(playername));
                 return;
             }
         }
@@ -2060,7 +2060,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has full health.");
+                C_Warning("%s already %s full health.", titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2074,7 +2074,8 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all the weapons.");
+                C_Warning("%s already %s all the weapons.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2088,7 +2089,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has full ammo.");
+                C_Warning("%s already %s full ammo.", titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2102,7 +2103,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has full armor.");
+                C_Warning("%s already %s full armor.", titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2116,7 +2117,8 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all the keycards and skull keys.");
+                C_Warning("%s already %s all the keycards and skull keys.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2130,7 +2132,8 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all the keycards.");
+                C_Warning("%s already %s all the keycards.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2144,7 +2147,8 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("The player already has all the skull keys.");
+                C_Warning("%s already %s all the skull keys.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
         }
@@ -2162,23 +2166,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
                         || (num == mobjinfo[i].doomednum && num != -1)))
                 {
-                    static char buffer[128];
                     dboolean    old_freeze = freeze;
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
-                        M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
-                        buffer[0] = toupper(buffer[0]);
-                        C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
+                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
                         return;
                     }
 
                     if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
-                        M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
-                        buffer[0] = toupper(buffer[0]);
-                        C_Warning("%s can't be given to the player in <i><b>%s</b></i>.", buffer, gamedescription);
+                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
                         return;
                     }
 
