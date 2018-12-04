@@ -1930,6 +1930,8 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_FMOFF);
         HU_SetPlayerMessage(s_STSTR_FMOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -1965,6 +1967,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_FOFF, false, false);
     }
 
+    message_dontfuckwithme = true;
     C_HideConsole();
 }
 
@@ -3371,6 +3374,8 @@ static void noclip_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NCOFF);
         HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -3422,6 +3427,8 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
     {
         C_Output(s_STSTR_NMOFF);
         HU_SetPlayerMessage(s_STSTR_NMOFF, false, false);
+
+        message_dontfuckwithme = true;
 
         if (gamestate == GS_LEVEL)
             C_Warning(PENDINGCHANGE);
@@ -3481,6 +3488,8 @@ static void notarget_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NTOFF);
         HU_SetPlayerMessage(s_STSTR_NTOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -3512,6 +3521,8 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_PSOFF);
         HU_SetPlayerMessage(s_STSTR_PSOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
         C_Warning(PENDINGCHANGE);
@@ -3943,6 +3954,8 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RHOFF);
         HU_SetPlayerMessage(s_STSTR_RHOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -4189,6 +4202,8 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RIOFF);
         HU_SetPlayerMessage(s_STSTR_RIOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -4225,6 +4240,8 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RMOFF);
         HU_SetPlayerMessage(s_STSTR_RMOFF, false, false);
     }
+
+    message_dontfuckwithme = true;
 }
 
 //
@@ -4580,6 +4597,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_VMOFF, false, false);
     }
 
+    message_dontfuckwithme = true;
     togglingvanilla = false;
 
     if (gamestate == GS_LEVEL)
