@@ -494,21 +494,22 @@ void M_DarkBackground(void)
 
     if (gametime != prevtic)
     {
-        byte    tempscreen[SCREENWIDTH * SCREENHEIGHT];
+        byte        tempscreen[SCREENWIDTH * SCREENHEIGHT];
+        const int   black = nearestcolors[0];
 
         for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
             screens[0][i] = colormaps[0][M_RandomInt(0, 13) * 256 + screens[0][i]];
 
         for (int i = 0; i < height; i += SCREENWIDTH)
         {
-            screens[0][i] = 0;
-            screens[0][i + SCREENWIDTH - 1] = 0;
+            screens[0][i] = black;
+            screens[0][i + SCREENWIDTH - 1] = black;
         }
 
         for (int i = 1; i < SCREENWIDTH - 1; i++)
         {
-            screens[0][i] = 0;
-            screens[0][i + height - SCREENWIDTH] = 0;
+            screens[0][i] = black;
+            screens[0][i + height - SCREENWIDTH] = black;
         }
 
         BlurScreen(screens[0], tempscreen, blurscreen1);
