@@ -503,13 +503,9 @@ void M_DarkBackground(void)
         for (int i = 0; i < height; i += SCREENWIDTH)
         {
             screens[0][i] = black;
+            screens[0][i + 1] = black;
+            screens[0][i + SCREENWIDTH - 2] = black;
             screens[0][i + SCREENWIDTH - 1] = black;
-        }
-
-        for (int i = 1; i < SCREENWIDTH - 1; i++)
-        {
-            screens[0][i] = black;
-            screens[0][i + height - SCREENWIDTH] = black;
         }
 
         BlurScreen(screens[0], tempscreen, blurscreen1);
