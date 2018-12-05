@@ -137,7 +137,7 @@ static void ResumeSong()
 static void StopSong()
 {
     if (music)
-        Mix_HaltMusic();
+        Mix_FadeOutMusic(500);
 }
 
 //

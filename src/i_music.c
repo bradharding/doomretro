@@ -69,7 +69,7 @@ void I_ShutdownMusic(void)
     if (!music_initialized)
         return;
 
-    Mix_HaltMusic();
+    Mix_FadeOutMusic(500);
     music_initialized = false;
 
     if (sdl_was_initialized)
