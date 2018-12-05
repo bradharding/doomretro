@@ -137,7 +137,7 @@ static void ResumeSong()
 static void StopSong()
 {
     if (music)
-        Mix_FadeOutMusic(500);
+        Mix_HaltMusic();
 }
 
 //
@@ -159,7 +159,14 @@ static void UnregisterSong()
 //
 static void ShutdownSDL()
 {
-    UnregisterSong();
+    if (music)
+    {
+        Mix_FadeOutMusic(500);
+        Mix_FreeMusic(music);
+        rw = NULL;
+        music = NULL;
+    }
+
     Mix_CloseAudio();
     SDL_Quit();
 }
