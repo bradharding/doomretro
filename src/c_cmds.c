@@ -1273,34 +1273,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (*controls[i].control)
     {
-        if (!*parm2)
-        {
-            while (*actions[action].action)
-            {
-                if (controls[i].type == keyboardcontrol)
-                {
-                    if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
-                        C_Output(actions[action].action);
-                    else if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
-                        C_Output(actions[action].action);
-                }
-                else if (controls[i].type == mousecontrol)
-                {
-                    if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
-                        C_Output(actions[action].action);
-                }
-                else if (controls[i].type == gamepadcontrol)
-                {
-                    if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
-                        C_Output(actions[action].action);
-                    else if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
-                        C_Output(actions[action].action);
-                }
-
-                action++;
-            }
-        }
-        else if (M_StringCompare(cmd, "unbind"))
+        if (M_StringCompare(cmd, "unbind"))
         {
             while (*actions[action].action)
             {
@@ -1356,6 +1329,33 @@ void bind_cmd_func2(char *cmd, char *parms)
                 keyactionlist[controls[i].value][0] = '\0';
             else if (controls[i].type == mousecontrol)
                 mouseactionlist[controls[i].value][0] = '\0';
+        }
+        else if (!*parm2)
+        {
+            while (*actions[action].action)
+            {
+                if (controls[i].type == keyboardcontrol)
+                {
+                    if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
+                        C_Output(actions[action].action);
+                    else if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
+                        C_Output(actions[action].action);
+                }
+                else if (controls[i].type == mousecontrol)
+                {
+                    if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
+                        C_Output(actions[action].action);
+                }
+                else if (controls[i].type == gamepadcontrol)
+                {
+                    if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
+                        C_Output(actions[action].action);
+                    else if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
+                        C_Output(actions[action].action);
+                }
+
+                action++;
+            }
         }
         else
         {
