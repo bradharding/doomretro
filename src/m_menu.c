@@ -456,30 +456,42 @@ menu_t SaveDef =
 
 static int height;
 
-static void DoBlurScreen(byte *blurscreen, int x1, int y1, int x2, int y2, int i)
-{
-    static byte tempscreen[SCREENWIDTH * SCREENHEIGHT];
-
-    memcpy(tempscreen, blurscreen, height);
-
-    for (int y = y1; y < y2; y += SCREENWIDTH)
-        for (int x = y + x1; x < y + x2; x++)
-            blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
-}
-
 static void BlurScreen(byte *screen, byte *blurscreen)
 {
     for (int i = 0; i < height; i++)
         blurscreen[i] = grays[screen[i]];
 
-    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
-    DoBlurScreen(blurscreen, 1, 0, SCREENWIDTH, height, -1);
-    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-    DoBlurScreen(blurscreen, 1, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH - 1);
-    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-    DoBlurScreen(blurscreen, 0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-    DoBlurScreen(blurscreen, 1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-    DoBlurScreen(blurscreen, 0, SCREENWIDTH, SCREENWIDTH - 1, height, -SCREENWIDTH + 1);
+    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + 1] << 8)];
+
+    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 2; x >= y; x--)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - 1] << 8)];
+
+    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH + 1] << 8)];
+
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH - 1] << 8)];
+
+    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH] << 8)];
+
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH] << 8)];
+
+    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH - 1] << 8)];
+
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH + 1] << 8)];
 }
 
 //
