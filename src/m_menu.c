@@ -456,28 +456,30 @@ menu_t SaveDef =
 
 static int height;
 
-static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int x2, int y2, int i)
+static void DoBlurScreen(byte *blurscreen, int x1, int y1, int x2, int y2, int i)
 {
-    memcpy(tempscreen, blurscreen, SCREENWIDTH * SCREENHEIGHT);
+    static byte tempscreen[SCREENWIDTH * SCREENHEIGHT];
+
+    memcpy(tempscreen, blurscreen, height);
 
     for (int y = y1; y < y2; y += SCREENWIDTH)
         for (int x = y + x1; x < y + x2; x++)
             blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
-static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
+static void BlurScreen(byte *screen, byte *blurscreen)
 {
     for (int i = 0; i < height; i++)
         blurscreen[i] = grays[screen[i]];
 
-    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
-    DoBlurScreen(tempscreen, blurscreen, 1, 0, SCREENWIDTH, height, -1);
-    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-    DoBlurScreen(tempscreen, blurscreen, 1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-    DoBlurScreen(tempscreen, blurscreen, 0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-    DoBlurScreen(tempscreen, blurscreen, 1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-    DoBlurScreen(tempscreen, blurscreen, 0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
+    DoBlurScreen(blurscreen, 1, 0, SCREENWIDTH, height, -1);
+    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+    DoBlurScreen(blurscreen, 1, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH - 1);
+    DoBlurScreen(blurscreen, 0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+    DoBlurScreen(blurscreen, 0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+    DoBlurScreen(blurscreen, 1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+    DoBlurScreen(blurscreen, 0, SCREENWIDTH, SCREENWIDTH - 1, height, -SCREENWIDTH + 1);
 }
 
 //
@@ -494,7 +496,6 @@ void M_DarkBackground(void)
 
     if (gametime != prevtic)
     {
-        byte        tempscreen[SCREENWIDTH * SCREENHEIGHT];
         const int   black = nearestcolors[0];
 
         for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
@@ -508,7 +509,7 @@ void M_DarkBackground(void)
             screens[0][i + SCREENWIDTH - 1] = black;
         }
 
-        BlurScreen(screens[0], tempscreen, blurscreen1);
+        BlurScreen(screens[0], blurscreen1);
 
         for (int i = 0; i < height; i++)
             blurscreen1[i] = tinttab33[blurscreen1[i]];
@@ -518,7 +519,7 @@ void M_DarkBackground(void)
             for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
                 mapscreen[i] = colormaps[0][M_RandomInt(0, 7) * 256 + mapscreen[i]];
 
-            BlurScreen(mapscreen, tempscreen, blurscreen2);
+            BlurScreen(mapscreen, blurscreen2);
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab33[blurscreen2[i]];

@@ -665,11 +665,11 @@ static void C_DrawBackground(int height)
         DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
         DoBlurScreen(1, 0, CONSOLEWIDTH, height, -1);
         DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height - CONSOLEWIDTH, CONSOLEWIDTH + 1);
-        DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -(CONSOLEWIDTH + 1));
+        DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH - 1);
         DoBlurScreen(0, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH);
         DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH);
         DoBlurScreen(1, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH - 1);
-        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
+        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -CONSOLEWIDTH + 1);
     }
 
     if (forceconsoleblurredraw)
