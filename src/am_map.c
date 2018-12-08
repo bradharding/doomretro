@@ -1968,6 +1968,13 @@ static void AM_setFrameVariables(void)
 
 void AM_Drawer(void)
 {
+    static int  prevtic;
+
+    if (gametime == prevtic)
+        return;
+
+    prevtic = gametime;
+
     AM_setFrameVariables();
     AM_clearFB();
     AM_drawWalls();
