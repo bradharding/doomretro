@@ -167,23 +167,6 @@ extern int              refreshrate;
 extern dboolean         dowipe;
 extern dboolean         togglingvanilla;
 
-void C_Print(const stringtype_t type, const char *string, ...)
-{
-    va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH];
-
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
-
-    if (consolestrings >= consolestrings_max)
-        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
-
-    strcpy(console[consolestrings].string, buffer);
-    console[consolestrings++].type = type;
-    outputhistory = -1;
-}
-
 void C_Input(const char *string, ...)
 {
     va_list argptr;
