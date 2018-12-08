@@ -348,7 +348,6 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
         if (minuspatch)
         {
             val = -val;
-            oldval = val;
             width = minuspatchwidth;
 
             if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))

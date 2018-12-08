@@ -2966,6 +2966,7 @@ static dboolean PIT_PushThing(mobj_t *thing)
         // Removes angular distortion, and makes effort required
         // to stay close to source, grow increasingly hard as you
         // get closer, as expected. Still, it doesn't consider z :(
+        if (speed > 0)
         {
             int x = (thing->x - sx) >> FRACBITS;
             int y = (thing->y - sy) >> FRACBITS;
