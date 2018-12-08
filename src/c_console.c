@@ -134,8 +134,6 @@ dboolean                con_timestamps = con_timestamps_default;
 static int              timestampx;
 static int              zerowidth;
 
-static byte             c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
-
 static int              consolebrandcolor1 = 4;
 static int              consolebrandcolor2 = 180;
 static int              consolecaretcolor = 4;
@@ -640,36 +638,48 @@ void C_StripQuotes(char *string)
     }
 }
 
-static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2, const int i)
-{
-    static byte c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-
-    memcpy(c_tempscreen, c_blurscreen, CONSOLEWIDTH * (CONSOLEHEIGHT + 5));
-
-    for (int y = y1; y < y2; y += CONSOLEWIDTH)
-        for (int x = y + x1; x < y + x2; x++)
-            c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
-}
-
 static void C_DrawBackground(int height)
 {
     static dboolean blurred;
+    static byte     blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
     height = (height + 5) * CONSOLEWIDTH;
 
     if (!blurred)
     {
-        for (int i = 0; i < height; i++)
-            c_blurscreen[i] = screens[0][i];
+        memcpy(blurscreen, screens[0], height);
 
-        DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
-        DoBlurScreen(1, 0, CONSOLEWIDTH, height, -1);
-        DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height - CONSOLEWIDTH, CONSOLEWIDTH + 1);
-        DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH - 1);
-        DoBlurScreen(0, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH);
-        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH);
-        DoBlurScreen(1, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH - 1);
-        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -CONSOLEWIDTH + 1);
+        for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
+            for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + 1] << 8)];
+
+        for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
+            for (int x = y + CONSOLEWIDTH - 2; x >= y; x--)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - 1] << 8)];
+
+        for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
+            for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH + 1] << 8)];
+
+        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
+            for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH - 1] << 8)];
+
+        for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
+            for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH] << 8)];
+
+        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
+            for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH] << 8)];
+
+        for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
+            for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH - 1] << 8)];
+
+        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
+            for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
+                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH + 1] << 8)];
     }
 
     if (forceconsoleblurredraw)
@@ -681,7 +691,7 @@ static void C_DrawBackground(int height)
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + c_blurscreen[i]];
+        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + blurscreen[i]];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
