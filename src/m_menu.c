@@ -528,7 +528,15 @@ void M_DarkBackground(void)
 
         if (mapwindow)
         {
-            for (int i = SCREENWIDTH; i < height - SCREENWIDTH; i++)
+            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i += SCREENWIDTH)
+            {
+                mapscreen[i] = black;
+                mapscreen[i + 1] = black;
+                mapscreen[i + SCREENWIDTH - 2] = black;
+                mapscreen[i + SCREENWIDTH - 1] = black;
+            }
+
+            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 mapscreen[i] = colormaps[0][M_RandomInt(0, 7) * 256 + mapscreen[i]];
 
             BlurScreen(mapscreen, blurscreen2);
