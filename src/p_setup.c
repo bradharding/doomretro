@@ -2294,7 +2294,7 @@ void P_SetupLevel(int ep, int map)
         S_ParseMusInfo(lumpname);
 
     C_AddConsoleDivider();
-    C_Print(titlestring, mapnumandtitle);
+    C_Output(mapnumandtitle);
 }
 
 static int  liquidlumps;

@@ -75,7 +75,6 @@ typedef enum
     inputstring,
     outputstring,
     dividerstring,
-    titlestring,
     warningstring,
     playermessagestring,
     obituarystring,

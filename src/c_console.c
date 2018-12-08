@@ -134,6 +134,7 @@ dboolean                con_timestamps = con_timestamps_default;
 static int              timestampx;
 static int              zerowidth;
 
+static int              consolebackcolor;
 static int              consolebrandcolor1 = 4;
 static int              consolebrandcolor2 = 180;
 static int              consolecaretcolor = 4;
@@ -143,7 +144,6 @@ static int              consoleinputcolor = 4;
 static int              consoleselectedinputcolor = 4;
 static int              consoleselectedinputbackgroundcolor = 100;
 static int              consoleinputtooutputcolor = 4;
-static int              consoletitlecolor = 88;
 static int              consoleplayermessagecolor = 161;
 static int              consoletimestampcolor = 100;
 static int              consoleoutputcolor = 88;
@@ -526,6 +526,7 @@ void C_Init(void)
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
+    consolebackcolor = nearestcolors[con_backcolor] << 8;
     consolebrandcolor1 = nearestcolors[consolebrandcolor1];
     consolebrandcolor2 = nearestcolors[consolebrandcolor2];
     consolecaretcolor = nearestcolors[consolecaretcolor];
@@ -535,7 +536,6 @@ void C_Init(void)
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
-    consoletitlecolor = nearestcolors[consoletitlecolor];
     consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
@@ -553,7 +553,6 @@ void C_Init(void)
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[dividerstring] = consoledividercolor;
-    consolecolors[titlestring] = consoletitlecolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
@@ -691,7 +690,7 @@ static void C_DrawBackground(int height)
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[(nearestcolors[con_backcolor] << 8) + blurscreen[i]];
+        screens[0][i] = tinttab50[blurscreen[i] + consolebackcolor];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
