@@ -3464,6 +3464,9 @@ void M_StartControlPanel(void)
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(8);
     }
+
+    if (automapactive)
+        AM_setAutomapSize();
 }
 
 //
@@ -3644,14 +3647,16 @@ void M_ClearMenus(void)
     }
 
     if (gamestate == GS_LEVEL)
+    {
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
 
-    if (gamestate == GS_LEVEL)
-    {
         viewplayer->mo->angle = playerangle;
 
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
+
+        if (automapactive)
+            AM_setAutomapSize();
     }
 }
 

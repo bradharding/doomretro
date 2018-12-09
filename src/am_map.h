@@ -77,6 +77,8 @@ void AM_toggleZoomIn(void);
 // Called to force the automap to quit if the level is completed while it is up.
 void AM_Stop(void);
 
+void AM_setAutomapSize(void);
+
 void AM_Init(void);
 void AM_setColors(void);
 void AM_getGridSize(void);

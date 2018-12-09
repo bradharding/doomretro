@@ -395,10 +395,8 @@ void AM_Init(void)
     AM_getGridSize();
 }
 
-static void AM_initVariables(const dboolean mainwindow)
+void AM_setAutomapSize(void)
 {
-    automapactive = mainwindow;
-
     if (vid_widescreen || !menuactive)
     {
         mapwidth = SCREENWIDTH;
@@ -413,6 +411,13 @@ static void AM_initVariables(const dboolean mainwindow)
         maparea = SCREENWIDTH * SCREENHEIGHT;
         mapbottom = SCREENWIDTH * (SCREENHEIGHT - 1);
     }
+}
+
+static void AM_initVariables(const dboolean mainwindow)
+{
+    automapactive = mainwindow;
+
+    AM_setAutomapSize();
 
     m_paninc.x = 0;
     m_paninc.y = 0;
@@ -1159,7 +1164,7 @@ void AM_Ticker(void)
     if (!automapactive)
         return;
 
-    if (am_followmode)
+    if (am_followmode || menuactive)
         AM_doFollowPlayer();
 
     // Change the zoom if necessary
@@ -1528,7 +1533,7 @@ static void AM_drawWalls(void)
                 l.b.x = line.v2->x >> FRACTOMAPBITS;
                 l.b.y = line.v2->y >> FRACTOMAPBITS;
 
-                if (am_rotatemode)
+                if (am_rotatemode || menuactive)
                 {
                     AM_rotatePoint(&l.a);
                     AM_rotatePoint(&l.b);
@@ -1986,6 +1991,9 @@ void AM_Drawer(void)
     AM_setFrameVariables();
     AM_clearFB();
     AM_drawWalls();
+
+    if (menuactive)
+        return;
 
     if (am_grid)
         AM_drawGrid();
