@@ -62,27 +62,27 @@ void AM_Ticker(void);
 
 // Called by main loop, called instead of view drawer if automap active.
 void AM_Drawer(void);
-void AM_clearFB(void);
+void AM_ClearFB(void);
 
 void AM_Start(const dboolean mainwindow);
-void AM_clearMarks(void);
-void AM_toggleFollowMode(void);
-void AM_toggleGrid(void);
-void AM_addMark(void);
-void AM_toggleRotateMode(void);
-void AM_toggleMaxZoom(void);
-void AM_toggleZoomOut(void);
-void AM_toggleZoomIn(void);
+void AM_ClearMarks(void);
+void AM_ToggleFollowMode(void);
+void AM_ToggleGrid(void);
+void AM_AddMark(void);
+void AM_ToggleRotateMode(void);
+void AM_ToggleMaxZoom(void);
+void AM_ToggleZoomOut(void);
+void AM_ToggleZoomIn(void);
 
 // Called to force the automap to quit if the level is completed while it is up.
 void AM_Stop(void);
 
-void AM_setAutomapSize(void);
+void AM_SetAutomapSize(void);
 
 void AM_Init(void);
-void AM_setColors(void);
-void AM_getGridSize(void);
-void AM_addToPath(void);
+void AM_SetColors(void);
+void AM_GetGridSize(void);
+void AM_AddToPath(void);
 
 extern dboolean message_dontfuckwithme;
 

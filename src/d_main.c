@@ -239,7 +239,7 @@ void D_Display(void)
         R_RenderPlayerView();
 
         if (am_path && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
-            AM_addToPath();
+            AM_AddToPath();
 
         if (mapwindow || automapactive)
             AM_Drawer();
@@ -556,7 +556,7 @@ void D_StartTitle(int page)
     titlesequence = page;
 
     if (mapwindow)
-        AM_clearFB();
+        AM_ClearFB();
 
     D_AdvanceTitle();
 }

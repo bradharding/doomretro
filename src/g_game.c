@@ -1143,7 +1143,7 @@ static void G_DoCompleted(void)
     if (automapactive)
         AM_Stop();
     else if (mapwindow)
-        AM_clearFB();
+        AM_ClearFB();
 
     if (chex && gamemap == 5)
     {

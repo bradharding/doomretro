@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
@@ -3466,7 +3467,7 @@ void M_StartControlPanel(void)
     }
 
     if (automapactive)
-        AM_setAutomapSize();
+        AM_SetAutomapSize();
 }
 
 //
@@ -3656,7 +3657,7 @@ void M_ClearMenus(void)
             R_SetViewSize(r_screensize);
 
         if (automapactive)
-            AM_setAutomapSize();
+            AM_SetAutomapSize();
     }
 }
 

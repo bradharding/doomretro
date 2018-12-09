@@ -854,7 +854,7 @@ static void back_action_func(void)
 static void clearmark_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_clearMarks();
+        AM_ClearMarks();
 }
 
 static void console_action_func(void)
@@ -871,7 +871,7 @@ static void fire_action_func(void)
 static void followmode_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_toggleFollowMode();
+        AM_ToggleFollowMode();
 }
 
 static void forward_action_func(void)
@@ -883,7 +883,7 @@ static void forward_action_func(void)
 static void grid_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_toggleGrid();
+        AM_ToggleGrid();
 }
 
 static void jump_action_func(void)
@@ -902,13 +902,13 @@ static void left_action_func(void)
 static void mark_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_addMark();
+        AM_AddMark();
 }
 
 static void maxzoom_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_toggleMaxZoom();
+        AM_ToggleMaxZoom();
 }
 
 static void menu_action_func(void)
@@ -937,7 +937,7 @@ static void right_action_func(void)
 static void rotatemode_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_toggleRotateMode();
+        AM_ToggleRotateMode();
 }
 
 static void screenshot_action_func(void)
@@ -4681,7 +4681,7 @@ static void color_cvars_func2(char *cmd, char *parms)
         {
             M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
             int_cvars_func2(cmd, buffer);
-            AM_setColors();
+            AM_SetColors();
             return;
         }
 
@@ -4695,7 +4695,7 @@ static void color_cvars_func2(char *cmd, char *parms)
         int_cvars_func2(cmd, parms);
 
     if (*parms)
-        AM_setColors();
+        AM_SetColors();
 }
 
 //
@@ -4905,7 +4905,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     if (*parms)
     {
         am_gridsize = strdup(parms);
-        AM_getGridSize();
+        AM_GetGridSize();
 
         if (!M_StringCompare(am_gridsize, parms))
             M_SaveCVARs();
