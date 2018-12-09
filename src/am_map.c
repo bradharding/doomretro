@@ -154,10 +154,10 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-static const unsigned int   mapwidth = SCREENWIDTH;
-static const unsigned int   mapheight = SCREENHEIGHT - SBARHEIGHT;
-static const unsigned int   maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
-static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
+static unsigned int mapwidth = SCREENWIDTH;
+static unsigned int mapheight = SCREENHEIGHT - SBARHEIGHT;
+static unsigned int maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
+static unsigned int mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
 
 dboolean            automapactive;
 
@@ -398,6 +398,21 @@ void AM_Init(void)
 static void AM_initVariables(const dboolean mainwindow)
 {
     automapactive = mainwindow;
+
+    if (vid_widescreen || !menuactive)
+    {
+        mapwidth = SCREENWIDTH;
+        mapheight = SCREENHEIGHT - SBARHEIGHT;
+        maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
+        mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
+    }
+    else
+    {
+        mapwidth = SCREENWIDTH;
+        mapheight = SCREENHEIGHT;
+        maparea = SCREENWIDTH * SCREENHEIGHT;
+        mapbottom = SCREENWIDTH * (SCREENHEIGHT - 1);
+    }
 
     m_paninc.x = 0;
     m_paninc.y = 0;
@@ -1968,13 +1983,6 @@ static void AM_setFrameVariables(void)
 
 void AM_Drawer(void)
 {
-    static int  prevtic;
-
-    if (gametime == prevtic)
-        return;
-
-    prevtic = gametime;
-
     AM_setFrameVariables();
     AM_clearFB();
     AM_drawWalls();

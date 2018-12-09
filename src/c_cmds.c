@@ -4966,7 +4966,6 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     }
 }
 
-
 //
 // autotilt CVAR
 //

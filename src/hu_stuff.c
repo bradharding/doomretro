@@ -920,8 +920,10 @@ void HU_InitMessages(void)
 
 void HU_Drawer(void)
 {
-    if (!menuactive)
-        HUlib_drawSText(&w_message, message_external);
+    if (menuactive)
+        return;
+
+    HUlib_drawSText(&w_message, message_external);
 
     if (automapactive)
     {
