@@ -1252,8 +1252,7 @@ void R_FillBackScreen(void)
     dest = screens[1];
 
     for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += 2)
-        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
-        {
+        for (int x = 0; x < SCREENWIDTH / 32; x += 2, dest += 128)
             for (int i = 0; i < 64; i++)
             {
                 int     j = i * 2;
@@ -1267,9 +1266,6 @@ void R_FillBackScreen(void)
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
             }
-
-            dest += 128;
-        }
 
     x1 = viewwindowx / 2;
     y1 = viewwindowy / 2;
@@ -1334,7 +1330,7 @@ void R_DrawViewBorder(void)
 
     // copy sides using wraparound
     ofs = top * SCREENWIDTH + SCREENWIDTH - side;
-    side <<= 1;
+    side *= 2;
 
     for (int i = 1; i < viewheight; i++)
     {

@@ -520,7 +520,7 @@ void M_DarkBackground(void)
         }
 
         for (int i = 0; i < height; i++)
-            screens[0][i] = colormaps[0][M_RandomInt(0, 7) * 256 + screens[0][i]];
+            screens[0][i] = colormaps[0][((M_Random() & 7) << 8) + screens[0][i]];
 
         BlurScreen(screens[0], blurscreen1);
 
@@ -538,7 +538,7 @@ void M_DarkBackground(void)
             }
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                mapscreen[i] = colormaps[0][M_RandomInt(0, 7) * 256 + mapscreen[i]];
+                mapscreen[i] = colormaps[0][((M_Random() & 7) << 8) + mapscreen[i]];
 
             BlurScreen(mapscreen, blurscreen2);
 
@@ -3460,7 +3460,7 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
-        spindirection = (M_RandomInt(0, 1) == 0 ? -1 : 1);
+        spindirection = (M_Random() & 1 ? -1 : 1);
 
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(8);
