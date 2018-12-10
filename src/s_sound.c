@@ -640,8 +640,16 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         if (!serverMidiPlaying)
 #endif
         {
-            C_Warning("The <b>%s</b> music lump can't be played.", uppercase(namebuf));
-            return;
+            char    *filename = M_StringJoin(namebuf, ".MP3", NULL);
+
+            if (M_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
+                handle = Mix_LoadMUS(filename);
+
+            if (!handle)
+            {
+                C_Warning("The <b>%s</b> music lump can't be played.", uppercase(namebuf));
+                return;
+            }
         }
 
     music->handle = handle;

@@ -13,6 +13,7 @@
 * The support for `MUSINFO` lumps has been fixed.
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * A bug has been fixed whereby the `unbind` CCMD wouldn’t unbind controls.
+* MP3 music lumps now play as intended.
 
 ---
 
