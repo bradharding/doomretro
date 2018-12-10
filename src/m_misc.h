@@ -69,6 +69,7 @@ dboolean M_StrToInt(const char *str, unsigned int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, char *replacement);
+char *M_TempFile(char *s);
 char *M_StringJoin(char *s, ...);
 dboolean M_StringStartsWith(const char *s, const char *prefix);
 dboolean M_StringEndsWith(const char *s, const char *suffix);

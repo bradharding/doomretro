@@ -276,6 +276,22 @@ char *M_GetExecutableFolder(void)
 #endif
 }
 
+char *M_TempFile(char *s)
+{
+    char    *tempdir;
+
+#if defined(_WIN32)
+    tempdir = getenv("TEMP");
+
+    if (!tempdir)
+        tempdir = ".";
+#else
+    tempdir = "/tmp";
+#endif
+
+    return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);
+}
+
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
 char *M_StringJoin(char *s, ...)
