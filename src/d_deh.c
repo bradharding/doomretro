@@ -2041,7 +2041,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         if (devparm)
             C_Output("Line = \"%s\"", inbuffer);
 
-        if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ')
+        if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;   // Blank line or comment line
 
         // -- If DEH_BLOCKMAX is set right, the processing is independently
@@ -2839,7 +2839,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
-        if (*inbuffer == '#')
+        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;                           // skip comment lines
 
         lfstrip(lowercase(inbuffer));           // lowercase it
@@ -3416,7 +3416,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
-        if (*inbuffer == '#')
+        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;                   // skip comment lines
 
         lfstrip(inbuffer);
