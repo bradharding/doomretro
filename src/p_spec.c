@@ -147,6 +147,8 @@ void P_InitPicAnims(void)
     short       lavaend = R_CheckFlatNumForName("LAVA4");
     short       bloodstart = R_CheckFlatNumForName("BLOOD1");
     short       bloodend = R_CheckFlatNumForName("BLOOD3");
+    short       slimestart = R_CheckFlatNumForName("SLIME01");
+    short       slimeend = R_CheckFlatNumForName("SLIME08");
 
     terraintypes = Z_Calloc(1, size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
@@ -205,7 +207,7 @@ void P_InitPicAnims(void)
                     terraintypes[j] = LAVA;
                 else if (j >= bloodstart && j <= bloodend)
                     terraintypes[j] = BLOOD;
-                else
+                else if (j >= slimestart && j <= slimeend)
                     terraintypes[j] = SLIME;
         }
 
