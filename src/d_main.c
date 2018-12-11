@@ -515,6 +515,7 @@ void D_DoAdvanceTitle(void)
         {
             I_SetPalette(playpal);
             splashscreen = false;
+            I_Sleep(300);
         }
 
         M_SetWindowCaption();
