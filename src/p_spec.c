@@ -228,7 +228,7 @@ void P_InitPicAnims(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-        if (M_StringCompare(sc_String, "NOLIQUID"))
+        if (M_StringCompare(sc_String, "NOLIQUID") || M_StringCompare(sc_String, "LIQUID"))
         {
             int lump;
 
@@ -237,7 +237,7 @@ void P_InitPicAnims(void)
             SC_MustGetString();
 
             if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
-                terraintypes[lump] = SOLID;
+                terraintypes[lump] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : WATER);
         }
 
     SC_Close();
