@@ -14,7 +14,7 @@
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * A bug has been fixed whereby the `unbind` CCMD wouldn’t unbind controls.
 * MP3 music lumps now play as intended.
-* All unrecognized animated flats in PWADs will now be treated as solid rather than liquid when the `r_liquid_swirl` CVAR is `on`.
+* All additional animated flats in PWADs will now be treated as solid rather than liquid when the `r_liquid_swirl` CVAR is `on`.
 
 ---
 
