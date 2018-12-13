@@ -81,6 +81,7 @@ typedef struct
 typedef enum
 {
     SOLID,
+    LIQUID,
     NUKAGE,
     WATER,
     LAVA,

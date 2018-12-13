@@ -237,7 +237,7 @@ void P_InitPicAnims(void)
             SC_MustGetString();
 
             if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
-                terraintypes[lump] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : WATER);
+                terraintypes[lump] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
         }
 
     SC_Close();
