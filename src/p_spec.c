@@ -137,18 +137,18 @@ void P_InitPicAnims(void)
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
-    short       nukagestart = R_CheckFlatNumForName("NUKAGE1");
-    short       nukageend = R_CheckFlatNumForName("NUKAGE3");
-    short       fwaterstart = R_CheckFlatNumForName("FWATER1");
-    short       fwaterend = R_CheckFlatNumForName("FWATER4");
-    short       swaterstart = R_CheckFlatNumForName("SWATER1");
-    short       swaterend = R_CheckFlatNumForName("SWATER4");
-    short       lavastart = R_CheckFlatNumForName("LAVA1");
-    short       lavaend = R_CheckFlatNumForName("LAVA4");
-    short       bloodstart = R_CheckFlatNumForName("BLOOD1");
-    short       bloodend = R_CheckFlatNumForName("BLOOD3");
-    short       slimestart = R_CheckFlatNumForName("SLIME01");
-    short       slimeend = R_CheckFlatNumForName("SLIME08");
+    short       NUKAGE1 = R_CheckFlatNumForName("NUKAGE1");
+    short       NUKAGE3 = R_CheckFlatNumForName("NUKAGE3");
+    short       FWATER1 = R_CheckFlatNumForName("FWATER1");
+    short       FWATER4 = R_CheckFlatNumForName("FWATER4");
+    short       SWATER1 = R_CheckFlatNumForName("SWATER1");
+    short       SWATER4 = R_CheckFlatNumForName("SWATER4");
+    short       LAVA1 = R_CheckFlatNumForName("LAVA1");
+    short       LAVA4 = R_CheckFlatNumForName("LAVA4");
+    short       BLOOD1 = R_CheckFlatNumForName("BLOOD1");
+    short       BLOOD3 = R_CheckFlatNumForName("BLOOD3");
+    short       SLIME01 = R_CheckFlatNumForName("SLIME01");
+    short       SLIME08 = R_CheckFlatNumForName("SLIME08");
 
     terraintypes = Z_Calloc(1, size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
@@ -199,15 +199,15 @@ void P_InitPicAnims(void)
             lastanim->istexture = false;
 
             for (int j = lastanim->basepic; j < lastanim->basepic + lastanim->numpics; j++)
-                if (j >= nukagestart && j <= nukageend)
+                if (j >= NUKAGE1 && j <= NUKAGE3)
                     terraintypes[j] = NUKAGE;
-                else if ((j >= fwaterstart && j <= fwaterend) || (j >= swaterstart && j <= swaterend))
+                else if ((j >= FWATER1 && j <= FWATER4) || (j >= SWATER1 && j <= SWATER4))
                     terraintypes[j] = WATER;
-                else if (j >= lavastart && j <= lavaend)
+                else if (j >= LAVA1 && j <= LAVA4)
                     terraintypes[j] = LAVA;
-                else if (j >= bloodstart && j <= bloodend)
+                else if (j >= BLOOD1 && j <= BLOOD3)
                     terraintypes[j] = BLOOD;
-                else if (j >= slimestart && j <= slimeend)
+                else if (j >= SLIME01 && j <= SLIME08)
                     terraintypes[j] = SLIME;
         }
 
