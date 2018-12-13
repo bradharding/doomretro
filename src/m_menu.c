@@ -3460,7 +3460,7 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
-        spindirection = (M_Random() & 1 ? -1 : 1);
+        spindirection = ((M_Random() & 1) ? -1 : 1);
 
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(8);

@@ -1257,6 +1257,12 @@ static char *getaspectratio(int width, int height)
     width /= hcf;
     height /= hcf;
 
+    if (width == 8)
+    {
+        width = 16;
+        height *= 2;
+    }
+
     M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
     return ratio;
 }
