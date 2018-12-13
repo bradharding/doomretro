@@ -230,14 +230,18 @@ void P_InitPicAnims(void)
     while (SC_GetString())
         if (M_StringCompare(sc_String, "NOLIQUID") || M_StringCompare(sc_String, "LIQUID"))
         {
-            int lump;
+            int first;
+            int last;
 
             SC_MustGetString();
-            lump = R_CheckFlatNumForName(sc_String);
+            first = R_CheckFlatNumForName(sc_String);
+            SC_MustGetString();
+            last = R_CheckFlatNumForName(sc_String);
             SC_MustGetString();
 
-            if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
-                terraintypes[lump] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
+            if (first >= 0 && last >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + first]->wadfile->path), sc_String))
+                for (int i = first; i <= last; i++)
+                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
         }
 
     SC_Close();
