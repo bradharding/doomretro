@@ -1629,7 +1629,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
                 if (z < floorz && distz)
                 {
-                    if (sector->terraintype != SOLID || sector->floorpic == skyflatnum)
+                    if (sector->terraintype > SOLID || sector->floorpic == skyflatnum)
                         return false;
 
                     frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);

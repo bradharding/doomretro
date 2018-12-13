@@ -207,7 +207,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->left = viewwidth;
     check->right = -1;
 
-    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] != SOLID && r_liquid_current && !xoffs && !yoffs)
+    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] > SOLID && r_liquid_current && !xoffs && !yoffs)
     {
         check->xoffs = animatedliquidxoffs;
         check->yoffs = animatedliquidyoffs;
@@ -469,8 +469,13 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
-                    lumpinfo[firstflat + flattranslation[picnum]]->cache);
+                if (terraintypes[picnum] == ANIMATED)
+                    ds_source = (r_liquid_swirl == r_liquid_swirl_all ? R_DistortedFlat(picnum) : lumpinfo[firstflat + flattranslation[picnum]]->cache);
+                else if (terraintypes[picnum] != SOLID && r_liquid_swirl != r_liquid_swirl_none)
+                    ds_source = R_DistortedFlat(picnum);
+                else
+                    ds_source = lumpinfo[firstflat + flattranslation[picnum]]->cache;
+
                 R_MakeSpans(pl);
             }
         }

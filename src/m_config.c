@@ -155,7 +155,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,                              BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_liquid_current,                                  BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_liquid_lowerview,                                BOOLVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (r_liquid_swirl,                                    BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_liquid_swirl,                                    SWIRLVALUEALIAS   ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                                    NOVALUEALIAS      ),
     CONFIG_VARIABLE_OTHER        (r_messagepos,                                      NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (r_messagescale,                                    SCALEVALUEALIAS   ),
@@ -261,7 +261,8 @@ valuealias_t valuealiases[] =
     { "big",       1, SCALEVALUEALIAS     }, { "none",    5, FACEBACKVALUEALIAS  },
     { "off",       5, FACEBACKVALUEALIAS  }, { "none",    0, ARMORTYPEVALUEALIAS },
     { "green",     1, ARMORTYPEVALUEALIAS }, { "blue",    2, ARMORTYPEVALUEALIAS },
-    { "",          0, NOVALUEALIAS        }
+    { "none",      0, SWIRLVALUEALIAS     }, { "some",    1, SWIRLVALUEALIAS     },
+    { "all",       2, SWIRLVALUEALIAS     }, { "",        0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *string)
@@ -729,7 +730,7 @@ static void M_CheckCVARs(void)
     if (r_liquid_lowerview != false && r_liquid_lowerview != true)
         r_liquid_lowerview = r_liquid_lowerview_default;
 
-    if (r_liquid_swirl != false && r_liquid_swirl != true)
+    if (r_liquid_swirl != r_liquid_swirl_none && r_liquid_swirl != r_liquid_swirl_some && r_liquid_swirl != r_liquid_swirl_all)
         r_liquid_swirl = r_liquid_swirl_default;
 
     if (r_messagescale != r_messagescale_small && r_messagescale != r_messagescale_big)

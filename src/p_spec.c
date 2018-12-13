@@ -209,6 +209,8 @@ void P_InitPicAnims(void)
                     terraintypes[j] = BLOOD;
                 else if (j >= SLIME01 && j <= SLIME08)
                     terraintypes[j] = SLIME;
+                else
+                    terraintypes[j] = ANIMATED;
         }
 
         if (lastanim->numpics < 2)
@@ -224,7 +226,6 @@ void P_InitPicAnims(void)
 
     W_ReleaseLumpNum(lump);
 
-    // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
@@ -241,7 +242,7 @@ void P_InitPicAnims(void)
 
             if (first >= 0 && last >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + first]->wadfile->path), sc_String))
                 for (int i = first; i <= last; i++)
-                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
+                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? ANIMATED : LIQUID);
         }
 
     SC_Close();
