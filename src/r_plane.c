@@ -469,12 +469,8 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                if (terraintypes[picnum] == ANIMATED)
-                    ds_source = (r_liquid_swirl == r_liquid_swirl_all ? R_DistortedFlat(picnum) : lumpinfo[firstflat + flattranslation[picnum]]->cache);
-                else if (terraintypes[picnum] != SOLID && r_liquid_swirl != r_liquid_swirl_none)
-                    ds_source = R_DistortedFlat(picnum);
-                else
-                    ds_source = lumpinfo[firstflat + flattranslation[picnum]]->cache;
+                ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
+                    lumpinfo[firstflat + flattranslation[picnum]]->cache);
 
                 R_MakeSpans(pl);
             }

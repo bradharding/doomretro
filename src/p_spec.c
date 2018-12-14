@@ -209,8 +209,6 @@ void P_InitPicAnims(void)
                     terraintypes[j] = BLOOD;
                 else if (j >= SLIME01 && j <= SLIME08)
                     terraintypes[j] = SLIME;
-                else
-                    terraintypes[j] = ANIMATED;
         }
 
         if (lastanim->numpics < 2)

@@ -559,7 +559,7 @@ void P_CheckTerrainType(sector_t *sector)
 
     if ((sector->terraintype = terraintypes[sector->floorpic]) != oldterraintype)
     {
-        dboolean    isliquid = (sector->terraintype > SOLID);
+        dboolean    isliquid = (sector->terraintype != SOLID);
 
         if (isliquid)
         {

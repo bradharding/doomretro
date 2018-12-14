@@ -678,8 +678,8 @@ consolecmd_t consolecmds[] =
         "Toggles a slight current being applied to liquid\nsectors."),
     CVAR_BOOL(r_liquid_lowerview, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles lowering the player's view when in a liquid\nsector."),
-    CVAR_INT(r_liquid_swirl, "", int_cvars_func1, int_cvars_func2, CF_NONE, SWIRLVALUEALIAS,
-        "Toggles the swirl effect of liquid sectors (<b>none</b>,\n<b>some</b> or <b>all</b>)."),
+    CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of pixels when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_POS(r_messagepos, "", null_func1, r_messagepos_cvar_func2,
@@ -5281,22 +5281,6 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// r_color CVAR
-//
-static void r_color_cvar_func2(char *cmd, char *parms)
-{
-    const int   r_color_old = r_color;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_color != r_color_old)
-    {
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
-        M_SaveCVARs();
-    }
-}
-
-//
 // r_bloodsplats_translucency CVAR
 //
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
@@ -5334,6 +5318,22 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS),
                 C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS));
+    }
+}
+
+//
+// r_color CVAR
+//
+static void r_color_cvar_func2(char *cmd, char *parms)
+{
+    const int   r_color_old = r_color;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_color != r_color_old)
+    {
+        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+        M_SaveCVARs();
     }
 }
 

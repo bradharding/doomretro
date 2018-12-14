@@ -80,7 +80,6 @@ typedef struct
 
 typedef enum
 {
-    ANIMATED = -1,
     SOLID,
     LIQUID,
     NUKAGE,

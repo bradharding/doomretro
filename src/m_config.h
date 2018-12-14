@@ -227,13 +227,6 @@ enum
 
 enum
 {
-    r_liquid_swirl_none,
-    r_liquid_swirl_some,
-    r_liquid_swirl_all
-};
-
-enum
-{
     r_messagescale_small,
     r_messagescale_big
 };
@@ -503,9 +496,7 @@ enum
 
 #define r_liquid_lowerview_default              true
 
-#define r_liquid_swirl_min                      r_liquid_swirl_none
-#define r_liquid_swirl_default                  r_liquid_swirl_some
-#define r_liquid_swirl_max                      r_liquid_swirl_all
+#define r_liquid_swirl_default                  true
 
 #define r_lowpixelsize_default                  "2x2"
 
@@ -752,8 +743,7 @@ typedef enum
     SKYVALUEALIAS,
     SCALEVALUEALIAS,
     FACEBACKVALUEALIAS,
-    ARMORTYPEVALUEALIAS,
-    SWIRLVALUEALIAS
+    ARMORTYPEVALUEALIAS
 } valuealias_type_t;
 
 typedef struct
