@@ -107,35 +107,35 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters);
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
-static int      mapcount;
+static int          mapcount;
 
-int             numvertexes;
-vertex_t        *vertexes;
+int                 numvertexes;
+vertex_t            *vertexes;
 
-int             numsegs;
-seg_t           *segs;
+int                 numsegs;
+seg_t               *segs;
 
-int             numsectors;
-sector_t        *sectors;
+int                 numsectors;
+sector_t            *sectors;
 
-int             numliquid;
-int             numdamaging;
+int                 numliquid;
+int                 numdamaging;
 
-int             numsubsectors;
-subsector_t     *subsectors;
+int                 numsubsectors;
+subsector_t         *subsectors;
 
-int             numnodes;
-node_t          *nodes;
+int                 numnodes;
+node_t              *nodes;
 
-int             numlines;
-line_t          *lines;
+int                 numlines;
+line_t              *lines;
 
-int             numsides;
-side_t          *sides;
+int                 numsides;
+side_t              *sides;
 
-int             numthings;
-int             thingid;
-int             numdecorations;
+int                 numthings;
+int                 thingid;
+int                 numdecorations;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -145,23 +145,23 @@ int             numdecorations;
 // by spatial subdivision in 2D.
 //
 // Blockmap size.
-int             bmapwidth;
-int             bmapheight;
+int                 bmapwidth;
+int                 bmapheight;
 
 // for large maps, wad is 16bit
-int             *blockmap;
+int                 *blockmap;
 
 // offsets in blockmap are from here
-int             *blockmaplump;
+int                 *blockmaplump;
 
 // origin of block map
-fixed_t         bmaporgx;
-fixed_t         bmaporgy;
+fixed_t             bmaporgx;
+fixed_t             bmaporgy;
 
 // for thing chains
-mobj_t          **blocklinks;
+mobj_t              **blocklinks;
 
-dboolean        skipblstart;                // MaxW: Skip initial blocklist short
+dboolean            skipblstart;            // MaxW: Skip initial blocklist short
 
 // REJECT
 // For fast sight rejection.

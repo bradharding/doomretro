@@ -901,9 +901,7 @@ void C_Drawer(void)
         int             start;
         int             end;
         int             len;
-        char            lefttext[512];
         char            middletext[512];
-        char            righttext[512];
         const dboolean  prevconsoleactive = consoleactive;
         static int      consolewait;
 
@@ -1058,6 +1056,8 @@ void C_Drawer(void)
 
         if (consoleinput[0] != '\0')
         {
+            char    lefttext[512];
+
             // draw input text to left of caret
             for (i = 0; i < MIN(selectstart, caretpos); i++)
                 lefttext[i] = consoleinput[i];
@@ -1137,6 +1137,8 @@ void C_Drawer(void)
 
         if (caretpos < len)
         {
+            char    righttext[512];
+
             for (i = selectend; i < len; i++)
                 righttext[i - selectend] = consoleinput[i];
 
