@@ -242,7 +242,7 @@ void P_InitPicAnims(void)
 
             if (first >= 0 && last >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + first]->wadfile->path), sc_String))
                 for (int i = first; i <= last; i++)
-                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? ANIMATED : LIQUID);
+                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
         }
 
     SC_Close();
