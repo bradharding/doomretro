@@ -1535,9 +1535,9 @@ static void P_CreateBlockMap(void)
 
             // difference in preferring to move across y (> 0) instead of x (< 0)
             int diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
-                    + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = abs(ady)) * dx
+                    + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = ABS(ady)) * dx
                     - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0)
-                    - y) * (adx = abs(adx)) * dy));
+                    - y) * (adx = ABS(adx)) * dy));
 
             // starting block, and pointer to its blocklist structure
             int b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
@@ -1611,7 +1611,7 @@ static void P_CreateBlockMap(void)
             for (i = 4; (unsigned int)i < tot; i++, bp++)
                 if (bp->n)                                              // Non-empty blocklist
                 {
-                    blockmaplump[blockmaplump[i] = ndx++] = 0;          // Store index & header
+                    blockmaplump[(blockmaplump[i] = ndx++)] = 0;        // Store index & header
 
                     do
                         blockmaplump[ndx++] = bp->list[--bp->n];        // Copy linedef list

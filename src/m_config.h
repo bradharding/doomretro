@@ -343,7 +343,7 @@ enum
 
 #define episode_min                             1
 #define episode_default                         1
-#define episode_max                             4
+#define episode_max                             5
 
 #define expansion_min                           1
 #define expansion_default                       1
