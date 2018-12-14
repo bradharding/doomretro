@@ -165,6 +165,7 @@ static dboolean         scrollbardrawn;
 extern int              fps;
 extern int              refreshrate;
 extern dboolean         dowipe;
+extern dboolean         quitcmd;
 extern dboolean         togglingvanilla;
 
 void C_Input(const char *string, ...)
@@ -1052,34 +1053,40 @@ void C_Drawer(void)
                     (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs, true, true);
         }
 
-        // draw input text to left of caret
-        for (i = 0; i < MIN(selectstart, caretpos); i++)
-            lefttext[i] = consoleinput[i];
+        if (quitcmd)
+            return;
 
-        lefttext[i] = '\0';
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false,
-            true);
-        x += C_TextWidth(lefttext, false, true);
-
-        // draw any selected text to left of caret
-        if (selectstart < caretpos)
+        if (consoleinput[0] != '\0')
         {
-            for (i = selectstart; i < selectend; i++)
-                middletext[i - selectstart] = consoleinput[i];
+            // draw input text to left of caret
+            for (i = 0; i < MIN(selectstart, caretpos); i++)
+                lefttext[i] = consoleinput[i];
 
-            middletext[i - selectstart] = '\0';
+            lefttext[i] = '\0';
+            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false,
+                true);
+            x += C_TextWidth(lefttext, false, true);
 
-            if (*middletext)
+            // draw any selected text to left of caret
+            if (selectstart < caretpos)
             {
-                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                for (i = selectstart; i < selectend; i++)
+                    middletext[i - selectstart] = consoleinput[i];
 
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor, consoleselectedinputbackgroundcolor,
-                    NOBOLDCOLOR, NULL, notabs, false, true);
-                x += C_TextWidth(middletext, false, true);
+                middletext[i - selectstart] = '\0';
 
-                for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                if (*middletext)
+                {
+                    for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                        screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+
+                    C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor, consoleselectedinputbackgroundcolor,
+                        NOBOLDCOLOR, NULL, notabs, false, true);
+                    x += C_TextWidth(middletext, false, true);
+
+                    for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
+                        screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                }
             }
         }
 
@@ -1257,6 +1264,9 @@ dboolean C_Responder(event_t *ev)
     static int  inputhistory = -1;
     int         i;
     int         len;
+
+    if (quitcmd)
+        I_Quit(true);
 
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
         return false;

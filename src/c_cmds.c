@@ -109,9 +109,10 @@ static int          mapcmdmap;
 static char         mapcmdlump[7];
 
 dboolean            executingalias = false;
-dboolean            vanilla = false;
+dboolean            quitcmd = false;
 dboolean            resettingcvar = false;
 dboolean            togglingvanilla = false;
+dboolean            vanilla = false;
 
 char                *version = version_default;
 
@@ -3919,7 +3920,7 @@ static void print_cmd_func2(char *cmd, char *parms)
 //
 static void quit_cmd_func2(char *cmd, char *parms)
 {
-    I_Quit(true);
+    quitcmd = true;
 }
 
 //
