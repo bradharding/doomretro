@@ -1065,7 +1065,7 @@ void G_DoScreenShot(void)
 }
 
 // DOOM Par Times
-int pars[5][10] =
+int pars[6][10] =
 {
     { 0 },
     { 0,  30,  75, 120,  90, 165, 180, 180,  30, 165 },
@@ -1073,7 +1073,8 @@ int pars[5][10] =
     { 0,  90,  45,  90, 150,  90,  90, 165,  30, 135 },
 
     // [BH] Episode 4 Par Times
-    { 0, 165, 255, 135, 150, 180, 390, 135, 360, 180 }
+    { 0, 165, 255, 135, 150, 180, 390, 135, 360, 180 },
+    { 0 }
 };
 
 // DOOM II Par Times
@@ -1637,7 +1638,12 @@ void G_InitNew(skill_t skill, int ep, int map)
 
     if (gamemode == retail)
     {
-        if (ep > 4)
+        if (sigil)
+        {
+            if (ep > 5)
+                ep = 5;
+        }
+        else if (ep > 4)
             ep = 4;
     }
     else if (gamemode == shareware)

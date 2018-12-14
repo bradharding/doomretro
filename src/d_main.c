@@ -749,7 +749,12 @@ static void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "NERVE.WAD"))
+    if (M_StringCompare(leaf, "SIGIL.WAD"))
+    {
+        sigil = true;
+        episode = 5;
+    }
+    else if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
         expansion = 2;
@@ -811,8 +816,21 @@ static dboolean D_CheckParms(void)
                 result = true;
                 iwadfolder = strdup(M_ExtractFolder(myargv[1]));
 
+                // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
+                if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD"))
+                {
+                    static char fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL.WAD");
+
+                    if (W_MergeFile(fullpath, true))
+                    {
+                        modifiedgame = true;
+                        sigil = true;
+                    }
+                }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
                 {
                     static char fullpath[MAX_PATH];
 
@@ -1035,8 +1053,21 @@ static int D_OpenWADLauncher(void)
                     wad = strdup(leafname(file));
                     iwadfolder = strdup(M_ExtractFolder(file));
 
+                    // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
+                    if (M_StringCompare(leafname(file), "DOOM.WAD"))
+                    {
+                        static char fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL.WAD");
+
+                        if (W_MergeFile(fullpath, true))
+                        {
+                            modifiedgame = true;
+                            sigil = true;
+                        }
+                    }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "DOOM2.WAD"))
+                    else if (M_StringCompare(leafname(file), "DOOM2.WAD"))
                     {
                         static char fullpath[MAX_PATH];
 

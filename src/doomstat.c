@@ -44,6 +44,7 @@ GameMission_t   gamemission = doom;
 GameVersion_t   gameversion = exe_final;
 char            *gamedescription;
 
+dboolean        sigil;
 dboolean        nerve;
 dboolean        bfgedition;
 

@@ -3722,6 +3722,8 @@ void M_Init(void)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
+    else if (gamemode == retail && sigil)
+        EpiDef.numitems++;
 
 #if !defined(_WIN32)
     s_DOSY = s_OTHERY;

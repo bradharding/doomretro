@@ -1287,15 +1287,15 @@ char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
     &s_HUSTR_E4M7,
     &s_HUSTR_E4M8,
     &s_HUSTR_E4M9,
-    &deh_newlevel,      // spares? Unused.
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel,
-    &deh_newlevel
+    &s_HUSTR_E5M1,
+    &s_HUSTR_E5M2,
+    &s_HUSTR_E5M3,
+    &s_HUSTR_E5M4,
+    &s_HUSTR_E5M5,
+    &s_HUSTR_E5M6,
+    &s_HUSTR_E5M7,
+    &s_HUSTR_E5M8,
+    &s_HUSTR_E5M9
 };
 
 char **mapnames2[] =    // DOOM 2 map names.

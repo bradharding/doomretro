@@ -91,6 +91,7 @@ extern char             speciallumpname[6];
 
 extern dboolean         freeze;
 
+extern dboolean         sigil;
 extern dboolean         nerve;
 extern dboolean         bfgedition;
 
