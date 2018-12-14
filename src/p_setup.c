@@ -1519,7 +1519,7 @@ static void P_CreateBlockMap(void)
         bmap_t          *bmap = calloc(sizeof(*bmap), tot);     // array of blocklists
 
         if (!bmap)
-            I_Error("Unable to create blockmap.");
+            I_Error("Unable to recreate blockmap.");
 
         for (i = 0; i < numlines; i++)
         {
@@ -1646,7 +1646,10 @@ static void P_LoadBlockMap(int lump)
     blockmaprecreated = false;
 
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
+    {
         P_CreateBlockMap();
+        C_Warning("This map's blockmap needed to be recreated.");
+    }
     else
     {
         short   *wadblockmaplump = W_CacheLumpNum(lump);
@@ -1683,6 +1686,7 @@ static void P_LoadBlockMap(int lump)
             Z_Free(blockmaplump);
             blockmaplump = NULL;
             P_CreateBlockMap();
+            C_Warning("This map's blockmap needed to be recreated.");
         }
     }
 
