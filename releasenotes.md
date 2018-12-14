@@ -16,6 +16,7 @@
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * MP3 music lumps now play as intended.
 * Only the animated flats present in IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`) will now be treated as liquid. This may be overridden by an entry in the [`DRCOMPAT`](https://github.com/bradharding/doomretro/blob/master/res/DRCOMPAT) lump in `doomretro.wad`, or a `MAPINFO` lump in a PWAD.
+* The blockmap of each loaded map will now be recreated if `-blockmap` is specified on the command-line.
 
 ---
 

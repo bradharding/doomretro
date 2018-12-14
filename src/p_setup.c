@@ -1650,6 +1650,11 @@ static void P_LoadBlockMap(int lump)
         P_CreateBlockMap();
         C_Warning("This map's blockmap needed to be recreated.");
     }
+    else if (M_CheckParm("-blockmap"))
+    {
+        P_CreateBlockMap();
+        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's blockmap was recreated.");
+    }
     else
     {
         short   *wadblockmaplump = W_CacheLumpNum(lump);
