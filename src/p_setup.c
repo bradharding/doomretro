@@ -1648,12 +1648,12 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning("This map's blockmap needed to be recreated.");
+        C_Warning("This map's <b>BLOCKMAP</b> lump was %s and needed to be recreated.", (lumplen ? "invalid" : "empty"));
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's blockmap was recreated.");
+        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was recreated.");
     }
     else
     {
@@ -2215,6 +2215,9 @@ void P_SetupLevel(int ep, int map)
     canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve || (nerve && gamemission == doom2)) && !FREEDOOM
         && !M_StringCompare(lumpname, "E1M4B") && !M_StringCompare(lumpname, "E1M8B"));
 
+    C_AddConsoleDivider();
+    C_Output(mapnumandtitle);
+
     leveltime = 0;
     animatedliquiddiff = FRACUNIT * 2;
     animatedliquidxdir = M_RandomInt(-FRACUNIT / 12, FRACUNIT / 12);
@@ -2302,9 +2305,6 @@ void P_SetupLevel(int ep, int map)
 
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
-
-    C_AddConsoleDivider();
-    C_Output(mapnumandtitle);
 }
 
 static int  liquidlumps;
