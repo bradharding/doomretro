@@ -337,7 +337,8 @@ static void P_DeathThink(void)
                 if (viewheightrange)
                     inc = (int)(inc / viewheightrange + 0.5);
 
-                deadlookdir = DEADLOOKDIR / inc * inc;
+                if (inc)
+                    deadlookdir = DEADLOOKDIR / inc * inc;
             }
 
             if (viewplayer->lookdir > deadlookdir)
