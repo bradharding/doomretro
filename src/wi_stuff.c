@@ -413,7 +413,7 @@ static void WI_drawLF(void)
     }
 
     if (y >= ORIGINALHEIGHT)
-        y = WI_TITLEY + 33;
+        y = WI_TITLEY + 24;
 
     // draw "Finished!"
     V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
