@@ -1691,7 +1691,7 @@ static void P_LoadBlockMap(int lump)
             Z_Free(blockmaplump);
             blockmaplump = NULL;
             P_CreateBlockMap();
-            C_Warning("This map's blockmap needed to be recreated.");
+            C_Warning("This map's <b>BLOCKMAP</b> lump was invalid and needed to be recreated.");
         }
     }
 

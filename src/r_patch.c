@@ -190,7 +190,7 @@ static void createPatch(int id)
         char    *name = lumpinfo[patchNum]->name;
 
         if (!M_StringCompare(name, "HI_START") && !M_StringCompare(name, "HI_END"))
-            C_Warning("The patch <b>%s</b> is of an unknown format.", name);
+            C_Warning("The <b>%s</b> patch is in an unknown format.", name);
 
         return;
     }
