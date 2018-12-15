@@ -253,7 +253,7 @@
       </DelayLoadDLLs>
       <ShowProgress>NotSet</ShowProgress>
       <EnableUAC>false</EnableUAC>
-      <GenerateMapFile>false</GenerateMapFile>
+      <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.9\lib\x86;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x86;$(ProjectDir)..\SDL2_image-2.0.4\lib\x86</AdditionalLibraryDirectories>
     </Link>
@@ -328,7 +328,7 @@
       </DelayLoadDLLs>
       <ShowProgress>NotSet</ShowProgress>
       <EnableUAC>false</EnableUAC>
-      <GenerateMapFile>false</GenerateMapFile>
+      <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.9\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64;$(ProjectDir)..\SDL2_image-2.0.4\lib\x64</AdditionalLibraryDirectories>
     </Link>
