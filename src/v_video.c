@@ -191,6 +191,9 @@ void V_DrawPagePatch(patch_t *patch)
     short   width = SHORT(patch->width);
     short   height = SHORT(patch->height);
 
+    patch->leftoffset = 0;
+    patch->topoffset = 0;
+
     DX = (SCREENWIDTH << FRACBITS) / width;
     DXI = (width << FRACBITS) / SCREENWIDTH;
     DY = (SCREENHEIGHT << FRACBITS) / height;

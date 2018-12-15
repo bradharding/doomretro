@@ -394,8 +394,16 @@ static void WI_drawLF(void)
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1, lnames[wbs->last], false);
-            y += SHORT(lnames[wbs->last]->height) + 2;
+            patch_t *patch = lnames[wbs->last];
+            short   width = SHORT(patch->width);
+            short   height = SHORT(patch->height);
+
+            if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
+                V_DrawPagePatch(patch);
+            else
+                V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+
+            y += height + 2;
         }
         else
         {
@@ -440,7 +448,16 @@ static void WI_drawEL(void)
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1, lnames[wbs->next], false);
+        {
+            patch_t *patch = lnames[wbs->next];
+            short   width = SHORT(patch->width);
+            short   height = SHORT(patch->height);
+
+            if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
+                V_DrawPagePatch(patch);
+            else
+                V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+        }
         else
             WI_drawWILV(y, nextmapname);
     }
