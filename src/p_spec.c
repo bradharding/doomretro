@@ -127,6 +127,12 @@ extern dboolean     canmodify;
 extern int          numflats;
 extern texture_t    **textures;
 
+static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
+{
+    for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
+        terraintypes[i] = terraintype;
+}
+
 //
 // P_InitPicAnims
 //
@@ -189,26 +195,35 @@ void P_InitPicAnims(void)
         }
         else
         {
+            int basepic;
+
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
 
             lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
-            lastanim->basepic = R_FlatNumForName(animdefs[i].startname);
+            lastanim->basepic = basepic = R_FlatNumForName(animdefs[i].startname);
 
-            lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+            lastanim->numpics = lastanim->picnum - basepic + 1;
             lastanim->istexture = false;
 
-            for (int j = lastanim->basepic; j < lastanim->basepic + lastanim->numpics; j++)
-                if (j >= NUKAGE1 && j <= NUKAGE3)
-                    terraintypes[j] = NUKAGE;
-                else if ((j >= FWATER1 && j <= FWATER4) || (j >= SWATER1 && j <= SWATER4))
-                    terraintypes[j] = WATER;
-                else if (j >= LAVA1 && j <= LAVA4)
-                    terraintypes[j] = LAVA;
-                else if (j >= BLOOD1 && j <= BLOOD3)
-                    terraintypes[j] = BLOOD;
-                else if (j >= SLIME01 && j <= SLIME08)
-                    terraintypes[j] = SLIME;
+            if ((basepic >= NUKAGE1 && basepic <= NUKAGE3)
+                || M_StrCaseStr(animdefs[i].startname, "NUKE"))
+                SetTerrainType(lastanim, NUKAGE);
+            else if ((basepic >= FWATER1 && basepic <= FWATER4)
+                || (basepic >= SWATER1 && basepic <= SWATER4)
+                || M_StrCaseStr(animdefs[i].startname, "WATER"))
+                SetTerrainType(lastanim, WATER);
+            else if ((basepic >= LAVA1 && basepic <= LAVA4)
+                || M_StrCaseStr(animdefs[i].startname, "LAVA"))
+                SetTerrainType(lastanim, LAVA);
+            else if ((basepic >= BLOOD1 && basepic <= BLOOD3)
+                || M_StrCaseStr(animdefs[i].startname, "BLOOD"))
+                SetTerrainType(lastanim, BLOOD);
+            else if ((basepic >= SLIME01 && basepic <= SLIME08) 
+                || (M_StrCaseStr(animdefs[i].startname, "SLIME") && (basepic < SLIME09 || basepic > SLIME12))
+                || M_StrCaseStr(animdefs[i].startname, "GRAYSLM")
+                || M_StrCaseStr(animdefs[i].startname, "SLUDG"))
+                SetTerrainType(lastanim, SLIME);
         }
 
         if (lastanim->numpics < 2)
