@@ -84,6 +84,7 @@ byte                    *tempscreen;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
+static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -205,8 +206,11 @@ void HU_Init(void)
     if (W_CheckNumForName("STTMINUS") >= 0)
         if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
         {
+            patch_t *patch = W_CacheLumpName("STTNUM0");
+
             minuspatch = W_CacheLumpName("STTMINUS");
             minuspatchwidth = SHORT(minuspatch->width);
+            minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
@@ -304,7 +308,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, patch_t **
         if (minuspatch)
         {
             val = -val;
-            hudnumfunc(*x, y + 5, minuspatch, translucency);
+            hudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
             *x += minuspatchwidth;
 
             if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
