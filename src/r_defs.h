@@ -86,7 +86,11 @@ typedef enum
     WATER,
     LAVA,
     BLOOD,
-    SLIME
+    SLIME,
+    GOOP,
+    ICYWATER,
+    TAR,
+    SLUDGE
 } terraintype_t;
 
 //

@@ -1448,7 +1448,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             {
                 if (sector->terraintype != SOLID)
                 {
-                    char    *liquids[] = { "", "liquid", "nukage", "water", "lava", "blood", "slime" };
+                    char *liquids[] = {
+                        "", "liquid", "nukage", "water", "lava", "blood", "slime", "goop", "icy water", "tar", "sludge"
+                    };
 
                     C_Obituary("%s died in %s.", titlecase(playername), liquids[sector->terraintype]);
                 }

@@ -127,6 +127,24 @@ extern dboolean     canmodify;
 extern int          numflats;
 extern texture_t    **textures;
 
+struct
+{
+    char            *startname;
+    char            *endname;
+    terraintype_t   terraintype;
+} OTEX[] = {
+    { "OBLODA01", "OBLODA08", BLOOD    },
+    { "OGOOPY01", "OGOOPY08", GOOP     },
+    { "OICYWA01", "OICYWA08", ICYWATER },
+    { "OLAVAC01", "OLAVAC08", LAVA     },
+    { "OLAVAD01", "OLAVAD08", LAVA     },
+    { "ONUKEA01", "ONUKEA08", NUKAGE   },
+    { "OSLUDG01", "OSLUDG08", SLUDGE   },
+    { "OTAR__01", "OTAR__08", TAR      },
+    { "OWATER01", "OWATER08", SLUDGE   },
+    { "",         "",         0        }
+};
+
 static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
 {
     for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
@@ -195,7 +213,8 @@ void P_InitPicAnims(void)
         }
         else
         {
-            int basepic;
+            int         basepic;
+            dboolean    isliquid = false;
 
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
@@ -206,24 +225,72 @@ void P_InitPicAnims(void)
             lastanim->numpics = lastanim->picnum - basepic + 1;
             lastanim->istexture = false;
 
-            if ((basepic >= NUKAGE1 && basepic <= NUKAGE3)
-                || M_StrCaseStr(animdefs[i].startname, "NUKE"))
+            // Check if flat is liquid in IWAD
+            if (basepic >= NUKAGE1 && basepic <= NUKAGE3)
+            {
                 SetTerrainType(lastanim, NUKAGE);
-            else if ((basepic >= FWATER1 && basepic <= FWATER4)
-                || (basepic >= SWATER1 && basepic <= SWATER4)
-                || M_StrCaseStr(animdefs[i].startname, "WATER"))
+                isliquid = true;
+            }
+            else if ((basepic >= FWATER1 && basepic <= FWATER4) || (basepic >= SWATER1 && basepic <= SWATER4))
+            {
                 SetTerrainType(lastanim, WATER);
-            else if ((basepic >= LAVA1 && basepic <= LAVA4)
-                || M_StrCaseStr(animdefs[i].startname, "LAVA"))
+                isliquid = true;
+            }
+            else if (basepic >= LAVA1 && basepic <= LAVA4)
+            {
                 SetTerrainType(lastanim, LAVA);
-            else if ((basepic >= BLOOD1 && basepic <= BLOOD3)
-                || M_StrCaseStr(animdefs[i].startname, "BLOOD"))
+                isliquid = true;
+            }
+            else if (basepic >= BLOOD1 && basepic <= BLOOD3)
+            {
                 SetTerrainType(lastanim, BLOOD);
-            else if ((basepic >= SLIME01 && basepic <= SLIME08) 
-                || (M_StrCaseStr(animdefs[i].startname, "SLIME") && (basepic < SLIME09 || basepic > SLIME12))
-                || M_StrCaseStr(animdefs[i].startname, "GRAYSLM")
-                || M_StrCaseStr(animdefs[i].startname, "SLUDG"))
+                isliquid = true;
+            }
+            else if (basepic >= SLIME01 && basepic <= SLIME08)
+            {
                 SetTerrainType(lastanim, SLIME);
+                isliquid = true;
+            }
+
+            // Check if name of flat indicates it is liquid
+            if (!isliquid)
+            {
+                if (M_StrCaseStr(animdefs[i].startname, "NUKAGE"))
+                {
+                    SetTerrainType(lastanim, NUKAGE);
+                    isliquid = true;
+                }
+                else if (M_StrCaseStr(animdefs[i].startname, "WATER"))
+                {
+                    SetTerrainType(lastanim, WATER);
+                    isliquid = true;
+                }
+                else if (M_StrCaseStr(animdefs[i].startname, "LAVA"))
+                {
+                    SetTerrainType(lastanim, LAVA);
+                    isliquid = true;
+                }
+                else if (M_StrCaseStr(animdefs[i].startname, "BLOOD"))
+                {
+                    SetTerrainType(lastanim, BLOOD);
+                    isliquid = true;
+                }
+                else if (M_StrCaseStr(animdefs[i].startname, "SLIME") && (basepic < SLIME09 || basepic > SLIME12))
+                {
+                    SetTerrainType(lastanim, SLIME);
+                    isliquid = true;
+                }
+            }
+
+            // Check if flat is liquid in OTEX texture pack
+            if (!isliquid)
+                for (int i = 0; OTEX[i].startname[0] != '\0'; i++)
+                    if (basepic >= R_CheckFlatNumForName(OTEX[i].startname) && basepic <= R_CheckFlatNumForName(OTEX[i].endname))
+                    {
+                        SetTerrainType(lastanim, OTEX[i].terraintype);
+                        isliquid = true;
+                        break;
+                    }
         }
 
         if (lastanim->numpics < 2)
