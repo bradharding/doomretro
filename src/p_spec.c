@@ -132,7 +132,8 @@ struct
     char            *startname;
     char            *endname;
     terraintype_t   terraintype;
-} OTEX[] = {
+} texturepacks[] = {
+    { "GRAYSLM1", "GRAYSLM4", SLIME    },
     { "OBLODA01", "OBLODA08", BLOOD    },
     { "OGOOPY01", "OGOOPY08", GOOP     },
     { "OICYWA01", "OICYWA08", ICYWATER },
@@ -282,12 +283,13 @@ void P_InitPicAnims(void)
                 }
             }
 
-            // Check if flat is liquid in OTEX texture pack
+            // Check if flat is liquid in popular texture packs
             if (!isliquid)
-                for (int i = 0; OTEX[i].startname[0] != '\0'; i++)
-                    if (basepic >= R_CheckFlatNumForName(OTEX[i].startname) && basepic <= R_CheckFlatNumForName(OTEX[i].endname))
+                for (int i = 0; texturepacks[i].startname[0] != '\0'; i++)
+                    if (basepic >= R_CheckFlatNumForName(texturepacks[i].startname)
+                        && basepic <= R_CheckFlatNumForName(texturepacks[i].endname))
                     {
-                        SetTerrainType(lastanim, OTEX[i].terraintype);
+                        SetTerrainType(lastanim, texturepacks[i].terraintype);
                         isliquid = true;
                         break;
                     }

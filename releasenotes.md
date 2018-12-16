@@ -18,7 +18,7 @@
 * *DOOM Retro* now more effectively determines if an animated flat is depicting liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
   * All animated flats specified in an `ANIMATED` lump in a PWAD that contain `WATER`, `BLOOD`, `LAVA`, etc. in their names,
-  * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*OTEX texture pack*](https://doom.ukiro.com/about-otex/).
+  * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 
 ---
