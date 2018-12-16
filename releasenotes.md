@@ -15,7 +15,10 @@
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * MP3 music lumps now play as intended.
-* Only the animated flats present in IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`), as well as those in PWADs that contain `WATER`, `BLOOD`, `LAVA`, etc. in their names, will now be treated as liquid. This may be overridden by an entry in the [`DRCOMPAT`](https://github.com/bradharding/doomretro/blob/master/res/DRCOMPAT) lump in `doomretro.wad`, or a `MAPINFO` lump in a PWAD.
+* *DOOM Retro* now more effectively determines if an animated flat is depicting liquid. Only the following animated flats are now considered to be liquid:
+  * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
+  * All animated flats specified in an `ANIMATED` lump in a PWAD that contain `WATER`, `BLOOD`, `LAVA`, etc. in their names,
+  * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*OTEX texture pack*](https://doom.ukiro.com/about-otex/).
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 
 ---
