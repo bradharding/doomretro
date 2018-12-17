@@ -87,6 +87,7 @@ typedef enum
     LAVA,
     BLOOD,
     SLIME,
+    GRAYSLIME,
     GOOP,
     ICYWATER,
     TAR,

@@ -133,17 +133,17 @@ struct
     char            *endname;
     terraintype_t   terraintype;
 } texturepacks[] = {
-    { "GRAYSLM1", "GRAYSLM4", SLIME    },
-    { "OBLODA01", "OBLODA08", BLOOD    },
-    { "OGOOPY01", "OGOOPY08", GOOP     },
-    { "OICYWA01", "OICYWA08", ICYWATER },
-    { "OLAVAC01", "OLAVAC08", LAVA     },
-    { "OLAVAD01", "OLAVAD08", LAVA     },
-    { "ONUKEA01", "ONUKEA08", NUKAGE   },
-    { "OSLUDG01", "OSLUDG08", SLUDGE   },
-    { "OTAR__01", "OTAR__08", TAR      },
-    { "OWATER01", "OWATER08", SLUDGE   },
-    { "",         "",         0        }
+    { "GRAYSLM1", "GRAYSLM4", GRAYSLIME },
+    { "OBLODA01", "OBLODA08", BLOOD     },
+    { "OGOOPY01", "OGOOPY08", GOOP      },
+    { "OICYWA01", "OICYWA08", ICYWATER  },
+    { "OLAVAC01", "OLAVAC08", LAVA      },
+    { "OLAVAD01", "OLAVAD08", LAVA      },
+    { "ONUKEA01", "ONUKEA08", NUKAGE    },
+    { "OSLUDG01", "OSLUDG08", SLUDGE    },
+    { "OTAR__01", "OTAR__08", TAR       },
+    { "OWATER01", "OWATER08", SLUDGE    },
+    { "",         "",         0         }
 };
 
 static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
