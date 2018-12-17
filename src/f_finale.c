@@ -102,8 +102,6 @@ static void F_ConsoleFinaleText(void)
 //
 void F_StartFinale(void)
 {
-    gameaction = ga_nothing;
-    gamestate = GS_FINALE;
     viewactive = false;
     automapactive = false;
 
@@ -204,6 +202,15 @@ void F_StartFinale(void)
             finaletext = s_C1TEXT;
             break;
     }
+
+    if (strlen(finaletext) <= 1)
+    {
+        gameaction = ga_worlddone;
+        return;
+    }
+
+    gameaction = ga_nothing;
+    gamestate = GS_FINALE;
 
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
