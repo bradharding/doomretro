@@ -152,6 +152,7 @@ extern unsigned int stat_damageinflicted;
 extern unsigned int stat_damagereceived;
 extern unsigned int stat_deaths;
 extern unsigned int stat_distancetraveled;
+extern unsigned int stat_gamessaved;
 extern unsigned int stat_itemspickedup;
 extern unsigned int stat_itemspickedup_ammo_bullets;
 extern unsigned int stat_itemspickedup_ammo_cells;

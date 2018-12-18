@@ -213,6 +213,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                               NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                                       NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_distancetraveled,                             NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_gamessaved,                                   NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                                NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_bullets,                   NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_cells,                     NOVALUEALIAS      ),

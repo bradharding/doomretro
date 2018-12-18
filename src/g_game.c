@@ -163,6 +163,7 @@ static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 
+unsigned int    stat_gamessaved = 0;
 unsigned int    stat_mapscompleted = 0;
 
 extern dboolean barrelms;
@@ -1523,6 +1524,8 @@ static void G_DoSaveGame(void)
             message_dontfuckwithme = true;
             S_StartSound(NULL, sfx_swtchx);
         }
+
+        stat_gamessaved = SafeAdd(stat_gamessaved, 1);
 
         // draw the pattern into the back screen
         R_FillBackScreen();
