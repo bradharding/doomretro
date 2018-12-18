@@ -1493,6 +1493,8 @@ static void G_DoSaveGame(void)
     {
         P_WriteSaveGameHeader(savedescription);
 
+        viewplayer->gamessaved++;
+
         P_ArchivePlayer();
         P_ArchiveWorld();
         P_ArchiveThinkers();

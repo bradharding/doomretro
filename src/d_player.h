@@ -229,6 +229,7 @@ typedef struct player_s
     int             itemspickedup_ammo_shells;
     int             itemspickedup_armor;
     int             itemspickedup_health;
+    int             gamessaved;
 } player_t;
 
 //
