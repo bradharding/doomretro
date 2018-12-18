@@ -1526,6 +1526,7 @@ static void G_DoSaveGame(void)
         }
 
         stat_gamessaved = SafeAdd(stat_gamessaved, 1);
+        M_SaveCVARs();
 
         // draw the pattern into the back screen
         R_FillBackScreen();
