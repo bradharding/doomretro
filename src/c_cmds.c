@@ -3642,7 +3642,7 @@ static void C_PlayerStats_Game(void)
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
-    C_TabbedOutput(tabs, "Games saved\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->gamessaved), commify(stat_gamessaved));
+    C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", commify(stat_gamessaved));
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(viewplayer->killcount), commify(totalkills),

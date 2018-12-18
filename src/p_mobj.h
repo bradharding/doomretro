@@ -425,15 +425,6 @@ typedef struct mobj_s
 
     int                 id;
     int                 musicid;
-
-    int                 reserved1;
-    int                 reserved2;
-    int                 reserved3;
-    int                 reserved4;
-    int                 reserved5;
-    int                 reserved6;
-    int                 reserved7;
-    int                 reserved8;
 } mobj_t;
 
 typedef struct bloodsplat_s
