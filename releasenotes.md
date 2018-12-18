@@ -11,16 +11,16 @@
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 * Minor improvements have been made to the cast sequence at the end of *DOOM II*.
 * The value of the `facebackcolor` CVAR is now also applied to the background of the player’s face in the widescreen HUD.
+* Further improvements have been made to the support of `DEHACKED` lumps.
 * The support for `MUSINFO` lumps has been fixed.
 * Music will now quickly fade out when quitting *DOOM Retro*.
-* A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * MP3 music lumps now play as intended.
-* *DOOM Retro* now more effectively determines if an animated flat is depicting liquid. Only the following animated flats are now considered to be liquid:
+* A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
+* *DOOM Retro* now more effectively determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
-  * All animated flats specified in an `ANIMATED` lump in a PWAD that contain `WATER`, `BLOOD`, `LAVA`, etc. in their names,
+  * All animated flats specified in an `ANIMATED` lump in a PWAD that contain the text “WATER”, “BLOOD”, “LAVA”, etc. in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
-* Further improvements have been made to the support of `DEHACKED` lumps.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 
 ---
