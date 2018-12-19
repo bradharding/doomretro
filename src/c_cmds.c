@@ -1901,20 +1901,10 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
-        {
-            if (!fastparm)
-                return;
-
+        if (value == 0 && fastparm)
             fastparm = false;
-        }
-        else if (value == 1)
-        {
-            if (fastparm)
-                return;
-
+        else if (value == 1 && !fastparm)
             fastparm = true;
-        }
         else
             return;
     }
@@ -1944,9 +1934,9 @@ static void freeze_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && freeze)
             freeze = false;
-        else if (value == 1)
+        else if (value == 1 && !freeze)
             freeze = true;
         else
             return;
@@ -2209,9 +2199,9 @@ static void god_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && (viewplayer->cheats & CF_GODMODE))
             viewplayer->cheats &= ~CF_GODMODE;
-        else if (value == 1)
+        else if (value == 1 && !(viewplayer->cheats & CF_GODMODE))
             viewplayer->cheats |= CF_GODMODE;
         else
             return;
@@ -3352,9 +3342,9 @@ static void noclip_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && (viewplayer->cheats & CF_NOCLIP))
             viewplayer->cheats &= ~CF_NOCLIP;
-        else if (value == 1)
+        else if (value == 1 && !(viewplayer->cheats & CF_NOCLIP))
             viewplayer->cheats |= CF_NOCLIP;
         else
             return;
@@ -3388,9 +3378,9 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && nomonsters)
             nomonsters = false;
-        else if (value == 1)
+        else if (value == 1 && !nomonsters)
             nomonsters = true;
         else
             return;
@@ -3445,9 +3435,9 @@ static void notarget_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && (viewplayer->cheats & CF_NOTARGET))
             viewplayer->cheats &= ~CF_NOTARGET;
-        else if (value == 1)
+        else if (value == 1 && !(viewplayer->cheats & CF_NOTARGET))
             viewplayer->cheats |= CF_NOTARGET;
         else
             return;
@@ -3502,9 +3492,9 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && pistolstart)
             pistolstart = false;
-        else if (value == 1)
+        else if (value == 1 && !pistolstart)
             pistolstart = true;
         else
             return;
@@ -3936,9 +3926,9 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && regenhealth)
             regenhealth = false;
-        else if (value == 1)
+        else if (value == 1 && !regenhealth)
             regenhealth = true;
         else
             return;
@@ -4184,9 +4174,9 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && respawnitems)
             respawnitems = false;
-        else if (value == 1)
+        else if (value == 1 && !respawnitems)
             respawnitems = true;
         else
             return;
@@ -4225,9 +4215,9 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && respawnmonsters)
             respawnmonsters = false;
-        else if (value == 1)
+        else if (value == 1 && !respawnmonsters)
             respawnmonsters = true;
         else
             return;
@@ -4534,9 +4524,9 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0)
+        if (value == 0 && vanilla)
             vanilla = false;
-        else if (value == 1)
+        else if (value == 1 && !vanilla)
             vanilla = true;
         else
             return;
