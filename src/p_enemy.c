@@ -1972,8 +1972,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_SetTarget(&newmobj->target, target);
 
         // Use the reactiontime to hold the distance (squared) from the target after the next move.
-        newmobj->reactiontime = P_ApproxDistance(target->x - (actor->x + actor->momx),
-            target->y - (actor->y + actor->momy));
+        newmobj->reactiontime = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
 
         // killough 8/29/98: add to appropriate thread
         P_UpdateThinker(&newmobj->thinker);

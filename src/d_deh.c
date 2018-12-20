@@ -2127,9 +2127,8 @@ void ProcessDehFile(char *filename, int lumpnum)
         C_Output("Parsed %s line%s in the <b>%s</b> lump in %s <b>%s</b>.", commify(linecount), (linecount > 1 ? "s" : ""),
             uppercase(lumpinfo[lumpnum]->name), (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     else
-        C_Output("Parsed %s line%s in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", commify(linecount),
-            (linecount > 1 ? "s" : ""), (M_StringEndsWith(uppercase(filename), "BEX") ?
-            " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
+        C_Output("Parsed %s line%s in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", commify(linecount), (linecount > 1 ? "s" : ""),
+            (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
 }
 
 // ====================================================================
@@ -2276,8 +2275,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             if (M_StringCompare(key, "Bits"))
             {
                 // bit set
-                // e6y: Correction of wrong processing of Bits parameter if its value is equal to
-                // zero
+                // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
                 if (bGetData == 1)
                     mobjinfo[indexnum].flags = value;
                 else
@@ -2565,8 +2563,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
             states[indexnum].action = deh_codeptr[value];
 
             if (devparm)
-                C_Output(" - applied %p from codeptr[%ld] to states[%i]", (void *)deh_codeptr[value], value,
-                    indexnum);
+                C_Output(" - applied %p from codeptr[%ld] to states[%i]", (void *)deh_codeptr[value], value, indexnum);
 
             // Write BEX-oriented line to match:
             for (int i = 0; i < arrlen(deh_bexptrs); i++)
@@ -2579,8 +2576,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
                 }
         }
         else
-            C_Warning("Invalid frame pointer index for \"%s\" at %ld, xref %p.", key, value,
-                (void *)deh_codeptr[value]);
+            C_Warning("Invalid frame pointer index for \"%s\" at %ld, xref %p.", key, value, (void *)deh_codeptr[value]);
     }
 }
 
@@ -2861,8 +2857,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                     oldpar = cpars[level - 1];
 
                     if (devparm)
-                        C_Output("Changed par time for MAP%02d from %i to %i seconds", level, oldpar,
-                            partime);
+                        C_Output("Changed par time for MAP%02d from %i to %i seconds", level, oldpar, partime);
 
                     cpars[level - 1] = partime;
                 }
@@ -2883,8 +2878,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                 pars[episode][level] = partime;
 
                 if (devparm)
-                    C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, oldpar,
-                        partime);
+                    C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, oldpar, partime);
             }
         }
     }
@@ -3288,8 +3282,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
             if (!strncasecmp(sprnames[i], inbuffer, fromlen))           // not first char
             {
                 if (devparm)
-                    C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen,
-                        &inbuffer[fromlen]);
+                    C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen, &inbuffer[fromlen]);
 
                 // Ty 03/18/98 - not using strdup because length is fixed
 
@@ -3322,8 +3315,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
             if (!strncasecmp(S_sfx[i].name, inbuffer, fromlen))
             {
                 if (devparm)
-                    C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name, usedlen,
-                        &inbuffer[fromlen]);
+                    C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name, usedlen, &inbuffer[fromlen]);
 
                 strncpy(S_sfx[i].name, &inbuffer[fromlen], 9);
                 found = true;
@@ -3342,8 +3334,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 if (!strncasecmp(S_music[i].name, inbuffer, fromlen))
                 {
                     if (devparm)
-                        C_Output("Changing name of music from %s to %*s", S_music[i].name, usedlen,
-                            &inbuffer[fromlen]);
+                        C_Output("Changing name of music from %s to %*s", S_music[i].name, usedlen, &inbuffer[fromlen]);
 
                     strncpy(S_music[i].name, &inbuffer[fromlen], 9);
                     found = true;
@@ -3356,8 +3347,8 @@ static void deh_procText(DEHFILE *fpin, char *line)
     if (!found) // Nothing we want to handle here -- see if strings can deal with it.
     {
         if (devparm)
-            C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i", inbuffer,
-            (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
+            C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i",
+                inbuffer, (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
 
         if (fromlen <= (int)strlen(inbuffer))
         {
@@ -3482,8 +3473,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
 
     for (int i = 0; i < deh_numstrlookup; i++)
     {
-        found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) :
-            M_StringCompare(deh_strlookup[i].lookup, key));
+        found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key));
 
         if (found)
         {
@@ -3517,8 +3507,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else
                 {
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor,
-                        (strlen(lookfor) > 12 ? "..." : ""), newstring,
+                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""), newstring,
                         (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
