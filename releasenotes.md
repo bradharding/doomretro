@@ -24,6 +24,7 @@
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
+* The player’s health in the widescreen HUD will now flash, and the “Health Received” stat will now update, if the player’s health regenerates due to use of the `regenhealth` CCMD.
 
 ---
 

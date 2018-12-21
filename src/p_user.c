@@ -42,6 +42,7 @@
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "m_menu.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -603,7 +604,7 @@ void P_PlayerThink(void)
 
     // [BH] regenerate health up to 100 every 1 second
     if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
-        mo->health = viewplayer->health = MIN(viewplayer->health + 1, initial_health);
+        P_GiveBody(1, true);
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
