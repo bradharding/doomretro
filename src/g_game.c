@@ -1477,6 +1477,7 @@ static void G_DoSaveGame(void)
 {
     char    *temp_savegame_file = P_TempSaveGameFile();
     char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
+    char    *backup_savegame_file = M_StringJoin(savegame_file, ".bak", NULL);
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -1505,8 +1506,9 @@ static void G_DoSaveGame(void)
         fclose(save_stream);
 
         // Now rename the temporary savegame file to the actual savegame
-        // file, overwriting the old savegame if there was one there.
-        remove(savegame_file);
+        // file, backing up the old savegame if there was one there.
+        remove(backup_savegame_file);
+        rename(savegame_file, backup_savegame_file);
         rename(temp_savegame_file, savegame_file);
 
         if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
