@@ -195,7 +195,12 @@ void G_NextWeapon(void)
     } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
 
     if (i != readyweapon)
+    {
         viewplayer->pendingweapon = i;
+
+        if (i == wp_shotgun || i == wp_supershotgun)
+            viewplayer->preferredshotgun = i;
+    }
 
     if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
@@ -219,7 +224,12 @@ void G_PrevWeapon(void)
     } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
 
     if (i != readyweapon)
+    {
         viewplayer->pendingweapon = i;
+
+        if (i == wp_shotgun || i == wp_supershotgun)
+            viewplayer->preferredshotgun = i;
+    }
 
     if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();

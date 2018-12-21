@@ -22,6 +22,7 @@
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
+* If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, their preferred shotgun (that is, the first shotgun to be selected when pressing the <kbd>3</kbd> key) will now be set.
 
 ---
 
