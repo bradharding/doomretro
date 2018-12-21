@@ -688,14 +688,10 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
-    dboolean    result;
     const char  *leaf = leafname(filename);
 
-    result = (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
-        || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
-        || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
-
-    return result;
+    return (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD") || M_StringCompare(leaf, "DOOM2.WAD")
+        || M_StringCompare(leaf, "PLUTONIA.WAD") || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)

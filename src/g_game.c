@@ -1487,8 +1487,6 @@ static void G_DoSaveGame(void)
 {
     char    *temp_savegame_file = P_TempSaveGameFile();
     char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
-    char    *backup_savegame_file = M_StringJoin(savegame_file, ".bak", NULL);
-
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
     // This prevents an existing savegame from being overwritten by
@@ -1502,6 +1500,8 @@ static void G_DoSaveGame(void)
     }
     else
     {
+        char    *backup_savegame_file = M_StringJoin(savegame_file, ".bak", NULL);
+
         P_WriteSaveGameHeader(savedescription);
 
         P_ArchivePlayer();

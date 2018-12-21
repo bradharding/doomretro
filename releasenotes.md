@@ -16,13 +16,14 @@
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * MP3 music lumps now play as intended.
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
-* *DOOM Retro* now more effectively determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
+* *DOOM Retro* now more intelligently determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
-  * All animated flats specified in an `ANIMATED` lump in a PWAD that contain the text “WATER”, “BLOOD”, “LAVA”, etc. in their names,
+  * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
-* If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, their preferred shotgun (that is, the first shotgun to be selected when pressing the <kbd>3</kbd> key) will now be set.
+* When saving over an exiting savegame, that savegame will now be backed up first.
+* If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
 
 ---
 
