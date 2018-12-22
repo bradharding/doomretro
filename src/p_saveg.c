@@ -428,7 +428,7 @@ static void saveg_read_player_t(void)
     viewplayer->pendingweapon = (weapontype_t)saveg_read_enum();
 
     for (int i = 0; i < NUMWEAPONS; i++)
-        viewplayer->weaponowned[i] = saveg_read32();
+        viewplayer->weaponowned[i] = oldweaponsowned[i] = saveg_read32();
 
     for (int i = 0; i < NUMAMMO; i++)
         viewplayer->ammo[i] = saveg_read32();
