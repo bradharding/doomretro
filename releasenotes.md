@@ -26,6 +26,7 @@
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
 * Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no grin when picking something up after loading a savegame.
+* The player will no longer switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
 
 ---
 

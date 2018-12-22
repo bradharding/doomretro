@@ -943,18 +943,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // berserk power-up
         case SPR_PSTR:
+        {
+            dboolean    strength = viewplayer->powers[pw_strength];
+
             if (!P_GivePower(pw_strength))
                 return;
 
             if (message)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
 
-            if (viewplayer->readyweapon != wp_fist)
+            if (viewplayer->readyweapon != wp_fist && !strength)
                 viewplayer->pendingweapon = wp_fist;
 
             viewplayer->fistorchainsaw = wp_fist;
             sound = sfx_getpow;
             break;
+        }
 
         // partial invisibility power-up
         case SPR_PINS:
