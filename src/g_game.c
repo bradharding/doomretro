@@ -198,15 +198,15 @@ void G_NextWeapon(void)
     {
         viewplayer->pendingweapon = i;
 
+        if (i == wp_fist && viewplayer->powers[pw_strength])
+            S_StartSound(NULL, sfx_getpow);
+
         if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
     }
 
     if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
-
-    if (i == wp_fist && viewplayer->powers[pw_strength])
-        S_StartSound(NULL, sfx_getpow);
 }
 
 void G_PrevWeapon(void)
@@ -227,15 +227,15 @@ void G_PrevWeapon(void)
     {
         viewplayer->pendingweapon = i;
 
+        if (i == wp_fist && viewplayer->powers[pw_strength])
+            S_StartSound(NULL, sfx_getpow);
+
         if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
     }
 
     if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
-
-    if (i == wp_fist && viewplayer->powers[pw_strength])
-        S_StartSound(NULL, sfx_getpow);
 }
 
 //
