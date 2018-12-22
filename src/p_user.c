@@ -604,7 +604,7 @@ void P_PlayerThink(void)
 
     // [BH] regenerate health up to 100 every 1 second
     if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
-        P_GiveBody(1, true);
+        P_GiveBody(1, false);
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)

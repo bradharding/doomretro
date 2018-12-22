@@ -2045,8 +2045,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_UpdateThinker(&newmobj->thinker);
 
         if (!P_LookForPlayers(newmobj, true) || P_SetMobjState(newmobj, newmobj->info->seestate))
-            // telefrag anything in this spot
-            P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);
+            P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);  // telefrag anything in this spot
 
         if (newmobj->flags & MF_COUNTKILL)
         {

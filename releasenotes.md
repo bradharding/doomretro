@@ -1,7 +1,7 @@
 ### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When loading *The Ultimate DOOM* from the WAD launcher, if John Romero’s `sigil.wad` is present, it will be automatically loaded and a fifth entry will appear in the episode menu.
+* When loading *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar/widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is `off` by default and `off` when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
@@ -24,7 +24,7 @@
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
-* The player’s health in the widescreen HUD will now flash, and the “Health Received” stat will now update, if the player’s health regenerates due to use of the `regenhealth` CCMD.
+* The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
 
 ---
 
