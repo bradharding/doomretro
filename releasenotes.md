@@ -4,7 +4,7 @@
 * When loading the IWAD of *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar/widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
-* By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is `off` by default and `off` when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
+* By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is both `off` by default and when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
 * The `r_hud` CVAR will now be reset correctly when using the `reset` or `resetall` CCMDs while no game is being played.
 * Keycards and skull keys in the widescreen HUD are now spaced slightly further apart.
 * *DOOM Retro* will no longer hang when the player crosses a line with a *BOOM*-compatible special action of 154 (“WR Change Texture and Effect”) or 240 (“WR Change Texture and Effect to Nearest”).
@@ -18,23 +18,24 @@
 * The support for `MUSINFO` lumps has been fixed.
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * MP3 music lumps now play as intended.
-* A crash will no longer occur when trying to display large patches on intermission screens.
+* A crash will no longer occur when trying to display large patches on the intermission screen.
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * *DOOM Retro* now more intelligently determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
   * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
+  * A few animated flats in [some popular PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
 * No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
-* Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no grin when picking something up after loading a savegame.
+* Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no longer grin when the first item is picked up after loading a savegame.
 * The player will no longer switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if changed in a PWAD.
-* The fixes intended for E1M4 and E1M8 in `DOOM.WAD` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
+* The fixes intended for E1M4 and E1M8 in `doom.wad` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
 * Voodoo dolls are now included in the output of the `thinglist` CCMD.
 
 ---
