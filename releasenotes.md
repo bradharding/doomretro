@@ -1,7 +1,7 @@
 ### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When loading *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
+* When loading the IWAD of *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar/widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is `off` by default and `off` when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
@@ -11,10 +11,14 @@
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 * Minor improvements have been made to the cast sequence at the end of *DOOM II*.
 * The value of the `facebackcolor` CVAR is now also applied to the background of the player’s face in the widescreen HUD.
-* Further improvements have been made to the support of `DEHACKED` lumps.
+* Further improvements have been made to the support of `DEHACKED` lumps:
+  * Things will no longer cast a shadow if they are spawned on the ceiling.
+  * A thing’s name can now be changed as intended.
+  * The finale text screen will be completely skipped if there is no text to display.
 * The support for `MUSINFO` lumps has been fixed.
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * MP3 music lumps now play as intended.
+* A crash will no longer occur when trying to display large patches on intermission screens.
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * *DOOM Retro* now more intelligently determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
@@ -24,9 +28,14 @@
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
+* No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
 * Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no grin when picking something up after loading a savegame.
 * The player will no longer switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
+* There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
+* The `STTMINUS` patch is now positioned better in the widescreen HUD if changed in a PWAD.
+* The fixes intended for E1M4 and E1M8 in `DOOM.WAD` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
+* Voodoo dolls are now included in the output of the `thinglist` CCMD.
 
 ---
 
