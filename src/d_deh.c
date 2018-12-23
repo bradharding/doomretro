@@ -2248,6 +2248,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
         int         bGetData;
         dboolean    gibhealth = false;
+        dboolean    string = false;
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2362,18 +2363,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags2 = value;
                 }
             }
-            else if (M_StringCompare(key, "Name1"))
-                M_StringCopy(mobjinfo[indexnum].name1, strval, 100);
-            else if (M_StringCompare(key, "Plural1"))
-                M_StringCopy(mobjinfo[indexnum].plural1, strval, 100);
-            else if (M_StringCompare(key, "Name2"))
-                M_StringCopy(mobjinfo[indexnum].name2, strval, 100);
-            else if (M_StringCompare(key, "Plural2"))
-                M_StringCopy(mobjinfo[indexnum].plural2, strval, 100);
-            else if (M_StringCompare(key, "Name3"))
-                M_StringCopy(mobjinfo[indexnum].name3, strval, 100);
-            else if (M_StringCompare(key, "Plural3"))
-                M_StringCopy(mobjinfo[indexnum].plural3, strval, 100);
             else
             {
                 pix = (int *)&mobjinfo[indexnum];
@@ -2390,6 +2379,22 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
         }
+
+        if ((string = M_StringCompare(key, "Name1")))
+            M_StringCopy(mobjinfo[indexnum].name1, strval, 100);
+        else if ((string = M_StringCompare(key, "Plural1")))
+            M_StringCopy(mobjinfo[indexnum].plural1, strval, 100);
+        else if ((string = M_StringCompare(key, "Name2")))
+            M_StringCopy(mobjinfo[indexnum].name2, strval, 100);
+        else if ((string = M_StringCompare(key, "Plural2")))
+            M_StringCopy(mobjinfo[indexnum].plural2, strval, 100);
+        else if ((string = M_StringCompare(key, "Name3")))
+            M_StringCopy(mobjinfo[indexnum].name3, strval, 100);
+        else if ((string = M_StringCompare(key, "Plural3")))
+            M_StringCopy(mobjinfo[indexnum].plural3, strval, 100);
+
+        if (string && devparm)
+            C_Output("Assigned %s to %s (%i) at index %i.", strval, key, indexnum, ix);
 
         if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
             mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
