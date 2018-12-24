@@ -2381,20 +2381,20 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         }
 
         if ((string = M_StringCompare(key, "Name1")))
-            M_StringCopy(mobjinfo[indexnum].name1, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), 100);
         else if ((string = M_StringCompare(key, "Plural1")))
-            M_StringCopy(mobjinfo[indexnum].plural1, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), 100);
         else if ((string = M_StringCompare(key, "Name2")))
-            M_StringCopy(mobjinfo[indexnum].name2, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), 100);
         else if ((string = M_StringCompare(key, "Plural2")))
-            M_StringCopy(mobjinfo[indexnum].plural2, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), 100);
         else if ((string = M_StringCompare(key, "Name3")))
-            M_StringCopy(mobjinfo[indexnum].name3, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), 100);
         else if ((string = M_StringCompare(key, "Plural3")))
-            M_StringCopy(mobjinfo[indexnum].plural3, strval, 100);
+            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), 100);
 
         if (string && devparm)
-            C_Output("Assigned %s to %s (%i) at index %i.", strval, key, indexnum, ix);
+            C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
 
         if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
             mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
