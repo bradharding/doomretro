@@ -86,6 +86,7 @@
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
+#define TAKECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>"
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT      "<i>minutes</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>|<b>+</b><i>action</i>"
@@ -301,6 +302,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms);
 static void save_cmd_func2(char *cmd, char *parms);
 static dboolean spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
+static dboolean take_cmd_func1(char *cmd, char *parms);
+static void take_cmd_func2(char *cmd, char *parms);
 static void teleport_cmd_func2(char *cmd, char *parms);
 static void thinglist_cmd_func2(char *cmd, char *parms);
 static void timer_cmd_func2(char *cmd, char *parms);
@@ -745,6 +748,8 @@ consolecmd_t consolecmds[] =
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
+    CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
+        "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\n<i>items</i> from the player."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
@@ -4387,6 +4392,245 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 }
 
                 C_HideConsole();
+            }
+        }
+    }
+}
+
+//
+// take CCMD
+//
+static dboolean take_cmd_func1(char *cmd, char *parms)
+{
+    char    *parm = removenonalpha(parms);
+    int     num = -1;
+
+    if (gamestate != GS_LEVEL)
+        return false;
+
+    if (!*parm)
+        return true;
+
+    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
+        || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
+        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys")
+        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
+        return true;
+
+    return false;
+}
+
+static void take_cmd_func2(char *cmd, char *parms)
+{
+    char    *parm = removenonalpha(parms);
+
+    if (!*parm)
+    {
+        C_ShowDescription(C_GetIndex(stringize(take)));
+        C_Output("<b>%s</b> %s", cmd, TAKECMDFORMAT);
+    }
+    else
+    {
+        dboolean    result = false;
+
+        if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
+        {
+            if (viewplayer->backpack)
+            {
+                for (ammotype_t i = 0; i < NUMAMMO; i++)
+                {
+                    viewplayer->maxammo[i] /= 2;
+                    viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
+                }
+
+                viewplayer->backpack = false;
+                result = true;
+            }
+
+            if (viewplayer->health < initial_health)
+            {
+                viewplayer->health = initial_health;
+                viewplayer->mo->health = initial_health;
+                result = true;
+            }
+
+            for (weapontype_t i = wp_shotgun; i < NUMWEAPONS; i++)
+                if (viewplayer->weaponowned[i])
+                {
+                    viewplayer->weaponowned[i] = oldweaponsowned[i] = false;
+                    result = true;
+                }
+
+            viewplayer->pendingweapon = wp_fist;
+
+            for (ammotype_t i = 0; i < NUMAMMO; i++)
+                if (viewplayer->ammo[i])
+                {
+                    viewplayer->ammo[i] = 0;
+                    result = true;
+                }
+
+            if (viewplayer->armorpoints)
+            {
+                viewplayer->armorpoints = 0;
+                viewplayer->armortype = NOARMOR;
+                result = true;
+            }
+
+
+            for (int i = 0; i < NUMCARDS; i++)
+                if (viewplayer->cards[i] > 0)
+                {
+                    viewplayer->cards[i] = 0;
+                    result = true;
+                }
+
+            for (int i = 0; i < NUMPOWERS; i++)
+                if (viewplayer->powers[i])
+                {
+                    viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
+                    result = true;
+                }
+
+            if (result)
+            {
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have anything.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "health"))
+        {
+            if (viewplayer->health > 0)
+            {
+                viewplayer->health = 0;
+                viewplayer->mo->health = 0;
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s already dead.", titlecase(playername), (M_StringCompare(playername, "you") ? "is" : "are"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "weapons"))
+        {
+            for (weapontype_t i = wp_shotgun; i < NUMWEAPONS; i++)
+                if (viewplayer->weaponowned[i])
+                {
+                    viewplayer->weaponowned[i] = oldweaponsowned[i] = false;
+                    result = true;
+                }
+
+            viewplayer->pendingweapon = wp_fist;
+
+            if (result)
+            {
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have any weapons.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "ammo"))
+        {
+            for (ammotype_t i = 0; i < NUMAMMO; i++)
+                if (viewplayer->ammo[i])
+                {
+                    viewplayer->ammo[i] = 0;
+                    result = true;
+                }
+
+            viewplayer->pendingweapon = wp_fist;
+
+            if (result)
+            {
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have any ammo.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
+        {
+            if (viewplayer->armorpoints)
+            {
+                viewplayer->armorpoints = 0;
+                viewplayer->armortype = NOARMOR;
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have any armor.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "keys"))
+        {
+            for (int i = 0; i < NUMCARDS; i++)
+                if (viewplayer->cards[i] > 0)
+                {
+                    viewplayer->cards[i] = 0;
+                    result = true;
+                }
+
+            if (result)
+            {
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have any keycards or skull keys.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "keycards"))
+        {
+            if (viewplayer->cards[it_bluecard] > 0 || viewplayer->cards[it_redcard] > 0 || viewplayer->cards[it_yellowcard] > 0)
+            {
+                viewplayer->cards[it_bluecard] = 0;
+                viewplayer->cards[it_redcard] = 0;
+                viewplayer->cards[it_yellowcard] = 0;
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
+            {
+                C_Warning("%s %s have any keycards.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+        }
+        else if (M_StringCompare(parm, "skullkeys"))
+        {
+        if (viewplayer->cards[it_blueskull] > 0 || viewplayer->cards[it_redskull] > 0 || viewplayer->cards[it_yellowskull] > 0)
+        {
+            viewplayer->cards[it_blueskull] = 0;
+            viewplayer->cards[it_redskull] = 0;
+            viewplayer->cards[it_yellowskull] = 0;
+            P_AddBonus();
+            C_HideConsole();
+        }
+        else
+            {
+                C_Warning("%s %s have any skull keys.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
             }
         }
     }

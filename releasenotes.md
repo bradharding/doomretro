@@ -28,6 +28,7 @@
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
+* The new `take` CCMD can now be used to take ammo, armor, health, keys, weapons or everything from the player.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
 * No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
@@ -36,7 +37,7 @@
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if changed in a PWAD.
 * The fixes intended for E1M4 and E1M8 in `doom.wad` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
-* Voodoo dolls are now included in the output of the `thinglist` CCMD.
+* Voodoo dolls are now specified in the output of the `thinglist` CCMD.
 
 ---
 
