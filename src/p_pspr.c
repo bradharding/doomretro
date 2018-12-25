@@ -153,7 +153,7 @@ dboolean P_CheckAmmo(weapontype_t weapon)
         return true;
 
     // Return if current ammunition sufficient.
-    if (viewplayer->ammo[ammotype] >= weaponinfo[weapon].minammo)
+    if (viewplayer->ammo[ammotype] >= weaponinfo[weapon].minammo && viewplayer->weaponowned[weapon])
         return true;
 
     // Out of ammo, pick a weapon to change to.

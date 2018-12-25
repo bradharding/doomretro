@@ -86,7 +86,7 @@
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
-#define TAKECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>"
+#define TAKECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT      "<i>minutes</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>|<b>+</b><i>action</i>"
@@ -749,7 +749,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
     CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
-        "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\n<i>items</i> from the player."),
+        "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> from the "
+        "player."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
@@ -4418,6 +4419,15 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
         return true;
 
+    sscanf(parm, "%10d", &num);
+
+    for (int i = 0; i < NUMMOBJTYPES; i++)
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+            || (num == mobjinfo[i].doomednum && num != -1)))
+            return true;
+
     return false;
 }
 
@@ -4477,7 +4487,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->armortype = NOARMOR;
                 result = true;
             }
-
 
             for (int i = 0; i < NUMCARDS; i++)
                 if (viewplayer->cards[i] > 0)
@@ -4618,20 +4627,43 @@ static void take_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "skullkeys"))
         {
-        if (viewplayer->cards[it_blueskull] > 0 || viewplayer->cards[it_redskull] > 0 || viewplayer->cards[it_yellowskull] > 0)
-        {
-            viewplayer->cards[it_blueskull] = 0;
-            viewplayer->cards[it_redskull] = 0;
-            viewplayer->cards[it_yellowskull] = 0;
-            P_AddBonus();
-            C_HideConsole();
-        }
-        else
+            if (viewplayer->cards[it_blueskull] > 0 || viewplayer->cards[it_redskull] > 0 || viewplayer->cards[it_yellowskull] > 0)
+            {
+                viewplayer->cards[it_blueskull] = 0;
+                viewplayer->cards[it_redskull] = 0;
+                viewplayer->cards[it_yellowskull] = 0;
+                P_AddBonus();
+                C_HideConsole();
+            }
+            else
             {
                 C_Warning("%s %s have any skull keys.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
                 return;
             }
+        }
+        else
+        {
+            int num = -1;
+
+            sscanf(parm, "%10d", &num);
+
+            for (int i = 0; i < NUMMOBJTYPES; i++)
+                if ((mobjinfo[i].flags & MF_SPECIAL)
+                    && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                        || (num == mobjinfo[i].doomednum && num != -1)))
+                {
+                    if (!P_TakeSpecialThing(i))
+                    {
+                        C_Warning("%s %s have a %s.",
+                            titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"), mobjinfo[i].name1);
+                        return;
+                    }
+
+                    break;
+                }
         }
     }
 }

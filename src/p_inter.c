@@ -46,6 +46,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
@@ -139,6 +140,32 @@ void P_UpdateAmmoStat(ammotype_t ammotype, int num)
         default:
             break;
     }
+}
+
+dboolean P_CheckAmmo(weapontype_t weapon);
+
+//
+// P_TakeAmmo
+//
+static dboolean P_TakeAmmo(ammotype_t ammotype, int num)
+{
+    if (ammotype == am_noammo)
+        return false;
+
+    if (num)
+        num *= clipammo[ammotype];
+    else
+        num = clipammo[ammotype] / 2;
+
+    if (gameskill == sk_baby || gameskill == sk_nightmare)
+        num <<= 1;
+
+    if (viewplayer->ammo[ammotype] < num)
+        return false;
+
+    viewplayer->ammo[ammotype] -= num;
+    P_CheckAmmo(viewplayer->readyweapon);
+    return true;
 }
 
 //
@@ -1216,6 +1243,353 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
     P_RemoveMobj(special);
     P_AddBonus();
+}
+
+//
+// P_TakeSpecialThing
+//
+dboolean P_TakeSpecialThing(mobjtype_t type)
+{
+    switch (type)
+    {
+        // green armor
+        case MT_MISC0:
+            if (viewplayer->armortype != GREENARMOR)
+                return false;
+
+            if (viewplayer->armorpoints < green_armor_class * 100)
+                return false;
+
+            viewplayer->armorpoints -= green_armor_class * 100;
+            return true;
+
+        // blue armor
+        case MT_MISC1:
+            if (viewplayer->armortype != BLUEARMOR)
+                return false;
+
+            if (viewplayer->armorpoints < blue_armor_class * 100)
+                return false;
+
+            viewplayer->armorpoints -= blue_armor_class * 100;
+            return true;
+
+        // bonus health
+        case MT_MISC2:
+            if ((viewplayer->cheats & CF_GODMODE))
+                return false;
+
+            if (viewplayer->powers[pw_invulnerability])
+                return false;
+
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health == 1)
+                return false;
+
+            if (viewplayer->health <= 0)
+                return false;
+
+            viewplayer->health--;
+            viewplayer->mo->health--;
+            return true;
+
+        // bonus armor
+        case MT_MISC3:
+            if (!viewplayer->armorpoints)
+                return false;
+
+            viewplayer->armorpoints--;
+            return true;
+
+        // soulsphere
+        case MT_MISC12:
+            if ((viewplayer->cheats & CF_GODMODE))
+                return false;
+
+            if (viewplayer->powers[pw_invulnerability])
+                return false;
+
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= soul_health)
+                return false;
+
+            if (viewplayer->health < soul_health)
+                return false;
+
+            viewplayer->health -= soul_health;
+            viewplayer->mo->health -= soul_health;
+            return true;
+
+        // mega health
+        case MT_MEGA:
+            if ((viewplayer->cheats & CF_GODMODE))
+                return false;
+
+            if (viewplayer->powers[pw_invulnerability])
+                return false;
+
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= mega_health)
+                return false;
+
+            if (viewplayer->health < mega_health)
+                return false;
+
+            viewplayer->health -= mega_health;
+            viewplayer->mo->health -= mega_health;
+            return true;
+
+        // blue keycard
+        case MT_MISC4:
+            if (viewplayer->cards[it_bluecard] <= 0)
+                return false;
+
+            viewplayer->cards[it_bluecard] = 0;
+            cardsfound--;
+            return true;
+
+        // yellow keycard
+        case MT_MISC6:
+            if (viewplayer->cards[it_yellowcard] <= 0)
+                return false;
+
+            viewplayer->cards[it_yellowcard] = 0;
+            cardsfound--;
+            return true;
+
+        // red keycard
+        case MT_MISC5:
+            if (viewplayer->cards[it_redcard] <= 0)
+                return false;
+
+            viewplayer->cards[it_redcard] = 0;
+            cardsfound--;
+            return true;
+
+        // blue skull key
+        case MT_MISC9:
+            if (viewplayer->cards[it_blueskull] <= 0)
+                return false;
+
+            viewplayer->cards[it_blueskull] = 0;
+            cardsfound--;
+            return true;
+
+        // yellow skull key
+        case MT_MISC7:
+            if (viewplayer->cards[it_yellowskull] <= 0)
+                return false;
+
+            viewplayer->cards[it_yellowskull] = 0;
+            cardsfound--;
+            return true;
+
+        // red skull key
+        case MT_MISC8:
+            if (viewplayer->cards[it_redskull] <= 0)
+                return false;
+
+            viewplayer->cards[it_redskull] = 0;
+            cardsfound--;
+            return true;
+
+        // stimpack
+        case MT_MISC10:
+            if ((viewplayer->cheats & CF_GODMODE))
+                return false;
+
+            if (viewplayer->powers[pw_invulnerability])
+                return false;
+
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= 10)
+                return false;
+
+            if (viewplayer->health < 10)
+                return false;
+
+            viewplayer->health -= 10;
+            viewplayer->mo->health -= 10;
+            return true;
+
+        // medikit
+        case MT_MISC11:
+            if ((viewplayer->cheats & CF_GODMODE))
+                return false;
+
+            if (viewplayer->powers[pw_invulnerability])
+                return false;
+
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= 25)
+                return false;
+
+            if (viewplayer->health < 25)
+                return false;
+
+            viewplayer->health -= 25;
+            viewplayer->mo->health -= 25;
+            return true;
+
+        // invulnerability power-up
+        case MT_INV:
+            if (!viewplayer->powers[pw_invulnerability])
+                return false;
+
+            viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+            return true;
+
+        // berserk power-up
+        case MT_MISC13:
+            if (!viewplayer->powers[pw_strength])
+                return false;
+
+            viewplayer->powers[pw_strength] = STARTFLASHING;
+
+            if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                viewplayer->pendingweapon = wp_chainsaw;
+
+            return true;
+
+        // partial invisibility power-up
+        case MT_INS:
+            if (!viewplayer->powers[pw_invisibility])
+                return false;
+
+            viewplayer->powers[pw_invisibility] = STARTFLASHING;
+            return true;
+
+        // radiation shielding suit power-up
+        case MT_MISC14:
+            if (!viewplayer->powers[pw_ironfeet])
+                return false;
+
+            viewplayer->powers[pw_ironfeet] = STARTFLASHING;
+            return true;
+
+        // computer area map power-up
+        case MT_MISC15:
+            if (!viewplayer->powers[pw_allmap])
+                return false;
+
+            viewplayer->powers[pw_allmap] = 0;
+            return true;
+
+        // light amplification visor power-up
+        case MT_MISC16:
+            if (!viewplayer->powers[pw_infrared])
+                return false;
+
+            viewplayer->powers[pw_infrared] = STARTFLASHING;
+            return true;
+
+        // clip
+        case MT_CLIP:
+            return P_TakeAmmo(am_clip, 1);
+
+        // box of bullets
+        case MT_MISC17:
+            return P_TakeAmmo(am_clip, 5);
+
+        // rocket
+        case MT_MISC18:
+            return P_TakeAmmo(am_misl, 1);
+
+        // box of rockets
+        case MT_MISC19:
+            return P_TakeAmmo(am_misl, 5);
+
+        // cell
+        case MT_MISC20:
+            return P_TakeAmmo(am_cell, 1);
+
+        // cell pack
+        case MT_MISC21:
+            return P_TakeAmmo(am_cell, 5);
+
+        // shells
+        case MT_MISC22:
+            return P_TakeAmmo(am_shell, 1);
+
+        // box of shells
+        case MT_MISC23:
+            return P_TakeAmmo(am_shell, 5);
+
+        // backpack
+        case MT_MISC24:
+            if (!viewplayer->backpack)
+                return false;
+
+            for (ammotype_t i = 0; i < NUMAMMO; i++)
+            {
+                viewplayer->maxammo[i] /= 2;
+                viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
+            }
+
+            viewplayer->backpack = false;
+            return true;
+
+        // BFG-9000
+        case MT_MISC25:
+            if (!viewplayer->weaponowned[wp_bfg])
+                return false;
+
+            viewplayer->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // chaingun
+        case MT_CHAINGUN:
+            if (!viewplayer->weaponowned[wp_chaingun])
+                return false;
+
+            viewplayer->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // chainsaw
+        case MT_MISC26:
+            if (!viewplayer->weaponowned[wp_chainsaw])
+                return false;
+
+            viewplayer->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // rocket launcher
+        case MT_MISC27:
+            if (!viewplayer->weaponowned[wp_missile])
+                return false;
+
+            viewplayer->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // plasma rifle
+        case MT_MISC28:
+            if (!viewplayer->weaponowned[wp_plasma])
+                return false;
+
+            viewplayer->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // shotgun
+        case MT_SHOTGUN:
+            if (!viewplayer->weaponowned[wp_shotgun])
+                return false;
+
+            viewplayer->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        // super shotgun
+        case MT_SUPERSHOTGUN:
+            if (!viewplayer->weaponowned[wp_supershotgun])
+                return false;
+
+            viewplayer->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return true;
+
+        default:
+            return false;
+    }
 }
 
 //
