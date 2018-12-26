@@ -44,7 +44,6 @@
 #include <Windows.h>
 #include <commdlg.h>
 #include <mmsystem.h>
-#include <ShellAPI.h>
 #endif
 
 #include "am_map.h"
@@ -979,7 +978,7 @@ static int D_OpenWADLauncher(void)
     M_StringCopy(szFile, wad, sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG;*.TXT\0";
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -1025,19 +1024,6 @@ static int D_OpenWADLauncher(void)
         {
 #if defined(_WIN32)
             char    *file = (char *)ofn.lpstrFile;
-
-            if (M_StringEndsWith(file, ".txt"))
-            {
-                ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL);
-
-                if (M_FileExists(M_StringJoin(leafname(file), ".wad", NULL)))
-                {
-                    wad = strdup(leafname(file));
-                    M_SaveCVARs();
-                }
-
-                return -2;
-            }
 #elif defined(__MACOSX__)
             NSURL   *url = [urls objectAtIndex:0];
             char    *file = (char *)[url fileSystemRepresentation];
@@ -1755,7 +1741,7 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
-                else if (choseniwad > 0 && !error)
+                else if (!choseniwad && !error)
                 {
                     static char buffer[256];
 
@@ -1763,7 +1749,7 @@ static void D_DoomMainSetup(void)
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
                     wad = "";
                 }
-            } while (choseniwad <= 0);
+            } while (!choseniwad);
 #endif
 
             stat_runs = SafeAdd(stat_runs, 1);

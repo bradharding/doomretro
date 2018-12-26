@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the IWAD of *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
-* Since each PWAD file is usually accompanied by a text file, text files can now be opened in Windows’ default text editor directly from the WAD launcher.
+* Since each PWAD file is usually accompanied by a text file, text files can now be opened in Windows’  default text editor directly from the WAD launcher.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar/widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is both `off` by default and when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
