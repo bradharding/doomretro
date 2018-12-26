@@ -1178,16 +1178,22 @@ void GetWindowSize(void)
     }
     else
     {
-        int w = atoi(uncommify(width));
-        int h = atoi(uncommify(height));
-
+        char *width_str = uncommify(width);
+        char *height_str = uncommify(height);
+        int w = atoi(width_str);
+        int h = atoi(height_str);
+        free(width_str);
+        free(height_str);
         if (w < ORIGINALWIDTH + windowborderwidth || h < ORIGINALWIDTH * 3 / 4 + windowborderheight)
         {
             char    size[16];
-
             windowwidth = ORIGINALWIDTH + windowborderwidth;
             windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
-            M_snprintf(size, sizeof(size), "%sx%s", commify(windowwidth), commify(windowheight));
+            char *windowwidth_str = commify(windowwidth);
+            char *windowheight_str = commify(windowheight);
+            M_snprintf(size, sizeof(size), "%sx%s", windowwidth_str, windowheight_str);
+            free(windowwidth_str);
+            free(windowheight_str);
             vid_windowsize = strdup(size);
             M_SaveCVARs();
         }
