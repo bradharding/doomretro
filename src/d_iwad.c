@@ -327,8 +327,10 @@ void D_IdentifyIWADByName(char *name)
         if (M_StringCompare(name, iwad))
         {
             gamemission = iwads[i].mission;
+            free(iwad);
             break;
         }
+        free(iwad);
     }
 
     if (M_StringCompare(name, "HACX.WAD"))
