@@ -28,7 +28,7 @@
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
-* Mirroring the `give` CCMD, the new `take` CCMD can now be used to take ammo, armor, health, keys, weapons, or all or certain items from the player.
+* A new `take` CCMD has been implemented that can be used to take ammo, armor, health, keys, weapons, or all or certain items from the player. It accepts the same parameters as the `give` CCMD.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
 * No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
