@@ -1029,7 +1029,13 @@ static int D_OpenWADLauncher(void)
             if (M_StringEndsWith(file, ".txt"))
             {
                 ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL);
-                wad = strdup(leafname(file));
+
+                if (M_FileExists(M_StringJoin(leafname(file), ".wad", NULL)))
+                {
+                    wad = strdup(leafname(file));
+                    M_SaveCVARs();
+                }
+
                 return -2;
             }
 #elif defined(__MACOSX__)
