@@ -1623,13 +1623,13 @@ static void D_DoomMainSetup(void)
     char        *appdatafolder = M_GetAppDataFolder();
     char        *iwadfile;
     int         startloadgame;
-
-    packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
-
+    char        *resourcefolder = M_GetResourceFolder();
+    packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    free(resourcefolder);
     M_MakeDirectory(appdatafolder);
 
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
-
+    free(appdatafolder);
     C_Output("");
     C_PrintCompileDate();
 
