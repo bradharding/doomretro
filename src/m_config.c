@@ -337,13 +337,21 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fputs(commify(v), file);
+                {
+                    char *v_str = commify(v);
+                    fputs(v_str, file);
+                    free(v_str);
+                }
 
                 break;
             }
 
             case DEFAULT_INT_UNSIGNED:
-                fputs(commify(*(unsigned int *)cvars[i].location), file);
+            {
+                char *cvars_location_free = commify(*(unsigned int *)cvars[i].location);
+                fputs(cvars_location_free, file);
+                free(cvars_location_free);
+            }
                 break;
 
             case DEFAULT_INT_PERCENT:
@@ -360,7 +368,11 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", commify(v));
+                {
+                    char *v_str = commify(v);
+                    fprintf(file, "%s%%", v_str);
+                    free(v_str);
+                }
 
                 break;
             }
@@ -409,7 +421,11 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", striptrailingzero(v, 1));
+                {
+                    char *v_str = striptrailingzero(v, 1);
+                    fprintf(file, "%s%%", v_str);
+                    free(v_str);
+                }
 
                 break;
             }
