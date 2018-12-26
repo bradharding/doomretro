@@ -1718,7 +1718,11 @@ static void D_DoomMainSetup(void)
     else if (stat_runs == 1)
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run twice.");
     else
-        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", commify(SafeAdd(stat_runs, 1)));
+    {
+        char *stat_runs_str = commify(SafeAdd(stat_runs, 1));
+        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", stat_runs_str);
+        free(stat_runs_str);
+    }
 
     if (!M_FileExists(packagewad))
         I_Error("%s can't be found.", packagewad);
