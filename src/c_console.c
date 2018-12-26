@@ -206,10 +206,12 @@ void C_PctCVAROutput(char *cvar, int value)
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
+    char *cvar_free = M_StringJoin(cvar, " ", NULL);
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
+    free(cvar_free);
 }
 
 void C_CCMDOutput(const char *ccmd)
