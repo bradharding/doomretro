@@ -172,7 +172,7 @@ char *M_GetAppDataFolder(void)
     char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
                 DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
     DIR     *resourceDir = opendir(resourceFolder);
-
+    free(resourceFolder);
     if (resourceDir)
     {
         closedir(resourceDir);
