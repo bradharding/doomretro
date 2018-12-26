@@ -1448,7 +1448,11 @@ void V_Init(void)
     if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
     else
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", M_GetAppDataFolder());
+    {
+        char *appdatafolder = M_GetAppDataFolder();
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", appdatafolder);
+        free(appdatafolder);
+    }
 }
 
 char            lbmname1[MAX_PATH];
