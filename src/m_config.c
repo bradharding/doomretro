@@ -956,7 +956,9 @@ void M_LoadCVARs(char *filename)
 
         if (togglingvanilla)
         {
-            C_ValidateInput(M_StringJoin(cvar, " ", uncommify(value), NULL));
+            char *value_free = uncommify(value);
+            C_ValidateInput(M_StringJoin(cvar, " ", value_free, NULL));
+            free(value_free);
             continue;
         }
 
@@ -983,38 +985,58 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_INT_UNSIGNED:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     sscanf(value, "%10u", (unsigned int *)cvars[i].location);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_FLOAT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_OTHER:
