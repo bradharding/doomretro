@@ -1845,8 +1845,12 @@ void C_PrintSDLVersions(void)
     const int   revision = SDL_GetRevisionNumber();
 
     if (revision)
+    {
+        char *revision_str = commify(revision);
         C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
-            SDL_PATCHLEVEL, commify(revision), SDL_FILENAME);
+            SDL_PATCHLEVEL, revision_str, SDL_FILENAME);
+        free(revision_str);
+    }
     else
         C_Output("Using version %i.%i.%i of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
             SDL_FILENAME);
