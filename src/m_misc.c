@@ -215,6 +215,7 @@ char *M_GetResourceFolder(void)
     if (resourceDir)
     {
         closedir(resourceDir);
+        free(executableFolder);
         return resourceFolder;
     }
 
