@@ -37,8 +37,10 @@
 */
 
 #include "doomstat.h"
+#include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_random.h"
@@ -189,7 +191,10 @@ static void P_SubtractAmmo(int amount)
     ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
     if (ammotype != am_noammo)
+    {
         viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - amount);
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
 }
 
 //

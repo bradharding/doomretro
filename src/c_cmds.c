@@ -2412,6 +2412,7 @@ void kill_cmd_func2(char *cmd, char *parms)
     {
         viewplayer->health = 0;
         viewplayer->mo->health = 0;
+        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
         viewplayer->attacker = NULL;
 
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)
@@ -4462,6 +4463,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             {
                 viewplayer->health = initial_health;
                 viewplayer->mo->health = initial_health;
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 result = true;
             }
 
@@ -4508,10 +4510,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have anything.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "health"))
         {
@@ -4522,10 +4521,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s already dead.", titlecase(playername), (M_StringCompare(playername, "you") ? "is" : "are"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "weapons"))
         {
@@ -4544,10 +4540,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any weapons.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "ammo"))
         {
@@ -4566,10 +4559,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any ammo.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
@@ -4581,10 +4571,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any armor.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "keys"))
         {
@@ -4601,11 +4588,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any keycards or skull keys.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "keycards"))
         {
@@ -4618,11 +4602,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any keycards.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else if (M_StringCompare(parm, "skullkeys"))
         {
@@ -4635,11 +4616,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-            {
                 C_Warning("%s %s have any skull keys.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
-                return;
-            }
         }
         else
         {
@@ -5473,6 +5451,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     viewplayer->health = value;
                     viewplayer->mo->health = value;
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 }
                 else
                 {

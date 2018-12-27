@@ -164,6 +164,10 @@ static dboolean P_TakeAmmo(ammotype_t ammotype, int num)
         return false;
 
     viewplayer->ammo[ammotype] -= num;
+
+    if (ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
     P_CheckAmmo(viewplayer->readyweapon);
     return true;
 }
@@ -778,19 +782,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // bonus health
         case SPR_BON1:
-            if (!(viewplayer->cheats & CF_GODMODE))
+            if (viewplayer->health < maxhealth && !(viewplayer->cheats & CF_GODMODE))
             {
-                viewplayer->health++;       // can go over 100%
-
-                if (viewplayer->health > maxhealth)
-                    viewplayer->health = maxhealth;
-                else
-                {
-                    P_UpdateHealthStat(1);
-                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-                }
-
+                viewplayer->health++;
                 viewplayer->mo->health = viewplayer->health;
+                P_UpdateHealthStat(1);
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
 
             if (message)
@@ -805,10 +802,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 viewplayer->armorpoints++;
                 P_UpdateArmorStat(1);
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-            }
 
-            if (!viewplayer->armortype)
-                viewplayer->armortype = GREENARMOR;
+                if (!viewplayer->armortype)
+                    viewplayer->armortype = GREENARMOR;
+            }
 
             if (message)
                 HU_PlayerMessage(s_GOTARMBONUS, true, false);
@@ -1261,6 +1258,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
                 return false;
 
             viewplayer->armorpoints -= green_armor_class * 100;
+            armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             return true;
 
         // blue armor
@@ -1272,6 +1270,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
                 return false;
 
             viewplayer->armorpoints -= blue_armor_class * 100;
+            armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             return true;
 
         // bonus health
@@ -1290,6 +1289,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->health--;
             viewplayer->mo->health--;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
         // bonus armor
@@ -1298,6 +1298,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
                 return false;
 
             viewplayer->armorpoints--;
+            armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             return true;
 
         // soulsphere
@@ -1316,6 +1317,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->health -= soul_health;
             viewplayer->mo->health -= soul_health;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
         // mega health
@@ -1334,6 +1336,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->health -= mega_health;
             viewplayer->mo->health -= mega_health;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
         // blue keycard
@@ -1406,6 +1409,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->health -= 10;
             viewplayer->mo->health -= 10;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
         // medikit
@@ -1424,6 +1428,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->health -= 25;
             viewplayer->mo->health -= 25;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
         // invulnerability power-up
@@ -1518,7 +1523,9 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             for (ammotype_t i = 0; i < NUMAMMO; i++)
             {
                 viewplayer->maxammo[i] /= 2;
-                viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
+
+                if (viewplayer->ammo[i] > viewplayer->maxammo[i])
+                    P_TakeAmmo(i, viewplayer->ammo[i] - viewplayer->maxammo[i]);
             }
 
             viewplayer->backpack = false;
@@ -1977,10 +1984,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             tplayer->armorpoints -= saved;
             damage -= saved;
+
+            if (saved)
+                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
         }
 
         tplayer->health -= damage;
         target->health -= damage;
+        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
         if (tplayer->health <= 0 && (tplayer->cheats & CF_BUDDHA))
         {
