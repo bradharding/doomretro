@@ -5387,9 +5387,7 @@ dboolean P_CheckAmmo(weapontype_t weapon);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
-    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL
-        && (!M_StringCompare(cmd, stringize(health)) || (!(viewplayer->cheats & CF_GODMODE)
-        && !viewplayer->powers[pw_invulnerability]))));
+    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL));
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
@@ -5463,7 +5461,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
         }
     }
-    else if (M_StringCompare(cmd, stringize(health)))
+    else if (M_StringCompare(cmd, stringize(health)) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
     {
         if (*parms)
         {
