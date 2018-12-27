@@ -4515,10 +4515,9 @@ static void take_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "health"))
         {
-            if (viewplayer->health > 0)
+            if (viewplayer->health > 0 && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
             {
-                viewplayer->health = 0;
-                viewplayer->mo->health = 0;
+                viewplayer->health = viewplayer->mo->health = !!(viewplayer->cheats & CF_BUDDHA);
                 P_AddBonus();
                 C_HideConsole();
             }
