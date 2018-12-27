@@ -46,6 +46,7 @@
 #define ASCII_COMMENT1  ';'
 #define ASCII_COMMENT2  '/'
 #define ASCII_QUOTE     '\"'
+#define ASCII_ESCAPE    '\\'
 
 static void CheckOpen(void);
 
@@ -152,9 +153,12 @@ dboolean SC_GetString(void)
     {
         ScriptPtr++;
 
-        while (*ScriptPtr != ASCII_QUOTE)
+        while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
         {
-            *text++ = *ScriptPtr++;
+            if (*ScriptPtr != ASCII_ESCAPE)
+                *text++ = *ScriptPtr++;
+            else
+                *ScriptPtr++;
 
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
