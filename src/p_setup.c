@@ -68,17 +68,19 @@
 #define MCMD_CLUSTER            2
 #define MCMD_LIQUID             3
 #define MCMD_MUSIC              4
-#define MCMD_NEXT               5
-#define MCMD_NOBRIGHTMAP        6
-#define MCMD_NOFREELOOK         7
-#define MCMD_NOJUMP             8
-#define MCMD_NOLIQUID           9
-#define MCMD_NOMOUSELOOK        10
-#define MCMD_PAR                11
-#define MCMD_PISTOLSTART        12
-#define MCMD_SECRETNEXT         13
-#define MCMD_SKY1               14
-#define MCMD_TITLEPATCH         15
+#define MCMD_MUSICCOMPOSER      5
+#define MCMD_MUSICTITLE         6
+#define MCMD_NEXT               7
+#define MCMD_NOBRIGHTMAP        8
+#define MCMD_NOFREELOOK         9
+#define MCMD_NOJUMP             10
+#define MCMD_NOLIQUID           11
+#define MCMD_NOMOUSELOOK        12
+#define MCMD_PAR                13
+#define MCMD_PISTOLSTART        14
+#define MCMD_SECRETNEXT         15
+#define MCMD_SKY1               16
+#define MCMD_TITLEPATCH         17
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -88,6 +90,8 @@ struct mapinfo_s
     int         cluster;
     int         liquid[NUMLIQUIDS];
     int         music;
+    char        musiccomposer[128];
+    char        musictitle[128];
     char        name[128];
     int         next;
     dboolean    nojump;
@@ -180,6 +184,8 @@ static char *mapcmdnames[] =
     "AUTHOR",
     "LIQUID",
     "MUSIC",
+    "MUSICCOMPOSER",
+    "MUSICTITLE",
     "NEXT",
     "NOBRIGHTMAP",
     "NOFREELOOK",
@@ -199,6 +205,8 @@ static int mapcmdids[] =
     MCMD_AUTHOR,
     MCMD_LIQUID,
     MCMD_MUSIC,
+    MCMD_MUSICCOMPOSER,
+    MCMD_MUSICTITLE,
     MCMD_NEXT,
     MCMD_NOBRIGHTMAP,
     MCMD_NOFREELOOK,
@@ -2429,6 +2437,16 @@ static void InitMapInfo(void)
                             info->music = W_CheckNumForName(sc_String);
                             break;
 
+                        case MCMD_MUSICCOMPOSER:
+                            SC_MustGetString();
+                            M_StringCopy(info->musiccomposer, sc_String, sizeof(info->musiccomposer));
+                            break;
+
+                        case MCMD_MUSICTITLE:
+                            SC_MustGetString();
+                            M_StringCopy(info->musictitle, sc_String, sizeof(info->musictitle));
+                            break;
+
                         case MCMD_NEXT:
                         {
                             int nextepisode = 1;
@@ -2586,6 +2604,16 @@ void P_GetMapLiquids(int map)
 int P_GetMapMusic(int map)
 {
     return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].music : 0);
+}
+
+char *P_GetMapMusicComposer(int map)
+{
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].musiccomposer[0] ? mapinfo[QualifyMap(map)].musiccomposer : "");
+}
+
+char *P_GetMapMusicTitle(int map)
+{
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].musictitle[0] ? mapinfo[QualifyMap(map)].musictitle : "");
 }
 
 char *P_GetMapName(int map)

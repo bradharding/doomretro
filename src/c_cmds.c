@@ -3313,16 +3313,24 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         static char         lumpname[9];
         int                 lumps;
+        const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
+        const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        if (((gamemode == commercial || gameepisode > 1) && lumps == 1) || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-        {
+        if (*musictitle)
+            C_TabbedOutput(tabs, "Music title\t<b>%s</b>", musictitle);
+        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
+
+        if (*musiccomposer)
+            C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", musiccomposer);
+        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "Music composer\t<b>Bobby Prince</b>");
-        }
 
         if (musmusictype)
             C_TabbedOutput(tabs, "Music format\t<b>MUS converted to MIDI</b>");

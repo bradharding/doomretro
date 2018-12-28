@@ -50,6 +50,8 @@ void P_Init(void);
 char *P_GetMapAuthor(int map);
 void P_GetMapLiquids(int map);
 int P_GetMapMusic(int map);
+char *P_GetMapMusicComposer(int map);
+char *P_GetMapMusicTitle(int map);
 char *P_GetMapName(int map);
 int P_GetMapNext(int map);
 dboolean P_GetMapNoJump(int map);

@@ -17,7 +17,9 @@
   * Things will no longer cast a shadow if they are spawned on the ceiling.
   * A thing’s name can now be changed as intended.
   * The finale text screen will be completely skipped if there is no text to display.
-* Strings containing escaped double quotes can now be used in `MAPINFO` lumps.
+* Further improvements have been made to the support of `MAPINFO` and `RMAPINFO` lumps:
+  * Strings containing escaped double quotes can now be used.
+  * The title and composer of the music playing in the current map can now be displayed by the `mapstats` CCMD by using the new `musictitle` and `musiccomposer` entries.
 * The support for `MUSINFO` lumps has been fixed.
 * Music will now quickly fade out when quitting *DOOM Retro*.
 * MP3 music lumps now play as intended.
