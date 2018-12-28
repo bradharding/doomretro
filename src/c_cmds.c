@@ -3240,8 +3240,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, "   Damaging\t<b>%s</b>", commify(numdamaging));
 
-    if (blockmaprecreated)
-        C_TabbedOutput(tabs, "Blockmap\t<b>Recreated</b>");
+    if (blockmaprebuilt)
+        C_TabbedOutput(tabs, "Blockmap\t<b>Rebuilt</b>");
 
     {
         int min_x = INT_MAX;

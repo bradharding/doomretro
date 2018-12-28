@@ -30,7 +30,7 @@
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
   * A few animated flats in [some popular PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
   * All animated flats specified using a `noliquid` entry in a `MAPINFO` lump in a PWAD.
-* The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
+* The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * A new `take` CCMD has been implemented that can be used to take ammo, armor, health, keys, weapons, or all or certain items from the player. It accepts the same parameters as the `give` CCMD.

@@ -232,7 +232,7 @@ static dboolean samelevel;
 mapformat_t     mapformat;
 
 dboolean        boomlinespecials;
-dboolean        blockmaprecreated;
+dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
@@ -1466,7 +1466,7 @@ static void P_CreateBlockMap(void)
     fixed_t     maxy = INT_MIN;
     vertex_t    *vertex;
 
-    blockmaprecreated = true;
+    blockmaprebuilt = true;
 
     // First find limits of map
     vertex = vertexes;
@@ -1651,17 +1651,17 @@ static void P_LoadBlockMap(int lump)
     int count;
     int lumplen;
 
-    blockmaprecreated = false;
+    blockmaprebuilt = false;
 
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning("This map's <b>BLOCKMAP</b> lump was %s and needed to be recreated.", (lumplen ? "invalid" : "empty"));
+        C_Warning("This map's <b>BLOCKMAP</b> lump was %s and needed to be rebuilt.", (lumplen ? "invalid" : "empty"));
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was recreated.");
+        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else
     {
@@ -1699,7 +1699,7 @@ static void P_LoadBlockMap(int lump)
             Z_Free(blockmaplump);
             blockmaplump = NULL;
             P_CreateBlockMap();
-            C_Warning("This map's <b>BLOCKMAP</b> lump was invalid and needed to be recreated.");
+            C_Warning("This map's <b>BLOCKMAP</b> lump was invalid and needed to be rebuilt.");
         }
     }
 

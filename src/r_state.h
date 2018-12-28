@@ -121,7 +121,7 @@ typedef enum
 extern mapformat_t  mapformat;
 
 extern dboolean     boomlinespecials;
-extern dboolean     blockmaprecreated;
+extern dboolean     blockmaprebuilt;
 extern dboolean     nojump;
 extern dboolean     nomouselook;
 

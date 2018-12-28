@@ -778,7 +778,7 @@ static int  sp_state;
 
 static void WI_initStats(void)
 {
-    const int   tabs[8] = { 65, 0, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[8] = { 100, 0, 0, 0, 0, 0, 0, 0 };
 
     state = StatCount;
     acceleratestage = 0;
@@ -799,7 +799,7 @@ static void WI_initStats(void)
     C_TabbedOutput(tabs, "Time\t<b>%.2i:%.2i</b>", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par\t<b>%.2i:%.2i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
+        C_TabbedOutput(tabs, "Par time\t<b>%.2i:%.2i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_initAnimatedBack();
 }
