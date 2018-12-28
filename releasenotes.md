@@ -2,7 +2,6 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the IWAD of *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [*SIGIL*](https://www.romerogames.ie/sigil/) can be found, it will be automatically loaded and a fifth entry will appear in the episode menu.
-* Since each PWAD file is usually accompanied by a text file, text files can now be opened in Windows’  default text editor directly from the WAD launcher.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar/widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is both `off` by default and when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
@@ -30,6 +29,7 @@
   * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
   * A few animated flats in [some popular PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
+  * All animated flats specified using a `noliquid` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be recreated when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
