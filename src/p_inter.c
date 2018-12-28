@@ -77,6 +77,8 @@ dboolean        species_infighting;
 int             maxammo[NUMAMMO] =  { 200, 50, 300, 50 };
 int             clipammo[NUMAMMO] = {  10,  4,  20,  1 };
 
+int             cardsprites[NUMCARDS] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
+
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
 dboolean        tossdrop = tossdrop_default;
@@ -500,44 +502,16 @@ void P_InitCards(void)
 
     cardsfound = 0;
 
-    for (int i = 0; i < numsectors; i++)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *thing = sectors[i].thinglist;
+        mobj_t  *mo = (mobj_t *)th;
 
-        while (thing)
-        {
-            switch (thing->sprite)
+        for (int i = 0; i < NUMCARDS; i++)
+            if (mo->type == cardsprites[i])
             {
-                case SPR_BKEY:
-                    viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
-                    break;
-
-                case SPR_RKEY:
-                    viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
-                    break;
-
-                case SPR_YKEY:
-                    viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
-                    break;
-
-                case SPR_BSKU:
-                    viewplayer->cards[it_blueskull] = CARDNOTFOUNDYET;
-                    break;
-
-                case SPR_RSKU:
-                    viewplayer->cards[it_redskull] = CARDNOTFOUNDYET;
-                    break;
-
-                case SPR_YSKU:
-                    viewplayer->cards[it_yellowskull] = CARDNOTFOUNDYET;
-                    break;
-
-                default:
-                    break;
+                viewplayer->cards[i] = CARDNOTFOUNDYET;
+                break;
             }
-
-            thing = thing->snext;
-        }
     }
 
     for (int i = 0; i < numlines; i++)
