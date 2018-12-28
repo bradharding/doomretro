@@ -1183,8 +1183,6 @@ void WI_Drawer(void)
     }
 }
 
-extern char maptitle[128];
-
 void P_MapName(int ep, int map);
 
 static void WI_initVariables(wbstartstruct_t *wbstartstruct)

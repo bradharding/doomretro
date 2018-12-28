@@ -3112,7 +3112,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, MAPSTATSTITLE);
 
-    C_TabbedOutput(tabs, "Title\t<b>%s</b>", mapnumandtitle);
+    C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", maptitle);
 
     {
         const char *authors[][6] =
@@ -3321,10 +3321,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         lumps = W_CheckMultipleLumps(lumpname);
 
         if (*musictitle)
-            C_TabbedOutput(tabs, "Music title\t<b>%s</b>", musictitle);
+            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", musictitle);
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
+            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", mus_playing->title);
 
         if (*musiccomposer)
             C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", musiccomposer);
