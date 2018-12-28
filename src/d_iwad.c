@@ -330,6 +330,7 @@ void D_IdentifyIWADByName(char *name)
             free(iwad);
             break;
         }
+
         free(iwad);
     }
 
@@ -535,6 +536,7 @@ void D_SetSaveGameFolder(dboolean output)
     {
         char    *iwad_name = SaveGameIWADName();
         char    *appdatafolder = M_GetAppDataFolder();
+        char    *savegamefolder_free;
 
         if (!iwad_name)
             iwad_name = "unknown";
@@ -542,8 +544,9 @@ void D_SetSaveGameFolder(dboolean output)
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
-        char *savegamefolder_free = savegamefolder;
+        savegamefolder_free = savegamefolder;
         savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
+
         free(appdatafolder);
         free(savegamefolder_free);
     }

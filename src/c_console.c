@@ -206,11 +206,13 @@ void C_PctCVAROutput(char *cvar, int value)
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
-    char *cvar_free = M_StringJoin(cvar, " ", NULL);
+    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
+
     free(cvar_free);
 }
 
@@ -1848,14 +1850,16 @@ void C_PrintSDLVersions(void)
 
     if (revision)
     {
-        char *revision_str = commify(revision);
-        C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
-            SDL_PATCHLEVEL, revision_str, SDL_FILENAME);
+        char    *revision_str = commify(revision);
+
+        C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, revision_str, SDL_FILENAME);
+
         free(revision_str);
     }
     else
-        C_Output("Using version %i.%i.%i of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
-            SDL_FILENAME);
+        C_Output("Using version %i.%i.%i of <b>%s</b>.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, SDL_FILENAME);
 
     C_Output("Using version %i.%i.%i of <b>%s</b> and version %i.%i.%i of <b>%s</b>.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL, SDL_MIXER_FILENAME,

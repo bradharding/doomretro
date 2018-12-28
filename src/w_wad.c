@@ -146,12 +146,16 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
+    char            *lumps_str = malloc(16);
 
     // open the file and add to directory
     wadfile_t       *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
+    {
+        free(lumps_str);
         return NULL;
+    }
 
     M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
 
@@ -197,11 +201,13 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
         filerover++;
     }
 
-    free(fileinfo);
-    char *lumps_str = commify(numlumps - startlump);
+    lumps_str = commify(numlumps - startlump);
     C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), lumps_str,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
+
+    free(fileinfo);
     free(lumps_str);
+
     if (!packagewadadded)
     {
         packagewadadded = true;

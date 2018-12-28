@@ -1449,7 +1449,8 @@ void V_Init(void)
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
     else
     {
-        char *appdatafolder = M_GetAppDataFolder();
+        char    *appdatafolder = M_GetAppDataFolder();
+
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", appdatafolder);
         free(appdatafolder);
     }

@@ -338,8 +338,10 @@ void M_SaveCVARs(void)
 
                 if (!flag)
                 {
-                    char *v_str = commify(v);
+                    char    *v_str = commify(v);
+
                     fputs(v_str, file);
+
                     free(v_str);
                 }
 
@@ -348,7 +350,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT_UNSIGNED:
             {
-                char *cvars_location_free = commify(*(unsigned int *)cvars[i].location);
+                char    *cvars_location_free = commify(*(unsigned int *)cvars[i].location);
+
                 fputs(cvars_location_free, file);
                 free(cvars_location_free);
             }
@@ -369,7 +372,8 @@ void M_SaveCVARs(void)
 
                 if (!flag)
                 {
-                    char *v_str = commify(v);
+                    char    *v_str = commify(v);
+
                     fprintf(file, "%s%%", v_str);
                     free(v_str);
                 }
@@ -422,7 +426,8 @@ void M_SaveCVARs(void)
 
                 if (!flag)
                 {
-                    char *v_str = striptrailingzero(v, 1);
+                    char    *v_str = striptrailingzero(v, 1);
+
                     fprintf(file, "%s%%", v_str);
                     free(v_str);
                 }
@@ -956,7 +961,8 @@ void M_LoadCVARs(char *filename)
 
         if (togglingvanilla)
         {
-            char *value_free = uncommify(value);
+            char    *value_free = uncommify(value);
+
             C_ValidateInput(M_StringJoin(cvar, " ", value_free, NULL));
             free(value_free);
             continue;
@@ -986,7 +992,8 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_INT:
                 {
-                    char *value_free = uncommify(value);
+                    char    *value_free = uncommify(value);
+
                     M_StringCopy(value, value_free, sizeof(value));
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     free(value_free);
@@ -995,7 +1002,8 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_INT_UNSIGNED:
                 {
-                    char *value_free = uncommify(value);
+                    char    *value_free = uncommify(value);
+
                     M_StringCopy(value, value_free, sizeof(value));
                     sscanf(value, "%10u", (unsigned int *)cvars[i].location);
                     free(value_free);
@@ -1004,7 +1012,8 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_INT_PERCENT:
                 {
-                    char *value_free = uncommify(value);
+                    char    *value_free = uncommify(value);
+
                     M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
@@ -1018,7 +1027,8 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_FLOAT:
                 {
-                    char *value_free = uncommify(value);
+                    char    *value_free = uncommify(value);
+
                     M_StringCopy(value, value_free, sizeof(value));
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     free(value_free);
@@ -1027,7 +1037,8 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_FLOAT_PERCENT:
                 {
-                    char *value_free = uncommify(value);
+                    char    *value_free = uncommify(value);
+
                     M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
@@ -1053,15 +1064,17 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        char *cvarcount_str = commify(cvarcount);
-        char *statcount_str = commify(statcount);
-        char *bindcount_str = commify(bindcount);
+        char    *cvarcount_str = commify(cvarcount);
+        char    *statcount_str = commify(statcount);
+        char    *bindcount_str = commify(bindcount);
+
         C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", cvarcount_str, statcount_str, filename);
         C_Output("Bound %s actions to the keyboard, mouse and gamepad.", bindcount_str);
+        M_CheckCVARs();
+        cvarsloaded = true;
+
         free(cvarcount_str);
         free(statcount_str);
         free(bindcount_str);
-        M_CheckCVARs();
-        cvarsloaded = true;
     }
 }

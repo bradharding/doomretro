@@ -1178,30 +1178,32 @@ void GetWindowSize(void)
     }
     else
     {
-        char *width_str = uncommify(width);
-        char *height_str = uncommify(height);
-        int w = atoi(width_str);
-        int h = atoi(height_str);
-        free(width_str);
-        free(height_str);
+        char    *width_str = uncommify(width);
+        char    *height_str = uncommify(height);
+        int     w = atoi(width_str);
+        int     h = atoi(height_str);
+
         if (w < ORIGINALWIDTH + windowborderwidth || h < ORIGINALWIDTH * 3 / 4 + windowborderheight)
         {
             char    size[16];
-            windowwidth = ORIGINALWIDTH + windowborderwidth;
-            windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
-            char *windowwidth_str = commify(windowwidth);
-            char *windowheight_str = commify(windowheight);
+            char    *windowwidth_str = commify((windowwidth = ORIGINALWIDTH + windowborderwidth));
+            char    *windowheight_str = commify((windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight));
+
             M_snprintf(size, sizeof(size), "%sx%s", windowwidth_str, windowheight_str);
-            free(windowwidth_str);
-            free(windowheight_str);
             vid_windowsize = strdup(size);
             M_SaveCVARs();
+
+            free(windowwidth_str);
+            free(windowheight_str);
         }
         else
         {
             windowwidth = w;
             windowheight = h;
         }
+
+        free(width_str);
+        free(height_str);
     }
 
     free(width);
@@ -1368,10 +1370,11 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char *width_str = commify(width);
-                char *height_str = commify(height);
-                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.",
-                    width_str, height_str, ratio);
+                char    *width_str = commify(width);
+                char    *height_str = commify(height);
+
+                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.", width_str, height_str, ratio);
+
                 free(width_str);
                 free(height_str);
             }
@@ -1387,9 +1390,11 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char *width_str = commify(width);
-                char *height_str = commify(height);
+                char    *width_str = commify(width);
+                char    *height_str = commify(height);
+
                 C_Output("Switched to a resolution of %s\xD7%s with a %s aspect ratio.", width_str, height_str, ratio);
+
                 free(width_str);
                 free(height_str);
             }
@@ -1414,10 +1419,11 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char *width_str = commify(width);
-                char *height_str = commify(height);
-                C_Output("Created a resizable window with dimensions %s\xD7%s centered on the screen.",
-                    width_str, height_str);
+                char    *width_str = commify(width);
+                char    *height_str = commify(height);
+
+                C_Output("Created a resizable window with dimensions %s\xD7%s centered on the screen.", width_str, height_str);
+
                 free(width_str);
                 free(height_str);
             }
@@ -1428,10 +1434,11 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char *width_str = commify(width);
-                char *height_str = commify(height);
-                C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
-                    width_str, height_str, windowx, windowy);
+                char    *width_str = commify(width);
+                char    *height_str = commify(height);
+
+                C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).", width_str, height_str, windowx, windowy);
+
                 free(width_str);
                 free(height_str);
             }
@@ -1538,13 +1545,15 @@ static void SetVideoMode(dboolean output)
         {
             if (nearestlinear)
             {
-                char *upscaledwidth_str = commify(upscaledwidth * SCREENWIDTH);
-                char *upscaledheight_str = commify(upscaledheight * SCREENHEIGHT);
-                char *width_str = commify(height * 4 / 3);
-                char *height_str = commify(height);
+                char    *upscaledwidth_str = commify(upscaledwidth * SCREENWIDTH);
+                char    *upscaledheight_str = commify(upscaledheight * SCREENHEIGHT);
+                char    *width_str = commify(height * 4 / 3);
+                char    *height_str = commify(height);
+
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
                 C_Output("It is then scaled down to %s\xD7%s using linear filtering.", width_str, height_str);
+
                 free(upscaledwidth_str);
                 free(upscaledheight_str);
                 free(width_str);
@@ -1552,19 +1561,23 @@ static void SetVideoMode(dboolean output)
             }
             else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
             {
-                char *width_str = commify(height * 4 / 3);
-                char *height_str = commify(height);
+                char    *width_str = commify(height * 4 / 3);
+                char    *height_str = commify(height);
+
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+
                 free(width_str);
                 free(height_str);
             }
             else
             {
-                char *width_str = commify(height * 4 / 3);
-                char *height_str = commify(height);
+                char    *width_str = commify(height * 4 / 3);
+                char    *height_str = commify(height);
+
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+
                 free(width_str);
                 free(height_str);
             }
@@ -1593,8 +1606,10 @@ static void SetVideoMode(dboolean output)
 
                     if (output)
                     {
-                        char *vid_capfps_str = commify(vid_capfps);
+                        char    *vid_capfps_str = commify(vid_capfps);
+
                         C_Output("The framerate is capped at %s FPS.", vid_capfps_str);
+
                         free(vid_capfps_str);
                     }
                 }
@@ -1617,8 +1632,10 @@ static void SetVideoMode(dboolean output)
 
                 if (vid_capfps)
                 {
-                    char *vid_capfps_str = commify(vid_capfps);
+                    char    *vid_capfps_str = commify(vid_capfps);
+
                     C_Output("The framerate is capped at %s FPS.", vid_capfps);
+
                     free(vid_capfps_str);
                 }
                 else

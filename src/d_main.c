@@ -1624,6 +1624,8 @@ static void D_DoomMainSetup(void)
     char        *iwadfile;
     int         startloadgame;
     char        *resourcefolder = M_GetResourceFolder();
+    char        *time;
+
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
     free(resourcefolder);
     M_MakeDirectory(appdatafolder);
@@ -1719,8 +1721,10 @@ static void D_DoomMainSetup(void)
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run twice.");
     else
     {
-        char *stat_runs_str = commify(SafeAdd(stat_runs, 1));
+        char    *stat_runs_str = commify(SafeAdd(stat_runs, 1));
+
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", stat_runs_str);
+
         free(stat_runs_str);
     }
 
@@ -2043,8 +2047,10 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle(M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
     }
-    char *time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
+    
+    time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
     C_Output("Startup took %s seconds to complete.", time);
+
     free(time);
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
