@@ -158,7 +158,7 @@ dboolean SC_GetString(void)
             if (*ScriptPtr != ASCII_ESCAPE)
                 *text++ = *ScriptPtr++;
             else
-                *ScriptPtr++;
+                ScriptPtr++;
 
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
