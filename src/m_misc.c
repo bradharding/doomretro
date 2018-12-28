@@ -172,7 +172,7 @@ char *M_GetAppDataFolder(void)
     char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
                 DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
     DIR     *resourceDir = opendir(resourceFolder);
-
+    free(resourceFolder);
     if (resourceDir)
     {
         closedir(resourceDir);
@@ -192,7 +192,7 @@ char *M_GetAppDataFolder(void)
 
         if (!(buffer = SDL_getenv("HOME")))
             buffer = getpwuid(getuid())->pw_dir;
-
+        free(executableFolder);
         return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S, PACKAGE, NULL);
 #endif
     }
@@ -215,6 +215,7 @@ char *M_GetResourceFolder(void)
     if (resourceDir)
     {
         closedir(resourceDir);
+        free(executableFolder);
         return resourceFolder;
     }
 

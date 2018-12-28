@@ -198,10 +198,10 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     }
 
     free(fileinfo);
-
-    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), commify(numlumps - startlump),
+    char *lumps_str = commify(numlumps - startlump);
+    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), lumps_str,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
-
+    free(lumps_str);
     if (!packagewadadded)
     {
         packagewadadded = true;

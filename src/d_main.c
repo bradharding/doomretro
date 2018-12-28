@@ -1623,13 +1623,13 @@ static void D_DoomMainSetup(void)
     char        *appdatafolder = M_GetAppDataFolder();
     char        *iwadfile;
     int         startloadgame;
-
-    packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
-
+    char        *resourcefolder = M_GetResourceFolder();
+    packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    free(resourcefolder);
     M_MakeDirectory(appdatafolder);
 
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
-
+    free(appdatafolder);
     C_Output("");
     C_PrintCompileDate();
 
@@ -1718,7 +1718,11 @@ static void D_DoomMainSetup(void)
     else if (stat_runs == 1)
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run twice.");
     else
-        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", commify(SafeAdd(stat_runs, 1)));
+    {
+        char *stat_runs_str = commify(SafeAdd(stat_runs, 1));
+        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", stat_runs_str);
+        free(stat_runs_str);
+    }
 
     if (!M_FileExists(packagewad))
         I_Error("%s can't be found.", packagewad);
@@ -2039,8 +2043,9 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle(M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
     }
-
-    C_Output("Startup took %s seconds to complete.", striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1));
+    char *time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
+    C_Output("Startup took %s seconds to complete.", time);
+    free(time);
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file

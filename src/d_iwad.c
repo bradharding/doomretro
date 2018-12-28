@@ -327,8 +327,10 @@ void D_IdentifyIWADByName(char *name)
         if (M_StringCompare(name, iwad))
         {
             gamemission = iwads[i].mission;
+            free(iwad);
             break;
         }
+        free(iwad);
     }
 
     if (M_StringCompare(name, "HACX.WAD"))
@@ -540,7 +542,10 @@ void D_SetSaveGameFolder(dboolean output)
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
+        char *savegamefolder_free = savegamefolder;
         savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
+        free(appdatafolder);
+        free(savegamefolder_free);
     }
 
     M_MakeDirectory(savegamefolder);

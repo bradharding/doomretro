@@ -449,23 +449,26 @@ static void R_InitSpriteLumps(void)
         if (M_StringCompare(sc_String, "FIXSPRITEOFFSETS"))
         {
             SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, removeext(sc_String)))
+            char *sc_String_free = removeext(sc_String);
+            if (M_StringCompare(pwadfile, sc_String_free))
                 fixspriteoffsets = true;
+            free(sc_String_free);
         }
         else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {
             SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, removeext(sc_String)))
+            char *sc_String_free = removeext(sc_String);
+            if (M_StringCompare(pwadfile, sc_String_free))
                 notranslucency = true;
+            free(sc_String_free);
         }
         else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
         {
             SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, removeext(sc_String)))
+            char *sc_String_free = removeext(sc_String);
+            if (M_StringCompare(pwadfile, sc_String_free))
                 telefragonmap30 = true;
+            free(sc_String_free);
         }
     }
 

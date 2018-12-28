@@ -206,10 +206,12 @@ void C_PctCVAROutput(char *cvar, int value)
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
+    char *cvar_free = M_StringJoin(cvar, " ", NULL);
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
+    free(cvar_free);
 }
 
 void C_CCMDOutput(const char *ccmd)
@@ -1845,8 +1847,12 @@ void C_PrintSDLVersions(void)
     const int   revision = SDL_GetRevisionNumber();
 
     if (revision)
+    {
+        char *revision_str = commify(revision);
         C_Output("Using version %i.%i.%i (revision %s) of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
-            SDL_PATCHLEVEL, commify(revision), SDL_FILENAME);
+            SDL_PATCHLEVEL, revision_str, SDL_FILENAME);
+        free(revision_str);
+    }
     else
         C_Output("Using version %i.%i.%i of <b>%s</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
             SDL_FILENAME);

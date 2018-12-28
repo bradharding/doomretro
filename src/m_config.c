@@ -337,13 +337,21 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fputs(commify(v), file);
+                {
+                    char *v_str = commify(v);
+                    fputs(v_str, file);
+                    free(v_str);
+                }
 
                 break;
             }
 
             case DEFAULT_INT_UNSIGNED:
-                fputs(commify(*(unsigned int *)cvars[i].location), file);
+            {
+                char *cvars_location_free = commify(*(unsigned int *)cvars[i].location);
+                fputs(cvars_location_free, file);
+                free(cvars_location_free);
+            }
                 break;
 
             case DEFAULT_INT_PERCENT:
@@ -360,7 +368,11 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", commify(v));
+                {
+                    char *v_str = commify(v);
+                    fprintf(file, "%s%%", v_str);
+                    free(v_str);
+                }
 
                 break;
             }
@@ -409,7 +421,11 @@ void M_SaveCVARs(void)
                     }
 
                 if (!flag)
-                    fprintf(file, "%s%%", striptrailingzero(v, 1));
+                {
+                    char *v_str = striptrailingzero(v, 1);
+                    fprintf(file, "%s%%", v_str);
+                    free(v_str);
+                }
 
                 break;
             }
@@ -940,7 +956,9 @@ void M_LoadCVARs(char *filename)
 
         if (togglingvanilla)
         {
-            C_ValidateInput(M_StringJoin(cvar, " ", uncommify(value), NULL));
+            char *value_free = uncommify(value);
+            C_ValidateInput(M_StringJoin(cvar, " ", value_free, NULL));
+            free(value_free);
             continue;
         }
 
@@ -967,38 +985,58 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_INT_UNSIGNED:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     sscanf(value, "%10u", (unsigned int *)cvars[i].location);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_FLOAT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    M_StringCopy(value, uncommify(value), sizeof(value));
+                {
+                    char *value_free = uncommify(value);
+                    M_StringCopy(value, value_free, sizeof(value));
                     s = strdup(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
+                    free(value_free);
+                }
                     break;
 
                 case DEFAULT_OTHER:
@@ -1015,8 +1053,14 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", commify(cvarcount), commify(statcount), filename);
-        C_Output("Bound %s actions to the keyboard, mouse and gamepad.", commify(bindcount));
+        char *cvarcount_str = commify(cvarcount);
+        char *statcount_str = commify(statcount);
+        char *bindcount_str = commify(bindcount);
+        C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", cvarcount_str, statcount_str, filename);
+        C_Output("Bound %s actions to the keyboard, mouse and gamepad.", bindcount_str);
+        free(cvarcount_str);
+        free(statcount_str);
+        free(bindcount_str);
         M_CheckCVARs();
         cvarsloaded = true;
     }
