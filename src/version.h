@@ -53,6 +53,10 @@
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%i.save"
+#define PACKAGE_TRADEMARKS              "DOOM is a registered trademark of id Software LLC, a ZeniMax Media company, in the US " \
+                                        "and/or other countries, and is used without permission.All other trademarks are the " \
+                                        "property of their respective holders. DOOM Retro is in no way affiliated with nor endorsed " \
+                                        "by id Software."
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_HELP_URL           "https://github.com/bradharding/doomretro/wiki/THE-CONSOLE"
 

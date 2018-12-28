@@ -65,6 +65,7 @@ BEGIN
             VALUE "FileVersion",      PACKAGE_VERSIONSTRING
             VALUE "InternalName",     PACKAGE
             VALUE "LegalCopyright",   PACKAGE_COPYRIGHT
+            VALUE "LegalTrademarks",  PACKAGE_TRADEMARKS
             VALUE "OriginalFilename", PACKAGE_FILENAME
             VALUE "ProductName",      PACKAGE_NAME
             VALUE "ProductVersion",   PACKAGE_VERSIONSTRING
