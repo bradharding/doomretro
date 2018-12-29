@@ -879,35 +879,35 @@ dboolean AM_Responder(const event_t *ev)
                 }
                 else if (key == AM_FOLLOWKEY)
                 {
-                    int keydown = 0;
+                    int key2 = 0;
 
                     if (keystate(AM_PANLEFTKEY))
-                        keydown = AM_PANLEFTKEY;
+                        key2 = AM_PANLEFTKEY;
                     else if (keystate(AM_PANLEFTKEY2))
-                        keydown = AM_PANLEFTKEY2;
+                        key2 = AM_PANLEFTKEY2;
                     else if (keystate(AM_PANLEFTKEY3))
-                        keydown = AM_PANLEFTKEY3;
+                        key2 = AM_PANLEFTKEY3;
                     else if (keystate(AM_PANRIGHTKEY))
-                        keydown = AM_PANRIGHTKEY;
+                        key2 = AM_PANRIGHTKEY;
                     else if (keystate(AM_PANRIGHTKEY2))
-                        keydown = AM_PANRIGHTKEY2;
+                        key2 = AM_PANRIGHTKEY2;
                     else if (keystate(AM_PANRIGHTKEY3))
-                        keydown = AM_PANRIGHTKEY3;
+                        key2 = AM_PANRIGHTKEY3;
                     else if (keystate(AM_PANUPKEY))
-                        keydown = AM_PANUPKEY;
+                        key2 = AM_PANUPKEY;
                     else if (keystate(AM_PANUPKEY2))
-                        keydown = AM_PANUPKEY2;
+                        key2 = AM_PANUPKEY2;
                     else if (keystate(AM_PANDOWNKEY))
-                        keydown = AM_PANDOWNKEY;
+                        key2 = AM_PANDOWNKEY;
                     else if (keystate(AM_PANDOWNKEY2))
-                        keydown = AM_PANDOWNKEY2;
+                        key2 = AM_PANDOWNKEY2;
 
-                    if (keydown)
+                    if (key2)
                     {
                         event_t event;
 
                         event.type = ev_keydown;
-                        event.data1 = keydown;
+                        event.data1 = key2;
                         event.data2 = 0;
                         D_PostEvent(&event);
                     }
@@ -1521,8 +1521,7 @@ static void AM_DrawWalls(void)
                 continue;
             else
             {
-                const sector_t  *backsector = line.backsector;
-                const sector_t  *frontsector = line.frontsector;
+                const sector_t  *back = line.backsector;
                 const short     mapped = flags & ML_MAPPED;
                 const short     secret = flags & ML_SECRET;
                 const short     special = line.special;
@@ -1549,9 +1548,9 @@ static void AM_DrawWalls(void)
                         || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
                         || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
                         || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
-                    && ((flags & ML_TELEPORTTRIGGERED) || cheating || (backsector && isteleport[backsector->floorpic])))
+                    && ((flags & ML_TELEPORTTRIGGERED) || cheating || (back && isteleport[back->floorpic])))
                 {
-                    if (cheating || (mapped && !secret && backsector && backsector->ceilingheight != backsector->floorheight))
+                    if (cheating || (mapped && !secret && back && back->ceilingheight != back->floorheight))
                     {
                         AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
                         continue;
@@ -1563,29 +1562,34 @@ static void AM_DrawWalls(void)
                     }
                 }
 
-                if (!backsector || (secret && !cheating))
+                if (!back || (secret && !cheating))
                 {
                     if (mapped || cheating)
                         AM_DrawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, wallcolor);
                     else if (allmap)
                         AM_DrawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapwallcolor);
                 }
-                else if (backsector->floorheight != frontsector->floorheight)
+                else
                 {
-                    if (mapped || cheating)
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
-                    else if (allmap)
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                    const sector_t  *front = line.frontsector;
+
+                    if (back->floorheight != front->floorheight)
+                    {
+                        if (mapped || cheating)
+                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
+                        else if (allmap)
+                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                    }
+                    else if (back->ceilingheight != front->ceilingheight)
+                    {
+                        if (mapped || cheating)
+                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
+                        else if (allmap)
+                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
+                    }
+                    else if (cheating)
+                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
                 }
-                else if (backsector->ceilingheight != frontsector->ceilingheight)
-                {
-                    if (mapped || cheating)
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
-                    else if (allmap)
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
-                }
-                else if (cheating)
-                    AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
             }
         }
     }

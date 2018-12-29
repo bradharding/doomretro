@@ -2123,22 +2123,22 @@ void P_MapName(int ep, int map)
 static mapformat_t P_CheckMapFormat(int lumpnum)
 {
     mapformat_t format = DOOMBSP;
-    byte        *nodes = NULL;
+    byte        *n = NULL;
     int         b;
 
     if ((b = lumpnum + ML_BLOCKMAP + 1) < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
         I_Error("Hexen format maps are not supported.");
-    else if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b)) && W_LumpLength(b))
+    else if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))
     {
-        if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
+        if (!memcmp(n, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
-        else if (!memcmp(nodes, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
+        else if (!memcmp(n, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
             format = ZDBSPX;
-        else if (!memcmp(nodes, "ZNOD", 4))
+        else if (!memcmp(n, "ZNOD", 4))
             I_Error("Compressed ZDBSP nodes are not supported.");
     }
 
-    if (nodes)
+    if (n)
         W_ReleaseLumpNum(b);
 
     return format;
@@ -2344,7 +2344,7 @@ static void InitMapInfo(void)
 
     while (SC_GetString())
     {
-        int episode = -1;
+        int ep = -1;
         int map = -1;
 
         if (SC_Compare("MAP"))
@@ -2354,22 +2354,22 @@ static void InitMapInfo(void)
 
             if (map < 0 || map > 99)
             {
-                char    *mapnum = uppercase(sc_String);
+                char    *buffer = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
-                    episode = 1;
-                    sscanf(mapnum, "MAP0%1i", &map);
+                    ep = 1;
+                    sscanf(buffer, "MAP0%1i", &map);
 
                     if (map == -1)
-                        sscanf(mapnum, "MAP%2i", &map);
+                        sscanf(buffer, "MAP%2i", &map);
                 }
                 else
                 {
-                    sscanf(mapnum, "E%1iM%1i", &episode, &map);
+                    sscanf(buffer, "E%1iM%1i", &ep, &map);
 
-                    if (episode != -1 && map != -1)
-                        map += (episode - 1) * 10;
+                    if (ep != -1 && map != -1)
+                        map += (ep - 1) * 10;
                 }
             }
 
@@ -2457,17 +2457,17 @@ static void InitMapInfo(void)
 
                             if (nextmap < 0 || nextmap > 99)
                             {
-                                char    *mapnum = uppercase(sc_String);
+                                char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    sscanf(mapnum, "MAP0%1i", &nextmap);
+                                    sscanf(buffer, "MAP0%1i", &nextmap);
 
                                     if (nextmap == -1)
-                                        sscanf(mapnum, "MAP%2i", &nextmap);
+                                        sscanf(buffer, "MAP%2i", &nextmap);
                                 }
                                 else
-                                    sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
+                                    sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
                             }
 
                             info->next = (nextepisode - 1) * 10 + nextmap;
@@ -2526,17 +2526,17 @@ static void InitMapInfo(void)
 
                             if (nextmap < 0 || nextmap > 99)
                             {
-                                char    *mapnum = uppercase(sc_String);
+                                char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    sscanf(mapnum, "MAP0%1i", &nextmap);
+                                    sscanf(buffer, "MAP0%1i", &nextmap);
 
                                     if (nextmap == -1)
-                                        sscanf(mapnum, "MAP%2i", &nextmap);
+                                        sscanf(buffer, "MAP%2i", &nextmap);
                                 }
                                 else
-                                    sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
+                                    sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
                             }
 
                             info->secretnext = (nextepisode - 1) * 10 + nextmap;
