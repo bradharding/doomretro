@@ -97,5 +97,6 @@ dboolean isvowel(const char ch);
 char *striptrailingzero(float value, int precision);
 void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);
+void M_StripQuotes(char *string);
 
 #endif

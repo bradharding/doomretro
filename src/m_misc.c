@@ -858,3 +858,15 @@ int hextodec(char *hex)
 
     return ret;
 }
+
+void M_StripQuotes(char *string)
+{
+    int len = (int)strlen(string);
+
+    if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"') || (string[0] == '\'' && string[len - 1] == '\'')))
+    {
+        len -= 2;
+        memmove(string, string + 1, len);
+        string[len] = '\0';
+    }
+}

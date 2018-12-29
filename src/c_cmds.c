@@ -1179,7 +1179,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    C_StripQuotes(parm1);
+    M_StripQuotes(parm1);
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
@@ -1199,7 +1199,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    C_StripQuotes(parm2);
+    M_StripQuotes(parm2);
 
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
@@ -1268,7 +1268,7 @@ void bind_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    C_StripQuotes(parm1);
+    M_StripQuotes(parm1);
 
     while (controls[i].type)
     {
@@ -2266,14 +2266,14 @@ static void if_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    C_StripQuotes(parm1);
+    M_StripQuotes(parm1);
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
         {
             dboolean    condition = false;
 
-            C_StripQuotes(parm2);
+            M_StripQuotes(parm2);
 
             if (consolecmds[i].type == CT_CVAR)
             {
@@ -2324,7 +2324,7 @@ static void if_cmd_func2(char *cmd, char *parms)
                 char    *strings[255];
                 int     j = 0;
 
-                C_StripQuotes(parm3);
+                M_StripQuotes(parm3);
                 strings[0] = strtok(parm3, ";");
 
                 while (strings[j])
@@ -5074,7 +5074,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             {
                 if (!M_StringCompare(parms, *(char **)consolecmds[i].variable) && !(consolecmds[i].flags & CF_READONLY))
                 {
-                    C_StripQuotes(parms);
+                    M_StripQuotes(parms);
                     *(char **)consolecmds[i].variable = strdup(parms);
                     M_SaveCVARs();
                 }

@@ -613,18 +613,6 @@ void C_HideConsoleFast(void)
     consoleactive = false;
 }
 
-void C_StripQuotes(char *string)
-{
-    int len = (int)strlen(string);
-
-    if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"') || (string[0] == '\'' && string[len - 1] == '\'')))
-    {
-        len -= 2;
-        memmove(string, string + 1, len);
-        string[len] = '\0';
-    }
-}
-
 static void C_DrawBackground(int height)
 {
     static dboolean blurred;
@@ -1163,7 +1151,7 @@ dboolean C_ExecuteInputString(const char *input)
     char    *strings[255];
     int     j = 0;
 
-    C_StripQuotes(string);
+    M_StripQuotes(string);
     strings[0] = strtok(string, ";");
 
     while (strings[j])
@@ -1221,7 +1209,7 @@ dboolean C_ValidateInput(const char *input)
             char    parms[128] = "";
 
             sscanf(input, "%127s %127[^\n]", cmd, parms);
-            C_StripQuotes(parms);
+            M_StripQuotes(parms);
 
             if ((M_StringCompare(cmd, consolecmds[i].name) || M_StringCompare(cmd, consolecmds[i].alternate))
                 && consolecmds[i].func1(consolecmds[i].name, parms)
