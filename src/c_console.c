@@ -1002,8 +1002,8 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
                         consoleboldcolor, tinttab66, notabs, true, true);
 
-                    if (con_timestamps)
-                        C_DrawTimeStamp(timestampx, y, console[i].tics);
+                if (con_timestamps)
+                    C_DrawTimeStamp(timestampx, y, console[i].tics);
             }
             else if (type == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR, consoleboldcolor,
