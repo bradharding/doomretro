@@ -2957,7 +2957,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         int         ep = -1;
         int         map = -1;
         char        lump[6];
-        char        wad[MAX_PATH];
+        char        wadname[MAX_PATH];
         dboolean    replaced;
         dboolean    pwad;
         char        mapinfoname[128];
@@ -2985,7 +2985,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         if (ep-- == -1 || map-- == -1)
             continue;
 
-        M_StringCopy(wad, leafname(lumpinfo[i]->wadfile->path), sizeof(wad));
+        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), sizeof(mapinfoname));
@@ -2996,45 +2996,45 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             case doom:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, (replaced && dehcount == 1
-                        && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map])), wad);
+                        && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map])), wadname);
 
                 break;
 
             case doom2:
-                if ((!M_StringCompare(wad, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
+                if ((!M_StringCompare(wadname, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
                 {
                     if (BTSX)
                     {
-                        if (!M_StringCompare(wad, "DOOM2.WAD"))
+                        if (!M_StringCompare(wadname, "DOOM2.WAD"))
                             M_snprintf(maplist[count++], 256, "%s</b></i>\t%s",
-                                titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>")), wad);
+                                titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>")), wadname);
                     }
                     else
                         M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname :
-                            (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]))), wad);
+                            (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]))), wadname);
                 }
 
                 break;
 
             case pack_nerve:
-                if (M_StringCompare(wad, "NERVE.WAD"))
+                if (M_StringCompare(wadname, "NERVE.WAD"))
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s",
-                        lump, titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]), wad);
+                        lump, titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]), wadname);
 
                 break;
 
             case pack_plut:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, (replaced && dehcount == 1 && !*mapinfoname ?
-                        "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map])), wad);
+                        "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map])), wadname);
 
                 break;
 
             case pack_tnt:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, (replaced && dehcount == 1 && !*mapinfoname ?
-                        "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamest[map])), wad);
+                        "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamest[map])), wadname);
 
                 break;
 

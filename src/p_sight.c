@@ -96,8 +96,8 @@ static dboolean P_CrossSubsector(int num)
         fixed_t     frac;
         sector_t    *front;
         sector_t    *back;
-        fixed_t     opentop;
-        fixed_t     openbottom;
+        fixed_t     top;
+        fixed_t     bottom;
         divline_t   divl;
         vertex_t    *v1;
         vertex_t    *v2;
@@ -151,28 +151,28 @@ static dboolean P_CrossSubsector(int num)
 
         // possible occluder
         // because of ceiling height differences
-        opentop = MIN(front->ceilingheight, back->ceilingheight);
+        top = MIN(front->ceilingheight, back->ceilingheight);
 
         // because of floor height differences
-        openbottom = MAX(front->floorheight, back->floorheight);
+        bottom = MAX(front->floorheight, back->floorheight);
 
         // cph - reject if does not intrude in the z-space of the possible LOS
-        if (opentop >= los.maxz && openbottom <= los.minz)
+        if (top >= los.maxz && bottom <= los.minz)
             continue;
 
         // cph - if bottom >= top or top < minz or bottom > maxz then it must be
         // solid wrt this LOS
-        if (openbottom >= opentop || opentop < los.minz || openbottom > los.maxz)
+        if (bottom >= top || top < los.minz || bottom > los.maxz)
             return false;
 
         // crosses a two sided line
         frac = P_InterceptVector(&los.strace, &divl);
 
         if (front->floorheight != back->floorheight)
-            los.bottomslope = MAX(los.bottomslope, FixedDiv(openbottom - los.sightzstart, frac));
+            los.bottomslope = MAX(los.bottomslope, FixedDiv(bottom - los.sightzstart, frac));
 
         if (front->ceilingheight != back->ceilingheight)
-            los.topslope = MIN(los.topslope, FixedDiv(opentop - los.sightzstart, frac));
+            los.topslope = MIN(los.topslope, FixedDiv(top - los.sightzstart, frac));
 
         if (los.topslope <= los.bottomslope)
             return false;   // stop

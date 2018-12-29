@@ -344,17 +344,17 @@ static void P_LoadSegs(int lump)
         unsigned short  v1;
         unsigned short  v2;
         int             side;
-        int             linedef;
+        int             linedefnum;
         line_t          *ldef;
 
         v1 = (unsigned short)SHORT(ml->v1);
         v2 = (unsigned short)SHORT(ml->v2);
-        linedef = (unsigned short)SHORT(ml->linedef);
+        linedefnum = (unsigned short)SHORT(ml->linedef);
 
-        if (linedef >= numlines)
-            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
+        if (linedefnum >= numlines)
+            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedefnum));
 
-        ldef = lines + linedef;
+        ldef = lines + linedefnum;
         li->linedef = ldef;
         side = SHORT(ml->side);
 
@@ -368,7 +368,7 @@ static void P_LoadSegs(int lump)
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
             I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
-                commify(linedef), commify(i), commify(ldef->sidenum[side]));
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 
@@ -427,7 +427,7 @@ static void P_LoadSegs(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; linefix[j].mission != -1; j++)
             {
-                if (linedef == linefix[j].linedef && gamemission == linefix[j].mission
+                if (linedefnum == linefix[j].linedef && gamemission == linefix[j].mission
                     && gameepisode == linefix[j].epsiode && gamemap == linefix[j].map
                     && side == linefix[j].side)
                 {
@@ -437,7 +437,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The top texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedef), linefix[j].toptexture);
+                                commify(linedefnum), linefix[j].toptexture);
                     }
 
                     if (*linefix[j].middletexture)
@@ -446,7 +446,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The middle texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedef), linefix[j].middletexture);
+                                commify(linedefnum), linefix[j].middletexture);
                     }
 
                     if (*linefix[j].bottomtexture)
@@ -455,7 +455,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The bottom texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedef), linefix[j].bottomtexture);
+                                commify(linedefnum), linefix[j].bottomtexture);
                     }
 
                     if (linefix[j].offset != DEFAULT)
@@ -465,7 +465,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The horizontal texture offset of linedef %s has been changed to %s.",
-                                commify(linedef), commify(linefix[j].offset));
+                                commify(linedefnum), commify(linefix[j].offset));
                     }
 
                     if (linefix[j].rowoffset != DEFAULT)
@@ -474,7 +474,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The vertical texture offset of linedef %s has been changed to %s.",
-                                commify(linedef), commify(linefix[j].rowoffset));
+                                commify(linedefnum), commify(linefix[j].rowoffset));
                     }
 
                     if (linefix[j].flags != DEFAULT)
@@ -486,7 +486,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The flags of linedef %s have been changed to %s.",
-                                commify(linedef), commify(li->linedef->flags));
+                                commify(linedefnum), commify(li->linedef->flags));
                     }
                     if (linefix[j].special != DEFAULT)
                     {
@@ -494,7 +494,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The special of linedef %s has been changed to %s.",
-                                commify(linedef), commify(linefix[j].special));
+                                commify(linedefnum), commify(linefix[j].special));
                     }
 
                     if (linefix[j].tag != DEFAULT)
@@ -503,7 +503,7 @@ static void P_LoadSegs(int lump)
 
                         if (devparm)
                             C_Warning("The tag of linedef %s has been changed to %s.",
-                                commify(linedef), commify(linefix[j].tag));
+                                commify(linedefnum), commify(linefix[j].tag));
                     }
 
                     break;
@@ -536,18 +536,18 @@ static void P_LoadSegs_V4(int lump)
         int                 v1;
         int                 v2;
         int                 side;
-        int                 linedef;
+        int                 linedefnum;
         line_t              *ldef;
 
         v1 = ml->v1;
         v2 = ml->v2;
-        linedef = (unsigned short)SHORT(ml->linedef);
+        linedefnum = (unsigned short)SHORT(ml->linedef);
 
         // e6y: check for wrong indexes
-        if (linedef >= numlines)
-            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
+        if (linedefnum >= numlines)
+            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedefnum));
 
-        ldef = lines + linedef;
+        ldef = lines + linedefnum;
         li->linedef = ldef;
         side = SHORT(ml->side);
 
@@ -561,7 +561,7 @@ static void P_LoadSegs_V4(int lump)
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
             I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
-                commify(linedef), commify(i), commify(ldef->sidenum[side]));
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 
@@ -890,7 +890,7 @@ static void P_LoadZSegs(const byte *data)
     {
         line_t              *ldef;
         unsigned int        v1, v2;
-        unsigned int        linedef;
+        unsigned int        linedefnum;
         unsigned char       side;
         seg_t               *li = segs + i;
         const mapseg_znod_t *ml = (const mapseg_znod_t *)data + i;
@@ -898,13 +898,13 @@ static void P_LoadZSegs(const byte *data)
         v1 = ml->v1;
         v2 = ml->v2;
 
-        linedef = (unsigned short)SHORT(ml->linedef);
+        linedefnum = (unsigned short)SHORT(ml->linedef);
 
         // e6y: check for wrong indexes
-        if (linedef >= (unsigned int)numlines)
-            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
+        if (linedefnum >= (unsigned int)numlines)
+            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedefnum));
 
-        ldef = lines + linedef;
+        ldef = lines + linedefnum;
         li->linedef = ldef;
         side = ml->side;
 
@@ -918,7 +918,7 @@ static void P_LoadZSegs(const byte *data)
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
             C_Warning("Linedef %s for seg %s references an invalid sidedef of %s.",
-                commify(linedef), commify(i), commify(ldef->sidenum[side]));
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 

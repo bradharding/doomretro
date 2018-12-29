@@ -1352,10 +1352,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     char        *string = strdup(consoleinput);
                     char        *strings[255];
-                    int         i = 0;
                     dboolean    result = false;
 
                     strings[0] = strtok(string, ";");
+                    i = 0;
 
                     while (strings[i])
                     {

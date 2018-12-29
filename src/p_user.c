@@ -219,8 +219,8 @@ void P_MovePlayer(void)
 {
     mobj_t      *mo = viewplayer->mo;
     ticcmd_t    *cmd = &viewplayer->cmd;
-    signed char forwardmove = cmd->forwardmove;
-    signed char sidemove = cmd->sidemove;
+    signed char forward = cmd->forwardmove;
+    signed char side = cmd->sidemove;
 
     mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
@@ -231,7 +231,7 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if ((forwardmove | sidemove) && onground)
+    if ((forward | side) && onground)
     {
         int     friction;
         int     movefactor = P_GetMoveFactor(mo, &friction);
@@ -242,16 +242,16 @@ void P_MovePlayer(void)
         // On ice, make it depend on effort.
         int     bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
 
-        if (forwardmove)
+        if (forward)
         {
-            P_Bob(angle, forwardmove * bobfactor);
-            P_Thrust(angle, forwardmove * movefactor);
+            P_Bob(angle, forward * bobfactor);
+            P_Thrust(angle, forward * movefactor);
         }
 
-        if (sidemove)
+        if (side)
         {
-            P_Bob((angle -= ANG90), sidemove * bobfactor);
-            P_Thrust(angle, sidemove * movefactor);
+            P_Bob((angle -= ANG90), side * bobfactor);
+            P_Thrust(angle, side * movefactor);
         }
     }
 

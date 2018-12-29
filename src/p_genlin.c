@@ -177,9 +177,8 @@ manual_floor:
             if (ChgM)   // if a numeric model change
             {
                 // jff 5/23/98 find model with ceiling at target height if target is a ceiling type
-                sector_t    *sec = (Targ == FtoLnC || Targ == FtoC ?
-                                P_FindModelCeilingSector(floor->floordestheight, secnum) :
-                                P_FindModelFloorSector(floor->floordestheight, secnum));
+                sec = (Targ == FtoLnC || Targ == FtoC ? P_FindModelCeilingSector(floor->floordestheight, secnum) :
+                    P_FindModelFloorSector(floor->floordestheight, secnum));
 
                 if (sec)
                 {
@@ -377,8 +376,8 @@ manual_ceiling:
             if (ChgM)   // if a numeric model change
             {
                 // jff 5/23/98 find model with floor at target height if target is a floor type
-                sector_t    *sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
-                                P_FindModelCeilingSector(targheight, secnum));
+                sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
+                    P_FindModelCeilingSector(targheight, secnum));
 
                 if (sec)
                 {

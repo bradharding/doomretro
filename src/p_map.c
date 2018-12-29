@@ -321,14 +321,14 @@ static dboolean PIT_CrossLine(line_t *ld)
 static int untouched(line_t *ld)
 {
     fixed_t x, y;
-    fixed_t tmbbox[4];
+    fixed_t bbox[4];
     fixed_t tmradius = tmthing->radius;
 
-    return ((tmbbox[BOXRIGHT] = (x = tmthing->x) + tmradius) <= ld->bbox[BOXLEFT]
-        || (tmbbox[BOXLEFT] = x - tmradius) >= ld->bbox[BOXRIGHT]
-        || (tmbbox[BOXTOP] = (y = tmthing->y) + tmradius) <= ld->bbox[BOXBOTTOM]
-        || (tmbbox[BOXBOTTOM] = y - tmradius) >= ld->bbox[BOXTOP]
-        || P_BoxOnLineSide(tmbbox, ld) != -1);
+    return ((bbox[BOXRIGHT] = (x = tmthing->x) + tmradius) <= ld->bbox[BOXLEFT]
+        || (bbox[BOXLEFT] = x - tmradius) >= ld->bbox[BOXRIGHT]
+        || (bbox[BOXTOP] = (y = tmthing->y) + tmradius) <= ld->bbox[BOXBOTTOM]
+        || (bbox[BOXBOTTOM] = y - tmradius) >= ld->bbox[BOXTOP]
+        || P_BoxOnLineSide(bbox, ld) != -1);
 }
 
 //
@@ -1783,9 +1783,9 @@ static dboolean PTR_UseTraverse(intercept_t *in)
 
     if (autousing)
     {
-        sector_t    *backsector = line->backsector;
+        sector_t    *sector = line->backsector;
 
-        if (backsector && backsector->ceilingdata && backsector->interpfloorheight != backsector->interpceilingheight)
+        if (sector && sector->ceilingdata && sector->interpfloorheight != sector->interpceilingheight)
             return false;
     }
 

@@ -357,12 +357,12 @@ void R_InitLightTables(void)
     //  for each level / distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
-        const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
             const int   scale = FixedDiv(width / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
-            const int   level = BETWEEN(0, startmap - scale / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - scale / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)
@@ -442,11 +442,11 @@ void R_ExecuteSetViewSize(void)
     //  for each level/scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
-        const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTSCALE; j++)
         {
-            const int   level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)
@@ -458,11 +458,11 @@ void R_ExecuteSetViewSize(void)
     //  player's weapon, so it stays consistent regardless of view size
     for (int i = 0; i < OLDLIGHTLEVELS; i++)
     {
-        const int   startmap = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
+        const int   start = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
 
         for (int j = 0; j < OLDMAXLIGHTSCALE; j++)
         {
-            const int   level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             for (int t = 0; t < numcolormaps; t++)
                 c_psprscalelight[t][i][j] = &colormaps[t][level];

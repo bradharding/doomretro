@@ -455,42 +455,42 @@ menu_t SaveDef =
     load1
 };
 
-static int height;
+static int blurheight;
 
 static void BlurScreen(byte *screen, byte *blurscreen)
 {
-    for (int i = 0; i < height; i++)
+    for (int i = 0; i < blurheight; i++)
         blurscreen[i] = grays[screen[i]];
 
-    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+    for (int y = 0; y <= blurheight - SCREENWIDTH; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + 1] << 8)];
 
-    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+    for (int y = 0; y <= blurheight - SCREENWIDTH; y += SCREENWIDTH)
         for (int x = y + SCREENWIDTH - 2; x >= y; x--)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - 1] << 8)];
 
-    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+    for (int y = 0; y <= blurheight - SCREENWIDTH * 2; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH + 1] << 8)];
 
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+    for (int y = blurheight - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
         for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH - 1] << 8)];
 
-    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+    for (int y = 0; y <= blurheight - SCREENWIDTH * 2; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 1; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH] << 8)];
 
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+    for (int y = blurheight - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 1; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH] << 8)];
 
-    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+    for (int y = 0; y <= blurheight - SCREENWIDTH * 2; y += SCREENWIDTH)
         for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + SCREENWIDTH - 1] << 8)];
 
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+    for (int y = blurheight - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH + 1] << 8)];
 }
@@ -505,13 +505,13 @@ void M_DarkBackground(void)
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
     static int  prevtic;
 
-    height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     if (gametime != prevtic)
     {
         const int   black = nearestcolors[0];
 
-        for (int i = 0; i < height; i += SCREENWIDTH)
+        for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
             screens[0][i] = black;
             screens[0][i + 1] = black;
@@ -519,12 +519,12 @@ void M_DarkBackground(void)
             screens[0][i + SCREENWIDTH - 1] = black;
         }
 
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i < blurheight; i++)
             screens[0][i] = colormaps[0][((M_Random() & 7) << 8) + screens[0][i]];
 
         BlurScreen(screens[0], blurscreen1);
 
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i < blurheight; i++)
             blurscreen1[i] = tinttab33[blurscreen1[i]];
 
         if (mapwindow)
@@ -549,7 +549,7 @@ void M_DarkBackground(void)
         prevtic = gametime;
     }
 
-    memcpy(screens[0], blurscreen1, height);
+    memcpy(screens[0], blurscreen1, blurheight);
 
     if (mapwindow)
         memcpy(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
@@ -1245,9 +1245,8 @@ void M_UpdateSaveGameName(int i)
 
     if (match)
     {
-        int len = (int)strlen(maptitle);
-
         M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
+        len = (int)strlen(savegamestrings[i]);
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
@@ -3583,13 +3582,8 @@ void M_Drawer(void)
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
 
-            if (currentMenu == &MainDef)
-            {
-                patch_t *patch = W_CacheLumpName("M_DOOM");
-
-                if (SHORT(patch->height) >= ORIGINALHEIGHT)
-                    yy -= OFFSET;
-            }
+            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= ORIGINALHEIGHT)
+                yy -= OFFSET;
 
             if (M_SKULL1)
                 M_DrawPatchWithShadow(x - 30, yy, patch);

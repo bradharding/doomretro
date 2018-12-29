@@ -285,11 +285,11 @@ void P_InitPicAnims(void)
 
             // Check if flat is liquid in popular texture packs
             if (!isliquid)
-                for (int i = 0; texturepacks[i].startname[0] != '\0'; i++)
-                    if (basepic >= R_CheckFlatNumForName(texturepacks[i].startname)
-                        && basepic <= R_CheckFlatNumForName(texturepacks[i].endname))
+                for (int j = 0; texturepacks[j].startname[0] != '\0'; j++)
+                    if (basepic >= R_CheckFlatNumForName(texturepacks[j].startname)
+                        && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
                     {
-                        SetTerrainType(lastanim, texturepacks[i].terraintype);
+                        SetTerrainType(lastanim, texturepacks[j].terraintype);
                         isliquid = true;
                         break;
                     }
@@ -2331,7 +2331,7 @@ void P_UpdateSpecials(void)
             if (!--buttonlist[i].btimer)
             {
                 line_t      *line = buttonlist[i].line;
-                sector_t    *backsector = line->backsector;
+                sector_t    *sector = line->backsector;
                 int         sidenum = line->sidenum[0];
                 short       toptexture = sides[sidenum].toptexture;
                 short       midtexture = sides[sidenum].midtexture;
@@ -2377,7 +2377,7 @@ void P_UpdateSpecials(void)
                         break;
                 }
 
-                if (!backsector || (!backsector->floordata && !backsector->ceilingdata) || line->tag != backsector->tag)
+                if (!sector || (!sector->floordata && !sector->ceilingdata) || line->tag != sector->tag)
                     S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
             }
 }

@@ -777,8 +777,8 @@ dboolean ST_Responder(event_t *ev)
                     cheat_noclip.chars_read = 0;
                     cheat_commercial_noclip.chars_read = 0;
 
-                    for (int i = 0; i < 7; i++)
-                        cheat_powerup[i].chars_read = 0;
+                    for (int j = 0; j < 7; j++)
+                        cheat_powerup[j].chars_read = 0;
 
                     cheat_choppers.chars_read = 0;
                     cheat_clev.chars_read = 0;
@@ -795,7 +795,6 @@ dboolean ST_Responder(event_t *ev)
                     C_HideConsole();
 
                     return true;
-
                 }
             }
 
@@ -1029,14 +1028,14 @@ dboolean ST_Responder(event_t *ev)
 
 static int ST_calcPainOffset(void)
 {
-    int         health = MIN(viewplayer->health, 100);
+    int         newhealth = MIN(viewplayer->health, 100);
     static int  lastcalc;
-    static int  oldhealth = -1;
+    static int  health = -1;
 
-    if (health != oldhealth)
+    if (newhealth != health)
     {
-        lastcalc = ST_FACESTRIDE * (((100 - health) * ST_NUMPAINFACES) / 101);
-        oldhealth = health;
+        lastcalc = ST_FACESTRIDE * (((100 - newhealth) * ST_NUMPAINFACES) / 101);
+        health = newhealth;
     }
 
     return lastcalc;
