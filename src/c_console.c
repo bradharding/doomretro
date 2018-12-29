@@ -733,22 +733,22 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     {
         const unsigned char letter = text[i];
 
-        if (letter == '<' && i < len - 2 && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
+        if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
             bold = (italics ? 2 : 1);
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = 0;
             i += 3;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>' && formatting)
+        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
         {
             italics = true;
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && text[i + 2] == 'i' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
         {
             italics = false;
             i += 3;
