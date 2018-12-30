@@ -270,6 +270,18 @@ char *M_GetExecutableFolder(void)
         exe[len] = '\0';
         return dirname(exe);
     }
+#elif defined(__FreeBSD__)
+    char        *exe = malloc(MAX_PATH);
+    size_t len = MAX_PATH;
+    int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
+
+    if (sysctl(mib, 4, exe, &len, NULL, 0) == 0) {
+        exe[len] = '\0';
+        return dirname(exe);
+    } else {
+        strcpy(exe, ".");
+        return exe;
+    }
 #elif defined(__MACOSX__)
     char        *exe = malloc(MAX_PATH);
     uint32_t    len = MAX_PATH;
