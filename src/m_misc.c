@@ -277,8 +277,10 @@ char *M_GetExecutableFolder(void)
 
     return (!_NSGetExecutablePath(exe, &len) ? dirname(exe) : ".");
 #else
-    strcpy(exe, ".");
-    return exe;
+    char    *folder = malloc(2);
+
+    strcpy(folder, ".");
+    return folder;
 #endif
 }
 
