@@ -184,8 +184,7 @@ char *M_GetAppDataFolder(void)
         NSFileManager   *manager = [NSFileManager defaultManager];
         NSURL           *baseAppSupportURL = [manager URLsForDirectory : NSApplicationSupportDirectory
                             inDomains : NSUserDomainMask].firstObject;
-        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent :
-                            @PACKAGE_NAME];
+        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent : @PACKAGE_NAME];
 
         return (char *)appSupportURL.fileSystemRepresentation;
 #else
@@ -275,7 +274,13 @@ char *M_GetExecutableFolder(void)
     char        *exe = malloc(MAX_PATH);
     uint32_t    len = MAX_PATH;
 
-    return (!_NSGetExecutablePath(exe, &len) ? dirname(exe) : ".");
+    if (_NSGetExecutablePath(exe, &len))
+    {
+        strcpy(exe, ".");
+        return exe;
+    }
+
+    return dirname(exe);
 #else
     char    *folder = malloc(2);
 
