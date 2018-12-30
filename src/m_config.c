@@ -971,6 +971,8 @@ void M_LoadCVARs(char *filename)
         // Find the setting in the list
         for (int i = 0; i < arrlen(cvars); i++)
         {
+            char    *s;
+
             if (!M_StringCompare(cvar, cvars[i].name))
                 continue;       // not this one
 
@@ -983,11 +985,10 @@ void M_LoadCVARs(char *filename)
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                {
-                    M_StripQuotes(value);
-                    *(char **)cvars[i].location = strdup(value);
+                    s = strdup(value + 1);
+                    s[strlen(s) - 1] = '\0';
+                    *(char **)cvars[i].location = s;
                     break;
-                }
 
                 case DEFAULT_INT:
                 {
@@ -1014,11 +1015,12 @@ void M_LoadCVARs(char *filename)
                     char    *value_free = uncommify(value);
 
                     M_StringCopy(value, value_free, sizeof(value));
+                    s = strdup(value);
 
-                    if (value[0] != '\0' && value[strlen(value) - 1] == '%')
-                        value[strlen(value) - 1] = '\0';
+                    if (s[0] != '\0' && s[strlen(s) - 1] == '%')
+                        s[strlen(s) - 1] = '\0';
 
-                    *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
                     free(value_free);
                     break;
                 }
@@ -1038,17 +1040,18 @@ void M_LoadCVARs(char *filename)
                     char    *value_free = uncommify(value);
 
                     M_StringCopy(value, value_free, sizeof(value));
+                    s = strdup(value);
 
-                    if (value[0] != '\0' && value[strlen(value) - 1] == '%')
-                        value[strlen(value) - 1] = '\0';
+                    if (s[0] != '\0' && s[strlen(s) - 1] == '%')
+                        s[strlen(s) - 1] = '\0';
 
-                    *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
                     free(value_free);
                     break;
                 }
 
                 case DEFAULT_OTHER:
-                    *(char **)cvars[i].location = strdup(value);
+                    *(char **)cvars[i].location = value;
                     break;
             }
 
