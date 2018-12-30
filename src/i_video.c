@@ -1634,7 +1634,7 @@ static void SetVideoMode(dboolean output)
                 {
                     char    *vid_capfps_str = commify(vid_capfps);
 
-                    C_Output("The framerate is capped at %s FPS.", vid_capfps);
+                    C_Output("The framerate is capped at %s FPS.", vid_capfps_str);
 
                     free(vid_capfps_str);
                 }
