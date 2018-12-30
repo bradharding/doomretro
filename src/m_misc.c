@@ -263,8 +263,8 @@ char *M_GetExecutableFolder(void)
 
     if (len == -1)
     {
-        free(exe);
-        return ".";
+        strcpy(exe, ".");
+        return exe;
     }
     else
     {
@@ -277,7 +277,8 @@ char *M_GetExecutableFolder(void)
 
     return (!_NSGetExecutablePath(exe, &len) ? dirname(exe) : ".");
 #else
-    return ".";
+    strcpy(exe, ".");
+    return exe;
 #endif
 }
 
