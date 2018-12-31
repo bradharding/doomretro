@@ -785,6 +785,9 @@ seeyou:
             S_StartSound(NULL, sound);          // full volume
         else
             S_StartSound(actor, sound);
+
+        // [crispy] make seesounds uninterruptible
+        S_UnlinkSound(actor);
     }
 
     P_SetMobjState(actor, actor->info->seestate);

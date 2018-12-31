@@ -43,6 +43,7 @@
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if changed in a PWAD.
 * The fixes intended for E1M4 and E1M8 in `doom.wad` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
 * Voodoo dolls are now specified in the output of the `thinglist` CCMD.
+* The initial sound that a monster makes when it sees the player for the first time will no longer be interrupted by any further sounds that the monster makes.
 
 ---
 
