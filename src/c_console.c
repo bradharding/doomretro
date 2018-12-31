@@ -1679,8 +1679,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     char    buffer[255];
 
-                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
-                        SDL_GetClipboardText(), M_SubString(consoleinput, selectend, len - selectend));
+                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
+                        M_SubString(consoleinput, selectend, len - selectend));
+                    M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
+                    M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
 
                     if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {
