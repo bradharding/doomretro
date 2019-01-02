@@ -1305,22 +1305,19 @@ static void SetVideoMode(dboolean output)
     Uint32              rmask, gmask, bmask, amask;
     int                 bpp;
     SDL_RendererInfo    rendererinfo;
+    const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
 
-    displayindex = vid_display - 1;
-
-    if (displayindex < 0 || displayindex >= numdisplays)
+    if (displayindex < 0 || displayindex >= numdisplays || !displayname)
     {
         if (output)
             C_Warning("Unable to find display %i.", vid_display);
 
-        displayindex = vid_display_default - 1;
+        displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
     }
 
     if (output)
     {
-        const char  *displayname = SDL_GetDisplayName(displayindex);
-
-        if (*displayname)
+        if (displayname)
             C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays, displayname);
         else
             C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
