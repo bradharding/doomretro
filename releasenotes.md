@@ -7,7 +7,7 @@
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is both `off` by default and when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
 * The `r_hud` CVAR will now be reset correctly when using the `reset` or `resetall` CCMDs while no game is being played.
 * Keycards and skull keys in the widescreen HUD are now spaced slightly further apart.
-* The health, ammo and armor in the widescreen HUD will now flash when they decrease as well as increase.
+* The player’s health, ammo and armor in the widescreen HUD will now flash when they decrease as well as increase.
 * *DOOM Retro* will no longer hang when the player crosses a line with a *BOOM*-compatible special action of 154 (“WR Change Texture and Effect”) or 240 (“WR Change Texture and Effect to Nearest”).
 * Pressing the <kbd>F1</kbd> key to open the help screen will no longer cause a crash in some very rare instances.
 * Minor improvements have been made to the cast sequence at the end of *DOOM II*.

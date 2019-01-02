@@ -75,7 +75,7 @@ extern int          numlumps;
 extern char         *iwadsrequired[];
 
 char *GetCorrectCase(char *path);
-wadfile_t *W_AddFile(char *filename, dboolean automatic);
+dboolean W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);

@@ -137,7 +137,7 @@ char *GetCorrectCase(char *path)
 //  found (PWAD, if all required lumps are present).
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
-wadfile_t *W_AddFile(char *filename, dboolean automatic)
+dboolean W_AddFile(char *filename, dboolean automatic)
 {
     static dboolean packagewadadded;
     wadinfo_t       header;
@@ -154,7 +154,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     if (!wadfile)
     {
         free(lumps_str);
-        return NULL;
+        return false;
     }
 
     M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
@@ -216,7 +216,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
             I_Error("%s is invalid.", packagewad);
     }
 
-    return wadfile;
+    return true;
 }
 
 // Hash function used for lump names.

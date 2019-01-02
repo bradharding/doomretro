@@ -1354,13 +1354,10 @@ static void SetVideoMode(dboolean output)
 
     if (vid_fullscreen)
     {
-        char    *ratio;
-
         if (!screenwidth && !screenheight)
         {
             width = displays[displayindex].w;
             height = displays[displayindex].h;
-            ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
@@ -1370,7 +1367,8 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.", width_str, height_str, ratio);
+                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.",
+                    width_str, height_str, getaspectratio(width, height));
 
                 free(width_str);
                 free(height_str);
@@ -1380,7 +1378,6 @@ static void SetVideoMode(dboolean output)
         {
             width = screenwidth;
             height = screenheight;
-            ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
@@ -1390,7 +1387,8 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Switched to a resolution of %s\xD7%s with a %s aspect ratio.", width_str, height_str, ratio);
+                C_Output("Switched to a resolution of %s\xD7%s with a %s aspect ratio.",
+                    width_str, height_str, getaspectratio(width, height));
 
                 free(width_str);
                 free(height_str);
