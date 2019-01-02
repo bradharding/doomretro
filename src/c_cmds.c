@@ -1141,7 +1141,7 @@ dboolean C_ExecuteAlias(const char *alias)
     for (int i = 0; i < MAXALIASES; i++)
         if (M_StringCompare(alias, aliases[i].name))
         {
-            char    *string = strdup(aliases[i].string);
+            char    *string = M_StringDuplicate(aliases[i].string);
             char    *strings[255];
             int     j = 0;
 
@@ -1650,7 +1650,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 fprintf(file, "%s\n", DIVIDERSTRING);
             else
             {
-                char            *string = strdup(console[i].string);
+                char            *string = M_StringDuplicate(console[i].string);
                 int             len;
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
@@ -4833,13 +4833,13 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         while (SC_GetString())
         {
-            char    *cvar = strdup(sc_String);
+            char    *cvar = M_StringDuplicate(sc_String);
 
             if (M_StringCompare(cvar, "bind"))
             {
                 if (SC_GetString())
                 {
-                    char    *control = strdup(sc_String);
+                    char    *control = M_StringDuplicate(sc_String);
 
                     if (SC_GetString())
                         bind_cmd_func2("bind", M_StringJoin(control, " ", sc_String, NULL));
@@ -5077,7 +5077,7 @@ static void str_cvars_func2(char *cmd, char *parms)
                 if (!M_StringCompare(parms, *(char **)consolecmds[i].variable) && !(consolecmds[i].flags & CF_READONLY))
                 {
                     M_StripQuotes(parms);
-                    *(char **)consolecmds[i].variable = strdup(parms);
+                    *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
                     M_SaveCVARs();
                 }
             }
@@ -5172,7 +5172,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        am_gridsize = strdup(parms);
+        am_gridsize = M_StringDuplicate(parms);
         AM_GetGridSize();
 
         if (!M_StringCompare(am_gridsize, parms))
@@ -5802,7 +5802,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        r_lowpixelsize = strdup(parms);
+        r_lowpixelsize = M_StringDuplicate(parms);
         GetPixelSize(false);
 
         if (!M_StringCompare(r_lowpixelsize, parms))
@@ -5831,7 +5831,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
 
         if (!M_StringCompare(r_messagepos, parm))
         {
-            r_messagepos = strdup(parm);
+            r_messagepos = M_StringDuplicate(parm);
             HU_InitMessages();
             M_SaveCVARs();
         }
@@ -6345,7 +6345,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
     {
         if (!M_StringCompare(parms, vid_scaleapi))
         {
-            vid_scaleapi = strdup(parms);
+            vid_scaleapi = M_StringDuplicate(parms);
             M_SaveCVARs();
             I_RestartGraphics();
         }
@@ -6377,7 +6377,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
     {
         if (!M_StringCompare(parms, vid_scalefilter))
         {
-            vid_scalefilter = strdup(parms);
+            vid_scalefilter = M_StringDuplicate(parms);
             M_SaveCVARs();
             I_RestartGraphics();
         }
@@ -6403,7 +6403,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
     {
         if (!M_StringCompare(vid_screenresolution, parms))
         {
-            vid_screenresolution = strdup(parms);
+            vid_screenresolution = M_StringDuplicate(parms);
             GetScreenResolution();
             M_SaveCVARs();
 
@@ -6510,7 +6510,7 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
 
         if (!M_StringCompare(vid_windowpos, parm))
         {
-            vid_windowpos = strdup(parm);
+            vid_windowpos = M_StringDuplicate(parm);
             GetWindowPosition();
             M_SaveCVARs();
 
@@ -6538,7 +6538,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
     {
         if (!M_StringCompare(vid_windowsize, parms))
         {
-            vid_windowsize = strdup(parms);
+            vid_windowsize = M_StringDuplicate(parms);
             GetWindowSize();
             M_SaveCVARs();
 

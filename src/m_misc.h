@@ -76,6 +76,7 @@ dboolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, int buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
+char *M_StringDuplicate(const char *orig);
 dboolean M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(char *str);

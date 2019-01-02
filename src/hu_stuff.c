@@ -254,7 +254,7 @@ static void HU_Stop(void)
 
 void HU_Start(void)
 {
-    char    *s = strdup(automaptitle);
+    char    *s = M_StringDuplicate(automaptitle);
     int     len = (int)strlen(s);
 
     if (headsupactive)
@@ -1074,7 +1074,7 @@ void HU_Ticker(void)
 void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
 {
     if (!counter)
-        viewplayer->message = strdup(message);
+        viewplayer->message = M_StringDuplicate(message);
     else
     {
         static int  messagecount = 1;
@@ -1089,7 +1089,7 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
             M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
         }
 
-        viewplayer->message = strdup(buffer);
+        viewplayer->message = M_StringDuplicate(buffer);
     }
 
     message_external = (external && mapwindow);

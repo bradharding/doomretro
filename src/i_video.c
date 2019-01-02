@@ -684,7 +684,7 @@ static void I_GetEvent(void)
                                 windowwidth = Event->window.data1;
                                 windowheight = Event->window.data2;
                                 M_snprintf(size, sizeof(size), "%sx%s", commify(windowwidth), commify(windowheight));
-                                vid_windowsize = strdup(size);
+                                vid_windowsize = M_StringDuplicate(size);
                                 M_SaveCVARs();
 
                                 displaywidth = windowwidth;
@@ -703,7 +703,7 @@ static void I_GetEvent(void)
                                 windowx = Event->window.data1;
                                 windowy = Event->window.data2;
                                 M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
-                                vid_windowpos = strdup(pos);
+                                vid_windowpos = M_StringDuplicate(pos);
                                 vid_display = SDL_GetWindowDisplayIndex(window) + 1;
                                 M_SaveCVARs();
                             }
@@ -1190,7 +1190,7 @@ void GetWindowSize(void)
             char    *windowheight_str = commify((windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight));
 
             M_snprintf(size, sizeof(size), "%sx%s", windowwidth_str, windowheight_str);
-            vid_windowsize = strdup(size);
+            vid_windowsize = M_StringDuplicate(size);
             M_SaveCVARs();
 
             free(windowwidth_str);

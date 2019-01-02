@@ -683,7 +683,7 @@ char    *s_OB_FRIENDLY4 = "";
 
 // Do this for a lookup--the pointer (loaded above) is cross-referenced
 // to a string key that is the same as the define above. We will use
-// strdups to set these new values that we read from the file, orphaning
+// M_StringDuplicates to set these new values that we read from the file, orphaning
 // the original value set above.
 
 deh_strs deh_strlookup[] =
@@ -2956,8 +2956,8 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_mus.sequence = strdup(p);
-            cheat_mus_xy.sequence = strdup(p);
+            cheat_mus.sequence = M_StringDuplicate(p);
+            cheat_mus_xy.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[1]))
@@ -2970,7 +2970,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_choppers.sequence = strdup(p);
+            cheat_choppers.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[2]))
@@ -2983,7 +2983,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_god.sequence = strdup(p);
+            cheat_god.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[3]))
@@ -2996,7 +2996,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_ammo.sequence = strdup(p);
+            cheat_ammo.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[4]))
@@ -3009,7 +3009,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_ammonokey.sequence = strdup(p);
+            cheat_ammonokey.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[5]))
@@ -3022,7 +3022,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_noclip.sequence = strdup(p);
+            cheat_noclip.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[6]))
@@ -3035,7 +3035,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_commercial_noclip.sequence = strdup(p);
+            cheat_commercial_noclip.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[7]))
@@ -3048,7 +3048,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[0].sequence = strdup(p);
+            cheat_powerup[0].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[8]))
@@ -3061,7 +3061,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[1].sequence = strdup(p);
+            cheat_powerup[1].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[9]))
@@ -3074,7 +3074,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[2].sequence = strdup(p);
+            cheat_powerup[2].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[10]))
@@ -3087,7 +3087,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[3].sequence = strdup(p);
+            cheat_powerup[3].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[11]))
@@ -3100,7 +3100,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[4].sequence = strdup(p);
+            cheat_powerup[4].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[12]))
@@ -3113,7 +3113,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[5].sequence = strdup(p);
+            cheat_powerup[5].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[13]))
@@ -3126,7 +3126,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_powerup[6].sequence = strdup(p);
+            cheat_powerup[6].sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[14]))
@@ -3139,8 +3139,8 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_clev.sequence = strdup(p);
-            cheat_clev_xy.sequence = strdup(p);
+            cheat_clev.sequence = M_StringDuplicate(p);
+            cheat_clev_xy.sequence = M_StringDuplicate(p);
             success = true;
         }
         else if (M_StringCompare(key, deh_cheat[15]))
@@ -3153,7 +3153,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            cheat_mypos.sequence = strdup(p);
+            cheat_mypos.sequence = M_StringDuplicate(p);
             success = true;
         }
 
@@ -3305,11 +3305,11 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen, &inbuffer[fromlen]);
 
-                // Ty 03/18/98 - not using strdup because length is fixed
+                // Ty 03/18/98 - not using M_StringDuplicate because length is fixed
 
                 // killough 10/98: but it's an array of pointers, so we must
-                // use strdup unless we redeclare sprnames and change all else
-                sprnames[i] = strdup(sprnames[i]);
+                // use M_StringDuplicate unless we redeclare sprnames and change all else
+                sprnames[i] = M_StringDuplicate(sprnames[i]);
 
                 strncpy(sprnames[i], &inbuffer[fromlen], tolen);
                 found = true;
@@ -3373,7 +3373,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
         if (fromlen <= (int)strlen(inbuffer))
         {
-            line2 = strdup(&inbuffer[fromlen]);
+            line2 = M_StringDuplicate(&inbuffer[fromlen]);
             inbuffer[fromlen] = '\0';
         }
 
@@ -3503,7 +3503,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
             if (deh_strlookup[i].assigned)
                 break;
 
-            *deh_strlookup[i].ppstr = t = strdup(newstring);    // orphan originalstring
+            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring);    // orphan originalstring
             found = true;
 
             // Handle embedded \n's in the incoming string, convert to 0x0a's

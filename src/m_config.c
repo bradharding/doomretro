@@ -669,7 +669,7 @@ static void M_CheckCVARs(void)
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
     if (!*playername)
-        playername = strdup(playername_default);
+        playername = M_StringDuplicate(playername_default);
 
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
@@ -985,7 +985,7 @@ void M_LoadCVARs(char *filename)
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    s = strdup(value + 1);
+                    s = M_StringDuplicate(value + 1);
                     s[strlen(s) - 1] = '\0';
                     *(char **)cvars[i].location = s;
                     break;
@@ -1015,7 +1015,7 @@ void M_LoadCVARs(char *filename)
                     char    *value_free = uncommify(value);
 
                     M_StringCopy(value, value_free, sizeof(value));
-                    s = strdup(value);
+                    s = M_StringDuplicate(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
@@ -1040,7 +1040,7 @@ void M_LoadCVARs(char *filename)
                     char    *value_free = uncommify(value);
 
                     M_StringCopy(value, value_free, sizeof(value));
-                    s = strdup(value);
+                    s = M_StringDuplicate(value);
 
                     if (s[0] != '\0' && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';

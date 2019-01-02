@@ -360,7 +360,7 @@ void C_Obituary(const char *string, ...)
 static void C_AddToUndoHistory(void)
 {
     undohistory = I_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
-    undohistory[undolevels].input = strdup(consoleinput);
+    undohistory[undolevels].input = M_StringDuplicate(consoleinput);
     undohistory[undolevels].caretpos = caretpos;
     undohistory[undolevels].selectstart = selectstart;
     undohistory[undolevels].selectend = selectend;
@@ -1147,7 +1147,7 @@ void C_Drawer(void)
 
 dboolean C_ExecuteInputString(const char *input)
 {
-    char    *string = strdup(input);
+    char    *string = M_StringDuplicate(input);
     char    *strings[255];
     int     j = 0;
 
@@ -1350,7 +1350,7 @@ dboolean C_Responder(event_t *ev)
                 // confirm input
                 if (*consoleinput)
                 {
-                    char        *string = strdup(consoleinput);
+                    char        *string = M_StringDuplicate(consoleinput);
                     char        *strings[255];
                     dboolean    result = false;
 

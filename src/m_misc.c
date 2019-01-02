@@ -59,6 +59,7 @@
 #include "SDL.h"
 
 #include "doomdef.h"
+#include "i_system.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_file.h"
@@ -394,8 +395,8 @@ const char *M_StrCaseStr(const char *haystack, const char *needle)
 
 static char *stristr(char *ch1, char *ch2)
 {
-    char    *chN1 = strdup(ch1);
-    char    *chN2 = strdup(ch2);
+    char    *chN1 = M_StringDuplicate(ch1);
+    char    *chN2 = M_StringDuplicate(ch2);
     char    *chRet = NULL;
 
     if (chN1 && chN2)
@@ -441,6 +442,17 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
     buffer[p - haystack] = '\0';
     sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
     return buffer;
+}
+
+// Safe version of strdup() that checks the string was successfully allocated.
+char *M_StringDuplicate(const char *orig)
+{
+    char    *result = strdup(orig);
+
+    if (!result)
+        I_Error("Failed to duplicate string (length %"PRIuPTR").", strlen(orig));
+
+    return result;
 }
 
 // Returns true if 'str1' and 'str2' are the same.
@@ -530,7 +542,7 @@ char *M_SubString(const char *str, size_t begin, size_t len)
 char *uppercase(const char *str)
 {
     char    *newstr;
-    char    *p = newstr = strdup(str);
+    char    *p = newstr = M_StringDuplicate(str);
 
     while ((*p = toupper(*p)))
         p++;
@@ -548,7 +560,7 @@ char *lowercase(char *str)
 
 char *titlecase(const char *str)
 {
-    char    *newstr = strdup(str);
+    char    *newstr = M_StringDuplicate(str);
     int     len = (int)strlen(newstr);
 
     if (len > 0)
@@ -567,7 +579,7 @@ char *titlecase(const char *str)
 
 char *formatsize(const char *str)
 {
-    char    *newstr = strdup(str);
+    char    *newstr = M_StringDuplicate(str);
     int     len = (int)strlen(newstr);
 
     if (len > 1)
@@ -612,7 +624,7 @@ char *commify(int64_t value)
         } while (true);
     }
 
-    p = strdup(result);
+    p = M_StringDuplicate(result);
     return p;
 }
 
@@ -748,7 +760,7 @@ char *trimwhitespace(char *input)
 char *removenewlines(const char *str)
 {
     char    *newstr;
-    char    *p = newstr = strdup(str);
+    char    *p = newstr = M_StringDuplicate(str);
 
     while (*p != '\0')
     {
@@ -763,7 +775,7 @@ char *removenewlines(const char *str)
 
 char *makevalidfilename(const char *input)
 {
-    char    *newstr = strdup(input);
+    char    *newstr = M_StringDuplicate(input);
     int     len = (int)strlen(newstr);
 
     for (int i = 0; i < len; i++)
@@ -791,7 +803,7 @@ char *leafname(char *path)
 
 char *removeext(const char *file)
 {
-    char    *newstr = strdup(file);
+    char    *newstr = M_StringDuplicate(file);
     char    *lastdot = strrchr(newstr, '.');
 
     *lastdot = '\0';
