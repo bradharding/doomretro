@@ -1051,7 +1051,7 @@ void M_LoadCVARs(char *filename)
                 }
 
                 case DEFAULT_OTHER:
-                    *(char **)cvars[i].location = value;
+                    *(char **)cvars[i].location = M_StringDuplicate(value);
                     break;
             }
 
