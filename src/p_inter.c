@@ -1744,7 +1744,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
     {
-        char        *name = (*info->name1 ? info->name1 : "monster");
+        char    *name = (*info->name1 ? info->name1 : "monster");
 
         if (source)
         {
@@ -1772,7 +1772,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"), name,
                         (defaultplayername ? "your" : "their"), weaponinfo[readyweapon].description,
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? " while you went berserk" : ""));
-
             }
             else
             {
@@ -1792,7 +1791,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                         C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                             (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")), name);
-
                 }
             }
         }

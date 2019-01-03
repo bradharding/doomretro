@@ -221,7 +221,6 @@ void P_FireWeapon(void)
             I_GamepadVibration(weaponinfo[readyweapon].strength * gp_vibrate_weapons / 100);
             weaponvibrationtics = weaponinfo[readyweapon].tics;
         }
-
     }
 
     if (centerweapon)

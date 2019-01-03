@@ -282,7 +282,6 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 
 static void F_TextWrite(void)
 {
-
     // draw some of the text onto the screen
     byte        *src;
     byte        *dest;

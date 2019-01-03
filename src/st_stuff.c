@@ -641,7 +641,6 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-
                 S_StartSound(NULL, sfx_getpow);
                 C_CCMDOutput(gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence);
 

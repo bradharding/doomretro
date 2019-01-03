@@ -668,7 +668,6 @@ static void WI_drawTime(int x, int y, int t)
             // draw
             if (div == 60 || t / div)
                 V_DrawPatchWithShadow(x + 1, y + 1, colon, true);
-
         } while (t / div);
 
         if (t < 60)

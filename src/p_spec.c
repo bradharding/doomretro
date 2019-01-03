@@ -1270,7 +1270,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     // jff 02/04/98 add check here for generalized linedef types
     {
-        // pointer to line function is NULL by default, set non-null if
+        // pointer to line function is NULL by default, set non-NULL if
         // line special is walkover generalized linedef type
         dboolean (*linefunc)(line_t *line) = NULL;
 

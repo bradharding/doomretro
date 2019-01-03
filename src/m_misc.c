@@ -163,22 +163,21 @@ char *M_ExtractFolder(char *path)
 
 char *M_GetAppDataFolder(void)
 {
-    char    *executableFolder = M_GetExecutableFolder();
+    char    *executablefolder = M_GetExecutableFolder();
 
 #if defined(_WIN32)
-    return executableFolder;
+    return executablefolder;
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
-    char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
-                DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
-    DIR     *resourceDir = opendir(resourceFolder);
+    char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+    DIR     *resourcedir = opendir(resourcefolder);
 
-    free(resourceFolder);
+    free(resourcefolder);
 
-    if (resourceDir)
+    if (resourcedir)
     {
-        closedir(resourceDir);
+        closedir(resourcedir);
 
 #if defined(__MACOSX__)
         // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
@@ -195,32 +194,31 @@ char *M_GetAppDataFolder(void)
         if (!(buffer = SDL_getenv("HOME")))
             buffer = getpwuid(getuid())->pw_dir;
 
-        free(executableFolder);
+        free(executablefolder);
 
-        return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S, PACKAGE, NULL);
+        return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S PACKAGE, NULL);
 #endif
     }
     else
-        return executableFolder;
+        return executablefolder;
 #endif
 }
 
 char *M_GetResourceFolder(void)
 {
-    char    *executableFolder = M_GetExecutableFolder();
+    char    *executablefolder = M_GetExecutableFolder();
 
 #if !defined(_WIN32)
     // On Linux and OS X, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
-    char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
-                DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
-    DIR     *resourceDir = opendir(resourceFolder);
+    char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+    DIR     *resourcedir = opendir(resourcefolder);
 
-    if (resourceDir)
+    if (resourcedir)
     {
-        closedir(resourceDir);
-        free(executableFolder);
-        return resourceFolder;
+        closedir(resourcedir);
+        free(executablefolder);
+        return resourcefolder;
     }
 
 #if defined(__MACOSX__)
@@ -231,12 +229,12 @@ char *M_GetResourceFolder(void)
     return (char *)resourceURL.fileSystemRepresentation;
 #else
     // And on Linux, fall back to the same folder as the executable.
-    return executableFolder;
+    return executablefolder;
 #endif
 
 #else
     // On Windows, load resources from the same folder as the executable.
-    return executableFolder;
+    return executablefolder;
 #endif
 }
 
@@ -276,7 +274,7 @@ char *M_GetExecutableFolder(void)
     size_t  len = MAX_PATH;
     int     mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
 
-    if (sysctl(mib, 4, exe, &len, NULL, 0) == 0)
+    if (!sysctl(mib, 4, exe, &len, NULL, 0))
     {
         exe[len] = '\0';
         return dirname(exe);
@@ -450,7 +448,7 @@ char *M_StringDuplicate(const char *orig)
     char    *result = strdup(orig);
 
     if (!result)
-        I_Error("Failed to duplicate string (length %"PRIuPTR").", strlen(orig));
+        I_Error("Failed to duplicate string (length %llu).", strlen(orig));
 
     return result;
 }

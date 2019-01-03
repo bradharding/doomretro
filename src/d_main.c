@@ -1350,7 +1350,6 @@ static int D_OpenWADLauncher(void)
                             break;
                         }
                     }
-
                 }
 
 #if defined(_WIN32)
