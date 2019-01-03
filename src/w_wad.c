@@ -146,6 +146,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
+    char            *lumps_str;
 
     // open the file and add to directory
     wadfile_t       *wadfile = W_OpenFile(filename);
