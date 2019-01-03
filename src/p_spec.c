@@ -1243,6 +1243,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 {
     // Triggers that other things can activate
     if (!thing->player)
+    {
         // Things that should NOT trigger specials...
         switch (thing->type)
         {
@@ -1262,9 +1263,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 break;
         }
 
-    // [BH] Corpses can't trigger specials
-    if (thing->flags & MF_CORPSE)
-        return;
+        // [BH] Corpses can't trigger specials
+        if (thing->flags & MF_CORPSE)
+            return;
+    }
 
     // jff 02/04/98 add check here for generalized linedef types
     {

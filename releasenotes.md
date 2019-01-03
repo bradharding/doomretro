@@ -45,6 +45,7 @@
 * Voodoo dolls are now specified in the output of the `thinglist` CCMD.
 * The initial sound that a monster makes when it sees the player for the first time will no longer be interrupted by any further sounds that monster makes.
 * A bug has been fixed whereby text copied from outside *DOOM Retro* to the *Windows* clipboard and then pasted into the console using <kbd>CTRL</kbd> + <kbd>V</kbd> would be corrupt.
+* The player can now still trigger line specials that exit the map even if they are dead.
 
 ---
 
