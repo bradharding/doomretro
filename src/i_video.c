@@ -1359,6 +1359,9 @@ static void SetVideoMode(dboolean output)
             width = displays[displayindex].w;
             height = displays[displayindex].h;
 
+            if (!width || !height)
+                I_Error("Graphics couldn't be initialized.");
+
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, (windowflags | SDL_WINDOW_FULLSCREEN));
 
