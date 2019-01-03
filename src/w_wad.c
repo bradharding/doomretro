@@ -146,16 +146,12 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
-    char            *lumps_str = malloc(16);
 
     // open the file and add to directory
     wadfile_t       *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
-    {
-        free(lumps_str);
         return false;
-    }
 
     M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
 
