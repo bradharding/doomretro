@@ -1095,7 +1095,7 @@ static void ST_updateFaceWidget(void)
 
     if (priority < 8)
     {
-        if (viewplayer->damagecount && viewplayer->attacker)
+        if (viewplayer->damagecount && viewplayer->attacker && viewplayer->attacker != viewplayer->mo)
         {
             // [BH] fix ouch-face when damage > 20
             if (st_oldhealth - viewplayer->health > ST_MUCHPAIN)

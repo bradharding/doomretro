@@ -38,6 +38,7 @@
 * No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
 * Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no longer grin when the first item is picked up after loading a savegame.
+* The player’s face in the status bar will now behave correctly when the player injures themselves by shooting a barrel.
 * The player will no longer switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if it has been changed in a PWAD.
