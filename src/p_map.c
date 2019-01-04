@@ -1911,8 +1911,8 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
             return true;        // out of range
 
         // [BH] check z height for blast damage
-        if ((thing->floorz > bombspot->z && bombspot->ceilingz < thing->z)
-            || (thing->ceilingz < bombspot->z && bombspot->floorz > thing->z))
+        if (!infiniteheight && ((thing->floorz > bombspot->z && bombspot->ceilingz < thing->z)
+            || (thing->ceilingz < bombspot->z && bombspot->floorz > thing->z)))
             return true;
     }
 
