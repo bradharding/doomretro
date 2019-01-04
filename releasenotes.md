@@ -29,7 +29,7 @@
   * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
   * A few animated flats in [some popular PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
-  * All animated flats specified using a `noliquid` entry in a `MAPINFO` lump in a PWAD.
+  * All animated flats specified using a `liquid` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
 * When saving over an exiting savegame, that savegame will now be backed up first.
@@ -40,12 +40,12 @@
 * Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no longer grin when the first item is picked up after loading a savegame.
 * The player will no longer switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
-* The `STTMINUS` patch is now positioned better in the widescreen HUD if changed in a PWAD.
+* The `STTMINUS` patch is now positioned better in the widescreen HUD if it has been changed in a PWAD.
 * The fixes intended for E1M4 and E1M8 in `doom.wad` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
 * Voodoo dolls are now specified in the output of the `thinglist` CCMD.
 * The initial sound that a monster makes when it sees the player for the first time will no longer be interrupted by any further sounds that monster makes.
 * A bug has been fixed whereby text copied from outside *DOOM Retro* to the *Windows* clipboard and then pasted into the console using <kbd>CTRL</kbd> + <kbd>V</kbd> would be corrupt.
-* The player can now still trigger line specials that exit the map even if they are dead.
+* The player’s corpse will now still trigger line specials that exit the map when walked over.
 
 ---
 

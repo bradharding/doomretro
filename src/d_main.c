@@ -1401,7 +1401,8 @@ static int D_OpenWADLauncher(void)
                             else
                             {
                                 // otherwise try the iwadfolder CVAR
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
+                                    iwadsrequired[iwadrequired]);
                                 D_IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
@@ -1629,10 +1630,11 @@ static void D_DoomMainSetup(void)
 
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
     free(resourcefolder);
-    M_MakeDirectory(appdatafolder);
 
+    M_MakeDirectory(appdatafolder);
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
     free(appdatafolder);
+
     C_Output("");
     C_PrintCompileDate();
 

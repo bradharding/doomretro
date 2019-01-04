@@ -2513,7 +2513,6 @@ void P_SpawnSpecials(void)
 
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
                 P_SpawnStrobeFlash(sector, FASTDARK, false);
-                sector->special = DamageNegative10Or20PercentHealthAndLightBlinks_2Hz;
                 break;
 
             case LightGlows_1PlusSec:

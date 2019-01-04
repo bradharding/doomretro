@@ -1012,7 +1012,8 @@ void HU_Ticker(void)
             int x = (m_x + m_w / 2) >> MAPBITS;
             int y = (m_y + m_h / 2) >> MAPBITS;
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
+                R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
         }
         else
         {
