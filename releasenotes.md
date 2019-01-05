@@ -32,6 +32,7 @@
   * All animated flats specified using a `liquid` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
+* The accuracy of the `Map explored` stat shown by the `playerstats` CCMD has now been fixed.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * A new `take` CCMD has been implemented that can be used to take ammo, armor, health, keys, weapons, or all or certain items from the player. It accepts the same parameters as the `give` CCMD.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.

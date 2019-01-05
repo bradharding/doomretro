@@ -3645,16 +3645,32 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
     else
     {
-        int totallines = numlines;
-        int totallinesmapped = 0;
+        int mappedwalls = 0;
+        int totalwalls = 0;
 
         for (int i = 0; i < numlines; i++)
-            totallines -= !!(lines[i++].flags & ML_DONTDRAW);
+        {
+            const line_t            line = lines[i];
+            const unsigned short    flags = line.flags;
 
-        for (int i = 0; i < totallines; i++)
-            totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
+            if (flags & ML_DONTDRAW)
+                continue;
+            else
+            {
+                const sector_t  *back = line.backsector;
+                const sector_t  *front = line.frontsector;
 
-        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
+                if (!back || back->floorheight != front->floorheight || back->ceilingheight != front->ceilingheight)
+                {
+                    if (flags & ML_MAPPED)
+                        mappedwalls++;
+
+                    totalwalls++;
+                }
+            }
+        }
+
+        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(mappedwalls * 100.0f / totalwalls, 1));
     }
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
