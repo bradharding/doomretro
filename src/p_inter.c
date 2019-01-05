@@ -507,7 +507,7 @@ void P_InitCards(void)
         mobj_t  *mo = (mobj_t *)th;
 
         for (int i = 0; i < NUMCARDS; i++)
-            if (mo->type == cardsprites[i])
+            if (mo->sprite == cardsprites[i])
             {
                 viewplayer->cards[i] = CARDNOTFOUNDYET;
                 break;
