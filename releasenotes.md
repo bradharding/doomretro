@@ -32,7 +32,7 @@
   * All animated flats specified using a `liquid` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The `playerstats` CCMD now shows the number of times the player has saved a game.
-* The accuracy of the `Map explored` stat shown by the `playerstats` CCMD has now been fixed.
+* The accuracy of the `Map explored` stat shown by the `playerstats` CCMD has now been corrected.
 * When saving over an exiting savegame, that savegame will now be backed up first.
 * A new `take` CCMD has been implemented that can be used to take ammo, armor, health, keys, weapons, or all or certain items from the player. It accepts the same parameters as the `give` CCMD.
 * If the player uses the mouse wheel to select the shotgun or super shotgun in *DOOM II*, the first shotgun to be selected when pressing the <kbd>3</kbd> key will now be set correctly.
@@ -48,7 +48,7 @@
 * The initial sound that a monster makes when it sees the player for the first time will no longer be interrupted by any further sounds that monster makes.
 * A bug has been fixed whereby text copied from outside *DOOM Retro* to the *Windows* clipboard and then pasted into the console using <kbd>CTRL</kbd> + <kbd>V</kbd> would be corrupt.
 * The player’s corpse will now still trigger line specials that exit the map when walked over.
-* The amount of vertical distance something is away from blast damage is no longer taken into account when the `infiniteheight` CVAR is `on`.
+* The vertical distance something is away from blast damage is no longer taken into account when the `infiniteheight` CVAR is `on`.
 
 ---
 

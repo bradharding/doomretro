@@ -3653,19 +3653,17 @@ static void C_PlayerStats_Game(void)
             const line_t            line = lines[i];
             const unsigned short    flags = line.flags;
 
-            if (flags & ML_DONTDRAW)
-                continue;
-            else
+            if (!(flags & ML_DONTDRAW))
             {
                 const sector_t  *back = line.backsector;
                 const sector_t  *front = line.frontsector;
 
                 if (!back || back->floorheight != front->floorheight || back->ceilingheight != front->ceilingheight)
                 {
+                    totalwalls++;
+
                     if (flags & ML_MAPPED)
                         mappedwalls++;
-
-                    totalwalls++;
                 }
             }
         }

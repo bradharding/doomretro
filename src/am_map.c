@@ -1515,27 +1515,27 @@ static void AM_DrawWalls(void)
             continue;
         else
         {
-            const short flags = line.flags;
+            const unsigned short    flags = line.flags;
 
             if ((flags & ML_DONTDRAW) && !cheating)
                 continue;
             else
             {
-                const sector_t  *back = line.backsector;
-                const short     mapped = flags & ML_MAPPED;
-                const short     secret = flags & ML_SECRET;
-                const short     special = line.special;
-                static mline_t  l;
+                const sector_t          *back = line.backsector;
+                const dboolean          mapped = !!(flags & ML_MAPPED);
+                const dboolean          secret = !!(flags & ML_SECRET);
+                const unsigned short    special = line.special;
+                mline_t                 mline;
 
-                l.a.x = line.v1->x >> FRACTOMAPBITS;
-                l.a.y = line.v1->y >> FRACTOMAPBITS;
-                l.b.x = line.v2->x >> FRACTOMAPBITS;
-                l.b.y = line.v2->y >> FRACTOMAPBITS;
+                mline.a.x = line.v1->x >> FRACTOMAPBITS;
+                mline.a.y = line.v1->y >> FRACTOMAPBITS;
+                mline.b.x = line.v2->x >> FRACTOMAPBITS;
+                mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
                 if (am_rotatemode || menuactive)
                 {
-                    AM_RotatePoint(&l.a);
-                    AM_RotatePoint(&l.b);
+                    AM_RotatePoint(&mline.a);
+                    AM_RotatePoint(&mline.b);
                 }
 
                 if ((special
@@ -1552,12 +1552,12 @@ static void AM_DrawWalls(void)
                 {
                     if (cheating || (mapped && !secret && back && back->ceilingheight != back->floorheight))
                     {
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
+                        AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor);
                         continue;
                     }
                     else if (allmap)
                     {
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                        AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor);
                         continue;
                     }
                 }
@@ -1565,9 +1565,9 @@ static void AM_DrawWalls(void)
                 if (!back || (secret && !cheating))
                 {
                     if (mapped || cheating)
-                        AM_DrawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, wallcolor);
+                        AM_DrawBigMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor);
                     else if (allmap)
-                        AM_DrawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapwallcolor);
+                        AM_DrawBigMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapwallcolor);
                 }
                 else
                 {
@@ -1576,19 +1576,19 @@ static void AM_DrawWalls(void)
                     if (back->floorheight != front->floorheight)
                     {
                         if (mapped || cheating)
-                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
+                            AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor);
                         else if (allmap)
-                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                            AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor);
                     }
                     else if (back->ceilingheight != front->ceilingheight)
                     {
                         if (mapped || cheating)
-                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
+                            AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor);
                         else if (allmap)
-                            AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
+                            AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapcdwallcolor);
                     }
                     else if (cheating)
-                        AM_DrawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
+                        AM_DrawMline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor);
                 }
             }
         }

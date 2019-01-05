@@ -361,8 +361,7 @@ static void AddDoomWADPath(void)
         {
             // Break at the separator and store the right hand side
             // as another iwad dir
-            *p = '\0';
-            p += 1;
+            *p++ = '\0';
 
             AddIWADDir(p);
         }

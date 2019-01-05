@@ -538,8 +538,8 @@ dboolean ST_Responder(event_t *ev)
                 dboolean    keysgiven = false;
                 dboolean    weaponsgiven = false;
 
-                    S_StartSound(NULL, sfx_getpow);
-                    C_CCMDOutput(cheat_ammo.sequence);
+                S_StartSound(NULL, sfx_getpow);
+                C_CCMDOutput(cheat_ammo.sequence);
 
                 // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
