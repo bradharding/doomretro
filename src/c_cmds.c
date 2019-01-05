@@ -3702,10 +3702,11 @@ static void C_PlayerStats_Game(void)
         (monstercount[MT_HEAD] ? viewplayer->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0),
         commify(stat_monsterskilled_cacodemons));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_CYBORG].plural1), commify(viewplayer->mobjcount[MT_CYBORG]), commify(monstercount[MT_CYBORG]),
-        (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0),
-        commify(stat_monsterskilled_cyberdemons));
+    if (gamemode != shareware)
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            sentencecase(mobjinfo[MT_CYBORG].plural1), commify(viewplayer->mobjcount[MT_CYBORG]), commify(monstercount[MT_CYBORG]),
+            (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0),
+            commify(stat_monsterskilled_cyberdemons));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         sentencecase(mobjinfo[MT_SERGEANT].plural1), commify(viewplayer->mobjcount[MT_SERGEANT]), commify(monstercount[MT_SERGEANT]),
@@ -3763,10 +3764,11 @@ static void C_PlayerStats_Game(void)
         (monstercount[MT_SHADOWS] ? viewplayer->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0),
         commify(stat_monsterskilled_spectres));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SPIDER].plural1), commify(viewplayer->mobjcount[MT_SPIDER]), commify(monstercount[MT_SPIDER]),
-        (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0),
-        commify(stat_monsterskilled_spidermasterminds));
+    if (gamemode != shareware)
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            sentencecase(mobjinfo[MT_SPIDER].plural1), commify(viewplayer->mobjcount[MT_SPIDER]), commify(monstercount[MT_SPIDER]),
+            (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0),
+            commify(stat_monsterskilled_spidermasterminds));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         sentencecase(mobjinfo[MT_POSSESSED].plural1), commify(viewplayer->mobjcount[MT_POSSESSED]), commify(monstercount[MT_POSSESSED]),
