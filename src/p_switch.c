@@ -613,7 +613,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, raiseToHighest) | EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, raiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -786,7 +786,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, raiseToHighest) | EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, raiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, true);
 
             break;

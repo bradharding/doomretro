@@ -1779,7 +1779,6 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     default:
                         return;
-                        break;
                 }
 
                 break;
@@ -1834,7 +1833,6 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
                 return;
-                break;
 
             case 4:
                 switch (gamemap)
@@ -1843,13 +1841,11 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                         junk.tag = 666;
                         EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
                         return;
-                        break;
 
                     case 8:
                         junk.tag = 666;
                         EV_DoFloor(&junk, lowerFloorToLowest);
                         return;
-                        break;
                 }
         }
     }
@@ -2225,4 +2221,3 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->state->misc1 = junk.special;
     actor->player = oldplayer;
 }
-

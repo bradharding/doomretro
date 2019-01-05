@@ -70,7 +70,7 @@ int             idfa_armor_class = BLUEARMOR;
 int             idkfa_armor = 200;
 int             idkfa_armor_class = BLUEARMOR;
 int             bfgcells = BFGCELLS;
-dboolean        species_infighting;
+dboolean        species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
@@ -824,8 +824,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // yellow keycard
         case SPR_YKEY:
@@ -838,8 +838,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // red keycard
         case SPR_RKEY:
@@ -852,8 +852,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // blue skull key
         case SPR_BSKU:
@@ -866,8 +866,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // yellow skull key
         case SPR_YSKU:
@@ -880,8 +880,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // red skull key
         case SPR_RSKU:
@@ -894,8 +894,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 break;
             }
-
-            return;
+            else
+                return;
 
         // stimpack
         case SPR_STIM:

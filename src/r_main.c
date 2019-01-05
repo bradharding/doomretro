@@ -715,22 +715,22 @@ void R_Init(void)
 //
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 {
-    int nodenum;
-
     // single subsector is a special case
     if (!numnodes)
         return subsectors;
-
-    nodenum = numnodes - 1;
-
-    while (!(nodenum & NF_SUBSECTOR))
+    else
     {
-        node_t  *node = nodes + nodenum;
+        int nodenum = numnodes - 1;
 
-        nodenum = node->children[R_PointOnSide(x, y, node)];
+        while (!(nodenum & NF_SUBSECTOR))
+        {
+            node_t  *node = nodes + nodenum;
+
+            nodenum = node->children[R_PointOnSide(x, y, node)];
+        }
+
+        return (subsectors + (nodenum & ~NF_SUBSECTOR));
     }
-
-    return (subsectors + (nodenum & ~NF_SUBSECTOR));
 }
 
 //

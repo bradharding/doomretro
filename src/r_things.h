@@ -55,6 +55,8 @@ extern fixed_t  pspriteiscale;
 
 extern dboolean r_playersprites;
 
+extern short    firstbloodsplatlump;
+
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);
 void R_ClearSprites(void);

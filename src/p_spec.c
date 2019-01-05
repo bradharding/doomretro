@@ -1032,7 +1032,6 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -2389,16 +2388,13 @@ void P_UpdateSpecials(void)
 //
 dboolean EV_DoDonut(line_t *line)
 {
-    sector_t    *s1;
-    sector_t    *s2;
-    sector_t    *s3;
     int         secnum = -1;
     dboolean    rtn = false;
-    floormove_t *floor;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        s1 = sectors + secnum;
+        sector_t    *s1 = sectors + secnum;
+        sector_t    *s2;
 
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, s1))
@@ -2414,7 +2410,8 @@ dboolean EV_DoDonut(line_t *line)
 
         for (int i = 0; i < s2->linecount; i++)
         {
-            s3 = s2->lines[i]->backsector;
+            sector_t    *s3 = s2->lines[i]->backsector;
+            floormove_t *floor;
 
             if (!s3 || s3 == s1)
                 continue;
@@ -2452,6 +2449,7 @@ dboolean EV_DoDonut(line_t *line)
             break;
         }
     }
+
     return rtn;
 }
 

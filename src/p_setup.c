@@ -743,8 +743,7 @@ static void P_LoadSectors(int lump)
                                 commify(sectorfix[j].sector), commify(sectorfix[j].special));
                     }
 
-                    if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT
-                        || sectorfix[j].oldtag == ss->tag))
+                    if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT || sectorfix[j].oldtag == ss->tag))
                     {
                         ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
 
@@ -1203,7 +1202,8 @@ static void P_LoadLineDefs(int lump)
 
         ld->tranlump = -1;   // killough 4/11/98: no translucency by default
 
-        ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE)));
+        ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE
+            : ST_NEGATIVE)));
 
         if (v1->x < v2->x)
         {
@@ -1947,15 +1947,15 @@ static void P_CalcSegsLength(void)
         li->dx = (int64_t)li->v2->x - li->v1->x;
         li->dy = (int64_t)li->v2->y - li->v1->y;
 
-        li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) >> 1;
+        li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) / 2;
 
         // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
         li->angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
         li->fakecontrast = (!li->dy ? -LIGHTBRIGHT : (!li->dx ? LIGHTBRIGHT : 0));
 
-        li->dx >>= 1;
-        li->dy >>= 1;
+        li->dx /= 2;
+        li->dy /= 2;
     }
 }
 

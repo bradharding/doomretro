@@ -87,7 +87,7 @@ static mobj_t   *onmobj;
 
 dboolean        infiniteheight = infiniteheight_default;
 
-unsigned int    stat_distancetraveled;
+unsigned int    stat_distancetraveled = 0;
 
 extern dboolean autousing;
 extern dboolean successfulshot;
@@ -465,11 +465,11 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     }
 
     // check if a mobj passed over/under another object
-    if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
+    if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight && !(flags & MF_SPECIAL))
     {
-        if (tmthing->z >= thing->z + thing->height && !(thing->flags & MF_SPECIAL))
+        if (tmthing->z >= thing->z + thing->height)
             return true;        // over thing
-        else if (tmthing->z + tmthing->height <= thing->z && !(thing->flags & MF_SPECIAL))
+        else if (tmthing->z + tmthing->height <= thing->z)
             return true;        // under thing
     }
 
@@ -519,7 +519,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         // killough 8/10/98: if moving thing is not a missile, no damage
         // is inflicted, and momentum is reduced if object hit is solid.
-        if (!(tmthing->flags & MF_MISSILE))
+        if (!(tmflags & MF_MISSILE))
         {
             if (!(flags & MF_SOLID))
                 return true;
@@ -528,7 +528,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
                 tmthing->momx = -tmthing->momx;
                 tmthing->momy = -tmthing->momy;
 
-                if (!(tmthing->flags & MF_NOGRAVITY))
+                if (!(tmflags & MF_NOGRAVITY))
                 {
                     tmthing->momx >>= 2;
                     tmthing->momy >>= 2;
@@ -1051,7 +1051,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
             // Momentum is proportional to distance between the
             // object's center of mass and the pivot linedef.
             //
-            // It is scaled by 2^(OVERDRIVE - gear). When gear is
+            // It is scaled by 2 ^ (OVERDRIVE - gear). When gear is
             // increased, the momentum gradually decreases to 0 for
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
@@ -2188,45 +2188,40 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
 
 // P_DelSecnode() deletes a sector node from the list of
 // sectors this object appears in. Returns a pointer to the next node
-// on the linked list, or NULL.
+// on the linked list.
 //
 // killough 11/98: reformatted
 static msecnode_t *P_DelSecnode(msecnode_t *node)
 {
-    if (node)
-    {
-        msecnode_t  *tp = node->m_tprev;    // prev node on thing thread
-        msecnode_t  *tn = node->m_tnext;    // next node on thing thread
-        msecnode_t  *sp;                    // prev node on sector thread
-        msecnode_t  *sn;                    // next node on sector thread
+    msecnode_t  *tp = node->m_tprev;    // prev node on thing thread
+    msecnode_t  *tn = node->m_tnext;    // next node on thing thread
+    msecnode_t  *sp;                    // prev node on sector thread
+    msecnode_t  *sn;                    // next node on sector thread
 
-        // Unlink from the Thing thread. The Thing thread begins at
-        // sector_list and not from mobj_t->touching_sectorlist.
-        if (tp)
-            tp->m_tnext = tn;
+    // Unlink from the Thing thread. The Thing thread begins at
+    // sector_list and not from mobj_t->touching_sectorlist.
+    if (tp)
+        tp->m_tnext = tn;
 
-        if (tn)
-            tn->m_tprev = tp;
+    if (tn)
+        tn->m_tprev = tp;
 
-        // Unlink from the sector thread. This thread begins at
-        // sector_t->touching_thinglist.
-        sp = node->m_sprev;
-        sn = node->m_snext;
+    // Unlink from the sector thread. This thread begins at
+    // sector_t->touching_thinglist.
+    sp = node->m_sprev;
+    sn = node->m_snext;
 
-        if (sp)
-            sp->m_snext = sn;
-        else
-            node->m_sector->touching_thinglist = sn;
+    if (sp)
+        sp->m_snext = sn;
+    else
+        node->m_sector->touching_thinglist = sn;
 
-        if (sn)
-            sn->m_sprev = sp;
+    if (sn)
+        sn->m_sprev = sp;
 
-        // Return this node to the freelist
-        P_PutSecnode(node);
-        return tn;
-    }
-
-    return NULL;
+    // Return this node to the freelist
+    P_PutSecnode(node);
+    return tn;
 }
 
 // Delete an entire sector list

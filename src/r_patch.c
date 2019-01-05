@@ -187,10 +187,8 @@ static void createPatch(int id)
 
     if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
-        char    *name = lumpinfo[patchNum]->name;
-
-        if (!M_StringCompare(name, "HI_START") && !M_StringCompare(name, "HI_END"))
-            C_Warning("The <b>%s</b> patch is in an unknown format.", name);
+        if (lumpinfo[patchNum]->size > 0)
+            C_Warning("The <b>%s</b> patch is in an unknown format.", lumpinfo[patchNum]->name);
 
         return;
     }

@@ -1266,8 +1266,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 // P_SpawnBloodSplat
 //
-extern short    firstbloodsplatlump;
-
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)

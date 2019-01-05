@@ -65,19 +65,17 @@ static los_t    los; // cph - made static
 //
 static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
-    fixed_t left;
-    fixed_t right;
-
     if (!node->dx)
         return (x == node->x ? 2 : (x <= node->x ? node->dy > 0 : node->dy < 0));
-
-    if (!node->dy)
+    else if (!node->dy)
         return (y == node->y ? 2 : (y <= node->y ? node->dx < 0 : node->dx > 0));
+    else
+    {
+        fixed_t left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
+        fixed_t right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
 
-    left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
-    right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
-
-    return (right < left ? 0 : (left == right ? 2 : 1));
+        return (right < left ? 0 : (left == right ? 2 : 1));
+    }
 }
 
 //
