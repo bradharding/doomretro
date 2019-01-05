@@ -3858,7 +3858,9 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_HEAD].plural1), commify(stat_monsterskilled_cacodemons));
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_CYBORG].plural1), commify(stat_monsterskilled_cyberdemons));
+    if (gamemode != shareware)
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
+            sentencecase(mobjinfo[MT_CYBORG].plural1), commify(stat_monsterskilled_cyberdemons));
 
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SERGEANT].plural1), commify(stat_monsterskilled_demons));
 
@@ -3889,8 +3891,9 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SHADOWS].plural1), commify(stat_monsterskilled_spectres));
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SPIDER].plural1), commify(stat_monsterskilled_spidermasterminds));
+    if (gamemode != shareware)
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
+            sentencecase(mobjinfo[MT_SPIDER].plural1), commify(stat_monsterskilled_spidermasterminds));
 
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_POSSESSED].plural1), commify(stat_monsterskilled_zombiemen));
 
