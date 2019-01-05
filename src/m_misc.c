@@ -575,6 +575,16 @@ char *titlecase(const char *str)
     return newstr;
 }
 
+char *sentencecase(const char *str)
+{
+    char    *newstr = M_StringDuplicate(str);
+
+    if (strlen(newstr) > 0)
+        newstr[0] = toupper(newstr[0]);
+
+    return newstr;
+}
+
 char *formatsize(const char *str)
 {
     char    *newstr = M_StringDuplicate(str);

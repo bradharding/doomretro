@@ -81,6 +81,7 @@ dboolean M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(char *str);
 char *titlecase(const char *str);
+char *sentencecase(const char *str);
 char *formatsize(const char *str);
 char *commify(int64_t value);
 char *uncommify(const char *input);
