@@ -256,17 +256,18 @@ void P_InitPicAnims(void)
             // Check if name of flat indicates it is liquid
             if (!isliquid)
             {
-                if (M_StrCaseStr(animdefs[i].startname, "NUKAGE"))
+                if (M_StrCaseStr(animdefs[i].startname, "NUK"))
                 {
                     SetTerrainType(lastanim, NUKAGE);
                     isliquid = true;
                 }
-                else if (M_StrCaseStr(animdefs[i].startname, "WATER"))
+                else if (M_StrCaseStr(animdefs[i].startname, "WATER") || M_StrCaseStr(animdefs[i].startname, "WTR")
+                    || M_StrCaseStr(animdefs[i].startname, "WAVE"))
                 {
                     SetTerrainType(lastanim, WATER);
                     isliquid = true;
                 }
-                else if (M_StrCaseStr(animdefs[i].startname, "LAVA"))
+                else if (M_StrCaseStr(animdefs[i].startname, "LAV"))
                 {
                     SetTerrainType(lastanim, LAVA);
                     isliquid = true;
@@ -276,7 +277,8 @@ void P_InitPicAnims(void)
                     SetTerrainType(lastanim, BLOOD);
                     isliquid = true;
                 }
-                else if (M_StrCaseStr(animdefs[i].startname, "SLIME") && (basepic < SLIME09 || basepic > SLIME12))
+                else if ((M_StrCaseStr(animdefs[i].startname, "SLIM") && (basepic < SLIME09 || basepic > SLIME12))
+                    || M_StrCaseStr(animdefs[i].startname, "SLM"))
                 {
                     SetTerrainType(lastanim, SLIME);
                     isliquid = true;
