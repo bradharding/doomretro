@@ -2316,7 +2316,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
         {
             if (prev == ' ')
             {
-                if (letter == '\"')
+                if (letter == '"')
                     c = 64;
                 else if (letter == '\'')
                     c = 65;

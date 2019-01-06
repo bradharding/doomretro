@@ -413,7 +413,6 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
                 TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F));
                 TWriteByte(mididata, MIDItrack, 0);
-
                 break;
 
             case PLAY_NOTE:
@@ -428,7 +427,6 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                     track[MIDItrack].velocity = (*musptr++) & 0x7F;
 
                 TWriteByte(mididata, MIDItrack, track[MIDItrack].velocity);
-
                 break;
 
             case BEND_NOTE:
@@ -439,7 +437,6 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
                 TWriteByte(mididata, MIDItrack, (unsigned char)((data & 1) << 6));
                 TWriteByte(mididata, MIDItrack, (unsigned char)(data >> 1));
-
                 break;
 
             case SYS_EVENT:
@@ -483,7 +480,6 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                     data = 0x7F;
 
                 TWriteByte(mididata, MIDItrack, (unsigned char)data);
-
                 break;
 
             case UNKNOWN_EVENT1:   // mus events 5 and 7

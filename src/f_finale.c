@@ -347,7 +347,7 @@ static void F_TextWrite(void)
 
         if (c < 0 || c >= HU_FONTSIZE)
         {
-            cx += (prev == '.' || prev == '!' || prev == '?' || prev == '\"' ? 5 : 3);
+            cx += (prev == '.' || prev == '!' || prev == '?' || prev == '"' ? 5 : 3);
             prev = letter;
             continue;
         }
@@ -363,7 +363,7 @@ static void F_TextWrite(void)
 
             if (prev == ' ')
             {
-                if (letter == '\"')
+                if (letter == '"')
                     c = 64;
                 else if (letter == '\'')
                     c = 65;

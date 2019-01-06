@@ -45,7 +45,7 @@
 #define MAX_STRING_SIZE 256
 #define ASCII_COMMENT1  ';'
 #define ASCII_COMMENT2  '/'
-#define ASCII_QUOTE     '\"'
+#define ASCII_QUOTE     '"'
 #define ASCII_ESCAPE    '\\'
 
 static void CheckOpen(void);
