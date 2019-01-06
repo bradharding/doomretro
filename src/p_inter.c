@@ -1418,10 +1418,13 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             if (!viewplayer->powers[pw_strength])
                 return false;
 
-            viewplayer->powers[pw_strength] = STARTFLASHING;
+            viewplayer->powers[pw_strength] = 0;
 
             if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+            {
                 viewplayer->pendingweapon = wp_chainsaw;
+                viewplayer->fistorchainsaw = wp_chainsaw;
+            }
 
             return true;
 

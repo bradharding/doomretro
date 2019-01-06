@@ -4542,7 +4542,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             for (int i = 0; i < NUMPOWERS; i++)
                 if (viewplayer->powers[i])
                 {
-                    viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
+                    viewplayer->powers[i] = (i == pw_allmap || i == pw_strength ? 0 : STARTFLASHING);
                     result = true;
                 }
 
