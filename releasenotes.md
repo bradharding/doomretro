@@ -46,6 +46,7 @@
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if it has been changed in a PWAD.
 * The fixes intended for E1M4 and E1M8 in `doom.wad` are no longer inadvertently applied to E1M4B and E1M8B when the `r_fixmaperrors` CVAR is `on`.
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * Voodoo dolls are now specified in the output of the `thinglist` CCMD.
 * The initial sound that a monster makes when it sees the player for the first time will no longer be interrupted by any further sounds that monster makes.
 * A bug has been fixed whereby text copied from outside *DOOM Retro* to the *Windows* clipboard and then pasted into the console using <kbd>CTRL</kbd> + <kbd>V</kbd> would be corrupt.

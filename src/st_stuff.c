@@ -959,10 +959,10 @@ dboolean ST_Responder(event_t *ev)
                     epsd = buf[0] - '0';
                     map = buf[1] - '0';
                     M_snprintf(lump, sizeof(lump), "E%cM%c", buf[0], buf[1]);
-                }
 
-                if (chex)
-                    epsd = 1;
+                    if (chex && epsd != 1)
+                        return false;
+                }
 
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD

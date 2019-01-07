@@ -2725,7 +2725,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             {
                 if (gamemap == 8)
                 {
-                    if (gameepisode != (gamemode == retail ? 4 : (gamemode == shareware ? 1 : 3)))
+                    if (gameepisode != (gamemode == retail ? 4 : (gamemode == shareware || chex ? 1 : 3)))
                     {
                         mapcmdepisode = gameepisode + 1;
                         mapcmdmap = 1;
@@ -2767,6 +2767,16 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     }
                 }
             }
+            else if (gamemode == shareware || chex)
+            {
+                if (!(gameepisode == 1 && gamemap == 8))
+                {
+                    mapcmdepisode = 1;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E1M8", sizeof(mapcmdlump));
+                    result = true;
+                }
+            }
             else if (gamemode == retail)
             {
                 if (!(gameepisode == 4 && gamemap == 8))
@@ -2774,16 +2784,6 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     mapcmdepisode = 4;
                     mapcmdmap = 8;
                     M_StringCopy(mapcmdlump, "E4M8", sizeof(mapcmdlump));
-                    result = true;
-                }
-            }
-            else if (gamemode == shareware)
-            {
-                if (!(gameepisode == 1 && gamemap == 8))
-                {
-                    mapcmdepisode = 1;
-                    mapcmdmap = 8;
-                    M_StringCopy(mapcmdlump, "E1M8", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2809,13 +2809,13 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             }
             else
             {
-                mapcmdepisode = (gamemode == shareware ? 1 : M_RandomIntNoRepeat(1, (gamemode == retail ? 4 : 3), gameepisode));
+                mapcmdepisode = (gamemode == shareware || chex ? 1 : M_RandomIntNoRepeat(1, (gamemode == retail ? 4 : 3), gameepisode));
                 mapcmdmap = M_RandomIntNoRepeat(1, 8, gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
             }
         }
-        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && gamemode != shareware)
+        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
@@ -2823,7 +2823,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             M_StringCopy(mapcmdlump, "E1M4B", 6);
             result = true;
         }
-        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && gamemode != shareware)
+        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
@@ -2873,7 +2873,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
             else if (sscanf(map, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-                result = (W_CheckNumForName(map) >= 0);
+                result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(map) >= 0));
             else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
                 static char lump[5];
