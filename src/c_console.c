@@ -687,8 +687,8 @@ static void C_DrawBackground(int height)
     // soften edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
-        screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
+        screens[0][i] = tinttab50[(nearestcolors[0] << 8) + screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[(nearestcolors[0] << 8) + screens[0][i + CONSOLEWIDTH - 1]];
     }
 
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)

@@ -697,7 +697,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte    *shadow = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*shadow != 47 && *shadow != 191))
-                        *shadow = tinttab50[*shadow];
+                        *shadow = tinttab50[(nearestcolors[0] << 8) + *shadow];
                 }
 
                 srccol += DYI;
@@ -1294,7 +1294,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     shadow = dest + SCREENWIDTH * 2 + 2;
 
                     if (*shadow != 47 && *shadow != 191)
-                        *shadow = tinttab50[*shadow];
+                        *shadow = tinttab50[(nearestcolors[0] << 8) + *shadow];
                 }
 
                 dest += SCREENWIDTH;
@@ -1356,7 +1356,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
                 {
                     byte    *dot = dest + yy + xx;
 
-                    *dot = tinttab50[*dot];
+                    *dot = tinttab50[(nearestcolors[0] << 8) + *dot];
                 }
     }
     else if (color && color != 32)
