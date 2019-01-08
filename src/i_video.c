@@ -1899,6 +1899,7 @@ void I_InitGraphics(void)
     SDL_SetWindowTitle(window, PACKAGE_NAME);
 
     I_UpdateBlitFunc(false);
+    memset(screens[0], nearestcolors[0], SCREENWIDTH * SCREENHEIGHT);
     blitfunc();
 
     while (SDL_PollEvent(&dummy));
