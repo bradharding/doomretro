@@ -1541,7 +1541,8 @@ static void AM_DrawWalls(void)
                 if ((special
                     && (special == W1_Teleport
                         || special == W1_ExitLevel
-                        || special == WR_Teleport || special == W1_ExitLevel_GoesToSecretLevel
+                        || special == WR_Teleport
+                        || special == W1_ExitLevel_GoesToSecretLevel
                         || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
                         || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
                         || special == W1_TeleportToLineWithSameTag_Silent_SameAngle

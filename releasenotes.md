@@ -26,9 +26,9 @@
 * A bug has been fixed whereby the `unbind` CCMD would only accept an action as a parameter and not a control.
 * *DOOM Retro* now more intelligently determines if an animated flat depicts liquid. Only the following animated flats are now considered to be liquid:
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
-  * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. (or certain abbreviations) in their names,
+  * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. (or certain abbreviations of those) in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
-  * A few animated flats in [some popular PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
+  * A few animated flats from [a curated list of PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
   * All animated flats specified using a `liquid` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The following changes have been made to the `playerstats` CCMD:

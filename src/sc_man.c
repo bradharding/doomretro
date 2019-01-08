@@ -114,17 +114,9 @@ dboolean SC_GetString(void)
 
     while (!foundToken)
     {
-        while (*ScriptPtr <= 32)
-        {
-            if (ScriptPtr >= ScriptEndPtr)
-            {
-                sc_End = true;
-                return false;
-            }
-
+        while (ScriptPtr < ScriptEndPtr && *ScriptPtr <= 32)
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
-        }
 
         if (ScriptPtr >= ScriptEndPtr)
         {
