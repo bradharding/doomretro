@@ -75,7 +75,7 @@
 
 #define ALIASCMDFORMAT      "<i>alias</i> [[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
 #define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>|[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
-#define EXECCMDFORMAT       "<i>filename</i>"
+#define EXECCMDFORMAT       "<i>filename</i><b>.cfg</b>"
 #define GIVECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define IFCMDFORMAT         "<i>CVAR</i> <i>value</i> <b>then</b> [<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]"
 #define KILLCMDFORMAT       "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
