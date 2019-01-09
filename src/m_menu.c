@@ -509,14 +509,12 @@ void M_DarkBackground(void)
 
     if (gametime != prevtic)
     {
-        const int   black = nearestcolors[0];
-
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
-            screens[0][i] = black;
-            screens[0][i + 1] = black;
-            screens[0][i + SCREENWIDTH - 2] = black;
-            screens[0][i + SCREENWIDTH - 1] = black;
+            screens[0][i] = nearestblack;
+            screens[0][i + 1] = nearestblack;
+            screens[0][i + SCREENWIDTH - 2] = nearestblack;
+            screens[0][i + SCREENWIDTH - 1] = nearestblack;
         }
 
         for (int i = 0; i < blurheight; i++)
@@ -531,10 +529,10 @@ void M_DarkBackground(void)
         {
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i += SCREENWIDTH)
             {
-                mapscreen[i] = black;
-                mapscreen[i + 1] = black;
-                mapscreen[i + SCREENWIDTH - 2] = black;
-                mapscreen[i + SCREENWIDTH - 1] = black;
+                mapscreen[i] = nearestblack;
+                mapscreen[i + 1] = nearestblack;
+                mapscreen[i + SCREENWIDTH - 2] = nearestblack;
+                mapscreen[i + SCREENWIDTH - 1] = nearestblack;
             }
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)

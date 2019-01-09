@@ -172,6 +172,7 @@ static struct
 };
 
 byte    nearestcolors[256];
+byte    nearestblack;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
@@ -217,6 +218,8 @@ void FindNearestColors(byte *palette)
     else
         for (int i = 0; i < 256; i++)
             nearestcolors[i] = i;
+
+    nearestblack = nearestcolors[0];
 }
 
 int FindDominantColor(patch_t *patch)
