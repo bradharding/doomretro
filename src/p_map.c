@@ -434,9 +434,11 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if (r_corpses_nudge && corpse && (tmflags & MF_SHOOTABLE) && !thing->nudge && thing->z == tmthing->z)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
+            const int   r = M_RandomInt(-1, 1);
+
+            thing->momx += FRACUNIT * r;
+            thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
             thing->nudge = TICRATE;
-            thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
-            thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
 
             if (!(thing->flags2 & MF2_FEETARECLIPPED))
             {
