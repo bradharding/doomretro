@@ -93,6 +93,7 @@ extern dboolean         drawbloodsplats;
 extern dboolean         notranslucency;
 extern dboolean         SHT2A0;
 extern dboolean         skippsprinterp;
+extern dboolean         vanilla;
 
 //
 // R_InstallSpriteLump
@@ -949,7 +950,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     int             lump = sprframe->lump[0];
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered ? spriteoffset[lump] : newspriteoffset[lump]);
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered && !vanilla ? spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritescale)) >> FRACBITS;
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;
 
