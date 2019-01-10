@@ -293,7 +293,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *translucency = tinttab40 + (nearestblack << 8);
+    const byte  *shadow = tinttab40 + (nearestblack << 8);
     int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
@@ -312,18 +312,18 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
 
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
                 dest += SCREENWIDTH;
             }
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
@@ -434,7 +434,8 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
                         if (*source)
                         {
                             if (italics)
-                                *(dest + italicize[height]) = (!translucency ? color : translucency[(color << 8) + *(dest + italicize[height])]);
+                                *(dest + italicize[height]) = (!translucency ? color : translucency[(color << 8)
+                                    + *(dest + italicize[height])]);
                             else
                                 *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
                         }
@@ -495,7 +496,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color1a, int color1b, 
     }
 }
 
-dboolean V_EmptyPatch(patch_t *patch)
+dboolean V_IsEmptyPatch(patch_t *patch)
 {
     int w = SHORT(patch->width);
 
@@ -661,7 +662,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 {
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *translucency = tinttab50 + (nearestblack << 8);
+    const byte  *shadow = tinttab50 + (nearestblack << 8);
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -691,10 +692,10 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
                 if (height + 2 > 0)
                 {
-                    byte    *shadow = dest + SCREENWIDTH + 2;
+                    byte    *dot = dest + SCREENWIDTH + 2;
 
-                    if (!flag || (*shadow != 47 && *shadow != 191))
-                        *shadow = translucency[*shadow];
+                    if (!flag || (*dot != 47 && *dot != 191))
+                        *dot = shadow[*dot];
                 }
 
                 srccol += DYI;
@@ -1029,8 +1030,8 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 {
-    byte        *desttop;
-    int         w = SHORT(patch->width) << FRACBITS;
+    byte    *desttop;
+    int     w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1063,7 +1064,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *translucency = tinttab40 + (nearestblack << 8);
+    const byte  *shadow = tinttab40 + (nearestblack << 8);
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
@@ -1082,18 +1083,18 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
 
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
                 dest += SCREENWIDTH;
             }
 
             if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = translucency[*dest];
+                *dest = shadow[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
@@ -1258,7 +1259,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *translucency = tinttab50 + (nearestblack << 8);
+    const byte  *shadow = tinttab50 + (nearestblack << 8);
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1283,13 +1284,13 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 
                 if (nogreen[src])
                 {
-                    byte    *shadow;
+                    byte    *dot;
 
                     *dest = src;
-                    shadow = dest + SCREENWIDTH * 2 + 2;
+                    dot = dest + SCREENWIDTH * 2 + 2;
 
-                    if (*shadow != 47 && *shadow != 191)
-                        *shadow = translucency[*shadow];
+                    if (*dot != 47 && *dot != 191)
+                        *dot = shadow[*dot];
                 }
 
                 dest += SCREENWIDTH;
@@ -1339,20 +1340,20 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, dboolean shadow)
+void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
     byte        *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
-    const byte  *translucency = tinttab50 + (nearestblack << 8);
+    const byte  *shadow = tinttab50 + (nearestblack << 8);
 
     if (color == 251)
     {
-        if (shadow)
+        if (drawshadow)
             for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
                 {
                     byte    *dot = dest + yy + xx;
 
-                    *dot = translucency[*dot];
+                    *dot = shadow[*dot];
                 }
     }
     else if (color && color != 32)

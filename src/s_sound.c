@@ -484,12 +484,13 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
             return;
 
     // kill old sound
-    for (cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity && channels[cnum].origin == origin)
-        {
-            S_StopChannel(cnum);
-            break;
-        }
+    if (origin)
+        for (cnum = 0; cnum < s_channels; cnum++)
+            if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity && channels[cnum].origin == origin)
+            {
+                S_StopChannel(cnum);
+                break;
+            }
 
     // try to find a channel
     if ((cnum = S_GetChannel(origin, sfx)) < 0)

@@ -63,7 +63,7 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch);
-dboolean V_EmptyPatch(patch_t *patch);
+dboolean V_IsEmptyPatch(patch_t *patch);
 void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
@@ -88,7 +88,7 @@ void V_DrawAltHUDText(int x, int y, patch_t *patch, int color);
 void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color);
 void V_DrawPagePatch(patch_t *patch);
 
-void V_DrawPixel(int x, int y, byte color, dboolean shadow);
+void V_DrawPixel(int x, int y, byte color, dboolean drawshadow);
 
 void GetPixelSize(dboolean reset);
 void V_LowGraphicDetail(void);

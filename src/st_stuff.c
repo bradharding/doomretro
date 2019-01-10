@@ -1377,7 +1377,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
 
     callback("STTPRCNT", &tallpercent);
-    emptytallpercent = V_EmptyPatch(tallpercent);
+    emptytallpercent = V_IsEmptyPatch(tallpercent);
     tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 
     // key cards
