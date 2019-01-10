@@ -886,38 +886,37 @@ void HU_DrawDisk(void)
 
 void HU_InitMessages(void)
 {
-    int x, y;
-
-    if (sscanf(r_messagepos, "(%10i,%10i)", &x, &y) != 2 || x < 0 || x >= SCREENWIDTH || y < 0 || y >= SCREENHEIGHT - SBARHEIGHT)
-    {
-        x = HU_MSGX;
-        y = HU_MSGY;
-        r_messagepos = r_messagepos_default;
-        M_SaveCVARs();
-    }
-
     if (!vid_widescreen || !r_althud)
     {
-        if (r_messagescale == r_messagescale_small)
+        int x, y;
+
+        if (sscanf(r_messagepos, "(%10i,%10i)", &x, &y) != 2 || x < 0 || x >= SCREENWIDTH || y < 0 || y >= SCREENHEIGHT - SBARHEIGHT)
         {
-            w_message.l->x = BETWEEN(0, x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
-        }
-        else
-        {
-            w_message.l->x = BETWEEN(0, x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+            x = HU_MSGX;
+            y = HU_MSGY;
+            r_messagepos = r_messagepos_default;
+            M_SaveCVARs();
         }
 
         if (r_messagescale == r_messagescale_small)
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
+            w_message.l->x = BETWEEN(0, x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
         }
         else
         {
             w_title.x = HU_TITLEX;
             w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+            w_message.l->x = BETWEEN(0, x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+        }
+
+        if (vid_widescreen)
+        {
+            w_message.l->x += 9;
+            w_message.l->y += 4;
         }
     }
 }

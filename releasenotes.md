@@ -53,6 +53,7 @@
 * The player’s corpse will now still trigger line specials that exit the map when walked over.
 * The vertical distance something is away from blast damage is no longer taken into account when the `infiniteheight` CVAR is `on`.
 * The player’s rocket launcher will now be displayed correctly when fired in vanilla mode.
+* When both the `messages` and `vid_widescreen` CVARs are `on`, player messages are now displayed further away from the top left hand corner of the screen.
 
 ---
 
