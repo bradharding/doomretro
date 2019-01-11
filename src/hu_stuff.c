@@ -94,7 +94,6 @@ dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
 int                     r_messagescale = r_messagescale_default;
-char                    *r_messagepos = r_messagepos_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -109,6 +108,7 @@ extern dboolean         emptytallpercent;
 extern int              caretcolor;
 extern patch_t          *faces[ST_NUMFACES];
 extern int              st_faceindex;
+extern dboolean         vanilla;
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -888,15 +888,11 @@ void HU_InitMessages(void)
 {
     if (!vid_widescreen || !r_althud)
     {
-        int x, y;
+        int x = HU_MSGX;
+        int y = HU_MSGY;
 
-        if (sscanf(r_messagepos, "(%10i,%10i)", &x, &y) != 2 || x < 0 || x >= SCREENWIDTH || y < 0 || y >= SCREENHEIGHT - SBARHEIGHT)
-        {
-            x = HU_MSGX;
-            y = HU_MSGY;
-            r_messagepos = r_messagepos_default;
-            M_SaveCVARs();
-        }
+        if (vanilla)
+            x = y = 0;
 
         if (r_messagescale == r_messagescale_small)
         {
