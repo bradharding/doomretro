@@ -176,7 +176,7 @@ void S_Init(void)
 
     if (!nosfx)
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         char    *audiobuffer = SDL_getenv("SDL_AUDIODRIVER");
 
         if (audiobuffer)
@@ -345,7 +345,7 @@ void S_Start(void)
 // original implementation idea: https://www.doomworld.com/vb/post/1585325
 void S_UnlinkSound(mobj_t *origin)
 {
-    if (nosfx)
+    if (nosfx || !origin)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)

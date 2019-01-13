@@ -56,11 +56,11 @@
 #include "f_wipe.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "info.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "info.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -629,7 +629,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     while ((dit = readdir(dirp)))
         if (!fnmatch(dehpattern, dit->d_name, 0))
         {
-            char    *dehfullpath = M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
+            char    *dehfullpath = M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, NULL);
 
             closedir(dirp);
             free(pathcopy);
