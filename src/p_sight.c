@@ -53,7 +53,7 @@ typedef struct
     fixed_t     topslope;       // slopes to top and bottom of target
     fixed_t     bottomslope;
     fixed_t     bbox[4];
-    fixed_t     maxz;           // cph - z optimizations for 2sided lines
+    fixed_t     maxz;           // cph - z optimizations for 2-sided lines
     fixed_t     minz;
 } los_t;
 

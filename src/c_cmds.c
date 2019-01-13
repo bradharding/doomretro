@@ -351,8 +351,6 @@ static void r_gamma_cvar_func2(char *cmd, char *parms);
 static void r_hud_cvar_func2(char *cmd, char *parms);
 static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
-static dboolean r_messagescale_cvar_func1(char *cmd, char *parms);
-static void r_messagescale_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms);
@@ -685,8 +683,6 @@ consolecmd_t consolecmds[] =
         "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of pixels when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
-    CVAR_BOOL(r_messagescale, "", r_messagescale_cvar_func1, r_messagescale_cvar_func2, SCALEVALUEALIAS,
-        "The scale of player messages (<b>big</b> or <b>small</b>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped\nby monsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -5836,40 +5832,6 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
-    }
-}
-
-//
-// r_messagescale CVAR
-//
-static dboolean r_messagescale_cvar_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, SCALEVALUEALIAS) != INT_MIN);
-}
-
-static void r_messagescale_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, SCALEVALUEALIAS);
-
-        if ((value == r_messagescale_small || value == r_messagescale_big) && value != r_messagescale)
-        {
-            r_messagescale = !!value;
-            HU_InitMessages();
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        C_ShowDescription(C_GetIndex(stringize(r_messagescale)));
-
-        if (r_messagescale == r_messagescale_default)
-            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS));
-        else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS),
-                C_LookupAliasFromValue(r_messagescale_default, SCALEVALUEALIAS));
     }
 }
 

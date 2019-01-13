@@ -93,7 +93,6 @@ dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
-int                     r_messagescale = r_messagescale_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -271,7 +270,7 @@ void HU_Start(void)
     // create the map title widget
     HUlib_initTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
-    while (M_StringWidth(s) > (r_messagescale == r_messagescale_small ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
+    while (M_StringWidth(s) > (vid_widescreen ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
     {
         if (len >= 2 && s[len - 2] == ' ')
         {
@@ -894,7 +893,7 @@ void HU_InitMessages(void)
         if (vanilla)
             x = y = 0;
 
-        if (r_messagescale == r_messagescale_small)
+        if (vid_widescreen)
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
@@ -1031,8 +1030,8 @@ void HU_Ticker(void)
             char    message[133];
             int     maxwidth = ORIGINALWIDTH - 6;
 
-            if ((vid_widescreen && r_althud) || r_messagescale == r_messagescale_small)
-                maxwidth *= 2;
+            if (vid_widescreen)
+                maxwidth *= SCREENSCALE;
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 

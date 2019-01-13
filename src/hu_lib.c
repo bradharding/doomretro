@@ -97,7 +97,7 @@ static void HU_drawChar(int x, int y, int ch)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (r_messagescale == r_messagescale_small)
+    if (vid_widescreen)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
@@ -274,10 +274,10 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
 
-                if (r_messagescale == r_messagescale_big)
-                    V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
-                else
+                if (vid_widescreen)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
+                else
+                    V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
             else
             {
@@ -316,7 +316,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
-        int scale = r_messagescale + 1;
+        int scale = (vid_widescreen ? 1 : 2);
 
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < ORIGINALWIDTH; x1++)
@@ -340,7 +340,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (r_messagescale == r_messagescale_big)
+    if (!vid_widescreen)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;

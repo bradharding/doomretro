@@ -125,7 +125,6 @@ extern dboolean     r_liquid_current;
 extern dboolean     r_liquid_lowerview;
 extern dboolean     r_liquid_swirl;
 extern char         *r_lowpixelsize;
-extern int          r_messagescale;
 extern dboolean     r_mirroredweapons;
 extern dboolean     r_playersprites;
 extern dboolean     r_rockettrails;
@@ -223,12 +222,6 @@ enum
 {
     r_detail_low,
     r_detail_high
-};
-
-enum
-{
-    r_messagescale_small,
-    r_messagescale_big
 };
 
 enum
@@ -499,8 +492,6 @@ enum
 #define r_liquid_swirl_default                  true
 
 #define r_lowpixelsize_default                  "2x2"
-
-#define r_messagescale_default                  r_messagescale_big
 
 #define r_mirroredweapons_default               false
 
