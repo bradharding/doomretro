@@ -1031,7 +1031,8 @@ static int D_OpenWADLauncher(void)
             char    *file = (char *)[url fileSystemRepresentation];
 #endif
 
-            if (!M_StringEndsWith(file, ".wad"))
+            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh") && !M_StringEndsWith(file, ".bex")
+                && !M_StringEndsWith(file, ".cfg"))
                 file = M_StringJoin(file, ".wad", NULL);
 
             wad = M_StringDuplicate(file);
@@ -1752,7 +1753,7 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
-                else if (!choseniwad && !error)
+                else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
                 {
                     static char buffer[256];
 
