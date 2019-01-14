@@ -883,56 +883,62 @@ void HU_DrawDisk(void)
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE, 0, stdisk);
 }
 
-void HU_InitMessages(void)
-{
-    if (!vid_widescreen || !r_althud)
-    {
-        int x = HU_MSGX;
-        int y = HU_MSGY;
-
-        if (vanilla)
-            x = y = 0;
-
-        if (vid_widescreen)
-        {
-            w_title.x = HU_TITLEX * SCREENSCALE;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
-            w_message.l->x = BETWEEN(0, x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
-        }
-        else
-        {
-            w_title.x = HU_TITLEX;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
-            w_message.l->x = BETWEEN(0, x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-            w_message.l->y = BETWEEN(0, y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
-        }
-
-        if (vid_widescreen)
-        {
-            w_message.l->x += 9;
-            w_message.l->y += 4;
-        }
-    }
-}
-
 void HU_Drawer(void)
 {
     if (menuactive)
         return;
 
-    HUlib_drawSText(&w_message, message_external);
+    if (w_message.l->l[0])
+    {
+        if (vanilla)
+        {
+            w_message.l->x = 0;
+            w_message.l->y = 0;
+
+            HUlib_drawSText(&w_message, message_external);
+        }
+        else if (vid_widescreen)
+        {
+            if (r_althud)
+            {
+                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+
+                HUlib_drawSText(&w_message, message_external);
+            }
+            else
+            {
+                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
+                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
+
+                HUlib_drawSText(&w_message, message_external);
+            }
+        }
+        else
+        {
+            w_message.l->x = HU_MSGX;
+            w_message.l->y = HU_MSGY;
+
+            HUlib_drawSText(&w_message, message_external);
+        }
+    }
 
     if (automapactive)
     {
-        if (vid_widescreen && r_althud)
-            HUlib_drawAltAutomapTextLine(&w_title);
-        else
-            HUlib_drawTextLine(&w_title, false);
+        if (vid_widescreen)
+        {
+            w_title.x = HU_TITLEX * SCREENSCALE;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
+
+            if (r_althud)
+                HUlib_drawAltAutomapTextLine(&w_title);
+            else
+                HUlib_drawTextLine(&w_title, false);
+        }
     }
     else
     {
-        if (vid_widescreen && r_hud && !menuactive)
+        if (vid_widescreen && r_hud)
         {
             if (r_althud)
                 HU_DrawAltHUD();

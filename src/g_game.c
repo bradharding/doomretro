@@ -576,7 +576,6 @@ void G_DoLoadLevel(void)
     P_MapName(ep, gamemap);
 
     P_SetupLevel(ep, gamemap);
-    HU_InitMessages();
 
     R_InitSkyMap();
     R_InitColumnFunctions();
