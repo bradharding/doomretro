@@ -528,8 +528,8 @@ void R_StoreWallRange(const int start, const int stop)
     int64_t             len;
     int                 worldtop;
     int                 worldbottom;
-    int                 worldhigh;
-    int                 worldlow;
+    int                 worldhigh = 0;
+    int                 worldlow = 0;
     side_t              *sidedef;
     static unsigned int maxdrawsegs;
 
