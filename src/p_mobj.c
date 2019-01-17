@@ -927,6 +927,9 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
     viewplayer->recoil = 0;
+    viewplayer->jumptics = 0;
+    viewplayer->bounce = 0;
+    viewplayer->bouncemax = 0;
 
     deathcount = 0;
     deadlookdir = -1;
