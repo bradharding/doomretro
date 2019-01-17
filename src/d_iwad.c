@@ -42,6 +42,7 @@
 
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_iwad.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
@@ -290,18 +291,15 @@ static void CheckDOSDefaults(void)
 
 #endif
 
-static struct
-{
-    char            *name;
-    GameMission_t   mission;
-} iwads[] = {
+iwads_t iwads[] = {
     { "doom2",    doom2      },
     { "nerve",    pack_nerve },
     { "plutonia", pack_plut  },
     { "tnt",      pack_tnt   },
     { "doom",     doom       },
     { "doom1",    doom       },
-    { "hacx",     doom2      }
+    { "hacx",     doom2      },
+    { "",         0          }
 };
 
 // When given an IWAD with the '-iwad' parameter,
@@ -319,7 +317,7 @@ void D_IdentifyIWADByName(char *name)
 
     gamemission = none;
 
-    for (size_t i = 0; i < arrlen(iwads); i++)
+    for (size_t i = 0; iwads[i].name[0]; i++)
     {
         char    *iwad = M_StringJoin(iwads[i].name, ".WAD", NULL);
 
@@ -508,7 +506,7 @@ static char *SaveGameIWADName(void)
     else if (hacx)
         return "hacx";
 
-    for (size_t i = 0; i < arrlen(iwads); i++)
+    for (size_t i = 0; iwads[i].name[0]; i++)
         if (gamemission == iwads[i].mission)
             return iwads[i].name;
 

@@ -39,6 +39,16 @@
 #if !defined(__D_IWAD_H__)
 #define __D_IWAD_H__
 
+#include "doomdef.h"
+
+typedef struct
+{
+    char            *name;
+    GameMission_t   mission;
+} iwads_t;
+
+extern iwads_t  iwads[];
+
 char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);
 char *D_FindIWAD(void);
