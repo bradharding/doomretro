@@ -93,6 +93,7 @@ void S_Start(void);
 //
 void S_StartSound(mobj_t *mobj, int sfx_id);
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
+void S_StartSoundOnce(void *origin, int sfx_id);
 
 void S_StopSounds(void);
 

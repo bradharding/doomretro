@@ -782,7 +782,7 @@ seeyou:
         }
 
         if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-            S_StartSound(NULL, sound);          // full volume
+            S_StartSoundOnce(NULL, sound);      // full volume
         else
             S_StartSound(actor, sound);
 
@@ -1643,7 +1643,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // Check for bosses.
     if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-        S_StartSound(NULL, sound);      // full volume
+        S_StartSoundOnce(NULL, sound);  // full volume
     else
         S_StartSound(actor, sound);
 }
@@ -1881,7 +1881,7 @@ void A_BrainAwake(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainPain(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    S_StartSound(NULL, sfx_bospn);
+    S_StartSoundOnce(NULL, sfx_bospn);
 }
 
 void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
