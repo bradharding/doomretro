@@ -3199,12 +3199,17 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             uppercase(leafname(lumpinfo[i]->wadfile->path)));
 
         if (lumpinfo[i]->wadfile->type == PWAD)
-            for (size_t j = 0; iwads[j].name[0]; j++)
-                if (gamemission == iwads[j].mission)
-                {
-                    C_TabbedOutput(tabs, "IWAD\t<b>%s.WAD</b>", uppercase(iwads[j].name));
-                    break;
-                }
+        {
+            if (gamemission == pack_nerve)
+                C_TabbedOutput(tabs, "IWAD\t<b>DOOM2.WAD</b>");
+            else
+                for (size_t j = 0; iwads[j].name[0]; j++)
+                    if (gamemission == iwads[j].mission)
+                    {
+                        C_TabbedOutput(tabs, "IWAD\t<b>%s.WAD</b>", uppercase(iwads[j].name));
+                        break;
+                    }
+        }
     }
 
     C_TabbedOutput(tabs, "Compatibility\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :
