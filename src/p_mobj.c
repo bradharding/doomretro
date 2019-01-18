@@ -544,15 +544,14 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags = mobj->flags;
     int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
-    sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1)
-        mobj->interpolate = false;
+        mobj->interpolate = 0;
     else if (!(player && mobj == player->mo))
     {
         // Assume we can interpolate at the beginning of the tic.
-        mobj->interpolate = true;
+        mobj->interpolate = 1;
 
         // Store starting position for mobj interpolation.
         mobj->oldx = mobj->x;
@@ -574,9 +573,13 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     // [BH] bob objects in liquid
-    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
-        && !sector->heightsec && r_liquid_bob)
-        mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && r_liquid_bob)
+    {
+        sector_t    *sector = mobj->subsector->sector;
+
+        if (mobj->z <= sector->floorheight && !mobj->momz && !sector->heightsec)
+            mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
+    }
 
     // [BH] otherwise bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
@@ -919,7 +922,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->fixedcolormap = 0;
     viewplayer->viewheight = VIEWHEIGHT;
 
-    viewplayer->viewz = viewplayer->mo->z + viewplayer->viewheight;
+    viewplayer->viewz = viewplayer->oldviewz = viewplayer->mo->z + viewplayer->viewheight;
     viewplayer->psprites[ps_weapon].sx = 0;
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;

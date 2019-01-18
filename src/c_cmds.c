@@ -3108,7 +3108,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, MAPSTATSTITLE);
 
-    C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", maptitle);
+    C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", titlecase(maptitle));
 
     {
         const char *authors[][6] =
