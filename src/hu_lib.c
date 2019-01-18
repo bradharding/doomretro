@@ -361,12 +361,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 byte color = *source;
 
                 if (vid_widescreen && r_hud_translucency && !hacx)
-                {
-                    color = tinttab25[(*dest2 << 8) + color];
-
-                    if (color >= 168 && color <= 175)
-                        color -= 144;
-                }
+                    color = tinttab66[(color << 8) + *dest2];
 
                 *dest1 = color;
             }
