@@ -242,17 +242,18 @@ static void R_MaybeInterpolateSector(sector_t *sector)
 //
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, dboolean back)
 {
+    const sector_t  *s = sec->heightsec;
+
     if (floorlightlevel)
         *floorlightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
 
     if (ceilinglightlevel)
         *ceilinglightlevel = (sec->ceilinglightsec ? sec->ceilinglightsec->lightlevel : sec->lightlevel);
 
-    if (sec->heightsec)
+    if (s)
     {
-        const sector_t  *s = sec->heightsec;
-        sector_t        *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        dboolean        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
+        dboolean    underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;

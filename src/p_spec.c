@@ -758,9 +758,8 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 // killough 11/98: reformatted
 fixed_t P_FindShortestTextureAround(int secnum)
 {
-    const sector_t  *sec = sectors + secnum;
-    const int       linecount = sec->linecount;
-    int             minsize = 32000 * FRACUNIT;
+    const int   linecount = sectors[secnum].linecount;
+    int         minsize = 32000 * FRACUNIT;
 
     for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
@@ -791,9 +790,8 @@ fixed_t P_FindShortestTextureAround(int secnum)
 // killough 11/98: reformatted
 fixed_t P_FindShortestUpperAround(int secnum)
 {
-    const sector_t  *sec = sectors + secnum;
-    const int       linecount = sec->linecount;
-    int             minsize = 32000 * FRACUNIT;
+    const int   linecount = sectors[secnum].linecount;
+    int         minsize = 32000 * FRACUNIT;
 
     for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
