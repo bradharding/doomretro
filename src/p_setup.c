@@ -2112,7 +2112,7 @@ void P_MapName(int ep, int map)
             }
         }
         else if (!M_StringCompare(mapnum, maptitle))
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, titlecase(maptitle));
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s%s%s", mapnum, (maptitle[0] ? ": " : ""), titlecase(maptitle));
         else
             M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
 
