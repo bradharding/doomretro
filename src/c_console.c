@@ -692,7 +692,7 @@ static void C_DrawBackground(int height)
     }
 
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[screens[0][i]];
+        screens[0][i] = tinttab25[screens[0][i] + (nearestblack << 8)];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
