@@ -144,6 +144,9 @@ extern HANDLE       CapFPSEvent;
 //
 void D_PostEvent(event_t *ev)
 {
+    if (dowipe)
+        return;
+
     lasteventtype = ev->type;
 
     if (C_Responder(ev))
