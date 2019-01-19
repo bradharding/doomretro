@@ -477,7 +477,6 @@ void D_DoAdvanceTitle(void)
     paused = false;
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
-    noinput = false;
 
     if (!titlesequence)
     {
@@ -2028,7 +2027,6 @@ static void D_DoomMainSetup(void)
         if (alwaysrun)
             C_StrCVAROutput(stringize(alwaysrun), "on");
 
-        noinput = false;
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
@@ -2048,7 +2046,6 @@ static void D_DoomMainSetup(void)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
             C_Output("Warping to %s...", lumpname);
-            noinput = false;
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else

@@ -416,7 +416,6 @@ static short __inline clamp(short value, short deadzone)
 }
 
 dboolean        altdown;
-dboolean        noinput = true;
 dboolean        waspaused;
 static dboolean button;
 
@@ -453,9 +452,6 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_KEYDOWN:
-                if (noinput)
-                    return;
-
                 event.type = ev_keydown;
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 event.data2 = Event->key.keysym.sym;
@@ -526,9 +522,6 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if (noinput)
-                    return;
-
                 idclev = false;
                 idmus = false;
 

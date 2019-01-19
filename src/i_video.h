@@ -103,7 +103,6 @@ extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
 
 extern dboolean     splashscreen;
-extern dboolean     noinput;
 
 extern int          windowx;
 extern int          windowy;
