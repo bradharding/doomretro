@@ -544,6 +544,7 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags = mobj->flags;
     int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
+    sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1)
@@ -573,13 +574,9 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     // [BH] bob objects in liquid
-    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && r_liquid_bob)
-    {
-        sector_t    *sector = mobj->subsector->sector;
-
-        if (mobj->z <= sector->floorheight && !mobj->momz && !sector->heightsec)
-            mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
-    }
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
+        && !sector->heightsec && r_liquid_bob)
+        mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] otherwise bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
