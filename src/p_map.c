@@ -275,7 +275,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     P_SetThingPosition(thing);
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if ((thing->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(thing))
+    if ((thing->flags2 & MF2_FOOTCLIP) && thing->subsector->sector->terraintype != SOLID)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -428,7 +428,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
     flags = thing->flags;
     tmflags = tmthing->flags;
-    corpse = (flags & MF_CORPSE);
+    corpse = flags & MF_CORPSE;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (r_corpses_nudge && corpse && (tmflags & MF_SHOOTABLE) && !thing->nudge && thing->z == tmthing->z)
@@ -903,20 +903,6 @@ void P_FakeZMovement(mobj_t *mo)
     }
 }
 
-dboolean P_IsInLiquid(mobj_t *thing)
-{
-    dboolean    liquid = true;
-
-    for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if (seclist->m_sector->terraintype == SOLID)
-        {
-            liquid = false;
-            break;
-        }
-
-    return liquid;
-}
-
 //
 // P_TryMove
 // Attempt to move to a new position,
@@ -990,7 +976,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     }
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if ((thing->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(thing))
+    if ((thing->flags2 & MF2_FOOTCLIP) && thing->subsector->sector->terraintype != SOLID)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
