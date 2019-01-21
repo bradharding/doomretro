@@ -1374,8 +1374,6 @@ dboolean C_Responder(event_t *ev)
                         outputhistory = -1;
                         forceconsoleblurredraw = true;
                     }
-
-                    return !consolecheat[0];
                 }
 
                 break;

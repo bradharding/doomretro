@@ -905,19 +905,14 @@ void P_FakeZMovement(mobj_t *mo)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
-    dboolean    liquid = true;
-
     if (!(thing->flags & MF_SHOOTABLE))
         return (thing->subsector->sector->terraintype != SOLID);
 
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
         if (seclist->m_sector->terraintype == SOLID)
-        {
-            liquid = false;
-            break;
-        }
+            return false;
 
-    return liquid;
+    return true;
 }
 
 //
