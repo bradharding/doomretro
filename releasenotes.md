@@ -54,6 +54,7 @@
 * The vertical distance something is away from blast damage is no longer taken into account when the `infiniteheight` CVAR is `on`.
 * The player’s rocket launcher will now be displayed correctly when fired in vanilla mode.
 * Both the `r_messagepos` and `r_messagescale` CVARs have been deprecated. The position and scale of player messages now depend on the value of the `vid_widescreen` CVAR.
+* Barrels will now animate correctly if their sprites have been replaced in a PWAD.
 
 ---
 
