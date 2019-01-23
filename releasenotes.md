@@ -29,7 +29,7 @@
   * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. (or certain abbreviations of those) in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
   * A few animated flats from [a curated list of PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
-  * All animated flats specified using a `liquid` entry in a `MAPINFO` lump in a PWAD.
+  * All animated flats specified using a `LIQUID` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The following changes have been made to the `playerstats` CCMD:
   * The number of times the player has saved a game is now displayed.
@@ -41,7 +41,7 @@
 * No sound will be made if the player has their fists selected, has the berserk power-up, has no ammunition for any of their weapons, and tries to change weapons using the mouse wheel.
 * The player’s health in the widescreen HUD will now flash if it regenerates due to use of the `regenhealth` CCMD.
 * Fixing a [bug present in *Vanilla DOOM*](https://doomwiki.org/wiki/Player_face_grins_after_restoring_save_file), the player’s face in the status bar will no longer grin when the first item is picked up after loading a savegame.
-* The player’s face in the status bar will now behave correctly when the player injures themselves by shooting a barrel.
+* The player’s face in the status bar will now behave correctly when the player injures themselves by exploding a barrel.
 * The player will no longer automatically switch to their fists upon picking up a berserk power-up if they have already picked one up elsewhere in the current map.
 * There is no longer the possibility of a crash when the player dies and the `mouselook` CVAR is `on` or a control is bound to the `+mouselook` action.
 * The `STTMINUS` patch is now positioned better in the widescreen HUD if it has been changed in a PWAD.

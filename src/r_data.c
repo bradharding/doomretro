@@ -535,7 +535,7 @@ static void R_InitSpriteLumps(void)
     if (FREEDOOM)
     {
         states[S_BAR3].nextstate = S_BAR2;
-        mobjinfo[MT_BARREL].frames = 0;
+        mobjinfo[MT_BARREL].frames = 2;
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
