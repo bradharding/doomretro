@@ -905,6 +905,9 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
+    for (const struct msecnode_s *seclist = mobj->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        mobj->z = mobj->floorz = MAX(mobj->z, seclist->m_sector->floorheight);
+
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
