@@ -922,7 +922,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->fixedcolormap = 0;
 
     viewplayer->viewheight = VIEWHEIGHT;
-    viewplayer->viewz = viewplayer->oldviewz = viewplayer->mo->z + viewplayer->viewheight;
+    viewplayer->viewz = viewplayer->oldviewz = mobj->z + viewplayer->viewheight;
 
     if ((mobj->flags2 & MF2_FEETARECLIPPED) && r_liquid_clipsprites)
         viewplayer->viewz -= FOOTCLIPSIZE;

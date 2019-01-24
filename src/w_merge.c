@@ -302,7 +302,10 @@ static void AddSpriteLump(lumpinfo_t *lump)
         }
 
         if (M_StringCompare(lump->name, "BAR1A0") || M_StringCompare(lump->name, "BAR1B0"))
+        {
             states[S_BAR3].nextstate = S_BAR2;
+            mobjinfo[MT_BARREL].frames = 2;
+        }
     }
 
     if (ispackagewad && M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))

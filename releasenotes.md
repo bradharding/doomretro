@@ -55,7 +55,7 @@
 * The player’s rocket launcher will now be displayed correctly when fired in vanilla mode.
 * Both the `r_messagepos` and `r_messagescale` CVARs have been deprecated. The position and scale of player messages now depend on the value of the `vid_widescreen` CVAR.
 * Barrels will now animate correctly if their sprites have been replaced in a PWAD.
-* The player’s view will now always be correct when the player is spawned at the start of a map.
+* The player’s view will now always be at the correct height when they are spawned at the start of a map.
 
 ---
 
