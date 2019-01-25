@@ -1165,9 +1165,6 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     P_SetThingPosition(th);
 
-    if (th->info->attacksound)
-        S_StartSound(th, th->info->attacksound);
-
     sector = th->subsector->sector;
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
