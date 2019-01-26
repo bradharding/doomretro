@@ -1199,6 +1199,7 @@ static void P_HitSlideLine(line_t *ld)
     angle_t     lineangle;
     angle_t     moveangle;
     angle_t     deltaangle;
+    fixed_t     movelen;
     dboolean    icyfloor;       // is floor icy?
 
     // phares:
@@ -1247,7 +1248,6 @@ static void P_HitSlideLine(line_t *ld)
     }
 
     side = P_PointOnLineSide(slidemo->x, slidemo->y, ld);
-
     lineangle = R_PointToAngle2(0, 0, ld->dx, ld->dy);
 
     if (side == 1)
@@ -1256,12 +1256,12 @@ static void P_HitSlideLine(line_t *ld)
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
     moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
+    movelen = P_ApproxDistance(tmxmove, tmymove);
 
     if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
-        fixed_t movelen = P_ApproxDistance(tmxmove, tmymove) / 2;
-
         moveangle = (lineangle - deltaangle) >> ANGLETOFINESHIFT;
+        movelen /= 2;                                       // absorb
         tmxmove = FixedMul(movelen, finecosine[moveangle]);
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
@@ -1270,36 +1270,16 @@ static void P_HitSlideLine(line_t *ld)
     }
     else
     {
-        divline_t   dll;
-        divline_t   dlv;
-        fixed_t     inter1;
-        fixed_t     inter2;
-        fixed_t     inter3;
+        fixed_t newlen;
 
-        P_MakeDivline(ld, &dll);
+        if (deltaangle > ANG180)
+            deltaangle += ANG180;
 
-        dlv.x = slidemo->x;
-        dlv.y = slidemo->y;
-        dlv.dx = dll.dy;
-        dlv.dy = -dll.dx;
-
-        inter1 = P_InterceptVector(&dll, &dlv);
-
-        dlv.dx = tmxmove;
-        dlv.dy = tmymove;
-        inter2 = P_InterceptVector(&dll, &dlv);
-        inter3 = P_InterceptVector(&dlv, &dll);
-
-        if (inter3)
-        {
-            tmxmove = FixedDiv(FixedMul(inter2 - inter1, dll.dx), inter3);
-            tmymove = FixedDiv(FixedMul(inter2 - inter1, dll.dy), inter3);
-        }
-        else
-        {
-            tmxmove = 0;
-            tmymove = 0;
-        }
+        lineangle >>= ANGLETOFINESHIFT;
+        deltaangle >>= ANGLETOFINESHIFT;
+        newlen = FixedMul(movelen, finecosine[deltaangle]);
+        tmxmove = FixedMul(newlen, finecosine[lineangle]);
+        tmymove = FixedMul(newlen, finesine[lineangle]);
     }
 }
 
@@ -1434,8 +1414,7 @@ void P_SlideMove(mobj_t *mo)
 
         if (bestslidefrac > FRACUNIT)
             bestslidefrac = FRACUNIT;
-
-        if (bestslidefrac <= 0)
+        else if (bestslidefrac <= 0)
             break;
 
         tmxmove = FixedMul(mo->momx, bestslidefrac);
