@@ -405,56 +405,58 @@ void P_SetLifts(void)
     {
         line_t  line;
 
-        line.tag = sectors[i].tag;
-        sectors[i].islift = false;
-
-        for (int j = -1; (j = P_FindLineFromLineTag(&line, j)) >= 0;)
-            switch (lines[j].special)
-            {
-                case W1_Lift_LowerWaitRaise:
-                case S1_Floor_RaiseBy32_ChangesTexture:
-                case S1_Floor_RaiseBy24_ChangesTexture:
-                case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case S1_Lift_LowerWaitRaise:
-                case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case W1_Floor_StartMovingUpAndDown:
-                case SR_Lift_LowerWaitRaise:
-                case SR_Floor_RaiseBy24_ChangesTexture:
-                case SR_Floor_RaiseBy32_ChangesTexture:
-                case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Floor_StartMovingUpAndDown:
-                case WR_Lift_LowerWaitRaise:
-                case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_LowerWaitRaise_Fast:
-                case S1_Lift_LowerWaitRaise_Fast:
-                case SR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_RaiseBy24_ChangesTexture:
-                case W1_Lift_RaiseBy32_ChangesTexture:
-                case WR_Lift_RaiseBy24_ChangesTexture:
-                case WR_Lift_RaiseBy32_ChangesTexture:
-                case S1_Lift_PerpetualLowestAndHighestFloors:
-                case S1_Lift_Stop:
-                case SR_Lift_PerpetualLowestAndHighestFloors:
-                case SR_Lift_Stop:
-                case SR_Lift_RaiseToCeiling_Instantly:
-                case WR_Lift_RaiseToCeiling_Instantly:
-                case W1_Lift_RaiseToNextHighestFloor_Fast:
-                case WR_Lift_RaiseToNextHighestFloor_Fast:
-                case S1_Lift_RaiseToNextHighestFloor_Fast:
-                case SR_Lift_RaiseToNextHighestFloor_Fast:
-                case W1_Lift_LowerToNextLowestFloor_Fast:
-                case WR_Lift_LowerToNextLowestFloor_Fast:
-                case S1_Lift_LowerToNextLowestFloor_Fast:
-                case SR_Lift_LowerToNextLowestFloor_Fast:
-                case W1_Lift_MoveToSameFloorHeight_Fast:
-                case WR_Lift_MoveToSameFloorHeight_Fast:
-                case S1_Lift_MoveToSameFloorHeight_Fast:
-                case SR_Lift_MoveToSameFloorHeight_Fast:
-                    sectors[i].islift = true;
-                    break;
-            }
+        // Check to see if it's in a sector which can be activated as a lift.
+        if ((line.tag = sectors[i].tag))
+        {
+            for (int j = -1; (j = P_FindLineFromLineTag(&line, j)) >= 0;)
+                switch (lines[j].special)
+                {
+                    case W1_Lift_LowerWaitRaise:
+                    case S1_Floor_RaiseBy32_ChangesTexture:
+                    case S1_Floor_RaiseBy24_ChangesTexture:
+                    case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                    case S1_Lift_LowerWaitRaise:
+                    case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                    case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                    case W1_Floor_StartMovingUpAndDown:
+                    case SR_Lift_LowerWaitRaise:
+                    case SR_Floor_RaiseBy24_ChangesTexture:
+                    case SR_Floor_RaiseBy32_ChangesTexture:
+                    case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                    case WR_Floor_StartMovingUpAndDown:
+                    case WR_Lift_LowerWaitRaise:
+                    case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                    case WR_Lift_LowerWaitRaise_Fast:
+                    case W1_Lift_LowerWaitRaise_Fast:
+                    case S1_Lift_LowerWaitRaise_Fast:
+                    case SR_Lift_LowerWaitRaise_Fast:
+                    case W1_Lift_RaiseBy24_ChangesTexture:
+                    case W1_Lift_RaiseBy32_ChangesTexture:
+                    case WR_Lift_RaiseBy24_ChangesTexture:
+                    case WR_Lift_RaiseBy32_ChangesTexture:
+                    case S1_Lift_PerpetualLowestAndHighestFloors:
+                    case S1_Lift_Stop:
+                    case SR_Lift_PerpetualLowestAndHighestFloors:
+                    case SR_Lift_Stop:
+                    case SR_Lift_RaiseToCeiling_Instantly:
+                    case WR_Lift_RaiseToCeiling_Instantly:
+                    case W1_Lift_RaiseToNextHighestFloor_Fast:
+                    case WR_Lift_RaiseToNextHighestFloor_Fast:
+                    case S1_Lift_RaiseToNextHighestFloor_Fast:
+                    case SR_Lift_RaiseToNextHighestFloor_Fast:
+                    case W1_Lift_LowerToNextLowestFloor_Fast:
+                    case WR_Lift_LowerToNextLowestFloor_Fast:
+                    case S1_Lift_LowerToNextLowestFloor_Fast:
+                    case SR_Lift_LowerToNextLowestFloor_Fast:
+                    case W1_Lift_MoveToSameFloorHeight_Fast:
+                    case WR_Lift_MoveToSameFloorHeight_Fast:
+                    case S1_Lift_MoveToSameFloorHeight_Fast:
+                    case SR_Lift_MoveToSameFloorHeight_Fast:
+                        sectors[i].islift = true;
+                }
+        }
+        else
+            sectors[i].islift = false;
     }
 }
 
