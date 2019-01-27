@@ -184,6 +184,10 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld);
 void P_MakeDivline(line_t *li, divline_t *dl);
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 
+// MAES: support 512x512 blockmaps.
+int P_GetSafeBlockX(int coord);
+int P_GetSafeBlockY(int coord);
+
 extern fixed_t  opentop;
 extern fixed_t  openbottom;
 extern fixed_t  openrange;
@@ -262,6 +266,10 @@ extern int          bmapheight;     // in mapblocks
 extern fixed_t      bmaporgx;
 extern fixed_t      bmaporgy;       // origin of block map
 extern mobj_t       **blocklinks;   // for thing chains
+
+// MAES: extensions to support 512x512 blockmaps.
+extern int          blockmapxneg;
+extern int          blockmapyneg;
 
 //
 // P_INTER

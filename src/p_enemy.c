@@ -561,10 +561,10 @@ static dboolean PIT_AvoidDropoff(line_t *line)
 //
 static fixed_t P_AvoidDropoff(mobj_t *actor)
 {
-    const int   yh = ((tmbbox[BOXTOP] = actor->y + actor->radius) - bmaporgy) >> MAPBLOCKSHIFT;
-    const int   yl = ((tmbbox[BOXBOTTOM] = actor->y - actor->radius) - bmaporgy) >> MAPBLOCKSHIFT;
-    const int   xh = ((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
-    const int   xl = ((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
+    const int   xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx);
+    const int   xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx);
+    const int   yh = P_GetSafeBlockY((tmbbox[BOXTOP] = actor->y + actor->radius) - bmaporgy);
+    const int   yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = actor->y - actor->radius) - bmaporgy);
 
     floorz = actor->z;                                      // remember floor height
     dropoff_deltax = 0;
@@ -1256,10 +1256,10 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
         viletryx = actor->x + speed * xspeed[movedir];
         viletryy = actor->y + speed * yspeed[movedir];
 
-        xl = (viletryx - bmaporgx - MAXRADIUS * 2) >> MAPBLOCKSHIFT;
-        xh = (viletryx - bmaporgx + MAXRADIUS * 2) >> MAPBLOCKSHIFT;
-        yl = (viletryy - bmaporgy - MAXRADIUS * 2) >> MAPBLOCKSHIFT;
-        yh = (viletryy - bmaporgy + MAXRADIUS * 2) >> MAPBLOCKSHIFT;
+        xl = P_GetSafeBlockX(viletryx - bmaporgx - MAXRADIUS * 2);
+        xh = P_GetSafeBlockX(viletryx - bmaporgx + MAXRADIUS * 2);
+        yl = P_GetSafeBlockY(viletryy - bmaporgy - MAXRADIUS * 2);
+        yh = P_GetSafeBlockY(viletryy - bmaporgy + MAXRADIUS * 2);
 
         for (int bx = xl; bx <= xh; bx++)
             for (int by = yl; by <= yh; by++)

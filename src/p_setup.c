@@ -165,6 +165,19 @@ fixed_t             bmaporgy;
 // for thing chains
 mobj_t              **blocklinks;
 
+// MAES: extensions to support 512x512 blockmaps.
+// They represent the maximum negative number which represents
+// a positive offset, otherwise they are left at -257, which
+// never triggers a check.
+// If a blockmap index is ever LE than either, then
+// its actual value is to be interpreted as 0x01FF&x.
+// Full 512x512 blockmaps get this value set to -1.
+// A 511x511 blockmap would still have a valid negative number
+// e.g. -1..510, so they would be set to -2
+// Non-extreme maps remain unaffected.
+int                 blockmapxneg = -257;
+int                 blockmapyneg = -257;
+
 dboolean            skipblstart;            // MaxW: Skip initial blocklist short
 
 // REJECT
@@ -1706,6 +1719,12 @@ static void P_LoadBlockMap(int lump)
     // Clear out mobj chains
     blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
     blockmap = blockmaplump + 4;
+
+    // MAES: set blockmapxneg and blockmapyneg
+    // E.g. for a full 512x512 map, they should be both
+    // -1. For a 257*257, they should be both -255 etc.
+    blockmapxneg = (bmapwidth > 255 ? bmapwidth - 512 : -257);
+    blockmapyneg = (bmapheight > 255 ? bmapheight - 512 : -257);
 }
 
 //
@@ -1837,10 +1856,10 @@ static void P_GroupLines(void)
         sector->soundorg.y = bbox[BOXTOP] / 2 + bbox[BOXBOTTOM] / 2;
 
         // adjust bounding box to map blocks
-        sector->blockbox[BOXTOP] = MIN((bbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT, bmapheight - 1);
-        sector->blockbox[BOXBOTTOM] = MAX(0, (bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT);
-        sector->blockbox[BOXRIGHT] = MIN((bbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT, bmapwidth - 1);
-        sector->blockbox[BOXLEFT] = MAX(0, (bbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT);
+        sector->blockbox[BOXTOP] = MIN(P_GetSafeBlockY(bbox[BOXTOP] - bmaporgy + MAXRADIUS), bmapheight - 1);
+        sector->blockbox[BOXBOTTOM] = MAX(0, P_GetSafeBlockY(bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS));
+        sector->blockbox[BOXRIGHT] = MIN(P_GetSafeBlockX(bbox[BOXRIGHT] - bmaporgx + MAXRADIUS), bmapwidth - 1);
+        sector->blockbox[BOXLEFT] = MAX(0, P_GetSafeBlockX(bbox[BOXLEFT] - bmaporgx - MAXRADIUS));
     }
 }
 
