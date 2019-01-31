@@ -166,8 +166,7 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
-        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
+    return ((int)((line->dx * (y - line->v1->y) - line->dy * (x - line->v1->x)) >> 32) > 0);
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
