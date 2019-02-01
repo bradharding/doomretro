@@ -80,7 +80,7 @@ extern evtype_t             lasteventtype;
 
 void I_InitGamepad(void)
 {
-    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)
+    if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
     else
     {
@@ -95,7 +95,7 @@ void I_InitGamepad(void)
                 }
 
         if (!gamecontroller)
-            SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+            SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
         else
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
@@ -141,7 +141,7 @@ void I_ShutdownGamepad(void)
         SDL_JoystickClose(joystick);
         joystick = NULL;
 
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+        SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
     }
 }
 

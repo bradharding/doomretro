@@ -175,7 +175,7 @@ static void R_FixWiggle(sector_t *sector)
         if (height != sector->cachedheight)
         {
             int                 scaleindex = 0;
-            const scalevalues_t *svp;
+            const scalevalues_t *scalevalue;
 
             sector->cachedheight = height;
             height >>= 7;
@@ -185,9 +185,9 @@ static void R_FixWiggle(sector_t *sector)
                 scaleindex++;
 
             // fine-tune renderer for this wall
-            svp = &scalevalues[scaleindex];
-            max_rwscale = svp->clamp;
-            heightbits = svp->heightbits;
+            scalevalue = &scalevalues[scaleindex];
+            max_rwscale = scalevalue->clamp;
+            heightbits = scalevalue->heightbits;
             heightunit = 1 << heightbits;
             invhgtbits = FRACBITS - heightbits;
         }
