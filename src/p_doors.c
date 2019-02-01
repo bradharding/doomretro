@@ -37,6 +37,7 @@
 */
 
 #include "d_deh.h"
+#include "doomstat.h"
 #include "hu_stuff.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -48,13 +49,14 @@
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
     sector_t    *sec = door->sector;
+    int         level = door->topheight - sec->floorheight;
 
-    if (door->topheight - sec->floorheight)
+    if (level > 0)
     {
         if (door->lighttag)
-            EV_LightTurnOnPartway(door->line, FixedDiv(sec->ceilingheight - sec->floorheight, door->topheight - sec->floorheight));
-        else if (!P_SectorHasLightSpecial(sec))
-            EV_LightByAdjacentSectors(sec, FixedDiv(sec->ceilingheight - sec->floorheight, door->topheight - sec->floorheight));
+            EV_LightTurnOnPartway(door->line, FixedDiv(sec->ceilingheight - sec->floorheight, level));
+        else if (!P_SectorHasLightSpecial(sec) && sec->ceilingpic != skyflatnum)
+            EV_LightByAdjacentSectors(sec, FixedDiv(sec->ceilingheight - sec->floorheight, level));
     }
 }
 
