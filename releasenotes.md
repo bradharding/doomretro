@@ -1,8 +1,8 @@
 ### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When loading the IWAD of *The Ultimate DOOM* from the WAD launcher, if the PWAD of John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) can also be found, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
-* Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar or widescreen HUD will be hidden, all sprites will be hidden, and the player’s view will slowly rotate either left or right.
+* When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
+* Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar or widescreen HUD as well as all sprites will be hidden, and the player’s view will slowly rotate either left or right.
 * Minor changes have been made to text that is output to the console.
 * By enabling the new `autotilt` CVAR, the player’s view will automatically tilt while they go up or down flights of stairs, inspired by a feature present in [*Quake*](https://doomwiki.org/wiki/Quake). This CVAR is both `off` by default and when vanilla mode is enabled, and will also have no effect if the `mouselook` CVAR is `on`.
 * The `r_hud` CVAR will now be reset correctly when using the `reset` or `resetall` CCMDs while no game is being played.

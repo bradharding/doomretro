@@ -119,8 +119,8 @@ static dboolean P_CrossSubsector(int num)
 
         divl.x = v1->x;
         divl.y = v1->y;
-        divl.dx = v2->x - v1->x;
-        divl.dy = v2->y - v1->y;
+        divl.dx = line->dx;
+        divl.dy = line->dy;
 
         // line isn't crossed?
         if (P_DivlineSide(los.strace.x, los.strace.y, &divl) == P_DivlineSide(los.t2x, los.t2y, &divl))
