@@ -339,42 +339,37 @@ static void R_MakeSpans(visplane_t *pl)
 //
 static byte *R_DistortedFlat(int flatnum)
 {
-    static int  lastflat = -1;
     static int  swirltic = -1;
+    static int  lastflat = -1;
     static int  offset[4096];
     static byte distortedflat[4096];
     byte        *normalflat;
     int         leveltic = leveltime;
 
     // Already swirled this one?
-    if (leveltic == swirltic && lastflat == flatnum)
+    if (swirltic == leveltic && lastflat == flatnum)
         return distortedflat;
 
+    swirltic = leveltic;
     lastflat = flatnum;
 
-    // built this tic?
-    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
-    {
-        leveltic *= SPEED;
+    leveltic *= SPEED;
 
-        for (int x = 0; x < 64; x++)
-            for (int y = 0; y < 64; y++)
-            {
-                int x1, y1;
-                int sinvalue, sinvalue2;
+    for (int x = 0; x < 64; x++)
+        for (int y = 0; y < 64; y++)
+        {
+            int x1, y1;
+            int sinvalue, sinvalue2;
 
-                sinvalue = finesine[(y * SWIRLFACTOR + leveltic * 5 + 900) & 8191];
-                sinvalue2 = finesine[(x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191];
-                x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-                sinvalue = finesine[(x * SWIRLFACTOR + leveltic * 3 + 700) & 8191];
-                sinvalue2 = finesine[(y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191];
-                y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
+            sinvalue = finesine[(y * SWIRLFACTOR + leveltic * 5 + 900) & 8191];
+            sinvalue2 = finesine[(x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191];
+            x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
+            sinvalue = finesine[(x * SWIRLFACTOR + leveltic * 3 + 700) & 8191];
+            sinvalue2 = finesine[(y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191];
+            y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
 
-                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
-            }
-
-        swirltic = leveltime;
-    }
+            offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
+        }
 
     normalflat = lumpinfo[firstflat + flatnum]->cache;
 
