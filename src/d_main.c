@@ -747,8 +747,8 @@ static void D_CheckSupportedPWAD(char *filename)
 
     if (M_StringCompare(leaf, "SIGIL.WAD"))
     {
-        //sigil = true;
-        //episode = 5;
+        sigil = true;
+        episode = 5;
     }
     else if (M_StringCompare(leaf, "NERVE.WAD"))
     {
