@@ -2031,8 +2031,9 @@ void ProcessDehFile(char *filename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        dboolean        match;
+        dboolean        match = false;
         unsigned int    i;
+        unsigned int    last_i = DEH_BLOCKMAX - 1;
         long            filepos = 0;
 
         lfstrip(inbuffer);
@@ -2085,7 +2086,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             continue;
         }
 
-        for (match = false, i = 0; i < DEH_BLOCKMAX; i++)
+        for (i = 0; i < DEH_BLOCKMAX; i++)
             if (!strncasecmp(inbuffer, deh_blocks[i].key, strlen(deh_blocks[i].key)))
             {
                 if (i < DEH_BLOCKMAX - 1)
@@ -2094,10 +2095,12 @@ void ProcessDehFile(char *filename, int lumpnum)
                 break;          // we got one, that's enough for this block
             }
 
-        if (!match)             // inbuffer doesn't match a valid block code name
+        if (match)              // inbuffer matches a valid block code name
+            last_i = i;
+        else if (last_i >= 10 && last_i < DEH_BLOCKMAX - 1)     // restrict to BEX style lumps
         {
             // process that same line again with the last valid block code handler
-            i = DEH_BLOCKMAX - 1;
+            i = last_i;
 
             if (!filein->lump)
                 fseek(filein->f, filepos, SEEK_SET);
