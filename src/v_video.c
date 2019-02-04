@@ -185,6 +185,46 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawSTBARPatch(int x, int y, patch_t *patch)
+{
+    byte    *desttop;
+    int     w = SHORT(patch->width);
+    int     col = 0;
+
+    if (w > ORIGINALWIDTH)
+    {
+        col = (w - ORIGINALWIDTH) / 2;
+        w = ORIGINALWIDTH + col;
+    }
+
+    w <<= FRACBITS;
+    col <<= FRACBITS;
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
+
+    for (; col < w; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int     count = (column->length * DY) >> FRACBITS;
+            int     srccol = 0;
+
+            while (count--)
+            {
+                *dest = source[srccol >> FRACBITS];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawPagePatch(patch_t *patch)
 {
     short   width = SHORT(patch->width);

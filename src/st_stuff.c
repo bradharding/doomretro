@@ -390,7 +390,7 @@ static void ST_refreshBackground(void)
     {
         if (STBAR >= 3 || r_detail == r_detail_low || SCREENSCALE == 1)
         {
-            V_DrawPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, sbar);
+            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
         else
