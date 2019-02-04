@@ -935,6 +935,13 @@ void HU_Drawer(void)
             else
                 HUlib_drawTextLine(&w_title, false);
         }
+        else
+        {
+            w_title.x = HU_TITLEX;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+
+            HUlib_drawTextLine(&w_title, false);
+        }
     }
     else
     {
