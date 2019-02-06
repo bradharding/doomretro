@@ -94,8 +94,6 @@ static dboolean IsFreedoom(const char *iwadname)
     {
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        // Determine game mode from levels present
-        // Must be a full set for whichever mode is present
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
             if (n[0] == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
             {
@@ -252,8 +250,6 @@ dboolean HasDehackedLump(const char *pwadname)
     {
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        // Determine game mode from levels present
-        // Must be a full set for whichever mode is present
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
             if (n[0] == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
             {

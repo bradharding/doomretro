@@ -113,7 +113,7 @@ fixed_t animatedliquiddiffs[64] =
 };
 
 static anim_t       *lastanim;
-static anim_t       *anims;                 // new structure w/o limits -- killough
+static anim_t       *anims;             // new structure w/o limits -- killough
 
 terraintype_t       *terraintypes;
 dboolean            *isteleport;
@@ -313,7 +313,10 @@ void P_InitPicAnims(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-        if (M_StringCompare(sc_String, "NOLIQUID") || M_StringCompare(sc_String, "LIQUID"))
+    {
+        dboolean    noliquid = M_StringCompare(sc_String, "NOLIQUID");
+
+        if (noliquid || M_StringCompare(sc_String, "LIQUID"))
         {
             int first;
             int last;
@@ -326,8 +329,9 @@ void P_InitPicAnims(void)
 
             if (first >= 0 && last >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + first]->wadfile->path), sc_String))
                 for (int i = first; i <= last; i++)
-                    terraintypes[i] = (M_StringCompare(sc_String, "NOLIQUID") ? SOLID : LIQUID);
+                    terraintypes[i] = (noliquid ? SOLID : LIQUID);
         }
+    }
 
     SC_Close();
 
@@ -1140,7 +1144,7 @@ dboolean P_SectorActive(special_e t, sector_t *sec)
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
         (t == lighting_special ? !!sec->lightingdata :  // type is active
-        true)));        // don't know which special, must be active, shouldn't be here
+        true)));                                        // don't know which special, must be active, shouldn't be here
 }
 
 //
@@ -1278,7 +1282,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+                    return;                     // FloorModel is "Allow Monsters" if FloorChange is 0
 
             linefunc = EV_DoGenFloor;
         }
@@ -1286,7 +1290,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+                    return;                     // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
             linefunc = EV_DoGenCeiling;
         }
@@ -1306,7 +1310,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         else if (line->special >= GenLockedBase)
         {
             if (!thing->player)
-                return;                 // monsters disallowed from unlocking doors
+                return;                         // monsters disallowed from unlocking doors
 
             if ((line->special & TriggerType) == WalkOnce || (line->special & TriggerType) == WalkMany)
             {
@@ -1323,7 +1327,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
-                    return;             // monsters disallowed
+                    return;                     // monsters disallowed
 
             linefunc = EV_DoGenLift;
         }
@@ -1331,7 +1335,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return;             // monsters disallowed
+                    return;                     // monsters disallowed
 
             linefunc = EV_DoGenStairs;
         }
@@ -1339,7 +1343,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
-                    return;             // monsters disallowed
+                    return;                     // monsters disallowed
 
             linefunc = EV_DoGenCrusher;
         }
@@ -1396,7 +1400,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             return;
     }
 
-    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+    if (!P_CheckTag(line))                      // jff 2/27/98 disallow zero tag on some types
         return;
 
     switch (line->special)

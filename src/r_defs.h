@@ -600,9 +600,7 @@ enum
     LightBlinks_2HzSynchronized                         = 13,
     Door_OpenClose_OpensAfter5Min                       = 14,
     DamageNegative10Or20PercentHealth                   = 16,
-    LightFlickers_Randomly                              = 17,
-
-    UNKNOWNSECTORSPECIAL
+    LightFlickers_Randomly                              = 17
 };
 
 enum
