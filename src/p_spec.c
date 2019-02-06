@@ -1263,7 +1263,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
 
         // [BH] Corpses can't trigger specials
-        if (thing->flags & MF_CORPSE)
+        if ((thing->flags & MF_CORPSE) && thing->type != MT_BARREL)
             return;
     }
 

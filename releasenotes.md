@@ -5,6 +5,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby loading separate `.deh` or `.bex` files would cause *DOOM Retro* to hang.
 * Widescreen status bars (that is, `STBAR` patches with a width greater than 320 pixels) will now be centered on the screen correctly.
+* Exploding barrels will now trigger line specials.
 
 ---
 
