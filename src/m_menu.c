@@ -121,6 +121,7 @@ int             spindirection;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
+extern dboolean message_menu;
 
 extern int      st_palette;
 
@@ -1791,12 +1792,14 @@ static void M_ChangeMessages(int choice)
     {
         C_StrCVAROutput(stringize(messages), "on");
         C_Output(s_MSGON);
+        message_menu = true;
         HU_SetPlayerMessage(s_MSGON, false, false);
     }
     else
     {
         C_StrCVAROutput(stringize(messages), "off");
         C_Output(s_MSGOFF);
+        message_menu = true;
         HU_SetPlayerMessage(s_MSGOFF, false, false);
     }
 
