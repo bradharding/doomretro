@@ -496,26 +496,38 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         angle_t an = actor->angle;
         angle_t an1 = ((M_Random() & 127) - 64) * (ANG90 / 768) + an;
         angle_t an2 = ((M_Random() & 127) - 64) * (ANG90 / 640) + ANG90;
-        fixed_t slope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
+        fixed_t slope;
 
-        if (!linetarget)
+        if (usemouselook && !autoaim)
+            slope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+        else
         {
-            slope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT);
+            slope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
 
             if (!linetarget)
             {
-                slope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+                slope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
                 if (!linetarget)
                 {
-                    slope = 0;
-                    an = actor->angle;
+                    slope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+
+                    if (!linetarget)
+                    {
+                        slope = (usemouselook ? ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+                        an = actor->angle;
+                    }
                 }
             }
         }
 
         an1 += an - actor->angle;
-        an2 += tantoangle[slope >> DBITS];
+
+        // [crispy] consider negative slope
+        if (slope < 0)
+            an2 -= tantoangle[-slope >> DBITS];
+        else
+            an2 += tantoangle[slope >> DBITS];
 
         th = P_SpawnMobj(actor->x, actor->y, actor->z + 62 * FRACUNIT - player->psprites[ps_weapon].sy, type);
         P_SetTarget(&th->target, actor);
@@ -523,6 +535,10 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         th->momx = finecosine[an1 >> ANGLETOFINESHIFT] * 25;
         th->momy = finesine[an1 >> ANGLETOFINESHIFT] * 25;
         th->momz = finetangent[an2 >> ANGLETOFINESHIFT] * 25;
+
+        // [crispy] suppress interpolation of player missiles for the first tic
+        th->interpolate = -1;
+
         P_CheckMissileSpawn(th);
     } while (type != MT_PLASMA2 && (type = MT_PLASMA2));    // killough: obfuscated!
 
