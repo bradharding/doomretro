@@ -307,10 +307,10 @@ static void R_MakeSpans(visplane_t *pl)
         unsigned short  b2 = pl->bottom[x];
 
         for (; t1 < t2 && t1 <= b1; t1++)
-            R_MapPlane(t1, spanstart[t1], x - 1);
+            R_MapPlane(t1, spanstart[t1], x);
 
         for (; b1 > b2 && b1 >= t1; b1--)
-            R_MapPlane(b1, spanstart[b1], x - 1);
+            R_MapPlane(b1, spanstart[b1], x);
 
         while (t2 < t1 && t2 <= b2)
             spanstart[t2++] = x;

@@ -313,8 +313,7 @@ void R_DrawWallColumn(void)
 
     if (dc_texheight & heightmask)
     {
-        heightmask++;
-        heightmask <<= FRACBITS;
+        heightmask = (heightmask + 1) << FRACBITS;
 
         if (frac < 0)
             while ((frac += heightmask) < 0);
@@ -356,8 +355,7 @@ void R_DrawBrightMapWallColumn(void)
 
     if (dc_texheight & heightmask)
     {
-        heightmask++;
-        heightmask <<= FRACBITS;
+        heightmask = (heightmask + 1) << FRACBITS;
 
         if (frac < 0)
             while ((frac += heightmask) < 0);
@@ -490,8 +488,7 @@ void R_DrawSkyColumn(void)
         }
         else
         {
-            heightmask++;
-            heightmask <<= FRACBITS;
+            heightmask = (heightmask + 1) << FRACBITS;
 
             if (frac < 0)
                 while ((frac += heightmask) < 0);
@@ -1132,9 +1129,9 @@ void R_InitTranslationTables(void)
         if (i >= 0x70 && i <= 0x7F)
         {
             // map green ramp to gray, brown, red
-            translationtables[i] = 0x60 + (i & 0xF);
-            translationtables[i + 256] = 0x40 + (i & 0xF);
-            translationtables[i + 512] = 0x20 + (i & 0xF);
+            translationtables[i] = 0x60 + (i & 0x0F);
+            translationtables[i + 256] = 0x40 + (i & 0x0F);
+            translationtables[i + 512] = 0x20 + (i & 0x0F);
         }
         else
         {
@@ -1168,7 +1165,7 @@ fixed_t         ds_yfrac;
 fixed_t         ds_xstep;
 fixed_t         ds_ystep;
 
-// start of a 64*64 tile image
+// start of a 64x64 tile image
 byte            *ds_source;
 
 //
@@ -1176,7 +1173,7 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int     x = ds_x2 - ds_x1 + 1;
+    int     x = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
     fixed_t xfrac = ds_xfrac;
     fixed_t yfrac = ds_yfrac;
@@ -1193,7 +1190,7 @@ void R_DrawSpan(void)
 
 void R_DrawColorSpan(void)
 {
-    int         x = ds_x2 - ds_x1 + 1;
+    int         x = ds_x2 - ds_x1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
     const byte  color = ds_colormap[NOTEXTURECOLOR];
 
