@@ -451,10 +451,9 @@ dboolean P_GiveMegaHealth(dboolean stat)
 
             if (stat)
                 P_UpdateHealthStat(MAX(0, mega_health - viewplayer->health));
-        }
 
-        if (viewplayer->health < mega_health)
             result = true;
+        }
 
         viewplayer->health = mega_health;
         viewplayer->mo->health = mega_health;
@@ -1003,7 +1002,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // clip
         case SPR_CLIP:
-            if (!(temp = P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat)))
+            if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
                 return;
 
             if (message)

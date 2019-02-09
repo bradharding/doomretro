@@ -1385,12 +1385,14 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
             slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
             if (!linetarget)
+            {
                 slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
-            if (!linetarget)
-            {
-                an = source->angle;
-                slope = (usemouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+                if (!linetarget)
+                {
+                    an = source->angle;
+                    slope = (usemouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+                }
             }
         }
     }

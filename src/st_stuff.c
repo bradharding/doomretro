@@ -825,16 +825,12 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->chainsawbeforechoppers = viewplayer->weaponowned[wp_chainsaw];
 
                     // [BH] note weapon before switching to chainsaw
-                    viewplayer->weaponbeforechoppers = viewplayer->readyweapon;
-
-                    if (viewplayer->weaponbeforechoppers != wp_chainsaw)
+                    if ((viewplayer->weaponbeforechoppers = viewplayer->readyweapon) != wp_chainsaw)
                     {
                         viewplayer->weaponowned[wp_chainsaw] = true;
                         oldweaponsowned[wp_chainsaw] = true;
                         viewplayer->pendingweapon = wp_chainsaw;
                     }
-
-                    viewplayer->weaponowned[wp_chainsaw] = true;
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
@@ -931,11 +927,8 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheated++;
                 }
             }
-        }
 
-        // 'clev' change-level cheat
-        if (!menuactive && !paused)
-        {
+            // 'clev' change-level cheat
             if (!consolecheat[0] && cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;
 
