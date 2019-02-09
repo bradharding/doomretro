@@ -120,7 +120,6 @@ static angle_t  playerangle;
 int             spindirection;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
-extern dboolean message_dontfuckwithme;
 extern dboolean message_menu;
 
 extern int      st_palette;

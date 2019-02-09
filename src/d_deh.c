@@ -1247,8 +1247,6 @@ deh_strs deh_strlookup[] =
 
 static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
-char *deh_newlevel = "NEWLEVEL";
-
 char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
 {
     &s_HUSTR_E1M1,

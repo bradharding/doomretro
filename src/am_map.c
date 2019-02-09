@@ -1080,15 +1080,13 @@ dboolean AM_Responder(const event_t *ev)
                 double  x = m_paninc.x;
                 double  y = m_paninc.y;
 
-                if ((m_x == min_x - m_w / 2 && x < 0) || (m_x == max_x - m_w / 2 && x > 0))
-                    x = 0;
+                if ((m_x == min_x - m_w / 2 && x < 0.0) || (m_x == max_x - m_w / 2 && x > 0.0))
+                    x = 0.0;
 
-                if ((m_y == min_y - m_h / 2 && y < 0) || (m_y == max_y - m_h / 2 && y > 0))
-                    y = 0;
+                if ((m_y == min_y - m_h / 2 && y < 0.0) || (m_y == max_y - m_h / 2 && y > 0.0))
+                    y = 0.0;
 
-                direction = (int)(atan2(y, x) * 180.0 / M_PI);
-
-                if (direction < 0)
+                if ((direction = (int)(atan2(y, x) * 180.0 / M_PI + 0.5)) < 0)
                     direction += 360;
             }
         }
@@ -1596,8 +1594,8 @@ static void AM_DrawWalls(void)
     }
 }
 
-static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale, angle_t angle, byte color,
-    fixed_t x, fixed_t y)
+static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
+    const fixed_t scale, angle_t angle, byte color, fixed_t x, fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1630,8 +1628,8 @@ static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
     }
 }
 
-static void AM_DrawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale, angle_t angle, byte *color,
-    const fixed_t x, const fixed_t y)
+static void AM_DrawTransLineCharacter(const mline_t *lineguy, const int lineguylines,
+    const fixed_t scale, angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1771,7 +1769,7 @@ static void AM_DrawThings(void)
                     int         fx, fy;
                     const int   lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
-                        96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                                    96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     point.x = thing->x >> FRACTOMAPBITS;
                     point.y = thing->y >> FRACTOMAPBITS;

@@ -109,7 +109,6 @@ extern char     mapnumandtitle[512];
 extern char     keyactionlist[NUMKEYS][255];
 extern char     mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 extern int      mousewait;
-extern int      gamepadwait;
 extern int      keydown;
 extern int      quickSaveSlot;
 extern int      st_facecount;
