@@ -53,8 +53,8 @@ extern dboolean canmodify;
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floorOrCeiling,
-    int direction, dboolean elevator)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
+    int floorOrCeiling, int direction, dboolean elevator)
 {
     fixed_t lastpos;
     fixed_t destheight;

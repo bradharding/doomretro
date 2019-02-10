@@ -1500,8 +1500,10 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             {
                 viewplayer->maxammo[i] /= 2;
 
+                P_TakeAmmo(i, 1);
+
                 if (viewplayer->ammo[i] > viewplayer->maxammo[i])
-                    P_TakeAmmo(i, viewplayer->ammo[i] - viewplayer->maxammo[i]);
+                    viewplayer->ammo[i] = viewplayer->maxammo[i];
             }
 
             viewplayer->backpack = false;

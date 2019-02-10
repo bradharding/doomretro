@@ -3,12 +3,13 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
 * Minor changes have been made to text that is output to the console.
-* The map title is now displayed again in the automap when the `vid_widescreen` CVAR is `off`.
+* The current map’s title is now displayed again in the automap when the `vid_widescreen` CVAR is `off`.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby loading separate `.deh` or `.bex` files would cause *DOOM Retro* to hang.
 * Widescreen status bars (that is, `STBAR` patches greater than 320 pixels in width) will now be centered on the screen correctly.
 * Restoring behavior present in *Vanilla DOOM*, exploding barrels will now trigger line specials.
 * Weapons that have been altered using a `DEHACKED` lump to use the `A_FireOldBFG` code pointer will now fire in the right direction based on the values of the `autoaim` and `mouselook` CVARs.
+* The correct amount of ammo is now taken from the player when entering `take backpack` in the console.
 
 ---
 

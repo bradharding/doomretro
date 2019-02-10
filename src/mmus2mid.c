@@ -202,7 +202,8 @@ static ULONG ReadTime(UBYTE **musptrp)
     ULONG   timeval = 0;
     int     byte;
 
-    do  // shift each byte read up in the result until a byte with bit 8 clear
+    // shift each byte read up in the result until a byte with bit 8 clear
+    do
     {
         byte = *(*musptrp)++;
         timeval = (timeval << 7) + (byte & 0x7F);
