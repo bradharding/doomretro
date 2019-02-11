@@ -253,6 +253,17 @@ void P_InitPicAnims(void)
                 isliquid = true;
             }
 
+            // Check if flat is liquid in popular texture packs
+            if (!isliquid)
+                for (int j = 0; texturepacks[j].startname[0] != '\0'; j++)
+                    if (basepic >= R_CheckFlatNumForName(texturepacks[j].startname)
+                        && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
+                    {
+                        SetTerrainType(lastanim, texturepacks[j].terraintype);
+                        isliquid = true;
+                        break;
+                    }
+
             // Check if name of flat indicates it is liquid
             if (!isliquid)
             {
@@ -284,17 +295,6 @@ void P_InitPicAnims(void)
                     isliquid = true;
                 }
             }
-
-            // Check if flat is liquid in popular texture packs
-            if (!isliquid)
-                for (int j = 0; texturepacks[j].startname[0] != '\0'; j++)
-                    if (basepic >= R_CheckFlatNumForName(texturepacks[j].startname)
-                        && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
-                    {
-                        SetTerrainType(lastanim, texturepacks[j].terraintype);
-                        isliquid = true;
-                        break;
-                    }
         }
 
         if (lastanim->numpics < 2)
