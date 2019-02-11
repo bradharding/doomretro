@@ -1871,7 +1871,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (!bombvertical || type == MT_BOSSBRAIN)
+    if (!bombvertical || infiniteheight || type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius
@@ -1890,8 +1890,8 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
             return true;        // out of range
 
         // [BH] check z height for blast damage
-        if (!infiniteheight && ((thing->floorz > bombspot->z && bombspot->ceilingz < thing->z)
-            || (thing->ceilingz < bombspot->z && bombspot->floorz > thing->z)))
+        if ((thing->floorz > bombspot->z && bombspot->ceilingz < thing->z)
+            || (thing->ceilingz < bombspot->z && bombspot->floorz > thing->z))
             return true;
     }
 
