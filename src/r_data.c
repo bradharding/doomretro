@@ -401,7 +401,7 @@ static void R_InitTextures(void)
     {
         int game = brightmaps[i].game;
 
-        if (brightmaps[i].texture[0] != '\0'
+        if (*brightmaps[i].texture
             && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
         {
             int num = R_CheckTextureNumForName(brightmaps[i].texture);

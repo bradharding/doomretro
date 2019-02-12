@@ -1046,7 +1046,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     // check for appropriate skill level
     if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors) && type != VisualModeCamera)
     {
-        if (mobjinfo[i].name1[0] != '\0')
+        if (*mobjinfo[i].name1)
             C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
         else
             C_Warning("Thing %s at (%i,%i) didn't spawn because it has no skill flags.", commify(thingid), mthing->x, mthing->y);

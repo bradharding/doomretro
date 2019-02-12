@@ -2001,9 +2001,8 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map,
-                (((E1M4B || speciallumpname[0] != '\0') && ep == 1 && map == 4)
-                    || ((E1M8B || speciallumpname[0] != '\0') && ep == 1 && map == 8) ? "B" : ""));
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (((E1M4B || *speciallumpname) && ep == 1 && map == 4)
+                || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
@@ -2204,7 +2203,7 @@ void P_SetupLevel(int ep, int map)
     P_InitThinkers();
 
     // find map name
-    if (speciallumpname[0] != '\0')
+    if (*speciallumpname)
     {
         lumpnum = W_GetNumForName(speciallumpname);
         M_StringCopy(lumpname, speciallumpname, sizeof(lumpname));
@@ -2610,7 +2609,7 @@ static int QualifyMap(int map)
 char *P_GetMapAuthor(int map)
 {
     return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author : (breach && map == 1 ?
-        s_AUTHOR_BESTOR : (((E1M4B || speciallumpname[0] != '\0') && map == 4) || ((E1M8B || speciallumpname[0] != '\0') && map == 8) ?
+        s_AUTHOR_BESTOR : (((E1M4B || *speciallumpname) && map == 4) || ((E1M8B || *speciallumpname) && map == 8) ?
         s_AUTHOR_ROMERO : "")));
 }
 
@@ -2637,8 +2636,8 @@ char *P_GetMapMusicTitle(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : ((E1M4B || speciallumpname[0] != '\0') && map == 4 ? s_CAPTION_E1M4B :
-        ((E1M8B || speciallumpname[0] != '\0') && map == 8 ? s_CAPTION_E1M8B : "")));
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : ((E1M4B || *speciallumpname) && map == 4 ? s_CAPTION_E1M4B :
+        ((E1M8B || *speciallumpname) && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)

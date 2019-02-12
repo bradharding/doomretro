@@ -255,7 +255,7 @@ void P_InitPicAnims(void)
 
             // Check if flat is liquid in popular texture packs
             if (!isliquid)
-                for (int j = 0; texturepacks[j].startname[0] != '\0'; j++)
+                for (int j = 0; *texturepacks[j].startname; j++)
                     if (basepic >= R_CheckFlatNumForName(texturepacks[j].startname)
                         && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
                     {

@@ -1038,7 +1038,7 @@ void C_Drawer(void)
         if (quitcmd)
             return;
 
-        if (consoleinput[0] != '\0')
+        if (*consoleinput)
         {
             char    lefttext[512];
 

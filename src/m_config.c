@@ -950,7 +950,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
-        while (value[0] != '\0' && !isprint((unsigned char)value[strlen(value) - 1]))
+        while (*value && !isprint((unsigned char)value[strlen(value) - 1]))
             value[strlen(value) - 1] = '\0';
 
         if (togglingvanilla)
@@ -1011,7 +1011,7 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, value_free, sizeof(value));
                     s = M_StringDuplicate(value);
 
-                    if (s[0] != '\0' && s[strlen(s) - 1] == '%')
+                    if (*s && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
@@ -1036,7 +1036,7 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, value_free, sizeof(value));
                     s = M_StringDuplicate(value);
 
-                    if (s[0] != '\0' && s[strlen(s) - 1] == '%')
+                    if (*s && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
 
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
