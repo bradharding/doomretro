@@ -415,9 +415,8 @@ static short __inline clamp(short value, short deadzone)
     return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
 }
 
-dboolean        altdown;
-dboolean        waspaused;
-static dboolean button;
+dboolean    altdown;
+dboolean    waspaused;
 
 static void I_GetEvent(void)
 {
@@ -532,13 +531,11 @@ static void I_GetEvent(void)
                 }
 
                 mousebuttonstate |= buttons[Event->button.button];
-                button = true;
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
                 mousebuttonstate &= ~buttons[Event->button.button];
-                button = true;
                 break;
 
             case SDL_MOUSEWHEEL:
@@ -713,14 +710,12 @@ static void I_GetEvent(void)
 
 static void I_ReadMouse(void)
 {
-    int x, y;
-
-    if (startingnewgame)
-        SDL_GetRelativeMouseState(NULL, NULL);
+    int         x, y;
+    static int  prevmousebuttonstate = -1;
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x || y || button)
+    if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
         event_t ev;
 
@@ -739,7 +734,7 @@ static void I_ReadMouse(void)
         }
 
         D_PostEvent(&ev);
-        button = false;
+        prevmousebuttonstate = mousebuttonstate;
     }
 }
 

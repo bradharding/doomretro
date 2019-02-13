@@ -736,6 +736,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
+    prevx = x;
+    prevy = y;
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
@@ -749,9 +751,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     if (!(mobj->flags & MF_SPAWNCEILING) && (mobj->flags2 & MF2_FOOTCLIP) && !sector->heightsec && P_IsInLiquid(mobj))
         mobj->flags2 |= MF2_FEETARECLIPPED;
-
-    prevx = x;
-    prevy = y;
 
     return mobj;
 }
