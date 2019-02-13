@@ -4430,7 +4430,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             mthing.y = (viewy + 100 * viewsin) >> FRACBITS;
             mthing.angle = 0;
             mthing.type = spawncmdtype;
-            mthing.options = MTF_EASY | MTF_NORMAL | MTF_HARD;
+            mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
 
             if ((thing = P_SpawnMapThing(&mthing, false)))
             {

@@ -434,7 +434,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (strafe)
             side += mousex * 2;
         else
-            cmd->angleturn -= mousex * 0x8;
+            cmd->angleturn -= mousex * 0x08;
 
         mousex = 0;
     }
@@ -754,7 +754,7 @@ dboolean G_Responder(event_t *ev)
             if (!automapactive || am_followmode)
             {
                 mousex = ev->data2 * m_sensitivity / 10;
-                mousey = ev->data3 * m_sensitivity / 10;
+                mousey = -ev->data3 * m_sensitivity / 10;
             }
 
             return true;        // eat events

@@ -401,13 +401,7 @@ void I_ShutdownKeyboard(void)
 
 static int AccelerateMouse(int value)
 {
-    if (value < 0)
-        return -AccelerateMouse(-value);
-
-    if (value > 10)
-        return (value * 2 - 10);
-    else
-        return value;
+    return (value > 10 ? value * 2 - 10 : (value < -10 ? value * 2 + 10 : value));
 }
 
 static short __inline clamp(short value, short deadzone)
@@ -725,12 +719,12 @@ static void I_ReadMouse(void)
         if (m_acceleration)
         {
             ev.data2 = AccelerateMouse(x);
-            ev.data3 = -AccelerateMouse(y);
+            ev.data3 = AccelerateMouse(y);
         }
         else
         {
             ev.data2 = x;
-            ev.data3 = -y;
+            ev.data3 = y;
         }
 
         D_PostEvent(&ev);
