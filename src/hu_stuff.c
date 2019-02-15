@@ -68,8 +68,6 @@
 #define BLUE            198
 #define YELLOW          231
 
-#define CROSSHAIRPOS    335
-
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -394,7 +392,7 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
 
 static void HU_DrawCrosshair(void)
 {
-    byte    *dot = *screens + CROSSHAIRPOS;
+    byte    *dot = *screens + ((SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH - 2) / 2;
 
     *dot = *(*dot + crosshaircolor);
     dot++;
