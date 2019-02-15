@@ -60,6 +60,16 @@
 //
 // Locally used constants, shortcuts.
 //
+#define WHITE           4
+#define GRAY            92
+#define DARKGRAY        102
+#define GREEN           114
+#define RED             180
+#define BLUE            198
+#define YELLOW          231
+
+#define CROSSHAIRPOS    335
+
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -83,9 +93,7 @@ static dboolean         headsupactive;
 
 byte                    *tempscreen;
 
-static patch_t          *crosshairpatch;
-static int              crosshairx;
-static int              crosshairy;
+static byte             *crosshaircolor;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
@@ -219,9 +227,7 @@ void HU_Init(void)
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
 
-    crosshairpatch = W_CacheLumpName2("DRXHAIR");
-    crosshairx = (SCREENWIDTH - SHORT(crosshairpatch->width)) / 2;
-    crosshairy = (SCREENHEIGHT - SBARHEIGHT - SHORT(crosshairpatch->height)) / 2;
+    crosshaircolor = tinttab50 + (nearestcolors[WHITE] << 8);
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -388,7 +394,15 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
 
 static void HU_DrawCrosshair(void)
 {
-    V_DrawBigTranslucentPatch(crosshairx, crosshairy, crosshairpatch);
+    byte    *dot = *screens + CROSSHAIRPOS;
+
+    *dot = *(*dot + crosshaircolor);
+    dot++;
+    *dot = *(*dot + crosshaircolor);
+    dot += SCREENWIDTH;
+    *dot = *(*dot + crosshaircolor);
+    dot--;
+    *dot = *(*dot + crosshaircolor);
 }
 
 int healthhighlight = 0;
@@ -551,14 +565,6 @@ static void HU_DrawHUD(void)
 #define ALTHUD_LEFT_X   21
 #define ALTHUD_RIGHT_X  (SCREENWIDTH - 179)
 #define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
-
-#define WHITE           4
-#define GRAY            92
-#define DARKGRAY        102
-#define GREEN           114
-#define RED             180
-#define BLUE            198
-#define YELLOW          231
 
 typedef struct
 {
