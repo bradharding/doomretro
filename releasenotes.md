@@ -10,7 +10,7 @@
 * Restoring behavior present in *Vanilla DOOM*, exploding barrels will now trigger line specials.
 * Weapons that have been altered using a `DEHACKED` lump to use the `A_FireOldBFG` code pointer will now fire in the right direction based on the values of the `autoaim` and `mouselook` CVARs.
 * The correct amount of ammo is now taken from the player when entering `take backpack` in the console.
-* A crosshair can now be displayed by enabling the new `crosshair` CVAR. It is `on` by default and `off` when vanilla mode is on, and requires the `mouselook` CVAR to be `on` and the `autoaim` CVAR to be `off`. The crosshair may be customized by including a `DRXHAIR` lump in a PWAD.
+* A crosshair can now be displayed by enabling the new `crosshair` CVAR. It is `on` by default, but also requires the `mouselook` CVAR to be `on` and the `autoaim` CVAR to be `off`. The crosshair may be customized by including a `DRXHAIR` lump in a PWAD.
 
 ---
 

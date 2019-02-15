@@ -23,7 +23,6 @@ autoload off
 autotilt off
 autouse off
 centerweapon off
-crosshair off
 facebackcolor none
 gp_analog off
 gp_thumbsticks 1
