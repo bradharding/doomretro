@@ -658,10 +658,7 @@ dboolean G_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
 
             if (splashscreen)
-            {
-                if (pagetic < 95)
-                    pagetic = MIN(10, pagetic);
-            }
+                pagetic = MIN(10, pagetic);
             else
             {
                 M_StartControlPanel();

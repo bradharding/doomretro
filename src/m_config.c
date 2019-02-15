@@ -102,6 +102,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (con_backcolor,                                     NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (crosshair,                                         BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     FACEBACKVALUEALIAS),
@@ -602,6 +603,9 @@ static void M_CheckCVARs(void)
 
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
+
+    if (crosshair != false && crosshair != true)
+        crosshair = crosshair_default;
 
     episode = BETWEEN(episode_min, episode, episode_max - (gamemode == retail && !sigil));
 

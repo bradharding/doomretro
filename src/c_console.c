@@ -677,7 +677,7 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
+    V_DrawBigTranslucentPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
@@ -1013,19 +1013,19 @@ void C_Drawer(void)
             else if (type == headerstring)
             {
                 if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
                 else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
                 else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
                 else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
                 else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
                 else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
                 else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);

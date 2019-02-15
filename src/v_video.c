@@ -495,7 +495,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
     }
 }
 
-void V_DrawConsolePatch(int x, int y, patch_t *patch)
+void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop = screens[0] + y * SCREENWIDTH + x;
     int     w = SHORT(patch->width);

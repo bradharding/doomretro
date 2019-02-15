@@ -83,12 +83,17 @@ static dboolean         headsupactive;
 
 byte                    *tempscreen;
 
+static patch_t          *crosshairpatch;
+static int              crosshairx;
+static int              crosshairy;
+
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
 static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
+dboolean                crosshair = crosshair_default;
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
@@ -108,6 +113,7 @@ extern dboolean         emptytallpercent;
 extern int              caretcolor;
 extern patch_t          *faces[ST_NUMFACES];
 extern int              st_faceindex;
+extern dboolean         usemouselook;
 extern dboolean         vanilla;
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
@@ -212,6 +218,10 @@ void HU_Init(void)
             minuspatchwidth = SHORT(minuspatch->width);
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
+
+    crosshairpatch = W_CacheLumpName2("DRXHAIR");
+    crosshairx = (SCREENWIDTH - SHORT(crosshairpatch->width)) / 2;
+    crosshairy = (SCREENHEIGHT - SBARHEIGHT - SHORT(crosshairpatch->height)) / 2;
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -374,6 +384,11 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
     val %= 10;
     width += SHORT(numset[val]->width);
     return width;
+}
+
+static void HU_DrawCrosshair(void)
+{
+    V_DrawBigTranslucentPatch(crosshairx, crosshairy, crosshairpatch);
 }
 
 int healthhighlight = 0;
@@ -946,6 +961,9 @@ void HU_Drawer(void)
     }
     else
     {
+        if (crosshair && usemouselook && !autoaim)
+            HU_DrawCrosshair();
+
         if (vid_widescreen && r_hud)
         {
             if (r_althud)
