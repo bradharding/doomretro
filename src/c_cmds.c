@@ -2887,7 +2887,6 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
 static void map_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[1024];
-    static char prevmapcmdlump[6];
 
     if (!*parms)
     {
@@ -2895,6 +2894,12 @@ static void map_cmd_func2(char *cmd, char *parms)
         C_Output("<b>%s</b> %s", cmd, MAPCMDFORMAT);
         return;
     }
+
+    M_snprintf(buffer, sizeof(buffer), (mapcmdepisode == gameepisode && mapcmdmap == gamemap ? s_STSTR_CLEVSAME : s_STSTR_CLEV),
+        mapcmdlump);
+    C_Output(buffer);
+    HU_SetPlayerMessage(buffer, false, false);
+    message_dontfuckwithme = true;
 
     gameepisode = mapcmdepisode;
 
@@ -2905,11 +2910,6 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
 
     gamemap = mapcmdmap;
-    M_snprintf(buffer, sizeof(buffer), (M_StringCompare(mapcmdlump, prevmapcmdlump) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
-    M_StringCopy(prevmapcmdlump, mapcmdlump, 6);
-    C_Output(buffer);
-    HU_SetPlayerMessage(buffer, false, false);
-    message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
     {
