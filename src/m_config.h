@@ -335,7 +335,7 @@ enum
 
 #define con_timestamps_default                  true
 
-#define crosshair_default                       false
+#define crosshair_default                       true
 
 #define episode_min                             1
 #define episode_default                         1
