@@ -747,8 +747,8 @@ static void D_CheckSupportedPWAD(char *filename)
 
     if (M_StringCompare(leaf, "SIGIL.WAD"))
     {
-        sigil = true;
-        episode = 5;
+        //sigil = true;
+        //episode = 5;
     }
     else if (M_StringCompare(leaf, "NERVE.WAD"))
     {
@@ -822,7 +822,7 @@ static dboolean D_CheckParms(void)
                     if (W_MergeFile(fullpath, true))
                     {
                         modifiedgame = true;
-                        sigil = true;
+                        //sigil = true;
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
@@ -1060,7 +1060,7 @@ static int D_OpenWADLauncher(void)
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
-                            sigil = true;
+                            //sigil = true;
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
