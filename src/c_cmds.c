@@ -2420,7 +2420,7 @@ void kill_cmd_func2(char *cmd, char *parms)
         M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
-        C_Output(buffer);
+        C_Obituary(buffer);
         C_HideConsole();
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
