@@ -122,6 +122,8 @@ extern int              st_faceindex;
 extern dboolean         usemouselook;
 extern dboolean         vanilla;
 
+void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp);
+
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
@@ -958,7 +960,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair && usemouselook && !autoaim)
+        if (crosshair && usemouselook && !autoaim && viewplayer->psprites[ps_weapon].state->action == A_WeaponReady)
             HU_DrawCrosshair();
 
         if (vid_widescreen && r_hud)
@@ -1038,8 +1040,8 @@ void HU_Ticker(void)
         {
             int angle = (int)(viewangle * 90.0 / ANG90);
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle), viewx >> FRACBITS, viewy >> FRACBITS,
-                viewplayer->mo->z >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
+                viewx >> FRACBITS, viewy >> FRACBITS, viewplayer->mo->z >> FRACBITS);
         }
 
         HUlib_addMessageToSText(&w_message, buffer);
