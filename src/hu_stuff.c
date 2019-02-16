@@ -212,8 +212,9 @@ void HU_Init(void)
 
         M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer);
-        caretcolor = FindDominantColor(hu_font[i]);
     }
+
+    caretcolor = FindDominantColor(hu_font['A' - HU_FONTSTART]);
 
     if (W_CheckNumForName("STTMINUS") >= 0)
         if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
