@@ -647,7 +647,7 @@ static void M_CheckCVARs(void)
     if (infiniteheight != false && infiniteheight != true)
         infiniteheight = infiniteheight_default;
 
-    if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default))
+    if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
 
     if (m_acceleration != false && m_acceleration != true)
