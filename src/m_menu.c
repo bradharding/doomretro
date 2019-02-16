@@ -1099,7 +1099,7 @@ static void M_DrawSave(void)
             {
                 int x = LoadDef.x - 2 + M_StringWidth(left);
                 int y = LoadDef.y + saveSlot * LINEHEIGHT + OFFSET - 1;
-                int h = y + SHORT(hu_font['A' - HU_FONTSTART]->height) + 2;
+                int h = y + 9;
 
                 while (y < h)
                     V_DrawPixel(x, y++, caretcolor, false);
