@@ -12,6 +12,7 @@
 * The correct amount of ammo is now taken from the player when entering `take backpack` in the console.
 * A crosshair can now be displayed by enabling the new `crosshair` CVAR. It is `on` by default, but also requires the `mouselook` CVAR to be `on` and the `autoaim` CVAR to be `off`.
 * If the `iwadfolder` CVAR is reset using either the `reset` or `resetall` CCMDs, the WAD launcher will try to find a common *DOOM* or *DOOM II* installation again the next time it is opened.
+* The value of the `facebackcolor` CVAR is no longer applied to the background of the player’s face in the widescreen HUD.
 
 ---
 
