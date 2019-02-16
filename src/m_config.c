@@ -647,6 +647,9 @@ static void M_CheckCVARs(void)
     if (infiniteheight != false && infiniteheight != true)
         infiniteheight = infiniteheight_default;
 
+    if (!*iwadfolder)
+        D_InitIWADFolder();
+
     if (m_acceleration != false && m_acceleration != true)
         m_acceleration = m_acceleration_default;
 
@@ -890,7 +893,6 @@ void M_LoadCVARs(char *filename)
     if (!file)
     {
         M_CheckCVARs();
-        D_InitIWADFolder();
         M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
