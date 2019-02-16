@@ -225,7 +225,7 @@ void HU_Init(void)
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
 
-    crosshaircolor = tinttab50 + (nearestcolors[WHITE] << 8);
+    crosshaircolor = tinttab40 + (nearestcolors[WHITE] << 8);
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
