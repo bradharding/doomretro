@@ -113,6 +113,7 @@ unsigned int    stat_monsterskilled_spectres = 0;
 unsigned int    stat_monsterskilled_spidermasterminds = 0;
 unsigned int    stat_monsterskilled_zombiemen = 0;
 
+extern dboolean healthcvar;
 extern int      idclevtics;
 
 void P_UpdateAmmoStat(ammotype_t ammotype, int num)
@@ -1822,8 +1823,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                         C_Obituary("%s died on molten rock.", titlecase(playername));
                     else
-                        C_Obituary("%s blew %s up.", titlecase(playername),
-                            (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
+                        C_Obituary("%s %s %s %s.", titlecase(playername), (healthcvar ? "killed" : "blew"),
+                            (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"), (healthcvar ? "" : "up"));
                 }
             }
         }

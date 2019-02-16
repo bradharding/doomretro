@@ -111,6 +111,7 @@ static int          mapcmdmap;
 static char         mapcmdlump[7];
 
 dboolean            executingalias = false;
+dboolean            healthcvar = false;
 dboolean            quitcmd = false;
 dboolean            resettingcvar = false;
 dboolean            togglingvanilla = false;
@@ -5514,7 +5515,11 @@ static void player_cvars_func2(char *cmd, char *parms)
             else
             {
                 if (value < viewplayer->health)
+                {
+                    healthcvar = true;
                     P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
+                    healthcvar = false;
+                }
                 else
                 {
                     P_UpdateHealthStat(value - viewplayer->health);
