@@ -1823,8 +1823,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                         C_Obituary("%s died on molten rock.", titlecase(playername));
                     else
-                        C_Obituary("%s %s %s %s.", titlecase(playername), (healthcvar ? "killed" : "blew"),
-                            (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"), (healthcvar ? "" : "up"));
+                        C_Obituary("%s %s %s%s.", titlecase(playername), (healthcvar ? "killed" : "blew"),
+                            (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"), (healthcvar ? "" : " up"));
                 }
             }
         }

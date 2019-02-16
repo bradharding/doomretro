@@ -87,12 +87,12 @@
 #define KEY_PRINTSCREEN (0x80 + 0x59)
 #define KEY_DELETE      (0x80 + 0x60)
 
-#define KEYP_0          0x100
+#define KEYP_0          0x0100
 #define KEYP_1          KEY_END
 #define KEYP_2          KEY_DOWNARROW
 #define KEYP_3          KEY_PAGEDOWN
 #define KEYP_4          KEY_LEFTARROW
-#define KEYP_5          0x105
+#define KEYP_5          0x0105
 #define KEYP_6          KEY_RIGHTARROW
 #define KEYP_7          KEY_HOME
 #define KEYP_8          KEY_UPARROW
@@ -102,7 +102,7 @@
 #define KEYP_PLUS       KEY_EQUALS
 #define KEYP_MINUS      KEY_MINUS
 #define KEYP_MULTIPLY   '*'
-#define KEYP_PERIOD     0x10A
+#define KEYP_PERIOD     0x010A
 #define KEYP_EQUALS     KEY_EQUALS
 #define KEYP_ENTER      KEY_ENTER
 

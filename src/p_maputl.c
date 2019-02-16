@@ -684,7 +684,7 @@ int P_GetSafeBlockX(int coord)
     // If x is LE than those special values, interpret as positive.
     // Otherwise, leave it as it is.
     if (coord <= blockmapxneg)
-        return coord & 0x1FF; // Broke width boundary
+        return (coord & 0x01FF);    // Broke width boundary
 
     return coord;
 }
@@ -697,7 +697,7 @@ int P_GetSafeBlockY(int coord)
     // If y is LE than those special values, interpret as positive.
     // Otherwise, leave it as it is.
     if (coord <= blockmapyneg)
-        return coord & 0x1FF; // Broke width boundary
+        return (coord & 0x01FF);    // Broke width boundary
 
     return coord;
 }

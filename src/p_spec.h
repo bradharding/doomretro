@@ -616,11 +616,11 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // jff 3/14/98 add bits and shifts for generalized sector types
 
-#define DAMAGE_MASK             0x60
+#define DAMAGE_MASK             0x0060
 #define DAMAGE_SHIFT            5
-#define SECRET_MASK             0x80
-#define FRICTION_MASK           0x100
-#define PUSH_MASK               0x200
+#define SECRET_MASK             0x0080
+#define FRICTION_MASK           0x0100
+#define PUSH_MASK               0x0200
 
 // jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types

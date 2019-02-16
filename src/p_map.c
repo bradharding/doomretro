@@ -1398,7 +1398,7 @@ void P_SlideMove(mobj_t *mo)
         }
 
         // fudge a bit to make sure it doesn't hit
-        if ((bestslidefrac -= 0x800) > 0)
+        if ((bestslidefrac -= 0x0800) > 0)
         {
             fixed_t newx = FixedMul(mo->momx, bestslidefrac);
             fixed_t newy = FixedMul(mo->momy, bestslidefrac);
@@ -1410,7 +1410,7 @@ void P_SlideMove(mobj_t *mo)
 
         // Now continue along the wall.
         // First calculate remainder.
-        bestslidefrac = FRACUNIT - (bestslidefrac + 0x800);
+        bestslidefrac = FRACUNIT - (bestslidefrac + 0x0800);
 
         if (bestslidefrac > FRACUNIT)
             bestslidefrac = FRACUNIT;

@@ -3501,24 +3501,19 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
             if (deh_strlookup[i].assigned)
                 break;
 
-            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring);    // orphan originalstring
-            found = true;
+            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring);     // orphan originalstring
 
-            // Handle embedded \n's in the incoming string, convert to 0x0a's
-            {
-                char    *s;
+            // Handle embedded \n's in the incoming string, convert to 0x0A's
+            for (char *s = *deh_strlookup[i].ppstr; *s; s++, t++)
+                if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))             // found one
+                {
+                    s++;
+                    *t = '\n';                                              // skip one extra for second character
+                }
+                else
+                    *t = *s;
 
-                for (s = *deh_strlookup[i].ppstr; *s; s++, t++)
-                    if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     // found one
-                    {
-                        s++;
-                        *t = '\n';      // skip one extra for second character
-                    }
-                    else
-                        *t = *s;
-
-                *t = '\0';              // cap off the target string
-            }
+            *t = '\0';                                                      // cap off the target string
 
             if (devparm)
             {
@@ -3526,8 +3521,8 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else
                 {
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""), newstring,
-                        (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
+                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""),
+                        newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
                     C_Output("*END BEX");
