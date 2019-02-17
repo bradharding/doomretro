@@ -1244,67 +1244,6 @@ static int D_OpenWADLauncher(void)
                     }
                 }
 
-                // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (M_StringCompare(iwadpass1, "NERVE.WAD"))
-                {
-                    static char fullpath2[MAX_PATH];
-
-                    // try the current folder first
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", szFile);
-                    D_IdentifyIWADByName(fullpath2);
-
-                    if (W_AddFile(fullpath2, true))
-                    {
-                        iwadfound = 1;
-
-                        if (W_MergeFile(fullpath, false))
-                        {
-                            modifiedgame = true;
-                            nerve = true;
-                            expansion = 2;
-                        }
-
-                        break;
-                    }
-                    else
-                    {
-                        // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
-                        D_IdentifyIWADByName(fullpath2);
-
-                        if (W_AddFile(fullpath2, true))
-                        {
-                            iwadfound = 1;
-
-                            if (W_MergeFile(fullpath, false))
-                            {
-                                modifiedgame = true;
-                                nerve = true;
-                                expansion = 2;
-                            }
-
-                            break;
-                        }
-                        else
-                        {
-                            // still nothing? try some common installation folders
-                            if (W_AddFile(D_FindWADByName("DOOM2.WAD"), true))
-                            {
-                                iwadfound = 1;
-
-                                if (W_MergeFile(fullpath, false))
-                                {
-                                    modifiedgame = true;
-                                    nerve = true;
-                                    expansion = 2;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-                }
-
 #if defined(_WIN32)
                 iwadpass1 += lstrlen(iwadpass1) + 1;
 #endif
