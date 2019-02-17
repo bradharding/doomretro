@@ -1,5 +1,8 @@
 ### DOOM Retro v2.8.2
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
+
 ---
 
 ###### Saturday, February 17, 2019
