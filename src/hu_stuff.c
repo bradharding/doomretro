@@ -122,7 +122,8 @@ extern int              st_faceindex;
 extern dboolean         usemouselook;
 extern dboolean         vanilla;
 
-void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
+void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -960,8 +961,13 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair && usemouselook && !autoaim && viewplayer->psprites[ps_weapon].state->action == A_WeaponReady)
-            HU_DrawCrosshair();
+        if (crosshair && usemouselook && !autoaim)
+        {
+            actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
+
+            if (action != A_Raise && action != A_Lower)
+                HU_DrawCrosshair();
+        }
 
         if (vid_widescreen && r_hud)
         {
