@@ -1762,7 +1762,7 @@ static void AM_DrawThings(void)
                     continue;
                 }
 
-                if (!(thing->flags2 & MF2_DONTMAP))
+                if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
                 {
                     mpoint_t    point;
                     angle_t     angle = thing->angle;

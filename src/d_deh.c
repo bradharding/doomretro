@@ -1652,7 +1652,6 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "CRUSHABLE",                 MF2_CRUSHABLE                 },
     { "MASSACRE",                  MF2_MASSACRE                  },
     { "DECORATION",                MF2_DECORATION                },
-    { "DONTDRAW",                  MF2_DONTDRAW                  },
     { "MONSTERMISSILE",            MF2_MONSTERMISSILE            }
 };
 
