@@ -1168,8 +1168,8 @@ void M_UpdateSaveGameName(int i)
 
     if (!match && !M_StringCompare(maptitle, mapnumandtitle))
     {
-        if (len >= 4 && savegamestrings[i][len - 1] == '.' && savegamestrings[i][len - 2] == '.' && savegamestrings[i][len - 3] == '.'
-            && savegamestrings[i][len - 4] != '.')
+        if (len >= 4 && savegamestrings[i][len - 1] == '.' && savegamestrings[i][len - 2] == '.'
+            && savegamestrings[i][len - 3] == '.' && savegamestrings[i][len - 4] != '.')
             match = true;
         else
         {
@@ -2734,8 +2734,8 @@ dboolean M_Responder(event_t *ev)
     {
         ch = (key == KEY_ENTER ? 'y' : tolower(ch));
 
-        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL))
-            && key != functionkey)
+        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n'
+            && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
             return false;
