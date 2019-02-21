@@ -1,5 +1,6 @@
 ### DOOM Retro v2.8.2
 
+* *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
 * Obituaries are no longer displayed in the console if they involve a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
