@@ -103,6 +103,7 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 // 16 pixels of bob
 #define MAXBOB              0x100000
 #define MLOOKUNIT           8
+#define PLAYERSLOPE(a)	    ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
 void P_CalcHeight(void);
 void P_MovePlayer(void);

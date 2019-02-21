@@ -499,7 +499,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         fixed_t slope;
 
         if (usemouselook && !autoaim)
-            slope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+            slope = PLAYERSLOPE(player);
         else
         {
             slope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
@@ -514,7 +514,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     if (!linetarget)
                     {
-                        slope = (usemouselook ? ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+                        slope = (usemouselook ? PLAYERSLOPE(player) : 0);
                         an = actor->angle;
                     }
                 }
@@ -570,7 +570,7 @@ static fixed_t  bulletslope;
 static void P_BulletSlope(mobj_t *actor)
 {
     if (usemouselook && !autoaim)
-        bulletslope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+        bulletslope = PLAYERSLOPE(viewplayer);
     else
     {
         angle_t an = actor->angle;
@@ -587,7 +587,7 @@ static void P_BulletSlope(mobj_t *actor)
                 bulletslope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
                 if (!linetarget && usemouselook)
-                    bulletslope = ((viewplayer->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+                    bulletslope = PLAYERSLOPE(viewplayer);
             }
         }
     }

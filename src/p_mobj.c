@@ -1373,7 +1373,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     int     speed;
 
     if (usemouselook && !autoaim)
-        slope = ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
+        slope = PLAYERSLOPE(source->player);
     else
     {
         // see which target is to be aimed at
@@ -1390,7 +1390,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
                 if (!linetarget)
                 {
                     an = source->angle;
-                    slope = (usemouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+                    slope = (usemouselook ? PLAYERSLOPE(source->player) : 0);
                 }
             }
         }

@@ -4,6 +4,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
 * Obituaries are no longer displayed in the console if they involve a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
+* The accuracy of where the player fires has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 
 ---
 
