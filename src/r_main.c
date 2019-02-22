@@ -166,7 +166,7 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int)((line->dx * (y - line->v1->y) - line->dy * (x - line->v1->x)) >> 32) > 0);
+    return ((int)((line->dx * ((int64_t)y - line->v1->y) - line->dy * ((int64_t)x - line->v1->x)) >> 32) > 0);
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
@@ -277,7 +277,7 @@ static void R_InitTables(void)
 {
     // viewangle tangent table
     for (int i = 0; i < FINEANGLES / 2; i++)
-        finetangent[i] = (fixed_t)(FRACUNIT * tan((i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
+        finetangent[i] = (fixed_t)(FRACUNIT * tan(((double)i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
 
     // finesine table
     for (int i = 0; i < 5 * FINEANGLES / 4; i++)

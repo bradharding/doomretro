@@ -1002,7 +1002,9 @@ typedef struct
     int                 left;
     int                 right;
     fixed_t             height;
-    fixed_t             xoffs, yoffs;   // killough 2/28/98: Support scrolling flats
+
+    // killough 2/28/98: Support scrolling flats
+    fixed_t             xoffset, yoffset;
 
     // leave pads for [minx-1]/[maxx+1]
     unsigned short      pad1;

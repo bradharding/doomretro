@@ -57,7 +57,7 @@ dboolean GetCapsLockState(void);
 void I_InitGraphics(void);
 void I_RestartGraphics(void);
 void I_ShutdownGraphics(void);
-void I_CapFPS(int fps);
+void I_CapFPS(int frames);
 
 void GetWindowPosition(void);
 void GetWindowSize(void);

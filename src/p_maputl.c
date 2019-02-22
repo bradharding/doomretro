@@ -62,7 +62,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
-    return (int)((int64_t)(y - line->v1->y) * line->dx + (int64_t)(line->v1->x - x) * line->dy > 0);
+    return (int)(((int64_t)y - line->v1->y) * line->dx + ((int64_t)line->v1->x - x) * line->dy > 0);
 }
 
 //
@@ -102,7 +102,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return (int)((int64_t)(y - line->y) * line->dx + (int64_t)(line->x - x) * line->dy > 0);
+    return (int)(((int64_t)y - line->y) * line->dx + ((int64_t)line->x - x) * line->dy > 0);
 }
 
 //
@@ -130,7 +130,7 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
     if (!den)
         return 0;
 
-    return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v1->y - v2->y) * v1->dx) / den);
+    return (fixed_t)((((int64_t)v1->x - v2->x) * v1->dy - ((int64_t)v1->y - v2->y) * v1->dx) / den);
 }
 
 //

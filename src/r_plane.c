@@ -66,7 +66,7 @@ int                 ceilingclip[SCREENWIDTH];   // dropoff overflow
 static lighttable_t **planezlight;
 static fixed_t      planeheight;
 
-static fixed_t      xoffs, yoffs;               // killough 2/28/98: flat offsets
+static fixed_t      xoffset, yoffset;           // killough 2/28/98: flat offsets
 
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
@@ -126,8 +126,8 @@ static void R_MapPlane(int y, int x1, int x2)
     }
 
     dx = x1 - centerx;
-    ds_xfrac = viewx + xoffs + viewcosdistance + dx * ds_xstep;
-    ds_yfrac = -viewy + yoffs - viewsindistance + dx * ds_ystep;
+    ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
+    ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
 
     ds_colormap = (fixedcolormap ? fixedcolormap : planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
 
@@ -183,7 +183,7 @@ static void R_RaiseVisplanes(visplane_t **vp)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoffs, fixed_t yoffs)
+visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, fixed_t y)
 {
     visplane_t  *check;
 
@@ -195,7 +195,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
 
     for (check = visplanes; check < lastvisplane; check++)
         if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
-            && xoffs == check->xoffs && yoffs == check->yoffs)
+            && x == check->xoffset && y == check->yoffset)
             return check;
 
     R_RaiseVisplanes(&check);
@@ -207,15 +207,15 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->left = viewwidth;
     check->right = -1;
 
-    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] > SOLID && r_liquid_current && !xoffs && !yoffs)
+    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] > SOLID && r_liquid_current && !x && !y)
     {
-        check->xoffs = animatedliquidxoffs;
-        check->yoffs = animatedliquidyoffs;
+        check->xoffset = animatedliquidxoffs;
+        check->yoffset = animatedliquidyoffs;
     }
     else
     {
-        check->xoffs = xoffs;
-        check->yoffs = yoffs;
+        check->xoffset = x;
+        check->yoffset = y;
     }
 
     memset(check->top, USHRT_MAX, sizeof(check->top));
@@ -270,8 +270,8 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         lastvisplane->height = pl->height;
         lastvisplane->picnum = pl->picnum;
         lastvisplane->lightlevel = pl->lightlevel;
-        lastvisplane->xoffs = pl->xoffs;
-        lastvisplane->yoffs = pl->yoffs;
+        lastvisplane->xoffset = pl->xoffset;
+        lastvisplane->yoffset = pl->yoffset;
 
         pl = lastvisplane++;
         pl->left = start;
@@ -292,8 +292,8 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[SCREENHEIGHT];
     int         stop = pl->right + 1;
 
-    xoffs = pl->xoffs;
-    yoffs = pl->yoffs;
+    xoffset = pl->xoffset;
+    yoffset = pl->yoffset;
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[MIN((pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     pl->top[pl->left - 1] = USHRT_MAX;

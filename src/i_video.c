@@ -68,7 +68,7 @@
 #define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
 #define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
 
-#define SHAKEANGLE          (M_RandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+#define SHAKEANGLE          ((double)M_RandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0
@@ -106,7 +106,7 @@ static SDL_Surface  *surface;
 static SDL_Surface  *buffer;
 static SDL_Palette  *palette;
 static SDL_Color    colors[256];
-static byte         *playpal;
+static byte         *playpallump;
 
 byte                *oscreen;
 byte                *mapscreen;
@@ -300,7 +300,7 @@ dboolean keystate(int key)
     return keystate[TranslateKey2(key)];
 }
 
-void I_CapFPS(int fps)
+void I_CapFPS(int frames)
 {
 #if defined(_WIN32)
     static UINT CapFPSTimer;
@@ -311,7 +311,7 @@ void I_CapFPS(int fps)
         CapFPSTimer = 0;
     }
 
-    if (!fps || fps == TICRATE)
+    if (!frames || frames == TICRATE)
     {
         if (CapFPSEvent)
         {
@@ -326,7 +326,7 @@ void I_CapFPS(int fps)
 
         if (CapFPSEvent)
         {
-            CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+            CapFPSTimer = timeSetEvent(1000 / frames, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
 
             if (!CapFPSTimer)
             {
@@ -432,7 +432,7 @@ static void I_GetEvent(void)
             case SDL_TEXTINPUT:
                 for (int i = 0, len = (int)strlen(Event->text.text); i < len; i++)
                 {
-                    const char  ch = Event->text.text[i];
+                    const unsigned char	ch = Event->text.text[i];
 
                     if (isprint(ch))
                     {
@@ -981,10 +981,10 @@ void I_SetPalette(byte *playpal)
 
         for (int i = 0; i < 256; i++)
         {
-            byte    r = gammatable[gammaindex][*playpal++];
-            byte    g = gammatable[gammaindex][*playpal++];
-            byte    b = gammatable[gammaindex][*playpal++];
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+			byte    r = gammatable[gammaindex][*playpal++];
+			byte    g = gammatable[gammaindex][*playpal++];
+			byte    b = gammatable[gammaindex][*playpal++];
+            double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
@@ -1148,8 +1148,8 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    char    *width = malloc(11);
-    char    *height = malloc(11);
+    char    width[11] = "";
+    char    height[11] = "";
 
     if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) != 2)
     {
@@ -1187,9 +1187,6 @@ void GetWindowSize(void)
         free(width_str);
         free(height_str);
     }
-
-    free(width);
-    free(height);
 }
 
 static dboolean ValidScreenMode(int width, int height)
@@ -1525,8 +1522,8 @@ static void SetVideoMode(dboolean output)
         {
             if (nearestlinear)
             {
-                char    *upscaledwidth_str = commify(upscaledwidth * SCREENWIDTH);
-                char    *upscaledheight_str = commify(upscaledheight * SCREENHEIGHT);
+                char    *upscaledwidth_str = commify((int64_t)upscaledwidth * SCREENWIDTH);
+                char    *upscaledheight_str = commify((int64_t)upscaledheight * SCREENHEIGHT);
                 char    *width_str = commify(height * 4 / 3);
                 char    *height_str = commify(height);
 
@@ -1674,7 +1671,7 @@ static void SetVideoMode(dboolean output)
 
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
-    I_SetPalette(playpal + st_palette * 768);
+    I_SetPalette(playpallump + st_palette * 768);
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
@@ -1768,7 +1765,7 @@ void I_ToggleFullscreen(void)
 
 void I_SetPillarboxes(void)
 {
-    I_SetPalette(playpal + st_palette * 768);
+    I_SetPalette(playpallump + st_palette * 768);
 
     if (!vid_pillarboxes)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -1844,9 +1841,9 @@ void I_InitGraphics(void)
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
 
-    playpal = W_CacheLumpName("PLAYPAL");
-    I_InitTintTables(playpal);
-    FindNearestColors(playpal);
+    playpallump = W_CacheLumpName("PLAYPAL");
+    I_InitTintTables(playpallump);
+    FindNearestColors(playpallump);
 
     I_InitGammaTables();
 

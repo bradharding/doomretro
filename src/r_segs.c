@@ -212,9 +212,9 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
         const int       topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * topdelta + 1;
 
-        if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+        if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);

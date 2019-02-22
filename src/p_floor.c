@@ -714,16 +714,16 @@ dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean
 
             for (int i = 0; i < sec->linecount; i++)
             {
-                line_t      *line = sec->lines[i];
+                line_t      *li = sec->lines[i];
                 sector_t    *tsec;
 
-                if (!(line->flags & ML_TWOSIDED))
+                if (!(li->flags & ML_TWOSIDED))
                     continue;
 
-                if (secnum != line->frontsector->id)
+                if (secnum != li->frontsector->id)
                     continue;
 
-                if (!(tsec = line->backsector))
+                if (!(tsec = li->backsector))
                     continue;
 
                 if (tsec->floorpic != texture)

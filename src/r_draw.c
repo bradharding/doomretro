@@ -1253,7 +1253,7 @@ void R_FillBackScreen(void)
             for (int i = 0; i < 64; i++)
             {
                 int     j = i * 2;
-                byte    dot = *(src + (((y / 2) & 63) << 6) + i);
+                byte    dot = src[(((y / 2) & 63) << 6) + i];
 
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;

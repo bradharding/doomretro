@@ -249,7 +249,7 @@ static void createPatch(int id)
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
 
         // setup the column's data
-        patch->columns[x].pixels = patch->pixels + x * patch->height;
+        patch->columns[x].pixels = &patch->pixels[x * patch->height];
         patch->columns[x].numposts = numPostsInColumn[x];
         patch->columns[x].posts = patch->posts + numPostsUsedSoFar;
 
@@ -444,7 +444,7 @@ static void createTextureCompositePatch(int id)
     for (int x = 0; x < texture->width; x++)
     {
         // setup the column's data
-        composite_patch->columns[x].pixels = composite_patch->pixels + x * composite_patch->height;
+        composite_patch->columns[x].pixels = &composite_patch->pixels[x * composite_patch->height];
         composite_patch->columns[x].numposts = countsInColumn[x].posts;
         composite_patch->columns[x].posts = composite_patch->posts + numPostsUsedSoFar;
         numPostsUsedSoFar += countsInColumn[x].posts;
