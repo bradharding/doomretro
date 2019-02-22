@@ -388,7 +388,11 @@ static void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        if (STBAR >= 3 || r_detail == r_detail_low || SCREENSCALE == 1)
+#if SCREENSCALE == 1
+        V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+        V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
+#else
+        if (STBAR >= 3 || r_detail == r_detail_low)
         {
             V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
@@ -398,6 +402,7 @@ static void ST_refreshBackground(void)
             V_DrawBigPatch(ST_X, ST_Y, 0, sbar2);
             V_DrawBigPatch(ST_ARMSBGX * 2, ST_Y, 0, armsbg2);
         }
+#endif
     }
 }
 
@@ -1536,7 +1541,11 @@ static void ST_createWidgets(void)
     STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1]);
     STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
-    usesmallnums = (SCREENSCALE > 1 && ((!STYSNUM0 && STBAR == 2) || gamemode == shareware));
+#if SCREENSCALE == 1
+    usesmallnums = false;
+#else
+    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
+#endif
 
     // ammo count (all four kinds)
     STlib_initNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);

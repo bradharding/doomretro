@@ -1025,22 +1025,22 @@ static void C_ShowDescription(int index)
 
     if ((p = strchr(description1, '\n')))
     {
-        *p = '\0';
-        p++;
+        *p++ = '\0';
         M_StringCopy(description2, p, sizeof(description2));
+
+        if ((p = strchr(description2, '\n')))
+        {
+            *p++ = '\0';
+            M_StringCopy(description3, p, sizeof(description3));
+
+            C_Output("%s %s", description1, description2);
+            C_Output(description3);
+        }
+        else
+            C_Output("%s %s", description1, description2);
     }
-
-    if ((p = strchr(description2, '\n')))
-    {
-        *p = '\0';
-        p++;
-        M_StringCopy(description3, p, sizeof(description3));
-    }
-
-    C_Output("%s %s", description1, description2);
-
-    if (*description3)
-        C_Output("%s", removenewlines(description3));
+    else
+        C_Output(description1);
 }
 
 static dboolean alive_func1(char *cmd, char *parms)
@@ -1599,15 +1599,14 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 
             if ((p = strchr(description1, '\n')))
             {
-                *p = '\0';
-                p++;
+                *p++ = '\0';
                 M_StringCopy(description2, p, sizeof(description2));
-            }
 
-            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name, consolecmds[i].format, description1);
-
-            if (*description2)
+                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name, consolecmds[i].format, description1);
                 C_TabbedOutput(tabs, "\t\t%s", description2);
+            }
+            else
+                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name, consolecmds[i].format, description1);
         }
 }
 
@@ -1738,16 +1737,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
             if ((p = strchr(description1, '\n')))
             {
-                *p = '\0';
-                p++;
+                *p++ = '\0';
                 M_StringCopy(description2, p, sizeof(description2));
-            }
 
-            if ((p = strchr(description2, '\n')))
-            {
-                *p = '\0';
-                p++;
-                M_StringCopy(description3, p, sizeof(description3));
+                if ((p = strchr(description2, '\n')))
+                {
+                    *p++ = '\0';
+                    M_StringCopy(description3, p, sizeof(description3));
+                }
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
@@ -1829,10 +1826,12 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
 
             if (*description2)
+            {
                 C_TabbedOutput(tabs, "\t\t\t%s", description2);
 
-            if (*description3)
-                C_TabbedOutput(tabs, "\t\t\t%s", description3);
+                if (*description3)
+                    C_TabbedOutput(tabs, "\t\t\t%s", description3);
+            }
         }
 }
 
