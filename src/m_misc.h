@@ -91,7 +91,6 @@ int numspaces(char *str);
 char *removespaces(const char *input);
 char *removenonalpha(const char *input);
 char *trimwhitespace(char *input);
-char *removenewlines(const char *str);
 char *makevalidfilename(const char *input);
 char *leafname(char *path);
 char *removeext(const char *file);

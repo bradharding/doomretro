@@ -267,8 +267,8 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
         {
             for (int background = 0; background < 256; background++)
             {
-                byte    *color1 = palette + background * 3;
-                byte    *color2 = palette + foreground * 3;
+                byte    *color1 = &palette[background * 3];
+                byte    *color2 = &palette[foreground * 3];
                 int     r;
                 int     g;
                 int     b;
@@ -295,12 +295,12 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
                     b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
                 }
 
-                *(result + (background << 8) + foreground) = FindNearestColor(palette, r, g, b);
+                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
             }
         }
         else
             for (int background = 0; background < 256; background++)
-                *(result + (background << 8) + foreground) = foreground;
+                result[(background << 8) + foreground] = foreground;
     }
 
     return result;

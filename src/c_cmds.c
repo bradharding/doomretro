@@ -1017,19 +1017,21 @@ static int C_GetIndex(const char *cmd)
 static void C_ShowDescription(int index)
 {
     char    description1[255];
-    char    description2[255] = "";
-    char    description3[255] = "";
     char    *p;
 
     M_StringCopy(description1, consolecmds[index].description, sizeof(description1));
 
     if ((p = strchr(description1, '\n')))
     {
+        char    description2[255] = "";
+
         *p++ = '\0';
         M_StringCopy(description2, p, sizeof(description2));
 
         if ((p = strchr(description2, '\n')))
         {
+            char    description3[255] = "";
+
             *p++ = '\0';
             M_StringCopy(description3, p, sizeof(description3));
 
@@ -1592,13 +1594,14 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
         if (consolecmds[i].type == CT_CMD && *consolecmds[i].description && (!*parms || wildcard(consolecmds[i].name, parms)))
         {
             char    description1[255];
-            char    description2[255] = "";
             char    *p;
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
             if ((p = strchr(description1, '\n')))
             {
+                char    description2[255] = "";
+
                 *p++ = '\0';
                 M_StringCopy(description2, p, sizeof(description2));
 

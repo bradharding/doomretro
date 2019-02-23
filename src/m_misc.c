@@ -765,22 +765,6 @@ char *trimwhitespace(char *input)
     return input;
 }
 
-char *removenewlines(const char *str)
-{
-    char    *newstr;
-    char    *p = newstr = M_StringDuplicate(str);
-
-    while (*p != '\0')
-    {
-        if (*p == '\n' && *(p - 1) != '-')
-            *p = ' ';
-
-        p++;
-    }
-
-    return newstr;
-}
-
 char *makevalidfilename(const char *input)
 {
     char    *newstr = M_StringDuplicate(input);

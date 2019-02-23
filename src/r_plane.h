@@ -52,7 +52,7 @@ extern dboolean markceiling;
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
-visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoffs, fixed_t yoffs);
+visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, fixed_t y);
 visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop);
 
 #endif
