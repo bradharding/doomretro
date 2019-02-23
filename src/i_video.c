@@ -432,7 +432,7 @@ static void I_GetEvent(void)
             case SDL_TEXTINPUT:
                 for (int i = 0, len = (int)strlen(Event->text.text); i < len; i++)
                 {
-                    const unsigned char	ch = Event->text.text[i];
+                    const unsigned char ch = Event->text.text[i];
 
                     if (isprint(ch))
                     {
@@ -981,9 +981,9 @@ void I_SetPalette(byte *playpal)
 
         for (int i = 0; i < 256; i++)
         {
-			byte    r = gammatable[gammaindex][*playpal++];
-			byte    g = gammatable[gammaindex][*playpal++];
-			byte    b = gammatable[gammaindex][*playpal++];
+            byte    r = gammatable[gammaindex][*playpal++];
+            byte    g = gammatable[gammaindex][*playpal++];
+            byte    b = gammatable[gammaindex][*playpal++];
             double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
