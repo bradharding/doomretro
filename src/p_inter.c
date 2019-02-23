@@ -1885,6 +1885,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
 
+    if (type == MT_BARREL && corpse && target == inflicter)
+        return;
+
     if (flags & MF_SKULLFLY)
     {
         target->momx = 0;
