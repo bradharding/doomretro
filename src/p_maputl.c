@@ -104,7 +104,10 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return (int)(((int64_t)y - line->y) * line->dx + ((int64_t)line->x - x) * line->dy > 0);
+    return (!line->dx ? (x <= line->x ? line->dy > 0 : line->dy < 0) :
+        (!line->dy ? (y <= line->y ? line->dx < 0 : line->dx > 0) :
+        (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
+        FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8)));
 }
 
 //
@@ -260,7 +263,7 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 void P_SetThingPosition(mobj_t *thing)
 {
     // link into subsector
-    subsector_t *ss = thing->subsector = R_PointInSubsector(thing->x, thing->y);
+    subsector_t *subsector = thing->subsector = R_PointInSubsector(thing->x, thing->y);
 
     if (!(thing->flags & MF_NOSECTOR))
     {
@@ -268,7 +271,7 @@ void P_SetThingPosition(mobj_t *thing)
 
         // killough 8/11/98: simpler scheme using pointer-to-pointer prev
         // pointers, allows head nodes to be treated like everything else
-        mobj_t  **link = &ss->sector->thinglist;
+        mobj_t  **link = &subsector->sector->thinglist;
         mobj_t  *snext = *link;
 
         if ((thing->snext = snext))
@@ -474,6 +477,8 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     int         numfronts = 0;
     divline_t   dl;
     fixed_t     radius = thing->radius;
+    fixed_t     x = thing->x;
+    fixed_t     y = thing->y;
 
     // [RH] Don't check a corner to corner crossection for hit.
     // Instead, check against the actual bounding box.
@@ -485,29 +490,29 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
         switch (i)
         {
             case 0:     // Top edge
-                dl.x = thing->x + radius;
-                dl.y = thing->y + radius;
+                dl.x = x + radius;
+                dl.y = y + radius;
                 dl.dx = -radius * 2;
                 dl.dy = 0;
                 break;
 
             case 1:     // Right edge
-                dl.x = thing->x + radius;
-                dl.y = thing->y - radius;
+                dl.x = x + radius;
+                dl.y = y - radius;
                 dl.dx = 0;
                 dl.dy = radius * 2;
                 break;
 
             case 2:     // Bottom edge
-                dl.x = thing->x - radius;
-                dl.y = thing->y - radius;
+                dl.x = x - radius;
+                dl.y = y - radius;
                 dl.dx = radius * 2;
                 dl.dy = 0;
                 break;
 
             case 3:     // Left edge
-                dl.x = thing->x - radius;
-                dl.y = thing->y + radius;
+                dl.x = x - radius;
+                dl.y = y + radius;
                 dl.dx = 0;
                 dl.dy = radius * -2;
                 break;
