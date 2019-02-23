@@ -6,6 +6,7 @@
 * Obituaries are no longer displayed in the console if they involve a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * The accuracy of where the player fires has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
+* To improve accuracy, a monster’s actual bounding box is now checked when it is being hit.
 
 ---
 

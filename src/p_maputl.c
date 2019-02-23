@@ -469,49 +469,88 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 //
 static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 {
-    fixed_t     x1, y1;
-    fixed_t     x2, y2;
-    fixed_t     frac;
+    int         numfronts = 0;
     divline_t   dl;
     fixed_t     radius = thing->radius;
-    fixed_t     x = thing->x;
-    fixed_t     y = thing->y;
 
-    // check a corner to corner crosssection for hit
-    if ((dlTrace.dx ^ dlTrace.dy) > 0)
+    // [RH] Don't check a corner to corner crossection for hit.
+    // Instead, check against the actual bounding box.
+
+    // There's probably a smarter way to determine which two sides
+    // of the thing face the trace than by trying all four sides...
+    for (int i = 0; i < 4; i++)
     {
-        x1 = x - radius;
-        y1 = y + radius;
-        x2 = x + radius;
-        y2 = y - radius;
+        switch (i)
+        {
+            case 0:     // Top edge
+                dl.x = thing->x + radius;
+                dl.y = thing->y + radius;
+                dl.dx = -radius * 2;
+                dl.dy = 0;
+                break;
+
+            case 1:     // Right edge
+                dl.x = thing->x + radius;
+                dl.y = thing->y - radius;
+                dl.dx = 0;
+                dl.dy = radius * 2;
+                break;
+
+            case 2:     // Bottom edge
+                dl.x = thing->x - radius;
+                dl.y = thing->y - radius;
+                dl.dx = radius * 2;
+                dl.dy = 0;
+                break;
+
+            case 3:     // Left edge
+                dl.x = thing->x - radius;
+                dl.y = thing->y + radius;
+                dl.dx = 0;
+                dl.dy = radius * -2;
+                break;
+        }
+
+        // Check if this side is facing the trace origin
+        if (P_PointOnDivlineSide(dlTrace.x, dlTrace.y, &dl) == 0)
+        {
+            numfronts++;
+
+            // If it is, see if the trace crosses it
+            if (P_PointOnDivlineSide(dl.x, dl.y, &dlTrace) != P_PointOnDivlineSide(dl.x + dl.dx, dl.y + dl.dy, &dlTrace))
+            {
+                // It's a hit
+                fixed_t frac = P_InterceptVector(&dlTrace, &dl);
+
+                // behind source
+                if (frac < 0)
+                    continue;
+
+                check_intercept();  // killough
+
+                intercept_p->frac = frac;
+                intercept_p->isaline = false;
+                intercept_p->d.thing = thing;
+                intercept_p++;
+
+                continue;
+            }
+        }
     }
-    else
+
+    // If none of the sides was facing the trace, then the trace
+    // must have started inside the box, so add it as an intercept.
+    if (!numfronts)
     {
-        x1 = x - radius;
-        y1 = y - radius;
-        x2 = x + radius;
-        y2 = y + radius;
+        check_intercept();  // killough
+
+        intercept_p->frac = 0;
+        intercept_p->isaline = false;
+        intercept_p->d.thing = thing;
+        intercept_p++;
     }
 
-    if (P_PointOnDivlineSide(x1, y1, &dlTrace) == P_PointOnDivlineSide(x2, y2, &dlTrace))
-        return true;    // line isn't crossed
-
-    dl.x = x1;
-    dl.y = y1;
-    dl.dx = x2 - x1;
-    dl.dy = y2 - y1;
-
-    if ((frac = P_InterceptVector(&dlTrace, &dl)) < 0)
-        return true;    // behind source
-
-    check_intercept();  // killough
-
-    intercept_p->frac = frac;
-    intercept_p->isaline = false;
-    intercept_p->d.thing = thing;
-    intercept_p++;
-
-    return true;        // keep going
+    return true;
 }
 
 //
