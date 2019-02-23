@@ -1631,7 +1631,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         }
 
         // Spawn bullet puffs.
-        P_SpawnPuff(dlTrace.x + FixedMul(dlTrace.dx, frac), dlTrace.y + FixedMul(dlTrace.dy, frac), z, shootangle);
+        P_SpawnPuff(dltrace.x + FixedMul(dltrace.dx, frac), dltrace.y + FixedMul(dltrace.dy, frac), z, shootangle);
 
         // don't go any farther
         return false;
@@ -1659,8 +1659,8 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     // position a bit closer
     frac = in->frac - FixedDiv(10 * FRACUNIT, attackrange);
 
-    x = dlTrace.x + FixedMul(dlTrace.dx, frac);
-    y = dlTrace.y + FixedMul(dlTrace.dy, frac);
+    x = dltrace.x + FixedMul(dltrace.dx, frac);
+    y = dltrace.y + FixedMul(dltrace.dy, frac);
     z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
     // Spawn bullet puffs or blood spots,

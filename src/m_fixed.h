@@ -62,6 +62,7 @@
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
 #define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
+#define FIXED_MAX       INT_MAX
 #define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 typedef int fixed_t;

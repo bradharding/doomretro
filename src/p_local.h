@@ -202,7 +202,7 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
 
-extern divline_t    dlTrace;
+extern divline_t    dltrace;
 
 dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, dboolean (*trav)(intercept_t *));
 

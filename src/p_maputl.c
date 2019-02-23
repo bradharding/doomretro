@@ -420,7 +420,7 @@ static void check_intercept(void)
     }
 }
 
-divline_t   dlTrace;
+divline_t   dltrace;
 
 //
 // PIT_AddLineIntercepts.
@@ -439,15 +439,15 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     divline_t   dl;
 
     // avoid precision problems with two routines
-    if (dlTrace.dx > FRACUNIT * 16 || dlTrace.dy > FRACUNIT * 16 || dlTrace.dx < -FRACUNIT * 16 || dlTrace.dy < -FRACUNIT * 16)
+    if (dltrace.dx > FRACUNIT * 16 || dltrace.dy > FRACUNIT * 16 || dltrace.dx < -FRACUNIT * 16 || dltrace.dy < -FRACUNIT * 16)
     {
-        s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dlTrace);
-        s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dlTrace);
+        s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dltrace);
+        s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dltrace);
     }
     else
     {
-        s1 = P_PointOnLineSide(dlTrace.x, dlTrace.y, ld);
-        s2 = P_PointOnLineSide(dlTrace.x + dlTrace.dx, dlTrace.y + dlTrace.dy, ld);
+        s1 = P_PointOnLineSide(dltrace.x, dltrace.y, ld);
+        s2 = P_PointOnLineSide(dltrace.x + dltrace.dx, dltrace.y + dltrace.dy, ld);
     }
 
     if (s1 == s2)
@@ -456,7 +456,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     // hit the line
     P_MakeDivline(ld, &dl);
 
-    if ((frac = P_InterceptVector(&dlTrace, &dl)) < 0)
+    if ((frac = P_InterceptVector(&dltrace, &dl)) < 0)
         return true;    // behind source
 
     check_intercept();  // killough
@@ -519,15 +519,15 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
         }
 
         // Check if this side is facing the trace origin
-        if (P_PointOnDivlineSide(dlTrace.x, dlTrace.y, &dl) == 0)
+        if (P_PointOnDivlineSide(dltrace.x, dltrace.y, &dl) == 0)
         {
             numfronts++;
 
             // If it is, see if the trace crosses it
-            if (P_PointOnDivlineSide(dl.x, dl.y, &dlTrace) != P_PointOnDivlineSide(dl.x + dl.dx, dl.y + dl.dy, &dlTrace))
+            if (P_PointOnDivlineSide(dl.x, dl.y, &dltrace) != P_PointOnDivlineSide(dl.x + dl.dx, dl.y + dl.dy, &dltrace))
             {
                 // It's a hit
-                fixed_t frac = P_InterceptVector(&dlTrace, &dl);
+                fixed_t frac = P_InterceptVector(&dltrace, &dl);
 
                 // behind source
                 if (frac < 0)
@@ -572,7 +572,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
     while (count--)
     {
-        fixed_t dist = INT_MAX;
+        fixed_t dist = FIXED_MAX;
 
         for (intercept_t *scan = intercepts; scan < intercept_p; scan++)
             if (scan->frac < dist)
@@ -587,7 +587,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
         if (!func(in))
             return false;       // don't bother going farther
 
-        in->frac = INT_MAX;
+        in->frac = FIXED_MAX;
     }
 
     return true;                // everything was traversed
@@ -595,7 +595,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
 //
 // P_PathTraverse
-// Traces a line from x1,y1 to x2,y2,
+// Traces a line from (x1,y1) to (x2,y2),
 // calling the traverser function for each.
 // Returns true if the traverser function returns true
 // for all lines.
@@ -622,10 +622,10 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     if (!((y1 - bmaporgy) & (MAPBLOCKSIZE - 1)))
         y1 += FRACUNIT;         // don't side exactly on a line
 
-    dlTrace.x = x1;
-    dlTrace.y = y1;
-    dlTrace.dx = x2 - x1;
-    dlTrace.dy = y2 - y1;
+    dltrace.x = x1;
+    dltrace.y = y1;
+    dltrace.dx = x2 - x1;
+    dltrace.dy = y2 - y1;
 
     _x1 = (int64_t)x1 - bmaporgx;
     _y1 = (int64_t)y1 - bmaporgy;
@@ -693,7 +693,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     mapx = xt1;
     mapy = yt1;
 
-    for (int count = 0; count < 64; count++)
+    for (int count = 0; count < 100; count++)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
@@ -706,15 +706,49 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
         if (mapx == xt2 && mapy == yt2)
             break;
 
-        if ((yintercept >> FRACBITS) == mapy)
+        // [RH] Handle corner cases properly instead of pretending they don't exist.
+        switch ((((yintercept >> FRACBITS) == mapy) << 1) | ((xintercept >> FRACBITS) == mapx))
         {
-            yintercept += ystep;
-            mapx += mapxstep;
-        }
-        else if ((xintercept >> FRACBITS) == mapx)
-        {
-            xintercept += xstep;
-            mapy += mapystep;
+            case 0:
+                // neither xintercept nor yintercept match!
+                count = 100;    // Stop traversing, because somebody screwed up.
+                break;
+
+            case 1:
+                // xintercept matches
+                xintercept += xstep;
+                mapy += mapystep;
+                break;
+
+            case 2:
+                // yintercept matches
+                yintercept += ystep;
+                mapx += mapxstep;
+                break;
+
+            case 3:
+                // xintercept and yintercept both match
+                // The trace is exiting a block through its corner. Not only does the block
+                // being entered need to be checked (which will happen when this loop
+                // continues), but the other two blocks adjacent to the corner also need to
+                // be checked.
+                if (flags & PT_ADDLINES)
+                {
+                    P_BlockLinesIterator(mapx + mapxstep, mapy, PIT_AddLineIntercepts);
+                    P_BlockLinesIterator(mapx, mapy + mapystep, PIT_AddLineIntercepts);
+                }
+
+                if (flags & PT_ADDTHINGS)
+                {
+                    P_BlockThingsIterator(mapx + mapxstep, mapy, PIT_AddThingIntercepts);
+                    P_BlockThingsIterator(mapx, mapy + mapystep, PIT_AddThingIntercepts);
+                }
+
+                xintercept += xstep;
+                yintercept += ystep;
+                mapx += mapxstep;
+                mapy += mapystep;
+                break;
         }
     }
 
