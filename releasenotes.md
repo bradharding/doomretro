@@ -7,6 +7,7 @@
 * The accuracy of where the player fires has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is being hit.
+* The rendering problems when the player is underwater (in *BOOM*-compatible maps using line special 242) have been fixed.
 
 ---
 
