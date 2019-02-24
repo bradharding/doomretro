@@ -4439,7 +4439,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
             if ((thing = P_SpawnMapThing(&mthing, false)))
             {
-                thing->angle = R_PointToAngle(thing->x, thing->y);
+                thing->angle = R_PointToAngle2(thing->x, thing->y, viewx, viewy);
 
                 if (flags & MF_COUNTITEM)
                 {
