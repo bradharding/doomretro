@@ -638,7 +638,7 @@ static void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        angle_t ang = R_PointToAngle2(viewx, viewy, fx, fy);
+        angle_t ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
@@ -903,16 +903,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t  *thing = sec->thinglist;
 
-    if (!thing)
-        return;
-
-    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    floorheight = sec->interpfloorheight;
-
-    if (floorheight - FRACUNIT <= viewz)
+    if ((floorheight = sec->interpfloorheight) - FRACUNIT <= viewz)
     {
-        drawshadows = (r_shadows && !fixedcolormap && sec->terraintype == SOLID && sec->floorpic != skyflatnum);
-
         if (drawbloodsplats)
         {
             bloodsplat_t    *splat = sec->splatlist;
@@ -923,9 +915,21 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 splat = splat->snext;
             }
         }
+
+        if (!thing)
+            return;
+
+        drawshadows = (r_shadows && !fixedcolormap && sec->terraintype == SOLID && sec->floorpic != skyflatnum);
     }
     else
+    {
+        if (!thing)
+            return;
+
         drawshadows = false;
+    }
+
+    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
     do

@@ -1473,10 +1473,10 @@ static dboolean P_VerifyBlockMap(int count)
 static void P_CreateBlockMap(void)
 {
     int         i = numvertexes;
-    fixed_t     minx = INT_MAX;
-    fixed_t     miny = INT_MAX;
-    fixed_t     maxx = INT_MIN;
-    fixed_t     maxy = INT_MIN;
+    fixed_t     minx = FIXED_MAX;
+    fixed_t     miny = FIXED_MAX;
+    fixed_t     maxx = FIXED_MIN;
+    fixed_t     maxy = FIXED_MIN;
     vertex_t    *vertex;
 
     blockmaprebuilt = true;

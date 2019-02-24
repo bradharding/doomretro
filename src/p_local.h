@@ -114,8 +114,8 @@ void P_ChangeWeapon(weapontype_t newweapon);
 //
 // P_MOBJ
 //
-#define ONFLOORZ            INT_MIN
-#define ONCEILINGZ          INT_MAX
+#define ONFLOORZ            FIXED_MIN
+#define ONCEILINGZ          FIXED_MAX
 
 // Time interval for item respawning.
 #define ITEMQUEUESIZE       512

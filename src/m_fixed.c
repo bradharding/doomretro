@@ -81,7 +81,7 @@ fixed_t FixedMul(fixed_t a, fixed_t b)
 fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((ABS(a) >> 14) >= ABS(b))
-        return ((a ^ b) >> 31) ^ INT_MAX;
+        return ((a ^ b) >> 31) ^ FIXED_MAX;
     else
         return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }

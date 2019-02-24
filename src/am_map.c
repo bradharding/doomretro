@@ -166,7 +166,7 @@ static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map
 static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
 // LL x,y where the window is on the map (map coords)
-fixed_t             m_x = INT_MAX, m_y = INT_MAX;
+fixed_t             m_x = FIXED_MAX, m_y = FIXED_MAX;
 
 // UR x,y where the window is on the map (map coords)
 static fixed_t      m_x2, m_y2;
@@ -277,10 +277,10 @@ static void AM_FindMinMaxBoundaries(void)
     fixed_t a;
     fixed_t b;
 
-    min_x = INT_MAX;
-    min_y = INT_MAX;
-    max_x = INT_MIN;
-    max_y = INT_MIN;
+    min_x = FIXED_MAX;
+    min_y = FIXED_MAX;
+    max_x = FIXED_MIN;
+    max_y = FIXED_MIN;
 
     for (int i = 0; i < numvertexes; i++)
     {
@@ -427,7 +427,7 @@ static void AM_InitVariables(const dboolean mainwindow)
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
 
-    if (m_x == INT_MAX || am_followmode)
+    if (m_x == FIXED_MAX || am_followmode)
     {
         m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
         m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
