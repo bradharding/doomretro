@@ -233,7 +233,7 @@ static void AM_ActivateNewScale(void)
     m_y -= m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
-    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
+    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? PUTBIGDOT : PUTDOT);
 }
 
 static void AM_SaveScaleAndLoc(void)
@@ -266,7 +266,7 @@ static void AM_RestoreScaleAndLoc(void)
     // Change the scaling multipliers
     scale_mtof = FixedDiv(mapwidth << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
-    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
+    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? PUTBIGDOT : PUTDOT);
 }
 
 //
@@ -334,36 +334,36 @@ void AM_SetColors(void)
 {
     byte    *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
 
-    *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
-    *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
-    *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
-    *(priority + nearestcolors[am_allmapcdwallcolor]) = ALLMAPCDWALLPRIORITY;
-    *(priority + nearestcolors[am_fdwallcolor]) = FDWALLPRIORITY;
-    *(priority + nearestcolors[am_allmapfdwallcolor]) = ALLMAPFDWALLPRIORITY;
-    *(priority + nearestcolors[am_teleportercolor]) = TELEPORTERPRIORITY;
-    *(priority + nearestcolors[am_tswallcolor]) = TSWALLPRIORITY;
-    *(priority + nearestcolors[am_gridcolor]) = GRIDPRIORITY;
+    priority[am_wallcolor] = WALLPRIORITY;
+    priority[am_allmapwallcolor] = ALLMAPWALLPRIORITY;
+    priority[am_cdwallcolor] = CDWALLPRIORITY;
+    priority[am_allmapcdwallcolor] = ALLMAPCDWALLPRIORITY;
+    priority[am_fdwallcolor] = FDWALLPRIORITY;
+    priority[am_allmapfdwallcolor] = ALLMAPFDWALLPRIORITY;
+    priority[am_teleportercolor] = TELEPORTERPRIORITY;
+    priority[am_tswallcolor] = TSWALLPRIORITY;
+    priority[am_gridcolor] = GRIDPRIORITY;
 
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
     pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
-    crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
+    crosshaircolor = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
-            *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
+            priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
 
-    wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
-    allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
-    cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
-    allmapcdwallcolor = priorities + (nearestcolors[am_allmapcdwallcolor] << 8);
-    fdwallcolor = priorities + (nearestcolors[am_fdwallcolor] << 8);
-    allmapfdwallcolor = priorities + (nearestcolors[am_allmapfdwallcolor] << 8);
-    teleportercolor = priorities + (nearestcolors[am_teleportercolor] << 8);
-    tswallcolor = priorities + (nearestcolors[am_tswallcolor] << 8);
-    gridcolor = priorities + (nearestcolors[am_gridcolor] << 8);
+    wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
+    allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
+    cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
+    allmapcdwallcolor = &priorities[nearestcolors[am_allmapcdwallcolor] << 8];
+    fdwallcolor = &priorities[nearestcolors[am_fdwallcolor] << 8];
+    allmapfdwallcolor = &priorities[nearestcolors[am_allmapfdwallcolor] << 8];
+    teleportercolor = &priorities[nearestcolors[am_teleportercolor] << 8];
+    tswallcolor = &priorities[nearestcolors[am_tswallcolor] << 8];
+    gridcolor = &priorities[nearestcolors[am_gridcolor] << 8];
 }
 
 void AM_GetGridSize(void)
@@ -445,12 +445,12 @@ static void AM_LevelInit(void)
     bigstate = false;
 
     AM_FindMinMaxBoundaries();
-    scale_mtof = FixedDiv(INITSCALEMTOF, (int)(0.7 * FRACUNIT));
+    scale_mtof = FixedDiv(INITSCALEMTOF, FRACUNIT * 7 / 10);
 
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
 
-    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
+    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? PUTBIGDOT : PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving & restoring
@@ -1305,8 +1305,8 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != *(tinttab60 + *color))
-            *dot = *(tinttab60 + (*dot << 8) + *color);
+        if (*dot != tinttab60[*color])
+            *dot = tinttab60[(*dot << 8) + *color];
     }
 }
 
@@ -1863,7 +1863,7 @@ static void AM_DrawMarks(void)
                     if ((unsigned int)fy < mapheight)
                     {
                         const char  src = marknums[digit][j];
-                        byte        *dest = mapscreen + fy * mapwidth + fx;
+                        byte        *dest = &mapscreen[fy * mapwidth + fx];
 
                         if (src == '2')
                             *dest = markcolor;
@@ -1930,7 +1930,7 @@ static void AM_DrawPath(void)
 
 static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 {
-    byte    *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
+    byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
 
     *dest = *(*dest + color);
     dest++;
@@ -1968,8 +1968,8 @@ static void AM_SetFrameVariables(void)
     if (am_rotatemode)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
-        const double    dx = m_x2 - x;
-        const double    dy = m_y2 - y;
+        const double    dx = (double)m_x2 - x;
+        const double    dy = (double)m_y2 - y;
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];
