@@ -903,6 +903,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t  *thing = sec->thinglist;
 
+    if (!thing)
+        return;
+
     spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     floorheight = sec->interpfloorheight;
 
@@ -925,11 +928,11 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         drawshadows = false;
 
     // Handle all things in sector.
-    while (thing)
+    do
     {
         R_ProjectSprite(thing);
         thing = thing->snext;
-    }
+    } while (thing);
 }
 
 //
