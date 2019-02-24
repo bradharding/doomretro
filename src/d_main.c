@@ -1990,7 +1990,7 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle(M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
     }
-    
+
     time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
     C_Output("Startup took %s seconds to complete.", time);
 
