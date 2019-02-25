@@ -1660,7 +1660,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
 
 void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean gibbed)
 {
-    char    *name = (mobjinfo[target->type].name1 ? mobjinfo[target->type].name1 : "monster");
+    char    *name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
 
     if ((source && source->player && source->player->mo != source) || (target->player && target->player->mo != target))
         return;
