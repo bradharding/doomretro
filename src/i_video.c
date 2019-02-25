@@ -1847,6 +1847,10 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
+    // [BH] There's a known bug in SDL 2.0.9 that causes framerate to intermittantly drop.
+    //  This is a workaround for this bug, even if no joysticks are in use. Should be fixed in SDL 2.0.10.
+    SDL_Init(SDL_INIT_JOYSTICK);
+
 #if !defined(_WIN32)
     if (*vid_driver)
         SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
