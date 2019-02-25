@@ -166,7 +166,25 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int)((line->dx * ((int64_t)y - line->v1->y) - line->dy * ((int64_t)x - line->v1->x)) >> 32) > 0);
+    fixed_t lx = line->v1->x;
+    fixed_t ly = line->v1->y;
+    int64_t ldx = line->dx;
+    int64_t ldy = line->dy;
+
+    if (!ldx)
+        return (x <= lx ? (ldy > 0) : (ldy < 0));
+
+    if (!ldy)
+        return (y <= ly ? (ldx < 0) : (ldx > 0));
+
+    x -= lx;
+    y -= ly;
+
+    // Try to quickly decide by looking at sign bits.
+    if ((ldy ^ ldx ^ x ^ y) < 0)
+        return ((ldy ^ x) < 0); // (left is negative)
+
+    return (y * ldx >= ldy * x);
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
