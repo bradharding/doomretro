@@ -161,7 +161,7 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
     if ((ndy ^ ndx ^ x ^ y) < 0)
         return ((ndy ^ x) < 0); // (left is negative)
 
-    return (FixedMul(y, ndx >> FRACBITS) >= FixedMul(ndy >> FRACBITS, x));
+    return ((int64_t)y * ndx >= (int64_t)ndy * x);
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
