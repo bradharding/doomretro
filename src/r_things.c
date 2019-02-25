@@ -909,10 +909,15 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         {
             bloodsplat_t    *splat = sec->splatlist;
 
-            while (splat)
+            if (splat)
             {
-                R_ProjectBloodSplat(splat);
-                splat = splat->snext;
+                spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+
+                do
+                {
+                    R_ProjectBloodSplat(splat);
+                    splat = splat->snext;
+                } while (splat);
             }
         }
 
@@ -926,10 +931,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         if (!thing)
             return;
 
+        spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         drawshadows = false;
     }
-
-    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
     do
