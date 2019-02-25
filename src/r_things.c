@@ -905,23 +905,21 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     if ((floorheight = sec->interpfloorheight) - FRACUNIT <= viewz)
     {
-        if (drawbloodsplats)
+        bloodsplat_t    *splat = sec->splatlist;
+
+        if (splat && drawbloodsplats)
         {
-            bloodsplat_t    *splat = sec->splatlist;
+            spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
-            if (splat)
+            do
             {
-                spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-
-                do
-                {
-                    R_ProjectBloodSplat(splat);
-                    splat = splat->snext;
-                } while (splat);
-            }
+                R_ProjectBloodSplat(splat);
+                splat = splat->snext;
+            } while (splat);
         }
-
-        if (!thing)
+        else if (thing)
+            spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        else
             return;
 
         drawshadows = (r_shadows && !fixedcolormap && sec->terraintype == SOLID && sec->floorpic != skyflatnum);
