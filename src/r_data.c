@@ -644,7 +644,7 @@ int R_ColormapNumForName(char *name)
         if ((i = W_CheckNumForName(name)) != -1)
             i -= firstcolormaplump;
 
-    return i;
+    return (i > numcolormaps ? -1 : i);
 }
 
 //
