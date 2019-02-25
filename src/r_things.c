@@ -916,6 +916,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 R_ProjectBloodSplat(splat);
                 splat = splat->snext;
             } while (splat);
+
+            if (!thing)
+                return;
         }
         else if (thing)
             spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
