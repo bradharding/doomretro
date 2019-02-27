@@ -639,8 +639,7 @@ void P_MobjThinker(mobj_t *mobj)
     if (mobj->tics != -1)
     {
         if (!--mobj->tics)
-            if (!P_SetMobjState(mobj, mobj->state->nextstate))
-                return;
+            P_SetMobjState(mobj, mobj->state->nextstate);
     }
     else
     {

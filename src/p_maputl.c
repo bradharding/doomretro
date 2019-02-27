@@ -480,7 +480,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     fixed_t     x = thing->x;
     fixed_t     y = thing->y;
 
-    // [RH] Don't check a corner to corner crossection for hit.
+    // [RH] Don't check a corner to corner crosssection for hit.
     // Instead, check against the actual bounding box.
 
     // There's probably a smarter way to determine which two sides
@@ -519,7 +519,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
         }
 
         // Check if this side is facing the trace origin
-        if (P_PointOnDivlineSide(dltrace.x, dltrace.y, &dl) == 0)
+        if (!P_PointOnDivlineSide(dltrace.x, dltrace.y, &dl))
         {
             numfronts++;
 
