@@ -1213,7 +1213,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         type = (r_blood == r_blood_all ? (target->blood ? target->blood : MT_BLOOD) : MT_BLOOD);
+    int         type = (r_blood == r_blood_all && target->blood ? target->blood : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
     int         blood = info->blood;
     state_t     *st = &states[info->spawnstate];
@@ -1233,7 +1233,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
         th->state = st;
-        th->tics = MAX(1, st->tics - (M_Random() & 3));
+        th->tics = MAX(1, st->tics - (M_Random() & 2));
         th->sprite = st->sprite;
         th->frame = st->frame;
 

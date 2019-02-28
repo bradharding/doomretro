@@ -598,7 +598,6 @@ static void R_ProjectSprite(mobj_t *thing)
     angle_t         rot = 0;
     fixed_t         fx, fy, fz;
     fixed_t         offset;
-    fixed_t         topoffset;
 
     if (thing->player && thing->player->mo == thing)
         return;
@@ -658,16 +657,15 @@ static void R_ProjectSprite(mobj_t *thing)
     if (thing->state->dehacked || !r_fixspriteoffsets)
     {
         offset = spriteoffset[lump];
-        topoffset = spritetopoffset[lump];
+        gzt = fz + spritetopoffset[lump];
     }
     else
     {
         offset = newspriteoffset[lump];
-        topoffset = newspritetopoffset[lump];
+        gzt = fz + newspritetopoffset[lump];
     }
 
     xscale = FixedDiv(projection, tz);
-    gzt = fz + topoffset;
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))

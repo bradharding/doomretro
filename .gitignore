@@ -43,6 +43,7 @@
 *.suo
 *.user
 *.sln.docstates
+*.vcxproj.FileListAbsolute.txt
 
 # Build results
 [Dd]ebugPublic/
