@@ -106,7 +106,7 @@ static SDL_Surface  *surface;
 static SDL_Surface  *buffer;
 static SDL_Palette  *palette;
 static SDL_Color    colors[256];
-static byte         *playpallump;
+byte                *playpallump;
 
 byte                *oscreen;
 byte                *mapscreen;
@@ -1671,7 +1671,7 @@ static void SetVideoMode(dboolean output)
 
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
-    I_SetPalette(playpallump + st_palette * 768);
+    I_SetPalette(&playpallump[st_palette * 768]);
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
@@ -1765,7 +1765,7 @@ void I_ToggleFullscreen(void)
 
 void I_SetPillarboxes(void)
 {
-    I_SetPalette(playpallump + st_palette * 768);
+    I_SetPalette(&playpallump[st_palette * 768]);
 
     if (!vid_pillarboxes)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);

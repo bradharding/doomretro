@@ -5637,7 +5637,7 @@ static void r_color_cvar_func2(char *cmd, char *parms)
 
     if (r_color != r_color_old)
     {
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+        I_SetPalette(&playpallump[st_palette * 768]);
         M_SaveCVARs();
     }
 }
@@ -5770,7 +5770,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
-            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+            I_SetPalette(&playpallump[st_palette * 768]);
             M_SaveCVARs();
         }
     }

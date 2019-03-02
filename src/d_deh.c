@@ -2236,7 +2236,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     int     *pix;           // Ptr to int, since all Thing structure entries are ints
     char    *strval;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     if (devparm)
         C_Output("Thing line: \"%s\"", inbuffer);
@@ -2429,7 +2429,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
     long    value;                                              // All deh values are ints or longs
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
@@ -2536,7 +2536,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
     long    value;  // All deh values are ints or longs
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     // NOTE: different format from normal
 
     // killough 8/98: allow hex numbers in input, fix error case:
@@ -2613,7 +2613,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
     long    value;  // All deh values are ints or longs
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
@@ -2677,7 +2677,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
     long    value;  // All deh values are ints or longs
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
@@ -2727,7 +2727,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
     long    value;      // All deh values are ints or longs
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
@@ -2789,7 +2789,7 @@ static void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
 
     // Too little is known about what this is supposed to do, and
     // there are better ways of handling sprite renaming. Not supported.
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
@@ -2841,7 +2841,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     // of parameters on the line determines which group of par values
     // is being changed. Error checking is done based on current fixed
     // array sizes of[4][10] and [32]
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);

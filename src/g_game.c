@@ -926,7 +926,7 @@ void G_Ticker(void)
                 {
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
-                    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+                    I_SetPalette(&playpallump[st_palette * 768]);
                 }
 
                 break;

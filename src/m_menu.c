@@ -2415,7 +2415,7 @@ void M_ChangeGamma(dboolean shift)
     }
 
     message_dontfuckwithme = true;
-    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+    I_SetPalette(&playpallump[st_palette * 768]);
     M_SaveCVARs();
 }
 
@@ -3636,7 +3636,7 @@ void M_ClearMenus(void)
 
     if (gamestate == GS_LEVEL)
     {
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
+        I_SetPalette(&playpallump[st_palette * 768]);
 
         viewplayer->mo->angle = playerangle;
 

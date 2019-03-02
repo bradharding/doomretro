@@ -145,8 +145,8 @@ static byte *crosshaircolor;
 #define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)       MTOF((x) - m_x)
-#define CYMTOF(y)       (mapheight - MTOF((y) - m_y))
+#define CXMTOF(x)       MTOF((uint64_t)(x) - m_x)
+#define CYMTOF(y)       (mapheight - MTOF((uint64_t)(y) - m_y))
 
 typedef struct
 {
