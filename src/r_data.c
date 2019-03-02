@@ -427,7 +427,7 @@ static void R_InitFlats(void)
     flattranslation = Z_Malloc((numflats + 1) * sizeof(*flattranslation), PU_STATIC, NULL);
 
     for (int i = 0; i < numflats; i++)
-        flattranslation[i] = i;
+        flattranslation[i] = firstflat + i;
 
     missingflatnum = R_FlatNumForName("-N0_TEX-");
 }
