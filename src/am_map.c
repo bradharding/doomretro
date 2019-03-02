@@ -128,7 +128,7 @@ static byte *crosshaircolor;
 
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC        (8 << speedtoggle)
+#define F_PANINC        ((uint64_t)8 << speedtoggle)
 
 // how much zoom-in per tic
 // goes to 2x in 1 second

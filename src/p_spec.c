@@ -2314,7 +2314,7 @@ void P_UpdateSpecials(void)
             if (anim->istexture)
                 texturetranslation[i] = pic;
             else
-                flattranslation[i] = pic;
+                flattranslation[i] = firstflat + pic;
         }
 
     animatedliquiddiff += animatedliquiddiffs[leveltime & 63];

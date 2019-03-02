@@ -160,12 +160,12 @@ void R_ClearPlanes(void)
 
 static void R_RaiseVisplanes(visplane_t **vp)
 {
-    static int  numvisplanes;
+    static unsigned int numvisplanes;
 
     if (lastvisplane - visplanes == numvisplanes)
     {
-        int         numvisplanes_old = numvisplanes;
-        visplane_t  *visplanes_old = visplanes;
+        unsigned int    numvisplanes_old = numvisplanes;
+        visplane_t      *visplanes_old = visplanes;
 
         numvisplanes = (numvisplanes ? 2 * numvisplanes : MAXVISPLANES);
         visplanes = I_Realloc(visplanes, numvisplanes * sizeof(*visplanes));
@@ -465,7 +465,7 @@ void R_DrawPlanes(void)
             {
                 // regular flat
                 ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
-                    lumpinfo[firstflat + flattranslation[picnum]]->cache);
+                    lumpinfo[flattranslation[picnum]]->cache);
 
                 R_MakeSpans(pl);
             }

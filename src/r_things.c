@@ -436,8 +436,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
-    const mobj_t    *mobj = vis->mobj;
-    const int       flags = mobj->flags;
+    const int       flags = vis->mobj->flags;
     int             baseclip;
 
     spryscale = vis->scale;
