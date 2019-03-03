@@ -159,7 +159,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
     // [crispy] remove MAXBUTTONS limit
     maxbuttons *= 2;
     buttonlist = I_Realloc(buttonlist, sizeof(*buttonlist) * maxbuttons);
-    memset(buttonlist + maxbuttons / 2, 0, sizeof(*buttonlist) * (maxbuttons - maxbuttons / 2));
+    memset(buttonlist + maxbuttons / 2, 0, sizeof(*buttonlist) * ((size_t)maxbuttons - maxbuttons / 2));
     P_StartButton(line, where, texture, time);
 }
 

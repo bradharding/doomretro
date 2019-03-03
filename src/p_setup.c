@@ -105,7 +105,7 @@ struct mapinfo_s
     int         titlepatch;
 };
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters);
 
 //
 // MAP related Lookup tables.
@@ -990,7 +990,7 @@ static void P_LoadZNodes(int lump)
             newvertarray = vertexes;
         else
         {
-            newvertarray = calloc(orgVerts + newVerts, sizeof(vertex_t));
+            newvertarray = calloc((size_t)orgVerts + newVerts, sizeof(vertex_t));
             memcpy(newvertarray, vertexes, orgVerts * sizeof(vertex_t));
         }
 
@@ -1176,7 +1176,7 @@ static void P_LoadThings(int lump)
             if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
                 mt.type = Zombieman;
 
-            if ((thing = P_SpawnMapThing(&mt, nomonsters)))
+            if ((thing = P_SpawnMapThing(&mt, !nomonsters)))
                 thing->id = thingid;
         }
     }
@@ -1662,7 +1662,7 @@ static void P_CreateBlockMap(void)
 static void P_LoadBlockMap(int lump)
 {
     int count;
-    int lumplen;
+    int lumplen = 1;
 
     blockmaprebuilt = false;
 
@@ -1717,7 +1717,7 @@ static void P_LoadBlockMap(int lump)
     }
 
     // Clear out mobj chains
-    blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
+    blocklinks = calloc_IfSameLevel(blocklinks, (size_t)bmapwidth * bmapheight, sizeof(*blocklinks));
     blockmap = blockmaplump + 4;
 
     // MAES: set blockmapxneg and blockmapyneg
@@ -1730,10 +1730,10 @@ static void P_LoadBlockMap(int lump)
 //
 // reject overrun emulation
 //
-static void RejectOverrun(int rejectlump, const byte **rejectmatrix)
+static void RejectOverrun(int lump, const byte **matrix)
 {
     unsigned int    required = (numsectors * numsectors + 7) / 8;
-    unsigned int    length = W_LumpLength(rejectlump);
+    unsigned int    length = W_LumpLength(lump);
 
     if (length < required)
     {
@@ -1741,11 +1741,11 @@ static void RejectOverrun(int rejectlump, const byte **rejectmatrix)
         // PU_LEVEL => will be freed on level exit
         byte    *newreject = Z_Malloc(required, PU_LEVEL, NULL);
 
-        *rejectmatrix = memmove(newreject, *rejectmatrix, length);
+        *matrix = memmove(newreject, *matrix, length);
         memset(newreject + length, 0, required - length);
 
         // unlock the original lump, it is no longer needed
-        W_ReleaseLumpNum(rejectlump);
+        W_ReleaseLumpNum(lump);
     }
 }
 
@@ -1930,15 +1930,15 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                     if (v != l->v1 && v != l->v2)       // Exclude endpoints of linedefs
                     {
                         // Project the vertex back onto the parent linedef
-                        int64_t dx2 = (l->dx >> FRACBITS) * (l->dx >> FRACBITS);
-                        int64_t dy2 = (l->dy >> FRACBITS) * (l->dy >> FRACBITS);
-                        int64_t dxy = (l->dx >> FRACBITS) * (l->dy >> FRACBITS);
+                        int64_t dx2 = (int64_t)(l->dx >> FRACBITS) * (l->dx >> FRACBITS);
+                        int64_t dy2 = (int64_t)(l->dy >> FRACBITS) * (l->dy >> FRACBITS);
+                        int64_t dxy = (int64_t)(l->dx >> FRACBITS) * (l->dy >> FRACBITS);
                         int64_t s = dx2 + dy2;
                         int     x0 = v->x, y0 = v->y;
                         int     x1 = l->v1->x, y1 = l->v1->y;
 
-                        v->x = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
-                        v->y = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
+                        v->x = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * ((int64_t)y0 - y1)) / s);
+                        v->y = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * ((int64_t)x0 - x1)) / s);
 
                         // [crispy] wait a minute... moved more than 8 map units?
                         // maybe that's a linguortal then, back to the original coordinates
@@ -2276,7 +2276,7 @@ void P_SetupLevel(int ep, int map)
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
-        memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
+        memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
     if (mapformat == ZDBSPX)
         P_LoadZNodes(lumpnum + ML_NODES);

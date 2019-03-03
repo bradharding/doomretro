@@ -993,7 +993,7 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 {
     int     i;
     int     bit;
@@ -1060,7 +1060,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (nomonsters && i != MT_KEEN)
+        if (!spawnmonsters && i != MT_KEEN)
             return NULL;
 
         totalkills++;
@@ -1070,7 +1070,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean nomonsters)
         barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
-    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
+    if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && i != MT_MISC62)
         return NULL;
 
     // spawn it

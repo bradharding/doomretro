@@ -286,7 +286,7 @@ static void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        strncpy(name, name_p + i * 8, 8);
+        strncpy(name, &name_p[i * 8], 8);
         patchlookup[i] = W_CheckNumForName(name);
     }
 
@@ -337,7 +337,7 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
+        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * ((size_t)SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
@@ -374,7 +374,7 @@ static void R_InitTextures(void)
     // Create translation table for global animation.
     // killough 4/9/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
-    texturetranslation = Z_Malloc((numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
+    texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
     for (i = 0; i < numtextures; i++)
         texturetranslation[i] = i;
@@ -424,7 +424,7 @@ static void R_InitFlats(void)
     numflats = lastflat - firstflat + 1;
 
     // Create translation table for global animation.
-    flattranslation = Z_Malloc((numflats + 1) * sizeof(*flattranslation), PU_STATIC, NULL);
+    flattranslation = Z_Malloc(((size_t)numflats + 1) * sizeof(*flattranslation), PU_STATIC, NULL);
 
     for (int i = 0; i < numflats; i++)
         flattranslation[i] = firstflat + i;

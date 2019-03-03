@@ -44,7 +44,7 @@
 
 dboolean    usesmallnums;
 
-void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width)
+void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width)
 {
     n->x = x;
     n->y = y;
@@ -53,7 +53,7 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int wid
     n->p = pl;
 }
 
-static void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
+static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y)
 {
     static const char *lownums[10] =
     {
@@ -80,7 +80,7 @@ static void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
     }
 }
 
-static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
+static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y)
 {
     static const char *highnums[10] =
     {
@@ -107,7 +107,7 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
     }
 }
 
-static void STlib_drawBigNum(st_number_t *n)
+static void STlib_DrawBigNum(st_number_t *n)
 {
     int numdigits = n->width;
     int num = MAX(0, *n->num);
@@ -133,7 +133,7 @@ static void STlib_drawBigNum(st_number_t *n)
     }
 }
 
-static void STlib_drawSmallNum(st_number_t *n)
+static void STlib_DrawSmallNum(st_number_t *n)
 {
     int numdigits = n->width;
     int num = MAX(0, *n->num);
@@ -145,9 +145,9 @@ static void STlib_drawSmallNum(st_number_t *n)
         if (usesmallnums)
         {
             if (r_detail == r_detail_high)
-                STlib_drawHighNum(0, 160, 47, x - 4, n->y);
+                STlib_DrawHighNum(0, 160, 47, x - 4, n->y);
             else
-                STlib_drawLowNum(0, 160, 47, x - 4, n->y);
+                STlib_DrawLowNum(0, 160, 47, x - 4, n->y);
         }
         else
             V_DrawPatch(x - 4, n->y, 0, n->p[0]);
@@ -162,9 +162,9 @@ static void STlib_drawSmallNum(st_number_t *n)
             if (usesmallnums)
             {
                 if (r_detail == r_detail_high)
-                    STlib_drawHighNum(num % 10, 160, 47, x, n->y);
+                    STlib_DrawHighNum(num % 10, 160, 47, x, n->y);
                 else
-                    STlib_drawLowNum(num % 10, 160, 47, x, n->y);
+                    STlib_DrawLowNum(num % 10, 160, 47, x, n->y);
             }
             else
                 V_DrawPatch(x, n->y, 0, n->p[num % 10]);
@@ -174,31 +174,31 @@ static void STlib_drawSmallNum(st_number_t *n)
     }
 }
 
-void STlib_updateBigNum(st_number_t *n)
+void STlib_UpdateBigNum(st_number_t *n)
 {
-    STlib_drawBigNum(n);
+    STlib_DrawBigNum(n);
 }
 
-void STlib_updateSmallNum(st_number_t *n)
+void STlib_UpdateSmallNum(st_number_t *n)
 {
-    STlib_drawSmallNum(n);
+    STlib_DrawSmallNum(n);
 }
 
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)
+void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)
 {
-    STlib_initNum(&p->n, x, y, pl, num, 3);
+    STlib_InitNum(&p->n, x, y, pl, num, 3);
     p->p = percent;
 }
 
-void STlib_updatePercent(st_percent_t *per, int refresh)
+void STlib_UpdatePercent(st_percent_t *per, int refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
-    STlib_updateBigNum(&per->n);
+    STlib_UpdateBigNum(&per->n);
 }
 
-void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum)
+void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum)
 {
     mi->x = x;
     mi->y = y;
@@ -207,7 +207,7 @@ void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum
     mi->p = il;
 }
 
-void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
+void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
@@ -216,16 +216,16 @@ void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
     }
 }
 
-void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
+void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         if (usesmallnums)
         {
             if (r_detail == r_detail_high)
-                STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
+                STlib_DrawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
             else
-                STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
+                STlib_DrawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
         }
         else
             V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);

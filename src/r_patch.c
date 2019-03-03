@@ -237,7 +237,7 @@ static void createPatch(int id)
     // sanity check that we've got all the memory allocated we need
     assert((((byte *)patch->posts + numPostsTotal * sizeof(rpost_t)) - (byte *)patch->data) == dataSize);
 
-    memset(patch->pixels, 0xFF, patch->width * patch->height);
+    memset(patch->pixels, 0xFF, (size_t)patch->width * patch->height);
 
     // fill in the pixels, posts, and columns
     numPostsUsedSoFar = 0;
@@ -437,7 +437,7 @@ static void createTextureCompositePatch(int id)
     // sanity check that we've got all the memory allocated we need
     assert((((byte *)composite_patch->posts + numPostsTotal * sizeof(rpost_t)) - (byte *)composite_patch->data) == dataSize);
 
-    memset(composite_patch->pixels, 0xFF, composite_patch->width * composite_patch->height);
+    memset(composite_patch->pixels, 0xFF, (size_t)composite_patch->width * composite_patch->height);
 
     numPostsUsedSoFar = 0;
 

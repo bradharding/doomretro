@@ -79,7 +79,7 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
     while (first < last)
         if (solidcol[first])
         {
-            byte    *p = memchr(solidcol + first, 0, last - first);
+            byte    *p = memchr(solidcol + first, 0, (size_t)last - first);
 
             if (!p)
                 return;
@@ -88,13 +88,13 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
         }
         else
         {
-            byte    *p = memchr(solidcol + first, 1, last - first);
+            byte    *p = memchr(solidcol + first, 1, (size_t)last - first);
             int     to = (p ? (int)(p - solidcol) : last);
 
             R_StoreWallRange(first, to - 1);
 
             if (solid)
-                memset(solidcol + first, 1, to - first);
+                memset(solidcol + first, 1, (size_t)to - first);
 
             first = to;
         }
@@ -126,20 +126,20 @@ void R_ClearClipSegs(void)
 //
 // cph - converted to R_RecalcLineFlags. This recalculates all the flags for
 // a line, including closure and texture tiling.
-static void R_RecalcLineFlags(line_t *linedef)
+static void R_RecalcLineFlags(line_t *line)
 {
     int c;
 
-    linedef->r_validcount = gametime;
+    line->r_validcount = gametime;
 
-    if (!(linedef->flags & ML_TWOSIDED)
+    if (!(line->flags & ML_TWOSIDED)
         || backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight
         || (backsector->interpceilingheight <= backsector->interpfloorheight
             && (backsector->interpceilingheight >= frontsector->interpceilingheight || curline->sidedef->toptexture)
             && (backsector->interpfloorheight <= frontsector->interpfloorheight || curline->sidedef->bottomtexture)
             && (backsector->ceilingpic != skyflatnum || frontsector->ceilingpic != skyflatnum)))
-        linedef->r_flags = RF_CLOSED;
+        line->r_flags = RF_CLOSED;
     else
     {
         if (backsector->interpceilingheight != frontsector->interpceilingheight
@@ -147,34 +147,34 @@ static void R_RecalcLineFlags(line_t *linedef)
             || curline->sidedef->midtexture
             || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs, memcmpsize))
         {
-            linedef->r_flags = RF_NONE;
+            line->r_flags = RF_NONE;
             return;
         }
         else
-            linedef->r_flags = RF_IGNORE;
+            line->r_flags = RF_IGNORE;
     }
 
     if (curline->sidedef->rowoffset)
         return;
 
-    if (linedef->flags & ML_TWOSIDED)
+    if (line->flags & ML_TWOSIDED)
     {
         // Does top texture need tiling
         if ((c = frontsector->interpceilingheight - backsector->interpceilingheight) > 0
             && textureheight[texturetranslation[curline->sidedef->toptexture]] > c)
-            linedef->r_flags |= RF_TOP_TILE;
+            line->r_flags |= RF_TOP_TILE;
 
         // Does bottom texture need tiling
         if ((c = frontsector->interpfloorheight - backsector->interpfloorheight) > 0
             && textureheight[texturetranslation[curline->sidedef->bottomtexture]] > c)
-            linedef->r_flags |= RF_BOT_TILE;
+            line->r_flags |= RF_BOT_TILE;
     }
     else
     {
         // Does middle texture need tiling
         if ((c = frontsector->interpceilingheight - frontsector->interpfloorheight) > 0
             && textureheight[texturetranslation[curline->sidedef->midtexture]] > c)
-            linedef->r_flags |= RF_MID_TILE;
+            line->r_flags |= RF_MID_TILE;
     }
 }
 
@@ -493,7 +493,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     if (sx1 == sx2)
         return false;
 
-    if (!memchr(solidcol + sx1, 0, sx2 - sx1))
+    if (!memchr(solidcol + sx1, 0, (size_t)sx2 - sx1))
         return false;
 
     return true;

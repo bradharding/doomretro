@@ -195,7 +195,7 @@ extern int          windowborderheight;
 
 evtype_t            lasteventtype;
 
-void ST_doRefresh(void);
+void ST_DoRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
 {
@@ -1691,7 +1691,7 @@ void I_ToggleWidescreen(dboolean toggle)
         vid_widescreen = false;
 
         if (gamestate == GS_LEVEL)
-            ST_doRefresh();
+            ST_DoRefresh();
 
         SDL_RenderSetLogicalSize(renderer, 0, 0);
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);

@@ -574,7 +574,7 @@ void R_StoreWallRange(const int start, const int stop)
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
         const size_t    pos = lastopening - openings;
-        const size_t    need = (rw_stopx - start) * sizeof(*lastopening) + pos;
+        const size_t    need = ((size_t)rw_stopx - start) * sizeof(*lastopening) + pos;
         static size_t   maxopenings;
 
         if (need > maxopenings)
@@ -795,7 +795,7 @@ void R_StoreWallRange(const int start, const int stop)
             // masked midtexture
             maskedtexture = true;
             ds_p->maskedtexturecol = maskedtexturecol = lastopening - rw_x;
-            lastopening += rw_stopx - rw_x;
+            lastopening += (size_t)rw_stopx - rw_x;
         }
     }
 
@@ -880,16 +880,16 @@ void R_StoreWallRange(const int start, const int stop)
     // save sprite clipping info
     if ((ds_p->silhouette & SIL_TOP) && !ds_p->sprtopclip)
     {
-        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * ((size_t)rw_stopx - start));
         ds_p->sprtopclip = lastopening - start;
-        lastopening += rw_stopx - start;
+        lastopening += (size_t)rw_stopx - start;
     }
 
     if ((ds_p->silhouette & SIL_BOTTOM) && !ds_p->sprbottomclip)
     {
-        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * ((size_t)rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;
-        lastopening += rw_stopx - start;
+        lastopening += (size_t)rw_stopx - start;
     }
 
     ds_p++;

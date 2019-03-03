@@ -484,13 +484,11 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobjtype_t  type = MT_PLASMA1;
-
     P_SubtractAmmo(1);
 
     player->extralight = 2;
 
-    do
+    for (mobjtype_t type = MT_PLASMA1; type != MT_PLASMA2; type = MT_PLASMA2)
     {
         mobj_t  *th;
         angle_t an = actor->angle;
@@ -540,7 +538,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         th->interpolate = -1;
 
         P_CheckMissileSpawn(th);
-    } while (type != MT_PLASMA2 && (type = MT_PLASMA2));    // killough: obfuscated!
+    }
 
     A_Recoil(wp_plasma);
 }
