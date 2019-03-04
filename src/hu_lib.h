@@ -92,31 +92,31 @@ typedef struct
 // textline code
 //
 
-void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
+void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 
 // returns success
-dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
+dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
-void HUlib_drawTextLine(hu_textline_t *l, dboolean external);
-void HUlib_drawAltAutomapTextLine(hu_textline_t *l);
+void HUlib_DrawTextLine(hu_textline_t *l, dboolean external);
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l);
 
 // erases text line
-void HUlib_eraseTextLine(hu_textline_t *l);
+void HUlib_EraseTextLine(hu_textline_t *l);
 
 //
 // Scrolling Text window widget routines
 //
 
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
+void HUlib_InitSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
 
-void HUlib_addMessageToSText(hu_stext_t *s, const char *msg);
+void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg);
 
 // draws stext
-void HUlib_drawSText(hu_stext_t *s, dboolean external);
+void HUlib_DrawSText(hu_stext_t *s, dboolean external);
 
 // erases all stext lines
-void HUlib_eraseSText(hu_stext_t *s);
+void HUlib_EraseSText(hu_stext_t *s);
 
 extern void (*althudtextfunc)(int, int, patch_t *, int);
 

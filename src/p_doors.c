@@ -92,7 +92,7 @@ void T_VerticalDoor(vldoor_t *door)
 
                     case doorClose30ThenOpen:
                     case genCdO:
-                        door->direction = 1;
+                        door->direction = 1;    // time to go back up
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                         break;
 

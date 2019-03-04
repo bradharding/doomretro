@@ -284,10 +284,10 @@ void HU_Start(void)
     message_external = false;
 
     // create the message widget
-    HUlib_initSText(&w_message, w_message.l->x, w_message.l->y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
+    HUlib_InitSText(&w_message, w_message.l->x, w_message.l->y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
 
     // create the map title widget
-    HUlib_initTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
+    HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
     while (M_StringWidth(s) > (vid_widescreen ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
     {
@@ -310,7 +310,7 @@ void HU_Start(void)
     }
 
     while (*s)
-        HUlib_addCharToTextLine(&w_title, *(s++));
+        HUlib_AddCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
 }
@@ -911,7 +911,7 @@ void HU_Drawer(void)
             w_message.l->x = 0;
             w_message.l->y = 0;
 
-            HUlib_drawSText(&w_message, message_external);
+            HUlib_DrawSText(&w_message, message_external);
         }
         else if (vid_widescreen)
         {
@@ -920,14 +920,14 @@ void HU_Drawer(void)
                 w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
                 w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
 
-                HUlib_drawSText(&w_message, message_external);
+                HUlib_DrawSText(&w_message, message_external);
             }
             else
             {
                 w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
                 w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
 
-                HUlib_drawSText(&w_message, message_external);
+                HUlib_DrawSText(&w_message, message_external);
             }
         }
         else
@@ -935,7 +935,7 @@ void HU_Drawer(void)
             w_message.l->x = HU_MSGX;
             w_message.l->y = HU_MSGY;
 
-            HUlib_drawSText(&w_message, message_external);
+            HUlib_DrawSText(&w_message, message_external);
         }
     }
 
@@ -947,16 +947,16 @@ void HU_Drawer(void)
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
             if (r_althud)
-                HUlib_drawAltAutomapTextLine(&w_title);
+                HUlib_DrawAltAutomapTextLine(&w_title);
             else
-                HUlib_drawTextLine(&w_title, false);
+                HUlib_DrawTextLine(&w_title, false);
         }
         else
         {
             w_title.x = HU_TITLEX;
             w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
 
-            HUlib_drawTextLine(&w_title, false);
+            HUlib_DrawTextLine(&w_title, false);
         }
     }
     else
@@ -980,9 +980,9 @@ void HU_Drawer(void)
         if (mapwindow)
         {
             if (vid_widescreen && r_althud)
-                HUlib_drawAltAutomapTextLine(&w_title);
+                HUlib_DrawAltAutomapTextLine(&w_title);
             else
-                HUlib_drawTextLine(&w_title, true);
+                HUlib_DrawTextLine(&w_title, true);
         }
     }
 }
@@ -990,10 +990,10 @@ void HU_Drawer(void)
 void HU_Erase(void)
 {
     if (message_on)
-        HUlib_eraseSText(&w_message);
+        HUlib_EraseSText(&w_message);
 
     if (mapwindow || automapactive)
-        HUlib_eraseTextLine(&w_title);
+        HUlib_EraseTextLine(&w_title);
 }
 
 extern fixed_t  m_x, m_y;
@@ -1021,7 +1021,7 @@ void HU_Ticker(void)
         else if (message_counter > 132)
             message_counter--;
 
-        HUlib_addMessageToSText(&w_message, s_STSTR_BEHOLD);
+        HUlib_AddMessageToSText(&w_message, s_STSTR_BEHOLD);
         message_on = true;
     }
     else if (idmypos)
@@ -1050,7 +1050,7 @@ void HU_Ticker(void)
                 viewx >> FRACBITS, viewy >> FRACBITS, viewplayer->mo->z >> FRACBITS);
         }
 
-        HUlib_addMessageToSText(&w_message, buffer);
+        HUlib_AddMessageToSText(&w_message, buffer);
         message_on = true;
     }
 
@@ -1088,7 +1088,7 @@ void HU_Ticker(void)
                 len--;
             }
 
-            HUlib_addMessageToSText(&w_message, message);
+            HUlib_AddMessageToSText(&w_message, message);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;

@@ -53,23 +53,23 @@ extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern int      white;
 
-static void HUlib_clearTextLine(hu_textline_t *t)
+static void HUlib_ClearTextLine(hu_textline_t *t)
 {
     t->len = 0;
     t->l[0] = '\0';
     t->needsupdate = 1;
 }
 
-void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
+void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
 {
     t->x = x;
     t->y = y;
     t->f = f;
     t->sc = sc;
-    HUlib_clearTextLine(t);
+    HUlib_ClearTextLine(t);
 }
 
-dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
+dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
@@ -82,7 +82,7 @@ dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
     }
 }
 
-static void HU_drawDot(int x, int y, unsigned char src)
+static void HU_DrawDot(int x, int y, unsigned char src)
 {
     byte    *dest = &tempscreen[y * SCREENWIDTH + x];
 
@@ -93,7 +93,7 @@ static void HU_drawDot(int x, int y, unsigned char src)
 }
 
 // [BH] draw an individual character to temporary buffer
-static void HU_drawChar(int x, int y, int ch)
+static void HU_DrawChar(int x, int y, int ch)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
@@ -101,7 +101,7 @@ static void HU_drawChar(int x, int y, int ch)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
-                HU_drawDot(x + x1, y + y1, smallcharset[ch][y1 * w + x1]);
+                HU_DrawDot(x + x1, y + y1, smallcharset[ch][y1 * w + x1]);
     }
     else
     {
@@ -114,12 +114,12 @@ static void HU_drawChar(int x, int y, int ch)
 
                 for (int yy = 0; yy < SCREENSCALE; yy++)
                     for (int xx = 0; xx < SCREENSCALE; xx++)
-                        HU_drawDot(i + xx, j + yy, src);
+                        HU_DrawDot(i + xx, j + yy, src);
             }
     }
 }
 
-static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
+static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
     int             x = (automapactive ? 10 : HU_ALTHUDMSGX);
@@ -160,7 +160,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     }
 }
 
-void HUlib_drawAltAutomapTextLine(hu_textline_t *l)
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
     int             x = 10;
@@ -218,7 +218,7 @@ kern_t kern[] =
     { 0,   0,     0 }
 };
 
-void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
+void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 {
     int         w = 0;
     int         tw = 0;
@@ -297,7 +297,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_drawChar(x, y - 1, j);
+                HU_DrawChar(x, y - 1, j);
             }
 
             x += w;
@@ -369,7 +369,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 }
 
 // sorta called by HU_Erase and just better darn get things straight
-void HUlib_eraseTextLine(hu_textline_t *l)
+void HUlib_EraseTextLine(hu_textline_t *l)
 {
     // Only erases when NOT in automap and the screen is reduced,
     // and the text must either need updating or refreshing
@@ -392,7 +392,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
+void HUlib_InitSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
 {
     s->h = h;
     s->on = on;
@@ -400,31 +400,31 @@ void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int sta
     s->cl = 0;
 
     for (int i = 0; i < h; i++)
-        HUlib_initTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
+        HUlib_InitTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
 }
 
-static void HUlib_addLineToSText(hu_stext_t *s)
+static void HUlib_AddLineToSText(hu_stext_t *s)
 {
     // add a clear line
     if (++s->cl == s->h)
         s->cl = 0;
 
-    HUlib_clearTextLine(&s->l[s->cl]);
+    HUlib_ClearTextLine(&s->l[s->cl]);
 
     // everything needs updating
     for (int i = 0; i < s->h; i++)
         s->l[i].needsupdate = 4;
 }
 
-void HUlib_addMessageToSText(hu_stext_t *s, const char *msg)
+void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
 {
-    HUlib_addLineToSText(s);
+    HUlib_AddLineToSText(s);
 
     while (*msg)
-        HUlib_addCharToTextLine(&s->l[s->cl], *(msg++));
+        HUlib_AddCharToTextLine(&s->l[s->cl], *(msg++));
 }
 
-void HUlib_drawSText(hu_stext_t *s, dboolean external)
+void HUlib_DrawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
         return; // if not on, don't draw
@@ -442,20 +442,20 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
 
         // need a decision made here on whether to skip the draw
         if (vid_widescreen && r_althud)
-            HUlib_drawAltHUDTextLine(l);
+            HUlib_DrawAltHUDTextLine(l);
         else
-            HUlib_drawTextLine(l, external);
+            HUlib_DrawTextLine(l, external);
     }
 }
 
-void HUlib_eraseSText(hu_stext_t *s)
+void HUlib_EraseSText(hu_stext_t *s)
 {
     for (int i = 0; i < s->h; i++)
     {
         if (s->laston && !*s->on)
             s->l[i].needsupdate = 4;
 
-        HUlib_eraseTextLine(&s->l[i]);
+        HUlib_EraseTextLine(&s->l[i]);
     }
 
     s->laston = *s->on;

@@ -194,7 +194,7 @@ extern fixed_t  openbottom;
 extern fixed_t  openrange;
 extern fixed_t  lowfloor;
 
-void P_LineOpening(line_t *linedef);
+void P_LineOpening(line_t *line);
 
 dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *));
 dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));

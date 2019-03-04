@@ -329,7 +329,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     memcpy(&MUSh, mus, sizeof(MUSheader));
 
     // check some things and set length of MUS buffer from internal data
-    if (!(muslen = MUSh.ScoreLength + MUSh.ScoreStart))
+    if (!(muslen = (size_t)MUSh.ScoreLength + MUSh.ScoreStart))
         return false;                       // MUS file empty
 
     if (MUSh.channels > 15)                 // MUSchannels + drum channel > 16
