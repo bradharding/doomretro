@@ -75,12 +75,12 @@ static void F_StartCast(void);
 static void F_CastTicker(void);
 static dboolean F_CastResponder(event_t *ev);
 
-void WI_checkForAccelerate(void);
+void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static int              midstage;               // whether we're in "mid-stage"
+static dboolean         midstage;               // whether we're in "mid-stage"
 
-extern int              acceleratestage;        // accelerate intermission screens
+extern dboolean         acceleratestage;        // accelerate intermission screens
 
 //
 // F_ConsoleFinaleText
@@ -106,8 +106,8 @@ void F_StartFinale(void)
     automapactive = false;
 
     // killough 3/28/98: clear accelerative text flags
-    acceleratestage = 0;
-    midstage = 0;
+    acceleratestage = false;
+    midstage = false;
 
     C_AddConsoleDivider();
 
@@ -228,7 +228,7 @@ dboolean F_Responder(event_t *ev)
 
 static fixed_t TextSpeed(void)
 {
-    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? acceleratestage = 0, NEWTEXTSPEED : TEXTSPEED);
+    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? acceleratestage = false, NEWTEXTSPEED : TEXTSPEED);
 }
 
 //
@@ -239,7 +239,7 @@ void F_Ticker(void)
     if (menuactive || paused || consoleactive)
         return;
 
-    WI_checkForAccelerate();
+    WI_CheckForAccelerate();
 
     // advance animation
     finalecount++;
