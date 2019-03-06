@@ -118,6 +118,6 @@ extern SDL_Window   *mapwindow;
 extern SDL_Renderer *maprenderer;
 extern byte         *mapscreen;
 
-extern byte         *playpallump;
+extern byte         *PLAYPAL;
 
 #endif

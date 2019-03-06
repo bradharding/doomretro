@@ -2205,7 +2205,7 @@ void M_StartMessage(char *string, void *routine, dboolean input)
     messageNeedsInput = input;
     menuactive = true;
 
-    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+    I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
 }
 
@@ -2415,7 +2415,7 @@ void M_ChangeGamma(dboolean shift)
     }
 
     message_dontfuckwithme = true;
-    I_SetPalette(&playpallump[st_palette * 768]);
+    I_SetPalette(&PLAYPAL[st_palette * 768]);
     M_SaveCVARs();
 }
 
@@ -3443,7 +3443,7 @@ void M_StartControlPanel(void)
     }
 
     viewplayer->fixedcolormap = 0;
-    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+    I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
 
     if (vid_motionblur)
@@ -3636,7 +3636,7 @@ void M_ClearMenus(void)
 
     if (gamestate == GS_LEVEL)
     {
-        I_SetPalette(&playpallump[st_palette * 768]);
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
 
         viewplayer->mo->angle = playerangle;
 

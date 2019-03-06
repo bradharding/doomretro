@@ -918,7 +918,7 @@ void G_Ticker(void)
                     S_PauseSound();
                     S_StartSound(NULL, sfx_swtchn);
                     viewplayer->fixedcolormap = 0;
-                    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+                    I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
                     I_StopGamepadVibration();
                 }
@@ -926,7 +926,7 @@ void G_Ticker(void)
                 {
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
-                    I_SetPalette(&playpallump[st_palette * 768]);
+                    I_SetPalette(&PLAYPAL[st_palette * 768]);
                 }
 
                 break;
@@ -1384,7 +1384,7 @@ void G_DoLoadGame(void)
 {
     int savedleveltime;
 
-    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+    I_SetPalette(PLAYPAL);
 
     loadaction = gameaction;
     gameaction = ga_nothing;
@@ -1580,7 +1580,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 
 static void G_DoNewGame(void)
 {
-    I_SetPalette(W_CacheLumpName("PLAYPAL"));
+    I_SetPalette(PLAYPAL);
 
     if (vid_widescreen)
         I_ToggleWidescreen(true);

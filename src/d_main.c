@@ -125,7 +125,6 @@ static dboolean     forcewipe;
 
 dboolean            splashscreen = false;
 
-static byte         *playpal;
 static int          startuptimer;
 
 dboolean            realframe;
@@ -214,7 +213,7 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate && !splashscreen)
-            I_SetPalette(playpal);
+            I_SetPalette(PLAYPAL);
 
         switch (gamestate)
         {
@@ -434,7 +433,7 @@ void D_PageDrawer(void)
         static int  prevtic;
 
         if (pagetic != prevtic)
-            I_SetSimplePalette(splashpal + (pagetic <= 9 ? (9 - pagetic) * 768 : (pagetic >= 94 ? (pagetic - 94) * 768 : 0)));
+            I_SetSimplePalette(&splashpal[(pagetic <= 9 ? (9 - pagetic) * 768 : (pagetic >= 94 ? (pagetic - 94) * 768 : 0))]);
 
         prevtic = pagetic;
     }
@@ -452,7 +451,7 @@ void D_FadeScreen(void)
 
     for (int i = 0; i < 11; i++)
     {
-        I_SetPalette(splashpal + i * 768);
+        I_SetPalette(&splashpal[i * 768]);
         blitfunc();
     }
 }
@@ -511,7 +510,7 @@ void D_DoAdvanceTitle(void)
 
         if (splashscreen)
         {
-            I_SetPalette(playpal);
+            I_SetPalette(PLAYPAL);
             splashscreen = false;
             I_Sleep(300);
         }
@@ -1544,9 +1543,9 @@ static void D_ProcessDehInWad(void)
 
 static void D_ParseStartupString(const char *string)
 {
-    int len = (int)strlen(string);
+    size_t  len = strlen(string);
 
-    for (int i = 0, start = 0; i < len; i++)
+    for (size_t i = 0, start = 0; i < len; i++)
         if (string[i] == '\n' || i == len - 1)
         {
             C_Output(M_SubString(string, start, i - start));
@@ -1973,7 +1972,6 @@ static void D_DoomMainSetup(void)
     splashpal = W_CacheLumpName("SPLSHPAL");
     titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
     creditlump = W_CacheLumpName("CREDIT");
-    playpal = W_CacheLumpName("PLAYPAL");
 
     if (gameaction != ga_loadgame)
     {
@@ -1988,7 +1986,11 @@ static void D_DoomMainSetup(void)
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
-            D_StartTitle(M_CheckParm("-nosplash") || SCREENSCALE == 1);   // start up intro loop
+#if SCREENSCALE == 1
+            D_StartTitle(true);
+#else
+            D_StartTitle(M_CheckParm("-nosplash"));
+#endif
     }
 
     time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);

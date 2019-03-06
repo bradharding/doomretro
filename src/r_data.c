@@ -611,7 +611,7 @@ static void R_InitColormaps(void)
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
     // The resulting differences are minor.
-    palsrc = palette = W_CacheLumpName("PLAYPAL");
+    palsrc = palette = PLAYPAL;
 
     for (int i = 0; i < 255; i++)
     {

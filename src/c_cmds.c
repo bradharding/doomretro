@@ -4989,7 +4989,7 @@ static void color_cvars_func2(char *cmd, char *parms)
 
     if (strlen(parms) == 7 && parms[0] == '#')
     {
-        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(W_CacheLumpName("PLAYPAL"),
+        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(PLAYPAL,
             hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)), hextodec(M_SubString(parms, 5, 2))));
         int_cvars_func2(cmd, buffer);
     }
@@ -5637,7 +5637,7 @@ static void r_color_cvar_func2(char *cmd, char *parms)
 
     if (r_color != r_color_old)
     {
-        I_SetPalette(&playpallump[st_palette * 768]);
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
         M_SaveCVARs();
     }
 }
@@ -5770,7 +5770,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
-            I_SetPalette(&playpallump[st_palette * 768]);
+            I_SetPalette(&PLAYPAL[st_palette * 768]);
             M_SaveCVARs();
         }
     }
