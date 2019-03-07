@@ -1843,7 +1843,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-episode", 1, 1)))
+    if ((p = M_CheckParmWithArgs("-episode", 1, 1)) && gamemode != commercial)
     {
         char **episodes[] =
         {
