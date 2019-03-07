@@ -1850,13 +1850,14 @@ static void D_DoomMainSetup(void)
             &s_M_EPISODE1,
             &s_M_EPISODE2,
             &s_M_EPISODE3,
-            &s_M_EPISODE4
+            &s_M_EPISODE4,
+            &s_M_EPISODE5
         };
 
         int temp = myargv[p + 1][0] - '0';
 
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered && temp <= 3)
-            || (gamemode == retail && temp <= 4))))
+            || (gamemode == retail && temp <= 4) || (sigil && temp <= 5))))
         {
             startepisode = temp;
             episode = temp;
