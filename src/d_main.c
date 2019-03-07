@@ -1874,7 +1874,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-expansion", 1, 1)))
+    if ((p = M_CheckParmWithArgs("-expansion", 1, 1)) && gamemode == commercial)
     {
         char **expansions[] =
         {
@@ -1884,7 +1884,7 @@ static void D_DoomMainSetup(void)
 
         int temp = myargv[p + 1][0] - '0';
 
-        if (gamemode == commercial && temp <= (nerve ? 2 : 1))
+        if (temp <= (nerve ? 2 : 1))
         {
             gamemission = (temp == 1 ? doom2 : pack_nerve);
             expansion = temp;
@@ -1908,7 +1908,7 @@ static void D_DoomMainSetup(void)
         if (gamemode == commercial)
         {
             if (strlen(myargv[p + 1]) == 5 && toupper(myargv[p + 1][0]) == 'M' && toupper(myargv[p + 1][1]) == 'A'
-                && toupper(myargv[p + 1][2]) == 'P' && isdigit(myargv[p + 1][3]) && isdigit(myargv[p + 1][4]))
+                && toupper(myargv[p + 1][2]) == 'P' && isdigit((int)myargv[p + 1][3]) && isdigit((int)myargv[p + 1][4]))
                 startmap = (myargv[p + 1][3] - '0') * 10 + myargv[p + 1][4] - '0';
             else
                 startmap = atoi(myargv[p + 1]);
@@ -1917,8 +1917,8 @@ static void D_DoomMainSetup(void)
         }
         else
         {
-            if (strlen(myargv[p + 1]) == 4 && toupper(myargv[p + 1][0]) == 'E' && isdigit(myargv[p + 1][1])
-                && toupper(myargv[p + 1][2]) == 'M' && isdigit(myargv[p + 1][3]))
+            if (strlen(myargv[p + 1]) == 4 && toupper(myargv[p + 1][0]) == 'E' && isdigit((int)myargv[p + 1][1])
+                && toupper(myargv[p + 1][2]) == 'M' && isdigit((int)myargv[p + 1][3]))
             {
                 startepisode = myargv[p + 1][1] - '0';
                 startmap = myargv[p + 1][3] - '0';

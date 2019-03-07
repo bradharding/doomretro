@@ -303,7 +303,7 @@ static void F_TextWrite(void)
             for (int i = 0; i < 64; i++)
             {
                 int     j = i * 2;
-                byte    dot = *(src + (((y / 2) & 63) << 6) + i);
+                byte    dot = src[(((y / 2) & 63) << 6) + i];
 
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
@@ -873,7 +873,7 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     {
         int     count = (column->length << FRACBITS) / fracstep;
         fixed_t frac = 0;
-        byte    *dest = desttop + column->topdelta * SCREENWIDTH;
+        byte    *dest = &desttop[column->topdelta * SCREENWIDTH];
         byte    *source = (byte *)column + 3;
 
         while (count--)

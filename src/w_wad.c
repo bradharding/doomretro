@@ -196,7 +196,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         filerover++;
     }
 
-    lumps_str = commify(numlumps - startlump);
+    lumps_str = commify((int64_t)numlumps - startlump);
     C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), lumps_str,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
 
@@ -292,9 +292,9 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
     for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
-        if (n[0] == 'E' && isdigit(n[1]) && n[2] == 'M' && isdigit(n[3]) && n[4] == '\0')
+        if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
             result = doom;
-        else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P' && isdigit(n[3]) && isdigit(n[4]) && n[5] == '\0')
+        else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P' && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0')
             result = doom2;
 
     fclose(fp);

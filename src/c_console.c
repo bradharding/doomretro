@@ -866,7 +866,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 
         V_DrawConsoleTextPatch(x + (buffer[i] == '1' ? (zerowidth - width) / 2 : 0),
             y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
-        x += (isdigit(buffer[i]) ? zerowidth : width);
+        x += (isdigit((int)buffer[i]) ? zerowidth : width);
     }
 }
 
@@ -1169,7 +1169,7 @@ dboolean C_ValidateInput(const char *input)
             {
                 const int   length = (int)strlen(input);
 
-                if (isdigit(input[length - 2]) && isdigit(input[length - 1]))
+                if (isdigit((int)input[length - 2]) && isdigit((int)input[length - 1]))
                 {
                     consolecheatparm[0] = input[length - 2];
                     consolecheatparm[1] = input[length - 1];

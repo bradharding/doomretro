@@ -156,11 +156,11 @@ static dboolean ValidSpriteLumpName(char *name)
         return false;
 
     // First frame:
-    if (name[4] == '\0' || !isdigit(name[5]))
+    if (name[4] == '\0' || !isdigit((int)name[5]))
         return false;
 
     // Second frame (optional):
-    if (name[6] != '\0' && !isdigit(name[7]))
+    if (name[6] != '\0' && !isdigit((int)name[7]))
         return false;
 
     return true;
@@ -187,7 +187,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     {
         sprite_frame_t  *newframes;
 
-        newframes = Z_Malloc(sprite_frames_alloced * 2 * sizeof(*sprite_frames), PU_STATIC, NULL);
+        newframes = Z_Malloc((size_t)sprite_frames_alloced * 2 * sizeof(*sprite_frames), PU_STATIC, NULL);
         memcpy(newframes, sprite_frames, sprite_frames_alloced * sizeof(*sprite_frames));
         Z_Free(sprite_frames);
         sprite_frames_alloced *= 2;

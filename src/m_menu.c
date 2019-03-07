@@ -1158,11 +1158,11 @@ void M_UpdateSaveGameName(int i)
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
-    else if (gamemission == doom && len == 4 && savegamestrings[i][0] == 'E' && isdigit(savegamestrings[i][1])
-        && savegamestrings[i][2] == 'M' && isdigit(savegamestrings[i][3]) && W_CheckNumForName(savegamestrings[i]) >= 0)
+    else if (gamemission == doom && len == 4 && savegamestrings[i][0] == 'E' && isdigit((int)savegamestrings[i][1])
+        && savegamestrings[i][2] == 'M' && isdigit((int)savegamestrings[i][3]) && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
     else if (gamemission != doom && len == 5 && savegamestrings[i][0] == 'M' && savegamestrings[i][1] == 'A'
-        && savegamestrings[i][2] == 'P' && isdigit(savegamestrings[i][3]) && isdigit(savegamestrings[i][4])
+        && savegamestrings[i][2] == 'P' && isdigit((int)savegamestrings[i][3]) && isdigit((int)savegamestrings[i][4])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
