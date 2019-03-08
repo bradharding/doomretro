@@ -1684,8 +1684,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                 return;
 
             if (target->player)
-                C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
-                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                C_Obituary("%s %s %s with %s own %s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
                     (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
                     weaponinfo[readyweapon].description);
             else
@@ -1713,8 +1712,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                 char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
 
                 if (target->player)
-                    C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
-                        (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                    C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename, (gibbed ? "gibbed" : "killed"),
                         (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                 else
                 {
