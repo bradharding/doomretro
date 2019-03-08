@@ -1669,7 +1669,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                     (M_StringCompare(playername, playername_default) ? "were" : "was"), (gibbed ? "gibbed" : "killed"));
             else
             {
-                char    *name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
+                char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
                 C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
                     (gibbed ? "gibbed" : "killed"));
@@ -1679,7 +1679,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
         {
             if (source->player->mo == source)
             {
-                weapontype_t    readyweapon = source->player->readyweapon;
+                weapontype_t    readyweapon = viewplayer->readyweapon;
 
                 if (M_StringCompare(playername, playername_default))
                 {
@@ -1688,12 +1688,12 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                             weaponinfo[readyweapon].description);
                     else
                     {
-                        char* name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
+                        char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
                         C_Obituary("You %s %s %s with your %s%s.",
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && source->player->powers[pw_strength] ? " while you went berserk" : ""));
+                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while you went berserk" : ""));
                     }
                 }
                 else
@@ -1703,12 +1703,12 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                             (gibbed ? "gibbed" : "killed"), weaponinfo[readyweapon].description);
                     else
                     {
-                        char* name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
+                        char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
                         C_Obituary("%s %s %s %s with their %s%s.", titlecase(playername),
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && source->player->powers[pw_strength] ? " while they went berserk" : ""));
+                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
                     }
                 }
 
@@ -1718,11 +1718,16 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
         {
             if (source->type == MT_TFOG)
             {
-                char    *name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
+                if (target->player)
+                    C_Obituary("%s %s telefragged.",
+                        titlecase(playername), (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                else
+                {
+                    char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
-                    (target->player ? titlecase(playername) : name),
-                    (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                    C_Obituary("%s%s %s telefragged.", (isvowel(name[0]) ? "An " : "A "), name,
+                        (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                }
             }
             else
             {
@@ -1733,7 +1738,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                         (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                 else
                 {
-                    char    *name = (mobjinfo[target->type].name1[0] != '\0' ? mobjinfo[target->type].name1 : "monster");
+                    char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
                     C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1744,7 +1749,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
     }
     else if (target->player && target->player->mo == target)
     {
-        sector_t    *sector = target->player->mo->subsector->sector;
+        sector_t    *sector = viewplayer->mo->subsector->sector;
 
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
             C_Obituary("%s %s crushed to death.", titlecase(playername),
