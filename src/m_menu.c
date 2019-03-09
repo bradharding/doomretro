@@ -2474,7 +2474,7 @@ dboolean M_Responder(event_t *ev)
             else if (!messageToPrint)
             {
                 // select previous menu item
-                if (gamepadthumbLY < 0 || (gamepadbuttons & GAMEPAD_DPAD_UP))
+                if (gamepadthumbLY < 0 || gamepadthumbRY < 0 || (gamepadbuttons & GAMEPAD_DPAD_UP))
                 {
                     key = KEY_UPARROW;
                     keywait = 0;
@@ -2483,7 +2483,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // select next menu item
-                else if (gamepadthumbLY > 0 || (gamepadbuttons & GAMEPAD_DPAD_DOWN))
+                else if (gamepadthumbLY > 0 || gamepadthumbRY > 0 || (gamepadbuttons & GAMEPAD_DPAD_DOWN))
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
@@ -2492,7 +2492,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // decrease slider
-                else if ((gamepadthumbLX < 0 || (gamepadbuttons & GAMEPAD_DPAD_LEFT)) && !saveStringEnter
+                else if ((gamepadthumbLX < 0 || gamepadthumbRX < 0 || (gamepadbuttons & GAMEPAD_DPAD_LEFT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_LEFTARROW;
@@ -2501,7 +2501,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // increase slider
-                else if ((gamepadthumbLX > 0 || (gamepadbuttons & GAMEPAD_DPAD_RIGHT)) && !saveStringEnter
+                else if ((gamepadthumbLX > 0 || gamepadthumbRX > 0 || (gamepadbuttons & GAMEPAD_DPAD_RIGHT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_RIGHTARROW;

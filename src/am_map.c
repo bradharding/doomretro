@@ -1042,36 +1042,68 @@ dboolean AM_Responder(const event_t *ev)
 
                 if (!am_followmode)
                 {
-                    // pan right
+                    // pan right with left thumbstick
                     if (gamepadthumbLX > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXright * 1.2f)));
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * gamepadthumbLXright * 1.2f);
                     }
 
-                    // pan left
+                    // pan left with left thumbstick
                     else if (gamepadthumbLX < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXleft * 1.2f)));
+                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbLXleft * 1.2f);
                     }
 
-                    // pan up
+                    // pan right with right thumbstick
+                    if (gamepadthumbRX > 0 && gamepadthumbRX > gamepadthumbLX)
+                    {
+                        movement = true;
+                        speedtoggle = AM_GetSpeedToggle();
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * gamepadthumbRXright * 1.2f);
+                    }
+
+                    // pan left with right thumbstick
+                    else if (gamepadthumbRX < 0 && gamepadthumbRX < gamepadthumbLX)
+                    {
+                        movement = true;
+                        speedtoggle = AM_GetSpeedToggle();
+                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRXleft * 1.2f);
+                    }
+
+                    // pan up with left thumbstick
                     if (gamepadthumbLY < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYup * 1.2f)));
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * gamepadthumbLYup * 1.2f);
                     }
 
-                    // pan down
+                    // pan down with left thumbstick
                     else if (gamepadthumbLY > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f)));
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f);
+                    }
+
+                    // pan up with right thumbstick
+                    if (gamepadthumbRY < 0 && gamepadthumbRY < gamepadthumbLY)
+                    {
+                        movement = true;
+                        speedtoggle = AM_GetSpeedToggle();
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * gamepadthumbRYup * 1.2f);
+                    }
+
+                    // pan down with right thumbstick
+                    else if (gamepadthumbRY > 0 && gamepadthumbRY > gamepadthumbLY)
+                    {
+                        movement = true;
+                        speedtoggle = AM_GetSpeedToggle();
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRYdown * 1.2f);
                     }
                 }
             }
