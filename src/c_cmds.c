@@ -1137,29 +1137,30 @@ static dboolean null_func1(char *cmd, char *parms)
 //
 dboolean C_ExecuteAlias(const char *alias)
 {
-    for (int i = 0; i < MAXALIASES; i++)
-        if (M_StringCompare(alias, aliases[i].name))
-        {
-            char    *string = M_StringDuplicate(aliases[i].string);
-            char    *strings[255];
-            int     j = 0;
-
-            strings[0] = strtok(string, ";");
-            executingalias = true;
-
-            while (strings[j])
+    if (!executingalias)
+        for (int i = 0; i < MAXALIASES; i++)
+            if (M_StringCompare(alias, aliases[i].name))
             {
-                if (!C_ValidateInput(trimwhitespace(strings[j])))
-                    break;
+                char    *string = M_StringDuplicate(aliases[i].string);
+                char    *strings[255];
+                int     j = 0;
 
-                strings[++j] = strtok(NULL, ";");
+                strings[0] = strtok(string, ";");
+                executingalias = true;
+
+                while (strings[j])
+                {
+                    if (!C_ValidateInput(trimwhitespace(strings[j])))
+                        break;
+
+                    strings[++j] = strtok(NULL, ";");
+                }
+
+                executingalias = false;
+                C_Input(alias);
+                free(string);
+                return true;
             }
-
-            executingalias = false;
-            C_Input(alias);
-            free(string);
-            return true;
-        }
 
     return false;
 }
