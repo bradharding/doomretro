@@ -3,6 +3,7 @@
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
+* Further improvements have been made to the console’s autocomplete feature.
 * Obituaries are no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is entered.
 * The accuracy of where the player fires their weapon has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
