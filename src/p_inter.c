@@ -1665,14 +1665,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
             if (target->player)
-                C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
-                    (M_StringCompare(playername, playername_default) ? "were" : "was"), (gibbed ? "gibbed" : "killed"));
+                C_Obituary("%s %s %s by an exploding %s.", titlecase(playername),
+                    (M_StringCompare(playername, playername_default) ? "were" : "was"), (gibbed ? "gibbed" : "killed"),
+                    inflicter->info->name1);
             else
             {
                 char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
-                    (gibbed ? "gibbed" : "killed"));
+                C_Obituary("%s %s was %s by an exploding %s.", (isvowel(name[0]) ? "An" : "A"), name,
+                    (gibbed ? "gibbed" : "killed"), inflicter->info->name1);
             }
         }
         else if (source->player)
