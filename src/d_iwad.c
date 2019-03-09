@@ -190,7 +190,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
     HKEY    key;
     DWORD   len;
     DWORD   valtype;
-    char    *result = NULL;
+    char    *result = "";
 
     // Open the key (directory where the value is stored)
     if (RegOpenKeyEx(reg_val->root, reg_val->path, 0, KEY_READ, &key) != ERROR_SUCCESS)

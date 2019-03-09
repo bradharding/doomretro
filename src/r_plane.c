@@ -83,13 +83,6 @@ extern dboolean     canmouselook;
 //
 // R_MapPlane
 //
-// Uses global vars:
-//  planeheight
-//  viewx
-//  viewy
-//
-// BASIC PRIMITIVE
-//
 static void R_MapPlane(int y, int x1, int x2)
 {
     static fixed_t  cacheddistance[SCREENHEIGHT];

@@ -1658,7 +1658,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
     }
 }
 
-void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean gibbed)
+static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean gibbed)
 {
     if (source)
     {
@@ -1725,7 +1725,7 @@ void P_PrintObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean
                 {
                     char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                    C_Obituary("%s%s %s telefragged.", (isvowel(name[0]) ? "An " : "A "), name,
+                    C_Obituary("%s %s %s telefragged.", (isvowel(name[0]) ? "An" : "A"), name,
                         (M_StringCompare(playername, playername_default) ? "were" : "was"));
                 }
             }
@@ -1871,7 +1871,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         return;
 
     if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
-        P_PrintObituary(target, inflicter, source, gibbed);
+        P_WriteObituary(target, inflicter, source, gibbed);
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.

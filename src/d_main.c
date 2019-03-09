@@ -1839,7 +1839,7 @@ static void D_DoomMainSetup(void)
             strreplace(string, ".", "");
             strreplace(string, "!", "");
 
-            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now \"%s\".", myargv[p], string);
+            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i><b>%s</b></i>.", myargv[p], string);
         }
     }
 
@@ -1870,7 +1870,8 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
 
             autostart = true;
-            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now \"%s\".", *episodes[episode - 1]);
+            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now <i><b>%s</b></i>.",
+                *episodes[episode - 1]);
         }
     }
 
@@ -1893,7 +1894,7 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now \"%s\".",
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now <i><b>%s</b></i>.",
                 *expansions[expansion - 1]);
         }
     }
