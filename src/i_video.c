@@ -593,7 +593,8 @@ static void I_GetEvent(void)
                         break;
                 }
 
-                lasteventtype = ev_gamepad;
+                event.type = lasteventtype = ev_gamepad;
+                D_PostEvent(&event);
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:

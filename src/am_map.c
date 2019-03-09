@@ -688,6 +688,7 @@ dboolean AM_Responder(const event_t *ev)
 
     direction = 0;
     modstate = SDL_GetModState();
+    movement = false;
 
     if (!menuactive && !paused)
     {
@@ -1173,9 +1174,8 @@ void AM_Ticker(void)
     if ((m_paninc.x || m_paninc.y) && !menuactive && !paused && !consoleactive)
         AM_ChangeWindowLoc();
 
-    if (movement)
+    if (!movement)
     {
-        movement = false;
         m_paninc.x = 0;
         m_paninc.y = 0;
         mtof_zoommul = FRACUNIT;

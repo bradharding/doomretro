@@ -10,6 +10,7 @@
 * To improve accuracy, a monster’s actual bounding box is now checked when it is being hit.
 * A couple of rendering problems related to the use of line special 242 in *BOOM*-compatible maps have been fixed.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
+* A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`.
 
 ---
 
