@@ -4123,6 +4123,12 @@ static void C_VerifyResetAll(const int key)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
+        // reset stretched sky
+        if (gamestate == GS_LEVEL)
+            R_InitSkyMap();
+
+        R_InitColumnFunctions();
+
         // set all controls to defaults
         keyboardalwaysrun = KEYALWAYSRUN_DEFAULT;
         keyboardautomap = KEYAUTOMAP_DEFAULT;
