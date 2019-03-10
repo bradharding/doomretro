@@ -87,7 +87,7 @@
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
-#define TAKECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
+#define TAKECMDFORMAT       GIVECMDFORMAT
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT      "<i>minutes</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>|<b>+</b><i>action</i>"
@@ -1170,9 +1170,7 @@ void alias_cmd_func2(char *cmd, char *parms)
     char    parm1[128] = "";
     char    parm2[128] = "";
 
-    sscanf(parms, "%127s %127[^\n]", parm1, parm2);
-
-    if (!*parm1)
+    if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
         C_ShowDescription(C_GetIndex(stringize(alias)));
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
@@ -1259,9 +1257,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     char            parm2[128] = "";
     const dboolean  mouselookcontrols = (keyboardmouselook || gamepadmouselook || mousemouselook != -1);
 
-    sscanf(parms, "%127s %127[^\n]", parm1, parm2);
-
-    if (!*parm1)
+    if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
         C_ShowDescription(C_GetIndex(stringize(bind)));
         C_Output("<b>%s</b> %s", cmd, BINDCMDFORMAT);
