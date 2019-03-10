@@ -4121,9 +4121,10 @@ static void C_VerifyResetAll(const int key)
 
         // reset stretched sky
         if (gamestate == GS_LEVEL)
+        {
             R_InitSkyMap();
-
-        R_InitColumnFunctions();
+            R_InitColumnFunctions();
+        }
 
         // set all controls to defaults
         keyboardalwaysrun = KEYALWAYSRUN_DEFAULT;
@@ -5280,12 +5281,10 @@ static void autotilt_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (autotilt != autotilt_old)
+    if (autotilt != autotilt_old && gamestate == GS_LEVEL)
     {
+        R_InitSkyMap();
         R_InitColumnFunctions();
-
-        if (gamestate == GS_LEVEL)
-            R_InitSkyMap();
     }
 }
 
@@ -5403,11 +5402,11 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 
     if (mouselook != mouselook_old)
     {
-        R_InitColumnFunctions();
 
         if (gamestate == GS_LEVEL)
         {
             R_InitSkyMap();
+            R_InitColumnFunctions();
 
             if (!mouselook)
             {

@@ -229,7 +229,7 @@ void HU_Init(void)
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
 
-    crosshaircolor = tinttab40 + (nearestcolors[WHITE] << 8);
+    crosshaircolor = &tinttab40[nearestcolors[WHITE] << 8];
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -315,8 +315,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *translucency, patch_t **numset, int gap,
-    void (*hudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = val;
     patch_t *patch;
@@ -340,22 +339,22 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, patch_t **
 
     if (val > 99)
     {
-        patch = numset[val / 100];
+        patch = tallnum[val / 100];
         hudnumfunc(*x, y, patch, translucency);
-        *x += SHORT(patch->width) + gap;
+        *x += SHORT(patch->width);
     }
 
     val %= 100;
 
     if (val > 9 || oldval > 99)
     {
-        patch = numset[val / 10];
+        patch = tallnum[val / 10];
         hudnumfunc(*x, y, patch, translucency);
-        *x += SHORT(patch->width) + gap;
+        *x += SHORT(patch->width);
     }
 
     val %= 10;
-    patch = numset[val];
+    patch = tallnum[val];
     hudnumfunc(*x, y, patch, translucency);
     *x += SHORT(patch->width);
 }
@@ -435,14 +434,14 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
             V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, translucency);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, tallnum, 0, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, translucency);
@@ -479,7 +478,7 @@ static void HU_DrawHUD(void)
         if ((patch = ammopic[ammotype].patch))
             hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency, tallnum, 0,
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
         if (!gamepaused)
@@ -541,14 +540,14 @@ static void HU_DrawHUD(void)
 
         if (armorhighlight > currenttime)
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum, 0, V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
 
             if (!emptytallpercent)
                 V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
         }
         else
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, tallnum, 0, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
 
             if (!emptytallpercent)
                 hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
