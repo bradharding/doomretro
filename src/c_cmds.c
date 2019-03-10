@@ -5286,8 +5286,10 @@ static void autotilt_cvar_func2(char *cmd, char *parms)
 
     if (autotilt != autotilt_old)
     {
-        R_InitSkyMap();
         R_InitColumnFunctions();
+
+        if (gamestate == GS_LEVEL)
+            R_InitSkyMap();
     }
 }
 
@@ -5405,15 +5407,19 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 
     if (mouselook != mouselook_old)
     {
-        R_InitSkyMap();
         R_InitColumnFunctions();
 
-        if (!mouselook && gamestate == GS_LEVEL)
+        if (gamestate == GS_LEVEL)
         {
-            viewplayer->lookdir = 0;
-            viewplayer->oldlookdir = 0;
-            viewplayer->recoil = 0;
-            viewplayer->oldrecoil = 0;
+            R_InitSkyMap();
+
+            if (!mouselook)
+            {
+                viewplayer->lookdir = 0;
+                viewplayer->oldlookdir = 0;
+                viewplayer->recoil = 0;
+                viewplayer->oldrecoil = 0;
+            }
         }
     }
 }

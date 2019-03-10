@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "m_config.h"
 #include "p_setup.h"
@@ -117,4 +118,7 @@ void R_InitSkyMap(void)
         skytexturemid = ORIGINALHEIGHT / 2 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / ((uint64_t)viewwidth * SCREENHEIGHT));
     }
+
+    if (consoleactive)
+        forceconsoleblurredraw = true;
 }
