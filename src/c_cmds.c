@@ -1825,11 +1825,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
-            if (*description2)
+            if (description2 && *description2)
             {
                 C_TabbedOutput(tabs, "\t\t\t%s", description2);
 
-                if (*description3)
+                if (description3 && *description3)
                     C_TabbedOutput(tabs, "\t\t\t%s", description3);
             }
         }
@@ -1985,14 +1985,13 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
         return true;
 
-    sscanf(parm, "%10d", &num);
-
-    for (int i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
-            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
-            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
-            || (num == mobjinfo[i].doomednum && num != -1)))
-            return true;
+    if (sscanf(parm, "%10d", &num) == 1)
+        for (int i = 0; i < NUMMOBJTYPES; i++)
+            if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                || (num == mobjinfo[i].doomednum && num != -1)))
+                return true;
 
     return false;
 }

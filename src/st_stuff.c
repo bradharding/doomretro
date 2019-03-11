@@ -165,9 +165,6 @@
 // ST_Start() has just been called
 static dboolean             st_firsttime;
 
-// lump number for PLAYPAL
-static int                  lu_palette;
-
 // whether left-side main status bar is active
 static dboolean             st_statusbaron;
 
@@ -1283,7 +1280,7 @@ static void ST_DoPaletteStuff(void)
     if (palette != st_palette)
     {
         st_palette = palette;
-        I_SetPalette((byte *)W_CacheLumpNum(lu_palette) + palette * 768);
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
     }
 }
 
@@ -1438,7 +1435,7 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     }
 
     callback("STFGOD0", &faces[facenum++]);
-    callback("STFDEAD0", &faces[facenum++]);
+    callback("STFDEAD0", &faces[facenum]);
 
     // back screen
     callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
@@ -1487,7 +1484,6 @@ static void ST_LoadGraphics(void)
 
 static void ST_LoadData(void)
 {
-    lu_palette = W_GetNumForName("PLAYPAL");
     ST_LoadGraphics();
 }
 
@@ -1567,7 +1563,7 @@ static void ST_Stop(void)
     if (st_stopped)
         return;
 
-    I_SetPalette(W_CacheLumpNum(lu_palette));
+    I_SetPalette(PLAYPAL);
     st_stopped = true;
 }
 
