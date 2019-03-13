@@ -376,20 +376,19 @@ static void R_RenderSegLoop(void)
 
             if (missingmidtexture)
                 R_DrawColorColumn();
-            else if (midbrightmap)
-            {
-                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
-                dc_texturemid = rw_midtexturemid;
-                dc_texheight = midtexheight;
-                dc_brightmap = midbrightmap;
-                bmapwallcolfunc();
-            }
             else
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
                 dc_texturemid = rw_midtexturemid;
                 dc_texheight = midtexheight;
-                wallcolfunc();
+
+                if (midbrightmap)
+                {
+                    dc_brightmap = midbrightmap;
+                    bmapwallcolfunc();
+                }
+                else
+                    wallcolfunc();
             }
 
             ceilingclip[rw_x] = viewheight;
@@ -412,22 +411,20 @@ static void R_RenderSegLoop(void)
 
                     if (missingtoptexture)
                         R_DrawColorColumn();
-                    else if (topbrightmap)
-                    {
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
-                        dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                        dc_iscale -= SPARKLEFIX;
-                        dc_texheight = toptexheight;
-                        dc_brightmap = topbrightmap;
-                        bmapwallcolfunc();
-                    }
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                         dc_iscale -= SPARKLEFIX;
                         dc_texheight = toptexheight;
-                        wallcolfunc();
+
+                        if (topbrightmap)
+                        {
+                            dc_brightmap = topbrightmap;
+                            bmapwallcolfunc();
+                        }
+                        else
+                            wallcolfunc();
                     }
 
                     ceilingclip[rw_x] = mid;
@@ -454,20 +451,19 @@ static void R_RenderSegLoop(void)
 
                     if (missingbottomtexture)
                         R_DrawColorColumn();
-                    else if (bottombrightmap)
-                    {
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
-                        dc_brightmap = bottombrightmap;
-                        dc_texturemid = rw_bottomtexturemid;
-                        dc_texheight = bottomtexheight;
-                        bmapwallcolfunc();
-                    }
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
-                        wallcolfunc();
+
+                        if (bottombrightmap)
+                        {
+                            dc_brightmap = bottombrightmap;
+                            bmapwallcolfunc();
+                        }
+                        else
+                            wallcolfunc();
                     }
 
                     floorclip[rw_x] = mid;

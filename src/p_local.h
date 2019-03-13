@@ -248,7 +248,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance);
 
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean vertical);
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality);
 
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 8/28/98
 int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 8/28/98

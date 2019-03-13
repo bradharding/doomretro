@@ -1825,11 +1825,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
-            if (description2 && *description2)
+            if (*description2)
             {
                 C_TabbedOutput(tabs, "\t\t\t%s", description2);
 
-                if (description3 && *description3)
+                if (*description3)
                     C_TabbedOutput(tabs, "\t\t\t%s", description3);
             }
         }
@@ -2151,38 +2151,37 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             int num = -1;
 
-            sscanf(parm, "%10d", &num);
-
-            for (int i = 0; i < NUMMOBJTYPES; i++)
-            {
-                if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
-                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
-                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
-                        || (num == mobjinfo[i].doomednum && num != -1)))
+            if (sscanf(parm, "%10d", &num) == 1)
+                for (int i = 0; i < NUMMOBJTYPES; i++)
                 {
-                    dboolean    old_freeze = freeze;
-
-                    if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
+                    if ((mobjinfo[i].flags & MF_SPECIAL)
+                        && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                            || (num == mobjinfo[i].doomednum && num != -1)))
                     {
-                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
-                        return;
-                    }
+                        dboolean    old_freeze = freeze;
 
-                    if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
-                        || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                    {
-                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
-                        return;
-                    }
+                        if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
+                        {
+                            C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                            return;
+                        }
 
-                    freeze = false;
-                    P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
-                    freeze = old_freeze;
-                    C_HideConsole();
-                    break;
+                        if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
+                            || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
+                        {
+                            C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                            return;
+                        }
+
+                        freeze = false;
+                        P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
+                        freeze = old_freeze;
+                        C_HideConsole();
+                        break;
+                    }
                 }
-            }
         }
 
         viewplayer->cheated++;
@@ -2252,9 +2251,7 @@ static void if_cmd_func2(char *cmd, char *parms)
     char    parm2[64] = "";
     char    parm3[128] = "";
 
-    sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3);
-
-    if (!*parm1 || !*parm2 || !*parm3)
+    if (sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
     {
         C_ShowDescription(C_GetIndex(stringize(if)));
         C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
@@ -2276,17 +2273,15 @@ static void if_cmd_func2(char *cmd, char *parms)
                 {
                     int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
-                    if (value == INT_MIN)
-                        sscanf(parms, "%10d", &value);
-
-                    condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
+                    if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
+                        condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
                 }
                 else if (consolecmds[i].flags & CF_FLOAT)
                 {
                     float value = FLT_MIN;
 
-                    sscanf(parms, "%10f", &value);
-                    condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
+                    if (sscanf(parms, "%10f", &value) == 1)
+                        condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
                 }
                 else
                     condition = M_StringCompare(parm2, *(char **)consolecmds[i].variable);
@@ -2363,7 +2358,6 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         {
             int num = -1;
 
-            sscanf(parm, "%10d", &num);
             killcmdtype = mobjinfo[i].doomednum;
 
             if (killcmdtype >= 0
@@ -2373,7 +2367,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     || (*mobjinfo[i].plural2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural2)))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
                     || (*mobjinfo[i].plural3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural3)))
-                    || (num == killcmdtype && num != -1)))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
             {
                 dboolean    kill = true;
 
