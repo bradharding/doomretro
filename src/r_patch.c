@@ -89,6 +89,7 @@ static short        BIGDOOR7;
 static short        FIREBLU1;
 static short        SKY1;
 
+extern dboolean     noprecache;
 extern int          numspritelumps;
 extern int          numtextures;
 extern texture_t    **textures;
@@ -103,11 +104,14 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
 
-    for (int i = 0; i < numspritelumps; i++)
-        R_CachePatchNum(firstspritelump + i);
+    if (!noprecache)
+    {
+        for (int i = 0; i < numspritelumps; i++)
+            R_CachePatchNum(firstspritelump + i);
 
-    for (int i = 0; i < numtextures; i++)
-        R_CacheTextureCompositePatchNum(i);
+        for (int i = 0; i < numtextures; i++)
+            R_CacheTextureCompositePatchNum(i);
+    }
 }
 
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)

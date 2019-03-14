@@ -70,8 +70,9 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-dboolean    notranslucency;
-dboolean    telefragonmap30;
+dboolean    noprecache = false;
+dboolean    notranslucency = false;
+dboolean    telefragonmap30 = false;
 
 int         numtextures;
 texture_t   **textures;
@@ -455,6 +456,18 @@ static void R_InitSpriteLumps(void)
 
             if (M_StringCompare(pwadfile, sc_String_free))
                 fixspriteoffsets = true;
+
+            free(sc_String_free);
+        }
+        else if (M_StringCompare(sc_String, "NOPRECACHE"))
+        {
+            char    *sc_String_free;
+
+            SC_MustGetString();
+            sc_String_free = removeext(sc_String);
+
+            if (M_StringCompare(pwadfile, sc_String_free))
+                noprecache = true;
 
             free(sc_String_free);
         }
