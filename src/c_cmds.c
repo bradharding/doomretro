@@ -504,7 +504,7 @@ consolecmd_t consolecmds[] =
     CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
     CVAR_BOOL(crosshair, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles a crosshair when using mouselook and not\nautoaiming."),
+        "Toggles a crosshair when using mouselook."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, false, "",

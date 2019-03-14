@@ -960,7 +960,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair && usemouselook && !autoaim)
+        if (crosshair && usemouselook)
         {
             actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
 

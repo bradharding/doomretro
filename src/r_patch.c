@@ -104,7 +104,7 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
 
-    if (!noprecache)
+    //if (!noprecache)
     {
         for (int i = 0; i < numspritelumps; i++)
             R_CachePatchNum(firstspritelump + i);
