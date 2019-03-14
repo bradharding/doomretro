@@ -63,8 +63,8 @@ typedef struct
 {
     short           originx, originy;
     short           patch;
-    short           stepdir;
-    short           colormap;
+    short           stepdir;    // unused
+    short           colormap;   // unused
 } PACKEDATTR mappatch_t;
 
 //
@@ -75,10 +75,10 @@ typedef struct
 typedef struct
 {
     char            name[8];
-    int             masked;
+    char            pad2[4];    // unused
     short           width;
     short           height;
-    int             obsolete;
+    char            pad[4];     // unused
     short           patchcount;
     mappatch_t      patches[1];
 } PACKEDATTR maptexture_t;
