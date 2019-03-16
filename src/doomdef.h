@@ -44,8 +44,8 @@
 #include "m_controls.h"
 
 #if defined(_WIN32)
-#define strcasecmp  stricmp
-#define strncasecmp strnicmp
+#define strcasecmp  _stricmp
+#define strncasecmp _strnicmp
 #else
 #include <strings.h>
 #endif
