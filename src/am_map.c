@@ -1094,7 +1094,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * gamepadthumbRYup * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRYup * 1.2f);
                     }
 
                     // pan down with right thumbstick
