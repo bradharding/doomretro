@@ -196,7 +196,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 
     // Add to end of list
     result = &sprite_frames[num_sprite_frames];
-    strncpy(result->sprname, name, 4);
+    M_StringCopy(result->sprname, name, 4);
     result->frame = frame;
 
     for (int i = 0; i < 8; i++)

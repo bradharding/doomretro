@@ -13,8 +13,8 @@
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched when using the `resetall` CCMD.
-* Opening `sunder.wad` will no longer cause *DOOM Retro* to crash at startup.
-* The crosshair displayed when the `crosshair` CVAR is `on` is now displayed even if the `autoaim` CVAR is `on`.
+* The invalid `PNAMES` lump in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
+* The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
 
 ---
 

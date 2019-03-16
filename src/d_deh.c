@@ -1991,12 +1991,13 @@ void ProcessDehFile(char *filename, int lumpnum)
     if (filename)
     {
         if (!(infile.f = fopen(filename, "rt")))
-            return;             // should be checked up front anyway
+            return;                         // should be checked up front anyway
 
         infile.lump = NULL;
     }
-    else                        // DEH file comes from lump indicated by second argument
+    else
     {
+        // DEH file comes from lump indicated by second argument
         if (!(infile.size = W_LumpLength(lumpnum)))
             return;
 
@@ -2005,7 +2006,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     }
 
     {
-        static int  i;          // killough 10/98: only run once, by keeping index static
+        static int  i;                      // killough 10/98: only run once, by keeping index static
 
         // remember what they start as for deh xref
         for (; i < EXTRASTATES; i++)
@@ -2029,10 +2030,10 @@ void ProcessDehFile(char *filename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        dboolean        match = false;
-        unsigned int    i;
-        unsigned int    last_i = DEH_BLOCKMAX - 1;
-        long            filepos = 0;
+        dboolean            match = false;
+        unsigned int        i;
+        static unsigned int last_i = DEH_BLOCKMAX - 1;
+        static long         filepos = 0;
 
         lfstrip(inbuffer);
 
@@ -2052,8 +2053,8 @@ void ProcessDehFile(char *filename, int lumpnum)
             // preserve state while including a file
             // killough 10/98: moved to here
 
-            char    *nextfile;
-            dboolean    oldnotext = includenotext;      // killough 10/98
+            char        *nextfile;
+            dboolean    oldnotext = includenotext;              // killough 10/98
 
             // killough 10/98: exclude if inside wads (only to discourage
             // the practice, since the code could otherwise handle it)
@@ -2074,7 +2075,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             if (devparm)
                 C_Output("Branching to include file <b>%s</b>...", nextfile);
 
-            ProcessDehFile(nextfile, 0); // do the included file
+            ProcessDehFile(nextfile, 0);                        // do the included file
 
             includenotext = oldnotext;
 
@@ -2090,10 +2091,10 @@ void ProcessDehFile(char *filename, int lumpnum)
                 if (i < DEH_BLOCKMAX - 1)
                     match = true;
 
-                break;          // we got one, that's enough for this block
+                break;                                          // we got one, that's enough for this block
             }
 
-        if (match)              // inbuffer matches a valid block code name
+        if (match)                                              // inbuffer matches a valid block code name
             last_i = i;
         else if (last_i >= 10 && last_i < DEH_BLOCKMAX - 1)     // restrict to BEX style lumps
         {
@@ -2107,16 +2108,16 @@ void ProcessDehFile(char *filename, int lumpnum)
         if (devparm)
             C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
 
-        deh_blocks[i].fptr(filein, inbuffer);           // call function
+        deh_blocks[i].fptr(filein, inbuffer);                   // call function
 
-        if (!filein->lump)                              // back up line start
+        if (!filein->lump)                                      // back up line start
             filepos = ftell(filein->f);
     }
 
     if (infile.lump)
-        Z_ChangeTag(infile.lump, PU_CACHE);     // Mark purgeable
+        Z_ChangeTag(infile.lump, PU_CACHE);                     // mark purgeable
     else
-        fclose(infile.f);                       // Close real file
+        fclose(infile.f);                                       // close real file
 
     if (addtocount)
         dehcount++;
@@ -2160,7 +2161,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     char    mnemonic[DEH_MAXKEYLEN] = "";   // to hold the codepointer mnemonic
 
     // Ty 05/16/98 - initialize it to something, dummy!
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
@@ -2923,7 +2924,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
     if (devparm)
         C_Output("Processing Cheat: %s", line);
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -3176,7 +3177,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX];
     long    value;  // All deh values are ints or longs
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -3309,7 +3310,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 // use M_StringDuplicate unless we redeclare sprnames and change all else
                 sprnames[i] = M_StringDuplicate(sprnames[i]);
 
-                strncpy(sprnames[i], &inbuffer[fromlen], tolen);
+                M_StringCopy(sprnames[i], &inbuffer[fromlen], tolen);
                 found = true;
                 break;          // only one will match--quit early
             }
@@ -3336,7 +3337,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name, usedlen, &inbuffer[fromlen]);
 
-                strncpy(S_sfx[i].name, &inbuffer[fromlen], 9);
+                M_StringCopy(S_sfx[i].name, &inbuffer[fromlen], 9);
                 found = true;
                 break;          // only one matches, quit early
             }
@@ -3355,7 +3356,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                     if (devparm)
                         C_Output("Changing name of music from %s to %*s", S_music[i].name, usedlen, &inbuffer[fromlen]);
 
-                    strncpy(S_music[i].name, &inbuffer[fromlen], 9);
+                    M_StringCopy(S_music[i].name, &inbuffer[fromlen], 9);
                     found = true;
                     break;      // only one matches, quit early
                 }
@@ -3385,7 +3386,7 @@ static void deh_procError(DEHFILE *fpin, char *line)
 {
     char    inbuffer[DEH_BUFFERMAX];
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     if (devparm)
         C_Warning("Ignoring \"%s\".", inbuffer);
@@ -3415,7 +3416,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         holdstring = malloc(maxstrlen * sizeof(*holdstring));
 
     *holdstring = '\0';                 // empty string to start with
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // Ty 04/24/98 - have to allow inbuffer to start with a blank for
     // the continuations of C1TEXT etc.

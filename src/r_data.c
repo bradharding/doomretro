@@ -287,7 +287,7 @@ static void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        strncpy(name, &name_p[i * 8], 8);
+        M_StringCopy(name, &name_p[i * 8], 8);
         patchlookup[i] = W_CheckNumForName(name);
     }
 

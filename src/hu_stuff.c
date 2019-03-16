@@ -353,8 +353,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hud
         *x += SHORT(patch->width);
     }
 
-    val %= 10;
-    patch = tallnum[val];
+    patch = tallnum[val % 10];
     hudnumfunc(*x, y, patch, translucency);
     *x += SHORT(patch->width);
 }
@@ -388,9 +387,7 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
     if (val > 9 || oldval > 99)
         width += SHORT(numset[val / 10]->width) + gap;
 
-    val %= 10;
-    width += SHORT(numset[val]->width);
-    return width;
+    return (width + SHORT(numset[val % 10]->width));
 }
 
 static void HU_DrawCrosshair(void)
