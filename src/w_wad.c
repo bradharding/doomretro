@@ -190,7 +190,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         lump_p->position = LONG(filerover->filepos);
         lump_p->size = LONG(filerover->size);
         lump_p->cache = NULL;
-        M_StringCopy(lump_p->name, filerover->name, 8);
+        strncpy(lump_p->name, filerover->name, 8);
         lumpinfo[i] = lump_p;
 
         filerover++;
