@@ -1104,6 +1104,14 @@ dboolean AM_Responder(const event_t *ev)
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRYdown * 1.2f);
                     }
+
+                    if (!movement)
+                    {
+                        m_paninc.x = 0;
+                        m_paninc.y = 0;
+                    }
+                    else
+                        movement = false;
                 }
             }
 
