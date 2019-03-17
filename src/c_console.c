@@ -766,7 +766,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = copyright;
             else if (letter == 174)
                 patch = regomark;
-            else if (letter == 215)
+            else if (letter == 215 || (letter == 'x' && isdigit(prevletter)))
                 patch = multiply;
             else if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
