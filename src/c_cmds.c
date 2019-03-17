@@ -4204,6 +4204,13 @@ static void C_VerifyResetAll(const int key)
         gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
+        // clear all aliases
+        for (int i = 0; i < MAXALIASES; i++)
+        {
+            aliases[i].name[0] = '\0';
+            aliases[i].string[0] = '\0';
+        }
+
 #if defined(_WIN32)
         wad = "";
 #endif
