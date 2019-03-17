@@ -121,6 +121,8 @@ musicinfo_t         *mus_playing;
 dboolean            nosfx;
 dboolean            nomusic;
 
+musinfo_t           musinfo;
+
 #if defined(_WIN32)
 extern dboolean     serverMidiPlaying;
 #endif
@@ -229,6 +231,8 @@ void S_Init(void)
 
         // no sounds are playing, and they are not mus_paused
         mus_paused = false;
+
+        musinfo.mapthing = NULL;
     }
 }
 
@@ -728,8 +732,6 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
 
     musinfo.current_item = lumpnum;
 }
-
-musinfo_t   musinfo;
 
 //
 // S_ParseMusInfo
