@@ -4088,6 +4088,10 @@ static void C_VerifyResetAll(const int key)
             }
         }
 
+#if defined(_WIN32)
+        wad = "";
+#endif
+
         resettingcvar = false;
 
         // unbind all controls
@@ -4210,10 +4214,6 @@ static void C_VerifyResetAll(const int key)
             aliases[i].name[0] = '\0';
             aliases[i].string[0] = '\0';
         }
-
-#if defined(_WIN32)
-        wad = "";
-#endif
 
         M_SaveCVARs();
 
@@ -4974,8 +4974,7 @@ static dboolean color_cvars_func1(char *cmd, char *parms)
         if (M_StringCompare(parms, color[i].name))
             return true;
 
-    return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0)
-        || int_cvars_func1(cmd, parms));
+    return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0) || int_cvars_func1(cmd, parms));
 }
 
 static void color_cvars_func2(char *cmd, char *parms)

@@ -485,12 +485,10 @@ static void createTextureCompositePatch(int id)
                     top = oldColumn->topdelta;
 
                 oldColumnPixelData = (const byte *)oldColumn + 3;
-                oy = texpatch->originy;
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1)
-                    oy = 0;
+                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 ? 0 : texpatch->originy);
 
                 // set up the post's data
                 post->topdelta = top + oy;

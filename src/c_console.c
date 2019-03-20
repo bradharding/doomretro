@@ -451,7 +451,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(regomark->width);
             i++;
         }
-        else if (letter == 215)
+        else if (letter == 215 || (letter == 'x' && isdigit(prevletter)))
         {
             w += SHORT(multiply->width);
             i++;
