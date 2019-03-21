@@ -99,7 +99,7 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
 void HUlib_DrawTextLine(hu_textline_t *l, dboolean external);
-void HUlib_DrawAltAutomapTextLine(hu_textline_t *l);
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external);
 
 // erases text line
 void HUlib_EraseTextLine(hu_textline_t *l);
@@ -118,7 +118,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external);
 // erases all stext lines
 void HUlib_EraseSText(hu_stext_t *s);
 
-extern void (*althudtextfunc)(int, int, patch_t *, int);
+extern void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 
 extern dboolean STCFN034;
 extern dboolean idbehold;

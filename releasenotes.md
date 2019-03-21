@@ -17,6 +17,7 @@
   * All aliases created using the `alias` CCMD will now be deleted.
 * The invalid `PNAMES` lump in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
+* The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 
 ---
 

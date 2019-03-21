@@ -630,9 +630,9 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
+void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, int color)
 {
-    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
+    byte    *desttop = &screen[y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -660,9 +660,9 @@ void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, patch_t *patch, int color)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, int color)
 {
-    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
+    byte    *desttop = &screen[y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
     byte    *tinttab = (automapactive ? tinttab25 : tinttab60);
 

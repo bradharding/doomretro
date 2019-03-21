@@ -154,16 +154,17 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             j++;
         }
 
-        althudtextfunc(x, HU_ALTHUDMSGY, patch, color);
+        althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, color);
         x += SHORT(patch->width);
         prevletter = letter;
     }
 }
 
-void HUlib_DrawAltAutomapTextLine(hu_textline_t *l)
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
 {
     unsigned char   prevletter = '\0';
     int             x = 10;
+    byte            *fb1 = (external ? mapscreen : screens[0]);
     int             len = l->len;
 
     for (int i = 0; i < len; i++)
@@ -193,7 +194,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l)
             j++;
         }
 
-        althudtextfunc(x, SCREENHEIGHT - SBARHEIGHT - 16, patch, white);
+        althudtextfunc(x, SCREENHEIGHT - SBARHEIGHT - 16, fb1, patch, white);
         x += SHORT(patch->width);
         prevletter = letter;
     }

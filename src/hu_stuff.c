@@ -129,7 +129,7 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
-void (*althudtextfunc)(int, int, patch_t *, int);
+void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 
 static struct
@@ -943,7 +943,7 @@ void HU_Drawer(void)
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
             if (r_althud)
-                HUlib_DrawAltAutomapTextLine(&w_title);
+                HUlib_DrawAltAutomapTextLine(&w_title, false);
             else
                 HUlib_DrawTextLine(&w_title, false);
         }
@@ -976,7 +976,7 @@ void HU_Drawer(void)
         if (mapwindow)
         {
             if (vid_widescreen && r_althud)
-                HUlib_DrawAltAutomapTextLine(&w_title);
+                HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
                 HUlib_DrawTextLine(&w_title, true);
         }
