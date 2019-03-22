@@ -933,6 +933,9 @@ void HU_Drawer(void)
 
             HUlib_DrawSText(&w_message, message_external);
         }
+
+        if (message_menu)
+            return;
     }
 
     if (automapactive)

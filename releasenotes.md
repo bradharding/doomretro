@@ -9,16 +9,17 @@
 * The accuracy of where the player fires their weapon has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is being hit.
-* A couple of rendering problems related to the use of line special 242 in *BOOM*-compatible maps have been fixed.
+* A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
-* The following changes have been made when using the `resetall` CCMD:
+* The following changes have been made when the `resetall` CCMD is used:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched.
   * All aliases created using the `alias` CCMD will now be deleted.
-* The invalid `PNAMES` lump in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
+* The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
-
+* The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
+ 
 ---
 
 ###### Sunday, February 17, 2019
