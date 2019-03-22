@@ -767,7 +767,7 @@ void R_StoreWallRange(const int start, const int stop)
             }
         }
 
-        if (worldlow > worldbottom)
+        if (worldlow > worldbottom && frontsector->interpfloorheight != backsector->floorheight)
         {
             // bottom texture
             if ((missingbottomtexture = sidedef->missingbottomtexture))
