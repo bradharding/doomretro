@@ -460,8 +460,8 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
-                    lumpinfo[flattranslation[picnum]]->cache);
+                ds_source = (r_flats ? (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
+                    lumpinfo[flattranslation[picnum]]->cache) : lumpinfo[firstflat + picnum]->cache);
 
                 R_MakeSpans(pl);
             }
