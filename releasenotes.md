@@ -19,7 +19,7 @@
 * The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
-* Adjacent liquid sectors are now rendered better in some instances.
+* The edges of liquid sectors are now rendered better in some instances.
  
 ---
 
