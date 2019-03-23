@@ -21,6 +21,7 @@
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
 * The textures of flats can now be toggled using the new `r_flats` CVAR. It is `on` by default and when vanilla mode is enabled. When `off` each flat is displayed using the color of the first pixel of the flat’s texture. If the `r_textures` CVAR is also `off`, no color is applied to the flats.
+* The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a custom colormap 32 is present in the current PWAD.
  
 ---
 
