@@ -12,16 +12,19 @@
 * A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
-* The following changes have been made when the `resetall` CCMD is used:
+* The following changes have been made to the `resetall` CCMD:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched.
   * All aliases created using the `alias` CCMD will now be deleted.
+* The following changes have been made to the `take` CCMD:
+  * A bug has been fixed whereby if the player’s health was less than 100% it would be increased to 100% when using the `all` parameter. Now any health over 100% will be taken from the player.
+  * The red palette effect will now be applied to the screen if any health is taken from the player.
+  * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a custom colormap 32 is present in the current PWAD.
-* Any health over 100% is now taken from the player when entering `take all` in the console.
 
 ---
 
