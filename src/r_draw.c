@@ -1192,6 +1192,18 @@ void R_DrawColorSpan(void)
 {
     int         x = ds_x2 - ds_x1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
+    const byte  color = ds_colormap[ds_source[0]];
+
+    while (--x)
+        *dest++ = color;
+
+    *dest = color;
+}
+
+void R_DrawNoTextureSpan(void)
+{
+    int         x = ds_x2 - ds_x1;
+    byte        *dest = ylookup0[ds_y] + ds_x1;
     const byte  color = ds_colormap[NOTEXTURECOLOR];
 
     while (--x)

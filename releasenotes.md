@@ -20,6 +20,7 @@
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
+* The textures of flats can now be toggled using the new `r_flats` CVAR. It is `on` by default and when vanilla mode is enabled. When `off` each flat is displayed using the color of the first pixel of the flat’s texture. If the `r_textures` CVAR is also `off`, no color is applied to the flats.
  
 ---
 

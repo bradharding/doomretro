@@ -576,7 +576,6 @@ void D_IdentifyVersion(void)
     if (gamemission == none)
     {
         for (int i = 0; i < numlumps; i++)
-        {
             if (!strncasecmp(lumpinfo[i]->name, "MAP01", 8))
             {
                 gamemission = doom2;
@@ -586,7 +585,6 @@ void D_IdentifyVersion(void)
             {
                 gamemission = doom;
                 break;
-            }
         }
 
         if (gamemission == none)

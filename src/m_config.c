@@ -146,6 +146,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_dither,                                          BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_fixmaperrors,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_fixspriteoffsets,                                BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_flats,                                           BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_floatbob,                                        BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_fov,                                             NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT        (r_gamma,                                           GAMMAVALUEALIAS   ),
@@ -725,6 +726,9 @@ static void M_CheckCVARs(void)
 
     if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
         r_fixspriteoffsets = r_fixspriteoffsets_default;
+
+    if (r_flats != false && r_flats != true)
+        r_flats = r_flats_default;
 
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;

@@ -49,6 +49,7 @@ r_detail low
 r_diskicon on
 r_fixmaperrors off
 r_fixspriteoffsets off
+r_flats on
 r_floatbob off
 r_fov 90
 r_gamma off

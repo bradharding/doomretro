@@ -128,7 +128,10 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_x1 = x1;
     ds_x2 = x2;
 
-    spanfunc();
+    if (!r_flats && r_textures)
+        R_DrawColorSpan();
+    else
+        spanfunc();
 }
 
 //
