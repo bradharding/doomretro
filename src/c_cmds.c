@@ -4519,7 +4519,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 result = true;
             }
 
-            if (viewplayer->health < initial_health)
+            if (viewplayer->health > initial_health)
             {
                 viewplayer->health = initial_health;
                 viewplayer->mo->health = initial_health;
