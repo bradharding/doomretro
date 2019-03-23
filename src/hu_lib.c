@@ -122,11 +122,17 @@ static void HU_DrawChar(int x, int y, int ch)
 static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
-    int             x = (automapactive ? 10 : HU_ALTHUDMSGX);
-    int             color = (automapactive ? white : (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                        colormaps[0][32 * 256 + white] : white) : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                        colormaps[0][32 * 256 + white] : nearestblack)));
+    int             x = 10;
+    int             color = white;
     int             len = l->len;
+
+    if (!automapactive)
+    {
+        x = HU_ALTHUDMSGX;
+        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white) :
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : nearestblack));
+    }
+
 
     for (int i = 0; i < len; i++)
     {

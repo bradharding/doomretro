@@ -120,7 +120,6 @@ dboolean            drawbloodsplats;
 
 dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean            r_dither = r_dither_default;
-dboolean            r_flats = r_flats_default;
 int                 r_fov = r_fov_default;
 dboolean            r_homindicator = r_homindicator_default;
 dboolean            r_shadows_translucency = r_shadows_translucency_default;
@@ -593,7 +592,7 @@ void R_InitColumnFunctions(void)
         bmapwallcolfunc = R_DrawColorColumn;
         segcolfunc = R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? R_DrawColorColumn : R_DrawSkyColorColumn);
-        spanfunc = R_DrawNoTextureSpan;
+        spanfunc = R_DrawColorSpan;
         tlcolfunc = R_DrawColorColumn;
         tl50colfunc = R_DrawColorColumn;
         tl50segcolfunc = (r_translucency ? (r_dither ? R_DrawDitheredColorColumn : R_DrawTranslucentColor50Column) : R_DrawColorColumn);

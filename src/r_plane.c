@@ -128,10 +128,7 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_x1 = x1;
     ds_x2 = x2;
 
-    if (!r_flats && r_textures)
-        R_DrawColorSpan();
-    else
-        spanfunc();
+    spanfunc();
 }
 
 //
@@ -460,8 +457,8 @@ void R_DrawPlanes(void)
             else
             {
                 // regular flat
-                ds_source = (r_flats ? (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
-                    lumpinfo[flattranslation[picnum]]->cache) : lumpinfo[firstflat + picnum]->cache);
+                ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
+                    lumpinfo[flattranslation[picnum]]->cache);
 
                 R_MakeSpans(pl);
             }

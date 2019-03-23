@@ -114,7 +114,6 @@ extern dboolean     r_diskicon;
 extern dboolean     r_dither;
 extern dboolean     r_fixmaperrors;
 extern dboolean     r_fixspriteoffsets;
-extern dboolean     r_flats;
 extern dboolean     r_floatbob;
 extern int          r_fov;
 extern float        r_gamma;
@@ -468,8 +467,6 @@ enum
 #define r_fixmaperrors_default                  true
 
 #define r_fixspriteoffsets_default              true
-
-#define r_flats_default                         true
 
 #define r_floatbob_default                      true
 
