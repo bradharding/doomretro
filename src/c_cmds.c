@@ -4521,9 +4521,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (viewplayer->health > initial_health)
             {
-                viewplayer->health = initial_health;
-                viewplayer->mo->health = initial_health;
-                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - initial_health, false);
                 result = true;
             }
 
@@ -4565,10 +4563,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 }
 
             if (result)
-            {
-                P_AddBonus();
                 C_HideConsole();
-            }
             else
                 C_Warning("%s %s have anything.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
         }
@@ -4576,8 +4571,9 @@ static void take_cmd_func2(char *cmd, char *parms)
         {
             if (viewplayer->health > 0 && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
             {
-                viewplayer->health = viewplayer->mo->health = !!(viewplayer->cheats & CF_BUDDHA);
-                P_AddBonus();
+                healthcvar = true;
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false);
+                healthcvar = false;
                 C_HideConsole();
             }
             else
@@ -4595,10 +4591,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             viewplayer->pendingweapon = wp_fist;
 
             if (result)
-            {
-                P_AddBonus();
                 C_HideConsole();
-            }
             else
                 C_Warning("%s %s have any weapons.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
         }
@@ -4614,10 +4607,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             viewplayer->pendingweapon = wp_fist;
 
             if (result)
-            {
-                P_AddBonus();
                 C_HideConsole();
-            }
             else
                 C_Warning("%s %s have any ammo.", titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
         }
@@ -4627,7 +4617,6 @@ static void take_cmd_func2(char *cmd, char *parms)
             {
                 viewplayer->armorpoints = 0;
                 viewplayer->armortype = NOARMOR;
-                P_AddBonus();
                 C_HideConsole();
             }
             else
@@ -4643,10 +4632,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 }
 
             if (result)
-            {
-                P_AddBonus();
                 C_HideConsole();
-            }
             else
                 C_Warning("%s %s have any keycards or skull keys.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
@@ -4658,7 +4644,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_bluecard] = 0;
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
-                P_AddBonus();
                 C_HideConsole();
             }
             else
@@ -4672,7 +4657,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_blueskull] = 0;
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
-                P_AddBonus();
                 C_HideConsole();
             }
             else
