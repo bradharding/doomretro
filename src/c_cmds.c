@@ -1985,13 +1985,14 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
         return true;
 
-    if (sscanf(parm, "%10d", &num) == 1)
-        for (int i = 0; i < NUMMOBJTYPES; i++)
-            if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
-                || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
-                || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
-                || (num == mobjinfo[i].doomednum && num != -1)))
-                return true;
+    sscanf(parm, "%10d", &num);
+
+    for (int i = 0; i < NUMMOBJTYPES; i++)
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+            || (num == mobjinfo[i].doomednum && num != -1)))
+            return true;
 
     return false;
 }
@@ -2151,37 +2152,38 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             int num = -1;
 
-            if (sscanf(parm, "%10d", &num) == 1)
-                for (int i = 0; i < NUMMOBJTYPES; i++)
+            sscanf(parm, "%10d", &num);
+
+            for (int i = 0; i < NUMMOBJTYPES; i++)
+            {
+                if ((mobjinfo[i].flags & MF_SPECIAL)
+                    && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                        || (num == mobjinfo[i].doomednum && num != -1)))
                 {
-                    if ((mobjinfo[i].flags & MF_SPECIAL)
-                        && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
-                            || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
-                            || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
-                            || (num == mobjinfo[i].doomednum && num != -1)))
+                    dboolean    old_freeze = freeze;
+
+                    if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
-                        dboolean    old_freeze = freeze;
-
-                        if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
-                        {
-                            C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
-                            return;
-                        }
-
-                        if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
-                            || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        {
-                            C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
-                            return;
-                        }
-
-                        freeze = false;
-                        P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
-                        freeze = old_freeze;
-                        C_HideConsole();
-                        break;
+                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                        return;
                     }
+
+                    if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
+                        || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
+                    {
+                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                        return;
+                    }
+
+                    freeze = false;
+                    P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
+                    freeze = old_freeze;
+                    C_HideConsole();
+                    break;
                 }
+            }
         }
 
         viewplayer->cheated++;
