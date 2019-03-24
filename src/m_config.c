@@ -605,7 +605,7 @@ static void M_CheckCVARs(void)
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
 
-    if (crosshair != false && crosshair != true)
+    if (crosshair != crosshair_none && crosshair != crosshair_cross && crosshair != crosshair_dot)
         crosshair = crosshair_default;
 
     episode = BETWEEN(episode_min, episode, episode_max - (gamemode == retail && !sigil));
