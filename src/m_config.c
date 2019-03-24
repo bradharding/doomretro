@@ -341,7 +341,6 @@ void M_SaveCVARs(void)
                     char    *v_str = commify(v);
 
                     fputs(v_str, file);
-
                     free(v_str);
                 }
 
