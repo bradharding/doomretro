@@ -330,6 +330,8 @@ static void am_path_cvar_func2(char *cmd, char *parms);
 static dboolean armortype_cvar_func1(char *cmd, char *parms);
 static void armortype_cvar_func2(char *cmd, char *parms);
 static void autotilt_cvar_func2(char *cmd, char *parms);
+static dboolean crosshair_cvar_func1(char *cmd, char *parms);
+static void crosshair_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
@@ -503,8 +505,8 @@ consolecmd_t consolecmds[] =
         "Toggles timestamps next to player messages and\nobituaries in the console."),
     CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
-    CVAR_BOOL(crosshair, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles displaying a crosshair when using mouselook."),
+    CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
+        "Toggles displaying a crosshair when using mouselook\n(<b>none</b>, <b>cross</b> or <b>dot</b>)."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
@@ -5270,6 +5272,38 @@ static void autotilt_cvar_func2(char *cmd, char *parms)
     {
         R_InitSkyMap();
         R_InitColumnFunctions();
+    }
+}
+
+//
+// crosshair CVAR
+//
+static dboolean crosshair_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, CROSSHAIRVALUEALIAS) != INT_MIN);
+}
+
+static void crosshair_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, CROSSHAIRVALUEALIAS);
+
+        if (value != INT_MIN && crosshair != value)
+        {
+            crosshair = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        C_ShowDescription(C_GetIndex(stringize(crosshair)));
+
+        if (crosshair == crosshair_default)
+            C_Output("It is currently set to its default of <b>%s</b>.", C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS), C_LookupAliasFromValue(crosshair_default, CROSSHAIRVALUEALIAS));
     }
 }
 

@@ -214,6 +214,13 @@ extern dboolean     wipe;
 
 enum
 {
+    crosshair_none,
+    crosshair_cross,
+    crosshair_dot
+};
+
+enum
+{
     r_blood_none,
     r_blood_red,
     r_blood_all
@@ -335,7 +342,9 @@ enum
 
 #define con_timestamps_default                  true
 
-#define crosshair_default                       true
+#define crosshair_min                           crosshair_none
+#define crosshair_default                       crosshair_none
+#define crosshair_max                           crosshair_dot
 
 #define episode_min                             1
 #define episode_default                         1
@@ -735,7 +744,8 @@ typedef enum
     SKYVALUEALIAS,
     SCALEVALUEALIAS,
     FACEBACKVALUEALIAS,
-    ARMORTYPEVALUEALIAS
+    ARMORTYPEVALUEALIAS,
+    CROSSHAIRVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

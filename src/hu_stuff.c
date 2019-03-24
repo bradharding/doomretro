@@ -392,15 +392,34 @@ static int HUDNumberWidth(int val, patch_t **numset, int gap)
 
 static void HU_DrawCrosshair(void)
 {
-    byte    *dot = *screens + ((SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH - 2) / 2;
+    if (crosshair == crosshair_cross)
+    {
+        byte    *dot = *screens + ((SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH - 2) / 2;
 
-    *dot = *(*dot + crosshaircolor);
-    dot++;
-    *dot = *(*dot + crosshaircolor);
-    dot += SCREENWIDTH;
-    *dot = *(*dot + crosshaircolor);
-    dot--;
-    *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + crosshaircolor);
+        dot += SCREENWIDTH;
+        *dot = *(*dot + crosshaircolor);
+        dot += SCREENWIDTH - 2;
+        *dot = *(*dot + crosshaircolor);
+        dot++;
+        *dot = *(*dot + crosshaircolor);
+        dot++;
+        *dot = *(*dot + crosshaircolor);
+        dot++;
+        *dot = *(*dot + crosshaircolor);
+        dot++;
+        *dot = *(*dot + crosshaircolor);
+        dot += SCREENWIDTH - 2;
+        *dot = *(*dot + crosshaircolor);
+        dot += SCREENWIDTH;
+        *dot = *(*dot + crosshaircolor);
+    }
+    else
+    {
+        byte    *dot = *screens + ((SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH - 2) / 2;
+
+        *dot = *(*dot + crosshaircolor);
+    }
 }
 
 int healthhighlight = 0;
@@ -960,7 +979,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair && usemouselook)
+        if (crosshair != crosshair_none && usemouselook)
         {
             actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
 
