@@ -99,7 +99,7 @@ static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
-dboolean                crosshair = crosshair_default;
+int                     crosshair = crosshair_default;
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;

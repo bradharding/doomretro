@@ -69,7 +69,7 @@ extern dboolean     centerweapon;
 extern int          con_backcolor;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
-extern dboolean     crosshair;
+extern int          crosshair;
 extern int          episode;
 extern int          expansion;
 extern int          facebackcolor;
