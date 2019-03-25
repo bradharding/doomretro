@@ -1472,38 +1472,26 @@ static dboolean P_VerifyBlockMap(int count)
 //
 static void P_CreateBlockMap(void)
 {
-    int         i = numvertexes;
-    fixed_t     minx = FIXED_MAX;
-    fixed_t     miny = FIXED_MAX;
-    fixed_t     maxx = FIXED_MIN;
-    fixed_t     maxy = FIXED_MIN;
-    vertex_t    *vertex;
+    int     i;
+    fixed_t minx = FIXED_MAX;
+    fixed_t miny = FIXED_MAX;
+    fixed_t maxx = FIXED_MIN;
+    fixed_t maxy = FIXED_MIN;
 
     blockmaprebuilt = true;
 
-    // First find limits of map
-    vertex = vertexes;
-
-    do
+    for(i = 0; i < (unsigned int)numvertexes; i++)
     {
-        fixed_t j = vertex->x >> FRACBITS;
+        if((vertexes[i].x >> FRACBITS) < minx)
+            minx = vertexes[i].x >> FRACBITS;
+        else if((vertexes[i].x >> FRACBITS) > maxx)
+            maxx = vertexes[i].x >> FRACBITS;
 
-        if (j < minx)
-            minx = j;
-
-        if (j > maxx)
-            maxx = j;
-
-        j = vertex->y >> FRACBITS;
-
-        if (j < miny)
-            miny = j;
-
-        if (j > maxy)
-            maxy = j;
-
-        vertex++;
-    } while (--i);
+        if((vertexes[i].y >> FRACBITS) < miny)
+            miny = vertexes[i].y >> FRACBITS;
+        else if((vertexes[i].y >> FRACBITS) > maxy)
+            maxy = vertexes[i].y >> FRACBITS;
+    }
 
     // Save blockmap parameters
     bmaporgx = minx << FRACBITS;
@@ -1648,6 +1636,8 @@ static void P_CreateBlockMap(void)
             free(bmap);                 // Free uncompressed blockmap
         }
     }
+
+    skipblstart = true;
 }
 
 //
