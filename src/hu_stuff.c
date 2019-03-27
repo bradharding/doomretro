@@ -85,8 +85,6 @@ dboolean                s_STSTR_BEHOLD2;
 static hu_stext_t       w_message;
 static int              message_counter;
 
-int M_StringWidth(char *string);
-
 static dboolean         headsupactive;
 
 byte                    *tempscreen;
@@ -121,6 +119,8 @@ extern patch_t          *faces[ST_NUMFACES];
 extern int              st_faceindex;
 extern dboolean         usemouselook;
 extern dboolean         vanilla;
+
+int M_StringWidth(char *string);
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -482,37 +482,40 @@ static void HU_DrawHUD(void)
         }
     }
 
-    ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
-
-    if (health > 0 && ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
+    if (health > 0)
     {
-        int             ammo_x = HUD_AMMO_X - HUDNumberWidth(ammo, tallnum) / 2;
-        static dboolean ammoanim;
+        ammotype = (pendingweapon != wp_nochange ? weaponinfo[pendingweapon].ammotype : weaponinfo[readyweapon].ammotype);
 
-        translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
-
-        if ((patch = ammopic[ammotype].patch))
-            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
-
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
-            (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
-
-        if (!gamepaused)
+        if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
-            static int  ammowait;
+            int             ammo_x = HUD_AMMO_X - HUDNumberWidth(ammo, tallnum) / 2;
+            static dboolean ammoanim;
 
-            if (ammo <= HUD_AMMO_MIN)
+            translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
+
+            if ((patch = ammopic[ammotype].patch))
+                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
+
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
+                (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
+
+            if (!gamepaused)
             {
-                if (ammowait < currenttime)
+                static int  ammowait;
+
+                if (ammo <= HUD_AMMO_MIN)
                 {
-                    ammoanim = !ammoanim;
-                    ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                    if (ammowait < currenttime)
+                    {
+                        ammoanim = !ammoanim;
+                        ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                    }
                 }
-            }
-            else
-            {
-                ammoanim = false;
-                ammowait = 0;
+                else
+                {
+                    ammoanim = false;
+                    ammowait = 0;
+                }
             }
         }
     }

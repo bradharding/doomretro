@@ -19,9 +19,9 @@
   * A bug has been fixed whereby if the player’s health was less than 100% it would be increased to 100% when using the `all` parameter. Now any health over 100% will be taken from the player.
   * The red palette effect will now be applied to the screen if any health is taken from the player.
   * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
-* Instead of `on` or `off`, the `crosshair` CVAR can now be set to `none` (the new default value), `cross` (to display an actual cross) or `dot` (to display a dot which is incidentally smaller than in the previous version of *DOOM Retro*).
+* Instead of `on` or `off`, the `crosshair` CVAR can now be set to `none` (the new default value), `cross` (to display an actual cross) or `dot` (to display a dot). When the `crosshair` CVAR is `dot`, the dot displayed is smaller than in the previous version of *DOOM Retro*).
+* The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` is now also displayed when the `autoaim` CVAR is `on`.
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
-* The crosshair displayed when the `crosshair` CVAR is `on` is now also displayed when the `autoaim` CVAR is `on`.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.

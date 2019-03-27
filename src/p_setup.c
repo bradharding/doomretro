@@ -1480,7 +1480,7 @@ static void P_CreateBlockMap(void)
 
     blockmaprebuilt = true;
 
-    for(i = 0; i < (unsigned int)numvertexes; i++)
+    for(i = 0; i < numvertexes; i++)
     {
         if((vertexes[i].x >> FRACBITS) < minx)
             minx = vertexes[i].x >> FRACBITS;
