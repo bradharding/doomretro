@@ -63,6 +63,7 @@ typedef struct                          // a midi file
 
 dboolean mmuscheckformat(UBYTE *mus, int size);
 dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata);
-void MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen);
+void MIDIToMidi(const MIDI *mididata, UBYTE **mid, int *midlen);
+void FreeMIDIData(MIDI *mididata);
 
 #endif

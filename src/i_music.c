@@ -278,6 +278,8 @@ void *I_RegisterSong(void *data, int size)
                 // Hurrah! Let's make it a mid and give it to SDL_mixer
                 MIDIToMidi(&mididata, &mid, &midlen);
 
+                FreeMIDIData(&mididata);
+
                 data = mid;
                 size = midlen;
                 midimusictype = true;                           // now it's a MIDI

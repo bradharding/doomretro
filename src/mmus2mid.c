@@ -550,6 +550,17 @@ static void TWriteLength(UBYTE **midiptr, size_t length)
 }
 
 //
+// Frees all midi data allocated
+//
+void FreeMIDIData(MIDI *mididata)
+{
+    for (int i = 0; i < arrlen(mididata->track); i++)
+        free(mididata->track[i].data);
+
+    memset(mididata, 0, sizeof(*mididata));
+}
+
+//
 // MIDIToMidi()
 //
 // This routine converts an Allegro MIDI structure to a midi 1 format file
@@ -558,7 +569,7 @@ static void TWriteLength(UBYTE **midiptr, size_t length)
 // Passed a pointer to an Allegro MIDI structure, a pointer to a pointer to
 // a buffer containing midi data, and a pointer to a length return.
 //
-void MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
+void MIDIToMidi(const MIDI *mididata, UBYTE **mid, int *midlen)
 {
     int     ntrks = 0;
     UBYTE   *midiptr;
