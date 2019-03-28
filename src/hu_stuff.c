@@ -429,10 +429,6 @@ int armorhighlight = 0;
 static void HU_DrawHUD(void)
 {
     const int           health = viewplayer->health;
-    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-    const weapontype_t  readyweapon = viewplayer->readyweapon;
-    ammotype_t          ammotype;
-    int                 ammo;
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum) + tallpercentwidth) / 2;
     static dboolean     healthanim;
@@ -484,7 +480,9 @@ static void HU_DrawHUD(void)
 
     if (health > 0)
     {
-        ammotype = weaponinfo[(pendingweapon != wp_nochange ? pendingweapon : readyweapon)].ammotype;
+        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+        ammotype_t          ammotype = weaponinfo[(pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon)].ammotype;
+        int                 ammo;
 
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
