@@ -135,8 +135,6 @@ static int              timestampx;
 static int              zerowidth;
 
 static int              consolebackcolor;
-static int              consolebrandcolor1 = 4;
-static int              consolebrandcolor2 = 180;
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
 static int              consolehighfpscolor = 116;
@@ -149,8 +147,6 @@ static int              consoletimestampcolor = 100;
 static int              consoleoutputcolor = 88;
 static int              consoleboldcolor = 4;
 static int              consoleitalicscolor = 98;
-static int              consoleheadercolor1 = 4;
-static int              consoleheadercolor2 = 180;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
@@ -515,8 +511,6 @@ void C_Init(void)
     }
 
     consolebackcolor = nearestcolors[con_backcolor] << 8;
-    consolebrandcolor1 = nearestcolors[consolebrandcolor1];
-    consolebrandcolor2 = nearestcolors[consolebrandcolor2];
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -529,8 +523,6 @@ void C_Init(void)
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consoleitalicscolor = nearestcolors[consoleitalicscolor];
-    consoleheadercolor1 = nearestcolors[consoleheadercolor1];
-    consoleheadercolor2 = nearestcolors[consoleheadercolor2];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor];

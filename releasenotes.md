@@ -26,7 +26,7 @@
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a custom colormap 32 is present in the current PWAD.
-* A bug has been fixed whereby the menu could appear with a corrupted palette at startup in rare instances.
+* A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
 
 ---
 

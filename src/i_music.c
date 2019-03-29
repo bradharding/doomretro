@@ -287,7 +287,7 @@ void *I_RegisterSong(void *data, int size)
         }
 
 #if defined(_WIN32)
-        // Check for option to invoke RPC server if isMIDI
+        // Check for option to invoke RPC server if is MIDI
         if (midimusictype && haveMidiServer)
         {
             static dboolean haveMidiClient;
