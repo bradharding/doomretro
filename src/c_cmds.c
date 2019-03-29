@@ -3914,7 +3914,15 @@ static void C_PlayerStats_NoGame(void)
     if (favorite == sk_none)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b>%s</b>", titlecase(*skilllevels[favorite]));
+    {
+        char *skilllevel = titlecase(*skilllevels[favorite]);
+
+        if (skilllevel[strlen(skilllevel) - 1] == '.')
+            skilllevel[strlen(skilllevel) - 1] = '\0';
+
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<i><b>%s</b></i>", skilllevel);
+        free(skilllevel);
+    }
 
     C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", commify(stat_monsterskilled));
 
