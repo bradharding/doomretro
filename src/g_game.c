@@ -1317,6 +1317,7 @@ static void G_DoCompleted(void)
     automapactive = false;
 
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
+    M_SaveCVARs();
 
     C_CCMDOutput("exitmap");
 
