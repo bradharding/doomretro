@@ -123,7 +123,7 @@ dboolean            advancetitle;
 dboolean            dowipe;
 static dboolean     forcewipe;
 
-dboolean            splashscreen = false;
+dboolean            splashscreen = true;
 
 static int          startuptimer;
 
@@ -1989,9 +1989,15 @@ static void D_DoomMainSetup(void)
         }
         else
 #if SCREENSCALE == 1
-            D_StartTitle(true);
+            D_StartTitle(1);
 #else
-            D_StartTitle(M_CheckParm("-nosplash"));
+            if (M_CheckParm("-nosplash"))
+            {
+                splashscreen = false;
+                D_StartTitle(0);
+            }
+            else
+                D_StartTitle(1);
 #endif
     }
 
