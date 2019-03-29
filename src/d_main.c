@@ -1994,10 +1994,10 @@ static void D_DoomMainSetup(void)
             if (M_CheckParm("-nosplash"))
             {
                 splashscreen = false;
-                D_StartTitle(0);
+                D_StartTitle(1);
             }
             else
-                D_StartTitle(1);
+                D_StartTitle(0);
 #endif
     }
 

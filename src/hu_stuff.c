@@ -1146,6 +1146,9 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 {
     char    buffer[1024] = "";
 
+    if (!*message)
+        return;
+
     if (message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
