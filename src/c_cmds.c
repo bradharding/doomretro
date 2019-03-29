@@ -3735,7 +3735,7 @@ static void C_PlayerStats_Game(void)
         if (skilllevel[strlen(skilllevel) - 1] == '.')
             skilllevel[strlen(skilllevel) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<i><b>%s</b></i>", skilllevel);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", skilllevel);
         free(skilllevel);
     }
 
@@ -3900,7 +3900,7 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int   tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
     skill_t     favorite = favoriteskilllevel();
     const int   time2 = stat_time / TICRATE;
 
@@ -3928,7 +3928,7 @@ static void C_PlayerStats_NoGame(void)
         if (skilllevel[strlen(skilllevel) - 1] == '.')
             skilllevel[strlen(skilllevel) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<i><b>%s</b></i>", skilllevel);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", skilllevel);
         free(skilllevel);
     }
 
