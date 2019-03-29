@@ -155,6 +155,7 @@ typedef enum
 
 typedef enum
 {
+    sk_none = -1,
     sk_baby,
     sk_easy,
     sk_medium,

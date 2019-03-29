@@ -6,6 +6,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * Obituaries are no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is entered.
+* The player’s favorite skill level is now displayed when using the `playerstats` CCMD.
 * The accuracy of where the player fires their weapon has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is being hit.

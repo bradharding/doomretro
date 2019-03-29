@@ -165,6 +165,11 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_gamessaved = 0;
 unsigned int    stat_mapscompleted = 0;
+unsigned int    stat_skilllevel_imtooyoungtodie = 0;
+unsigned int    stat_skilllevel_heynottoorough = 0;
+unsigned int    stat_skilllevel_hurtmeplenty = 0;
+unsigned int    stat_skilllevel_ultraviolence = 0;
+unsigned int    stat_skilllevel_nightmare = 0;
 
 extern dboolean barrelms;
 extern int      st_palette;
@@ -1557,6 +1562,19 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
     gameaction = ga_newgame;
     startingnewgame = true;
     infight = false;
+
+    if (skill == sk_baby)
+        stat_skilllevel_imtooyoungtodie = SafeAdd(stat_skilllevel_imtooyoungtodie, 1);
+    else if (skill == sk_easy)
+        stat_skilllevel_heynottoorough = SafeAdd(stat_skilllevel_heynottoorough, 1);
+    else if (skill == sk_medium)
+        stat_skilllevel_hurtmeplenty = SafeAdd(stat_skilllevel_hurtmeplenty, 1);
+    else if (skill == sk_hard)
+        stat_skilllevel_ultraviolence = SafeAdd(stat_skilllevel_ultraviolence, 1);
+    else
+        stat_skilllevel_nightmare = SafeAdd(stat_skilllevel_nightmare, 1);
+
+    M_SaveCVARs();
 }
 
 //

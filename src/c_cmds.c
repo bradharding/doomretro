@@ -3605,6 +3605,41 @@ static void play_cmd_func2(char *cmd, char *parms)
         S_ChangeMusic(playcmdid, true, false, false);
 }
 
+static skill_t favoriteskilllevel(void)
+{
+    unsigned int    skilllevelstat = 0;
+    skill_t         favorite = sk_none;
+
+    if (skilllevelstat < stat_skilllevel_imtooyoungtodie)
+    {
+        skilllevelstat = stat_skilllevel_imtooyoungtodie;
+        favorite = sk_baby;
+    }
+
+    if (skilllevelstat < stat_skilllevel_heynottoorough)
+    {
+        skilllevelstat = stat_skilllevel_heynottoorough;
+        favorite = sk_easy;
+    }
+
+    if (skilllevelstat < stat_skilllevel_hurtmeplenty)
+    {
+        skilllevelstat = stat_skilllevel_hurtmeplenty;
+        favorite = sk_medium;
+    }
+
+    if (skilllevelstat < stat_skilllevel_ultraviolence)
+    {
+        skilllevelstat = stat_skilllevel_ultraviolence;
+        favorite = sk_hard;
+    }
+
+    if (skilllevelstat < stat_skilllevel_nightmare)
+        favorite = sk_nightmare;
+
+    return favorite;
+}
+
 static char *distance(fixed_t value, dboolean showunits)
 {
     char    *result = malloc(20);
@@ -3642,8 +3677,18 @@ static char *distance(fixed_t value, dboolean showunits)
 static void C_PlayerStats_Game(void)
 {
     const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
+    skill_t     favorite = favoriteskilllevel();
     const int   time1 = leveltime / TICRATE;
     const int   time2 = stat_time / TICRATE;
+
+    char **skilllevels[] =
+    {
+        &s_M_SKILLLEVEL1,
+        &s_M_SKILLLEVEL2,
+        &s_M_SKILLLEVEL3,
+        &s_M_SKILLLEVEL4,
+        &s_M_SKILLLEVEL5
+    };
 
     C_Header(tabs, PLAYERSTATSTITLE);
 
@@ -3680,6 +3725,11 @@ static void C_PlayerStats_Game(void)
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", commify(stat_gamessaved));
+
+    if (favorite == sk_none)
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
+    else
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b>%s</b>", titlecase(*skilllevels[favorite]));
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(viewplayer->killcount), commify(totalkills),
@@ -3843,13 +3893,28 @@ static void C_PlayerStats_Game(void)
 static void C_PlayerStats_NoGame(void)
 {
     const int   tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
+    skill_t     favorite = favoriteskilllevel();
     const int   time2 = stat_time / TICRATE;
+
+    char **skilllevels[] =
+    {
+        &s_M_SKILLLEVEL1,
+        &s_M_SKILLLEVEL2,
+        &s_M_SKILLLEVEL3,
+        &s_M_SKILLLEVEL4,
+        &s_M_SKILLLEVEL5
+    };
 
     C_Header(tabs, PLAYERSTATSTITLE);
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", commify(stat_gamessaved));
+
+    if (favorite == sk_none)
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
+    else
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b>%s</b>", titlecase(*skilllevels[favorite]));
 
     C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", commify(stat_monsterskilled));
 
