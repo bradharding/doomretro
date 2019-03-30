@@ -328,7 +328,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hud
             hudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
             *x += minuspatchwidth;
 
-            if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
+            if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79) || (val >= 100 && val <= 199))
                 (*x)--;
         }
         else
@@ -370,7 +370,7 @@ static int HUDNumberWidth(int val, patch_t **numset)
             val = -val;
             width = minuspatchwidth;
 
-            if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
+            if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79) || (val >= 100 && val <= 199))
                 width--;
         }
         else
