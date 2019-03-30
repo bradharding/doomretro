@@ -11,6 +11,7 @@
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is attacked.
 * A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
+* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now increase in speed the longer the keys are held down.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The following changes have been made to the `resetall` CCMD:

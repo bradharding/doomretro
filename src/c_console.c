@@ -1237,6 +1237,7 @@ dboolean C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
     static int  inputhistory = -1;
+    static int  scrollspeed = TICRATE;
     int         i;
     int         len;
 
@@ -1541,8 +1542,11 @@ dboolean C_Responder(event_t *ev)
                 // scroll output up
                 if (modstate & KMOD_CTRL)
                 {
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
                     if (consolestrings > CONSOLELINES)
-                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
+                            MAX(0, outputhistory - scrollspeed / TICRATE));
                 }
 
                 // previous input
@@ -1571,7 +1575,9 @@ dboolean C_Responder(event_t *ev)
                 // scroll output down
                 if (modstate & KMOD_CTRL)
                 {
-                    if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
+                    if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                         outputhistory = -1;
                 }
 
@@ -1606,14 +1612,19 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_PAGEUP:
                 // scroll output up
+                scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
                 if (consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - scrollspeed / TICRATE));
 
                 break;
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+                scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
+                if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                     outputhistory = -1;
 
                 break;
@@ -1710,7 +1721,10 @@ dboolean C_Responder(event_t *ev)
         }
     }
     else if (ev->type == ev_keyup)
+    {
+        scrollspeed = TICRATE;
         return false;
+    }
     else if (ev->type == ev_text)
     {
         char    ch = (char)ev->data1;
