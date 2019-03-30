@@ -448,12 +448,9 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             i++;
         }
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)))
-        {
             w += SHORT(multiply->width);
-            i++;
-        }
-        else
-            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? 0 : consolefont[c]->width);
+        else if (c >= 0 && c < CONSOLEFONTSIZE)
+            w += SHORT(consolefont[c]->width);
 
         if (kerning)
             for (int j = 0; altkern[j].char1; j++)
