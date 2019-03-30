@@ -5,13 +5,13 @@
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
 * Further improvements have been made to the console’s autocomplete feature.
 * Obituaries are no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
-* Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is entered.
+* Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is used.
 * The player’s favorite skill level is now displayed by the `playerstats` CCMD.
 * The accuracy of the player’s weapons has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is attacked.
 * A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
-* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now increase in speed the longer the keys are held down.
+* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer the keys are held down.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The following changes have been made to the `resetall` CCMD:
@@ -27,7 +27,7 @@
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
-* The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a custom colormap 32 is present in the current PWAD.
+* The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a `COLORMAP` lump that replaces colormap 32 is present in the current PWAD.
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
 
 ---

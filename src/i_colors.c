@@ -140,7 +140,7 @@ void FindNearestColors(byte *palette)
 {
     if (W_CheckMultipleLumps("PLAYPAL") > 1)
     {
-        byte *splashpal = W_CacheLumpName("SPLSHPAL");
+        byte    *splashpal = W_CacheLumpName("SPLSHPAL");
 
         for (int i = 0; i < 256; i++)
         {
