@@ -29,6 +29,7 @@
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a `COLORMAP` lump that replaces colormap 32 is present in the current PWAD.
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
+* The red palette effect when the player is damaged will now be allowed to fade out if the console is opened using the <kbd>~</kbd> key.
 
 ---
 

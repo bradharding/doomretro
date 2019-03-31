@@ -520,6 +520,8 @@ void P_PlayerThink(void)
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;
 
+    P_ReduceDamageCount();
+
     if (consoleactive)
         return;
 
@@ -660,8 +662,6 @@ void P_PlayerThink(void)
 
     if (viewplayer->powers[pw_ironfeet] > 0)
         viewplayer->powers[pw_ironfeet]--;
-
-    P_ReduceDamageCount();
 
     // Handling colormaps.
     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & 8))
