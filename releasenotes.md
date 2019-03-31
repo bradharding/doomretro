@@ -4,18 +4,18 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
 * Further improvements have been made to the console’s autocomplete feature.
-* Obituaries are no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
+* An obituary is no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is used.
 * The player’s favorite skill level is now displayed by the `playerstats` CCMD.
 * The accuracy of the player’s weapons has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is attacked.
 * A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
-* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer the keys are held down.
+* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer those keys are held down.
 * An error will no longer be displayed in the console if the `NOTDMATCH` flag is included in a `DEHACKED` lump.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The following changes have been made to the `resetall` CCMD:
-  * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched.
+  * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched immediately.
   * All aliases created using the `alias` CCMD will now be deleted.
 * The following changes have been made to the `take` CCMD:
   * A bug has been fixed whereby if the player’s health was less than 100% it would be increased to 100% when using the `all` parameter. Now any health over 100% will be taken from the player.
