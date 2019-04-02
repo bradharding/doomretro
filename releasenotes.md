@@ -1,4 +1,4 @@
-### DOOM Retro v2.8.2
+### DOOM Retro v2.9
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -22,7 +22,7 @@
   * The red palette effect will now be applied to the screen if any health is taken from the player.
   * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
 * The following changes have been made to the `crosshair` CVAR:
-  * Instead of `on` or `off`, the CVAR can now be `none` (the new default value), `cross` (to display an actual cross) or `dot` (to display a dot).
+  * Instead of `on` or `off`, the CVAR can now be `none` (the new default), `cross` (to display an actual cross) or `dot` (to display a dot).
   * When the CVAR is `dot`, the dot displayed is smaller than in the previous version of *DOOM Retro*.
   * The crosshair is now a translucent light gray rather than white.
   * The crosshair is now also displayed when the `autoaim` CVAR is `on`.
