@@ -985,9 +985,10 @@ void HU_Drawer(void)
     {
         if (crosshair != crosshair_none && usemouselook)
         {
-            actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
+            weapontype_t    readyweapon = viewplayer->readyweapon;
+            actionf_t       action = viewplayer->psprites[ps_weapon].state->action;
 
-            if (action != A_Raise && action != A_Lower)
+            if (readyweapon != wp_fist && readyweapon != wp_chainsaw && action != A_Raise && action != A_Lower)
                 HU_DrawCrosshair();
         }
 
