@@ -21,15 +21,18 @@
   * A bug has been fixed whereby if the player’s health was less than 100% it would be increased to 100% when using the `all` parameter. Now any health over 100% will be taken from the player.
   * The red palette effect will now be applied to the screen if any health is taken from the player.
   * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
-* Instead of `on` or `off`, the `crosshair` CVAR can now be set to `none` (the new default value), `cross` (to display an actual cross) or `dot` (to display a dot). When the `crosshair` CVAR is `dot`, the dot displayed is smaller than in the previous version of *DOOM Retro*.
-* The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` is now also displayed when the `autoaim` CVAR is `on`.
+* The following changes have been made to the `crosshair` CVAR:
+  * Instead of `on` or `off`, the CVAR can now be `none` (the new default value), `cross` (to display an actual cross) or `dot` (to display a dot).
+  * When the CVAR is `dot`, the dot displayed is smaller than in the previous version of *DOOM Retro*.
+  * The crosshair is now a translucent light gray rather than white.
+  * The crosshair is now also displayed when the `autoaim` CVAR is `on`.
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a `COLORMAP` lump that replaces colormap 32 is present in the current PWAD.
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
-* The red palette effect when the player is damaged will now be allowed to fade out if the console is opened using the <kbd>~</kbd> key.
+* The red palette effect when the player is injured will now be allowed to fade out when the console is opened.
 
 ---
 

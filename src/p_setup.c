@@ -1284,7 +1284,7 @@ static void P_LoadLineDefs2(void)
         if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
         {
             ld->flags &= ~ML_TWOSIDED;                  // Clear 2s flag for missing left side
-            C_Warning("Linedef %s has the two-sided flag set but has no second sidedef.", commify(i));
+            C_Warning("Linedef %s has the two-sided flag set but no second sidedef.", commify(i));
         }
 
         ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : 0);
