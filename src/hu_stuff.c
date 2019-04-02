@@ -89,7 +89,8 @@ static dboolean         headsupactive;
 
 byte                    *tempscreen;
 
-static byte             *crosshaircolor;
+static byte             *crosshaircolor1;
+static byte             *crosshaircolor2;
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
@@ -229,7 +230,8 @@ void HU_Init(void)
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
 
-    crosshaircolor = &tinttab40[nearestcolors[GRAY] << 8];
+    crosshaircolor1 = &tinttab40[nearestcolors[GRAY] << 8];
+    crosshaircolor2 = &tinttab40[nearestcolors[WHITE] << 8];
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -392,6 +394,7 @@ static int HUDNumberWidth(int val, patch_t **numset)
 
 static void HU_DrawCrosshair(void)
 {
+    byte    *crosshaircolor = (viewplayer->attackdown ? crosshaircolor2 : crosshaircolor1);
     if (crosshair == crosshair_cross)
     {
         byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
