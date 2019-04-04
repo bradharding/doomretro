@@ -3730,13 +3730,13 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        char    *skilllevel = titlecase(*skilllevels[favorite]);
+        char    *level = titlecase(*skilllevels[favorite]);
 
-        if (skilllevel[strlen(skilllevel) - 1] == '.')
-            skilllevel[strlen(skilllevel) - 1] = '\0';
+        if (level[strlen(level) - 1] == '.')
+            level[strlen(level) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", skilllevel);
-        free(skilllevel);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", level);
+        free(level);
     }
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
@@ -3923,13 +3923,13 @@ static void C_PlayerStats_NoGame(void)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        char *skilllevel = titlecase(*skilllevels[favorite]);
+        char * level = titlecase(*skilllevels[favorite]);
 
-        if (skilllevel[strlen(skilllevel) - 1] == '.')
-            skilllevel[strlen(skilllevel) - 1] = '\0';
+        if (level[strlen(level) - 1] == '.')
+            level[strlen(level) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", skilllevel);
-        free(skilllevel);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", level);
+        free(level);
     }
 
     C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", commify(stat_monsterskilled));

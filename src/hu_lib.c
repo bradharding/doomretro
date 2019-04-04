@@ -133,7 +133,6 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : nearestblack));
     }
 
-
     for (int i = 0; i < len; i++)
     {
         unsigned char   letter = l->l[i];
