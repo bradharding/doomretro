@@ -363,7 +363,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         return true;
     else
     {
-        const int   *list = blockmaplump + *(blockmap + y * bmapwidth + x);
+        const int   *list = &blockmaplump[blockmap[y * bmapwidth + x]];
 
         if (skipblstart)
             list++;

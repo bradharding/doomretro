@@ -858,7 +858,7 @@ static void P_LoadNodes_V4(int lump)
 {
     const byte  *data = W_CacheLumpNum(lump);
 
-    numnodes = (W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
+    numnodes = ((size_t)W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
 
     // skip header

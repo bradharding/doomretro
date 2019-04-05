@@ -164,7 +164,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 
 static void R_InitSpriteDefs(void)
 {
-    size_t  numentries = lastspritelump - firstspritelump + 1;
+    size_t  numentries = (size_t)lastspritelump - firstspritelump + 1;
 
     struct
     {

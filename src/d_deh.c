@@ -3617,7 +3617,7 @@ static void rstrip(char *s)         // strip trailing whitespace
 {
     char    *p = s + strlen(s);     // killough 4/4/98: same here
 
-    while (p > s && isspace(*--p))  // break on first non-whitespace
+    while (p > s && isspace((unsigned char)*--p))  // break on first non-whitespace
         *p = '\0';
 }
 
@@ -3630,7 +3630,7 @@ static void rstrip(char *s)         // strip trailing whitespace
 //
 static char *ptr_lstrip(char *p)    // point past leading whitespace
 {
-    while (isspace(*p))
+    while (isspace((unsigned char)*p))
         p++;
 
     return p;
@@ -3668,7 +3668,7 @@ static int deh_GetData(char *s, char *k, long *l, char **strval)
         buffer[i] = *t;                 // copy it
     }
 
-    if (isspace(buffer[i - 1]))
+    if (isspace((unsigned char)buffer[i - 1]))
         i--;
 
     if (i >= 0)

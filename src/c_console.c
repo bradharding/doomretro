@@ -111,9 +111,9 @@ static short            spacewidth;
 static char             consoleinput[255];
 static int              numautocomplete;
 int                     consolestrings;
-int                     consolestrings_max = 0;
+size_t                  consolestrings_max = 0;
 
-static int              undolevels;
+static size_t           undolevels;
 static undohistory_t    *undohistory;
 
 static patch_t          *caret;
@@ -1487,7 +1487,7 @@ dboolean C_Responder(event_t *ev)
 
                         if (autocomplete == -1)
                         {
-                            M_StringCopy(input, M_SubString(consoleinput, i, len - i), sizeof(input));
+                            M_StringCopy(input, M_SubString(consoleinput, i, (size_t)len - i), sizeof(input));
 
                             if (!*input)
                                 break;
@@ -1662,7 +1662,7 @@ dboolean C_Responder(event_t *ev)
                 // copy selected text to clipboard
                 if (modstate & KMOD_CTRL)
                     if (selectstart < selectend)
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
+                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart));
 
                 break;
 
@@ -1673,7 +1673,7 @@ dboolean C_Responder(event_t *ev)
                     char    buffer[255];
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
-                        SDL_GetClipboardText(), M_SubString(consoleinput, selectend, len - selectend));
+                        SDL_GetClipboardText(), M_SubString(consoleinput, selectend, (size_t)len - selectend));
                     M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
                     M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
 
@@ -1694,7 +1694,7 @@ dboolean C_Responder(event_t *ev)
                     if (selectstart < selectend)
                     {
                         C_AddToUndoHistory();
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
+                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart));
 
                         for (i = selectend; i < len; i++)
                             consoleinput[selectstart + i - selectend] = consoleinput[i];
@@ -1734,7 +1734,7 @@ dboolean C_Responder(event_t *ev)
         if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
             + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
             - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
-            selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
+            (size_t)selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
             C_AddToUndoHistory();
 
@@ -1812,8 +1812,9 @@ void C_PrintCompileDate(void)
 
     static char mth[4] = "";
 
-    sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
-    sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
+    if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) != 3 || sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) != 2)
+        return;
+
     month = (int)(strstr(mths, mth) - mths) / 3 + 1;
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",

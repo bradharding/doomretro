@@ -284,7 +284,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
             //
             // Exiting on side 1 slightly improves player viewing
             // when going down a step on a non-reversed teleporter.
-            int         side = (reverse || (player && stepdown));
+            side = (reverse || (player && stepdown));
 
             // Make sure we are on correct side of exit linedef.
             while (P_PointOnLineSide(x, y, l) != side && --fudge >= 0)

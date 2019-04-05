@@ -188,7 +188,7 @@ static const char *steam_install_subdirs[] =
 static char *GetRegistryString(registryvalue_t *reg_val)
 {
     HKEY    key;
-    DWORD   len;
+    DWORD   len = 0;
     DWORD   valtype;
     char    *result = "";
 

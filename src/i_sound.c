@@ -210,7 +210,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     // loop over output buffer. find corresponding input cell, copy over
     for (Sint16 *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
-        inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
+        inp = &srcbuf[(int)((float)(outp - dstbuf) / dstlen * srclen)];
         *outp = *inp;
     }
 
