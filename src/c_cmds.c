@@ -1529,7 +1529,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[8] = { 40, 131, 0, 0, 0, 0, 0, 0 };
     int         count = 1;
 
     C_Header(tabs, BINDLISTTITLE);
@@ -1722,7 +1722,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 //
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 40, 210, 318, 0, 0, 0, 0, 0 };
+    const int   tabs[8] = { 40, 209, 318, 0, 0, 0, 0, 0 };
     int         count = 0;
 
     C_Header(tabs, CVARLISTTITLE);
