@@ -825,7 +825,7 @@ static dboolean D_CheckParms(void)
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD") && bfgedition)
                 {
                     static char fullpath[MAX_PATH];
 
@@ -1063,7 +1063,7 @@ static int D_OpenWADLauncher(void)
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    else if (M_StringCompare(leafname(file), "DOOM2.WAD"))
+                    else if (M_StringCompare(leafname(file), "DOOM2.WAD") && bfgedition)
                     {
                         static char fullpath[MAX_PATH];
 
@@ -1435,7 +1435,7 @@ static int D_OpenWADLauncher(void)
 
                     // try to autoload NERVE.WAD if DOOM2.WAD is the IWAD and none of the PWADs
                     // have maps present
-                    if (isDOOM2 && !mapspresent)
+                    if (isDOOM2 && !mapspresent && bfgedition)
                     {
                         static char fullpath[MAX_PATH];
 
@@ -1763,8 +1763,6 @@ static void D_DoomMainSetup(void)
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
-
-    bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
     I_InitGamepad();
 

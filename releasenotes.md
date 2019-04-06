@@ -4,6 +4,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When loading the *The Ultimate DOOM’s* IWAD from the WAD launcher, if John Romero’s [`sigil.wad`](https://www.romerogames.ie/sigil/) is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will appear in the episode menu.
+* The WAD launcher will now only automatically load [`nerve.wad`](https://doomwiki.org/wiki/No_Rest_for_the_Living) if the *BFG Edition* of *DOOM II: Hell On Earth’s* IWAD is loaded.
 * Further improvements have been made to the console’s autocomplete feature.
 * An obituary is no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is used.
@@ -16,8 +17,8 @@
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer those keys are held down.
 * Further improvements have been made to the support of `DEHACKED` lumps:
   * An error will no longer be displayed in the console if the `NOTDMATCH` flag is used.
-  * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in a `[PARS]` section.
-  * A bug has been fixed whereby par times specified in a `[PARS]` section would not be read correctly in some rare instances.
+  * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in the `[PARS]` section.
+  * A bug has been fixed whereby par times specified in the `[PARS]` section would not be read correctly in some rare instances.
 * The following changes have been made to the `resetall` CCMD:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched immediately.
   * All aliases created using the `alias` CCMD will now be deleted.
@@ -39,7 +40,7 @@
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
 * The red palette effect when the player is injured will now be allowed to fade out when the console is opened.
 * The `play` CCMD can now be used to restart music.
-* The player’s health, armor or ammo will no longer flash in the widescreen HUD while freeze mode is on.
+* The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
 
 ---
 

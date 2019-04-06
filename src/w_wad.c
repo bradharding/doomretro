@@ -107,6 +107,45 @@ static dboolean IsFreedoom(const char *iwadname)
     return result;
 }
 
+dboolean IsBFGEdition(const char *iwadname)
+{
+    FILE* fp = fopen(iwadname, "rb");
+    filelump_t  lump;
+    wadinfo_t   header;
+    const char* n = lump.name;
+    int         result1 = false;
+    int         result2 = false;
+
+    if (!fp)
+        return false;
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
+    {
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+            if (n[0] == 'D' && n[1] == 'M' && n[2] == 'E' && n[3] == 'N' && n[4] == 'U' && n[5] == 'P' && n[6] == 'I' && n[7] == 'C')
+            {
+                result1 = true;
+
+                if (result2)
+                    break;
+            }
+            else if (n[0] == 'M' && n[1] == '_' && n[2] == 'A' && n[3] == 'C' && n[4] == 'P' && n[5] == 'T')
+            {
+                result2 = true;
+
+                if (result1)
+                    break;
+            }
+    }
+
+    fclose(fp);
+
+    return (result1 && result2);
+}
+
 char *GetCorrectCase(char *path)
 {
 #if defined(_WIN32)
@@ -165,6 +204,9 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
+
+    if (wadfile->type == IWAD)
+        bfgedition = IsBFGEdition(filename);
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
