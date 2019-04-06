@@ -7,6 +7,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * An obituary is no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is used.
+* A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The player’s favorite skill level is now displayed by the `playerstats` CCMD.
 * The accuracy of the player’s weapons has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
@@ -16,7 +17,7 @@
 * Further improvements have been made to the support of `DEHACKED` lumps:
   * An error will no longer be displayed in the console if the `NOTDMATCH` flag is used.
   * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in a `[PARS]` section.
-* A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
+  * A bug has been fixed whereby par times specified in a `[PARS]` section would not be read correctly in some rare instances.
 * The following changes have been made to the `resetall` CCMD:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched immediately.
   * All aliases created using the `alias` CCMD will now be deleted.

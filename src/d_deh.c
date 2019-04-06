@@ -2862,9 +2862,9 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
         if (!*inbuffer)
             break;                              // killough 11/98
 
-        if (sscanf(inbuffer, "par %10i %10i %10i", &episode, &level, &partime) != 3)
+        if (sscanf(inbuffer, "par %10d %10d %10d", &episode, &level, &partime) != 3)
         {
-            if (sscanf(inbuffer, "par %10i %10i", &level, &partime) != 2)
+            if (sscanf(inbuffer, "par %10d %10d", &level, &partime) != 2)
                 C_Warning("Invalid par time setting string \"%s\".", inbuffer);
             else
             {
