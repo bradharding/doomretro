@@ -438,7 +438,7 @@ static void HU_DrawHUD(void)
     byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
                             || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
     patch_t             *patch;
-    const dboolean      gamepaused = (menuactive || paused || consoleactive);
+    const dboolean      gamepaused = (menuactive || paused || consoleactive || freeze);
     const int           currenttime = I_GetTimeMS();
     int                 keypic_x = (armor ? HUD_KEYS_X : SCREENWIDTH - 13);
     static int          keywait;

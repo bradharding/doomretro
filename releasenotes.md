@@ -39,6 +39,7 @@
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
 * The red palette effect when the player is injured will now be allowed to fade out when the console is opened.
 * The `play` CCMD can now be used to restart music.
+* The player’s health, armor or ammo will no longer flash in the widescreen HUD while freeze mode is on.
 
 ---
 
