@@ -15,7 +15,7 @@
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer those keys are held down.
 * Further improvements have been made to the support of `DEHACKED` lumps:
   * An error will no longer be displayed in the console if the `NOTDMATCH` flag is used.
-  * The par times for Episode 4 of *DOOM* can now be specified in a `[PARS]` section.
+  * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in a `[PARS]` section.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The following changes have been made to the `resetall` CCMD:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched immediately.

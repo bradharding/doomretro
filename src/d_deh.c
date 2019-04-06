@@ -2841,10 +2841,9 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     // second one makes the par for MAP14 be 230 seconds. The number
     // of parameters on the line determines which group of par values
     // is being changed. Error checking is done based on current fixed
-    // array sizes of[4][10] and [32]
+    // array sizes of [4][10] and [32]
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2870,7 +2869,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
             else
             {
                 // Ty 07/11/98 - wrong range check, not zero-based
-                if (level < 1 || level > 32)    // base 0 array (but 1-based parm)
+                if (level < 1 || level > 33)    // base 0 array (but 1-based parm)
                     C_Warning("Invalid MAPxy value MAP%i.", level);
                 else
                 {
