@@ -2888,9 +2888,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
             // note that though it's a [4][10] array, the "left" and "top" aren't used,
             // effectively making it a base 1 array.
             // Ty 07/11/98 - level was being checked against max 3 - dumb error
-            // Note that episode 4 does not have par times per original design
-            // in Ultimate DOOM so that is not supported here.
-            if (episode < 1 || episode > 3 || level < 1 || level > 9)
+            if (episode < 1 || episode > 4 || level < 1 || level > 9)
                 C_Warning("Invalid ExMy values E%iM%i.", episode, level);
             else
             {
