@@ -1007,7 +1007,6 @@ static void M_LoadSelect(int choice)
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
-        I_Sleep(1000);
         functionkey = 0;
         quickSaveSlot = choice;
         M_ClearMenus();
@@ -1660,7 +1659,6 @@ static void M_VerifyNightmare(int key)
     else
     {
         S_StartSound(NULL, sfx_swtchx);
-        I_Sleep(1000);
         quickSaveSlot = -1;
         M_ClearMenus();
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
@@ -1684,7 +1682,6 @@ static void M_ChooseSkill(int choice)
 
     HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
-    I_Sleep(1000);
     quickSaveSlot = -1;
     M_ClearMenus();
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);

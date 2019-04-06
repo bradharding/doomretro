@@ -330,10 +330,6 @@ static int S_GetMusicNum(void)
 //
 void S_Start(void)
 {
-    // kill all playing sounds at start of level
-    //  (trust me - a good idea)
-    S_StopSounds();
-
     // start new music for the level
     mus_paused = false;
 
