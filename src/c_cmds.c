@@ -3602,7 +3602,7 @@ static void play_cmd_func2(char *cmd, char *parms)
     else if (playcmdtype == 1)
         S_StartSound(NULL, playcmdid);
     else
-        S_ChangeMusic(playcmdid, true, false, false);
+        S_ChangeMusic(playcmdid, true, true, false);
 }
 
 static skill_t favoriteskilllevel(void)

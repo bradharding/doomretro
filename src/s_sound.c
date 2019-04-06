@@ -617,7 +617,7 @@ void S_StartMusic(int music_id)
     S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
+void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];
@@ -627,7 +627,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     // current music which should play
     musinfo.current_item = -1;
 
-    if (nomusic || (mus_playing == music && !cheating))
+    if (nomusic || (mus_playing == music && !allowrestart))
         return;
 
     // shutdown old music
