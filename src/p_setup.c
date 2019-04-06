@@ -2586,10 +2586,10 @@ static void InitMapInfo(void)
         (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 
     if (nojump)
-        C_Warning("The <b>+jump</b> action has been disabled for this PWAD.");
+        C_Warning("This PWAD has disabled use of the <b>+jump</b> action.");
 
     if (nomouselook)
-        C_Warning("The <b>mouselook</b> CVAR and <b>+mouselook</b> action have been disabled for this PWAD.");
+        C_Warning("This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
 }
 
 static int QualifyMap(int map)
