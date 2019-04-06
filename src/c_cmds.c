@@ -4788,7 +4788,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
         int x = INT_MAX;
         int y = INT_MAX;
 
-        sscanf(parms, "%10i %10i", &x, &y);
+        sscanf(parms, "%10d %10d", &x, &y);
 
         if (x != INT_MAX && y != INT_MAX)
         {
@@ -6170,7 +6170,7 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    if (sscanf(parms, "%10i%%", &value) != 1)
+    if (sscanf(parms, "%10d%%", &value) != 1)
         sscanf(parms, "%10d", &value);
 
     return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
@@ -6184,7 +6184,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        if (sscanf(parms, "%10i%%", &value) != 1)
+        if (sscanf(parms, "%10d%%", &value) != 1)
             sscanf(parms, "%10d", &value);
 
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)

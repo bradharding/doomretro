@@ -483,13 +483,11 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 TWriteByte(mididata, MIDItrack, (unsigned char)data);
                 break;
 
-            case UNKNOWN_EVENT1:   // mus events 5 and 7
-            case UNKNOWN_EVENT2:   // meaning not known
-                return false;
-
             case SCORE_END:
                 break;
 
+            case UNKNOWN_EVENT1:   // mus events 5 and 7
+            case UNKNOWN_EVENT2:   // meaning not known
             default:
                 return false;
         }
