@@ -9,6 +9,7 @@
 [![](https://img.shields.io/github/release-date/bradharding/doomretro.svg?style=flat)](https://github.com/bradharding/doomretro/releases)
 [![](https://img.shields.io/github/downloads/bradharding/doomretro/latest/total.svg?style=flat)](https://github.com/bradharding/doomretro/releases)
 [![](https://img.shields.io/github/downloads/bradharding/doomretro/total.svg?style=flat)](https://github.com/bradharding/doomretro/releases)
+[![](https://img.shields.io/github/commit-activity/w/bradharding/doomretro.svg?style=flat)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/commits-since/bradharding/doomretro/latest.svg?style=flat)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/last-commit/bradharding/doomretro.svg?style=flat)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/travis/bradharding/doomretro.svg?style=flat?style=flat&logo=travis)](https://travis-ci.org/bradharding/doomretro)
