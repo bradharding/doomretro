@@ -51,10 +51,6 @@ dboolean        musmusictype;
 
 static dboolean music_initialized;
 
-// If this is true, this module initialized SDL sound and has the
-// responsibility to shut it down
-static dboolean sdl_was_initialized;
-
 static int      current_music_volume;
 static int      paused_midi_volume;
 
@@ -72,12 +68,8 @@ void I_ShutdownMusic(void)
     Mix_FadeOutMusic(500);
     music_initialized = false;
 
-    if (sdl_was_initialized)
-    {
-        Mix_CloseAudio();
-        SDL_QuitSubSystem(SDL_INIT_AUDIO);
-        sdl_was_initialized = false;
-    }
+    Mix_CloseAudio();
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
 #if defined(_WIN32)
     I_MidiRPCClientShutDown();
@@ -112,7 +104,6 @@ dboolean I_InitMusic(void)
 
     SDL_PauseAudio(0);
 
-    sdl_was_initialized = true;
     music_initialized = true;
 
 #if defined(_WIN32)

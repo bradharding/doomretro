@@ -168,7 +168,7 @@ static void ShutdownSDL()
     }
 
     Mix_CloseAudio();
-    SDL_Quit();
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
 //
