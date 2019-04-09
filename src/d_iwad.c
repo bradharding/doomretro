@@ -666,7 +666,7 @@ void D_SetGameDescription(void)
             C_Output("Playing <i><b>%s: %s</b></i> and <i><b>%s: %s</b></i>.", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
-    else if (modifiedgame && !chex)
+    else if (modifiedgame && !sigil && !chex)
         C_Output("Playing <b>%s</b>.", gamedescription);
     else
     {
