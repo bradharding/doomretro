@@ -89,8 +89,17 @@
 // Location where savegames are stored
 char                *savegamefolder;
 
-// location of IWAD and PWAD files
 char                *pwadfile = "";
+
+char *iwadsrequired[] =
+{
+    "doom.wad",
+    "doom2.wad",
+    "tnt.wad",
+    "plutonia.wad",
+    "nerve.wad",
+    "doom2.wad"
+};
 
 char                *iwadfolder = iwadfolder_default;
 int                 units = units_default;
@@ -433,7 +442,7 @@ void D_PageDrawer(void)
         static int  prevtic;
 
         if (pagetic != prevtic)
-            I_SetSimplePalette(&splashpal[(pagetic <= 9 ? (9 - pagetic) * 768 : (pagetic > 94 ? (pagetic - 94) * 768 : 0))]);
+            I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) * 768 : (pagetic > 94 ? (pagetic - 94) * 768 : 0))]);
 
         prevtic = pagetic;
     }

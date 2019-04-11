@@ -148,48 +148,41 @@ static int  invhgtbits = 4;
 
 static void R_FixWiggle(sector_t *sector)
 {
-    typedef struct
-    {
-        int clamp;
-        int heightbits;
-    } scalevalues_t;
-
-    static const scalevalues_t scalevalues[] =
-    {
-        { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
-        {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
-        {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
-    };
-
     // disallow negative heights, force cache initialization
-    int         height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);
-    static int  lastheight;
+    int height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);
 
-    // early out?
-    if (height != lastheight)
+    // initialize, or handle moving sector
+    if (height != sector->cachedheight)
     {
-        lastheight = height;
-
-        // initialize, or handle moving sector
-        if (height != sector->cachedheight)
+        typedef struct
         {
-            int                 scaleindex = 0;
-            const scalevalues_t *scalevalue;
+            int clamp;
+            int heightbits;
+        } scalevalues_t;
 
-            sector->cachedheight = height;
-            height >>= 7;
+        static const scalevalues_t scalevalues[] =
+        {
+            { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
+            {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
+            {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
+        };
 
-            // calculate adjustment
-            while ((height >>= 1))
-                scaleindex++;
+        int                 scaleindex = 0;
+        const scalevalues_t *scalevalue;
 
-            // fine-tune renderer for this wall
-            scalevalue = &scalevalues[scaleindex];
-            max_rwscale = scalevalue->clamp;
-            heightbits = scalevalue->heightbits;
-            heightunit = 1 << heightbits;
-            invhgtbits = FRACBITS - heightbits;
-        }
+        sector->cachedheight = height;
+        height >>= 7;
+
+        // calculate adjustment
+        while ((height >>= 1))
+            scaleindex++;
+
+        // fine-tune renderer for this wall
+        scalevalue = &scalevalues[scaleindex];
+        max_rwscale = scalevalue->clamp;
+        heightbits = scalevalue->heightbits;
+        heightunit = 1 << heightbits;
+        invhgtbits = FRACBITS - heightbits;
     }
 }
 
@@ -537,8 +530,6 @@ void R_StoreWallRange(const int start, const int stop)
     if (automapactive)
         return;
 
-    dx = curline->dx;
-    dy = curline->dy;
     sidedef = curline->sidedef;
 
     // killough 1/98 -- fix 2s line HOM
@@ -556,6 +547,8 @@ void R_StoreWallRange(const int start, const int stop)
     rw_normalangle = curline->angle + ANG90;
 
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
+    dx = curline->dx;
+    dy = curline->dy;
     dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
     dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
     len = curline->length;

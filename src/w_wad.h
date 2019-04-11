@@ -72,7 +72,6 @@ struct lumpinfo_s
 
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
-extern char         *iwadsrequired[];
 
 dboolean IsBFGEdition(const char *iwadname);
 

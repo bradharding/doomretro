@@ -305,16 +305,6 @@ dboolean HasDehackedLump(const char *pwadname)
     return result;
 }
 
-char *iwadsrequired[] =
-{
-    "doom.wad",
-    "doom2.wad",
-    "tnt.wad",
-    "plutonia.wad",
-    "nerve.wad",
-    "doom2.wad"
-};
-
 GameMission_t IWADRequiredByPWAD(char *pwadname)
 {
     char            *leaf = leafname(pwadname);
