@@ -396,8 +396,8 @@ static void ST_RefreshBackground(void)
         }
         else
         {
-            V_DrawBigPatch(ST_X, ST_Y, 0, sbar2);
-            V_DrawBigPatch(ST_ARMSBGX * 2, ST_Y, 0, armsbg2);
+            V_DrawBigPatch(ST_X, ST_Y, sbar2);
+            V_DrawBigPatch(ST_ARMSBGX * 2, ST_Y, armsbg2);
         }
 #endif
     }

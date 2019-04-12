@@ -76,7 +76,7 @@ extern dboolean vanilla;
 //
 void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
-    byte    *dest = &screens[scrn][ y * SCREENWIDTH + x];
+    byte    *dest = &screens[scrn][y * SCREENWIDTH + x];
 
     while (height--)
     {
@@ -87,9 +87,9 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboole
 
 void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
-    byte        *dest = &screens[scrn][ y * SCREENWIDTH + x];
+    byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
     byte        *dot;
-    const byte  *tint60 = tinttab60 + (color <<= 8);
+    const byte  *tint60 = &tinttab60[(color <<= 8)];
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -123,7 +123,7 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, d
             *dot = *(tint20 + *dot);
             dot += SCREENWIDTH;
             *dot = *(tint40 + *dot);
-            dot += SCREENWIDTH * (height + 1);
+            dot += SCREENWIDTH * ((size_t)height + 1);
             *dot = *(tint40 + *dot);
             dot += SCREENWIDTH;
             *dot = *(tint20 + *dot);
@@ -410,9 +410,9 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
-    byte    *desttop = &screens[scrn][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -446,7 +446,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *translucency)
 {
-    byte        *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     int         w = SHORT(patch->width);
     const int   italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
@@ -497,7 +497,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
 
 void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
 {
-    byte    *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -747,7 +747,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
     if (!translucency)
         return;
 
-    desttop = &screens[0][ y * SCREENWIDTH + x];
+    desttop = &screens[0][y * SCREENWIDTH + x];
     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -780,7 +780,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
     if (!translucency)
         return;
 
-    desttop = &screens[0][ y * SCREENWIDTH + x];
+    desttop = &screens[0][y * SCREENWIDTH + x];
     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -809,7 +809,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte    *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -836,7 +836,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte    *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -865,7 +865,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
-    byte    *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -897,7 +897,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 
 void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
-    byte    *desttop = &screens[0][ y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
 
     to <<= 8;
@@ -1466,7 +1466,7 @@ void V_Init(void)
             SDL_IMAGE_FILENAME, PACKAGE_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     for (int i = 0; i < 4; i++)
-        screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
+        screens[i] = &base[i * SCREENWIDTH * SCREENHEIGHT];
 
     DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
     DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;

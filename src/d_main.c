@@ -402,7 +402,7 @@ static void D_DoomLoop(void)
 //
 //  TITLE LOOP
 //
-int             titlesequence;
+int             titlesequence = 0;
 int             pagetic;
 
 static patch_t  *pagelump;
@@ -489,9 +489,8 @@ void D_DoAdvanceTitle(void)
     if (!titlesequence)
     {
         pagetic = 3 * TICRATE;
-        splashscreen = true;
         titlesequence = 1;
-        V_DrawBigPatch(0, 0, 0, splashlump);
+        V_DrawBigPatch(0, 0, splashlump);
         return;
     }
 
