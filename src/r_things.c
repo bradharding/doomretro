@@ -114,7 +114,6 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
     {
         // the lump should be used for all rotations
         for (int r = 14; r >= 0; r -= 2)
-        {
             if (sprtemp[frame].lump[r] == -1)
             {
                 sprtemp[frame].lump[r] = lumpnum - firstspritelump;
@@ -124,7 +123,6 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 
                 sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
             }
-        }
 
         return;
     }

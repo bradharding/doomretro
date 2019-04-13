@@ -1103,24 +1103,22 @@ static void ST_UpdateFaceWidget(void)
             {
                 angle_t     badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
                 angle_t     diffang;
-                dboolean    turn;
 
                 if (badguyangle > viewangle)
                 {
                     // whether right or left
                     diffang = badguyangle - viewangle;
-                    turn = (diffang > ANG180);
+                    faceindex = (diffang < ANG45 ? ST_RAMPAGEOFFSET : ST_TURNOFFSET + (diffang <= ANG180));
                 }
                 else
                 {
                     // whether left or right
                     diffang = viewangle - badguyangle;
-                    turn = (diffang <= ANG180);
+                    faceindex = (diffang < ANG45 ? ST_RAMPAGEOFFSET : ST_TURNOFFSET + (diffang > ANG180));
                 }
 
                 priority = 7;
                 st_facecount = ST_TURNCOUNT;
-                faceindex = (diffang < ANG45 ? ST_RAMPAGEOFFSET : ST_TURNOFFSET + !turn);
             }
         }
     }

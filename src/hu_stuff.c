@@ -317,7 +317,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = val;
     patch_t *patch;
@@ -327,7 +327,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hud
         if (minuspatch)
         {
             val = -val;
-            hudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
+            drawhudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
             *x += minuspatchwidth;
 
             if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79) || (val >= 100 && val <= 199))
@@ -342,7 +342,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hud
     if (val > 99)
     {
         patch = tallnum[val / 100];
-        hudnumfunc(*x, y, patch, translucency);
+        drawhudnumfunc(*x, y, patch, translucency);
         *x += SHORT(patch->width);
     }
 
@@ -351,12 +351,12 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*hud
     if (val > 9 || oldval > 99)
     {
         patch = tallnum[val / 10];
-        hudnumfunc(*x, y, patch, translucency);
+        drawhudnumfunc(*x, y, patch, translucency);
         *x += SHORT(patch->width);
     }
 
     patch = tallnum[val % 10];
-    hudnumfunc(*x, y, patch, translucency);
+    drawhudnumfunc(*x, y, patch, translucency);
     *x += SHORT(patch->width);
 }
 

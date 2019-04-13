@@ -3546,7 +3546,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
     }
 
     if (!found && !hacx)
-        C_Warning("The <b>%s</b> string can't be found.", (key ? key : lookfor));
+        C_Warning("The <b>\"%s\"</b> string can't be found.", (key ? key : lookfor));
 
     return found;
 }
