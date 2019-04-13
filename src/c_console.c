@@ -417,6 +417,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
+        const unsigned char nextletter = (i < len - 1 ? text[i + 1] : '\0');
         const int           c = letter - CONSOLEFONTSTART;
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i') && text[i + 2] == '>' && formatting)
@@ -448,7 +449,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(regomark->width);
             i++;
         }
-        else if (letter == 215 || (letter == 'x' && isdigit(prevletter)))
+        else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
             w += SHORT(multiply->width);
         else if (c >= 0 && c < CONSOLEFONTSIZE)
             w += SHORT(consolefont[c]->width);
@@ -722,7 +723,6 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     {
         const unsigned char letter = text[i];
         const unsigned char nextletter = (i < len - 1 ? text[i + 1] : '\0');
-
 
         if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
