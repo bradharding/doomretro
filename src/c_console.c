@@ -721,6 +721,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     for (int i = 0; i < truncate; i++)
     {
         const unsigned char letter = text[i];
+        const unsigned char nextletter = (i < len - 1 ? text[i + 1] : '\0');
+
 
         if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
@@ -756,7 +758,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = copyright;
             else if (letter == 174)
                 patch = regomark;
-            else if (letter == 215 || (letter == 'x' && isdigit(prevletter)))
+            else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
                 patch = multiply;
             else if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
