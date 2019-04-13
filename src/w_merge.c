@@ -464,7 +464,7 @@ static void DoMerge(void)
     // Add PWAD lumps
     current_section = SECTION_NORMAL;
 
-    for (int i = 0; i < pwad.numlumps; i++)
+    for (int i = 0, histart; i < pwad.numlumps; i++)
     {
         lumpinfo_t  *lump = pwad.lumps[i];
 
@@ -478,7 +478,7 @@ static void DoMerge(void)
                 else if (!strncasecmp(lump->name, "HI_START", 8))
                 {
                     current_section = SECTION_HIDEF;
-                    C_Warning("All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
+                    histart = i;
                 }
                 else
                     // Don't include the headers of sections
@@ -504,7 +504,21 @@ static void DoMerge(void)
 
             case SECTION_HIDEF:
                 if (!strncasecmp(lump->name, "HI_END", 8))
+                {
+                    int hiend = i - histart - 1;
+
                     current_section = SECTION_NORMAL;
+
+                    if (hiend)
+                    {
+                        if (hiend == 1)
+                            C_Warning("The patch between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
+                        else
+                            C_Warning("The %s patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.",
+                                commify(hiend));
+
+                    }
+                }
 
                 break;
         }
