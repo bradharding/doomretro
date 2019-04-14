@@ -409,6 +409,7 @@ void R_SetViewSize(int blocks)
 void R_ExecuteSetViewSize(void)
 {
     fixed_t fovscale;
+    fixed_t num;
 
     setsizeneeded = false;
 
@@ -442,10 +443,10 @@ void R_ExecuteSetViewSize(void)
         viewheightarray[i] = viewheight;
 
     // planes
+    num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * (FRACUNIT / 2));
+
     for (int i = 0; i < viewheight; i++)
     {
-        const fixed_t   num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * (FRACUNIT / 2));
-
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
                 * (r_screensize + 3) / 10)) << FRACBITS) + FRACUNIT / 2));
