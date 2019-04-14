@@ -35,6 +35,7 @@
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
+* The graphic detail will no longer be affected by the value of the `r_screensize` CVAR when changed in the options menu and not playing a game.
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a `COLORMAP` lump that replaces colormap 32 is present in the current PWAD.
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.

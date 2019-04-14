@@ -1420,16 +1420,26 @@ void GetPixelSize(dboolean reset)
 
 void V_LowGraphicDetail(void)
 {
-    int w = viewwindowx + viewwidth;
-    int h = (viewwindowy + viewheight) * SCREENWIDTH;
+    int left = 0;
+    int top = 0;
+    int width = SCREENWIDTH;
+    int height = SCREENHEIGHT * SCREENWIDTH;
 
-    for (int y = viewwindowy * SCREENWIDTH; y < h; y += pixelheight)
-        for (int x = viewwindowx; x < w; x += pixelwidth)
+    if (gamestate == GS_LEVEL)
+    {
+        left = viewwindowx;
+        top = viewwindowy * SCREENWIDTH;
+        width = viewwindowx + viewwidth;
+        height = (viewwindowy + viewheight) * SCREENWIDTH;
+    }
+
+    for (int y = top; y < height; y += pixelheight)
+        for (int x = left; x < width; x += pixelwidth)
         {
-            byte    *dot = *screens + y + x;
+            byte* dot = *screens + y + x;
 
-            for (int yy = 0; yy < pixelheight && y + yy < h; yy += SCREENWIDTH)
-                for (int xx = 0; xx < pixelwidth && x + xx < w; xx++)
+            for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
                     *(dot + yy + xx) = *dot;
         }
 }
