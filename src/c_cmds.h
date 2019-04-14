@@ -91,11 +91,10 @@ enum
     CF_FLOAT    =   2,
     CF_INTEGER  =   4,
     CF_PERCENT  =   8,
-    CF_POSITION =  16,
-    CF_READONLY =  32,
-    CF_SIZE     =  64,
-    CF_STRING   = 128,
-    CF_TIME     = 256
+    CF_STRING   =  16,
+    CF_TIME     =  32,
+    CF_OTHER    =  64,
+    CF_READONLY = 128
 };
 
 typedef struct

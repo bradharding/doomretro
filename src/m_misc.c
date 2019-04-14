@@ -585,22 +585,6 @@ char *sentencecase(const char *str)
     return newstr;
 }
 
-char *formatsize(const char *str)
-{
-    char    *newstr = M_StringDuplicate(str);
-    int     len = (int)strlen(newstr);
-
-    if (len > 1)
-        for (int i = 1; i < len; i++)
-            if (newstr[i] == 'x')
-            {
-                newstr[i] = '\xD7';
-                break;
-            }
-
-    return newstr;
-}
-
 char *commify(int64_t value)
 {
     char    result[64];

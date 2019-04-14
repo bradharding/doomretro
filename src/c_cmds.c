@@ -413,14 +413,12 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, valuealiases, name##_min, name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT(name, alt, cond, func, flags, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, name##_default, 0 }
-#define CVAR_POS(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc, 0, name##_default }
-#define CVAR_SIZE(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc, 0, name##_default }
 #define CVAR_STR(name, alt, cond, func, flags, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, 0, name##_default }
 #define CVAR_TIME(name, alt, cond, func, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, 0, "" }
+#define CVAR_OTHER(name, alt, cond, func, desc) \
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_OTHER, &name, 0, 0, 0, "", desc, 0, name##_default }
 
 consolecmd_t consolecmds[] =
 {
@@ -453,7 +451,7 @@ consolecmd_t consolecmds[] =
         "Toggles the grid in the automap."),
     CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
-    CVAR_SIZE(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
+    CVAR_OTHER(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
         "The size of the grid in the automap (<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
@@ -687,7 +685,7 @@ consolecmd_t consolecmds[] =
         "Toggles lowering the player's view when in a liquid\nsector."),
     CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the swirl effect of liquid sectors."),
-    CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
+    CVAR_OTHER(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of pixels when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped\nby monsters."),
@@ -796,7 +794,7 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale the display (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
-    CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
+    CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b>\nor <i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the average number of frames per\nsecond."),
@@ -804,9 +802,9 @@ consolecmd_t consolecmds[] =
         "Toggles vertical sync with the display's refresh\nrate."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
-    CVAR_POS(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
+    CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
         "The position of the window on the desktop\n(<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
-    CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
+    CVAR_OTHER(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop\n(<i>width</i><b>\xD7</b><i>height</i>)."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
@@ -1813,12 +1811,6 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
                     (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""),
                     (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
-            else if (consolecmds[i].flags & CF_POSITION)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable, description1);
-            else if (consolecmds[i].flags & CF_SIZE)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    formatsize(*(char **)consolecmds[i].variable), description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 const int   tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -1826,6 +1818,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%02i:%02i:%02i</b>\t%s", ++count, consolecmds[i].name,
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
+            else if (consolecmds[i].flags & CF_OTHER)
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
+                    *(char **)consolecmds[i].variable, description1);
 
             if (*description2)
             {
@@ -3299,19 +3294,19 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             const float metricdepth = depth / FEETPERMETER;
 
             if (metricwidth < METERSPERKILOMETER && metricheight < METERSPERKILOMETER && metricdepth < METERSPERKILOMETER)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s meters</b>",
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s meters</b>",
                     striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1), striptrailingzero(metricdepth, 1));
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s kilometers</b>",
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s kilometers</b>",
                     striptrailingzero(metricwidth / METERSPERKILOMETER, 1), striptrailingzero(metricheight / METERSPERKILOMETER, 1),
                     striptrailingzero(metricdepth / METERSPERKILOMETER, 1));
         }
         else
         {
             if (width < FEETPERMILE && height < FEETPERMILE)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s feet</b>", commify(width), commify(height), commify(depth));
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s feet</b>", commify(width), commify(height), commify(depth));
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s miles</b>",
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s miles</b>",
                     striptrailingzero((float)width / FEETPERMILE, 2), striptrailingzero((float)height / FEETPERMILE, 2),
                     striptrailingzero((float)depth / FEETPERMILE, 2));
         }
@@ -5289,10 +5284,9 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(am_gridsize)));
 
         if (M_StringCompare(am_gridsize, am_gridsize_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", formatsize(am_gridsize));
+            C_Output("It is currently set to its default of <b>%s</b>.", am_gridsize);
         else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                formatsize(am_gridsize), formatsize(am_gridsize_default));
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.", am_gridsize, am_gridsize_default);
     }
 }
 
@@ -5959,10 +5953,9 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(r_lowpixelsize)));
 
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", formatsize(r_lowpixelsize));
+            C_Output("It is currently set to its default of <b>%s</b>.", r_lowpixelsize);
         else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.", r_lowpixelsize, r_lowpixelsize_default);
     }
 }
 
@@ -6501,10 +6494,10 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(vid_screenresolution)));
 
         if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_screenresolution));
+            C_Output("It is currently set to its default of <b>%s</b>.", vid_screenresolution);
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                formatsize(vid_screenresolution), formatsize(vid_screenresolution_default));
+                vid_screenresolution, vid_screenresolution_default);
     }
 }
 
@@ -6636,9 +6629,8 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(stringize(vid_windowsize)));
 
         if (M_StringCompare(vid_windowsize, vid_windowsize_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", formatsize(vid_windowsize));
+            C_Output("It is currently set to its default of <b>%s</b>.", vid_windowsize);
         else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                formatsize(vid_windowsize), formatsize(vid_windowsize_default));
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.", vid_windowsize, vid_windowsize_default);
     }
 }

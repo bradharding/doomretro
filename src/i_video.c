@@ -1350,7 +1350,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %s\xD7%s with a %s aspect ratio.",
+                C_Output("Staying at the native desktop resolution of %sx%s with a %s aspect ratio.",
                     width_str, height_str, getaspectratio(width, height));
 
                 free(width_str);
@@ -1370,7 +1370,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Switched to a resolution of %s\xD7%s with a %s aspect ratio.",
+                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.",
                     width_str, height_str, getaspectratio(width, height));
 
                 free(width_str);
@@ -1400,7 +1400,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Created a resizable window with dimensions %s\xD7%s centered on the screen.", width_str, height_str);
+                C_Output("Created a resizable window with dimensions %sx%s centered on the screen.", width_str, height_str);
 
                 free(width_str);
                 free(height_str);
@@ -1415,7 +1415,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(width);
                 char    *height_str = commify(height);
 
-                C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).", width_str, height_str, windowx, windowy);
+                C_Output("Created a resizable window with dimensions %sx%s at (%i,%i).", width_str, height_str, windowx, windowy);
 
                 free(width_str);
                 free(height_str);
@@ -1528,9 +1528,9 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(height * 4 / 3);
                 char    *height_str = commify(height);
 
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                C_Output("The %ix%i screen is scaled up to %sx%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
-                C_Output("It is then scaled down to %s\xD7%s using linear filtering.", width_str, height_str);
+                C_Output("It is then scaled down to %sx%s using linear filtering.", width_str, height_str);
 
                 free(upscaledwidth_str);
                 free(upscaledheight_str);
@@ -1542,7 +1542,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(height * 4 / 3);
                 char    *height_str = commify(height);
 
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
+                C_Output("The %ix%i screen is scaled up to %sx%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
 
                 free(width_str);
@@ -1553,7 +1553,7 @@ static void SetVideoMode(dboolean output)
                 char    *width_str = commify(height * 4 / 3);
                 char    *height_str = commify(height);
 
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                C_Output("The %ix%i screen is scaled up to %sx%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
 
                 free(width_str);
