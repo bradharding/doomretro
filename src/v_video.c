@@ -1436,7 +1436,7 @@ void V_LowGraphicDetail(void)
     for (int y = top; y < height; y += pixelheight)
         for (int x = left; x < width; x += pixelwidth)
         {
-            byte* dot = *screens + y + x;
+            byte    *dot = *screens + y + x;
 
             for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
                 for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
@@ -1446,13 +1446,13 @@ void V_LowGraphicDetail(void)
 
 void V_InvertScreen(void)
 {
-    int w = viewwindowx + viewwidth;
-    int h = viewwindowy + viewheight;
+    int width = viewwindowx + viewwidth;
+    int height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int y = viewwindowy; y < h; y++)
-        for (int x = viewwindowx; x < w; x++)
+    for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
+        for (int x = viewwindowx; x < width; x++)
         {
-            byte    *dot = &screens[0][y * SCREENWIDTH + x];
+            byte    *dot = *screens + y + x;
 
             *dot = colormaps[0][32 * 256 + *dot];
         }
