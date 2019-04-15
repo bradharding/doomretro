@@ -534,6 +534,9 @@ void G_DoLoadLevel(void)
     if (viewplayer->playerstate == PST_DEAD)
         viewplayer->playerstate = PST_REBORN;
 
+    if (viewplayer->playerstate == PST_REBORN && (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B")))
+        M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
+
     viewplayer->damageinflicted = 0;
     viewplayer->damagereceived = 0;
     viewplayer->cheated = 0;

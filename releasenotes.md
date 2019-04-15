@@ -15,6 +15,7 @@
 * To improve accuracy, a monster’s actual bounding box is now checked when it is attacked.
 * A couple of rendering problems related to the use of line special 242 (“Create Fake Ceiling and Floor”) in *BOOM*-compatible maps have been fixed.
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys will now become faster the longer they are held down.
+* If the player dies in either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* they will now respawn in those maps, rather than in E1M4 or E1M8.
 * Further improvements have been made to the support of `DEHACKED` lumps:
   * An error will no longer be displayed in the console if the `NOTDMATCH` flag is used.
   * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in the `[PARS]` section.
