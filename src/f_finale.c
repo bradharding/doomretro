@@ -143,6 +143,11 @@ void F_StartFinale(void)
                     finaleflat = bgflatE4;
                     finaletext = s_E4TEXT;
                     break;
+
+                case 5:
+                    finaleflat = bgflatE5;
+                    finaletext = s_E5TEXT;
+                    break;
             }
 
             break;

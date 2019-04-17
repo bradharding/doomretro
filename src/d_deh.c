@@ -583,6 +583,7 @@ char    *bgflatE1 = "FLOOR4_8";
 char    *bgflatE2 = "SFLR6_1";
 char    *bgflatE3 = "MFLR8_4";
 char    *bgflatE4 = "MFLR8_3";
+char    *bgflatE5 = "MFLR8_3";
 char    *bgflat06 = "SLIME16";
 char    *bgflat11 = "RROCK14";
 char    *bgflat20 = "RROCK07";
@@ -1147,6 +1148,7 @@ deh_strs deh_strlookup[] =
     { &bgflatE2,                     "BGFLATE2"                   },
     { &bgflatE3,                     "BGFLATE3"                   },
     { &bgflatE4,                     "BGFLATE4"                   },
+    { &bgflatE5,                     "BGFLATE5"                   },
     { &bgflat06,                     "BGFLAT06"                   },
     { &bgflat11,                     "BGFLAT11"                   },
     { &bgflat15,                     "BGFLAT15"                   },
