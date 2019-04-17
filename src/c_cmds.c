@@ -3734,9 +3734,15 @@ static void C_PlayerStats_Game(void)
         free(level);
     }
 
-    C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(viewplayer->killcount), commify(totalkills),
-        (totalkills ? viewplayer->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+    {
+        int killcount = 0;
+
+        for (int i = 0; i < NUMMOBJTYPES; i++)
+            killcount += viewplayer->mobjcount[i];
+
+        C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            commify(killcount), commify(totalkills), (totalkills ? killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+    }
 
     if (gamemode == commercial)
     {

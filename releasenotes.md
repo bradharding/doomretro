@@ -43,6 +43,7 @@
 * The red palette effect when the player is injured will now be allowed to fade out when the console is opened.
 * The `play` CCMD can now be used to restart music.
 * The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
+* The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills made by the player, and not by infighting amoung monsters.
 
 ---
 

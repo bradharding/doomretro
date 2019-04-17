@@ -1823,12 +1823,16 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     {
         // count all monster deaths, even those caused by other monsters
         viewplayer->killcount++;
-        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
 
-        if (!chex && !hacx)
+        if (source->player)
         {
-            viewplayer->mobjcount[type]++;
-            P_UpdateKillStat(type, 1);
+            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+
+            if (!chex && !hacx)
+            {
+                viewplayer->mobjcount[type]++;
+                P_UpdateKillStat(type, 1);
+            }
         }
     }
     else if (type == MT_BARREL && !chex && !hacx)
