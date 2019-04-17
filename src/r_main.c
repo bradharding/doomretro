@@ -428,7 +428,7 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
+    fovscale = finetangent[FINEANGLES / 4 + r_fov * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
 
     R_InitBuffer(scaledviewwidth, viewheight);
@@ -446,11 +446,9 @@ void R_ExecuteSetViewSize(void)
     num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * (FRACUNIT / 2));
 
     for (int i = 0; i < viewheight; i++)
-    {
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
                 * (r_screensize + 3) / 10)) << FRACBITS) + FRACUNIT / 2));
-    }
 
     yslope = yslopes[LOOKDIRMAX];
 
