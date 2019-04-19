@@ -29,7 +29,7 @@
   * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
 * The following changes have been made to the `crosshair` CVAR:
   * Instead of `on` or `off`, the CVAR will now be `none` (the new default), `cross` (to display an actual cross) or `dot` (to display a dot).
-  * When the CVAR is `dot`, the dot displayed is smaller than in the previous version of *DOOM Retro*.
+  * When the CVAR is `dot`, the dot displayed is smaller than in *DOOM Retro v2.8.1*.
   * The crosshair is now a translucent light gray, and will become white when the player fires their weapon.
   * The crosshair is now displayed when the `autoaim` CVAR is `on`.
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.

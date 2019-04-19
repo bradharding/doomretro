@@ -186,18 +186,24 @@ void C_Input(const char *string, ...)
 
 void C_IntCVAROutput(char *cvar, int value)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
+    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
         consolestrings--;
 
     C_Input("%s %i", cvar, value);
+    free(cvar_free);
 }
 
 void C_PctCVAROutput(char *cvar, int value)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
+    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
         consolestrings--;
 
     C_Input("%s %i%%", cvar, value);
+    free(cvar_free);
 }
 
 void C_StrCVAROutput(char *cvar, char *string)
@@ -208,7 +214,6 @@ void C_StrCVAROutput(char *cvar, char *string)
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
-
     free(cvar_free);
 }
 
@@ -1019,9 +1024,6 @@ void C_Drawer(void)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
                 else if (M_StringCompare(console[i].string, THINGLISTTITLE))
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
-                else
-                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
             }
             else
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
