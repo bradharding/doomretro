@@ -89,9 +89,6 @@ static dboolean         headsupactive;
 
 byte                    *tempscreen;
 
-static byte             *crosshaircolor1;
-static byte             *crosshaircolor2;
-
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
 static int              minuspatchy;
@@ -99,6 +96,7 @@ static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
 int                     crosshair = crosshair_default;
+int                     crosshaircolor = crosshaircolor_default;
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
@@ -229,9 +227,6 @@ void HU_Init(void)
             minuspatchwidth = SHORT(minuspatch->width);
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
-
-    crosshaircolor1 = &tinttab40[nearestcolors[GRAY] << 8];
-    crosshaircolor2 = &tinttab40[nearestcolors[WHITE] << 8];
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -394,34 +389,35 @@ static int HUDNumberWidth(int val, patch_t **numset)
 
 static void HU_DrawCrosshair(void)
 {
-    byte    *crosshaircolor = (viewplayer->attackdown ? crosshaircolor2 : crosshaircolor1);
+    byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] : &tinttab40[nearestcolors[crosshaircolor] << 8]);
+
     if (crosshair == crosshair_cross)
     {
         byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
 
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot += SCREENWIDTH;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot += SCREENWIDTH - 2;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot++;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot++;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot++;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot++;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot += SCREENWIDTH - 2;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
         dot += SCREENWIDTH;
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
     }
     else
     {
         byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1;
 
-        *dot = *(*dot + crosshaircolor);
+        *dot = *(*dot + color);
     }
 }
 

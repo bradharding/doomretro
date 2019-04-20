@@ -103,6 +103,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (crosshair,                                         CROSSHAIRVALUEALIAS),
+    CONFIG_VARIABLE_INT          (crosshaircolor,                                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     FACEBACKVALUEALIAS ),
@@ -612,6 +613,9 @@ static void M_CheckCVARs(void)
 
     if (crosshair != crosshair_none && crosshair != crosshair_cross && crosshair != crosshair_dot)
         crosshair = crosshair_default;
+
+    if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
+        crosshaircolor = crosshaircolor_default;
 
     episode = BETWEEN(episode_min, episode, episode_max - (gamemode == retail && !sigil));
 

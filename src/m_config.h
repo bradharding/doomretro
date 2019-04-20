@@ -70,6 +70,7 @@ extern int          con_backcolor;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
 extern int          crosshair;
+extern int          crosshaircolor;
 extern int          episode;
 extern int          expansion;
 extern int          facebackcolor;
@@ -350,6 +351,10 @@ enum
 #define crosshair_min                           crosshair_none
 #define crosshair_default                       crosshair_none
 #define crosshair_max                           crosshair_dot
+
+#define crosshaircolor_min                      0
+#define crosshaircolor_default                  4
+#define crosshaircolor_max                      255
 
 #define episode_min                             1
 #define episode_default                         1
