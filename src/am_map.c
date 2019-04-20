@@ -99,7 +99,7 @@ static byte *cdwallcolor;
 static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *gridcolor;
-static byte *crosshaircolor;
+static byte *am_crosshaircolor2;
 
 #define AM_PANDOWNKEY   keyboardback
 #define AM_PANDOWNKEY2  keyboardback2
@@ -349,7 +349,7 @@ void AM_SetColors(void)
     pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
-    crosshaircolor = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
+    am_crosshaircolor2 = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
@@ -1988,15 +1988,15 @@ static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 
 static void AM_DrawCrosshair(void)
 {
-    AM_DrawScaledPixel(CENTERX - 2, CENTERY, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX - 1, CENTERY, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX, CENTERY, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX + 1, CENTERY, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX + 2, CENTERY, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 2, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 1, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 1, crosshaircolor);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 2, crosshaircolor);
+    AM_DrawScaledPixel(CENTERX - 2, CENTERY, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX + 2, CENTERY, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX, CENTERY - 2, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
+    AM_DrawScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor2);
 }
 
 static void AM_SetFrameVariables(void)
