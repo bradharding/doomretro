@@ -1788,6 +1788,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 {
     dboolean    gibbed;
+    dboolean    massacre = (target->flags2 & MF2_MASSACRE);
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     int         gibhealth = info->gibhealth;
@@ -1824,7 +1825,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         // count all monster deaths, even those caused by other monsters
         viewplayer->killcount++;
 
-        if (source->player)
+        if ((source && source->player) || massacre)
         {
             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
 
@@ -1875,7 +1876,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
+    if (con_obituaries && !hacx && !massacre)
         P_WriteObituary(target, inflicter, source, gibbed);
 
     // Drop stuff.
