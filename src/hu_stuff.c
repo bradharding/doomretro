@@ -421,6 +421,34 @@ static void HU_DrawCrosshair(void)
     }
 }
 
+static void HU_DrawSolidCrosshair(void)
+{
+    if (crosshair == crosshair_cross)
+    {
+        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
+
+        *dot = crosshaircolor;
+        dot += SCREENWIDTH;
+        *dot = crosshaircolor;
+        dot += SCREENWIDTH - 2;
+        *dot = crosshaircolor;
+        dot++;
+        *dot = crosshaircolor;
+        dot++;
+        *dot = crosshaircolor;
+        dot++;
+        *dot = crosshaircolor;
+        dot++;
+        *dot = crosshaircolor;
+        dot += SCREENWIDTH - 2;
+        *dot = crosshaircolor;
+        dot += SCREENWIDTH;
+        *dot = crosshaircolor;
+    }
+    else
+        screens[0][(SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1] = crosshaircolor;
+}
+
 int healthhighlight = 0;
 int ammohighlight = 0;
 int armorhighlight = 0;
@@ -985,7 +1013,12 @@ void HU_Drawer(void)
             actionf_t       action = viewplayer->psprites[ps_weapon].state->action;
 
             if (readyweapon != wp_fist && readyweapon != wp_chainsaw && action != A_Raise && action != A_Lower)
-                HU_DrawCrosshair();
+            {
+                if (r_hud_translucency)
+                    HU_DrawCrosshair();
+                else
+                    HU_DrawSolidCrosshair();
+            }
         }
 
         if (vid_widescreen && r_hud)
