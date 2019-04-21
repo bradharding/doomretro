@@ -33,7 +33,7 @@
   * The crosshair now becomes brighter while the player is firing their weapon.
   * The crosshair is now displayed when the `autoaim` CVAR is `on`.
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.
-  * The color of the crosshair may now be changed using the new `crosshair` CVAR. It is `4` by default.
+  * The color of the crosshair may now be changed using the new `crosshaircolor` CVAR. It is `4` (white) by default.
   * The crosshair is no longer translucent if the `r_hud_translucency` CVAR is `off`.
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
