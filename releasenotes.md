@@ -34,7 +34,7 @@
   * The crosshair is now displayed when the `autoaim` CVAR is `on`.
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.
   * The color of the crosshair may now be changed using the new `crosshair` CVAR. It is `4` by default.
-  * The crosshair will no longer be translucent if the `r_hud_translucency` CVAR is `off`.
+  * The crosshair is no longer translucent if the `r_hud_translucency` CVAR is `off`.
 * The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
@@ -46,6 +46,7 @@
 * The `play` CCMD can now be used to restart music.
 * The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
 * The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills actually made by the player, and not those due to infighting among monsters.
+* The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is `off`.
 
 ---
 

@@ -1983,6 +1983,19 @@ static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
     *dest = *(*dest + color);
 }
 
+static __inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
+{
+    byte* dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
+
+    *dest = color;
+    dest++;
+    *dest = color;
+    dest += mapwidth;
+    *dest = color;
+    dest--;
+    *dest = color;
+}
+
 #define CENTERX ORIGINALWIDTH / 2
 #define CENTERY (ORIGINALHEIGHT - ORIGINALSBARHEIGHT) / 2
 
@@ -1997,6 +2010,19 @@ static void AM_DrawCrosshair(void)
     AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
     AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
     AM_DrawScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor2);
+}
+
+static void AM_DrawSolidCrosshair(void)
+{
+    AM_DrawSolidScaledPixel(CENTERX - 2, CENTERY, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX, CENTERY, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX + 2, CENTERY, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX, CENTERY - 2, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor);
+    AM_DrawSolidScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor);
 }
 
 static void AM_SetFrameVariables(void)
@@ -2055,5 +2081,10 @@ void AM_Drawer(void)
     AM_DrawPlayer();
 
     if (!am_followmode)
-        AM_DrawCrosshair();
+    {
+        if (r_hud_translucency)
+            AM_DrawCrosshair();
+        else
+            AM_DrawSolidCrosshair();
+    }
 }
