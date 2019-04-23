@@ -39,6 +39,13 @@
 #if !defined(__ST_STUFF_H__)
 #define __ST_STUFF_H__
 
+// Palette indices.
+// For damage/bonus red-/gold-shifts
+#define STARTREDPALS            1
+#define STARTBONUSPALS          9
+#define NUMREDPALS              8
+#define NUMBONUSPALS            4
+
 // Size of status bar.
 // Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH

@@ -30,7 +30,7 @@
 * The following changes have been made to the `crosshair` CVAR:
   * Instead of `on` or `off`, the CVAR will now be `none` (the new default), `cross` (to display an actual cross) or `dot` (to display a dot).
   * When the CVAR is `dot`, the dot displayed is smaller than in *DOOM Retro v2.8.1*.
-  * The crosshair now becomes brighter while the player is firing their weapon.
+  * The crosshair now becomes brighter when the player fires their weapon.
   * The crosshair is now displayed when the `autoaim` CVAR is `on`.
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.
   * The color of the crosshair may now be changed using the new `crosshaircolor` CVAR. It is `4` (white) by default.

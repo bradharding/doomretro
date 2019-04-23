@@ -57,6 +57,7 @@
 #include "m_misc.h"
 #include "r_main.h"
 #include "s_sound.h"
+#include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -577,6 +578,8 @@ void C_ShowConsole(void)
     consoleanim = 0;
     showcaret = true;
     caretwait = 0;
+
+    viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
 
     if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
