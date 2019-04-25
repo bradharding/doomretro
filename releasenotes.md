@@ -47,6 +47,7 @@
 * The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
 * The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills actually made by the player, and not those due to infighting among monsters.
 * The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is `off`.
+* The status bar is now drawn in the background as necessary when a centered message is displayed.
 
 ---
 

@@ -1332,7 +1332,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     // Do red-/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (vid_widescreen || menuactive || inhelpscreens)
+    if (vid_widescreen || (menuactive && !messageToPrint) || inhelpscreens)
         return;
 
     st_statusbaron = (!fullscreen || automapactive);
