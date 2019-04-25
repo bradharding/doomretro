@@ -109,10 +109,10 @@ static dboolean IsFreedoom(const char *iwadname)
 
 dboolean IsBFGEdition(const char *iwadname)
 {
-    FILE* fp = fopen(iwadname, "rb");
+    FILE        *fp = fopen(iwadname, "rb");
     filelump_t  lump;
     wadinfo_t   header;
-    const char* n = lump.name;
+    const char  *n = lump.name;
     int         result1 = false;
     int         result2 = false;
 

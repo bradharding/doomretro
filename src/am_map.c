@@ -1985,7 +1985,7 @@ static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 
 static __inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
-    byte* dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
+    byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
 
     *dest = color;
     dest++;

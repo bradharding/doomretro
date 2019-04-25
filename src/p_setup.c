@@ -324,7 +324,7 @@ static void P_LoadVertexes(int lump)
                     vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
 
                     if (devparm)
-                        C_Warning("The position of vertex %s has been changed to (%i,%i).",
+                        C_Warning("Vertex %s has been moved to (%i,%i).",
                             commify(vertexfix[j].vertex), vertexfix[j].newx, vertexfix[j].newy);
 
                     break;
@@ -434,7 +434,7 @@ static void P_LoadSegs(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
+        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         // [BH] Apply any map-specific fixes.
         if (canmodify && r_fixmaperrors)
@@ -627,7 +627,7 @@ static void P_LoadSegs_V4(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
+        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
