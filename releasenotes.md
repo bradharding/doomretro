@@ -36,7 +36,7 @@
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.
   * The color of the crosshair may now be changed using the new `crosshaircolor` CVAR. It is `4` (white) by default.
   * The crosshair is no longer translucent if the `r_hud_translucency` CVAR is `off`.
-* The invalid `PNAMES` lump present in [`sunder.wad`](https://www.doomworld.com/vb/thread/46002) will no longer cause *DOOM Retro* to crash at startup.
+* *DOOM Retro* will no longer crash at startup when loading [`sunder.wad`](https://www.doomworld.com/vb/thread/46002).
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * Low graphic detail will no longer be affected by the value of the `r_screensize` CVAR when not playing a game.

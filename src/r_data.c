@@ -70,7 +70,6 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-dboolean    noprecache = false;
 dboolean    notranslucency = false;
 dboolean    telefragonmap30 = false;
 
@@ -287,8 +286,16 @@ static void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        strncpy(name, &name_p[i * 8], 8);
-        patchlookup[i] = W_CheckNumForName(name);
+        int p;
+
+        M_StringCopy(name, &name_p[i * 8], sizeof(name));
+        p = W_CheckNumForName(name);
+
+        // [crispy] prevent flat lumps from being mistaken as patches
+        while (p >= firstflat && p <= lastflat)
+            p = W_RangeCheckNumForName(0, p - 1, name);
+
+        patchlookup[i] = p;
     }
 
     W_ReleaseLumpNum(names_lump);                               // cph - release the lump
@@ -456,18 +463,6 @@ static void R_InitSpriteLumps(void)
 
             if (M_StringCompare(pwadfile, sc_String_free))
                 fixspriteoffsets = true;
-
-            free(sc_String_free);
-        }
-        else if (M_StringCompare(sc_String, "NOPRECACHE"))
-        {
-            char    *sc_String_free;
-
-            SC_MustGetString();
-            sc_String_free = removeext(sc_String);
-
-            if (M_StringCompare(pwadfile, sc_String_free))
-                noprecache = true;
 
             free(sc_String_free);
         }
@@ -668,8 +663,8 @@ int R_ColormapNumForName(char *name)
 //
 void R_InitData(void)
 {
-    R_InitTextures();
     R_InitFlats();
+    R_InitTextures();
     R_InitSpriteLumps();
     R_InitColormaps();
 }
