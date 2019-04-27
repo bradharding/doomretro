@@ -293,7 +293,10 @@ static void R_InitTextures(void)
 
         // [crispy] prevent flat lumps from being mistaken as patches
         while (p >= firstflat && p <= lastflat)
+        {
+            C_Warning("The <b>%.8s</b> flat texture can't be used as a patch.", uppercase(name));
             p = W_RangeCheckNumForName(0, p - 1, name);
+        }
 
         patchlookup[i] = p;
     }
@@ -398,12 +401,18 @@ static void R_InitTextures(void)
         textures[i]->next = textures[j]->index;                 // Prepend to chain
         textures[j]->index = i;
     }
+}
 
-    // [BH] Initialize brightmaps
+
+//
+// R_InitBrightmaps
+//
+static void R_InitBrightmaps(void)
+{
+    int i = 0;
+
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
-
-    i = 0;
 
     while (brightmaps[i].mask)
     {
@@ -665,6 +674,7 @@ void R_InitData(void)
 {
     R_InitFlats();
     R_InitTextures();
+    R_InitBrightmaps();
     R_InitSpriteLumps();
     R_InitColormaps();
 }
