@@ -585,7 +585,7 @@ void D_IdentifyVersion(void)
             {
                 gamemission = doom;
                 break;
-        }
+            }
 
         if (gamemission == none)
             // Still no idea. I don't think this is going to work.

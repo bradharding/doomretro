@@ -687,8 +687,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     for (int i = 0; i < 20; i++)
-        P_LineAttack(actor, actor->angle + (M_SubRandom() << ANGLETOFINESHIFT), MISSILERANGE, bulletslope + (M_SubRandom() << 5),
-            5 * (M_Random() % 3 + 1));
+        P_LineAttack(actor, actor->angle + (M_SubRandom() << ANGLETOFINESHIFT), MISSILERANGE,
+            bulletslope + (M_SubRandom() << 5), 5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);
 
