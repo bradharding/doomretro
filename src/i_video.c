@@ -46,6 +46,8 @@
 #include <X11/XKBlib.h>
 #endif
 
+#include "SDL_opengl.h"
+
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -1459,8 +1461,24 @@ static void SetVideoMode(dboolean output)
             else
             {
                 if (output)
+                {
+                    const char            *renderer;
+                    const char            * vendor;
+                    typedef const GLubyte *(APIENTRY *glStringFn_t)(GLenum);
+                    glStringFn_t          pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
+
+                    if (pglGetString)
+                    {
+                        renderer = (const char *)pglGetString(GL_RENDERER);
+                        vendor = (const char *)pglGetString(GL_VENDOR);
+
+                        if (renderer && vendor)
+                            C_Output("Using a <i><b>%s</b></i> by <i><b>%s</b></i>.", renderer, vendor);
+                    }
+
                     C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL %i.%i</b></i> API.",
                         major, minor);
+                }
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
