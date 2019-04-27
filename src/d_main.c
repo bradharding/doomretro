@@ -102,8 +102,8 @@ char *iwadsrequired[] =
 };
 
 char                *iwadfolder = iwadfolder_default;
-int                 units = units_default;
 int                 turbo = turbo_default;
+int                 units = units_default;
 #if defined(_WIN32) || defined(__MACOSX__)
 char                *wad = wad_default;
 #endif
@@ -113,13 +113,13 @@ char                *packageconfig;
 char                *packagewad;
 
 dboolean            devparm;                // started game with -devparm
+dboolean            fastparm;               // checkparm of -fast
 dboolean            freeze;
 dboolean            nomonsters;             // checkparm of -nomonsters
+dboolean            pistolstart;            // [BH] checkparm of -pistolstart
 dboolean            regenhealth;
 dboolean            respawnitems;
 dboolean            respawnmonsters;        // checkparm of -respawn
-dboolean            pistolstart;            // [BH] checkparm of -pistolstart
-dboolean            fastparm;               // checkparm of -fast
 
 unsigned int        stat_runs;
 

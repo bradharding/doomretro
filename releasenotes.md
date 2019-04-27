@@ -29,7 +29,7 @@
   * The red palette effect will now be applied to the screen if any health is taken from the player.
   * The gold palette effect will no longer be applied to the screen if any item is taken from the player.
 * The following changes have been made to the `crosshair` CVAR:
-  * Instead of `on` or `off`, the CVAR will now be `none` (the new default), `cross` (to display an actual cross) or `dot` (to display a dot).
+  * Instead of `on` or `off`, the CVAR can now be `none` (the new default), `cross` (to display an actual cross) or `dot` (to display a dot).
   * When the CVAR is `dot`, the dot displayed is smaller than in *DOOM Retro v2.8.1*.
   * The crosshair now becomes brighter when the player fires their weapon.
   * The crosshair is now displayed when the `autoaim` CVAR is `on`.
@@ -43,7 +43,7 @@
 * The edges of liquid sectors are now rendered better in some instances.
 * The color of player messages in the alternate widescreen HUD is now correct when the `r_textures` CVAR is `off` and a `COLORMAP` lump that replaces colormap 32 is present in the current PWAD.
 * A bug has been fixed whereby the menu could appear with a corrupted palette during startup in some rare instances.
-* The red palette effect when the player is injured will now be allowed to fade out when the console is opened.
+* The red palette effect when the player is injured will now fade out quickly when the console is opened.
 * The `play` CCMD can now be used to restart music.
 * The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
 * The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills actually made by the player, and not those due to infighting among monsters.

@@ -295,7 +295,7 @@ static void R_InitTextures(void)
         while (p >= firstflat && p <= lastflat)
             p = W_RangeCheckNumForName(0, p - 1, name);
 
-        patchlookup[i] = (p == -1 ? W_CheckNumForName(name) : p);
+        patchlookup[i] = (p != -1 ? p : W_CheckNumForName(name));
     }
 
     W_ReleaseLumpNum(names_lump);                               // cph - release the lump
@@ -345,7 +345,8 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * ((size_t)SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
+        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * ((size_t)SHORT(mtexture->patchcount) - 1),
+            PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
@@ -364,7 +365,7 @@ static void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
 
             if (patch->patch == -1)
-                C_Warning("Patch %i is missing in the <b>%.8s</b> texture.", SHORT(mpatch->patch), texture->name);
+                C_Warning("Patch %i is missing in the <b>%.8s</b> texture.", SHORT(mpatch->patch), uppercase(texture->name));
         }
 
         for (j = 1; j * 2 <= texture->width; j <<= 1);
@@ -399,7 +400,6 @@ static void R_InitTextures(void)
         textures[j]->index = i;
     }
 }
-
 
 //
 // R_InitBrightmaps
