@@ -293,12 +293,9 @@ static void R_InitTextures(void)
 
         // [crispy] prevent flat lumps from being mistaken as patches
         while (p >= firstflat && p <= lastflat)
-        {
-            C_Warning("The <b>%.8s</b> flat texture can't be used as a patch.", uppercase(name));
             p = W_RangeCheckNumForName(0, p - 1, name);
-        }
 
-        patchlookup[i] = p;
+        patchlookup[i] = (p == -1 ? W_CheckNumForName(name) : p);
     }
 
     W_ReleaseLumpNum(names_lump);                               // cph - release the lump
