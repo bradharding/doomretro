@@ -286,16 +286,17 @@ static void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        int p;
+        int p1;
+        int p2;
 
         M_StringCopy(name, &name_p[i * 8], sizeof(name));
-        p = W_CheckNumForName(name);
+        p1 = p2 = W_CheckNumForName(name);
 
         // [crispy] prevent flat lumps from being mistaken as patches
-        while (p >= firstflat && p <= lastflat)
-            p = W_RangeCheckNumForName(0, p - 1, name);
+        while (p2 >= firstflat && p2 <= lastflat)
+            p2 = W_RangeCheckNumForName(0, p2 - 1, name);
 
-        patchlookup[i] = (p != -1 ? p : W_CheckNumForName(name));
+        patchlookup[i] = (p2 != -1 ? p2 : p1);
     }
 
     W_ReleaseLumpNum(names_lump);                               // cph - release the lump

@@ -1444,11 +1444,11 @@ static void SetVideoMode(dboolean output)
 
         if (pglGetString)
         {
-            const char  *renderer = (const char *)pglGetString(GL_RENDERER);
+            const char  *graphicscard = (const char *)pglGetString(GL_RENDERER);
             const char  *vendor = (const char *)pglGetString(GL_VENDOR);
 
-            if (renderer && vendor)
-                C_Output("Using a <i><b>%s</b></i> by <i><b>%s</b></i>.", renderer, vendor);
+            if (graphicscard && vendor)
+                C_Output("Using a <i><b>%s</b></i> graphics card by <i><b>%s</b></i>.", graphicscard, vendor);
         }
     }
 
