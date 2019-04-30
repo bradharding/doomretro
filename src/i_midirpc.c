@@ -55,6 +55,7 @@ static PROCESS_INFORMATION  pi;
 static unsigned char        *szStringBinding;       // RPC client binding string
 static dboolean             serverInit;             // if true, server was started
 static dboolean             clientInit;             // if true, client was bound
+static char                 module[MAX_PATH + 1];
 
 //
 // RPC Memory Management
@@ -219,7 +220,6 @@ dboolean I_MidiRPCResumeSong(void)
 //
 dboolean I_MidiRPCInitServer(void)
 {
-    char        module[MAX_PATH + 1];
     dboolean    result;
 
     M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
@@ -252,6 +252,8 @@ dboolean I_MidiRPCInitServer(void)
 //
 dboolean I_MidiRPCInitClient(void)
 {
+    dboolean    result;
+
     // If server didn't start, client cannot be bound.
     if (!serverInit)
         return false;
@@ -267,7 +269,12 @@ dboolean I_MidiRPCInitClient(void)
 
     clientInit = true;
 
-    return I_MidiRPCWaitForServer();
+    result = I_MidiRPCWaitForServer();
+
+    if (!result)
+        C_Warning("<b>%s</b> couldn't be initialized.", module);
+
+    return result;
 }
 
 //

@@ -55,8 +55,7 @@ static int      current_music_volume;
 static int      paused_midi_volume;
 
 #if defined(_WIN32)
-static dboolean haveMidiServer;
-static dboolean haveMidiClient;
+static dboolean midirpc;
 dboolean        serverMidiPlaying;
 #endif
 
@@ -109,8 +108,8 @@ dboolean I_InitMusic(void)
 
 #if defined(_WIN32)
     // Initialize RPC server
-    haveMidiServer = I_MidiRPCInitServer();
-    haveMidiClient = I_MidiRPCInitClient();
+    if (I_MidiRPCInitServer())
+        midirpc = I_MidiRPCInitClient();
 #endif
 
     return music_initialized;
@@ -281,17 +280,12 @@ void *I_RegisterSong(void *data, int size)
 
 #if defined(_WIN32)
         // Check for option to invoke RPC server if is MIDI
-        if (midimusictype && haveMidiServer)
-        {
-            if (!(haveMidiClient = I_MidiRPCInitClient()))
-                C_Warning("The RPC client couldn't be initialized.");
-
-            if (haveMidiClient && I_MidiRPCRegisterSong(data, size))
+        if (midimusictype && midirpc)
+            if (I_MidiRPCRegisterSong(data, size))
             {
                 serverMidiPlaying = true;
                 return NULL;        // server will play this song
             }
-        }
 #endif
 
         if ((rwops = SDL_RWFromMem(data, size)))
