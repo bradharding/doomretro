@@ -49,6 +49,7 @@
 * The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills actually made by the player, and not those due to infighting among monsters.
 * The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is `off`.
 * The status bar is now drawn in the background as necessary when a centered message is displayed.
+* `midiproc.exe` will no longer remain open when quitting *DOOM Retro* and no MUS or MIDI music lumps have been played.
 
 ---
 

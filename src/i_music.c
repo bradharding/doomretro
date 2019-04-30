@@ -56,6 +56,7 @@ static int      paused_midi_volume;
 
 #if defined(_WIN32)
 static dboolean haveMidiServer;
+static dboolean haveMidiClient;
 dboolean        serverMidiPlaying;
 #endif
 
@@ -109,6 +110,7 @@ dboolean I_InitMusic(void)
 #if defined(_WIN32)
     // Initialize RPC server
     haveMidiServer = I_MidiRPCInitServer();
+    haveMidiClient = I_MidiRPCInitClient();
 #endif
 
     return music_initialized;
@@ -281,11 +283,8 @@ void *I_RegisterSong(void *data, int size)
         // Check for option to invoke RPC server if is MIDI
         if (midimusictype && haveMidiServer)
         {
-            static dboolean haveMidiClient;
-
-            if (!haveMidiClient)
-                if (!(haveMidiClient = I_MidiRPCInitClient()))
-                    C_Warning("The RPC client couldn't be initialized.");
+            if (!(haveMidiClient = I_MidiRPCInitClient()))
+                C_Warning("The RPC client couldn't be initialized.");
 
             if (haveMidiClient && I_MidiRPCRegisterSong(data, size))
             {
