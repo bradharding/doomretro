@@ -671,7 +671,7 @@ static void HU_AltInit(void)
             if (keypics[i].patch)
                 altkeypics[i].color = FindDominantColor(keypics[i].patch);
         }
-        else
+        else if (!BTSX)
             altkeypics[i].color = nearestcolors[altkeypics[i].color];
 
     altkeypics[0].patch = altkeypatch;
@@ -694,7 +694,7 @@ static void HU_AltInit(void)
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
     green = nearestcolors[GREEN];
-    blue = nearestcolors[BLUE];
+    blue = (BTSX ? BLUE : nearestcolors[BLUE]);
     red = nearestcolors[RED];
     yellow = nearestcolors[YELLOW];
 }
