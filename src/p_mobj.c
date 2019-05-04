@@ -159,14 +159,13 @@ static void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type = mo->type;
-    int         flags = mo->flags;
     int         flags2 = mo->flags2;
     dboolean    corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
     {
-        if (flags & MF_SKULLFLY)
+        if (mo->flags & MF_SKULLFLY)
         {
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
@@ -178,7 +177,7 @@ static void P_XYMovement(mobj_t *mo)
     }
 
     player = mo->player;
-    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    corpse = ((mo->flags & MF_CORPSE) && type != MT_BARREL);
 
     // [BH] give smoke trails to rockets
     if (flags2 & MF2_SMOKETRAIL)
@@ -220,7 +219,7 @@ static void P_XYMovement(mobj_t *mo)
             // killough 8/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)
+            if (!(mo->flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)
             {
                 fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
                             / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
@@ -234,7 +233,7 @@ static void P_XYMovement(mobj_t *mo)
 
                 // if under gravity, slow down in
                 // direction perpendicular to wall.
-                if (!(flags & MF_NOGRAVITY))
+                if (!(mo->flags & MF_NOGRAVITY))
                 {
                     mo->momx = (mo->momx + x) / 2;
                     mo->momy = (mo->momy + y) / 2;
@@ -246,7 +245,7 @@ static void P_XYMovement(mobj_t *mo)
                 P_SlideMove(mo);
                 break;
             }
-            else if (flags & MF_MISSILE)
+            else if (mo->flags & MF_MISSILE)
             {
                 // explode a missile
                 if (ceilingline && ceilingline->backsector
@@ -275,14 +274,14 @@ static void P_XYMovement(mobj_t *mo)
         }
     } while (xmove || ymove);
 
-    if (flags & (MF_MISSILE | MF_SKULLFLY))
+    if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood && (mo->momx || mo->momy)
+    if (corpse && !(mo->flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood && (mo->momx || mo->momy)
         && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
         int blood = mobjinfo[mo->blood].blood;
