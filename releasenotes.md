@@ -51,7 +51,7 @@
 * The status bar is now drawn in the background as necessary when a centered message is displayed.
 * `midiproc.exe` will no longer remain open when quitting *DOOM Retro* and no MUS or MIDI music lumps have been played.
 * Elements in the alternate widescreen HUD that are meant to be blue now appear blue rather than purple when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
-* A bug has been fixed whereby the splash damage from rockets could be doubled in some instances.
+* A bug has been fixed whereby the splash damage from rockets would be doubled in some instances.
 
 ---
 

@@ -177,7 +177,7 @@ void C_Input(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= consolestrings_max)
+    if (consolestrings >= (int)consolestrings_max)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     strcpy(console[consolestrings].string, buffer);
@@ -235,7 +235,7 @@ void C_Output(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= consolestrings_max)
+    if (consolestrings >= (int)consolestrings_max)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     strcpy(console[consolestrings].string, buffer);
@@ -252,7 +252,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= consolestrings_max)
+    if (consolestrings >= (int)consolestrings_max)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     strcpy(console[consolestrings].string, buffer);
@@ -271,7 +271,7 @@ void C_Header(const int tabs[8], const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= consolestrings_max)
+    if (consolestrings >= (int)consolestrings_max)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     strcpy(console[consolestrings].string, buffer);
@@ -292,7 +292,7 @@ void C_Warning(const char *string, ...)
 
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        if (consolestrings >= consolestrings_max)
+        if (consolestrings >= (int)consolestrings_max)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         strcpy(console[consolestrings].string, buffer);
@@ -318,7 +318,7 @@ void C_PlayerMessage(const char *string, ...)
     }
     else
     {
-        if (consolestrings >= consolestrings_max)
+        if (consolestrings >= (int)consolestrings_max)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         strcpy(console[consolestrings].string, buffer);
@@ -347,7 +347,7 @@ void C_Obituary(const char *string, ...)
     }
     else
     {
-        if (consolestrings >= consolestrings_max)
+        if (consolestrings >= (int)consolestrings_max)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         strcpy(console[consolestrings].string, buffer);
@@ -373,7 +373,7 @@ void C_AddConsoleDivider(void)
 {
     if (!consolestrings || console[consolestrings - 1].type != dividerstring)
     {
-        if (consolestrings >= consolestrings_max)
+        if (consolestrings >= (int)consolestrings_max)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         console[consolestrings++].type = dividerstring;
