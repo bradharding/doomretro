@@ -1997,7 +1997,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if ((tplayer->cheats & CF_GODMODE) || idclevtics || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
-        if (adjust && tplayer->armortype)
+        if (adjust && tplayer->armorpoints)
         {
             int saved = damage / (tplayer->armortype == GREENARMOR ? 3 : 2);
 
