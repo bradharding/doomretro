@@ -418,6 +418,12 @@ static void HU_DrawCrosshair(void)
         byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1;
 
         *dot = *(*dot + color);
+        dot++;
+        *dot = *(*dot + color);
+        dot += SCREENWIDTH;
+        *dot = *(*dot + color);
+        dot--;
+        *dot = *(*dot + color);
     }
 }
 
