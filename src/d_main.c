@@ -656,34 +656,37 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
 static void LoadDehFile(char *path)
 {
-    if (!M_CheckParm("-nodeh") && !HasDehackedLump(path))
+    char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+
+    if (dehpath)
     {
-        char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
-
-        if (dehpath)
+        if (!DehFileProcessed(dehpath))
         {
-            if (!DehFileProcessed(dehpath))
-            {
-                if (chex)
-                    chexdeh = true;
+            if (chex)
+                chexdeh = true;
 
+            if (HasDehackedLump(path) || M_CheckParm("-nodeh"))
+                C_Warning("<b>%s</b> will be ignored.", dehpath);
+            else
                 ProcessDehFile(dehpath, 0);
 
-                if (dehfilecount < MAXDEHFILES)
-                    M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
-            }
+            if (dehfilecount < MAXDEHFILES)
+                M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
         }
-        else
-        {
-            dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
+    }
+    else
+    {
+        dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
 
-            if (dehpath && !DehFileProcessed(dehpath))
-            {
+        if (dehpath && !DehFileProcessed(dehpath))
+        {
+            if (HasDehackedLump(path) || M_CheckParm("-nodeh"))
+                C_Warning("<b>%s</b> will be ignored.", dehpath);
+            else
                 ProcessDehFile(dehpath, 0);
 
-                if (dehfilecount < MAXDEHFILES)
-                    M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
-            }
+            if (dehfilecount < MAXDEHFILES)
+                M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
         }
     }
 }
