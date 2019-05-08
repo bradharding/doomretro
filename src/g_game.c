@@ -999,6 +999,7 @@ static void G_PlayerFinishLevel(void)
     viewplayer->fixedcolormap = 0;      // cancel ir goggles
     viewplayer->damagecount = 0;        // no palette changes
     viewplayer->bonuscount = 0;
+    st_palette = 0;                     // [JN] Also no inner palette changes
 
     // [BH] switch to chainsaw if player has it and ends map with fists selected
     if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
