@@ -2889,8 +2889,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    M_snprintf(buffer, sizeof(buffer), (mapcmdepisode == gameepisode && mapcmdmap == gamemap ? s_STSTR_CLEVSAME : s_STSTR_CLEV),
-        mapcmdlump);
+    M_snprintf(buffer, sizeof(buffer), (M_StringCompare(mapcmdlump, mapnum) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;

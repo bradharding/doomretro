@@ -961,7 +961,6 @@ dboolean ST_Responder(event_t *ev)
                 else
                 {
                     static char message[128];
-                    static char prevlump[6];
 
                     S_StartSound(NULL, sfx_getpow);
                     C_Input("%s%c%c", cheat_clev_xy.sequence, buf[0], buf[1]);
@@ -971,8 +970,7 @@ dboolean ST_Responder(event_t *ev)
                     else if (FREEDOOM && gamemode != commercial)
                         M_snprintf(lump, sizeof(lump), "C%cM%c", buf[0], buf[1]);
 
-                    M_snprintf(message, sizeof(message), (M_StringCompare(lump, prevlump) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), lump);
-                    M_StringCopy(prevlump, lump, 6);
+                    M_snprintf(message, sizeof(message), (M_StringCompare(lump, mapnum) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), lump);
 
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);
