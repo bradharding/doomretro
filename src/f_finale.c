@@ -357,6 +357,9 @@ static void F_TextWrite(void)
             continue;
         }
 
+        if (cx > ORIGINALWIDTH - 12)
+            continue;
+
         if (STCFN034)
         {
             w = SHORT(hu_font[c]->width);
