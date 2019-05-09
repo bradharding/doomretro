@@ -1280,7 +1280,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
         if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
-            bloodsplat_t    *splat = calloc(1, sizeof(*splat));
+            bloodsplat_t    *splat = malloc(sizeof(*splat));
             int             patch = firstbloodsplatlump + (M_Random() & 7);
 
             splat->patch = patch;

@@ -46,7 +46,8 @@
 * The `play` CCMD can now be used to restart music.
 * The player’s health, armor and ammo will no longer flash when low in the widescreen HUD if freeze mode is on.
 * The `Monsters killed` stats shown by the `playerstats` CCMD now only include kills actually made by the player, and not those due to infighting among monsters.
-* The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is `off`.
+* A bug has been fixed whereby pressing the <kbd>F11</kbd> key on the intermission screen could affect the screen’s palette in some instances.
+* The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is also `off`.
 * The status bar is now drawn in the background as necessary when a centered message is displayed.
 * `midiproc.exe` will no longer remain open when quitting *DOOM Retro* and no MUS or MIDI music lumps have been played.
 * Elements in the alternate widescreen HUD that are meant to be blue now appear blue rather than purple when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
