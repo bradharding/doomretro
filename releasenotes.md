@@ -21,6 +21,7 @@
   * An error will no longer be displayed in the console if the `NOTDMATCH` flag is used.
   * The par times for the maps in Episode 4 of *The Ultimate DOOM*, as well as MAP33 in *DOOM II: Hell On Earth (BFG Edition)*, can now be specified in the `[PARS]` section.
   * A bug has been fixed whereby par times specified in the `[PARS]` section would not be read correctly in some rare instances.
+  * A warning will now be displayed in the console if a `.deh` or `.bex` file was found but a `DEHACKED` lump was used instead.
 * The following changes have been made to the `resetall` CCMD:
   * If a control is bound to the `+mouselook` action, the current map’s sky will now be unstretched immediately.
   * All aliases created using the `alias` CCMD will now be deleted.
