@@ -244,11 +244,11 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed,                              NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,                                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,                                     NOVALUEALIAS       ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_imtooyoungtodie,                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_heynottoorough,                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_hurtmeplenty,                      NOVALUEALIAS       ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_ultraviolence,                     NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_imtooyoungtodie,                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_nightmare,                         NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_ultraviolence,                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,                                         NOVALUEALIAS       )
 };
 
