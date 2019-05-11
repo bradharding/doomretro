@@ -445,6 +445,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
                 thing->momx /= 2;
                 thing->momy /= 2;
             }
+
+            tmthing->momz += 3 * FRACUNIT;
         }
 
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
