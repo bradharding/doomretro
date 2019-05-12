@@ -110,7 +110,7 @@ static SDL_Palette  *palette;
 static SDL_Color    colors[256];
 byte                *PLAYPAL;
 
-byte                *oscreen;
+static byte         *oscreen;
 byte                *mapscreen;
 SDL_Window          *mapwindow;
 SDL_Renderer        *maprenderer;
@@ -297,9 +297,9 @@ static int TranslateKey2(int key)
 
 dboolean keystate(int key)
 {
-    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-    return keystate[TranslateKey2(key)];
+    return state[TranslateKey2(key)];
 }
 
 void I_CapFPS(int frames)

@@ -91,7 +91,7 @@ char                *savegamefolder;
 
 char                *pwadfile = "";
 
-char *iwadsrequired[] =
+static char *iwadsrequired[] =
 {
     "doom.wad",
     "doom2.wad",

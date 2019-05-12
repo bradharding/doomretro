@@ -127,7 +127,7 @@ extern dboolean     canmodify;
 extern int          numflats;
 extern texture_t    **textures;
 
-struct
+static struct
 {
     char            *startname;
     char            *endname;

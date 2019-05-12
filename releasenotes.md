@@ -10,7 +10,6 @@
 * Thing triangles are now displayed in the automap for voodoo dolls if the `IDDT` cheat is used.
 * A bug has been fixed whereby a gamepad’s left thumbstick couldn’t be used to navigate the menu, nor pan around the automap when the `am_followmode` CVAR was `off`. (A gamepad’s right thumbstick can now also be used in these instances.)
 * The player’s favorite skill level is now displayed by the `playerstats` CCMD.
-* The behavior of the `r_corpses_nudge` CVAR has been enhanced slightly. When the player or a monster walks over a corpse, a small amount of vertical momentum will be applied as well as the corpse itself moving.
 * The accuracy of the player’s weapons has been improved when the `mouselook` CVAR is `on` and the `autoaim` CVAR is `off`.
 * Exploding barrels will no longer slide due to their own blast damage.
 * To improve accuracy, a monster’s actual bounding box is now checked when it is attacked.

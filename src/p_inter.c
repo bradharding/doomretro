@@ -77,7 +77,7 @@ dboolean        species_infighting = false;
 int             maxammo[NUMAMMO] =  { 200, 50, 300, 50 };
 int             clipammo[NUMAMMO] = {  10,  4,  20,  1 };
 
-int             cardsprites[NUMCARDS] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
+static int      cardsprites[NUMCARDS] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
 
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
