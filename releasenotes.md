@@ -1,3 +1,9 @@
+### DOOM Retro v2.9.1
+
+---
+
+###### Monday, May 13, 2019
+
 ### DOOM Retro v2.9
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
