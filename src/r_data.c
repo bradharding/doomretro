@@ -614,8 +614,12 @@ static void R_InitColormaps(void)
     dc_colormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
 
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
-    C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.", (numcolormaps == 1 ? "the" : commify(numcolormaps)),
-        (numcolormaps == 1 ? "" : "s"), (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+
+    if (numcolormaps == 1)
+        C_Output("Using the <b>COLORMAP</b> lump in %s <b>%s</b>.", (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+    else
+        C_Output("Using %s colormaps from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
+            commify(numcolormaps), (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
     // [BH] There's a typo in dcolors.c, the source code of the utility id
     // Software used to construct the palettes and colormaps for DOOM (see

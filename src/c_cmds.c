@@ -504,7 +504,7 @@ consolecmd_t consolecmds[] =
     CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
     CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
-        "Toggles displaying a crosshair when using mouselook\n(<b>none</b>, <b>cross</b> or <b>dot</b>)."),
+        "Toggles a crosshair when using mouselook\n(<b>none</b>, <b>cross</b> or <b>dot</b>)."),
     CVAR_INT(crosshaircolor, crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
