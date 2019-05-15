@@ -11,7 +11,7 @@
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Support has been added for John Romero’s upcoming megawad [*SIGIL*](https://SI6IL.com/). When loading *The Ultimate DOOM’s* IWAD from the WAD launcher, if `sigil.wad` is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will then be available in the episode menu.
+* Support has been added for John Romero’s highly anticipated megawad [*SIGIL*](http://SI6IL.com/). When loading *The Ultimate DOOM’s* IWAD from the WAD launcher, if `sigil.wad` is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will then be available in the episode menu.
 * The WAD launcher will now only automatically load [`nerve.wad`](https://doomwiki.org/wiki/No_Rest_for_the_Living) when the *BFG Edition* of *DOOM II: Hell On Earth’s* IWAD is selected.
 * Further improvements have been made to the console’s autocomplete feature.
 * An obituary is no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
