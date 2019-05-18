@@ -453,7 +453,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         }
         else if (letter == 176)
         {
-            w += SHORT(regomark->width);
+            w += SHORT(degree->width);
             i++;
         }
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
