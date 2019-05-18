@@ -1,6 +1,7 @@
 ### DOOM Retro v2.9.1
 
 * Minor changes have been made to text that is output to the console.
+* A crash will no longer occur if the player’s health is less than -999% when they die and the widescreen HUD is displayed.
 
 ---
 

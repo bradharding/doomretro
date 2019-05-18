@@ -461,7 +461,7 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int           health = viewplayer->health;
+    const int           health = MAX(health_min, viewplayer->health);
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum) + tallpercentwidth) / 2;
     static dboolean     healthanim;
