@@ -94,6 +94,7 @@ static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
+static patch_t          *unknown;
 static patch_t          *warning;
 static patch_t          *brand;
 static patch_t          *divider;
@@ -460,6 +461,8 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(multiply->width);
         else if (c >= 0 && c < CONSOLEFONTSIZE)
             w += SHORT(consolefont[c]->width);
+        else
+            w += SHORT(unknown->width);
 
         if (kerning)
             for (int j = 0; altkern[j].char1; j++)
@@ -550,6 +553,7 @@ void C_Init(void)
     regomark = W_CacheLumpName("DRFON174");
     degree = W_CacheLumpName("DRFON176");
     multiply = W_CacheLumpName("DRFON215");
+    unknown = W_CacheLumpName("DRFON000");
 
     caret = W_CacheLumpName("DRCARET");
     divider = W_CacheLumpName("DRDIVIDE");
@@ -772,7 +776,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             else if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
             else
-                continue;
+                patch = unknown;
 
             if (patch)
             {
