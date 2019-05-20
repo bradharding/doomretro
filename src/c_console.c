@@ -760,7 +760,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
         }
         else
         {
-            patch_t     *patch = NULL;
+            patch_t     *patch = unknown;
             const int   c = letter - CONSOLEFONTSTART;
 
             if (letter == '\t')
@@ -775,24 +775,19 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = multiply;
             else if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
-            else
-                patch = unknown;
 
-            if (patch)
-            {
-                if (kerning)
-                    for (int j = 0; altkern[j].char1; j++)
-                        if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
-                        {
-                            x += altkern[j].adjust;
-                            break;
-                        }
+            if (kerning)
+                for (int j = 0; altkern[j].char1; j++)
+                    if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                    {
+                        x += altkern[j].adjust;
+                        break;
+                    }
 
-                V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
-                    (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
-                    (italics && letter != '_' && letter != ','), translucency);
-                x += SHORT(patch->width);
-            }
+            V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
+                (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
+                (italics && letter != '_' && letter != ','), translucency);
+            x += SHORT(patch->width);
 
             prevletter = letter;
         }

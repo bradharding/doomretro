@@ -171,7 +171,7 @@ unsigned int    stat_skilllevel_hurtmeplenty = 0;
 unsigned int    stat_skilllevel_ultraviolence = 0;
 unsigned int    stat_skilllevel_nightmare = 0;
 
-extern dboolean barrelms;
+extern int      barrelms;
 extern int      st_palette;
 extern int      pagetic;
 extern int      timer;
