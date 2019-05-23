@@ -578,7 +578,7 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] otherwise bob certain power-ups
-    else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
+    else if ((flags2 & MF2_FLOATBOB) && !(flags & MF_CORPSE) && r_floatbob)
         mobj->z = BETWEEN(mobj->floorz, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63], mobj->ceilingz);
 
     else if (mobj->z != mobj->floorz || mobj->momz)
