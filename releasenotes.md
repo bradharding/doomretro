@@ -2,6 +2,8 @@
 
 * Minor changes have been made to text that is output to the console.
 * A crash will no longer occur if the player’s health is less than -999% when they die and the widescreen HUD is displayed.
+* A dead player will no longer turn to face an attacker if the attacker killed a voodoo doll rather than the player itself.
+* Things with the `MF2_FLOATBOB` flag set will no longer bob if they are also corpses.
 
 ---
 
