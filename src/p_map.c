@@ -582,7 +582,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
     // [BH] don't hit if either thing is a corpse, which may still be solid if
     // they are still going through their death sequence.
-    if (!(thing->flags2 & MF2_RESURRECTING) && (corpse || (tmflags & MF_CORPSE)))
+    if (!(thing->flags2 & MF2_RESURRECTING) && (corpse || (tmflags & MF_CORPSE)) && type != MT_BARREL)
         return true;
 
     // RjY
