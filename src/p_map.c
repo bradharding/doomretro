@@ -421,6 +421,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     int         flags;
     int         tmflags;
     dboolean    corpse;
+    int         type;
 
     // don't clip against self
     if (thing == tmthing)
@@ -429,9 +430,10 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     flags = thing->flags;
     tmflags = tmthing->flags;
     corpse = flags & MF_CORPSE;
+    type = thing->type;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
-    if (corpse && (tmflags & MF_SHOOTABLE) && !thing->nudge && thing->z == tmthing->z && r_corpses_nudge)
+    if (corpse && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && !thing->nudge && thing->z == tmthing->z && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
             const int   r = M_RandomInt(-1, 1);
@@ -506,14 +508,14 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             return true;        // underneath
 
         if (tmthing->target
-            && (tmthing->target->type == thing->type
-                || (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
-                || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))
+            && (tmthing->target->type == type
+                || (tmthing->target->type == MT_KNIGHT && type == MT_BRUISER)
+                || (tmthing->target->type == MT_BRUISER && type == MT_KNIGHT)))
         {
             // Don't hit same species as originator.
             if (thing == tmthing->target)
                 return true;
-            else if (thing->type != MT_PLAYER && !infight && !species_infighting)
+            else if (type != MT_PLAYER && !infight && !species_infighting)
                 // Explode, but do no damage.
                 // Let players missile other players.
                 return false;
