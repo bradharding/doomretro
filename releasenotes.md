@@ -5,6 +5,7 @@
 * A crash will no longer occur if the player’s health is less than -999% when they die and the widescreen HUD is displayed.
 * A dead player will no longer turn to face an attacker if the attacker actually killed a voodoo doll rather than the player itself.
 * Things with the `MF2_FLOATBOB` flag set will no longer float and bob if they are also corpses.
+* A bug has been fixed whereby the player wouldn’t die as intended when exiting certain maps in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity), allowing them to retain their weapons and ammo when warping to the next map.
 
 ---
 
