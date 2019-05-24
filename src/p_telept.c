@@ -67,66 +67,65 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 fixed_t     oldy = thing->y;
                 fixed_t     oldz = thing->z;
                 player_t    *player = thing->player;
+                mobj_t      *fog;
+                fixed_t     newx = m->x;
+                fixed_t     newy = m->y;
 
                 // killough 5/12/98: exclude voodoo dolls:
                 if (player && player->mo != thing)
                     player = NULL;
 
-                if (P_TeleportMove(thing, m->x, m->y, m->z, false))     // killough 8/9/98
+                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 8/9/98
+                    return false;
+
+                // spawn teleport fog at source
+                fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+                fog->angle = thing->angle;
+                S_StartSound(fog, sfx_telept);
+
+                // spawn teleport fog at destination
+                thing->z = thing->floorz;
+
+                if (player)
                 {
-                    mobj_t  *fog;
-                    fixed_t newx = m->x;
-                    fixed_t newy = m->y;
+                    const unsigned int  an = m->angle >> ANGLETOFINESHIFT;
 
-                    // spawn teleport fog at source
-                    fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
-                    fog->angle = thing->angle;
-                    S_StartSound(fog, sfx_telept);
-
-                    // spawn teleport fog at destination
-                    thing->z = thing->floorz;
-
-                    if (player)
-                    {
-                        const unsigned int  an = m->angle >> ANGLETOFINESHIFT;
-
-                        newx += 20 * finecosine[an];
-                        newy += 20 * finesine[an];
-                        player->viewz = thing->z + player->viewheight;
-                    }
-
-                    fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
-                    fog->angle = m->angle;
-                    S_StartSound(fog, sfx_telept);
-
-                    if (player)
-                    {
-                        // [BH] teleport can now be drawn on automap
-                        if (line->backsector)
-                            for (int j = 0; j < line->backsector->linecount; j++)
-                                line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
-
-                        // don't move for a bit
-                        thing->reactiontime = 18;
-
-                        player->psprites[ps_weapon].sx = 0;
-                        player->psprites[ps_weapon].sy = WEAPONTOP;
-
-                        player->momx = 0;
-                        player->momy = 0;
-
-                        player->recoil = 0;
-                        player->oldrecoil = 0;
-                    }
-
-                    thing->angle = m->angle;
-
-                    thing->momx = 0;
-                    thing->momy = 0;
-                    thing->momz = 0;
-
-                    return true;
+                    newx += 20 * finecosine[an];
+                    newy += 20 * finesine[an];
+                    player->viewz = thing->z + player->viewheight;
                 }
+
+                fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
+                fog->angle = m->angle;
+                S_StartSound(fog, sfx_telept);
+
+                if (player)
+                {
+                    // [BH] teleport can now be drawn on automap
+                    if (line->backsector)
+                        for (int j = 0; j < line->backsector->linecount; j++)
+                            line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
+
+                    // don't move for a bit
+                    thing->reactiontime = 18;
+
+                    player->psprites[ps_weapon].sx = 0;
+                    player->psprites[ps_weapon].sy = WEAPONTOP;
+
+                    player->momx = 0;
+                    player->momy = 0;
+
+                    player->recoil = 0;
+                    player->oldrecoil = 0;
+                }
+
+                thing->angle = m->angle;
+
+                thing->momx = 0;
+                thing->momy = 0;
+                thing->momz = 0;
+
+                return true;
             }
         }
 
