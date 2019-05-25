@@ -54,6 +54,7 @@ void I_ShutdownWindows32(void);
 #include "version.h"
 
 extern dboolean returntowidescreen;
+extern char     *previouswad;
 
 #if defined(_WIN32)
 typedef long (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
@@ -249,6 +250,8 @@ void I_Error(const char *error, ...)
 
     if (returntowidescreen)
         vid_widescreen = true;
+
+    wad = M_StringDuplicate(previouswad);
 
     M_SaveCVARs();
 

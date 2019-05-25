@@ -111,6 +111,7 @@ dboolean            wipe = wipe_default;
 
 char                *packageconfig;
 char                *packagewad;
+char                *previouswad;
 
 dboolean            devparm;                // started game with -devparm
 dboolean            fastparm;               // checkparm of -fast
@@ -1023,6 +1024,7 @@ static int D_OpenWADLauncher(void)
         dboolean    onlyoneselected;
 
         iwadfound = 0;
+        previouswad = M_StringDuplicate(wad);
         wad = "";
         startuptimer = I_GetTimeMS();
 

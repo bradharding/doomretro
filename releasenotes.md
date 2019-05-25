@@ -6,6 +6,7 @@
 * A dead player will no longer turn to face an attacker if that attacker actually killed a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll) rather than the player themselves.
 * Things with the `MF2_FLOATBOB` flag set will no longer float and bob if they are also corpses.
 * A bug has been fixed whereby the player wouldn’t die as intended when exiting certain maps in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity), causing them to erroneously retain their weapons and ammo when warping to the next map.
+* If the WAD selected in the WAD launcher causes *DOOM Retro* to exit with an error, the `wad` CVAR will not be updated.
 
 ---
 
