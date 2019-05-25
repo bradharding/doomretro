@@ -635,11 +635,11 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 }
 
 //
-// P_LookForPlayers
+// P_LookForPlayer
 // If allaround is false, only look 180 degrees in front.
-// Returns true if a player is targeted.
+// Returns true if the player is targeted.
 //
-static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
+static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 {
     mobj_t  *mo;
 
@@ -754,7 +754,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
             goto seeyou;
     }
 
-    if (!P_LookForPlayers(actor, false))
+    if (!P_LookForPlayer(actor, false))
         return;
 
     // go into chase state
@@ -829,7 +829,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!target || !(target->flags & MF_SHOOTABLE))
     {
         // look for a new target
-        if (!P_LookForPlayers(actor, true))
+        if (!P_LookForPlayer(actor, true))
             P_SetMobjState(actor, info->spawnstate);    // no new target
 
         return;
@@ -2043,7 +2043,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
         // killough 8/29/98: add to appropriate thread
         P_UpdateThinker(&newmobj->thinker);
 
-        if (!P_LookForPlayers(newmobj, true) || P_SetMobjState(newmobj, newmobj->info->seestate))
+        if (!P_LookForPlayer(newmobj, true) || P_SetMobjState(newmobj, newmobj->info->seestate))
             P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);  // telefrag anything in this spot
 
         if (newmobj->flags & MF_COUNTKILL)

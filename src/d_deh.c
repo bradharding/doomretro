@@ -457,8 +457,8 @@ char    *s_STSTR_FON = "";
 char    *s_STSTR_FOFF = "";
 char    *s_STSTR_RHON = "";
 char    *s_STSTR_RHOFF = "";
-char    *s_STSTR_VMON = "";
-char    *s_STSTR_VMOFF = "";
+char    *s_STSTR_VON = "";
+char    *s_STSTR_VOFF = "";
 
 char    *s_E1TEXT = E1TEXT;
 char    *s_E2TEXT = E2TEXT;
@@ -1023,8 +1023,8 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_FOFF,                 "STSTR_FOFF"                 },
     { &s_STSTR_RHON,                 "STSTR_RHON"                 },
     { &s_STSTR_RHOFF,                "STSTR_RHOFF"                },
-    { &s_STSTR_VMON,                 "STSTR_VMON"                 },
-    { &s_STSTR_VMOFF,                "STSTR_VMOFF"                },
+    { &s_STSTR_VON,                  "STSTR_VON"                  },
+    { &s_STSTR_VOFF,                 "STSTR_VOFF"                 },
 
     { &s_E1TEXT,                     "E1TEXT"                     },
     { &s_E2TEXT,                     "E2TEXT"                     },
