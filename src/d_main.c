@@ -111,7 +111,10 @@ dboolean            wipe = wipe_default;
 
 char                *packageconfig;
 char                *packagewad;
+
+#if defined(_WIN32)
 char                *previouswad;
+#endif
 
 dboolean            devparm;                // started game with -devparm
 dboolean            fastparm;               // checkparm of -fast

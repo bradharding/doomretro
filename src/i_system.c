@@ -54,9 +54,10 @@ void I_ShutdownWindows32(void);
 #include "version.h"
 
 extern dboolean returntowidescreen;
-extern char     *previouswad;
 
 #if defined(_WIN32)
+extern char     *previouswad;
+
 typedef long (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
@@ -251,7 +252,9 @@ void I_Error(const char *error, ...)
     if (returntowidescreen)
         vid_widescreen = true;
 
+#if defined(_WIN32)
     wad = M_StringDuplicate(previouswad);
+#endif
 
     M_SaveCVARs();
 
