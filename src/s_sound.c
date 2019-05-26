@@ -300,24 +300,28 @@ static int S_GetMusicNum(void)
     }
     else
     {
-        int spmus[] =
-        {
-            // Song - Who? - Where?
-            mus_e3m4,   // American     E4M1
-            mus_e3m2,   // Romero       E4M2
-            mus_e3m3,   // Shawn        E4M3
-            mus_e1m5,   // American     E4M4
-            mus_e2m7,   // Tim          E4M5
-            mus_e2m4,   // Romero       E4M6
-            mus_e2m6,   // J.Anderson   E4M7 CHIRON.WAD
-            mus_e2m5,   // Shawn        E4M8
-            mus_e1m9    // Tim          E4M9
-        };
-
         if (gameepisode < 4)
             mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, mnum) : (gameepisode - 1) * 9 + gamemap) - 1;
+        else if (gameepisode == 5 && sigil)
+            mnum = mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, mnum) : gamemap) - 1;
         else
+        {
+            int spmus[] =
+            {
+                // Song - Who? - Where?
+                mus_e3m4,   // American     E4M1
+                mus_e3m2,   // Romero       E4M2
+                mus_e3m3,   // Shawn        E4M3
+                mus_e1m5,   // American     E4M4
+                mus_e2m7,   // Tim          E4M5
+                mus_e2m4,   // Romero       E4M6
+                mus_e2m6,   // J.Anderson   E4M7 CHIRON.WAD
+                mus_e2m5,   // Shawn        E4M8
+                mus_e1m9    // Tim          E4M9
+            };
+
             mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 28, mnum) : gamemap) - 1];
+        }
     }
 
     return mnum;
