@@ -1147,6 +1147,8 @@ static void WI_LoadData(void)
         M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
         bg_lumpname[8] = '\0';
     }
+    else if (sigil)
+        M_StringCopy(bg_lumpname, "SIGILINT", sizeof(bg_lumpname));
     else
         M_snprintf(bg_lumpname, sizeof(bg_lumpname), "WIMAP%i", wbs->epsd);
 
