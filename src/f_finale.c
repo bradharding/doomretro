@@ -964,6 +964,10 @@ static void F_ArtScreenDrawer(void)
                 lumpname = "ENDPIC";
                 break;
 
+            case 5:
+                lumpname = "SIGILEND";
+                break;
+
             default:
                 return;
         }
