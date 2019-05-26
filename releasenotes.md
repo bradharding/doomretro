@@ -1,5 +1,7 @@
 ### DOOM Retro v2.9.2
 
+* The crosshair displayed when enabling the `crosshair` CVAR is now hidden sooner when the player runs out of ammo.
+* 
 ---
 
 ###### Sunday, May 26, 2019
