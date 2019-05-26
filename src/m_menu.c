@@ -3597,7 +3597,9 @@ void M_Drawer(void)
                     char    *name = currentMenu->menuitems[i].name;
                     char    **text = currentMenu->menuitems[i].text;
 
-                    if (M_StringCompare(name, "M_NMARE"))
+                    if (M_StringCompare(name, "M_EPI5") && sigil)
+                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    else if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
                             M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
