@@ -1,3 +1,9 @@
+### DOOM Retro v2.9.2
+
+---
+
+###### Sunday, May 26, 2019
+
 ### DOOM Retro v2.9.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
