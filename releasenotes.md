@@ -1,7 +1,8 @@
 ### DOOM Retro v2.9.2
 
 * The crosshair displayed when enabling the `crosshair` CVAR is now hidden sooner when the player runs out of ammo.
-* 
+* A bug has been fixed whereby if the `-warp` command-line parameter was used, the player could then not access the menu or the console.
+
 ---
 
 ###### Sunday, May 26, 2019

@@ -1977,6 +1977,8 @@ static void D_DoomMainSetup(void)
 
     if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? atoi(myargv[p + 1]) : -1)) >= 0 && startloadgame <= 5)
     {
+        menuactive = false;
+        splashscreen = false;
         I_InitKeyboard();
 
         if (alwaysrun)
@@ -1994,6 +1996,8 @@ static void D_DoomMainSetup(void)
     {
         if (autostart)
         {
+            menuactive = false;
+            splashscreen = false;
             I_InitKeyboard();
 
             if (alwaysrun)
@@ -2008,6 +2012,7 @@ static void D_DoomMainSetup(void)
 #else
             if (M_CheckParm("-nosplash"))
             {
+                menuactive = false;
                 splashscreen = false;
                 D_StartTitle(1);
             }
