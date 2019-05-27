@@ -2193,10 +2193,8 @@ static void P_SecretFound(void)
 // Called every tic frame
 //  that the player origin is in a special sector
 //
-void P_PlayerInSpecialSector(void)
+void P_PlayerInSpecialSector(sector_t *sector)
 {
-    sector_t    *sector = viewplayer->mo->subsector->sector;
-
     // jff add if to handle old vs generalized types
     if (sector->special < 32)   // regular sector specials
     {

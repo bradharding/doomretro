@@ -1,5 +1,6 @@
 ### DOOM Retro v2.9.2
 
+* The player will no longer be injured when standing close to but above a damaging sector in some instances.
 * The crosshair displayed when enabling the `crosshair` CVAR is now hidden sooner when the player runs out of ammo.
 * A bug has been fixed whereby if the `-warp` command-line parameter was used, the player could then not access the menu or the console.
 

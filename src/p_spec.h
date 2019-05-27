@@ -76,7 +76,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
 void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
-void P_PlayerInSpecialSector(void);
+void P_PlayerInSpecialSector(sector_t *sector);
 
 dboolean twoSided(int sector, int line);
 
