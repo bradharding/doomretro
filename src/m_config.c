@@ -617,9 +617,9 @@ static void M_CheckCVARs(void)
     if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
         crosshaircolor = crosshaircolor_default;
 
-    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == retail && !sigil));
+    episode = BETWEEN(episode_min, episode, episode_max);
 
-    expansion = BETWEEN(expansion_min, expansion, expansion_max - (gamemode == commercial && !nerve));
+    expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;

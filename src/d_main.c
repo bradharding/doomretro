@@ -1797,6 +1797,18 @@ static void D_DoomMainSetup(void)
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
 
+    if (gamemode == retail && !sigil && episode == 5)
+    {
+        episode = 4;
+        M_SaveCVARs();
+    }
+
+    if (gamemode == commercial && !nerve && expansion == 2)
+    {
+        expansion = 1;
+        M_SaveCVARs();
+    }
+
     D_SetSaveGameFolder(true);
 
     // Check for -file in shareware
