@@ -1,8 +1,9 @@
 ### DOOM Retro v2.9.2
 
+* Minor changes have been made to text that is output to the console.
 * The player will no longer be injured when standing close to but above a damaging sector in some instances.
 * The crosshair displayed when enabling the `crosshair` CVAR is now hidden sooner when the player runs out of ammo.
-* A bug has been fixed whereby if the `-warp` command-line parameter was used, the player could then not access the menu or the console.
+* A bug has been fixed whereby if the `-warp` command-line parameter was used, the player couldn’t access either the menu or the console.
 
 ---
 
@@ -257,7 +258,7 @@
 * Pressing <kbd>ALT</kbd> + <kbd>F4</kbd> will now instantly quit *DOOM Retro* as originally intended.
 * A bug has been fixed whereby the `+zoomin` and `+zoomout` actions couldn’t be rebound from their default <kbd>+</kbd> and <kbd>&ndash;</kbd> keys using the `bind` CCMD.
 * Mouse acceleration can now be disabled using the new `m_acceleration` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
-* Movement of a gamepad's thumbsticks can now be either analog or digital using the new `gp_analog` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
+* Movement of a gamepad’s thumbsticks can now be either analog or digital using the new `gp_analog` CVAR. It is `on` by default and `off` when vanilla mode is enabled.
 * The number of thumbsticks used on a gamepad can now be set using the new `gp_thumbsticks` CVAR. If set to `2` (the default), the left thumbstick is used to strafe left/right and move forward/back, and the right thumbstick is used to turn left/right (and look up/down if the `mouselook` CVAR is `on`). If set to `1` (which it is when vanilla mode is enabled), one thumbstick is used to turn left/right and move forward/back.
 * A bug has been fixed whereby monsters could be spawned at an incorrect height in some rare instances.
 * Some translucency effects have been improved.
