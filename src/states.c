@@ -1041,12 +1041,12 @@ state_t states[NUMSTATES] =
     { SPR_MISL,   (3 | FF_FULLBRIGHT),   10, A_BrainExplode,         S_NULL              }, // S_BRAINEXPLODE3
 
     // Green Armor (MT_MISC0)
-    { SPR_ARM1,    0,                     6, NULL,                   S_ARM1A             }, // S_ARM1
-    { SPR_ARM1,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_ARM1              }, // S_ARM1A
+    { SPR_ARM1,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_ARM1A             }, // S_ARM1
+    { SPR_ARM1,    1,                     6, NULL,                   S_ARM1              }, // S_ARM1A
 
     // Blue Armor (MT_MISC1)
-    { SPR_ARM2,    0,                     6, NULL,                   S_ARM2A             }, // S_ARM2
-    { SPR_ARM2,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_ARM2              }, // S_ARM2A
+    { SPR_ARM2,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_ARM2A             }, // S_ARM2
+    { SPR_ARM2,    1,                     6, NULL,                   S_ARM2              }, // S_ARM2A
 
     // Barrel (MT_BARREL)
     { SPR_BAR1,    0,                     6, NULL,                   S_BAR3              }, // S_BAR2
