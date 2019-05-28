@@ -1011,10 +1011,10 @@ state_t states[NUMSTATES] =
     // Boss Brain (MT_BOSSBRAIN)
     { SPR_BBRN,    0,                    -1, NULL,                   S_NULL              }, // S_BRAIN
     { SPR_BBRN,    1,                    36, A_BrainPain,            S_BRAIN             }, // S_BRAIN_PAIN
-    { SPR_BBRN,    0,                   100, A_BrainScream,          S_BRAIN_DIE2        }, // S_BRAIN_DIE1
-    { SPR_BBRN,    0,                    10, NULL,                   S_BRAIN_DIE3        }, // S_BRAIN_DIE2
-    { SPR_BBRN,    0,                    10, NULL,                   S_BRAIN_DIE4        }, // S_BRAIN_DIE3
-    { SPR_BBRN,    0,                    -1, A_BrainDie,             S_NULL              }, // S_BRAIN_DIE4
+    { SPR_BBRN,    1,                   100, A_BrainScream,          S_BRAIN_DIE2        }, // S_BRAIN_DIE1
+    { SPR_BBRN,    1,                    10, NULL,                   S_BRAIN_DIE3        }, // S_BRAIN_DIE2
+    { SPR_BBRN,    1,                    10, NULL,                   S_BRAIN_DIE4        }, // S_BRAIN_DIE3
+    { SPR_BBRN,    1,                    -1, A_BrainDie,             S_NULL              }, // S_BRAIN_DIE4
 
     // MT_BOSSSPIT
     { SPR_SSWV,   0,                    10, A_Look,                 S_BRAINEYE          }, // S_BRAINEYE
