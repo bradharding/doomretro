@@ -89,7 +89,8 @@ typedef struct
     // up to 6-character name
     char            name[9];
 
-    char            title[32];
+    char            title1[32];
+    char            title2[32];
 
     // lump number of music
     int             lumpnum;

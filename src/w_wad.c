@@ -207,6 +207,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (wadfile->type == IWAD)
         bfgedition = IsBFGEdition(filename);
+    else if (M_StringCompare(leafname(filename), "SIGIL_SHREDS.wad") || M_StringCompare(leafname(filename), "SIGIL_SHREDS_COMPAT.wad"))
+        buckethead = true;
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);

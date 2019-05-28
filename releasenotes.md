@@ -1,6 +1,8 @@
 ### DOOM Retro v2.9.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The following changes have been to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+  * The `mapstats` CCMD will correctly identify the title and/or composer of the music (either James Paddock or Buckethead if `SIGIL_SHREDS.wad` is loaded).
 * Minor changes have been made to text that is output to the console.
 * The player will no longer be injured when standing close to but above a damaging sector in some instances.
 * The crosshair displayed when enabling the `crosshair` CVAR is now hidden sooner when the player runs out of ammo.

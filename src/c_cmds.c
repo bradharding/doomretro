@@ -3328,13 +3328,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", musictitle);
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", mus_playing->title);
+            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", (sigil && buckethead ? mus_playing->title2 : mus_playing->title1));
 
         if (*musiccomposer)
             C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", musiccomposer);
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music composer\t<b>Bobby Prince</b>");
+            C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", (sigil ? (buckethead ? "Buckethead" : "James Paddock") : "Bobby Prince"));
 
         if (musmusictype)
             C_TabbedOutput(tabs, "Music format\t<b>MUS converted to MIDI</b>");

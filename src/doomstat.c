@@ -45,6 +45,7 @@ GameVersion_t   gameversion = exe_final;
 char            *gamedescription;
 
 dboolean        sigil;
+dboolean        buckethead = false;
 dboolean        nerve;
 dboolean        bfgedition;
 
