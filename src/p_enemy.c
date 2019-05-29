@@ -1783,6 +1783,15 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                 break;
 
+            case 5:
+                if (gamemap != 8)
+                    return;
+
+                if (actor->type != MT_SPIDER)
+                    return;
+
+                break;
+
             default:
                 if (gamemap != 8)
                     return;
