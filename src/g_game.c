@@ -1278,6 +1278,10 @@ static void G_DoCompleted(void)
                 case 4:
                     wminfo.next = 2;
                     break;
+
+                case 5:
+                    wminfo.next = 6;
+                    break;
             }
         }
         else
