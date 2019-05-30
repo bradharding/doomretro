@@ -1,8 +1,8 @@
 ### DOOM Retro v2.9.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The following changes have been to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
-  * The `mapstats` CCMD will now correctly identify the title and/or composer of the music of the current map (either [James Paddock](https://doomwiki.org/wiki/James_Paddock_(Jimmy)), or [Buckethead](https://en.wikipedia.org/wiki/Buckethead) if `SIGIL_SHREDS.wad` is loaded).
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+  * The `mapstats` CCMD will now correctly identify the title and composer of the music of the current map (either [James Paddock](https://doomwiki.org/wiki/James_Paddock_(Jimmy)), or [Buckethead](https://en.wikipedia.org/wiki/Buckethead) if `SIGIL_SHREDS.wad` is loaded).
   * *E5M8: Halls of Perdition* will no longer end abruptly when killing a certain number of monsters.
   * The player will now be warped to the correct map once finishing *E5M9: Realm of Iblis*.
 * Minor changes have been made to text that is output to the console.
