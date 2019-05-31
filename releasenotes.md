@@ -2,6 +2,7 @@
 
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * The `SKY5_ZD` lump is now used instead of the `SKY5` lump for the sky.
+  * Jumping is no longer disabled if `SIGIL.wad` is loaded automatically.
 
 ---
 

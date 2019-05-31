@@ -2574,7 +2574,10 @@ static void InitMapInfo(void)
             mapmax = MAX(map, mapmax);
         }
         else if (SC_Compare("NOJUMP"))
-            nojump = true;
+        {
+            if (!autosigil)
+                nojump = true;
+        }
         else if (SC_Compare("NOMOUSELOOK") || SC_Compare("NOFREELOOK"))
             nomouselook = true;
     }
