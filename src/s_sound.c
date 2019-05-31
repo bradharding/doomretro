@@ -210,7 +210,7 @@ void S_Init(void)
                 if (!CacheSFX(sfx))
                     if (W_CheckMultipleLumps(namebuf) > 1)
                     {
-                        sfx->lumpnum = W_GetNumForName2(namebuf);
+                        sfx->lumpnum = W_GetLastNumForName(namebuf);
 
                         if (!CacheSFX(sfx))
                             sfx->lumpnum = -1;
@@ -638,6 +638,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     // get lumpnum if necessary
     if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
         music->lumpnum = mapinfomusic;
+    else if (autosigil && music_id == mus_intro)
+        music->lumpnum = W_GetLastNumForName(namebuf);
     else if (!music->lumpnum)
         music->lumpnum = W_CheckNumForName(namebuf);
 

@@ -207,6 +207,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (wadfile->type == IWAD)
         bfgedition = IsBFGEdition(filename);
+    else if (M_StringCompare(leafname(filename), "SIGIL.wad") && automatic)
+        autosigil = true;
     else if (M_StringCompare(leafname(filename), "SIGIL_SHREDS.wad") || M_StringCompare(leafname(filename), "SIGIL_SHREDS_COMPAT.wad"))
         buckethead = true;
 
@@ -461,7 +463,7 @@ int W_GetNumForName(const char *name)
 }
 
 // Go forwards rather than backwards so we get lump from IWAD and not PWAD
-int W_GetNumForName2(const char *name)
+int W_GetLastNumForName(const char *name)
 {
     int i;
 
@@ -470,7 +472,23 @@ int W_GetNumForName2(const char *name)
             break;
 
     if (i == numlumps)
-        I_Error("W_GetNumForName: %s not found!", name);
+        I_Error("W_GetLastNumForName: %s not found!", name);
+
+    return i;
+}
+
+int W_GetSecondNumForName(const char *name)
+{
+    int count = 0;
+    int i;
+
+    for (i = 0; i < numlumps; i++)
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
+            if (++count == 2)
+                break;
+
+    if (i == numlumps)
+        I_Error("W_GetResourceNumForName2: %s not found!", name);
 
     return i;
 }

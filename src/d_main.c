@@ -2001,8 +2001,17 @@ static void D_DoomMainSetup(void)
 
     splashlump = W_CacheLumpName("SPLASH");
     splashpal = W_CacheLumpName("SPLSHPAL");
-    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
-    creditlump = W_CacheLumpName("CREDIT");
+
+    if (autosigil)
+    {
+        titlelump = W_CacheLastLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        creditlump = W_CacheLastLumpName("CREDIT");
+    }
+    else
+    {
+        titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        creditlump = W_CacheLumpName("CREDIT");
+    }
 
     if (gameaction != ga_loadgame)
     {

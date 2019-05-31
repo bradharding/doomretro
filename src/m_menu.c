@@ -1436,6 +1436,8 @@ static void M_DrawReadThis(void)
 
         if (hacx)
             V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
+        else if (autosigil)
+            M_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)));
         else if (W_CheckMultipleLumps(lumpname) > 2)
             V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
         else

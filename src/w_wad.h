@@ -83,7 +83,8 @@ int W_CheckNumForName(const char *name);
 
 int W_RangeCheckNumForName(int min, int max, const char *name);
 int W_GetNumForName(const char *name);
-int W_GetNumForName2(const char *name);
+int W_GetLastNumForName(const char *name);
+int W_GetSecondNumForName(const char* name);
 
 int W_CheckMultipleLumps(const char *name);
 
@@ -93,7 +94,7 @@ void W_ReadLump(int lump, void *dest);
 void *W_CacheLumpNum(int lumpnum);
 
 #define W_CacheLumpName(name)   W_CacheLumpNum(W_GetNumForName(name))
-#define W_CacheLumpName2(name)  W_CacheLumpNum(W_GetNumForName2(name))
+#define W_CacheLastLumpName(name)  W_CacheLumpNum(W_GetLastNumForName(name))
 
 void W_Init(void);
 
