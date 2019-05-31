@@ -1,3 +1,12 @@
+### DOOM Retro v2.9.3
+
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+  * The `SKY5_ZD` lump is now used instead of the `SKY5` lump for the sky.
+
+---
+
+###### Friday, May 31, 2019
+
 ### DOOM Retro v2.9.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
