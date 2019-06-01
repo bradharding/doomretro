@@ -1,3 +1,9 @@
+### DOOM Retro v2.9.4
+
+---
+
+###### Saturday, June 1, 2019
+
 ### DOOM Retro v2.9.3
 
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
