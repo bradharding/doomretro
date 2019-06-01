@@ -314,7 +314,7 @@ static void ST_initCheats(void)
 }
 
 #define NONE        -1
-#define IDMUS_MAX   50
+#define IDMUS_MAX   60
 
 static const int mus[IDMUS_MAX][6] =
 {
@@ -368,7 +368,17 @@ static const int mus[IDMUS_MAX][6] =
     /* 46 */ { NONE,        NONE,        NONE,        mus_e2m4,   NONE,        NONE       },
     /* 47 */ { NONE,        NONE,        NONE,        mus_e2m6,   NONE,        NONE       },
     /* 48 */ { NONE,        NONE,        NONE,        mus_e2m5,   NONE,        NONE       },
-    /* 49 */ { NONE,        NONE,        NONE,        mus_e1m9,   NONE,        NONE       }
+    /* 49 */ { NONE,        NONE,        NONE,        mus_e1m9,   NONE,        NONE       },
+    /* 50 */ { NONE,        NONE,        NONE,        NONE,       NONE,        NONE       },
+    /* 51 */ { NONE,        NONE,        NONE,        mus_e5m1,   NONE,        NONE       },
+    /* 52 */ { NONE,        NONE,        NONE,        mus_e5m2,   NONE,        NONE       },
+    /* 53 */ { NONE,        NONE,        NONE,        mus_e5m3,   NONE,        NONE       },
+    /* 54 */ { NONE,        NONE,        NONE,        mus_e5m4,   NONE,        NONE       },
+    /* 55 */ { NONE,        NONE,        NONE,        mus_e5m5,   NONE,        NONE       },
+    /* 56 */ { NONE,        NONE,        NONE,        mus_e5m6,   NONE,        NONE       },
+    /* 57 */ { NONE,        NONE,        NONE,        mus_e5m7,   NONE,        NONE       },
+    /* 58 */ { NONE,        NONE,        NONE,        mus_e5m8,   NONE,        NONE       },
+    /* 59 */ { NONE,        NONE,        NONE,        mus_e5m9,   NONE,        NONE       }
 };
 
 //

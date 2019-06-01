@@ -1,7 +1,9 @@
 ### DOOM Retro v2.9.4
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
+  * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
 * A bug has been fixed whereby the music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 
 ---
