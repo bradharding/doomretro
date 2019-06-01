@@ -320,7 +320,7 @@ static int S_GetMusicNum(void)
                 mus_e1m9    // Tim          E4M9
             };
 
-            mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 28, mnum) : gamemap) - 1];
+            mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, mnum) : gamemap) - 1];
         }
     }
 
