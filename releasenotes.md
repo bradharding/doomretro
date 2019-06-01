@@ -1,5 +1,8 @@
 ### DOOM Retro v2.9.4
 
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+  * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
+
 ---
 
 ###### Saturday, June 1, 2019
