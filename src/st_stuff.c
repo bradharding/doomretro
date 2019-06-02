@@ -993,7 +993,7 @@ dboolean ST_Responder(event_t *ev)
                     samelevel = (gameepisode == epsd && gamemap == map);
                     gameepisode = epsd;
 
-                    if (gamemission == doom && epsd <= 4)
+                    if (gamemission == doom)
                     {
                         episode = gameepisode;
                         EpiDef.lastOn = episode - 1;
