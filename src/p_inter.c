@@ -1209,7 +1209,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     {
         prevsound = sound;
         prevtic = gametime;
-        S_StartSound(viewplayer->mo, sound);
+        S_StartSound(special, sound);
     }
 
     P_RemoveMobj(special);
