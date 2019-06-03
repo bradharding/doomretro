@@ -629,6 +629,7 @@ void G_ToggleAlwaysRun(evtype_t type)
     M_SaveCVARs();
 }
 
+extern patch_t  *logolump[18];
 extern dboolean splashscreen;
 
 //
@@ -666,7 +667,11 @@ dboolean G_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
 
             if (splashscreen)
+            {
                 pagetic = MIN(10, pagetic);
+                V_DrawBigPatch(143, 167, logolump[17]);
+                blitfunc();
+            }
             else
             {
                 M_StartControlPanel();

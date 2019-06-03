@@ -411,7 +411,7 @@ int             pagetic;
 
 static patch_t  *pagelump;
 static patch_t  *splashlump;
-static patch_t  *logolump[18];
+patch_t         *logolump[18];
 static patch_t  *titlelump;
 static patch_t  *creditlump;
 static byte     *splashpal;
