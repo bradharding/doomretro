@@ -670,7 +670,6 @@ dboolean G_Responder(event_t *ev)
             {
                 pagetic = MIN(10, pagetic);
                 V_DrawBigPatch(143, 167, logolump[17]);
-                blitfunc();
             }
             else
             {

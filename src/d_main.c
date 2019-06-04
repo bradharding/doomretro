@@ -448,7 +448,7 @@ void D_PageDrawer(void)
 
         if (pagetic != prevtic)
         {
-            if (pagetic >= 77 && pagetic <= 94)
+            if (pagetic >= 77 && pagetic < 94)
                 V_DrawBigPatch(143, 167, logolump[94 - pagetic]);
 
             I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) * 768 : (pagetic > 94 ? (pagetic - 94) * 768 : 0))]);
