@@ -2965,7 +2965,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         {
             sscanf(lump, "E%1iM%1iB", &ep, &map);
 
-            if (gamemode != shareware && strlen(lump) == 5 && ep != -1)
+            if (gamemode != shareware && strlen(lump) == 5 && ep != -1 && map != -1)
                 M_StringCopy(speciallumpname, lump, 6);
             else
                 sscanf(lump, "E%1iM%1i", &ep, &map);

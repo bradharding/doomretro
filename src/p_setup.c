@@ -2630,7 +2630,7 @@ char *P_GetMapMusicTitle(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : ((E1M4B || *speciallumpname) && map == 4 ? s_CAPTION_E1M4B :
+    return (MAPINFO >= 0 && !sigil ? mapinfo[QualifyMap(map)].name : ((E1M4B || *speciallumpname) && map == 4 ? s_CAPTION_E1M4B :
         ((E1M8B || *speciallumpname) && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
