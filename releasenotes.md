@@ -8,6 +8,7 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby the music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
+* The `mapstats` CCMD will now always correctly show the PWAD the current map is from, if applicable.
 
 ---
 

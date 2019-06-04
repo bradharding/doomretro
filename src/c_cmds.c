@@ -2896,7 +2896,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     gameepisode = mapcmdepisode;
 
-    if (gamemission == doom && gameepisode <= 5)
+    if (gamemission == doom)
     {
         episode = gameepisode;
         EpiDef.lastOn = episode - 1;
@@ -3159,7 +3159,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             /* 47 */ { JA,    "",    "",    "",    "" },
             /* 48 */ { SG,    "",    "",    "",    "" },
             /* 49 */ { TW,    "",    "",    "",    "" },
-            /* 50 */ { JR,    "",    "",    "",    "" },
+            /* 50 */ { "",    "",    "",    "",    "" },
             /* 51 */ { JR,    "",    "",    "",    "" },
             /* 52 */ { JR,    "",    "",    "",    "" },
             /* 53 */ { JR,    "",    "",    "",    "" },
@@ -3181,15 +3181,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     {
-        static char lumpname[6];
-        int         i;
+        int i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
-        if (gamemode == commercial)
-            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
-        else
-            M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
-
-        i = (nerve && gamemission == doom2 ? W_GetLastNumForName(lumpname) : W_CheckNumForName(lumpname));
         C_TabbedOutput(tabs, "%s\t<b>%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
             uppercase(leafname(lumpinfo[i]->wadfile->path)));
 
