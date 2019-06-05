@@ -2610,7 +2610,7 @@ char *P_GetMapAuthor(int map)
 void P_GetMapLiquids(int map)
 {
     for (int i = 0; i < liquidlumps; i++)
-        sectors[mapinfo[QualifyMap(map)].liquid[i]].terraintype = WATER;
+        sectors[mapinfo[QualifyMap(map)].liquid[i]].terraintype = LIQUID;
 }
 
 int P_GetMapMusic(int map)
