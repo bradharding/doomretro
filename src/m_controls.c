@@ -87,6 +87,7 @@ int mousemouselook = MOUSEMOUSELOOK_DEFAULT;
 int mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
 int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;
+int mousescreenshot = MOUSESCREENSHOT_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
 

@@ -2526,22 +2526,34 @@ dboolean M_Responder(event_t *ev)
         }
     }
 
-    if (ev->type == ev_mouse && mousewait < I_GetTime() && menuactive)
+    if (ev->type == ev_mouse && mousewait < I_GetTime())
     {
-        // activate menu item
-        if (ev->data1 & MOUSE_LEFTBUTTON)
+        if (menuactive)
         {
-            key = KEY_ENTER;
-            mousewait = I_GetTime() + 5;
-            usinggamepad = false;
+            // activate menu item
+            if (ev->data1 & MOUSE_LEFTBUTTON)
+            {
+                key = KEY_ENTER;
+                mousewait = I_GetTime() + 5;
+                usinggamepad = false;
+            }
+
+            // previous menu
+            else if (ev->data1 & MOUSE_RIGHTBUTTON)
+            {
+                key = KEY_BACKSPACE;
+                mousewait = I_GetTime() + 5;
+                usinggamepad = false;
+            }
         }
 
-        // previous menu
-        else if (ev->data1 & MOUSE_RIGHTBUTTON)
+        // screenshot
+        if (mousescreenshot != -1 && ev->data1 & mousescreenshot)
         {
-            key = KEY_BACKSPACE;
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
+            G_ScreenShot();
+            return false;
         }
     }
     else if (ev->type == ev_mousewheel)

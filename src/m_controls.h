@@ -89,6 +89,7 @@ extern int  mousemouselook;
 extern int  mousenextweapon;
 extern int  mouseprevweapon;
 extern int  mouserun;
+extern int  mousescreenshot;
 extern int  mousestrafe;
 extern int  mouseuse;
 

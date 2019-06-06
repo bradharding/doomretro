@@ -234,7 +234,7 @@ action_t actions[] =
     { "+right",       right_action_func,       &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
     { "+rotatemode",  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
     { "+run",         NULL,                    &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
-    { "+screenshot",  screenshot_action_func,  &keyboardscreenshot,        NULL,                  NULL,             NULL,                      NULL         },
+    { "+screenshot",  screenshot_action_func,  &keyboardscreenshot,        NULL,                  &mousescreenshot, NULL,                      NULL         },
     { "+strafe",      NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
     { "+strafeleft",  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
     { "+straferight", straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
@@ -4257,6 +4257,7 @@ static void C_VerifyResetAll(const int key)
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
         mouserun = MOUSERUN_DEFAULT;
+        mousescreenshot = MOUSESCREENSHOT_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
         mouseuse = MOUSEUSE_DEFAULT;
 

@@ -727,8 +727,9 @@ enum
 #define MOUSEMOUSELOOK_DEFAULT                  -1
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
 #define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
-#define MOUSESTRAFE_DEFAULT                     -1
 #define MOUSERUN_DEFAULT                        -1
+#define MOUSESCREENSHOT_DEFAULT                 -1
+#define MOUSESTRAFE_DEFAULT                     -1
 #define MOUSEUSE_DEFAULT                        -1
 
 typedef enum
