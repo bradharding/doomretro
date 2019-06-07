@@ -45,7 +45,7 @@
 #include "sounds.h"
 
 #define CHANNELS            2
-#define CHUNKSIZE           512
+#define CHUNKSIZE           1024
 #define SAMPLERATE          44100
 
 #define MAX_MUSIC_VOLUME    MIX_MAX_VOLUME
