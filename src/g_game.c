@@ -1069,7 +1069,7 @@ void G_DoScreenShot(void)
     {
         static char buffer[512];
 
-        S_StartSound(NULL, sfx_swtchx);
+        S_StartSound(NULL, sfx_scrsht);
 
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
         HU_SetPlayerMessage(buffer, false, false);

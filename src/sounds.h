@@ -322,6 +322,7 @@ enum
     sfx_dgpain,
 
     sfx_secret,
+    sfx_scrsht,
 
     NUMSFX
 };
