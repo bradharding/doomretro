@@ -2942,6 +2942,7 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F7;
+            M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
             return false;
