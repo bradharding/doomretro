@@ -256,7 +256,7 @@ static int              cnt_pause;
 static int              NUMCMAPS;
 
 //
-//      GRAPHICS
+// GRAPHICS
 //
 
 // You Are Here graphic
@@ -1028,7 +1028,6 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 static void WI_LoadUnloadData(load_callback_t callback)
 {
     char    name[9];
-    anim_t  *a;
 
     if (gamemode == commercial)
     {
@@ -1056,10 +1055,9 @@ static void WI_LoadUnloadData(load_callback_t callback)
         callback("WISPLAT", &splat[0]);
 
         if (wbs->epsd < 3)
-        {
             for (int j = 0; j < NUMANIMS[wbs->epsd]; j++)
             {
-                a = &anims[wbs->epsd][j];
+                anim_t  *a = &anims[wbs->epsd][j];
 
                 for (int i = 0; i < a->nanims; i++)
                 {
@@ -1075,7 +1073,6 @@ static void WI_LoadUnloadData(load_callback_t callback)
                         a->p[i] = anims[1][4].p[i];
                 }
             }
-        }
     }
 
     // More hacks on minus sign.

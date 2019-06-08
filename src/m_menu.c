@@ -79,7 +79,7 @@ int             skilllevel = skilllevel_default;
 int             quickSaveSlot;
 
 // true = message to be printed
-dboolean        messageToPrint;
+dboolean        messagetoprint;
 // ...and here is the message string!
 static char     *messageString;
 
@@ -1324,7 +1324,7 @@ static void M_QuickSave(void)
 //
 static void M_QuickLoadResponse(int key)
 {
-    messageToPrint = false;
+    messagetoprint = false;
 
     if (key == 'y')
     {
@@ -1657,7 +1657,7 @@ static void M_DrawExpansion(void)
 
 static void M_VerifyNightmare(int key)
 {
-    messageToPrint = false;
+    messagetoprint = false;
 
     if (key != 'y')
         M_SetupNextMenu(&NewDef);
@@ -1837,7 +1837,7 @@ void M_EndingGame(void)
 
 static void M_EndGameResponse(int key)
 {
-    messageToPrint = false;
+    messagetoprint = false;
 
     if (key != 'y')
     {
@@ -1915,7 +1915,7 @@ extern dboolean waspaused;
 
 static void M_QuitResponse(int key)
 {
-    messageToPrint = false;
+    messagetoprint = false;
 
     if (key != 'y')
     {
@@ -2203,7 +2203,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
 void M_StartMessage(char *string, void *routine, dboolean input)
 {
     messageLastMenuActive = menuactive;
-    messageToPrint = true;
+    messagetoprint = true;
     messageString = string;
     messageRoutine = (void (*)(int))routine;
     messageNeedsInput = input;
@@ -2451,7 +2451,7 @@ dboolean M_Responder(event_t *ev)
             // activate menu item
             if (gamepadbuttons & GAMEPAD_A)
             {
-                key = (messageToPrint && messageNeedsInput ? (ch = 'y') : KEY_ENTER);
+                key = (messagetoprint && messageNeedsInput ? (ch = 'y') : KEY_ENTER);
                 gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
                 usinggamepad = true;
             }
@@ -2459,7 +2459,7 @@ dboolean M_Responder(event_t *ev)
             // previous/exit menu
             else if (gamepadbuttons & GAMEPAD_B)
             {
-                key = (messageToPrint && messageNeedsInput ? (ch = 'n') : KEY_BACKSPACE);
+                key = (messagetoprint && messageNeedsInput ? (ch = 'n') : KEY_BACKSPACE);
                 gamepadwait = I_GetTime() + 8;
                 gamepadpress = true;
                 usinggamepad = true;
@@ -2475,7 +2475,7 @@ dboolean M_Responder(event_t *ev)
                 usinggamepad = true;
             }
 
-            else if (!messageToPrint)
+            else if (!messagetoprint)
             {
                 // select previous menu item
                 if (gamepadthumbLY < 0 || gamepadthumbRY < 0 || (gamepadbuttons & GAMEPAD_DPAD_UP))
@@ -2558,7 +2558,7 @@ dboolean M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mousewheel)
     {
-        if (!messageToPrint)
+        if (!messagetoprint)
         {
             // select previous menu item
             if (ev->data1 > 0)
@@ -2746,7 +2746,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // Take care of any messages that need input
-    if (messageToPrint && !keydown)
+    if (messagetoprint && !keydown)
     {
         ch = (key == KEY_ENTER ? 'y' : tolower(ch));
 
@@ -2759,7 +2759,7 @@ dboolean M_Responder(event_t *ev)
 
         keydown = key;
         menuactive = messageLastMenuActive;
-        messageToPrint = false;
+        messagetoprint = false;
 
         if (messageRoutine)
             messageRoutine(ch);
@@ -3499,7 +3499,7 @@ void M_Drawer(void)
     static short    x, y;
 
     // Horiz. & Vertically center string and print it.
-    if (messageToPrint)
+    if (messagetoprint)
     {
         char    string[80];
         int     start = 0;
@@ -3699,7 +3699,7 @@ void M_Init(void)
     menuactive = false;
     itemOn = currentMenu->lastOn;
     skullAnimCounter = 10;
-    messageToPrint = false;
+    messagetoprint = false;
     messageString = NULL;
     messageLastMenuActive = false;
     quickSaveSlot = -1;

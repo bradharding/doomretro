@@ -4149,7 +4149,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 //
 static void C_VerifyResetAll(const int key)
 {
-    messageToPrint = false;
+    messagetoprint = false;
     SDL_StartTextInput();
 
     if (key == 'y')

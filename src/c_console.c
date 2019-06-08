@@ -1078,7 +1078,7 @@ void C_Drawer(void)
         }
 
         // draw caret
-        if (consoledirection == 1 && windowfocused && !messageToPrint)
+        if (consoledirection == 1 && windowfocused && !messagetoprint)
         {
             if (caretwait < I_GetTimeMS())
             {
@@ -1258,7 +1258,7 @@ dboolean C_Responder(event_t *ev)
     if (quitcmd)
         I_Quit(true);
 
-    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
+    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messagetoprint)
         return false;
 
     len = (int)strlen(consoleinput);

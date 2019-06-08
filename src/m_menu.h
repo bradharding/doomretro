@@ -99,7 +99,7 @@ void M_StartMessage(char *string, void *routine, dboolean input);
 
 void M_ShowHelp(int choice);
 
-extern dboolean messageToPrint;
+extern dboolean messagetoprint;
 
 extern int      gamepadmenu;
 extern dboolean nomusic;
