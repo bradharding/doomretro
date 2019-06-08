@@ -760,7 +760,7 @@ void R_StoreWallRange(const int start, const int stop)
             }
         }
 
-        if (worldlow > worldbottom && frontsector->interpfloorheight != backsector->floorheight)
+        if (worldlow > worldbottom && frontsector->interpfloorheight != backsector->interpfloorheight)
         {
             // bottom texture
             if ((missingbottomtexture = sidedef->missingbottomtexture))
@@ -775,6 +775,9 @@ void R_StoreWallRange(const int start, const int stop)
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
+
+                if (liquidoffset)
+                    rw_bottomtexturemid += 4 * FRACUNIT;
             }
         }
 

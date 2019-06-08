@@ -12,6 +12,7 @@
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot.
 * Restoring behavior present in *Vanilla DOOM*, sound effects are no longer clipped by distance from the player in E1M8, E2M8 and E3M8.
+* The edges of liquid sectors are now rendered better in some instances.
 
 ---
 
