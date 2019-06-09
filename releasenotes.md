@@ -11,7 +11,7 @@
 * The `mapstats` CCMD will now always correctly show the PWAD the current map is from, if applicable.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot.
-* Restoring behavior present in *Vanilla DOOM*, sound effects are no longer clipped by distance from the player in E1M8, E2M8 and E3M8.
+* Partially restoring behavior present in *Vanilla DOOM*, the sound effects from the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8 are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 

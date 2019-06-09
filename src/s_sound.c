@@ -409,13 +409,15 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
+static dboolean S_AdjustSoundParams(mobj_t *origin, int *vol, int *sep)
 {
-    fixed_t         dist = 0;
-    fixed_t         adx, ady;
-    mobj_t          *listener = viewplayer->mo;
-    angle_t         angle;
-    const dboolean  clipsound = (gamemode == commercial || gamemap != 8 || gameepisode == 5);
+    fixed_t     dist = 0;
+    fixed_t     adx, ady;
+    mobj_t      *listener = viewplayer->mo;
+    angle_t     angle;
+    dboolean    boss = origin->flags2 & MF2_BOSS;
+    fixed_t     x = origin->x;
+    fixed_t     y = origin->y;
 
     // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
@@ -438,7 +440,7 @@ static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
         return (*vol > 0);
     }
 
-    if (clipsound && dist > S_CLIPPING_DIST)
+    if (!boss && dist > S_CLIPPING_DIST)
         return false;
 
     // angle of source to listener
@@ -455,7 +457,7 @@ static dboolean S_AdjustSoundParams(fixed_t x, fixed_t y, int *vol, int *sep)
         *sep = NORM_SEP - FixedMul(S_STEREO_SWING, finesine[angle]);
 
     // volume calculation
-    *vol = (dist < S_CLOSE_DIST || !clipsound ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
+    *vol = (dist < S_CLOSE_DIST || boss ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
@@ -485,7 +487,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
 
     // Check to see if it is audible, and if not, modify the parms
     if (origin && origin != viewplayer->mo)
-        if (!S_AdjustSoundParams(origin->x, origin->y, &volume, &sep))
+        if (!S_AdjustSoundParams(origin, &volume, &sep))
             return;
 
     // kill old sound
@@ -591,7 +593,7 @@ void S_UpdateSounds(void)
                         volume = snd_SfxVolume;
                 }
 
-                if (!S_AdjustSoundParams(origin->x, origin->y, &volume, &sep))
+                if (!S_AdjustSoundParams(origin, &volume, &sep))
                     S_StopChannel(cnum);
                 else
                     I_UpdateSoundParams(c->handle, volume, sep);

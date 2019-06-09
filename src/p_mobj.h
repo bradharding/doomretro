@@ -299,7 +299,10 @@ enum
     MF2_DECORATION                = 0x10000000,
 
     // Object is a missile from a monster
-    MF2_MONSTERMISSILE            = 0x40000000
+    MF2_MONSTERMISSILE            = 0x40000000,
+
+    // Object is a boss monster
+    MF2_BOSS                      = 0x80000000
 };
 
 typedef enum
