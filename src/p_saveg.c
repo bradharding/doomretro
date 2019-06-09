@@ -1058,6 +1058,7 @@ void P_UnArchiveWorld(void)
         sec->floorheight = saveg_read16() << FRACBITS;
         sec->ceilingheight = saveg_read16() << FRACBITS;
         sec->floorpic = saveg_read16();
+        sec->terraintype = terraintypes[sec->floorpic];
         sec->ceilingpic = saveg_read16();
         sec->lightlevel = saveg_read16();
         sec->special = saveg_read16();
