@@ -790,7 +790,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                         }
 
                     if (prevletter == '/' && italics)
-                        x--;
+                        x -= 2;
                 }
 
                 V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?

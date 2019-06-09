@@ -1464,20 +1464,20 @@ static void SetVideoMode(dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL 2.1</i>.");
+                C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL v2.1</i>.");
 
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("The screen is now rendered using hardware acceleration with the "
-                        "<i><b>Direct3D %s</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                    C_Output("The screen is now rendered using hardware acceleration with v%s of the "
+                        "<i><b>Direct3D</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
             }
             else
             {
                 if (output)
-                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL %i.%i</b></i> API.",
+                    C_Output("The screen is rendered using hardware acceleration with v%i.%i of the <i><b>OpenGL</b></i> API.",
                         major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))

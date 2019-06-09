@@ -14,7 +14,7 @@
 * Partially restoring behavior present in *Vanilla DOOM*, the sound effects from the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8 are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
-* The friction against corpses in liquid sectors has now been increased rather than reduced.
+* The friction applied to corpses in liquid sectors has been increased.
 
 ---
 
