@@ -150,7 +150,7 @@ void P_ExplodeMissile(mobj_t *mo)
 // P_XYMovement
 //
 #define STOPSPEED       0x1000
-#define WATERFRICTION   0xFB00
+#define WATERFRICTION   0xD500
 
 static int  puffcount;
 
@@ -325,7 +325,7 @@ static void P_XYMovement(mobj_t *mo)
     }
     else if ((flags2 & MF2_FEETARECLIPPED) && corpse && !player)
     {
-        // [BH] reduce friction for corpses in water
+        // [BH] increase friction for corpses in water
         mo->momx = FixedMul(mo->momx, WATERFRICTION);
         mo->momy = FixedMul(mo->momy, WATERFRICTION);
     }

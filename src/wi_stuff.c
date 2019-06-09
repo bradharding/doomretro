@@ -62,7 +62,6 @@
 // This is supposedly ignored for commercial
 //  release (aka DOOM II), which had 34 maps
 //  in one episode. So there.
-#define NUMEPISODES 4
 #define NUMMAPS     9
 
 // GLOBAL LOCATIONS
@@ -119,7 +118,7 @@ typedef struct
     int         ctr;
 } anim_t;
 
-static point_t lnodes[NUMEPISODES][NUMMAPS] =
+static point_t lnodes[][NUMMAPS] =
 {
     // Episode 0 World Map
     {
@@ -205,14 +204,14 @@ static anim_t epsd2animinfo[] =
     ANIM(ANIM_ALWAYS, TICRATE / 4, 3,  40,   0, 0)
 };
 
-static int NUMANIMS[NUMEPISODES] =
+static int NUMANIMS[] =
 {
     arrlen(epsd0animinfo),
     arrlen(epsd1animinfo),
     arrlen(epsd2animinfo)
 };
 
-static anim_t *anims[NUMEPISODES] =
+static anim_t *anims[] =
 {
     epsd0animinfo,
     epsd1animinfo,
