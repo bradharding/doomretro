@@ -1471,8 +1471,8 @@ static void SetVideoMode(dboolean output)
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("The screen is now rendered using hardware acceleration with v%s of the "
-                        "<i><b>Direct3D</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                    C_Output("The screen is now rendered using hardware acceleration with %s of the "
+                        "<i><b>Direct3D</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
             }
             else
             {
@@ -1508,8 +1508,8 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D %s</b></i> API.",
-                    (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                C_Output("The screen is rendered using hardware acceleration with %s of the <i><b>Direct3D</b></i> API.",
+                    (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {

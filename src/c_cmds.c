@@ -3317,7 +3317,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        C_TabbedOutput(tabs, "Music lump name\t<b>%s</b>", uppercase(lumpname));
+        C_TabbedOutput(tabs, "Music lump\t<b>%s</b>", uppercase(lumpname));
 
         if (*musictitle)
             C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", musictitle);
