@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+  * `SIGIL.wad` will no longer automatically load with the registered version of *DOOM*.
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
