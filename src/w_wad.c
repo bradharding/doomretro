@@ -146,6 +146,35 @@ dboolean IsBFGEdition(const char *iwadname)
     return (result1 && result2);
 }
 
+dboolean IsUltimateDOOM(const char *iwadname)
+{
+    FILE        *fp = fopen(iwadname, "rb");
+    filelump_t  lump;
+    wadinfo_t   header;
+    const char  *n = lump.name;
+    int         result = false;
+
+    if (!fp)
+        return false;
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
+    {
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+            if (n[0] == 'E' && n[1] == '4' && n[2] == 'M' && n[3] == '1')
+            {
+                result = true;
+                break;
+            }
+    }
+
+    fclose(fp);
+
+    return result;
+}
+
 char *GetCorrectCase(char *path)
 {
 #if defined(_WIN32)

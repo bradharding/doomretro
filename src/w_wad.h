@@ -74,6 +74,7 @@ extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 
 dboolean IsBFGEdition(const char *iwadname);
+dboolean IsUltimateDOOM(const char* iwadname);
 
 char *GetCorrectCase(char *path);
 dboolean W_AddFile(char *filename, dboolean automatic);

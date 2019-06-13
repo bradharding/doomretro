@@ -835,7 +835,7 @@ static dboolean D_CheckParms(void)
                 iwadfolder = M_StringDuplicate(M_ExtractFolder(myargv[1]));
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD"))
+                if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
                 {
                     static char fullpath[MAX_PATH];
 
@@ -1074,7 +1074,7 @@ static int D_OpenWADLauncher(void)
                     iwadfolder = M_StringDuplicate(M_ExtractFolder(file));
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "DOOM.WAD"))
+                    if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
                     {
                         static char fullpath[MAX_PATH];
 
