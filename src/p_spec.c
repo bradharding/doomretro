@@ -406,6 +406,8 @@ void P_SetLifts(void)
     {
         line_t  line;
 
+        memset(&line, 0, sizeof(line));
+
         // Check to see if it's in a sector which can be activated as a lift.
         if ((line.tag = sectors[i].tag))
         {

@@ -57,8 +57,6 @@ void P_InitPicAnims(void);
 void P_SetTimer(int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
-dboolean P_IsLiquidSector(sector_t *sector);
-dboolean P_IsLiquidFlat(int floorpic);
 void P_SetLifts(void);
 
 // every tic
