@@ -5885,22 +5885,32 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        static char buf[128];
-        int         len;
+        char    buffer1[128];
+        int     len;
 
-        M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
-        len = (int)strlen(buf);
+        M_snprintf(buffer1, sizeof(buffer1), "%.2f", r_gamma);
+        len = (int)strlen(buffer1);
 
-        if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
-            buf[len - 1] = '\0';
+        if (len >= 2 && buffer1[len - 1] == '0' && buffer1[len - 2] == '0')
+            buffer1[len - 1] = '\0';
 
         C_ShowDescription(C_GetIndex(stringize(r_gamma)));
 
         if (r_gamma == r_gamma_default)
-            C_Output("It is currently set to its default of <b>%s</b>.", (r_gamma == 1.0f ? "off" : buf));
+            C_Output("It is currently set to its default of <b>%s</b>.", (r_gamma == 1.0f ? "off" : buffer1));
         else
+        {
+            char    buffer2[128];
+
+            M_snprintf(buffer2, sizeof(buffer2), "%.2f", r_gamma_default);
+            len = (int)strlen(buffer2);
+
+            if (len >= 2 && buffer2[len - 1] == '0' && buffer2[len - 2] == '0')
+                buffer2[len - 1] = '\0';
+
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                (r_gamma == 1.0f ? "off" : buf), (r_gamma_default == 1.0f ? "off" : buf));
+                (r_gamma == 1.0f ? "off" : buffer1), (r_gamma_default == 1.0f ? "off" : buffer2));
+        }
     }
 }
 
