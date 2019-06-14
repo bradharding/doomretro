@@ -1032,7 +1032,7 @@ static void GetDisplays(void)
         SDL_GetDisplayBounds(i, &displays[i]);
 }
 
-void I_CreateExternalAutomap(dboolean output)
+void I_CreateExternalAutomap(int outputlevel)
 {
     Uint32      rmask, gmask, bmask, amask;
     int         bpp;
@@ -1047,7 +1047,7 @@ void I_CreateExternalAutomap(dboolean output)
 
     GetDisplays();
 
-    if (numdisplays == 1)
+    if (numdisplays == 1 && outputlevel >= 1)
     {
         C_Warning("Only one display was found. An external automap couldn't be created.");
         return;
@@ -1098,7 +1098,7 @@ void I_CreateExternalAutomap(dboolean output)
 
     I_RestoreFocus();
 
-    if (output)
+    if (outputlevel == 2)
     {
         const char  *displayname = SDL_GetDisplayName(am_displayindex);
 
@@ -1733,7 +1733,7 @@ void I_RestartGraphics(void)
     if (vid_widescreen)
         I_ToggleWidescreen(true);
 
-    I_CreateExternalAutomap(false);
+    I_CreateExternalAutomap(0);
 
 #if defined(_WIN32)
     I_InitWindows32();
@@ -1886,7 +1886,7 @@ void I_InitGraphics(void)
         SetShowCursor(false);
 
     mapscreen = oscreen = malloc(SCREENWIDTH * SCREENHEIGHT);
-    I_CreateExternalAutomap(true);
+    I_CreateExternalAutomap(2);
 
 #if defined(_WIN32)
     I_InitWindows32();
