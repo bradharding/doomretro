@@ -738,7 +738,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
     for (int i = 0; i < arrlen(unsupported); i++)
         if (M_StringCompare(leaf, unsupported[i].iwad))
         {
-            static char buffer[1024];
+            char    buffer[1024];
 
             M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
@@ -837,7 +837,7 @@ static dboolean D_CheckParms(void)
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
                 {
-                    static char fullpath[MAX_PATH];
+                    char    fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL.WAD");
 
@@ -850,7 +850,7 @@ static dboolean D_CheckParms(void)
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                 else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD") && bfgedition)
                 {
-                    static char fullpath[MAX_PATH];
+                    char    fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "NERVE.WAD");
 
@@ -866,8 +866,8 @@ static dboolean D_CheckParms(void)
         // if it's a PWAD, determine the IWAD required and try loading that as well
         else if (W_WadType(myargv[1]) == PWAD && !D_IsUnsupportedPWAD(myargv[1]))
         {
-            int         iwadrequired = IWADRequiredByPWAD(myargv[1]);
-            static char fullpath[MAX_PATH];
+            int     iwadrequired = IWADRequiredByPWAD(myargv[1]);
+            char    fullpath[MAX_PATH];
 
             if (iwadrequired == none)
                 iwadrequired = doom2;
@@ -950,7 +950,7 @@ static dboolean D_CheckParms(void)
 
         if (BTSX)
         {
-            static char fullpath[MAX_PATH];
+            char    fullpath[MAX_PATH];
 
             if (BTSXE1A && !BTSXE1B)
             {
@@ -1076,7 +1076,7 @@ static int D_OpenWADLauncher(void)
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
                     {
-                        static char fullpath[MAX_PATH];
+                        char    fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL.WAD");
 
@@ -1089,7 +1089,7 @@ static int D_OpenWADLauncher(void)
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                     else if (M_StringCompare(leafname(file), "DOOM2.WAD") && bfgedition)
                     {
-                        static char fullpath[MAX_PATH];
+                        char    fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "NERVE.WAD");
 
@@ -1105,8 +1105,8 @@ static int D_OpenWADLauncher(void)
             // if it's a PWAD, determine the IWAD required and try loading that as well
             else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
             {
-                int         iwadrequired = IWADRequiredByPWAD(file);
-                static char fullpath[MAX_PATH];
+                int     iwadrequired = IWADRequiredByPWAD(file);
+                char    fullpath[MAX_PATH];
 
                 if (iwadrequired == none)
                     iwadrequired = doom2;
@@ -1181,7 +1181,7 @@ static int D_OpenWADLauncher(void)
 
             if (BTSX)
             {
-                static char fullpath[MAX_PATH];
+                char    fullpath[MAX_PATH];
 
                 if (BTSXE1A && !BTSXE1B)
                 {
@@ -1234,7 +1234,7 @@ static int D_OpenWADLauncher(void)
             // find and add IWAD first
             while (*iwadpass1)
             {
-                static char fullpath[MAX_PATH];
+                char    fullpath[MAX_PATH];
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass1);
 
@@ -1278,7 +1278,7 @@ static int D_OpenWADLauncher(void)
             // find and add IWAD first
             while (*iwadpass2)
             {
-                static char fullpath[MAX_PATH];
+                char    fullpath[MAX_PATH];
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
 
@@ -1332,7 +1332,7 @@ static int D_OpenWADLauncher(void)
 
                 while (!iwadfound && *pwadpass1)
                 {
-                    static char fullpath[MAX_PATH];
+                    char    fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass1);
 
@@ -1352,7 +1352,7 @@ static int D_OpenWADLauncher(void)
 
                         if (iwadrequired != none)
                         {
-                            static char fullpath2[MAX_PATH];
+                            char    fullpath2[MAX_PATH];
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile, iwadsrequired[iwadrequired]);
@@ -1397,7 +1397,7 @@ static int D_OpenWADLauncher(void)
                         iwadfound = 1;
                     else
                     {
-                        static char fullpath2[MAX_PATH];
+                        char    fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder CVAR
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
@@ -1424,7 +1424,7 @@ static int D_OpenWADLauncher(void)
 
                     while (*pwadpass2)
                     {
-                        static char fullpath[MAX_PATH];
+                        char    fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass2);
 
@@ -1461,7 +1461,7 @@ static int D_OpenWADLauncher(void)
                     // have maps present
                     if (isDOOM2 && !mapspresent && bfgedition)
                     {
-                        static char fullpath[MAX_PATH];
+                        char    fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, "NERVE.WAD");
 
@@ -1482,7 +1482,7 @@ static int D_OpenWADLauncher(void)
 
                 while (*cfgpass)
                 {
-                    static char fullpath[MAX_PATH];
+                    char    fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, cfgpass);
 
@@ -1505,7 +1505,7 @@ static int D_OpenWADLauncher(void)
 
                 while (*dehpass)
                 {
-                    static char fullpath[MAX_PATH];
+                    char    fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, dehpass);
 
@@ -1584,14 +1584,14 @@ static void D_ParseStartupString(const char *string)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int         p;
-    int         choseniwad = 0;
-    static char lumpname[6];
-    char        *appdatafolder = M_GetAppDataFolder();
-    char        *iwadfile;
-    int         startloadgame;
-    char        *resourcefolder = M_GetResourceFolder();
-    char        *time;
+    int     p;
+    int     choseniwad = 0;
+    char    lumpname[6];
+    char    *appdatafolder = M_GetAppDataFolder();
+    char    *iwadfile;
+    int     startloadgame;
+    char    *resourcefolder = M_GetResourceFolder();
+    char    *time;
 
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
     free(resourcefolder);
@@ -1719,7 +1719,7 @@ static void D_DoomMainSetup(void)
                     I_Quit(false);
                 else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
                 {
-                    static char buffer[256];
+                    char    buffer[256];
 
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (*wad ? wad : "any IWADs"));
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);

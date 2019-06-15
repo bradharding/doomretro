@@ -697,11 +697,11 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
-                return false;           // early out
+                return false;   // early out
 
         if (flags & PT_ADDTHINGS)
             if (!P_BlockThingsIterator(mapx, mapy, PIT_AddThingIntercepts))
-                return false;           // early out
+                return false;   // early out
 
         if (mapx == xt2 && mapy == yt2)
             break;

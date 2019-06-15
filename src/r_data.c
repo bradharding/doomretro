@@ -621,15 +621,6 @@ static void R_InitColormaps(void)
         C_Output("Using %s colormaps from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
             commify(numcolormaps), (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
-    // [BH] There's a typo in dcolors.c, the source code of the utility id
-    // Software used to construct the palettes and colormaps for DOOM (see
-    // <https://www.doomworld.com/idgames/?id=16644>). When constructing colormap
-    // 32, which is used for the invulnerability power-up, the traditional
-    // Y luminance values are used (see <https://en.wikipedia.org/wiki/YIQ>),
-    // but a value of 0.144 is used when it should be 0.114. So I've grabbed the
-    // offending code from dcolor.c, corrected it, put it here, and now colormap
-    // 32 is manually calculated rather than grabbing it from the colormap lump.
-    // The resulting differences are minor.
     palsrc = palette = PLAYPAL;
 
     for (int i = 0; i < 255; i++)
@@ -637,7 +628,7 @@ static void R_InitColormaps(void)
         double  red = *palsrc++ / 256.0;
         double  green = *palsrc++ / 256.0;
         double  blue = *palsrc++ / 256.0;
-        double  gray = red * 0.299 + green * 0.587 + blue * 0.114/*0.144*/;
+        double  gray = red * 0.299 + green * 0.587 + blue * 0.114;  // [BH] Fix <https://doomwiki.org/wiki/Carmack%27s_typo>.
         int     color = (int)(gray * 255.0);
 
         grays[i] = FindNearestColor(palette, color, color, color);

@@ -1796,16 +1796,16 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         striptrailingzero(*(float *)consolecmds[i].variable, 1), description1);
                 else
                 {
-                    static char buf[128];
-                    int         len;
+                    char    buffer[128];
+                    int     len;
 
-                    M_snprintf(buf, sizeof(buf), "%.2f", *(float *)consolecmds[i].variable);
-                    len = (int)strlen(buf);
+                    M_snprintf(buffer, sizeof(buffer), "%.2f", *(float *)consolecmds[i].variable);
+                    len = (int)strlen(buffer);
 
-                    if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
-                        buf[len - 1] = '\0';
+                    if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+                        buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name, buf, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name, buffer, description1);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
@@ -2390,8 +2390,8 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 void kill_cmd_func2(char *cmd, char *parms)
 {
-    char        *parm = removenonalpha(parms);
-    static char buffer[1024];
+    char    *parm = removenonalpha(parms);
+    char    buffer[1024];
 
     if (!*parm)
     {
@@ -2854,7 +2854,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
                             || (mapcmdepisode == 3 && BTSXE3)))
                         {
-                            static char lump[6];
+                            char    lump[6];
 
                             M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
                             result = (W_CheckMultipleLumps(lump) == 2);
@@ -2866,7 +2866,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(map) >= 0));
             else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
-                static char lump[5];
+                char    lump[5];
 
                 M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = (W_CheckNumForName(lump) >= 0);
@@ -2880,7 +2880,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
 
 static void map_cmd_func2(char *cmd, char *parms)
 {
-    static char buffer[1024];
+    char    buffer[1024];
 
     if (!*parms)
     {
@@ -3308,7 +3308,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (mus_playing && !nomusic)
     {
-        static char         lumpname[9];
+        char                lumpname[9];
         int                 lumps;
         const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
         const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
@@ -4484,7 +4484,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     else
     {
         dboolean    spawn = true;
-        static char buffer[128];
+        char        buffer[128];
 
         if (gamemode != commercial)
         {
@@ -5050,7 +5050,7 @@ static dboolean color_cvars_func1(char *cmd, char *parms)
 
 static void color_cvars_func2(char *cmd, char *parms)
 {
-    static char buffer[8];
+    char    buffer[8];
 
     for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))

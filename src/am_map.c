@@ -592,7 +592,7 @@ void AM_AddMark(void)
 {
     const int   x = am_frame.center.x;
     const int   y = am_frame.center.y;
-    static char message[32];
+    char        message[32];
 
     for (int i = 0; i < markpointnum; i++)
         if (markpoints[i].x == x && markpoints[i].y == y)
@@ -628,7 +628,7 @@ void AM_ClearMarks(void)
         }
         else if (markpress == 1)
         {
-            static char message[32];
+            char    message[32];
 
             // clear one mark
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);

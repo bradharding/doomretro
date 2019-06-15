@@ -865,7 +865,7 @@ char *C_GetTimeStamp(unsigned int tics)
 
 static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 {
-    static char buffer[9];
+    char    buffer[9];
 
     M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
     y -= CONSOLEHEIGHT - consoleheight;
@@ -885,7 +885,7 @@ void C_UpdateFPS(void)
 {
     if (fps && !dowipe && !paused && !menuactive)
     {
-        static char buffer[32];
+        char    buffer[32];
 
         M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", fps, 1000.0 / fps);
 
@@ -1002,7 +1002,7 @@ void C_Drawer(void)
             {
                 if (console[i].count > 1)
                 {
-                    static char buffer[CONSOLETEXTMAXLENGTH];
+                    char    buffer[CONSOLETEXTMAXLENGTH];
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, commify(console[i].count));
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
@@ -1827,7 +1827,7 @@ void C_PrintCompileDate(void)
         "July", "August", "September", "October", "November", "December"
     };
 
-    static char mth[4] = "";
+    char    mth[4] = "";
 
     if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) != 3 || sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) != 2)
         return;
