@@ -1072,6 +1072,10 @@ linefix_t linefix[] =
     { pack_nerve,       1,   7,    2550,    1, "",         "MIDGRATE",    "",            DEFAULT,      -256, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_nerve,       1,   7,    2552,    1, "",         "MIDGRATE",    "",            DEFAULT,      -256, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
+    { pack_nerve,       1,   9,    1327,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
+    { pack_nerve,       1,   9,    1337,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
+    { pack_nerve,       1,   9,    1339,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
+
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                        tag
 
     { pack_plut,        1,   1,    1110,    0, "",         "",            "",                  0,         0, DEFAULT,                   DEFAULT,                                    DEFAULT },
