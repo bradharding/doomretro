@@ -47,6 +47,7 @@
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "st_stuff.h"
@@ -2063,7 +2064,7 @@ void AM_Drawer(void)
     AM_ClearFB();
     AM_DrawWalls();
 
-    if (menuactive)
+    if (menuactive && !inhelpscreens)
         return;
 
     if (am_grid)
