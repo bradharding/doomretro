@@ -16,6 +16,7 @@
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid sectors has been increased.
+* The external automap displayed when the `am_external` CVAR is `on` will now also fade to black when quitting *DOOM Retro*.
 
 ---
 

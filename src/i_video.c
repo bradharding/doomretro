@@ -1001,6 +1001,15 @@ void I_SetPalette(byte *playpal)
         SDL_SetRenderDrawColor(renderer, colors[0].r, colors[0].g, colors[0].b, SDL_ALPHA_OPAQUE);
 }
 
+void I_SetExternalAutomapPalette(void)
+{
+    if (mappalette)
+    {
+        SDL_SetPaletteColors(mappalette, colors, 0, 256);
+        mapblitfunc();
+    }
+}
+
 void I_SetSimplePalette(byte *playpal)
 {
     for (int i = 0; i < 256; i++)

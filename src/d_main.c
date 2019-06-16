@@ -472,6 +472,7 @@ void D_FadeScreen(void)
     {
         I_SetPalette(&splashpal[i * 768]);
         blitfunc();
+        I_SetExternalAutomapPalette();
         I_Sleep(10);
     }
 }
