@@ -1069,9 +1069,6 @@ void I_CreateExternalAutomap(int outputlevel)
     mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-    if (vid_vsync)
-        flags |= SDL_RENDERER_PRESENTVSYNC;
-
     maprenderer = SDL_CreateRenderer(mapwindow, -1, flags);
     SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT);
     mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);

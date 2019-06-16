@@ -17,6 +17,7 @@
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid sectors has been increased.
 * The external automap displayed when the `am_external` CVAR is `on` will now also fade to black when quitting *DOOM Retro*.
+* The `vid_vsync` CVAR no longer affects the external automap.
 
 ---
 
