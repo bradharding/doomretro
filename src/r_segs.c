@@ -535,12 +535,11 @@ void R_StoreWallRange(const int start, const int stop)
     // killough 1/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        const size_t        pos = ds_p - drawsegs;
-        const unsigned int  newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
+        const size_t    pos = ds_p - drawsegs;
 
-        drawsegs = I_Realloc(drawsegs, newmax * sizeof(*drawsegs));
+        maxdrawsegs = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
+        drawsegs = I_Realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
-        maxdrawsegs = newmax;
     }
 
     // calculate rw_distance for scale calculation
