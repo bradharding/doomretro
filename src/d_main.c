@@ -409,10 +409,11 @@ static void D_DoomLoop(void)
 //
 int             titlesequence = 0;
 int             pagetic;
+int             logotic = 0;
 
 static patch_t  *pagelump;
 static patch_t  *splashlump;
-patch_t         *logolump[18];
+static patch_t  *logolump[18];
 static patch_t  *titlelump;
 static patch_t  *creditlump;
 static byte     *splashpal;
@@ -432,6 +433,9 @@ void D_PageTicker(void)
     {
         pagetic--;
         pagewait = I_GetTime();
+
+        if (splashscreen)
+            logotic--;
     }
 
     if (pagetic < 0)
@@ -449,8 +453,8 @@ void D_PageDrawer(void)
 
         if (pagetic != prevtic)
         {
-            if (pagetic >= 77 && pagetic < 94)
-                V_DrawBigPatch(143, 167, logolump[94 - pagetic]);
+            if (logotic >= 77 && logotic < 94)
+                V_DrawBigPatch(143, 167, logolump[94 - logotic]);
 
             I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) * 768 : (pagetic > 94 ? (pagetic - 94) * 768 : 0))]);
         }
@@ -501,7 +505,7 @@ void D_DoAdvanceTitle(void)
 
     if (!titlesequence)
     {
-        pagetic = 3 * TICRATE;
+        pagetic = logotic = 3 * TICRATE;
         titlesequence = 1;
         V_DrawBigPatch(0, 0, splashlump);
         V_DrawBigPatch(143, 167, logolump[0]);
