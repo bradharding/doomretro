@@ -145,8 +145,6 @@ char    *s_NETEND = NETEND;
 char    *s_ENDGAME = ENDGAME;
 char    *s_DOSY = DOSY;
 char    *s_DOSA = "";
-char    *s_OTHERY = "";
-char    *s_OTHERA = "";
 char    *s_DETAILHI = DETAILHI;
 char    *s_DETAILLO = DETAILLO;
 char    *s_GAMMALVL0 = GAMMALVL0;
@@ -714,8 +712,6 @@ deh_strs deh_strlookup[] =
     { &s_ENDGAME,                    "ENDGAME"                    },
     { &s_DOSY,                       "DOSY"                       },
     { &s_DOSA,                       "DOSA"                       },
-    { &s_OTHERY,                     "OTHERY"                     },
-    { &s_OTHERA,                     "OTHERA"                     },
     { &s_DETAILHI,                   "DETAILHI"                   },
     { &s_DETAILLO,                   "DETAILLO"                   },
     { &s_GAMMALVL0,                  "GAMMALVL0"                  },

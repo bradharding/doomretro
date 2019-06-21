@@ -1952,33 +1952,29 @@ static void M_QuitResponse(int key)
     I_Quit(true);
 }
 
-static char *M_SelectEndMessage(void)
-{
-    if (deh_strlookup[p_QUITMSG].assigned == 2)
-        return s_QUITMSG;
-    else
-    {
-#if defined(_WIN32)
-        char        *OS = "Windows";
-#elif defined(__MACOSX__)
-        char        *OS = "OS X";
-#else
-        char        *OS = "Linux";
-#endif
-
-        static char buffer[160];
-
-        M_snprintf(buffer, sizeof(buffer), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES], OS);
-        return buffer;
-    }
-}
-
 void M_QuitDOOM(int choice)
 {
-    static char endstring[160];
+#if defined(_WIN32)
+    char        *OS = "Windows";
+#elif defined(__MACOSX__)
+    char        *OS = "OS X";
+#else
+    char        *OS = "Linux";
+#endif
+
+    static char endstring[320];
+    static char line1[160];
+    static char line2[160];
 
     quitting = true;
-    M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", M_SelectEndMessage(), (usinggamepad ? s_DOSA : s_DOSY));
+
+    if (deh_strlookup[p_QUITMSG].assigned == 2)
+        M_StringCopy(line1, s_QUITMSG, sizeof(line1));
+    else
+        M_snprintf(line1, sizeof(line1), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES], OS);
+
+    M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), OS);
+    M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
@@ -3743,11 +3739,6 @@ void M_Init(void)
         EpiDef.numitems--;
     else if (gamemode == retail && sigil)
         EpiDef.numitems++;
-
-#if !defined(_WIN32)
-    s_DOSY = s_OTHERY;
-    s_DOSA = s_OTHERA;
-#endif
 
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
