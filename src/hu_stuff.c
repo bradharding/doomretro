@@ -1081,6 +1081,7 @@ void HU_Ticker(void)
 
         HUlib_AddMessageToSText(&w_message, s_STSTR_BEHOLD);
         message_on = true;
+        idbehold = false;
     }
     else if (idmypos)
     {

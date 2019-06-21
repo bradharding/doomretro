@@ -21,6 +21,7 @@
   * It will now also fade to black when quitting *DOOM Retro*.
   * It is no longer affected by the `vid_vsync` CVAR.
   * It is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
+* Entering the `IDBEHOLD` cheat without any parameter will now timeout after 2 seconds like all the other cheats. 
 
 ---
 
