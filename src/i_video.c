@@ -1067,10 +1067,10 @@ void I_CreateExternalAutomap(int outputlevel)
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
     mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN);
 
     maprenderer = SDL_CreateRenderer(mapwindow, -1, flags);
-    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT);
+    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
     mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
 
     if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
