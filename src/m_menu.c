@@ -1957,7 +1957,20 @@ static char *M_SelectEndMessage(void)
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         return s_QUITMSG;
     else
-        return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
+    {
+#if defined(_WIN32)
+        char        *OS = "Windows";
+#elif defined(__MACOSX__)
+        char        *OS = "OS X";
+#else
+        char        *OS = "Linux";
+#endif
+
+        static char buffer[160];
+
+        M_snprintf(buffer, sizeof(buffer), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES], OS);
+        return buffer;
+    }
 }
 
 void M_QuitDOOM(int choice)

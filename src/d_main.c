@@ -1047,7 +1047,7 @@ static int D_OpenWADLauncher(void)
         // only one file was selected
 #if defined(_WIN32)
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
         NSArray *urls = [panel URLs];
 
         onlyoneselected = ([urls count] == 1);

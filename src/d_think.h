@@ -39,7 +39,7 @@
 #if !defined(__D_THINK_H__)
 #define __D_THINK_H__
 
-#if defined __GNUG__
+#if defined(__GNUG__)
 #pragma interface
 #endif
 
