@@ -859,7 +859,7 @@ char *C_GetTimeStamp(unsigned int tics)
     if ((hours += tics / 3600) >= 24)
         hours %= 24;
 
-    M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+    M_snprintf(buffer, 9, "%02d:%02d:%02d", hours, minutes, seconds);
     return buffer;
 }
 

@@ -1043,10 +1043,10 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    Uint32      rmask, gmask, bmask, amask;
-    int         bpp;
-    int         flags = SDL_RENDERER_TARGETTEXTURE;
-    static int  am_displayindex;
+    Uint32  rmask, gmask, bmask, amask;
+    int     bpp;
+    int     flags = SDL_RENDERER_TARGETTEXTURE;
+    int     am_displayindex = !displayindex;
 
     mapscreen = *screens;
     mapblitfunc = nullfunc;
@@ -1061,8 +1061,6 @@ void I_CreateExternalAutomap(int outputlevel)
         C_Warning("An external automap couldn't be created. Only one display was found.");
         return;
     }
-
-    am_displayindex = !displayindex;
 
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
@@ -1653,8 +1651,8 @@ static void SetVideoMode(dboolean output)
             C_Output("Gamma correction is off.");
         else
         {
-            static char text[128];
-            int         len;
+            char    text[128];
+            int     len;
 
             M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.", r_gamma);
             len = (int)strlen(text);

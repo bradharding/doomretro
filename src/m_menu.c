@@ -2051,7 +2051,7 @@ static void M_ChangeSensitivity(int choice)
                         m_sensitivity--;
 
                     m_sensitivity += 2;
-                    C_IntCVAROutput("m_sensitivity", m_sensitivity);
+                    C_IntCVAROutput(stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
