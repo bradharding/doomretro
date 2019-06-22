@@ -72,7 +72,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     }
 
     // [BH] you have two seconds to enter all characters of a cheat sequence
-    if (cht->timeout && leveltime - cht->timeout > TIMELIMIT)
+    if (cht->timeout && leveltime - cht->timeout > CHEATTIMEOUT)
     {
         cht->chars_read = 0;
         cht->param_chars_read = 0;

@@ -48,6 +48,7 @@
 #include "i_swap.h"
 #include "i_timer.h"
 #include "m_argv.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -1075,7 +1076,7 @@ void HU_Ticker(void)
     {
         // [BH] display message for IDBEHOLDx cheat
         if (!message_counter)
-            message_counter = HU_MSGTIMEOUT;
+            message_counter = CHEATTIMEOUT;
         else if (message_counter > 132)
             message_counter--;
 

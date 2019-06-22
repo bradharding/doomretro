@@ -46,7 +46,7 @@
 // declaring a cheat
 #define CHEAT(value, parameters)    { value, parameters, 0, 0, "", 0 }
 
-#define TIMELIMIT                   (TICRATE * 2)
+#define CHEATTIMEOUT                (2 * TICRATE)
 
 typedef struct
 {
