@@ -586,6 +586,9 @@ void C_ShowConsole(void)
 
     viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
 
+    for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
+        mousebuttons[i] = false;
+
     if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
 
