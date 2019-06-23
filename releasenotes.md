@@ -22,7 +22,7 @@
   * It is no longer affected by the `vid_vsync` CVAR.
   * It is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now timeout after 2 seconds like all the other cheats.
-* A bug has been fixed whereby when the player shoots a line with a *BOOM*-compatible action of 197 (“G1 Exit Level”) or 198 (“G1 Exit Level (Goes to Secret Level)”), a crash could occur when the player spawns in the next map.
+* A bug has been fixed whereby if the player was firing their weapon while exiting a map, a crash could occur when the player tries to spawn in the next map.
 
 ---
 
