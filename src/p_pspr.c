@@ -831,7 +831,9 @@ void P_SetupPsprites(void)
 {
     // remove all psprites
     viewplayer->psprites[ps_weapon].state = NULL;
+    viewplayer->psprites[ps_weapon].tics = -1;
     viewplayer->psprites[ps_flash].state = NULL;
+    viewplayer->psprites[ps_flash].tics = -1;
 
     // spawn the gun
     viewplayer->pendingweapon = viewplayer->readyweapon;
