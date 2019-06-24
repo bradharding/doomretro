@@ -1247,7 +1247,7 @@ static int D_OpenWADLauncher(void)
 #elif defined(__MACOSX__)
             char    *szFile;
 
-            for (NSURL* url in urls)
+            for (NSURL *url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
                 char    *iwadpass1 = (char *)[[url lastPathComponent] UTF8String];
@@ -1289,7 +1289,7 @@ static int D_OpenWADLauncher(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
 
 #elif defined(__MACOSX__)
-            for (NSURL* url in urls)
+            for (NSURL *url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
                 char    *iwadpass2 = (char *)[[url lastPathComponent] UTF8String];
@@ -1343,7 +1343,7 @@ static int D_OpenWADLauncher(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass1);
 
 #elif defined(__MACOSX__)
-                for (NSURL* url in urls)
+                for (NSURL *url in urls)
                 {
                     char    *fullpath = (char *)[url fileSystemRepresentation];
                     char    *pwadpass1 = (char *)[[url lastPathComponent] UTF8String];
