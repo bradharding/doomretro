@@ -1604,7 +1604,10 @@ static void D_DoomMainSetup(void)
 
     M_MakeDirectory(appdatafolder);
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
+    
+#if !defined(__APPLE__)
     free(appdatafolder);
+#endif
 
     C_Output("");
     C_PrintCompileDate();
