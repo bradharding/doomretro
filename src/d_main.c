@@ -755,7 +755,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
     return false;
 }
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__MACOSX__)
 static dboolean D_IsCfgFile(char *filename)
 {
     return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
@@ -1040,7 +1040,9 @@ static int D_OpenWADLauncher(void)
         dboolean    onlyoneselected;
 
         iwadfound = 0;
+#if defined(_WIN32)
         previouswad = M_StringDuplicate(wad);
+#endif
         wad = "";
         startuptimer = I_GetTimeMS();
 
