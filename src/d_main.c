@@ -755,7 +755,6 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
     return false;
 }
 
-#if defined(_WIN32) || defined(__APPLE__)
 static dboolean D_IsCfgFile(char *filename)
 {
     return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
@@ -767,7 +766,6 @@ static dboolean D_IsDehFile(char *filename)
 
     return (M_StringCompare(filename + len - 4, ".deh") || M_StringCompare(filename + len - 4, ".bex"));
 }
-#endif
 
 static void D_CheckSupportedPWAD(char *filename)
 {
