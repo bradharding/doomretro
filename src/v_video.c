@@ -1492,7 +1492,7 @@ void V_Init(void)
         char    *appdatafolder = M_GetAppDataFolder();
 
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", appdatafolder);
-#if !defined(__MACOSX__)
+#if !defined(__APPLE__)
         free(appdatafolder);
 #endif
     }

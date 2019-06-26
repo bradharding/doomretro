@@ -1500,7 +1500,7 @@ static void SetVideoMode(dboolean output)
             if (output)
                 C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES 2</b></i> API.");
         }
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)

@@ -64,7 +64,7 @@
 #include "version.h"
 #include "w_file.h"
 
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
 #import <Cocoa/Cocoa.h>
 #include <dirent.h>
 #include <libgen.h>
@@ -179,7 +179,7 @@ char *M_GetAppDataFolder(void)
     {
         closedir(resourcedir);
 
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
         // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
         NSFileManager   *manager = [NSFileManager defaultManager];
         NSURL           *baseAppSupportURL = [manager URLsForDirectory : NSApplicationSupportDirectory
@@ -221,7 +221,7 @@ char *M_GetResourceFolder(void)
         return resourcefolder;
     }
 
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
     NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
@@ -284,7 +284,7 @@ char *M_GetExecutableFolder(void)
         strcpy(exe, ".");
         return exe;
     }
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     char        *exe = malloc(MAX_PATH);
     uint32_t    len = MAX_PATH;
 

@@ -845,7 +845,7 @@ static void M_CheckCVARs(void)
         vid_pillarboxes = vid_pillarboxes_default;
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_metal)
 #endif
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
