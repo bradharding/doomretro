@@ -544,7 +544,9 @@ void D_SetSaveGameFolder(dboolean output)
         savegamefolder_free = savegamefolder;
         savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
 
+#if !defined(__APPLE__)
         free(appdatafolder);
+#endif
         free(savegamefolder_free);
     }
 

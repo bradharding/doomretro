@@ -104,7 +104,7 @@ static char *iwadsrequired[] =
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
-#if defined(_WIN32) || defined(__MACOSX__)
+#if defined(_WIN32) || defined(__APPLE__)
 char                *wad = wad_default;
 #endif
 dboolean            wipe = wipe_default;
@@ -755,7 +755,6 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
     return false;
 }
 
-#if defined(_WIN32)
 static dboolean D_IsCfgFile(char *filename)
 {
     return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
@@ -767,7 +766,6 @@ static dboolean D_IsDehFile(char *filename)
 
     return (M_StringCompare(filename + len - 4, ".deh") || M_StringCompare(filename + len - 4, ".bex"));
 }
-#endif
 
 static void D_CheckSupportedPWAD(char *filename)
 {
@@ -816,7 +814,7 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
     return M_StringCompare(leafname(filename), "voices.wad");
 }
 
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
 #import <Cocoa/Cocoa.h>
 #endif
 
@@ -994,7 +992,7 @@ static dboolean D_CheckParms(void)
     return result;
 }
 
-#if defined(_WIN32) || defined(__MACOSX__)
+#if defined(_WIN32) || defined(__APPLE__)
 static int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
@@ -1022,7 +1020,7 @@ static int D_OpenWADLauncher(void)
 
     error = false;
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     NSOpenPanel *panel = [NSOpenPanel openPanel];
 
     [panel setCanChooseFiles:YES];
@@ -1040,14 +1038,16 @@ static int D_OpenWADLauncher(void)
         dboolean    onlyoneselected;
 
         iwadfound = 0;
+#if defined(_WIN32)
         previouswad = M_StringDuplicate(wad);
+#endif
         wad = "";
         startuptimer = I_GetTimeMS();
 
         // only one file was selected
 #if defined(_WIN32)
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
         NSArray *urls = [panel URLs];
 
         onlyoneselected = ([urls count] == 1);
@@ -1057,7 +1057,7 @@ static int D_OpenWADLauncher(void)
         {
 #if defined(_WIN32)
             char    *file = (char *)ofn.lpstrFile;
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
             NSURL   *url = [urls objectAtIndex:0];
             char    *file = (char *)[url fileSystemRepresentation];
 #endif
@@ -1244,7 +1244,7 @@ static int D_OpenWADLauncher(void)
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass1);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
             char    *szFile;
 
             for (NSURL *url in urls)
@@ -1288,7 +1288,7 @@ static int D_OpenWADLauncher(void)
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
             for (NSURL *url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1342,7 +1342,7 @@ static int D_OpenWADLauncher(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass1);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
                 for (NSURL *url in urls)
                 {
                     char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1434,7 +1434,7 @@ static int D_OpenWADLauncher(void)
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass2);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
                     for (NSURL *url in urls)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1492,7 +1492,7 @@ static int D_OpenWADLauncher(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, cfgpass);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
                 for (NSURL *url in urls)
                 {
                     char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1515,7 +1515,7 @@ static int D_OpenWADLauncher(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, dehpass);
 
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
                 for (NSURL *url in urls)
                 {
                     char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1604,7 +1604,10 @@ static void D_DoomMainSetup(void)
 
     M_MakeDirectory(appdatafolder);
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
+    
+#if !defined(__APPLE__)
     free(appdatafolder);
+#endif
 
     C_Output("");
     C_PrintCompileDate();
@@ -1718,7 +1721,7 @@ static void D_DoomMainSetup(void)
         }
         else if (!p)
         {
-#if defined(_WIN32) || defined(__MACOSX__)
+#if defined(_WIN32) || defined(__APPLE__)
             do
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)

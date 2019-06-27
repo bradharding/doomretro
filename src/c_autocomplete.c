@@ -1,4 +1,4 @@
-﻿/*
+/*
 ========================================================================
 
                            D O O M  R e t r o
@@ -6420,7 +6420,7 @@ autocomplete_t autocompletelist[] = {
     { "if vid_scaleapi opengl then ",                DOOM1AND2 },
     { "if vid_scaleapi software ",                   DOOM1AND2 },
     { "if vid_scaleapi software then ",              DOOM1AND2 },
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     { "if vid_scaleapi \"metal\" ",                  DOOM1AND2 },
     { "if vid_scaleapi \"metal\" then ",             DOOM1AND2 },
     { "if vid_scaleapi \"opengl\" ",                 DOOM1AND2 },
@@ -7482,7 +7482,7 @@ autocomplete_t autocompletelist[] = {
     { "vid_scaleapi direct3d",                       DOOM1AND2 },
     { "vid_scaleapi opengl",                         DOOM1AND2 },
     { "vid_scaleapi software",                       DOOM1AND2 },
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     { "vid_scaleapi \"metal\"",                      DOOM1AND2 },
     { "vid_scaleapi \"opengl\"",                     DOOM1AND2 },
     { "vid_scaleapi \"opengles\"",                   DOOM1AND2 },

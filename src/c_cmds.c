@@ -799,7 +799,7 @@ consolecmd_t consolecmds[] =
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"metal\"</b>,\n<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or "
         "<b>\"software\"</b>)."),
@@ -2243,7 +2243,7 @@ static void help_cmd_func2(char *cmd, char *parms)
     ShellExecute(NULL, "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
     system("xdg-open "PACKAGE_WIKI_HELP_URL);
-#elif defined(__MACOSX__)
+#elif defined(__APPLE__)
     system("open "PACKAGE_WIKI_HELP_URL);
 #else
     C_HideConsoleFast();
@@ -6434,7 +6434,7 @@ static void vid_pillarboxes_cvar_func2(char *cmd, char *parms)
 static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || M_StringCompare(parms, vid_scaleapi_direct3d)
-#if defined(__MACOSX__)
+#if defined(__APPLE__)
         || M_StringCompare(parms, vid_scaleapi_metal)
 #endif
         || M_StringCompare(parms, vid_scaleapi_opengl)
