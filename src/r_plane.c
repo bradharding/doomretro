@@ -325,7 +325,7 @@ static void R_MakeSpans(visplane_t *pl)
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
-static int  *offsets;
+static int  offsets[1024 * 4096];
 int         *offset;
 
 //
@@ -356,7 +356,6 @@ static byte *R_DistortedFlat(int flatnum)
 
 void R_InitDistortedFlats(void)
 {
-    offsets = I_Realloc(NULL, 1024 * 4096 * sizeof(*offsets));
     offset = offsets;
 
     for (int i = 0; i < 1024; i++)
