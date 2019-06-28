@@ -337,12 +337,19 @@ int         *offset;
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[4096];
-    byte        *normalflat = lumpinfo[firstflat + flatnum]->cache;
+    static int  swirltic;
 
-    offset = &offsets[(leveltime & 1023) << 12];
+    if (swirltic != leveltime)
+    {
+        byte    *normalflat = lumpinfo[firstflat + flatnum]->cache;
 
-    for (int i = 0; i < 4096; i++)
-        distortedflat[i] = normalflat[offset[i]];
+        offset = &offsets[(leveltime & 1023) << 12];
+
+        for (int i = 0; i < 4096; i++)
+            distortedflat[i] = normalflat[offset[i]];
+    }
+
+    swirltic = leveltime;
 
     return distortedflat;
 }
