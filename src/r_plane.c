@@ -325,6 +325,9 @@ static void R_MakeSpans(visplane_t *pl)
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
+static int  *offsets;
+int         *offset;
+
 //
 // R_DistortedFlat
 //
@@ -334,44 +337,41 @@ static void R_MakeSpans(visplane_t *pl)
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[4096];
-    byte        *normalflat;
-    static int  *offsets;
-    int         *offset;
+    byte        *normalflat = lumpinfo[firstflat + flatnum]->cache;
 
-    if (!offsets)
-    {
-        offsets = I_Realloc(NULL, 1024 * 4096 * sizeof(*offsets));
-        offset = offsets;
-
-        for (int i = 0; i < 1024; i++)
-        {
-            for (int x = 0; x < 64; x++)
-                for (int y = 0; y < 64; y++)
-                {
-                    int x1, y1;
-                    int sinvalue, sinvalue2;
-
-                    sinvalue = finesine[(y * SWIRLFACTOR + i * SPEED * 5 + 900) & 8191];
-                    sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * SPEED * 4 + 300) & 8191];
-                    x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-                    sinvalue = finesine[(x * SWIRLFACTOR + i * SPEED * 3 + 700) & 8191];
-                    sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * SPEED * 4 + 1200) & 8191];
-                    y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-
-                    offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
-                }
-
-            offset += 4096;
-        }
-    }
-
-    offset = offsets + ((leveltime & 1023) << 12);
-    normalflat = lumpinfo[firstflat + flatnum]->cache;
+    offset = &offsets[(leveltime & 1023) << 12];
 
     for (int i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
 
     return distortedflat;
+}
+
+void R_InitDistortedFlats(void)
+{
+    offsets = I_Realloc(NULL, 1024 * 4096 * sizeof(*offsets));
+    offset = offsets;
+
+    for (int i = 0; i < 1024; i++)
+    {
+        for (int x = 0; x < 64; x++)
+            for (int y = 0; y < 64; y++)
+            {
+                int x1, y1;
+                int sinvalue, sinvalue2;
+
+                sinvalue = finesine[(y * SWIRLFACTOR + i * SPEED * 5 + 900) & 8191];
+                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * SPEED * 4 + 300) & 8191];
+                x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
+                sinvalue = finesine[(x * SWIRLFACTOR + i * SPEED * 3 + 700) & 8191];
+                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * SPEED * 4 + 1200) & 8191];
+                y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
+
+                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
+            }
+
+        offset += 4096;
+    }
 }
 
 //
