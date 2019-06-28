@@ -23,7 +23,7 @@
   * It is no longer affected by the `vid_vsync` CVAR.
   * It is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now timeout after 2 seconds like all the other cheats.
-* A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when the player then tries to spawn in the next map.
+* A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next map.
 
 ---
 

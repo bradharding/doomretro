@@ -329,7 +329,7 @@ static void R_MakeSpans(visplane_t *pl)
 // R_DistortedFlat
 //
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
-// [crispy] Optimized to precaclulate offsets
+// [crispy] Optimized to precalculate offsets
 //
 static byte *R_DistortedFlat(int flatnum)
 {
