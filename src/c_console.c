@@ -88,7 +88,7 @@ dboolean                forceconsoleblurredraw;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
-patch_t                 *unknown;
+patch_t                 *unknownchar;
 
 static patch_t          *dot;
 static patch_t          *trademark;
@@ -462,7 +462,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         else if (c >= 0 && c < CONSOLEFONTSIZE)
             w += SHORT(consolefont[c]->width);
         else
-            w += SHORT(unknown->width);
+            w += SHORT(unknownchar->width);
 
         if (kerning)
             for (int j = 0; altkern[j].char1; j++)
@@ -553,7 +553,7 @@ void C_Init(void)
     regomark = W_CacheLumpName("DRFON174");
     degree = W_CacheLumpName("DRFON176");
     multiply = W_CacheLumpName("DRFON215");
-    unknown = W_CacheLumpName("DRFON000");
+    unknownchar = W_CacheLumpName("DRFON000");
 
     caret = W_CacheLumpName("DRCARET");
     divider = W_CacheLumpName("DRDIVIDE");
@@ -779,7 +779,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             else if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
             else
-                patch = unknown;
+                patch = unknownchar;
 
             if (patch)
             {

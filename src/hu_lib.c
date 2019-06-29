@@ -51,7 +51,7 @@
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
-extern patch_t  *unknown;
+extern patch_t  *unknownchar;
 extern int      white;
 
 static void HUlib_ClearTextLine(hu_textline_t *t)
@@ -138,7 +138,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     {
         unsigned char   letter = l->l[i];
         unsigned char   nextletter = l->l[i + 1];
-        patch_t         *patch = unknown;
+        patch_t         *patch = unknownchar;
         int             j = 0;
 
         if (letter == 194 && nextletter == 176)
