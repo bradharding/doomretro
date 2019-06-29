@@ -347,9 +347,9 @@ static byte *R_DistortedFlat(int flatnum)
 
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
-    }
 
-    swirltic = leveltime;
+        swirltic = leveltime;
+    }
 
     return distortedflat;
 }
