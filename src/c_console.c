@@ -88,13 +88,13 @@ dboolean                forceconsoleblurredraw;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
+patch_t                 *unknown;
 
 static patch_t          *dot;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
-static patch_t          *unknown;
 static patch_t          *warning;
 static patch_t          *brand;
 static patch_t          *divider;
