@@ -105,7 +105,7 @@ typedef struct
     unsigned short  sidenum[2];
 } PACKEDATTR maplinedef_t;
 
-#define NO_INDEX    ((unsigned short)(-1))
+#define NO_INDEX    ((unsigned short)-1)
 
 //
 // LineDef attributes.

@@ -1556,9 +1556,9 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     if (in->isaline)
     {
-        line_t  *li = in->d.line;
-        int     side;
-        fixed_t distz;
+        line_t          *li = in->d.line;
+        unsigned short  side;
+        fixed_t         distz;
 
         if (li->special)
             P_ShootSpecialLine(shootthing, li);

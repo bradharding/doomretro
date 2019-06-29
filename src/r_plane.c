@@ -395,7 +395,6 @@ void R_DrawPlanes(void)
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
             {
                 int             texture;
-                int             offset = skycolumnoffset >> FRACBITS;
                 angle_t         flip = 0;
                 const rpatch_t  *tex_patch;
 
@@ -457,7 +456,8 @@ void R_DrawPlanes(void)
                     if (dc_yl <= dc_yh)
                     {
                         dc_x = x;
-                        dc_source = R_GetTextureColumn(tex_patch, (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + offset);
+                        dc_source = R_GetTextureColumn(tex_patch, (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT)
+                            + (skycolumnoffset >> FRACBITS));
                         skycolfunc();
                     }
                 }
