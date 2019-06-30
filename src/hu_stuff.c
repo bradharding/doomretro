@@ -1064,7 +1064,7 @@ void HU_Ticker(void)
     const dboolean  idmypos = !!(viewplayer->cheats & CF_MYPOS);
 
     // tick down message counter if message is up
-    if (message_counter && (!menuactive || message_menu) && !idbehold && !idmypos && !--message_counter)
+    if (message_counter && (!menuactive || message_menu) && !idmypos && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
@@ -1072,19 +1072,7 @@ void HU_Ticker(void)
         message_external = false;
     }
 
-    if (idbehold)
-    {
-        // [BH] display message for IDBEHOLDx cheat
-        if (!message_counter)
-            message_counter = CHEATTIMEOUT;
-        else if (message_counter > 132)
-            message_counter--;
-
-        HUlib_AddMessageToSText(&w_message, s_STSTR_BEHOLD);
-        message_on = true;
-        idbehold = false;
-    }
-    else if (idmypos)
+    if (idmypos)
     {
         // [BH] display and constantly update message for IDMYPOS cheat
         char    buffer[80];
@@ -1117,7 +1105,7 @@ void HU_Ticker(void)
     // display message if necessary
     if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if ((messages || message_dontfuckwithme) && !idbehold && !idmypos)
+        if ((messages || message_dontfuckwithme) && !idmypos)
         {
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
@@ -1150,7 +1138,7 @@ void HU_Ticker(void)
 
             HUlib_AddMessageToSText(&w_message, message);
             message_on = true;
-            message_counter = HU_MSGTIMEOUT;
+            message_counter = (idbehold ? CHEATTIMEOUT : HU_MSGTIMEOUT);
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = false;
         }
@@ -1214,7 +1202,7 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 
 void HU_ClearMessages(void)
 {
-    if (idbehold || (viewplayer->cheats & CF_MYPOS))
+    if (viewplayer->cheats & CF_MYPOS)
         return;
 
     viewplayer->message = NULL;

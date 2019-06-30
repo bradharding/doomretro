@@ -807,9 +807,11 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-                // [BH] message stays on screen until parameter entered or another key
-                //  pressed to cancel. Code is in hu_stuff.c.
                 idbehold = true;
+
+                C_Output(s_STSTR_BEHOLD);
+                HU_SetPlayerMessage(s_STSTR_BEHOLD, false, false);
+                message_dontfuckwithme = true;
             }
 
             // 'choppers' invulnerability & chainsaw
