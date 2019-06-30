@@ -55,7 +55,7 @@ void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int wid
 
 static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y)
 {
-    static const char *lownums[10] =
+    const char *lownums[10] =
     {
         "111111001111110011221122112211221122112211221122112211221122112211111122111111220022222200222222",
         "001100000011000011112200111122000011220000112200001122000011220011111100111111000022222200222222",
@@ -82,7 +82,7 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y)
 
 static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y)
 {
-    static const char *highnums[10] =
+    const char *highnums[10] =
     {
         "011110001111110011021120112211221122112211221122112211221122112211111122011110220022222200022220",
         "001100000111000001112200001122000011220000112200001122000011220001111200011112000002222000022220",

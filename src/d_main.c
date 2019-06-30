@@ -728,7 +728,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    static const struct
+    const struct
     {
         char    *iwad;
         char    *title;

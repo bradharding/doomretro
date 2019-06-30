@@ -326,7 +326,6 @@ static void R_MakeSpans(visplane_t *pl)
 #define SWIRLFACTOR2    (8192 / 32)
 
 static int  offsets[1024 * 4096];
-int         *offset;
 
 //
 // R_DistortedFlat
@@ -342,8 +341,7 @@ static byte *R_DistortedFlat(int flatnum)
     if (swirltic != leveltime)
     {
         byte    *normalflat = lumpinfo[firstflat + flatnum]->cache;
-
-        offset = &offsets[(leveltime & 1023) << 12];
+        int     *offset = &offsets[(leveltime & 1023) << 12];
 
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
@@ -356,10 +354,7 @@ static byte *R_DistortedFlat(int flatnum)
 
 void R_InitDistortedFlats(void)
 {
-    offset = offsets;
-
-    for (int i = 0; i < 1024 * SPEED; i += SPEED)
-    {
+    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
         for (int x = 0; x < 64; x++)
             for (int y = 0; y < 64; y++)
             {
@@ -375,9 +370,6 @@ void R_InitDistortedFlats(void)
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
-
-        offset += 4096;
-    }
 }
 
 //

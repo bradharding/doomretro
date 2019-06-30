@@ -1820,17 +1820,16 @@ static const char *dayofweek(int d, int m, int y)
 
 void C_PrintCompileDate(void)
 {
-    int day, month, year, hour, minute;
+    int     day, month, year, hour, minute;
+    char    mth[4] = "";
 
-    static const char mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+    const char mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 
-    static const char *months[] =
+    const char *months[] =
     {
         "", "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     };
-
-    char    mth[4] = "";
 
     if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) != 3 || sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) != 2)
         return;

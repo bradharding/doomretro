@@ -672,7 +672,7 @@ dboolean P_GiveAllCardsInMap(void)
 //
 dboolean P_GivePower(int power)
 {
-    static const int tics[NUMPOWERS] =
+    const int tics[NUMPOWERS] =
     {
         /* pw_none            */ 0,
         /* pw_invulnerability */ INVULNTICS,

@@ -160,7 +160,7 @@ static void R_FixWiggle(sector_t *sector)
             int heightbits;
         } scalevalues_t;
 
-        static const scalevalues_t scalevalues[] =
+        const scalevalues_t scalevalues[] =
         {
             { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
             {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
