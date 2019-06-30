@@ -151,6 +151,9 @@ void R_ClearPlanes(void)
     memset(cachedheight, 0, sizeof(cachedheight));
 }
 
+//
+// R_RaiseVisplanes
+//
 static void R_RaiseVisplanes(visplane_t **vp)
 {
     static unsigned int numvisplanes;
@@ -329,16 +332,16 @@ static int  offsets[1024 * 4096];
 
 //
 // R_DistortedFlat
-//
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
 // [crispy] Optimized to precalculate offsets
 //
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[4096];
-    static int  swirltic;
+    static int  prevleveltime;
+    static int  prevflatnum;
 
-    if (swirltic != leveltime)
+    if (prevleveltime != leveltime || prevflatnum != flatnum)
     {
         byte    *normalflat = lumpinfo[firstflat + flatnum]->cache;
         int     *offset = &offsets[(leveltime & 1023) << 12];
@@ -346,12 +349,16 @@ static byte *R_DistortedFlat(int flatnum)
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
 
-        swirltic = leveltime;
+        prevleveltime = leveltime;
+        prevflatnum = flatnum;
     }
 
     return distortedflat;
 }
 
+//
+// R_InitDistortedFlats
+//
 void R_InitDistortedFlats(void)
 {
     for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
