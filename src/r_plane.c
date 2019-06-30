@@ -358,7 +358,7 @@ void R_InitDistortedFlats(void)
 {
     offset = offsets;
 
-    for (int i = 0; i < 1024; i++)
+    for (int i = 0; i < 1024 * SPEED; i += SPEED)
     {
         for (int x = 0; x < 64; x++)
             for (int y = 0; y < 64; y++)
@@ -366,11 +366,11 @@ void R_InitDistortedFlats(void)
                 int x1, y1;
                 int sinvalue, sinvalue2;
 
-                sinvalue = finesine[(y * SWIRLFACTOR + i * SPEED * 5 + 900) & 8191];
-                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * SPEED * 4 + 300) & 8191];
+                sinvalue = finesine[(y * SWIRLFACTOR + i * 5 + 900) & 8191];
+                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & 8191];
                 x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-                sinvalue = finesine[(x * SWIRLFACTOR + i * SPEED * 3 + 700) & 8191];
-                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * SPEED * 4 + 1200) & 8191];
+                sinvalue = finesine[(x * SWIRLFACTOR + i * 3 + 700) & 8191];
+                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & 8191];
                 y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
@@ -395,7 +395,7 @@ void R_DrawPlanes(void)
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
             {
                 int             texture;
-                angle_t         flip = 0;
+                angle_t         flip = 0U;
                 const rpatch_t  *tex_patch;
 
                 // killough 10/98: allow skies to come from sidedefs.
@@ -434,7 +434,8 @@ void R_DrawPlanes(void)
                     // DOOM always flipped the picture, so we make it optional,
                     // to make it easier to use the new feature, while to still
                     // allow old sky textures to be used.
-                    flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ? 0u : ~0u);
+                    if (l->special != TransferSkyTextureToTaggedSectors_Flipped)
+                        flip = ~0U;
                 }
                 else
                 {

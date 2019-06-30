@@ -68,7 +68,6 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
-extern dboolean     idbehold;
 extern int          leveltime;
 
 extern cheatseq_t   cheat_mus;

@@ -2392,16 +2392,16 @@ void M_ChangeGamma(dboolean shift)
             C_StrCVAROutput(stringize(r_gamma), "off");
         else
         {
-            static char buf[128];
+            static char buffer[128];
             int         len;
 
-            M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
-            len = (int)strlen(buf);
+            M_snprintf(buffer, sizeof(buffer), "%.2f", r_gamma);
+            len = (int)strlen(buffer);
 
-            if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
-                buf[len - 1] = '\0';
+            if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+                buffer[len - 1] = '\0';
 
-            C_StrCVAROutput(stringize(r_gamma), buf);
+            C_StrCVAROutput(stringize(r_gamma), buffer);
         }
     }
 
@@ -2414,17 +2414,17 @@ void M_ChangeGamma(dboolean shift)
     }
     else
     {
-        static char buf[128];
+        static char buffer[128];
         int         len;
 
-        M_snprintf(buf, sizeof(buf), s_GAMMALVL, r_gamma);
-        len = (int)strlen(buf);
+        M_snprintf(buffer, sizeof(buffer), s_GAMMALVL, r_gamma);
+        len = (int)strlen(buffer);
 
-        if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
-            buf[len - 1] = '\0';
+        if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+            buffer[len - 1] = '\0';
 
-        C_Output(buf);
-        HU_SetPlayerMessage(buf, false, false);
+        C_Output(buffer);
+        HU_SetPlayerMessage(buffer, false, false);
     }
 
     message_dontfuckwithme = true;
