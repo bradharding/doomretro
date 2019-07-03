@@ -245,6 +245,7 @@ static dboolean samelevel;
 mapformat_t     mapformat;
 
 dboolean        boomlinespecials;
+dboolean        mbflinespecials;
 dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
@@ -346,6 +347,7 @@ static void P_LoadSegs(int lump)
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     boomlinespecials = false;
+    mbflinespecials = false;
 
     if (!data || !numsegs)
         I_Error("There are no segs in this map.");
@@ -523,7 +525,9 @@ static void P_LoadSegs(int lump)
                 }
             }
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= MBFLINESPECIALS)
+            mbflinespecials = true;
+        else if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 
@@ -541,6 +545,7 @@ static void P_LoadSegs_V4(int lump)
         I_Error("This map has no segs.");
 
     boomlinespecials = false;
+    mbflinespecials = false;
 
     for (int i = 0; i < numsegs; i++)
     {
@@ -629,7 +634,9 @@ static void P_LoadSegs_V4(int lump)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= MBFLINESPECIALS)
+            mbflinespecials = true;
+        else if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 
@@ -897,6 +904,7 @@ static void P_LoadNodes_V4(int lump)
 static void P_LoadZSegs(const byte *data)
 {
     boomlinespecials = false;
+    mbflinespecials = false;
 
     for (int i = 0; i < numsegs; i++)
     {
@@ -958,7 +966,9 @@ static void P_LoadZSegs(const byte *data)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= MBFLINESPECIALS)
+            mbflinespecials = true;
+        else if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
     }
 }

@@ -579,6 +579,8 @@ enum
     W1_Teleport_MonstersOnly_Silent                                = 268,
     WR_Teleport_MonstersOnly_Silent                                = 269,
 
+    MBFLINESPECIALS                                                = 271,
+
     TransferSkyTextureToTaggedSectors                              = 271,
     TransferSkyTextureToTaggedSectors_Flipped                      = 272
 };

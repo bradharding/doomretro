@@ -10,7 +10,9 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby the music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
-* The `mapstats` CCMD will now always correctly show the PWAD the current map is from, if applicable.
+* The following changes have been made to the `mapstats` CCMD:
+  * The PWAD the current map is from will now always be correct.
+  * Whether the current map is *MBF*-compatible is now displayed.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
