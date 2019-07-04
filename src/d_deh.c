@@ -2159,6 +2159,8 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     int     indexnum;
     char    mnemonic[DEH_MAXKEYLEN] = "";   // to hold the codepointer mnemonic
 
+    boomcompatible = true;
+
     // Ty 05/16/98 - initialize it to something, dummy!
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
@@ -2204,6 +2206,15 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 
                 if (devparm)
                     C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
+
+                if (M_StringCompare(key, "A_Spawn")
+                    || M_StringCompare(key, "A_Turn")
+                    || M_StringCompare(key, "A_Face")
+                    || M_StringCompare(key, "A_Scratch")
+                    || M_StringCompare(key, "A_PlaySound")
+                    || M_StringCompare(key, "A_RandomJump")
+                    || M_StringCompare(key, "A_LineEffect"))
+                    mbfcompatible = true;
 
                 found = true;
             }
@@ -2831,6 +2842,8 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     int     partime;
     int     oldpar;
 
+    boomcompatible = true;
+
     // new item, par times
     // usage: After [PARS] Par 0 section identifier, use one or more of these
     // lines:
@@ -3404,6 +3417,8 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
     static char *holdstring;
+
+    boomcompatible = true;
 
     if (devparm)
         C_Output("Processing extended string substitution");
