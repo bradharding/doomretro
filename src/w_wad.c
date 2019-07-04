@@ -277,7 +277,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         (M_StringCompare(leafname(filename), "SIGIL.wad") && automatic ? " Episode 5 is available." : ""));
 
     if (M_StringCompare(leafname(filename), "doom.wad"))
-        C_Output("<i><b>E1M4B: Phobos Mission Control</b></i> and <i><b>E1M8B: Tech Gone Bad</b></i> are available using the <b>map</b> CCMD.");
+        C_Output("<i><b>E1M4B: Phobos Mission Control</b></i> and <i><b>E1M8B: Tech Gone Bad</b></i> "
+            "are available using the <b>map</b> CCMD.");
 
     free(fileinfo);
     free(lumps_str);

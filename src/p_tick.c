@@ -69,10 +69,7 @@ void P_InitThinkers(void)
 }
 
 //
-// killough 8/29/98:
-//
-// We maintain separate threads of friends and enemies, to permit more
-// efficient searches.
+// P_UpdateThinker
 //
 void P_UpdateThinker(thinker_t *thinker)
 {

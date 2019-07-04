@@ -11,8 +11,8 @@
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby the music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
-  * The PWAD the current map is from will now always be correct.
-  * Whether the current map is *MBF*-compatible is now displayed.
+  * The PWAD of the current map will now always be correct.
+  * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible is now displayed.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
@@ -21,9 +21,9 @@
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid sectors has been increased.
 * The following changes have been made to the external automap displayed when the `am_external` CVAR is `on`:
-  * It will now also fade to black when quitting *DOOM Retro*.
-  * It is no longer affected by the `vid_vsync` CVAR.
-  * It is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
+  * The external automap will now also fade to black when quitting *DOOM Retro*.
+  * The external automap is no longer affected by the `vid_vsync` CVAR.
+  * The external automap is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now timeout after 2 seconds like all the other cheats.
 * A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next map.
 

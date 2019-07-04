@@ -3213,8 +3213,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
     }
 
-    C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>", (mbflinespecials ? "<i>BOOM</i> and <i>MBF</i>-compatible" :
-        (boomlinespecials ? "<i>BOOM</i>-compatible" : (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing"))));
+    C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>", (mbfcompatible ? "<i>BOOM</i> and <i>MBF</i>-compatible" :
+        (boomcompatible ? "<i>BOOM</i>-compatible" : (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing"))));
 
     C_TabbedOutput(tabs, "Things\t<b>%s</b>", commify(numthings));
 
