@@ -1179,10 +1179,14 @@ static void P_LoadThings(int lump)
                 mt.type = Zombieman;
 
             if ((thing = P_SpawnMapThing(&mt, !nomonsters)))
+            {
+                int flags = thing->flags;
+
                 thing->id = thingid;
 
-            if ((thing->flags & MF_TOUCHY) || (thing->flags & MF_BOUNCES) || (thing->flags & MF_FRIEND))
-                mbfcompatible = true;
+                if ((flags & MF_TOUCHY) || (flags & MF_BOUNCES) || (flags & MF_FRIEND))
+                    mbfcompatible = true;
+            }
         }
     }
 
