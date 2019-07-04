@@ -1180,6 +1180,9 @@ static void P_LoadThings(int lump)
 
             if ((thing = P_SpawnMapThing(&mt, !nomonsters)))
                 thing->id = thingid;
+
+            if ((thing->flags & MF_TOUCHY) || (thing->flags & MF_BOUNCES) || (thing->flags & MF_FRIEND))
+                mbfcompatible = true;
         }
     }
 
