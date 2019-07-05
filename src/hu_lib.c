@@ -52,6 +52,7 @@
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern patch_t  *unknownchar;
+extern patch_t  *altunderscores;
 extern int      white;
 
 static void HUlib_ClearTextLine(hu_textline_t *t)
@@ -133,6 +134,9 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white) :
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : nearestblack));
     }
+
+    if (idbehold)
+        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, color);
 
     for (int i = 0; i < len; i++)
     {

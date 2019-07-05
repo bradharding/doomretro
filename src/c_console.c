@@ -89,6 +89,7 @@ dboolean                forceconsoleblurredraw;
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 patch_t                 *unknownchar;
+patch_t                 *altunderscores;
 
 static patch_t          *dot;
 static patch_t          *trademark;
@@ -558,6 +559,7 @@ void C_Init(void)
     caret = W_CacheLumpName("DRCARET");
     divider = W_CacheLumpName("DRDIVIDE");
     warning = W_CacheLumpName("DRFONWRN");
+    altunderscores = W_CacheLumpName("DRFONUND");
 
     bindlist = W_CacheLumpName("DRBNDLST");
     cmdlist = W_CacheLumpName("DRCMDLST");

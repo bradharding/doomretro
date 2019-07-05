@@ -12,6 +12,7 @@
 * A bug has been fixed whereby the music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
   * The PWAD of the current map will now always be correct.
+  * Improvements have been to how *BOOM* compatibility is detected.
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible is now displayed.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot.
@@ -24,7 +25,9 @@
   * The external automap will now also fade to black when quitting *DOOM Retro*.
   * The external automap is no longer affected by the `vid_vsync` CVAR.
   * The external automap is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
-* Entering the `IDBEHOLD` cheat without any parameter will now timeout after 2 seconds like all the other cheats.
+* Entering the `IDBEHOLD` cheat without any parameter will now:
+  * Timeout after 2 seconds like all the other cheats.
+  * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
 * A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next map.
 
 ---
