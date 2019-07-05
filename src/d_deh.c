@@ -2126,7 +2126,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         char    *linecount_str = commify(linecount);
         char    *lumpname = uppercase(lumpinfo[lumpnum]->name);
 
-        C_Output("Parsed %s line%s in the <b>%s</b> lump in %s <b>%s</b>.",
+        C_Output("Parsed %s line%s from the <b>%s</b> lump in %s <b>%s</b>.",
             linecount_str, (linecount > 1 ? "s" : ""), lumpname, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
 
         free(linecount_str);
@@ -2137,7 +2137,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         char    *linecount_str = commify(linecount);
         char    *filename_free = uppercase(filename);
 
-        C_Output("Parsed %s line%s in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", linecount_str, (linecount > 1 ? "s" : ""),
+        C_Output("Parsed %s line%s from the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", linecount_str, (linecount > 1 ? "s" : ""),
             (M_StringEndsWith(filename_free, "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
 
         free(linecount_str);

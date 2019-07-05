@@ -522,7 +522,7 @@ int W_GetSecondNumForName(const char *name)
                 break;
 
     if (i == numlumps)
-        I_Error("W_GetResourceNumForName2: %s not found!", name);
+        I_Error("W_GetSecondNumForName: %s not found!", name);
 
     return i;
 }
