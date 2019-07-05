@@ -1248,7 +1248,7 @@ state_t states[NUMSTATES] =
     { SPR_GOR5,    0,                    -1, NULL,                   S_NULL              }, // S_MEAT5
 
     // Stalagmite (MT_MISC47)
-    { SPR_SMIT,    0,                    -1, NULL,                   S_NULL              }, // S_STALAGTITE
+    { SPR_SMIT,    0,                    -1, NULL,                   S_NULL              }, // S_STALAGMITE
 
     // Tall green pillar (MT_MISC32)
     { SPR_COL1,    0,                    -1, NULL,                   S_NULL              }, // S_TALLGRNCOL

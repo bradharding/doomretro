@@ -951,7 +951,7 @@ typedef enum
     S_MEAT3,
     S_MEAT4,
     S_MEAT5,
-    S_STALAGTITE,
+    S_STALAGMITE,
     S_TALLGRNCOL,
     S_SHRTGRNCOL,
     S_TALLREDCOL,

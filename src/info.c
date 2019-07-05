@@ -4123,7 +4123,7 @@ mobjinfo_t mobjinfo[] =
     // Stalagmite (MT_MISC47)
     {
         /* doomednum            */ Stalagmite,
-        /* spawnstate           */ S_STALAGTITE,
+        /* spawnstate           */ S_STALAGMITE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
         /* seestate             */ S_NULL,
