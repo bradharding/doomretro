@@ -338,20 +338,29 @@ static int  offsets[1024 * 4096];
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[4096];
-    static int  prevleveltime;
-    static int  prevflatnum;
+    static int  prevleveltime = -1;
+    static int  prevflatnum = -1;
+    static byte *normalflat;
+    static int  *offset;
+    dboolean    changed = false;
 
-    if (prevleveltime != leveltime || prevflatnum != flatnum)
+    if (prevflatnum != flatnum)
     {
-        byte    *normalflat = lumpinfo[firstflat + flatnum]->cache;
-        int     *offset = &offsets[(leveltime & 1023) << 12];
+        normalflat = lumpinfo[firstflat + flatnum]->cache;
+        prevflatnum = flatnum;
+        changed = true;
+    }
 
+    if (prevleveltime != leveltime)
+    {
+        offset = &offsets[(leveltime & 1023) << 12];
+        prevleveltime = leveltime;
+        changed = true;
+    }
+
+    if (changed)
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
-
-        prevleveltime = leveltime;
-        prevflatnum = flatnum;
-    }
 
     return distortedflat;
 }
