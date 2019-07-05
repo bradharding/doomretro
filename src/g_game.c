@@ -903,6 +903,7 @@ void G_Ticker(void)
                     D_Display();
                 }
 
+                idbehold = false;
                 G_DoScreenShot();
                 gameaction = ga_nothing;
                 break;
