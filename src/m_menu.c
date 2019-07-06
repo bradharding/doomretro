@@ -507,7 +507,7 @@ void M_DarkBackground(void)
 
     blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    if (gametime != prevtic)
+    if (gametime != prevtic && !(gametime & 3))
     {
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {

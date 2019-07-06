@@ -11,6 +11,7 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
+* The noise applied to the menu’s background has been slowed down slightly.
 * The following changes have been made to the `mapstats` CCMD:
   * The PWAD of the current map will now always be correct.
   * Improvements have been to how *BOOM* compatibility is detected.
