@@ -102,6 +102,7 @@ dboolean        inhelpscreens;
 dboolean        menuactive;
 static dboolean savegames;
 dboolean        startingnewgame;
+dboolean        firsttic;
 
 static char     savegamestrings[10][SAVESTRINGSIZE];
 
@@ -494,8 +495,6 @@ static void BlurScreen(byte *screen, byte *blurscreen)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - SCREENWIDTH + 1] << 8)];
 }
-
-static dboolean firsttic;
 
 //
 // M_DarkBackground

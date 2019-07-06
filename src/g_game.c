@@ -176,6 +176,7 @@ extern int      st_palette;
 extern int      pagetic;
 extern int      timer;
 extern int      countdown;
+extern dboolean firsttic;
 
 void G_RemoveChoppers(void)
 {
@@ -463,6 +464,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // special buttons
     if (sendpause)
     {
+        firsttic = true;
         sendpause = false;
         cmd->buttons = (BT_SPECIAL | BTS_PAUSE);
     }
