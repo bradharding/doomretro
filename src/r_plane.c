@@ -53,8 +53,8 @@ static visplane_t   *lastvisplane;
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
 
-int                *openings;                   // dropoff overflow
-int                *lastopening;                // dropoff overflow
+int                 *openings;                  // dropoff overflow
+int                 *lastopening;               // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
@@ -343,24 +343,24 @@ static byte *R_DistortedFlat(int flatnum)
     static byte *normalflat;
     static int  *offset;
 
-    if (prevflatnum != flatnum)
+    if (prevleveltime != leveltime)
     {
-        normalflat = lumpinfo[firstflat + flatnum]->cache;
-        prevflatnum = flatnum;
+        offset = &offsets[(leveltime & 1023) << 12];
+        prevleveltime = leveltime;
 
-        if (prevleveltime != leveltime)
+        if (prevflatnum != flatnum)
         {
-            offset = &offsets[(leveltime & 1023) << 12];
-            prevleveltime = leveltime;
+            normalflat = lumpinfo[firstflat + flatnum]->cache;
+            prevflatnum = flatnum;
         }
 
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
     }
-    else if (prevleveltime != leveltime)
+    else if (prevflatnum != flatnum)
     {
-        offset = &offsets[(leveltime & 1023) << 12];
-        prevleveltime = leveltime;
+        normalflat = lumpinfo[firstflat + flatnum]->cache;
+        prevflatnum = flatnum;
 
         for (int i = 0; i < 4096; i++)
             distortedflat[i] = normalflat[offset[i]];
