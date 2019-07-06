@@ -1,7 +1,7 @@
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
-* When *DOOM Retro* is opened for the first time and a common *DOOM* or *DOOM II* installation is found, the WAD launcher will prepopulate the `File name` field with `DOOM.WAD` or `DOOM2.WAD`.
+* When *DOOM Retro* is opened for the first time and a common *DOOM* or *DOOM II* installation is found, the WAD launcher will now prepopulate the `File name` field with `DOOM.WAD` or `DOOM2.WAD`.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
@@ -22,14 +22,14 @@
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid sectors has been increased.
-* The following changes have been made to the external automap displayed when the `am_external` CVAR is `on`:
-  * The external automap will now also fade to black when quitting *DOOM Retro*.
-  * The external automap is no longer affected by the `vid_vsync` CVAR.
-  * The external automap is now displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
+* The external automap displayed when the `am_external` CVAR is `on` will now:
+  * Also fade to black when quitting *DOOM Retro*.
+  * No longer be affected by the `vid_vsync` CVAR.
+  * Be displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now:
   * Timeout after 2 seconds like all the other cheats.
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
-* A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next map.
+* A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next one.
 
 ---
 
