@@ -439,6 +439,8 @@ char *D_FindWADByName(char *filename)
 
 void D_InitIWADFolder(void)
 {
+    char    *path;
+
     BuildIWADDirList();
 
     for (int i = 0; i < num_iwad_dirs; i++)
@@ -448,6 +450,20 @@ void D_InitIWADFolder(void)
             strreplace(iwadfolder, "/", "\\");
             break;
         }
+
+    path = M_StringJoin(iwadfolder, DIR_SEPARATOR_S, "DOOM.WAD", NULL);
+
+    if (M_FileExists(path))
+        wad = "DOOM.WAD";
+    else
+    {
+        path = M_StringJoin(iwadfolder, DIR_SEPARATOR_S, "DOOM2.WAD", NULL);
+
+        if (M_FileExists(path))
+            wad = "DOOM2.WAD";
+    }
+
+    free(path);
 }
 
 //

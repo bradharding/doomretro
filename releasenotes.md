@@ -1,6 +1,7 @@
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
+* When *DOOM Retro* is opened for the first time and a common *DOOM* or *DOOM II* installation is found, the WAD launcher will prepopulate the `File name` field with `DOOM.WAD` or `DOOM2.WAD`.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
