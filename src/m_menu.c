@@ -102,7 +102,6 @@ dboolean        inhelpscreens;
 dboolean        menuactive;
 static dboolean savegames;
 dboolean        startingnewgame;
-dboolean        firsttic;
 
 static char     savegamestrings[10][SAVESTRINGSIZE];
 
@@ -504,13 +503,12 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    static int  prevtic;
 
     blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    if (firsttic || !(gametime & 3))
+    if (gametime != prevtic)
     {
-        firsttic = false;
-
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
             screens[0][i] = nearestblack;
@@ -545,6 +543,8 @@ void M_DarkBackground(void)
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab33[blurscreen2[i]];
         }
+
+        prevtic = gametime;
     }
 
     memcpy(screens[0], blurscreen1, blurheight);
@@ -3458,7 +3458,6 @@ void M_StartControlPanel(void)
     menuactive = true;
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
-    firsttic = true;
 
     S_StopSounds();
 
