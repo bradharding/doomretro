@@ -1180,8 +1180,6 @@ void WI_Drawer(void)
     }
 }
 
-void P_MapName(int ep, int map);
-
 static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 {
     wbs = wbstartstruct;
