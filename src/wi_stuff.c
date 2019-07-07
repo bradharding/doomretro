@@ -315,8 +315,8 @@ static void WI_DrawWILVchar(int x, int y, int i)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
-static char *mapname;
-static char *nextmapname;
+static char mapname[128];
+static char nextmapname[128];
 
 static const int chartoi[130] =
 {
@@ -1202,11 +1202,9 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
 
-    mapname = Z_Malloc(128, PU_STATIC, NULL);
-    strcpy(mapname, maptitle);
-    nextmapname = Z_Malloc(128, PU_STATIC, NULL);
+    M_StringCopy(mapname, maptitle, 128);
     P_MapName(wbs->epsd + 1, wbs->next + 1);
-    strcpy(nextmapname, maptitle);
+    M_StringCopy(nextmapname, maptitle, 128);
 }
 
 void WI_Start(wbstartstruct_t *wbstartstruct)

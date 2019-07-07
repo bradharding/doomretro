@@ -3052,9 +3052,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             {
                 char    temp[256];
 
-                strcpy(temp, maplist[i]);
-                strcpy(maplist[i], maplist[j]);
-                strcpy(maplist[j], temp);
+                M_StringCopy(temp, maplist[i], 256);
+                M_StringCopy(maplist[i], maplist[j], 256);
+                M_StringCopy(maplist[j], temp, 256);
             }
 
     // display the map list

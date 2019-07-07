@@ -1083,7 +1083,7 @@ void G_DoScreenShot(void)
 }
 
 // DOOM Par Times
-int pars[7][10] =
+int pars[6][10] =
 {
     { 0 },
     { 0,  30,  75, 120,  90, 165, 180, 180,  30, 165 },
@@ -1092,7 +1092,6 @@ int pars[7][10] =
 
     // [BH] Episode 4 and 5 Par Times
     { 0, 165, 255, 135, 150, 180, 390, 135, 360, 180 },
-    { 0 },
     { 0 }
 };
 

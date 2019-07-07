@@ -2822,7 +2822,7 @@ static void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
     }
 }
 
-extern int pars[5][10];
+extern int pars[6][10];
 extern int cpars[33];
 
 // ====================================================================
@@ -2896,7 +2896,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
         }
         else
         {
-            // note that though it's a [4][10] array, the "left" and "top" aren't used,
+            // note that though it's a [6][10] array, the "left" and "top" aren't used,
             // effectively making it a base 1 array.
             // Ty 07/11/98 - level was being checked against max 3 - dumb error
             if (episode < 1 || episode > 5 || level < 1 || level > 9)
