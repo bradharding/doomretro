@@ -345,26 +345,26 @@ void AM_SetColors(void)
     priority[am_tswallcolor] = TSWALLPRIORITY;
     priority[am_gridcolor] = GRIDPRIORITY;
 
-    playercolor = nearestcolors[am_playercolor];
-    thingcolor = nearestcolors[am_thingcolor];
-    pathcolor = nearestcolors[am_pathcolor];
-    markcolor = nearestcolors[am_markcolor];
-    backcolor = nearestcolors[am_backcolor];
-    am_crosshaircolor2 = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
+    playercolor = am_playercolor;
+    thingcolor = am_thingcolor;
+    pathcolor = am_pathcolor;
+    markcolor = am_markcolor;
+    backcolor = am_backcolor;
+    am_crosshaircolor2 = &tinttab60[am_crosshaircolor << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
             priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
 
-    wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
-    allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
-    cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
-    allmapcdwallcolor = &priorities[nearestcolors[am_allmapcdwallcolor] << 8];
-    fdwallcolor = &priorities[nearestcolors[am_fdwallcolor] << 8];
-    allmapfdwallcolor = &priorities[nearestcolors[am_allmapfdwallcolor] << 8];
-    teleportercolor = &priorities[nearestcolors[am_teleportercolor] << 8];
-    tswallcolor = &priorities[nearestcolors[am_tswallcolor] << 8];
-    gridcolor = &priorities[nearestcolors[am_gridcolor] << 8];
+    wallcolor = &priorities[am_wallcolor << 8];
+    allmapwallcolor = &priorities[am_allmapwallcolor << 8];
+    cdwallcolor = &priorities[am_cdwallcolor << 8];
+    allmapcdwallcolor = &priorities[am_allmapcdwallcolor << 8];
+    fdwallcolor = &priorities[am_fdwallcolor << 8];
+    allmapfdwallcolor = &priorities[am_allmapfdwallcolor << 8];
+    teleportercolor = &priorities[am_teleportercolor << 8];
+    tswallcolor = &priorities[am_tswallcolor << 8];
+    gridcolor = &priorities[am_gridcolor << 8];
 }
 
 void AM_GetGridSize(void)

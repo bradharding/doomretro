@@ -22,6 +22,7 @@
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid is now greater rather than less than when not in liquid.
+* A bug has been fixed whereby the colors used in the automap would be wrong in some rare instances.
 * The external automap displayed when the `am_external` CVAR is `on` will now:
   * Also fade to black when quitting *DOOM Retro*.
   * No longer be affected by the `vid_vsync` CVAR.
