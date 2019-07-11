@@ -2064,11 +2064,11 @@ void AM_Drawer(void)
     AM_ClearFB();
     AM_DrawWalls();
 
-    if (menuactive && !inhelpscreens)
-        return;
-
     if (am_grid)
         AM_DrawGrid();
+
+    if (menuactive && !inhelpscreens)
+        return;
 
     if (am_path)
         AM_DrawPath();
