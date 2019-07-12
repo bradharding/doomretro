@@ -31,6 +31,7 @@
   * Timeout after 2 seconds like all the other cheats.
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
 * A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next one.
+* Sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always work correctly.
 
 ---
 

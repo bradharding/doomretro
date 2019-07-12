@@ -51,13 +51,21 @@
 //
 void T_FireFlicker(fireflicker_t *flick)
 {
+    int amount;
+
     if (freeze)
         return;
 
     if (--flick->count)
         return;
 
-    flick->sector->lightlevel = MAX(flick->minlight, flick->maxlight - (M_Random() & 3) * 16);
+    amount = (M_Random() & 3) * 16;
+
+    if (flick->sector->lightlevel - amount < flick->minlight)
+        flick->sector->lightlevel = flick->minlight;
+    else
+        flick->sector->lightlevel = flick->maxlight - amount;
+
     flick->count = 4;
 }
 
