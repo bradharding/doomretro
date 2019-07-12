@@ -16,7 +16,7 @@
   * Improvements have been to how *BOOM* compatibility is detected.
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible is now displayed.
 * The `+screenshot` action can now be bound to a mouse button.
-* A camera’s shutter sound is now played when taking a screenshot.
+* A camera’s shutter sound is now played when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
 * Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8 are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
@@ -26,7 +26,7 @@
 * The external automap displayed when the `am_external` CVAR is `on` will now:
   * Also fade to black when quitting *DOOM Retro*.
   * No longer be affected by the `vid_vsync` CVAR.
-  * Be displayed correctly when the help screen is opened using the <kbd>F1</kbd> key.
+  * Be displayed correctly when the help screen is opened on the main screen by pressing the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now:
   * Timeout after 2 seconds like all the other cheats.
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.

@@ -1187,7 +1187,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex(stringize(alias)));
+        C_ShowDescription(C_GetIndex("alias"));
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
         return;
     }
@@ -1274,7 +1274,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex(stringize(bind)));
+        C_ShowDescription(C_GetIndex("bind"));
         C_Output("<b>%s</b> %s", cmd, BINDCMDFORMAT);
         return;
     }
@@ -1863,7 +1863,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(exec)));
+        C_ShowDescription(C_GetIndex("exec"));
         C_Output("<b>%s</b> %s", cmd, EXECCMDFORMAT);
     }
     else
@@ -2015,7 +2015,7 @@ static void give_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(stringize(give)));
+        C_ShowDescription(C_GetIndex("give"));
         C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
     }
     else
@@ -2267,7 +2267,7 @@ static void if_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
     {
-        C_ShowDescription(C_GetIndex(stringize(if)));
+        C_ShowDescription(C_GetIndex("if"));
         C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
         return;
     }
@@ -2300,27 +2300,27 @@ static void if_cmd_func2(char *cmd, char *parms)
                 else
                     condition = M_StringCompare(parm2, *(char **)consolecmds[i].variable);
             }
-            else if (M_StringCompare(parm1, stringize(fastmonsters)))
+            else if (M_StringCompare(parm1, "fastmonsters"))
                 condition = match(fastparm, parm2);
-            else if (M_StringCompare(parm1, stringize(freeze)))
+            else if (M_StringCompare(parm1, "freeze"))
                 condition = match(freeze, parm2);
-            else if (M_StringCompare(parm1, stringize(god)))
+            else if (M_StringCompare(parm1, "god"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_GODMODE)), parm2);
-            else if (M_StringCompare(parm1, stringize(noclip)))
+            else if (M_StringCompare(parm1, "noclip"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_NOCLIP)), parm2);
-            else if (M_StringCompare(parm1, stringize(nomonsters)))
+            else if (M_StringCompare(parm1, "nomonsters"))
                 condition = match(nomonsters, parm2);
-            else if (M_StringCompare(parm1, stringize(notarget)))
+            else if (M_StringCompare(parm1, "notarget"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_NOTARGET)), parm2);
-            else if (M_StringCompare(parm1, stringize(pistolstart)))
+            else if (M_StringCompare(parm1, "pistolstart"))
                 condition = match(pistolstart, parm2);
-            else if (M_StringCompare(parm1, stringize(regenhealth)))
+            else if (M_StringCompare(parm1, "regenhealth"))
                 condition = match(regenhealth, parm2);
-            else if (M_StringCompare(parm1, stringize(respawnitems)))
+            else if (M_StringCompare(parm1, "respawnitems"))
                 condition = match(respawnitems, parm2);
-            else if (M_StringCompare(parm1, stringize(respawnmonsters)))
+            else if (M_StringCompare(parm1, "respawnmonsters"))
                 condition = match(respawnmonsters, parm2);
-            else if (M_StringCompare(parm1, stringize(vanilla)))
+            else if (M_StringCompare(parm1, "vanilla"))
                 condition = match(vanilla, parm2);
 
             if (condition)
@@ -2408,7 +2408,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(stringize(kill)));
+        C_ShowDescription(C_GetIndex("kill"));
         C_Output("<b>%s</b> %s", cmd, KILLCMDFORMAT);
     }
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
@@ -2630,7 +2630,7 @@ static void load_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(load)));
+        C_ShowDescription(C_GetIndex("load"));
         C_Output("<b>%s</b> %s", cmd, LOADCMDFORMAT);
         return;
     }
@@ -2897,7 +2897,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(map)));
+        C_ShowDescription(C_GetIndex("map"));
         C_Output("<b>%s</b> %s", cmd, MAPCMDFORMAT);
         return;
     }
@@ -3603,7 +3603,7 @@ static void play_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(play)));
+        C_ShowDescription(C_GetIndex("play"));
         C_Output("<b>%s</b> %s", cmd, PLAYCMDFORMAT);
     }
     else if (playcmdtype == 1)
@@ -4109,7 +4109,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(reset)));
+        C_ShowDescription(C_GetIndex("reset"));
         C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
         return;
     }
@@ -4440,7 +4440,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(save)));
+        C_ShowDescription(C_GetIndex("save"));
         C_Output("<b>%s</b> %s", cmd, SAVECMDFORMAT);
         return;
     }
@@ -4489,7 +4489,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(stringize(spawn)));
+        C_ShowDescription(C_GetIndex("spawn"));
         C_Output("<b>%s</b> %s", cmd, SPAWNCMDFORMAT);
         return;
     }
@@ -4595,7 +4595,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(stringize(take)));
+        C_ShowDescription(C_GetIndex("take"));
         C_Output("<b>%s</b> %s", cmd, TAKECMDFORMAT);
     }
     else
@@ -4793,7 +4793,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(teleport)));
+        C_ShowDescription(C_GetIndex("teleport"));
         C_Output("<b>%s</b> %s", cmd, TELEPORTCMDFORMAT);
         return;
     }
@@ -4879,7 +4879,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(timer)));
+        C_ShowDescription(C_GetIndex("timer"));
         C_Output("<b>%s</b> %s", cmd, TIMERCMDFORMAT);
         return;
     }
@@ -4901,7 +4901,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(stringize(unbind)));
+        C_ShowDescription(C_GetIndex("unbind"));
         C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
         return;
     }
