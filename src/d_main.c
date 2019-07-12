@@ -451,7 +451,7 @@ void D_PageDrawer(void)
     {
         static int  prevtic;
 
-        if (pagetic != prevtic)
+        if (prevtic != pagetic)
         {
             if (logotic >= 77 && logotic < 94)
                 V_DrawBigPatch(143, 167, logolump[94 - logotic]);
@@ -509,8 +509,7 @@ void D_DoAdvanceTitle(void)
         V_DrawBigPatch(143, 167, logolump[0]);
         return;
     }
-
-    if (titlesequence == 1)
+    else if (titlesequence == 1)
     {
         static dboolean flag = true;
 
@@ -562,11 +561,8 @@ void D_DoAdvanceTitle(void)
         else
             titlesequence = 1;
     }
-    else
-    {
-        if (++titlesequence > 2)
-            titlesequence = 1;
-    }
+    else if (++titlesequence > 2)
+        titlesequence = 1;
 }
 
 //

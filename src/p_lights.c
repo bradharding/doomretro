@@ -159,7 +159,7 @@ void T_StrobeFlash(strobe_t *flash)
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
+void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, dboolean insync)
 {
     strobe_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
@@ -167,7 +167,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
     P_AddThinker(&flash->thinker);
 
     flash->sector = sector;
-    flash->darktime = fastOrSlow;
+    flash->darktime = fastorslow;
     flash->brighttime = STROBEBRIGHT;
     flash->maxlight = sector->lightlevel;
     flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
@@ -175,7 +175,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
     if (flash->minlight == flash->maxlight)
         flash->minlight = 0;
 
-    flash->count = (inSync ? 1 : (M_Random() & 7) + 1);
+    flash->count = (insync ? 1 : (M_Random() & 7) + 1);
 }
 
 //
@@ -256,33 +256,29 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
 //
 // Spawn glowing light
 //
-void T_Glow(glow_t *g)
+void T_Glow(glow_t *glow)
 {
-    switch (g->direction)
+    if (glow->direction == -1)
     {
-        case -1:
-            // DOWN
-            g->sector->lightlevel -= GLOWSPEED;
+        // DOWN
+        glow->sector->lightlevel -= GLOWSPEED;
 
-            if (g->sector->lightlevel <= g->minlight)
-            {
-                g->sector->lightlevel += GLOWSPEED;
-                g->direction = 1;
-            }
+        if (glow->sector->lightlevel <= glow->minlight)
+        {
+            glow->sector->lightlevel += GLOWSPEED;
+            glow->direction = 1;
+        }
+    }
+    else
+    {
+        // UP
+        glow->sector->lightlevel += GLOWSPEED;
 
-            break;
-
-        case 1:
-            // UP
-            g->sector->lightlevel += GLOWSPEED;
-
-            if (g->sector->lightlevel >= g->maxlight)
-            {
-                g->sector->lightlevel -= GLOWSPEED;
-                g->direction = -1;
-            }
-
-            break;
+        if (glow->sector->lightlevel >= glow->maxlight)
+        {
+            glow->sector->lightlevel -= GLOWSPEED;
+            glow->direction = -1;
+        }
     }
 }
 
