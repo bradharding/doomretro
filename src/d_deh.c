@@ -3331,7 +3331,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
     {
         usedlen = (fromlen < tolen ? fromlen : tolen);
 
-        if (fromlen != tolen && !hacx)
+        if (fromlen != tolen && devparm)
             C_Warning("Mismatched lengths from %i to %i. Using %i.", fromlen, tolen, usedlen);
 
         // Try sound effects entries - see sounds.c
@@ -3351,6 +3351,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 break;          // only one matches, quit early
             }
         }
+
         if (!found)             // not yet
         {
             // Try music name entries - see sounds.c
