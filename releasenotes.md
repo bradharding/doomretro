@@ -1,7 +1,7 @@
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
-* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a common *DOOM* or *DOOM II* installation that was found, an IWAD will now also be automatically selected.
+* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a common *DOOM* or *DOOM II* installation, an IWAD will now also be automatically selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
@@ -32,6 +32,7 @@
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
 * A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next one.
 * The lighting of sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always flicker as intended.
+* A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
 
 ---
 

@@ -499,6 +499,8 @@ static void R_InitSpriteLumps(void)
         }
     }
 
+    SC_Close();
+
     firstspritelump = W_GetNumForName("S_START") + 1;
     lastspritelump = W_GetNumForName("S_END") - 1;
 
@@ -577,8 +579,8 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
     }
-
-    SC_Close();
+    else if (M_StringCompare(pwadfile, "Eviternity"))
+        mobjinfo[MT_DOGS].blood = MT_GREENBLOOD;
 }
 
 //
