@@ -602,8 +602,10 @@ enum
     LightBlinks_2HzSynchronized                         = 13,
     Door_OpenClose_OpensAfter5Min                       = 14,
     DamageNegative10Or20PercentHealth                   = 16,
-    LightFlickers_Randomly                              = 17
+    LightFlickers_Randomly                              = 17,
 };
+
+extern dboolean islightspecial[];
 
 enum
 {

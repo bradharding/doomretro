@@ -52,7 +52,7 @@ static void T_GradualLightingToCeiling(ceiling_t *ceiling)
     sector_t    *sector = ceiling->sector;
     fixed_t     level = ceiling->topheight - sector->floorheight;
 
-    if (level > 0 && !P_SectorHasLightSpecial(sector) && sector->ceilingpic != skyflatnum)
+    if (level > 0 && !islightspecial[sector->special] && sector->ceilingpic != skyflatnum)
         EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));
 }
 

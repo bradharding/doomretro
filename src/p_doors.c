@@ -55,7 +55,7 @@ static void T_GradualLightingToDoor(vldoor_t *door)
     {
         if (door->lighttag)
             EV_LightTurnOnPartway(door->line, FixedDiv(sec->ceilingheight - sec->floorheight, level));
-        else if (!P_SectorHasLightSpecial(sec) && sec->ceilingpic != skyflatnum)
+        else if (!islightspecial[sec->special] && sec->ceilingpic != skyflatnum)
             EV_LightByAdjacentSectors(sec, FixedDiv(sec->ceilingheight - sec->floorheight, level));
     }
 }

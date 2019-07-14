@@ -56,6 +56,11 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+dboolean islightspecial[] = {
+    false, true,  true,  true, false, false, false, false, true,
+    false, false, false, true, true,  false, false, false, true
+};
+
 //
 // Animating textures and planes
 // There is another anim_t used in wi_stuff, unrelated.
@@ -1144,17 +1149,6 @@ dboolean P_SectorActive(special_e t, sector_t *sec)
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
         (t == lighting_special ? !!sec->lightingdata :  // type is active
         true)));                                        // don't know which special, must be active, shouldn't be here
-}
-
-//
-// P_SectorHasLightSpecial()
-//
-// [BH] Returns true if sector has a light special
-dboolean P_SectorHasLightSpecial(sector_t *sec)
-{
-    short   special = sec->special;
-
-    return (special && special != Secret && special != Door_CloseStay_After30sec && special != Door_OpenClose_OpensAfter5Min);
 }
 
 //
