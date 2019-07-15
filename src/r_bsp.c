@@ -244,12 +244,6 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 {
     const sector_t  *s = sec->heightsec;
 
-    if (floorlightlevel)
-        *floorlightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
-
-    if (ceilinglightlevel)
-        *ceilinglightlevel = (sec->ceilinglightsec ? sec->ceilinglightsec->lightlevel : sec->lightlevel);
-
     if (s)
     {
         sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
@@ -321,6 +315,14 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
         }
 
         sec = tempsec;  // Use other sector
+    }
+    else
+    {
+        if (floorlightlevel)
+            *floorlightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
+
+        if (ceilinglightlevel)
+            *ceilinglightlevel = (sec->ceilinglightsec ? sec->ceilinglightsec->lightlevel : sec->lightlevel);
     }
 
     return sec;

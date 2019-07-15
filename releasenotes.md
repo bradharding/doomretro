@@ -32,8 +32,8 @@
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
 * A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next one.
 * The lighting of sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always flicker as intended.
+* Gradual lighting is now applied to doors and crushing ceilings over damaging sectors.
 * A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
-* Gradual lighting is now applied to doors opening and closing over damaging sectors.
 
 ---
 
