@@ -34,6 +34,7 @@
 * The lighting of sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always flicker as intended.
 * Gradual lighting is now applied to doors and crushing ceilings over damaging sectors.
 * A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
+* If the `+use` action is used against a wall that has a line special that requires it to be shot at instead, the player will make an “oof” sound.
 
 ---
 

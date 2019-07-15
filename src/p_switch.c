@@ -1031,6 +1031,16 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             EV_LightTurnOn(line, (canmodify && gamemission == doom2 && gamemap == 4 ? 0 : 35));
             P_ChangeSwitchTexture(line, true);
             break;
+
+        case G1_Floor_RaiseToLowestCeiling:
+        case G1_Door_OpenStay:
+        case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+        case G1_ExitLevel:
+        case G1_ExitLevel_GoesToSecretLevel:
+            if (thing->player)
+                S_StartSound(thing, sfx_oof);
+
+            break;
     }
 
     return true;
