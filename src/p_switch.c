@@ -221,6 +221,8 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     if (side)
         return false;
 
+    C_Output("%i", line->special);
+
     // jff 02/04/98 add check here for generalized floor/ceil mover
     if (line->special >= GenCrusherBase)
     {
@@ -1041,6 +1043,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
         case Scroll_ScrollWallUsingSidedefOffsets:
+        case Translucent_MiddleTexture:
             if (thing->player && !autousing)
                 S_StartSound(thing, sfx_noway);
 
