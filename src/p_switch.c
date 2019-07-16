@@ -55,6 +55,7 @@ button_t            *buttonlist = NULL;
 int                 maxbuttons = MAXBUTTONS;
 
 extern texture_t    **textures;
+extern dboolean     autousing;
 
 //
 // P_InitSwitchList()
@@ -1037,7 +1038,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
-            if (thing->player)
+            if (thing->player && !autousing)
                 S_StartSound(thing, sfx_noway);
 
             break;
