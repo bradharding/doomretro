@@ -1038,7 +1038,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
             if (thing->player)
-                S_StartSound(thing, sfx_oof);
+                S_StartSound(thing, sfx_noway);
 
             break;
     }
