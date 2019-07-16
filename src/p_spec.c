@@ -1218,6 +1218,7 @@ dboolean P_CheckTag(line_t *line)
         case WR_Teleport_AlsoMonsters_Silent_SameAngle:
         case S1_Teleport_AlsoMonsters_Silent_SameAngle:
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
+        case Scroll_ScrollWallUsingSidedefOffsets:
             return true;        // zero tag allowed
     }
 

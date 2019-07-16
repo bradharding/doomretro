@@ -1040,6 +1040,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case Scroll_ScrollTextureRight:
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
+        case Scroll_ScrollWallUsingSidedefOffsets:
             if (thing->player && !autousing)
                 S_StartSound(thing, sfx_noway);
 
