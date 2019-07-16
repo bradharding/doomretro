@@ -221,8 +221,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     if (side)
         return false;
 
-    C_Output("%i", line->special);
-
     // jff 02/04/98 add check here for generalized floor/ceil mover
     if (line->special >= GenCrusherBase)
     {
