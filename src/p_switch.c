@@ -1036,6 +1036,8 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case G1_Floor_RaiseToLowestCeiling:
         case G1_Door_OpenStay:
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+        case Scroll_ScrollTextureLeft:
+        case Scroll_ScrollTextureRight:
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
             if (thing->player && !autousing)
