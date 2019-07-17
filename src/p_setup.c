@@ -1671,7 +1671,7 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning("This map's <b>BLOCKMAP</b> lump was %s and needed to be rebuilt.", (lumplen ? "invalid" : "empty"));
+        C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else if (M_CheckParm("-blockmap"))
     {
@@ -1714,7 +1714,7 @@ static void P_LoadBlockMap(int lump)
             Z_Free(blockmaplump);
             blockmaplump = NULL;
             P_CreateBlockMap();
-            C_Warning("This map's <b>BLOCKMAP</b> lump was invalid and needed to be rebuilt.");
+            C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
         }
     }
 
