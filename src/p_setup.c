@@ -1489,18 +1489,24 @@ static void P_CreateBlockMap(void)
 
     blockmaprebuilt = true;
 
-    for(i = 0; i < numvertexes; i++)
+    for (i = 0; i < numvertexes; i++)
     {
-        if((vertexes[i].x >> FRACBITS) < minx)
+        if ((vertexes[i].x >> FRACBITS) < minx)
             minx = vertexes[i].x >> FRACBITS;
-        else if((vertexes[i].x >> FRACBITS) > maxx)
+        else if ((vertexes[i].x >> FRACBITS) > maxx)
             maxx = vertexes[i].x >> FRACBITS;
 
-        if((vertexes[i].y >> FRACBITS) < miny)
+        if ((vertexes[i].y >> FRACBITS) < miny)
             miny = vertexes[i].y >> FRACBITS;
-        else if((vertexes[i].y >> FRACBITS) > maxy)
+        else if ((vertexes[i].y >> FRACBITS) > maxy)
             maxy = vertexes[i].y >> FRACBITS;
     }
+
+    // [crispy] doombsp/DRAWING.M:175-178
+    minx -= 8;
+    miny -= 8;
+    maxx += 8;
+    maxy += 8;
 
     // Save blockmap parameters
     bmaporgx = minx << FRACBITS;
@@ -1535,9 +1541,6 @@ static void P_CreateBlockMap(void)
 
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
         bmap_t          *bmap = calloc(sizeof(*bmap), tot);     // array of blocklists
-
-        if (!bmap)
-            I_Error("Unable to recreate blockmap.");
 
         for (i = 0; i < numlines; i++)
         {
@@ -1608,7 +1611,7 @@ static void P_CreateBlockMap(void)
         //
         // 4 words, unused if this routine is called, are reserved at the start.
         {
-            int count = tot + 6;  // we need at least 1 word per block, plus reserved's
+            int count = tot + 6;                // we need at least 1 word per block, plus reserved's
 
             for (i = 0; (unsigned int)i < tot; i++)
                 if (bmap[i].n)
@@ -1620,11 +1623,11 @@ static void P_CreateBlockMap(void)
 
         // Now compress the blockmap.
         {
-            int     ndx = (tot += 4);   // Advance index to start of linedef lists
-            bmap_t  *bp = bmap;         // Start of uncompressed blockmap
+            int     ndx = (tot += 4);           // Advance index to start of linedef lists
+            bmap_t  *bp = bmap;                 // Start of uncompressed blockmap
 
-            blockmaplump[ndx++] = 0;    // Store an empty blockmap list at start
-            blockmaplump[ndx++] = -1;   // (Used for compression)
+            blockmaplump[ndx++] = 0;            // Store an empty blockmap list at start
+            blockmaplump[ndx++] = -1;           // (Used for compression)
 
             for (i = 4; (unsigned int)i < tot; i++, bp++)
                 if (bp->n)                                              // Non-empty blocklist
@@ -1642,7 +1645,7 @@ static void P_CreateBlockMap(void)
                     // Empty blocklist: point to reserved empty blocklist
                     blockmaplump[i] = tot;
 
-            free(bmap);                 // Free uncompressed blockmap
+            free(bmap);                         // Free uncompressed blockmap
         }
     }
 

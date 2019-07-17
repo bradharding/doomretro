@@ -26,12 +26,12 @@
 * A bug has been fixed whereby the colors used in the automap would be wrong in some rare instances.
 * The external automap displayed when the `am_external` CVAR is `on` will now:
   * Also fade to black when quitting *DOOM Retro*.
-  * No longer be affected by the `vid_vsync` CVAR.
+  * No longer be negatively affected by the `vid_vsync` CVAR.
   * Be displayed correctly when the help screen is opened on the main screen by pressing the <kbd>F1</kbd> key.
 * Entering the `IDBEHOLD` cheat without any parameter will now:
   * Timeout after 2 seconds like all the other cheats.
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.
-* A bug has been fixed whereby if the player fires their weapon the moment they exit a map, a crash could occur when they then try to spawn in the next one.
+* A bug has been fixed whereby if the player fires their weapon the moment they are exiting a map, a crash could occur when they then try to spawn in the next one.
 * The lighting of sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always flicker as intended.
 * Gradual lighting is now applied to doors and crushing ceilings over damaging sectors.
 * A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
