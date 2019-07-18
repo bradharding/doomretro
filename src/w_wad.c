@@ -274,7 +274,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     lumps_str = commify((int64_t)numlumps - startlump);
     C_Output("%s %s lump%s from %s <b>%s</b>.%s", (automatic ? "Automatically added" : "Added"), lumps_str,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path,
-        (M_StringCompare(leafname(filename), "SIGIL.wad") && automatic ? " Episode 5 is available." : ""));
+        (M_StringCompare(leafname(filename), "SIGIL.wad") ? " Episode 5 is available." : ""));
 
     if (M_StringCompare(leafname(filename), "doom.wad"))
         C_Output("<i><b>E1M4B: Phobos Mission Control</b></i> and <i><b>E1M8B: Tech Gone Bad</b></i> "
