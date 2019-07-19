@@ -602,6 +602,10 @@ void G_DoLoadLevel(void)
     paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
+    // [BH] clear these as well, since data from prev map can be copied over in G_BuildTiccmd()
+    for (int i = 0; i < BACKUPTICS; i++)
+        memset(&localcmds[i], 0, sizeof(ticcmd_t));
+
     M_SetWindowCaption();
 
     if (automapactive || mapwindow)
@@ -990,7 +994,7 @@ void G_Ticker(void)
 
 //
 // G_PlayerFinishLevel
-// Can when a player completes a level.
+// Called when a player completes a level.
 //
 static void G_PlayerFinishLevel(void)
 {
