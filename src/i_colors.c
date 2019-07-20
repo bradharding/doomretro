@@ -116,7 +116,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
         int g2 = *palette++;
         int b2 = *palette++;
 
-        // From http://www.compuphase.com/cmetric.htm
+        // From <https://www.compuphase.com/cmetric.htm>
         int rmean = (r1 + r2) / 2;
         int r = r1 - r2;
         int g = g1 - g2;
@@ -125,8 +125,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
         if (!difference)
             return i;
-
-        if (difference < best_difference)
+        else if (difference < best_difference)
         {
             best_color = i;
             best_difference = difference;

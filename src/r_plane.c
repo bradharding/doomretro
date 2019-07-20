@@ -371,6 +371,7 @@ static byte *R_DistortedFlat(int flatnum)
 
 //
 // R_InitDistortedFlats
+// [BH] Moved to separate function and called at startup
 //
 void R_InitDistortedFlats(void)
 {
@@ -409,6 +410,7 @@ void R_DrawPlanes(void)
                 int             texture;
                 angle_t         flip = 0U;
                 const rpatch_t  *tex_patch;
+                int             skyoffset = skycolumnoffset >> FRACBITS;
 
                 // killough 10/98: allow skies to come from sidedefs.
                 // Allows scrolling and/or animated skies, as well as
@@ -469,8 +471,7 @@ void R_DrawPlanes(void)
                     if (dc_yl <= dc_yh)
                     {
                         dc_x = x;
-                        dc_source = R_GetTextureColumn(tex_patch, (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT)
-                            + (skycolumnoffset >> FRACBITS));
+                        dc_source = R_GetTextureColumn(tex_patch, (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
                         skycolfunc();
                     }
                 }

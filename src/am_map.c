@@ -333,7 +333,7 @@ static void AM_ChangeWindowLoc(void)
 
 void AM_SetColors(void)
 {
-    byte    *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
+    byte    priority[256] = { 0 };
 
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
