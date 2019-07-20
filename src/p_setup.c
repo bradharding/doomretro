@@ -1701,8 +1701,6 @@ static void P_LoadBlockMap(int lump)
             blockmaplump[i] = (t == -1 ? -1l : ((unsigned int)t & 0xFFFF));
         }
 
-        Z_Free(wadblockmaplump);
-
         // Read the header
         bmaporgx = blockmaplump[0] << FRACBITS;
         bmaporgy = blockmaplump[1] << FRACBITS;
@@ -1711,8 +1709,7 @@ static void P_LoadBlockMap(int lump)
 
         if (!P_VerifyBlockMap(count))
         {
-            Z_Free(blockmaplump);
-            blockmaplump = NULL;
+            free(blockmaplump);
             P_CreateBlockMap();
             C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
         }

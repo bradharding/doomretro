@@ -1104,7 +1104,7 @@ static void ST_UpdateFaceWidget(void)
             }
             else
             {
-                angle_t     badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
+                angle_t     badguyangle = R_PointToAngle(viewplayer->attacker->x, viewplayer->attacker->y);
                 angle_t     diffang;
 
                 if (badguyangle > viewangle)
