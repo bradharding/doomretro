@@ -351,7 +351,6 @@ static void R_AddLine(seg_t *line)
     if (angle1 - angle2 >= ANG180)
         return;
 
-    // Global angle needed by segcalc.
     angle1 -= viewangle;
     angle2 -= viewangle;
 
@@ -456,8 +455,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     check = checkcoord[boxpos];
 
     // check clip list for an open space
-    angle1 = R_PointToAngle(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
-    angle2 = R_PointToAngle(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
+    angle1 = R_PointToAngleEx(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
+    angle2 = R_PointToAngleEx(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
