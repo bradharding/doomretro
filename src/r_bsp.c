@@ -532,7 +532,8 @@ static void R_Subsector(int num)
             frontsector->floor_xoffs,                           // killough 3/7/98
             frontsector->floor_yoffs) : NULL);
 
-    ceilingplane = (frontsector->interpceilingheight > viewz || frontsector->ceilingpic == skyflatnum
+    ceilingplane = (frontsector->interpceilingheight > viewz
+        || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,           // killough 3/8/98
             (frontsector->ceilingpic == skyflatnum              // killough 10/98

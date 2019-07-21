@@ -16,6 +16,7 @@
   * The PWAD of the current map will now always be correct.
   * Improvements have been to how *BOOM* compatibility is detected.
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible is now displayed.
+  * The author of some maps in *DOOM II: No Rest For The Living* has been corrected.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.

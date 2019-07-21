@@ -376,8 +376,8 @@ static byte *R_DistortedFlat(int flatnum)
 void R_InitDistortedFlats(void)
 {
     for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
-        for (int x = 0; x < 64; x++)
-            for (int y = 0; y < 64; y++)
+        for (int y = 0; y < 64; y++)
+            for (int x = 0; x < 64; x++)
             {
                 int x1, y1;
                 int sinvalue, sinvalue2;
