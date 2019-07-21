@@ -3069,6 +3069,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 //
 #define AA      "Andre Arsenault"
 #define AD      "Andrew Dowswell"
+#define AI      "Arya Iwakura"
 #define AM      "American McGee"
 #define BK      "Brian Kidby"
 #define CB      "Christopher Buteau"
@@ -3089,7 +3090,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 #define MC      "Milo Casali"
 #define MS      "Mark Snell"
 #define PT      "Paul Turnbull"
-#define RH      "Richard Heath"
 #define RM      "Russell Meakim"
 #define RP      "Robin Patenall"
 #define SG      "Shawn Green"
@@ -3124,13 +3124,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             /* xy      doom   doom2  tnt    plut   nerve */
             /* 00 */ { "",    "",    "",    DCMC,  "" },
             /* 01 */ { "",    SP,    TM,    DCMC,  RM },
-            /* 02 */ { "",    AM,    JW,    DCMC,  RH },
+            /* 02 */ { "",    AM,    JW,    DCMC,  AI },
             /* 03 */ { "",    AM,    RPJM2, DCMC,  RM },
             /* 04 */ { "",    AM,    TH2,   DCMC,  RM },
-            /* 05 */ { "",    AM,    JD,    DCMC,  RH },
-            /* 06 */ { "",    AM,    JSTH2, DCMC,  RH },
-            /* 07 */ { "",    AMSP,  AD,    DCMC,  RH },
-            /* 08 */ { "",    SP,    JM2,   DCMC,  RH },
+            /* 05 */ { "",    AM,    JD,    DCMC,  AI },
+            /* 06 */ { "",    AM,    JSTH2, DCMC,  AI },
+            /* 07 */ { "",    AMSP,  AD,    DCMC,  AI },
+            /* 08 */ { "",    SP,    JM2,   DCMC,  AI },
             /* 09 */ { "",    SP,    JSTH2, DCMC,  RM },
             /* 10 */ { "",    SPTH,  TM,    DCMC,  "" },
             /* 11 */ { JR,    JR,    DJ,    DCMC,  "" },
