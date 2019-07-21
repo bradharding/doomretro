@@ -93,23 +93,6 @@ extern int          numspritelumps;
 extern int          numtextures;
 extern texture_t    **textures;
 
-void R_InitPatches(void)
-{
-    patches = calloc(numlumps, sizeof(rpatch_t));
-
-    texture_composites = calloc(numtextures, sizeof(rpatch_t));
-
-    BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
-    FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
-    SKY1 = R_CheckTextureNumForName("SKY1");
-
-    for (int i = 0; i < numspritelumps; i++)
-        R_CachePatchNum(firstspritelump + i);
-
-    for (int i = 0; i < numtextures; i++)
-        R_CacheTextureCompositePatchNum(i);
-}
-
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
@@ -602,19 +585,30 @@ static void createTextureCompositePatch(int id)
     free(countsInColumn);
 }
 
+void R_InitPatches(void)
+{
+    patches = calloc(numlumps, sizeof(rpatch_t));
+
+    texture_composites = calloc(numtextures, sizeof(rpatch_t));
+
+    BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
+    FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
+    SKY1 = R_CheckTextureNumForName("SKY1");
+
+    for (int i = 0; i < numspritelumps; i++)
+        createPatch(firstspritelump + i);
+
+    for (int i = 0; i < numtextures; i++)
+        createTextureCompositePatch(i);
+}
+
 const rpatch_t *R_CachePatchNum(int id)
 {
-    if (!patches[id].data)
-        createPatch(id);
-
     return &patches[id];
 }
 
 const rpatch_t *R_CacheTextureCompositePatchNum(int id)
 {
-    if (!texture_composites[id].data)
-        createTextureCompositePatch(id);
-
     return &texture_composites[id];
 }
 
