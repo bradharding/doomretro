@@ -1026,9 +1026,9 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 {
     for (int i = 0; i < 256; i++)
     {
-        colors[i].r = (byte)(*playpal++ * brightness);
-        colors[i].g = (byte)(*playpal++ * brightness);
-        colors[i].b = (byte)(*playpal++ * brightness);
+        colors[i].r = (byte)(gammatable[gammaindex][*playpal++] * brightness);
+        colors[i].g = (byte)(gammatable[gammaindex][*playpal++] * brightness);
+        colors[i].b = (byte)(gammatable[gammaindex][*playpal++] * brightness);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);

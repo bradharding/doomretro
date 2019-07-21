@@ -10,7 +10,7 @@
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
-* The screen will now always fade to black upon quitting, even when a PWAD has been loaded with a custom `PLAYPAL` lump.
+* The screen will now always fade to black upon quitting, even when a PWAD has been loaded with its own `COLORMAP` lump.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
