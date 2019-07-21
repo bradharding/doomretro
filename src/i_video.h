@@ -67,6 +67,7 @@ void GetScreenResolution(void);
 void I_SetPalette(byte *playpal);
 void I_SetExternalAutomapPalette(void);
 void I_SetSimplePalette(byte *playpal);
+void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
 void I_UpdateBlitFunc(dboolean shake);
 void I_Blit_Automap(void);
