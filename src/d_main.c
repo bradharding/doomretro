@@ -475,6 +475,8 @@ void D_FadeScreen(void)
         blitfunc();
         I_SetExternalAutomapPalette();
     }
+
+    I_Sleep(100);
 }
 
 //
