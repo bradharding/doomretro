@@ -1,7 +1,7 @@
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
-* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a common *DOOM* or *DOOM II* installation, an IWAD will now also be automatically selected.
+* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, an IWAD will now also be automatically selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
@@ -10,7 +10,7 @@
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
-* The screen will now always fade to black upon quitting, even when a PWAD has been loaded with its own `COLORMAP` lump.
+* Fading to black upon quitting is now smoother, and will now also occur when a PWAD has been loaded with its own `COLORMAP` lump.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
@@ -24,7 +24,7 @@
 * Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8 are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
-* The friction applied to corpses in liquid is now greater rather than less than when not in liquid.
+* The friction applied to corpses in liquid is now greater rather than less than the friction applied when not in liquid.
 * A bug has been fixed whereby the colors used in the automap would be wrong in some rare instances.
 * The external automap displayed when the `am_external` CVAR is `on` will now:
   * Also fade to black when quitting *DOOM Retro*.
