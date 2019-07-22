@@ -474,6 +474,7 @@ void D_FadeScreen(void)
         I_SetPaletteWithBrightness(PLAYPAL, i);
         blitfunc();
         I_SetExternalAutomapPalette();
+        I_Sleep(1);
     }
 
     I_Sleep(100);
