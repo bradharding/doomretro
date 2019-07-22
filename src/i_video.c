@@ -1039,14 +1039,14 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 
         for (int i = 0; i < 256; i++)
         {
-            byte    r = gammatable[gammaindex][*playpal++];
-            byte    g = gammatable[gammaindex][*playpal++];
-            byte    b = gammatable[gammaindex][*playpal++];
+            byte    r = (byte)(gammatable[gammaindex][*playpal++] * brightness);
+            byte    g = (byte)(gammatable[gammaindex][*playpal++] * brightness);
+            byte    b = (byte)(gammatable[gammaindex][*playpal++] * brightness);
             double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
 
-            colors[i].r = (byte)(p + (r - p) * color * brightness);
-            colors[i].g = (byte)(p + (g - p) * color * brightness);
-            colors[i].b = (byte)(p + (b - p) * color * brightness);
+            colors[i].r = (byte)(p + (r - p) * color);
+            colors[i].g = (byte)(p + (g - p) * color);
+            colors[i].b = (byte)(p + (b - p) * color);
         }
     }
 
