@@ -1035,6 +1035,7 @@ static void C_ShowDescription(int index)
     char    *p;
 
     M_StringCopy(description1, consolecmds[index].description, sizeof(description1));
+    strreplace(description1, "%", "%%");
 
     if ((p = strchr(description1, '\n')))
     {
@@ -1042,6 +1043,7 @@ static void C_ShowDescription(int index)
 
         *p++ = '\0';
         M_StringCopy(description2, p, sizeof(description2));
+        strreplace(description2, "%", "%%");
 
         if ((p = strchr(description2, '\n')))
         {
@@ -1049,6 +1051,7 @@ static void C_ShowDescription(int index)
 
             *p++ = '\0';
             M_StringCopy(description3, p, sizeof(description3));
+            strreplace(description3, "%", "%%");
 
             C_Output("%s %s", description1, description2);
             C_Output(description3);
