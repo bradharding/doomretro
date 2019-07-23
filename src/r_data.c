@@ -469,7 +469,10 @@ static void R_InitSpriteLumps(void)
             sc_String_free = removeext(sc_String);
 
             if (M_StringCompare(pwadfile, sc_String_free))
+            {
                 fixspriteoffsets = true;
+                M_SKULL1 = false;
+            }
 
             free(sc_String_free);
         }
