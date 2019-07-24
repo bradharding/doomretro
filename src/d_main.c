@@ -456,7 +456,7 @@ void D_PageDrawer(void)
             if (logotic >= 77 && logotic < 94)
                 V_DrawBigPatch(143, 167, logolump[94 - logotic]);
 
-            I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) * 768 : (pagetic > 94 ? (pagetic - 94) * 768 : 0))]);
+            I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) : (pagetic > 94 ? (pagetic - 94) : 0)) * 768]);
             prevtic = pagetic;
         }
     }
@@ -741,7 +741,11 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 
             M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+
+#if defined(_WIN32)
             wad = M_StringDuplicate(previouswad);
+#endif
+
             error = true;
             return true;
         }
