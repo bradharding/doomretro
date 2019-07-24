@@ -741,6 +741,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 
             M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+            wad = M_StringDuplicate(previouswad);
             error = true;
             return true;
         }
