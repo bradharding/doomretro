@@ -753,7 +753,7 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "baron of hell/hell knight projectile",
-        /* plural1              */ "",
+        /* plural1              */ "baron of hell/hell knight projectiles",
         /* name2                */ "baron ball",
         /* plural2              */ "baron balls",
         /* name3                */ "",
