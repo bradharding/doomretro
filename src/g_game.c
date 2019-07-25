@@ -1624,35 +1624,34 @@ static void G_DoNewGame(void)
     infight = false;
 }
 
-void G_SetFastMonsters(dboolean toggle)
+// killough 4/10/98: New function to fix bug which caused Doom
+// lockups when idclev was used in conjunction with -fast.
+void G_SetFastParms(int fast_pending)
 {
-    if (toggle)
+    static int  fast = 0;                   // remembers fast state
+
+    if (fast != fast_pending)               // only change if necessary
     {
-        for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-            if (states[i].tics != 1)
-                states[i].tics >>= 1;
+        if ((fast = fast_pending))
+        {
+            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+                if (states[i].tics != 1)    // killough 4/10/98
+                    states[i].tics >>= 1;   // don't change 1->0 since it causes cycles
 
-        mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
-        mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
-        mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
+            mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
+            mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
+            mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
+        }
+        else
+        {
+            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+                states[i].tics <<= 1;
+
+            mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
+            mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
+            mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
+        }
     }
-    else
-    {
-        for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-            states[i].tics <<= 1;
-
-        mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
-        mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
-        mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
-    }
-}
-
-static void G_SetFastParms(int fast_pending)
-{
-    static int  fast;
-
-    if (fast != fast_pending)
-        G_SetFastMonsters((fast = fast_pending));
 }
 
 void G_SetMovementSpeed(int scale)

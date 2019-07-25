@@ -1905,8 +1905,6 @@ static void exitmap_cmd_func2(char *cmd, char *parms)
 //
 // fastmonsters CCMD
 //
-void G_SetFastMonsters(dboolean toggle);
-
 static dboolean fastmonsters_cmd_func1(char *cmd, char *parms)
 {
     return (gameskill != sk_nightmare);
@@ -1927,6 +1925,8 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
     }
     else
         fastparm = !fastparm;
+
+    G_SetFastParms(fastparm);
 
     if (fastparm)
     {
