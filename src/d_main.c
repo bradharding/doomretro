@@ -2004,10 +2004,12 @@ static void D_DoomMainSetup(void)
         }
 
         if ((BTSX && W_CheckMultipleLumps(lumpname) > 1) || W_CheckNumForName(lumpname) >= 0)
+        {
             autostart = true;
 
-        stat_cheated = SafeAdd(stat_cheated, 1);
-        M_SaveCVARs();
+            stat_cheated = SafeAdd(stat_cheated, 1);
+            M_SaveCVARs();
+        }
     }
 
     M_Init();

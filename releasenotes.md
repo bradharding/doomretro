@@ -21,7 +21,7 @@
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
-* Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8 are no longer clipped by distance from the player.
+* Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the bosses (the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8) are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending the game from the options menu.
 * The friction applied to corpses in liquid is now greater rather than less than the friction applied when not in liquid.
@@ -40,7 +40,7 @@
 * A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
 * If the `+use` action is used against a wall that has a line special requiring it to be shot at instead, or has a scrolling or translucent texture, the player will now make an “oof” sound.
 * The effects of using the `fastmonsters` CCMD are now immediate.
-* The direction the menu background will spin is now based on how the player last turned.
+* The direction that the menu’s background spins is now the same as the direction the player last turned.
 
 ---
 

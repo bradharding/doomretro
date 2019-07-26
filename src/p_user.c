@@ -147,7 +147,7 @@ void P_CalcHeight(void)
         {
             viewplayer->viewheight = VIEWHEIGHT / 2;
 
-            if (viewplayer->deltaviewheight <= 0)
+            if (viewplayer->deltaviewheight < 1)
                 viewplayer->deltaviewheight = 1;
         }
 
