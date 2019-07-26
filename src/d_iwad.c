@@ -439,7 +439,7 @@ char *D_FindWADByName(char *filename)
 
 void D_InitIWADFolder(void)
 {
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
     char    *path;
 #endif
 
@@ -453,7 +453,7 @@ void D_InitIWADFolder(void)
             break;
         }
 
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
     path = M_StringJoin(iwadfolder, DIR_SEPARATOR_S, "DOOM.WAD", NULL);
 
     if (M_FileExists(path))

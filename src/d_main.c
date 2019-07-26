@@ -104,7 +104,7 @@ static char *iwadsrequired[] =
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
 char                *wad = wad_default;
 #endif
 dboolean            wipe = wipe_default;
@@ -1038,8 +1038,8 @@ static int D_OpenWADLauncher(void)
         iwadfound = 0;
 #if defined(_WIN32)
         previouswad = M_StringDuplicate(wad);
-#endif
         wad = "";
+#endif
         startuptimer = I_GetTimeMS();
 
         // only one file was selected
@@ -1064,7 +1064,9 @@ static int D_OpenWADLauncher(void)
                 && !M_StringEndsWith(file, ".cfg"))
                 file = M_StringJoin(file, ".wad", NULL);
 
+#if defined(_WIN32)
             wad = M_StringDuplicate(file);
+#endif
 
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
@@ -1115,7 +1117,9 @@ static int D_OpenWADLauncher(void)
                 if (iwadrequired == none)
                     iwadrequired = doom2;
 
+#if defined(_WIN32)
                 wad = M_StringDuplicate(leafname(file));
+#endif
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
@@ -1264,7 +1268,9 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+#if defined(_WIN32)
                             wad = M_StringDuplicate(leafname(fullpath));
+#endif
                             iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
                             break;
                         }
@@ -1306,7 +1312,9 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
+#if defined(_WIN32)
                             wad = M_StringDuplicate(leafname(fullpath));
+#endif
                             iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
                             break;
                         }
@@ -1443,7 +1451,9 @@ static int D_OpenWADLauncher(void)
 
                             if (W_MergeFile(fullpath, false))
                             {
+#if defined(_WIN32)
                                 wad = M_StringDuplicate(leafname(fullpath));
+#endif
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
@@ -1724,13 +1734,23 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
+                
+#if defined(_WIN32)
                 else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
+#else
+                else if (!choseniwad && !error)
+#endif
                 {
                     char    buffer[256];
 
+#if defined(_WIN32)
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (*wad ? wad : "any IWADs"));
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
                     wad = "";
+#else
+                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find any IWADs.");
+#endif
+
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
                 }
             } while (!choseniwad);
 #endif
