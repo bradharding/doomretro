@@ -1015,9 +1015,6 @@ static int D_OpenWADLauncher(void)
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
-
-    error = false;
-
 #elif defined(__APPLE__)
     NSOpenPanel *panel = [NSOpenPanel openPanel];
 
@@ -1031,23 +1028,26 @@ static int D_OpenWADLauncher(void)
     fileopenedok = (clicked == NSModalResponseOK);
 #endif
 
+    error = false;
+
     if (fileopenedok)
     {
         dboolean    onlyoneselected;
 
-        iwadfound = 0;
-#if defined(_WIN32)
-        previouswad = M_StringDuplicate(wad);
-        wad = "";
+#if defined(__APPLE__)
+        NSArray     *urls = [panel URLs];
 #endif
+
+        iwadfound = 0;
         startuptimer = I_GetTimeMS();
 
         // only one file was selected
 #if defined(_WIN32)
+        previouswad = M_StringDuplicate(wad);
+        wad = "";
+
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
 #elif defined(__APPLE__)
-        NSArray *urls = [panel URLs];
-
         onlyoneselected = ([urls count] == 1);
 #endif
 
@@ -1060,8 +1060,8 @@ static int D_OpenWADLauncher(void)
             char    *file = (char *)[url fileSystemRepresentation];
 #endif
 
-            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh") && !M_StringEndsWith(file, ".bex")
-                && !M_StringEndsWith(file, ".cfg"))
+            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh")
+                && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg"))
                 file = M_StringJoin(file, ".wad", NULL);
 
 #if defined(_WIN32)
@@ -1268,9 +1268,11 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+
 #if defined(_WIN32)
                             wad = M_StringDuplicate(leafname(fullpath));
 #endif
+
                             iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
                             break;
                         }
@@ -1312,9 +1314,11 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
+
 #if defined(_WIN32)
                             wad = M_StringDuplicate(leafname(fullpath));
 #endif
+
                             iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
                             break;
                         }
@@ -1454,6 +1458,7 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
                                 wad = M_StringDuplicate(leafname(fullpath));
 #endif
+
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
