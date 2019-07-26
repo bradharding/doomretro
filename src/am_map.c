@@ -83,7 +83,7 @@ int am_wallcolor = am_wallcolor_default;
 #define TSWALLPRIORITY          2
 #define GRIDPRIORITY            1
 
-static byte *priorities;
+static byte priorities[256 * 256];
 
 static byte playercolor;
 static byte thingcolor;
@@ -389,8 +389,6 @@ void AM_GetGridSize(void)
 
 void AM_Init(void)
 {
-    priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
-
     AM_SetColors();
 
     AM_GetGridSize();

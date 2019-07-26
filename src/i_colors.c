@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <stdlib.h>
+
 #include "i_colors.h"
 #include "i_swap.h"
 #include "w_wad.h"
@@ -201,7 +203,7 @@ int FindDominantColor(patch_t *patch)
 
 static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int colors)
 {
-    byte    *result = Z_Malloc(256 * 256, PU_STATIC, NULL);
+    byte    *result = malloc(256 * 256);
 
     for (int foreground = 0; foreground < 256; foreground++)
     {

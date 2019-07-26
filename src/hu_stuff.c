@@ -88,7 +88,7 @@ static int              message_counter;
 
 static dboolean         headsupactive;
 
-byte                    *tempscreen;
+byte                    tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
@@ -228,8 +228,6 @@ void HU_Init(void)
             minuspatchwidth = SHORT(minuspatch->width);
             minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
         }
-
-    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
         greenarmorpatch = W_CacheLumpNum(lump);

@@ -487,7 +487,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
             }
     }
     else
-        for (int tdir = DI_SOUTHEAST; tdir != (DI_EAST - 1); tdir--)
+        for (int tdir = DI_SOUTHEAST; tdir >= DI_EAST; tdir--)
             if (tdir != turnaround && !attempts[tdir])
             {
                 actor->movedir = tdir;

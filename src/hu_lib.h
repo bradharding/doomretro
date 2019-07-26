@@ -123,6 +123,6 @@ extern void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 extern dboolean STCFN034;
 extern dboolean idbehold;
 extern dboolean s_STSTR_BEHOLD2;
-extern byte     *tempscreen;
+extern byte     tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
 #endif

@@ -1094,7 +1094,7 @@ void R_DrawPausedFuzzColumns(void)
 //  identical sprites, kinda brightened up.
 //
 byte    *dc_translation;
-byte    *translationtables;
+byte    translationtables[256 * 3];
 
 void R_DrawTranslatedColumn(void)
 {
@@ -1122,8 +1122,6 @@ void R_DrawTranslatedColumn(void)
 //
 void R_InitTranslationTables(void)
 {
-    translationtables = Z_Malloc(256 * 3, PU_STATIC, NULL);
-
     // translate just the 16 green colors
     for (int i = 0; i < 256; i++)
         if (i >= 0x70 && i <= 0x7F)

@@ -139,7 +139,7 @@ extern fixed_t      ds_ystep;
 // start of a 64*64 tile image
 extern byte         *ds_source;
 
-extern byte         *translationtables;
+extern byte         translationtables[256 * 3];
 extern byte         *dc_translation;
 
 // Span blitting for rows, floor/ceiling.
