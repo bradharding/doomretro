@@ -26,6 +26,7 @@ autouse off
 centerweapon off
 crosshair none
 facebackcolor none
+freeze off
 gp_analog off
 gp_invertyaxis off
 gp_sensitivity 64
@@ -43,6 +44,8 @@ m_sensitivity 8
 messages on
 mouselook off
 movebob 100%
+notarget off
+pistolstart off
 playername "you"
 r_althud off
 r_blood red
@@ -81,6 +84,8 @@ r_shake_damage 0%
 r_skycolor none
 r_textures on
 r_translucency off
+regenhealth off
+respawnitems off
 s_channels 8
 s_randommusic off
 s_randompitch off

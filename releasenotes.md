@@ -41,6 +41,7 @@
 * If the `+use` action is used against a wall that has a line special requiring it to be shot at instead, or has a scrolling or translucent texture, the player will now make an “oof” sound.
 * The effects of using the `fastmonsters` CCMD are now immediate.
 * The direction that the menu’s background spins is now the same as the direction the player last turned.
+* The `freeze`, `notarget`, `pistolstart`, `regenhealth` and `respawnitems` CCMDs will now all be turned off when enabling vanilla mode.
 
 ---
 
