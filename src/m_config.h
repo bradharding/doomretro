@@ -636,7 +636,7 @@ enum
 
 #define vid_windowsize_default                  "768x480"
 
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
 #define wad_default                             ""
 #endif
 

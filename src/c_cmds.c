@@ -4190,7 +4190,7 @@ static void C_VerifyResetAll(const int key)
         }
 
 #if defined(_WIN32)
-        wad = "";
+        wad = wad_default;
 #endif
 
         resettingcvar = false;

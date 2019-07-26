@@ -1745,7 +1745,7 @@ static void D_DoomMainSetup(void)
 
 #if defined(_WIN32)
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (*wad ? wad : "any IWADs"));
-                    wad = "";
+                    wad = M_StringDuplicate(previouswad);
 #else
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find any IWADs.");
 #endif
