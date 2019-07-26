@@ -472,6 +472,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         sendsave = false;
         cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
     }
+
+    if (cmd->angleturn)
+        spindirection = SIGN(cmd->angleturn);
 }
 
 static void G_SetInitialWeapon(void)

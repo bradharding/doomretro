@@ -40,6 +40,7 @@
 * A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
 * If the `+use` action is used against a wall that has a line special requiring it to be shot at instead, or has a scrolling or translucent texture, the player will now make an “oof” sound.
 * The effects of using the `fastmonsters` CCMD are now immediate.
+* The direction the menu background will spin is now based on how the player last turned.
 
 ---
 

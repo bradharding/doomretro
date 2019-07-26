@@ -110,5 +110,6 @@ extern byte     grays[256];
 extern dboolean returntowidescreen;
 extern dboolean startingnewgame;
 extern dboolean inhelpscreens;
+extern int      spindirection;
 
 #endif

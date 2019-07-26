@@ -68,7 +68,6 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
-extern int      spindirection;
 
 void G_RemoveChoppers(void);
 
