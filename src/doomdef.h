@@ -144,14 +144,19 @@ typedef enum
 //
 
 // Skill flags.
-#define MTF_EASY    1
-#define MTF_NORMAL  2
-#define MTF_HARD    4
+#define MTF_EASY        1
+#define MTF_NORMAL      2
+#define MTF_HARD        4
 
 // Deaf monsters/do not react to sound.
-#define MTF_AMBUSH  8
+#define MTF_AMBUSH      8
 
-#define MTF_NETGAME 16
+// killough 11/98 
+#define MTF_NOTSINGLE   16
+#define MTF_NOTDM       32
+#define MTF_NOTCOOP     64
+#define MTF_FRIEND      128
+#define MTF_RESERVED    256
 
 typedef enum
 {

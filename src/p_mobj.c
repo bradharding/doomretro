@@ -1012,7 +1012,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
-    if (mthing->options & MTF_NETGAME)
+    if (mthing->options & MTF_NOTSINGLE)
         return NULL;
 
     if (gameskill == sk_baby)
