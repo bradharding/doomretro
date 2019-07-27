@@ -210,7 +210,7 @@ extern dboolean     vid_vsync;
 extern dboolean     vid_widescreen;
 extern char         *vid_windowpos;
 extern char         *vid_windowsize;
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__APPLE__)
 extern char         *wad;
 #endif
 extern int          weaponbob;
@@ -636,7 +636,7 @@ enum
 
 #define vid_windowsize_default                  "768x480"
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__APPLE__)
 #define wad_default                             ""
 #endif
 

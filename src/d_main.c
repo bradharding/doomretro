@@ -104,7 +104,7 @@ static char *iwadsrequired[] =
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__APPLE__)
 char                *wad = wad_default;
 #endif
 dboolean            wipe = wipe_default;
