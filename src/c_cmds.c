@@ -277,6 +277,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms);
 static dboolean condump_cmd_func1(char *cmd, char *parms);
 static void condump_cmd_func2(char *cmd, char *parms);
 static void cvarlist_cmd_func2(char *cmd, char *parms);
+static void dogs_cmd_func2(char *cmd, char *parms);
 static void endgame_cmd_func2(char *cmd, char *parms);
 static void exec_cmd_func2(char *cmd, char *parms);
 static void exitmap_cmd_func2(char *cmd, char *parms);
@@ -522,6 +523,8 @@ consolecmd_t consolecmds[] =
         "The color of the crosshair (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
         "Lists all console variables."),
+    CMD(dogs, "", null_func1, dogs_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
+        "Toggles <i><b>MBF</b></i> helper dogs."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
@@ -1848,6 +1851,43 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_TabbedOutput(tabs, "\t\t\t%s", description3);
             }
         }
+}
+
+//
+// dogs CCMD
+//
+static void dogs_cmd_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0 && dogs)
+            dogs = false;
+        else if (value == 1 && !dogs)
+            dogs = true;
+        else
+            return;
+    }
+    else
+        dogs = !dogs;
+
+    if (dogs)
+    {
+        C_Output(s_STSTR_DON);
+        HU_SetPlayerMessage(s_STSTR_DON, false, false);
+        viewplayer->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+    {
+        C_Output(s_STSTR_DOFF);
+        HU_SetPlayerMessage(s_STSTR_DOFF, false, false);
+    }
+
+    message_dontfuckwithme = true;
+    C_HideConsole();
 }
 
 //

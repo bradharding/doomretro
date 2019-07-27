@@ -117,6 +117,7 @@ char                *previouswad;
 #endif
 
 dboolean            devparm;                // started game with -devparm
+dboolean            dogs = false;
 dboolean            fastparm;               // checkparm of -fast
 dboolean            freeze;
 dboolean            nomonsters;             // checkparm of -nomonsters

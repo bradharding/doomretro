@@ -350,6 +350,8 @@ extern char     *s_STSTR_RHON;
 extern char     *s_STSTR_RHOFF;
 extern char     *s_STSTR_VON;
 extern char     *s_STSTR_VOFF;
+extern char     *s_STSTR_DON;
+extern char     *s_STSTR_DOFF;
 
 extern char     *s_E1TEXT;
 extern char     *s_E2TEXT;

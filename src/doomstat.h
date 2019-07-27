@@ -51,6 +51,7 @@
 // ------------------------
 // Command line parameters.
 //
+extern dboolean         dogs;
 extern dboolean         nomonsters;             // checkparm of -nomonsters
 extern dboolean         regenhealth;
 extern dboolean         respawnitems;
