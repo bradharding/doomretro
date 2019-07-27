@@ -11,6 +11,7 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has been loaded with its own `COLORMAP` lump.
+* [*MBF helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned into the map by entering `spawn dog` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
