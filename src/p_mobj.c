@@ -1077,6 +1077,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
     {
         mobj->flags |= MF_FRIEND;           // killough 10/98:
+        mbfcompatible = true;
         P_UpdateThinker(&mobj->thinker);    // transfer friendliness flag
     }
 
