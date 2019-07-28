@@ -366,8 +366,9 @@ static dboolean PIT_CheckLine(line_t *ld)
         if (ld->flags & ML_BLOCKING)                    // explicitly blocking everything
             return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
 
+        // killough 8/9/98: monster-blockers don't affect friends
         // [BH] monster-blockers don't affect corpses
-        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS))
+        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && !(tmthing->flags & MF_FRIEND) && (ld->flags & ML_BLOCKMONSTERS))
             return false;                               // block monsters only
     }
 
@@ -1445,6 +1446,9 @@ void P_SlideMove(mobj_t *mo)
 mobj_t          *linetarget;    // who got hit (or NULL)
 static mobj_t   *shootthing;
 
+// killough 8/2/98: for more intelligent autoaiming
+static int      aim_flags_mask;
+
 // height if not aiming up or down
 static fixed_t  shootz;
 
@@ -1516,6 +1520,11 @@ static dboolean PTR_AimTraverse(intercept_t *in)
 
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
+
+    // killough 7/19/98, 8/2/98:
+    // friends don't aim at friends (except players), at least not first
+    if ((th->flags & shootthing->flags & aim_flags_mask) && !th->player)
+        return true;
 
     // check angles to see if the thing can be aimed at
     dist = FixedMul(attackrange, in->frac);
@@ -1697,7 +1706,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 //
 // P_AimLineAttack
 //
-fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance)
+fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
 {
     fixed_t x2, y2;
 
@@ -1717,6 +1726,9 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance)
 
     attackrange = distance;
     linetarget = NULL;
+
+    // killough 8/2/98: prevent friends from aiming at friends
+    aim_flags_mask = mask;
 
     P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), PTR_AimTraverse);
 

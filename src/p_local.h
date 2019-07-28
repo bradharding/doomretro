@@ -244,7 +244,7 @@ void P_FreeSecNodeList(void);
 
 extern mobj_t   *linetarget;    // who got hit (or NULL)
 
-fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance);
+fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask);
 
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 

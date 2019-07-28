@@ -529,6 +529,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
     if (mthing->options & MTF_AMBUSH)
         mo->flags |= MF_AMBUSH;
 
+    // killough 11/98: transfer friendliness from deceased
+    mo->flags = (mo->flags & ~MF_FRIEND) | (mobj->flags & MF_FRIEND);
+
     mo->reactiontime = 18;
 
     // remove the old monster
@@ -999,6 +1002,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj_t  *mobj;
     fixed_t x, y, z;
     short   type = mthing->type;
+    short   options = mthing->options;
     int     flags;
     int     musicid = 0;
 
@@ -1012,7 +1016,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
-    if (mthing->options & MTF_NOTSINGLE)
+    if (options & MTF_NOTSINGLE)
         return NULL;
 
     if (gameskill == sk_baby)
@@ -1041,7 +1045,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // check for appropriate skill level
-    if (!(mthing->options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors) && type != VisualModeCamera)
+    if (!(options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors) && type != VisualModeCamera)
     {
         if (*mobjinfo[i].name1)
             C_Warning("The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
@@ -1051,22 +1055,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         return NULL;
     }
 
-    if (!(mthing->options & bit))
+    if (!(options & bit))
         return NULL;
-
-    // find which type to spawn
-
-    if (mobjinfo[i].flags & MF_COUNTKILL)
-    {
-        // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters && i != MT_KEEN)
-            return NULL;
-
-        totalkills++;
-        monstercount[i]++;
-    }
-    else if (i == MT_BARREL)
-        barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
     if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && i != MT_MISC62)
@@ -1084,16 +1074,38 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
+    if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
+    {
+        mobj->flags |= MF_FRIEND;           // killough 10/98:
+        P_UpdateThinker(&mobj->thinker);    // transfer friendliness flag
+    }
+
     flags = mobj->flags;
 
-    if (mobj->tics > 0)
-        mobj->tics = 1 + (M_Random() % mobj->tics);
+    if (flags & MF_COUNTKILL)
+    {
+        // don't spawn any monsters if -nomonsters
+        if (!spawnmonsters && i != MT_KEEN)
+            return NULL;
+
+        // killough 7/20/98: exclude friends
+        if (!((flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
+        {
+            totalkills++;
+            monstercount[i]++;
+        }
+    }
+    else if (i == MT_BARREL)
+        barrelcount++;
 
     if (flags & MF_COUNTITEM)
         totalitems++;
 
     if (flags & MF_SPECIAL)
         totalpickups++;
+
+    if (mobj->tics > 0)
+        mobj->tics = 1 + (M_Random() % mobj->tics);
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
@@ -1380,24 +1392,30 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         slope = PLAYERSLOPE(source->player);
     else
     {
-        // see which target is to be aimed at
-        slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+        // killough 8/2/98: prefer autoaiming at enemies
+        int mask = MF_FRIEND;
 
-        if (!linetarget)
+        do
         {
-            slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT);
+            // see which target is to be aimed at
+            slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT, mask);
 
             if (!linetarget)
             {
-                slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT);
+                slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT, mask);
 
                 if (!linetarget)
                 {
-                    an = source->angle;
-                    slope = (usemouselook ? PLAYERSLOPE(source->player) : 0);
+                    slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT, mask);
+
+                    if (!linetarget)
+                    {
+                        an = source->angle;
+                        slope = (usemouselook ? PLAYERSLOPE(source->player) : 0);
+                    }
                 }
             }
-        }
+        } while (mask && (mask = 0, !linetarget));  // killough 8/2/98
     }
 
     x = source->x;
