@@ -11,13 +11,13 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has been loaded with its own `COLORMAP` lump.
-* [*MBF helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned into the map by entering `spawn dog` in the console.
+* [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [*helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned into the current map by entering `spawn dog` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
   * The PWAD of the current map will now always be correct.
-  * Improvements have been to how *BOOM* compatibility is detected.
-  * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible is now displayed.
+  * Improvements have been made to how *BOOM* compatibility is detected.
+  * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible or not is now displayed.
   * The author of some maps in *DOOM II: No Rest For The Living* has been corrected.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.

@@ -5917,13 +5917,13 @@ mobjinfo_t mobjinfo[] =
         /* frames               */ 0,
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* name1                */ "dog",
         /* plural1              */ "dogs",
-        /* name2                */ "MBF helper dog",
-        /* plural2              */ "MBF helper dogs",
-        /* name3                */ "",
-        /* plural3              */ ""
+        /* name2                */ "helper dog",
+        /* plural2              */ "helper dogs",
+        /* name3                */ "MBF helper dog",
+        /* plural3              */ "MBF helper dogs"
     },
 
     // MT_PLASMA1
