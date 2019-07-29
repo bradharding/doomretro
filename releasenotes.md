@@ -1,17 +1,17 @@
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
-* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, an IWAD will now also be automatically selected.
+* When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
-  * `SIGIL.wad` will now only automatically load with *The Ultimate DOOM* and not the registered version of *DOOM*.
+  * `SIGIL.wad` will now only automatically be loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
-* Fading to black upon quitting is now smoother, and will now also occur when a PWAD has been loaded with its own `COLORMAP` lump.
-* [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [*helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned into the current map by entering `spawn dog` in the console.
+* Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
+* [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [*helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn dog` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
@@ -20,11 +20,11 @@
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible or not is now displayed.
   * The author of some maps in *DOOM II: No Rest For The Living* has been corrected.
 * The `+screenshot` action can now be bound to a mouse button.
-* A camera’s shutter sound is now played when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
-* A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
+* A camera’s shutter sound is now played when taking a screenshot using the <kbd>PRINTSCREEN</kbd> key.
+* A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
 * Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the bosses (the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8) are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
-* The status bar will no longer be partially displayed in the background when ending the game from the options menu.
+* The status bar will no longer be partially displayed in the background when ending a game from the options menu.
 * The friction applied to corpses in liquid is now greater rather than less than the friction applied when not in liquid.
 * A bug has been fixed whereby the colors used in the automap would be wrong in some rare instances.
 * The external automap displayed when the `am_external` CVAR is `on` will now:
