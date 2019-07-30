@@ -550,7 +550,7 @@ dboolean V_IsEmptyPatch(patch_t *patch)
     return true;
 }
 
-extern byte *tempscreen;
+extern byte tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 {

@@ -237,14 +237,14 @@ kern_t kern[] =
 
 void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 {
-    int     w = 0;
-    int     tw = 0;
-    int     x, y;
-    int     maxx, maxy;
-    char    prev = '\0';
-    byte    *fb1 = screens[0];
-    byte    *fb2 = screens[(r_screensize < 7 && !automapactive)];
-    int     len = l->len;
+    int             w = 0;
+    int             tw = 0;
+    int             x, y;
+    int             maxx, maxy;
+    unsigned char   prev = '\0';
+    byte            *fb1 = screens[0];
+    byte            *fb2 = screens[(r_screensize < 7 && !automapactive)];
+    int             len = l->len;
 
     if (external)
     {
