@@ -54,7 +54,8 @@
 
 #define BARRELRANGE (512 * FRACUNIT)
 
-int barrelms = 0;
+int             barrelms = 0;
+static mobj_t   *current_actor;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -132,6 +133,10 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
     if (!target)
         return false;
 
+    // killough 7/18/98: friendly monsters don't attack other friends
+    if (actor->flags & target->flags & MF_FRIEND)
+        return false;
+
     if (P_ApproxDistance(target->x - actor->x, target->y - actor->y) >= MELEERANGE - 20 * FRACUNIT + target->info->radius)
         return false;
 
@@ -143,6 +148,24 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
         return false;
 
     return true;
+}
+
+//
+// P_HitFriend()
+//
+// killough 12/98
+// This function tries to prevent shooting at friends
+
+static dboolean P_HitFriend(mobj_t *actor)
+{
+    return actor->flags & MF_FRIEND && actor->target &&
+        (P_AimLineAttack(actor,
+            R_PointToAngle2(actor->x, actor->y,
+                actor->target->x, actor->target->y),
+            P_ApproxDistance(actor->x - actor->target->x,
+                actor->y - actor->target->y), 0),
+            linetarget) && linetarget != actor->target &&
+        !((linetarget->flags ^ actor->flags) & MF_FRIEND);
 }
 
 //
@@ -161,8 +184,22 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     {
         // the target just hit the enemy, so fight back!
         actor->flags &= ~MF_JUSTHIT;
-        return true;
+
+        // killough 7/18/98: no friendly fire at corpses
+        // killough 11/98: prevent too much infighting among friends
+        // cph - yikes, talk about fitting everything on one line...
+        return
+            !(actor->flags & MF_FRIEND) ||
+            (actor->target->health > 0 &&
+            (!(actor->target->flags & MF_FRIEND) ||
+                (actor->target->player ? M_Random() > 128 :
+        !(actor->target->flags & MF_JUSTHIT) && M_Random() > 128)));
     }
+
+    // killough 7/18/98: friendly monsters don't attack other friendly
+    // monsters or players (except when attacked, and then only once)
+    if (actor->flags & actor->target->flags & MF_FRIEND)
+        return false;
 
     if (actor->reactiontime)
         return false;                   // do not attack yet
@@ -200,6 +237,9 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
         dist = 200;
 
     if (M_Random() < dist)
+        return false;
+
+    if (P_HitFriend(actor))
         return false;
 
     return true;
@@ -337,6 +377,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
+    dboolean    dropoff = false;
     dboolean    onlift;
     int         underdamage;
 
@@ -346,7 +387,18 @@ static dboolean P_SmartMove(mobj_t *actor)
 
     underdamage = P_IsUnderDamage(actor);
 
-    if (!P_Move(actor, false))
+    // killough 10/98: allow dogs to drop off of taller ledges sometimes.
+    // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
+    // and only if the target is immediately on the other side of the line.
+    if (actor->type == MT_DOGS
+        && target &&
+        !((target->flags ^ actor->flags) & MF_FRIEND) &&
+        P_ApproxDistance(actor->x - target->x,
+            actor->y - target->y) < FRACUNIT * 144 &&
+        M_Random() < 235)
+        dropoff = 2;
+
+    if (!P_Move(actor, dropoff))
         return false;
 
     // killough 9/9/98: avoid crushing ceilings or other damaging areas
@@ -630,6 +682,75 @@ static dboolean P_LookForMonsters(mobj_t *actor)
         P_SetTarget(&actor->target, mo);
         return true;
     }
+
+    return false;
+}
+
+//
+// P_IsVisible
+//
+// killough 9/9/98: whether a target is visible to a monster
+//
+
+static dboolean P_IsVisible(mobj_t *actor, mobj_t *mo, dboolean allaround)
+{
+    if (!allaround)
+    {
+        angle_t an = R_PointToAngle2(actor->x, actor->y,
+            mo->x, mo->y) - actor->angle;
+        if (an > ANG90 && an < ANG270 &&
+            P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
+            return false;
+    }
+    return P_CheckSight(actor, mo);
+}
+
+//
+// PIT_FindTarget
+//
+// killough 9/5/98
+//
+// Finds monster targets for other monsters
+//
+
+static int current_allaround;
+
+static dboolean PIT_FindTarget(mobj_t *mo)
+{
+    mobj_t *actor = current_actor;
+
+    if (!((mo->flags ^ actor->flags) & MF_FRIEND &&        // Invalid target
+        mo->health > 0 && (mo->flags & MF_COUNTKILL || mo->type == MT_SKULL)))
+        return true;
+
+    // If the monster is already engaged in a one-on-one attack
+    // with a healthy friend, don't attack around 60% the time
+    {
+        const mobj_t *targ = mo->target;
+
+        if (targ && targ->target == mo &&
+            M_Random() > 100 &&
+            (targ->flags ^ mo->flags) & MF_FRIEND &&
+            targ->health * 2 >= targ->info->spawnhealth)
+            return true;
+    }
+
+    if (!P_IsVisible(actor, mo, current_allaround))
+        return true;
+
+    P_SetTarget(&actor->lastenemy, actor->target);  // Remember previous target
+    P_SetTarget(&actor->target, mo);                // Found target
+
+    // Move the selected monster to the end of its associated
+    // list, so that it gets searched last next time.
+
+    //{
+    //    thinker_t *cap = &thinkerclasscap[mo->flags & MF_FRIEND ?
+    //        th_friends : th_enemies];
+    //    (mo->thinker.cprev->cnext = mo->thinker.cnext)->cprev = mo->thinker.cprev;
+    //    (mo->thinker.cprev = cap->cprev)->cnext = &mo->thinker;
+    //    (mo->thinker.cnext = cap)->cprev = &mo->thinker;
+    //}
 
     return false;
 }

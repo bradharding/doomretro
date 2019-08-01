@@ -6,7 +6,7 @@
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only automatically be loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
-  * Savegame descriptions will now update with the current map’s name when saving over an existing savegame.
+  * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
