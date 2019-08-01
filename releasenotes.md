@@ -6,12 +6,12 @@
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only automatically be loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
-  * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
+  * Savegame descriptions will now update with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
-* [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [*helper dogs*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn dog` in the console.
+* An [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn dog` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:

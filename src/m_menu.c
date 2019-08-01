@@ -1957,7 +1957,7 @@ void M_QuitDOOM(int choice)
 #if defined(_WIN32)
     char        *OS = "Windows";
 #elif defined(__APPLE__)
-    char        *OS = "OS X";
+    char        *OS = "macOS";
 #else
     char        *OS = "Linux";
 #endif

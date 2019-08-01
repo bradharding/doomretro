@@ -168,7 +168,7 @@ char *M_GetAppDataFolder(void)
 #if defined(_WIN32)
     return executablefolder;
 #else
-    // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
+    // On Linux and macOS, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
     char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
@@ -209,7 +209,7 @@ char *M_GetResourceFolder(void)
     char    *executablefolder = M_GetExecutableFolder();
 
 #if !defined(_WIN32)
-    // On Linux and OS X, first assume that the executable is in .../bin and
+    // On Linux and macOS, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
     char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
