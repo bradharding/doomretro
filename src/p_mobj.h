@@ -411,6 +411,8 @@ typedef struct mobj_s
 
     short               gear;                   // killough 11/98: used in torque simulation
 
+    short               pursuecount;
+
     int                 bloodsplats;
 
     int                 blood;

@@ -155,17 +155,18 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 //
 // killough 12/98
 // This function tries to prevent shooting at friends
-
+//
 static dboolean P_HitFriend(mobj_t *actor)
 {
-    return actor->flags & MF_FRIEND && actor->target &&
-        (P_AimLineAttack(actor,
-            R_PointToAngle2(actor->x, actor->y,
-                actor->target->x, actor->target->y),
-            P_ApproxDistance(actor->x - actor->target->x,
-                actor->y - actor->target->y), 0),
-            linetarget) && linetarget != actor->target &&
-        !((linetarget->flags ^ actor->flags) & MF_FRIEND);
+    mobj_t  *target = actor->target;
+
+    if (!target)
+        return false;
+
+    P_AimLineAttack(actor, R_PointToAngle2(actor->x, actor->y, target->x, target->y),
+        P_ApproxDistance(actor->x - target->x, actor->y - target->y), 0);
+
+    return (linetarget && linetarget != target && !((linetarget->flags ^ actor->flags) & MF_FRIEND));
 }
 
 //
@@ -187,18 +188,13 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 
         // killough 7/18/98: no friendly fire at corpses
         // killough 11/98: prevent too much infighting among friends
-        // cph - yikes, talk about fitting everything on one line...
-        return
-            !(actor->flags & MF_FRIEND) ||
-            (actor->target->health > 0 &&
-            (!(actor->target->flags & MF_FRIEND) ||
-                (actor->target->player ? M_Random() > 128 :
-        !(actor->target->flags & MF_JUSTHIT) && M_Random() > 128)));
+        return (!(actor->flags & MF_FRIEND) || (target->health > 0 && (!(target->flags & MF_FRIEND)
+            || (target->player ? M_Random() > 128 : !(target->flags & MF_JUSTHIT) && M_Random() > 128))));
     }
 
     // killough 7/18/98: friendly monsters don't attack other friendly
     // monsters or players (except when attacked, and then only once)
-    if (actor->flags & actor->target->flags & MF_FRIEND)
+    if (actor->flags & target->flags & MF_FRIEND)
         return false;
 
     if (actor->reactiontime)
@@ -239,7 +235,7 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (M_Random() < dist)
         return false;
 
-    if (P_HitFriend(actor))
+    if ((actor->flags & MF_FRIEND) && P_HitFriend(actor))
         return false;
 
     return true;
@@ -386,17 +382,6 @@ static dboolean P_SmartMove(mobj_t *actor)
         && actor->subsector->sector->islift);
 
     underdamage = P_IsUnderDamage(actor);
-
-    // killough 10/98: allow dogs to drop off of taller ledges sometimes.
-    // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
-    // and only if the target is immediately on the other side of the line.
-    if (actor->type == MT_DOGS
-        && target &&
-        !((target->flags ^ actor->flags) & MF_FRIEND) &&
-        P_ApproxDistance(actor->x - target->x,
-            actor->y - target->y) < FRACUNIT * 144 &&
-        M_Random() < 235)
-        dropoff = 2;
 
     if (!P_Move(actor, dropoff))
         return false;
@@ -661,9 +646,6 @@ static void P_NewChaseDir(mobj_t *actor)
 
 static dboolean P_LookForMonsters(mobj_t *actor)
 {
-    if (!P_CheckSight(viewplayer->mo, actor))
-        return false;           // player can't see monster
-
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
@@ -682,75 +664,6 @@ static dboolean P_LookForMonsters(mobj_t *actor)
         P_SetTarget(&actor->target, mo);
         return true;
     }
-
-    return false;
-}
-
-//
-// P_IsVisible
-//
-// killough 9/9/98: whether a target is visible to a monster
-//
-
-static dboolean P_IsVisible(mobj_t *actor, mobj_t *mo, dboolean allaround)
-{
-    if (!allaround)
-    {
-        angle_t an = R_PointToAngle2(actor->x, actor->y,
-            mo->x, mo->y) - actor->angle;
-        if (an > ANG90 && an < ANG270 &&
-            P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
-            return false;
-    }
-    return P_CheckSight(actor, mo);
-}
-
-//
-// PIT_FindTarget
-//
-// killough 9/5/98
-//
-// Finds monster targets for other monsters
-//
-
-static int current_allaround;
-
-static dboolean PIT_FindTarget(mobj_t *mo)
-{
-    mobj_t *actor = current_actor;
-
-    if (!((mo->flags ^ actor->flags) & MF_FRIEND &&        // Invalid target
-        mo->health > 0 && (mo->flags & MF_COUNTKILL || mo->type == MT_SKULL)))
-        return true;
-
-    // If the monster is already engaged in a one-on-one attack
-    // with a healthy friend, don't attack around 60% the time
-    {
-        const mobj_t *targ = mo->target;
-
-        if (targ && targ->target == mo &&
-            M_Random() > 100 &&
-            (targ->flags ^ mo->flags) & MF_FRIEND &&
-            targ->health * 2 >= targ->info->spawnhealth)
-            return true;
-    }
-
-    if (!P_IsVisible(actor, mo, current_allaround))
-        return true;
-
-    P_SetTarget(&actor->lastenemy, actor->target);  // Remember previous target
-    P_SetTarget(&actor->target, mo);                // Found target
-
-    // Move the selected monster to the end of its associated
-    // list, so that it gets searched last next time.
-
-    //{
-    //    thinker_t *cap = &thinkerclasscap[mo->flags & MF_FRIEND ?
-    //        th_friends : th_enemies];
-    //    (mo->thinker.cprev->cnext = mo->thinker.cnext)->cprev = mo->thinker.cprev;
-    //    (mo->thinker.cprev = cap->cprev)->cnext = &mo->thinker;
-    //    (mo->thinker.cnext = cap)->cprev = &mo->thinker;
-    //}
 
     return false;
 }
@@ -825,6 +738,19 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 }
 
 //
+// P_LookForTargets
+//
+// killough 9/5/98: look for targets to go after, depending on kind of monster
+//
+
+static dboolean P_LookForTargets(mobj_t *actor, int allaround)
+{
+    return (actor->flags & MF_FRIEND) ?
+        P_LookForMonsters(actor) || P_LookForPlayer(actor, allaround) :
+        P_LookForPlayer(actor, allaround);
+}
+
+//
 // A_KeenDie
 // DOOM II special, map 32.
 // Uses special tag 666.
@@ -862,24 +788,21 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->threshold = 0;       // any shot will wake up
 
-    if (target && (target->flags & MF_SHOOTABLE))
-    {
-        P_SetTarget(&actor->target, target);
+    // killough 7/18/98:
+    // Friendly monsters go after other monsters first, but
+    // also return to player, without attacking them, if they
+    // cannot find any targets. A marine's best friend :)
+    actor->pursuecount = 0;
 
-        if (actor->flags & MF_AMBUSH)
-        {
-            if (P_CheckSight(actor, actor->target))
-                goto seeyou;
-        }
-        else
-            goto seeyou;
-    }
-
-    if (!P_LookForPlayer(actor, false))
+    if (!(actor->flags & MF_FRIEND && P_LookForTargets(actor, false)) &&
+        !(target &&
+            target->flags & MF_SHOOTABLE &&
+            (P_SetTarget(&actor->target, target),
+                !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target))) &&
+                (actor->flags & MF_FRIEND || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
-seeyou:
     if (actor->info->seesound)
     {
         int sound;
@@ -983,20 +906,56 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // check for missile attack
-    if (info->missilestate)
+    if (actor->info->missilestate)
+        if (!(gameskill < sk_nightmare && !fastparm && actor->movecount))
+            if (P_CheckMissileRange(actor))
+            {
+                P_SetMobjState(actor, actor->info->missilestate);
+                actor->flags |= MF_JUSTATTACKED;
+                return;
+            }
+
+    if (!actor->threshold)
     {
-        if (gameskill < sk_nightmare && !fastparm && actor->movecount)
-            goto nomissile;
+        // killough 7/18/98, 9/9/98: new monster AI
+        //if (P_HelpFriend(actor))
+        //    return;      // killough 9/8/98: Help friends in need
+        // Look for new targets if current one is bad or is out of view
+        /*else */if (actor->pursuecount)
+            actor->pursuecount--;
+        else
+        {
+            // Our pursuit time has expired. We're going to think about
+            // changing targets
+            actor->pursuecount = BASETHRESHOLD;
 
-        if (!P_CheckMissileRange(actor))
-            goto nomissile;
+            // Unless (we have a live target
+            //         and it's not friendly
+            //         and we can see it)
+            //  try to find a new one; return if successful
+            if (!(actor->target && actor->target->health > 0 &&
+                ((false) ||
+                (((actor->target->flags ^ actor->flags) & MF_FRIEND ||
+                    (!(actor->flags & MF_FRIEND) && true)) &&
+                    P_CheckSight(actor, actor->target))))
+                && P_LookForTargets(actor, true))
+                return;
 
-        P_SetMobjState(actor, info->missilestate);
-        actor->flags |= MF_JUSTATTACKED;
-        return;
+            /* (Current target was good, or no new target was found.)
+             *
+             * If monster is a missile-less friend, give up pursuit and
+             * return to player, if no attacks have occurred recently.
+             */
+
+            if (!actor->info->missilestate && actor->flags & MF_FRIEND) {
+                if (actor->flags & MF_JUSTHIT)          /* if recent action, */
+                    actor->flags &= ~MF_JUSTHIT;          /* keep fighting */
+                else if (P_LookForPlayer(actor, true)) /* else return to player */
+                    return;
+            }
+        }
     }
 
-nomissile:
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))
         P_NewChaseDir(actor);
