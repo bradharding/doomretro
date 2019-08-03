@@ -814,9 +814,8 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 //
 static dboolean P_LookForTargets(mobj_t *actor, int allaround)
 {
-    return ((actor->flags & MF_FRIEND) ?
-        P_LookForMonsters(actor, allaround) || P_LookForPlayer(actor, allaround) :
-        P_LookForPlayer(actor, allaround));
+    return ((actor->flags & MF_FRIEND) ? P_LookForMonsters(actor, allaround) || P_LookForPlayer(actor, allaround) :
+        P_LookForPlayer(actor, allaround) || P_LookForMonsters(actor, allaround));
 }
 
 //
@@ -857,6 +856,10 @@ static dboolean P_HelpFriend(mobj_t *actor)
 }
 
 //
+// ACTION ROUTINES
+//
+
+//
 // A_KeenDie
 // DOOM II special, map 32.
 // Uses special tag 666.
@@ -879,10 +882,6 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     junk.tag = 666;
     EV_DoDoor(&junk, doorOpen, VDOORSPEED);
 }
-
-//
-// ACTION ROUTINES
-//
 
 //
 // A_Look
@@ -1009,11 +1008,11 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // check for missile attack
-    if (actor->info->missilestate)
+    if (info->missilestate)
         if (!(gameskill < sk_nightmare && !fastparm && actor->movecount))
             if (P_CheckMissileRange(actor))
             {
-                P_SetMobjState(actor, actor->info->missilestate);
+                P_SetMobjState(actor, info->missilestate);
                 actor->flags |= MF_JUSTATTACKED;
                 return;
             }
