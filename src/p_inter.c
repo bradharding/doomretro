@@ -1924,6 +1924,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     dboolean    corpse = flags & MF_CORPSE;
     int         type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
+    dboolean    justhit = false;
 
     if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
@@ -2080,16 +2081,18 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY))
     {
-        target->flags |= MF_JUSTHIT;                            // fight back!
+        justhit = true;
         P_SetMobjState(target, info->painstate);
     }
 
     target->reactiontime = 0;                                   // we're awake now...
 
-    if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
+    if ((!target->threshold || type == MT_VILE) && source && source != target
+        && source->type != MT_VILE && ((source->flags ^ target->flags) & MF_FRIEND))
     {
         // if not intent on another player, chase after this one
-        if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
+        if (!target->lastenemy || target->lastenemy->health <= 0
+            || !((target->flags ^ target->lastenemy->flags) & MF_FRIEND) && target->target != source)
             P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
 
         P_SetTarget(&target->target, source);                   // killough 11/98
@@ -2098,4 +2101,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (target->state == &states[info->spawnstate] && info->seestate != S_NULL)
             P_SetMobjState(target, info->seestate);
     }
+
+    if (justhit && (target->target == source || !target->target || !(target->flags & target->target->flags & MF_FRIEND)))
+        target->flags |= MF_JUSTHIT;                            // fight back!
 }
