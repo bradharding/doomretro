@@ -931,10 +931,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
                 break;
         }
 
-        if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-            S_StartSoundOnce(NULL, sound);      // full volume
-        else
-            S_StartSound(actor, sound);
+        S_StartSound(actor, sound);
 
         // [crispy] make seesounds uninterruptible
         S_UnlinkSound(actor);
