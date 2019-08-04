@@ -11,9 +11,9 @@
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
-* *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by recognizing monsters with the `MF_FRIEND` flag. This allows:
-  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) to be spawned in the current map by entering `spawn dog` in the console.
-  * All friends in the current map to be killed by entering `kill friends` in the console.
+* *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
+  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn dog` in the console.
+  * All friends in the current map may be killed by entering `kill friends` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
@@ -40,7 +40,7 @@
 * The player will no longer move forward slightly once spawning in a new map in some rare instances.
 * The lighting of sectors that have sector special 17 (“Light Flickers (Randomly)”) will now always flicker as intended.
 * Gradual lighting is now applied to doors and crushing ceilings over damaging sectors.
-* A compatibility fix has been implemented that changes the blood of nightmare demons to green in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).
+* A compatibility fix has been implemented for [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity) that changes the blood of nightmare demons to green.
 * If the `+use` action is used against a wall that has a line special requiring it to be shot at instead, or has a scrolling or translucent texture, the player will now make an “oof” sound.
 * The effects of using the `fastmonsters` CCMD are now immediate.
 * The direction that the menu’s background spins is now the same as the direction the player last turned.

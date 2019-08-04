@@ -748,10 +748,6 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 {
     mobj_t  *mo;
 
-    if (infight)
-        // player is dead, look for monsters
-        return P_LookForMonsters(actor, allaround);
-
     if (viewplayer->cheats & CF_NOTARGET)
         return false;
 
@@ -899,12 +895,11 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
     // cannot find any targets. A marine's best friend :)
     actor->pursuecount = 0;
 
-    if (!(actor->flags & MF_FRIEND && P_LookForTargets(actor, false)) &&
-        !(target &&
-            target->flags & MF_SHOOTABLE &&
-            (P_SetTarget(&actor->target, target),
-                !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target))) &&
-                (actor->flags & MF_FRIEND || !P_LookForTargets(actor, false)))
+    if (!((actor->flags & MF_FRIEND)
+        && P_LookForTargets(actor, false))
+        && !(target && (target->flags & MF_SHOOTABLE) && (P_SetTarget(&actor->target, target),
+            !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
+        && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
