@@ -2365,7 +2365,10 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
             return (viewplayer->health > 0);
 
-        if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
+        if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
+            return true;
+
+        if (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends"))
             return true;
 
         if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
@@ -2436,10 +2439,13 @@ void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        int kills = 0;
-        int prevkills = totalkills;
+        dboolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends"));
+        dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+        dboolean    all = M_StringCompare(parm, "all");
+        int         kills = 0;
+        int         prevkills = totalkills;
 
-        if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
+        if (friends || enemies || all)
         {
             massacre = true;
 
@@ -2449,6 +2455,11 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 while (thing)
                 {
+                    const int   flags = thing->flags;
+
+                    if (!all && (((flags & MF_FRIEND) && !friends) || (!(flags & MF_FRIEND) && friends)))
+                        continue;
+
                     if (thing->flags2 & MF2_MONSTERMISSILE)
                     {
                         thing->flags2 |= MF2_MASSACRE;
@@ -2468,13 +2479,13 @@ void kill_cmd_func2(char *cmd, char *parms)
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
+                        else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
                             && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
                             P_DamageMobj(thing, NULL, NULL, thing->health, false);
 
-                            if (!(thing->flags & MF_NOBLOOD))
+                            if (!(flags & MF_NOBLOOD))
                             {
                                 const int   r = M_RandomInt(-1, 1);
 
