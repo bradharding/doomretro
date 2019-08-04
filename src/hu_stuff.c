@@ -524,7 +524,7 @@ static void HU_DrawHUD(void)
             translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
             if ((patch = ammopic[ammotype].patch))
-                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
+                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
                 (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
