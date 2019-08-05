@@ -566,10 +566,10 @@ static fixed_t  floorz;
 
 static dboolean PIT_AvoidDropoff(line_t *line)
 {
-    if (line->backsector                                // Ignore one-sided linedefs
+    if (line->backsector                                                            // Ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
         && tmbbox[BOXLEFT] < line->bbox[BOXRIGHT]
-        && tmbbox[BOXTOP] > line->bbox[BOXBOTTOM]       // Linedef must be contacted
+        && tmbbox[BOXTOP] > line->bbox[BOXBOTTOM]                                   // Linedef must be contacted
         && tmbbox[BOXBOTTOM] < line->bbox[BOXTOP]
         && P_BoxOnLineSide(tmbbox, line) == -1)
     {
@@ -580,11 +580,9 @@ static dboolean PIT_AvoidDropoff(line_t *line)
         // The monster must contact one of the two floors,
         // and the other must be a tall dropoff (more than 24).
         if (back == floorz && front < floorz - FRACUNIT * 24)
-            // front side dropoff
-            angle = R_PointToAngle2(0, 0, line->dx, line->dy) >> ANGLETOFINESHIFT;
+            angle = R_PointToAngle2(0, 0, line->dx, line->dy) >> ANGLETOFINESHIFT;  // front side dropoff
         else if (front == floorz && back < floorz - FRACUNIT * 24)
-            // back side dropoff
-            angle = R_PointToAngle2(line->dx, line->dy, 0, 0) >> ANGLETOFINESHIFT;
+            angle = R_PointToAngle2(line->dx, line->dy, 0, 0) >> ANGLETOFINESHIFT;  // back side dropoff
         else
             return true;
 
@@ -651,17 +649,16 @@ static void P_NewChaseDir(mobj_t *actor)
 //
 // killough 9/9/98: whether a target is visible to a monster
 //
-
 static dboolean P_IsVisible(mobj_t *actor, mobj_t *mo, dboolean allaround)
 {
     if (!allaround)
     {
-        angle_t an = R_PointToAngle2(actor->x, actor->y,
-            mo->x, mo->y) - actor->angle;
-        if (an > ANG90 && an < ANG270 &&
-            P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
+        angle_t an = R_PointToAngle2(actor->x, actor->y,  mo->x, mo->y) - actor->angle;
+
+        if (an > ANG90 && an < ANG270 && P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
             return false;
     }
+
     return P_CheckSight(actor, mo);
 }
 
@@ -733,10 +730,10 @@ static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
     }
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-        if (!PIT_FindTarget((mobj_t *)th))          // If target sighted
+        if (!PIT_FindTarget((mobj_t *)th))  // If target sighted
             return true;
 
-    return false;  // No monster found
+    return false;                           // No monster found
 }
 
 //
@@ -830,7 +827,7 @@ static dboolean P_HelpFriend(mobj_t *actor)
     // Possibly help a friend under 50% health
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t *mo = (mobj_t *)th;
+        mobj_t  *mo = (mobj_t *)th;
 
         if (mo->flags & MF_FRIEND)
         {
