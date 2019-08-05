@@ -4928,6 +4928,8 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 //
 static void vanilla_cmd_func2(char *cmd, char *parms)
 {
+    dboolean    buddha;
+
     if (*parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
@@ -4989,12 +4991,19 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         }
 
         SC_Close();
+
+        buddha = !!(viewplayer->cheats & CF_BUDDHA);
+        viewplayer->cheats &= ~CF_BUDDHA;
+
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
         C_Warning("Any changes to CVARs won't be saved while vanilla mode is on.");
     }
     else
     {
+        if (buddha)
+            viewplayer->cheats |= CF_BUDDHA;
+
         M_LoadCVARs(packageconfig);
         C_Output(s_STSTR_VOFF);
         HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
