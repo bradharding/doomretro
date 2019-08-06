@@ -4928,7 +4928,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 //
 static void vanilla_cmd_func2(char *cmd, char *parms)
 {
-    dboolean    buddha;
+    static dboolean buddha;
 
     if (*parms)
     {
