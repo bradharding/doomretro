@@ -489,4 +489,6 @@ extern char     *startup3;
 extern char     *startup4;
 extern char     *startup5;
 
+void ProcessDehFile(char *filename, int lumpnum);
+
 #endif

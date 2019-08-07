@@ -153,6 +153,7 @@ void R_Init(void);
 
 // Called by M_Responder.
 void R_SetViewSize(int blocks);
+void R_ExecuteSetViewSize(void);
 
 void R_InitLightTables(void);
 void R_InitColumnFunctions(void);

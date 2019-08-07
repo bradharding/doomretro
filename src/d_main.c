@@ -86,11 +86,6 @@
 #endif
 #endif
 
-// Location where savegames are stored
-char                *savegamefolder;
-
-char                *pwadfile = "";
-
 static char *iwadsrequired[] =
 {
     "doom.wad",
@@ -100,6 +95,11 @@ static char *iwadsrequired[] =
     "nerve.wad",
     "doom2.wad"
 };
+
+// Location where savegames are stored
+char                *savegamefolder;
+
+char                *pwadfile = "";
 
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
@@ -181,9 +181,6 @@ gamestate_t         wipegamestate = GS_TITLESCREEN;
 extern dboolean     setsizeneeded;
 extern dboolean     message_on;
 extern gameaction_t loadaction;
-
-void R_ExecuteSetViewSize(void);
-void G_LoadedGameMessage(void);
 
 void D_Display(void)
 {
@@ -604,8 +601,6 @@ static void InitGameVersion(void)
     if (gameversion < exe_final && gamemode == commercial)
         gamemission = doom2;
 }
-
-void ProcessDehFile(char *filename, int lumpnum);
 
 #define MAXDEHFILES 16
 
@@ -1743,7 +1738,6 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
-                
 #if defined(_WIN32)
                 else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
 #else

@@ -1401,8 +1401,6 @@ void G_LoadGame(char *name)
 
 extern dboolean setsizeneeded;
 
-void R_ExecuteSetViewSize(void);
-
 void G_DoLoadGame(void)
 {
     int savedleveltime;

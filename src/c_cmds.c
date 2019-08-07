@@ -4468,8 +4468,6 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 static int  spawncmdtype = NUMMOBJTYPES;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters);
-
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
