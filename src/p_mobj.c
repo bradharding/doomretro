@@ -1152,8 +1152,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 //
 // P_SpawnPuff
 //
-extern fixed_t  attackrange;
-
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
     mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);

@@ -218,6 +218,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat);
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
+extern fixed_t  attackrange;
 extern dboolean floatok;
 extern dboolean felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t  tmfloorz;

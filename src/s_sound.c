@@ -651,14 +651,11 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         C_Warning("The <b>%s</b> music lump can't be found.", uppercase(namebuf));
         return;
     }
-    else
-    {
-        // Load & register it
-        music->data = W_CacheLumpNum(music->lumpnum);
-        handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
-    }
 
-    if (!handle)
+    // Load & register it
+    music->data = W_CacheLumpNum(music->lumpnum);
+
+    if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
 #if defined(_WIN32)
         if (!serverMidiPlaying)
 #endif
@@ -692,17 +689,17 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
 void S_StopMusic(void)
 {
-    if (mus_playing)
-    {
-        if (mus_paused)
-            I_ResumeSong();
+    if (!mus_playing)
+        return;
 
-        I_StopSong();
-        I_UnRegisterSong(mus_playing->handle);
-        W_ReleaseLumpNum(mus_playing->lumpnum);
-        mus_playing->data = NULL;
-        mus_playing = NULL;
-    }
+    if (mus_paused)
+        I_ResumeSong();
+
+    I_StopSong();
+    I_UnRegisterSong(mus_playing->handle);
+    W_ReleaseLumpNum(mus_playing->lumpnum);
+    mus_playing->data = NULL;
+    mus_playing = NULL;
 }
 
 void S_ChangeMusInfoMusic(int lumpnum, int looping)

@@ -12,7 +12,7 @@
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
 * *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
-  * The `spawn` CCMD can now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console.
+  * The `spawn` CCMD may now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console.
   * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn friendly dog` in the console (whereas entering just `spawn dog` will spawn a dog that will attack the player).
   * All friends in the current map may be killed by entering `kill friends` in the console.
   * Obituaries in the console now indicate if monsters are friendly.
@@ -45,7 +45,7 @@
 * A compatibility fix has been implemented for [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity) that changes the blood of nightmare demons to green.
 * If the `+use` action is used against a wall that has a line special requiring it to be shot at instead, or has a scrolling or translucent texture, the player will now make an “oof” sound.
 * The effects of using the `fastmonsters` CCMD are now immediate.
-* The direction that the menu’s background spins is now the same as the direction the player last turned.
+* The direction the menu’s background spins is now the same as the direction the player last turned.
 * The `freeze`, `notarget`, `pistolstart`, `regenhealth` and `respawnitems` CCMDs will now all be turned off when enabling vanilla mode.
 
 ---
