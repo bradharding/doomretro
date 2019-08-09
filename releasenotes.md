@@ -3,6 +3,7 @@
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only be automatically loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
