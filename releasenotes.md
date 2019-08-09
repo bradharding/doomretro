@@ -15,6 +15,7 @@
   * The `spawn` CCMD can now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console.
   * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn friendly dog` in the console (whereas entering just `spawn dog` will spawn a dog that will attack the player).
   * All friends in the current map may be killed by entering `kill friends` in the console.
+  * Obituaries in the console now indicate if monsters are friendly.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:

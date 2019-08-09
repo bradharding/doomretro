@@ -1691,9 +1691,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     {
                         char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                        C_Obituary("You %s %s %s with your %s%s.",
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
+                        C_Obituary("You %s %s %s%s with your %s%s.",
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"),
+                            ((target->flags & MF_FRIEND) ? "friendly " : ""), name, weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while you went berserk" : ""));
                     }
                 }
@@ -1706,9 +1706,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     {
                         char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                        C_Obituary("%s %s %s %s with their %s%s.", titlecase(playername),
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
+                        C_Obituary("%s %s %s %s%s with their %s%s.", titlecase(playername),
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"),
+                            ((target->flags & MF_FRIEND) ? "friendly " : ""), name, weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
                     }
                 }
@@ -1726,8 +1726,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 {
                     char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                    C_Obituary("%s %s %s telefragged.", (isvowel(name[0]) ? "An" : "A"), name,
-                        (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                    C_Obituary("%s %s%s was telefragged.", (isvowel(name[0]) ? "An" : "A"),
+                        ((target->flags & MF_FRIEND) ? "friendly " : ""), name);
                 }
             }
             else
@@ -1735,15 +1735,18 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
 
                 if (target->player)
-                    C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename, (gibbed ? "gibbed" : "killed"),
+                    C_Obituary("%s %s%s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"),
+                        ((source->flags & MF_FRIEND) ? "friendly " : ""), sourcename, (gibbed ? "gibbed" : "killed"),
                         (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                 else
                 {
                     char    *name = (*target->info->name1 ? target->info->name1 : "monster");
 
-                    C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                    C_Obituary("%s %s%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"),
+                        ((source->flags & MF_FRIEND) ? "friendly " : ""), sourcename,
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")), name);
+                        (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")),
+                        ((target->flags & MF_FRIEND) ? "friendly " : ""), name);
                 }
             }
         }
