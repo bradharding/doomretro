@@ -1670,7 +1670,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     inflicter->info->name1);
             else
             {
-                char    *name = (*target->info->name1 ? target->info->name1 : "monster");
+                char    name[100];
+
+                M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    (*target->info->name1 ? target->info->name1 : "monster"));
 
                 C_Obituary("%s %s was %s by an exploding %s.", (isvowel(name[0]) ? "An" : "A"), name,
                     (gibbed ? "gibbed" : "killed"), inflicter->info->name1);
@@ -1689,11 +1692,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             weaponinfo[readyweapon].description);
                     else
                     {
-                        char    *name = (*target->info->name1 ? target->info->name1 : "monster");
+                        char    name[100];
 
-                        C_Obituary("You %s %s %s%s with your %s%s.",
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"),
-                            ((target->flags & MF_FRIEND) ? "friendly " : ""), name, weaponinfo[readyweapon].description,
+                        M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                            (*target->info->name1 ? target->info->name1 : "monster"));
+
+                        C_Obituary("You %s %s %s with your %s%s.",
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while you went berserk" : ""));
                     }
                 }
@@ -1704,11 +1710,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"), weaponinfo[readyweapon].description);
                     else
                     {
-                        char    *name = (*target->info->name1 ? target->info->name1 : "monster");
+                        char    name[100];
 
-                        C_Obituary("%s %s %s %s%s with their %s%s.", titlecase(playername),
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (isvowel(name[0]) ? "an" : "a"),
-                            ((target->flags & MF_FRIEND) ? "friendly " : ""), name, weaponinfo[readyweapon].description,
+                        M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                            (*target->info->name1 ? target->info->name1 : "monster"));
+
+                        C_Obituary("%s %s %s %s with their %s%s.", titlecase(playername),
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
                     }
                 }
@@ -1724,29 +1733,34 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         titlecase(playername), (M_StringCompare(playername, playername_default) ? "were" : "was"));
                 else
                 {
-                    char    *name = (*target->info->name1 ? target->info->name1 : "monster");
+                    char    name[100];
 
-                    C_Obituary("%s %s%s was telefragged.", (isvowel(name[0]) ? "An" : "A"),
-                        ((target->flags & MF_FRIEND) ? "friendly " : ""), name);
+                    M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                        (*target->info->name1 ? target->info->name1 : "monster"));
+
+                    C_Obituary("%s %s was telefragged.", (isvowel(name[0]) ? "An" : "A"), name);
                 }
             }
             else
             {
-                char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
+                char    sourcename[100];
+
+                M_snprintf(sourcename, sizeof(sourcename), "%s%s", ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                    (*source->info->name1 ? source->info->name1 : "monster"));
 
                 if (target->player)
-                    C_Obituary("%s %s%s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"),
-                        ((source->flags & MF_FRIEND) ? "friendly " : ""), sourcename, (gibbed ? "gibbed" : "killed"),
+                    C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename, (gibbed ? "gibbed" : "killed"),
                         (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                 else
                 {
-                    char    *name = (*target->info->name1 ? target->info->name1 : "monster");
+                    char    name[100];
 
-                    C_Obituary("%s %s%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"),
-                        ((source->flags & MF_FRIEND) ? "friendly " : ""), sourcename,
+                    M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                        (*target->info->name1 ? target->info->name1 : "monster"));
+
+                    C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")),
-                        ((target->flags & MF_FRIEND) ? "friendly " : ""), name);
+                        (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")), name);
                 }
             }
         }
