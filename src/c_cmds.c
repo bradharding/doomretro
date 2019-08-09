@@ -768,7 +768,7 @@ consolecmd_t consolecmds[] =
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
     CMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
-        "Sets a time limit on each map."),
+        "Sets a timer on each map."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when\nthey die."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
@@ -4476,7 +4476,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
     if (!*parm)
         return true;
 
-    if (spawnfriendly = (M_StringStartsWith(parm, "friendly")))
+    if ((spawnfriendly = M_StringStartsWith(parm, "friendly")))
         strreplace(parm, "friendly", "");
 
     if (gamestate == GS_LEVEL)
