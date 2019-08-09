@@ -4564,9 +4564,12 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
                 }
-
-                if (spawnfriendly && (thing->flags & MF_SHOOTABLE))
+                else if (spawnfriendly && (thing->flags & MF_SHOOTABLE))
+                {
                     thing->flags |= MF_FRIEND;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    M_SaveCVARs();
+                }
 
                 C_HideConsole();
             }
