@@ -12,7 +12,8 @@
 * Minor changes have been made to text that is output to the console.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
 * *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
-  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn dog` in the console.
+  * The `spawn` CCMD can now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly cacodemon, enter `spawn friendly cacodemon` in the console.
+  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn friendly dog` in the console (entering just `spawn dog` will spawn a dog that will attack the player).
   * All friends in the current map may be killed by entering `kill friends` in the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.

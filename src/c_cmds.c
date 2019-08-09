@@ -86,7 +86,7 @@
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT              "<i>CVAR</i>"
 #define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
-#define SPAWNCMDFORMAT              "<i>monster</i>|<i>item</i>"
+#define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b>] <i>monster</i>"
 #define TAKECMDFORMAT               GIVECMDFORMAT
 #define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT              "<i>minutes</i>"
@@ -757,7 +757,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
-        "Spawns a <i>monster</i> or <i>item</i> in front of the player."),
+        "Spawns an <i>item</i> or <i>monster</i> in front of the player."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
     CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
@@ -4466,7 +4466,8 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 // spawn CCMD
 //
-static int  spawncmdtype = NUMMOBJTYPES;
+static int      spawncmdtype = NUMMOBJTYPES;
+static dboolean spawnfriendly;
 
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
@@ -4474,6 +4475,9 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
     if (!*parm)
         return true;
+
+    if (spawnfriendly = (M_StringStartsWith(parm, "friendly")))
+        strreplace(parm, "friendly", "");
 
     if (gamestate == GS_LEVEL)
     {
@@ -4542,10 +4546,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
-            const int           flags = mobjinfo[type].flags;
-            mapthing_t          mthing;
-            mobj_t              *thing;
+            mapthing_t  mthing;
+            mobj_t      *thing;
 
             mthing.x = (viewx + 100 * viewcos) >> FRACBITS;
             mthing.y = (viewy + 100 * viewsin) >> FRACBITS;
@@ -4557,11 +4559,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             {
                 thing->angle = R_PointToAngle2(thing->x, thing->y, viewx, viewy);
 
-                if (flags & MF_COUNTITEM)
+                if (thing->flags & MF_COUNTITEM)
                 {
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
                 }
+
+                if (spawnfriendly && (thing->flags & MF_SHOOTABLE))
+                    thing->flags |= MF_FRIEND;
 
                 C_HideConsole();
             }
