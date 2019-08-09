@@ -4487,6 +4487,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
             if (spawncmdtype >= 0 && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
                 || (num == spawncmdtype && num != -1)))
                 return true;
         }
