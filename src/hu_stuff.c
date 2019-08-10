@@ -104,6 +104,8 @@ dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
 
+int                     crosshaircolor2;
+
 static patch_t          *stdisk;
 static short            stdiskwidth;
 dboolean                drawdisk;
@@ -218,6 +220,7 @@ void HU_Init(void)
     }
 
     caretcolor = FindDominantColor(hu_font['A' - HU_FONTSTART]);
+    crosshaircolor2 = nearestcolors[crosshaircolor];
 
     if (W_CheckNumForName("STTMINUS") >= 0)
         if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
@@ -388,7 +391,7 @@ static int HUDNumberWidth(int val, patch_t **numset)
 
 static void HU_DrawCrosshair(void)
 {
-    byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] : &tinttab40[nearestcolors[crosshaircolor] << 8]);
+    byte    *color = (viewplayer->attackdown ? &tinttab50[crosshaircolor2 << 8] : &tinttab40[crosshaircolor2 << 8]);
 
     if (crosshair == crosshair_cross)
     {
@@ -432,26 +435,26 @@ static void HU_DrawSolidCrosshair(void)
     {
         byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
 
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot += SCREENWIDTH;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot += SCREENWIDTH - 2;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot++;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot++;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot++;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot++;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot += SCREENWIDTH - 2;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
         dot += SCREENWIDTH;
-        *dot = crosshaircolor;
+        *dot = crosshaircolor2;
     }
     else
-        screens[0][(SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1] = crosshaircolor;
+        screens[0][(SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1] = crosshaircolor2;
 }
 
 int healthhighlight = 0;
