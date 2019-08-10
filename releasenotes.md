@@ -24,6 +24,7 @@
   * Improvements have been made to how *BOOM* compatibility is detected.
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible or not is now displayed.
   * The author of some maps in *DOOM II: No Rest For The Living* has been corrected.
+* The `playerstats` CCMD now shows how many times the player has saved the game in the current map.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot using the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.

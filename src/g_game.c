@@ -548,6 +548,7 @@ void G_DoLoadLevel(void)
     viewplayer->shotsfired = 0;
     viewplayer->deaths = 0;
     viewplayer->distancetraveled = 0;
+    viewplayer->gamessaved = 0;
     viewplayer->itemspickedup_ammo_bullets = 0;
     viewplayer->itemspickedup_ammo_cells = 0;
     viewplayer->itemspickedup_ammo_rockets = 0;
@@ -1554,6 +1555,7 @@ static void G_DoSaveGame(void)
             S_StartSound(NULL, sfx_swtchx);
         }
 
+        viewplayer->gamessaved++;
         stat_gamessaved = SafeAdd(stat_gamessaved, 1);
         M_SaveCVARs();
 

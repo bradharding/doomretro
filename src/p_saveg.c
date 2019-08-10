@@ -486,6 +486,7 @@ static void saveg_read_player_t(void)
         viewplayer->mobjcount[i] = saveg_read32();
 
     viewplayer->distancetraveled = saveg_read32();
+    viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
     viewplayer->itemspickedup_ammo_cells = saveg_read32();
     viewplayer->itemspickedup_ammo_rockets = saveg_read32();
@@ -566,6 +567,7 @@ static void saveg_write_player_t(void)
         saveg_write32(viewplayer->mobjcount[i]);
 
     saveg_write32(viewplayer->distancetraveled);
+    saveg_write32(viewplayer->gamessaved);
     saveg_write32(viewplayer->itemspickedup_ammo_bullets);
     saveg_write32(viewplayer->itemspickedup_ammo_cells);
     saveg_write32(viewplayer->itemspickedup_ammo_rockets);
