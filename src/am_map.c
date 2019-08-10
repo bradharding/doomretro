@@ -83,8 +83,6 @@ int am_wallcolor = am_wallcolor_default;
 #define TSWALLPRIORITY          2
 #define GRIDPRIORITY            1
 
-static byte priorities[256 * 256];
-
 static byte playercolor;
 static byte thingcolor;
 static byte pathcolor;
@@ -333,7 +331,8 @@ static void AM_ChangeWindowLoc(void)
 
 void AM_SetColors(void)
 {
-    byte    priority[256] = { 0 };
+    byte        priority[256] = { 0 };
+    static byte priorities[256 * 256];
 
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
@@ -382,7 +381,6 @@ void AM_GetGridSize(void)
         gridwidth = 128 << MAPBITS;
         gridheight = 128 << MAPBITS;
         am_gridsize = am_gridsize_default;
-
         M_SaveCVARs();
     }
 }
@@ -390,7 +388,6 @@ void AM_GetGridSize(void)
 void AM_Init(void)
 {
     AM_SetColors();
-
     AM_GetGridSize();
 }
 
@@ -644,13 +641,15 @@ void AM_AddToPath(void)
     const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
+    {
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
             return;
 
-    if (pathpointnum >= pathpointnum_max)
-    {
-        pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
-        pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+        if (pathpointnum >= pathpointnum_max)
+        {
+            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 1024);
+            pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+        }
     }
 
     pathpoints[pathpointnum].x = x;

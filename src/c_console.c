@@ -1539,7 +1539,8 @@ dboolean C_Responder(event_t *ev)
                         endspace2 = (output[len2 - 1] == ' ');
                         game = autocompletelist[autocomplete].game;
 
-                        if ((game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY)
+                        if ((game == DOOM1AND2
+                            || (gamemission == doom && game == DOOM1ONLY)
                             || (gamemission != doom && game == DOOM2ONLY))
                             && M_StringStartsWith(output, input)
                             && input[strlen(input) - 1] != '+'
