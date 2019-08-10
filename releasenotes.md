@@ -49,6 +49,7 @@
 * The effects of using the `fastmonsters` CCMD are now immediate.
 * The direction the menu’s background spins is now the same as the direction the player last turned.
 * The `freeze`, `notarget`, `pistolstart`, `regenhealth` and `respawnitems` CCMDs will now all be turned off when enabling vanilla mode.
+* The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` will now always be displayed correctly.
 
 ---
 
