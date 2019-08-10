@@ -354,7 +354,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
     *x += SHORT(patch->width);
 }
 
-static int HUDNumberWidth(int val, patch_t **numset)
+static int HUDNumberWidth(int val)
 {
     int oldval = val;
     int width = 0;
@@ -376,14 +376,14 @@ static int HUDNumberWidth(int val, patch_t **numset)
     }
 
     if (val > 99)
-        width += SHORT(numset[val / 100]->width);
+        width += SHORT(tallnum[val / 100]->width);
 
     val %= 100;
 
     if (val > 9 || oldval > 99)
-        width += SHORT(numset[val / 10]->width);
+        width += SHORT(tallnum[val / 10]->width);
 
-    return (width + SHORT(numset[val % 10]->width));
+    return (width + SHORT(tallnum[val % 10]->width));
 }
 
 static void HU_DrawCrosshair(void)
@@ -469,7 +469,7 @@ static void HU_DrawHUD(void)
 {
     const int           health = MAX(health_min, viewplayer->health);
     const int           armor = viewplayer->armorpoints;
-    int                 health_x = HUD_HEALTH_X - (HUDNumberWidth(health, tallnum) + tallpercentwidth) / 2;
+    int                 health_x = HUDNumberWidth(health);
     static dboolean     healthanim;
     byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
                             || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
@@ -479,6 +479,8 @@ static void HU_DrawHUD(void)
     int                 keypic_x = (armor ? HUD_KEYS_X : SCREENWIDTH - 13);
     static int          keywait;
     static dboolean     showkey;
+
+    health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
     if ((patch = faces[st_faceindex]))
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
@@ -525,9 +527,10 @@ static void HU_DrawHUD(void)
 
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
-            int             ammo_x = HUD_AMMO_X - HUDNumberWidth(ammo, tallnum) / 2;
+            int             ammo_x = HUDNumberWidth(ammo);
             static dboolean ammoanim;
 
+            ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
             translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
             if ((patch = ammopic[ammotype].patch))
@@ -589,7 +592,9 @@ static void HU_DrawHUD(void)
 
     if (armor)
     {
-        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor, tallnum) + tallpercentwidth) / 2;
+        int armor_x = HUDNumberWidth(armor);
+
+        armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
         if ((patch = (viewplayer->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
             hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
