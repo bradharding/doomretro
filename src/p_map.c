@@ -923,7 +923,7 @@ dboolean P_IsInLiquid(mobj_t *thing)
 // Attempt to move to a new position,
 // crossing special lines unless MF_TELEPORT is set.
 //
-dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
+dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 {
     fixed_t oldx, oldy;
     int     flags;
@@ -949,7 +949,9 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 
         if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
-            if (!dropoff)
+            if (!dropoff
+                // large jump down (e.g. dogs)
+                || (dropoff == 2 && (tmfloorz - tmdropoffz > 128 * FRACUNIT || !thing->target || thing->target->z > tmdropoffz)))
             {
                 if (thing->floorz - tmfloorz > 24 * FRACUNIT || thing->dropoffz - tmdropoffz > 24 * FRACUNIT)
                     return false;
@@ -1394,8 +1396,8 @@ void P_SlideMove(mobj_t *mo)
         stairstep:
             // killough 3/15/98: Allow objects to drop off ledges
             // phares 5/4/98: kill momentum if you can't move at all
-            if (!P_TryMove(mo, mo->x, mo->y + mo->momy, true))
-                P_TryMove(mo, mo->x + mo->momx, mo->y, true);
+            if (!P_TryMove(mo, mo->x, mo->y + mo->momy, 1))
+                P_TryMove(mo, mo->x + mo->momx, mo->y, 1);
 
             break;
         }
@@ -1407,7 +1409,7 @@ void P_SlideMove(mobj_t *mo)
             fixed_t newy = FixedMul(mo->momy, bestslidefrac);
 
             // killough 3/15/98: Allow objects to drop off ledges
-            if (!P_TryMove(mo, mo->x + newx, mo->y + newy, true))
+            if (!P_TryMove(mo, mo->x + newx, mo->y + newy, 1))
                 goto stairstep;
         }
 
@@ -1437,7 +1439,7 @@ void P_SlideMove(mobj_t *mo)
             if (ABS(mo->player->momy) > ABS(tmymove))
                 mo->player->momy = tmymove;
         }
-    } while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, true));
+    } while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, 1));
 }
 
 //

@@ -277,7 +277,7 @@ static const fixed_t    yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRA
 extern line_t   **spechit;
 extern int      numspechit;
 
-static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
+static dboolean P_Move(mobj_t *actor, int dropoff) // killough 9/12/98
 {
     fixed_t tryx, tryy;
     fixed_t deltax, deltay;
@@ -373,7 +373,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
-    dboolean    dropoff = false;
+    int         dropoff = 0;
     dboolean    onlift;
     int         underdamage;
 
@@ -455,9 +455,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
     dirtype_t       d[2];
     const dirtype_t olddir = actor->movedir;
     const dirtype_t turnaround = opposite[olddir];
-    dboolean        attempts[NUMDIRS - 1];
-
-    memset(&attempts, false, sizeof(attempts));
+    dboolean        attempts[NUMDIRS - 1] = { false };
 
     d[0] = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
     d[1] = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
@@ -669,7 +667,6 @@ static dboolean P_IsVisible(mobj_t *actor, mobj_t *mo, dboolean allaround)
 //
 // Finds monster targets for other monsters
 //
-
 static int current_allaround;
 
 static dboolean PIT_FindTarget(mobj_t *mo)
@@ -697,6 +694,8 @@ static dboolean PIT_FindTarget(mobj_t *mo)
 
 static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
 {
+    int x, y;
+
     if (actor->lastenemy && actor->lastenemy->health > 0 && !(actor->lastenemy->flags & actor->flags & MF_FRIEND)) // not friends
     {
         P_SetTarget(&actor->target, actor->lastenemy);
@@ -704,13 +703,13 @@ static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
         return true;
     }
 
-    int x = P_GetSafeBlockX(actor->x - bmaporgx);
-    int y = P_GetSafeBlockY(actor->y - bmaporgy);
-
     current_actor = actor;
     current_allaround = allaround;
 
     // Search first in the immediate vicinity.
+    x = P_GetSafeBlockX(actor->x - bmaporgx);
+    y = P_GetSafeBlockY(actor->y - bmaporgy);
+
     if (!P_BlockThingsIterator(x, y, PIT_FindTarget))
         return true;
 
@@ -925,8 +924,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
         // cannot find any targets. A marine's best friend :)
         actor->pursuecount = 0;
 
-        if (!((actor->flags & MF_FRIEND)
-            && P_LookForTargets(actor, false))
+        if (!((actor->flags & MF_FRIEND) && P_LookForTargets(actor, false))
             && !(target && (target->flags & MF_SHOOTABLE) && (P_SetTarget(&actor->target, target),
                 !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
             && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
@@ -1810,7 +1808,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     // killough 8/29/98: add to appropriate thread
     P_UpdateThinker(&newmobj->thinker);
 
-    if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false)
+    if (!P_TryMove(newmobj, newmobj->x, newmobj->y, 0)
         // Check to see if the new Lost Soul's z value is above the
         // ceiling of its new sector, or below the floor. If so, kill it.
         || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height

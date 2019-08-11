@@ -213,7 +213,7 @@ static void P_XYMovement(mobj_t *mo)
         ymove -= stepy;
 
         // killough 3/15/98: Allow objects to drop off
-        if (!P_TryMove(mo, ptryx, ptryy, true))
+        if (!P_TryMove(mo, ptryx, ptryy, 1))
         {
             // blocked move
             // killough 8/11/98: bouncing off walls
@@ -1332,7 +1332,7 @@ void P_CheckMissileSpawn(mobj_t *th)
     th->y += (th->momy >> 1);
     th->z += (th->momz >> 1);
 
-    if (!P_TryMove(th, th->x, th->y, false))
+    if (!P_TryMove(th, th->x, th->y, 0))
         P_ExplodeMissile(th);
 }
 
