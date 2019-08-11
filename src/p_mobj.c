@@ -404,10 +404,11 @@ static void P_ZMovement(mobj_t *mo)
 
                 if (mo->blood != FUZZYBLOOD)
                 {
-                    P_SpawnBloodSplat(x + (M_RandomInt(-3, 3) << FRACBITS), y + (M_RandomInt(-3, 3) << FRACBITS),
-                        mo->blood, mo->floorz, NULL);
-                    P_SpawnBloodSplat(x + (M_RandomInt(-3, 3) << FRACBITS), y + (M_RandomInt(-3, 3) << FRACBITS),
-                        mo->blood, mo->floorz, NULL);
+                    int r1 = M_RandomInt(-3, 3) << FRACBITS;
+                    int r2 = M_RandomInt(-3, 3) << FRACBITS;
+
+                    P_SpawnBloodSplat(x + r1, y + r2, mo->blood, mo->floorz, NULL);
+                    P_SpawnBloodSplat(x - r1, y - r2, mo->blood, mo->floorz, NULL);
                 }
             }
 
