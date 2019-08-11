@@ -736,6 +736,32 @@ static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
     return false;                           // No monster found
 }
 
+#define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
+
+static dboolean P_LookForMonsters2(mobj_t *actor)
+{
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t  *mo = (mobj_t *)th;
+
+        if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
+            continue;           // not a valid monster
+
+        if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
+            continue;           // out of range
+
+        if (!P_CheckSight(actor, mo))
+            continue;           // out of sight
+
+        // Found a target monster
+        P_SetTarget(&actor->lastenemy, actor->target);
+        P_SetTarget(&actor->target, mo);
+        return true;
+    }
+
+    return false;
+}
+
 //
 // P_LookForPlayer
 // If allaround is false, only look 180 degrees in front.
@@ -886,6 +912,12 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->threshold = 0;       // any shot will wake up
 
+    if (infight)
+    {
+        P_LookForMonsters2(actor);
+        return;
+    }
+
     // killough 7/18/98:
     // Friendly monsters go after other monsters first, but
     // also return to player, without attacking them, if they
@@ -966,6 +998,12 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (!target || !(target->flags & MF_SHOOTABLE))
     {
+        if (infight)
+        {
+            P_LookForMonsters2(actor);
+            return;
+        }
+
         // look for a new target
         if (!P_LookForPlayer(actor, true))
             P_SetMobjState(actor, info->spawnstate);    // no new target
