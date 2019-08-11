@@ -283,6 +283,15 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->id = saveg_read32();
     str->pursuecount = saveg_read16();
     str->strafecount = saveg_read16();
+
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -331,6 +340,15 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->id);
     saveg_write16(str->pursuecount);
     saveg_write16(str->strafecount);
+
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
 }
 
 //
@@ -493,6 +511,23 @@ static void saveg_read_player_t(void)
     viewplayer->itemspickedup_ammo_shells = saveg_read32();
     viewplayer->itemspickedup_armor = saveg_read32();
     viewplayer->itemspickedup_health = saveg_read32();
+
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_player_t(void)
@@ -574,6 +609,23 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->itemspickedup_ammo_shells);
     saveg_write32(viewplayer->itemspickedup_armor);
     saveg_write32(viewplayer->itemspickedup_health);
+
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
 }
 
 //
