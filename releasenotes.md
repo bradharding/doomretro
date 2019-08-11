@@ -3,7 +3,7 @@
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
+* The format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
 * The logo on the splash screen is now animated.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only be automatically loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
@@ -14,8 +14,8 @@
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
 * *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
   * The `spawn` CCMD may now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console. These monsters will follow the player around and occasionally attack other monsters.
-  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may be spawned in the current map by entering `spawn friendly dog` in the console (whereas entering just `spawn dog` will spawn a dog that will attack the player instead).
-  * All friends in the current map may be killed by entering `kill friends` in the console.
+  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn friendly dog` in the console (whereas just entering `spawn dog` will spawn a dog that will attack the player instead).
+  * All friendly monsters in the current map may be killed by entering `kill friends` in the console.
   * Obituaries, as well as the `thinglist` CCMD, now indicate if a monster is friendly.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
@@ -28,7 +28,7 @@
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot using the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
-* Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the bosses (the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8) are no longer clipped by distance from the player.
+* Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the bosses (that is, the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8) are no longer clipped by distance from the player.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending a game from the options menu.
 * The friction applied to corpses in liquid is now greater rather than less than the friction applied when not in liquid.

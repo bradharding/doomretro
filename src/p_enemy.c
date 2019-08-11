@@ -1514,7 +1514,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     corpsehit->radius = info->radius;
 
                     // killough 7/18/98: friendliness is transferred from AV to raised corpse
-                    corpsehit->flags = (info->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
+                    corpsehit->flags = ((info->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
                     corpsehit->flags2 = info->flags2;
                     corpsehit->health = info->spawnhealth;
@@ -1801,15 +1801,14 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     newmobj = P_SpawnMobj(x, y, actor->z + 8 * FRACUNIT, MT_SKULL);
 
     // killough 7/20/98: PEs shoot lost souls with the same friendliness
-    newmobj->flags = (newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
-
+    newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
     newmobj->flags &= ~MF_COUNTKILL;
 
     // killough 8/29/98: add to appropriate thread
     P_UpdateThinker(&newmobj->thinker);
 
     if (!P_TryMove(newmobj, newmobj->x, newmobj->y, 0)
-        // Check to see if the new Lost Soul's z value is above the
+        // Check to see if the new lost soul's z value is above the
         // ceiling of its new sector, or below the floor. If so, kill it.
         || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
         || newmobj->z < newmobj->subsector->sector->floorheight)
@@ -1874,11 +1873,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
             break;
     }
 
-    // Check for bosses.
-    if (actor->type == MT_SPIDER || actor->type == MT_CYBORG)
-        S_StartSoundOnce(NULL, sound);  // full volume
-    else
-        S_StartSound(actor, sound);
+    S_StartSound(actor, sound);
 }
 
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1929,7 +1924,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (r_shake_barrels && actor->type == MT_BARREL)
+    if (actor->type == MT_BARREL && r_shake_barrels)
     {
         mobj_t  *mo = viewplayer->mo;
 
@@ -1969,28 +1964,19 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         switch (gameepisode)
         {
             case 1:
-                if (gamemap != 8)
-                    return;
-
-                if (actor->type != MT_BRUISER)
+                if (gamemap != 8 || actor->type != MT_BRUISER)
                     return;
 
                 break;
 
             case 2:
-                if (gamemap != 8)
-                    return;
-
-                if (actor->type != MT_CYBORG)
+                if (gamemap != 8 || actor->type != MT_CYBORG)
                     return;
 
                 break;
 
             case 3:
-                if (gamemap != 8)
-                    return;
-
-                if (actor->type != MT_SPIDER)
+                if (gamemap != 8 || actor->type != MT_SPIDER)
                     return;
 
                 break;
@@ -2122,7 +2108,7 @@ void A_BrainPain(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    // [BH] explosions are correctly centered
+    // [BH] Fix <https://doomwiki.org/wiki/Lopsided_final_boss_explosions>
     for (int x = actor->x - 258 * FRACUNIT; x < actor->x + 258 * FRACUNIT; x += FRACUNIT * 8)
     {
         int     y = actor->y - 320 * FRACUNIT;
@@ -2210,7 +2196,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
         newmobj->reactiontime = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
 
         // killough 7/18/98: brain friendliness is transferred
-        newmobj->flags = (newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
+        newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
         // killough 8/29/98: add to appropriate thread
         P_UpdateThinker(&newmobj->thinker);
@@ -2278,8 +2264,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
         newmobj = P_SpawnMobj(target->x, target->y, target->z, type);
 
         // killough 7/18/98: brain friendliness is transferred
-        newmobj->flags = (newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
-
+        newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
         newmobj->flags &= ~MF_COUNTKILL;
 
         // killough 8/29/98: add to appropriate thread
@@ -2376,7 +2361,7 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             mobj_t  *newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z, type);
 
-            newmobj->flags = (newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
+            newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
             if (newmobj->flags & MF_COUNTKILL)
             {
