@@ -740,6 +740,9 @@ static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
 
 static dboolean P_LookForMonsters2(mobj_t *actor)
 {
+    if (!P_CheckSight(viewplayer->mo, actor))
+        return false;           // player can't see monster
+
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
@@ -913,23 +916,22 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->threshold = 0;       // any shot will wake up
 
     if (infight)
-    {
         P_LookForMonsters2(actor);
-        return;
+    else
+    {
+        // killough 7/18/98:
+        // Friendly monsters go after other monsters first, but
+        // also return to player, without attacking them, if they
+        // cannot find any targets. A marine's best friend :)
+        actor->pursuecount = 0;
+
+        if (!((actor->flags & MF_FRIEND)
+            && P_LookForTargets(actor, false))
+            && !(target && (target->flags & MF_SHOOTABLE) && (P_SetTarget(&actor->target, target),
+                !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
+            && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
+            return;
     }
-
-    // killough 7/18/98:
-    // Friendly monsters go after other monsters first, but
-    // also return to player, without attacking them, if they
-    // cannot find any targets. A marine's best friend :)
-    actor->pursuecount = 0;
-
-    if (!((actor->flags & MF_FRIEND)
-        && P_LookForTargets(actor, false))
-        && !(target && (target->flags & MF_SHOOTABLE) && (P_SetTarget(&actor->target, target),
-            !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
-        && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
-        return;
 
     // go into chase state
     if (actor->info->seesound)
