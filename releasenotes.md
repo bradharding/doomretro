@@ -11,6 +11,7 @@
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to how blood hits the floor.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
 * *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
   * The `spawn` CCMD may now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console. These monsters will follow the player around and occasionally attack other monsters.

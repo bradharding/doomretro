@@ -367,11 +367,12 @@ static void P_ZMovement(mobj_t *mo)
 {
     player_t    *player = mo->player;
     int         flags = mo->flags;
+    fixed_t     floorz = mo->floorz;
 
     // check for smooth step up
-    if (player && player->mo == mo && mo->z < mo->floorz && !viewplayer->jumptics)
+    if (player && player->mo == mo && mo->z < floorz && !viewplayer->jumptics)
     {
-        player->viewheight -= mo->floorz - mo->z;
+        player->viewheight -= floorz - mo->z;
         player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
     }
 
@@ -388,10 +389,12 @@ static void P_ZMovement(mobj_t *mo)
     }
 
     // clip movement
-    if (mo->z <= mo->floorz)
+    if (mo->z <= floorz)
     {
+        int blood = mo->blood;
+
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if ((mo->flags2 & MF2_BLOOD) && mo->blood)
+        if (blood && (mo->flags2 & MF2_BLOOD))
         {
             P_RemoveMobj(mo);
 
@@ -400,15 +403,15 @@ static void P_ZMovement(mobj_t *mo)
                 int x = mo->x;
                 int y = mo->y;
 
-                P_SpawnBloodSplat(x, y, mo->blood, mo->floorz, NULL);
+                P_SpawnBloodSplat(x, y, blood, floorz, NULL);
 
-                if (mo->blood != FUZZYBLOOD)
+                if (blood != FUZZYBLOOD)
                 {
                     int r1 = M_RandomInt(-3, 3) << FRACBITS;
                     int r2 = M_RandomInt(-3, 3) << FRACBITS;
 
-                    P_SpawnBloodSplat(x + r1, y + r2, mo->blood, mo->floorz, NULL);
-                    P_SpawnBloodSplat(x - r1, y - r2, mo->blood, mo->floorz, NULL);
+                    P_SpawnBloodSplat(x + r1, y + r2, blood, floorz, NULL);
+                    P_SpawnBloodSplat(x - r1, y - r2, blood, floorz, NULL);
                 }
             }
 
@@ -444,7 +447,7 @@ static void P_ZMovement(mobj_t *mo)
             mo->momz = 0;
         }
 
-        mo->z = mo->floorz;
+        mo->z = floorz;
 
         if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
