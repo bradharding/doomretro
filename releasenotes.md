@@ -16,7 +16,7 @@
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
 * *DOOM Retro’s* support for [*MBF*](https://doomwiki.org/wiki/MBF)-compatible maps has been improved by supporting monsters with the `MF_FRIEND` flag. This also allows the following:
   * The `spawn` CCMD may now be used to spawn friendly monsters in front of the player. For example, to spawn a friendly imp, enter `spawn friendly imp` in the console. These monsters will follow the player around and occasionally attack other monsters.
-  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn friendly dog` in the console (whereas just entering `spawn dog` will spawn a dog that will attack the player instead).
+  * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn friendly dog` in the console (whereas just entering `spawn dog` will spawn a dog that will attack the player).
   * All friendly monsters in the current map may be killed by entering `kill friends` in the console.
   * Obituaries, as well as the `thinglist` CCMD, now indicate if a monster is friendly.
 * Further improvements have been made to the console’s autocomplete feature.
