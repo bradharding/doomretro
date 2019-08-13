@@ -10,6 +10,7 @@
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
+  * Par times are now displayed on the intermission screen for each map.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to how blood hits the floor.
 * Fading to black upon quitting is now smoother, and will now also occur when a PWAD has its own `COLORMAP` lump.
