@@ -60,7 +60,6 @@ int             r_shake_damage = r_shake_damage_default;
 int             stillbob = stillbob_default;
 
 dboolean        autousing = false;
-static dboolean onground;
 int             deathcount = 0;
 int             deadlookdir = -1;
 
@@ -222,7 +221,6 @@ void P_MovePlayer(void)
     signed char side = cmd->sidemove;
 
     mo->angle += cmd->angleturn << FRACBITS;
-    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
     //
@@ -230,7 +228,7 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if ((forward | side) && onground)
+    if ((forward | side) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)))
     {
         int     friction;
         int     movefactor = P_GetMoveFactor(mo, &friction);
@@ -322,7 +320,7 @@ static void P_DeathThink(void)
     P_MovePsprites();
 
     // fall to the ground
-    if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))
+    if (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
     {
         if (canmouselook)
         {
@@ -514,8 +512,6 @@ void P_PlayerThink(void)
         return;
     }
 
-    cmd = &viewplayer->cmd;
-
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;
 
@@ -540,6 +536,8 @@ void P_PlayerThink(void)
         mo->flags |= MF_NOCLIP;
     else
         mo->flags &= ~MF_NOCLIP;
+
+    cmd = &viewplayer->cmd;
 
     // chainsaw run forward
     if (mo->flags & MF_JUSTATTACKED)
@@ -603,7 +601,7 @@ void P_PlayerThink(void)
     // cycle psprites
     P_MovePsprites();
 
-    // [BH] regenerate health up to 100 every 1 second
+    // [BH] regenerate health by 1% every second up to 100%
     if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
         P_GiveBody(1, false);
 
