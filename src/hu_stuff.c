@@ -889,7 +889,7 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        if (!(menuactive || paused || consoleactive))
+        if (!(menuactive || paused || consoleactive || freeze))
         {
             int currenttime = I_GetTimeMS();
 
