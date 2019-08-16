@@ -152,8 +152,6 @@ void P_ExplodeMissile(mobj_t *mo)
 #define STOPSPEED       0x1000
 #define WATERFRICTION   0xD500
 
-static int  puffcount;
-
 static void P_XYMovement(mobj_t *mo)
 {
     player_t    *player;
@@ -181,8 +179,7 @@ static void P_XYMovement(mobj_t *mo)
 
     // [BH] give smoke trails to rockets
     if (flags2 & MF2_SMOKETRAIL)
-        if (puffcount++ > 1)
-            P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
+        P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
     mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
     mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
@@ -1447,11 +1444,9 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     if (type == MT_ROCKET && r_rockettrails && !hacx && viewplayer->readyweapon == wp_missile)
     {
         th->flags2 |= MF2_SMOKETRAIL;
-        puffcount = 0;
         th->nudge = 1;
     }
 
     P_CheckMissileSpawn(th);
-
     A_Recoil(source->player->readyweapon);
 }
