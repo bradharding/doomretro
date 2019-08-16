@@ -98,13 +98,10 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
         if (openrange <= 0)
             continue;   // closed door
 
-        if (flags & ML_SOUNDBLOCK)
-        {
-            if (!soundblocks)
-                P_RecursiveSound(sides[line->sidenum[(sides[line->sidenum[0]].sector == sec)]].sector, 1, soundtarget);
-        }
-        else
+        if (!(flags & ML_SOUNDBLOCK))
             P_RecursiveSound(sides[line->sidenum[(sides[line->sidenum[0]].sector == sec)]].sector, soundblocks, soundtarget);
+        else if (!soundblocks)
+            P_RecursiveSound(sides[line->sidenum[(sides[line->sidenum[0]].sector == sec)]].sector, 1, soundtarget);
     }
 }
 
@@ -115,7 +112,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 //
 void P_NoiseAlert(mobj_t *target)
 {
-    // [BH] don't alert if notarget is enabled
+    // [BH] don't alert if notarget CCMD is enabled
     if (target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
@@ -209,7 +206,7 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 
     if (type == MT_VILE)
     {
-        if (dist > 14 * 64)
+        if (dist > 896)
             return false;               // too far away
     }
     else if (type == MT_UNDEAD)
@@ -383,6 +380,9 @@ static dboolean P_SmartMove(mobj_t *actor)
 
     underdamage = P_IsUnderDamage(actor);
 
+    // killough 10/98: allow dogs to drop off of taller ledges sometimes.
+    // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
+    // and only if the target is immediately on the other side of the line.
     if (actor->type == MT_DOGS && target && !((target->flags ^ actor->flags) & MF_FRIEND)
         && P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144 && M_Random() < 235)
         dropoff = 2;
@@ -452,16 +452,16 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
         DI_SOUTHEAST
     };
 
-    dirtype_t       d[2];
+    dirtype_t       xdir, ydir;
     const dirtype_t olddir = actor->movedir;
     const dirtype_t turnaround = opposite[olddir];
     dboolean        attempts[NUMDIRS - 1] = { false };
 
-    d[0] = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
-    d[1] = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
+    xdir = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
+    ydir = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
 
     // try direct route
-    if (d[0] != DI_NODIR && d[1] != DI_NODIR)
+    if (xdir != DI_NODIR && ydir != DI_NODIR)
     {
         actor->movedir = diags[((deltay < 0) << 1) + (deltax > 0)];
 
@@ -476,27 +476,27 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 
     // try other directions
     if (M_Random() > 200 || ABS(deltay) > ABS(deltax))
-        SWAP(d[0], d[1]);
+        SWAP(xdir, ydir);
 
-    if (d[0] == turnaround)
-        d[0] = DI_NODIR;
+    if (xdir == turnaround)
+        xdir = DI_NODIR;
 
-    if (d[1] == turnaround)
-        d[1] = DI_NODIR;
+    if (ydir == turnaround)
+        ydir = DI_NODIR;
 
-    if (d[0] != DI_NODIR && !attempts[d[0]])
+    if (xdir != DI_NODIR && !attempts[xdir])
     {
-        actor->movedir = d[0];
-        attempts[d[0]] = true;
+        actor->movedir = xdir;
+        attempts[xdir] = true;
 
         if (P_TryWalk(actor))
             return;     // either moved forward or attacked
     }
 
-    if (d[1] != DI_NODIR && !attempts[d[1]])
+    if (ydir != DI_NODIR && !attempts[ydir])
     {
-        actor->movedir = d[1];
-        attempts[d[1]] = true;
+        actor->movedir = ydir;
+        attempts[ydir] = true;
 
         if (P_TryWalk(actor))
             return;
@@ -667,7 +667,7 @@ static dboolean P_IsVisible(mobj_t *actor, mobj_t *mo, dboolean allaround)
 //
 // Finds monster targets for other monsters
 //
-static int current_allaround;
+static int  current_allaround;
 
 static dboolean PIT_FindTarget(mobj_t *mo)
 {
@@ -675,7 +675,7 @@ static dboolean PIT_FindTarget(mobj_t *mo)
     mobj_t  *target;
 
     if (!(((mo->flags ^ actor->flags) & MF_FRIEND)  // Invalid target
-        && mo->health > 0 && (mo->flags & MF_COUNTKILL)))
+        && mo->health > 0 && ((mo->flags & MF_COUNTKILL) || mo->type == MT_SKULL)))
         return true;
 
     // If the monster is already engaged in a one-on-one attack
@@ -735,8 +735,6 @@ static dboolean P_LookForMonsters(mobj_t *actor, dboolean allaround)
     return false;                           // No monster found
 }
 
-#define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
-
 static dboolean P_LookForMonsters2(mobj_t *actor)
 {
     if (!P_CheckSight(viewplayer->mo, actor))
@@ -749,7 +747,7 @@ static dboolean P_LookForMonsters2(mobj_t *actor)
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
-        if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
+        if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > 32 * 64 * FRACUNIT)
             continue;           // out of range
 
         if (!P_CheckSight(actor, mo))
@@ -777,6 +775,28 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
         return false;
 
     mo = viewplayer->mo;
+
+    // killough 9/9/98: friendly monsters go about players differently
+    if (actor->flags & MF_FRIEND)
+    {
+        // Go back to the player, no matter whether they're visible or not
+        if (viewplayer->playerstate == PST_LIVE)
+        {
+            P_SetTarget(&actor->target, mo);
+
+            // killough 12/98:
+            // get out of refiring loop, to avoid hitting player accidentally
+            if (actor->info->missilestate)
+            {
+                P_SetMobjState(actor, actor->info->seestate);
+                actor->flags &= ~MF_JUSTHIT;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 
     if (viewplayer->health <= 0 || !P_CheckSight(actor, mo))
     {
@@ -824,6 +844,8 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 
     P_SetTarget(&actor->target, mo);
 
+    // killough 9/9/98: give monsters a threshold towards getting players
+    // (we don't want it to be too easy for a player with dogs :)
     actor->threshold = 60;
 
     return true;
@@ -910,8 +932,6 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *target = actor->subsector->sector->soundtarget;
-
     actor->threshold = 0;       // any shot will wake up
 
     if (infight)
@@ -922,6 +942,8 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
         // Friendly monsters go after other monsters first, but
         // also return to player, without attacking them, if they
         // cannot find any targets. A marine's best friend :)
+        mobj_t  *target = actor->subsector->sector->soundtarget;
+
         actor->pursuecount = 0;
 
         if (!((actor->flags & MF_FRIEND) && P_LookForTargets(actor, false))
@@ -1292,7 +1314,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!target)
         return;
 
-    // [BH] fix baron nobles not facing targets correctly when attacking
+    // [BH] fix <https://doomwiki.org/wiki/Baron_attacks_a_monster_behind_him>
     A_FaceTarget(actor, NULL, NULL);
 
     if (P_CheckMeleeRange(actor))
@@ -1347,9 +1369,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction
-    dest = actor->tracer;
-
-    if (!dest || dest->health <= 0)
+    if (!(dest = actor->tracer) || dest->health <= 0)
         return;
 
     // change angle
@@ -1446,7 +1466,7 @@ static dboolean PIT_VileCheck(mobj_t *thing)
     corpsehit->momx = 0;
     corpsehit->momy = 0;
 
-    // [BH] fix potential of corpse being resurrected as a "ghost"
+    // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
     height = corpsehit->height;
     radius = corpsehit->radius;
     corpsehit->height = corpsehit->info->height;
@@ -1497,7 +1517,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                 {
                     // got one!
                     mobj_t      *temp = actor->target;
-                    mobjinfo_t  *info;
+                    mobjinfo_t  *info = corpsehit->info;
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor, NULL, NULL);
@@ -1505,11 +1525,10 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     P_SetMobjState(actor, S_VILE_HEAL1);
                     S_StartSound(corpsehit, sfx_slop);
-                    info = corpsehit->info;
 
                     P_SetMobjState(corpsehit, info->raisestate);
 
-                    // [BH] fix potential of corpse being resurrected as a "ghost"
+                    // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
                     corpsehit->height = info->height;
                     corpsehit->radius = info->radius;
 
@@ -1520,7 +1539,10 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     corpsehit->health = info->spawnhealth;
                     corpsehit->shadowoffset = info->shadowoffset;
                     P_SetTarget(&corpsehit->target, NULL);
+
+                    // killough 9/9/98
                     P_SetTarget(&corpsehit->lastenemy, NULL);
+                    corpsehit->flags &= ~MF_JUSTHIT;
 
                     viewplayer->killcount--;
                     stat_monsterskilled--;
@@ -1533,7 +1555,6 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     // killough 8/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);
-
                     return;
                 }
             }
@@ -1800,13 +1821,6 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     newmobj = P_SpawnMobj(x, y, actor->z + 8 * FRACUNIT, MT_SKULL);
 
-    // killough 7/20/98: PEs shoot lost souls with the same friendliness
-    newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
-    newmobj->flags &= ~MF_COUNTKILL;
-
-    // killough 8/29/98: add to appropriate thread
-    P_UpdateThinker(&newmobj->thinker);
-
     if (!P_TryMove(newmobj, newmobj->x, newmobj->y, 0)
         // Check to see if the new lost soul's z value is above the
         // ceiling of its new sector, or below the floor. If so, kill it.
@@ -1817,6 +1831,13 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
         P_DamageMobj(newmobj, actor, actor, 10000, true);
         return;
     }
+
+    // killough 7/20/98: PEs shoot lost souls with the same friendliness
+    newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
+    newmobj->flags &= ~MF_COUNTKILL;
+
+    // killough 8/29/98: add to appropriate thread
+    P_UpdateThinker(&newmobj->thinker);
 
     // [BH] put in attack state
     P_SetMobjState(newmobj, S_SKULL_ATK2);
