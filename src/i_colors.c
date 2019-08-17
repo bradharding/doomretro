@@ -217,30 +217,22 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
 
                 if (percent == ADDITIVE)
                 {
-                    if ((filter[background] & BLUES) && !(filter[foreground] & BLUES))
-                    {
-                        r = ((int)color1[0] * 75 + (int)color2[0] * 25) / 100;
-                        g = ((int)color1[1] * 75 + (int)color2[1] * 25) / 100;
-                        b = ((int)color1[2] * 75 + (int)color2[2] * 25) / 100;
-                    }
-                    else if (!(filter[background] & BLUES) && (filter[foreground] & BLUES))
-                    {
-                        r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
-                        g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
-                        b = ((int)color1[2] * 25 + (int)color2[2] * 75) / 100;
-                    }
-                    else
-                    {
-                        r = MIN(color1[0] + color2[0], 255);
-                        g = MIN(color1[1] + color2[1], 255);
-                        b = MIN(color1[2] + color2[2], 255);
-                    }
+                    r = MIN(color1[0] + color2[0], 255);
+                    g = MIN(color1[1] + color2[1], 255);
+                    b = MIN(color1[2] + color2[2], 255);
                 }
                 else
                 {
-                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / 100;
-                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / 100;
+                    // [crispy] blended color - emphasize blues
+                    // Color matching in RGB space doesn't work very well with the blues
+                    // in DOOM's palette. Rather than do any color conversions, just
+                    // emphasize the blues when building the translucency table.
+                    int btmp = (color1[2] * 1.666 < color1[0] + color1[1] ? 0 : 50);
+
+                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / (100 + btmp);
+                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / (100 + btmp);
                     b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
+
                 }
 
                 result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
