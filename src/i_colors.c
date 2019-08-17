@@ -213,13 +213,17 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
             {
                 byte    *color1 = &palette[background * 3];
                 byte    *color2 = &palette[foreground * 3];
-                int     r;
-                int     g;
-                int     b;
+                int     r, g, b;
 
                 if (percent == ADDITIVE)
                 {
-                    if ((filter[background] & BLUES) && !(filter[foreground] & WHITES))
+                    if ((filter[background] & BLUES) && !(filter[foreground] & BLUES))
+                    {
+                        r = ((int)color1[0] * 75 + (int)color2[0] * 25) / 100;
+                        g = ((int)color1[1] * 75 + (int)color2[1] * 25) / 100;
+                        b = ((int)color1[2] * 75 + (int)color2[2] * 25) / 100;
+                    }
+                    else if (!(filter[background] & BLUES) && (filter[foreground] & BLUES))
                     {
                         r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
                         g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
