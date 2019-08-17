@@ -1994,10 +1994,14 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
         return true;
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
-        || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
-        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
-        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys")
-        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
+        || M_StringCompare(parm, "health") || M_StringCompare(parm, "fullhealth")
+        || M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons")
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo")
+        || M_StringCompare(parm, "armor") || M_StringCompare(parm, "fullarmor")
+        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "fullarmour")
+        || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
+        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
+        || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         return true;
 
     sscanf(parm, "%10d", &num);
@@ -2061,7 +2065,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "health"))
+        else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "fullhealth"))
         {
             if (P_GiveMegaHealth(false))
             {
@@ -2075,7 +2079,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "weapons"))
+        else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
         {
             if (P_GiveAllWeapons())
             {
@@ -2090,7 +2094,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "ammo"))
+        else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo"))
         {
             if (P_GiveFullAmmo(false))
             {
@@ -2104,7 +2108,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
+        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "fullarmor")
+            || M_StringCompare(parm, "armour") || M_StringCompare(parm, "fullarmour"))
         {
             if (P_GiveArmor(blue_armor_class, false))
             {
@@ -2118,7 +2123,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "keys"))
+        else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
         {
             if (P_GiveAllCards())
             {
@@ -2133,7 +2138,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "keycards"))
+        else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
             if (P_GiveAllKeyCards())
             {
@@ -2148,7 +2153,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 return;
             }
         }
-        else if (M_StringCompare(parm, "skullkeys"))
+        else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
             if (P_GiveAllSkullKeys())
             {
