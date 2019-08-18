@@ -88,7 +88,8 @@ byte    *tinttab60;
 byte    *tinttab66;
 byte    *tinttab75;
 
-byte    *tinttabmenu;
+byte    *tinttabmenu33;
+byte    *tinttabmenu50;
 
 byte    *tranmap;
 
@@ -262,7 +263,8 @@ void I_InitTintTables(byte *palette)
     tinttab66 = GenerateTintTable(palette, 66, general, ALL);
     tinttab75 = GenerateTintTable(palette, 75, general, ALL);
 
-    tinttabmenu = GenerateTintTable(palette, 50, general, MENU);
+    tinttabmenu33 = GenerateTintTable(palette, 33, general, MENU);
+    tinttabmenu50 = GenerateTintTable(palette, 50, general, MENU);
 
     tranmap = (lump != -1 ? W_CacheLumpNum(lump) : tinttab50);
 
