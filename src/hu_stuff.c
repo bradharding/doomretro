@@ -131,6 +131,7 @@ static void (*hudnumfunc)(int, int, patch_t *, byte *);
 static void (*althudfunc)(int, int, patch_t *, int, int);
 void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
+static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
 
 static struct
 {
@@ -190,7 +191,8 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
         althudfunc = V_DrawTranslucentAltHUDPatch;
         althudtextfunc =  V_DrawTranslucentAltHUDText;
-        fillrectfunc = V_FillTransRect;
+        fillrectfunc = V_FillSoftTransRect;
+        fillrectfunc2 = V_FillTransRect;
         coloroffset = 0;
     }
     else
@@ -200,6 +202,7 @@ void HU_SetTranslucency(void)
         althudfunc = V_DrawAltHUDPatch;
         althudtextfunc = V_DrawAltHUDText;
         fillrectfunc = V_FillRect;
+        fillrectfunc2 = V_FillRect;
         coloroffset = 4;
     }
 }
@@ -845,7 +848,7 @@ static void HU_DrawAltHUD(void)
         if ((armor *= 200 / max_armor) > 100)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 100 + 1, 4, barcolor1, true);
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, (armor == 200));
+            fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, false);
         }
         else
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
@@ -948,8 +951,8 @@ static void HU_DrawAltHUD(void)
 
     if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
-        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray, false);
-        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, gray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, gray, false);
     }
 }
 

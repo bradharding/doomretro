@@ -88,6 +88,20 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboole
 void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
+    const byte  *tint60 = &tinttab60[(color <<= 8)];
+
+    for (int xx = 0; xx < width; xx++)
+    {
+        byte    *dot = dest + xx;
+
+        for (int yy = 0; yy < height; yy++, dot += SCREENWIDTH)
+            *dot = *(tint60 + *dot);
+    }
+}
+
+void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
+{
+    byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
     byte        *dot;
     const byte  *tint60 = &tinttab60[(color <<= 8)];
 
