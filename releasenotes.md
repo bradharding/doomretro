@@ -52,7 +52,7 @@
 * The direction the menu’s background spins is now the same as the direction the player last turned.
 * The `freeze`, `notarget`, `pistolstart`, `regenhealth` and `respawnitems` CCMDs will now all be turned off when enabling vanilla mode.
 * The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` will now always be displayed correctly.
-* Translucency effects have been improved when either the foreground or background is blue.
+* The use of the color blue in the alternate widescreen HUD has been improved.
 
 ---
 

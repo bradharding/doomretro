@@ -88,7 +88,7 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboole
 void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
-    const byte  *tint60 = &tinttab60[(color <<= 8)];
+    const byte  *tint60 = &alttinttab60[(color <<= 8)];
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -103,7 +103,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
     byte        *dot;
-    const byte  *tint60 = &tinttab60[(color <<= 8)];
+    const byte  *tint60 = &alttinttab60[(color <<= 8)];
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -115,8 +115,8 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 
     if (height > 2)
     {
-        const byte  *tint20 = tinttab20 + color;
-        const byte  *tint40 = tinttab40 + color;
+        const byte  *tint20 = alttinttab20 + color;
+        const byte  *tint40 = alttinttab40 + color;
 
         dot = dest - 1 - SCREENWIDTH * 2;
         *dot = *(tint20 + *dot);
@@ -933,7 +933,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 byte    dot = *source++;
 
                 if (dot)
-                    *dest = tinttab60[(dot == from ? to : (nearestcolors[dot] << 8)) + *dest];
+                    *dest = alttinttab60[(dot == from ? to : (nearestcolors[dot] << 8)) + *dest];
 
                 dest += SCREENWIDTH;
             }

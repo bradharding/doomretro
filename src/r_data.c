@@ -759,9 +759,6 @@ void R_PrecacheLevel(void)
 {
     dboolean    *hitlist = malloc(sizeof(dboolean) * MAX(numtextures, numflats));
 
-    if (!hitlist)
-        return;
-
     // Precache flats.
     memset(hitlist, false, numflats);
 

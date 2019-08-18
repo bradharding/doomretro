@@ -396,6 +396,7 @@ static void P_DeathThink(void)
         facingkiller = false;
         skipaction = true;
         gamekeydown[' '] = false;
+        gamekeydown[KEY_ENTER] = false;
     }
     else
         deathcount++;

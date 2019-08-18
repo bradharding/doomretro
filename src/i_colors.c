@@ -71,7 +71,7 @@ static byte general[256] =
     B,   B,   B,   B,   B,   B,   B,   B,   R,   R,   0,   0,   0,   0,   0,   0  // 240 to 255
 };
 
-#define MENU       -1
+#define ALTHUD     -1
 #define ALL         0
 #define REDS        R
 #define WHITES      W
@@ -88,8 +88,9 @@ byte    *tinttab60;
 byte    *tinttab66;
 byte    *tinttab75;
 
-byte    *tinttabmenu33;
-byte    *tinttabmenu50;
+byte    *alttinttab20;
+byte    *alttinttab40;
+byte    *alttinttab60;
 
 byte    *tranmap;
 
@@ -211,7 +212,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
 
     for (int foreground = 0; foreground < 256; foreground++)
     {
-        if ((filter[foreground] & colors) || colors == ALL || colors == MENU)
+        if ((filter[foreground] & colors) || colors == ALL || colors == ALTHUD)
         {
             for (int background = 0; background < 256; background++)
             {
@@ -231,7 +232,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
                     // Color matching in RGB space doesn't work very well with the blues
                     // in DOOM's palette. Rather than do any color conversions, just
                     // emphasize the blues when building the translucency table.
-                    int btmp = (colors != MENU && color1[2] * 1.666 >= color1[0] + color1[1] ? 50 : 0);
+                    int btmp = (colors == ALTHUD && color1[2] * 1.666 >= color1[0] + color1[1] ? 50 : 0);
 
                     r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / (100 + btmp);
                     g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / (100 + btmp);
@@ -263,8 +264,9 @@ void I_InitTintTables(byte *palette)
     tinttab66 = GenerateTintTable(palette, 66, general, ALL);
     tinttab75 = GenerateTintTable(palette, 75, general, ALL);
 
-    tinttabmenu33 = GenerateTintTable(palette, 33, general, MENU);
-    tinttabmenu50 = GenerateTintTable(palette, 50, general, MENU);
+    alttinttab20 = GenerateTintTable(palette, 20, general, ALTHUD);
+    alttinttab40 = GenerateTintTable(palette, 40, general, ALTHUD);
+    alttinttab60 = GenerateTintTable(palette, 60, general, ALTHUD);
 
     tranmap = (lump != -1 ? W_CacheLumpNum(lump) : tinttab50);
 
