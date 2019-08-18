@@ -473,7 +473,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
     }
 
-    if (cmd->angleturn)
+    if (cmd->angleturn && !menuactive)
         spindirection = SIGN(cmd->angleturn);
 }
 
