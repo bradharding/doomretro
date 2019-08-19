@@ -1823,7 +1823,7 @@ static void AM_DrawThings(void)
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
-                    if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapwidth + w)
+                    if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapheight + w)
                         AM_DrawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, angle, thingcolor, point.x, point.y);
                 }
 
