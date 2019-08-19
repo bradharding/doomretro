@@ -432,6 +432,8 @@ typedef struct mobj_s
 
     int                 id;
     int                 musicid;
+
+    char                name[100];
 } mobj_t;
 
 typedef struct bloodsplat_s

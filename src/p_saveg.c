@@ -284,6 +284,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->pursuecount = saveg_read16();
     str->strafecount = saveg_read16();
 
+    if (str->flags & MF_SHOOTABLE)
+        for (int i = 0; i < 100; i++)
+            str->name[i] = saveg_read8();
+
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -296,6 +300,8 @@ static void saveg_read_mobj_t(mobj_t *str)
 
 static void saveg_write_mobj_t(mobj_t *str)
 {
+    int i;
+
     saveg_write32(str->x);
     saveg_write32(str->y);
     saveg_write32(str->z);
@@ -340,6 +346,15 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->id);
     saveg_write16(str->pursuecount);
     saveg_write16(str->strafecount);
+
+    if (str->flags & MF_SHOOTABLE)
+    {
+        for (i = 0; str->name[i] != '\0'; i++)
+            saveg_write8(str->name[i]);
+
+        for (; i < 100; i++)
+            saveg_write8(0);
+    }
 
     saveg_write32(0);
     saveg_write32(0);
