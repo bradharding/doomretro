@@ -1665,18 +1665,27 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
             if (target->player)
-                C_Obituary("%s %s %s by an exploding %s.", titlecase(playername),
-                    (M_StringCompare(playername, playername_default) ? "were" : "was"), (gibbed ? "gibbed" : "killed"),
+                C_Obituary("%s %s %s by an exploding %s.",
+                    sentencecase(playername),
+                    (M_StringCompare(playername, playername_default) ? "were" : "was"),
+                    (gibbed ? "gibbed" : "killed"),
                     inflicter->info->name1);
             else
             {
                 char    name[100];
 
-                M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                    (*target->info->name1 ? target->info->name1 : "monster"));
+                if (*target->name)
+                    M_StringCopy(name, target->name, sizeof(name));
+                else
+                    M_snprintf(name, sizeof(name), "%s %s%s",
+                        (isvowel(target->info->name1[0]) ? "an" : "a"),
+                        ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                        (*target->info->name1 ? target->info->name1 : "monster"));
 
-                C_Obituary("%s %s was %s by an exploding %s.", (isvowel(name[0]) ? "An" : "A"), name,
-                    (gibbed ? "gibbed" : "killed"), inflicter->info->name1);
+                C_Obituary("%s was %s by an exploding %s.",
+                    sentencecase(name),
+                    (gibbed ? "gibbed" : "killed"),
+                    inflicter->info->name1);
             }
         }
         else if (source->player)
@@ -1688,40 +1697,55 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if (M_StringCompare(playername, playername_default))
                 {
                     if (target->player)
-                        C_Obituary("You %s yourself with your own %s.", (gibbed ? "gibbed" : "killed"),
+                        C_Obituary("You %s yourself with your own %s.",
+                            (gibbed ? "gibbed" : "killed"),
                             weaponinfo[readyweapon].description);
                     else
                     {
                         char    name[100];
 
-                        M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                        if (*target->name)
+                            M_StringCopy(name, target->name, sizeof(name));
+                        else
+                            M_snprintf(name, sizeof(name), "%s %s%s",
+                                (isvowel(target->info->name1[0]) ? "an" : "a"),
+                                ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                                (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_Obituary("You %s %s %s with your %s%s.",
+                        C_Obituary("You %s %s with your %s%s.",
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
+                            name,
+                            weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while you went berserk" : ""));
                     }
                 }
                 else
                 {
                     if (target->player)
-                        C_Obituary("%s %s themselves with their own %s.", titlecase(playername),
-                            (gibbed ? "gibbed" : "killed"), weaponinfo[readyweapon].description);
+                        C_Obituary("%s %s themselves with their own %s.",
+                            titlecase(playername),
+                            (gibbed ? "gibbed" : "killed"),
+                            weaponinfo[readyweapon].description);
                     else
                     {
                         char    name[100];
 
-                        M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                        if (*target->name)
+                            M_StringCopy(name, target->name, sizeof(name));
+                        else
+                            M_snprintf(name, sizeof(name), "%s %s%s",
+                                (isvowel(target->info->name1[0]) ? "an" : "a"),
+                                ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                                (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_Obituary("%s %s %s %s with their %s%s.", titlecase(playername),
+                        C_Obituary("%s %s %s with their %s%s.",
+                            titlecase(playername),
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            (isvowel(name[0]) ? "an" : "a"), name, weaponinfo[readyweapon].description,
+                            name,
+                            weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
                     }
                 }
-
             }
         }
         else
@@ -1730,37 +1754,47 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             {
                 if (target->player)
                     C_Obituary("%s %s telefragged.",
-                        titlecase(playername), (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                        titlecase(playername),
+                        (M_StringCompare(playername, playername_default) ? "were" : "was"));
                 else
                 {
                     char    name[100];
 
-                    M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    M_snprintf(name, sizeof(name), "%s %s%s",
+                        (isvowel(target->info->name1[0]) ? "an" : "a"),
+                        ((target->flags & MF_FRIEND) ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
-                    C_Obituary("%s %s was telefragged.", (isvowel(name[0]) ? "An" : "A"), name);
+                    C_Obituary("%s was telefragged.", name);
                 }
             }
             else
             {
                 char    sourcename[100];
 
-                M_snprintf(sourcename, sizeof(sourcename), "%s%s", ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
+                    (isvowel(source->info->name1[0]) ? "an" : "a"),
+                    ((source->flags & MF_FRIEND) ? "friendly " : ""),
                     (*source->info->name1 ? source->info->name1 : "monster"));
 
                 if (target->player)
-                    C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename, (gibbed ? "gibbed" : "killed"),
+                    C_Obituary("%s %s %s.",
+                        sentencecase(sourcename),
+                        (gibbed ? "gibbed" : "killed"),
                         (M_StringCompare(playername, playername_default) ? playername : titlecase(playername)));
                 else
                 {
                     char    name[100];
 
-                    M_snprintf(name, sizeof(name), "%s%s", ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    M_snprintf(name, sizeof(name), "%s %s%s",
+                        (source->type == target->type ? "another" : (isvowel(target->info->name1[0]) ? "an" : "a")),
+                        ((target->flags &MF_FRIEND) ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
-                    C_Obituary("%s %s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                    C_Obituary("%s %s %s %s.",
+                        sentencecase(sourcename),
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        (source->type == target->type ? "another" : (isvowel(name[0]) ? "an" : "a")), name);
+                        name);
                 }
             }
         }
@@ -1770,14 +1804,17 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         sector_t    *sector = viewplayer->mo->subsector->sector;
 
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
-            C_Obituary("%s %s crushed to death.", titlecase(playername),
+            C_Obituary("%s %s crushed to death.",
+                titlecase(playername),
                 (M_StringCompare(playername, playername_default) ? "were" : "was"));
         else
         {
             if (sector->terraintype != SOLID)
             {
-                char *liquids[] = {
-                    "", "liquid", "nukage", "water", "lava", "blood", "slime", "gray slime", "goop", "icy water", "tar", "sludge"
+                char *liquids[] =
+                {
+                    "",      "liquid",     "nukage", "water",     "lava", "blood",
+                    "slime", "gray slime", "goop",   "icy water", "tar",  "sludge"
                 };
 
                 C_Obituary("%s died in %s.", titlecase(playername), liquids[sector->terraintype]);
@@ -1787,12 +1824,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 short   floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
-                    C_Obituary("%s died on molten rock.", titlecase(playername));
+                    C_Obituary("%s died on molten rock.",
+                        titlecase(playername));
                 else if (healthcvar)
-                    C_Obituary("%s killed %s.", titlecase(playername),
+                    C_Obituary("%s killed %s.",
+                        titlecase(playername),
                         (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
                 else
-                    C_Obituary("%s blew %s up.", titlecase(playername),
+                    C_Obituary("%s blew %s up.",
+                        titlecase(playername),
                         (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
             }
         }
