@@ -83,6 +83,7 @@
 #define LOADCMDFORMAT               "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT                "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT               "<i>soundeffect</i>|<i>music</i>"
+#define NAMECMDFORMAT               "[<b>friendly</b>] <i>monster</i> <i>name</i>"
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT              "<i>CVAR</i>"
 #define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
@@ -295,6 +296,8 @@ static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
 static void maplist_cmd_func2(char *cmd, char *parms);
 static void mapstats_cmd_func2(char *cmd, char *parms);
+static dboolean name_cmd_func1(char *cmd, char *parms);
+static void name_cmd_func2(char *cmd, char *parms);
 static void newgame_cmd_func2(char *cmd, char *parms);
 static void noclip_cmd_func2(char *cmd, char *parms);
 static void nomonsters_cmd_func2(char *cmd, char *parms);
@@ -620,6 +623,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
     CMD_CHEAT(mumu, false),
+    CMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
+        "Gives a <i>name</i> to the nearest <i>monster</i> to the\nplayer."),
     CMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
@@ -3384,6 +3389,96 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 }
 
 //
+// name CCMD
+//
+static dboolean namecmdfriendly;
+static char     namecmdnew[100];
+static char     namecmdold[100];
+static int      namecmdtype = NUMMOBJTYPES;
+
+static dboolean name_cmd_func1(char *cmd, char *parms)
+{
+    char *parm = removenonalpha(parms);
+
+    if (!*parm)
+        return true;
+
+    if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
+        strreplace(parm, "friendly", "");
+
+    if (gamestate == GS_LEVEL)
+        for (int i = 0; i < NUMMOBJTYPES; i++)
+            if (mobjinfo[i].flags & MF_SHOOTABLE)
+            {
+                if (M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name1)))
+                {
+                    M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
+                    strreplace(parm, removenonalpha(mobjinfo[i].name1), "");
+                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    namecmdtype = i;
+                    return true;
+                }
+                else if (*mobjinfo[i].name2 && M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name2)))
+                {
+                    M_StringCopy(namecmdold, mobjinfo[i].name2, sizeof(namecmdold));
+                    strreplace(parm, removenonalpha(mobjinfo[i].name2), "");
+                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    namecmdtype = i;
+                    return true;
+                }
+                else if (*mobjinfo[i].name3 && M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name3)))
+                {
+                    M_StringCopy(namecmdold, mobjinfo[i].name3, sizeof(namecmdold));
+                    strreplace(parm, removenonalpha(mobjinfo[i].name3), "");
+                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    namecmdtype = i;
+                    return true;
+                }
+            }
+
+    return false;
+}
+
+static void name_cmd_func2(char *cmd, char *parms)
+{
+    if (!*parms)
+    {
+        C_ShowDescription(C_GetIndex("name"));
+        C_Output("<b>%s</b> %s", cmd, NAMECMDFORMAT);
+    }
+    else
+    {
+        mobj_t *bestmobj = NULL;
+        fixed_t bestdist = FIXED_MAX;
+
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+        {
+            mobj_t *mobj = (mobj_t *)th;
+
+            if (mobj->type == namecmdtype
+                && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || (!namecmdfriendly && !(mobj->flags & MF_FRIEND))))
+            {
+                fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
+
+                if (dist < bestdist)
+                {
+                    bestdist = dist;
+                    bestmobj = mobj;
+                }
+            }
+        }
+
+        if (bestmobj)
+        {
+            M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
+            C_Output("The %s%s is now called <b>%s</b>.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
+        }
+        else
+            C_Warning("There's no %s.", namecmdold);
+    }
+}
+
+//
 // newgame CCMD
 //
 static void newgame_cmd_func2(char *cmd, char *parms)
@@ -4472,7 +4567,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 // spawn CCMD
 //
 static int      spawncmdtype = NUMMOBJTYPES;
-static dboolean spawnfriendly;
+static dboolean spawncmdfriendly;
 
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
@@ -4481,7 +4576,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
     if (!*parm)
         return true;
 
-    if ((spawnfriendly = M_StringStartsWith(parm, "friendly")))
+    if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
         strreplace(parm, "friendly", "");
 
     if (gamestate == GS_LEVEL)
@@ -4569,7 +4664,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
                 }
-                else if (spawnfriendly && (thing->flags & MF_SHOOTABLE))
+                else if (spawncmdfriendly && (thing->flags & MF_SHOOTABLE))
                 {
                     thing->flags |= MF_FRIEND;
                     stat_cheated = SafeAdd(stat_cheated, 1);
