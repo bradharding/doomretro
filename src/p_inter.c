@@ -1775,7 +1775,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             {
                 char    sourcename[100];
 
-                if (*target->name)
+                if (*source->name)
                     M_snprintf(sourcename, sizeof(sourcename), "<b>%s</b>", source->name);
                 else
                     M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
