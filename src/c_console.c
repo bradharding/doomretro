@@ -146,6 +146,7 @@ static int              consoleselectedinputcolor = 4;
 static int              consoleselectedinputbackgroundcolor = 100;
 static int              consoleinputtooutputcolor = 4;
 static int              consoleplayermessagecolor = 161;
+static int              consoleplayermessageboldcolor = 228;
 static int              consoletimestampcolor = 100;
 static int              consoleoutputcolor = 88;
 static int              consoleboldcolor = 4;
@@ -529,6 +530,7 @@ void C_Init(void)
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
     consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
+    consoleplayermessageboldcolor = nearestcolors[consoleplayermessageboldcolor];
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
     consoleboldcolor = nearestcolors[consoleboldcolor];
@@ -1011,11 +1013,11 @@ void C_Drawer(void)
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, commify(console[i].count));
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
+                        NOBACKGROUNDCOLOR, consoleplayermessageboldcolor, tinttab66, notabs, true, true);
                 }
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
+                        NOBACKGROUNDCOLOR, consoleplayermessageboldcolor, tinttab66, notabs, true, true);
 
                 if (con_timestamps)
                     C_DrawTimeStamp(timestampx, y, console[i].tics);

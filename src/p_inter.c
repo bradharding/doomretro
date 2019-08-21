@@ -1675,7 +1675,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 char    targetname[100];
 
                 if (*target->name)
-                    M_StringCopy(targetname, target->name, sizeof(targetname));
+                    M_snprintf(targetname, sizeof(targetname), "<b>%s</b>", target->name);
                 else
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (isvowel(target->info->name1[0]) ? "an" : "a"),
@@ -1705,7 +1705,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         char    targetname[100];
 
                         if (*target->name)
-                            M_StringCopy(targetname, target->name, sizeof(targetname));
+                            M_snprintf(targetname, sizeof(targetname), "<b>%s</b>", target->name);
                         else
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (isvowel(target->info->name1[0]) ? "an" : "a"),
@@ -1731,7 +1731,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         char    targetname[100];
 
                         if (*target->name)
-                            M_StringCopy(targetname, target->name, sizeof(targetname));
+                            M_snprintf(targetname, sizeof(targetname), "<b>%s</b>", target->name);
                         else
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (isvowel(target->info->name1[0]) ? "an" : "a"),
@@ -1761,7 +1761,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     char    targetname[100];
 
                     if (*target->name)
-                        M_StringCopy(targetname, target->name, sizeof(targetname));
+                        M_snprintf(targetname, sizeof(targetname), "<b>%s</b>", target->name);
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                             (isvowel(target->info->name1[0]) ? "an" : "a"),
@@ -1776,7 +1776,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 char    sourcename[100];
 
                 if (*target->name)
-                    M_StringCopy(sourcename, source->name, sizeof(sourcename));
+                    M_snprintf(sourcename, sizeof(sourcename), "<b>%s</b>", source->name);
                 else
                     M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                         (isvowel(source->info->name1[0]) ? "an" : "a"),
@@ -1793,7 +1793,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     char    targetname[100];
 
                     if (*target->name)
-                        M_StringCopy(targetname, target->name, sizeof(targetname));
+                        M_snprintf(targetname, sizeof(targetname), "<b>%s</b>", target->name);
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                             (source->type == target->type ? "another" : (isvowel(target->info->name1[0]) ? "an" : "a")),
