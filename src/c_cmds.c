@@ -3408,7 +3408,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
         for (int i = 0; i < NUMMOBJTYPES; i++)
-            if (mobjinfo[i].flags & MF_SHOOTABLE)
+            if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
                 if (M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name1)))
                 {
@@ -3455,8 +3455,7 @@ static void name_cmd_func2(char *cmd, char *parms)
         {
             mobj_t *mobj = (mobj_t *)th;
 
-            if (mobj->type == namecmdtype
-                && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || (!namecmdfriendly && !(mobj->flags & MF_FRIEND))))
+            if (mobj->type == namecmdtype && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || !namecmdfriendly))
             {
                 fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
 
@@ -3471,10 +3470,11 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The %s%s is now called <b>%s</b>.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
+            C_Output("The %s%s at (%d,%d) is now called <b>%s</b>.",
+                (namecmdfriendly ? "friendly " : ""), namecmdold, bestmobj->x >> FRACBITS, bestmobj->y >> FRACBITS, namecmdnew);
         }
         else
-            C_Warning("There's no %s.", namecmdold);
+            C_Warning("A %s%s couldn't be found.", (namecmdfriendly ? "friendly " : ""), namecmdold);
     }
 }
 
