@@ -3507,11 +3507,10 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The %s%s at (%d,%d) is now called %s.",
-                (namecmdfriendly ? "friendly " : ""), namecmdold, bestmobj->x >> FRACBITS, bestmobj->y >> FRACBITS, namecmdnew);
+            C_Output("The %s%s is now called %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
         }
         else
-            C_Warning("A %s%s couldn't be found.", (namecmdfriendly ? "friendly " : ""), namecmdold);
+            C_Warning("The player couldn't find a %s%s nearby.", (namecmdfriendly ? "friendly " : ""), namecmdold);
     }
 }
 

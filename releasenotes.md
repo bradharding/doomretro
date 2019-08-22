@@ -21,14 +21,14 @@
   * Obituaries, as well as the `thinglist` CCMD, now indicate if a monster is friendly.
 * The player can now give any monster a unique name using the new `name` CCMD. For example, entering `name cacodemon Hissy` will give the name Hissy to the nearest cacodemon that the player can see. The name given will then be used in any obituary that involves that monster. This also allows the following:
   * The `thinglist` CCMD will now show a monster’s name.
-  * The `kill` CCMD may be used to kill a monster by specifying its name.
+  * The `kill` CCMD may now be used to kill a monster by specifying its name.
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug has been fixed whereby music often wouldn’t play at all in episode 4 of *The Ultimate DOOM* if the `s_randommusic` CVAR was `on`.
 * The following changes have been made to the `mapstats` CCMD:
   * The PWAD of the current map will now always be correct.
   * Improvements have been made to how *BOOM* compatibility is detected.
   * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible or not is now displayed.
-  * The author of some maps in *DOOM II: No Rest For The Living* has been corrected.
+  * The author of some of the maps in *DOOM II: No Rest For The Living* has been corrected.
 * The `playerstats` CCMD now shows how many times the player has saved the game in the current map.
 * The `+screenshot` action can now be bound to a mouse button.
 * A camera’s shutter sound is now played when taking a screenshot using the <kbd>PRINTSCREEN</kbd> key.

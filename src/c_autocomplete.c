@@ -6666,6 +6666,7 @@ autocomplete_t autocompletelist[] = {
     { "mouselook off",                               DOOM1AND2 },
     { "mouselook on",                                DOOM1AND2 },
     { "movebob ",                                    DOOM1AND2 },
+    { "name ",                                       DOOM1AND2 },
     { "name arachnotron ",                           DOOM2ONLY },
     { "name archvile ",                              DOOM2ONLY },
     { "name baronofhell ",                           DOOM1AND2 },

@@ -43,13 +43,13 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define ADDITIVE    -1
+#define ADDITIVE   -1
 
 #define R           1
 #define W           2
 #define G           4
 #define B           8
-#define X           16
+#define X          16
 
 static byte general[256] =
 {
@@ -111,35 +111,32 @@ byte    nearestblack;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
-    int best_difference = INT_MAX;
-    int best_color = 0;
+    int bestdiff = INT_MAX;
+    int bestcolor = 0;
 
     for (int i = 0; i < 256; i++)
     {
-        int r1 = red;
-        int g1 = green;
-        int b1 = blue;
-        int r2 = *palette++;
-        int g2 = *palette++;
-        int b2 = *palette++;
+        int red2 = *palette++;
+        int green2 = *palette++;
+        int blue2 = *palette++;
 
         // From <https://www.compuphase.com/cmetric.htm>
-        int rmean = (r1 + r2) / 2;
-        int r = r1 - r2;
-        int g = g1 - g2;
-        int b = b1 - b2;
-        int difference = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
+        int rmean = (red + red2) / 2;
+        int r = red - red2;
+        int g = green - green2;
+        int b = blue - blue2;
+        int diff = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
 
-        if (!difference)
+        if (!diff)
             return i;
-        else if (difference < best_difference)
+        else if (diff < bestdiff)
         {
-            best_color = i;
-            best_difference = difference;
+            bestcolor = i;
+            bestdiff = diff;
         }
     }
 
-    return best_color;
+    return bestcolor;
 }
 
 void FindNearestColors(byte *palette)
