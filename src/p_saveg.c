@@ -281,8 +281,6 @@ static void saveg_read_mobj_t(mobj_t *str)
 
 static void saveg_write_mobj_t(mobj_t *str)
 {
-    int i;
-
     saveg_write32(str->x);
     saveg_write32(str->y);
     saveg_write32(str->z);
@@ -330,6 +328,8 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     if (str->flags & MF_SHOOTABLE)
     {
+        int i;
+
         for (i = 0; str->name[i] != '\0'; i++)
             saveg_write8(str->name[i]);
 

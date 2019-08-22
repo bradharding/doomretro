@@ -2416,7 +2416,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t *mobj = (mobj_t *)th;
+            mobj_t  *mobj = (mobj_t *)th;
 
             if (*mobj->name && M_StringCompare(parm, removenonalpha(mobj->name)))
             {
@@ -3484,12 +3484,12 @@ static void name_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        mobj_t *bestmobj = NULL;
+        mobj_t  *bestmobj = NULL;
         fixed_t bestdist = FIXED_MAX;
 
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t *mobj = (mobj_t *)th;
+            mobj_t  *mobj = (mobj_t *)th;
 
             if (mobj->type == namecmdtype && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || !namecmdfriendly))
                 if (P_CheckSight(viewplayer->mo, mobj))
