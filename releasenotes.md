@@ -19,7 +19,7 @@
   * A [*helper dog*](https://doomwiki.org/wiki/Helper_dog) may now be spawned in the current map by entering `spawn friendly dog` in the console (whereas just entering `spawn dog` will spawn a dog that will attack the player).
   * All friendly monsters in the current map may be killed by entering `kill friends` in the console.
   * Obituaries, as well as the `thinglist` CCMD, now indicate if a monster is friendly.
-* The player can now give any monster a unique name using the new `name` CCMD. For example, entering `name cacodemon Hissy` will name the nearest cacodemon to the player Hissy. The name given will then be used in any obituary that involves that monster. This also allows the following:
+* The player can now give any monster a unique name using the new `name` CCMD. For example, entering `name cacodemon Hissy` will give the name Hissy to the nearest cacodemon that the player can see. The name given will then be used in any obituary that involves that monster. This also allows the following:
   * The `thinglist` CCMD will now show a monster’s name.
   * The `kill` CCMD may be used to kill a monster by specifying its name.
 * Further improvements have been made to the console’s autocomplete feature.

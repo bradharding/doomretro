@@ -779,7 +779,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
-        "Unbinds the <i>+action</i> from a <i>control</i>."),
+        "Unbinds the +<i>action</i> from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
         "The units used in the <b>mapstats</b> and <b>playerstats</b>\nCCMDs (<b>imperial</b> or <b>metric</b>)."),
     CMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
@@ -3492,15 +3492,16 @@ static void name_cmd_func2(char *cmd, char *parms)
             mobj_t *mobj = (mobj_t *)th;
 
             if (mobj->type == namecmdtype && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || !namecmdfriendly))
-            {
-                fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
-
-                if (dist < bestdist)
+                if (P_CheckSight(viewplayer->mo, mobj))
                 {
-                    bestdist = dist;
-                    bestmobj = mobj;
+                    fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
+
+                    if (dist < bestdist)
+                    {
+                        bestdist = dist;
+                        bestmobj = mobj;
+                    }
                 }
-            }
         }
 
         if (bestmobj)
