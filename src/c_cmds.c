@@ -2360,14 +2360,17 @@ static void if_cmd_func2(char *cmd, char *parms)
 //
 // kill CCMD
 //
-static int  killcmdtype = NUMMOBJTYPES;
-dboolean    massacre;
+static int      killcmdtype = NUMMOBJTYPES;
+static mobj_t   *killcmdmobj;
+dboolean        massacre;
 
 static dboolean kill_cmd_func1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
     {
         char    *parm = removenonalpha(parms);
+
+        killcmdmobj = NULL;
 
         if (!*parm)
             return true;
@@ -2408,6 +2411,17 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     kill = false;
 
                 return kill;
+            }
+        }
+
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+        {
+            mobj_t *mobj = (mobj_t *)th;
+
+            if (*mobj->name && M_StringCompare(parm, removenonalpha(mobj->name)))
+            {
+                killcmdmobj = mobj;
+                return true;
             }
         }
     }
@@ -2558,6 +2572,28 @@ void kill_cmd_func2(char *cmd, char *parms)
             }
             else
                 C_Warning("There are no missiles to explode.");
+        }
+        else if (killcmdmobj)
+        {
+            killcmdmobj->flags2 |= MF2_MASSACRE;
+            P_DamageMobj(killcmdmobj, NULL, NULL, killcmdmobj->health, false);
+
+            if (!(killcmdmobj->flags & MF_NOBLOOD))
+            {
+                const int   r = M_RandomInt(-1, 1);
+
+                killcmdmobj->momx += FRACUNIT * r;
+                killcmdmobj->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+            }
+
+            M_snprintf(buffer, sizeof(buffer), "%s was killed.", sentencecase(parm));
+            C_Output(buffer);
+            C_HideConsole();
+            HU_SetPlayerMessage(buffer, false, false);
+            message_dontfuckwithme = true;
+            viewplayer->cheated++;
+            stat_cheated = SafeAdd(stat_cheated, 1);
+            M_SaveCVARs();
         }
         else
         {
@@ -3470,7 +3506,7 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The %s%s at (%d,%d) is now called <b>%s</b>.",
+            C_Output("The %s%s at (%d,%d) is now called %s.",
                 (namecmdfriendly ? "friendly " : ""), namecmdold, bestmobj->x >> FRACBITS, bestmobj->y >> FRACBITS, namecmdnew);
         }
         else
