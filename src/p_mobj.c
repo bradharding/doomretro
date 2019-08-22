@@ -1247,8 +1247,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->type = type;
         th->info = info;
-        th->x = x;
-        th->y = y;
+        th->x = x + M_RandomInt(-2, 2) * FRACUNIT;
+        th->y = y + M_RandomInt(-2, 2) * FRACUNIT;
         th->flags = info->flags;
         th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
