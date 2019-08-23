@@ -217,6 +217,8 @@ int                 direction;
 
 static am_frame_t   am_frame;
 
+static dboolean     isteleportline[NUMLINESPECIALS] = { false };
+
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
 static void PUTDOT(unsigned int x, unsigned int y, byte *color);
@@ -389,6 +391,17 @@ void AM_Init(void)
 {
     AM_SetColors();
     AM_GetGridSize();
+
+    isteleportline[W1_Teleport] = true;
+    isteleportline[W1_ExitLevel] = true;
+    isteleportline[WR_Teleport] = true;
+    isteleportline[W1_ExitLevel_GoesToSecretLevel] = true;
+    isteleportline[W1_Teleport_AlsoMonsters_Silent_SameAngle] = true;
+    isteleportline[WR_Teleport_AlsoMonsters_Silent_SameAngle] = true;
+    isteleportline[W1_TeleportToLineWithSameTag_Silent_SameAngle] = true;
+    isteleportline[WR_TeleportToLineWithSameTag_Silent_SameAngle] = true;
+    isteleportline[W1_TeleportToLineWithSameTag_Silent_ReversedAngle] = true;
+    isteleportline[WR_TeleportToLineWithSameTag_Silent_ReversedAngle] = true;
 }
 
 void AM_SetAutomapSize(void)
@@ -1488,12 +1501,7 @@ static void AM_DrawGrid(void)
     // Draw vertical gridlines
     for (fixed_t x = start; x < end; x += gridwidth)
     {
-        mline_t ml;
-
-        ml.a.x = x;
-        ml.b.x = x;
-        ml.a.y = starty;
-        ml.b.y = starty + minlen;
+        mline_t ml = { { x, starty }, { x, starty + minlen } };
 
         if (am_rotatemode)
         {
@@ -1515,12 +1523,7 @@ static void AM_DrawGrid(void)
     // Draw horizontal gridlines
     for (fixed_t y = start; y < end; y += gridheight)
     {
-        mline_t ml;
-
-        ml.a.x = startx;
-        ml.b.x = startx + minlen;
-        ml.a.y = y;
-        ml.b.y = y;
+        mline_t ml = { { startx, y }, { startx + minlen, y } };
 
         if (am_rotatemode)
         {
@@ -1576,17 +1579,8 @@ static void AM_DrawWalls(void)
                     AM_RotatePoint(&mline.b);
                 }
 
-                if ((special
-                    && (special == W1_Teleport
-                        || special == W1_ExitLevel
-                        || special == WR_Teleport
-                        || special == W1_ExitLevel_GoesToSecretLevel
-                        || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
-                        || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
-                        || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
-                        || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
-                        || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
-                        || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
+                if (special
+                    && isteleportline[special]
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating || (back && isteleport[back->floorpic])))
                 {
                     if (cheating || (mapped && !secret && back && back->ceilingheight != back->floorheight))

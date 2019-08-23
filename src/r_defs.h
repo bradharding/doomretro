@@ -582,7 +582,9 @@ enum
     MBFLINESPECIALS                                                = 271,
 
     TransferSkyTextureToTaggedSectors                              = 271,
-    TransferSkyTextureToTaggedSectors_Flipped                      = 272
+    TransferSkyTextureToTaggedSectors_Flipped                      = 272,
+
+    NUMLINESPECIALS                                                = 272
 };
 
 enum
