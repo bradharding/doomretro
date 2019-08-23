@@ -624,7 +624,7 @@ consolecmd_t consolecmds[] =
         "The amount the player's view bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
     CMD_CHEAT(mumu, false),
     CMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
-        "Gives a <i>name</i> to the nearest <i>monster</i> to the\nplayer."),
+        "Gives a <i>name</i> to a <i>monster</i> near to the player."),
     CMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, true, "[<b>on</b>|<b>off</b>]",

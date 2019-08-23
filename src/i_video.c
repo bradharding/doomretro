@@ -1062,8 +1062,9 @@ static void I_RestoreFocus(void)
     SDL_SysWMinfo   info;
 
     SDL_VERSION(&info.version);
-    SDL_GetWindowWMInfo(window, &info);
-    SetFocus(info.info.win.window);
+
+    if (SDL_GetWindowWMInfo(window, &info))
+        SetFocus(info.info.win.window);
 #endif
 }
 
