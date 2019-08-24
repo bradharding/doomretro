@@ -387,8 +387,8 @@ static void P_DeathThink(void)
     if (consoleactive)
         return;
 
-    if (((viewplayer->cmd.buttons & BT_USE) || gamekeydown[' '] || gamekeydown[KEY_ENTER]
-        || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2)))
+    if ((viewplayer->cmd.buttons & BT_USE) || gamekeydown[' '] || gamekeydown[KEY_ENTER]
+        || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2))
     {
         deathcount = 0;
         damagevibrationtics = 1;

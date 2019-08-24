@@ -47,7 +47,7 @@
 #define FLOOR   0
 #define CEILING 1
 
-#define DOWN    -1
+#define DOWN   -1
 #define UP      1
 
 extern dboolean canmodify;
@@ -225,7 +225,7 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
-                    // fall thru
+                    // fall through
 
                 case genFloorChg:
                     sec->floorpic = floor->texture;
@@ -244,7 +244,7 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
-                    // fall thru
+                    // fall through
 
                 case genFloorChg:
                     sec->floorpic = floor->texture;
@@ -701,7 +701,7 @@ dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean
         height = sec->floorheight + stairsize;
         floor->floordestheight = height;
         floor->crush = crushing;
-        floor->stopsound = (sec->floorheight != floor->floordestheight);
+        floor->stopsound = (sec->floorheight != height);
 
         texture = sec->floorpic;
 

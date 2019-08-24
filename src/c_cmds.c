@@ -2527,8 +2527,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s monster%s%s in this map %s been killed.", (kills == 1 ? "" : "All "),
-                    commify(kills), (kills == 1 ? "" : "s"), (kills < prevkills ? " remaining" : ""), (kills == 1 ? "has" : "have"));
+                M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "" : "All "),
+                    commify(kills), (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
