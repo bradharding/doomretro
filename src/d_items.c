@@ -153,7 +153,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* readystate */  S_BFG,
         /* atkstate */    S_BFG1,
         /* flashstate */  S_BFGFLASH1,
-        /* recoil */      20,
+        /* recoil */      16,
         /* strength */    45000,
         /* tics */        30,
         /* prev */        wp_plasma,
