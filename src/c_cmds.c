@@ -835,7 +835,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bouncing of the player's weapon when\ndropping from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the recoiling of the player's weapon when\nfired and while using mouselook."),
+        "Toggles the recoiling of the player's weapon when\nfired."),
     CVAR_BOOL(wipe, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the wipe effect when transitioning between\nscreens."),
 
