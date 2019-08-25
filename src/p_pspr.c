@@ -72,7 +72,7 @@ extern dboolean usemouselook;
 //
 void A_Recoil(weapontype_t weapon)
 {
-    if (weaponrecoil && canmouselook)
+    if (weaponrecoil)
         viewplayer->recoil = weaponinfo[weapon].recoil;
 }
 
@@ -906,7 +906,7 @@ void P_MovePsprites(void)
     }
 
     // [BH] shake the BFG before firing when weapon recoil enabled
-    if (viewplayer->readyweapon == wp_bfg && weaponrecoil && canmouselook)
+    if (viewplayer->readyweapon == wp_bfg && weaponrecoil)
     {
         if (weapon->state == &states[S_BFG1])
         {

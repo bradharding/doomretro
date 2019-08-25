@@ -773,7 +773,7 @@ static void R_SetupFrame(void)
         viewz = viewplayer->oldviewz + FixedMul(viewplayer->viewz - viewplayer->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (canmouselook)
+        if (canmouselook || weaponrecoil)
         {
             pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
@@ -792,7 +792,7 @@ static void R_SetupFrame(void)
         viewz = viewplayer->viewz;
         viewangle = mo->angle;
 
-        if (canmouselook)
+        if (canmouselook || weaponrecoil)
         {
             pitch = viewplayer->lookdir / MLOOKUNIT;
 
