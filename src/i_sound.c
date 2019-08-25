@@ -139,7 +139,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     } while (!snd);
 
     // Skip past the chunk structure for the audio buffer
-    snd->chunk.abuf = (Uint8 *)(snd + 1);
+    snd->chunk.abuf = (uint8_t *)(snd + 1);
     snd->chunk.alen = len;
     snd->chunk.allocated = 1;
     snd->chunk.volume = MIX_MAX_VOLUME;
@@ -189,13 +189,13 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 {
     allocated_sound_t   *outsnd;
-    Sint16              *srcbuf = (Sint16 *)insnd->chunk.abuf;
-    Uint32              srclen = insnd->chunk.alen;
-    Sint16              *dstbuf;
+    int16_t             *srcbuf = (int16_t *)insnd->chunk.abuf;
+    uint32_t            srclen = insnd->chunk.alen;
+    int16_t             *dstbuf;
 
     // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
     // This is an approximation of vanilla behavior based on measurements
-    Uint32              dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
+    uint32_t            dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
 
     // ensure that the new buffer is an even length
     if (!(dstlen % 2))
@@ -205,10 +205,10 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
         return NULL;
 
     outsnd->pitch = pitch;
-    dstbuf = (Sint16 *)outsnd->chunk.abuf;
+    dstbuf = (int16_t *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
-    for (Sint16 *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
+    for (int16_t *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
         inp = &srcbuf[(int)((float)(outp - dstbuf) / dstlen * srclen)];
         *outp = *inp;
@@ -241,7 +241,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 {
     unsigned int        expanded_length = (unsigned int)((((uint64_t)length) * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    Sint16              *expanded = (Sint16 *)(&snd->chunk)->abuf;
+    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
     int                 expand_ratio = (length << 8) / expanded_length;
     double              dt = 1.0 / mixer_freq;
     double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
@@ -258,7 +258,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
     // Apply low-pass filter
     for (unsigned int i = 2; i < expanded_length * 2; i++)
-        expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
+        expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
     return true;
 }
@@ -314,19 +314,21 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 
     if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch)))
     {
-        allocated_sound_t   *newsnd;
-
         // fetch the base sound effect, un-pitch-shifted
         if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH)))
             return -1;
 
         if (s_randompitch && pitch && pitch != NORM_PITCH)
-            if ((newsnd = PitchShift(snd, pitch)))
+        {
+            allocated_sound_t   *newsnd = PitchShift(snd, pitch);
+
+            if (newsnd)
             {
                 LockAllocatedSound(newsnd);
                 UnlockAllocatedSound(snd);
                 snd = newsnd;
             }
+        }
     }
     else
         LockAllocatedSound(snd);
@@ -381,7 +383,7 @@ void I_ShutdownSound(void)
 dboolean I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
-    Uint16              mixer_format;
+    uint16_t            mixer_format;
     int                 mixer_channels;
 
     // No sounds yet

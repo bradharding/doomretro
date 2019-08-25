@@ -78,9 +78,9 @@ void I_ShutdownMusic(void)
 
 static dboolean SDLIsInitialized(void)
 {
-    int     freq;
-    int     channels;
-    Uint16  format;
+    int         freq;
+    int         channels;
+    uint16_t    format;
 
     return !!Mix_QuerySpec(&freq, &format, &channels);
 }
@@ -254,17 +254,17 @@ void *I_RegisterSong(void *data, int size)
         {
             if (!memcmp(data, "MThd", 4))                       // is it a MIDI?
                 midimusictype = true;
-            else if (mmuscheckformat((UBYTE *)data, size))      // is it a MUS?
+            else if (mmuscheckformat((uint8_t *)data, size))    // is it a MUS?
             {
                 MIDI    mididata;
-                UBYTE   *mid;
+                uint8_t *mid;
                 int     midlen;
 
                 musmusictype = true;
 
                 memset(&mididata, 0, sizeof(MIDI));
 
-                if (!mmus2mid((UBYTE *)data, (size_t)size, &mididata))
+                if (!mmus2mid((uint8_t *)data, (size_t)size, &mididata))
                     return NULL;
 
                 // Hurrah! Let's make it a mid and give it to SDL_mixer

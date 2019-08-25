@@ -297,7 +297,7 @@ static int TranslateKey2(int key)
 
 dboolean keystate(int key)
 {
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    const uint8_t   *state = SDL_GetKeyboardState(NULL);
 
     return state[TranslateKey2(key)];
 }
@@ -1078,10 +1078,10 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    Uint32  rmask, gmask, bmask, amask;
-    int     bpp;
-    int     flags = SDL_RENDERER_TARGETTEXTURE;
-    int     am_displayindex = !displayindex;
+    uint32_t    rmask, gmask, bmask, amask;
+    int         bpp;
+    int         flags = SDL_RENDERER_TARGETTEXTURE;
+    int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
     mapblitfunc = nullfunc;
@@ -1323,7 +1323,7 @@ static void SetVideoMode(dboolean output)
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
     int                 width, height;
-    Uint32              rmask, gmask, bmask, amask;
+    uint32_t            rmask, gmask, bmask, amask;
     int                 bpp;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));

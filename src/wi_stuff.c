@@ -968,7 +968,7 @@ static void WI_DrawStats(void)
 
 void WI_CheckForAccelerate(void)
 {
-    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    const uint8_t   *keystate = SDL_GetKeyboardState(NULL);
 
     if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
     {

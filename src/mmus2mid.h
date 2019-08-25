@@ -41,13 +41,6 @@
 
 #include "doomtype.h"
 
-// some names for integers of various sizes, all unsigned
-typedef uint8_t     UBYTE;  // a one-byte int
-typedef uint16_t    UWORD;  // a two-byte int
-
-// proff: changed from unsigned int to unsigned long to avoid warning
-typedef uint32_t    ULONG; // a four-byte int (assumes int 4 bytes)
-
 #define MIDI_TRACKS 32
 
 typedef struct                          // a midi file
@@ -61,9 +54,9 @@ typedef struct                          // a midi file
     } track[MIDI_TRACKS];
 } MIDI;
 
-dboolean mmuscheckformat(UBYTE *mus, int size);
-dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata);
-void MIDIToMidi(const MIDI *mididata, UBYTE **mid, int *midlen);
+dboolean mmuscheckformat(uint8_t *mus, int size);
+dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata);
+void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen);
 void FreeMIDIData(MIDI *mididata);
 
 #endif
