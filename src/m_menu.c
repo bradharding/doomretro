@@ -117,7 +117,7 @@ static dboolean usinggamepad;
 static menu_t   *currentMenu;
 
 static angle_t  playerangle;
-int             spindirection = 1;
+int             spindirection;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_menu;
@@ -3711,6 +3711,7 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = false;
     quickSaveSlot = -1;
+    spindirection = ((M_Random() & 1) ? 1 : -1);
 
     if (autostart)
     {
