@@ -450,12 +450,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
                     return false;
 
                 TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]);
-
-                if (data == 12)
-                    TWriteByte(mididata, MIDItrack, (unsigned char)(MUSh.channels + 1));
-                else
-                    TWriteByte(mididata, MIDItrack, 0);
-
+                TWriteByte(mididata, MIDItrack, (data == 12 ? (unsigned char)(MUSh.channels + 1) : 0));
                 break;
 
             case CNTL_CHANGE:
@@ -585,7 +580,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
     if (!(*mid = (uint8_t *)malloc(total)))
         return;
 
-    // fill in number of tracks and bigendian divisions (ticks/qnote)
+    // fill in number of tracks and big endian divisions (ticks/qnote)
     midihdr[10] = 0;
     midihdr[11] = (uint8_t)ntrks;   // set number of tracks in header
     midihdr[12] = (mididata->divisions >> 8) & 0x7F;

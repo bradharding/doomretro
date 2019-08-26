@@ -630,18 +630,18 @@ static void R_InitColormaps(void)
 
     for (int i = 0; i < 255; i++)
     {
+        // [BH] Fix <https://doomwiki.org/wiki/Carmack%27s_typo>.
         double  red = *palsrc++ / 256.0;
         double  green = *palsrc++ / 256.0;
         double  blue = *palsrc++ / 256.0;
-        double  gray = red * 0.299 + green * 0.587 + blue * 0.114;  // [BH] Fix <https://doomwiki.org/wiki/Carmack%27s_typo>.
-        int     color = (int)(gray * 255.0);
+        int     gray = (int)((red * 0.299 + green * 0.587 + blue * 0.114) * 255.0);
 
-        grays[i] = FindNearestColor(palette, color, color, color);
+        grays[i] = FindNearestColor(palette, gray, gray, gray);
 
         if (!COLORMAP)
         {
-            color = (int)((1.0 - gray) * 255.0);
-            colormaps[0][32 * 256 + i] = FindNearestColor(palette, color, color, color);
+            gray = 255 - gray;
+            colormaps[0][32 * 256 + i] = FindNearestColor(palette, gray, gray, gray);
         }
     }
 }
