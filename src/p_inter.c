@@ -1797,10 +1797,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                             (source->type == target->type ? "another" : (isvowel(target->info->name1[0]) ? "an" : "a")),
-                            ((target->flags &MF_FRIEND) ? "friendly " : ""),
+                            ((target->flags & MF_FRIEND) ? "friendly " : ""),
                             (*target->info->name1 ? target->info->name1 : "monster"));
 
-                    C_Obituary("%s %s %s %s.",
+                    C_Obituary("%s %s %s.",
                         sentencecase(sourcename),
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         targetname);
