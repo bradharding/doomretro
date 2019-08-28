@@ -57,7 +57,7 @@
 * The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` will now always be displayed correctly.
 * The use of the color blue in the alternate widescreen HUD has been improved.
 * Recoiling of the player’s weapon when the `weaponrecoil` CVAR is `on` no longer requires the `mouselook` CVAR to be `on`, or a control to be bound to the `+mouselook` action.
-* A bug has been fixed whereby a gamepad could start vibrating during a game even though the player was using the mouse and/or keyboard instead.
+* A bug has been fixed whereby a gamepad could randomly start vibrating during a game even though the player was using the mouse and/or keyboard instead.
 
 ---
 

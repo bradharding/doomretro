@@ -223,6 +223,7 @@ enum
     ep2,
     ep3,
     ep4,
+    ep5,
     ep_end
 };
 
@@ -3736,9 +3737,9 @@ void M_Init(void)
     else if (gamemode == commercial)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
-        EpiDef.numitems--;
+        EpiDef.numitems = 3;
     else if (gamemode == retail && sigil)
-        EpiDef.numitems++;
+        EpiDef.numitems = 5;
 
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";

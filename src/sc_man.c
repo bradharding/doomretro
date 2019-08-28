@@ -48,8 +48,6 @@
 #define ASCII_QUOTE     '"'
 #define ASCII_ESCAPE    '\\'
 
-static void CheckOpen(void);
-
 char            *sc_String;
 int             sc_Number;
 int             sc_Line;
@@ -97,8 +95,6 @@ dboolean SC_GetString(void)
 {
     char        *text;
     dboolean    foundToken = false;
-
-    CheckOpen();
 
     if (AlreadyGot)
     {
@@ -167,7 +163,7 @@ dboolean SC_GetString(void)
                 break;
         }
 
-    *text = 0;
+    *text = '\0';
     return true;
 }
 
@@ -182,8 +178,6 @@ void SC_MustGetString(void)
 
 dboolean SC_GetNumber(void)
 {
-    CheckOpen();
-
     if (SC_GetString())
     {
         sc_Number = strtol(sc_String, NULL, 0);
@@ -224,10 +218,4 @@ void SC_ScriptError(char *message)
         message = "Bad syntax.";
 
     I_Error("Script error, \"%s\" line %i: %s", ScriptName, sc_Line, message);
-}
-
-static void CheckOpen(void)
-{
-    if (!ScriptOpen)
-        I_Error("SC_ call before SC_Open().");
 }

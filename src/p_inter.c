@@ -1833,8 +1833,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 short   floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
-                    C_Obituary("%s died on molten rock.",
-                        titlecase(playername));
+                    C_Obituary("%s died on molten rock.", titlecase(playername));
                 else if (healthcvar)
                     C_Obituary("%s killed %s.",
                         titlecase(playername),
