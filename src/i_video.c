@@ -190,12 +190,12 @@ HANDLE              CapFPSEvent;
 static dboolean     capslock;
 dboolean            alwaysrun = alwaysrun_default;
 
+evtype_t            lasteventtype = ev_none;
+
 extern dboolean     setsizeneeded;
 extern int          st_palette;
 extern int          windowborderwidth;
 extern int          windowborderheight;
-
-evtype_t            lasteventtype;
 
 void ST_DoRefresh(void);
 
@@ -552,6 +552,8 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
@@ -560,6 +562,8 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
@@ -568,6 +572,8 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
@@ -576,6 +582,8 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
@@ -584,6 +592,8 @@ static void I_GetEvent(void)
                         else
                             gamepadbuttons &= ~GAMEPAD_LEFT_TRIGGER;
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
@@ -592,11 +602,11 @@ static void I_GetEvent(void)
                         else
                             gamepadbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
 
+                        event.type = lasteventtype = ev_gamepad;
+                        D_PostEvent(&event);
                         break;
                 }
 
-                event.type = lasteventtype = ev_gamepad;
-                D_PostEvent(&event);
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:

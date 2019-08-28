@@ -147,7 +147,7 @@ void I_ShutdownGamepad(void)
 
 void I_GamepadVibration(int strength)
 {
-    if (haptic && (lasteventtype == ev_gamepad || lasteventtype == ev_none))
+    if (haptic && lasteventtype == ev_gamepad)
     {
         static int  currentstrength;
 
