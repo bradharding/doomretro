@@ -69,7 +69,7 @@
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLESCROLLBARWIDTH   4
-#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 137 : 364)
+#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 136 : 363)
 #define CONSOLESCROLLBARX       (CONSOLEWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
@@ -90,6 +90,7 @@ patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
+patch_t                 *brand;
 
 static patch_t          *dot;
 static patch_t          *trademark;
@@ -97,7 +98,6 @@ static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
 static patch_t          *warning;
-static patch_t          *brand;
 static patch_t          *divider;
 static patch_t          *bindlist;
 static patch_t          *cmdlist;

@@ -69,6 +69,7 @@ char            *r_lowpixelsize = r_lowpixelsize_default;
 
 static char     screenshotfolder[MAX_PATH];
 
+extern patch_t  *brand;
 extern dboolean vanilla;
 
 //
@@ -532,7 +533,12 @@ void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
                 int height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP && *source)
-                    *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                {
+                    if (*source == nearestcolors[WHITE] && patch == brand)
+                        *dest = *source;
+                    else
+                        *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                }
 
                 source++;
                 dest += SCREENWIDTH;
