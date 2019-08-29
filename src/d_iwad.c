@@ -666,7 +666,7 @@ void D_SetGameDescription(void)
     {
         // DOOM 2 of some kind. But which mission?
         if (modifiedgame && *pwadfile)
-            gamedescription = M_StringJoin(uppercase(pwadfile), ".WAD", NULL);
+            gamedescription = M_StringJoin(pwadfile, (strcmp(pwadfile, uppercase(pwadfile)) ? ".wad" : ".WAD"), NULL);
         else if (FREEDOOM)
             gamedescription = (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2);
         else if (nerve)
