@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
 * The logo on the splash screen is now animated.
+* The branding in the console has been redesigned.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only be automatically loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
