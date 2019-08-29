@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "sc_man.h"
@@ -170,7 +171,7 @@ dboolean SC_GetString(void)
 void SC_MustGetString(void)
 {
     if (!SC_GetString())
-        SC_ScriptError("Missing string.");
+        SC_ScriptError();
 
     if (SC_Compare("="))
         SC_GetString();
@@ -190,7 +191,7 @@ dboolean SC_GetNumber(void)
 void SC_MustGetNumber(void)
 {
     if (!SC_GetNumber())
-        SC_ScriptError("Missing integer.");
+        SC_ScriptError();
 }
 
 void SC_UnGet(void)
@@ -212,10 +213,7 @@ dboolean SC_Compare(char *text)
     return M_StringCompare(text, sc_String);
 }
 
-void SC_ScriptError(char *message)
+static void SC_ScriptError(void)
 {
-    if (!message)
-        message = "Bad syntax.";
-
-    I_Error("Script error, \"%s\" line %i: %s", ScriptName, sc_Line, message);
+    C_Warning("Line %s in the <b>MAPINFO</b> lump is invalid.", commify(sc_Line));
 }

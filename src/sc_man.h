@@ -55,6 +55,6 @@ void SC_MustGetNumber(void);
 void SC_UnGet(void);
 dboolean SC_Compare(char *text);
 int SC_MatchString(char **strings);
-void SC_ScriptError(char *message);
+static void SC_ScriptError(void);
 
 #endif
