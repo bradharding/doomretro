@@ -3257,20 +3257,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
         C_TabbedOutput(tabs, "%s\t<b>%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-            uppercase(leafname(lumpinfo[i]->wadfile->path)));
+            leafname(lumpinfo[i]->wadfile->path));
 
         if (lumpinfo[i]->wadfile->type == PWAD)
-        {
-            if (gamemission == pack_nerve)
-                C_TabbedOutput(tabs, "IWAD\t<b>DOOM2.WAD</b>");
-            else
-                for (size_t j = 0; iwads[j].name[0]; j++)
-                    if (gamemission == iwads[j].mission)
-                    {
-                        C_TabbedOutput(tabs, "IWAD\t<b>%s.WAD</b>", uppercase(iwads[j].name));
-                        break;
-                    }
-        }
+            C_TabbedOutput(tabs, "IWAD\t<b>%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>", (mbfcompatible ? "<i>BOOM</i> and <i>MBF</i>-compatible" :
