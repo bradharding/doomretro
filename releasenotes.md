@@ -60,6 +60,7 @@
 * The use of the color blue in the alternate widescreen HUD has been improved.
 * Recoiling of the player’s weapon when the `weaponrecoil` CVAR is `on` no longer requires the `mouselook` CVAR to be `on`, or a control to be bound to the `+mouselook` action.
 * A bug has been fixed whereby a gamepad could randomly start vibrating during a game even though the player was using the mouse and/or keyboard instead.
+* A bug has also been fixed whereby a gamepad could continue to vibrate once it should have stopped doing so in some rare instances.
 * If an error is found in a `MAPINFO` lump, a warning will now be displayed in the console rather than *DOOM Retro* exiting with an error.
 
 ---

@@ -147,15 +147,15 @@ void I_ShutdownGamepad(void)
 
 void I_GamepadVibration(int strength)
 {
-    if (haptic && lasteventtype == ev_gamepad)
-    {
-        static int  currentstrength;
+    static int  currentstrength;
 
-        if (strength >= currentstrength || strength == idlevibrationstrength)
-        {
-            currentstrength = MIN(strength, UINT16_MAX);
-            SDL_HapticRumblePlay(haptic, (float)strength / MAXVIBRATIONSTRENGTH, 600000);
-        }
+    if (!haptic)
+        return;
+
+    if (!strength || (lasteventtype == ev_gamepad && (strength == idlevibrationstrength || strength >= currentstrength)))
+    {
+        currentstrength = MIN(strength, UINT16_MAX);
+        SDL_HapticRumblePlay(haptic, (float)strength / MAXVIBRATIONSTRENGTH, 600000);
     }
 }
 
