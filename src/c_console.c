@@ -137,7 +137,6 @@ dboolean                con_timestamps = con_timestamps_default;
 static int              timestampx;
 static int              zerowidth;
 
-static int              consolebackcolor;
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
 static int              consolehighfpscolor = 116;
@@ -519,7 +518,6 @@ void C_Init(void)
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
-    consolebackcolor = nearestcolors[con_backcolor] << 8;
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -673,8 +671,8 @@ static void C_DrawBackground(int height)
     else
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
-    for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[blurscreen[i] + consolebackcolor];
+    for (int i = 0, color = nearestcolors[con_backcolor] << 8; i < height; i++)
+        screens[0][i] = tinttab50[blurscreen[i] + color];
 
     for (int i = height - 2; i > 1; i -= 3)
     {
