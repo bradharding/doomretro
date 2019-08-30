@@ -182,7 +182,7 @@ void C_Input(const char *string, ...)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
-    console[consolestrings++].type = inputstring;
+    console[consolestrings++].stringtype = inputstring;
     outputhistory = -1;
 }
 
@@ -240,7 +240,7 @@ void C_Output(const char *string, ...)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
-    console[consolestrings++].type = outputstring;
+    console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
 }
 
@@ -257,27 +257,19 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
-    console[consolestrings].type = outputstring;
+    console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     consolestrings++;
     outputhistory = -1;
 }
 
-void C_Header(const int tabs[8], const char *string, ...)
+void C_Header(const headertype_t headertype)
 {
-    va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH];
-
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
-
     if (consolestrings >= (int)consolestrings_max)
         console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, 1024);
-    console[consolestrings].type = headerstring;
-    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    console[consolestrings].stringtype = headerstring;
+    console[consolestrings].headertype = headertype;
     consolestrings++;
     outputhistory = -1;
 }
@@ -297,7 +289,7 @@ void C_Warning(const char *string, ...)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
-        console[consolestrings++].type = warningstring;
+        console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
     }
 }
@@ -312,7 +304,7 @@ void C_PlayerMessage(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].type == playermessagestring && M_StringCompare(console[i].string, buffer))
+    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
         console[i].tics = gametime;
         console[i].count++;
@@ -323,7 +315,7 @@ void C_PlayerMessage(const char *string, ...)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
-        console[consolestrings].type = playermessagestring;
+        console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
         console[consolestrings++].count = 1;
     }
@@ -341,7 +333,7 @@ void C_Obituary(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].type == obituarystring && M_StringCompare(console[i].string, buffer))
+    if (i >= 0 && console[i].stringtype == obituarystring && M_StringCompare(console[i].string, buffer))
     {
         console[i].tics = gametime;
         console[i].count++;
@@ -352,7 +344,7 @@ void C_Obituary(const char *string, ...)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
-        console[consolestrings].type = obituarystring;
+        console[consolestrings].stringtype = obituarystring;
         console[consolestrings].tics = gametime;
         console[consolestrings++].count = 1;
     }
@@ -372,12 +364,12 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (!consolestrings || console[consolestrings - 1].type != dividerstring)
+    if (!consolestrings || console[consolestrings - 1].stringtype != dividerstring)
     {
         if (consolestrings >= (int)consolestrings_max)
             console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-        console[consolestrings++].type = dividerstring;
+        console[consolestrings++].stringtype = dividerstring;
     }
 }
 
@@ -1000,9 +992,9 @@ void C_Drawer(void)
         for (i = start; i < end; i++)
         {
             const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
-            const stringtype_t  type = console[i].type;
+            const stringtype_t  stringtype = console[i].stringtype;
 
-            if (type == playermessagestring || type == obituarystring)
+            if (stringtype == playermessagestring || stringtype == obituarystring)
             {
                 if (console[i].count > 1)
                 {
@@ -1019,32 +1011,34 @@ void C_Drawer(void)
                 if (con_timestamps)
                     C_DrawTimeStamp(timestampx, y, console[i].tics);
             }
-            else if (type == outputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
+            else if (stringtype == outputstring)
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
-            else if (type == dividerstring)
+            else if (stringtype == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
                     divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
-            else if (type == headerstring)
+            else if (stringtype == headerstring)
             {
-                if (M_StringCompare(console[i].string, BINDLISTTITLE))
+                const headertype_t  headertype = console[i].headertype;
+
+                if (headertype == bindlistheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
-                else if (M_StringCompare(console[i].string, CMDLISTTITLE))
+                else if (headertype == cmdlistheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
-                else if (M_StringCompare(console[i].string, CVARLISTTITLE))
+                else if (headertype == cvarlistheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
-                else if (M_StringCompare(console[i].string, MAPLISTTITLE))
+                else if (headertype == maplistheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
-                else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
+                else if (headertype == mapstatsheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
-                else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
+                else if (headertype == playerstatsheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
-                else if (M_StringCompare(console[i].string, THINGLISTTITLE))
+                else if (headertype == thinglistheader)
                     V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
             }
             else
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
-                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs, true, true);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
+                    (stringtype == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs, true, true);
         }
 
         if (quitcmd)
@@ -1580,7 +1574,7 @@ dboolean C_Responder(event_t *ev)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
                     for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
-                        if (console[i].type == inputstring
+                        if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
                             && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {
@@ -1611,7 +1605,7 @@ dboolean C_Responder(event_t *ev)
                     if (inputhistory != -1)
                     {
                         for (i = inputhistory + 1; i < consolestrings; i++)
-                            if (console[i].type == inputstring
+                            if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
                                 && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
                             {

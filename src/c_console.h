@@ -82,11 +82,23 @@ typedef enum
     STRINGTYPES
 } stringtype_t;
 
+typedef enum
+{
+    bindlistheader,
+    cmdlistheader,
+    cvarlistheader,
+    maplistheader,
+    mapstatsheader,
+    playerstatsheader,
+    thinglistheader
+} headertype_t;
+
 typedef struct
 {
     char                string[1024];
     unsigned int        count;
-    stringtype_t        type;
+    stringtype_t        stringtype;
+    headertype_t        headertype;
     int                 tabs[8];
     unsigned int        tics;
 } console_t;
@@ -139,7 +151,7 @@ void C_StrCVAROutput(char *cvar, char *string);
 void C_CCMDOutput(const char *ccmd);
 void C_Output(const char *string, ...);
 void C_TabbedOutput(const int tabs[8], const char *string, ...);
-void C_Header(const int tabs[8], const char *string, ...);
+void C_Header(const headertype_t headertype);
 void C_Warning(const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_Obituary(const char *string, ...);

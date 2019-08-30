@@ -43,14 +43,6 @@
 
 #define MAXALIASES          256
 
-#define BINDLISTTITLE       "CONTROL\t+ACTION"
-#define CMDLISTTITLE        "CCMD\tDESCRIPTION"
-#define CVARLISTTITLE       "CVAR\tDEFAULT\tDESCRIPTION"
-#define MAPLISTTITLE        "MAP\tNAME\tWAD"
-#define MAPSTATSTITLE       "STAT\tTOTAL"
-#define PLAYERSTATSTITLE    "STAT\tCURRENT MAP\tTOTAL"
-#define THINGLISTTITLE      "THING\tPOSITION"
-
 typedef enum
 {
     keyboardcontrol = 1,
