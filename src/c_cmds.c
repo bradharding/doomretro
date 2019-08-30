@@ -762,7 +762,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
-        "Spawns an <i>item</i> or <i>monster</i> in front of the player."),
+        "Spawns an <i>item</i> or <i>monster</i> in front of the\nplayer."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
     CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
