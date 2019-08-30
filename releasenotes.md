@@ -36,6 +36,7 @@
 * A camera’s shutter sound is now played when taking a screenshot using the <kbd>PRINTSCREEN</kbd> key.
 * A bug has been fixed whereby starting a new game after playing either *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad* would cause the wrong map to be loaded.
 * Partially restoring behavior present in *Vanilla DOOM*, the sound effects of the bosses (that is, the barons of hell in E1M8, the cyberdemon in E2M8 and the spider mastermind in E3M8) are no longer clipped by distance from the player.
+* Improvements have been made in determining if animated flats depict liquid.
 * The edges of liquid sectors are now rendered better in some instances.
 * The status bar will no longer be partially displayed in the background when ending a game from the options menu.
 * The friction applied to corpses in liquid is now greater rather than less than the friction applied when not in liquid.
