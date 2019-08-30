@@ -3,7 +3,7 @@
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
+* The format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*. (Provisions have also been put in place to avoid breaking compatibility when adding new features in the future.)
 * The logo on the splash screen is now animated.
 * The branding in the console has been redesigned.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
@@ -59,6 +59,7 @@
 * The use of the color blue in the alternate widescreen HUD has been improved.
 * Recoiling of the player’s weapon when the `weaponrecoil` CVAR is `on` no longer requires the `mouselook` CVAR to be `on`, or a control to be bound to the `+mouselook` action.
 * A bug has been fixed whereby a gamepad could randomly start vibrating during a game even though the player was using the mouse and/or keyboard instead.
+* If an error is found in a `MAPINFO` lump, a warning will now be displayed in the console rather than *DOOM Retro* exiting with an error.
 
 ---
 
