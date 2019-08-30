@@ -58,6 +58,7 @@
 * The effects of changing the `con_backcolor` CVAR are now immediate.
 * The direction the menu’s background spins is now the same as the direction the player last turned.
 * The `freeze`, `notarget`, `pistolstart`, `regenhealth` and `respawnitems` CCMDs will now all be turned off when enabling vanilla mode.
+* If the filename of a PWAD is used in the caption of *DOOM Retro’s* window, the correct case will be used.
 * The crosshair displayed when the `crosshair` CVAR is `cross` or `dot` will now always be displayed correctly.
 * The use of the color blue in the alternate widescreen HUD has been improved.
 * Recoiling of the player’s weapon when the `weaponrecoil` CVAR is `on` no longer requires the `mouselook` CVAR to be `on`, or a control to be bound to the `+mouselook` action.
