@@ -2003,7 +2003,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
