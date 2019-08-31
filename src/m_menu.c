@@ -3740,6 +3740,8 @@ void M_Init(void)
         EpiDef.numitems = 3;
     else if (gamemode == retail && sigil)
         EpiDef.numitems = 5;
+    else
+        EpiDef.numitems = 4;
 
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
