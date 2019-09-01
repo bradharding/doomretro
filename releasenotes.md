@@ -29,7 +29,7 @@
 * The following changes have been made to the `mapstats` CCMD:
   * The PWAD of the current map will now always be correct.
   * Improvements have been made to how *BOOM* compatibility is detected.
-  * Whether the current map is [*MBF*](https://doomwiki.org/wiki/MBF)-compatible or not is now displayed.
+  * Whether the current map is *MBF*-compatible or not is now displayed.
   * The author of some of the maps in *DOOM II: No Rest For The Living* has been corrected.
 * The `playerstats` CCMD now shows how many times the player has saved the game in the current map.
 * The `+screenshot` action can now be bound to a mouse button.

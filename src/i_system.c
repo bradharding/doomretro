@@ -38,8 +38,6 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-
-void I_ShutdownWindows32(void);
 #else
 #include <unistd.h>
 #endif
@@ -206,6 +204,10 @@ void I_PrintSystemInfo(void)
 //
 // I_Quit
 //
+#if defined(_WIN32)
+void I_ShutdownWindows32(void);
+#endif
+
 void I_Quit(dboolean shutdown)
 {
     if (shutdown)

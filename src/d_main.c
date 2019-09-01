@@ -332,13 +332,12 @@ void D_Display(void)
 
         // normal update
         blitfunc();             // blit buffer
+        mapblitfunc();
 
 #if defined(_WIN32)
         if (CapFPSEvent)
             WaitForSingleObject(CapFPSEvent, 1000);
 #endif
-
-        mapblitfunc();
 
         // Figure out how far into the current tic we're in as a fixed_t
         if (vid_capfps != TICRATE)
