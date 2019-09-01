@@ -534,8 +534,8 @@ void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
 
                 if (y + height > CONSOLETOP && *source)
                 {
-                    if (patch == brand && (*source == nearestcolors[4] || *source == nearestcolors[82]))
-                        *dest = *source;
+                    if (patch == brand && (*source == 4 || *source == 82))
+                        *dest = nearestcolors[*source];
                     else
                         *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
                 }
