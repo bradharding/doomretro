@@ -66,6 +66,7 @@
 * A bug has been fixed whereby a gamepad could randomly start vibrating during a game even though the player was using the mouse and/or keyboard instead.
 * A bug has also been fixed whereby a gamepad could continue to vibrate once it should have stopped doing so in some rare instances.
 * If an error is found in a `MAPINFO` lump, a warning will now be displayed in the console rather than *DOOM Retro* exiting with an error.
+* The `IDFA` and `IDKFA` cheats will no longer work if the player already has all the items that the cheats provide.
 
 ---
 

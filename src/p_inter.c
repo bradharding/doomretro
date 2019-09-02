@@ -672,7 +672,7 @@ dboolean P_GiveAllCardsInMap(void)
 //
 dboolean P_GivePower(int power)
 {
-    const int tics[NUMPOWERS] =
+    const int tics[] =
     {
         /* pw_none            */ 0,
         /* pw_invulnerability */ INVULNTICS,
@@ -681,7 +681,9 @@ dboolean P_GivePower(int power)
         /* pw_ironfeet        */ IRONTICS,
         /* pw_allmap          */ STARTFLASHING + 1,
         /* pw_infrared        */ INFRATICS
-   };
+    };
+
+    dboolean    given;
 
     if (viewplayer->powers[power] < 0)
         return false;
@@ -705,8 +707,9 @@ dboolean P_GivePower(int power)
             break;
     }
 
+    given = !(viewplayer->powers[power] > 0);
     viewplayer->powers[power] = tics[power];
-    return true;
+    return given;
 }
 
 //

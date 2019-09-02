@@ -487,9 +487,6 @@ dboolean ST_Responder(event_t *ev)
                 dboolean    berserkgiven = false;
                 dboolean    weaponsgiven = false;
 
-                S_StartSound(NULL, sfx_getpow);
-                C_CCMDOutput(cheat_ammonokey.sequence);
-
                 // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
                 {
@@ -520,6 +517,9 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven)
                 {
+                    S_StartSound(NULL, sfx_getpow);
+                    C_CCMDOutput(cheat_ammonokey.sequence);
+
                     // [BH] flash screen
                     P_AddBonus();
 
@@ -542,9 +542,6 @@ dboolean ST_Responder(event_t *ev)
                 dboolean    berserkgiven = false;
                 dboolean    keysgiven = false;
                 dboolean    weaponsgiven = false;
-
-                S_StartSound(NULL, sfx_getpow);
-                C_CCMDOutput(cheat_ammo.sequence);
 
                 // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -580,6 +577,9 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
                 {
+                    S_StartSound(NULL, sfx_getpow);
+                    C_CCMDOutput(cheat_ammo.sequence);
+
                     // [BH] flash screen
                     P_AddBonus();
 
