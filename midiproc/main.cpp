@@ -294,7 +294,7 @@ void MidiRPC_StopSong()
 //
 void MidiRPC_ChangeVolume(int volume)
 {
-   SetVolume(volume);
+    SetVolume(volume);
 }
 
 //

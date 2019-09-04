@@ -1172,15 +1172,15 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     R_DrawBloodSplatVisSprite(splat);
 }
 
-static void msort(vissprite_t **s, vissprite_t **t, int n)
+static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
 {
     if (n >= 16)
     {
-        int         n1 = n / 2;
-        int         n2 = n - n1;
-        vissprite_t **s1 = s;
-        vissprite_t **s2 = s + n1;
-        vissprite_t **d = t;
+        unsigned int    n1 = n / 2;
+        unsigned int    n2 = n - n1;
+        vissprite_t     **s1 = s;
+        vissprite_t     **s2 = s + n1;
+        vissprite_t     **d = t;
 
         msort(s1, t, n1);
         msort(s2, t, n2);
@@ -1195,7 +1195,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
         memcpy(s, t, n * sizeof(void *));
     }
     else
-        for (int i = 1; i < n; i++)
+        for (unsigned int i = 1; i < n; i++)
         {
             vissprite_t *temp = s[i];
 

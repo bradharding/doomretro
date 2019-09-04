@@ -682,7 +682,7 @@ static void P_LoadSubsectors_V4(int lump)
 //
 static void P_LoadSectors(int lump)
 {
-    const byte  *data = W_CacheLumpNum(lump);
+    mapsector_t *data = W_CacheLumpNum(lump);
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
@@ -691,7 +691,7 @@ static void P_LoadSectors(int lump)
     for (int i = 0; i < numsectors; i++)
     {
         sector_t    *ss = sectors + i;
-        mapsector_t *ms = (mapsector_t *)data + i;
+        mapsector_t *ms = data + i;
 
         ss->id = i;
         ss->floorheight = SHORT(ms->floorheight) << FRACBITS;
@@ -1335,11 +1335,11 @@ static void P_LoadSideDefs(int lump)
 // killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading
 static void P_LoadSideDefs2(int lump)
 {
-    const byte  *data = W_CacheLumpNum(lump);
+    mapsidedef_t    *data = W_CacheLumpNum(lump);
 
     for (int i = 0; i < numsides; i++)
     {
-        mapsidedef_t    *msd = (mapsidedef_t *)data + i;
+        mapsidedef_t    *msd = data + i;
         side_t          *sd = sides + i;
         sector_t        *sec;
         unsigned short  sector_num = SHORT(msd->sector);
