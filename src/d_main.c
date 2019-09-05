@@ -1088,6 +1088,9 @@ static int D_OpenWADLauncher(void)
                         {
                             modifiedgame = true;
                             sigil = true;
+
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_SHREDS.WAD");
+                            W_MergeFile(fullpath, true);
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
