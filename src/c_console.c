@@ -730,7 +730,6 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     for (int i = 0; i < truncate; i++)
     {
         const unsigned char letter = text[i];
-        const unsigned char nextletter = (i < len - 1 ? text[i + 1] : '\0');
 
         if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
@@ -755,10 +754,12 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
         }
         else
         {
-            patch_t     *patch = NULL;
-            const int   c = letter - CONSOLEFONTSTART;
+            patch_t         *patch = NULL;
+            unsigned char   nextletter;
 
-            if (letter == '\t')
+            if (letter == ' ' && formatting)
+                x += spacewidth;
+            else if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             else if (letter == 153)
                 patch = trademark;
@@ -768,28 +769,34 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = regomark;
             else if (letter == 176)
                 patch = degree;
-            else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
+            else if (letter == 215 || (letter == 'x' && isdigit((nextletter = (i < len - 1 ? text[i + 1] : '\0')))
+                && (nextletter == '\0' || isdigit(nextletter))))
                 patch = multiply;
-            else if (c >= 0 && c < CONSOLEFONTSIZE)
-                patch = consolefont[c];
             else
-                patch = unknownchar;
+            {
+                const int   c = letter - CONSOLEFONTSTART;
+
+                if (c >= 0 && c < CONSOLEFONTSIZE)
+                    patch = consolefont[c];
+                else
+                    patch = unknownchar;
+            }
+
+            if (kerning)
+            {
+                for (int j = 0; altkern[j].char1; j++)
+                    if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                    {
+                        x += altkern[j].adjust;
+                        break;
+                    }
+
+                if (prevletter == '/' && italics)
+                    x -= 2;
+            }
 
             if (patch)
             {
-                if (kerning)
-                {
-                    for (int j = 0; altkern[j].char1; j++)
-                        if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
-                        {
-                            x += altkern[j].adjust;
-                            break;
-                        }
-
-                    if (prevletter == '/' && italics)
-                        x -= 2;
-                }
-
                 V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
                     (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
                     (italics && letter != '_' && letter != ',' && letter != '/'), translucency);
