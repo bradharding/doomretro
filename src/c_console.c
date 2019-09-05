@@ -417,10 +417,11 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
-        const unsigned char nextletter = (i < len - 1 ? text[i + 1] : '\0');
-        const int           c = letter - CONSOLEFONTSTART;
+        unsigned char nextletter;
 
-        if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i') && text[i + 2] == '>' && formatting)
+        if (letter == ' ')
+            w += spacewidth;
+        else if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i') && text[i + 2] == '>' && formatting)
             i += 2;
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>' && formatting)
             i += 3;
@@ -449,12 +450,18 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(degree->width);
             i++;
         }
-        else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
+        else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
+            && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
             w += SHORT(multiply->width);
-        else if (c >= 0 && c < CONSOLEFONTSIZE)
-            w += SHORT(consolefont[c]->width);
         else
-            w += SHORT(unknownchar->width);
+        {
+            const int   c = letter - CONSOLEFONTSTART;
+
+            if (c >= 0 && c < CONSOLEFONTSIZE)
+                w += SHORT(consolefont[c]->width);
+            else
+                w += SHORT(unknownchar->width);
+        }
 
         if (kerning)
             for (int j = 0; altkern[j].char1; j++)
@@ -769,8 +776,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = regomark;
             else if (letter == 176)
                 patch = degree;
-            else if (letter == 215 || (letter == 'x' && isdigit((nextletter = (i < len - 1 ? text[i + 1] : '\0')))
-                && (nextletter == '\0' || isdigit(nextletter))))
+            else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
+                && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
                 patch = multiply;
             else
             {
