@@ -1,3 +1,9 @@
+### DOOM Retro v3.0.1
+
+---
+
+###### Saturday, September 7, 2019
+
 ### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
