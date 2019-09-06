@@ -1101,18 +1101,16 @@ void I_CreateExternalAutomap(int outputlevel)
 
     GetDisplays();
 
-    if (numdisplays == 1)
-    {
-        if (outputlevel >= 1)
-            C_Warning("An external automap couldn't be created. Only one display was found.");
-
-        return;
-    }
+    if (numdisplays == 1 || !vid_fullscreen)
+        am_displayindex = displayindex;
 
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
-    mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN);
+    if (vid_fullscreen)
+        mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+            SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN));
+    else
+        mapwindow = SDL_CreateWindow("Automap", windowx + 10, windowy + 10, windowwidth, windowheight, SDL_WINDOW_RESIZABLE);
 
     maprenderer = SDL_CreateRenderer(mapwindow, -1, flags);
     SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
