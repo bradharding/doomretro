@@ -46,7 +46,6 @@
   * Also fade to black when quitting *DOOM Retro*.
   * No longer be negatively affected by the `vid_vsync` CVAR.
   * Be displayed correctly when the help screen is opened on the main screen by pressing the <kbd>F1</kbd> key.
-  * Still be created if there’s only one display. This will allow it to appear in a separate window when the `vid_fullscreen` CVAR is `off`.
 * Entering the `IDBEHOLD` cheat without any parameter will now:
   * Timeout after 2 seconds like all the other cheats.
   * Show underscores under the message if entered when the alternate widescreen HUD is displayed.

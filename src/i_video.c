@@ -1090,7 +1090,6 @@ void I_CreateExternalAutomap(int outputlevel)
 {
     uint32_t    rmask, gmask, bmask, amask;
     int         bpp;
-    int         flags = SDL_RENDERER_TARGETTEXTURE;
     int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
@@ -1101,18 +1100,20 @@ void I_CreateExternalAutomap(int outputlevel)
 
     GetDisplays();
 
-    if (numdisplays == 1 || !vid_fullscreen)
-        am_displayindex = displayindex;
+    if (numdisplays == 1)
+    {
+        if (outputlevel >= 1)
+            C_Warning("An external automap couldn't be created. Only one display was found.");
+
+        return;
+    }
 
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
-    if (vid_fullscreen)
-        mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-            SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN));
-    else
-        mapwindow = SDL_CreateWindow("Automap", windowx + 10, windowy + 10, windowwidth, windowheight, SDL_WINDOW_RESIZABLE);
+    mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN);
 
-    maprenderer = SDL_CreateRenderer(mapwindow, -1, flags);
+    maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE);
     SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
     mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
 
