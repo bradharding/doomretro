@@ -10,6 +10,7 @@
 * When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*. (Provisions have also been put in place to avoid breaking compatibility when adding new features in the future.)
+* If the 32-bit binary of *DOOM Retro* is used on a 64-bit version of *Windows*, a warning is now displayed in the console at startup recommending the 64-bit binary instead.
 * The logo on the splash screen is now animated.
 * The branding in the console has been redesigned.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
