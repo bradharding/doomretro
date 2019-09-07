@@ -200,7 +200,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
     if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS && valtype == REG_SZ)
     {
         // Allocate a buffer for the value and read the value
-        result = malloc(len);
+        result = malloc(len + 1);
 
         if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, (unsigned char *)result, &len) != ERROR_SUCCESS)
         {
