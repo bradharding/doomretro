@@ -70,7 +70,7 @@ void I_PrintWindowsVersion(void)
 
     if (pRtlGetVersion && pGetProductInfo)
     {
-        char                bits[10] = "";
+        int                 bits = 32;
         char                *typename = "";
         OSVERSIONINFOEXW    info;
         DWORD               type;
@@ -80,7 +80,9 @@ void I_PrintWindowsVersion(void)
             BOOL    Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
-            strcpy(bits, (Wow64Process || sizeof(intptr_t) == 8 ? "64-bit" : "32-bit"));
+
+            if (Wow64Process || sizeof(intptr_t) == 8)
+                bits = 64;
         }
 
         ZeroMemory(&info, sizeof(OSVERSIONINFOEXW));
@@ -183,11 +185,14 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 infoname = (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016");
 
-            C_Output("Running on %s <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s)</b></i>.",
+            C_Output("Running on %d-bit <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s)</b></i>.",
                 bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""),
                 commify(info.dwBuildNumber));
         }
+
+        if ((int)sizeof(intptr_t) * 8 == 32 && bits == 64)
+            C_Warning("It is recommended to run the 64-bit version of <i>DOOM Retro</i> on this system.");
     }
 }
 #endif
