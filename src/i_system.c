@@ -81,7 +81,7 @@ void I_PrintWindowsVersion(void)
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
 
-            if (Wow64Process || sizeof(intptr_t) == 8)
+            if (Wow64Process)
                 bits = 64;
         }
 
@@ -191,8 +191,8 @@ void I_PrintWindowsVersion(void)
                 commify(info.dwBuildNumber));
         }
 
-        if ((int)sizeof(intptr_t) * 8 == 32 && bits == 64)
-            C_Warning("It is recommended to run the 64-bit version of <i>DOOM Retro</i> on this system.");
+        if (bits == 64 && sizeof(intptr_t) == 4)
+            C_Warning("The 64-bit version of <i>DOOM Retro</i> is recommended on this system.");
     }
 }
 #endif
