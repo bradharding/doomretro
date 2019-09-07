@@ -465,15 +465,13 @@ void D_PageDrawer(void)
 //
 void D_FadeScreen(void)
 {
-    for (double i = 0.99; i >= 0.0; i -= 0.01)
+    for (double i = 0.9; i >= 0.0; i -= 0.1)
     {
         I_SetPaletteWithBrightness(PLAYPAL, i);
         blitfunc();
         I_SetExternalAutomapPalette();
-        I_Sleep(1);
+        I_Sleep(30);
     }
-
-    I_Sleep(100);
 }
 
 //
