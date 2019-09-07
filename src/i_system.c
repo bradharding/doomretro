@@ -81,7 +81,7 @@ void I_PrintWindowsVersion(void)
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
 
-            if (Wow64Process)
+            if (Wow64Process || sizeof(intptr_t) == 8)
                 bits = 64;
         }
 

@@ -15,7 +15,7 @@
 * The branding in the console has been redesigned.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
   * `SIGIL.wad` will now only be automatically loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
-  * If [*Buckethead’s*](https://en.wikipedia.org/wiki/Buckethead) `SIGIL_SHREDS.wad` is found, it will now also be automatically loaded.-
+  * If [*Buckethead’s*](https://en.wikipedia.org/wiki/Buckethead) `SIGIL_SHREDS.wad` is found, it will now also be automatically loaded.
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
   * The `IDMUS` cheat can now be used to play *SIGIL’s* music.
   * The `episode` CVAR will now be updated if the `IDCLEV` cheat is used to warp to a map in *SIGIL*.
