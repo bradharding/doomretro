@@ -106,10 +106,22 @@ void P_AddThinker(thinker_t *thinker)
     P_UpdateThinker(thinker);
 }
 
+//
+// killough 11/98:
+//
+// Make currentthinker external, so that P_RemoveThinkerDelayed()
+// can adjust currentthinker when thinkers self-remove.
 static thinker_t    *currentthinker;
 
 //
 // P_RemoveThinkerDelayed()
+//
+// Called automatically as part of the thinker loop in P_RunThinkers(),
+// on nodes which are pending deletion.
+//
+// If this thinker has no more pointers referencing it indirectly,
+// remove it, and set currentthinker to one node preceding it, so
+// that the next step in P_RunThinkers() will get its successor.
 //
 void P_RemoveThinkerDelayed(thinker_t *thinker)
 {
@@ -118,6 +130,11 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
         thinker_t   *next = thinker->next;
         thinker_t   *th = thinker->cnext;
 
+        // Remove from main thinker list
+        // Note that currentthinker is guaranteed to point to us,
+        // and since we're freeing our memory, we had better change that. So
+        // point it to thinker->prev, so the iterator will correctly move on to
+        // thinker->prev->next = thinker->next
         (next->prev = thinker->prev)->next = next;
 
         // Remove from current thinker class list
@@ -130,6 +147,12 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
+//
+// killough 4/25/98:
+//
+// Instead of marking the function with -1 value cast to a function pointer,
+// set the function to P_RemoveThinkerDelayed(), so that later, it will be
+// removed automatically as part of the thinker process.
 //
 void P_RemoveThinker(thinker_t *thinker)
 {
@@ -158,6 +181,25 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 
 //
 // P_RunThinkers
+//
+// killough 4/25/98:
+//
+// Fix deallocator to stop using "next" pointer after node has been freed
+// (a DOOM bug).
+//
+// Process each thinker. For thinkers which are marked deleted, we must
+// load the "next" pointer prior to freeing the node. In DOOM, the "next"
+// pointer was loaded AFTER the thinker was freed, which could have caused
+// crashes.
+//
+// But if we are not deleting the thinker, we should reload the "next"
+// pointer after calling the function, in case additional thinkers are
+// added at the end of the list.
+//
+// killough 11/98:
+//
+// Rewritten to delete nodes implicitly, by making currentthinker
+// external and using P_RemoveThinkerDelayed() implicitly.
 //
 static void P_RunThinkers(void)
 {
