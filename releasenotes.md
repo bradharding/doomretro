@@ -1,5 +1,7 @@
 ### DOOM Retro v3.0.2
 
+* A bug has been fixed whereby nearby monsters wouldn’t hear when the player fired the BFG-9000.
+
 ---
 
 ###### Monday, September 9, 2019

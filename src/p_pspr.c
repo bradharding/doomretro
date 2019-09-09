@@ -797,8 +797,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *mo = actor->target;
 
-    if (mo->player)
-        P_NoiseAlert(mo->player->mo);
+    P_NoiseAlert(actor);
 
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)
