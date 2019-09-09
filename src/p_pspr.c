@@ -425,8 +425,8 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // use MELEERANGE + 1 so the puff doesn't skip the flash
     // killough 8/2/98: make autoaiming prefer enemies
-    if ((slope = P_AimLineAttack(player->mo, angle, MELEERANGE + 1, MF_FRIEND), !linetarget))
-        slope = P_AimLineAttack(player->mo, angle, MELEERANGE + 1, 0);
+    if ((slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, MF_FRIEND), !linetarget))
+        slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, 0);
 
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, 2 * (M_Random() % 10 + 1));
 

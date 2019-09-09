@@ -1789,6 +1789,8 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(PACKAGE_NAME" couldn't find any IWADs.");
 
+    free(iwadfile);
+
     W_Init();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
