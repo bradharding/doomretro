@@ -807,8 +807,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         angle_t an = mo->angle - ANG90 / 2 + ANG90 / 40 * i;
 
         // killough 8/2/98: make autoaiming prefer enemies
-        if (P_AimLineAttack(mo->target, an, 16 * 64 * FRACUNIT, MF_FRIEND), !linetarget)
-            P_AimLineAttack(mo->target, an, 16 * 64 * FRACUNIT, 0);
+        if (P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, MF_FRIEND), !linetarget)
+            P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, 0);
 
         if (!linetarget)
             continue;

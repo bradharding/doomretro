@@ -1,5 +1,8 @@
 ### DOOM Retro v3.0.1
 
+* Changes have been made to improve the overall stability of *DOOM Retro*.
+* A bug has been fixed whereby the BFG-9000 wouldn’t always target monsters correctly when fired, and in some instances kill the player themselves.
+
 ---
 
 ###### Saturday, September 7, 2019
