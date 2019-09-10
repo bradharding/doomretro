@@ -161,6 +161,7 @@ void I_PrintWindowsVersion(void)
         if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
             char    *infoname = "NT";
+            char    *build = commify(info.dwBuildNumber);
 
             if (info.dwMajorVersion == 5)
             {
@@ -188,7 +189,9 @@ void I_PrintWindowsVersion(void)
             C_Output("Running on %d-bit <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s)</b></i>.",
                 bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""),
-                commify(info.dwBuildNumber));
+                build);
+
+            free(build);
         }
 
         if (bits == 64 && sizeof(intptr_t) == 4)
