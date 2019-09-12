@@ -546,7 +546,7 @@ void D_DoAdvanceTitle(void)
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
     {
-        if (W_CheckMultipleLumps("CREDIT") > 1)
+        if (W_CheckMultipleLumps("CREDIT") > 1 && !D4V)
         {
             if (++titlesequence > 2)
                 titlesequence = 1;
