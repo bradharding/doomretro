@@ -2155,12 +2155,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     target->reactiontime = 0;                                   // we're awake now...
 
-    if ((!target->threshold || type == MT_VILE) && source && source != target
-        && source->type != MT_VILE && ((source->flags ^ target->flags) & MF_FRIEND))
+    if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
         // if not intent on another player, chase after this one
-        if (!target->lastenemy || target->lastenemy->health <= 0
-            || (!((target->flags ^ target->lastenemy->flags) & MF_FRIEND) && target->target != source))
+        if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
             P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
 
         P_SetTarget(&target->target, source);                   // killough 11/98
