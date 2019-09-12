@@ -1,6 +1,7 @@
 ### DOOM Retro v3.0.2
 
 * Changes have been made to improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby nearby monsters wouldn’t hear when the player fired the BFG-9000.
 * Shots fired by the player’s hitscan weapons will no longer be lowered if the player is standing in liquid and the `r_liquid_lowerview` CVAR is `off`. Similarly, shots fired by the hitscan weapons of some monsters will no longer be lowered if the monster is standing in liquid and the `r_liquid_clipsprites` CVAR is `off`.
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
