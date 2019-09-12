@@ -797,6 +797,10 @@ static void D_CheckSupportedPWAD(char *filename)
         E1M8B = true;
     else if (M_StringCompare(leaf, "d1spfx18.wad") || M_StringCompare(leaf, "d2spfx18.wad"))
         sprfix18 = true;
+    else if (M_StringCompare(leaf, "eviternity.wad"))
+        eviternity = true;
+    else if (M_StringCompare(leaf, "d4v.wad"))
+        D4V = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)

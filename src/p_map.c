@@ -1992,6 +1992,8 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_NOBLOOD) && thing->blood)
         {
+            int type = thing->type;
+
             if (!(flags & MF_FUZZ))
             {
                 int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
@@ -2015,7 +2017,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (M_Random() & 1))
+            if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !D4V) && (M_Random() & 1))
                 thing->flags2 |= MF2_MIRRORED;
 
             thing->height = 0;

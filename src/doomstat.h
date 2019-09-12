@@ -116,6 +116,8 @@ extern dboolean         BTSXE3B;
 extern dboolean         E1M4B;
 extern dboolean         E1M8B;
 extern dboolean         sprfix18;
+extern dboolean         eviternity;
+extern dboolean         D4V;
 
 extern dboolean         DMENUPIC;
 extern dboolean         FREEDOOM;

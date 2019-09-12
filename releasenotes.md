@@ -3,6 +3,11 @@
 * Changes have been made to improve the overall stability of *DOOM Retro*.
 * A bug has been fixed whereby nearby monsters wouldn’t hear when the player fired the BFG-9000.
 * Shots fired by the player’s hitscan weapons will no longer be lowered if the player is standing in liquid and the `r_liquid_lowerview` CVAR is `off`. Similarly, shots fired by the hitscan weapons of some monsters will no longer be lowered if the monster is standing in liquid and the `r_liquid_clipsprites` CVAR is `off`.
+* The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
+  * Cacodemons and hell knights will now always bleed red blood, regardless of the value of the `r_blood` CVAR.
+  * Gore nests are no longer translucent or randomly mirrored when destroyed, regardless of the value of the `r_corpses_mirrored` CVAR.
+  * Gore nests may now be spawned in front of the player by entering `spawn gore nest` in the console.
+  * Rocket trails are disabled, regardless of the value of the `r_rockettrails` CVAR.
 
 ---
 

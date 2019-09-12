@@ -1884,7 +1884,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (type != MT_CHAINGUY && type != MT_CYBORG) && (M_Random() & 1))
+        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !D4V) && (M_Random() & 1))
             target->flags2 |= MF2_MIRRORED;
     }
 
@@ -1938,7 +1938,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
-    if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+    if (type == MT_BARREL || (type == MT_PAIN && !D4V) || type == MT_SKULL)
         target->flags2 &= ~MF2_CASTSHADOW;
 
     if (chex)
@@ -2131,9 +2131,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             int gibhealth = info->gibhealth;
 
-            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+            if (type == MT_BARREL || (type == MT_PAIN && !D4V) || type == MT_SKULL)
                 target->colfunc = tlredcolfunc;
-            else if (type == MT_BRUISER || type == MT_KNIGHT)
+            else if (type == MT_BRUISER || (type == MT_KNIGHT && !D4V))
                 target->colfunc = redtogreencolfunc;
 
             // [crispy] the lethal pellet of a point-blank SSG blast

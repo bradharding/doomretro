@@ -570,6 +570,7 @@ static void R_InitSpriteLumps(void)
         states[S_TROO_XDIE8].tics = 0;
         states[S_SARG_DIE6].tics = 0;
         states[S_BOSS_DIE7].tics = 0;
+        mobjinfo[MT_BLOOD].blood = GREENBLOOD;
     }
     else if (hacx)
     {
@@ -582,8 +583,15 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
     }
-    else if (M_StringCompare(pwadfile, "Eviternity"))
+    else if (eviternity)
         mobjinfo[MT_DOGS].blood = MT_GREENBLOOD;
+    else if (D4V)
+    {
+        mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+        M_StringCopy(mobjinfo[MT_PAIN].name1, "gore nest", sizeof(mobjinfo[MT_PAIN].name1));
+        M_StringCopy(mobjinfo[MT_PAIN].plural1, "gore nests", sizeof(mobjinfo[MT_PAIN].plural1));
+    }
 }
 
 //

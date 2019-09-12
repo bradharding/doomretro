@@ -703,9 +703,6 @@ void R_InitColumnFunctions(void)
             mo->colfunc = mo->info->colfunc;
             mo->altcolfunc = mo->info->altcolfunc;
         }
-
-    if (chex)
-        mobjinfo[MT_BLOOD].blood = GREENBLOOD;
 }
 
 //
