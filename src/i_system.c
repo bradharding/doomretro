@@ -71,7 +71,7 @@ void I_PrintWindowsVersion(void)
     if (pRtlGetVersion && pGetProductInfo)
     {
         int                 bits = 32;
-        char                *typename = "";
+        char                typename[32] = "";
         OSVERSIONINFOEXW    info;
         DWORD               type;
 
@@ -95,96 +95,96 @@ void I_PrintWindowsVersion(void)
         switch (type)
         {
             case PRODUCT_ULTIMATE:
-                typename = "Ultimate";
+                M_StringCopy(typename, "Ultimate", sizeof(typename));
                 break;
 
             case PRODUCT_PROFESSIONAL:
-                typename = "Professional";
+                M_StringCopy(typename, "Professional", sizeof(typename));
                 break;
 
             case PRODUCT_HOME_PREMIUM:
-                typename = "Home Premium";
+                M_StringCopy(typename, "Home Premium", sizeof(typename));
                 break;
 
             case PRODUCT_HOME_BASIC:
-                typename = "Home Basic";
+                M_StringCopy(typename, "Home Basic", sizeof(typename));
                 break;
 
             case PRODUCT_ENTERPRISE:
-                typename = "Enterprise";
+                M_StringCopy(typename, "Enterprise", sizeof(typename));
                 break;
 
             case PRODUCT_BUSINESS:
-                typename = "Business";
+                M_StringCopy(typename, "Business", sizeof(typename));
                 break;
 
             case PRODUCT_STARTER:
-                typename = "Starter";
+                M_StringCopy(typename, "Starter", sizeof(typename));
                 break;
 
             case PRODUCT_CLUSTER_SERVER:
-                typename = "Cluster Server";
+                M_StringCopy(typename, "Cluster Server", sizeof(typename));
                 break;
 
             case PRODUCT_DATACENTER_SERVER:
             case PRODUCT_DATACENTER_SERVER_CORE:
-                typename = "Datacenter Edition";
+                M_StringCopy(typename, "Datacenter Edition", sizeof(typename));
                 break;
 
             case PRODUCT_ENTERPRISE_SERVER:
             case PRODUCT_ENTERPRISE_SERVER_CORE:
             case PRODUCT_ENTERPRISE_SERVER_IA64:
-                typename = "Enterprise";
+                M_StringCopy(typename, "Enterprise", sizeof(typename));
                 break;
 
             case PRODUCT_SMALLBUSINESS_SERVER:
-                typename = "Small Business Server";
+                M_StringCopy(typename, "Small Business Server", sizeof(typename));
                 break;
 
             case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-                typename = "Small Business Server Premium";
+                M_StringCopy(typename, "Small Business Server Premium", sizeof(typename));
                 break;
 
             case PRODUCT_STANDARD_SERVER:
             case PRODUCT_STANDARD_SERVER_CORE:
-                typename = "Standard";
+                M_StringCopy(typename, "Standard", sizeof(typename));
                 break;
 
             case PRODUCT_WEB_SERVER:
-                typename = "Web Server";
+                M_StringCopy(typename, "Web Server", sizeof(typename));
                 break;
 
             case PRODUCT_CORE:
-                typename = "Home";
+                M_StringCopy(typename, "Home", sizeof(typename));
         }
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
-            char    *infoname = "NT";
+            char    infoname[32] = "NT";
             char    *build = commify(info.dwBuildNumber);
 
             if (info.dwMajorVersion == 5)
             {
                 if (info.dwMinorVersion == 0)
-                    infoname = "2000";
+                    M_StringCopy(infoname, "2000", sizeof(infoname));
                 else if (info.dwMinorVersion == 1)
-                    infoname = "XP";
+                    M_StringCopy(infoname, "XP", sizeof(infoname));
                 else if (info.dwMinorVersion == 2)
-                    infoname = "Server 2003";
+                    M_StringCopy(infoname, "Server 2003", sizeof(infoname));
             }
             else if (info.dwMajorVersion == 6)
             {
                 if (info.dwMinorVersion == 0)
-                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008"), sizeof(infoname));
                 else if (info.dwMinorVersion == 1)
-                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2"), sizeof(infoname));
                 else if (info.dwMinorVersion == 2)
-                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012"), sizeof(infoname));
                 else if (info.dwMinorVersion == 3)
-                    infoname = "8.1";
+                    M_StringCopy(infoname, "8.1", sizeof(infoname));
             }
             else if (info.dwMajorVersion == 10)
-                infoname = (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016");
+                M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
 
             C_Output("Running on %d-bit <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s)</b></i>.",
                 bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),

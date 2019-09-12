@@ -765,11 +765,9 @@ int R_TextureNumForName(char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    dboolean    *hitlist = malloc(sizeof(dboolean) * MAX(numtextures, numflats));
+    dboolean    *hitlist = calloc(1, sizeof(dboolean) * MAX(numtextures, numflats));
 
     // Precache flats.
-    memset(hitlist, false, numflats);
-
     for (int i = 0; i < numsectors; i++)
     {
         hitlist[sectors[i].floorpic] = true;
@@ -781,7 +779,7 @@ void R_PrecacheLevel(void)
             W_CacheLumpNum(firstflat + i);
 
     // Precache textures.
-    memset(hitlist, false, numtextures);
+    memset(hitlist, false, sizeof(hitlist));
 
     for (int i = 0; i < numsides; i++)
     {
