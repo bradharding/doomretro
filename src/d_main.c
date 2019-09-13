@@ -830,7 +830,7 @@ static dboolean D_CheckParms(void)
             if (W_AddFile(myargv[1], false))
             {
                 result = true;
-                iwadfolder = M_StringDuplicate(M_ExtractFolder(myargv[1]));
+                iwadfolder = M_ExtractFolder(myargv[1]);
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
@@ -877,7 +877,7 @@ static dboolean D_CheckParms(void)
             if (W_AddFile(fullpath, true))
             {
                 result = true;
-                iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
+                iwadfolder = M_ExtractFolder(fullpath);
                 D_CheckSupportedPWAD(myargv[1]);
 
                 if (W_MergeFile(myargv[1], false))
@@ -1077,7 +1077,7 @@ static int D_OpenWADLauncher(void)
                     wad = M_StringDuplicate(leafname(file));
 #endif
 
-                    iwadfolder = M_StringDuplicate(M_ExtractFolder(file));
+                    iwadfolder = M_ExtractFolder(file);
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
@@ -1131,7 +1131,7 @@ static int D_OpenWADLauncher(void)
                 if (W_AddFile(fullpath, true))
                 {
                     iwadfound = 1;
-                    iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
+                    iwadfolder = M_ExtractFolder(fullpath);
                     D_CheckSupportedPWAD(file);
 
                     if (W_MergeFile(file, false))
@@ -1276,7 +1276,7 @@ static int D_OpenWADLauncher(void)
                             wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
-                            iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
+                            iwadfolder = M_ExtractFolder(fullpath);
                             break;
                         }
                     }
@@ -1322,7 +1322,7 @@ static int D_OpenWADLauncher(void)
                             wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
-                            iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath));
+                            iwadfolder = M_ExtractFolder(fullpath);
                             break;
                         }
                     }
@@ -1380,7 +1380,7 @@ static int D_OpenWADLauncher(void)
                             if (W_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
-                                iwadfolder = M_StringDuplicate(M_ExtractFolder(fullpath2));
+                                iwadfolder = M_ExtractFolder(fullpath2);
                             }
                             else
                             {
