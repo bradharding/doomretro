@@ -929,7 +929,7 @@ typedef struct
 
     // for color translation and shadow draw,
     //  maxbright frames as well
-    lighttable_t        *colormap[2];
+    lighttable_t        *colormap;
 
     mobj_t              *mobj;
 
