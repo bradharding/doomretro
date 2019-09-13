@@ -779,7 +779,7 @@ void R_PrecacheLevel(void)
             W_CacheLumpNum(firstflat + i);
 
     // Precache textures.
-    memset(hitlist, false, sizeof(hitlist));
+    memset(hitlist, false, sizeof(*hitlist));
 
     for (int i = 0; i < numsides; i++)
     {
