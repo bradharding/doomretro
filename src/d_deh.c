@@ -78,7 +78,7 @@ static char *dehfgets(char *buf, int n, DEHFILE *fp)
         return fgets(buf, n, fp->f);
     }
 
-    if (!n || !*fp->inp || fp->size <= 0)       // If no more characters
+    if (!n || fp->size <= 0 || !*fp->inp)       // If no more characters
         return NULL;
 
     if (n == 1)
@@ -102,7 +102,7 @@ static char *dehfgets(char *buf, int n, DEHFILE *fp)
 
 static int dehfeof(DEHFILE *fp)
 {
-    return (!fp->lump ? feof(fp->f) : !*fp->inp || fp->size <= 0);
+    return (!fp->lump ? feof(fp->f) : fp->size <= 0 || !*fp->inp);
 }
 
 static int dehfgetc(DEHFILE *fp)
