@@ -83,11 +83,11 @@
 #define LOADCMDFORMAT               "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT                "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT               "<i>soundeffect</i>|<i>music</i>"
-#define NAMECMDFORMAT               "[<b>friendly</b>] <i>monster</i> <i>name</i>"
+#define NAMECMDFORMAT               "[<b>friendly</b> ]<i>monster</i> <i>name</i>"
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT              "<i>CVAR</i>"
 #define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
-#define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b>] <i>monster</i>"
+#define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b> ]<i>monster</i>"
 #define TAKECMDFORMAT               GIVECMDFORMAT
 #define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT              "<i>minutes</i>"
@@ -624,7 +624,7 @@ consolecmd_t consolecmds[] =
         "The amount the player's view bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
     CMD_CHEAT(mumu, false),
     CMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
-        "Gives a <i>name</i> to a <i>monster</i> near to the player."),
+        "Gives a <i>name</i> to the <i>monster</i> nearest to the\nplayer."),
     CMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
