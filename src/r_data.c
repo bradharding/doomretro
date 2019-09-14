@@ -589,8 +589,14 @@ static void R_InitSpriteLumps(void)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "hellrazor", sizeof(mobjinfo[MT_CHAINGUY].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "hellrazors", sizeof(mobjinfo[MT_CHAINGUY].plural1));
+        M_StringCopy(mobjinfo[MT_CYBORG].name1, "cyber-mancubus", sizeof(mobjinfo[MT_CYBORG].name1));
+        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "cyber-mancubi", sizeof(mobjinfo[MT_CYBORG].plural1));
         M_StringCopy(mobjinfo[MT_PAIN].name1, "gore nest", sizeof(mobjinfo[MT_PAIN].name1));
         M_StringCopy(mobjinfo[MT_PAIN].plural1, "gore nests", sizeof(mobjinfo[MT_PAIN].plural1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].name1, "possessed", sizeof(mobjinfo[MT_WOLFSS].name1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "possessed", sizeof(mobjinfo[MT_WOLFSS].plural1));
     }
 }
 

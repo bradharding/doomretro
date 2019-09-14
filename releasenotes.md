@@ -3,8 +3,9 @@
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable all automatic loading of `.deh` files and `DEHACKED` lumps, but will now load `.deh` files if specifically selected in the WAD launcher or specified using the `-deh` command-line parameter.
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
+  * A hellrazor may now be spawned in front of the player by entering `spawn hellrazor` in the console. This also applies to cyber-mancubi and possessed.
 * Minor changes have been made to text that is output to the console.
-* The word `monster` may now be used to name the nearest monster to the player, instead of a specific type, when using the `name` CCMD.
+* The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 
 ---
 
