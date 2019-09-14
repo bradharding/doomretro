@@ -1,3 +1,9 @@
+### DOOM Retro v3.0.3
+
+---
+
+###### Saturday, September 14, 2019
+
 ### DOOM Retro v3.0.2
 
 * Changes have been made to improve the overall stability of *DOOM Retro*.
