@@ -667,7 +667,7 @@ static void LoadDehFile(char *path)
             if (chex)
                 chexdeh = true;
 
-            if (HasDehackedLump(path) || M_CheckParm("-nodeh"))
+            if (HasDehackedLump(path))
                 C_Warning("<b>%s</b> will be ignored.", dehpath);
             else
                 ProcessDehFile(dehpath, 0);
@@ -682,7 +682,7 @@ static void LoadDehFile(char *path)
 
         if (dehpath && !DehFileProcessed(dehpath))
         {
-            if (HasDehackedLump(path) || M_CheckParm("-nodeh"))
+            if (HasDehackedLump(path))
                 C_Warning("<b>%s</b> will be ignored.", dehpath);
             else
                 ProcessDehFile(dehpath, 0);
@@ -888,7 +888,9 @@ static dboolean D_CheckParms(void)
                         pwadfile = removeext(leafname(myargv[1]));
 
                     LoadCfgFile(myargv[1]);
-                    LoadDehFile(myargv[1]);
+
+                    if (!M_CheckParm("-nodeh"))
+                        LoadDehFile(myargv[1]);
                 }
             }
             else
@@ -920,7 +922,9 @@ static dboolean D_CheckParms(void)
                             pwadfile = removeext(leafname(myargv[1]));
 
                         LoadCfgFile(myargv[1]);
-                        LoadDehFile(myargv[1]);
+
+                        if (!M_CheckParm("-nodeh"))
+                            LoadDehFile(myargv[1]);
                     }
                 }
                 else
@@ -939,7 +943,9 @@ static dboolean D_CheckParms(void)
                                 pwadfile = removeext(leafname(myargv[1]));
 
                             LoadCfgFile(myargv[1]);
-                            LoadDehFile(myargv[1]);
+
+                            if (!M_CheckParm("-nodeh"))
+                                LoadDehFile(myargv[1]);
                         }
                     }
                 }
@@ -1142,7 +1148,9 @@ static int D_OpenWADLauncher(void)
                             pwadfile = removeext(leafname(file));
 
                         LoadCfgFile(file);
-                        LoadDehFile(file);
+
+                        if (!M_CheckParm("-nodeh"))
+                            LoadDehFile(file);
                     }
                 }
                 else
@@ -1164,7 +1172,9 @@ static int D_OpenWADLauncher(void)
                                 pwadfile = removeext(leafname(file));
 
                             LoadCfgFile(file);
-                            LoadDehFile(file);
+
+                            if (!M_CheckParm("-nodeh"))
+                                LoadDehFile(file);
                         }
                     }
                     else
@@ -1183,7 +1193,9 @@ static int D_OpenWADLauncher(void)
                                     pwadfile = removeext(leafname(file));
 
                                 LoadCfgFile(file);
-                                LoadDehFile(file);
+
+                                if (!M_CheckParm("-nodeh"))
+                                    LoadDehFile(file);
                             }
                         }
                     }
@@ -1464,7 +1476,9 @@ static int D_OpenWADLauncher(void)
 
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
-                                LoadDehFile(fullpath);
+
+                                if (!M_CheckParm("-nodeh"))
+                                    LoadDehFile(fullpath);
 
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {

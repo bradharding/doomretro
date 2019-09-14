@@ -1,5 +1,7 @@
 ### DOOM Retro v3.0.3
 
+* The behavior of the `-nodeh` command-line parameter has changed. It will still disable all automatic loading of `.deh` files and `DEHACKED` lumps, but will now load `.deh` files if specifically selected in the WAD launcher or specified using the `-deh` command-line parameter.
+
 ---
 
 ###### Saturday, September 14, 2019
