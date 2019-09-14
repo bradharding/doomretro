@@ -3426,6 +3426,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 // name CCMD
 //
 static dboolean namecmdfriendly;
+static dboolean namecmdanymonster;
 static char     namecmdnew[100];
 static char     namecmdold[100];
 static int      namecmdtype = NUMMOBJTYPES;
@@ -3437,10 +3438,21 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
     if (!*parm)
         return true;
 
-    if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
-        strreplace(parm, "friendly", "");
-
     if (gamestate == GS_LEVEL)
+    {
+        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
+            strreplace(parm, "friendly", "");
+
+        if (M_StringStartsWith(parm, "monster"))
+        {
+            strreplace(parm, "monster", "");
+            M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+            namecmdanymonster = true;
+            return true;
+        }
+        else
+            namecmdanymonster = false;
+
         for (int i = 0; i < NUMMOBJTYPES; i++)
             if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
@@ -3469,6 +3481,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     return true;
                 }
             }
+    }
 
     return false;
 }
@@ -3487,9 +3500,12 @@ static void name_cmd_func2(char *cmd, char *parms)
 
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t  *mobj = (mobj_t *)th;
+            mobj_t      *mobj = (mobj_t *)th;
+            int         flags = mobj->flags;
+            mobjtype_t  type = mobj->type;
 
-            if (mobj->type == namecmdtype && ((namecmdfriendly && (mobj->flags & MF_FRIEND)) || !namecmdfriendly))
+            if (((namecmdanymonster && (flags & MF_SHOOTABLE) && type != MT_BARREL && type != MT_PLAYER) || type == namecmdtype)
+                && ((namecmdfriendly && (flags & MF_FRIEND)) || !namecmdfriendly))
                 if (P_CheckSight(viewplayer->mo, mobj))
                 {
                     fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
@@ -3498,6 +3514,9 @@ static void name_cmd_func2(char *cmd, char *parms)
                     {
                         bestdist = dist;
                         bestmobj = mobj;
+
+                        if (namecmdanymonster)
+                            M_StringCopy(namecmdold, mobj->info->name1, sizeof(namecmdold));
                     }
                 }
         }
@@ -3505,10 +3524,11 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The %s%s is now called %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
+            C_Output("The nearest %s%s is now called %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
         }
         else
-            C_Warning("The player couldn't find a %s%s nearby.", (namecmdfriendly ? "friendly " : ""), namecmdold);
+            C_Warning("The player couldn't find a %s%s nearby.",
+                (namecmdfriendly ? "friendly " : ""), (namecmdanymonster ? "monster" : namecmdold));
     }
 }
 

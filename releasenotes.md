@@ -4,6 +4,7 @@
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
 * Minor changes have been made to text that is output to the console.
+* The word `monster` may now be used to name the nearest monster to the player, instead of a specific type, when using the `name` CCMD.
 
 ---
 
