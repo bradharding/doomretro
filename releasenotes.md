@@ -6,6 +6,7 @@
   * Possessed security, summoners, hell razers, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned correctly by name in front of the player by using the `spawn` CCMD in the console.
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
+* A bug was fixed whereby looking up and down with a gamepad when the `gp_invertyaxis` CVAR was `off` would still be inverted, and when `on` would cause the player’s view to stutter.
 
 ---
 

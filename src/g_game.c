@@ -295,10 +295,13 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     {
         if (usemouselook && gp_thumbsticks == 2)
         {
-            if (gp_invertyaxis)
-                gamepadthumbRY = -gamepadthumbRY;
+            if (!automapactive)
+            {
+                cmd->lookdir = (int)(48 * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown) * gamepadsensitivity);
 
-            cmd->lookdir = (int)(48 * (gamepadthumbRY < 0 ? gamepadthumbRYup : gamepadthumbRYdown) * gamepadsensitivity);
+                if (!gp_invertyaxis)
+                    cmd->lookdir = -cmd->lookdir;
+            }
         }
         else if (gp_thumbsticks == 1)
         {
