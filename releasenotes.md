@@ -3,7 +3,7 @@
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable the automatic loading of `.deh` files, `.bex` files and `DEHACKED` lumps, but will now load `.deh` and `.bex` files if specifically selected in the WAD launcher or specified using the `-deh` command-line parameter.
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
-  * Possessed security, summoners, hellrazors, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned correctly by name in front of the player by using the `spawn` CCMD in the console.
+  * Possessed security, summoners, hell razers, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned correctly by name in front of the player by using the `spawn` CCMD in the console.
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 
