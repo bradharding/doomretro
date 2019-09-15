@@ -1055,8 +1055,13 @@ static void C_ShowDescription(int index)
             *p++ = '\0';
             M_StringCopy(description3, p, sizeof(description3));
 
-            C_Output("%s %s", description1, description2);
-            C_Output(description3);
+            if (C_TextWidth(consolecmds[index].description, true, true) > CONSOLETEXTPIXELWIDTH)
+            {
+                C_Output("%s %s", description1, description2);
+                C_Output(description3);
+            }
+            else
+                C_Output("%s %s %s", description1, description2, description3);
         }
         else
             C_Output("%s %s", description1, description2);

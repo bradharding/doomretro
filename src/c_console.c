@@ -62,21 +62,6 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
-#define CONSOLETEXTX            10
-#define CONSOLETEXTY            8
-#define CONSOLETEXTMAXLENGTH    1024
-#define CONSOLELINEHEIGHT       14
-
-#define CONSOLESCROLLBARWIDTH   4
-#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 136 : 363)
-#define CONSOLESCROLLBARX       (CONSOLEWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
-#define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
-
-#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + CONSOLETEXTX : 0))
-
-#define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
-
 console_t               *console;
 
 dboolean                consoleactive;
@@ -158,7 +143,7 @@ static int              consolescrollbarfacecolor = 94;
 
 static int              consolecolors[STRINGTYPES];
 
-static dboolean         scrollbardrawn;
+dboolean                scrollbardrawn;
 
 extern int              fps;
 extern int              refreshrate;
@@ -408,7 +393,7 @@ kern_t altkern[] =
     { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
+int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
