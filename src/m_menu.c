@@ -1665,8 +1665,30 @@ void M_SetWindowCaption(void)
 static void M_DrawExpansion(void)
 {
     M_DarkBackground();
-    M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
-    M_DrawCenteredString(44 + OFFSET, s_M_WHICHEXPANSION);
+
+    if (M_NEWG)
+    {
+        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        EpiDef.x = 48;
+        EpiDef.y = 63;
+    }
+    else if (M_NGAME)
+    {
+        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        EpiDef.x = 48;
+        EpiDef.y = 63;
+    }
+    else
+        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+
+    if (M_EPISOD)
+    {
+        M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD"));
+        EpiDef.x = 48;
+        EpiDef.y = 63;
+    }
+    else
+        M_DrawCenteredString(44 + OFFSET, s_M_WHICHEXPANSION);
 }
 
 static void M_VerifyNightmare(int key)
