@@ -4,6 +4,7 @@
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
   * Possessed security, summoners, hell razers, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned using their correct name in front of the player by using the `spawn` CCMD in the console.
+  * The summoner’s projectile will no longer be followed by smoke trails, regardless of the value of the `r_rockettrails` CVAR.
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 * A bug has been fixed whereby looking up and down with a gamepad when the `gp_invertyaxis` CVAR was `off` would still be inverted, and when `on` would not be and also cause the player’s view to stutter.
