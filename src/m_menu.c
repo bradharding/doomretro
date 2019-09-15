@@ -1583,6 +1583,12 @@ static void M_DrawNewGame(void)
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
+    else if (M_NGAME)
+    {
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
+    }
     else
         M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
 
@@ -1613,6 +1619,12 @@ static void M_DrawEpisode(void)
         if (M_NEWG)
         {
             M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else if (M_NGAME)
+        {
+            M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NGAME"));
             EpiDef.x = 48;
             EpiDef.y = 63;
         }
