@@ -1258,7 +1258,7 @@ void M_UpdateSaveGameName(int i)
                 savegamestrings[i][len] = '.';
                 savegamestrings[i][len + 1] = '\0';
             }
-            else
+            else if (len >= 1)
             {
                 savegamestrings[i][len - 1] = '.';
                 savegamestrings[i][len] = '.';
