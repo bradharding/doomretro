@@ -5911,7 +5911,7 @@ mobjinfo_t mobjinfo[] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_dgact,
-        /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL | MF_FRIEND),
+        /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
         /* raisestate           */ S_DOGS_RAISE1,
         /* frames               */ 0,

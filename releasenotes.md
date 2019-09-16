@@ -1,6 +1,7 @@
 ### DOOM Retro v3.0.3
 
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable the automatic loading of `.deh` files, `.bex` files and `DEHACKED` lumps, but will now load `.deh` and `.bex` files if selected in the WAD launcher or specified using the `-deh` command-line parameter.
+* A bug has been fixed whereby dogs spawned in front of the player by entering `spawn dog` would be friendly, even though the `friendly` keyword wasn’t used. This also affected PWADs who used a `DEHACKED` patch to replace the dog with another monster: all monsters of that type would be considered friendly and be attacked by the other monsters.
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
   * Possessed security, summoners, hell razers, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned using their correct name in front of the player by using the `spawn` CCMD in the console.
