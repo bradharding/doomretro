@@ -589,14 +589,22 @@ static void R_InitSpriteLumps(void)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "possessed", sizeof(mobjinfo[MT_POSSESSED].name1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "possessed", sizeof(mobjinfo[MT_POSSESSED].plural1));
         M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].name1));
         M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].plural1));
         M_StringCopy(mobjinfo[MT_VILE].name1, "summoner", sizeof(mobjinfo[MT_VILE].name1));
         M_StringCopy(mobjinfo[MT_VILE].plural1, "summoners", sizeof(mobjinfo[MT_VILE].plural1));
         M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mancubus", sizeof(mobjinfo[MT_UNDEAD].name1));
         M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mancubi", sizeof(mobjinfo[MT_UNDEAD].plural1));
+        M_StringCopy(mobjinfo[MT_FATSO].name1, "revenant", sizeof(mobjinfo[MT_UNDEAD].name1));
+        M_StringCopy(mobjinfo[MT_FATSO].plural1, "revenants", sizeof(mobjinfo[MT_UNDEAD].plural1));
         M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "hell razer", sizeof(mobjinfo[MT_CHAINGUY].name1));
         M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "hell razers", sizeof(mobjinfo[MT_CHAINGUY].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "pinky", sizeof(mobjinfo[MT_SERGEANT].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "pinkies", sizeof(mobjinfo[MT_SERGEANT].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name3, "demon", sizeof(mobjinfo[MT_SERGEANT].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural3, "demons", sizeof(mobjinfo[MT_SERGEANT].plural1));
         M_StringCopy(mobjinfo[MT_SPIDER].name1, "cyberdemon", sizeof(mobjinfo[MT_SPIDER].name1));
         M_StringCopy(mobjinfo[MT_SPIDER].plural1, "cyberdemons", sizeof(mobjinfo[MT_SPIDER].plural1));
         M_StringCopy(mobjinfo[MT_BABY].name1, "spider mastermind", sizeof(mobjinfo[MT_BABY].name1));
