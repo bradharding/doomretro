@@ -593,6 +593,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].plural1));
         M_StringCopy(mobjinfo[MT_VILE].name1, "summoner", sizeof(mobjinfo[MT_VILE].name1));
         M_StringCopy(mobjinfo[MT_VILE].plural1, "summoners", sizeof(mobjinfo[MT_VILE].plural1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mancubus", sizeof(mobjinfo[MT_UNDEAD].name1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mancubi", sizeof(mobjinfo[MT_UNDEAD].plural1));
         M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "hell razer", sizeof(mobjinfo[MT_CHAINGUY].name1));
         M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "hell razers", sizeof(mobjinfo[MT_CHAINGUY].plural1));
         M_StringCopy(mobjinfo[MT_SPIDER].name1, "cyberdemon", sizeof(mobjinfo[MT_SPIDER].name1));

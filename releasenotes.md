@@ -4,8 +4,8 @@
 * A bug has been fixed whereby dogs spawned in front of the player by using the `spawn` CCMD in the console would always be friendly, even when the `friendly` keyword wasn’t used. This bug also affected PWADs that would replace the dog using a `DEHACKED` patch. All monsters of that type spawned at the start of a map would be friendly and therefore attack and be attacked by other monsters. (An example of this is the nightmare demons in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).)
 * The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
-  * Possessed security, summoners, hell razers, cyberdemons, spider masterminds, cyber-mancubi and possessed scientists may now be spawned using their correct name in front of the player by using the `spawn` CCMD in the console.
-  * The summoner’s projectiles will no longer have smoke trails.
+  * Possessed security, possessed scientists, summoners, hell razers, cyberdemons, spider masterminds, mancubi and cyber-mancubi may now be spawned using their correct names in front of the player by using the `spawn` CCMD in the console.
+  * The summoner’s projectiles no longer have smoke trails.
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 * A bug has been fixed whereby looking up and down with a gamepad when the `gp_invertyaxis` CVAR was `off` would still be inverted, and when `on` would not be and also cause the player’s view to stutter.
