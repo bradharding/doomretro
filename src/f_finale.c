@@ -470,9 +470,6 @@ static void F_StartCast(void)
     castonmelee = false;
     castattacking = false;
 
-    if (!M_StringCompare(playername, playername_default))
-        s_CC_HERO = playername;
-
     S_ChangeMusic(mus_evil, true, false, false);
 
     if (mobjinfo[castordertype[castnum]].seesound)
