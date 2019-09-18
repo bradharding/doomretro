@@ -302,7 +302,7 @@ static void F_TextWrite(void)
     src = (byte *)W_CacheLumpName((char *)finaleflat);
     dest = screens[0];
 
-#if defined SCREENSCALE == 1
+#if SCREENSCALE == 1
     for (int y = 0; y < SCREENHEIGHT; y++)
     {
         for (int x = 0; x < SCREENWIDTH / 64; x++)

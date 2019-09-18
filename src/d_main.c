@@ -2097,7 +2097,11 @@ static void D_DoomMainSetup(void)
         }
         else
 #if SCREENSCALE == 1
+        {
+            menuactive = false;
+            splashscreen = false;
             D_StartTitle(1);
+        }
 #else
             if (M_CheckParm("-nosplash"))
             {
