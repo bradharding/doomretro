@@ -302,6 +302,22 @@ static void F_TextWrite(void)
     src = (byte *)W_CacheLumpName((char *)finaleflat);
     dest = screens[0];
 
+#if defined SCREENSCALE == 1
+    for (int y = 0; y < SCREENHEIGHT; y++)
+    {
+        for (int x = 0; x < SCREENWIDTH / 64; x++)
+        {
+            memcpy(dest, src + ((y & 63) << 6), 64);
+            dest += 64;
+        }
+
+        if (SCREENWIDTH & 63)
+        {
+            memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
+            dest += (SCREENWIDTH & 63);
+        }
+    }
+#else
     for (int y = 0; y < SCREENHEIGHT; y += 2)
         for (int x = 0; x < SCREENWIDTH / 32; x += 2)
         {
@@ -331,6 +347,7 @@ static void F_TextWrite(void)
 
             dest += 128;
         }
+#endif
 
     for (; count; count--)
     {
