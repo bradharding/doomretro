@@ -9,6 +9,7 @@
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 * A bug has been fixed whereby looking up and down with a gamepad when the `gp_invertyaxis` CVAR was `off` would still be inverted, and when `on` would not be and also cause the player’s view to stutter.
+* The double shotgun sound can now be heard again in *DOOM II’s* cast sequence.
 
 ---
 
