@@ -1027,7 +1027,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair != crosshair_none && usemouselook)
+        if (crosshair != crosshair_none)
         {
             ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
             actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
