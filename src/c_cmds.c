@@ -3511,7 +3511,7 @@ static void name_cmd_func2(char *cmd, char *parms)
 
             if (((namecmdanymonster && (flags & MF_SHOOTABLE) && type != MT_BARREL && type != MT_PLAYER) || type == namecmdtype)
                 && ((namecmdfriendly && (flags & MF_FRIEND)) || !namecmdfriendly))
-                if (P_CheckSight(viewplayer->mo, mobj))
+                if (mobj->health > 0 && P_CheckSight(viewplayer->mo, mobj))
                 {
                     fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
 
