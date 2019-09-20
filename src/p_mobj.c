@@ -928,7 +928,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->viewheight = VIEWHEIGHT;
     viewplayer->viewz = viewplayer->oldviewz = mobj->z + viewplayer->viewheight;
 
-    if ((mobj->flags2 & MF2_FEETARECLIPPED) && r_liquid_clipsprites)
+    if ((mobj->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
         viewplayer->viewz -= FOOTCLIPSIZE;
 
     viewplayer->psprites[ps_weapon].sx = 0;
