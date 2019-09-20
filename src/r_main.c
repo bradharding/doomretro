@@ -623,7 +623,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlcolfunc;
             info->altcolfunc = tl50colfunc;
         }
-        else if (info->doomednum == MegaSphere && !hacx)
+        else if (info->doomednum == MegaSphere && !D4V && !hacx)
         {
             info->colfunc = megaspherecolfunc;
             info->altcolfunc = basecolfunc;

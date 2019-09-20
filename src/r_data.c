@@ -588,7 +588,10 @@ static void R_InitSpriteLumps(void)
     else if (D4V)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_INV].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
+        mobjinfo[MT_MEGA].flags2 &= ~MF2_FLOATBOB;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "possessed", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "possessed", sizeof(mobjinfo[MT_POSSESSED].plural1));
         M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].name1));
@@ -617,6 +620,10 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "possessed", sizeof(mobjinfo[MT_WOLFSS].plural1));
         M_StringCopy(mobjinfo[MT_WOLFSS].name2, "possessed scientist", sizeof(mobjinfo[MT_WOLFSS].name1));
         M_StringCopy(mobjinfo[MT_WOLFSS].plural2, "possessed scientists", sizeof(mobjinfo[MT_WOLFSS].plural1));
+        M_StringCopy(mobjinfo[MT_INV].name2, "super chainsaw", sizeof(mobjinfo[MT_INV].name1));
+        M_StringCopy(mobjinfo[MT_INV].plural2, "super chainsaws", sizeof(mobjinfo[MT_INV].plural1));
+        M_StringCopy(mobjinfo[MT_MEGA].name2, "mega doll", sizeof(mobjinfo[MT_MEGA].name1));
+        M_StringCopy(mobjinfo[MT_MEGA].plural2, "mega dolls", sizeof(mobjinfo[MT_MEGA].plural1));
     }
 }
 

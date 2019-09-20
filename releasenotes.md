@@ -6,6 +6,7 @@
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
   * All monsters are now correctly named when using the `spawn` CCMD and in obituaries in the console.
   * The summoner’s projectiles no longer have smoke trails.
+  * The super chainsaw and mega doll are now rendered correctly.
 * Minor changes have been made to text that is output to the console.
 * The word `monster` may now be used instead of a specific monster type to name the nearest monster to the player when using the `name` CCMD.
 * Only monsters who are alive can be named using the `name` CCMD.
