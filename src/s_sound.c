@@ -626,7 +626,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];
     void        *handle = NULL;
-    int         mapinfomusic;
+    int         mapinfomusic = 0;
 
     // current music which should play
     musinfo.current_item = -1;
@@ -640,10 +640,15 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
 
     // get lumpnum if necessary
-    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
+    if (autosigil)
+    {
+        if (music_id == mus_intro || (music_id == mus_inter && gameepisode != 5))
+            music->lumpnum = W_GetLastNumForName(namebuf);
+        else
+            music->lumpnum = W_CheckNumForName(namebuf);
+    }
+    else if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
         music->lumpnum = mapinfomusic;
-    else if (autosigil && music_id == mus_intro)
-        music->lumpnum = W_GetLastNumForName(namebuf);
     else if (!music->lumpnum)
         music->lumpnum = W_CheckNumForName(namebuf);
 
