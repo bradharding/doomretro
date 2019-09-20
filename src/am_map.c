@@ -217,7 +217,7 @@ int                 direction;
 
 static am_frame_t   am_frame;
 
-static dboolean     isteleportline[NUMLINESPECIALS] = { false };
+static dboolean     isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
@@ -1314,8 +1314,6 @@ static __inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
     if (x < mapwidth && y < maparea)
         *(mapscreen + y + x) = *color;
 }
-
-static void (*putbigdot)(unsigned int, unsigned int, byte *);
 
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
