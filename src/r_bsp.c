@@ -136,9 +136,12 @@ static void R_RecalcLineFlags(line_t *line)
         || backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight
         || (backsector->interpceilingheight <= backsector->interpfloorheight
-            && (backsector->interpceilingheight >= frontsector->interpceilingheight || curline->sidedef->toptexture)
-            && (backsector->interpfloorheight <= frontsector->interpfloorheight || curline->sidedef->bottomtexture)
-            && (backsector->ceilingpic != skyflatnum || frontsector->ceilingpic != skyflatnum)))
+            && (backsector->interpceilingheight >= frontsector->interpceilingheight
+                || curline->sidedef->toptexture)
+            && (backsector->interpfloorheight <= frontsector->interpfloorheight
+                || curline->sidedef->bottomtexture)
+            && (backsector->ceilingpic != skyflatnum
+                || frontsector->ceilingpic != skyflatnum)))
         line->r_flags = RF_CLOSED;
     else
     {
@@ -293,7 +296,9 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             if (ceilinglightlevel)
                 *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
-        else if (heightsec && viewz >= heightsec->interpceilingheight && sec->interpceilingheight > s->interpceilingheight)
+        else if (heightsec
+            && viewz >= heightsec->interpceilingheight
+            && sec->interpceilingheight > s->interpceilingheight)
         {
             // Above-ceiling hack
             tempsec->interpceilingheight = s->interpceilingheight;
@@ -446,8 +451,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     // Find the corners of the box
     // that define the edges from current viewpoint.
-    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2)) +
-        (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
+    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
+        + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
 
     if (boxpos == 5)
         return true;

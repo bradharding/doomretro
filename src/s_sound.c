@@ -496,7 +496,9 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
     // kill old sound
     if (origin || (gamestate == GS_FINALE && sfx_id == sfx_dshtgn))
         for (cnum = 0; cnum < s_channels; cnum++)
-            if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity && channels[cnum].origin == origin)
+            if (channels[cnum].sfxinfo
+                && channels[cnum].sfxinfo->singularity == sfx->singularity
+                && channels[cnum].origin == origin)
             {
                 S_StopChannel(cnum);
                 break;
@@ -525,7 +527,8 @@ void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
 void S_StartSoundOnce(void *origin, int sfx_id)
 {
     for (int cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == S_sfx[sfx_id].singularity
+        if (channels[cnum].sfxinfo
+            && channels[cnum].sfxinfo->singularity == S_sfx[sfx_id].singularity
             && channels[cnum].origin == origin)
         {
             S_StopChannel(cnum);

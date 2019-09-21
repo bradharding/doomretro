@@ -373,7 +373,8 @@ void AM_GetGridSize(void)
     int width = -1;
     int height = -1;
 
-    if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2 && width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
+    if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2
+        && width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
     {
         gridwidth = width << MAPBITS;
         gridheight = height << MAPBITS;
@@ -655,7 +656,8 @@ void AM_AddToPath(void)
 
     if (pathpointnum)
     {
-        if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
+        if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
+            && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
             return;
 
         if (pathpointnum >= pathpointnum_max)
