@@ -1,3 +1,9 @@
+### DOOM Retro v3.0.4
+
+---
+
+###### Saturday, September 21, 2019
+
 ### DOOM Retro v3.0.3
 
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable the automatic loading of `.deh` files, `.bex` files and `DEHACKED` lumps, but will now load `.deh` and `.bex` files if selected in the WAD launcher or specified using the `-deh` command-line parameter.
