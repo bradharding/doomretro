@@ -1,5 +1,7 @@
 ### DOOM Retro v3.0.4
 
+* Minor changes have been made to text that is output to the console.
+
 ---
 
 ###### Saturday, September 21, 2019
