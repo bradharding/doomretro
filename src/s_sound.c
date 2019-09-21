@@ -373,16 +373,18 @@ void S_UnlinkSound(mobj_t *origin)
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
     // channel number to use
-    int         cnum;
+    int         cnum = 0;
     channel_t   *c;
 
     // Find an open channel
-    for (cnum = 0; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
-        if (origin && channels[cnum].origin == origin && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
-        {
-            S_StopChannel(cnum);
-            break;
-        }
+    if (origin)
+        for (; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
+            if (channels[cnum].origin == origin
+                && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
+            {
+                S_StopChannel(cnum);
+                break;
+            }
 
     // None available
     if (cnum == s_channels)
