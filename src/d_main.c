@@ -1845,9 +1845,9 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
 
-    I_InitGamepad();
-
     I_InitGraphics();
+
+    I_InitGamepad();
 
     D_IdentifyVersion();
     InitGameVersion();
