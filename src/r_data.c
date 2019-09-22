@@ -289,7 +289,7 @@ static void R_InitTextures(void)
         int p1;
         int p2;
 
-        M_StringCopy(name, &name_p[i * 8], 8);
+        M_StringCopy(name, &name_p[i * 8], sizeof(name));
         p1 = p2 = W_CheckNumForName(name);
 
         // [crispy] prevent flat lumps from being mistaken as patches
