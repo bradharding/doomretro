@@ -108,25 +108,21 @@ dboolean M_FileExists(const char *filename)
         return true;
     }
     else
-        // If we can't open because the file is a directory, the
-        // "file" exists at least!
-        return (errno == EISDIR);
+        return false;
 }
 
 // Check if a folder exists
 dboolean M_FolderExists(const char *folder)
 {
-#if defined(_WIN32)
-    if (!_access(folder, 0))
+    FILE    *fstream = fopen(folder, "r");
+
+    if (fstream)
     {
-        struct stat status;
-
-        stat(folder, &status);
-        return !!(status.st_mode & S_IFDIR);
+        fclose(fstream);
+        return false;
     }
-#endif
-
-    return false;
+    else
+        return (errno == EISDIR);
 }
 
 // Safe string copy function that works like OpenBSD's strlcpy().
