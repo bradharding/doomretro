@@ -230,7 +230,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     // Homebrew levels?
     if (strncmp(header.identification, "IWAD", 4) && strncmp(header.identification, "PWAD", 4))
-        I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
+        I_Error("WAD file %s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 

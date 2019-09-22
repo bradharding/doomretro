@@ -843,6 +843,9 @@ static dboolean D_CheckParms(void)
                     {
                         modifiedgame = true;
                         sigil = true;
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
+                        W_MergeFile(fullpath, true);
                     }
                     else
                     {
@@ -852,6 +855,9 @@ static dboolean D_CheckParms(void)
                         {
                             modifiedgame = true;
                             sigil = true;
+
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
+                            W_MergeFile(fullpath, true);
                         }
                     }
                 }

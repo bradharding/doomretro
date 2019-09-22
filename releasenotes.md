@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set that is used in the console and messages in the alternate widescreen HUD.
-* *DOOM Retro* will now automatically load `SIGIL_v1_2.wad`, the PWAD for v1.2 of John Romero’s megawad [*SIGIL*](http://SI6IL.com/), in preference to `SIGIL.wad`.
+* *DOOM Retro* will now automatically load `SIGIL_v1_2.wad`, the PWAD for v1.2 of John Romero’s megawad [*SIGIL*](http://SI6IL.com/), in preference to `SIGIL.wad` as necessary.
 
 ---
 
