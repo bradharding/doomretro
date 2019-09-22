@@ -291,7 +291,8 @@ static void CheckDOSDefaults(void)
 
 #endif
 
-iwads_t iwads[] = {
+iwads_t iwads[] =
+{
     { "doom2",    doom2      },
     { "nerve",    pack_nerve },
     { "plutonia", pack_plut  },

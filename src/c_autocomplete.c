@@ -39,7 +39,8 @@
 #include "c_console.h"
 #include "doomdef.h"
 
-autocomplete_t autocompletelist[] = {
+autocomplete_t autocompletelist[] =
+{
     { "alias ",                                      DOOM1AND2 },
     { "alwaysrun ",                                  DOOM1AND2 },
     { "alwaysrun off",                               DOOM1AND2 },

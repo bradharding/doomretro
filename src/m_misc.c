@@ -107,8 +107,8 @@ dboolean M_FileExists(const char *filename)
         fclose(fstream);
         return true;
     }
-    else
-        return false;
+
+    return false;
 }
 
 // Check if a folder exists
@@ -121,8 +121,8 @@ dboolean M_FolderExists(const char *folder)
         fclose(fstream);
         return false;
     }
-    else
-        return (errno == EISDIR);
+
+    return (errno == EISDIR);
 }
 
 // Safe string copy function that works like OpenBSD's strlcpy().
@@ -135,8 +135,8 @@ dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size)
         strncpy(dest, src, dest_size - 1);
         return (src[strlen(dest)] == '\0');
     }
-    else
-        return false;
+
+    return false;
 }
 
 char *M_ExtractFolder(char *path)

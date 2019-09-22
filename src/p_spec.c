@@ -56,7 +56,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-dboolean islightspecial[] = {
+dboolean islightspecial[] =
+{
     false, true,  true,  true, false, false, false, false, true,
     false, false, false, true, true,  false, false, false, true
 };

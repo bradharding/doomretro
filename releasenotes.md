@@ -1,6 +1,6 @@
 ### DOOM Retro v3.0.4
 
-* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set that is used in the console and messages in the alternate widescreen HUD.
 
 ---
