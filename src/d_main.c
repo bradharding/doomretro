@@ -1627,14 +1627,15 @@ static void D_ProcessDehInWad(void)
     if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
-            if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED"))
                 ProcessDehFile(NULL, i);
     }
     else
     {
         for (int i = numlumps - 1; i >= 0; i--)
-            if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
-                ProcessDehFile(NULL, i);
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED"))
+                if (!M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad"))
+                    ProcessDehFile(NULL, i);
     }
 }
 
