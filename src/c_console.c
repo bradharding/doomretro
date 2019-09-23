@@ -691,7 +691,7 @@ static void C_DrawBackground(int height)
                 screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
 }
 
-static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
+static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
     byte *translucency, const int tabs[8], const dboolean formatting, const dboolean kerning)
 {
     int             bold = 0;
@@ -702,6 +702,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     unsigned char   prevletter = '\0';
     int             width = 0;
     int             lastcolor1;
+    int             startx = x;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -811,6 +812,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
         }
     }
+
+    return (x - startx);
 }
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
@@ -996,16 +999,16 @@ void C_Drawer(void)
 
             if (stringtype == playermessagestring || stringtype == obituarystring)
             {
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                    NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
+                int width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                                NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
 
                 if (console[i].count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
 
                     M_snprintf(buffer, sizeof(buffer), "(%s)", commify(console[i].count));
-                    C_DrawConsoleText(CONSOLETEXTX + C_TextWidth(console[i].string, true, true) + 2, y, buffer,
-                        consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
+                    C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
+                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
                 }
                 else
 
