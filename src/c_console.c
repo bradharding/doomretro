@@ -402,7 +402,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
-        unsigned char nextletter;
+        unsigned char       nextletter;
 
         if (letter == ' ')
             w += spacewidth;
@@ -996,17 +996,18 @@ void C_Drawer(void)
 
             if (stringtype == playermessagestring || stringtype == obituarystring)
             {
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                    NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
+
                 if (console[i].count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
 
-                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, commify(console[i].count));
-                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
+                    M_snprintf(buffer, sizeof(buffer), "(%s)", commify(console[i].count));
+                    C_DrawConsoleText(CONSOLETEXTX + C_TextWidth(console[i].string, true, true) + 2, y, buffer,
+                        consoleplayermessagecolor, NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
                 }
                 else
-                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
 
                 if (con_timestamps)
                     C_DrawTimeStamp(timestampx, y, console[i].tics);
