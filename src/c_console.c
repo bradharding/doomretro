@@ -1057,9 +1057,8 @@ void C_Drawer(void)
                 lefttext[i] = consoleinput[i];
 
             lefttext[i] = '\0';
-            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor,
+            x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true);
-            x += C_TextWidth(lefttext, false, true);
 
             // draw any selected text to left of caret
             if (selectstart < caretpos)
@@ -1074,9 +1073,8 @@ void C_Drawer(void)
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
-                    C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
+                    x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
-                    x += C_TextWidth(middletext, false, true);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
@@ -1117,9 +1115,8 @@ void C_Drawer(void)
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
+                x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true);
-                x += C_TextWidth(middletext, false, true);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
