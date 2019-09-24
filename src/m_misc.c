@@ -66,6 +66,7 @@
 
 #if defined(__APPLE__)
 #import <Cocoa/Cocoa.h>
+
 #include <dirent.h>
 #include <libgen.h>
 #include <mach-o/dyld.h>

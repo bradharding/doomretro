@@ -81,9 +81,14 @@
 #include <dirent.h>
 #include <fnmatch.h>
 #include <libgen.h>
+
 #if !defined(__OpenBSD__)
 #include <wordexp.h>
 #endif
+#endif
+
+#if defined(__APPLE__)
+#import <Cocoa/Cocoa.h>
 #endif
 
 static char *iwadsrequired[] =
@@ -807,10 +812,6 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
 {
     return M_StringCompare(leafname(filename), "voices.wad");
 }
-
-#if defined(__APPLE__)
-#import <Cocoa/Cocoa.h>
-#endif
 
 static dboolean D_CheckParms(void)
 {

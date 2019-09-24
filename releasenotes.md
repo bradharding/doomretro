@@ -25,7 +25,7 @@
 * A bug has been fixed whereby looking up and down with a gamepad when the `gp_invertyaxis` CVAR was `off` would still be inverted, and when `on` would not be and also cause the player’s view to jitter.
 * The double shotgun sound can now be heard again in *DOOM II’s* cast sequence.
 * The crosshair displayed using the `crosshair` CVAR no longer needs the `mouselook` CVAR to be `on`.
-* The correct music will now be played on the intermission screen of episodes 1 to 4 when John Romero’s megawad [*SIGIL*](http://SI6IL.com/) has been autoloaded.
+* The correct music will now be played on the intermission screen of episodes 1 to 4 when John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il) has been autoloaded.
 
 ---
 
@@ -66,7 +66,7 @@
 * If the 32-bit binary of *DOOM Retro* is used on a 64-bit version of *Windows*, a warning is now displayed in the console at startup recommending the 64-bit binary instead.
 * The logo on the splash screen is now animated.
 * The branding in the console has been redesigned.
-* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il):
   * `SIGIL.wad` will now only be automatically loaded alongside *The Ultimate DOOM* and not the registered version of *DOOM*.
   * If [*Buckethead’s*](https://en.wikipedia.org/wiki/Buckethead) `SIGIL_SHREDS.wad` is found, it will now also be automatically loaded.
   * Savegame descriptions will now be updated with the current map’s name when saving over an existing savegame.
@@ -135,7 +135,7 @@
 
 ### DOOM Retro v2.9.3
 
-* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il):
   * The `SKY5_ZD` lump is now used instead of the `SKY5` lump to render the sky.
   * The `+jump` action is no longer disabled if `SIGIL.wad` is loaded automatically.
   * A bug has been fixed whereby the `SIGILINT` lump was being displayed in the intermission’s background for episodes 1 to 4.
@@ -147,7 +147,7 @@
 ### DOOM Retro v2.9.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/):
+* The following changes have been made to the support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il):
   * If `SIGIL.wad` is loaded automatically, it’s `TITLEPIC`, `CREDIT` and `HELP1` lumps won’t be displayed, and it’s `D_INTRO` music lump won’t be played.
   * The `mapstats` CCMD will now correctly identify the title and composer of the music of the current map (either [James Paddock](https://doomwiki.org/wiki/James_Paddock_(Jimmy)), or [Buckethead](https://en.wikipedia.org/wiki/Buckethead) if `SIGIL_SHREDS.wad` is loaded).
   * *E5M8: Halls of Perdition* will no longer end abruptly when killing a certain number of monsters.
@@ -165,7 +165,7 @@
 ### DOOM Retro v2.9.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The support for John Romero’s megawad [*SIGIL*](http://SI6IL.com/) has been greatly improved.
+* The support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il) has been greatly improved.
 * Minor changes have been made to text that is output to the console.
 * A crash will no longer occur if the player’s health is less than -999% when they die and the widescreen HUD is displayed.
 * A dead player will no longer turn to face an attacker if that attacker actually killed a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll) rather than the player themselves.
@@ -182,7 +182,7 @@
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Support has been added for John Romero’s highly anticipated megawad [*SIGIL*](http://SI6IL.com/). When loading *The Ultimate DOOM’s* IWAD from the WAD launcher, if `sigil.wad` is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will then be available in the episode menu.
+* Support has been added for John Romero’s highly anticipated megawad [*SIGIL*](https://www.romerogames.ie/si6il). When loading *The Ultimate DOOM’s* IWAD from the WAD launcher, if `sigil.wad` is in the same folder, it will automatically be loaded and a fifth entry, “Sigil of Baphomet”, will then be available in the episode menu.
 * The WAD launcher will now only automatically load [`nerve.wad`](https://doomwiki.org/wiki/No_Rest_for_the_Living) when the *BFG Edition* of *DOOM II: Hell On Earth’s* IWAD is selected.
 * Further improvements have been made to the console’s autocomplete feature.
 * An obituary is no longer displayed in the console if either the source or target is a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll).
