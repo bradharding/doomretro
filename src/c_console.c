@@ -858,30 +858,35 @@ char *C_GetTimeStamp(unsigned int tics)
     if ((hours += tics / 3600) >= 24)
         hours %= 24;
 
-    M_snprintf(buffer, 9, "%d:%02d:%02d", (hours > 12 ? hours - 12 : hours), minutes, seconds);
+    if (hours > 12)
+        hours -= 12;
+
+    M_snprintf(buffer, 9, "%s%d:%02d:%02d", (hours < 10 ? " " : ""), hours, minutes, seconds);
     return buffer;
 }
 
 static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 {
     char    buffer[9];
-    int     len;
+    int     i = 0;
 
     M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
-    len = (int)strlen(buffer);
     y -= CONSOLEHEIGHT - consoleheight;
 
-    if (len == 7)
+    if (buffer[0] == ' ')
+    {
         x += zerowidth;
+        i++;
+    }
 
-    for (int i = 0; i < len; i++)
+    while (i < 8)
     {
         patch_t     *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
         const int   width = SHORT(patch->width);
 
         V_DrawConsoleTextPatch(x + (buffer[i] == '1' ? (zerowidth - width) / 2 : 0),
             y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
-        x += (isdigit((int)buffer[i]) ? zerowidth : width);
+        x += (isdigit((int)buffer[i++]) ? zerowidth : width);
     }
 }
 
@@ -1013,7 +1018,7 @@ void C_Drawer(void)
 
                     M_snprintf(buffer, sizeof(buffer), "(%s)", commify(console[i].count));
                     C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true);
+                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, false, false);
                 }
 
                 if (con_timestamps)
