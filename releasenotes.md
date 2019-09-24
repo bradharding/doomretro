@@ -1,8 +1,8 @@
 ### DOOM Retro v3.0.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to the character set that is used in the console, and player messages when the alternate widescreen HUD is displayed.
-* *DOOM Retro* will now automatically load `SIGIL_v1_2.wad` if found and in preference to `SIGIL.wad`.
+* Minor changes have been made to the character set used in the console, and the player messages when the alternate widescreen HUD is displayed.
+* *DOOM Retro* will now automatically load `SIGIL_v1_21.wad` or `SIGIL_v1_2.wad` if found, in preference to `SIGIL.wad`.
 * Timestamps in the console are now displayed in 12 rather than 24-hour format.
 
 ---

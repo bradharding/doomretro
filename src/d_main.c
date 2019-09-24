@@ -761,7 +761,7 @@ static void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "SIGIL.wad") || M_StringCompare(leaf, "SIGIL_v1_2.wad"))
+    if (M_StringCompare(leaf, "SIGIL.wad") || M_StringCompare(leaf, "SIGIL_v1_2.wad") || M_StringCompare(leaf, "SIGIL_v1_21.wad"))
     {
         sigil = true;
         episode = 5;
@@ -837,28 +837,38 @@ static dboolean D_CheckParms(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_21.wad");
 
                     if (W_MergeFile(fullpath, true))
                     {
                         modifiedgame = true;
                         sigil = true;
-
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
-                        W_MergeFile(fullpath, true);
                     }
                     else
                     {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
 
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
                             sigil = true;
-
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
-                            W_MergeFile(fullpath, true);
                         }
+                        else
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
+
+                            if (W_MergeFile(fullpath, true))
+                            {
+                                modifiedgame = true;
+                                sigil = true;
+                            }
+                        }
+                    }
+
+                    if (sigil)
+                    {
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
+                        W_MergeFile(fullpath, true);
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
@@ -1106,28 +1116,38 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_v1_21.wad");
 
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
                             sigil = true;
-
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
-                            W_MergeFile(fullpath, true);
                         }
                         else
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
 
                             if (W_MergeFile(fullpath, true))
                             {
                                 modifiedgame = true;
                                 sigil = true;
-
-                                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
-                                W_MergeFile(fullpath, true);
                             }
+                            else
+                            {
+                                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL.wad");
+
+                                if (W_MergeFile(fullpath, true))
+                                {
+                                    modifiedgame = true;
+                                    sigil = true;
+                                }
+                            }
+                        }
+
+                        if (sigil)
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
+                            W_MergeFile(fullpath, true);
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
