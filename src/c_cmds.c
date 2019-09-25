@@ -4109,7 +4109,7 @@ static void C_PlayerStats_NoGame(void)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        char * level = titlecase(*skilllevels[favorite]);
+        char    *level = titlecase(*skilllevels[favorite]);
 
         if (level[strlen(level) - 1] == '.')
             level[strlen(level) - 1] = '\0';

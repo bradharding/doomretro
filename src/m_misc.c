@@ -145,11 +145,9 @@ char *M_ExtractFolder(char *path)
     if (!*path)
         return "";
 
-    folder = malloc(MAX_PATH);
-    M_StringCopy(folder, path, MAX_PATH);
-    pos = strrchr(folder, DIR_SEPARATOR);
+    folder = M_StringDuplicate(path);
 
-    if (pos)
+    if ((pos = strrchr(folder, DIR_SEPARATOR)))
         *pos = '\0';
 
     return folder;
@@ -164,7 +162,8 @@ char *M_GetAppDataFolder(void)
 #else
     // On Linux and macOS, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
-    char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+    char    *resourcefolder = M_StringJoin(executablefolder,
+                DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
 
     free(resourcefolder);
@@ -205,7 +204,8 @@ char *M_GetResourceFolder(void)
 #if !defined(_WIN32)
     // On Linux and macOS, first assume that the executable is in .../bin and
     // try to load resources from ../share/doomretro.
-    char    *resourcefolder = M_StringJoin(executablefolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+    char    *resourcefolder = M_StringJoin(executablefolder,
+                DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
 
     if (resourcedir)
@@ -562,7 +562,8 @@ char *titlecase(const char *str)
         if (len > 1)
             for (int i = 1; i < len; i++)
                 if ((newstr[i - 1] != '\'' || (i >= 2 && newstr[i - 2] == ' '))
-                    && !isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
+                    && !isalnum((unsigned char)newstr[i - 1])
+                    && isalnum((unsigned char)newstr[i]))
                     newstr[i] = toupper(newstr[i]);
     }
 
@@ -723,7 +724,7 @@ char *removenonalpha(const char *input)
 
 char *trimwhitespace(char *input)
 {
-    char *end;
+    char    *end;
 
     while (isspace((unsigned char)*input))
         input++;
