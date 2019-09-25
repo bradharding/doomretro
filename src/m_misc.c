@@ -38,13 +38,16 @@
 
 #if defined(_WIN32)
 #pragma warning( disable : 4091 )
+
 #include <ShlObj.h>
 #include <io.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
 #if defined(_MSC_VER)
 #include <direct.h>
 #endif
+
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -115,15 +118,9 @@ dboolean M_FileExists(const char *filename)
 // Check if a folder exists
 dboolean M_FolderExists(const char *folder)
 {
-    FILE    *fstream = fopen(folder, "r");
+    struct stat status;
 
-    if (fstream)
-    {
-        fclose(fstream);
-        return false;
-    }
-
-    return (errno == EISDIR);
+    return (!stat(folder, &status) && (status.st_mode & S_IFDIR));
 }
 
 // Safe string copy function that works like OpenBSD's strlcpy().
