@@ -582,7 +582,6 @@ char *sentencecase(const char *str)
 char *commify(int64_t value)
 {
     char    result[64];
-    char    *p;
 
     M_snprintf(result, sizeof(result), "%lli", value);
 
@@ -610,8 +609,7 @@ char *commify(int64_t value)
         } while (true);
     }
 
-    p = M_StringDuplicate(result);
-    return p;
+    return M_StringDuplicate(result);
 }
 
 char *uncommify(const char *input)

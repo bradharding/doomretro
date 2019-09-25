@@ -1777,8 +1777,8 @@ void A_SkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     an = actor->angle >> ANGLETOFINESHIFT;
     actor->momx = FixedMul(SKULLSPEED, finecosine[an]);
     actor->momy = FixedMul(SKULLSPEED, finesine[an]);
-    actor->momz = (dest->z + (dest->height >> 1) - actor->z) /
-        MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / SKULLSPEED);
+    actor->momz = (dest->z + (dest->height >> 1) - actor->z)
+        / MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / SKULLSPEED);
 }
 
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
