@@ -164,17 +164,12 @@ void I_UpdateGamepadVibration(void)
     if (!haptic)
         return;
 
-    if (weaponvibrationtics)
-        if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
-            I_GamepadVibration(idlevibrationstrength);
-
-    if (damagevibrationtics)
-        if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
-            I_GamepadVibration(idlevibrationstrength);
-
-    if (barrelvibrationtics)
-        if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
-            I_GamepadVibration(idlevibrationstrength);
+    if (weaponvibrationtics && !--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
+        I_GamepadVibration(idlevibrationstrength);
+    else if (damagevibrationtics && !--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
+        I_GamepadVibration(idlevibrationstrength);
+    else if (barrelvibrationtics && !--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
+        I_GamepadVibration(idlevibrationstrength);
 }
 
 void I_StopGamepadVibration(void)
