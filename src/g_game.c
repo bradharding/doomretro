@@ -97,6 +97,7 @@ int             barrelcount;
 wbstartstruct_t wminfo;                         // parms for world map/intermission
 
 dboolean        autoload = autoload_default;
+dboolean        autosave = autosave_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -891,6 +892,7 @@ void G_Ticker(void)
                 break;
 
             case ga_savegame:
+            case ga_autosavegame:
                 G_DoSaveGame();
                 break;
 
@@ -1395,6 +1397,9 @@ static void G_DoWorldDone(void)
     gamemap = wminfo.next + 1;
     G_DoLoadLevel();
     viewactive = true;
+
+    if (quickSaveSlot >= 0 && autosave && !pistolstart)
+        gameaction = ga_autosavegame;
 }
 
 void G_LoadGame(char *name)
@@ -1523,6 +1528,12 @@ static void G_DoSaveGame(void)
     {
         char    *backup_savegame_file = M_StringJoin(savegame_file, ".bak", NULL);
 
+        if (gameaction == ga_autosavegame)
+        {
+            M_UpdateSaveGameName(quickSaveSlot);
+            M_StringCopy(savedescription, savegamestrings[quickSaveSlot], sizeof(savedescription));
+        }
+
         P_WriteSaveGameHeader(savedescription);
 
         P_ArchivePlayer();
@@ -1551,11 +1562,13 @@ static void G_DoSaveGame(void)
         {
             static char buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
+            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), titlecase(savedescription));
             C_Output(buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_dontfuckwithme = true;
-            S_StartSound(NULL, sfx_swtchx);
+
+            if (gameaction != ga_autosavegame)
+                S_StartSound(NULL, sfx_swtchx);
         }
 
         viewplayer->gamessaved++;

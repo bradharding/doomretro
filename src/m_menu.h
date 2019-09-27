@@ -39,6 +39,8 @@
 #if !defined(__M_MENU_H__)
 #define __M_MENU_H__
 
+#include "p_saveg.h"
+
 typedef struct
 {
     short           status;
@@ -111,5 +113,6 @@ extern dboolean returntowidescreen;
 extern dboolean startingnewgame;
 extern dboolean inhelpscreens;
 extern int      spindirection;
+extern char     savegamestrings[10][SAVESTRINGSIZE];
 
 #endif

@@ -21,6 +21,7 @@ am_tswallcolor 96
 am_wallcolor 176
 autoaim on
 autoload off
+autosave off
 autotilt off
 autouse off
 centerweapon off

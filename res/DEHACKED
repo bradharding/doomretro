@@ -76,6 +76,7 @@ PD_ALL3 = %s need%s all three keys to open this door.
 PD_ALL6 = %s need%s all six keys to open this door.
 SECRET = %s found a secret area!
 GGSAVED = "%s" saved.
+GGAUTOSAVED = "%s" autosaved.
 GGLOADED = "%s" loaded.
 GGAUTOLOADED = "%s" autoloaded.
 GGDELETED = "%s" deleted.

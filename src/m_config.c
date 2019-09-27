@@ -96,6 +96,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_wallcolor,                                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (autoaim,                                           BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (autoload,                                          BOOLVALUEALIAS     ),
+    CONFIG_VARIABLE_INT          (autosave,                                          BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (autotilt,                                          BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (autouse,                                           BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLVALUEALIAS     ),
@@ -592,6 +593,9 @@ static void M_CheckCVARs(void)
 
     if (autoload != false && autoload != true)
         autoload = autoload_default;
+
+    if (autosave != false && autosave != true)
+        autosave = autosave_default;
 
     if (autotilt != false && autotilt != true)
         autotilt = autotilt_default;

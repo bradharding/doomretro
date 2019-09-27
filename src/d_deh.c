@@ -221,6 +221,7 @@ char    *s_PD_ALL6 = "";
 char    *s_SECRET = "";
 
 char    *s_GGSAVED = GGSAVED;
+char    *s_GGAUTOSAVED = "";
 char    *s_GGLOADED = "";
 char    *s_GGAUTOLOADED = "";
 char    *s_GGDELETED = "";
@@ -788,6 +789,7 @@ deh_strs deh_strlookup[] =
     { &s_SECRET,                     "SECRET"                     },
 
     { &s_GGSAVED,                    "GGSAVED"                    },
+    { &s_GGAUTOSAVED,                "GGAUTOSAVED"                },
     { &s_GGLOADED,                   "GGLOADED"                   },
     { &s_GGAUTOLOADED,               "GGAUTOLOADED"               },
     { &s_GGDELETED,                  "GGDELETED"                  },

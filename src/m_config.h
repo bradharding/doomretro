@@ -63,6 +63,7 @@ extern int          am_tswallcolor;
 extern int          am_wallcolor;
 extern dboolean     autoaim;
 extern dboolean     autoload;
+extern dboolean     autosave;
 extern dboolean     autotilt;
 extern dboolean     autouse;
 extern dboolean     centerweapon;
@@ -333,6 +334,8 @@ enum
 #define autoaim_default                         true
 
 #define autoload_default                        true
+
+#define autosave_default                        true
 
 #define autotilt_default                        false
 
