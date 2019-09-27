@@ -117,6 +117,8 @@ dboolean            wipe = wipe_default;
 char                *packageconfig;
 char                *packagewad;
 
+char                dehwarning[256] = "";
+
 #if defined(_WIN32)
 char                *previouswad;
 #endif
@@ -673,7 +675,7 @@ static void LoadDehFile(char *path)
                 chexdeh = true;
 
             if (HasDehackedLump(path))
-                C_Warning("<b>%s</b> will be ignored.", dehpath);
+                M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", dehpath);
             else
                 ProcessDehFile(dehpath, 0);
 
@@ -688,7 +690,7 @@ static void LoadDehFile(char *path)
         if (dehpath && !DehFileProcessed(dehpath))
         {
             if (HasDehackedLump(path))
-                C_Warning("<b>%s</b> will be ignored.", dehpath);
+                M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", dehpath);
             else
                 ProcessDehFile(dehpath, 0);
 
@@ -1644,6 +1646,9 @@ static void D_ProcessDehInWad(void)
 {
     if (chexdeh || M_CheckParm("-nodeh"))
         return;
+
+    if (*dehwarning)
+        C_Warning(dehwarning);
 
     if (hacx || FREEDOOM)
     {
