@@ -7,6 +7,7 @@
 * Timestamps in the console are now displayed in 12 rather than 24-hour format, and without a leading zero.
 * If the player saves a game, the game will now from then on be automatically saved at the start of each map. This feature can be disabled by the new `autosave` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby enabling the `am_path` CVAR could cause *DOOM Retro* to crash.
+* The path of the player that appears in the automap when the `am_path` CVAR is `on` is now thicker.
 
 ---
 

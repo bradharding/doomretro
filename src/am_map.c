@@ -73,6 +73,7 @@ int am_tswallcolor = am_tswallcolor_default;
 int am_wallcolor = am_wallcolor_default;
 
 // Automap color priorities
+#define PATHPRIORITY           10
 #define WALLPRIORITY            9
 #define ALLMAPWALLPRIORITY      8
 #define CDWALLPRIORITY          7
@@ -85,10 +86,10 @@ int am_wallcolor = am_wallcolor_default;
 
 static byte playercolor;
 static byte thingcolor;
-static byte pathcolor;
 static byte markcolor;
 static byte backcolor;
 
+static byte *pathcolor;
 static byte *wallcolor;
 static byte *allmapwallcolor;
 static byte *teleportercolor;
@@ -336,6 +337,7 @@ void AM_SetColors(void)
     byte        priority[256] = { 0 };
     static byte priorities[256 * 256];
 
+    priority[nearestcolors[am_pathcolor]] = PATHPRIORITY;
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
@@ -348,7 +350,6 @@ void AM_SetColors(void)
 
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
-    pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     am_crosshaircolor2 = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
@@ -357,6 +358,7 @@ void AM_SetColors(void)
         for (int y = 0; y < 256; y++)
             priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
 
+    pathcolor = &priorities[nearestcolors[am_pathcolor] << 8];
     wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
     cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
@@ -1939,13 +1941,13 @@ static void AM_DrawPath(void)
 
                 AM_RotatePoint(&start);
                 AM_RotatePoint(&end);
-                AM_DrawMline2(start.x, start.y, end.x, end.y, &pathcolor);
+                AM_DrawBigMline(start.x, start.y, end.x, end.y, pathcolor);
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
                 AM_RotatePoint(&player);
-                AM_DrawMline2(end.x, end.y, player.x, player.y, &pathcolor);
+                AM_DrawBigMline(end.x, end.y, player.x, player.y, pathcolor);
             }
         }
         else
@@ -1953,10 +1955,10 @@ static void AM_DrawPath(void)
             for (int i = 1; i < pathpointnum; i++)
                 if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
-                    AM_DrawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, &pathcolor);
+                    AM_DrawBigMline(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, pathcolor);
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-                AM_DrawMline2(pathpoints[pathpointnum - 1].x, pathpoints[pathpointnum - 1].y, player.x, player.y, &pathcolor);
+                AM_DrawBigMline(pathpoints[pathpointnum - 1].x, pathpoints[pathpointnum - 1].y, player.x, player.y, pathcolor);
         }
     }
 }
