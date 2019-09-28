@@ -6,6 +6,7 @@
 * *DOOM Retro* will now automatically load `SIGIL_v1_21.wad` (or `SIGIL_v1_2.wad`) in preference to `SIGIL.wad`.
 * Timestamps in the console are now displayed in 12 rather than 24-hour format, and without a leading zero.
 * If the player saves a game, the game will then be automatically saved each time they progress to the next map. This feature can be disabled by the new `autosave` CVAR, which is `on` by default and `off` when vanilla mode is on.
+* A bug has been fixed whereby enabling the `am_path` CVAR could cause *DOOM Retro* to crash.
 
 ---
 

@@ -655,16 +655,14 @@ void AM_AddToPath(void)
     const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
-    {
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
             && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
             return;
 
-        if (pathpointnum >= pathpointnum_max)
-        {
-            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 1024);
-            pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
-        }
+    if (pathpointnum >= pathpointnum_max)
+    {
+        pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 1024);
+        pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
     pathpoints[pathpointnum].x = x;
