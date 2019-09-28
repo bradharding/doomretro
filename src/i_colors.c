@@ -116,15 +116,11 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
     for (int i = 0; i < 256; i++)
     {
-        int red2 = *palette++;
-        int green2 = *palette++;
-        int blue2 = *palette++;
-
         // From <https://www.compuphase.com/cmetric.htm>
-        int rmean = (red + red2) / 2;
-        int r = red - red2;
-        int g = green - green2;
-        int b = blue - blue2;
+        int rmean = (red + *palette) / 2;
+        int r = red - *palette++;
+        int g = green - *palette++;
+        int b = blue - *palette++;
         int diff = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
 
         if (!diff)
