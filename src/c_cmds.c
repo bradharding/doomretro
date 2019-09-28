@@ -3452,6 +3452,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
 
         if (M_StringStartsWith(parm, "monster"))
         {
+            M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
             strreplace(parm, "monster", "");
             M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
             namecmdanymonster = true;
@@ -3534,8 +3535,8 @@ static void name_cmd_func2(char *cmd, char *parms)
             C_Output("The nearest %s%s is now called %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
         }
         else
-            C_Warning("The player couldn't find a %s%s nearby.",
-                (namecmdfriendly ? "friendly " : ""), (namecmdanymonster ? "monster" : namecmdold));
+            C_Warning("%s %s%s couldn't be found nearby.",
+                (isvowel(namecmdold[0]) ? "An" : "A"), (namecmdfriendly ? "friendly " : ""), namecmdold);
     }
 }
 
