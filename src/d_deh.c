@@ -3241,7 +3241,12 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_misc[14]))                // BFG Cells/Shot
             bfgcells = value;
         else if (M_StringCompare(key, deh_misc[15]))                // Monsters Infight
-            species_infighting = !!value;
+        {
+            if (value == 202)
+                species_infighting = false;
+            else if (value == 221)
+                species_infighting = true;
+        }
         else
             C_Warning("Invalid misc item string index for \"%s\".", key);
     }
