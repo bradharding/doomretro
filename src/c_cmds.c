@@ -3440,7 +3440,7 @@ static int      namecmdtype = NUMMOBJTYPES;
 
 static dboolean name_cmd_func1(char *cmd, char *parms)
 {
-    char *parm = removenonalpha(parms);
+    char    *parm = removenonalpha(parms);
 
     if (!*parm)
         return true;

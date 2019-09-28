@@ -1704,8 +1704,8 @@ static const char *deh_sfxinfo[] =
 // Ammo information for the few types of ammo
 static const char *deh_ammo[] =
 {
-    "Max ammo",         // maxammo[]
-    "Per ammo"          // clipammo[]
+    "Max Ammo",         // maxammo[]
+    "Per Ammo"          // clipammo[]
 };
 
 // WEAPONS - Dehacked block name = "Weapon"
@@ -1713,12 +1713,12 @@ static const char *deh_ammo[] =
 // Basically a list of frames and what kind of ammo (see above) it uses.
 static const char *deh_weapon[] =
 {
-    "Ammo type",        // .ammo
-    "Deselect frame",   // .upstate
-    "Select frame",     // .downstate
-    "Bobbing frame",    // .readystate
-    "Shooting frame",   // .atkstate
-    "Firing frame"      // .flashstate
+    "Ammo Type",        // .ammo
+    "Deselect Frame",   // .upstate
+    "Select Frame",     // .downstate
+    "Bobbing Frame",    // .readystate
+    "Shooting Frame",   // .atkstate
+    "Firing Frame"      // .flashstate
 };
 
 // CHEATS - Dehacked block name = "Cheat"
@@ -1727,9 +1727,9 @@ static const char *deh_weapon[] =
 // These are just plain funky terms compared with id's
 static const char *deh_cheat[] =
 {
-    "Change music",     // idmus
+    "Change Music",     // idmus
     "Chainsaw",         // idchoppers
-    "God mode",         // iddqd
+    "God Mode",         // iddqd
     "Ammo & Keys",      // idkfa
     "Ammo",             // idfa
     "No Clipping 1",    // idspispopd
@@ -1740,7 +1740,7 @@ static const char *deh_cheat[] =
     "Radiation Suit",   // idbeholdr
     "Auto-map",         // idbeholda
     "Lite-Amp Goggles", // idbeholdl
-    "BEHOLD menu",      // idbehold
+    "BEHOLD Menu",      // idbehold
     "Level Warp",       // idclev
     "Player Position"   // idmypos
 };
