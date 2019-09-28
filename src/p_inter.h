@@ -49,7 +49,7 @@ dboolean P_GiveAllCardsInMap(void);
 dboolean P_GivePower(int power);
 dboolean P_GiveAllWeapons(void);
 dboolean P_GiveBackpack(dboolean giveammo, dboolean stat);
-dboolean P_GiveFullAmmo(dboolean stat);
+dboolean P_GiveFullAmmo(void);
 void P_AddBonus(void);
 void G_RemoveChoppers(void);
 void P_UpdateAmmoStat(ammotype_t ammotype, int num);

@@ -2049,7 +2049,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             if (P_GiveAllWeapons())
                 result = true;
 
-            if (P_GiveFullAmmo(false))
+            if (P_GiveFullAmmo())
                 result = true;
 
             if (P_GiveArmor(blue_armor_class, false))
@@ -2105,7 +2105,7 @@ static void give_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo"))
         {
-            if (P_GiveFullAmmo(false))
+            if (P_GiveFullAmmo())
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);

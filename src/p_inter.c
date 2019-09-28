@@ -288,16 +288,13 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
 //
 // P_GiveFullAmmo
 //
-dboolean P_GiveFullAmmo(dboolean stat)
+dboolean P_GiveFullAmmo(void)
 {
     dboolean    result = false;
 
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
-            if (stat)
-                P_UpdateAmmoStat(i, viewplayer->maxammo[i] - viewplayer->ammo[i]);
-
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
         }
@@ -351,9 +348,31 @@ dboolean P_GiveAllWeapons(void)
 {
     dboolean    result = false;
 
+    if (!viewplayer->weaponowned[wp_chainsaw])
+    {
+        viewplayer->weaponowned[wp_chainsaw] = true;
+        viewplayer->fistorchainsaw = wp_chainsaw;
+
+        if (viewplayer->readyweapon == wp_fist)
+            viewplayer->pendingweapon = wp_chainsaw;
+
+        result = true;
+    }
+
     if (!viewplayer->weaponowned[wp_shotgun])
     {
         viewplayer->weaponowned[wp_shotgun] = true;
+        result = true;
+    }
+
+    if (gamemode == commercial && !viewplayer->weaponowned[wp_supershotgun])
+    {
+        viewplayer->weaponowned[wp_supershotgun] = true;
+        viewplayer->preferredshotgun = wp_supershotgun;
+
+        if (viewplayer->readyweapon == wp_shotgun)
+            viewplayer->pendingweapon = wp_supershotgun;
+
         result = true;
     }
 
@@ -382,28 +401,6 @@ dboolean P_GiveAllWeapons(void)
             viewplayer->weaponowned[wp_bfg] = true;
             result = true;
         }
-    }
-
-    if (!viewplayer->weaponowned[wp_chainsaw])
-    {
-        viewplayer->weaponowned[wp_chainsaw] = true;
-        viewplayer->fistorchainsaw = wp_chainsaw;
-
-        if (viewplayer->readyweapon == wp_fist)
-            viewplayer->pendingweapon = wp_chainsaw;
-
-        result = true;
-    }
-
-    if (gamemode == commercial && !viewplayer->weaponowned[wp_supershotgun])
-    {
-        viewplayer->weaponowned[wp_supershotgun] = true;
-        viewplayer->preferredshotgun = wp_supershotgun;
-
-        if (viewplayer->readyweapon == wp_shotgun)
-            viewplayer->pendingweapon = wp_supershotgun;
-
-        result = true;
     }
 
     return result;

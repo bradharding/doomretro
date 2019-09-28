@@ -504,7 +504,7 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
 
-                ammogiven = P_GiveFullAmmo(false);
+                ammogiven = P_GiveFullAmmo();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
@@ -560,7 +560,7 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
 
-                ammogiven = P_GiveFullAmmo(false);
+                ammogiven = P_GiveFullAmmo();
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
