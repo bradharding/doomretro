@@ -1665,7 +1665,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
     else
         M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parms);
 
-    if ((file = fopen(filename, "wt")))
+    if (!fopen_s(&file, filename, "wt"))
     {
         for (int i = 1; i < consolestrings - 1; i++)
         {
@@ -1880,9 +1880,9 @@ static void exec_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        FILE    *file = fopen(parms, "r");
+        FILE    *file;
 
-        if (!file)
+        if (fopen_s(&file, parms, "r"))
             return;
 
         while (!feof(file))

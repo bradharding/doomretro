@@ -104,9 +104,9 @@ void M_MakeDirectory(const char *path)
 // Check if a file exists
 dboolean M_FileExists(const char *filename)
 {
-    FILE    *fstream = fopen(filename, "r");
+    FILE    *fstream;
 
-    if (fstream)
+    if (!fopen_s(&fstream, filename, "r"))
     {
         fclose(fstream);
         return true;

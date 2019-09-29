@@ -304,7 +304,7 @@ void M_SaveCVARs(void)
 
     p = M_CheckParmWithArgs("-config", 1, 1);
 
-    if (!(file = fopen((p ? myargv[p + 1] : packageconfig), "w")))
+    if (fopen_s(&file, (p ? myargv[p + 1] : packageconfig), "w"))
         return; // can't write the file, but don't complain
 
     if (returntowidescreen)
@@ -902,9 +902,9 @@ void M_LoadCVARs(char *filename)
     int     statcount = 0;
 
     // read the file in, overriding any set defaults
-    FILE    *file = fopen(filename, "r");
+    FILE    *file;
 
-    if (!file)
+    if (fopen_s(&file, filename, "r"))
     {
         M_CheckCVARs();
         M_SaveCVARs();

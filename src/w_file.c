@@ -43,9 +43,9 @@
 wadfile_t *W_OpenFile(char *path)
 {
     wadfile_t   *result;
-    FILE        *fstream = fopen(path, "rb");
+    FILE        *fstream;
 
-    if (!fstream)
+    if (fopen_s(&fstream, path, "rb"))
         return NULL;
 
     // Create a new wad_file_t to hold the file handle.
@@ -74,9 +74,9 @@ size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_l
 
 dboolean M_WriteFile(char const *name, const void *source, size_t length)
 {
-    FILE    *fstream = fopen(name, "wb");
+    FILE    *fstream;
 
-    if (!fstream)
+    if (fopen_s(&fstream, name, "wb"))
         return false;
 
     length = (fwrite(source, 1, length, fstream) == length);

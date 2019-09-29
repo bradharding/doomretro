@@ -80,13 +80,13 @@ extern char *packagewad;
 
 static dboolean IsFreedoom(const char *iwadname)
 {
-    FILE        *fp = fopen(iwadname, "rb");
+    FILE        *fp;
     filelump_t  lump;
     wadinfo_t   header;
     const char  *n = lump.name;
     int         result = false;
 
-    if (!fp)
+    if (fopen_s(&fp, iwadname, "rb"))
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
@@ -109,14 +109,14 @@ static dboolean IsFreedoom(const char *iwadname)
 
 dboolean IsBFGEdition(const char *iwadname)
 {
-    FILE        *fp = fopen(iwadname, "rb");
+    FILE        *fp;
     filelump_t  lump;
     wadinfo_t   header;
     const char  *n = lump.name;
     int         result1 = false;
     int         result2 = false;
 
-    if (!fp)
+    if (fopen_s(&fp, iwadname, "rb"))
         return false;
 
     // read IWAD header
@@ -148,13 +148,13 @@ dboolean IsBFGEdition(const char *iwadname)
 
 dboolean IsUltimateDOOM(const char *iwadname)
 {
-    FILE        *fp = fopen(iwadname, "rb");
+    FILE        *fp;
     filelump_t  lump;
     wadinfo_t   header;
     const char  *n = lump.name;
     int         result = false;
 
-    if (!fp)
+    if (fopen_s(&fp, iwadname, "rb"))
         return false;
 
     // read IWAD header
@@ -320,13 +320,13 @@ unsigned int W_LumpNameHash(const char *s)
 
 dboolean HasDehackedLump(const char *pwadname)
 {
-    FILE        *fp = fopen(pwadname, "rb");
+    FILE        *fp;
     filelump_t  lump;
     wadinfo_t   header;
     const char  *n = lump.name;
     int         result = false;
 
-    if (!fp)
+    if (fopen_s(&fp, pwadname, "rb"))
         return false;
 
     // read IWAD header
@@ -350,13 +350,13 @@ dboolean HasDehackedLump(const char *pwadname)
 GameMission_t IWADRequiredByPWAD(char *pwadname)
 {
     char            *leaf = leafname(pwadname);
-    FILE            *fp = fopen(pwadname, "rb");
+    FILE            *fp;
     filelump_t      lump;
     wadinfo_t       header;
     const char      *n = lump.name;
     GameMission_t   result = none;
 
-    if (!fp)
+    if (fopen_s(&fp, pwadname, "rb"))
         I_Error("Can't open PWAD: %s\n", pwadname);
 
     if (fread(&header, 1, sizeof(header), fp) != sizeof(header) || header.identification[0] != 'P'
