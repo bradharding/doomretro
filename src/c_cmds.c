@@ -3445,6 +3445,14 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
     if (!*parm)
         return true;
 
+    if (M_StringStartsWith(parm, "player"))
+    {
+        M_StringCopy(namecmdold, "player", sizeof(namecmdold));
+        strreplace(parm, "player", "");
+        M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+        return true;
+    }
+
     if (gamestate == GS_LEVEL)
     {
         if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
@@ -3454,7 +3462,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
         {
             M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
             strreplace(parm, "monster", "");
-            M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+            M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
             return true;
         }
@@ -3500,6 +3508,12 @@ static void name_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex("name"));
         C_Output("<b>%s</b> %s", cmd, NAMECMDFORMAT);
+    }
+    else if (M_StringCompare(namecmdold, "player"))
+    {
+        C_Output("The player has been %s %s.", (M_StringCompare(playername, playername_default) ? "named" : "renamed"), namecmdnew);
+        playername = M_StringDuplicate(namecmdnew);
+        M_SaveCVARs();
     }
     else
     {

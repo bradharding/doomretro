@@ -6711,6 +6711,7 @@ autocomplete_t autocompletelist[] =
     { "name mancubus ",                              DOOM2ONLY },
     { "name monster ",                               DOOM1AND2 },
     { "name painelemental ",                         DOOM2ONLY },
+    { "name player ",                                DOOM1AND2 },
     { "name revenant ",                              DOOM2ONLY },
     { "name shotgunguy ",                            DOOM1AND2 },
     { "name spectre ",                               DOOM1AND2 },
