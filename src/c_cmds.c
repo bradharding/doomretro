@@ -3450,7 +3450,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
         strreplace(parm, "player", "");
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
-        return true;
+        return (namecmdnew[0] != '\0');
     }
 
     if (gamestate == GS_LEVEL)
@@ -3464,7 +3464,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
             strreplace(parm, "monster", "");
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
-            return true;
+            return (namecmdnew[0] != '\0');
         }
         else
             namecmdanymonster = false;
@@ -3478,7 +3478,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     strreplace(parm, removenonalpha(mobjinfo[i].name1), "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
-                    return true;
+                    return (namecmdnew[0] != '\0');
                 }
                 else if (*mobjinfo[i].name2 && M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name2)))
                 {
@@ -3486,7 +3486,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     strreplace(parm, removenonalpha(mobjinfo[i].name2), "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
-                    return true;
+                    return (namecmdnew[0] != '\0');
                 }
                 else if (*mobjinfo[i].name3 && M_StringStartsWith(parm, removenonalpha(mobjinfo[i].name3)))
                 {
@@ -3494,7 +3494,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     strreplace(parm, removenonalpha(mobjinfo[i].name3), "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
-                    return true;
+                    return (namecmdnew[0] != '\0');
                 }
             }
     }

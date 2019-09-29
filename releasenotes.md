@@ -12,7 +12,7 @@
 * The following changes have been made to the `name` CCMD:
   * Spaces are now allowed in the name.
   * Whether the monster being named already has a name will now be indicated.
-  * The player may now be named (effectively the same as using the `playername` CVAR).
+  * The player can now be named (which is effectively the same as changing the `playername` CVAR).
 
 ---
 
