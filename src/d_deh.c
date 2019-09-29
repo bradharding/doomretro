@@ -1991,7 +1991,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)
     {
-        if (fopen_s(&infile.f, filename, "rt"))
+        if (!(infile.f = fopen(filename, "rt")))
             return;                         // should be checked up front anyway
 
         infile.lump = NULL;

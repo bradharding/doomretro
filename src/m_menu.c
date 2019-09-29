@@ -824,7 +824,7 @@ static void M_ReadSaveStrings(void)
 
         M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
 
-        if (fopen_s(&handle, name, "rb"))
+        if (!(handle = fopen(name, "rb")))
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
             LoadGameMenu[i].status = 0;
@@ -863,11 +863,11 @@ static byte saveg_read8(FILE *file)
 //
 static dboolean M_CheckSaveGame(void)
 {
-    FILE    *file;
+    FILE    *file = fopen(P_SaveGameFile(itemOn), "rb");
     int     ep;
     int     mission;
 
-    if (fopen_s(&file, P_SaveGameFile(itemOn), "rb"))
+    if (!file)
         return true;
 
     for (int i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)

@@ -1419,7 +1419,7 @@ void G_DoLoadGame(void)
     loadaction = gameaction;
     gameaction = ga_nothing;
 
-    if (fopen_s(&save_stream, savename, "rb"))
+    if (!(save_stream = fopen(savename, "rb")))
     {
         C_Warning("<b>%s</b> couldn't be found.", savename);
         loadaction = ga_nothing;
@@ -1518,7 +1518,7 @@ static void G_DoSaveGame(void)
     // and then rename it at the end if it was successfully written.
     // This prevents an existing savegame from being overwritten by
     // a corrupted one, or if a savegame buffer overrun occurs.
-    if (fopen_s(&save_stream, temp_savegame_file, "wb"))
+    if (!(save_stream = fopen(temp_savegame_file, "wb")))
     {
         menuactive = false;
         C_ShowConsole();
