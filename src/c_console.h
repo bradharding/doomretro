@@ -151,8 +151,8 @@ typedef struct
     int                 adjust;
 } kern_t;
 
-extern kern_t           kern[];
-extern kern_t           altkern[];
+extern const kern_t     kern[];
+extern const kern_t     altkern[];
 
 typedef struct
 {

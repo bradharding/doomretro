@@ -630,8 +630,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 {
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];
-    void        *handle = NULL;
-    int         mapinfomusic = 0;
+    void        *handle;
+    int         mapinfomusic;
 
     // current music which should play
     musinfo.current_item = -1;
@@ -671,10 +671,12 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         if (!serverMidiPlaying)
 #endif
         {
-            char    *filename = M_TempFile(M_StringJoin(namebuf, ".MP3", NULL));
+            char    *filename = M_TempFile(M_StringJoin(namebuf, ".mp3", NULL));
 
             if (M_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
                 handle = Mix_LoadMUS(filename);
+
+            free(filename);
 
             if (!handle)
             {

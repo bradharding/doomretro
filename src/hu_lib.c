@@ -216,7 +216,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
     }
 }
 
-kern_t kern[] =
+const kern_t kern[] =
 {
     { '.', '1',  -1 },
     { '.', '7',  -1 },

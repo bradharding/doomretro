@@ -302,8 +302,8 @@ void *I_Realloc(void *ptr, size_t size)
 
     if (!newp && size)
         I_Error("I_Realloc: Failure trying to reallocate %i bytes", size);
-    else
-        ptr = newp;
+
+    ptr = newp;
 
     return ptr;
 }
