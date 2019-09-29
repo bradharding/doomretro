@@ -10,7 +10,7 @@
 * The path of the player that appears in the automap when the `am_path` CVAR is `on` is now thicker.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The following changes have been made to the `name` CCMD:
-  * Spaces are now allowed in the name.
+  * Spaces are now allowed in the name, whether surrounded by double quotes or not.
   * Whether the monster being named already has a name will now be indicated.
   * The player can now be named (which is effectively the same as changing the `playername` CVAR).
 

@@ -3512,6 +3512,7 @@ static void name_cmd_func2(char *cmd, char *parms)
     else if (M_StringCompare(namecmdold, "player"))
     {
         C_Output("The player has been %s %s.", (M_StringCompare(playername, playername_default) ? "named" : "renamed"), namecmdnew);
+        M_StripQuotes(namecmdnew);
         playername = M_StringDuplicate(namecmdnew);
         M_SaveCVARs();
     }
@@ -3545,6 +3546,7 @@ static void name_cmd_func2(char *cmd, char *parms)
 
         if (bestmobj)
         {
+            M_StripQuotes(namecmdnew);
             C_Output("The nearest %s%s has been %s %s.", (namecmdfriendly ? "friendly " : ""), namecmdold,
                 (*bestmobj->name ? "renamed" : "named"), namecmdnew);
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
