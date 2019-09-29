@@ -3531,8 +3531,9 @@ static void name_cmd_func2(char *cmd, char *parms)
 
         if (bestmobj)
         {
+            C_Output("The nearest %s%s has been %s %s.", (namecmdfriendly ? "friendly " : ""), namecmdold,
+                (*bestmobj->name ? "renamed" : "named"), namecmdnew);
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The nearest %s%s has been named %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
         }
         else
             C_Warning("%s %s%s couldn't be found nearby.",

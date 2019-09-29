@@ -9,7 +9,9 @@
 * A bug has been fixed whereby enabling the `am_path` CVAR would cause *DOOM Retro* to crash.
 * The path of the player that appears in the automap when the `am_path` CVAR is `on` is now thicker.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
-* Spaces are now allowed in the name used as a parameter for the `name` CCMD.
+* The following changes have been made to the `name` CCMD:
+  * Spaces are now allowed in the name used as a parameter.
+  * Whether the monster being named already had a name will now be indicated.
 
 ---
 
