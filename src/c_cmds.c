@@ -3440,7 +3440,7 @@ static int      namecmdtype = NUMMOBJTYPES;
 
 static dboolean name_cmd_func1(char *cmd, char *parms)
 {
-    char    *parm = removenonalpha(parms);
+    char    *parm = M_StringDuplicate(parms);
 
     if (!*parm)
         return true;
@@ -3468,7 +3468,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
                     strreplace(parm, removenonalpha(mobjinfo[i].name1), "");
-                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     return true;
                 }
@@ -3476,7 +3476,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name2, sizeof(namecmdold));
                     strreplace(parm, removenonalpha(mobjinfo[i].name2), "");
-                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     return true;
                 }
@@ -3484,7 +3484,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name3, sizeof(namecmdold));
                     strreplace(parm, removenonalpha(mobjinfo[i].name3), "");
-                    M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     return true;
                 }
@@ -3532,7 +3532,7 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
-            C_Output("The nearest %s%s is now called %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
+            C_Output("The nearest %s%s has been named %s.", (namecmdfriendly ? "friendly " : ""), namecmdold, namecmdnew);
         }
         else
             C_Warning("%s %s%s couldn't be found nearby.",
