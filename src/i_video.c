@@ -358,10 +358,7 @@ static void FreeSurfaces(void)
 void I_ShutdownGraphics(void)
 {
     I_CapFPS(0);
-    FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
-    free(oscreen);
-    oscreen = NULL;
 }
 
 #if defined(_WIN32)
