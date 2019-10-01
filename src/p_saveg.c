@@ -907,9 +907,9 @@ static void saveg_write_pusher_t(pusher_t *str)
 
 static void saveg_read_button_t(button_t *str)
 {
-    int line;
+    int line = saveg_read32();
 
-    str->line = ((line = saveg_read32()) >= 0 ? lines + line : NULL);
+    str->line = (line >= 0 ? lines + line : NULL);
     str->where = (bwhere_e)saveg_read_enum();
     str->btexture = saveg_read32();
     str->btimer = saveg_read32();
@@ -1437,8 +1437,6 @@ void P_ArchiveSpecials(void)
     // add a terminating marker
     saveg_write8(tc_endspecials);
 }
-
-void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
 
 //
 // P_UnArchiveSpecials

@@ -1173,7 +1173,6 @@ static void AM_RotatePoint(mpoint_t *point)
 
     point->x -= x;
     point->y -= y;
-
     temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + x;
     point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + y;
     point->x = temp;

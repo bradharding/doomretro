@@ -5,7 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * *DOOM Retro* will now automatically load `SIGIL_v1_21.wad` (or `SIGIL_v1_2.wad`) in preference to `SIGIL.wad`.
 * Timestamps in the console are now displayed in 12 rather than 24-hour format, and without a leading zero.
-* If the player saves a game, the game will now from then on be automatically saved at the start of each map. This feature can be disabled by the new `autosave` CVAR, which is `on` by default and `off` when vanilla mode is on.
+* If the player saves a game, now that game will from then on be automatically saved at the start of each map. This feature can be disabled by the new `autosave` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * The following changes have been made to the `name` CCMD:
   * Spaces are now allowed in the name, whether surrounded by double quotes or not.
   * Whether the monster being named already has been named will now be indicated.

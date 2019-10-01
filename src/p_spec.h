@@ -230,9 +230,9 @@ typedef struct
 extern button_t *buttonlist;
 extern int      maxbuttons;
 
-void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
-
 void P_InitSwitchList(void);
+void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
+void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
 
 //
 // P_PLATS

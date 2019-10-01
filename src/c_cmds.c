@@ -2257,11 +2257,11 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", PACKAGE_WIKIHELPURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    system("xdg-open "PACKAGE_WIKI_HELP_URL);
+    system("xdg-open "PACKAGE_WIKIHELPURL);
 #elif defined(__APPLE__)
-    system("open "PACKAGE_WIKI_HELP_URL);
+    system("open "PACKAGE_WIKIHELPURL);
 #else
     C_HideConsoleFast();
     M_ShowHelp(0);
