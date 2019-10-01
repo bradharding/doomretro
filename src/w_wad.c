@@ -56,7 +56,7 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char    identification[4];
+    char    id[4];
     int     numlumps;
     int     infotableofs;
 } PACKEDATTR wadinfo_t;
@@ -81,9 +81,7 @@ extern char *packagewad;
 static dboolean IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
-    filelump_t  lump;
     wadinfo_t   header;
-    const char  *n = lump.name;
     int         result = false;
 
     if (!fp)
@@ -92,6 +90,9 @@ static dboolean IsFreedoom(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
+        filelump_t  lump;
+        const char  *n = lump.name;
+
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
@@ -110,9 +111,7 @@ static dboolean IsFreedoom(const char *iwadname)
 dboolean IsBFGEdition(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
-    filelump_t  lump;
     wadinfo_t   header;
-    const char  *n = lump.name;
     int         result1 = false;
     int         result2 = false;
 
@@ -122,6 +121,9 @@ dboolean IsBFGEdition(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
+        filelump_t  lump;
+        const char  *n = lump.name;
+
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
@@ -149,9 +151,7 @@ dboolean IsBFGEdition(const char *iwadname)
 dboolean IsUltimateDOOM(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
-    filelump_t  lump;
     wadinfo_t   header;
-    const char  *n = lump.name;
     int         result = false;
 
     if (!fp)
@@ -160,6 +160,9 @@ dboolean IsUltimateDOOM(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
+        filelump_t  lump;
+        const char  *n = lump.name;
+
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
@@ -229,10 +232,10 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     W_Read(wadfile, 0, &header, sizeof(header));
 
     // Homebrew levels?
-    if (strncmp(header.identification, "IWAD", 4) && strncmp(header.identification, "PWAD", 4))
+    if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
         I_Error("WAD file %s doesn't have an IWAD or PWAD id.", filename);
 
-    wadfile->type = (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
+    wadfile->type = (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
     if (wadfile->type == IWAD)
         bfgedition = IsBFGEdition(filename);
@@ -359,8 +362,8 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
 
-    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) || header.identification[0] != 'P'
-        || header.identification[1] != 'W' || header.identification[2] != 'A' || header.identification[3] != 'D')
+    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) || header.id[0] != 'P'
+        || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
         I_Error("PWAD tag not present: %s\n", pwadname);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
@@ -401,9 +404,9 @@ int W_WadType(char *filename)
 
     W_CloseFile(wadfile);
 
-    if (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD"))
+    if (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD"))
         return IWAD;
-    else if (!strncmp(header.identification, "PWAD", 4))
+    else if (!strncmp(header.id, "PWAD", 4))
         return PWAD;
     else
         return 0;

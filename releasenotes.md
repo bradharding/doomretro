@@ -6,13 +6,13 @@
 * *DOOM Retro* will now automatically load `SIGIL_v1_21.wad` (or `SIGIL_v1_2.wad`) in preference to `SIGIL.wad`.
 * Timestamps in the console are now displayed in 12 rather than 24-hour format, and without a leading zero.
 * If the player saves a game, the game will now from then on be automatically saved at the start of each map. This feature can be disabled by the new `autosave` CVAR, which is `on` by default and `off` when vanilla mode is on.
+* The following changes have been made to the `name` CCMD:
+  * Spaces are now allowed in the name, whether surrounded by double quotes or not.
+  * Whether the monster being named already has been named will now be indicated.
+  * The player can now also be named (which is effectively the same as changing the `playername` CVAR).
 * A bug has been fixed whereby enabling the `am_path` CVAR would cause *DOOM Retro* to crash.
 * The path of the player that appears in the automap when the `am_path` CVAR is `on` is now thicker.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
-* The following changes have been made to the `name` CCMD:
-  * Spaces are now allowed in the name, whether surrounded by double quotes or not.
-  * Whether the monster being named already has a name will now be indicated.
-  * The player can now be named (which is effectively the same as changing the `playername` CVAR).
 
 ---
 
