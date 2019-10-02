@@ -357,7 +357,6 @@ static void FreeSurfaces(void)
 
 void I_ShutdownGraphics(void)
 {
-    I_CapFPS(0);
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
