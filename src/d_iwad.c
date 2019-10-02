@@ -541,7 +541,7 @@ extern char *pwadfile;
 //
 void D_SetSaveGameFolder(dboolean output)
 {
-    int p = M_CheckParmsWithArgs("-save", "-savedir", 1, 1);
+    int p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
 
     if (p)
     {

@@ -57,10 +57,12 @@ int M_CheckParmWithArgs(char *check, int num_args, int start)
     return 0;
 }
 
-int M_CheckParmsWithArgs(char *check1, char *check2, int num_args, int start)
+int M_CheckParmsWithArgs(char *check1, char *check2, char *check3, int num_args, int start)
 {
     for (int i = start; i < myargc - num_args; i++)
-        if (M_StringCompare(check1, myargv[i]) || M_StringCompare(check2, myargv[i]))
+        if ((*check1 && M_StringCompare(check1, myargv[i]))
+            || (*check2 && M_StringCompare(check2, myargv[i]))
+            || (*check3 && M_StringCompare(check3, myargv[i])))
             return i;
 
     return 0;

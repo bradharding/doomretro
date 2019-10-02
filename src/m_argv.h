@@ -52,6 +52,6 @@ int M_CheckParm(char *check);
 // Same as M_CheckParm, but checks that num_args arguments are available
 // following the specified argument.
 int M_CheckParmWithArgs(char *check, int num_args, int start);
-int M_CheckParmsWithArgs(char *check1, char *check2, int num_args, int start);
+int M_CheckParmsWithArgs(char *check1, char *check2, char *check3, int num_args, int start);
 
 #endif

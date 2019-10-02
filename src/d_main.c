@@ -1802,7 +1802,7 @@ static void D_DoomMainSetup(void)
     if (!M_FileExists(packagewad))
         I_Error("%s can't be found.", packagewad);
 
-    p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
+    p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
     if (!(choseniwad = D_CheckParms()))
     {
@@ -1866,7 +1866,7 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
-        } while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
+        } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(PACKAGE_NAME" couldn't find any IWADs.");
@@ -1956,7 +1956,7 @@ static void D_DoomMainSetup(void)
     startmap = 1;
     autostart = false;
 
-    if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", 1, 1)))
+    if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", "", 1, 1)))
     {
         char **skilllevels[] =
         {
