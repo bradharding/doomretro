@@ -184,9 +184,7 @@ char *GetCorrectCase(char *path)
     WIN32_FIND_DATA FindFileData;
     HANDLE          hFile = FindFirstFile(path, &FindFileData);
 
-    if (hFile == INVALID_HANDLE_VALUE)
-        return path;
-    else
+    if (hFile != INVALID_HANDLE_VALUE)
     {
         FindClose(hFile);
         strreplace(path, FindFileData.cFileName, FindFileData.cFileName);
