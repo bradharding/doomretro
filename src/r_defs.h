@@ -1001,8 +1001,11 @@ typedef struct
 //
 // Now what is a visplane, anyway?
 //
-typedef struct
+typedef struct visplane_s
 {
+    // Next visplane in hash chain -- killough
+    struct visplane_s   *next;
+
     int                 picnum;
     int                 lightlevel;
     int                 left;
@@ -1012,7 +1015,7 @@ typedef struct
     // killough 2/28/98: Support scrolling flats
     fixed_t             xoffset, yoffset;
 
-    // leave pads for [minx-1]/[maxx+1]
+    // leave pads for [minx - 1]/[maxx + 1]
     unsigned short      pad1;
 
     unsigned short      top[SCREENWIDTH];
