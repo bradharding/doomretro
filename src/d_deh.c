@@ -2527,7 +2527,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - translucent = %ld", value);
 
-            states[indexnum].translucent = !!value;             // bool
+            states[indexnum].translucent = value;               // bool
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else

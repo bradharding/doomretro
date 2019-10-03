@@ -327,7 +327,7 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
-        gaveammo = !!P_GiveAmmo(ammotype, (dropped ? 1 : 2), stat);
+        gaveammo = P_GiveAmmo(ammotype, (dropped ? 1 : 2), stat);
 
     if (!viewplayer->weaponowned[weapon])
     {

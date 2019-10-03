@@ -5183,7 +5183,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         SC_Close();
 
-        buddha = !!(viewplayer->cheats & CF_BUDDHA);
+        buddha = viewplayer->cheats & CF_BUDDHA;
         viewplayer->cheats &= ~CF_BUDDHA;
 
         C_Output(s_STSTR_VON);
@@ -5227,7 +5227,7 @@ static void bool_cvars_func2(char *cmd, char *parms)
 
                 if ((value == 0 || value == 1) && value != *(dboolean *)consolecmds[i].variable)
                 {
-                    *(dboolean *)consolecmds[i].variable = !!value;
+                    *(dboolean *)consolecmds[i].variable = value;
                     M_SaveCVARs();
                 }
             }
@@ -5653,7 +5653,7 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
     if ((result = sscanf(parms, "%10f%%", &value)) != 1)
         result = sscanf(parms, "%10f", &value);
 
-    return !!result;
+    return result;
 }
 
 static void gp_deadzone_cvars_func2(char *cmd, char *parms)
@@ -5929,7 +5929,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_bloodsplats_translucency)
         {
-            r_bloodsplats_translucency = !!value;
+            r_bloodsplats_translucency = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
@@ -5991,7 +5991,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
 
         if ((value == r_detail_low || value == r_detail_high) && r_detail != value)
         {
-            r_detail = !!value;
+            r_detail = value;
             M_SaveCVARs();
         }
     }
@@ -6018,7 +6018,7 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_dither)
         {
-            r_dither = !!value;
+            r_dither = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
         }
@@ -6046,7 +6046,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_fixmaperrors)
         {
-            r_fixmaperrors = !!value;
+            r_fixmaperrors = value;
             M_SaveCVARs();
 
             if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
@@ -6158,7 +6158,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_hud_translucency)
         {
-            r_hud_translucency = !!value;
+            r_hud_translucency = value;
             M_SaveCVARs();
             HU_SetTranslucency();
         }
@@ -6247,7 +6247,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_shadows_translucency)
         {
-            r_shadows_translucency = !!value;
+            r_shadows_translucency = value;
             M_SaveCVARs();
 
             for (int i = 0; i < numsectors; i++)
@@ -6319,7 +6319,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_textures)
         {
-            r_textures = !!value;
+            r_textures = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
@@ -6366,7 +6366,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_translucency)
         {
-            r_translucency = !!value;
+            r_translucency = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
@@ -6552,9 +6552,9 @@ static void units_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, UNITSVALUEALIAS);
 
-        if ((value == 0 || value == 1) && value != units)
+        if ((value == units_imperial || value == units_metric) && value != units)
         {
-            units = !!value;
+            units = value;
             M_SaveCVARs();
         }
     }
@@ -6754,7 +6754,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 
     if (vid_showfps != vid_showfps_old)
     {
-        I_UpdateBlitFunc(!!viewplayer->damagecount);
+        I_UpdateBlitFunc(viewplayer->damagecount);
 
         if (vid_showfps)
             starttime = SDL_GetPerformanceCounter();

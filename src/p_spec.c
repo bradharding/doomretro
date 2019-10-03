@@ -970,7 +970,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
     static char     buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    const dboolean  skulliscard = !!((line->special & LockedNKeys) >> LockedNKeysShift);
+    const dboolean  skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -1146,7 +1146,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 // killough 11/98: reformatted
 dboolean P_SectorActive(special_e t, sector_t *sec)
 {
-    return (t == floor_special ? !!sec->floordata :     // return whether
+    return (t == floor_special ? !!sec->floordata : // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
         (t == lighting_special ? !!sec->lightingdata :  // type is active
         true)));                                        // don't know which special, must be active, shouldn't be here

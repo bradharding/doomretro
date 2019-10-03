@@ -1564,8 +1564,8 @@ static void AM_DrawWalls(void)
             else
             {
                 const sector_t          *back = line.backsector;
-                const dboolean          mapped = !!(flags & ML_MAPPED);
-                const dboolean          secret = !!(flags & ML_SECRET);
+                const dboolean          mapped = flags & ML_MAPPED;
+                const dboolean          secret = flags & ML_SECRET;
                 const unsigned short    special = line.special;
                 mline_t                 mline;
 

@@ -85,5 +85,5 @@ dboolean M_WriteFile(char const *name, const void *source, size_t length)
     if (!length)
         remove(name);
 
-    return !!length;
+    return length;
 }

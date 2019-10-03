@@ -82,7 +82,7 @@ static dboolean SDLIsInitialized(void)
     int         channels;
     uint16_t    format;
 
-    return !!Mix_QuerySpec(&freq, &format, &channels);
+    return Mix_QuerySpec(&freq, &format, &channels);
 }
 
 // Initialize music subsystem
