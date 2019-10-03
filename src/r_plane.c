@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -224,8 +222,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
 //
 visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
 {
-    unsigned int    hash = visplane_hash(pl->picnum, pl->lightlevel, pl->height);
-    visplane_t      *new_pl = new_visplane(hash);
+    visplane_t  *new_pl = new_visplane(visplane_hash(pl->picnum, pl->lightlevel, pl->height));
 
     new_pl->height = pl->height;
     new_pl->picnum = pl->picnum;
@@ -245,48 +242,49 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
 //
 visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 {
-    int intrl;
-    int intrh;
-    int unionl;
-    int unionh;
-    int x;
-
-    if (start < pl->left)
-    {
-        intrl = pl->left;
-        unionl = start;
-    }
-    else
-    {
-        unionl = pl->left;
-        intrl = start;
-    }
-
-    if (stop > pl->right)
-    {
-        intrh = pl->right;
-        unionh = stop;
-    }
-    else
-    {
-        unionh = pl->right;
-        intrh = stop;
-    }
-
-    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
-
     // [crispy] fix HOM if ceilingplane and floorplane are the same visplane (e.g. both skies)
-    if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
+    if (pl != floorplane || !markceiling || floorplane != ceilingplane)
     {
-        pl->left = unionl;
-        pl->right = unionh;
-        return pl;
+        int intrl;
+        int intrh;
+        int unionl;
+        int unionh;
+        int x;
+
+        if (start < pl->left)
+        {
+            intrl = pl->left;
+            unionl = start;
+        }
+        else
+        {
+            unionl = pl->left;
+            intrl = start;
+        }
+
+        if (stop > pl->right)
+        {
+            intrh = pl->right;
+            unionh = stop;
+        }
+        else
+        {
+            unionh = pl->right;
+            intrh = stop;
+        }
+
+        for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
+
+        if (x > intrh)
+        {
+            pl->left = unionl;
+            pl->right = unionh;
+            return pl;
+        }
     }
-    else
-    {
-        // make a new visplane
-        return R_DupPlane(pl, start, stop);
-    }
+
+    // make a new visplane
+    return R_DupPlane(pl, start, stop);
 }
 
 //
