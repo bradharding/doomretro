@@ -242,45 +242,41 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
 //
 visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 {
-    // [crispy] fix HOM if ceilingplane and floorplane are the same visplane (e.g. both skies)
-    if (pl != floorplane || !markceiling || floorplane != ceilingplane)
+    int intrl;
+    int intrh;
+    int unionl;
+    int unionh;
+    int x;
+
+    if (start < pl->left)
     {
-        int intrl;
-        int intrh;
-        int unionl;
-        int unionh;
-        int x;
+        intrl = pl->left;
+        unionl = start;
+    }
+    else
+    {
+        unionl = pl->left;
+        intrl = start;
+    }
 
-        if (start < pl->left)
-        {
-            intrl = pl->left;
-            unionl = start;
-        }
-        else
-        {
-            unionl = pl->left;
-            intrl = start;
-        }
+    if (stop > pl->right)
+    {
+        intrh = pl->right;
+        unionh = stop;
+    }
+    else
+    {
+        unionh = pl->right;
+        intrh = stop;
+    }
 
-        if (stop > pl->right)
-        {
-            intrh = pl->right;
-            unionh = stop;
-        }
-        else
-        {
-            unionh = pl->right;
-            intrh = stop;
-        }
+    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
 
-        for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
-
-        if (x > intrh)
-        {
-            pl->left = unionl;
-            pl->right = unionh;
-            return pl;
-        }
+    if (x > intrh)
+    {
+        pl->left = unionl;
+        pl->right = unionh;
+        return pl;
     }
 
     // make a new visplane
