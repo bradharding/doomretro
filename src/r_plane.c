@@ -55,7 +55,6 @@ visplane_t          *ceilingplane;
 
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
-
 #define visplane_hash(picnum, lightlevel, height) \
     ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7) & (MAXVISPLANES - 1))
 
@@ -216,7 +215,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
         check->yoffset = y;
     }
 
-    memset(check->top, USHRT_MAX, sizeof(check->top));
+    memset(check->top, UINT_MAX, sizeof(check->top));
     return check;
 }
 
@@ -236,7 +235,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
     new_pl->left = start;
     new_pl->right = stop;
 
-    memset(new_pl->top, USHRT_MAX, sizeof(new_pl->top));
+    memset(new_pl->top, UINT_MAX, sizeof(new_pl->top));
 
     return new_pl;
 }
@@ -274,7 +273,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == USHRT_MAX; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
 
     // [crispy] fix HOM if ceilingplane and floorplane are the same visplane (e.g. both skies)
     if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
@@ -304,15 +303,15 @@ static void R_MakeSpans(visplane_t *pl)
     yoffset = pl->yoffset;
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[MIN((pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    pl->top[pl->left - 1] = USHRT_MAX;
-    pl->top[stop] = USHRT_MAX;
+    pl->top[pl->left - 1] = UINT_MAX;
+    pl->top[stop] = UINT_MAX;
 
     for (int x = pl->left; x <= stop; x++)
     {
-        unsigned short  t1 = pl->top[x - 1];
-        unsigned short  b1 = pl->bottom[x - 1];
-        unsigned short  t2 = pl->top[x];
-        unsigned short  b2 = pl->bottom[x];
+        unsigned int    t1 = pl->top[x - 1];
+        unsigned int    b1 = pl->bottom[x - 1];
+        unsigned int    t2 = pl->top[x];
+        unsigned int    b2 = pl->bottom[x];
 
         for (; t1 < t2 && t1 <= b1; t1++)
             R_MapPlane(t1, spanstart[t1], x);
