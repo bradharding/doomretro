@@ -1865,6 +1865,71 @@ static void D_DoomMainSetup(void)
                             pwadfile = removeext(leafname(file));
                     }
                 }
+                else
+                {
+                    int     iwadrequired = IWADRequiredByPWAD(file);
+                    char    fullpath[MAX_PATH];
+
+                    if (iwadrequired == none)
+                        iwadrequired = doom2;
+
+                    // try the current folder first
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
+                    D_IdentifyIWADByName(fullpath);
+
+                    if (W_AddFile(fullpath, true))
+                    {
+                        iwadfile = M_StringDuplicate(fullpath);
+                        iwadfolder = M_ExtractFolder(fullpath);
+                        D_CheckSupportedPWAD(file);
+
+                        if (W_MergeFile(file, false))
+                        {
+                            modifiedgame = true;
+
+                            if (IWADRequiredByPWAD(file) != none)
+                                pwadfile = removeext(leafname(file));
+                        }
+                    }
+                    else
+                    {
+                        // otherwise try the iwadfolder CVAR
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                        D_IdentifyIWADByName(fullpath);
+
+                        if (W_AddFile(fullpath, true))
+                        {
+                            iwadfile = M_StringDuplicate(fullpath);
+                            D_CheckSupportedPWAD(file);
+
+                            if (W_MergeFile(file, false))
+                            {
+                                modifiedgame = true;
+
+                                if (IWADRequiredByPWAD(file) != none)
+                                    pwadfile = removeext(leafname(file));
+                            }
+                        }
+                        else
+                        {
+                            // still nothing? try some common installation folders
+                            if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
+                            {
+                                iwadfile = M_StringDuplicate(fullpath);
+                                D_CheckSupportedPWAD(file);
+
+                                if (W_MergeFile(file, false))
+                                {
+                                    modifiedgame = true;
+
+                                    if (IWADRequiredByPWAD(file) != none)
+                                        pwadfile = removeext(leafname(file));
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
 
