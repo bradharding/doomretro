@@ -1,9 +1,10 @@
 ### DOOM Retro v3.0.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Picking up multiple powerups of the same type now works correctly.
+* Picking up more than one powerup of the same type now works correctly.
 * The `-file` parameter may now be used without an `-iwad` parameter on the command-line.
 * A bug has been fixed whereby using either `-nomonsters` on the command-line, or the `nomonsters` CCMD in the console, would not stop monsters from being spawned in maps.
+* The speed the player turns is now affected by the `turbo` CVAR and `-turbo` command-line option.
 
 ---
 

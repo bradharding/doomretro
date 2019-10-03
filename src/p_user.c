@@ -220,7 +220,7 @@ void P_MovePlayer(void)
     signed char forward = cmd->forwardmove;
     signed char side = cmd->sidemove;
 
-    mo->angle += cmd->angleturn << FRACBITS;
+    mo->angle += (cmd->angleturn * turbo / 100) << FRACBITS;
 
     // killough 10/98:
     //
