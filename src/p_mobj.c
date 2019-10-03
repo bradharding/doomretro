@@ -1066,6 +1066,22 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && i != MT_MISC62)
         return NULL;
 
+    if (mobjinfo[i].flags & MF_COUNTKILL)
+    {
+        // don't spawn any monsters if -nomonsters
+        if (!spawnmonsters && i != MT_KEEN)
+            return NULL;
+
+        // killough 7/20/98: exclude friends
+        if (!((mobjinfo[i].flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
+        {
+            totalkills++;
+            monstercount[i]++;
+        }
+    }
+    else if (i == MT_BARREL)
+        barrelcount++;
+
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
@@ -1086,22 +1102,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     flags = mobj->flags;
-
-    if (flags & MF_COUNTKILL)
-    {
-        // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters && i != MT_KEEN)
-            return NULL;
-
-        // killough 7/20/98: exclude friends
-        if (!((flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
-        {
-            totalkills++;
-            monstercount[i]++;
-        }
-    }
-    else if (i == MT_BARREL)
-        barrelcount++;
 
     if (flags & MF_COUNTITEM)
         totalitems++;

@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Picking up multiple powerups of the same type now works correctly.
 * The `-file` parameter may now be used without an `-iwad` parameter on the command-line.
+* A bug has been fixed whereby using either `-nomonsters` on the command-line, or the `nomonsters` CCMD in the console, would not stop monsters from being spawned in maps.
 
 ---
 
