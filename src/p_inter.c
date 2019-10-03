@@ -704,7 +704,7 @@ dboolean P_GivePower(int power)
             break;
     }
 
-    given = !(viewplayer->powers[power] > 0);
+    given = (viewplayer->powers[power] <= 0);
     viewplayer->powers[power] = tics[power];
     return given;
 }
@@ -930,8 +930,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // invulnerability power-up
         case SPR_PINV:
-            if (!P_GivePower(pw_invulnerability))
-                return;
+            P_GivePower(pw_invulnerability);
 
             if (message)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
@@ -944,8 +943,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         {
             dboolean    strength = viewplayer->powers[pw_strength];
 
-            if (!P_GivePower(pw_strength))
-                return;
+            P_GivePower(pw_strength);
 
             if (message)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
@@ -960,8 +958,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // partial invisibility power-up
         case SPR_PINS:
-            if (!P_GivePower(pw_invisibility))
-                return;
+            P_GivePower(pw_invisibility);
 
             if (message)
                 HU_PlayerMessage(s_GOTINVIS, true, false);
@@ -971,8 +968,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // radiation shielding suit power-up
         case SPR_SUIT:
-            if (!P_GivePower(pw_ironfeet))
-                return;
+            P_GivePower(pw_ironfeet);
 
             if (message)
                 HU_PlayerMessage(s_GOTSUIT, true, false);
@@ -992,8 +988,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // light amplification visor power-up
         case SPR_PVIS:
-            if (!P_GivePower(pw_infrared))
-                return;
+            P_GivePower(pw_infrared);
 
             if (message)
                 HU_PlayerMessage(s_GOTVISOR, true, false);

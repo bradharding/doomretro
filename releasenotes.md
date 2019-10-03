@@ -1,6 +1,7 @@
 ### DOOM Retro v3.0.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A bug has been fixed whereby if the player couldn’t pick up a powerup if they already had one, but the powerup’s countdown would still reset each time the player walked over it.
 
 ---
 
