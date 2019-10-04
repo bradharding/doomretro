@@ -36,7 +36,7 @@
 #========================================================================
 #
 
-# Use this to build DOOM Retro in Linux or OS X. Then run the executable.
+# Use this to build DOOM Retro in Linux or macOS.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
@@ -47,7 +47,7 @@ INCLUDE(GNUInstallDirs)
 FILE(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 
 IF (APPLE)
-	ADD_DEFINITIONS(-D__MACOSX__=1)
+	ADD_DEFINITIONS(-D__APPLE__=1)
 	SET(OBJECTIVE_C_FILES
 		${CMAKE_SOURCE_DIR}/src/d_main.c
 		${CMAKE_SOURCE_DIR}/src/m_misc.c)
