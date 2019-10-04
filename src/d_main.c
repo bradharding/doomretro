@@ -109,9 +109,11 @@ char                *pwadfile = "";
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
+
 #if defined(_WIN32)
 char                *wad = wad_default;
 #endif
+
 dboolean            wipe = wipe_default;
 
 char                *packageconfig;

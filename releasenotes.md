@@ -1,9 +1,9 @@
 ### DOOM Retro v3.0.5
 
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Picking up more than one powerup of the same type now works correctly.
 * The `-file` parameter may now be used without an `-iwad` parameter on the command-line.
-* A bug has been fixed whereby using either `-nomonsters` on the command-line, or the `nomonsters` CCMD in the console, would not stop monsters from being spawned in maps.
+* A bug has been fixed whereby using either the `nomonsters` CCMD in the console, or `-nomonsters` on the command-line, would not stop monsters from being spawned in maps.
 * The speed the player turns is now affected by the `turbo` CVAR and `-turbo` command-line parameter.
 * The correct sky textures will now be displayed when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) and the `mouselook` CVAR is `off`.
 * The `friendly` parameter will now work correctly with the `name` CCMD.

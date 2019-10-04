@@ -224,11 +224,15 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 
     // killough 4/19/98: make fake floors and ceilings block monster view
     if ((s1->heightsec
-        && ((t1->z + t1->height <= s1->heightsec->interpfloorheight && t2->z >= s1->heightsec->interpfloorheight)
-            || (t1->z >= s1->heightsec->interpceilingheight && t2->z + t2->height <= s1->heightsec->interpceilingheight)))
+        && ((t1->z + t1->height <= s1->heightsec->interpfloorheight
+            && t2->z >= s1->heightsec->interpfloorheight)
+            || (t1->z >= s1->heightsec->interpceilingheight
+                && t2->z + t2->height <= s1->heightsec->interpceilingheight)))
         || (s2->heightsec
-            && ((t2->z + t2->height <= s2->heightsec->interpfloorheight && t1->z >= s2->heightsec->interpfloorheight)
-                || (t2->z >= s2->heightsec->interpceilingheight && t1->z + t1->height <= s2->heightsec->interpceilingheight))))
+            && ((t2->z + t2->height <= s2->heightsec->interpfloorheight
+                && t1->z >= s2->heightsec->interpfloorheight)
+                || (t2->z >= s2->heightsec->interpceilingheight
+                    && t1->z + t1->height <= s2->heightsec->interpceilingheight))))
         return false;
 
     // killough 11/98: shortcut for melee situations
