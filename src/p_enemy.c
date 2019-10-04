@@ -643,9 +643,6 @@ static void P_NewChaseDir(mobj_t *actor)
 
 static dboolean P_LookForMonsters(mobj_t *actor)
 {
-    if (!P_CheckSight(viewplayer->mo, actor))
-        return false;           // player can't see monster
-
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
@@ -677,8 +674,8 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 {
     mobj_t  *mo;
 
-    if (infight)
-        // player is dead, look for monsters
+    // the player is dead, if near the player then look for other monsters
+    if (infight && P_CheckSight(actor, viewplayer->mo))
         return P_LookForMonsters(actor);
 
     if (viewplayer->cheats & CF_NOTARGET)
@@ -761,6 +758,12 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
     return true;
 }
 
+static dboolean P_LookForTargets(mobj_t *actor, int allaround)
+{
+    return ((actor->flags & MF_FRIEND) ? P_LookForMonsters(actor) || P_LookForPlayer(actor, allaround)
+        : P_LookForPlayer(actor, allaround));
+}
+
 //
 // A_KeenDie
 // DOOM II special, map 32.
@@ -799,24 +802,21 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->threshold = 0;       // any shot will wake up
 
-    if (target && (target->flags & MF_SHOOTABLE))
-    {
-        P_SetTarget(&actor->target, target);
+    // killough 7/18/98:
+    // Friendly monsters go after other monsters first, but
+    // also return to player, without attacking them, if they
+    // cannot find any targets. A marine's best friend :)
+    actor->pursuecount = 0;
 
-        if (actor->flags & MF_AMBUSH)
-        {
-            if (P_CheckSight(actor, actor->target))
-                goto seeyou;
-        }
-        else
-            goto seeyou;
-    }
-
-    if (!P_LookForPlayer(actor, false))
+    if (!((actor->flags & MF_FRIEND)
+        && P_LookForTargets(actor, false))
+        && !(target
+            && (target->flags & MF_SHOOTABLE)
+            && (P_SetTarget(&actor->target, target), !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
+        && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
-seeyou:
     if (actor->info->seesound)
     {
         int sound;
@@ -918,19 +918,49 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // check for missile attack
     if (info->missilestate)
+        if (!(gameskill < sk_nightmare && !fastparm && actor->movecount))
+            if (P_CheckMissileRange(actor))
+            {
+                P_SetMobjState(actor, info->missilestate);
+                actor->flags |= MF_JUSTATTACKED;
+                return;
+            }
+
+    if (!actor->threshold)
     {
-        if (gameskill < sk_nightmare && !fastparm && actor->movecount)
-            goto nomissile;
+        // killough 7/18/98, 9/9/98: new monster AI
+        // Look for new targets if current one is bad or is out of view
+        if (actor->pursuecount)
+            actor->pursuecount--;
+        else
+        {
+            // Our pursuit time has expired. We're going to think about
+            // changing targets
+            actor->pursuecount = BASETHRESHOLD;
 
-        if (!P_CheckMissileRange(actor))
-            goto nomissile;
+            // Unless (we have a live target
+            //         and it's not friendly
+            //         and we can see it)
+            //  try to find a new one; return if successful
+            if (!(target
+                && target->health > 0
+                && (((((target->flags ^ actor->flags) & MF_FRIEND) || !(actor->flags & MF_FRIEND)) && P_CheckSight(actor, target))))
+                && P_LookForTargets(actor, true))
+                return;
 
-        P_SetMobjState(actor, info->missilestate);
-        actor->flags |= MF_JUSTATTACKED;
-        return;
+            // (Current target was good, or no new target was found.)
+            // If monster is a missile-less friend, give up pursuit and
+            // return to player, if no attacks have occurred recently.
+            if (!actor->info->missilestate && (actor->flags & MF_FRIEND))
+            {
+                if (actor->flags & MF_JUSTHIT)          // if recent action,
+                    actor->flags &= ~MF_JUSTHIT;        // keep fighting
+                else if (P_LookForPlayer(actor, true))  // else return to player
+                    return;
+            }
+        }
     }
 
-nomissile:
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))
         P_NewChaseDir(actor);
