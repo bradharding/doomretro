@@ -62,8 +62,9 @@ void R_InitSkyMap(void)
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     skytexture = P_GetMapSky1Texture(map);
+    canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt) && !nomouselook);
 
-    if (!skytexture)
+    if (!skytexture || (BTSX && !canmouselook))
     {
         if (gamemode == commercial)
         {
@@ -104,7 +105,7 @@ void R_InitSkyMap(void)
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
-    if ((canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt) && !nomouselook)))
+    if (canmouselook)
     {
         int skyheight = textureheight[skytexture] >> FRACBITS;
 
