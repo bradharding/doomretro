@@ -3455,7 +3455,9 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
     {
-        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
+        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly ")))
+            strreplace(parm, "friendly ", "");
+        else if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
             strreplace(parm, "friendly", "");
 
         if (M_StringStartsWith(parm, "monster"))
