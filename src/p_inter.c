@@ -2125,10 +2125,13 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             int gibhealth = info->gibhealth;
 
-            if (type == MT_BARREL || (type == MT_PAIN && !D4V) || type == MT_SKULL)
-                target->colfunc = tlredcolfunc;
-            else if (type == MT_BRUISER || (type == MT_KNIGHT && !D4V))
-                target->colfunc = redtogreencolfunc;
+            if (!(flags & MF_FUZZ))
+            {
+                if (type == MT_BARREL || (type == MT_PAIN && !D4V) || type == MT_SKULL)
+                    target->colfunc = tlredcolfunc;
+                else if (type == MT_BRUISER || (type == MT_KNIGHT && !D4V))
+                    target->colfunc = redtogreencolfunc;
+            }
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
