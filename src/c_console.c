@@ -101,7 +101,7 @@ static short            spacewidth;
 static char             consoleinput[255];
 static int              numautocomplete;
 int                     consolestrings;
-size_t                  consolestrings_max = 0;
+size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;
 static undohistory_t    *undohistory;
@@ -165,8 +165,8 @@ void C_Input(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= (int)consolestrings_max)
-        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+    if (consolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings++].stringtype = inputstring;
@@ -223,8 +223,8 @@ void C_Output(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= (int)consolestrings_max)
-        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+    if (consolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings++].stringtype = outputstring;
@@ -240,8 +240,8 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings >= (int)consolestrings_max)
-        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+    if (consolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].stringtype = outputstring;
@@ -252,8 +252,8 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
 
 void C_Header(const headertype_t headertype)
 {
-    if (consolestrings >= (int)consolestrings_max)
-        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+    if (consolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     console[consolestrings].stringtype = headerstring;
     console[consolestrings].headertype = headertype;
@@ -272,8 +272,8 @@ void C_Warning(const char *string, ...)
 
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        if (consolestrings >= (int)consolestrings_max)
-            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings++].stringtype = warningstring;
@@ -298,8 +298,8 @@ void C_PlayerMessage(const char *string, ...)
     }
     else
     {
-        if (consolestrings >= (int)consolestrings_max)
-            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = playermessagestring;
@@ -327,8 +327,8 @@ void C_Obituary(const char *string, ...)
     }
     else
     {
-        if (consolestrings >= (int)consolestrings_max)
-            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = obituarystring;
@@ -353,8 +353,8 @@ void C_AddConsoleDivider(void)
 {
     if (!consolestrings || console[consolestrings - 1].stringtype != dividerstring)
     {
-        if (consolestrings >= (int)consolestrings_max)
-            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         console[consolestrings++].stringtype = dividerstring;
     }
@@ -1560,7 +1560,7 @@ dboolean C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
-                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocomplete < numautocomplete - 1))
+                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocomplete <= numautocomplete))
                     {
                         static char output[255];
                         int         spaces2;

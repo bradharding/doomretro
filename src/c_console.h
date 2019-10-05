@@ -43,6 +43,8 @@
 #include "doomtype.h"
 #include "d_event.h"
 
+#define CONSOLESTRINGSMAX       256
+
 #define CONSOLEFONTSTART        ' '
 #define CONSOLEFONTEND          '~'
 #define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
@@ -126,7 +128,7 @@ extern int              consoleheight;
 extern int              consoledirection;
 
 extern int              consolestrings;
-extern size_t           consolestrings_max;
+extern size_t           consolestringsmax;
 
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];
