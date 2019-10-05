@@ -76,8 +76,8 @@ patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
 patch_t                 *brand;
-static patch_t          *lsquote;
-static patch_t          *ldquote;
+patch_t                 *lsquote;
+patch_t                 *ldquote;
 
 static patch_t          *dot;
 static patch_t          *trademark;
@@ -464,7 +464,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             else
                 width = SHORT(unknownchar->width);
 
-            if (prevletter == ' ')
+            if (!i || prevletter == ' ' || prevletter == '\t')
             {
                 if (letter == '\'')
                     width = SHORT(lsquote->width);
@@ -810,7 +810,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 else
                     patch = unknownchar;
 
-                if (prevletter == ' ' || prevletter == '\t')
+                if (!i || prevletter == ' ' || prevletter == '\t')
                 {
                     if (letter == '\'')
                         patch = lsquote;

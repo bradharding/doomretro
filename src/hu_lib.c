@@ -51,6 +51,8 @@
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
+extern patch_t  *lsquote;
+extern patch_t  *ldquote;
 extern patch_t  *unknownchar;
 extern patch_t  *altunderscores;
 extern int      white;
@@ -156,6 +158,16 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
             if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
+            else
+                patch = unknownchar;
+
+            if (!i || prevletter == ' ' || prevletter == '\t')
+            {
+                if (letter == '\'')
+                    patch = lsquote;
+                else if (letter == '\"')
+                    patch = ldquote;
+            }
         }
 
         // [BH] apply kerning to certain character pairs
