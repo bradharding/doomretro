@@ -760,32 +760,10 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 
 static dboolean P_LookForTargets(mobj_t *actor, int allaround)
 {
-    return ((actor->flags & MF_FRIEND) ? P_LookForMonsters(actor) || P_LookForPlayer(actor, allaround)
-        : P_LookForPlayer(actor, allaround));
-}
+    if ((actor->flags & MF_FRIEND) && P_LookForMonsters(actor))
+        return true;
 
-//
-// A_KeenDie
-// DOOM II special, map 32.
-// Uses special tag 666.
-//
-void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
-{
-    line_t  junk;
-
-    A_Fall(actor, NULL, NULL);
-
-    // scan the remaining thinkers to see if all Keens are dead
-    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-    {
-        mobj_t  *mo = (mobj_t *)th;
-
-        if (mo != actor && mo->type == actor->type && mo->health > 0)
-            return;         // other Keen not dead
-    }
-
-    junk.tag = 666;
-    EV_DoDoor(&junk, doorOpen, VDOORSPEED);
+    return P_LookForPlayer(actor, allaround);
 }
 
 //
@@ -798,7 +776,9 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *target = actor->subsector->sector->soundtarget;
+    mobj_t      *target = actor->subsector->sector->soundtarget;
+    int         flags = actor->flags;
+    dboolean    friend = flags & MF_FRIEND;
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -808,12 +788,12 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
     // cannot find any targets. A marine's best friend :)
     actor->pursuecount = 0;
 
-    if (!((actor->flags & MF_FRIEND)
+    if (!(friend
         && P_LookForTargets(actor, false))
         && !(target
             && (target->flags & MF_SHOOTABLE)
-            && (P_SetTarget(&actor->target, target), !(actor->flags & MF_AMBUSH) || P_CheckSight(actor, target)))
-        && ((actor->flags & MF_FRIEND) || !P_LookForTargets(actor, false)))
+            && (P_SetTarget(&actor->target, target), !(flags & MF_AMBUSH) || P_CheckSight(actor, target)))
+        && (friend || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
@@ -2173,6 +2153,30 @@ void A_SpawnSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_PlayerScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     S_StartSound(actor, (gamemode == commercial && actor->health < -50 ? sfx_pdiehi : sfx_pldeth));
+}
+
+//
+// A_KeenDie
+// DOOM II special, map 32.
+// Uses special tag 666.
+//
+void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    line_t  junk;
+
+    A_Fall(actor, NULL, NULL);
+
+    // scan the remaining thinkers to see if all Keens are dead
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t *mo = (mobj_t *)th;
+
+        if (mo != actor && mo->type == actor->type && mo->health > 0)
+            return;         // other Keen not dead
+    }
+
+    junk.tag = 666;
+    EV_DoDoor(&junk, doorOpen, VDOORSPEED);
 }
 
 // killough 11/98: kill an object
