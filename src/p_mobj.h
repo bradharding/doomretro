@@ -44,11 +44,6 @@
 #include "states.h"
 #include "tables.h"
 
-#define REDBLOOD            184
-#define GREENBLOOD          123
-#define BLUEBLOOD           204
-#define FUZZYBLOOD          -1
-
 // killough 11/98:
 // For torque simulation:
 #define OVERDRIVE           6
