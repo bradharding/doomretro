@@ -645,6 +645,15 @@ static void P_NewChaseDir(mobj_t *actor)
 
 static dboolean P_LookForMonsters(mobj_t *actor)
 {
+    // Remember last enemy
+    if (actor->lastenemy && actor->lastenemy->health > 0
+        && !(actor->lastenemy->flags & actor->flags & MF_FRIEND))   // not friends
+    {
+        P_SetTarget(&actor->target, actor->lastenemy);
+        P_SetTarget(&actor->lastenemy, NULL);
+        return true;
+    }
+
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t      *mo = (mobj_t *)th;
