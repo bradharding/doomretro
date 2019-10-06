@@ -647,8 +647,9 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 {
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *mo = (mobj_t *)th;
-        mobj_t  *target;
+        mobj_t      *mo = (mobj_t *)th;
+        mobj_t      *target;
+        thinker_t   *cap;
 
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
@@ -672,6 +673,14 @@ static dboolean P_LookForMonsters(mobj_t *actor)
         // Found a target monster
         P_SetTarget(&actor->lastenemy, actor->target);
         P_SetTarget(&actor->target, mo);
+
+        // Move the selected monster to the end of the
+        // list, so that it gets searched last next time.
+        cap = &thinkers[th_mobj];
+        (mo->thinker.cprev->cnext = mo->thinker.cnext)->cprev = mo->thinker.cprev;
+        (mo->thinker.cprev = cap->cprev)->cnext = &mo->thinker;
+        (mo->thinker.cnext = cap)->cprev = &mo->thinker;
+
         return true;
     }
 
