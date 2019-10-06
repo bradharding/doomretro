@@ -1684,7 +1684,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     {
         mobjtype_t  type = th->type;
 
-        if (type == MT_SKULL)
+        if (type == MT_SKULL && !(th->flags & MF_FUZZ))
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
         else if (r_blood != r_blood_none && th->blood)
         {
