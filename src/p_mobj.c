@@ -405,7 +405,7 @@ static void P_ZMovement(mobj_t *mo)
 
                 P_SpawnBloodSplat(x, y, blood, floorz, NULL);
 
-                if (blood != MT_FUZZYBLOOD)
+                if (blood != FUZZYBLOOD)
                 {
                     int r1 = M_RandomInt(-3, 3) << FRACBITS;
                     int r2 = M_RandomInt(-3, 3) << FRACBITS;
@@ -1312,7 +1312,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
             splat->patch = patch;
             splat->flip = M_Random() & 1;
-            splat->colfunc = (blood == MT_FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+            splat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
             splat->blood = blood;
             splat->x = x;
             splat->y = y;
