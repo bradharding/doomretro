@@ -650,6 +650,9 @@ static dboolean P_LookForMonsters(mobj_t *actor)
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
+        if (!((mo->flags ^ actor->flags) & MF_FRIEND))
+            continue;           // don't attack other friends
+
         if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > 32 * 64 * FRACUNIT)
             continue;           // out of range
 
