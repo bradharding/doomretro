@@ -57,9 +57,6 @@ extern dboolean returntowidescreen;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-void alias_cmd_func2(char *cmd, char *parms);
-void bind_cmd_func2(char *cmd, char *parms);
-
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
 #define CONFIG_VARIABLE_INT_PERCENT(name, set)      { #name, &name, DEFAULT_INT_PERCENT,   set          }

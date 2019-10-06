@@ -290,7 +290,7 @@ static void god_cmd_func2(char *cmd, char *parms);
 static void help_cmd_func2(char *cmd, char *parms);
 static void if_cmd_func2(char *cmd, char *parms);
 static dboolean kill_cmd_func1(char *cmd, char *parms);
-void kill_cmd_func2(char *cmd, char *parms);
+static void kill_cmd_func2(char *cmd, char *parms);
 static void load_cmd_func2(char *cmd, char *parms);
 static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
@@ -1733,6 +1733,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 }
 
                 fputc('\n', file);
+                free(string);
             }
         }
 

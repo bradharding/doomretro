@@ -112,7 +112,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 void P_NoiseAlert(mobj_t *target)
 {
     // [BH] don't alert if notarget CCMD is enabled
-    if (target->player && (viewplayer->cheats & CF_NOTARGET))
+    if (target && target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
     validcount++;
@@ -184,8 +184,10 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 
         // killough 7/18/98: no friendly fire at corpses
         // killough 11/98: prevent too much infighting among friends
-        return (!(actor->flags & MF_FRIEND) || (target->health > 0 && (!(target->flags & MF_FRIEND) ||
-            (target->player ? M_Random() > 128 : !(target->flags & MF_JUSTHIT) && M_Random() > 128))));
+        return (!(actor->flags & MF_FRIEND)
+            || (target->health > 0
+                && (!(target->flags & MF_FRIEND)
+                    || (target->player ? M_Random() > 128 : !(target->flags & MF_JUSTHIT) && M_Random() > 128))));
     }
 
     // killough 7/18/98: friendly monsters don't attack other friendly
@@ -248,17 +250,17 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 //
 static int P_IsUnderDamage(mobj_t *actor)
 {
-    int dir = 0;
+    int direction = 0;
 
     for (const struct msecnode_s *seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
         const ceiling_t *ceiling = seclist->m_sector->ceilingdata;  // Crushing ceiling
 
         if (ceiling && ceiling->thinker.function == T_MoveCeiling)
-            dir |= ceiling->direction;
+            direction |= ceiling->direction;
     }
 
-    return dir;
+    return direction;
 }
 
 //
@@ -329,12 +331,9 @@ static dboolean P_Move(mobj_t *actor, int dropoff)  // killough 9/12/98
         //
         // Do NOT simply return false 1/4th of the time (causes monsters to
         // back out when they shouldn't, and creates secondary stickiness).
-        for (good = false; numspechit--;)
+        for (good = 0; numspechit--;)
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
-
-        if (!good)
-            return false;
 
         return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
@@ -374,7 +373,8 @@ static dboolean P_SmartMove(mobj_t *actor)
     int         underdamage;
 
     // killough 9/12/98: stay on a lift if target is on one
-    onlift = (target && target->health > 0 && target->subsector->sector->tag == actor->subsector->sector->tag
+    onlift = (target && target->health > 0
+        && target->subsector->sector->tag == actor->subsector->sector->tag
         && actor->subsector->sector->islift);
 
     underdamage = P_IsUnderDamage(actor);
@@ -382,8 +382,10 @@ static dboolean P_SmartMove(mobj_t *actor)
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
     // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
     // and only if the target is immediately on the other side of the line.
-    if (actor->type == MT_DOGS && target && !((target->flags ^ actor->flags) & MF_FRIEND)
-        && P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144 && M_Random() < 235)
+    if (actor->type == MT_DOGS
+        && target && !((target->flags ^ actor->flags) & MF_FRIEND)
+        && P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144
+        && M_Random() < 235)
         dropoff = 2;
 
     if (!P_Move(actor, dropoff))

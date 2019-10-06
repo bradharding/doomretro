@@ -121,6 +121,9 @@ extern alias_t      aliases[MAXALIASES];
 extern dboolean     executingalias;
 extern dboolean     resettingcvar;
 
+void alias_cmd_func2(char *cmd, char *parms);
+void bind_cmd_func2(char *cmd, char *parms);
+
 dboolean C_ExecuteAlias(const char *alias);
 
 #endif
