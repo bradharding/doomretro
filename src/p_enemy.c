@@ -648,12 +648,20 @@ static dboolean P_LookForMonsters(mobj_t *actor)
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
+        mobj_t  *target;
 
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
         if (!((mo->flags ^ actor->flags) & MF_FRIEND))
             continue;           // don't attack other friends
+
+        // If the monster is already engaged in a one-on-one attack
+        // with a healthy friend, don't attack around 60% the time
+        if ((target = mo->target) && target->target == mo && M_Random() > 100
+            && ((target->flags ^ mo->flags) & MF_FRIEND)
+            && target->health * 2 >= target->info->spawnhealth)
+            continue;
 
         if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > 32 * 64 * FRACUNIT)
             continue;           // out of range
