@@ -721,15 +721,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     P_SetShadowColumnFunction(mobj);
 
     mobj->shadowoffset = info->shadowoffset;
-
-    // [BH] only give dehacked monsters fuzzy blood when they are fuzzy
-    if (info->blood == MT_FUZZYBLOOD && !(mobj->flags & MF_FUZZ))
-        mobj->blood = MT_BLOOD;
-    else if (info->blood != MT_FUZZYBLOOD && (mobj->flags & MF_FUZZ))
-        mobj->blood = MT_FUZZYBLOOD;
-    else
-        mobj->blood = info->blood;
-
+    mobj->blood = info->blood;
 
     // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = NORM_PITCH;
