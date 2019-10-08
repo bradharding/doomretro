@@ -9,6 +9,7 @@
 * The speed the player turns is now affected by the `turbo` CVAR and `-turbo` command-line parameter.
 * The correct sky textures will now be displayed when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) and the `mouselook` CVAR is `off`.
 * The `friendly` parameter will now work correctly with the `name` CCMD.
+* A bug has been fixed whereby using the `monster` or `monsters` parameters with the `kill` CCMD would cause a crash.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The bullet puffs when shooting lost souls are now vertically centered.
 

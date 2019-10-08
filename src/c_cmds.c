@@ -2485,43 +2485,43 @@ void kill_cmd_func2(char *cmd, char *parms)
                 {
                     const int   flags = thing->flags;
 
-                    if (!all && (((flags & MF_FRIEND) && !friends) || (!(flags & MF_FRIEND) && friends)))
-                        continue;
-
-                    if (thing->flags2 & MF2_MONSTERMISSILE)
+                    if (all || !!(flags & MF_FRIEND) == friends)
                     {
-                        thing->flags2 |= MF2_MASSACRE;
-                        P_ExplodeMissile(thing);
-                    }
-                    else if (thing->health > 0)
-                    {
-                        const mobjtype_t    type = thing->type;
-
-                        if (type == MT_PAIN)
-                        {
-                            A_Fall(thing, NULL, NULL);
-                            P_SetMobjState(thing, S_PAIN_DIE6);
-                            viewplayer->mobjcount[MT_PAIN]++;
-                            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
-                            viewplayer->killcount++;
-                            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-                            kills++;
-                        }
-                        else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
-                            && (type != MT_HEAD || !hacx))
+                        if (thing->flags2 & MF2_MONSTERMISSILE)
                         {
                             thing->flags2 |= MF2_MASSACRE;
-                            P_DamageMobj(thing, NULL, NULL, thing->health, false);
+                            P_ExplodeMissile(thing);
+                        }
+                        else if (thing->health > 0)
+                        {
+                            const mobjtype_t    type = thing->type;
 
-                            if (!(flags & MF_NOBLOOD))
+                            if (type == MT_PAIN)
                             {
-                                const int   r = M_RandomInt(-1, 1);
-
-                                thing->momx += FRACUNIT * r;
-                                thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                                A_Fall(thing, NULL, NULL);
+                                P_SetMobjState(thing, S_PAIN_DIE6);
+                                viewplayer->mobjcount[MT_PAIN]++;
+                                stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
+                                viewplayer->killcount++;
+                                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                kills++;
                             }
+                            else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
+                                && (type != MT_HEAD || !hacx))
+                            {
+                                thing->flags2 |= MF2_MASSACRE;
+                                P_DamageMobj(thing, NULL, NULL, thing->health, false);
 
-                            kills++;
+                                if (!(flags & MF_NOBLOOD))
+                                {
+                                    const int   r = M_RandomInt(-1, 1);
+
+                                    thing->momx += FRACUNIT * r;
+                                    thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                                }
+
+                                kills++;
+                            }
                         }
                     }
 
