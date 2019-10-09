@@ -12,6 +12,7 @@
 * A bug has been fixed whereby using the `monster` or `monsters` parameters with the `kill` CCMD would cause a crash.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The bullet puffs when shooting lost souls are now vertically centered.
+* Obituaries that involve a friendly monster will now indicate if there’s one or more of them.
 
 ---
 

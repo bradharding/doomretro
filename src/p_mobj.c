@@ -1072,10 +1072,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
         // killough 7/20/98: exclude friends
         if (!((mobjinfo[i].flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
-        {
             totalkills++;
-            monstercount[i]++;
-        }
+
+        monstercount[i]++;
     }
     else if (i == MT_BARREL)
         barrelcount++;
