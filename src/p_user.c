@@ -46,7 +46,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define AUTOTILTUNIT    20
+#define AUTOTILTUNIT    30
 #define AUTOTILTMAX     300
 #define MINSTEPSIZE     (8 * FRACUNIT)
 #define MAXSTEPSIZE     (24 * FRACUNIT)
