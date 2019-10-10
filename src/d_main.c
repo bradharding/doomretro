@@ -667,7 +667,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
 typedef struct
 {
-    char        *filename;
+    char        filename[MAX_PATH];
     dboolean    present;
 } loaddehlast_t;
 
@@ -685,16 +685,17 @@ static loaddehlast_t loaddehlast[7] =
 
 static void LoadDehFile(char *path)
 {
-
     char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+    char    *dehfile = leafname(path);
 
     for (int i = 0; i < 7; i++)
-        if (M_StringCompare(path, loaddehlast[i].filename))
+        if (M_StringCompare(dehfile, loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
-            C_Output("%i", i);
             return;
         }
+
+    free(dehfile);
 
     if (dehpath)
     {
