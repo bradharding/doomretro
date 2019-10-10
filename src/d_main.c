@@ -665,9 +665,36 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 #endif
 }
 
+typedef struct
+{
+    char        *filename;
+    dboolean    present;
+} loaddehlast_t;
+
+// [BH] A list of DeHackEd files to load last
+static loaddehlast_t loaddehlast[7] =
+{
+    { "VORTEX_DoomRetro.deh" },
+    { "2_MARKV.deh"          },
+    { "3_HELLST.deh"         },
+    { "4_HAR.deh"            },
+    { "5_GRNADE.deh"         },
+    { "6_LIGHT.deh"          },
+    { "7_GAUSS.deh"          }
+};
+
 static void LoadDehFile(char *path)
 {
+
     char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+
+    for (int i = 0; i < 7; i++)
+        if (M_StringCompare(path, loaddehlast[i].filename))
+        {
+            loaddehlast[i].present = true;
+            C_Output("%i", i);
+            return;
+        }
 
     if (dehpath)
     {
@@ -1566,7 +1593,7 @@ static int D_OpenWADLauncher(void)
                     }
 
                     // always merge D4V.WAD last
-                    if (*D4Vpath)
+                    if (D4Vpath)
                         if (W_MergeFile(D4Vpath, false))
                             modifiedgame = true;
                 }
@@ -1665,6 +1692,10 @@ static void D_ProcessDehInWad(void)
                 if (!M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad"))
                     ProcessDehFile(NULL, i);
     }
+
+    for (int i = 0; i < 7; i++)
+        if (loaddehlast[i].present)
+            ProcessDehFile(loaddehlast[i].filename, 0);
 }
 
 static void D_ParseStartupString(const char *string)
