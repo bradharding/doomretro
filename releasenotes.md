@@ -1,5 +1,7 @@
 ### DOOM Retro v3.0.6
 
+* Minor changes have been made to text that is output to the console.
+
 ---
 
 ###### Friday, October 11, 2019
@@ -9,7 +11,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
-* Picking up more than one powerup of the same type now works correctly.
+* Picking up more than one power-up of the same type now works correctly.
 * The `-file` parameter may now be used without an `-iwad` parameter on the command-line.
 * A bug has been fixed whereby using either the `nomonsters` CCMD in the console, or `-nomonsters` on the command-line, would not stop monsters from being spawned in maps.
 * The speed the player turns is now affected by the `turbo` CVAR and `-turbo` command-line parameter.
