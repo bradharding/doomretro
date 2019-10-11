@@ -2612,9 +2612,9 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author : (breach && map == 1 ?
-        s_AUTHOR_BESTOR : (((E1M4B || *speciallumpname) && map == 4) || ((E1M8B || *speciallumpname) && map == 8) ?
-        s_AUTHOR_ROMERO : "")));
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author
+        : (((E1M4B || *speciallumpname) && map == 4) || ((E1M8B || *speciallumpname) && map == 8) ?
+        s_AUTHOR_ROMERO : ""));
 }
 
 void P_GetMapLiquids(int map)

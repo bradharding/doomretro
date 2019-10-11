@@ -1617,6 +1617,7 @@ static int D_OpenWADLauncher(void)
 
                     if (D_IsCfgFile(fullpath))
                         M_LoadCVARs(fullpath);
+
 #if defined(_WIN32)
                     cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
 #endif

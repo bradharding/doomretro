@@ -468,7 +468,6 @@ extern char     *s_CAPTION_BTSXE3;
 extern char     *s_CAPTION_E1M4B;
 extern char     *s_CAPTION_E1M8B;
 
-extern char     *s_AUTHOR_BESTOR;
 extern char     *s_AUTHOR_ROMERO;
 
 extern char     *bgflatE1;

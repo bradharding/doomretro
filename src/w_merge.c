@@ -372,14 +372,13 @@ static void GenerateSpriteList(void)
 //    the sprites from the PWAD are inserted.
 //
 // For the PWAD:
-//  * All Sprites and Flats are ignored, with the assumption they have
+//  * All sprites and flats are ignored, with the assumption they have
 //    already been merged into the IWAD's sections.
 static void DoMerge(void)
 {
     section_t   current_section;
     lumpinfo_t  **newlumps;
     int         num_newlumps;
-    int         lumpindex;
 
     // Can't ever have more lumps than we already have
     newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
@@ -423,9 +422,7 @@ static void DoMerge(void)
                     // do not add it now. All PWAD flats are added to the
                     // end of the section. Otherwise, if it is only in the
                     // IWAD, add it now
-                    lumpindex = FindInList(&pwad_flats, lump->name);
-
-                    if (lumpindex < 0)
+                    if (FindInList(&pwad_flats, lump->name) < 0)
                         newlumps[num_newlumps++] = lump;
                 }
 
@@ -505,19 +502,10 @@ static void DoMerge(void)
             case SECTION_HIDEF:
                 if (!strncasecmp(lump->name, "HI_END", 8))
                 {
-                    int hiend = i - histart - 1;
-
                     current_section = SECTION_NORMAL;
 
-                    if (hiend)
-                    {
-                        if (hiend == 1)
-                            C_Warning("The patch between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
-                        else
-                            C_Warning("The %s patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.",
-                                commify(hiend));
-
-                    }
+                    if (i - histart - 1)
+                        C_Warning("All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
                 }
 
                 break;
