@@ -1594,7 +1594,7 @@ static int D_OpenWADLauncher(void)
                     }
 
                     // always merge D4V.WAD last
-                    if (D4Vpath)
+                    if (*D4Vpath)
                         if (W_MergeFile(D4Vpath, false))
                             modifiedgame = true;
                 }
