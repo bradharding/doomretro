@@ -686,16 +686,13 @@ static loaddehlast_t loaddehlast[7] =
 static void LoadDehFile(char *path)
 {
     char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
-    char    *dehfile = leafname(path);
 
     for (int i = 0; i < 7; i++)
-        if (M_StringCompare(dehfile, loaddehlast[i].filename))
+        if (M_StringCompare(leafname(path), loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
             return;
         }
-
-    free(dehfile);
 
     if (dehpath)
     {
