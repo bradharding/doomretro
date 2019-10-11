@@ -252,7 +252,7 @@ void P_MovePlayer(void)
         }
     }
 
-    if (autotilt && !mouselook)
+    if (autotilt && !(mouselook || freeze || (viewplayer->cheats & MF_NOCLIP)))
     {
         if (!P_CheckForSteps(32) && !P_CheckForSteps(24))
         {

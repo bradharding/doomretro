@@ -1,6 +1,7 @@
 ### DOOM Retro v3.0.6
 
 * Minor changes have been made to text that is output to the console.
+* The effects of the `autotilt` CVAR are now disabled while the freeze or no clipping modes are on.
 
 ---
 
