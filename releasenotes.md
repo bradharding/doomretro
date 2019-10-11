@@ -12,7 +12,7 @@
 * A bug has been fixed whereby using the `monster` or `monsters` parameters with the `kill` CCMD would cause a crash.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The bullet puffs when shooting lost souls are now vertically centered.
-* Obituaries that involve a friendly monster will now indicate if there’s one or more of them.
+* Obituaries that involve a friendly monster will now indicate if there’s only one of them in the map.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/).
 
 ---

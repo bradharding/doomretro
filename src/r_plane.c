@@ -476,7 +476,8 @@ void R_DrawPlanes(void)
                             if (dc_yl <= (dc_yh = pl->bottom[x]))
                             {
                                 dc_x = x;
-                                dc_source = R_GetTextureColumn(tex_patch, (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+                                dc_source = R_GetTextureColumn(tex_patch,
+                                    (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
                                 skycolfunc();
                             }
                 }
