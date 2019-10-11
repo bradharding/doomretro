@@ -261,11 +261,8 @@ void P_MovePlayer(void)
                 if ((viewplayer->lookdir -= AUTOTILTUNIT) < AUTOTILTUNIT)
                     viewplayer->lookdir = 0;
             }
-            else
-            {
-                if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
-                    viewplayer->lookdir = 0;
-            }
+            else if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
+                viewplayer->lookdir = 0;
         }
     }
     else if (canmouselook)
@@ -280,11 +277,8 @@ void P_MovePlayer(void)
                 if ((viewplayer->lookdir -= 16 * MLOOKUNIT) < 16 * MLOOKUNIT)
                     viewplayer->lookdir = 0;
             }
-            else
-            {
-                if ((viewplayer->lookdir += 16 * MLOOKUNIT) > -16 * MLOOKUNIT)
-                    viewplayer->lookdir = 0;
-            }
+            else if ((viewplayer->lookdir += 16 * MLOOKUNIT) > -16 * MLOOKUNIT)
+                viewplayer->lookdir = 0;
         }
     }
 }

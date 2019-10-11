@@ -1331,7 +1331,7 @@ static int D_OpenWADLauncher(void)
             LPSTR       cfgpass = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
 
-            iwadpass1 += lstrlen(iwadpass1) + 1;
+            iwadpass1 = &iwadpass1[lstrlen(iwadpass1) + 1];
 
             // find and add IWAD first
             while (*iwadpass1)
@@ -1374,12 +1374,12 @@ static int D_OpenWADLauncher(void)
                 }
 
 #if defined(_WIN32)
-                iwadpass1 += lstrlen(iwadpass1) + 1;
+                iwadpass1 = &iwadpass1[lstrlen(iwadpass1) + 1];
 #endif
             }
 
 #if defined(_WIN32)
-            iwadpass2 += lstrlen(iwadpass2) + 1;
+            iwadpass2 = &iwadpass2[lstrlen(iwadpass2) + 1];
 
             // find and add IWAD first
             while (*iwadpass2)
@@ -1428,7 +1428,7 @@ static int D_OpenWADLauncher(void)
                 }
 
 #if defined(_WIN32)
-                iwadpass2 += lstrlen(iwadpass2) + 1;
+                iwadpass2 = &iwadpass2[lstrlen(iwadpass2) + 1];
 #endif
             }
 
@@ -1438,7 +1438,7 @@ static int D_OpenWADLauncher(void)
                 // if no IWAD has been selected, check each PWAD to determine the IWAD required
                 // and then try to load it first
 #if defined(_WIN32)
-                pwadpass1 += lstrlen(pwadpass1) + 1;
+                pwadpass1 = &pwadpass1[lstrlen(pwadpass1) + 1];
 
                 while (!iwadfound && *pwadpass1)
                 {
@@ -1493,7 +1493,7 @@ static int D_OpenWADLauncher(void)
                     }
 
 #if defined(_WIN32)
-                    pwadpass1 += lstrlen(pwadpass1) + 1;
+                    pwadpass1 = &pwadpass1[lstrlen(pwadpass1) + 1];
 #endif
                 }
 
@@ -1531,7 +1531,7 @@ static int D_OpenWADLauncher(void)
                     dboolean    mapspresent = false;
 
 #if defined(_WIN32)
-                    pwadpass2 += lstrlen(pwadpass2) + 1;
+                    pwadpass2 = &pwadpass2[lstrlen(pwadpass2) + 1];
 
                     while (*pwadpass2)
                     {
@@ -1571,7 +1571,7 @@ static int D_OpenWADLauncher(void)
                         }
 
 #if defined(_WIN32)
-                        pwadpass2 += lstrlen(pwadpass2) + 1;
+                        pwadpass2 = &pwadpass2[lstrlen(pwadpass2) + 1];
 #endif
                     }
 
@@ -1601,7 +1601,7 @@ static int D_OpenWADLauncher(void)
             {
 #if defined(_WIN32)
                 // process any config files
-                cfgpass += lstrlen(cfgpass) + 1;
+                cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
 
                 while (*cfgpass)
                 {
@@ -1618,13 +1618,13 @@ static int D_OpenWADLauncher(void)
                     if (D_IsCfgFile(fullpath))
                         M_LoadCVARs(fullpath);
 #if defined(_WIN32)
-                    cfgpass += lstrlen(cfgpass) + 1;
+                    cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
 #endif
                 }
 
 #if defined(_WIN32)
                 // process any DeHackEd files last of all
-                dehpass += lstrlen(dehpass) + 1;
+                dehpass = &dehpass[lstrlen(dehpass) + 1];
 
                 while (*dehpass)
                 {
@@ -1642,7 +1642,7 @@ static int D_OpenWADLauncher(void)
                         LoadDehFile(fullpath);
 
 #if defined(_WIN32)
-                    dehpass += lstrlen(dehpass) + 1;
+                    dehpass = &dehpass[lstrlen(dehpass) + 1];
 #endif
                 }
             }
