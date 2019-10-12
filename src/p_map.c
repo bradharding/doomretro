@@ -915,9 +915,6 @@ void P_FakeZMovement(mobj_t *mo)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
-    if (!(thing->flags & MF_SHOOTABLE))
-        return (thing->subsector->sector->terraintype != SOLID);
-
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
         if (seclist->m_sector->terraintype == SOLID)
             return false;
@@ -988,15 +985,12 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 
     P_SetThingPosition(thing);
 
-    if (thing->player && thing->player->mo == thing)
+    if (thing->player && thing->player->mo == thing && (x != oldx || y != oldy))
     {
         fixed_t dist = (fixed_t)hypot((x - oldx) >> FRACBITS, (y - oldy) >> FRACBITS);
 
-        if (dist)
-        {
-            stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
-            thing->player->distancetraveled += dist;
-        }
+        stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
+        viewplayer->distancetraveled += dist;
     }
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
