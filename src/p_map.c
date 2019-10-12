@@ -74,7 +74,7 @@ static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // 1/11/98 killough: removed limit on special lines crossed
 line_t          **spechit;
-int             numspechit;
+int             numspechit = 0;
 
 static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
 
@@ -303,17 +303,20 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 // intersection of the trajectory and the line, but that takes
 // longer and probably really isn't worth the effort.
 //
-// killough 11/98: reformatted
-//
 // [BH] Allow pain elementals to shoot lost souls through 2-sided walls with an ML_BLOCKMONSTERS
 //  flag. This is a compromise between BOOM and Vanilla DOOM behaviors, and allows pain elementals
 //  at the end of REQUIEM.WAD's MAP04 to do their thing.
 static dboolean PIT_CrossLine(line_t *ld)
 {
-    return (!((ld->flags ^ ML_TWOSIDED) & (ML_TWOSIDED | ML_BLOCKING/* | ML_BLOCKMONSTERS*/))
-        || tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT] || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
-        || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
-        || P_PointOnLineSide(pe_x, pe_y, ld) == P_PointOnLineSide(ls_x, ls_y, ld));
+    if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING/* | ML_BLOCKMONSTERS*/)))
+        if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
+            || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
+            || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
+            || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]))
+            if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
+                return false;   // line blocks trajectory
+
+    return true;                // line doesn't block trajectory
 }
 
 // killough 8/1/98: used to test intersection between thing and line
@@ -1008,10 +1011,14 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
         {
             // see if the line was crossed
             line_t  *ld = spechit[numspechit];
-            int     oldside = P_PointOnLineSide(oldx, oldy, ld);
 
-            if (oldside != P_PointOnLineSide(thing->x, thing->y, ld) && ld->special)
-                P_CrossSpecialLine(ld, oldside, thing);
+            if (ld->special)
+            {
+                int oldside = P_PointOnLineSide(oldx, oldy, ld);
+
+                if (oldside != P_PointOnLineSide(thing->x, thing->y, ld))
+                    P_CrossSpecialLine(ld, oldside, thing);
+            }
         }
 
     return true;
