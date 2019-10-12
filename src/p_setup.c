@@ -2704,4 +2704,5 @@ void P_Init(void)
     P_InitPicAnims();
     InitMapInfo();
     R_InitSprites();
+    P_CheckSpechits();
 }

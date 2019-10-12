@@ -331,6 +331,18 @@ static int untouched(line_t *ld)
         || P_BoxOnLineSide(bbox, ld) != -1);
 }
 
+void P_CheckSpechits(void)
+{
+    static int  spechit_max;
+
+    // 1/11/98 killough: remove limit on lines hit, by array doubling
+    if (numspechit >= spechit_max)
+    {
+        spechit_max = (spechit_max ? spechit_max * 2 : 8);
+        spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
+    }
+}
+
 //
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
@@ -397,15 +409,7 @@ static dboolean PIT_CheckLine(line_t *ld)
     // if contacted a special line, add it to the list
     if (ld->special)
     {
-        static int  spechit_max;
-
-        // 1/11/98 killough: remove limit on lines hit, by array doubling
-        if (numspechit >= spechit_max)
-        {
-            spechit_max = (spechit_max ? spechit_max * 2 : 8);
-            spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
-        }
-
+        P_CheckSpechits();
         spechit[numspechit++] = ld;
     }
 
