@@ -672,11 +672,12 @@ typedef struct
 } loaddehlast_t;
 
 // [BH] A list of DeHackEd files to load last
-static loaddehlast_t loaddehlast[7] =
+static loaddehlast_t loaddehlast[8] =
 {
     { "VORTEX_DoomRetro.deh" },
     { "2_MARKV.deh"          },
     { "3_HELLST.deh"         },
+    { "3_REAPER.deh"         },
     { "4_HAR.deh"            },
     { "5_GRNADE.deh"         },
     { "6_LIGHT.deh"          },
@@ -687,7 +688,7 @@ static void LoadDehFile(char *path)
 {
     char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
         if (M_StringCompare(leafname(path), loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
@@ -1692,7 +1693,7 @@ static void D_ProcessDehInWad(void)
                     ProcessDehFile(NULL, i);
     }
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
         if (loaddehlast[i].present)
             ProcessDehFile(loaddehlast[i].filename, 0);
 }

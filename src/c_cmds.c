@@ -1835,8 +1835,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%.14s%s%s</b>\t%s", ++count, consolecmds[i].name,
-                    (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
-                    (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""),
+                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), *(char **)consolecmds[i].variable,
+                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""),
                     (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
