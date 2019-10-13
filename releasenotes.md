@@ -4,6 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * The effects of the `autotilt` CVAR are now disabled while the freeze or no clipping modes are on.
 * The default value of `am_gridcolor` has been changed from `6` to `111`, making the automap’s grid a slightly lighter gray.
+* The player can no longer equip their fists if they have a chainsaw and the berserk power-up is taken away using the `take` CCMD.
 
 ---
 
