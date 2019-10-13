@@ -347,7 +347,7 @@ void S_Start(void)
 // so stereo positioning and distance calculations continue to work even after
 // the corresponding map object has already disappeared.
 // Thanks to jeff-d and kb1 for discussing this feature and the former for the
-// original implementation idea: <https://www.doomworld.com/vb/post/1585325>
+// original implementation idea: <https://www.doomworld.com/forum/topic/1585325>
 void S_UnlinkSound(mobj_t *origin)
 {
     if (nosfx || !origin)

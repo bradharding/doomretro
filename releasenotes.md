@@ -18,13 +18,13 @@
 * The `-file` parameter may now be used without an `-iwad` parameter on the command-line.
 * A bug has been fixed whereby using either the `nomonsters` CCMD in the console, or `-nomonsters` on the command-line, would not stop monsters from being spawned in maps.
 * The speed the player turns is now affected by the `turbo` CVAR and `-turbo` command-line parameter.
-* The correct sky textures will now be displayed when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) and the `mouselook` CVAR is `off`.
+* The correct sky textures will now be displayed when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) and the `mouselook` CVAR is `off`.
 * The `friendly` parameter will now work correctly with the `name` CCMD.
 * A bug has been fixed whereby using the `monster` or `monsters` parameters with the `kill` CCMD would cause a crash.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The bullet puffs when shooting lost souls are now vertically centered.
 * Obituaries that involve a friendly monster will now indicate if there’s only one of them in the map.
-* Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/).
+* Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
 ---
 
@@ -54,7 +54,7 @@
 
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable the automatic loading of `.deh` files, `.bex` files and `DEHACKED` lumps, but will now load `.deh` and `.bex` files if selected in the WAD launcher or specified using the `-deh` command-line parameter.
 * A bug has been fixed whereby dogs spawned in front of the player using the `spawn` CCMD in the console would always be friendly, even when the `friendly` parameter wasn’t used. This bug also affected PWADs that would replace the dog using a `DEHACKED` patch. All monsters of that type spawned at the start of a map would be friendly and therefore attack and be attacked by other monsters. (An example of this are the nightmare demons in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).)
-* The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
+* The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725):
   * `D4V.WAD` will now always be the last PWAD to be loaded if selected together with another PWAD in the WAD launcher.
   * All monsters are now correctly named when using the `spawn` CCMD and in obituaries in the console.
   * The summoner’s projectiles no longer have smoke trails.
@@ -78,7 +78,7 @@
 * A bug has been fixed whereby nearby monsters wouldn’t hear when the player fired the BFG-9000.
 * Infighting among monsters will now work correctly.
 * Shots fired by the player’s hitscan weapons will no longer be lowered if the player is standing in liquid and the `r_liquid_lowerview` CVAR is `off`. Similarly, shots fired by the hitscan weapons of some monsters will no longer be lowered if the monster is standing in liquid and the `r_liquid_clipsprites` CVAR is `off`.
-* The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725-doom-4-vanilla-new-v12-released-faster-weapons/):
+* The following compatibility fixes have been implemented for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725):
   * Cacodemons and hell knights will now always bleed red blood, regardless of the value of the `r_blood` CVAR.
   * Gore nests are no longer translucent or randomly mirrored when destroyed, regardless of the value of the `r_corpses_mirrored` CVAR.
   * A gore nest may now be spawned in front of the player by entering `spawn gore nest` in the console.
@@ -256,7 +256,7 @@
   * The crosshair will no longer appear when the player has their fists or chainsaw equipped.
   * The color of the crosshair may now be changed using the new `crosshaircolor` CVAR. It is `4` (white) by default.
   * The crosshair is no longer translucent if the `r_hud_translucency` CVAR is `off`.
-* *DOOM Retro* will no longer crash at startup when loading [`sunder.wad`](https://www.doomworld.com/vb/thread/46002).
+* *DOOM Retro* will no longer crash at startup when loading [`sunder.wad`](https://www.doomworld.com/forum/topic/46002).
 * The current map’s title is now displayed on the correct screen when both the `am_external` and `r_althud` CVARs are `on`.
 * The widescreen HUD will no longer briefly appear in the background when toggling messages on or off in the options menu.
 * Low graphic detail will no longer be affected by the value of the `r_screensize` CVAR when not playing a game.
@@ -271,7 +271,7 @@
 * The crosshair in the automap when follow mode is off is no longer translucent if the `r_hud_translucency` CVAR is also `off`.
 * The status bar is now drawn in the background as necessary when a centered message is displayed.
 * `midiproc.exe` will no longer remain open when quitting *DOOM Retro* and no MUS or MIDI music lumps have been played.
-* Elements in the alternate widescreen HUD that are meant to be blue now appear blue rather than purple when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
+* Elements in the alternate widescreen HUD that are meant to be blue now appear blue rather than purple when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * A bug has been fixed whereby the splash damage from rockets would be doubled in some instances.
 
 ---
@@ -897,7 +897,7 @@
 * Several compatibility fixes have been implemented for:
   * [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens),
   * [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1),
-  * [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960),
+  * [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960),
   * [*TNT: Revilution*](https://www.doomworld.com/files/file/18810-tnt-revilution/).
 * Three new CVARs have been implemented to individually toggle the translucency of certain elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
@@ -1014,7 +1014,7 @@
 ### DOOM Retro v2.4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The following changes have been made to accommodate for the release of [*Back To Saturn X E1: Get Out Of My Stations v1.0*](https://www.doomworld.com/vb/post/1721926):
+* The following changes have been made to accommodate for the release of [*Back To Saturn X E1: Get Out Of My Stations v1.0*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1):
   * Teleports are no longer treated as liquid.
   * If only `btsx_e1a.wad` is opened using the WAD launcher, then `btsx_e1b.wad` is automatically opened as well, and vice-versa.
 * The header of WADs specified on the command-line using the `-file` parameter will no longer be checked.
@@ -1340,7 +1340,7 @@
 * The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
 * The `+use` and `+fire` actions will now respawn a dead player when in the automap.
 * A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
-* The digits in the status bar are no longer lowered by 1 pixel in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
+* The digits in the status bar are no longer lowered by 1 pixel in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters that would be considered cheating.
 * The console is now automatically closed when the `ammo`, `armor` and `health` CVARs are changed.
 * If the `health` CVAR is changed to a smaller value, the effects of the damage to the player will now be shown.
@@ -1420,7 +1420,7 @@
 * The player’s view will no longer jump slightly when dead and their corpse is sliding down stairs.
 * A `teleport` CCMD has been implemented that allows the player to be teleported to another location in the current map.
 * Fuzzy shadows are now applied to any thing whose `SHADOW` bit has been set in a `DEHACKED` lump.
-* The map number in the console and automap is now shown in the format `E2Mxy` in [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
+* The map number in the console and automap is now shown in the format `E2Mxy` in [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The `r_bloodsplats_total` CVAR is now calculated correctly once it reaches `r_bloodsplats_max`.
 * A bug has been fixed whereby palette effects from power-ups would remain on the screen after ending a game from the options menu in some instances.
 * The value of `r_lowpixelsize` will no longer affect the display of the title screen when the menu is open.
@@ -1595,7 +1595,7 @@
 * The shadow of the player’s corpse is now removed when resurrecting using either the `resurrect` CCMD or the `IDDQD` cheat.
 * The console is now hidden when using the `IDDQD` cheat to resurrect the player.
 * The screen now goes to black sooner when starting *DOOM Retro*.
-* *DOOM II’s* cast sequence now works correctly when using [`smoothed.wad`](https://www.doomworld.com/vb/wads-mods/85991-smoothed-wip-smooth-monsters-for-doom-retro/).
+* *DOOM II’s* cast sequence now works correctly when using [`smoothed.wad`](https://www.doomworld.com/forum/topic/85991).
 * The console can no longer be opened during a screen wipe.
 * The bottoms of things that bob in liquid now animate.
 * A bug has been fixed whereby no monsters had lower pitches when the `s_randompitch` CVAR was enabled.
@@ -2027,7 +2027,7 @@
 * A small amount of ammo is now given to the player when using the `give backpack` CCMD, to be consistent with what the player is given when picking up a backpack during a game.
 * A bug has been fixed whereby an additional character could be entered into a cheat sequence in some instances.
 * The use of a *TiMidity* configuration file is now displayed in the console at startup.
-* MAP05C and MAP16C in [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) may now be loaded using the `map` CCMD.
+* MAP05C and MAP16C in [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) may now be loaded using the `map` CCMD.
 * Monsters will no longer be alerted when the player makes a noise while “No Target” mode is on using the `notarget` CCMD.
 * The `s_maxslicetime` CVAR has been removed.
 * Since it produces the same result as using `linear`, the `anisotropic` value for the `vid_scalefilter` CVAR has been removed.
@@ -2142,7 +2142,7 @@
 * Several improvements have been made to *DOOM Retro’s* support of *DeHackEd* lumps and files.
 * Now `.bex` files as well as `.deh` files, with the same name and in the same folder as the PWAD selected in the WAD launcher, will now be automatically loaded.
 * `.deh` files are no longer automatically loaded if a PWAD is loaded from the command-line. They will need to be explicitly loaded using the `-deh` command-line parameter.
-* A bug has been fixed whereby some teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) were animating as if they were liquid.
+* A bug has been fixed whereby some teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) were animating as if they were liquid.
 * The position of the player arrow is now drawn much more accurately when in the automap and rotate mode is on.
 * The automap will no longer disappear, nor the game crash, when zooming out in very large maps.
 * Translucency is now applied to MegaSpheres as originally intended.
@@ -2162,7 +2162,7 @@
 * Weapons spawned at the start of a map are now also mirrored when the `mirrorweapons` setting was `true` in `doomretro.cfg`.
 * *Vanilla DOOM’s* [“long wall error”](http://doomwiki.org/wiki/Long_wall_error) has been fixed.
 * Further optimizations have been made to improve the overall performance and stability of *DOOM Retro*.
-* Teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) are now drawn correctly in the automap before they have been triggered.
+* Teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) are now drawn correctly in the automap before they have been triggered.
 * Whether the automap is active or not, and any automap marks, are now saved in savegames. (Note that this change breaks savegame compatibility with previous versions of *DOOM Retro*.)
 * A header comment has been added to the top of `doomretro.cfg`, with a note advising to “go to http://wiki.doomretro.com for information on changing these settings”.
 * The FPS counter displayed when `-devparm` is specified on the command-line now won’t be hidden when taking a screenshot, and will continue to update when in a menu or the game is paused.
@@ -2182,7 +2182,7 @@
 * A bug has been fixed whereby the liquid animation was stopping the player and/or monsters from being able to enter certain areas of some maps.
 * The brightmap for the `COMP2` wall texture has been fixed.
 * A bug has been fixed whereby other monsters could infight with arch-viles.
-* The teleporter texture used in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) no longer animates like a liquid.
+* The teleporter texture used in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) no longer animates like a liquid.
 * Savegames will now be placed in the `savegames\DOOM2.WAD\` folder rather than the `savegames\unknown.wad\` folder when `nerve.wad` is loaded.
 * The player’s weapon is now recentered after teleporting.
 
@@ -2322,7 +2322,7 @@
 * Improvements have been made to when the player slides against walls.
 * A bug has been fixed whereby the screen would not render fully after switching from fullscreen to windowed modes when pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd>.
 * Several compatibility fixes have been made when using *DeHackEd* files and lumps.
-* Savegames for [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) are now separated by episode.
+* Savegames for [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960) are now separated by episode.
 * A bug has been fixed whereby [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) wouldn’t load at all. Specific support has now been added for it.
 * Fake contrast is now applied to outdoor areas again.
 * Thing triangles no longer appear for the invisible corpses in *Chex Quest* when using the `IDDT` cheat in the automap.
@@ -2380,7 +2380,7 @@
   * All blood splats are green.
   * Since corpses are effectively invisible, there are no blood splats or crunch sounds made if an invisible corpse happens to be under a door.
   * The screen will flash green rather than red when the player is injured.
-* Specific support has also been added for [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960):
+* Specific support has also been added for [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/forum/topic/69960):
   * The window caption is displayed as the PWAD’s full title.
   * *DOOM Retro’s* custom sprite offsets, previously only used with the official *DOOM* IWADS, are now used. This fixes a bug that caused some level decorations to “twitch” as they animated.
   * If only `btsx_e2a.wad` is loaded from the WAD launcher, then `btsx_e2b.wad` is automatically loaded as well, and vice-versa.
