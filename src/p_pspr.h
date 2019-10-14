@@ -78,4 +78,6 @@ typedef struct
     fixed_t sx, sy;
 } pspdef_t;
 
+dboolean P_CheckAmmo(weapontype_t weapon);
+
 #endif

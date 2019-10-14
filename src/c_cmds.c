@@ -62,6 +62,7 @@
 #include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "p_pspr.h"
 #include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
@@ -2010,7 +2011,8 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "fullarmour")
         || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
-        || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
+        || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys")
+        || M_StringCompare(parm, "pistol"))
         return true;
 
     sscanf(parm, "%10d", &num);
@@ -2176,6 +2178,20 @@ static void give_cmd_func2(char *cmd, char *parms)
                     titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
                 return;
             }
+        }
+        else if (M_StringCompare(parm, "pistol"))
+        {
+            if (viewplayer->weaponowned[wp_pistol])
+            {
+                C_Warning("%s already %s a pistol.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "have" : "has"));
+                return;
+            }
+
+            viewplayer->weaponowned[wp_pistol] = true;
+            oldweaponsowned[wp_pistol] = true;
+            viewplayer->pendingweapon = wp_pistol;
+            return;
         }
         else
         {
@@ -4776,7 +4792,8 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
         || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys")
-        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys"))
+        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys")
+        || M_StringCompare(parm, "pistol"))
         return true;
 
     sscanf(parm, "%10d", &num);
@@ -4961,6 +4978,20 @@ static void take_cmd_func2(char *cmd, char *parms)
             else
                 C_Warning("%s %s have any skull keys.",
                     titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+        }
+        else if (M_StringCompare(parm, "pistol"))
+        {
+            if (!viewplayer->weaponowned[wp_pistol])
+            {
+                C_Warning("%s %s have a pistol.",
+                    titlecase(playername), (M_StringCompare(playername, "you") ? "don't" : "doesn't"));
+                return;
+            }
+
+            viewplayer->weaponowned[wp_pistol] = false;
+            oldweaponsowned[wp_pistol] = false;
+            P_CheckAmmo(viewplayer->readyweapon);
+            return;
         }
         else
         {

@@ -145,8 +145,6 @@ void P_UpdateAmmoStat(ammotype_t ammotype, int num)
     }
 }
 
-dboolean P_CheckAmmo(weapontype_t weapon);
-
 //
 // P_TakeAmmo
 //
