@@ -2191,6 +2191,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             viewplayer->weaponowned[wp_pistol] = true;
             oldweaponsowned[wp_pistol] = true;
             viewplayer->pendingweapon = wp_pistol;
+            C_HideConsole();
             return;
         }
         else
@@ -4991,6 +4992,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             viewplayer->weaponowned[wp_pistol] = false;
             oldweaponsowned[wp_pistol] = false;
             P_CheckAmmo(viewplayer->readyweapon);
+            C_HideConsole();
             return;
         }
         else
