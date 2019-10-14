@@ -442,12 +442,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
 
     if (newweapon == wp_fist)
     {
-        if (!viewplayer->powers[pw_strength] && viewplayer->weaponowned[wp_chainsaw])
-        {
-            newweapon = wp_chainsaw;
-            viewplayer->fistorchainsaw = wp_chainsaw;
-        }
-        else if (viewplayer->readyweapon == wp_fist)
+        if (viewplayer->readyweapon == wp_fist)
         {
             if (viewplayer->weaponowned[wp_chainsaw])
             {
