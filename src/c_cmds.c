@@ -4991,8 +4991,11 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             viewplayer->weaponowned[wp_pistol] = false;
             oldweaponsowned[wp_pistol] = false;
+
+            if (viewplayer->readyweapon == wp_pistol)
+                C_HideConsole();
+
             P_CheckAmmo(viewplayer->readyweapon);
-            C_HideConsole();
             return;
         }
         else
