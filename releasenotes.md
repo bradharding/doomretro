@@ -1,11 +1,11 @@
-### DOOM Retro v3.0.6
+### DOOM Retro v3.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM II: Hell On Earth’s* IWAD no longer needs to be the *BFG Edition* for [`nerve.wad`](https://doomwiki.org/wiki/No_Rest_for_the_Living) to be automatically loaded if found.
 * Minor changes have been made to text that is output to the console.
 * The effects of the `autotilt` CVAR are now disabled while the freeze or no clipping modes are on.
 * The default value of `am_gridcolor` has been changed from `6` to `111`, making the automap’s grid a slightly lighter gray.
-* The player can no longer equip their fists if they have a chainsaw and the berserk power-up is taken away using the `take` CCMD.
+* The player can no longer equip their fists if they have a chainsaw and a berserk power-up was previously taken away using the `take` CCMD.
 * The pistol may now be taken away from and given back to the player using the `take` and `give` CCMDs.
 * Thing triangles representing dogs in the automap when using the `IDDT` cheat will now be the correct size.
 
