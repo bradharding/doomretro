@@ -903,7 +903,7 @@ static dboolean D_CheckParms(void)
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD") && bfgedition)
+                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
                 {
                     char    fullpath[MAX_PATH];
 
@@ -1182,7 +1182,7 @@ static int D_OpenWADLauncher(void)
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    else if (M_StringCompare(leafname(file), "DOOM2.WAD") && bfgedition)
+                    else if (M_StringCompare(leafname(file), "DOOM2.WAD"))
                     {
                         char    fullpath[MAX_PATH];
 
@@ -1578,7 +1578,7 @@ static int D_OpenWADLauncher(void)
 
                     // try to autoload NERVE.WAD if DOOM2.WAD is the IWAD and none of the PWADs
                     // have maps present
-                    if (isDOOM2 && !mapspresent && bfgedition)
+                    if (isDOOM2 && !mapspresent)
                     {
                         char    fullpath[MAX_PATH];
 
