@@ -229,6 +229,8 @@ static int                  st_oldhealth = -1;
 // used for evil grin
 dboolean                    oldweaponsowned[NUMWEAPONS];
 
+int                         st_palette = 0;
+
 // count until face changes
 int                         st_facecount;
 
@@ -1245,8 +1247,6 @@ void ST_Ticker(void)
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         }
 }
-
-int st_palette = 0;
 
 static void ST_DoPaletteStuff(void)
 {

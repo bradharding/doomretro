@@ -112,7 +112,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 void P_NoiseAlert(mobj_t *target)
 {
     // [BH] don't alert if notarget CCMD is enabled
-    if (target && target->player && (viewplayer->cheats & CF_NOTARGET))
+    if (target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
     validcount++;

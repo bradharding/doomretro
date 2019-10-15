@@ -7,7 +7,7 @@
 * The default value of `am_gridcolor` has been changed from `6` to `111`, making the automap’s grid a slightly lighter gray.
 * The player can no longer equip their fists if they have a chainsaw and the berserk power-up is taken away using the `take` CCMD.
 * The pistol may now be taken away from and given back to the player using the `take` and `give` CCMDs.
-* The thing triangles representing dogs in the automap when using the `IDDT` cheat will now be the correct size.
+* Thing triangles representing dogs in the automap when using the `IDDT` cheat will now be the correct size.
 
 ---
 
