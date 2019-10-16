@@ -327,7 +327,8 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_CheckAmmo(player->readyweapon);
+    if (!P_CheckAmmo(player->readyweapon))
+        P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].downstate);
 }
 
 //

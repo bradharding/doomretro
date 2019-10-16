@@ -8,6 +8,7 @@
 * The player can no longer equip their fists if they have a chainsaw and a berserk power-up was previously taken away using the `take` CCMD.
 * The pistol may now be taken away from and given back to the player using the `take` and `give` CCMDs.
 * Thing triangles representing dogs in the automap when using the `IDDT` cheat will now be the correct size.
+* The player will no longer reload their super shotgun after firing their last two shells.
 
 ---
 
