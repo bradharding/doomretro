@@ -47,8 +47,6 @@ typedef struct
     GameMission_t   mission;
 } iwads_t;
 
-extern iwads_t  iwads[];
-
 char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);
 char *D_FindIWAD(void);

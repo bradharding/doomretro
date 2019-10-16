@@ -254,9 +254,6 @@ extern fixed_t  animatedliquidydir;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
 
-extern menu_t   MainDef;
-extern menu_t   NewDef;
-
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t dx = (v1->x - v2->x) >> FRACBITS;

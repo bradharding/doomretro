@@ -422,9 +422,8 @@ void ST_AutomapEvent(int type)
         st_firsttime = true;
 }
 
-extern char     cheatkey;
-extern int      episode;
-extern menu_t   EpiDef;
+extern char cheatkey;
+extern int  episode;
 
 static int ST_CalcPainOffset(void);
 

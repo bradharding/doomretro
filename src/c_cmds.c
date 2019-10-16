@@ -94,7 +94,7 @@
 #define TIMERCMDFORMAT              "<i>minutes</i>"
 #define UNBINDCMDFORMAT             "<i>control</i>|<b>+</b><i>action</i>"
 
-#define PENDINGCHANGE               "This change won't be effective until the next map."
+#define PENDINGCHANGE               "This change won't be effective until the player warps to the next map."
 
 #define INTEGERCVARWITHDEFAULT      "It is currently <b>%s</b> and its default is <b>%s</b>."
 #define INTEGERCVARWITHNODEFAULT    "It is currently <b>%s</b>."
@@ -137,13 +137,8 @@ char                *version = version_default;
 extern dboolean     setsizeneeded;
 extern char         *packageconfig;
 extern int          st_palette;
-extern menu_t       EpiDef;
-extern menu_t       ExpDef;
-extern menu_t       LoadDef;
-extern menu_t       NewDef;
-extern menu_t       SaveDef;
 
-control_t controls[] =
+const control_t controls[] =
 {
     { "1",             keyboardcontrol, '1'                    }, { "2",             keyboardcontrol, '2'                    },
     { "3",             keyboardcontrol, '3'                    }, { "4",             keyboardcontrol, '4'                    },

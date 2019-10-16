@@ -1142,8 +1142,7 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed;
 }
 
-extern int      episode;
-extern menu_t   EpiDef;
+extern int  episode;
 
 static void G_DoCompleted(void)
 {

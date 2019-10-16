@@ -114,12 +114,12 @@ typedef struct
     char    string[128];
 } alias_t;
 
-extern action_t     actions[];
-extern control_t    controls[];
-extern consolecmd_t consolecmds[];
-extern alias_t      aliases[MAXALIASES];
-extern dboolean     executingalias;
-extern dboolean     resettingcvar;
+extern action_t         actions[];
+extern const control_t  controls[];
+extern consolecmd_t     consolecmds[];
+extern alias_t          aliases[MAXALIASES];
+extern dboolean         executingalias;
+extern dboolean         resettingcvar;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
