@@ -1802,7 +1802,7 @@ static void AM_DrawThings(void)
                     mpoint_t    point;
                     angle_t     angle = thing->angle;
                     int         fx, fy;
-                    const int   lump = sprites[thing->sprite].spriteframes[0].lump[0];
+                    const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 

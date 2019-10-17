@@ -1829,18 +1829,10 @@ static void I_InitGammaTables(void)
 
 void I_SetGamma(float value)
 {
-    gammaindex = 0;
-
-    while (gammaindex < GAMMALEVELS && gammalevels[gammaindex] != value)
-        gammaindex++;
+    for (gammaindex = 0; gammaindex < GAMMALEVELS && gammalevels[gammaindex] != value; gammaindex++);
 
     if (gammaindex == GAMMALEVELS)
-    {
-        gammaindex = 0;
-
-        while (gammalevels[gammaindex] != r_gamma_default)
-            gammaindex++;
-    }
+        for (gammaindex = 0; gammalevels[gammaindex] != r_gamma_default; gammaindex++);
 }
 
 void I_InitKeyboard(void)
