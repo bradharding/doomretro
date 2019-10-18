@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#define __STDC_WANT_LIB_EXT1__  1
-
 #include <time.h>
 
 #if defined(_WIN32)
@@ -154,7 +152,7 @@ static int          startuptimer;
 dboolean            realframe;
 static dboolean     error;
 
-struct tm           gamestarttime;
+struct tm           *gamestarttime;
 
 extern evtype_t     lasteventtype;
 
@@ -389,12 +387,13 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
-    time_t      now = time(0);
+    time_t      rawtime;
     player_t    player;
 
     R_ExecuteSetViewSize();
 
-    localtime_s(&gamestarttime, &now);
+    time(&rawtime);
+    gamestarttime = localtime(&rawtime);
 
     viewplayer = &player;
     viewplayer->damagecount = 0;

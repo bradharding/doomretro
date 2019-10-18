@@ -198,7 +198,7 @@ extern gamestate_t      gamestate;
 //  WAD, partly set at startup time.
 
 extern int              gametime;
-extern struct tm        gamestarttime;
+extern struct tm        *gamestarttime;
 
 extern int              vid_capfps;
 extern dboolean         realframe;
