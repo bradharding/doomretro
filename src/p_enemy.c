@@ -663,7 +663,7 @@ static dboolean P_LookForMonsters(mobj_t *actor)
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
-        if (!((mo->flags ^ actor->flags) & MF_FRIEND))
+        if (!((mo->flags ^ actor->flags) & MF_FRIEND) && !infight)
             continue;           // don't attack other friends
 
         // If the monster is already engaged in a one-on-one attack
