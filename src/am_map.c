@@ -1898,12 +1898,15 @@ static void AM_DrawMarks(void)
                     if ((unsigned int)fy < mapheight)
                     {
                         const char  src = marknums[digit][j];
-                        byte        *dest = &mapscreen[fy * mapwidth + fx];
 
                         if (src == '2')
-                            *dest = markcolor;
+                            mapscreen[fy * mapwidth + fx] = markcolor;
                         else if (src == '1')
+                        {
+                            byte    *dest = &mapscreen[fy * mapwidth + fx];
+
                             *dest = *(*dest + tinttab66);
+                        }
                     }
                 }
             }
