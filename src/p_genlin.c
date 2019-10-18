@@ -71,8 +71,11 @@ dboolean EV_DoGenFloor(line_t *line)
     const int           Sped = (value & FloorSpeed) >> FloorSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -262,8 +265,11 @@ dboolean EV_DoGenCeiling(line_t *line)
     const int           Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -456,12 +462,15 @@ dboolean EV_DoGenLift(line_t *line)
     const int           Sped = (value & LiftSpeed) >> LiftSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // Activate all <type> plats that are in_stasis
     if (Targ == LnF2HnF)
         P_ActivateInStasis(line->tag);
 
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -605,8 +614,11 @@ dboolean EV_DoGenStairs(line_t *line)
     const int           Sped = (value & StairSpeed) >> StairSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -794,12 +806,15 @@ dboolean EV_DoGenCrusher(line_t *line)
     const int           Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // jff 2/22/98  Reactivate in-stasis ceilings...for certain types.
     // jff 4/5/98 return if activated
     rtn = P_ActivateInStasisCeiling(line);
 
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -895,8 +910,11 @@ dboolean EV_DoGenLockedDoor(line_t *line)
     const int           Sped = (value & LockedSpeed) >> LockedSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
@@ -999,8 +1017,11 @@ dboolean EV_DoGenDoor(line_t *line)
     const int           Sped = (value & DoorSpeed) >> DoorSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
+    if (!line->tag)
+        return false;
+
     // check if a manual trigger, if so do just the sector on the backside
-    if (Trig == PushOnce || Trig == PushMany || !line->tag)
+    if (Trig == PushOnce || Trig == PushMany)
     {
         if (!(sec = line->backsector))
             return rtn;
