@@ -459,7 +459,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             const int   c = letter - CONSOLEFONTSTART;
             int         width = SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
 
-            if (!i || prevletter == ' ' || prevletter == '\t')
+            if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '\t')
             {
                 if (letter == '\'')
                     width = SHORT(lsquote->width);
@@ -802,7 +802,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 patch = (c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar);
 
-                if (!i || prevletter == ' ' || prevletter == '\t')
+                if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '\t')
                 {
                     if (letter == '\'')
                         patch = lsquote;
