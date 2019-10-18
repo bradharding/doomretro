@@ -64,8 +64,8 @@
 #define MAXVIBRATIONSTRENGTH            65535
 #define CHAINSAWIDLEVIBRATIONSTRENGTH   15000
 
-#define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
+#define gamepadthumbLXleft              powf((float)(-gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone), 3.0f)
+#define gamepadthumbLXright             powf((float)(gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone), 3.0f)
 #define gamepadthumbLYup                (float)(-gamepadthumbLY - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLYdown              (float)(gamepadthumbLY - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbRXleft              powf((float)(-gamepadthumbRX - gamepadrightdeadzone) / (SHRT_MAX - gamepadrightdeadzone), 3.0f)

@@ -548,7 +548,7 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
 
@@ -558,7 +558,7 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
 
@@ -568,7 +568,7 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
 
@@ -578,7 +578,7 @@ static void I_GetEvent(void)
                         else
                             gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
 
@@ -588,7 +588,7 @@ static void I_GetEvent(void)
                         else
                             gamepadbuttons &= ~GAMEPAD_LEFT_TRIGGER;
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
 
@@ -598,7 +598,7 @@ static void I_GetEvent(void)
                         else
                             gamepadbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
 
-                        event.type = lasteventtype = ev_gamepad;
+                        event.type = ev_gamepad;
                         D_PostEvent(&event);
                         break;
                 }
@@ -633,6 +633,7 @@ static void I_GetEvent(void)
                     S_StartSound(NULL, sfx_swtchn);
                     M_QuitDOOM(0);
                 }
+
                 break;
 
             case SDL_WINDOWEVENT:
@@ -647,7 +648,6 @@ static void I_GetEvent(void)
                                 S_ResumeSound();
 
                             I_InitKeyboard();
-
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -662,7 +662,6 @@ static void I_GetEvent(void)
                             }
 
                             I_ShutdownKeyboard();
-
                             break;
 
                         case SDL_WINDOWEVENT_EXPOSED:
