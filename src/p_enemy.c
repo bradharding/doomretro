@@ -1169,7 +1169,7 @@ void A_CyberAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo = P_SpawnMissile(actor, target, MT_ROCKET);
 
     // [BH] give cyberdemon rockets smoke trails
-    if (r_rockettrails && !D4V)
+    if (r_rockettrails && !doom4vanilla)
         mo->flags2 |= MF2_SMOKETRAIL;
 }
 
@@ -1232,7 +1232,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // spawn a puff of smoke behind the homing rocket
-    if (!D4V)
+    if (!doom4vanilla)
         P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction

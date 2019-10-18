@@ -555,7 +555,7 @@ void D_DoAdvanceTitle(void)
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
     {
-        if (W_CheckMultipleLumps("CREDIT") > 1 && !D4V)
+        if (W_CheckMultipleLumps("CREDIT") > 1 && !doom4vanilla)
         {
             if (++titlesequence > 2)
                 titlesequence = 1;
@@ -835,7 +835,7 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "eviternity.wad"))
         eviternity = true;
     else if (M_StringCompare(leaf, "d4v.wad"))
-        D4V = true;
+        doom4vanilla = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)

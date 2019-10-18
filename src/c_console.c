@@ -147,7 +147,7 @@ static int              consolecolors[STRINGTYPES];
 
 dboolean                scrollbardrawn;
 
-extern int              fps;
+extern int              framespersecond;
 extern int              refreshrate;
 extern dboolean         dowipe;
 extern dboolean         quitcmd;
@@ -931,14 +931,15 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 
 void C_UpdateFPS(void)
 {
-    if (fps && !dowipe && !paused && !menuactive)
+    if (framespersecond && !dowipe && !paused && !menuactive)
     {
         char    buffer[32];
 
-        M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", fps, 1000.0 / fps);
+        M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", framespersecond, 1000.0 / framespersecond);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
-            (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor : consolehighfpscolor));
+            (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor
+            : consolehighfpscolor));
     }
 }
 

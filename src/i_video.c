@@ -180,7 +180,7 @@ int                 gammaindex;
 static SDL_Rect     src_rect;
 static SDL_Rect     map_rect;
 
-int                 fps;
+int                 framespersecond;
 int                 refreshrate;
 
 #if defined(_WIN32)
@@ -302,7 +302,7 @@ dboolean keystate(int key)
     return state[TranslateKey2(key)];
 }
 
-void I_CapFPS(int frames)
+void I_CapFPS(int cap)
 {
 #if defined(_WIN32)
     static UINT CapFPSTimer;
@@ -313,7 +313,7 @@ void I_CapFPS(int frames)
         CapFPSTimer = 0;
     }
 
-    if (!frames || frames == TICRATE)
+    if (!cap || cap == TICRATE)
     {
         if (CapFPSEvent)
         {
@@ -328,7 +328,7 @@ void I_CapFPS(int frames)
 
         if (CapFPSEvent)
         {
-            CapFPSTimer = timeSetEvent(1000 / frames, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+            CapFPSTimer = timeSetEvent(1000 / cap, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
 
             if (!CapFPSTimer)
             {
@@ -798,7 +798,7 @@ static void CalculateFPS(void)
 
     if (starttime < currenttime - performancefrequency)
     {
-        fps = frames;
+        framespersecond = frames;
         frames = 0;
         starttime = currenttime;
     }

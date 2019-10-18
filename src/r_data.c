@@ -585,7 +585,7 @@ static void R_InitSpriteLumps(void)
     }
     else if (eviternity)
         mobjinfo[MT_DOGS].blood = MT_GREENBLOOD;
-    else if (D4V)
+    else if (doom4vanilla)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_INV].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
