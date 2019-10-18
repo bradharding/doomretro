@@ -878,9 +878,9 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 char *C_GetTimeStamp(unsigned int tics)
 {
     static char buffer[9];
-    int         hours = gamestarttime->tm_hour;
-    int         minutes = gamestarttime->tm_min;
-    int         seconds = gamestarttime->tm_sec;
+    int         hours = gamestarttime.tm_hour;
+    int         minutes = gamestarttime.tm_min;
+    int         seconds = gamestarttime.tm_sec;
 
     if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
     {
