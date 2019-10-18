@@ -10,6 +10,7 @@
 * Thing triangles representing dogs in the automap when using the `IDDT` cheat will now be the correct size.
 * The player will no longer reload their super shotgun after firing their last two shells.
 * The infighting among monsters once the player dies now works correctly if the `infighting` CVAR is `on`.
+* Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
 ---
 
