@@ -627,7 +627,7 @@ void R_StoreWallRange(const int start, const int stop)
     else
     {
         ds_p->minscale = rw_scale;
-        ds_p->maxscale = ds_p->scale2;
+        ds_p->maxscale = rw_scale;
     }
 
     // calculate texture boundaries and decide if floor/ceiling marks are needed
