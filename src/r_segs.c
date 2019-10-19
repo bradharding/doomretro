@@ -46,7 +46,7 @@
 static dboolean     segtextured;        // True if any of the segs textures might be visible.
 
 static dboolean     markfloor;          // False if the back side is the same plane.
-dboolean            markceiling;
+static dboolean     markceiling;
 
 static dboolean     maskedtexture;
 static int          toptexture;
@@ -626,8 +626,8 @@ void R_StoreWallRange(const int start, const int stop)
     }
     else
     {
-        ds_p->minscale = rw_scale;
-        ds_p->maxscale = rw_scale;
+        ds_p->scalestep = rw_scalestep = 0;
+        ds_p->minscale = ds_p->maxscale = rw_scale;
     }
 
     // calculate texture boundaries and decide if floor/ceiling marks are needed
