@@ -1102,9 +1102,13 @@ void HU_Ticker(void)
         else
         {
             int angle = (int)(viewangle * 90.0 / ANG90);
+            int z = viewplayer->mo->z;
+
+            if ((viewplayer->mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+                z -= FOOTCLIPSIZE;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
-                viewx >> FRACBITS, viewy >> FRACBITS, viewplayer->mo->z >> FRACBITS);
+                viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
         }
 
         HUlib_AddMessageToSText(&w_message, buffer);
