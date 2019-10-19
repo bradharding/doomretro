@@ -1068,10 +1068,6 @@ void HU_Erase(void)
         HUlib_EraseTextLine(&w_title);
 }
 
-extern fixed_t  m_x, m_y;
-extern fixed_t  m_h, m_w;
-extern int      direction;
-
 void HU_Ticker(void)
 {
     const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
@@ -1097,8 +1093,8 @@ void HU_Ticker(void)
 
         if (automapactive && !am_followmode)
         {
-            int x = (m_x + m_w / 2) >> MAPBITS;
-            int y = (m_y + m_h / 2) >> MAPBITS;
+            int x = am_frame.center.x >> MAPBITS;
+            int y = am_frame.center.y >> MAPBITS;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
                 R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);

@@ -84,20 +84,6 @@ void AM_SetColors(void);
 void AM_GetGridSize(void);
 void AM_AddToPath(void);
 
-extern dboolean message_dontfuckwithme;
-
-extern int      gamepadwait;
-
-extern mpoint_t *markpoints;
-extern int      markpointnum;
-extern int      markpointnum_max;
-
-extern mpoint_t *pathpoints;
-extern int      pathpointnum;
-extern int      pathpointnum_max;
-
-dboolean keystate(int key);
-
 typedef struct
 {
     mpoint_t    center;
@@ -105,5 +91,22 @@ typedef struct
     fixed_t     cos;
     fixed_t     bbox[4];
 } am_frame_t;
+
+extern dboolean     message_dontfuckwithme;
+
+extern int          gamepadwait;
+
+extern mpoint_t     *markpoints;
+extern int          markpointnum;
+extern int          markpointnum_max;
+
+extern mpoint_t     *pathpoints;
+extern int          pathpointnum;
+extern int          pathpointnum_max;
+
+extern am_frame_t   am_frame;
+extern int          direction;
+
+dboolean keystate(int key);
 
 #endif
