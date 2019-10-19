@@ -900,7 +900,7 @@ char *C_GetTimeStamp(unsigned int tics)
     if (hours > 12)
         hours -= 12;
 
-    M_snprintf(buffer, 9, "%s%d:%02d:%02d", (hours < 10 ? " " : ""), hours, minutes, seconds);
+    M_snprintf(buffer, 9, "%s%i:%02i:%02i", (hours < 10 ? " " : ""), hours, minutes, seconds);
     return buffer;
 }
 

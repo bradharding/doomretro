@@ -1552,6 +1552,8 @@ static void G_DoSaveGame(void)
         rename(savegame_file, backup_savegame_file);
         rename(temp_savegame_file, savegame_file);
 
+        free(backup_savegame_file);
+
         if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
 

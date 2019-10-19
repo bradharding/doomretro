@@ -103,7 +103,7 @@ dboolean        menuactive;
 static dboolean savegames;
 dboolean        startingnewgame;
 
-char            savegamestrings[10][SAVESTRINGSIZE];
+char            savegamestrings[6][SAVESTRINGSIZE];
 
 static short    itemOn;                 // menu item skull is on
 static short    skullAnimCounter;       // skull animation counter

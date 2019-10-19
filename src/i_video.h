@@ -122,4 +122,6 @@ extern byte         *mapscreen;
 
 extern byte         *PLAYPAL;
 
+extern dboolean     returntowidescreen;
+
 #endif

@@ -1093,18 +1093,20 @@ void HU_Ticker(void)
 
         if (automapactive && !am_followmode)
         {
-            int x = am_frame.center.x >> MAPBITS;
-            int y = am_frame.center.y >> MAPBITS;
+            mpoint_t    center = am_frame.center;
+            int         x = center.x >> MAPBITS;
+            int         y = center.y >> MAPBITS;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
                 R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
         }
         else
         {
-            int angle = (int)(viewangle * 90.0 / ANG90);
-            int z = viewplayer->mo->z;
+            int     angle = (int)(viewangle * 90.0 / ANG90);
+            mobj_t  *mo = viewplayer->mo;
+            int     z = mo->z;
 
-            if ((viewplayer->mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+            if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
                 z -= FOOTCLIPSIZE;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),

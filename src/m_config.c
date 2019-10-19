@@ -53,7 +53,6 @@
 static dboolean cvarsloaded;
 
 extern char     *packageconfig;
-extern dboolean returntowidescreen;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
