@@ -241,6 +241,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
 
 const kern_t kern[] =
 {
+    { ' ', '(',  -2 },
     { '.', '1',  -1 },
     { '.', '7',  -1 },
     { '.', '"',  -1 },
@@ -313,6 +314,9 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
+
+                if (prev == ' ' && c == '(')
+                    x -= 2;
 
                 if (vid_widescreen)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
