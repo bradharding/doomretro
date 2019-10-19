@@ -1507,7 +1507,7 @@ static void SetVideoMode(dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL v2.1</i>.");
+                C_Warning("<i>" PACKAGE_NAME "</i> requires at least <i>OpenGL v2.1</i>.");
 
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();

@@ -394,11 +394,7 @@ static void D_DoomLoop(void)
 
     R_ExecuteSetViewSize();
 
-#if defined(_WIN32)
-    localtime_s(&gamestarttime, &now);
-#else
     localtime_r(&gamestarttime, &now);
-#endif
 
     viewplayer = &player;
     viewplayer->damagecount = 0;
@@ -1825,14 +1821,14 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time <i><b>"PACKAGE_NAME"</b></i> has been run.");
+        C_Output("This is the first time <i><b>" PACKAGE_NAME "</b></i> has been run.");
     else if (stat_runs == 1)
-        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run twice.");
+        C_Output("<i><b>" PACKAGE_NAME "</b></i> has now been run twice.");
     else
     {
         char    *stat_runs_str = commify(SafeAdd(stat_runs, 1));
 
-        C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", stat_runs_str);
+        C_Output("<i><b>" PACKAGE_NAME "</b></i> has now been run %s times.", stat_runs_str);
 
         free(stat_runs_str);
     }

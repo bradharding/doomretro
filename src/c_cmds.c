@@ -539,7 +539,7 @@ consolecmd_t consolecmds[] =
     CMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
-        "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
+        "The amount of time <i><b>" PACKAGE_NAME "</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
         "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the "
         "player."),
@@ -568,7 +568,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the <i><b>"PACKAGE_NAME" Wiki</b></i>."),
+        "Opens the <i><b>" PACKAGE_NAME " Wiki</b></i>."),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdl, false),
     CMD_CHEAT(idbeholdi, false),
@@ -641,7 +641,7 @@ consolecmd_t consolecmds[] =
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player <i>message</i>."),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits <i><b>"PACKAGE_NAME"</b></i>."),
+        "Quits <i><b>" PACKAGE_NAME "</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -782,7 +782,7 @@ consolecmd_t consolecmds[] =
     CMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
-        "<i><b>"PACKAGE_NAME"'s</b></i> version."),
+        "<i><b>" PACKAGE_NAME "'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\n"
         "disabled when this CVAR is <b>35</b>."),
@@ -2271,9 +2271,9 @@ static void help_cmd_func2(char *cmd, char *parms)
 #if defined(_WIN32)
     ShellExecute(NULL, "open", PACKAGE_WIKIHELPURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    system("xdg-open "PACKAGE_WIKIHELPURL);
+    system("xdg-open " PACKAGE_WIKIHELPURL);
 #elif defined(__APPLE__)
-    system("open "PACKAGE_WIKIHELPURL);
+    system("open " PACKAGE_WIKIHELPURL);
 #else
     C_HideConsoleFast();
     M_ShowHelp(0);

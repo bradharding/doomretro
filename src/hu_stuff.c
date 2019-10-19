@@ -1134,7 +1134,7 @@ void HU_Ticker(void)
                     message[len] = '.';
                     message[len + 1] = '\0';
                 }
-                else
+                else if (len >= 1)
                 {
                     message[len - 1] = '.';
                     message[len] = '.';
