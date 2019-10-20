@@ -141,8 +141,6 @@ extern angle_t      clipangle;
 extern int          viewangletox[FINEANGLES / 2];
 extern angle_t      xtoviewangle[SCREENWIDTH + 1];
 
-extern angle_t      rw_normalangle;
-
 extern visplane_t   *floorplane;
 extern visplane_t   *ceilingplane;
 

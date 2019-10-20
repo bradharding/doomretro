@@ -47,6 +47,12 @@ typedef enum
     lighting_special
 } special_e;
 
+extern fixed_t          animatedliquiddiff;
+extern fixed_t          animatedliquidxdir;
+extern fixed_t          animatedliquidydir;
+extern fixed_t          animatedliquidxoffs;
+extern fixed_t          animatedliquidyoffs;
+
 extern terraintype_t    *terraintypes;
 extern dboolean         *isteleport;
 

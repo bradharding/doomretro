@@ -63,7 +63,6 @@ dboolean        autousing = false;
 int             deathcount = 0;
 int             deadlookdir = -1;
 
-extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;

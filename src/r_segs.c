@@ -65,7 +65,7 @@ static byte         *topbrightmap;
 static byte         *midbrightmap;
 static byte         *bottombrightmap;
 
-angle_t             rw_normalangle;
+static angle_t      rw_normalangle;
 static fixed_t      rw_distance;
 
 //
@@ -98,8 +98,6 @@ static int          *maskedtexturecol;  // dropoff overflow
 
 dboolean            r_brightmaps = r_brightmaps_default;
 
-extern int          *openings;          // dropoff overflow
-extern fixed_t      animatedliquiddiff;
 extern dboolean     usebrightmaps;
 
 //

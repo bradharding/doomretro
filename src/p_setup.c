@@ -248,12 +248,6 @@ dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
-extern fixed_t  animatedliquiddiff;
-extern fixed_t  animatedliquidxdir;
-extern fixed_t  animatedliquidydir;
-extern fixed_t  animatedliquidxoffs;
-extern fixed_t  animatedliquidyoffs;
-
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t dx = (v1->x - v2->x) >> FRACBITS;
