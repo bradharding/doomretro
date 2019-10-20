@@ -38,14 +38,13 @@
 
 #include "doomstat.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "z_zone.h"
 
 // the list of ceilings moving currently, including crushers
 ceilinglist_t   *activeceilings;
-
-extern dboolean canmodify;
 
 static void T_GradualLightingToCeiling(ceiling_t *ceiling)
 {

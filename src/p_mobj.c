@@ -44,6 +44,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
@@ -79,7 +80,6 @@ extern fixed_t      animatedliquiddiffs[64];
 extern int          deadlookdir;
 extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
-extern dboolean     canmodify;
 extern dboolean     usemouselook;
 
 void A_Recoil(weapontype_t weapon);

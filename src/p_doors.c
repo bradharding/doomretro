@@ -49,7 +49,7 @@
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
     sector_t    *sec = door->sector;
-    int         level = door->topheight - sec->floorheight;
+    fixed_t     level = door->topheight - sec->floorheight;
 
     if (level > 0)
     {

@@ -1669,8 +1669,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                        ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the"
-                            : (isvowel(target->info->name1[0]) ? "an" : "a")),
+                        ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                            (isvowel(target->info->name1[0]) ? "an" : "a")),
                         ((target->flags & MF_FRIEND) ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
@@ -1700,8 +1700,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the"
-                                    : (isvowel(target->info->name1[0]) ? "an" : "a")),
+                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                                    (isvowel(target->info->name1[0]) ? "an" : "a")),
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
@@ -1727,8 +1727,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the"
-                                    : (isvowel(target->info->name1[0]) ? "an" : "a")),
+                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                                    (isvowel(target->info->name1[0]) ? "an" : "a")),
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
@@ -1760,8 +1760,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         M_StringCopy(targetname, target->name, sizeof(targetname));
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            ((target->flags &MF_FRIEND) && monstercount[target->type] == 1 ? "the"
-                                : (isvowel(target->info->name1[0]) ? "an" : "a")),
+                            ((target->flags &MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                                (isvowel(target->info->name1[0]) ? "an" : "a")),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
                             (*target->info->name1 ? target->info->name1 : "monster"));
 
@@ -1776,8 +1776,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     M_StringCopy(sourcename, source->name, sizeof(sourcename));
                 else
                     M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                        ((source->flags &MF_FRIEND) && monstercount[source->type] == 1 ? "the"
-                            : (isvowel(source->info->name1[0]) ? "an" : "a")),
+                        ((source->flags &MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
+                            (isvowel(source->info->name1[0]) ? "an" : "a")),
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
                         (*source->info->name1 ? source->info->name1 : "monster"));
 
@@ -1794,9 +1794,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         M_StringCopy(targetname, target->name, sizeof(targetname));
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            (source->type == target->type ? "another"
-                                : ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the"
-                                : (isvowel(target->info->name1[0]) ? "an" : "a"))),
+                            (source->type == target->type ? "another" :
+                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                                (isvowel(target->info->name1[0]) ? "an" : "a"))),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
                             (*target->info->name1 ? target->info->name1 : "monster"));
 

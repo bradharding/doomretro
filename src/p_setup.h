@@ -39,6 +39,7 @@
 #if !defined(__P_SETUP_H__)
 #define __P_SETUP_H__
 
+extern dboolean canmodify;
 extern dboolean skipblstart;    // MaxW: Skip initial blocklist short
 
 void P_SetupLevel(int ep, int map);

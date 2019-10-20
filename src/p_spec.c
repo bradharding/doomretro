@@ -49,6 +49,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
 #include "s_sound.h"
@@ -129,7 +130,6 @@ static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
-extern dboolean     canmodify;
 extern int          numflats;
 extern texture_t    **textures;
 

@@ -43,6 +43,7 @@
 #include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
 #include "v_video.h"
@@ -128,7 +129,6 @@ int                 r_skycolor = r_skycolor_default;
 dboolean            r_textures = r_textures_default;
 dboolean            r_translucency = r_translucency_default;
 
-extern dboolean     canmodify;
 extern dboolean     canmouselook;
 extern int          barrelms;
 extern dboolean     transferredsky;

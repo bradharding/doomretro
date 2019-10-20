@@ -40,6 +40,7 @@
 #include "m_config.h"
 #include "p_fix.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "z_zone.h"
@@ -49,8 +50,6 @@
 
 #define DOWN   -1
 #define UP      1
-
-extern dboolean canmodify;
 
 //
 // FLOORS

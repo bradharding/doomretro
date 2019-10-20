@@ -44,6 +44,7 @@
 #include "i_system.h"
 #include "i_swap.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "w_wad.h"
 
