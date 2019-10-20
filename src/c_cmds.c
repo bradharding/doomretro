@@ -348,7 +348,7 @@ static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
 static void gp_deadzone_cvars_func2(char *cmd, char *parms);
-static void gp_sensitivity_cvar_func2(char *cmd, char *parms);
+static void gp_sensitivity_cvars_func2(char *cmd, char *parms);
 static void mouselook_cvar_func2(char *cmd, char *parms);
 static dboolean player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
@@ -553,8 +553,10 @@ consolecmd_t consolecmds[] =
         "The dead zone of the gamepad's right thumbstick\n(<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(gp_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles inverting the vertical axis of the\ngamepad's right thumbstick when looking up and\ndown."),
-    CVAR_INT(gp_sensitivity, "", int_cvars_func1, gp_sensitivity_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The gamepad's sensitivity (<b>0</b> to <b>128</b>)."),
+    CVAR_INT(gp_sensitivity_left, "", int_cvars_func1, gp_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The sensitivity of the gamepad's left thumbstick\n(<b>0</b> to <b>128</b>)."),
+    CVAR_INT(gp_sensitivity_right, "", int_cvars_func1, gp_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The sensitivity of the gamepad's right thumbstick\n(<b>0</b> to <b>128</b>)."),
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles swapping the gamepad's left and right\nthumbsticks."),
     CVAR_INT(gp_thumbsticks, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -5739,14 +5741,17 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
 //
 // gp_sensitivity CVAR
 //
-static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
+static void gp_sensitivity_cvars_func2(char *cmd, char *parms)
 {
-    const int   gp_sensitivity_old = gp_sensitivity;
+    const int   gp_sensitivity_left_old = gp_sensitivity_left;
+    const int   gp_sensitivity_right_old = gp_sensitivity_right;
 
     int_cvars_func2(cmd, parms);
 
-    if (gp_sensitivity != gp_sensitivity_old)
-        I_SetGamepadSensitivity();
+    if (gp_sensitivity_left != gp_sensitivity_left_old)
+        I_SetGamepadLeftSensitivity();
+    else if (gp_sensitivity_right != gp_sensitivity_right_old)
+        I_SetGamepadRightSensitivity();
 }
 
 //

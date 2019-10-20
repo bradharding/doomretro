@@ -79,7 +79,8 @@ extern dboolean     gp_analog;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
 extern dboolean     gp_invertyaxis;
-extern int          gp_sensitivity;
+extern int          gp_sensitivity_left;
+extern int          gp_sensitivity_right;
 extern dboolean     gp_swapthumbsticks;
 extern int          gp_thumbsticks;
 extern int          gp_vibrate_barrels;
@@ -384,9 +385,13 @@ enum
 
 #define gp_invertyaxis_default                  false
 
-#define gp_sensitivity_min                      0
-#define gp_sensitivity_default                  64
-#define gp_sensitivity_max                      128
+#define gp_sensitivity_left_min                 0
+#define gp_sensitivity_left_default             64
+#define gp_sensitivity_left_max                 128
+
+#define gp_sensitivity_right_min                0
+#define gp_sensitivity_right_default            64
+#define gp_sensitivity_right_max                128
 
 #define gp_swapthumbsticks_default              false
 

@@ -12,6 +12,7 @@
 * The infighting among monsters once the player dies now works correctly if the `infighting` CVAR is `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The z-coordinate displayed by the `IDMYPOS` cheat now accommodates for when the player is in liquid and the `r_liquid_lowerview` CVAR is `on`.
+* The sensitivities of the left and right thumbsticks of a gamepad can now be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the `gp_sensitivity_left` and `gp_sensitivity_right` CVARs.
 
 ---
 

@@ -46,7 +46,8 @@ dboolean                    gp_analog = gp_analog_default;
 float                       gp_deadzone_left = gp_deadzone_left_default;
 float                       gp_deadzone_right = gp_deadzone_right_default;
 dboolean                    gp_invertyaxis = gp_invertyaxis_default;
-int                         gp_sensitivity = gp_sensitivity_default;
+int                         gp_sensitivity_left = gp_sensitivity_left_default;
+int                         gp_sensitivity_right = gp_sensitivity_right_default;
 dboolean                    gp_swapthumbsticks = gp_swapthumbsticks_default;
 int                         gp_thumbsticks = gp_thumbsticks_default;
 int                         gp_vibrate_barrels = gp_vibrate_barrels_default;
@@ -62,7 +63,8 @@ short                       gamepadthumbLX;
 short                       gamepadthumbLY;
 short                       gamepadthumbRX;
 short                       gamepadthumbRY;
-float                       gamepadsensitivity;
+float                       gamepadleftsensitivity;
+float                       gamepadrightsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
 
@@ -178,9 +180,14 @@ void I_StopGamepadVibration(void)
         SDL_HapticRumbleStop(haptic);
 }
 
-void I_SetGamepadSensitivity(void)
+void I_SetGamepadLeftSensitivity(void)
 {
-    gamepadsensitivity = (!gp_sensitivity ? 0.0f : 4.0f * gp_sensitivity / gp_sensitivity_max + 0.2f);
+    gamepadleftsensitivity = (!gp_sensitivity_left ? 0.0f : 4.0f * gp_sensitivity_left / gp_sensitivity_left_max + 0.2f);
+}
+
+void I_SetGamepadRightSensitivity(void)
+{
+    gamepadrightsensitivity = (!gp_sensitivity_right ? 0.0f : 4.0f * gp_sensitivity_right / gp_sensitivity_right_max + 0.2f);
 }
 
 void I_SetGamepadLeftDeadZone(void)

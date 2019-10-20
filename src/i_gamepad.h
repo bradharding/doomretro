@@ -84,7 +84,8 @@ extern short    gamepadthumbRX;
 extern short    gamepadthumbRY;
 extern int      idlevibrationstrength;
 extern int      restorevibrationstrength;
-extern float    gamepadsensitivity;
+extern float    gamepadleftsensitivity;
+extern float    gamepadrightsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
@@ -93,7 +94,8 @@ void I_ShutdownGamepad(void);
 void I_GamepadVibration(int strength);
 void I_UpdateGamepadVibration(void);
 void I_StopGamepadVibration(void);
-void I_SetGamepadSensitivity(void);
+void I_SetGamepadLeftSensitivity(void);
+void I_SetGamepadRightSensitivity(void);
 void I_SetGamepadLeftDeadZone(void);
 void I_SetGamepadRightDeadZone(void);
 

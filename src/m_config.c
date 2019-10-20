@@ -108,7 +108,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS       ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (gp_invertyaxis,                                    BOOLVALUEALIAS     ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity,                                    NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (gp_sensitivity_left,                               NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (gp_sensitivity_right,                              NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (gp_thumbsticks,                                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_barrels,                                NOVALUEALIAS       ),
@@ -636,8 +637,11 @@ static void M_CheckCVARs(void)
     if (gp_invertyaxis != false && gp_invertyaxis != true)
         gp_invertyaxis = gp_invertyaxis_default;
 
-    gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
-    I_SetGamepadSensitivity();
+    gp_sensitivity_left = BETWEEN(gp_sensitivity_left_min, gp_sensitivity_left, gp_sensitivity_left_max);
+    I_SetGamepadLeftSensitivity();
+
+    gp_sensitivity_right = BETWEEN(gp_sensitivity_right_min, gp_sensitivity_right, gp_sensitivity_right_max);
+    I_SetGamepadRightSensitivity();
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;
