@@ -59,16 +59,16 @@ int             initial_health = 100;
 int             initial_bullets = 50;
 int             maxhealth = MAXHEALTH * 2;
 int             max_armor = 200;
-int             green_armor_class = GREENARMOR;
-int             blue_armor_class = BLUEARMOR;
+int             green_armor_class = armortype_green;
+int             blue_armor_class = armortype_blue;
 int             max_soul = 200;
 int             soul_health = 100;
 int             mega_health = 200;
 int             god_health = 100;
 int             idfa_armor = 200;
-int             idfa_armor_class = BLUEARMOR;
+int             idfa_armor_class = armortype_blue;
 int             idkfa_armor = 200;
-int             idkfa_armor_class = BLUEARMOR;
+int             idkfa_armor_class = armortype_blue;
 int             bfgcells = BFGCELLS;
 dboolean        species_infighting = false;
 
@@ -776,7 +776,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
                 if (!viewplayer->armortype)
-                    viewplayer->armortype = GREENARMOR;
+                    viewplayer->armortype = armortype_green;
             }
 
             if (message)
@@ -1218,7 +1218,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
     {
         // green armor
         case MT_MISC0:
-            if (viewplayer->armortype != GREENARMOR)
+            if (viewplayer->armortype != armortype_green)
                 return false;
 
             if (viewplayer->armorpoints < green_armor_class * 100)
@@ -1230,7 +1230,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // blue armor
         case MT_MISC1:
-            if (viewplayer->armortype != BLUEARMOR)
+            if (viewplayer->armortype != armortype_blue)
                 return false;
 
             if (viewplayer->armorpoints < blue_armor_class * 100)
@@ -2065,13 +2065,13 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (adjust && tplayer->armorpoints)
         {
-            int saved = damage / (tplayer->armortype == GREENARMOR ? 3 : 2);
+            int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
 
             if (tplayer->armorpoints <= saved)
             {
                 // armor is used up
                 saved = tplayer->armorpoints;
-                tplayer->armortype = NOARMOR;
+                tplayer->armortype = armortype_none;
             }
 
             tplayer->armorpoints -= saved;

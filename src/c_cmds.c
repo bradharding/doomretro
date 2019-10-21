@@ -1654,13 +1654,13 @@ static void condump_cmd_func2(char *cmd, char *parms)
     {
         int count = 0;
 
-        M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", appdatafolder);
 
         while (M_FileExists(filename))
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt", appdatafolder, ++count);
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%i).txt", appdatafolder, ++count);
     }
     else
-        M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parms);
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", appdatafolder, parms);
 
     if ((file = fopen(filename, "wt")))
     {
@@ -4858,7 +4858,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (viewplayer->armorpoints)
             {
                 viewplayer->armorpoints = 0;
-                viewplayer->armortype = NOARMOR;
+                viewplayer->armortype = armortype_none;
                 result = true;
             }
 
@@ -4930,7 +4930,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (viewplayer->armorpoints)
             {
                 viewplayer->armorpoints = 0;
-                viewplayer->armortype = NOARMOR;
+                viewplayer->armortype = armortype_none;
                 C_HideConsole();
             }
             else
@@ -5587,7 +5587,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
         {
             viewplayer->armortype = value;
 
-            if (value == NOARMOR)
+            if (value == armortype_none)
                 viewplayer->armorpoints = 0;
         }
     }
@@ -5850,7 +5850,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 viewplayer->armorpoints = MIN(value, max_armor);
 
                 if (!viewplayer->armortype)
-                    viewplayer->armortype = GREENARMOR;
+                    viewplayer->armortype = armortype_green;
 
                 C_HideConsole();
             }

@@ -1511,7 +1511,7 @@ void V_Init(void)
     {
         char    *appdatafolder = M_GetAppDataFolder();
 
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", appdatafolder);
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots", appdatafolder);
 
 #if !defined(__APPLE__)
         free(appdatafolder);
@@ -1607,7 +1607,7 @@ dboolean V_ScreenShot(void)
 
         count++;
         M_MakeDirectory(screenshotfolder);
-        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname1);
+        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s" DIR_SEPARATOR_S "%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
     result = V_SavePNG(renderer, lbmpath1);
@@ -1617,7 +1617,7 @@ dboolean V_ScreenShot(void)
     {
         do
         {
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s (%s).png",
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s" DIR_SEPARATOR_S "%s (%s).png",
                 screenshotfolder, makevalidfilename(mapname), commify(count++));
         } while (M_FileExists(lbmpath2));
 

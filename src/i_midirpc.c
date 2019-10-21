@@ -222,7 +222,7 @@ dboolean I_MidiRPCInitServer(void)
 {
     dboolean    result;
 
-    M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
+    M_snprintf(module, sizeof(module), "%s" DIR_SEPARATOR_S "midiproc.exe", M_GetExecutableFolder());
 
     // Look for executable file
     if (!M_FileExists(module))

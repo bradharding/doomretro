@@ -328,9 +328,9 @@ enum
 #define armor_default                           0
 #define armor_max                               INT_MAX
 
-#define armortype_min                           NOARMOR
-#define armortype_default                       NOARMOR
-#define armortype_max                           BLUEARMOR
+#define armortype_min                           armortype_none
+#define armortype_default                       armortype_none
+#define armortype_max                           armortype_blue
 
 #define autoaim_default                         true
 

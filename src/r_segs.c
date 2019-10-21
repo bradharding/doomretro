@@ -241,7 +241,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
-    spryscale = ds->scale1 + (x1 - ds->x1) * rw_scalestep;
+    spryscale = ds->scale + (x1 - ds->x1) * rw_scalestep;
     mceilingclip = ds->sprtopclip;
     mfloorclip = ds->sprbottomclip;
 
@@ -604,28 +604,33 @@ void R_StoreWallRange(const int start, const int stop)
     R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
-    ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(xtoviewangle[start]);
+    rw_scale = R_ScaleFromGlobalAngle(xtoviewangle[start]);
+    ds_p->scale = rw_scale;
 
     if (stop > start)
     {
-        ds_p->scale2 = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
-        ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
+        fixed_t scale = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
 
-        if (rw_scale > ds_p->scale2)
+        rw_scalestep = (scale - rw_scale) / (stop - start);
+        ds_p->scalestep = rw_scalestep;
+
+        if (rw_scale > scale)
         {
-            ds_p->minscale = ds_p->scale2;
+            ds_p->minscale = scale;
             ds_p->maxscale = rw_scale;
         }
         else
         {
             ds_p->minscale = rw_scale;
-            ds_p->maxscale = ds_p->scale2;
+            ds_p->maxscale = scale;
         }
     }
     else
     {
-        ds_p->scalestep = rw_scalestep = 0;
-        ds_p->minscale = ds_p->maxscale = rw_scale;
+        ds_p->scalestep = 0;
+        rw_scalestep = 0;
+        ds_p->minscale = rw_scale;
+        ds_p->maxscale = rw_scale;
     }
 
     // calculate texture boundaries and decide if floor/ceiling marks are needed

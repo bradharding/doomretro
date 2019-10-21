@@ -458,13 +458,13 @@ void D_InitIWADFolder(void)
         }
 
 #if defined(_WIN32)
-    M_snprintf(path, sizeof(path), "%s"DIR_SEPARATOR_S"DOOM.WAD", iwadfolder);
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM.WAD", iwadfolder);
 
     if (M_FileExists(path))
         wad = "DOOM.WAD";
     else
     {
-        M_snprintf(path, sizeof(path), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM2.WAD", iwadfolder);
 
         if (M_FileExists(path))
             wad = "DOOM2.WAD";

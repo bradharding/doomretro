@@ -57,9 +57,9 @@
 
 typedef enum
 {
-    NOARMOR    = 0,
-    GREENARMOR = 1,
-    BLUEARMOR  = 2
+    armortype_none,
+    armortype_green,
+    armortype_blue
 } armortype_t;
 
 //

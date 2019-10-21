@@ -861,8 +861,7 @@ typedef struct
     int                 x1;
     int                 x2;
 
-    fixed_t             scale1;
-    fixed_t             scale2;
+    fixed_t             scale;
     fixed_t             scalestep;
 
     fixed_t             minscale;

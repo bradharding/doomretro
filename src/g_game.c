@@ -511,7 +511,7 @@ static void G_ResetPlayer(void)
 {
     viewplayer->health = initial_health;
     viewplayer->armorpoints = 0;
-    viewplayer->armortype = NOARMOR;
+    viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));

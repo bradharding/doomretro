@@ -869,7 +869,7 @@ static dboolean D_CheckParms(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_21.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_21.wad");
 
                     if (W_MergeFile(fullpath, true))
                     {
@@ -878,7 +878,7 @@ static dboolean D_CheckParms(void)
                     }
                     else
                     {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -887,7 +887,7 @@ static dboolean D_CheckParms(void)
                         }
                         else
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
 
                             if (W_MergeFile(fullpath, true))
                             {
@@ -899,7 +899,7 @@ static dboolean D_CheckParms(void)
 
                     if (sigil)
                     {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
                         W_MergeFile(fullpath, true);
                     }
                 }
@@ -908,7 +908,7 @@ static dboolean D_CheckParms(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "NERVE.WAD");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "NERVE.WAD");
 
                     if (W_MergeFile(fullpath, true))
                     {
@@ -929,7 +929,7 @@ static dboolean D_CheckParms(void)
                 iwadrequired = doom2;
 
             // try the current folder first
-            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), iwadsrequired[iwadrequired]);
+            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), iwadsrequired[iwadrequired]);
             D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -955,15 +955,15 @@ static dboolean D_CheckParms(void)
             {
                 // otherwise try the iwadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__)
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
 #else
                 if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0], iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0], iwadsrequired[iwadrequired]);
                     wordfree(&p);
                 }
                 else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
 #endif
                 D_IdentifyIWADByName(fullpath);
 
@@ -1016,32 +1016,32 @@ static dboolean D_CheckParms(void)
 
             if (BTSXE1A && !BTSXE1B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e1b.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e1b.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (!BTSXE1A && BTSXE1B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e1a.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e1a.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (BTSXE2A && !BTSXE2B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e2b.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e2b.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (!BTSXE2A && BTSXE2B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e2a.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e2a.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (BTSXE3A && !BTSXE3B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e3b.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e3b.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (!BTSXE3A && BTSXE3B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]), "btsx_e3a.wad");
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e3a.wad");
                 return W_MergeFile(fullpath, true);
             }
         }
@@ -1148,7 +1148,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_v1_21.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_21.wad");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -1157,7 +1157,7 @@ static int D_OpenWADLauncher(void)
                         }
                         else
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
 
                             if (W_MergeFile(fullpath, true))
                             {
@@ -1166,7 +1166,7 @@ static int D_OpenWADLauncher(void)
                             }
                             else
                             {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL.wad");
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL.wad");
 
                                 if (W_MergeFile(fullpath, true))
                                 {
@@ -1178,7 +1178,7 @@ static int D_OpenWADLauncher(void)
 
                         if (sigil)
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
                             W_MergeFile(fullpath, true);
                         }
                     }
@@ -1187,7 +1187,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "NERVE.WAD");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -1212,7 +1212,7 @@ static int D_OpenWADLauncher(void)
 #endif
 
                 // try the current folder first
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1237,7 +1237,7 @@ static int D_OpenWADLauncher(void)
                 else
                 {
                     // otherwise try the iwadfolder CVAR
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -1289,32 +1289,32 @@ static int D_OpenWADLauncher(void)
 
                 if (BTSXE1A && !BTSXE1B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e1b.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e1b.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE1A && BTSXE1B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e1a.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e1a.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE2A && !BTSXE2B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e2b.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e2b.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e2a.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e2a.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE3A && !BTSXE3B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e3b.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e3b.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE3A && BTSXE3B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), "btsx_e3a.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e3a.wad");
                     return W_MergeFile(fullpath, true);
                 }
             }
@@ -1340,7 +1340,7 @@ static int D_OpenWADLauncher(void)
             {
                 char    fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass1);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, iwadpass1);
 
 #elif defined(__APPLE__)
             char    *szFile;
@@ -1388,7 +1388,7 @@ static int D_OpenWADLauncher(void)
             {
                 char    fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, iwadpass2);
 
 #elif defined(__APPLE__)
             for (NSURL *url in urls)
@@ -1446,7 +1446,7 @@ static int D_OpenWADLauncher(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass1);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, pwadpass1);
 
 #elif defined(__APPLE__)
                 for (NSURL *url in urls)
@@ -1467,7 +1467,7 @@ static int D_OpenWADLauncher(void)
                             char    fullpath2[MAX_PATH];
 
                             // try the current folder first
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile, iwadsrequired[iwadrequired]);
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", szFile, iwadsrequired[iwadrequired]);
                             D_IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -1478,7 +1478,7 @@ static int D_OpenWADLauncher(void)
                             else
                             {
                                 // otherwise try the iwadfolder CVAR
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder,
                                     iwadsrequired[iwadrequired]);
                                 D_IdentifyIWADByName(fullpath2);
 
@@ -1512,7 +1512,7 @@ static int D_OpenWADLauncher(void)
                         char    fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "DOOM2.WAD", iwadfolder);
                         D_IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
@@ -1539,7 +1539,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass2);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, pwadpass2);
 
 #elif defined(__APPLE__)
                     for (NSURL *url in urls)
@@ -1583,7 +1583,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, "NERVE.WAD");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -1609,7 +1609,7 @@ static int D_OpenWADLauncher(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, cfgpass);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, cfgpass);
 
 #elif defined(__APPLE__)
                 for (NSURL *url in urls)
@@ -1633,7 +1633,7 @@ static int D_OpenWADLauncher(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, dehpass);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, dehpass);
 
 #elif defined(__APPLE__)
                 for (NSURL *url in urls)
@@ -1908,7 +1908,7 @@ static void D_DoomMainSetup(void)
                         iwadrequired = doom2;
 
                     // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -1928,7 +1928,7 @@ static void D_DoomMainSetup(void)
                     else
                     {
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, iwadsrequired[iwadrequired]);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
                         D_IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, true))

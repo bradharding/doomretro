@@ -163,7 +163,7 @@ char *M_GetAppDataFolder(void)
     // On Linux and macOS, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
     char    *resourcefolder = M_StringJoin(executablefolder,
-                DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+                DIR_SEPARATOR_S ".." DIR_SEPARATOR_S "share" DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
 
     free(resourcefolder);
@@ -189,7 +189,7 @@ char *M_GetAppDataFolder(void)
 
         free(executablefolder);
 
-        return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S PACKAGE, NULL);
+        return M_StringJoin(buffer, DIR_SEPARATOR_S ".config" DIR_SEPARATOR_S PACKAGE, NULL);
 #endif
     }
     else
@@ -205,7 +205,7 @@ char *M_GetResourceFolder(void)
     // On Linux and macOS, first assume that the executable is in .../bin and
     // try to load resources from ../share/doomretro.
     char    *resourcefolder = M_StringJoin(executablefolder,
-                DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"DIR_SEPARATOR_S PACKAGE, NULL);
+                DIR_SEPARATOR_S ".." DIR_SEPARATOR_S "share" DIR_SEPARATOR_S PACKAGE, NULL);
     DIR     *resourcedir = opendir(resourcefolder);
 
     if (resourcedir)
