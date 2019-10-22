@@ -241,7 +241,6 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
 
 const kern_t kern[] =
 {
-    { ' ', '(',  -2 },
     { '.', '1',  -1 },
     { '.', '7',  -1 },
     { '.', '"',  -1 },
@@ -269,6 +268,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < 7 && !automapactive)];
     int             len = l->len;
+    const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
     if (external)
     {
@@ -315,7 +315,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
 
-                if (prev == ' ' && c == '(')
+                if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
                 if (vid_widescreen)
@@ -325,18 +325,23 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             }
             else
             {
-                int k = 0;
-
-                // [BH] apply kerning to certain character pairs
-                while (kern[k].char1)
+                if (prev == ' ' && c == '(' && !idmypos)
+                    x -= 2;
+                else
                 {
-                    if (prev == kern[k].char1 && c == kern[k].char2)
-                    {
-                        x += kern[k].adjust;
-                        break;
-                    }
+                    int k = 0;
 
-                    k++;
+                    // [BH] apply kerning to certain character pairs
+                    while (kern[k].char1)
+                    {
+                        if (prev == kern[k].char1 && c == kern[k].char2)
+                        {
+                            x += kern[k].adjust;
+                            break;
+                        }
+
+                        k++;
+                    }
                 }
 
                 // [BH] draw individual character
