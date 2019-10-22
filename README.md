@@ -14,7 +14,7 @@
 [![](https://img.shields.io/github/commit-activity/m/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/commits-since/bradharding/doomretro/latest.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/last-commit/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
-[![](https://img.shields.io/travis/bradharding/doomretro.svg?logo=travis)](https://travis-ci.org/bradharding/doomretro)
+[![](https://img.shields.io/travis/bradharding/doomretro.svg?logo=travis)](https://travis-ci.com/bradharding/doomretro)
 [![](https://img.shields.io/github/stars/bradharding/doomretro.svg?logo=github)](https://github.com/bradharding/doomretro/stargazers)
 [![](https://img.shields.io/twitter/follow/doomretro.svg?style=flat&logo=twitter)](https://twitter.com/doomretro)
 
