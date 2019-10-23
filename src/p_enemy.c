@@ -384,7 +384,7 @@ static dboolean P_SmartMove(mobj_t *actor)
     // and only if the target is immediately on the other side of the line.
     if (actor->type == MT_DOGS
         && target && !((target->flags ^ actor->flags) & MF_FRIEND)
-        && P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144
+        && (target->player || P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144)
         && M_Random() < 235)
         dropoff = 2;
 
