@@ -92,7 +92,6 @@ static dboolean wipe_doMelt(int tics)
     dboolean    done = true;
 
     while (tics--)
-    {
         for (int i = 0; i < SCREENWIDTH / 2; i++)
         {
             if (ypos[i] < 0)
@@ -124,7 +123,6 @@ static dboolean wipe_doMelt(int tics)
                 done = false;
             }
         }
-    }
 
     return done;
 }

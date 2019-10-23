@@ -369,15 +369,12 @@ static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
     int         dropoff = 0;
-    dboolean    onlift;
-    int         underdamage;
+    int         underdamage = P_IsUnderDamage(actor);
 
     // killough 9/12/98: stay on a lift if target is on one
-    onlift = (target && target->health > 0
-        && target->subsector->sector->tag == actor->subsector->sector->tag
-        && actor->subsector->sector->islift);
-
-    underdamage = P_IsUnderDamage(actor);
+    dboolean    onlift = (target && target->health > 0
+                    && target->subsector->sector->tag == actor->subsector->sector->tag
+                    && actor->subsector->sector->islift);
 
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
     // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
@@ -386,7 +383,7 @@ static dboolean P_SmartMove(mobj_t *actor)
         && target && !((target->flags ^ actor->flags) & MF_FRIEND)
         && (target->player || P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144)
         && M_Random() < 235)
-        dropoff = 2;
+        dropoff = (target->player ? 1 : 2);
 
     if (!P_Move(actor, dropoff))
         return false;
