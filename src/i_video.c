@@ -1491,7 +1491,8 @@ static void SetVideoMode(dboolean output)
             const char  *vendor = (const char *)pglGetString(GL_VENDOR);
 
             if (graphicscard && vendor)
-                C_Output("Using a <i><b>%s</b></i> graphics card by <i><b>%s</b></i>.", graphicscard, vendor);
+                C_Output("Using %s <i><b>%s</b></i> graphics card by <i><b>%s</b></i>.",
+                    (isvowel(graphicscard[0]) ? "an" : "a"), graphicscard, vendor);
         }
     }
 
