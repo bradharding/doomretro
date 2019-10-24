@@ -3780,6 +3780,13 @@ void M_Init(void)
     else
         EpiDef.numitems = 4;
 
+    if (EpiDef.lastOn > EpiDef.numitems)
+    {
+        EpiDef.lastOn = EpiDef.numitems;
+        episode = EpiDef.numitems + 1;
+        M_SaveCVARs();
+    }
+
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
 }
