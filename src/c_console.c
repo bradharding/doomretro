@@ -416,7 +416,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             bold = (italics ? 2 : 1);
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = 0;
             i += 3;
@@ -426,7 +426,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             italics = true;
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
         {
             italics = false;
             i += 3;
@@ -437,15 +437,31 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             w += SHORT(trademark->width);
             i++;
         }
+        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 1]) == 'm' && text[i + 2] == ')'
+            && formatting)
+        {
+            w += SHORT(trademark->width);
+            i += 3;
+        }
         else if (letter == 169)
         {
             w += SHORT(copyright->width);
             i++;
         }
+        else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
+        {
+            w += SHORT(copyright->width);
+            i += 2;
+        }
         else if (letter == 174)
         {
             w += SHORT(regomark->width);
             i++;
+        }
+        else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
+        {
+            w += SHORT(regomark->width);
+            i += 2;
         }
         else if (letter == 176)
         {
@@ -761,7 +777,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             bold = (italics ? 2 : 1);
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = 0;
             i += 3;
@@ -771,7 +787,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             italics = true;
             i += 2;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
         {
             italics = false;
             i += 3;
@@ -788,10 +804,26 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             else if (letter == 153)
                 patch = trademark;
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 1]) == 'm' && text[i + 2] == ')'
+                && formatting)
+            {
+                patch = trademark;
+                i += 3;
+            }
             else if (letter == 169)
                 patch = copyright;
+            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
+            {
+                patch = copyright;
+                i += 2;
+            }
             else if (letter == 174)
                 patch = regomark;
+            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
+            {
+                patch = regomark;
+                i += 2;
+            }
             else if (letter == 176)
                 patch = degree;
             else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
