@@ -1215,22 +1215,21 @@ void R_InitBuffer(int width, int height)
     // Same with base row offset.
     viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) / 2);
 
-    for (int i, y = 0; y < SCREENHEIGHT; y++)
+    for (int i = 0, y = viewwindowy * SCREENWIDTH + viewwindowx; y < SCREENWIDTH * SCREENHEIGHT; i++, y += SCREENWIDTH)
     {
-        i = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
-        ylookup0[y] = screens[0] + i;
-        ylookup1[y] = screens[1] + i;
+        ylookup0[i] = screens[0] + y;
+        ylookup1[i] = screens[1] + y;
     }
-
-    for (int x = 0; x < SCREENWIDTH; x++)
-        fuzztable[x] = FUZZ(0, 1);
 
     for (int y = 1; y < SCREENHEIGHT - 1; y++)
         for (int x = 0; x < SCREENWIDTH; x++)
             fuzztable[y * SCREENWIDTH + x] = FUZZ(-1, 1);
 
     for (int x = 0; x < SCREENWIDTH; x++)
+    {
+        fuzztable[x] = FUZZ(0, 1);
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
+    }
 }
 
 //
