@@ -5,11 +5,11 @@
 * Minor changes have been made to text that is output to the console.
 * The effects of the `autotilt` CVAR are now disabled while the freeze or no clipping modes are on.
 * The default value of `am_gridcolor` has been changed from `6` to `111`, making the automap’s grid a slightly lighter gray.
-* The player may no longer equip their fists if they have a chainsaw and a berserk power-up was previously taken away using the `take` CCMD.
+* If a berserk power-up was previously taken away from the player using the `take` CCMD, they may no longer equip their fists if they have a chainsaw.
 * The pistol may now be taken away from and given back to the player using the `take` and `give` CCMDs.
 * The thing triangles in the automap representing dogs will now be the correct size when using the `IDDT` cheat.
 * The player will no longer reload their super shotgun after firing their last two shells.
-* The infighting among monsters once the player dies now works correctly if the `infighting` CVAR is `on`.
+* A bug has been fixed whereby not all monsters near the player would infight once the player died and the `infighting` CVAR was `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The z-coordinate displayed by the `IDMYPOS` cheat now accommodates for when the player is in liquid and the `r_liquid_lowerview` CVAR is `on`.
 * The sensitivities of the left and right thumbsticks of a gamepad can now be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the `gp_sensitivity_left` and `gp_sensitivity_right` CVARs.
