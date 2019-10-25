@@ -394,7 +394,11 @@ static void D_DoomLoop(void)
 
     R_ExecuteSetViewSize();
 
-    localtime_r(&gamestarttime, &now);
+#if defined(_WIN32)
+    localtime_s(&gamestarttime, &now);
+#else
+    localtime_r(&now, &gamestarttime);
+#endif
 
     viewplayer = &player;
     viewplayer->damagecount = 0;

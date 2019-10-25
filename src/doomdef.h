@@ -46,7 +46,6 @@
 #if defined(_WIN32)
 #define strcasecmp  _stricmp
 #define strncasecmp _strnicmp
-#define localtime_r localtime_s
 #else
 #include <strings.h>
 #endif
