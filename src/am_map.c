@@ -411,14 +411,12 @@ void AM_SetAutomapSize(void)
 {
     if (vid_widescreen || !menuactive)
     {
-        mapwidth = SCREENWIDTH;
         mapheight = SCREENHEIGHT - SBARHEIGHT;
         maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
         mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
     }
     else
     {
-        mapwidth = SCREENWIDTH;
         mapheight = SCREENHEIGHT;
         maparea = SCREENWIDTH * SCREENHEIGHT;
         mapbottom = SCREENWIDTH * (SCREENHEIGHT - 1);

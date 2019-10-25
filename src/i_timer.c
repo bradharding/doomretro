@@ -50,7 +50,7 @@ int I_GetTime(void)
 }
 
 //
-// Same as I_GetTime, but returns time in milliseconds
+// Same as I_GetTime(), but returns time in milliseconds
 //
 int I_GetTimeMS(void)
 {
@@ -58,7 +58,7 @@ int I_GetTimeMS(void)
 }
 
 //
-// Sleep for a specified number of ms
+// Sleep for a specified number of milliseconds
 //
 void I_Sleep(int ms)
 {
