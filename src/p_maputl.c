@@ -411,7 +411,7 @@ static intercept_t  *intercepts;
 static intercept_t  *intercept_p;
 
 // Check for limit and double size if necessary -- killough
-static void check_intercept(void)
+void P_CheckIntercepts(void)
 {
     static size_t   num_intercepts;
     size_t          offset = intercept_p - intercepts;
@@ -463,7 +463,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     if ((frac = P_InterceptVector(&dltrace, &dl)) < 0)
         return true;    // behind source
 
-    check_intercept();  // killough
+    P_CheckIntercepts();  // killough
 
     intercept_p->frac = frac;
     intercept_p->isaline = true;
@@ -537,7 +537,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
                 if (frac < 0)
                     continue;
 
-                check_intercept();  // killough
+                P_CheckIntercepts();  // killough
 
                 intercept_p->frac = frac;
                 intercept_p->isaline = false;
@@ -553,7 +553,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     // must have started inside the box, so add it as an intercept.
     if (!numfronts)
     {
-        check_intercept();  // killough
+        P_CheckIntercepts();  // killough
 
         intercept_p->frac = 0;
         intercept_p->isaline = false;

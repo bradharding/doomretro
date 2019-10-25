@@ -2694,4 +2694,5 @@ void P_Init(void)
     InitMapInfo();
     R_InitSprites();
     P_CheckSpechits();
+    P_CheckIntercepts();
 }
