@@ -417,6 +417,9 @@ void R_ExecuteSetViewSize(void)
     {
         scaledviewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
+
+        if (!menuactive)
+            viewheight -= SBARHEIGHT;
     }
     else
     {
