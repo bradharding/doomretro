@@ -258,48 +258,73 @@ byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
 //
 static void R_InitTextures(void)
 {
+    typedef struct
+    {
+        int             lumpnum;
+        void            *names;
+        short           nummappatches;
+        short           summappatches;
+        char            *name_p;
+    } pnameslump_t;
+
+    pnameslump_t        *pnameslumps = malloc(sizeof(*pnameslumps));
+    int                 maxpnameslumps = 1;
+    int                 numpnameslumps = 0;
+
     const maptexture_t  *mtexture;
     texture_t           *texture;
-    int                 i;
-    int                 j;
     int                 maptex_lump[2] = { -1, -1 };
     const int           *maptex1;
     const int           *maptex2 = NULL;
     char                name[9];
-    int                 names_lump;     // cph - new wad lump handling
-    const char          *names;         // cph -
-    const char          *name_p;        // const*'s
     int                 *patchlookup;
-    int                 nummappatches;
+    int                 nummappatches = 0;
     int                 maxoff;
     int                 maxoff2 = 0;
     int                 numtextures1;
     int                 numtextures2 = 0;
     const int           *directory;
 
-    // Load the patch names from pnames.lmp.
+    for (int i = numlumps - 1; i >= 0; i--)
+        if (!strncasecmp(lumpinfo[i]->name, "PNAMES", 6))
+        {
+            if (numpnameslumps == maxpnameslumps)
+            {
+                maxpnameslumps++;
+                pnameslumps = I_Realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
+            }
+
+            pnameslumps[numpnameslumps].lumpnum = i;
+            pnameslumps[numpnameslumps].names = W_CacheLumpNum(pnameslumps[numpnameslumps].lumpnum);
+            pnameslumps[numpnameslumps].nummappatches = LONG(*((int *)pnameslumps[numpnameslumps].names));
+
+            // [crispy] accumulated number of patches in the lookup tables excluding the current one
+            pnameslumps[numpnameslumps].summappatches = nummappatches;
+            pnameslumps[numpnameslumps].name_p = (char *)pnameslumps[numpnameslumps].names + 4;
+
+            // [crispy] calculate total number of patches
+            nummappatches += pnameslumps[numpnameslumps].nummappatches;
+            numpnameslumps++;
+        }
+
     name[8] = '\0';
-    names = W_CacheLumpNum((names_lump = W_GetNumForName("PNAMES")));
-    nummappatches = LONG(*((const int *)names));
-    name_p = names + 4;
     patchlookup = malloc(nummappatches * sizeof(*patchlookup)); // killough
 
-    for (i = 0; i < nummappatches; i++)
-    {
-        int p1;
-        int p2;
+    for (int i = 0, patch = 0; i < numpnameslumps; i++)
+        for (int j = 0; j < pnameslumps[i].nummappatches; j++)
+        {
+            int p1;
+            int p2;
 
-        M_StringCopy(name, &name_p[i * 8], sizeof(name));
-        p1 = p2 = W_CheckNumForName(name);
+            M_StringCopy(name, &pnameslumps[i].name_p[j * 8], sizeof(name));
+            p1 = p2 = W_CheckNumForName(name);
 
-        // [crispy] prevent flat lumps from being mistaken as patches
-        while (p2 >= firstflat && p2 <= lastflat)
-            p2 = W_RangeCheckNumForName(0, p2 - 1, name);
+            // [crispy] prevent flat lumps from being mistaken as patches
+            while (p2 >= firstflat && p2 <= lastflat)
+                p2 = W_RangeCheckNumForName(0, p2 - 1, name);
 
-        patchlookup[i] = (p2 != -1 ? p2 : p1);
-    }
-
-    W_ReleaseLumpNum(names_lump);                               // cph - release the lump
+            patchlookup[patch++] = (p2 != -1 ? p2 : p1);
+        }
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
@@ -325,11 +350,12 @@ static void R_InitTextures(void)
     textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, NULL);
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, NULL);
 
-    for (i = 0; i < numtextures; i++, directory++)
+    for (int i = 0; i < numtextures; i++, directory++)
     {
         const mappatch_t    *mpatch;
         texpatch_t          *patch;
         int                 offset;
+        short               mask;
 
         if (i == numtextures1)
         {
@@ -353,13 +379,13 @@ static void R_InitTextures(void)
         texture->height = SHORT(mtexture->height);
         texture->patchcount = SHORT(mtexture->patchcount);
 
-        for (j = 0; j < sizeof(texture->name); j++)
+        for (int j = 0; j < sizeof(texture->name); j++)
             texture->name[j] = mtexture->name[j];
 
         mpatch = mtexture->patches;
         patch = texture->patches;
 
-        for (j = 0; j < texture->patchcount; j++, mpatch++, patch++)
+        for (int j = 0; j < texture->patchcount; j++, mpatch++, patch++)
         {
             patch->originx = SHORT(mpatch->originx);
             patch->originy = SHORT(mpatch->originy);
@@ -369,15 +395,15 @@ static void R_InitTextures(void)
                 C_Warning("Patch %i is missing in the <b>%.8s</b> texture.", SHORT(mpatch->patch), uppercase(texture->name));
         }
 
-        for (j = 1; j * 2 <= texture->width; j <<= 1);
+        for (mask = 1; mask * 2 <= texture->width; mask <<= 1);
 
-        texture->widthmask = j - 1;
+        texture->widthmask = mask - 1;
         textureheight[i] = texture->height << FRACBITS;
     }
 
     free(patchlookup);                                          // killough
 
-    for (i = 0; i < 2; i++)                                     // cph - release the TEXTUREx lumps
+    for (int i = 0; i < 2; i++)                                 // cph - release the TEXTUREx lumps
         if (maptex_lump[i] != -1)
             W_ReleaseLumpNum(maptex_lump[i]);
 
@@ -386,16 +412,16 @@ static void R_InitTextures(void)
     // clean up malloc-ing to use sizeof
     texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
-    for (i = 0; i < numtextures; i++)
+    for (int i = 0; i < numtextures; i++)
         texturetranslation[i] = i;
 
     // killough 1/31/98: Initialize texture hash table
-    for (i = 0; i < numtextures; i++)
+    for (int i = 0; i < numtextures; i++)
         textures[i]->index = -1;
 
-    while (--i >= 0)
+    for (int i = numtextures - 1; i >= 0; i--)
     {
-        j = W_LumpNameHash(textures[i]->name) % numtextures;
+        int j = W_LumpNameHash(textures[i]->name) % numtextures;
 
         textures[i]->next = textures[j]->index;                 // Prepend to chain
         textures[j]->index = i;
