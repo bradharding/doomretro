@@ -4816,7 +4816,7 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour")
         || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
-        || M_StringCompare(parm, "skullkeys" || M_StringCompare(parm, "allskullkeys"))
+        || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         || M_StringCompare(parm, "pistol"))
         return true;
 
