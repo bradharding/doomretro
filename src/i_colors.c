@@ -225,7 +225,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
                     // Color matching in RGB space doesn't work very well with the blues
                     // in DOOM's palette. Rather than do any color conversions, just
                     // emphasize the blues when building the translucency table.
-                    int btmp = (colors == ALTHUD && color1[2] * 1.666 >= color1[0] + color1[1] ? 50 : 0);
+                    int btmp = (colors == ALTHUD && color1[2] * 1.666 >= (double)color1[0] + color1[1] ? 50 : 0);
 
                     r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / (100 + btmp);
                     g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / (100 + btmp);

@@ -2254,22 +2254,22 @@ static void D_DoomMainSetup(void)
             C_Output("Warping to %s...", lumpname);
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
-        else
 #if SCREENSCALE == 1
+        else
         {
             menuactive = false;
             splashscreen = false;
             D_StartTitle(1);
         }
 #else
-            if (M_CheckParm("-nosplash"))
-            {
-                menuactive = false;
-                splashscreen = false;
-                D_StartTitle(1);
-            }
-            else
-                D_StartTitle(0);
+        else if (M_CheckParm("-nosplash"))
+        {
+            menuactive = false;
+            splashscreen = false;
+            D_StartTitle(1);
+        }
+        else
+            D_StartTitle(0);
 #endif
     }
 

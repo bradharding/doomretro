@@ -260,10 +260,8 @@ static void R_InitTextures(void)
 {
     typedef struct
     {
-        int             lumpnum;
         void            *names;
         short           nummappatches;
-        short           summappatches;
         char            *name_p;
     } pnameslump_t;
 
@@ -294,12 +292,10 @@ static void R_InitTextures(void)
                 pnameslumps = I_Realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
             }
 
-            pnameslumps[numpnameslumps].lumpnum = i;
-            pnameslumps[numpnameslumps].names = W_CacheLumpNum(pnameslumps[numpnameslumps].lumpnum);
+            pnameslumps[numpnameslumps].names = W_CacheLumpNum(i);
             pnameslumps[numpnameslumps].nummappatches = LONG(*((int *)pnameslumps[numpnameslumps].names));
 
             // [crispy] accumulated number of patches in the lookup tables excluding the current one
-            pnameslumps[numpnameslumps].summappatches = nummappatches;
             pnameslumps[numpnameslumps].name_p = (char *)pnameslumps[numpnameslumps].names + 4;
 
             // [crispy] calculate total number of patches

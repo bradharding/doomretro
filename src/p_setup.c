@@ -2327,7 +2327,7 @@ void P_SetupLevel(int ep, int map)
 static int  liquidlumps;
 static int  noliquidlumps;
 
-static void InitMapInfo(void)
+static void P_InitMapInfo(void)
 {
     int         mapmax = 1;
     int         mcmdvalue;
@@ -2691,7 +2691,7 @@ void P_Init(void)
 {
     P_InitSwitchList();
     P_InitPicAnims();
-    InitMapInfo();
+    P_InitMapInfo();
     R_InitSprites();
     P_CheckSpechits();
     P_CheckIntercepts();

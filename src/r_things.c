@@ -1131,7 +1131,6 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     const fixed_t   gx = splat->gx;
     const fixed_t   gy = splat->gy;
 
-
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
     {
