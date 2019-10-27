@@ -4809,10 +4809,14 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
         return true;
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
-        || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
-        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
-        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys")
-        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "skullkeys")
+        || M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth")
+        || M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons")
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo")
+        || M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
+        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour")
+        || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
+        || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
+        || M_StringCompare(parm, "skullkeys" || M_StringCompare(parm, "allskullkeys"))
         || M_StringCompare(parm, "pistol"))
         return true;
 
