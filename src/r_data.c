@@ -268,7 +268,6 @@ static void R_InitTextures(void)
     pnameslump_t        *pnameslumps = malloc(sizeof(*pnameslumps));
     int                 maxpnameslumps = 1;
     int                 numpnameslumps = 0;
-
     const maptexture_t  *mtexture;
     texture_t           *texture;
     int                 maptex_lump[2] = { -1, -1 };

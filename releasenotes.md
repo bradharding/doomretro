@@ -15,6 +15,7 @@
 * The z-coordinate displayed by the `IDMYPOS` cheat now accommodates for when the player is in liquid and the `r_liquid_lowerview` CVAR is `on`.
 * The sensitivities of the left and right thumbsticks of a gamepad can now be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the `gp_sensitivity_left` and `gp_sensitivity_right` CVARs. Each CVAR is a value between `0` and `128`, and `64` by default.
 * If a friendly dog is returning to the player, they will now drop from any height regardless of how far they are away.
+* A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
 
 ---
 

@@ -915,6 +915,9 @@ void P_FakeZMovement(mobj_t *mo)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
+    if (thing->z > thing->floorz)
+        return false;
+
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
         if (seclist->m_sector->terraintype == SOLID)
             return false;
