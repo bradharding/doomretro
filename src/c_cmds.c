@@ -4908,7 +4908,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have anything.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "health"))
+        else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth"))
         {
             if (viewplayer->health > 0 && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
             {
@@ -4921,7 +4921,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s already dead.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "are" : "is"));
         }
-        else if (M_StringCompare(parm, "weapons"))
+        else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
         {
             for (weapontype_t i = wp_shotgun; i < NUMWEAPONS; i++)
                 if (viewplayer->weaponowned[i])
@@ -4938,7 +4938,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have any weapons.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "ammo"))
+        else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo"))
         {
             for (ammotype_t i = 0; i < NUMAMMO; i++)
                 if (viewplayer->ammo[i])
@@ -4955,7 +4955,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have any ammo.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
+        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
+                || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour"))
         {
             if (viewplayer->armorpoints)
             {
@@ -4967,7 +4968,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have any armor.", titlecase(playername),
                 (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "keys"))
+        else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
         {
             for (int i = 0; i < NUMCARDS; i++)
                 if (viewplayer->cards[i] > 0)
@@ -4982,7 +4983,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have any keycards or skull keys.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "keycards"))
+        else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
             if (viewplayer->cards[it_bluecard] > 0 || viewplayer->cards[it_redcard] > 0 || viewplayer->cards[it_yellowcard] > 0)
             {
@@ -4995,7 +4996,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning("%s %s have any keycards.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
-        else if (M_StringCompare(parm, "skullkeys"))
+        else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
             if (viewplayer->cards[it_blueskull] > 0 || viewplayer->cards[it_redskull] > 0 || viewplayer->cards[it_yellowskull] > 0)
             {
