@@ -873,6 +873,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     if (truncate < len)
     {
+        if (kerning)
+            for (int j = 0; altkern[j].char1; j++)
+                if (prevletter == altkern[j].char1 && altkern[j].char2 == '.')
+                {
+                    x += altkern[j].adjust;
+                    break;
+                }
+
         V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
         x += SHORT(dot->width);
         V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
