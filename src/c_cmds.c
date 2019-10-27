@@ -4756,9 +4756,18 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         {
             mapthing_t  mthing;
             mobj_t      *thing;
+            fixed_t     x = viewx + 100 * viewcos;
+            fixed_t     y = viewy + 100 * viewsin;
 
-            mthing.x = (viewx + 100 * viewcos) >> FRACBITS;
-            mthing.y = (viewy + 100 * viewsin) >> FRACBITS;
+            if (P_CheckLineSide(viewplayer->mo, x, y))
+            {
+                C_Warning("%s %s too close to the wall.",
+                    titlecase(playername), (M_StringCompare(playername, playername_default) ? "are" : "is"));
+                return;
+            }
+
+            mthing.x = x >> FRACBITS;
+            mthing.y = y >> FRACBITS;
             mthing.angle = 0;
             mthing.type = spawncmdtype;
             mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);

@@ -16,6 +16,7 @@
 * The sensitivities of the left and right thumbsticks of a gamepad can now be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the `gp_sensitivity_left` and `gp_sensitivity_right` CVARs. Each CVAR is a value between `0` and `128`, and `64` by default.
 * If a friendly dog is returning to the player, they will now drop from any height regardless of how far they are away.
 * A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
+* Monsters can no longer be spawned outside of the map if the player is too close to a wall when using the `spawn` CCMD.
 
 ---
 
