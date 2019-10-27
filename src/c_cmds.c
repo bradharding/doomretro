@@ -4901,7 +4901,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("%s %s already dead.", titlecase(playername), (M_StringCompare(playername, "you") ? "is" : "are"));
+                C_Warning("%s %s already dead.",
+                    titlecase(playername), (M_StringCompare(playername, playername_default) ? "are" : "is"));
         }
         else if (M_StringCompare(parm, "weapons"))
         {
