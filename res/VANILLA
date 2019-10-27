@@ -30,7 +30,8 @@ facebackcolor none
 freeze off
 gp_analog off
 gp_invertyaxis off
-gp_sensitivity 64
+gp_sensitivity_left 64
+gp_sensitivity_right 64
 gp_swapthumbsticks off
 gp_thumbsticks 1
 gp_vibrate_barrels 0%
