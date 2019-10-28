@@ -61,6 +61,7 @@
 
 #include "SDL.h"
 
+#include "c_console.h"
 #include "doomdef.h"
 #include "i_system.h"
 #include "m_misc.h"
@@ -442,7 +443,7 @@ char *M_StringDuplicate(const char *orig)
     char    *result = strdup(orig);
 
     if (!result)
-        I_Error("Failed to duplicate string (length %llu).", strlen(orig));
+        I_Error("Failed to duplicate string %s.", stringize(orig));
 
     return result;
 }
