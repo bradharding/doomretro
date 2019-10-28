@@ -775,7 +775,8 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
 
 #if defined(_WIN32)
-            wad = M_StringDuplicate(previouswad);
+            if (previouswad)
+                wad = M_StringDuplicate(previouswad);
 #endif
 
             error = true;
@@ -1107,7 +1108,9 @@ static int D_OpenWADLauncher(void)
 
         // only one file was selected
 #if defined(_WIN32)
-        previouswad = M_StringDuplicate(wad);
+        if (wad)
+            previouswad = M_StringDuplicate(wad);
+
         wad = "";
 
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
@@ -1868,7 +1871,9 @@ static void D_DoomMainSetup(void)
 
 #if defined(_WIN32)
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (*wad ? wad : "any IWADs"));
-                    wad = M_StringDuplicate(previouswad);
+
+                    if (previouswad)
+                        wad = M_StringDuplicate(previouswad);
 #else
                     M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find any IWADs.");
 #endif
