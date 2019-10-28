@@ -261,7 +261,8 @@ void I_Error(const char *error, ...)
         vid_widescreen = true;
 
 #if defined(_WIN32)
-    wad = M_StringDuplicate(previouswad);
+    if (previouswad)
+        wad = M_StringDuplicate(previouswad);
 #endif
 
     M_SaveCVARs();
