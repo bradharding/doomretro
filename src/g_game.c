@@ -1065,7 +1065,7 @@ static void G_DoReborn(void)
     else
     {
         gameaction = ga_loadlevel;
-        C_CCMDOutput("restartmap");
+        C_InputNoRepeat("restartmap");
     }
 }
 
@@ -1346,7 +1346,7 @@ static void G_DoCompleted(void)
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
     M_SaveCVARs();
 
-    C_CCMDOutput("exitmap");
+    C_InputNoRepeat("exitmap");
 
     WI_Start(&wminfo);
 }
@@ -1736,7 +1736,7 @@ void G_InitNew(skill_t skill, int ep, int map)
         || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")))
-        C_CCMDOutput("newgame");
+        C_InputNoRepeat("newgame");
 
     G_DoLoadLevel();
 }

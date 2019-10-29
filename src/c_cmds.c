@@ -5773,7 +5773,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
 }
 
 //
-// gp_sensitivity_left and gp_sensitivity_vertical CVARs
+// gp_sensitivity_horizontal and gp_sensitivity_vertical CVARs
 //
 static void gp_sensitivity_cvars_func2(char *cmd, char *parms)
 {

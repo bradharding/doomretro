@@ -173,6 +173,29 @@ void C_Input(const char *string, ...)
     outputhistory = -1;
 }
 
+void C_InputNoRepeat(const char *string, ...)
+{
+    va_list argptr;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    if (togglingvanilla)
+        return;
+
+    va_start(argptr, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+    va_end(argptr);
+
+    if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    {
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+        M_StringCopy(console[consolestrings].string, buffer, 1024);
+        console[consolestrings++].stringtype = inputstring;
+        outputhistory = -1;
+    }
+}
+
 void C_IntCVAROutput(char *cvar, int value)
 {
     char    *cvar_free = M_StringJoin(cvar, " ", NULL);
@@ -206,14 +229,6 @@ void C_StrCVAROutput(char *cvar, char *string)
     free(cvar_free);
 }
 
-void C_CCMDOutput(const char *ccmd)
-{
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, ccmd))
-        consolestrings--;
-
-    C_Input(ccmd);
-}
-
 void C_Output(const char *string, ...)
 {
     va_list argptr;
@@ -229,6 +244,26 @@ void C_Output(const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
+}
+
+void C_OutputNoRepeat(const char *string, ...)
+{
+    va_list argptr;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(argptr, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+    va_end(argptr);
+
+    if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    {
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+        M_StringCopy(console[consolestrings].string, buffer, 1024);
+        console[consolestrings++].stringtype = outputstring;
+        outputhistory = -1;
+    }
 }
 
 void C_TabbedOutput(const int tabs[8], const char *string, ...)
