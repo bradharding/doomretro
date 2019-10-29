@@ -916,7 +916,7 @@ void P_FakeZMovement(mobj_t *mo)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
-    if (thing->z > thing->floorz)
+    if (thing->flags & MF_NOGRAVITY)
         return false;
 
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
