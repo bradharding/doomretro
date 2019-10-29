@@ -1811,7 +1811,7 @@ static void M_DrawOptions(void)
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            gp_sensitivity_right / (float)gp_sensitivity_right_max * 8.0f, 8.0f, 8);
+            gp_sensitivity_horizontal / (float)gp_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
@@ -2034,14 +2034,14 @@ static void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (gp_sensitivity_right > gp_sensitivity_right_min)
+                if (gp_sensitivity_horizontal > gp_sensitivity_horizontal_min)
                 {
-                    if (gp_sensitivity_right & 1)
-                        gp_sensitivity_right++;
+                    if (gp_sensitivity_horizontal & 1)
+                        gp_sensitivity_horizontal++;
 
-                    gp_sensitivity_right -= 2;
-                    I_SetGamepadRightSensitivity();
-                    C_IntCVAROutput(stringize(gp_sensitivity_right), gp_sensitivity_right);
+                    gp_sensitivity_horizontal -= 2;
+                    I_SetGamepadHorizontalSensitivity();
+                    C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2049,14 +2049,14 @@ static void M_ChangeSensitivity(int choice)
                 break;
 
             case 1:
-                if (gp_sensitivity_right < gp_sensitivity_right_max)
+                if (gp_sensitivity_horizontal < gp_sensitivity_horizontal_max)
                 {
-                    if (gp_sensitivity_right & 1)
-                        gp_sensitivity_right--;
+                    if (gp_sensitivity_horizontal & 1)
+                        gp_sensitivity_horizontal--;
 
-                    gp_sensitivity_right += 2;
-                    I_SetGamepadRightSensitivity();
-                    C_IntCVAROutput(stringize(gp_sensitivity_right), gp_sensitivity_right);
+                    gp_sensitivity_horizontal += 2;
+                    I_SetGamepadHorizontalSensitivity();
+                    C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }

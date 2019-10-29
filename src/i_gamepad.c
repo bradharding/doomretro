@@ -46,8 +46,8 @@ dboolean                    gp_analog = gp_analog_default;
 float                       gp_deadzone_left = gp_deadzone_left_default;
 float                       gp_deadzone_right = gp_deadzone_right_default;
 dboolean                    gp_invertyaxis = gp_invertyaxis_default;
-int                         gp_sensitivity_left = gp_sensitivity_left_default;
-int                         gp_sensitivity_right = gp_sensitivity_right_default;
+int                         gp_sensitivity_horizontal = gp_sensitivity_horizontal_default;
+int                         gp_sensitivity_vertical = gp_sensitivity_vertical_default;
 dboolean                    gp_swapthumbsticks = gp_swapthumbsticks_default;
 int                         gp_thumbsticks = gp_thumbsticks_default;
 int                         gp_vibrate_barrels = gp_vibrate_barrels_default;
@@ -63,8 +63,8 @@ short                       gamepadthumbLX;
 short                       gamepadthumbLY;
 short                       gamepadthumbRX;
 short                       gamepadthumbRY;
-float                       gamepadleftsensitivity;
-float                       gamepadrightsensitivity;
+float                       gamepadhorizontalsensitivity;
+float                       gamepadverticalsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
 
@@ -180,14 +180,16 @@ void I_StopGamepadVibration(void)
         SDL_HapticRumbleStop(haptic);
 }
 
-void I_SetGamepadLeftSensitivity(void)
+void I_SetGamepadHorizontalSensitivity(void)
 {
-    gamepadleftsensitivity = (!gp_sensitivity_left ? 0.0f : 4.0f * gp_sensitivity_left / gp_sensitivity_left_max + 0.2f);
+    gamepadhorizontalsensitivity = (!gp_sensitivity_horizontal ? 0.0f :
+        4.0f * gp_sensitivity_horizontal / gp_sensitivity_horizontal_max + 0.2f);
 }
 
-void I_SetGamepadRightSensitivity(void)
+void I_SetGamepadVerticalSensitivity(void)
 {
-    gamepadrightsensitivity = (!gp_sensitivity_right ? 0.0f : 4.0f * gp_sensitivity_right / gp_sensitivity_right_max + 0.2f);
+    gamepadverticalsensitivity = (!gp_sensitivity_vertical ? 0.0f :
+        4.0f * gp_sensitivity_vertical / gp_sensitivity_vertical_max + 0.2f);
 }
 
 void I_SetGamepadLeftDeadZone(void)
