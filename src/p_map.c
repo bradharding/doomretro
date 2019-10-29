@@ -651,7 +651,8 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
     yl = P_GetSafeBlockY(tmbbox[BOXBOTTOM] - bmaporgy);
     yh = P_GetSafeBlockY(tmbbox[BOXTOP] - bmaporgy);
 
-    validcount++;           // prevents checking same line twice
+    // prevents checking same line twice
+    validcount++;
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
