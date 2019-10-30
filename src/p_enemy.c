@@ -700,16 +700,14 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 //
 static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 {
-    mobj_t  *mo;
+    mobj_t  *mo = viewplayer->mo;
 
     // the player is dead, if near the player then look for other monsters
-    if (infight && P_CheckSight(actor, viewplayer->mo))
+    if (infight && P_CheckSight(actor, mo))
         return P_LookForMonsters(actor);
 
     if (viewplayer->cheats & CF_NOTARGET)
         return false;
-
-    mo = viewplayer->mo;
 
     // killough 9/9/98: friendly monsters go about players differently
     if (actor->flags & MF_FRIEND)

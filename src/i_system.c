@@ -186,8 +186,7 @@ void I_PrintWindowsVersion(void)
 
             C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s)</b></i>.",
                 bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""),
-                build);
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""), build);
 
             free(build);
         }
@@ -203,7 +202,8 @@ void I_PrintSystemInfo(void)
     int     cores = SDL_GetCPUCount();
     char    *ram = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i logical core%s and %sGB of system RAM.", (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""), ram);
+    C_Output("There %s %i logical core%s and %sGB of system RAM on this PC.",
+        (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""), ram);
     free(ram);
 }
 

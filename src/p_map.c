@@ -465,7 +465,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     blockdist = thing->info->pickupradius + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
-        return true;            // didn't hit it
+        return true;                    // didn't hit it
 
     // [BH] check if things are stuck and allow move if it makes them further apart
     if (!thing->player && !corpse)
@@ -480,9 +480,9 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight && !(flags & MF_SPECIAL))
     {
         if (tmthing->z >= thing->z + thing->height)
-            return true;        // over thing
+            return true;                // over thing
         else if (tmthing->z + tmthing->height <= thing->z)
-            return true;        // under thing
+            return true;                // under thing
     }
 
     // check for skulls slamming into things
@@ -497,7 +497,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         P_SetMobjState(tmthing, tmthing->info->spawnstate);
 
-        return false;           // stop moving
+        return false;                   // stop moving
     }
 
     // missiles can hit other things
@@ -510,10 +510,10 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         // see if it went over/under
         if (tmthing->z > thing->z + height)
-            return true;        // overhead
+            return true;                // overhead
 
         if (tmthing->z + tmthing->height < thing->z)
-            return true;        // underneath
+            return true;                // underneath
 
         if (tmthing->target
             && (tmthing->target->type == type
@@ -551,7 +551,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         }
 
         if (!(flags & MF_SHOOTABLE))
-            return !(flags & MF_SOLID);                         // didn't do any damage
+            return !(flags & MF_SOLID); // didn't do any damage
 
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
