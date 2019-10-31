@@ -1115,7 +1115,7 @@ manual_door:
                 door->topheight -= 4 * FRACUNIT;
 
                 if (door->topheight != sec->ceilingheight)
-                    S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
+                    S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
                 door->type = (Sped >= SpeedFast ? genBlazeRaise : genRaise);
                 break;
@@ -1126,7 +1126,7 @@ manual_door:
                 door->topheight -= 4 * FRACUNIT;
 
                 if (door->topheight != sec->ceilingheight)
-                    S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
+                    S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
                 door->type = (Sped >= SpeedFast ? genBlazeOpen : genOpen);
                 break;
@@ -1134,7 +1134,7 @@ manual_door:
             case CdODoor:
                 door->topheight = sec->ceilingheight;
                 door->direction = -1;
-                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
                 door->type = (Sped >= SpeedFast ? genBlazeCdO : genCdO);
                 break;
 
@@ -1142,7 +1142,7 @@ manual_door:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
-                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
                 door->type = (Sped >= SpeedFast ? genBlazeClose : genClose);
                 break;
         }
