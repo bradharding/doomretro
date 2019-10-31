@@ -2317,7 +2317,7 @@ void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    // [BH] allow A_RandomJump to work for weapon states as well
+    // [BH] allow A_RandomJump() to work for weapon states as well
     if (psp)
     {
         state_t *state = psp->state;

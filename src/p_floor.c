@@ -350,15 +350,31 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
     dboolean    rtn = false;
+    sector_t    *sec;
+
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+            goto manual_floor;
+        else
+            return false;
+    }
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = sectors + secnum;
         floormove_t *floor;
 
+        sec = sectors + secnum;
+
+manual_floor:
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
-            continue;
+        {
+            if (!zerotag_manual)
+                continue;
+            else
+                return rtn;
+        }
 
         // new floor thinker
         rtn = true;
@@ -671,16 +687,28 @@ dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean
     int         ssec = -1;
     int         minssec = -1;
     dboolean    rtn = false;
+    int         secnum = -1;
+    sector_t    *sec;
+
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+            goto manual_stair;
+        else
+            return false;
+    }
 
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
-        int         secnum = ssec;
-        sector_t    *sec = sectors + secnum;
         floormove_t *floor;
         dboolean    okay;
         int         height;
         int         texture;
 
+        secnum = ssec;
+        sec = sectors + secnum;
+
+manual_stair:
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
             continue;

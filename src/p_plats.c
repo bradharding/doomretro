@@ -158,7 +158,15 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
     plat_t      *plat;
     int         secnum = -1;
     dboolean    rtn = false;
-    sector_t    *sec = NULL;
+    sector_t    *sec;
+
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+            goto manual_plat;
+        else
+            return false;
+    }
 
     // Activate all <type> plats that are in_stasis
     switch (type)
@@ -180,8 +188,14 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
     {
         sec = sectors + secnum;
 
+manual_plat:
         if (P_SectorActive(floor_special, sec))
-            continue;
+        {
+            if (!zerotag_manual)
+                continue;
+            else
+                return rtn;
+        }
 
         // Find lowest & highest floors around sector
         rtn = true;

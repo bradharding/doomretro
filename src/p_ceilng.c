@@ -225,6 +225,15 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int         secnum = -1;
     dboolean    rtn = false;
+    sector_t    *sec;
+
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+            goto manual_ceiling;
+        else
+            return false;
+    }
 
     // Reactivate in-stasis ceilings...for certain types.
     switch (type)
@@ -240,11 +249,18 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = sectors + secnum;
         ceiling_t   *ceiling;
 
+        sec = sectors + secnum;
+
+manual_ceiling:
         if (P_SectorActive(ceiling_special, sec))
-            continue;
+        {
+            if (!zerotag_manual)
+                continue;
+            else
+                return rtn;
+        }
 
         // new ceiling thinker
         rtn = true;

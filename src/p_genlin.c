@@ -71,8 +71,16 @@ dboolean EV_DoGenFloor(line_t *line)
     const int           Sped = (value & FloorSpeed) >> FloorSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_floor;
+        }
+        else
+            return false;
+    }
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany)
@@ -265,8 +273,16 @@ dboolean EV_DoGenCeiling(line_t *line)
     const int           Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_ceiling;
+        }
+        else
+            return false;
+    }
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany)
@@ -290,8 +306,8 @@ manual_ceiling:
         {
             if (manual)
                 return rtn;
-
-            continue;
+            else
+                continue;
         }
 
         // new ceiling thinker
@@ -462,8 +478,16 @@ dboolean EV_DoGenLift(line_t *line)
     const int           Sped = (value & LiftSpeed) >> LiftSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_lift;
+        }
+        else
+            return false;
+    }
 
     // Activate all <type> plats that are in_stasis
     if (Targ == LnF2HnF)
@@ -614,8 +638,16 @@ dboolean EV_DoGenStairs(line_t *line)
     const int           Sped = (value & StairSpeed) >> StairSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_stair;
+        }
+        else
+            return false;
+    }
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany)
@@ -795,7 +827,7 @@ manual_stair:
 dboolean EV_DoGenCrusher(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn;
+    dboolean            rtn = false;
     dboolean            manual = false;
     sector_t            *sec;
     ceiling_t           *ceiling;
@@ -806,8 +838,16 @@ dboolean EV_DoGenCrusher(line_t *line)
     const int           Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_crusher;
+        }
+        else
+            return false;
+    }
 
     // jff 2/22/98  Reactivate in-stasis ceilings...for certain types.
     // jff 4/5/98 return if activated
@@ -910,8 +950,16 @@ dboolean EV_DoGenLockedDoor(line_t *line)
     const int           Sped = (value & LockedSpeed) >> LockedSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_locked;
+        }
+        else
+            return false;
+    }
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany)
@@ -1017,8 +1065,16 @@ dboolean EV_DoGenDoor(line_t *line)
     const int           Sped = (value & DoorSpeed) >> DoorSpeedShift;
     const int           Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    if (!line->tag)
-        return false;
+    if (P_ProcessNoTagLines(line, &sec, &secnum))
+    {
+        if (zerotag_manual)
+        {
+            manual = true;
+            goto manual_door;
+        }
+        else
+            return false;
+    }
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany)

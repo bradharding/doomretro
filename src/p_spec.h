@@ -56,6 +56,8 @@ extern fixed_t          animatedliquidyoffs;
 extern terraintype_t    *terraintypes;
 extern dboolean         *isteleport;
 
+extern dboolean         zerotag_manual;
+
 // at game start
 void P_InitPicAnims(void);
 
@@ -118,6 +120,8 @@ int P_FindMinSurroundingLight(sector_t *sec, int min);
 dboolean P_CanUnlockGenDoor(line_t *line);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
+
+dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum);
 
 //
 // SPECIAL

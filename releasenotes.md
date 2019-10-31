@@ -13,12 +13,13 @@
 * A bug has been fixed whereby not all monsters near the player would infight once the player died and the `infighting` CVAR was `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The z-coordinate displayed by the `IDMYPOS` cheat now accommodates for when the player is in liquid and the `r_liquid_lowerview` CVAR is `on`.
+* A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
 * The horizontal and vertical sensitivity of a gamepad’s thumbsticks can now both be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the new `gp_sensitivity_horizontal` and `gp_sensitivity_vertical` CVARs. Each CVAR is a value between `0` and `128`, and `64` by default.
 * If a friendly dog is returning to the player, they will now drop from any height regardless of how far they are away.
-* A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
 * Monsters can no longer be spawned outside of the map if the player is too close to a wall when using the `spawn` CCMD.
 * A bug has been fixed whereby certain items wouldn’t move on *BOOM*-compatible scrolling sectors in some instances if the `r_floatbob` CVAR was `on`.
 * The correct sound is now played when a *BOOM*-compatible generalized door opens or closes.
+* Linedefs with specials but no sectors tagged are now handled better.
 
 ---
 

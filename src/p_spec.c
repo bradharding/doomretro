@@ -3266,3 +3266,22 @@ static void P_SpawnPushers(void)
                 break;
         }
 }
+
+dboolean    zerotag_manual;
+
+dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
+{
+    zerotag_manual = false;
+
+    if (!line->tag)
+    {
+        if (!(*sec = line->backsector))
+            return true;
+
+        *secnum = (*sec)->id;
+        zerotag_manual = true;
+        return true;
+    }
+
+    return false;
+}
