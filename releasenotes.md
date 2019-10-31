@@ -17,6 +17,7 @@
 * If a friendly dog is returning to the player, they will now drop from any height regardless of how far they are away.
 * A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
 * Monsters can no longer be spawned outside of the map if the player is too close to a wall when using the `spawn` CCMD.
+* A bug has been fixed whereby certain items wouldn’t move on *BOOM*-compatible scrolling sectors in some instances if the `r_floatbob` CVAR was `on`.
 
 ---
 
