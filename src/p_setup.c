@@ -248,7 +248,7 @@ dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
-char *linespecials[NUMLINESPECIALS + 1] =
+static const char *linespecials[] =
 {
     "",
     "DR Door Open Wait Close (also monsters)",
@@ -525,6 +525,28 @@ char *linespecials[NUMLINESPECIALS + 1] =
     "Transfer Sky Texture to Tagged Sectors (flipped)"
 };
 
+static const char *sectorspecials[] =
+{
+    "",
+    "Light Blinks (randomly)",
+    "Light Blinks (0.5 sec.)",
+    "Light Blinks (1 sec.)",
+    "Damage -10 or 20% health and Light Blinks (0.5 sec.)",
+    "Damage -5 or 10% health",
+    "",
+    "Damage -2 or 5% health",
+    "Light Glows (1+ sec.)",
+    "Secret",
+    "Door Close Stay (after 30 sec.)",
+    "Damage -10 or 20% health and End level",
+    "Light Blinks (0.5 sec. synchronized)",
+    "Light Blinks (1 sec. synchronized)",
+    "Door Open Close (opens after 5 min.)",
+    "",
+    "Damage -10 or 20% health",
+    "Light Flickers (randomly)"
+};
+
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t dx = (v1->x - v2->x) >> FRACBITS;
@@ -773,8 +795,8 @@ static void P_LoadSegs(int lump)
                         li->linedef->special = linefix[j].special;
 
                         if (devparm)
-                            C_Warning("The special of linedef %s has been changed to %s.",
-                                commify(linedefnum), commify(linefix[j].special));
+                            C_Warning("The special of linedef %s has been changed to %i (\"%s\").",
+                                commify(linedefnum), linefix[j].special, linespecials[linefix[j].special]);
                     }
 
                     if (linefix[j].tag != DEFAULT)
@@ -1021,8 +1043,8 @@ static void P_LoadSectors(int lump)
                         ss->special = SHORT(sectorfix[j].special);
 
                         if (devparm)
-                            C_Warning("The special of sector %s has been changed to %s.",
-                                commify(sectorfix[j].sector), commify(sectorfix[j].special));
+                            C_Warning("The special of sector %s has been changed to %i (\"%s\").",
+                                commify(sectorfix[j].sector), sectorfix[j].special, sectorspecials[sectorfix[j].special]);
                     }
 
                     if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT || sectorfix[j].oldtag == ss->tag))
@@ -1562,8 +1584,8 @@ static void P_LoadLineDefs2(void)
             C_Warning("Linedef %s has the two-sided flag set but no second sidedef.", commify(i));
         }
 
-        ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : 0);
-        ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : 0);
+        ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : NULL);
+        ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : NULL);
 
         // killough 4/11/98: handle special types
         switch (ld->special)
