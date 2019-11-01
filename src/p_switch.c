@@ -747,7 +747,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             break;
 
-        case SR_Floor_RaiseBy512_ChangesTextureAndEffect:
+        case SR_Floor_RaiseBy24_ChangesTextureAndEffect:
             if (EV_DoFloor(line, raiseFloor24AndChange))
                 P_ChangeSwitchTexture(line, true);
 
