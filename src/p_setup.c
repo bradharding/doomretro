@@ -248,8 +248,9 @@ dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
-char *linespecials[NUMLINESPECIALS] =
+char *linespecials[NUMLINESPECIALS + 1] =
 {
+    "",
     "DR Door Open Wait Close (also monsters)",
     "W1 Door Open Stay",
     "W1 Door Close Stay",
@@ -1587,7 +1588,7 @@ static void P_LoadLineDefs2(void)
                 break;
         }
 
-        if (!P_CheckTag(ld) && ld->special < NUMLINESPECIALS)
+        if (!P_CheckTag(ld) && ld->special > 0 && ld->special <= NUMLINESPECIALS)
             C_Warning("Linedef %s has special %i (\"%s\") but isn't tagged to a sector.",
                 commify(i), ld->special, linespecials[ld->special]);
     }
