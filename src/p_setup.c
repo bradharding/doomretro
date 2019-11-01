@@ -1587,7 +1587,7 @@ static void P_LoadLineDefs2(void)
                 break;
         }
 
-        if (!P_CheckTag(ld))
+        if (!P_CheckTag(ld) && ld->special < NUMLINESPECIALS)
             C_Warning("Linedef %s has special %i (\"%s\") but isn't tagged to a sector.",
                 commify(i), ld->special, linespecials[ld->special]);
     }
