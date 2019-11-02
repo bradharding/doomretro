@@ -2179,6 +2179,7 @@ void P_ResurrectMobj(mobj_t *target)
 {
     mobjinfo_t  *info = target->info;
 
+    S_StartSound(target, sfx_slop);
     P_SetMobjState(target, info->raisestate);
 
     target->height = info->height;
