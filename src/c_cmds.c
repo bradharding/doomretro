@@ -2412,7 +2412,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
             return true;
 
-        if (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends"))
+        if (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+            || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"))
             return true;
 
         if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
@@ -2433,15 +2434,10 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     || (*mobjinfo[i].plural3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural3)))
                     || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
             {
-                dboolean    kill = true;
-
                 if (killcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
                     killcmdtype = Zombieman;
 
-                if (!(mobjinfo[i].flags & MF_SHOOTABLE))
-                    kill = false;
-
-                return kill;
+                return (mobjinfo[i].flags & MF_SHOOTABLE);
             }
         }
 
@@ -2494,7 +2490,8 @@ void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        dboolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends"));
+        dboolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+                        || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
         dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
         dboolean    all = M_StringCompare(parm, "all");
         int         kills = 0;
@@ -2699,8 +2696,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                         C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
                     }
-
-                    if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
+                    else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                     {
                         C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
