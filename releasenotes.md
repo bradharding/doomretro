@@ -1,5 +1,6 @@
 ### DOOM Retro v3.1.1
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The `resurrect` CCMD has been changed to allow the resurrection of not just the player, but also all monsters or a type of monster.
 

@@ -742,7 +742,7 @@ consolecmd_t consolecmds[] =
     CMD(restartmap, "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, true, RESURRECTCMDFORMAT,
-        "Resurrects the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
+        "Resurrects the <b>player</b>, <b>all</b> monsters or a type\nof <i>monster</i>."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at\nthe same time (<b>8</b> to <b>64</b>)."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,

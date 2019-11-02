@@ -3683,29 +3683,29 @@ static int deh_GetData(char *s, char *k, long *l, char **strval)
     int             i;                      // iterator
 
     *buffer = '\0';
-    val = 0;                            // defaults in case not otherwise set
+    val = 0;                                // defaults in case not otherwise set
 
     for (i = 0, t = s; *t && i < DEH_MAXKEYLEN; t++, i++)
     {
         if (*t == '=')
             break;
 
-        buffer[i] = *t;                 // copy it
+        buffer[i] = *t;                     // copy it
     }
 
-    if (isspace((unsigned char)buffer[i - 1]))
+    if (i >= 1 && isspace((unsigned char)buffer[i - 1]))
         i--;
 
     if (i >= 0)
-        buffer[i] = '\0';               // terminate the key before the '='
+        buffer[i] = '\0';                   // terminate the key before the '='
 
-    if (!*t)                            // end of string with no equal sign
+    if (!*t)                                // end of string with no equal sign
         okrc = false;
     else
     {
         if (!*++t)
         {
-            val = 0;                    // in case "thiskey =" with no value
+            val = 0;                        // in case "thiskey =" with no value
             okrc = 0;
         }
 
