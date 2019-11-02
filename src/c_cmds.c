@@ -4681,7 +4681,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                 if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
                     resurrectcmdtype = Zombieman;
 
-                return (mobjinfo[i].flags & MF_CORPSE);
+                return true;
             }
         }
 
