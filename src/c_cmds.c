@@ -82,7 +82,8 @@
 #define IFCMDFORMAT                 "<i>CVAR</i> <i>value</i> <b>then</b> [<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]"
 #define KILLCMDFORMAT               "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT               "<i>filename</i><b>.save</b>"
-#define MAPCMDFORMAT                "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT1               "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT2               "<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT               "<i>soundeffect</i>|<i>music</i>"
 #define NAMECMDFORMAT               "[<b>friendly</b> ]<i>monster</i> <i>name</i>"
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
@@ -610,7 +611,7 @@ consolecmd_t consolecmds[] =
         "Toggles no vertical movement of the mouse."),
     CVAR_INT(m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The mouse's sensitivity (<b>0</b> to <b>128</b>)."),
-    CMD(map, warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT,
+    CMD(map, warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT1,
         "Warps the player to another map."),
     CMD(maplist, "", null_func1, maplist_cmd_func2, false, "",
         "Lists all maps in the currently loaded WADs."),
@@ -1616,6 +1617,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
         if (consolecmds[i].type == CT_CMD)
         {
             char    description1[255];
+            char    format[255];
             char    *p;
 
             count++;
@@ -1625,6 +1627,11 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
+            if (M_StringCompare(consolecmds[i].name, "map"))
+                M_StringCopy(format, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2), sizeof(format));
+            else
+                M_StringCopy(format, consolecmds[i].format, sizeof(format));
+
             if ((p = strchr(description1, '\n')))
             {
                 char    description2[255] = "";
@@ -1632,11 +1639,11 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 *p++ = '\0';
                 M_StringCopy(description2, p, sizeof(description2));
 
-                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, consolecmds[i].format, description1);
+                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, format, description1);
                 C_TabbedOutput(tabs, "\t\t%s", description2);
             }
             else
-                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, consolecmds[i].format, description1);
+                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, format, description1);
         }
 }
 
@@ -2997,7 +3004,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     if (!*parms)
     {
         C_ShowDescription(C_GetIndex("map"));
-        C_Output("<b>%s</b> %s", cmd, MAPCMDFORMAT);
+        C_Output("<b>%s</b> %s", cmd, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
         return;
     }
 
