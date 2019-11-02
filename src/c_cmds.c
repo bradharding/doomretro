@@ -4702,8 +4702,9 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
-    char    *parm = removenonalpha(parms);
-    char    buffer[1024];
+    char        *parm = removenonalpha(parms);
+    char        buffer[1024];
+    dboolean    cheated = false;
 
     if (!*parm)
     {
@@ -4713,9 +4714,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
     {
         P_ResurrectPlayer(initial_health);
-        viewplayer->cheated++;
-        stat_cheated = SafeAdd(stat_cheated, 1);
-        M_SaveCVARs();
+        cheated = true;
     }
     else
     {
@@ -4740,6 +4739,9 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                         {
                             P_ResurrectMobj(thing);
                             resurrected++;
+
+                            if (flags & MF_FRIEND)
+                                cheated = true;
                         }
 
                     thing = thing->snext;
@@ -4762,6 +4764,10 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         else if (resurrectcmdmobj)
         {
             P_ResurrectMobj(resurrectcmdmobj);
+
+            if (resurrectcmdmobj->flags & MF_FRIEND)
+                cheated = true;
+
             M_snprintf(buffer, sizeof(buffer), "%s was resurrected.", sentencecase(parm));
             C_Output(buffer);
             C_HideConsole();
@@ -4778,13 +4784,13 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
                 while (thing)
                 {
-                    if (type == thing->type)
+                    if (type == thing->type && (thing->flags & MF_CORPSE))
                     {
-                        if (thing->flags & MF_CORPSE)
-                        {
-                            P_ResurrectMobj(thing);
-                            resurrected++;
-                        }
+                        P_ResurrectMobj(thing);
+                        resurrected++;
+
+                        if (thing->flags & MF_FRIEND)
+                            cheated = true;
                     }
 
                     thing = thing->snext;
@@ -4820,6 +4826,13 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 C_Warning("There are no dead %s to resurrect.", mobjinfo[type].plural1);
             }
         }
+    }
+
+    if (cheated)
+    {
+        viewplayer->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
     }
 }
 
