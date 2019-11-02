@@ -88,7 +88,7 @@
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT              "<i>CVAR</i>"
 #define RESURRECTCMDFORMAT          "<b>player</b>|<b>all</b>|<i>monster</i>"
-#define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
+#define SAVECMDFORMAT               LOADCMDFORMAT
 #define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b> ]<i>monster</i>"
 #define TAKECMDFORMAT               GIVECMDFORMAT
 #define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>"
@@ -2556,7 +2556,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "" : "All "),
+                M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "The " : "All "),
                     commify(kills), (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
@@ -2567,7 +2567,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
-                C_Warning("There are no monsters %s kill in this map.", (!totalkills ? "to" : "left to"));
+                C_Warning("There are no monsters in this map %s kill.", (!totalkills ? "to" : "left to"));
         }
         else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
         {
@@ -4681,7 +4681,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                 if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
                     resurrectcmdtype = Zombieman;
 
-                return true;
+                return (mobjinfo[i].flags & MF_SHOOTABLE);
             }
         }
 
@@ -4749,7 +4749,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             if (resurrected)
             {
                 M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been resurrected.",
-                    (resurrected == 1 ? "" : "All "), commify(resurrected), (resurrected == 1 ? "" : "s"),
+                    (resurrected == 1 ? "The " : "All "), commify(resurrected), (resurrected == 1 ? "" : "s"),
                     (resurrected == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
@@ -4757,7 +4757,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 message_dontfuckwithme = true;
             }
             else
-                C_Warning("There are no monsters to resurrect in this map.");
+                C_Warning("There are no monsters in this map to resurrect.");
         }
         else if (resurrectcmdmobj)
         {
