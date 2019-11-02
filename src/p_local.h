@@ -287,6 +287,8 @@ dboolean P_TakeSpecialThing(mobjtype_t type);
 
 void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust);
 
+void P_ResurrectMobj(mobj_t *target);
+
 extern int      god_health;
 extern int      idfa_armor;
 extern int      idfa_armor_class;

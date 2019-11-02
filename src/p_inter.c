@@ -2171,3 +2171,29 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (justhit && (target->target == source || !target->target || !(target->flags & target->target->flags & MF_FRIEND)))
         target->flags |= MF_JUSTHIT;                            // fight back!
 }
+
+//
+// P_ResurrectMobj
+//
+void P_ResurrectMobj(mobj_t *target)
+{
+    mobjinfo_t  *info = target->info;
+
+    P_SetMobjState(target, info->raisestate);
+
+    target->height = info->height;
+    target->radius = info->radius;
+    target->flags = info->flags;
+    target->flags2 = info->flags2;
+    target->health = info->spawnhealth;
+    target->shadowoffset = info->shadowoffset;
+    P_SetTarget(&target->target, NULL);
+
+    P_SetTarget(&target->lastenemy, NULL);
+    target->flags &= ~MF_JUSTHIT;
+
+    viewplayer->killcount--;
+    stat_monsterskilled--;
+    P_UpdateKillStat(target->type, -1);
+    P_UpdateThinker(&target->thinker);
+}

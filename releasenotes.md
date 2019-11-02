@@ -1,6 +1,8 @@
 ### DOOM Retro v3.1.1
 
 * Minor changes have been made to text that is output to the console.
+* The `resurrect` CCMD has been changed to allow the resurrection of not just the player, but also all monsters or a type of monster.
+
 ---
 
 ###### Saturday, November 2, 2019

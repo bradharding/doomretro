@@ -87,6 +87,7 @@
 #define NAMECMDFORMAT               "[<b>friendly</b> ]<i>monster</i> <i>name</i>"
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT              "<i>CVAR</i>"
+#define RESURRECTCMDFORMAT          "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b> ]<i>monster</i>"
 #define TAKECMDFORMAT               GIVECMDFORMAT
@@ -740,8 +741,8 @@ consolecmd_t consolecmds[] =
         "Toggles respawning monsters."),
     CMD(restartmap, "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
-    CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, false, "",
-        "Resurrects the player."),
+    CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, true, RESURRECTCMDFORMAT,
+        "Resurrects the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at\nthe same time (<b>8</b> to <b>64</b>)."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -4638,17 +4639,188 @@ static void restartmap_cmd_func2(char *cmd, char *parms)
 //
 // resurrect CCMD
 //
+static int      resurrectcmdtype = NUMMOBJTYPES;
+static mobj_t   *resurrectcmdmobj;
+
 static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && viewplayer->health <= 0);
+    if (gamestate == GS_LEVEL)
+    {
+        char    *parm = removenonalpha(parms);
+
+        resurrectcmdmobj = NULL;
+
+        if (!*parm)
+            return true;
+
+        if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+            return (viewplayer->health <= 0);
+
+        if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
+            return true;
+
+        if (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+            || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"))
+            return true;
+
+        for (int i = 0; i < NUMMOBJTYPES; i++)
+        {
+            int num = -1;
+
+            resurrectcmdtype = mobjinfo[i].doomednum;
+
+            if (resurrectcmdtype >= 0
+                && (M_StringCompare(parm, removenonalpha(mobjinfo[i].name1))
+                    || M_StringCompare(parm, removenonalpha(mobjinfo[i].plural1))
+                    || (*mobjinfo[i].name2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name2)))
+                    || (*mobjinfo[i].plural2 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural2)))
+                    || (*mobjinfo[i].name3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].name3)))
+                    || (*mobjinfo[i].plural3 && M_StringCompare(parm, removenonalpha(mobjinfo[i].plural3)))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
+            {
+                if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                    resurrectcmdtype = Zombieman;
+
+                return (mobjinfo[i].flags & MF_CORPSE);
+            }
+        }
+
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+        {
+            mobj_t  *mobj = (mobj_t *)th;
+
+            if (*mobj->name && M_StringCompare(parm, removenonalpha(mobj->name)))
+            {
+                resurrectcmdmobj = mobj;
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
-    P_ResurrectPlayer(initial_health);
-    viewplayer->cheated++;
-    stat_cheated = SafeAdd(stat_cheated, 1);
-    M_SaveCVARs();
+    char    *parm = removenonalpha(parms);
+    char    buffer[1024];
+
+    if (!*parm)
+    {
+        C_ShowDescription(C_GetIndex("resurrect"));
+        C_Output("<b>%s</b> %s", cmd, RESURRECTCMDFORMAT);
+    }
+    else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+    {
+        P_ResurrectPlayer(initial_health);
+        viewplayer->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+    {
+        dboolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+                       || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
+        dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+        dboolean    all = M_StringCompare(parm, "all");
+        int         resurrected = 0;
+
+        if (friends || enemies || all)
+        {
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *thing = sectors[i].thinglist;
+
+                while (thing)
+                {
+                    const int   flags = thing->flags;
+
+                    if (all || !!(flags & MF_FRIEND) == friends)
+                        if ((flags & MF_CORPSE) && !(thing->flags2 & MF2_DECORATION) && thing->type != MT_PLAYER)
+                        {
+                            P_ResurrectMobj(thing);
+                            resurrected++;
+                        }
+
+                    thing = thing->snext;
+                }
+            }
+
+            if (resurrected)
+            {
+                M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been resurrected.",
+                    (resurrected == 1 ? "" : "All "), commify(resurrected), (resurrected == 1 ? "" : "s"),
+                    (resurrected == 1 ? "has" : "have"));
+                C_Output(buffer);
+                C_HideConsole();
+                HU_SetPlayerMessage(buffer, false, false);
+                message_dontfuckwithme = true;
+            }
+            else
+                C_Warning("There are no monsters to resurrect in this map.");
+        }
+        else if (resurrectcmdmobj)
+        {
+            P_ResurrectMobj(resurrectcmdmobj);
+            M_snprintf(buffer, sizeof(buffer), "%s was resurrected.", sentencecase(parm));
+            C_Output(buffer);
+            C_HideConsole();
+            HU_SetPlayerMessage(buffer, false, false);
+            message_dontfuckwithme = true;
+        }
+        else
+        {
+            const mobjtype_t    type = P_FindDoomedNum(resurrectcmdtype);
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *thing = sectors[i].thinglist;
+
+                while (thing)
+                {
+                    if (type == thing->type)
+                    {
+                        if (thing->flags & MF_CORPSE)
+                        {
+                            P_ResurrectMobj(thing);
+                            resurrected++;
+                        }
+                    }
+
+                    thing = thing->snext;
+                }
+            }
+
+            if (resurrected)
+            {
+                M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s been resurrected.",
+                    (resurrected == 1 ? "The" : "All"), commify(resurrected),
+                    (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (resurrected == 1 ? "has" : "have"));
+                C_Output(buffer);
+                C_HideConsole();
+                HU_SetPlayerMessage(buffer, false, false);
+                message_dontfuckwithme = true;
+            }
+            else
+            {
+                if (gamemode != commercial)
+                {
+                    if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonstersSpawner)
+                    {
+                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        return;
+                    }
+                    else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
+                    {
+                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        return;
+                    }
+                }
+
+                C_Warning("There are no dead %s to resurrect.", mobjinfo[type].plural1);
+            }
+        }
+    }
 }
 
 //
