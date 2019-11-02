@@ -1,5 +1,6 @@
 ### DOOM Retro v3.1.1
 
+* Minor changes have been made to text that is output to the console.
 ---
 
 ###### Saturday, November 2, 2019
@@ -22,7 +23,7 @@
 * A bug has been fixed whereby a flying monster could fall out of the air if over a moving, liquid sector in some instances.
 * The horizontal and vertical sensitivity of a gamepad’s thumbsticks can now both be adjusted individually. The `gp_sensitivity` CVAR has been replaced by the new `gp_sensitivity_horizontal` and `gp_sensitivity_vertical` CVARs. Each CVAR is a value between `0` and `128`, and `64` by default.
 * If a friendly dog is returning to the player, they will now drop from any height regardless of how far they are away.
-* Monsters can no longer be spawned outside of the map if the player is too close to a wall when using the `spawn` CCMD.
+* Monsters and items can no longer be spawned outside of the map if the player is too close to a wall when using the `spawn` CCMD.
 * A bug has been fixed whereby bobbing power-ups wouldn’t move on *BOOM*-compatible scrolling sectors in some instances if the `r_floatbob` CVAR was `on`.
 * The correct sound is now played when a *BOOM*-compatible generalized door opens or closes at normal speed.
 * Linedefs with specials but no sectors tagged are now handled better.

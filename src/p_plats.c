@@ -339,6 +339,9 @@ void P_AddActivePlat(plat_t *plat)
 {
     platlist_t  *list = malloc(sizeof(*list));
 
+    if (!list)
+        return;
+
     list->plat = plat;
     plat->list = list;
 

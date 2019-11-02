@@ -2000,7 +2000,6 @@ static void P_LoadBlockMap(int lump)
 
         if (!P_VerifyBlockMap(count))
         {
-            free(blockmaplump);
             P_CreateBlockMap();
             C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
         }
@@ -2202,6 +2201,9 @@ static void P_GroupLines(void)
 static void P_RemoveSlimeTrails(void)                   // killough 10/98
 {
     byte    *hit = calloc(1, numvertexes);              // Hitlist for vertices
+
+    if (!hit)
+        return;
 
     for (int i = 0; i < numsegs; i++)                   // Go through each seg
     {

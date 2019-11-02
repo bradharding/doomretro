@@ -3437,7 +3437,8 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         C_Output("Processing extended string substitution");
 
     if (!holdstring)
-        holdstring = malloc(maxstrlen * sizeof(*holdstring));
+        if (!(holdstring = malloc(maxstrlen * sizeof(*holdstring))))
+            return;
 
     *holdstring = '\0';                 // empty string to start with
     strncpy(inbuffer, line, DEH_BUFFERMAX);

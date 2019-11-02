@@ -340,6 +340,9 @@ void P_AddActiveCeiling(ceiling_t *ceiling)
 {
     ceilinglist_t   *list = malloc(sizeof(*list));
 
+    if (!list)
+        return;
+
     list->ceiling = ceiling;
     ceiling->list = list;
 
