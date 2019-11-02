@@ -842,6 +842,8 @@ static void D_CheckSupportedPWAD(char *filename)
         eviternity = true;
     else if (M_StringCompare(leaf, "d4v.wad"))
         doom4vanilla = true;
+    else if (M_StringCompare(leaf, "remnant.wad"))
+        remnant = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)

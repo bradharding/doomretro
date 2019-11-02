@@ -3645,7 +3645,7 @@ void M_Drawer(void)
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
 
-            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= ORIGINALHEIGHT)
+            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= ORIGINALHEIGHT && !remnant)
                 yy -= OFFSET;
 
             if (M_SKULL1)

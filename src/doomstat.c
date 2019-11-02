@@ -71,6 +71,7 @@ dboolean        E1M8B;
 dboolean        sprfix18;
 dboolean        eviternity;
 dboolean        doom4vanilla;
+dboolean        remnant;
 
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame;
