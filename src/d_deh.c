@@ -3696,8 +3696,7 @@ static int deh_GetData(char *s, char *k, long *l, char **strval)
     if (i >= 1 && isspace((unsigned char)buffer[i - 1]))
         i--;
 
-    if (i >= 0)
-        buffer[i] = '\0';                   // terminate the key before the '='
+    buffer[i] = '\0';                       // terminate the key before the '='
 
     if (!*t)                                // end of string with no equal sign
         okrc = false;
