@@ -1479,7 +1479,35 @@ static void SetVideoMode(dboolean output)
     renderer = SDL_CreateRenderer(window, -1, rendererflags);
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    C_Output("<i><b>" PACKAGE_NAME "</b></i> uses a software renderer.");
+    C_Output("<i><b>" PACKAGE_NAME "</b></i> is using a software renderer.");
+
+    if (output)
+    {
+        char *width_str = commify(height * 4 / 3);
+        char *height_str = commify(height);
+
+        if (nearestlinear)
+        {
+            char *upscaledwidth_str = commify((int64_t)upscaledwidth * SCREENWIDTH);
+            char *upscaledheight_str = commify((int64_t)upscaledheight * SCREENHEIGHT);
+
+            C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
+                SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
+            C_Output("They are then scaled down to %sx%s using linear filtering.", width_str, height_str);
+
+            free(upscaledwidth_str);
+            free(upscaledheight_str);
+        }
+        else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
+            C_Output("Each frame is scaled from %ix%i to %sx%s using linear filtering.",
+                SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+        else
+            C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
+                SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+
+        free(width_str);
+        free(height_str);
+    }
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
     {
@@ -1500,14 +1528,13 @@ static void SetVideoMode(dboolean output)
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                        "<i><b>Direct3D %s</b></i>.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                    C_Output("This is now done in hardware using <i><b>Direct3D %s</b></i>.",
+                        (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
             }
             else
             {
                 if (output)
-                    C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                        "<i><b>OpenGL v%i.%i</b></i>.", major, minor);
+                    C_Output("This is done in hardware using <i><b>OpenGL v%i.%i</b></i>.", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1520,28 +1547,25 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                    "<i><b>OpenGL ES</b></i>.");
+                C_Output("This is done in hardware using <i><b>OpenGL ES</b></i>.");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                    "<i><b>OpenGL ES 2</b></i>.");
+                C_Output("This is done in hardware using <i><b>OpenGL ES 2</b></i>.");
         }
 #elif defined(__APPLE__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                    "<i><b>Metal</b></i>.");
+                C_Output("This is done in hardware using <i><b>Metal</b></i>.");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
-                    "<i><b>Direct3D %s</b></i>.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                C_Output("This is done in hardware using <i><b>Direct3D %s</b></i>.",
+                    (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1556,7 +1580,7 @@ static void SetVideoMode(dboolean output)
             SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
             if (output)
-                C_Output("Each frame is then scaled to vertically fill the display by software.");
+                C_Output("This is also done in software.");
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
             {
@@ -1567,34 +1591,6 @@ static void SetVideoMode(dboolean output)
             if (output && (M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
                 || M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear)))
                 C_Warning("Linear filtering can't be used in software.");
-        }
-
-        if (output)
-        {
-            char    *width_str = commify(height * 4 / 3);
-            char    *height_str = commify(height);
-
-            if (nearestlinear)
-            {
-                char    *upscaledwidth_str = commify((int64_t)upscaledwidth * SCREENWIDTH);
-                char    *upscaledheight_str = commify((int64_t)upscaledheight * SCREENHEIGHT);
-
-                C_Output("Each %ix%i frame is scaled up to %sx%s using nearest-neighbor interpolation.",
-                    SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
-                C_Output("They are then scaled down to %sx%s using linear filtering.", width_str, height_str);
-
-                free(upscaledwidth_str);
-                free(upscaledheight_str);
-            }
-            else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-                C_Output("Each %ix%i frame is scaled up to %sx%s using linear filtering.",
-                    SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
-            else
-                C_Output("Each %ix%i frame is scaled up to %sx%s using nearest-neighbor interpolation.",
-                    SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
-
-            free(width_str);
-            free(height_str);
         }
 
         if (output)
