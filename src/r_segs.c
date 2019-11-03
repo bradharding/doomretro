@@ -488,9 +488,7 @@ static void R_RenderSegLoop(void)
 
 //
 // R_ScaleFromGlobalAngle
-// Returns the texture mapping scale
-//  for the current line (horizontal span)
-//  at the given angle.
+// Returns the texture mapping scale for the current line (horizontal span) at the given angle.
 // rw_distance must be calculated first.
 //
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
@@ -504,8 +502,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 
 //
 // R_StoreWallRange
-// A wall segment will be drawn
-//  between start and stop pixels (inclusive).
+// A wall segment will be drawn between start and stop pixels (inclusive).
 //
 void R_StoreWallRange(const int start, const int stop)
 {
@@ -800,14 +797,12 @@ void R_StoreWallRange(const int start, const int stop)
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
 
         // calculate light table
-        //  use different light tables
-        //  for horizontal/vertical/diagonal
+        //  use different light tables for horizontal/vertical
         if (!fixedcolormap)
             walllights = GetLightTable(frontsector->lightlevel);
     }
 
-    // if a floor/ceiling plane is on the wrong side
-    //  of the view plane, it is definitely invisible
+    // if a floor/ceiling plane is on the wrong side of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
 
     // killough 3/7/98: add deep water check
@@ -864,7 +859,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (floorplane)
         {
             // cph 2003/04/18  - ceilingplane and floorplane might be the same
-            // visplane (e.g. if both skies); R_CheckPlane doesn't know about
+            // visplane (e.g. if both skies); R_CheckPlane() doesn't know about
             // modifications to the plane that might happen in parallel with the check
             // being made, so we have to override it and split them anyway if that is
             // a possibility, otherwise the floor marking would overwrite the ceiling
