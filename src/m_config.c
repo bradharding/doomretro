@@ -78,6 +78,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                                 NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (am_external,                                       BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                                    NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (am_followmode,                                     BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (am_grid,                                           BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_OTHER        (am_gridsize,                                       NOVALUEALIAS       ),
@@ -551,6 +552,9 @@ static void M_CheckCVARs(void)
 
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
+
+    if (am_followmode != false && am_followmode != true)
+        am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
