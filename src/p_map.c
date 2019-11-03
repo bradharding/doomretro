@@ -1767,7 +1767,7 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
 
     if (t1->flags2 & MF2_FEETARECLIPPED)
-        if ((t1->player && r_liquid_lowerview) || (!t1->player && r_liquid_clipsprites))
+        if (!t1->player && r_liquid_clipsprites)
             shootz -= FOOTCLIPSIZE;
 
     attackrange = distance;
