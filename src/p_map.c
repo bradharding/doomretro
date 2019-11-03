@@ -1685,6 +1685,9 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     y = dltrace.y + FixedMul(dltrace.dy, frac);
     z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
+    if (shootthing->flags2 & MF2_FEETARECLIPPED)
+        z -= FOOTCLIPSIZE;
+
     // Spawn bullet puffs or blood spots,
     // depending on target type.
     if (th->flags & MF_NOBLOOD)
