@@ -1479,22 +1479,7 @@ static void SetVideoMode(dboolean output)
     renderer = SDL_CreateRenderer(window, -1, rendererflags);
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    if (output)
-    {
-        typedef const GLubyte *(APIENTRY *glStringFn_t)(GLenum);
-
-        glStringFn_t    pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
-
-        if (pglGetString)
-        {
-            const char  *graphicscard = (const char *)pglGetString(GL_RENDERER);
-            const char  *vendor = (const char *)pglGetString(GL_VENDOR);
-
-            if (graphicscard && vendor)
-                C_Output("Using %s <i><b>%s</b></i> graphics card by <i><b>%s</b></i>.",
-                    (isvowel(graphicscard[0]) ? "an" : "a"), graphicscard, vendor);
-        }
-    }
+    C_Output("<i><b>" PACKAGE_NAME "</b></i> uses a software renderer.");
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
     {
@@ -1515,14 +1500,14 @@ static void SetVideoMode(dboolean output)
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("The screen is now rendered using hardware acceleration with %s of the "
-                        "<i><b>Direct3D</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                    C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                        "<i><b>Direct3D %s</b></i>.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
             }
             else
             {
                 if (output)
-                    C_Output("The screen is rendered using hardware acceleration with v%i.%i of the <i><b>OpenGL</b></i> API.",
-                        major, minor);
+                    C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                        "<i><b>OpenGL v%i.%i</b></i>.", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1535,25 +1520,28 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES</b></i> API.");
+                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                    "<i><b>OpenGL ES</b></i>.");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES 2</b></i> API.");
+                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                    "<i><b>OpenGL ES 2</b></i>.");
         }
 #elif defined(__APPLE__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>Metal</b></i> API.");
+                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                    "<i><b>Metal</b></i>.");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with %s of the <i><b>Direct3D</b></i> API.",
-                    (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                C_Output("Each frame is then scaled to vertically fill the display by hardware acceleration using "
+                    "<i><b>Direct3D %s</b></i>.", (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1568,7 +1556,7 @@ static void SetVideoMode(dboolean output)
             SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
             if (output)
-                C_Output("The screen is rendered in software.");
+                C_Output("Each frame is then scaled to vertically fill the display by software.");
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
             {
@@ -1591,22 +1579,39 @@ static void SetVideoMode(dboolean output)
                 char    *upscaledwidth_str = commify((int64_t)upscaledwidth * SCREENWIDTH);
                 char    *upscaledheight_str = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-                C_Output("The %ix%i screen is scaled up to %sx%s using nearest-neighbor interpolation.",
+                C_Output("Each %ix%i frame is scaled up to %sx%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
-                C_Output("It is then scaled down to %sx%s using linear filtering.", width_str, height_str);
+                C_Output("They are then scaled down to %sx%s using linear filtering.", width_str, height_str);
 
                 free(upscaledwidth_str);
                 free(upscaledheight_str);
             }
             else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-                C_Output("The %ix%i screen is scaled up to %sx%s using linear filtering.",
+                C_Output("Each %ix%i frame is scaled up to %sx%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
             else
-                C_Output("The %ix%i screen is scaled up to %sx%s using nearest-neighbor interpolation.",
+                C_Output("Each %ix%i frame is scaled up to %sx%s using nearest-neighbor interpolation.",
                     SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
 
             free(width_str);
             free(height_str);
+        }
+
+        if (output)
+        {
+            typedef const GLubyte *(APIENTRY *glStringFn_t)(GLenum);
+
+            glStringFn_t    pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
+
+            if (pglGetString)
+            {
+                const char *graphicscard = (const char *)pglGetString(GL_RENDERER);
+                const char *vendor = (const char *)pglGetString(GL_VENDOR);
+
+                if (graphicscard && vendor)
+                    C_Output("Using %s <i><b>%s</b></i> graphics card by <i><b>%s</b></i>.",
+                    (isvowel(graphicscard[0]) ? "an" : "a"), graphicscard, vendor);
+            }
         }
 
         I_CapFPS(0);
