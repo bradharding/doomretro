@@ -42,6 +42,12 @@
 #include <unistd.h>
 #endif
 
+#if defined(__APPLE__)
+#define PC  "Mac"
+#else
+#define PC  "PC"
+#endif
+
 #include "c_console.h"
 #include "d_main.h"
 #include "i_gamepad.h"
@@ -202,7 +208,7 @@ void I_PrintSystemInfo(void)
     int     cores = SDL_GetCPUCount();
     char    *ram = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i logical core%s and %sGB of system RAM on this PC.",
+    C_Output("There %s %i logical core%s and %sGB of system RAM on this " PC ".",
         (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""), ram);
     free(ram);
 }
