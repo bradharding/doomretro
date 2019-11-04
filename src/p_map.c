@@ -1685,7 +1685,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     y = dltrace.y + FixedMul(dltrace.dy, frac);
     z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
-    if (shootthing->flags2 & MF2_FEETARECLIPPED)
+    if ((shootthing->flags2 & MF2_FEETARECLIPPED) && (shootthing->player && r_liquid_lowerview))
         z -= FOOTCLIPSIZE;
 
     // Spawn bullet puffs or blood spots,
@@ -1769,9 +1769,8 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     y2 = t1->y + (distance >> FRACBITS) * finesine[angle];
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
 
-    if (t1->flags2 & MF2_FEETARECLIPPED)
-        if (!t1->player && r_liquid_clipsprites)
-            shootz -= FOOTCLIPSIZE;
+    if ((t1->flags2 & MF2_FEETARECLIPPED) && !t1->player && r_liquid_clipsprites)
+        shootz -= FOOTCLIPSIZE;
 
     attackrange = distance;
     aimslope = slope;
