@@ -1683,8 +1683,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    if (chexdeh || M_CheckParm("-nodeh"))
-        return;
+    dboolean    process = (!chexdeh && !M_CheckParm("-nodeh"));
 
     if (*dehwarning)
         C_Warning(dehwarning);
@@ -1692,15 +1691,17 @@ static void D_ProcessDehInWad(void)
     if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED"))
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && (process || M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)))
                 ProcessDehFile(NULL, i);
     }
     else
     {
         for (int i = numlumps - 1; i >= 0; i--)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED"))
-                if (!M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad"))
-                    ProcessDehFile(NULL, i);
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad")
+                && (process || M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)))
+                ProcessDehFile(NULL, i);
     }
 
     for (int i = 0; i < 8; i++)
