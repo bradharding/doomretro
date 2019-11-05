@@ -604,7 +604,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, dboolean (*trav)(intercept_t *))
+dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
 {
     fixed_t xt1, yt1;
     fixed_t xt2, yt2;

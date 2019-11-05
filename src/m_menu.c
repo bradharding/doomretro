@@ -1016,7 +1016,7 @@ static void M_LoadSelect(int choice)
     }
     else
     {
-        menuactive = false;
+        M_ClearMenus();
         C_ShowConsole();
         C_Warning("This savegame requires a different WAD.");
     }
