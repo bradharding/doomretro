@@ -3782,8 +3782,8 @@ void M_Init(void)
 
     if (EpiDef.lastOn > EpiDef.numitems)
     {
-        EpiDef.lastOn = EpiDef.numitems;
-        episode = EpiDef.numitems + 1;
+        EpiDef.lastOn = 0;
+        episode = 1;
         M_SaveCVARs();
     }
 
