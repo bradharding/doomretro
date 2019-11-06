@@ -1377,6 +1377,9 @@ static void M_DeleteSavegameResponse(int key)
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
 
+        if (saveSlot == quickSaveSlot)
+            quickSaveSlot = -1;
+
         if (currentMenu == &LoadDef)
         {
             if (savegames)
