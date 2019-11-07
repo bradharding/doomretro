@@ -2798,13 +2798,13 @@ static void P_SpawnScrollers(void)
         // killough 3/15/98: Add acceleration. Types 214-218 are the same but
         // are accelerative.
         if (special >= Scroll_ScrollCeilingWhenSectorChangesHeight
-            && special <= Scroll_ScrollWallWhenSectorChangesHeight)      // displacement scrollers
+            && special <= Scroll_ScrollWallWhenSectorChangesHeight)         // displacement scrollers
         {
             special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_ScrollCeilingWhenSectorChangesHeight;
             control = sides[*l->sidenum].sector->id;
         }
         else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
-            && special <= Scroll_WallAcceleratesWhenSectorHeightChanges) // accelerative scrollers
+            && special <= Scroll_WallAcceleratesWhenSectorHeightChanges)    // accelerative scrollers
         {
             accel = true;
             special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_CeilingAcceleratesWhenSectorHeightChanges;

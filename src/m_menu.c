@@ -1334,8 +1334,6 @@ static void M_QuickLoadResponse(int key)
     }
 }
 
-static char tempstring[160];
-
 static void M_QuickLoad(void)
 {
     if (quickSaveSlot < 0)
@@ -1350,10 +1348,12 @@ static void M_QuickLoad(void)
         M_StartMessage(s_QLPROMPT, M_QuickLoadResponse, true);
     else
     {
-        M_snprintf(tempstring, sizeof(tempstring), s_QLPROMPT, savegamestrings[quickSaveSlot]);
-        M_SplitString(tempstring);
-        M_snprintf(tempstring, sizeof(tempstring), "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(tempstring, M_QuickLoadResponse, true);
+        static char buffer[160];
+
+        M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quickSaveSlot]);
+        M_SplitString(buffer);
+        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_StartMessage(buffer, M_QuickLoadResponse, true);
     }
 }
 
@@ -1377,7 +1377,7 @@ static void M_DeleteSavegameResponse(int key)
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
 
-        if (saveSlot == quickSaveSlot)
+        if (itemOn == quickSaveSlot)
             quickSaveSlot = -1;
 
         if (currentMenu == &LoadDef)
@@ -1398,11 +1398,13 @@ static void M_DeleteSavegameResponse(int key)
 
 static void M_DeleteSavegame(void)
 {
+    static char buffer[160];
+
     S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(tempstring, sizeof(tempstring), s_DELPROMPT, savegamestrings[saveSlot]);
-    M_SplitString(tempstring);
-    M_snprintf(tempstring, sizeof(tempstring), "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
-    M_StartMessage(tempstring, M_DeleteSavegameResponse, true);
+    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveSlot]);
+    M_SplitString(buffer);
+    M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
+    M_StartMessage(buffer, M_DeleteSavegameResponse, true);
 }
 
 //
@@ -1718,9 +1720,10 @@ static void M_ChooseSkill(int choice)
             M_StartMessage(s_NIGHTMARE, M_VerifyNightmare, true);
         else
         {
-            M_snprintf(tempstring, sizeof(tempstring), "%s\n\n%s",
-                s_NIGHTMARE, (usinggamepad ? s_PRESSA : s_PRESSYN));
-            M_StartMessage(tempstring, M_VerifyNightmare, true);
+            static char buffer[160];
+
+            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_StartMessage(buffer, M_VerifyNightmare, true);
         }
 
         return;
@@ -1742,9 +1745,10 @@ static void M_Episode(int choice)
             M_StartMessage(s_SWSTRING, NULL, false);
         else
         {
-            M_snprintf(tempstring, sizeof(tempstring), "%s\n\n%s",
-                s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
-            M_StartMessage(tempstring, NULL, false);
+            static char buffer[160];
+
+            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
+            M_StartMessage(buffer, NULL, false);
         }
 
         M_SetupNextMenu(&EpiDef);
@@ -1910,8 +1914,10 @@ static void M_EndGame(int choice)
         M_StartMessage(s_ENDGAME, M_EndGameResponse, true);
     else
     {
-        M_snprintf(tempstring, sizeof(tempstring), "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(tempstring, M_EndGameResponse, true);
+        static char buffer[160];
+
+        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_StartMessage(buffer, M_EndGameResponse, true);
     }
 }
 

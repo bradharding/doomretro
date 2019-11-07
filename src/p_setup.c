@@ -1734,7 +1734,7 @@ static dboolean P_VerifyBlockMap(int count)
                     break;
             }
 
-            if (!isvalid) // if the list is not terminated, break now
+            if (!isvalid)           // if the list is not terminated, break now
                 break;
 
             // scan the list for out-of-range linedef indicies in list
@@ -1745,7 +1745,7 @@ static dboolean P_VerifyBlockMap(int count)
                     break;
                 }
 
-            if (!isvalid) // if a list has a bad linedef index, break now
+            if (!isvalid)           // if a list has a bad linedef index, break now
                 break;
         }
 

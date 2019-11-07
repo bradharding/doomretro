@@ -2799,7 +2799,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 //          line  -- current line in file to process
 // Returns: void
 //
-static void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
+static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
