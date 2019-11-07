@@ -117,6 +117,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     player->recoil = 0;
                     player->oldrecoil = 0;
+
+                    player->lookdir = 0;
+                    player->oldlookdir = 0;
                 }
 
                 thing->angle = m->angle;

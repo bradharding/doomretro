@@ -6,6 +6,7 @@
 * To fix instances where the player is in liquid and is required to shoot a switch, only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on`.
 * The `-nodeh` command-line parameter now works as intended.
 * A crash will no longer occur when trying to autoload a savegame that was previously deleted from the save or load game menu.
+* The direction the player is looking is now centered when they teleport and the `mouselook` CVAR is `on`.
 
 ---
 
