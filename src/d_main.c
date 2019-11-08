@@ -954,7 +954,7 @@ static dboolean D_CheckParms(void)
 
                     LoadCfgFile(myargv[1]);
 
-                    if (!M_CheckParm("-nodeh"))
+                    if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                         LoadDehFile(myargv[1]);
                 }
             }
@@ -988,7 +988,7 @@ static dboolean D_CheckParms(void)
 
                         LoadCfgFile(myargv[1]);
 
-                        if (!M_CheckParm("-nodeh"))
+                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(myargv[1]);
                     }
                 }
@@ -1009,7 +1009,7 @@ static dboolean D_CheckParms(void)
 
                             LoadCfgFile(myargv[1]);
 
-                            if (!M_CheckParm("-nodeh"))
+                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(myargv[1]);
                         }
                     }
@@ -1239,7 +1239,7 @@ static int D_OpenWADLauncher(void)
 
                         LoadCfgFile(file);
 
-                        if (!M_CheckParm("-nodeh"))
+                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
                     }
                 }
@@ -1263,7 +1263,7 @@ static int D_OpenWADLauncher(void)
 
                             LoadCfgFile(file);
 
-                            if (!M_CheckParm("-nodeh"))
+                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
                         }
                     }
@@ -1284,7 +1284,7 @@ static int D_OpenWADLauncher(void)
 
                                 LoadCfgFile(file);
 
-                                if (!M_CheckParm("-nodeh"))
+                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
                             }
                         }
@@ -1570,7 +1570,7 @@ static int D_OpenWADLauncher(void)
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
 
-                                if (!M_CheckParm("-nodeh"))
+                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(fullpath);
 
                                 if (IWADRequiredByPWAD(fullpath) != none)
@@ -1683,7 +1683,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    dboolean    process = (!chexdeh && !M_CheckParm("-nodeh"));
+    dboolean    process = (!chexdeh && !M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
 
     if (*dehwarning)
         C_Warning(dehwarning);
@@ -1848,6 +1848,9 @@ static void D_DoomMainSetup(void)
 
     if (M_CheckParm("-nodeh"))
         C_Output("A <b>-nodeh</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
+    else if (M_CheckParm("-nobex"))
+        C_Output("A <b>-nobex</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
+
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
