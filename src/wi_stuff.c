@@ -615,7 +615,7 @@ static int WI_DrawNum(int x, int y, int n, int digits)
         n = -n;
 
     // if non-number, do not draw it
-    if (n == 1994)
+    if (n == -1)
         return 0;
 
     // draw the new number

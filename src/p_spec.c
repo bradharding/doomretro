@@ -2933,9 +2933,9 @@ static void P_SpawnFriction(void)
             // the move distance is multiplied by 'friction/0x10000', so a
             // higher friction value actually means 'less friction'.
             if (friction > ORIG_FRICTION)       // ice
-                movefactor = MAX(32, ((0x10092 - friction) * 0x70) / 0x158);
+                movefactor = MAX(32, ((0x10092 - friction) * 0x70) / 0x0158);
             else
-                movefactor = MAX(32, ((friction - 0xDB34) * 0xA) / 0x80);
+                movefactor = MAX(32, ((friction - 0xDB34) * 0x0A) / 0x80);
 
             for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
             {

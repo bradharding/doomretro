@@ -1438,9 +1438,10 @@ void A_VileStart(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Fire(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *dest = actor->tracer;
-    mobj_t  *target;
-    angle_t an;
+    mobj_t      *dest = actor->tracer;
+    mobj_t      *target;
+    angle_t     an;
+    sector_t    *sector;
 
     if (!dest)
         return;
@@ -1459,8 +1460,9 @@ void A_Fire(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->y = dest->y + FixedMul(24 * FRACUNIT, finesine[an]);
     actor->z = dest->z;
     P_SetThingPosition(actor);
-    actor->floorz = actor->subsector->sector->floorheight;
-    actor->ceilingz = actor->subsector->sector->ceilingheight;
+    sector = actor->subsector->sector;
+    actor->floorz = sector->floorheight;
+    actor->ceilingz = sector->ceilingheight;
 }
 
 void A_StartFire(mobj_t *actor, player_t *player, pspdef_t *psp)
