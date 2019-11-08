@@ -1619,7 +1619,7 @@ static void P_LoadLineDefs2(void)
         {
             if (!P_CheckTag(ld))
                 C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
-            else if (P_FindSectorFromLineTag(ld, -1) == -1)
+            else if (ld->tag >= 0 && P_FindSectorFromLineTag(ld, -1) == -1)
                 C_Warning("Linedef %s has an unused tag of %s.", commify(i), commify(ld->tag));
         }
     }

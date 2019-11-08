@@ -1039,10 +1039,8 @@ static int ST_CalcPainOffset(void)
 }
 
 //
-// This is a not-very-pretty routine which handles
-//  the face states and their timing.
-// the precedence of expressions is:
-//  dead > evil grin > turned head > straight ahead
+// This is a not-very-pretty routine which handles the face states and their timing.
+// The precedence of expressions is: dead > evil grin > turned head > straight ahead
 //
 static void ST_UpdateFaceWidget(void)
 {

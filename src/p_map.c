@@ -1474,7 +1474,7 @@ static fixed_t  bottomslope;
 
 //
 // PTR_AimTraverse
-// Sets linetaget and aimslope when a target is aimed at.
+// Sets linetarget and aimslope when a target is aimed at.
 //
 static dboolean PTR_AimTraverse(intercept_t *in)
 {
