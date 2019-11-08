@@ -1610,6 +1610,9 @@ static void P_LoadLineDefs2(void)
                 break;
         }
 
+        if (!ld->special && ld->tag)
+            C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
+
         if (!P_CheckTag(ld) && ld->special > 0 && ld->special <= NUMLINESPECIALS)
             C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
     }
