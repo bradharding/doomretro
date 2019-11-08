@@ -1610,11 +1610,18 @@ static void P_LoadLineDefs2(void)
                 break;
         }
 
-        if (!ld->special && ld->tag)
-            C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
-
-        if (!P_CheckTag(ld) && ld->special > 0 && ld->special <= NUMLINESPECIALS)
-            C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
+        if (!ld->special)
+        {
+            if (ld->tag)
+                C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
+        }
+        else if (ld->special <= NUMLINESPECIALS)
+        {
+            if (!P_CheckTag(ld))
+                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
+            else if (P_FindSectorFromLineTag(ld, -1) == -1)
+                C_Warning("Linedef %s has an unused tag of %s.", commify(i), commify(ld->tag));
+        }
     }
 }
 
@@ -2570,6 +2577,10 @@ void P_SetupLevel(int ep, int map)
     P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
     P_LoadLineDefs(lumpnum + ML_LINEDEFS);
     P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
+
+    // killough 1/30/98: Create xref tables for tags
+    P_InitTagLists();
+
     P_LoadLineDefs2();
 
     if (!samelevel)

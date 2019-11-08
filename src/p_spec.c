@@ -908,7 +908,7 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 }
 
 // Hash the sector tags across the sectors and linedefs.
-static void P_InitTagLists(void)
+void P_InitTagLists(void)
 {
     for (int i = numsectors; --i >= 0;)             // Initially make all slots empty.
         sectors[i].firsttag = -1;
@@ -2552,7 +2552,6 @@ void P_SpawnSpecials(void)
     // P_InitTagLists() must be called before P_FindSectorFromLineTag()
     // or P_FindLineFromLineTag() can be called.
 
-    P_InitTagLists();                   // killough 1/30/98: Create xref tables for tags
     P_SpawnScrollers();                 // killough 3/7/98: Add generalized scrollers
     P_SpawnFriction();                  // phares 3/12/98: New friction model using linedefs
     P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
