@@ -112,7 +112,7 @@ static void STlib_DrawBigNum(st_number_t *n)
     int num = MAX(0, *n->num);
 
     // if non-number, do not draw it
-    if (num == -1)
+    if (num == 1994)
         return;
     else
     {

@@ -1196,10 +1196,11 @@ static void ST_UpdateFaceWidget(void)
 
 static void ST_UpdateWidgets(void)
 {
+    static int      largeammo = 1994;   // means "n/a"
     weapontype_t    readyweapon = viewplayer->readyweapon;
     ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
 
-    w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? -1 : &viewplayer->ammo[ammotype]);
+    w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammotype]);
     w_ready.data = readyweapon;
 
     // update keycard multiple widgets

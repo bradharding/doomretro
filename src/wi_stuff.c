@@ -586,53 +586,53 @@ static void WI_DrawAnimatedBack(void)
 //
 static int WI_DrawNum(int x, int y, int n, int digits)
 {
-    int fontwidth = SHORT(num[0]->width);
-    int neg;
-
-    if (digits < 0)
+    // if non-number, do not draw it
+    if (n == 1994)
+        return 0;
+    else
     {
-        if (!n)
-            // make variable-length zeros 1 digit long
-            digits = 1;
-        else
+        int fontwidth = SHORT(num[0]->width);
+        int neg;
+
+        if (digits < 0)
         {
-            int temp = n;
-
-            // figure out # of digits in #
-            digits = 0;
-
-            while (temp)
+            if (!n)
+                // make variable-length zeros 1 digit long
+                digits = 1;
+            else
             {
-                temp /= 10;
-                digits++;
+                int temp = n;
+
+                // figure out # of digits in #
+                digits = 0;
+
+                while (temp)
+                {
+                    temp /= 10;
+                    digits++;
+                }
             }
         }
+
+        if ((neg = (n < 0)))
+            n = -n;
+
+        // draw the new number
+        while (digits--)
+        {
+            x -= fontwidth;
+            x += 2 * (n % 10 == 1);
+            V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
+            x -= 2 * (n % 10 == 1);
+            n /= 10;
+        }
+
+        // draw a minus sign if necessary
+        if (neg)
+            V_DrawPatch((x -= 8), y, 0, wiminus);
+
+        return x;
     }
-
-    neg = (n < 0);
-
-    if (neg)
-        n = -n;
-
-    // if non-number, do not draw it
-    if (n == -1)
-        return 0;
-
-    // draw the new number
-    while (digits--)
-    {
-        x -= fontwidth;
-        x += 2 * (n % 10 == 1);
-        V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
-        x -= 2 * (n % 10 == 1);
-        n /= 10;
-    }
-
-    // draw a minus sign if necessary
-    if (neg)
-        V_DrawPatch((x -= 8), y, 0, wiminus);
-
-    return x;
 }
 
 static void WI_DrawPercent(int x, int y, int p)
