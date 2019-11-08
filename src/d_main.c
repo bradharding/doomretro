@@ -1846,6 +1846,9 @@ static void D_DoomMainSetup(void)
     if (!M_FileExists(packagewad))
         I_Error("%s can't be found.", packagewad);
 
+    if (M_CheckParm("-nodeh"))
+        C_Output("A <b>-nodeh</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
+
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
     if (!(choseniwad = D_CheckParms()))
