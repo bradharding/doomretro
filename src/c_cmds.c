@@ -804,17 +804,17 @@ consolecmd_t consolecmds[] =
         "Toggles using the black pillarboxes either side of\nthe screen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale each frame (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
 #elif defined(__APPLE__)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"metal\"</b>,\n<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or "
+        "The API used to scale each frame (<b>\"metal\"</b>,\n<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or "
         "<b>\"software\"</b>)."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale each frame (<b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
-        "The filter used to scale the display (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
+        "The filter used to scale each frame (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b>\nor <i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
@@ -1865,11 +1865,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name,
                     *(char **)consolecmds[i].variable, description1);
 
-            if (*description2)
+            if (!M_StringCompare(description2, ""))
             {
                 C_TabbedOutput(tabs, "\t\t\t%s", description2);
 
-                if (*description3)
+                if (!M_StringCompare(description3, ""))
                     C_TabbedOutput(tabs, "\t\t\t%s", description3);
             }
         }
