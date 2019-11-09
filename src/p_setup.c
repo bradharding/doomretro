@@ -1613,14 +1613,20 @@ static void P_LoadLineDefs2(void)
         if (!ld->special)
         {
             if (ld->tag)
-                C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
+            {
+                if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                    C_Warning("Linedef %s has no special and an invalid tag of %s.", commify(i), commify(ld->tag));
+                else
+                    C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
+            }
         }
         else if (ld->special <= NUMLINESPECIALS)
         {
             if (!P_CheckTag(ld))
                 C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
-            else if (ld->tag >= 0 && P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning("Linedef %s has an unused tag of %s.", commify(i), commify(ld->tag));
+            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                C_Warning("Linedef %s has special %i (\"%s\") but an invalid tag of %s.",
+                    commify(i), ld->special, linespecials[ld->special], commify(ld->tag));
         }
     }
 }
