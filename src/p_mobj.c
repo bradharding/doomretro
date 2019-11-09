@@ -1340,6 +1340,11 @@ void P_CheckMissileSpawn(mobj_t *th)
     th->y += (th->momy >> 1);
     th->z += (th->momz >> 1);
 
+    // killough 8/12/98: for non-missile objects (e.g. grenades)
+    if (!(th->flags & MF_MISSILE))
+        return;
+
+    // killough 3/15/98: no dropoff (really = don't care for missiles)
     if (!P_TryMove(th, th->x, th->y, 0))
         P_ExplodeMissile(th);
 }
