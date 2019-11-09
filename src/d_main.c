@@ -1688,7 +1688,26 @@ static void D_ProcessDehInWad(void)
     if (*dehwarning)
         C_Warning(dehwarning);
 
-    if (hacx || FREEDOOM)
+    if (doom4vanilla)
+    {
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && process
+                && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)
+                && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
+                ProcessDehFile(NULL, i);
+
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
+                ProcessDehFile(NULL, i);
+
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD))
+                ProcessDehFile(NULL, i);
+    }
+    else if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
