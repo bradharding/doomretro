@@ -303,7 +303,17 @@ void M_SaveCVARs(void)
     p = M_CheckParmWithArgs("-config", 1, 1);
 
     if (!(file = fopen((p ? myargv[p + 1] : packageconfig), "w")))
-        return; // can't write the file, but don't complain
+    {
+        static dboolean warning;
+
+        if (!warning)
+        {
+            warning = true;
+            C_Warning("Couldn't save <b>%s</b>.", (p ? myargv[p + 1] : packageconfig));
+        }
+
+        return;
+    }
 
     if (returntowidescreen)
         vid_widescreen = true;
