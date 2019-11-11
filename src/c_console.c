@@ -651,7 +651,8 @@ void C_ShowConsole(void)
     showcaret = true;
     caretwait = 0;
 
-    viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
+    if (viewplayer)
+        viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
 
     for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
         mousebuttons[i] = false;
@@ -1938,10 +1939,9 @@ static const char *dayofweek(int d, int m, int y)
 
 void C_PrintCompileDate(void)
 {
-    int     day, month, year, hour, minute;
-    char    mth[4] = "";
-
-    const char mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+    int         day, month, year, hour, minute;
+    char        mth[4] = "";
+    const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 
     const char *months[] =
     {
@@ -1955,8 +1955,8 @@ void C_PrintCompileDate(void)
     month = (int)(strstr(mths, mth) - mths) / 3 + 1;
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
-        (int)sizeof(intptr_t) * 8, SDL_GetPlatform(), PACKAGE_NAMEANDVERSIONSTRING, hour - 12 * (hour > 12),
-        minute, (hour < 12 ? "am" : "pm"), dayofweek(day, month, year), months[month], day, year);
+        (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, hour - 12 * (hour > 12), minute,
+        (hour < 12 ? "am" : "pm"), dayofweek(day, month, year), months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
     if (_MSC_BUILD)

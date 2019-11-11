@@ -1790,8 +1790,7 @@ static void D_DoomMainSetup(void)
     D_ProcessDehCommandLine();
 
     // Load configuration files before initializing other subsystems.
-    p = M_CheckParmWithArgs("-config", 1, 1);
-    M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
+    M_LoadCVARs(packageconfig);
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will respawn.");

@@ -75,7 +75,7 @@ angle_t             viewangle;
 fixed_t             viewcos;
 fixed_t             viewsin;
 
-player_t            *viewplayer;
+player_t            *viewplayer = NULL;
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.

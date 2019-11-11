@@ -41,6 +41,14 @@
 
 #include "d_event.h"
 
+#if defined(_WIN32)
+#define OPERATINGSYSTEM "Windows"
+#elif defined(__APPLE__)
+#define OPERATINGSYSTEM "macOS"
+#else
+#define OPERATINGSYSTEM "Linux"
+#endif
+
 //
 // Called by D_DoomLoop,
 // called before processing each tic in a frame.

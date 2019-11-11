@@ -2001,14 +2001,6 @@ static void M_QuitResponse(int key)
 
 void M_QuitDOOM(int choice)
 {
-#if defined(_WIN32)
-    char        *OS = "Windows";
-#elif defined(__APPLE__)
-    char        *OS = "macOS";
-#else
-    char        *OS = "Linux";
-#endif
-
     static char endstring[320];
     static char line1[160];
     static char line2[160];
@@ -2018,9 +2010,10 @@ void M_QuitDOOM(int choice)
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(line1, s_QUITMSG, sizeof(line1));
     else
-        M_snprintf(line1, sizeof(line1), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES], OS);
+        M_snprintf(line1, sizeof(line1), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES],
+            OPERATINGSYSTEM);
 
-    M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), OS);
+    M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), OPERATINGSYSTEM);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
     M_StartMessage(endstring, M_QuitResponse, true);
 }
