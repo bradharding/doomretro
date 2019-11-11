@@ -1556,18 +1556,17 @@ static void P_LoadLineDefs(int lump)
 // killough 4/4/98: delay using sidedefs until they are loaded
 static void P_LoadLineDefs2(void)
 {
-    int     i = numlines;
     line_t  *ld = lines;
 
     transferredsky = false;
 
-    for (; i--; ld++)
+    for (int i = numlines; i--; ld++)
     {
         // cph 2006/09/30 - fix sidedef errors right away
         for (int j = 0; j < 2; j++)
             if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
             {
-                C_Warning("Linedef %s references an invalid sidedef of %s.", commify(i), commify(ld->sidenum[j]));
+                C_Warning("Linedef %s references an invalid sidedef of %s.", commify(ld->id), commify(ld->sidenum[j]));
                 ld->sidenum[j] = NO_INDEX;
             }
 
@@ -1575,13 +1574,13 @@ static void P_LoadLineDefs2(void)
         if (ld->sidenum[0] == NO_INDEX)
         {
             ld->sidenum[0] = 0;                         // Substitute dummy sidedef for missing right side
-            C_Warning("Linedef %s is missing its first sidedef.", commify(i));
+            C_Warning("Linedef %s is missing its first sidedef.", commify(ld->id));
         }
 
         if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
         {
             ld->flags &= ~ML_TWOSIDED;                  // Clear 2s flag for missing left side
-            C_Warning("Linedef %s has the two-sided flag set but no second sidedef.", commify(i));
+            C_Warning("Linedef %s has the two-sided flag set but no second sidedef.", commify(ld->id));
         }
 
         ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : NULL);
@@ -1615,18 +1614,18 @@ static void P_LoadLineDefs2(void)
             if (ld->tag)
             {
                 if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning("Linedef %s has no special and an invalid tag of %s.", commify(i), commify(ld->tag));
+                    C_Warning("Linedef %s has no special and an invalid tag of %s.", commify(ld->id), commify(ld->tag));
                 else
-                    C_Warning("Linedef %s has tag %s but no special.", commify(i), commify(ld->tag));
+                    C_Warning("Linedef %s has tag %s but no special.", commify(ld->id), commify(ld->tag));
             }
         }
         else if (ld->special <= NUMLINESPECIALS)
         {
             if (!P_CheckTag(ld))
-                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(i), ld->special, linespecials[ld->special]);
+                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
                 C_Warning("Linedef %s has special %i (\"%s\") but an invalid tag of %s.",
-                    commify(i), ld->special, linespecials[ld->special], commify(ld->tag));
+                    commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
         }
     }
 }
