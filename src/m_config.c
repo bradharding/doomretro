@@ -56,6 +56,8 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
+#define NUMCVARS                                    176
+
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
 #define CONFIG_VARIABLE_INT_PERCENT(name, set)      { #name, &name, DEFAULT_INT_PERCENT,   set          }
@@ -66,7 +68,7 @@ extern dboolean togglingvanilla;
 #define BLANKLINE                                   { "",    "",    DEFAULT_OTHER,         NOVALUEALIAS }
 #define COMMENT(text)                               { text,  "",    DEFAULT_OTHER,         NOVALUEALIAS }
 
-static default_t cvars[] =
+static default_t cvars[NUMCVARS] =
 {
     COMMENT("; CVARs\n"),
     CONFIG_VARIABLE_INT          (alwaysrun,                                         BOOLVALUEALIAS     ),
@@ -294,22 +296,19 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
 void M_SaveCVARs(void)
 {
     int     numaliases = 0;
-    int     p;
     FILE    *file;
 
     if (!cvarsloaded || vanilla || togglingvanilla)
         return;
 
-    p = M_CheckParmWithArgs("-config", 1, 1);
-
-    if (!(file = fopen((p ? myargv[p + 1] : packageconfig), "w")))
+    if (!(file = fopen(packageconfig, "w")))
     {
         static dboolean warning;
 
         if (!warning)
         {
             warning = true;
-            C_Warning("Couldn't save <b>%s</b>.", (p ? myargv[p + 1] : packageconfig));
+            C_Warning("<b>%s</b> couldn't be saved.", packageconfig);
         }
 
         return;
@@ -318,7 +317,7 @@ void M_SaveCVARs(void)
     if (returntowidescreen)
         vid_widescreen = true;
 
-    for (int i = 0; i < arrlen(cvars); i++)
+    for (int i = 0; i < NUMCVARS; i++)
     {
         if (!*cvars[i].name)
         {
@@ -368,8 +367,8 @@ void M_SaveCVARs(void)
 
                 fputs(cvars_location_free, file);
                 free(cvars_location_free);
-            }
                 break;
+            }
 
             case DEFAULT_INT_PERCENT:
             {

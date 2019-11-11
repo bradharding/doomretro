@@ -1747,7 +1747,7 @@ static void D_ParseStartupString(const char *string)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int     p;
+    int     p = M_CheckParmWithArgs("-config", 1, 1);
     int     choseniwad = 0;
     char    lumpname[6];
     char    *appdatafolder = M_GetAppDataFolder();
@@ -1760,7 +1760,7 @@ static void D_DoomMainSetup(void)
     free(resourcefolder);
 
     M_MakeDirectory(appdatafolder);
-    packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
+    packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL));
 
 #if !defined(__APPLE__)
     free(appdatafolder);
