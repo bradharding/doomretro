@@ -804,6 +804,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     if (truncate == len - 1 && text[len - 1] == '.')
         truncate++;
 
+    if (text[truncate - 1] == ' ')
+        truncate--;
+
     for (int i = 0; i < truncate; i++)
     {
         const unsigned char letter = text[i];
