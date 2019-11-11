@@ -798,14 +798,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     }
 
     if (len > 80)
+    {
         while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width + 6 > CONSOLETEXTPIXELWIDTH)
             truncate--;
 
-    if (truncate == len - 1 && text[len - 1] == '.')
-        truncate++;
+        if (truncate == len - 1 && text[truncate] == '.')
+            truncate++;
 
-    if (text[truncate - 1] == ' ')
-        truncate--;
+        if (text[truncate - 1] == ' ')
+            truncate--;
+    }
 
     for (int i = 0; i < truncate; i++)
     {
