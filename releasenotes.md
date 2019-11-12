@@ -4,7 +4,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The `resurrect` CCMD has been enhanced to allow not just the resurrection of the player, but also all monsters or a type of monster.
-* To fix instances where the player is in liquid and is required to shoot a switch, only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on`.
+* To fix situations where the player is in liquid and needs to shoot a switch, only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
 * The `-nodeh` command-line parameter now works as intended.
 * A crash will no longer occur when trying to autoload a savegame that was previously deleted from the save or load game menu.
 * The direction the player is looking is now centered when they teleport and the `mouselook` CVAR is `on`.
