@@ -719,6 +719,23 @@ linefix_t linefix[] =
     { doom,             4,   9,    1584,    0, "",         "",            "",                 64,      -120, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   9,    1585,    0, "",         "",            "",            DEFAULT,      -120, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
+    { doom,             5,   1,     212,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   1,     213,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   1,     214,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   1,     215,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   1,     218,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   1,     219,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+
+    { doom,             5,   4,    1727,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   4,    2048,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   4,    2050,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   4,    2063,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+
+    { doom,             5,   7,    1142,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   7,    1650,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   7,    2113,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             5,   7,    2114,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                        tag
 
     { doom2,            1,   1,     169,    1, "",         "BRNSMAL2",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
