@@ -625,13 +625,37 @@ static void P_LoadVertexes(int lump)
     W_ReleaseLumpNum(lump);
 }
 
+static void P_CheckLinedefs(void)
+{
+    line_t  *ld = lines;
+
+    for (int i = numlines; i--; ld++)
+        if (!ld->special)
+        {
+            if (ld->tag)
+            {
+                if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                    C_Warning("Linedef %s has no special and an unused tag of %s.", commify(ld->id), commify(ld->tag));
+                else
+                    C_Warning("Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
+            }
+        }
+        else if (ld->special <= NUMLINESPECIALS)
+        {
+            if (!P_CheckTag(ld))
+                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
+            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                C_Warning("Linedef %s has special %i (\"%s\") but has an unused tag of %s.",
+                    commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
+        }
+}
+
 //
 // P_LoadSegs
 //
 static void P_LoadSegs(int lump)
 {
     const mapseg_t  *data = (const mapseg_t *)W_CacheLumpNum(lump);
-    line_t          *ld = lines;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
@@ -821,25 +845,7 @@ static void P_LoadSegs(int lump)
 
     W_ReleaseLumpNum(lump);
 
-    for (int i = numlines; i--; ld++)
-        if (!ld->special)
-        {
-            if (ld->tag)
-            {
-                if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning("Linedef %s has no special and an unused tag of %s.", commify(ld->id), commify(ld->tag));
-                else
-                    C_Warning("Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
-            }
-        }
-        else if (ld->special <= NUMLINESPECIALS)
-        {
-            if (!P_CheckTag(ld))
-                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
-            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning("Linedef %s has special %i (\"%s\") but has an unused tag of %s.",
-                    commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
-        }
+    P_CheckLinedefs();
 }
 
 static void P_LoadSegs_V4(int lump)
@@ -946,6 +952,8 @@ static void P_LoadSegs_V4(int lump)
     }
 
     W_ReleaseLumpNum(lump);
+
+    P_CheckLinedefs();
 }
 
 //
@@ -1397,6 +1405,8 @@ static void P_LoadZNodes(int lump)
     }
 
     W_ReleaseLumpNum(lump);
+
+    P_CheckLinedefs();
 }
 
 //
