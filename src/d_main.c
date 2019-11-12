@@ -879,28 +879,19 @@ static dboolean D_CheckParms(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_21.wad");
 
                     if (W_MergeFile(fullpath, true))
-                    {
-                        modifiedgame = true;
                         sigil = true;
-                    }
                     else
                     {
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
 
                         if (W_MergeFile(fullpath, true))
-                        {
-                            modifiedgame = true;
                             sigil = true;
-                        }
                         else
                         {
                             M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
 
                             if (W_MergeFile(fullpath, true))
-                            {
-                                modifiedgame = true;
                                 sigil = true;
-                            }
                         }
                     }
 
@@ -918,10 +909,7 @@ static dboolean D_CheckParms(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "NERVE.WAD");
 
                     if (W_MergeFile(fullpath, true))
-                    {
-                        modifiedgame = true;
                         nerve = true;
-                    }
                 }
             }
         }
@@ -1160,28 +1148,19 @@ static int D_OpenWADLauncher(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_21.wad");
 
                         if (W_MergeFile(fullpath, true))
-                        {
-                            modifiedgame = true;
                             sigil = true;
-                        }
                         else
                         {
                             M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
 
                             if (W_MergeFile(fullpath, true))
-                            {
-                                modifiedgame = true;
                                 sigil = true;
-                            }
                             else
                             {
                                 M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL.wad");
 
                                 if (W_MergeFile(fullpath, true))
-                                {
-                                    modifiedgame = true;
                                     sigil = true;
-                                }
                             }
                         }
 
@@ -1199,10 +1178,7 @@ static int D_OpenWADLauncher(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
-                        {
-                            modifiedgame = true;
                             nerve = true;
-                        }
                     }
                 }
             }
@@ -1595,10 +1571,7 @@ static int D_OpenWADLauncher(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
-                        {
-                            modifiedgame = true;
                             nerve = true;
-                        }
                     }
 
                     // always merge D4V.WAD last

@@ -631,6 +631,7 @@ static void P_LoadVertexes(int lump)
 static void P_LoadSegs(int lump)
 {
     const mapseg_t  *data = (const mapseg_t *)W_CacheLumpNum(lump);
+    line_t          *ld = lines;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
@@ -819,6 +820,26 @@ static void P_LoadSegs(int lump)
     }
 
     W_ReleaseLumpNum(lump);
+
+    for (int i = numlines; i--; ld++)
+        if (!ld->special)
+        {
+            if (ld->tag)
+            {
+                if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                    C_Warning("Linedef %s has no special and an unused tag of %s.", commify(ld->id), commify(ld->tag));
+                else
+                    C_Warning("Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
+            }
+        }
+        else if (ld->special <= NUMLINESPECIALS)
+        {
+            if (!P_CheckTag(ld))
+                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
+            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                C_Warning("Linedef %s has special %i (\"%s\") but has an unused tag of %s.",
+                    commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
+        }
 }
 
 static void P_LoadSegs_V4(int lump)
@@ -1607,25 +1628,6 @@ static void P_LoadLineDefs2(void)
             case TransferSkyTextureToTaggedSectors_Flipped:
                 transferredsky = true;
                 break;
-        }
-
-        if (!ld->special)
-        {
-            if (ld->tag)
-            {
-                if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning("Linedef %s has no special and an unused tag of %s.", commify(ld->id), commify(ld->tag));
-                else
-                    C_Warning("Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
-            }
-        }
-        else if (ld->special <= NUMLINESPECIALS)
-        {
-            if (!P_CheckTag(ld))
-                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
-            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning("Linedef %s has special %i (\"%s\") but has an unused tag of %s.",
-                    commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
         }
     }
 }
@@ -2549,8 +2551,8 @@ void P_SetupLevel(int ep, int map)
 
     mapformat = P_CheckMapFormat(lumpnum);
 
-    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve || (nerve && gamemission == doom2)) && !FREEDOOM
-        && !M_StringCompare(lumpname, "E1M4B") && !M_StringCompare(lumpname, "E1M8B"));
+    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || (sigil && gamemission == doom) || gamemission == pack_nerve
+        || (nerve && gamemission == doom2)) && !FREEDOOM);
 
     C_AddConsoleDivider();
     C_Output(mapnumandtitle);
