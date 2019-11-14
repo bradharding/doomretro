@@ -115,6 +115,7 @@ typedef struct
 {
     char                string[1024];
     unsigned int        count;
+    unsigned int        line;
     stringtype_t        stringtype;
     headertype_t        headertype;
     int                 tabs[8];
