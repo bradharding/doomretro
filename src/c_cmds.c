@@ -1695,7 +1695,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 len = (int)strlen(string);
 
                 if (console[i].stringtype == warningstring)
-                    fputs("! ", file);
+                    fputs((console[i].line == 1 ? "! " : (console[i].string[0] == ' ' ? " " : "  ")), file);
 
                 for (int inpos = 0; inpos < len; inpos++)
                 {
