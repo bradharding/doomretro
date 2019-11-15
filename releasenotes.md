@@ -11,6 +11,7 @@
 * The vertical direction the player is looking is now centered when they teleport with the `mouselook` CVAR `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * Timestamps between 12:00:00pm and 12:59:59pm in the console are now displayed correctly.
+* The text on the help screen displayed using the <kbd>F1</kbd> key now has drop shadows.
 
 ---
 
