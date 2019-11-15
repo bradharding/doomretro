@@ -323,7 +323,7 @@ void C_Warning(const char *string, ...)
         {
             int truncate = len;
 
-            while (C_TextWidth(M_SubString(buffer, 0, truncate), true, true) + warningwidth + 7 > CONSOLETEXTPIXELWIDTH)
+            while (C_TextWidth(M_SubString(buffer, 0, truncate), true, true) + warningwidth + 12 > CONSOLETEXTPIXELWIDTH)
                 truncate--;
 
             while (truncate > 0 && isalnum((unsigned char)buffer[truncate]))
@@ -829,8 +829,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         width += warningwidth + 1;
         x += width;
     }
-
-    if (len > 80)
+    else if (len > 80)
     {
         while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width + 6 > CONSOLETEXTPIXELWIDTH)
             truncate--;
