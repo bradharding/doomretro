@@ -10,6 +10,7 @@
 * A crash will no longer occur when trying to autoload a savegame that was previously deleted from the save or load game menu.
 * The direction the player is looking is now centered when they teleport and the `mouselook` CVAR is `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
+* Timestamps in the console between 12:00pm and 12:59pm are now displayed correctly.
 
 ---
 
