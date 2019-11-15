@@ -313,7 +313,7 @@ void C_Warning(const char *string, ...)
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-        if (len <= 80)
+        if (len <= 80 || !warningwidth)
         {
             M_StringCopy(console[consolestrings].string, buffer, 1024);
             console[consolestrings].line = 1;
@@ -1220,7 +1220,7 @@ void C_Drawer(void)
 
             lefttext[i] = '\0';
             x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
             // draw any selected text to left of caret
             if (selectstart < caretpos)
@@ -1236,7 +1236,7 @@ void C_Drawer(void)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
                     x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
-                        consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
+                        consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
