@@ -786,6 +786,11 @@ dboolean isvowel(const char ch)
     return !!strchr("aeiouAEIOU", ch);
 }
 
+dboolean isbreak(const char ch)
+{
+    return !!strchr(" /\\-", ch);
+}
+
 char *striptrailingzero(float value, int precision)
 {
     char    *result = malloc(100);

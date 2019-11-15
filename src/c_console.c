@@ -326,7 +326,7 @@ void C_Warning(const char *string, ...)
             while (C_TextWidth(M_SubString(buffer, 0, truncate), true, true) + warningwidth + 12 > CONSOLETEXTPIXELWIDTH)
                 truncate--;
 
-            while (truncate > 0 && isalnum((unsigned char)buffer[truncate]))
+            while (truncate > 0 && !isbreak(buffer[truncate]))
                 truncate--;
 
             M_StringCopy(console[consolestrings].string, M_SubString(buffer, 0, truncate), 1024);
@@ -824,8 +824,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 width -= spacewidth;
         }
         else
-            V_DrawConsoleTextPatch(x, y + (index <= consolestrings && console[index + 1].line == 2) * 6,
-                warning, color1, color2, false, translucency);
+            V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, translucency);
 
         width += warningwidth + 1;
         x += width;

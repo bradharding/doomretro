@@ -94,6 +94,7 @@ char *makevalidfilename(const char *input);
 char *leafname(char *path);
 char *removeext(const char *file);
 dboolean isvowel(const char ch);
+dboolean isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
 void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);
