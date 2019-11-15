@@ -802,7 +802,7 @@ static void C_DrawBackground(int height)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[8], const dboolean formatting, const dboolean kerning, const dboolean indent)
+    byte *translucency, const int tabs[8], const dboolean formatting, const dboolean kerning, const int index)
 {
     int             bold = 0;
     dboolean        italics = false;
@@ -816,15 +816,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     y -= CONSOLEHEIGHT - consoleheight;
 
-    if (color1 == consolewarningcolor)
+    if (console[index].stringtype == warningstring)
     {
-        if (indent)
+        if (console[index].line == 2)
         {
             if (text[0] == ' ')
                 width -= spacewidth;
         }
         else
-            V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, translucency);
+            V_DrawConsoleTextPatch(x, y + (index <= consolestrings && console[index + 1].line == 2) * 6,
+                warning, color1, color2, false, translucency);
 
         width += warningwidth + 1;
         x += width;
@@ -1160,7 +1161,7 @@ void C_Drawer(void)
             if (stringtype == playermessagestring || stringtype == obituarystring)
             {
                 int width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                                NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, false);
+                                NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
                 if (console[i].count > 1)
                 {
@@ -1168,7 +1169,7 @@ void C_Drawer(void)
 
                     M_snprintf(buffer, sizeof(buffer), "(%s)", commify(console[i].count));
                     C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, false, false, false);
+                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, false, false, i);
                 }
 
                 if (con_timestamps)
@@ -1176,7 +1177,7 @@ void C_Drawer(void)
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, false);
+                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
                     divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
@@ -1201,10 +1202,10 @@ void C_Drawer(void)
             }
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, (console[i].line == 2));
+                    consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
-                    consoleboldcolor, tinttab66, notabs, true, true, false);
+                    consoleboldcolor, tinttab66, notabs, true, true, i);
         }
 
         if (quitcmd)
@@ -1220,7 +1221,7 @@ void C_Drawer(void)
 
             lefttext[i] = '\0';
             x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, false);
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
 
             // draw any selected text to left of caret
             if (selectstart < caretpos)
@@ -1236,7 +1237,7 @@ void C_Drawer(void)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
                     x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
-                        consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, false);
+                        consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                         screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
@@ -1278,7 +1279,7 @@ void C_Drawer(void)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
 
                 x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, false);
+                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
@@ -1299,7 +1300,7 @@ void C_Drawer(void)
 
             if (*righttext)
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor,
-                    NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, false);
+                    NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
         }
     }
     else
