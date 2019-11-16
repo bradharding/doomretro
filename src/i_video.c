@@ -1483,12 +1483,12 @@ static void SetVideoMode(dboolean output)
     renderer = SDL_CreateRenderer(window, -1, rendererflags);
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    C_Output("<i><b>" PACKAGE_NAME "</b></i> is using a software renderer.");
-
     if (output)
     {
         char *width_str = commify(height * 4 / 3);
         char *height_str = commify(height);
+
+        C_Output("<i><b>" PACKAGE_NAME "</b></i> is using a software renderer.");
 
         if (nearestlinear)
         {
