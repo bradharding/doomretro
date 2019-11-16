@@ -196,6 +196,7 @@ extern dboolean     tossdrop;
 extern int          turbo;
 extern int          units;
 extern char         *version;
+extern dboolean     vid_borderlesswindow;
 extern int          vid_capfps;
 extern int          vid_display;
 #if !defined(_WIN32)
@@ -591,6 +592,8 @@ enum
 #define units_default                           units_imperial
 
 #define version_default                         PACKAGE_VERSIONSTRING
+
+#define vid_borderlesswindow_default            false
 
 #define vid_capfps_min                          0
 #define vid_capfps_default                      200

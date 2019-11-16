@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    176
+#define NUMCVARS                                    177
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -184,6 +184,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (version,                                           NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (vid_borderlesswindow,                              BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (vid_capfps,                                        CAPVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (vid_display,                                       NOVALUEALIAS       ),
 #if !defined(_WIN32)
@@ -848,6 +849,9 @@ static void M_CheckCVARs(void)
         units = units_default;
 
     version = version_default;
+
+    if (vid_borderlesswindow != false && vid_borderlesswindow != true)
+        vid_borderlesswindow = vid_borderlesswindow_default;
 
     vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
 
