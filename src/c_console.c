@@ -313,7 +313,7 @@ void C_Warning(const char *string, ...)
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-        if (len <= 80 || !warningwidth)
+        if (len <= 100 || !warningwidth)
         {
             M_StringCopy(console[consolestrings].string, buffer, 1024);
             console[consolestrings].line = 1;
@@ -829,7 +829,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         width += warningwidth + 1;
         x += width;
     }
-    else if (len > 80)
+    else if (len > 100)
     {
         while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width + 6 > CONSOLETEXTPIXELWIDTH)
             truncate--;

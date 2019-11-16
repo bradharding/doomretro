@@ -216,11 +216,11 @@ void S_Init(void)
                         if (!CacheSFX(sfx))
                             sfx->lumpnum = -1;
                         else
-                            C_Warning("The <b>%s</b> sound lump is in an unrecognized format.", uppercase(namebuf));
+                            C_Warning("The <b>%s</b> sound lump is in an unknown format.", uppercase(namebuf));
                     }
 
                 if (sfx->lumpnum == -1)
-                    C_Warning("The <b>%s</b> sound lump is in an unrecognized format and won't be played.", uppercase(namebuf));
+                    C_Warning("The <b>%s</b> sound lump is in an unknown format and won't be played.", uppercase(namebuf));
             }
         }
     }
