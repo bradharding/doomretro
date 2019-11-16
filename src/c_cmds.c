@@ -383,6 +383,7 @@ static dboolean turbo_cvar_func1(char *cmd, char *parms);
 static void turbo_cvar_func2(char *cmd, char *parms);
 static dboolean units_cvar_func1(char *cmd, char *parms);
 static void units_cvar_func2(char *cmd, char *parms);
+static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms);
 static dboolean vid_capfps_cvar_func1(char *cmd, char *parms);
 static void vid_capfps_cvar_func2(char *cmd, char *parms);
 static void vid_display_cvar_func2(char *cmd, char *parms);
@@ -787,7 +788,7 @@ consolecmd_t consolecmds[] =
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>" PACKAGE_NAME "'s</b></i> version."),
-    CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, vid_borderlesswindow_cvar_func2, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\n"
@@ -6830,6 +6831,19 @@ static void units_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARWITHDEFAULT,
                 C_LookupAliasFromValue(units, UNITSVALUEALIAS), C_LookupAliasFromValue(units_default, UNITSVALUEALIAS));
     }
+}
+
+//
+// vid_borderlesswindow CVAR
+//
+static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms)
+{
+    const dboolean  vid_borderlesswindow_old = vid_borderlesswindow;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (vid_borderlesswindow != vid_borderlesswindow_old && vid_fullscreen)
+        I_RestartGraphics();
 }
 
 //
