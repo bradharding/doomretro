@@ -562,10 +562,7 @@ static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 // Do nothing if level is the same
 static void *malloc_IfSameLevel(void *p, size_t size)
 {
-    if (!samelevel || !p)
-        return malloc(size);
-
-    return p;
+    return (!samelevel || !p ? malloc(size) : p);
 }
 
 // e6y: Smart calloc

@@ -15,7 +15,7 @@
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * Timestamps between 12:00:00pm and 12:59:59pm in the console are now displayed correctly.
 * The text on the help screen displayed using the <kbd>F1</kbd> key now has drop shadows.
-* The new `vid_borderlesswindow` CVAR has been implemented that toggles using a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
+* A new `vid_borderlesswindow` CVAR has been implemented that toggles the use of a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
 
 ---
 

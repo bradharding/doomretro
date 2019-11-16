@@ -96,7 +96,7 @@
 #define TIMERCMDFORMAT              "<i>minutes</i>"
 #define UNBINDCMDFORMAT             "<i>control</i>|<b>+</b><i>action</i>"
 
-#define PENDINGCHANGE               "This change won't be effective until the player warps to the next map."
+#define PENDINGCHANGE               "This change won't be effective until the next map."
 
 #define INTEGERCVARWITHDEFAULT      "It is currently <b>%s</b> and its default is <b>%s</b>."
 #define INTEGERCVARWITHNODEFAULT    "It is currently <b>%s</b>."
