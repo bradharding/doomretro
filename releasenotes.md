@@ -1,4 +1,4 @@
-### DOOM Retro v3.1.1
+### DOOM Retro v3.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Warnings will now be displayed in the console for every linedef in a map that has either an unknown tag, a tag but no special, or a special but no tag.
