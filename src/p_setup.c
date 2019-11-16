@@ -547,6 +547,8 @@ static const char *sectorspecials[] =
     "Light Flickers (randomly)"
 };
 
+extern texture_t    **textures;
+
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t dx = (v1->x - v2->x) >> FRACBITS;
@@ -604,17 +606,18 @@ static void P_LoadVertexes(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; vertexfix[j].mission != -1; j++)
             {
-                if (i == vertexfix[j].vertex && gamemission == vertexfix[j].mission
-                    && gameepisode == vertexfix[j].epsiode && gamemap == vertexfix[j].map
+                if (i == vertexfix[j].vertex
+                    && gamemission == vertexfix[j].mission
+                    && gameepisode == vertexfix[j].epsiode
+                    && gamemap == vertexfix[j].map
                     && vertexes[i].x == SHORT(vertexfix[j].oldx) << FRACBITS
                     && vertexes[i].y == SHORT(vertexfix[j].oldy) << FRACBITS)
                 {
+                    C_Warning("Vertex %s has been moved from (%i,%i) to (%i,%i).",
+                        commify(vertexfix[j].vertex), vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
+
                     vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
                     vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
-
-                    if (devparm)
-                        C_Warning("Vertex %s has been moved to (%i,%i).",
-                            commify(vertexfix[j].vertex), vertexfix[j].newx, vertexfix[j].newy);
 
                     break;
                 }
@@ -645,7 +648,7 @@ static void P_CheckLinedefs(void)
             if (!P_CheckTag(ld))
                 C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning("Linedef %s has special %i (\"%s\") but has an unknown tag of %s.",
+                C_Warning("Linedef %s has special %i (\"%s\") but an unknown tag of %s.",
                     commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
         }
 }
@@ -759,78 +762,79 @@ static void P_LoadSegs(int lump)
                 {
                     if (*linefix[j].toptexture)
                     {
-                        li->sidedef->toptexture = R_TextureNumForName(linefix[j].toptexture);
+                        C_Warning("The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                            commify(linedefnum), textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
 
-                        if (devparm)
-                            C_Warning("The top texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedefnum), linefix[j].toptexture);
+                        li->sidedef->toptexture = R_TextureNumForName(linefix[j].toptexture);
                     }
 
                     if (*linefix[j].middletexture)
                     {
-                        li->sidedef->midtexture = R_TextureNumForName(linefix[j].middletexture);
+                        C_Warning("The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                            commify(linedefnum), textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
 
-                        if (devparm)
-                            C_Warning("The middle texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedefnum), linefix[j].middletexture);
+                        li->sidedef->midtexture = R_TextureNumForName(linefix[j].middletexture);
                     }
 
                     if (*linefix[j].bottomtexture)
                     {
-                        li->sidedef->bottomtexture = R_TextureNumForName(linefix[j].bottomtexture);
+                        C_Warning("The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                            commify(linedefnum), textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
 
-                        if (devparm)
-                            C_Warning("The bottom texture of linedef %s has been changed to <b>%s</b>.",
-                                commify(linedefnum), linefix[j].bottomtexture);
+                        li->sidedef->bottomtexture = R_TextureNumForName(linefix[j].bottomtexture);
                     }
 
                     if (linefix[j].offset != DEFAULT)
                     {
+                        C_Warning("The horizontal texture offset of linedef %s has been changed from %s to %s.",
+                            commify(linedefnum), commify(li->offset), commify(linefix[j].offset));
+
                         li->offset = SHORT(linefix[j].offset) << FRACBITS;
                         li->sidedef->textureoffset = 0;
-
-                        if (devparm)
-                            C_Warning("The horizontal texture offset of linedef %s has been changed to %s.",
-                                commify(linedefnum), commify(linefix[j].offset));
                     }
 
                     if (linefix[j].rowoffset != DEFAULT)
                     {
-                        li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
+                        C_Warning("The vertical texture offset of linedef %s has been changed from %s to %s.",
+                            commify(linedefnum), commify(li->sidedef->rowoffset), commify(linefix[j].rowoffset));
 
-                        if (devparm)
-                            C_Warning("The vertical texture offset of linedef %s has been changed to %s.",
-                                commify(linedefnum), commify(linefix[j].rowoffset));
+                        li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
                     }
 
                     if (linefix[j].flags != DEFAULT)
                     {
+
+                        C_Warning("The flags of linedef %s have been changed from %s to %s.",
+                            commify(linedefnum), commify(li->linedef->flags), commify(linefix[j].flags));
+
                         if (li->linedef->flags & linefix[j].flags)
                             li->linedef->flags &= ~linefix[j].flags;
                         else
                             li->linedef->flags |= linefix[j].flags;
-
-                        if (devparm)
-                            C_Warning("The flags of linedef %s have been changed to %s.",
-                                commify(linedefnum), commify(li->linedef->flags));
                     }
 
                     if (linefix[j].special != DEFAULT)
                     {
+                        if (linefix[j].special)
+                            C_Warning("The special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                                commify(linedefnum), li->linedef->special, linespecials[li->linedef->special],
+                                linefix[j].special, linespecials[linefix[j].special]);
+                        else
+                            C_Warning("The special of linedef %s has been removed.", commify(linedefnum));
+
                         li->linedef->special = linefix[j].special;
 
-                        if (devparm)
-                            C_Warning("The special of linedef %s has been changed to %i (\"%s\").",
-                                commify(linedefnum), linefix[j].special, linespecials[linefix[j].special]);
                     }
 
                     if (linefix[j].tag != DEFAULT)
                     {
-                        li->linedef->tag = linefix[j].tag;
+                        if (linefix[j].tag)
+                            C_Warning("The tag of linedef %s has been changed from %s to %s.",
+                                commify(linedefnum), commify(li->linedef->tag), commify(linefix[j].tag));
+                        else
+                            C_Warning("The tag of linedef %s has been removed.", commify(linedefnum));
 
-                        if (devparm)
-                            C_Warning("The tag of linedef %s has been changed to %s.",
-                                commify(linedefnum), commify(linefix[j].tag));
+                        li->linedef->tag = linefix[j].tag;
                     }
 
                     break;
@@ -1033,56 +1037,54 @@ static void P_LoadSectors(int lump)
                 {
                     if (*sectorfix[j].floorpic)
                     {
-                        ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
+                        C_Warning("The floor texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                            commify(sectorfix[j].sector), lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
-                        if (devparm)
-                            C_Warning("The floor texture of sector %s has been changed to <b>%s</b>.",
-                                commify(sectorfix[j].sector), sectorfix[j].floorpic);
+                        ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
                     }
 
                     if (*sectorfix[j].ceilingpic)
                     {
+                        C_Warning("The ceiling texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                            commify(sectorfix[j].sector), lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
+
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
 
-                        if (devparm)
-                            C_Warning("The ceiling texture of sector %s has been changed to <b>%s</b>.",
-                                commify(sectorfix[j].sector), sectorfix[j].ceilingpic);
                     }
 
                     if (sectorfix[j].floorheight != DEFAULT)
                     {
+                        C_Warning("The floor height of sector %s has been changed from %s to %s.",
+                            commify(sectorfix[j].sector), commify(ss->floorheight), commify(sectorfix[j].floorheight));
+
                         ss->floorheight = SHORT(sectorfix[j].floorheight) << FRACBITS;
 
-                        if (devparm)
-                            C_Warning("The floor height of sector %s has been changed to %s.",
-                                commify(sectorfix[j].sector), commify(sectorfix[j].floorheight));
                     }
 
                     if (sectorfix[j].ceilingheight != DEFAULT)
                     {
-                        ss->ceilingheight = SHORT(sectorfix[j].ceilingheight) << FRACBITS;
+                        C_Warning("The ceiling height of sector %s has been changed from %s to %s.",
+                            commify(sectorfix[j].sector), commify(ss->ceilingheight), commify(sectorfix[j].ceilingheight));
 
-                        if (devparm)
-                            C_Warning("The ceiling height of sector %s has been changed to %s.",
-                                commify(sectorfix[j].sector), commify(sectorfix[j].ceilingheight));
+                        ss->ceilingheight = SHORT(sectorfix[j].ceilingheight) << FRACBITS;
                     }
 
                     if (sectorfix[j].special != DEFAULT)
                     {
-                        ss->special = SHORT(sectorfix[j].special);
 
-                        if (devparm)
-                            C_Warning("The special of sector %s has been changed to %i (\"%s\").",
-                                commify(sectorfix[j].sector), sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+                        C_Warning("The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                            commify(sectorfix[j].sector), ss->special, sectorspecials[ss->special],
+                            sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+
+                        ss->special = SHORT(sectorfix[j].special);
                     }
 
                     if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT || sectorfix[j].oldtag == ss->tag))
                     {
-                        ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
+                        C_Warning("The tag of sector %s has been changed from %s to %s.",
+                            commify(sectorfix[j].sector), commify(ss->tag), commify(sectorfix[j].newtag));
 
-                        if (devparm)
-                            C_Warning("The tag of sector %s has been changed to %s.",
-                                commify(sectorfix[j].sector), commify(sectorfix[j].newtag));
+                        ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
                     }
 
                     break;
@@ -1464,27 +1466,27 @@ static void P_LoadThings(int lump)
                     }
                     else
                     {
+                        C_Warning("The position of thing %s has been changed from (%i,%i) to (%i,%i).",
+                            commify(thingid), mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
+
                         mt.x = SHORT(thingfix[j].newx);
                         mt.y = SHORT(thingfix[j].newy);
-
-                        if (devparm)
-                            C_Warning("The position of thing %s has been changed to (%i,%i).", commify(thingid), mt.x, mt.y);
                     }
 
                     if (thingfix[j].angle != DEFAULT)
                     {
-                        mt.angle = SHORT(thingfix[j].angle);
+                        C_Warning("The angle of thing %s has been changed from %i to %i.",
+                            commify(thingid), mt.angle, thingfix[j].angle);
 
-                        if (devparm)
-                            C_Warning("The angle of thing %s has been changed to %i.", commify(thingid), thingfix[j].angle);
+                        mt.angle = SHORT(thingfix[j].angle);
                     }
 
                     if (thingfix[j].options != DEFAULT)
                     {
-                        mt.options = thingfix[j].options;
+                        C_Warning("The flags of thing %s have been changed from %i to %i.",
+                            commify(thingid), mt.options, thingfix[j].options);
 
-                        if (devparm)
-                            C_Warning("The flags of thing %s have been changed to %i.", commify(thingid), thingfix[j].options);
+                        mt.options = thingfix[j].options;
                     }
 
                     break;
