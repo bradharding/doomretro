@@ -174,7 +174,7 @@ void C_Output(const char *string, ...);
 void C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[8], const char *string, ...);
 void C_Header(const headertype_t headertype);
-void C_Warning(1, const int minwarninglevel, const char *string, ...);
+void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_Obituary(const char *string, ...);
 void C_AddConsoleDivider(void);

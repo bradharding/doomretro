@@ -298,7 +298,7 @@ void C_Header(const headertype_t headertype)
     outputhistory = -1;
 }
 
-void C_Warning(1, const int minwarninglevel, const char *string, ...)
+void C_Warning(const int minwarninglevel, const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH];
