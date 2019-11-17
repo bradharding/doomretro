@@ -759,26 +759,59 @@ static void P_LoadSegs(int lump)
                 {
                     if (*linefix[j].toptexture)
                     {
-                        C_Warning("The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
-                            commify(linedefnum), textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
+                        int texture = R_TextureNumForName(linefix[j].toptexture);
 
-                        li->sidedef->toptexture = R_TextureNumForName(linefix[j].toptexture);
+                        if (!texture)
+                            C_Warning("The unused top texture of linedef %s has been removed.", commify(linedefnum));
+                        else
+                        {
+                            if (!li->sidedef->toptexture)
+                                C_Warning("The missing top texture of linedef %s has been changed to <b>%.8s</b>.",
+                                    commify(linedefnum), linefix[j].toptexture);
+                            else
+                                C_Warning("The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                    commify(linedefnum), textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
+                        }
+
+                        li->sidedef->toptexture = texture;
                     }
 
                     if (*linefix[j].middletexture)
                     {
-                        C_Warning("The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
-                            commify(linedefnum), textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
+                        int texture = R_TextureNumForName(linefix[j].middletexture);
 
-                        li->sidedef->midtexture = R_TextureNumForName(linefix[j].middletexture);
+                        if (!texture)
+                            C_Warning("The unused middle texture of linedef %s has been removed.", commify(linedefnum));
+                        else
+                        {
+                            if (!li->sidedef->midtexture)
+                                C_Warning("The missing middle texture of linedef %s has been changed to <b>%.8s</b>.",
+                                    commify(linedefnum), linefix[j].middletexture);
+                            else
+                                C_Warning("The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                    commify(linedefnum), textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
+                        }
+
+                        li->sidedef->midtexture = texture;
                     }
 
                     if (*linefix[j].bottomtexture)
                     {
-                        C_Warning("The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
-                            commify(linedefnum), textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
+                        int texture = R_TextureNumForName(linefix[j].bottomtexture);
 
-                        li->sidedef->bottomtexture = R_TextureNumForName(linefix[j].bottomtexture);
+                        if (!texture)
+                            C_Warning("The unused bottom texture of linedef %s has been removed.", commify(linedefnum));
+                        else
+                        {
+                            if (!li->sidedef->bottomtexture)
+                                C_Warning("The missing bottom texture of linedef %s has been changed to <b>%.8s</b>.",
+                                    commify(linedefnum), linefix[j].bottomtexture);
+                            else
+                                C_Warning("The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                    commify(linedefnum), textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
+                        }
+
+                        li->sidedef->bottomtexture = texture;
                     }
 
                     if (linefix[j].offset != DEFAULT)
