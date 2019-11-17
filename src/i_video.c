@@ -1099,7 +1099,7 @@ void I_CreateExternalAutomap(int outputlevel)
     if (numdisplays == 1)
     {
         if (outputlevel >= 1)
-            C_Warning("An external automap couldn't be created. Only one display was found.");
+            C_Warning(1, "An external automap couldn't be created. Only one display was found.");
 
         return;
     }
@@ -1337,7 +1337,7 @@ static void SetVideoMode(dboolean output)
     if (displayindex < 0 || displayindex >= numdisplays || !displayname)
     {
         if (output)
-            C_Warning("Unable to find display %i.", vid_display);
+            C_Warning(1, "Unable to find display %i.", vid_display);
 
         displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
     }
@@ -1525,7 +1525,7 @@ static void SetVideoMode(dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning("<i>" PACKAGE_NAME "</i> requires at least <i>OpenGL v2.1</i>.");
+                C_Warning(1, "<i>" PACKAGE_NAME "</i> requires at least <i>OpenGL v2.1</i>.");
 
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
@@ -1594,7 +1594,7 @@ static void SetVideoMode(dboolean output)
 
             if (output && (M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
                 || M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear)))
-                C_Warning("Linear filtering can't be used in software.");
+                C_Warning(1, "Linear filtering can't be used in software.");
         }
 
         if (output)
@@ -1655,9 +1655,9 @@ static void SetVideoMode(dboolean output)
                 if (vid_vsync)
                 {
                     if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
-                        C_Warning("Vertical sync can't be enabled in software.");
+                        C_Warning(1, "Vertical sync can't be enabled in software.");
                     else
-                        C_Warning("Vertical sync can't be enabled on this video card.");
+                        C_Warning(1, "Vertical sync can't be enabled on this video card.");
                 }
 
                 if (vid_capfps)
@@ -1788,7 +1788,7 @@ void I_ToggleFullscreen(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("Unable to switch to %s.", (!vid_fullscreen ? "fullscreen" : "a window"));
+        C_Warning(1, "Unable to switch to %s.", (!vid_fullscreen ? "fullscreen" : "a window"));
         return;
     }
 
@@ -1873,7 +1873,7 @@ void I_InitGraphics(void)
             SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning("The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
+        C_Warning(1, "The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
             SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();

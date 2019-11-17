@@ -7,6 +7,7 @@
   * Warnings will now be displayed for every linedef in a map that has either an unknown tag, a tag but no special, or a special but no tag.
   * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.
   * Longer warnings will now wrap over two lines.
+  * A new `warninglevel` CVAR has been implemented, which can be `0`, `1` or `2`, and is `2` by default.
 * The `resurrect` CCMD has been enhanced to allow not only the resurrection of the player, but also all monsters or a type of monster.
 * To accommodate for when the player is in liquid and needs to shoot a switch, only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
 * The `-nodeh` command-line parameter now works as intended.

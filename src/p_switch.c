@@ -105,10 +105,10 @@ void P_InitSwitchList(void)
             // Ignore switches referencing unknown texture names, instead of exiting.
             // Warn if either one is missing, but only add if both are valid.
             if ((texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1)) == -1)
-                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown <b>%s</b> texture.", i, alphSwitchList[i].name1);
+                C_Warning(1, "Switch %i in the <b>SWITCHES</b> lump has an unknown <b>%s</b> texture.", i, alphSwitchList[i].name1);
 
             if ((texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2)) == -1)
-                C_Warning("Switch %i in the <b>SWITCHES</b> lump has an unknown <b>%s</b> texture.", i, alphSwitchList[i].name2);
+                C_Warning(1, "Switch %i in the <b>SWITCHES</b> lump has an unknown <b>%s</b> texture.", i, alphSwitchList[i].name2);
 
             if (texture1 != -1 && texture2 != -1)
             {

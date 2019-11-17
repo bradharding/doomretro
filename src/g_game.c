@@ -1092,7 +1092,7 @@ void G_DoScreenShot(void)
             C_Output("<b>%s</b> saved.", lbmpath2);
     }
     else
-        C_Warning("A screenshot couldn't be taken.");
+        C_Warning(1, "A screenshot couldn't be taken.");
 }
 
 // DOOM Par Times
@@ -1420,7 +1420,7 @@ void G_DoLoadGame(void)
 
     if (!(save_stream = fopen(savename, "rb")))
     {
-        C_Warning("<b>%s</b> couldn't be found.", savename);
+        C_Warning(1, "<b>%s</b> couldn't be found.", savename);
         loadaction = ga_nothing;
         return;
     }
@@ -1521,7 +1521,7 @@ static void G_DoSaveGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("<b>%s</b> couldn't be saved.", savename);
+        C_Warning(1, "<b>%s</b> couldn't be saved.", savename);
     }
     else
     {

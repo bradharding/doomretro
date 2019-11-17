@@ -505,7 +505,7 @@ static void DoMerge(void)
                     current_section = SECTION_NORMAL;
 
                     if (i - histart - 1)
-                        C_Warning("All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
+                        C_Warning(1, "All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
                 }
 
                 break;

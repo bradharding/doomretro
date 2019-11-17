@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    177
+#define NUMCVARS                                    178
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -203,6 +203,7 @@ static default_t cvars[NUMCVARS] =
 #if defined(_WIN32)
     CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS       ),
 #endif
+    CONFIG_VARIABLE_INT          (warninglevel,                                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (weaponbounce,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (weaponrecoil,                                      BOOLVALUEALIAS     ),
@@ -309,7 +310,7 @@ void M_SaveCVARs(void)
         if (!warning)
         {
             warning = true;
-            C_Warning("<b>%s</b> couldn't be saved.", packageconfig);
+            C_Warning(1, "<b>%s</b> couldn't be saved.", packageconfig);
         }
 
         return;
@@ -896,6 +897,8 @@ static void M_CheckCVARs(void)
     }
     else
         r_hud = true;
+
+    warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
 

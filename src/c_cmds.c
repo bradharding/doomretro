@@ -834,6 +834,8 @@ consolecmd_t consolecmds[] =
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened by the WAD launcher."),
 #endif
+    CVAR_INT(warninglevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The warning level in the console (<b>0</b>, <b>1</b> or <b>2</b>)."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs when they\nmove (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -1472,9 +1474,9 @@ void bind_cmd_func2(char *cmd, char *parms)
                 if (!bound)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning("The <b>%s</b> action can't be bound to '<b>%s</b>'.", parm2, controls[i].control);
+                        C_Warning(1, "The <b>%s</b> action can't be bound to '<b>%s</b>'.", parm2, controls[i].control);
                     else
-                        C_Warning("The <b>%s</b> action can't be bound to <b>%s</b>.", parm2, controls[i].control);
+                        C_Warning(1, "The <b>%s</b> action can't be bound to <b>%s</b>.", parm2, controls[i].control);
                 }
             }
             else
@@ -1520,7 +1522,7 @@ void bind_cmd_func2(char *cmd, char *parms)
         }
     }
     else
-        C_Warning("<b>%s</b> isn't a valid control.", parm1);
+        C_Warning(1, "<b>%s</b> isn't a valid control.", parm1);
 
     if (mouselookcontrols != (keyboardmouselook || gamepadmouselook || mousemouselook != -1))
     {
@@ -2090,7 +2092,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already has everything.", titlecase(playername));
+                C_Warning(1, "%s already has everything.", titlecase(playername));
                 return;
             }
         }
@@ -2104,7 +2106,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s full health.",
+                C_Warning(1, "%s already %s full health.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2119,7 +2121,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s all the weapons.",
+                C_Warning(1, "%s already %s all the weapons.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2134,7 +2136,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s full ammo.",
+                C_Warning(1, "%s already %s full ammo.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2150,7 +2152,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s full armor.",
+                C_Warning(1, "%s already %s full armor.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2165,7 +2167,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s all the keycards and skull keys.",
+                C_Warning(1, "%s already %s all the keycards and skull keys.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2180,7 +2182,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s all the keycards.",
+                C_Warning(1, "%s already %s all the keycards.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2195,7 +2197,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning("%s already %s all the skull keys.",
+                C_Warning(1, "%s already %s all the skull keys.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2204,7 +2206,7 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             if (viewplayer->weaponowned[wp_pistol])
             {
-                C_Warning("%s already %s a pistol.",
+                C_Warning(1, "%s already %s a pistol.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "have" : "has"));
                 return;
             }
@@ -2233,14 +2235,14 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
-                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                        C_Warning(1, "%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
                         return;
                     }
 
                     if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
-                        C_Warning("%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
+                        C_Warning(1, "%s can't get %s in <i><b>%s</b></i>.", titlecase(playername), mobjinfo[i].plural1, gamedescription);
                         return;
                     }
 
@@ -2577,7 +2579,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
-                C_Warning("There are no monsters in this map %s kill.", (!totalkills ? "to" : "left to"));
+                C_Warning(1, "There are no monsters in this map %s kill.", (!totalkills ? "to" : "left to"));
         }
         else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
         {
@@ -2610,7 +2612,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
-                C_Warning("There are no missiles to explode.");
+                C_Warning(1, "There are no missiles to explode.");
         }
         else if (killcmdmobj)
         {
@@ -2704,17 +2706,17 @@ void kill_cmd_func2(char *cmd, char *parms)
                 {
                     if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
                     {
-                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        C_Warning(1, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
                     }
                     else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                     {
-                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        C_Warning(1, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
                     }
                 }
 
-                C_Warning("There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
+                C_Warning(1, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
                     (type == MT_BARREL ? "explode" : "kill"));
             }
         }
@@ -3588,7 +3590,7 @@ static void name_cmd_func2(char *cmd, char *parms)
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }
         else
-            C_Warning("%s %s%s couldn't be found nearby.",
+            C_Warning(1, "%s %s%s couldn't be found nearby.",
                 (isvowel(namecmdold[0]) ? "An" : "A"), (namecmdfriendly ? "friendly " : ""), namecmdold);
     }
 }
@@ -3691,7 +3693,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
         message_dontfuckwithme = true;
 
         if (gamestate == GS_LEVEL)
-            C_Warning(PENDINGCHANGE);
+            C_Warning(1, PENDINGCHANGE);
     }
 }
 
@@ -3785,7 +3787,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
     message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
-        C_Warning(PENDINGCHANGE);
+        C_Warning(1, PENDINGCHANGE);
 }
 
 //
@@ -4769,7 +4771,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 message_dontfuckwithme = true;
             }
             else
-                C_Warning("There are no monsters in this map to resurrect.");
+                C_Warning(1, "There are no monsters in this map to resurrect.");
         }
         else if (resurrectcmdmobj)
         {
@@ -4823,17 +4825,17 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 {
                     if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonstersSpawner)
                     {
-                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        C_Warning(1, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
                     }
                     else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                     {
-                        C_Warning("There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                        C_Warning(1, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
                         return;
                     }
                 }
 
-                C_Warning("There are no dead %s to resurrect.", mobjinfo[type].plural1);
+                C_Warning(1, "There are no dead %s to resurrect.", mobjinfo[type].plural1);
             }
         }
     }
@@ -4924,7 +4926,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+                C_Warning(1, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
                 spawn = false;
             }
 
@@ -4936,7 +4938,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+                C_Warning(1, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
                 spawn = false;
             }
         }
@@ -4952,7 +4954,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
             if (P_CheckLineSide(viewplayer->mo, x, y))
             {
-                C_Warning("%s %s too close to the wall.",
+                C_Warning(1, "%s %s too close to the wall.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "are" : "is"));
                 return;
             }
@@ -5096,7 +5098,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (result)
                 C_HideConsole();
             else
-                C_Warning("%s %s have anything.",
+                C_Warning(1, "%s %s have anything.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth"))
@@ -5109,7 +5111,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("%s %s already dead.",
+                C_Warning(1, "%s %s already dead.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "are" : "is"));
         }
         else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
@@ -5126,7 +5128,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (result)
                 C_HideConsole();
             else
-                C_Warning("%s %s have any weapons.",
+                C_Warning(1, "%s %s have any weapons.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo"))
@@ -5143,7 +5145,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (result)
                 C_HideConsole();
             else
-                C_Warning("%s %s have any ammo.",
+                C_Warning(1, "%s %s have any ammo.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
@@ -5156,7 +5158,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("%s %s have any armor.", titlecase(playername),
+                C_Warning(1, "%s %s have any armor.", titlecase(playername),
                 (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
@@ -5171,7 +5173,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (result)
                 C_HideConsole();
             else
-                C_Warning("%s %s have any keycards or skull keys.",
+                C_Warning(1, "%s %s have any keycards or skull keys.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
@@ -5184,7 +5186,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("%s %s have any keycards.",
+                C_Warning(1, "%s %s have any keycards.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
@@ -5197,14 +5199,14 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else
-                C_Warning("%s %s have any skull keys.",
+                C_Warning(1, "%s %s have any skull keys.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
         }
         else if (M_StringCompare(parm, "pistol"))
         {
             if (!viewplayer->weaponowned[wp_pistol])
             {
-                C_Warning("%s %s have a pistol.",
+                C_Warning(1, "%s %s have a pistol.",
                     titlecase(playername), (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
                 return;
             }
@@ -5233,7 +5235,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 {
                     if (!P_TakeSpecialThing(i))
                     {
-                        C_Warning("%s %s have a %s.",
+                        C_Warning(1, "%s %s have a %s.",
                             titlecase(playername),
                             (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"),
                             mobjinfo[i].name1);
@@ -5448,7 +5450,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
-        C_Warning("Any changes to CVARs won't be saved while vanilla mode is on.");
+        C_Warning(1, "Any changes to CVARs won't be saved while vanilla mode is on.");
     }
     else
     {
@@ -6313,7 +6315,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-                C_Warning(PENDINGCHANGE);
+                C_Warning(1, PENDINGCHANGE);
         }
     }
     else
@@ -6750,7 +6752,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
         NewDef.lastOn = skilllevel - 1;
 
         if (gamestate == GS_LEVEL && !resettingcvar)
-            C_Warning(PENDINGCHANGE);
+            C_Warning(1, PENDINGCHANGE);
     }
 }
 

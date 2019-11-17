@@ -387,7 +387,7 @@ static void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
 
             if (patch->patch == -1)
-                C_Warning("Patch %i is missing in the <b>%.8s</b> texture.", SHORT(mpatch->patch), uppercase(texture->name));
+                C_Warning(1, "Patch %i is missing in the <b>%.8s</b> texture.", SHORT(mpatch->patch), uppercase(texture->name));
         }
 
         for (mask = 1; mask * 2 <= texture->width; mask <<= 1);
@@ -750,7 +750,7 @@ int R_FlatNumForName(char *name)
     if (i == -1)
     {
         if (*name != '-')
-            C_Warning("The <b>%.8s</b> flat texture can't be found.", uppercase(name));
+            C_Warning(1, "The <b>%.8s</b> flat texture can't be found.", uppercase(name));
 
         return missingflatnum;
     }
@@ -803,7 +803,7 @@ int R_TextureNumForName(char *name)
     if (i == -1)
     {
         if (*name != '-')
-            C_Warning("The <b>%.8s</b> texture can't be found.", uppercase(name));
+            C_Warning(1, "The <b>%.8s</b> texture can't be found.", uppercase(name));
 
         return 0;
     }

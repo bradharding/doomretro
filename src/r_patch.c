@@ -171,7 +171,7 @@ static void createPatch(int id)
     if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
         if (lumpinfo[patchNum]->size > 0)
-            C_Warning("The <b>%s</b> patch is in an unknown format.", lumpinfo[patchNum]->name);
+            C_Warning(1, "The <b>%s</b> patch is in an unknown format.", lumpinfo[patchNum]->name);
 
         return;
     }

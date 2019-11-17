@@ -227,7 +227,7 @@ dboolean I_MidiRPCInitServer(void)
     // Look for executable file
     if (!M_FileExists(module))
     {
-        C_Warning("<b>%s</b> couldn't be found.", module);
+        C_Warning(1, "<b>%s</b> couldn't be found.", module);
         return false;
     }
 
@@ -240,7 +240,7 @@ dboolean I_MidiRPCInitServer(void)
         serverInit = true;
     }
     else
-        C_Warning("<b>%s</b> couldn't be initialized.", module);
+        C_Warning(1, "<b>%s</b> couldn't be initialized.", module);
 
     return result;
 }
@@ -272,7 +272,7 @@ dboolean I_MidiRPCInitClient(void)
     result = I_MidiRPCWaitForServer();
 
     if (!result)
-        C_Warning("<b>%s</b> couldn't be initialized.", module);
+        C_Warning(1, "<b>%s</b> couldn't be initialized.", module);
 
     return result;
 }

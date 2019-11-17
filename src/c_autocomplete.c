@@ -6521,6 +6521,13 @@ autocomplete_t autocompletelist[] =
 #if defined(_WIN32)
     { "if wad ",                                     DOOM1AND2 },
 #endif
+    { "if warninglevel ",                            DOOM1AND2 },
+    { "if warninglevel 0 ",                          DOOM1AND2 },
+    { "if warninglevel 0 then ",                     DOOM1AND2 },
+    { "if warninglevel 1 ",                          DOOM1AND2 },
+    { "if warninglevel 1 then ",                     DOOM1AND2 },
+    { "if warninglevel 2 ",                          DOOM1AND2 },
+    { "if warninglevel 2 then ",                     DOOM1AND2 },
     { "if weaponbob ",                               DOOM1AND2 },
     { "if weaponbounce ",                            DOOM1AND2 },
     { "if weaponbounce off ",                        DOOM1AND2 },
@@ -7198,6 +7205,7 @@ autocomplete_t autocompletelist[] =
     { "reset vid_widescreen",                        DOOM1AND2 },
     { "reset vid_windowpos",                         DOOM1AND2 },
     { "reset vid_windowsize",                        DOOM1AND2 },
+    { "reset warninglevel",                          DOOM1AND2 },
     { "reset weaponbob",                             DOOM1AND2 },
     { "reset weaponbounce",                          DOOM1AND2 },
     { "reset weaponrecoil",                          DOOM1AND2 },
@@ -7653,6 +7661,7 @@ autocomplete_t autocompletelist[] =
 #if defined(_WIN32)
     { "wad",                                         DOOM1AND2 },
 #endif
+    { "warninglevel ",                               DOOM1AND2 },
     { "+weapon1",                                    DOOM1AND2 },
     { "+weapon2",                                    DOOM1AND2 },
     { "+weapon3",                                    DOOM1AND2 },

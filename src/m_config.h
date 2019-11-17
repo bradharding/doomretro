@@ -216,6 +216,7 @@ extern char         *vid_windowsize;
 #if defined(_WIN32)
 extern char         *wad;
 #endif
+extern int          warninglevel;
 extern int          weaponbob;
 extern dboolean     weaponbounce;
 extern dboolean     weaponrecoil;
@@ -650,6 +651,10 @@ enum
 #if defined(_WIN32)
 #define wad_default                             ""
 #endif
+
+#define warninglevel_min                        0
+#define warninglevel_default                    2
+#define warninglevel_max                        2
 
 #define weaponbob_min                           0
 #define weaponbob_default                       75

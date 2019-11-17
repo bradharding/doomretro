@@ -610,7 +610,7 @@ static void P_LoadVertexes(int lump)
                     && vertexes[i].x == SHORT(vertexfix[j].oldx) << FRACBITS
                     && vertexes[i].y == SHORT(vertexfix[j].oldy) << FRACBITS)
                 {
-                    C_Warning("Vertex %s has been moved from (%i,%i) to (%i,%i).",
+                    C_Warning(1, "Vertex %s has been moved from (%i,%i) to (%i,%i).",
                         commify(vertexfix[j].vertex), vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
 
                     vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
@@ -635,17 +635,17 @@ static void P_CheckLinedefs(void)
             if (ld->tag)
             {
                 if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning("Linedef %s has no special and an unknown tag of %s.", commify(ld->id), commify(ld->tag));
+                    C_Warning(1, "Linedef %s has no special and an unknown tag of %s.", commify(ld->id), commify(ld->tag));
                 else
-                    C_Warning("Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
+                    C_Warning(1, "Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
             }
         }
         else if (ld->special <= NUMLINESPECIALS)
         {
             if (!P_CheckTag(ld))
-                C_Warning("Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
+                C_Warning(1, "Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning("Linedef %s has special %i (\"%s\") but an unknown tag of %s.",
+                C_Warning(1, "Linedef %s has special %i (\"%s\") but an unknown tag of %s.",
                     commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
         }
 }
@@ -687,7 +687,7 @@ static void P_LoadSegs(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -705,7 +705,7 @@ static void P_LoadSegs(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -725,10 +725,10 @@ static void P_LoadSegs(int lump)
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
-                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
+                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
+                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == sides + li->linedef->sidenum[0])
             {
@@ -762,14 +762,14 @@ static void P_LoadSegs(int lump)
                         int texture = R_TextureNumForName(linefix[j].toptexture);
 
                         if (!texture)
-                            C_Warning("The unused top texture of linedef %s has been removed.", commify(linedefnum));
+                            C_Warning(1, "The unused top texture of linedef %s has been removed.", commify(linedefnum));
                         else
                         {
                             if (!li->sidedef->toptexture)
-                                C_Warning("The missing top texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(1, "The missing top texture of linedef %s has been changed to <b>%.8s</b>.",
                                     commify(linedefnum), linefix[j].toptexture);
                             else
-                                C_Warning("The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(1, "The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
                                     commify(linedefnum), textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
                         }
 
@@ -781,14 +781,14 @@ static void P_LoadSegs(int lump)
                         int texture = R_TextureNumForName(linefix[j].middletexture);
 
                         if (!texture)
-                            C_Warning("The unused middle texture of linedef %s has been removed.", commify(linedefnum));
+                            C_Warning(1, "The unused middle texture of linedef %s has been removed.", commify(linedefnum));
                         else
                         {
                             if (!li->sidedef->midtexture)
-                                C_Warning("The missing middle texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(1, "The missing middle texture of linedef %s has been changed to <b>%.8s</b>.",
                                     commify(linedefnum), linefix[j].middletexture);
                             else
-                                C_Warning("The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(1, "The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
                                     commify(linedefnum), textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
                         }
 
@@ -800,14 +800,14 @@ static void P_LoadSegs(int lump)
                         int texture = R_TextureNumForName(linefix[j].bottomtexture);
 
                         if (!texture)
-                            C_Warning("The unused bottom texture of linedef %s has been removed.", commify(linedefnum));
+                            C_Warning(1, "The unused bottom texture of linedef %s has been removed.", commify(linedefnum));
                         else
                         {
                             if (!li->sidedef->bottomtexture)
-                                C_Warning("The missing bottom texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(1, "The missing bottom texture of linedef %s has been changed to <b>%.8s</b>.",
                                     commify(linedefnum), linefix[j].bottomtexture);
                             else
-                                C_Warning("The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(1, "The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
                                     commify(linedefnum), textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
                         }
 
@@ -816,7 +816,7 @@ static void P_LoadSegs(int lump)
 
                     if (linefix[j].offset != DEFAULT)
                     {
-                        C_Warning("The horizontal texture offset of linedef %s has been changed from %s to %s.",
+                        C_Warning(1, "The horizontal texture offset of linedef %s has been changed from %s to %s.",
                             commify(linedefnum), commify(li->offset), commify(linefix[j].offset));
 
                         li->offset = SHORT(linefix[j].offset) << FRACBITS;
@@ -825,7 +825,7 @@ static void P_LoadSegs(int lump)
 
                     if (linefix[j].rowoffset != DEFAULT)
                     {
-                        C_Warning("The vertical texture offset of linedef %s has been changed from %s to %s.",
+                        C_Warning(1, "The vertical texture offset of linedef %s has been changed from %s to %s.",
                             commify(linedefnum), commify(li->sidedef->rowoffset), commify(linefix[j].rowoffset));
 
                         li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
@@ -834,7 +834,7 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].flags != DEFAULT)
                     {
 
-                        C_Warning("The flags of linedef %s have been changed from %s to %s.",
+                        C_Warning(1, "The flags of linedef %s have been changed from %s to %s.",
                             commify(linedefnum), commify(li->linedef->flags), commify(linefix[j].flags));
 
                         if (li->linedef->flags & linefix[j].flags)
@@ -846,11 +846,11 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].special != DEFAULT)
                     {
                         if (linefix[j].special)
-                            C_Warning("The special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                            C_Warning(1, "The special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
                                 commify(linedefnum), li->linedef->special, linespecials[li->linedef->special],
                                 linefix[j].special, linespecials[linefix[j].special]);
                         else
-                            C_Warning("The special of linedef %s has been removed.", commify(linedefnum));
+                            C_Warning(1, "The special of linedef %s has been removed.", commify(linedefnum));
 
                         li->linedef->special = linefix[j].special;
 
@@ -859,10 +859,10 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].tag != DEFAULT)
                     {
                         if (linefix[j].tag)
-                            C_Warning("The tag of linedef %s has been changed from %s to %s.",
+                            C_Warning(1, "The tag of linedef %s has been changed from %s to %s.",
                                 commify(linedefnum), commify(li->linedef->tag), commify(linefix[j].tag));
                         else
-                            C_Warning("The tag of linedef %s has been removed.", commify(linedefnum));
+                            C_Warning(1, "The tag of linedef %s has been removed.", commify(linedefnum));
 
                         li->linedef->tag = linefix[j].tag;
                     }
@@ -917,7 +917,7 @@ static void P_LoadSegs_V4(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -935,7 +935,7 @@ static void P_LoadSegs_V4(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -955,10 +955,10 @@ static void P_LoadSegs_V4(int lump)
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
-                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
+                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
+                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == sides + li->linedef->sidenum[0])
             {
@@ -1067,7 +1067,7 @@ static void P_LoadSectors(int lump)
                 {
                     if (*sectorfix[j].floorpic)
                     {
-                        C_Warning("The floor texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                        C_Warning(1, "The floor texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
                             commify(sectorfix[j].sector), lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
@@ -1075,7 +1075,7 @@ static void P_LoadSectors(int lump)
 
                     if (*sectorfix[j].ceilingpic)
                     {
-                        C_Warning("The ceiling texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                        C_Warning(1, "The ceiling texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
                             commify(sectorfix[j].sector), lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
 
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
@@ -1084,7 +1084,7 @@ static void P_LoadSectors(int lump)
 
                     if (sectorfix[j].floorheight != DEFAULT)
                     {
-                        C_Warning("The floor height of sector %s has been changed from %s to %s.",
+                        C_Warning(1, "The floor height of sector %s has been changed from %s to %s.",
                             commify(sectorfix[j].sector), commify(ss->floorheight), commify(sectorfix[j].floorheight));
 
                         ss->floorheight = SHORT(sectorfix[j].floorheight) << FRACBITS;
@@ -1093,7 +1093,7 @@ static void P_LoadSectors(int lump)
 
                     if (sectorfix[j].ceilingheight != DEFAULT)
                     {
-                        C_Warning("The ceiling height of sector %s has been changed from %s to %s.",
+                        C_Warning(1, "The ceiling height of sector %s has been changed from %s to %s.",
                             commify(sectorfix[j].sector), commify(ss->ceilingheight), commify(sectorfix[j].ceilingheight));
 
                         ss->ceilingheight = SHORT(sectorfix[j].ceilingheight) << FRACBITS;
@@ -1102,7 +1102,7 @@ static void P_LoadSectors(int lump)
                     if (sectorfix[j].special != DEFAULT)
                     {
 
-                        C_Warning("The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                        C_Warning(1, "The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
                             commify(sectorfix[j].sector), ss->special, sectorspecials[ss->special],
                             sectorfix[j].special, sectorspecials[sectorfix[j].special]);
 
@@ -1111,7 +1111,7 @@ static void P_LoadSectors(int lump)
 
                     if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT || sectorfix[j].oldtag == ss->tag))
                     {
-                        C_Warning("The tag of sector %s has been changed from %s to %s.",
+                        C_Warning(1, "The tag of sector %s has been changed from %s to %s.",
                             commify(sectorfix[j].sector), commify(ss->tag), commify(sectorfix[j].newtag));
 
                         ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
@@ -1162,7 +1162,7 @@ static void P_LoadNodes(int lump)
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
-            C_Warning("This map has no nodes and only one subsector.");
+            C_Warning(1, "This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
     }
@@ -1191,7 +1191,7 @@ static void P_LoadNodes(int lump)
                 // haleyjd 11/06/10: check for invalid subsector reference
                 if (no->children[j] >= numsubsectors)
                 {
-                    C_Warning("Node %s references an invalid subsector of %s.", commify(i), commify(no->children[j]));
+                    C_Warning(1, "Node %s references an invalid subsector of %s.", commify(i), commify(no->children[j]));
                     no->children[j] = 0;
                 }
 
@@ -1219,7 +1219,7 @@ static void P_LoadNodes_V4(int lump)
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
-            C_Warning("This map has no nodes and only one subsector.");
+            C_Warning(1, "This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
     }
@@ -1273,13 +1273,13 @@ static void P_LoadZSegs(const byte *data)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-            C_Warning("Linedef %s for seg %s references an invalid sidedef of %s.",
+            C_Warning(1, "Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
@@ -1291,7 +1291,7 @@ static void P_LoadZSegs(const byte *data)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning("The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -1471,7 +1471,7 @@ static void P_LoadThings(int lump)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
-            C_Warning("%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+            C_Warning(1, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
             continue;
         }
 
@@ -1496,7 +1496,7 @@ static void P_LoadThings(int lump)
                     }
                     else
                     {
-                        C_Warning("The position of thing %s has been changed from (%i,%i) to (%i,%i).",
+                        C_Warning(1, "The position of thing %s has been changed from (%i,%i) to (%i,%i).",
                             commify(thingid), mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
                         mt.x = SHORT(thingfix[j].newx);
@@ -1505,7 +1505,7 @@ static void P_LoadThings(int lump)
 
                     if (thingfix[j].angle != DEFAULT)
                     {
-                        C_Warning("The angle of thing %s has been changed from %i to %i.",
+                        C_Warning(1, "The angle of thing %s has been changed from %i to %i.",
                             commify(thingid), mt.angle, thingfix[j].angle);
 
                         mt.angle = SHORT(thingfix[j].angle);
@@ -1513,7 +1513,7 @@ static void P_LoadThings(int lump)
 
                     if (thingfix[j].options != DEFAULT)
                     {
-                        C_Warning("The flags of thing %s have been changed from %i to %i.",
+                        C_Warning(1, "The flags of thing %s have been changed from %i to %i.",
                             commify(thingid), mt.options, thingfix[j].options);
 
                         mt.options = thingfix[j].options;
@@ -1629,7 +1629,7 @@ static void P_LoadLineDefs2(void)
         for (int j = 0; j < 2; j++)
             if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
             {
-                C_Warning("Linedef %s references an invalid sidedef of %s.", commify(ld->id), commify(ld->sidenum[j]));
+                C_Warning(1, "Linedef %s references an invalid sidedef of %s.", commify(ld->id), commify(ld->sidenum[j]));
                 ld->sidenum[j] = NO_INDEX;
             }
 
@@ -1637,13 +1637,13 @@ static void P_LoadLineDefs2(void)
         if (ld->sidenum[0] == NO_INDEX)
         {
             ld->sidenum[0] = 0;                         // Substitute dummy sidedef for missing right side
-            C_Warning("Linedef %s is missing its first sidedef.", commify(ld->id));
+            C_Warning(1, "Linedef %s is missing its first sidedef.", commify(ld->id));
         }
 
         if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
         {
             ld->flags &= ~ML_TWOSIDED;                  // Clear 2s flag for missing left side
-            C_Warning("Linedef %s has the two-sided flag set but no second sidedef.", commify(ld->id));
+            C_Warning(1, "Linedef %s has the two-sided flag set but no second sidedef.", commify(ld->id));
         }
 
         ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : NULL);
@@ -1702,7 +1702,7 @@ static void P_LoadSideDefs2(int lump)
         // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
         {
-            C_Warning("Sidedef %s references an invalid sector of %s.", commify(i), commify(sector_num));
+            C_Warning(1, "Sidedef %s references an invalid sector of %s.", commify(i), commify(sector_num));
             sector_num = 0;
         }
 
@@ -2021,12 +2021,12 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(1, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning("A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(1, "A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else
     {
@@ -2060,7 +2060,7 @@ static void P_LoadBlockMap(int lump)
         if (!P_VerifyBlockMap(count))
         {
             P_CreateBlockMap();
-            C_Warning("This map's <b>BLOCKMAP</b> lump was rebuilt.");
+            C_Warning(1, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
         }
     }
 
@@ -2754,7 +2754,7 @@ static void P_InitMapInfo(void)
             {
                 if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
                 {
-                    C_Warning("The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    C_Warning(1, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
@@ -2762,7 +2762,7 @@ static void P_InitMapInfo(void)
                 }
                 else
                 {
-                    C_Warning("The <b>MAPINFO</b> lump contains an invalid map marker.");
+                    C_Warning(1, "The <b>MAPINFO</b> lump contains an invalid map marker.");
                     continue;
                 }
             }
@@ -2957,10 +2957,10 @@ static void P_InitMapInfo(void)
         (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 
     if (nojump)
-        C_Warning("This PWAD has disabled use of the <b>+jump</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the <b>+jump</b> action.");
 
     if (nomouselook)
-        C_Warning("This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
 }
 
 static int QualifyMap(int map)

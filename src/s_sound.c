@@ -137,7 +137,7 @@ static void InitSfxModule(void)
         return;
     }
 
-    C_Warning("Sound effects couldn't be initialized.");
+    C_Warning(1, "Sound effects couldn't be initialized.");
     nosfx = true;
 }
 
@@ -147,7 +147,7 @@ static void InitMusicModule(void)
     if (I_InitMusic())
         return;
 
-    C_Warning("Music couldn't be initialized.");
+    C_Warning(1, "Music couldn't be initialized.");
     nomusic = true;
 }
 
@@ -182,7 +182,7 @@ void S_Init(void)
         char    *audiobuffer = SDL_getenv("SDL_AUDIODRIVER");
 
         if (audiobuffer)
-            C_Warning("The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiobuffer);
+            C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiobuffer);
 
         SDL_setenv("SDL_AUDIODRIVER", "DirectSound", false);
         free(audiobuffer);
@@ -216,11 +216,11 @@ void S_Init(void)
                         if (!CacheSFX(sfx))
                             sfx->lumpnum = -1;
                         else
-                            C_Warning("The <b>%s</b> sound lump is in an unknown format.", uppercase(namebuf));
+                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", uppercase(namebuf));
                     }
 
                 if (sfx->lumpnum == -1)
-                    C_Warning("The <b>%s</b> sound lump is in an unknown format and won't be played.", uppercase(namebuf));
+                    C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", uppercase(namebuf));
             }
         }
     }
@@ -659,7 +659,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     if (music->lumpnum == -1)
     {
-        C_Warning("The <b>%s</b> music lump can't be found.", uppercase(namebuf));
+        C_Warning(1, "The <b>%s</b> music lump can't be found.", uppercase(namebuf));
         return;
     }
 
@@ -680,7 +680,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
             if (!handle)
             {
-                C_Warning("The <b>%s</b> music lump can't be played.", uppercase(namebuf));
+                C_Warning(1, "The <b>%s</b> music lump can't be played.", uppercase(namebuf));
                 return;
             }
         }

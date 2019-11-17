@@ -215,5 +215,5 @@ dboolean SC_Compare(char *text)
 
 static void SC_ScriptError(void)
 {
-    C_Warning("Line %s in the <b>MAPINFO</b> lump is invalid.", commify(sc_Line));
+    C_Warning(1, "Line %s in the <b>MAPINFO</b> lump is invalid.", commify(sc_Line));
 }

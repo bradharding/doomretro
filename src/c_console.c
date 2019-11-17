@@ -120,6 +120,7 @@ static int              outputhistory = -1;
 
 int                     con_backcolor = con_backcolor_default;
 dboolean                con_timestamps = con_timestamps_default;
+int                     warninglevel = warninglevel_default;
 
 static int              timestampx;
 static int              zerowidth;
@@ -297,10 +298,13 @@ void C_Header(const headertype_t headertype)
     outputhistory = -1;
 }
 
-void C_Warning(const char *string, ...)
+void C_Warning(1, const int minwarninglevel, const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH];
+
+    if (warninglevel < minwarninglevel)
+        return;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
