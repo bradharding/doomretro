@@ -1491,6 +1491,7 @@ static void P_LoadThings(int lump)
                 {
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
                     {
+                        C_Warning(2, "Thing %s has been removed.", commify(thingid));
                         spawn = false;
                         break;
                     }
