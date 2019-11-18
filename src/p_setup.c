@@ -817,7 +817,7 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].offset != DEFAULT)
                     {
                         C_Warning(1, "The horizontal texture offset of linedef %s has been changed from %s to %s.",
-                            commify(linedefnum), commify(li->offset), commify(linefix[j].offset));
+                            commify(linedefnum), commify(li->offset >> FRACBITS), commify(linefix[j].offset));
 
                         li->offset = SHORT(linefix[j].offset) << FRACBITS;
                         li->sidedef->textureoffset = 0;
@@ -826,7 +826,7 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].rowoffset != DEFAULT)
                     {
                         C_Warning(1, "The vertical texture offset of linedef %s has been changed from %s to %s.",
-                            commify(linedefnum), commify(li->sidedef->rowoffset), commify(linefix[j].rowoffset));
+                            commify(linedefnum), commify(li->sidedef->rowoffset >> FRACBITS), commify(linefix[j].rowoffset));
 
                         li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
                     }
