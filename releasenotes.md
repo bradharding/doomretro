@@ -6,12 +6,12 @@
 * The following changes have been made to warnings in the console:
   * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
   * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.
-  * Longer warnings will now wrap over two lines.
+  * Longer warnings now wrap over two lines.
   * A new `warninglevel` CVAR has been implemented, which can be `0`, `1` or `2`, and is `2` by default.
 * The `resurrect` CCMD has been enhanced to allow not only the resurrection of the player, but also all monsters or a type of monster.
 * To accommodate for when the player is in liquid and needs to shoot a switch, now only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
 * The `-nodeh` command-line parameter now works as intended.
-* A crash will no longer occur when trying to autoload a savegame that was previously deleted using the <kbd>DEL</kbd> key from the save or load game menu.
+* A crash will no longer occur when trying to autoload a savegame that was previously deleted using the <kbd>DEL</kbd> key in the save or load game menu.
 * The vertical direction the player is looking is now centered when they teleport with the `mouselook` CVAR `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * Timestamps between `12:00:00` and `12:59:59` in the console are now displayed correctly.
