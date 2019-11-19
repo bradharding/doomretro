@@ -17,6 +17,7 @@
 * Timestamps between `12:00:00` and `12:59:59` in the console are now displayed correctly.
 * The text on the help screen displayed using the <kbd>F1</kbd> key now has drop shadows.
 * A new `vid_borderlesswindow` CVAR has been implemented that toggles the use of a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
+* A bug has been fixed whereby the player wouldn’t successfully telefrag a monster at a different height to where they were teleporting from.
 
 ---
 
