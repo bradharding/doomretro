@@ -7,7 +7,7 @@
   * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
   * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.
   * Longer warnings now wrap over two lines.
-  * A new `warninglevel` CVAR has been implemented, which can be `0`, `1` or `2`, and is `2` by default.
+  * A new `warninglevel` CVAR has been implemented to control the type of warnings displayed. It can be `0`, `1` or `2`, and is `2` by default.
 * The `resurrect` CCMD has been enhanced to allow not only the resurrection of the player, but also all monsters or a type of monster.
 * To accommodate for when the player is in liquid and needs to shoot a switch, now only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
 * The `-nodeh` command-line parameter now works as intended.
@@ -17,7 +17,7 @@
 * Timestamps between `12:00:00` and `12:59:59` in the console are now displayed correctly.
 * The text on the help screen displayed using the <kbd>F1</kbd> key now has drop shadows.
 * A new `vid_borderlesswindow` CVAR has been implemented that toggles the use of a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
-* A bug has been fixed whereby the player wouldn’t successfully telefrag a monster at a different height to where they were teleporting from.
+* A bug has been fixed whereby the player wouldn’t be able to telefrag a monster in some instances.
 
 ---
 

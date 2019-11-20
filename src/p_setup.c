@@ -1506,7 +1506,7 @@ static void P_LoadThings(int lump)
 
                     if (thingfix[j].angle != DEFAULT)
                     {
-                        C_Warning(2, "The angle of thing %s has been changed from %i to %i.",
+                        C_Warning(2, "The angle of thing %s has been changed from %i\xB0 to %i\xB0.",
                             commify(thingid), mt.angle, thingfix[j].angle);
 
                         mt.angle = SHORT(thingfix[j].angle);
