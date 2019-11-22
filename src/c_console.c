@@ -1065,12 +1065,12 @@ void C_UpdateTimer(void)
         char    buffer[9];
         int     tics = countdown / TICRATE;
         int     hours = tics / 3600;
-        int     minutes = (tics % 3600) / 60;
-        int     seconds = (tics % 3600) % 60;
+        int     minutes = ((tics %= 3600)) / 60;
+        int     seconds = tics % 60;
 
         if (seconds >= 60)
         {
-            minutes = seconds / 60;
+            minutes += seconds / 60;
             seconds %= 60;
         }
 

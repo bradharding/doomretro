@@ -5360,9 +5360,9 @@ static void timer_cmd_func2(char *cmd, char *parms)
             if (value != timer)
             {
                 if (!value)
-                    C_Output("The timer has been cleared.");
+                    C_Output("The timer for each map has now been cleared.");
                 else
-                    C_Output("The timer for each map is %i minutes.", value);
+                    C_Output("The timer for each map is now %i minutes.", value);
             }
 
             P_SetTimer(value);
