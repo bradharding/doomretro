@@ -58,6 +58,7 @@ typedef struct menu_s
     short           x;
     short           y;
     int             lastOn;
+    dboolean        change;
 } menu_t;
 
 //

@@ -110,6 +110,7 @@ static short    skullAnimCounter;       // skull animation counter
 static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
+static dboolean optionslastonchanged;
 
 static dboolean usinggamepad;
 
@@ -1826,6 +1827,9 @@ static void M_DrawOptions(void)
 
 static void M_Options(int choice)
 {
+    if (!OptionsDef.change)
+        OptionsDef.lastOn = (gamestate == GS_LEVEL ? endgame : msgs);
+
     M_SetupNextMenu(&OptionsDef);
 }
 
@@ -3117,6 +3121,8 @@ dboolean M_Responder(event_t *ev)
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
+            currentMenu->change = true;
+
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
                 episode = itemOn + 1;
@@ -3192,6 +3198,8 @@ dboolean M_Responder(event_t *ev)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
             }
+
+            currentMenu->change = true;
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
@@ -3382,6 +3390,7 @@ dboolean M_Responder(event_t *ev)
                         S_StartSound(NULL, sfx_pstop);
 
                     itemOn = i;
+                    currentMenu->change = true;
 
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
@@ -3442,6 +3451,7 @@ dboolean M_Responder(event_t *ev)
                         S_StartSound(NULL, sfx_pstop);
 
                     itemOn = i;
+                    currentMenu->change = true;
 
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
@@ -3497,6 +3507,7 @@ void M_StartControlPanel(void)
 
     menuactive = true;
     currentMenu = &MainDef;
+
     itemOn = currentMenu->lastOn;
 
     S_StopSounds();
