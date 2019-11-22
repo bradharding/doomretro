@@ -1046,7 +1046,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 
 void C_UpdateFPS(void)
 {
-    if (framespersecond && !dowipe && !paused && !menuactive)
+    if (!dowipe && !paused && !menuactive)
     {
         char    buffer[32];
 
