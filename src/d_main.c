@@ -342,7 +342,7 @@ void D_Display(void)
         if (drawdisk)
             HU_DrawDisk();
 
-        if (countdown)
+        if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
 
         // normal update

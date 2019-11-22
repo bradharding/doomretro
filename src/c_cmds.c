@@ -139,6 +139,7 @@ char                *version = version_default;
 extern dboolean     setsizeneeded;
 extern char         *packageconfig;
 extern int          st_palette;
+extern int          timer;
 
 const control_t controls[] =
 {
@@ -5355,7 +5356,17 @@ static void timer_cmd_func2(char *cmd, char *parms)
         sscanf(parms, "%10d", &value);
 
         if (value != INT_MAX)
+        {
+            if (value != timer)
+            {
+                if (!value)
+                    C_Output("The timer has been cleared.");
+                else
+                    C_Output("The timer for each map is %i minutes.", value);
+            }
+
             P_SetTimer(value);
+        }
     }
 }
 
