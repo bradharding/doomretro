@@ -57,7 +57,7 @@ dboolean GetCapsLockState(void);
 void I_InitGraphics(void);
 void I_RestartGraphics(void);
 void I_ShutdownGraphics(void);
-void I_CapFPS(int frames);
+void I_CapFPS(int cap);
 
 void GetWindowPosition(void);
 void GetWindowSize(void);
@@ -70,7 +70,6 @@ void I_SetSimplePalette(byte *playpal);
 void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
 void I_UpdateBlitFunc(dboolean shake);
-void I_Blit_Automap(void);
 void I_CreateExternalAutomap(int outputlevel);
 void I_DestroyExternalAutomap(void);
 

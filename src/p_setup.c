@@ -2049,7 +2049,7 @@ static void P_LoadBlockMap(int lump)
         {
             short   t = SHORT(wadblockmaplump[i]);
 
-            blockmaplump[i] = (t == -1 ? -1l : ((unsigned int)t & 0xFFFF));
+            blockmaplump[i] = (t == -1 ? -1L : ((unsigned int)t & 0xFFFF));
         }
 
         // Read the header

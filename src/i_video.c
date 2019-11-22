@@ -935,7 +935,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_Automap(void)
+static void I_Blit_Automap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
@@ -944,7 +944,7 @@ void I_Blit_Automap(void)
     SDL_RenderPresent(maprenderer);
 }
 
-void I_Blit_Automap_NearestLinear(void)
+static void I_Blit_Automap_NearestLinear(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);

@@ -129,6 +129,7 @@ static int              warningwidth;
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
 static int              consolehighfpscolor = 116;
+static int              consoletimercolor = 4;
 static int              consoleinputcolor = 4;
 static int              consoleselectedinputcolor = 4;
 static int              consoleselectedinputbackgroundcolor = 100;
@@ -617,6 +618,7 @@ void C_Init(void)
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
+    consoletimercolor = nearestcolors[consoletimercolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
@@ -1081,7 +1083,7 @@ void C_UpdateTimer(void)
         }
 
         M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
-        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer, 4);
+        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer, consoletimercolor);
     }
 }
 
