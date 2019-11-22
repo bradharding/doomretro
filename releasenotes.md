@@ -19,6 +19,7 @@
 * The text on the help screen displayed using the <kbd>F1</kbd> key now has drop shadows.
 * A new `vid_borderlesswindow` CVAR has been implemented that toggles the use of a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
 * A bug has been fixed whereby the player wouldn’t be able to telefrag a monster in some instances.
+* A countdown will now be displayed in the top right of the screen if a timer is set using the `timer` CCMD.
 
 ---
 

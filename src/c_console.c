@@ -149,6 +149,7 @@ static int              consolecolors[STRINGTYPES];
 
 dboolean                scrollbardrawn;
 
+extern int              countdown;
 extern int              framespersecond;
 extern int              refreshrate;
 extern dboolean         dowipe;
@@ -1054,6 +1055,36 @@ void C_UpdateFPS(void)
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
             consolehighfpscolor));
+    }
+}
+
+void C_UpdateTimer(void)
+{
+    if (!paused && !menuactive)
+    {
+        char    buffer[9];
+        int     tics = countdown;
+        int     hours = 0;
+        int     minutes = 0;
+        int     seconds = 0;
+
+        if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
+        {
+            minutes += seconds / 60;
+            seconds %= 60;
+        }
+
+        if ((minutes += (tics % 3600) / 60) >= 60)
+        {
+            hours += minutes / 60;
+            minutes %= 60;
+        }
+
+        if ((hours += tics / 3600) > 12)
+            hours %= 12;
+
+        M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer, 4);
     }
 }
 

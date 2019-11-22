@@ -156,6 +156,7 @@ static dboolean     error;
 
 struct tm           gamestarttime;
 
+extern int          countdown;
 extern evtype_t     lasteventtype;
 
 #if defined(_WIN32)
@@ -340,6 +341,9 @@ void D_Display(void)
 
         if (drawdisk)
             HU_DrawDisk();
+
+        if (countdown)
+            C_UpdateTimer();
 
         // normal update
         blitfunc();             // blit buffer

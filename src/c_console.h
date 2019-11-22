@@ -190,6 +190,7 @@ dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
+void C_UpdateTimer(void);
 char *C_GetTimeStamp(unsigned int tics);
 
 #endif
