@@ -658,7 +658,7 @@ dboolean wildcard(char *input, char *pattern)
             return false;
     }
 
-    return true;
+    return false;
 }
 
 int gcd(int a, int b)

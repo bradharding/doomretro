@@ -1616,8 +1616,6 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
     const int tabs[8] = { 40, 336, 0, 0, 0, 0, 0, 0 };
     int       count = 0;
 
-    C_Header(cmdlistheader);
-
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CMD)
         {
@@ -1625,10 +1623,11 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             char    format[255];
             char    *p;
 
-            count++;
-
             if (*parms && !wildcard(consolecmds[i].name, parms))
                 continue;
+
+            if (++count == 1)
+                C_Header(cmdlistheader);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
@@ -1766,8 +1765,6 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
     const int   tabs[8] = { 40, 209, 318, 0, 0, 0, 0, 0 };
     int         count = 0;
 
-    C_Header(cvarlistheader);
-
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
         {
@@ -1776,10 +1773,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             char    description3[255] = "";
             char    *p;
 
-            count++;
-
             if (*parms && !wildcard(consolecmds[i].name, parms))
                 continue;
+
+            if (++count == 1)
+                C_Header(cvarlistheader);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
