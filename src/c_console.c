@@ -1063,14 +1063,14 @@ void C_UpdateTimer(void)
     if (!paused && !menuactive)
     {
         char    buffer[9];
-        int     tics = countdown;
+        int     tics = countdown / TICRATE;
         int     hours = 0;
         int     minutes = 0;
-        int     seconds = 0;
+        int     seconds = (tics % 3600) % 60;
 
-        if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
+        if (seconds >= 60)
         {
-            minutes += seconds / 60;
+            minutes = seconds / 60;
             seconds %= 60;
         }
 
@@ -1080,8 +1080,7 @@ void C_UpdateTimer(void)
             minutes %= 60;
         }
 
-        if ((hours += tics / 3600) > 12)
-            hours %= 12;
+        hours += tics / 3600;
 
         M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer, 4);

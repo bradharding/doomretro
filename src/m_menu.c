@@ -110,7 +110,6 @@ static short    skullAnimCounter;       // skull animation counter
 static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
-static dboolean optionslastonchanged;
 
 static dboolean usinggamepad;
 
