@@ -20,6 +20,7 @@
 * A new `vid_borderlesswindow` CVAR has been implemented that toggles the use of a borderless window rather than true fullscreen when the `vid_fullscreen` CVAR is `on`. It is `off` by default.
 * A bug has been fixed whereby the player wouldn’t be able to telefrag a monster in some instances.
 * A countdown will now be displayed in the top right of the screen if a timer is set using the `timer` CCMD.
+* The number of maps started now appears alongside the number of maps completed in the `playerstats` CCMD.
 
 ---
 

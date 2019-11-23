@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    178
+#define NUMCVARS                                    179
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -225,6 +225,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_armor,                          NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_health,                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_mapscompleted,                                NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_mapsstarted,                                  NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,                               NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_arachnotrons,                  NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_archviles,                     NOVALUEALIAS       ),

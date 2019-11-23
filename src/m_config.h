@@ -163,6 +163,7 @@ extern unsigned int stat_itemspickedup_ammo_shells;
 extern unsigned int stat_itemspickedup_armor;
 extern unsigned int stat_itemspickedup_health;
 extern unsigned int stat_mapscompleted;
+extern unsigned int stat_mapsstarted;
 extern unsigned int stat_monsterskilled;
 extern unsigned int stat_monsterskilled_arachnotrons;
 extern unsigned int stat_monsterskilled_archviles;

@@ -3959,6 +3959,8 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(mappedwalls * 100.0f / totalwalls, 1));
     }
 
+    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", commify(stat_mapsstarted));
+
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Games saved\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->gamessaved), commify(stat_gamessaved));
@@ -4157,6 +4159,8 @@ static void C_PlayerStats_NoGame(void)
     };
 
     C_Header(playerstatsheader);
+
+    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", commify(stat_mapsstarted));
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 

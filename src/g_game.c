@@ -165,6 +165,7 @@ static char     savedescription[SAVESTRINGSIZE];
 gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_gamessaved = 0;
+unsigned int    stat_mapsstarted = 0;
 unsigned int    stat_mapscompleted = 0;
 unsigned int    stat_skilllevel_imtooyoungtodie = 0;
 unsigned int    stat_skilllevel_heynottoorough = 0;
@@ -613,6 +614,8 @@ void G_DoLoadLevel(void)
     // [BH] clear these as well, since data from prev map can be copied over in G_BuildTiccmd()
     for (int i = 0; i < BACKUPTICS; i++)
         memset(&localcmds[i], 0, sizeof(ticcmd_t));
+
+    stat_mapsstarted = SafeAdd(stat_mapsstarted, 1);
 
     M_SetWindowCaption();
 
