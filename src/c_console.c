@@ -122,6 +122,7 @@ int                     con_backcolor = con_backcolor_default;
 dboolean                con_timestamps = con_timestamps_default;
 int                     warninglevel = warninglevel_default;
 
+static int              timerx;
 static int              timestampx;
 static int              zerowidth;
 static int              warningwidth;
@@ -670,6 +671,7 @@ void C_Init(void)
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
+    timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
 
@@ -975,7 +977,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(int x, int y, const char *text, const int color)
+static void C_DrawOverlayText(int x, int y, const char *text, const int color, dboolean monospaced)
 {
     const int   len = (int)strlen(text);
 
@@ -989,8 +991,16 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
-            x += SHORT(patch->width);
+            if (monospaced && letter == '1')
+            {
+                V_DrawConsoleTextPatch(x + 1, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
+                x += SHORT(patch->width) + 2;
+            }
+            else
+            {
+                V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
+                x += SHORT(patch->width);
+            }
         }
     }
 }
@@ -1017,7 +1027,7 @@ char *C_GetTimeStamp(unsigned int tics)
     if ((hours += tics / 3600) > 12)
         hours %= 12;
 
-    M_snprintf(buffer, 9, "%s%i:%02i:%02i", (hours < 10 ? " " : ""), hours, minutes, seconds);
+    M_snprintf(buffer, 9, "%2i:%02i:%02i", hours, minutes, seconds);
     return buffer;
 }
 
@@ -1056,7 +1066,7 @@ void C_UpdateFPS(void)
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
-            consolehighfpscolor));
+            consolehighfpscolor), false);
     }
 }
 
@@ -1064,26 +1074,32 @@ void C_UpdateTimer(void)
 {
     if (!paused && !menuactive)
     {
-        char    buffer[9];
-        int     tics = countdown / TICRATE;
-        int     hours = tics / 3600;
-        int     minutes = ((tics %= 3600)) / 60;
-        int     seconds = tics % 60;
+        static char buffer[9];
+        int         tics = countdown;
+        static int  prevtics;
 
-        if (seconds >= 60)
+        if (tics != prevtics)
         {
-            minutes += seconds / 60;
-            seconds %= 60;
+            int     hours = (tics = (prevtics = tics) / TICRATE) / 3600;
+            int     minutes = ((tics %= 3600)) / 60;
+            int     seconds = tics % 60;
+
+            if (seconds >= 60)
+            {
+                minutes += seconds / 60;
+                seconds %= 60;
+            }
+
+            if (minutes >= 60)
+            {
+                hours += minutes / 60;
+                minutes %= 60;
+            }
+
+            M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         }
 
-        if (minutes >= 60)
-        {
-            hours += minutes / 60;
-            minutes %= 60;
-        }
-
-        M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
-        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer, consoletimercolor);
+        C_DrawOverlayText(timerx, CONSOLETEXTY, buffer, consoletimercolor, true);
     }
 }
 
