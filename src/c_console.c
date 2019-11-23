@@ -339,6 +339,10 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
             M_StringCopy(console[consolestrings].string, M_SubString(buffer, 0, truncate), 1024);
             console[consolestrings].line = 1;
             console[consolestrings++].stringtype = warningstring;
+
+            if (consolestrings >= (int)consolestringsmax)
+                console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
             M_StringCopy(console[consolestrings].string, M_SubString(buffer, truncate, (size_t)len - truncate), 1024);
             console[consolestrings].line = 2;
             console[consolestrings++].stringtype = warningstring;
