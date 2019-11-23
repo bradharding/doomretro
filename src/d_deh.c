@@ -2829,8 +2829,8 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
     }
 }
 
-extern int pars[6][10];
-extern int cpars[33];
+extern int  pars[6][10];
+extern int  cpars[33];
 
 // ====================================================================
 // deh_procPars

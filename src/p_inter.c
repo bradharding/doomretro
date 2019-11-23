@@ -331,9 +331,7 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-
-        if (weaponinfo[weapon].priority == -1 || weaponinfo[weapon].priority > weaponinfo[viewplayer->readyweapon].priority)
-            viewplayer->pendingweapon = weapon;
+        viewplayer->pendingweapon = weapon;
     }
 
     return (gaveweapon || gaveammo);

@@ -902,8 +902,8 @@ void P_RespawnSpecials(void)
 // Most of the player structure stays unchanged
 //  between levels.
 //
-extern int lastlevel;
-extern int lastepisode;
+extern int  lastlevel;
+extern int  lastepisode;
 
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {

@@ -410,8 +410,8 @@ static void saveg_write_pspdef_t(pspdef_t *str)
     saveg_write32(str->sy);
 }
 
-extern int oldhealth;
-extern int cardsfound;
+extern int  oldhealth;
+extern int  cardsfound;
 
 //
 // player_t
