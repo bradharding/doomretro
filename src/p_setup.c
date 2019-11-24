@@ -635,17 +635,17 @@ static void P_CheckLinedefs(void)
             if (ld->tag)
             {
                 if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning(1, "Linedef %s has no special and an unknown tag of %s.", commify(ld->id), commify(ld->tag));
+                    C_Warning(2, "Linedef %s has no special and an unknown tag of %s.", commify(ld->id), commify(ld->tag));
                 else
-                    C_Warning(1, "Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
+                    C_Warning(2, "Linedef %s has no special but has tag %s.", commify(ld->id), commify(ld->tag));
             }
         }
         else if (ld->special <= NUMLINESPECIALS)
         {
             if (!P_CheckTag(ld))
-                C_Warning(1, "Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
+                C_Warning(2, "Linedef %s has special %i (\"%s\") but no tag.", commify(ld->id), ld->special, linespecials[ld->special]);
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                C_Warning(1, "Linedef %s has special %i (\"%s\") but an unknown tag of %s.",
+                C_Warning(2, "Linedef %s has special %i (\"%s\") but an unknown tag of %s.",
                     commify(ld->id), ld->special, linespecials[ld->special], commify(ld->tag));
         }
 }
@@ -687,7 +687,7 @@ static void P_LoadSegs(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -705,7 +705,7 @@ static void P_LoadSegs(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(2, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -725,10 +725,10 @@ static void P_LoadSegs(int lump)
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
-                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
+                C_Warning(2, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
+                C_Warning(2, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == sides + li->linedef->sidenum[0])
             {
@@ -917,7 +917,7 @@ static void P_LoadSegs_V4(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
@@ -935,7 +935,7 @@ static void P_LoadSegs_V4(int lump)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(2, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -955,10 +955,10 @@ static void P_LoadSegs_V4(int lump)
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
-                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
+                C_Warning(2, "Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning(1, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
+                C_Warning(2, "Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == sides + li->linedef->sidenum[0])
             {
@@ -1162,7 +1162,7 @@ static void P_LoadNodes(int lump)
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
-            C_Warning(1, "This map has no nodes and only one subsector.");
+            C_Warning(2, "This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
     }
@@ -1191,7 +1191,7 @@ static void P_LoadNodes(int lump)
                 // haleyjd 11/06/10: check for invalid subsector reference
                 if (no->children[j] >= numsubsectors)
                 {
-                    C_Warning(1, "Node %s references an invalid subsector of %s.", commify(i), commify(no->children[j]));
+                    C_Warning(2, "Node %s references an invalid subsector of %s.", commify(i), commify(no->children[j]));
                     no->children[j] = 0;
                 }
 
@@ -1219,7 +1219,7 @@ static void P_LoadNodes_V4(int lump)
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
-            C_Warning(1, "This map has no nodes and only one subsector.");
+            C_Warning(2, "This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
     }
@@ -1273,13 +1273,13 @@ static void P_LoadZSegs(const byte *data)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning(1, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
+            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", commify(i), commify(side));
             side = 1;
         }
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-            C_Warning(1, "Linedef %s for seg %s references an invalid sidedef of %s.",
+            C_Warning(2, "Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
@@ -1291,7 +1291,7 @@ static void P_LoadZSegs(const byte *data)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
         {
-            C_Warning(1, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
+            C_Warning(2, "The %s of seg %s has no sidedef.", (side ? "back" : "front"), commify(i));
             li->frontsector = NULL;
         }
 
@@ -1471,7 +1471,7 @@ static void P_LoadThings(int lump)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
-            C_Warning(1, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+            C_Warning(2, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
             continue;
         }
 
@@ -1630,7 +1630,7 @@ static void P_LoadLineDefs2(void)
         for (int j = 0; j < 2; j++)
             if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
             {
-                C_Warning(1, "Linedef %s references an invalid sidedef of %s.", commify(ld->id), commify(ld->sidenum[j]));
+                C_Warning(2, "Linedef %s references an invalid sidedef of %s.", commify(ld->id), commify(ld->sidenum[j]));
                 ld->sidenum[j] = NO_INDEX;
             }
 
@@ -1638,13 +1638,13 @@ static void P_LoadLineDefs2(void)
         if (ld->sidenum[0] == NO_INDEX)
         {
             ld->sidenum[0] = 0;                         // Substitute dummy sidedef for missing right side
-            C_Warning(1, "Linedef %s is missing its first sidedef.", commify(ld->id));
+            C_Warning(2, "Linedef %s is missing its first sidedef.", commify(ld->id));
         }
 
         if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
         {
             ld->flags &= ~ML_TWOSIDED;                  // Clear 2s flag for missing left side
-            C_Warning(1, "Linedef %s has the two-sided flag set but no second sidedef.", commify(ld->id));
+            C_Warning(2, "Linedef %s has the two-sided flag set but no second sidedef.", commify(ld->id));
         }
 
         ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : NULL);
@@ -1703,7 +1703,7 @@ static void P_LoadSideDefs2(int lump)
         // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
         {
-            C_Warning(1, "Sidedef %s references an invalid sector of %s.", commify(i), commify(sector_num));
+            C_Warning(2, "Sidedef %s references an invalid sector of %s.", commify(i), commify(sector_num));
             sector_num = 0;
         }
 
@@ -2022,12 +2022,12 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning(1, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(2, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(1, "A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(2, "A <b>-blockmap</b> parameter was found on the command-line. This map's <b>BLOCKMAP</b> lump was rebuilt.");
     }
     else
     {
@@ -2061,7 +2061,7 @@ static void P_LoadBlockMap(int lump)
         if (!P_VerifyBlockMap(count))
         {
             P_CreateBlockMap();
-            C_Warning(1, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
+            C_Warning(2, "This map's <b>BLOCKMAP</b> lump was rebuilt.");
         }
     }
 
@@ -2755,7 +2755,7 @@ static void P_InitMapInfo(void)
             {
                 if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
                 {
-                    C_Warning(1, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    C_Warning(0, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
@@ -2763,7 +2763,7 @@ static void P_InitMapInfo(void)
                 }
                 else
                 {
-                    C_Warning(1, "The <b>MAPINFO</b> lump contains an invalid map marker.");
+                    C_Warning(0, "The <b>MAPINFO</b> lump contains an invalid map marker.");
                     continue;
                 }
             }
@@ -2958,10 +2958,10 @@ static void P_InitMapInfo(void)
         (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 
     if (nojump)
-        C_Warning(1, "This PWAD has disabled use of the <b>+jump</b> action.");
+        C_Warning(0, "This PWAD has disabled use of the <b>+jump</b> action.");
 
     if (nomouselook)
-        C_Warning(1, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
+        C_Warning(0, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
 }
 
 static int QualifyMap(int map)
