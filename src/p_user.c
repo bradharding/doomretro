@@ -503,7 +503,12 @@ void P_PlayerThink(void)
     if (menuactive)
     {
         if (!inhelpscreens)
-            mo->angle += ANG1 / 32 * spindirection;
+        {
+            static int  jitter = ANG1 / 4;
+
+            mo->angle += ANG1 / 32 * spindirection + jitter;
+            jitter = -jitter;
+        }
 
         return;
     }
