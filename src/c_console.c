@@ -955,7 +955,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 V_DrawConsoleTextPatch(x, y, patch, patchwidth, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
                     (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
-                    (italics && letter != '_' && letter != '-' && letter != ',' && letter != '/'), translucency);
+                    (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
             }
 
