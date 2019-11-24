@@ -1742,7 +1742,14 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                 if ((console[i].stringtype == playermessagestring || console[i].stringtype == obituarystring) && con_timestamps)
                 {
+                    char    buffer[9];
+
                     for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
+                        fputc(' ', file);
+
+                    M_StringCopy(buffer, C_GetTimeStamp(console[i].tics), 9);
+
+                    if (strlen(buffer) == 7)
                         fputc(' ', file);
 
                     fputs(C_GetTimeStamp(console[i].tics), file);
