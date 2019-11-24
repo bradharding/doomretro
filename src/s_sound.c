@@ -350,7 +350,7 @@ void S_Start(void)
 // original implementation idea: <https://www.doomworld.com/forum/topic/1585325>
 void S_UnlinkSound(mobj_t *origin)
 {
-    if (nosfx || !origin)
+    if (!origin->madesound)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)
@@ -516,7 +516,13 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
 
 void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH));
+    if (mobj)
+    {
+        mobj->madesound = true;
+        S_StartSoundAtVolume(mobj, sfx_id, mobj->pitch);
+    }
+    else
+        S_StartSoundAtVolume(NULL, sfx_id, NORM_PITCH);
 }
 
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)

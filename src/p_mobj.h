@@ -434,6 +434,8 @@ typedef struct mobj_s
     int                 musicid;
 
     char                name[100];
+
+    dboolean            madesound;
 } mobj_t;
 
 typedef struct bloodsplat_s
