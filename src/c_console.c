@@ -123,7 +123,6 @@ dboolean                con_timestamps = con_timestamps_default;
 int                     warninglevel = warninglevel_default;
 
 static int              timerx;
-static int              timestampx;
 static int              zerowidth;
 static int              warningwidth;
 
@@ -674,7 +673,6 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 2;
     timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
@@ -1031,32 +1029,23 @@ char *C_GetTimeStamp(unsigned int tics)
     if ((hours += tics / 3600) > 12)
         hours %= 12;
 
-    M_snprintf(buffer, 9, "%2i:%02i:%02i", hours, minutes, seconds);
+    M_snprintf(buffer, 9, "%i:%02i:%02i", hours, minutes, seconds);
     return buffer;
 }
 
 static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 {
     char    buffer[9];
-    int     i = 0;
 
     M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
     y -= CONSOLEHEIGHT - consoleheight;
 
-    if (buffer[0] == ' ')
-    {
-        x += zerowidth;
-        i++;
-    }
-
-    while (i < 8)
+    for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
     {
         patch_t     *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
-        const int   width = SHORT(patch->width);
 
-        V_DrawConsoleTextPatch(x + (buffer[i] == '1' ? (zerowidth - width) / 2 : 0),
-            y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
-        x += (isdigit((int)buffer[i++]) ? zerowidth : width);
+        x -= (i && isdigit((int)buffer[i]) ? zerowidth : SHORT(patch->width));
+        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
     }
 }
 
@@ -1226,7 +1215,7 @@ void C_Drawer(void)
                 }
 
                 if (con_timestamps)
-                    C_DrawTimeStamp(timestampx, y, console[i].tics);
+                    C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 2, y, console[i].tics);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
