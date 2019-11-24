@@ -12,7 +12,7 @@
 * The `resurrect` CCMD has been enhanced to allow not only the resurrection of the player, but also all monsters or a type of monster.
 * To accommodate for when the player is in liquid and needs to shoot a switch, now only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
 * The `-nodeh` command-line parameter now works as intended.
-* Minor improvments have been made to the menu’s background.
+* Minor improvements have been made to the menu’s background.
 * A crash will no longer occur when trying to autoload a savegame that was previously deleted using the <kbd>DEL</kbd> key in the save or load game menu.
 * The vertical direction the player is looking is now centered when they teleport with the `mouselook` CVAR `on`.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
