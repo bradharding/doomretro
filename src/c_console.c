@@ -125,6 +125,9 @@ int                     warninglevel = warninglevel_default;
 static int              timerx;
 static int              zerowidth;
 static int              warningwidth;
+static int              dotwidth;
+static int              dividerwidth;
+static int              caretwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
@@ -676,6 +679,9 @@ void C_Init(void)
     timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
+    dotwidth = SHORT(dot->width);
+    dividerwidth = SHORT(divider->width);
+    caretwidth = SHORT(caret->width);
 
     while (*autocompletelist[++numautocomplete].text);
 }
@@ -835,7 +841,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 width -= spacewidth;
         }
         else
-            V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, translucency);
+            V_DrawConsoleTextPatch(x, y, warning, warningwidth, color1, color2, false, translucency);
 
         width += warningwidth + 1;
         x += width;
@@ -945,10 +951,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
             if (patch)
             {
-                V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
+                int patchwidth = SHORT(patch->width);
+
+                V_DrawConsoleTextPatch(x, y, patch, patchwidth, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
                     (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
                     (italics && letter != '_' && letter != '-' && letter != ',' && letter != '/'), translucency);
-                x += SHORT(patch->width);
+                x += patchwidth;
             }
 
             prevletter = letter;
@@ -965,14 +973,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     break;
                 }
 
-        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
-        x += SHORT(dot->width);
-        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
+        V_DrawConsoleTextPatch(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
+        x += dotwidth;
+        V_DrawConsoleTextPatch(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
 
         if (text[truncate - 1] != '.')
         {
-            x += SHORT(dot->width);
-            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, translucency);
+            x += dotwidth;
+            V_DrawConsoleTextPatch(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
         }
     }
 
@@ -992,16 +1000,17 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color, d
         else
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
+            int     width = SHORT(patch->width);
 
             if (monospaced && letter == '1')
             {
-                V_DrawConsoleTextPatch(x + 1, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
-                x += SHORT(patch->width) + 2;
+                V_DrawConsoleTextPatch(x + 1, y, patch, width, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
+                x += width + 2;
             }
             else
             {
-                V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
-                x += SHORT(patch->width);
+                V_DrawConsoleTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ? tinttab75 : NULL));
+                x += width;
             }
         }
     }
@@ -1042,10 +1051,11 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 
     for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
     {
-        patch_t     *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
+        patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
+        int     width = SHORT(patch->width);
 
-        x -= (i && isdigit((int)buffer[i]) ? zerowidth : SHORT(patch->width));
-        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+        x -= (i && isdigit((int)buffer[i]) ? zerowidth : width);
+        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
     }
 }
 
@@ -1222,7 +1232,7 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
-                    divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                    divider, dividerwidth, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (stringtype == headerstring)
             {
                 const headertype_t  headertype = console[i].headertype;
@@ -1297,7 +1307,7 @@ void C_Drawer(void)
             }
 
             if (showcaret)
-                V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR, false, NULL);
+                V_DrawConsoleTextPatch(x, consoleheight - 17, caret, caretwidth, consolecaretcolor, NOBACKGROUNDCOLOR, false, NULL);
         }
         else
         {

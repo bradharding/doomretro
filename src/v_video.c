@@ -459,13 +459,13 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *translucency)
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
+    int backgroundcolor, dboolean italics, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    int         w = SHORT(patch->width);
     const int   italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         byte        topdelta;
@@ -489,8 +489,8 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
                         if (*source)
                         {
                             if (italics)
-                                *(dest + italicize[height]) = (!translucency ? color : translucency[(color << 8)
-                                    + *(dest + italicize[height])]);
+                                *(dest + italicize[height]) = (!translucency ? color :
+                                    translucency[(color << 8) + *(dest + italicize[height])]);
                             else
                                 *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
                         }

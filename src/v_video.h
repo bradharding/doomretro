@@ -60,7 +60,8 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawSTBARPatch(int x, int y, patch_t *patch);
 void V_DrawBigPatch(int x, int y, patch_t *patch);
 void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch);
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *translucency);
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
+    int backgroundcolor, dboolean italics, byte *translucency);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
