@@ -72,8 +72,6 @@
 
 #define CONSOLETOP              0
 
-#define DIVIDERSTRING           "==================================================================================================="
-
 #define EMPTYVALUE              "\"\""
 
 #define stringize(x)            #x

@@ -41,14 +41,15 @@
 
 #include "doomtype.h"
 
-#define MAXALIASES          256
+#define MAXALIASES      256
+
+#define DIVIDERSTRING   "===================================================================================================="
 
 typedef enum
 {
     keyboardcontrol = 1,
     mousecontrol    = 2,
-    gamepadcontrol  = 3,
-    invalidcontrol  = 4
+    gamepadcontrol  = 3
 } controltype_t;
 
 typedef struct

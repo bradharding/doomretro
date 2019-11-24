@@ -1728,14 +1728,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         }
                         else
                         {
-                            const int   c = letter - CONSOLEFONTSTART;
-
-                            if (((c >= 0 && c < CONSOLEFONTSIZE && letter != '~')
-                                || letter == 153 || letter == 169 || letter == 174 || letter == 215))
-                            {
-                                fputc(letter, file);
-                                outpos++;
-                            }
+                            fputc(letter, file);
+                            outpos++;
                         }
                     }
                 }
@@ -1744,7 +1738,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 {
                     char    buffer[9];
 
-                    for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
+                    for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
                         fputc(' ', file);
 
                     M_StringCopy(buffer, C_GetTimeStamp(console[i].tics), 9);
@@ -1761,7 +1755,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
         }
 
         fclose(file);
-        C_Output("Dumped the console to <b>%s</b>.", filename);
+        C_Output("Dumped %i lines from the console to <b>%s</b>.", consolestrings - 2, filename);
     }
 }
 
