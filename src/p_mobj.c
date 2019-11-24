@@ -396,7 +396,7 @@ static void P_ZMovement(mobj_t *mo)
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
         if (blood && (mo->flags2 & MF2_BLOOD))
         {
-            P_RemoveMobj(mo);
+            P_RemoveBloodMobj(mo);
 
             if (r_bloodsplats_max)
             {
@@ -807,6 +807,18 @@ void P_RemoveMobj(mobj_t *mobj)
     P_SetTarget(&mobj->target, NULL);
     P_SetTarget(&mobj->tracer, NULL);
     P_SetTarget(&mobj->lastenemy, NULL);
+
+    // free block
+    P_RemoveThinker((thinker_t *)mobj);
+}
+
+//
+// P_RemoveBlood
+//
+void P_RemoveBloodMobj(mobj_t *mobj)
+{
+    // unlink from sector and block lists
+    P_UnsetThingPosition(mobj);
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
