@@ -654,7 +654,7 @@ enum
 #endif
 
 #define warninglevel_min                        0
-#define warninglevel_default                    2
+#define warninglevel_default                    1
 #define warninglevel_max                        2
 
 #define weaponbob_min                           0

@@ -4,10 +4,10 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to warnings in the console:
-  * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
-  * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.
   * Longer warnings now wrap over two lines.
-  * A new `warninglevel` CVAR has been implemented to control the type of warnings displayed. It can be `0`, `1` or `2`, and is `2` by default.
+  * A new `warninglevel` CVAR has been implemented to control the type of warnings displayed. It can be `0`, `1` or `2`, and is `1` by default.
+  * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
+  * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on` and the `warninglevel` CVAR is `2`.
 * Further improvements have been made to the console’s autocomplete feature.
 * The `resurrect` CCMD has been enhanced to allow not only the resurrection of the player, but also all monsters or a type of monster.
 * To accommodate for when the player is in liquid and needs to shoot a switch, now only their view will be lowered, and not their gunshot, if the `r_liquid_lowerview` CVAR is `on` and `mouselook` CVAR is `off`.
