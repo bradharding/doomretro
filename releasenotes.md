@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Further improvements have been made to the console’s autocomplete feature.
+* Minor improvements have been made to the menu’s background.
 
 ---
 
