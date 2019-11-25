@@ -1032,7 +1032,7 @@ static int C_GetIndex(const char *cmd)
 
     while (*consolecmds[i].name)
     {
-        if (M_StringCompare(cmd, consolecmds[i].name))
+        if (M_StringCompare(cmd, consolecmds[i].name) || M_StringCompare(cmd, consolecmds[i].alternate))
             break;
 
         i++;
@@ -1204,7 +1204,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex("alias"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
         return;
     }
@@ -1291,7 +1291,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex("bind"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, BINDCMDFORMAT);
         return;
     }
@@ -1896,7 +1896,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("exec"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, EXECCMDFORMAT);
     }
     else
@@ -2053,7 +2053,7 @@ static void give_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex("give"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
     }
     else
@@ -2324,7 +2324,7 @@ static void if_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
     {
-        C_ShowDescription(C_GetIndex("if"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
         return;
     }
@@ -2478,7 +2478,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex("kill"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, KILLCMDFORMAT);
     }
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
@@ -2730,7 +2730,7 @@ static void load_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("load"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, LOADCMDFORMAT);
         return;
     }
@@ -3008,7 +3008,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("map"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
         return;
     }
@@ -3544,7 +3544,7 @@ static void name_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("name"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, NAMECMDFORMAT);
     }
     else if (M_StringCompare(namecmdold, "player"))
@@ -3834,7 +3834,7 @@ static void play_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("play"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, PLAYCMDFORMAT);
     }
     else if (playcmdtype == 1)
@@ -4344,7 +4344,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("reset"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
         return;
     }
@@ -4724,7 +4724,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex("resurrect"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, RESURRECTCMDFORMAT);
     }
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
@@ -4859,7 +4859,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("save"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, SAVECMDFORMAT);
         return;
     }
@@ -4911,17 +4911,18 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex("spawn"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, SPAWNCMDFORMAT);
         return;
     }
     else
     {
         dboolean    spawn = true;
-        char        buffer[128];
 
         if (gamemode != commercial)
         {
+            char    buffer[128];
+
             if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
             {
                 M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
@@ -5035,7 +5036,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex("take"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TAKECMDFORMAT);
     }
     else
@@ -5259,7 +5260,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("teleport"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TELEPORTCMDFORMAT);
         return;
     }
@@ -5350,7 +5351,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("timer"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TIMERCMDFORMAT);
         return;
     }
@@ -5381,7 +5382,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex("unbind"));
+        C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
         return;
     }
@@ -5787,7 +5788,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(am_gridsize)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(am_gridsize, am_gridsize_default))
             C_Output(INTEGERCVARISDEFAULT, am_gridsize);
@@ -5833,7 +5834,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(armortype)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (gamestate == GS_LEVEL)
             C_Output(INTEGERCVARWITHNODEFAULT, C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS));
@@ -5878,7 +5879,7 @@ static void crosshair_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(crosshair)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (crosshair == crosshair_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS));
@@ -5958,7 +5959,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
     {
-        C_ShowDescription(C_GetIndex(stringize(gp_deadzone_left)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (gp_deadzone_left == gp_deadzone_left_default)
             C_Output(PERCENTCVARISDEFAULT, striptrailingzero(gp_deadzone_left, 1));
@@ -5968,7 +5969,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(gp_deadzone_right)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (gp_deadzone_right == gp_deadzone_right_default)
             C_Output(PERCENTCVARISDEFAULT, striptrailingzero(gp_deadzone_right, 1));
@@ -6065,7 +6066,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowDescription(C_GetIndex(stringize(ammo)));
+            C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
                 C_Output(INTEGERCVARWITHNODEFAULT, commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
@@ -6097,7 +6098,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowDescription(C_GetIndex(stringize(armor)));
+            C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
                 C_Output(PERCENTCVARWITHNODEFAULT, commify(viewplayer->armorpoints));
@@ -6148,7 +6149,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            C_ShowDescription(C_GetIndex(stringize(health)));
+            C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
                 C_Output(PERCENTCVARWITHNODEFAULT, commify(viewplayer->health));
@@ -6186,7 +6187,7 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_blood)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_blood == r_blood_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS));
@@ -6225,7 +6226,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_bloodsplats_translucency)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
             C_Output(INTEGERCVARISDEFAULT,
@@ -6275,7 +6276,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_detail)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_detail == r_detail_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS));
@@ -6303,7 +6304,7 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_dither)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_dither == r_dither_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS));
@@ -6333,7 +6334,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_fixmaperrors)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_fixmaperrors == r_fixmaperrors_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS));
@@ -6396,7 +6397,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         if (len >= 2 && buffer1[len - 1] == '0' && buffer1[len - 2] == '0')
             buffer1[len - 1] = '\0';
 
-        C_ShowDescription(C_GetIndex(stringize(r_gamma)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_gamma == r_gamma_default)
             C_Output(INTEGERCVARISDEFAULT, (r_gamma == 1.0f ? "off" : buffer1));
@@ -6443,7 +6444,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_hud_translucency)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_hud_translucency == r_hud_translucency_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS));
@@ -6469,7 +6470,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_lowpixelsize)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
             C_Output(INTEGERCVARISDEFAULT, r_lowpixelsize);
@@ -6505,7 +6506,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_screensize)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_screensize == r_screensize_default)
             C_Output(INTEGERCVARISDEFAULT, commify(r_screensize));
@@ -6542,7 +6543,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_shadows_translucency)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_shadows_translucency == r_shadows_translucency_default)
             C_Output(INTEGERCVARISDEFAULT,
@@ -6623,7 +6624,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_textures)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_textures == r_textures_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS));
@@ -6662,7 +6663,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(r_translucency)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (r_translucency == r_translucency_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
@@ -6716,7 +6717,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
     {
-        C_ShowDescription(C_GetIndex(stringize(s_musicvolume)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (s_musicvolume == s_musicvolume_default)
             C_Output(PERCENTCVARISDEFAULT, commify(s_musicvolume));
@@ -6725,7 +6726,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(s_sfxvolume)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (s_sfxvolume == s_sfxvolume_default)
             C_Output(PERCENTCVARISDEFAULT, commify(s_sfxvolume));
@@ -6807,7 +6808,7 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(turbo)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (turbo == turbo_default)
             C_Output(PERCENTCVARISDEFAULT, commify(turbo));
@@ -6838,7 +6839,7 @@ static void units_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(units)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (units == units_default)
             C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(units, UNITSVALUEALIAS));
@@ -6962,7 +6963,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(vid_scaleapi)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
             C_Output(STRINGCVARISDEFAULT, vid_scaleapi);
@@ -6994,7 +6995,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(vid_scalefilter)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
             C_Output(STRINGCVARISDEFAULT, vid_scalefilter);
@@ -7022,7 +7023,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(vid_screenresolution)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
             C_Output(INTEGERCVARISDEFAULT, vid_screenresolution);
@@ -7128,7 +7129,7 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(vid_windowpos)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
             C_Output(INTEGERCVARISDEFAULT, vid_windowpos);
@@ -7156,7 +7157,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_ShowDescription(C_GetIndex(stringize(vid_windowsize)));
+        C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(vid_windowsize, vid_windowsize_default))
             C_Output(INTEGERCVARISDEFAULT, vid_windowsize);
