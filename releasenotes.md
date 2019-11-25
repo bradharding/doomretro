@@ -1,6 +1,7 @@
 ### DOOM Retro v3.2.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Further improvements have been made to the console’s autocomplete feature.
 
 ---
 

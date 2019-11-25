@@ -663,9 +663,9 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 }
 
 //
-// PIT_CheckOnmobjZ
+// PIT_CheckOnMobjZ
 //
-static dboolean PIT_CheckOnmobjZ(mobj_t * thing)
+static dboolean PIT_CheckOnMobjZ(mobj_t *thing)
 {
     fixed_t blockdist;
 
@@ -800,10 +800,10 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 }
 
 //
-// P_CheckOnmobj
+// P_CheckOnMobj
 // Checks if the new Z position is legal
 //
-mobj_t *P_CheckOnmobj(mobj_t * thing)
+mobj_t *P_CheckOnMobj(mobj_t *thing)
 {
     int         xl;
     int         xh;
@@ -853,7 +853,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, PIT_CheckOnmobjZ))
+            if (!P_BlockThingsIterator(bx, by, PIT_CheckOnMobjZ))
             {
                 *tmthing = oldmo;
                 return onmobj;

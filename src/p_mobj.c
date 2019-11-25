@@ -592,7 +592,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         if ((flags2 & MF2_PASSMOBJ) && !infiniteheight)
         {
-            mobj_t  *onmo = P_CheckOnmobj(mobj);
+            mobj_t  *onmo = P_CheckOnMobj(mobj);
 
             if (!onmo)
             {
