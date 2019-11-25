@@ -14,7 +14,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * Long warnings in the console now wrap over two lines.
-* A new `warninglevel` CVAR has been implemented to control the type of warnings displayed. It can be `0` (minimal warnings), `1` (no warnings about the current map) or `2` (all warnings), and is `1` by default.
+* A new `warninglevel` CVAR has been implemented to control the type of warnings displayed in the console. It can be `0` (minimal warnings), `1` (no warnings about the current map) or `2` (all warnings), and is `1` by default.
 * The following changes have been made to warnings in the console when the `warninglevel` CVAR is `2`:
   * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
   * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.

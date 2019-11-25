@@ -288,12 +288,14 @@ static void P_XYMovement(mobj_t *mo)
 
         if (blood)
         {
-            int radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
-            int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
-            int floorz = mo->floorz;
+            int     radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
+            int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+            fixed_t floorz = mo->floorz;
 
-            for (int i = 0, x, y; i < max; i++)
+            for (int i = 0; i < max; i++)
             {
+                fixed_t x, y;
+
                 if (!mo->bloodsplats)
                     break;
 
@@ -400,15 +402,15 @@ static void P_ZMovement(mobj_t *mo)
 
             if (r_bloodsplats_max)
             {
-                int x = mo->x;
-                int y = mo->y;
+                fixed_t x = mo->x;
+                fixed_t y = mo->y;
 
                 P_SpawnBloodSplat(x, y, blood, floorz, NULL);
 
                 if (blood != FUZZYBLOOD)
                 {
-                    int r1 = M_RandomInt(-3, 3) << FRACBITS;
-                    int r2 = M_RandomInt(-3, 3) << FRACBITS;
+                    fixed_t r1 = M_RandomInt(-3, 3) << FRACBITS;
+                    fixed_t r2 = M_RandomInt(-3, 3) << FRACBITS;
 
                     P_SpawnBloodSplat(x + r1, y + r2, blood, floorz, NULL);
                     P_SpawnBloodSplat(x - r1, y - r2, blood, floorz, NULL);
@@ -983,11 +985,11 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 
     if (blood)
     {
-        int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int max = M_RandomInt(50, 100) + radius;
-        int x = mobj->x;
-        int y = mobj->y;
-        int floorz = mobj->floorz;
+        int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+        int     max = M_RandomInt(50, 100) + radius;
+        fixed_t x = mobj->x;
+        fixed_t y = mobj->y;
+        fixed_t floorz = mobj->floorz;
 
         if (!(mobj->flags & MF_SPAWNCEILING))
         {
@@ -997,8 +999,8 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 
         for (int i = 0; i < max; i++)
         {
-            int angle;
-            int fx, fy;
+            angle_t angle;
+            fixed_t fx, fy;
 
             if (!mobj->bloodsplats)
                 break;
@@ -1308,7 +1310,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
