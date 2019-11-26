@@ -405,9 +405,6 @@ manual_door:
         door->speed = speed;
         door->line = line;      // jff 1/31/98 remember line that triggered us
 
-        for (int i = 0; i < door->sector->linecount; i++)
-            door->sector->lines[i]->flags &= ~ML_SECRET;
-
         switch (type)
         {
             case doorBlazeClose:
@@ -464,6 +461,13 @@ manual_door:
             default:
                 break;
         }
+
+        // [BH] door is no longer secret
+        for (int i = 0; i < sec->linecount; i++)
+            sec->lines[i]->flags &= ~ML_SECRET;
+
+        if (zerotag_manual)
+            return rtn; //e6y
     }
 
     return rtn;

@@ -274,11 +274,14 @@ manual_plat:
         }
 
         P_AddActivePlat(plat);
-    }
 
-    if (sec)
+        // [BH] plat is no longer secret
         for (int i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
+
+        if (zerotag_manual)
+            return rtn; //e6y
+    }
 
     return rtn;
 }
