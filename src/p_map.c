@@ -2007,20 +2007,24 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             if (!(flags & MF_FUZZ))
             {
-                int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-                int max = M_RandomInt(50, 100) + radius;
-                int x = thing->x;
-                int y = thing->y;
                 int blood = mobjinfo[thing->blood].blood;
-                int floorz = thing->floorz;
 
-                for (int i = 0; i < max; i++)
+                if (blood)
                 {
-                    int angle = M_RandomInt(0, FINEANGLES - 1);
-                    int fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-                    int fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+                    int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+                    int max = M_RandomInt(50, 100) + radius;
+                    int x = thing->x;
+                    int y = thing->y;
+                    int floorz = thing->floorz;
 
-                    P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
+                    for (int i = 0; i < max; i++)
+                    {
+                        int angle = M_RandomInt(0, FINEANGLES - 1);
+                        int fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+                        int fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+                        P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
+                    }
                 }
             }
 

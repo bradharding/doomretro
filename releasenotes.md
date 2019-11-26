@@ -4,6 +4,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the menu’s background.
+* A bug has been fixed whereby blood splats around crushed corpses could appear black in some instances.
 
 ---
 
