@@ -233,7 +233,7 @@ dboolean F_Responder(event_t *ev)
 
 static fixed_t TextSpeed(void)
 {
-    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? acceleratestage = false, NEWTEXTSPEED : TEXTSPEED);
+    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ? (acceleratestage = false), NEWTEXTSPEED : TEXTSPEED);
 }
 
 //

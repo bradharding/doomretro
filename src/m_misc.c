@@ -639,7 +639,7 @@ char *uncommify(const char *input)
 
 dboolean wildcard(char *input, char *pattern)
 {
-    if (pattern[0] == '\0')
+    if (!*pattern)
         return true;
 
     for (int i = 0; pattern[i] != '\0'; i++)
