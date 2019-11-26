@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/bradharding/www.doomretro.com/master/title2.png)
 
-#### The classic, refined DOOM source port. For Windows PC.
+### The classic, refined DOOM source port. For Windows PC.
 
 [![](https://img.shields.io/github/languages/top/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
 [![](https://img.shields.io/github/languages/code-size/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
