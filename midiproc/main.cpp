@@ -48,7 +48,7 @@
 static Mix_Music    *music;
 static SDL_RWops    *rw;
 
-static void UnregisterSong();
+static void UnregisterSong(void);
 
 //
 // RPC Memory Management
@@ -72,7 +72,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 //
 // Start up SDL and SDL_mixer.
 //
-static bool InitSDL()
+static boolean InitSDL(void)
 {
     if (SDL_Init(SDL_INIT_AUDIO) == -1)
         return false;
@@ -98,7 +98,7 @@ static void RegisterSong(void *data, size_t size)
 //
 // StartSong
 //
-static void StartSong(bool loop)
+static void StartSong(boolean loop)
 {
     if (music)
         Mix_PlayMusic(music, (loop ? -1 : 0));
@@ -117,7 +117,7 @@ static int  paused_midi_volume;
 //
 // PauseSong
 //
-static void PauseSong()
+static void PauseSong(void)
 {
     paused_midi_volume = Mix_VolumeMusic(-1);
     Mix_VolumeMusic(0);
@@ -126,7 +126,7 @@ static void PauseSong()
 //
 // ResumeSong
 //
-static void ResumeSong()
+static void ResumeSong(void)
 {
     Mix_VolumeMusic(paused_midi_volume);
 }
@@ -134,7 +134,7 @@ static void ResumeSong()
 //
 // StopSong
 //
-static void StopSong()
+static void StopSong(void)
 {
     if (music)
         Mix_HaltMusic();
@@ -143,7 +143,7 @@ static void StopSong()
 //
 // UnregisterSong
 //
-static void UnregisterSong()
+static void UnregisterSong(void)
 {
     if (!music)
         return;
@@ -157,7 +157,7 @@ static void UnregisterSong()
 //
 // ShutdownSDL
 //
-static void ShutdownSDL()
+static void ShutdownSDL(void)
 {
     if (music)
     {
@@ -244,7 +244,7 @@ static SongBuffer   *song;
 //
 // Prepare the engine to receive new song data from the RPC client.
 //
-void MidiRPC_PrepareNewSong()
+void MidiRPC_PrepareNewSong(void)
 {
     // Stop anything currently playing and free it.
     UnregisterSong();
@@ -282,7 +282,7 @@ void MidiRPC_PlaySong(boolean looping)
 //
 // Stop the song.
 //
-void MidiRPC_StopSong()
+void MidiRPC_StopSong(void)
 {
     StopSong();
 }
@@ -302,7 +302,7 @@ void MidiRPC_ChangeVolume(int volume)
 //
 // Pause the song.
 //
-void MidiRPC_PauseSong()
+void MidiRPC_PauseSong(void)
 {
     PauseSong();
 }
@@ -312,7 +312,7 @@ void MidiRPC_PauseSong()
 //
 // Resume after pausing.
 //
-void MidiRPC_ResumeSong()
+void MidiRPC_ResumeSong(void)
 {
     ResumeSong();
 }
@@ -322,7 +322,7 @@ void MidiRPC_ResumeSong()
 //
 // Stops the RPC server so the program can shutdown.
 //
-void MidiRPC_StopServer()
+void MidiRPC_StopServer(void)
 {
     // Local shutdown tasks
     ShutdownSDL();
@@ -336,7 +336,7 @@ void MidiRPC_StopServer()
 //
 // RPC Server Init
 //
-static bool MidiRPC_InitServer()
+static boolean MidiRPC_InitServer(void)
 {
     RPC_STATUS  status;
 
