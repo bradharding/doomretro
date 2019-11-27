@@ -1,5 +1,7 @@
 ### DOOM Retro v3.2.2
 
+* Minor changes have been made to the character set used in the console.
+
 ---
 
 ###### Wednesday, November 27, 2019
