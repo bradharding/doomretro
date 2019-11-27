@@ -833,7 +833,6 @@ static void P_LoadSegs(int lump)
 
                     if (linefix[j].flags != DEFAULT)
                     {
-
                         C_Warning(2, "The flags of linedef %s have been changed from %s to %s.",
                             commify(linedefnum), commify(li->linedef->flags), commify(linefix[j].flags));
 
@@ -2749,6 +2748,8 @@ static void P_InitMapInfo(void)
                     if (ep != -1 && map != -1)
                         map += (ep - 1) * 10;
                 }
+
+                free(buffer);
             }
 
             if (map < 0 || map > 99)
@@ -2846,6 +2847,8 @@ static void P_InitMapInfo(void)
                                 }
                                 else
                                     sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
+
+                                free(buffer);
                             }
 
                             info->next = (nextepisode - 1) * 10 + nextmap;
@@ -2915,6 +2918,8 @@ static void P_InitMapInfo(void)
                                 }
                                 else
                                     sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
+
+                                free(buffer);
                             }
 
                             info->secretnext = (nextepisode - 1) * 10 + nextmap;
