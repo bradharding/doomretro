@@ -1203,7 +1203,7 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
 
             if (s[i - 1]->scale < temp->scale)
             {
-                int j = i;
+                unsigned int    j = i;
 
                 while ((s[j] = s[j - 1])->scale < temp->scale && --j);
 
@@ -1220,11 +1220,7 @@ static void R_SortVisSprites(void)
         static unsigned int num_vissprite_ptrs;
 
         if (num_vissprite_ptrs < num_vissprite * 2)
-        {
-            free(vissprite_ptrs);
-            num_vissprite_ptrs = num_vissprite_alloc * 2;
-            vissprite_ptrs = malloc(num_vissprite_ptrs * sizeof(*vissprite_ptrs));
-        }
+            vissprite_ptrs = I_Realloc(vissprite_ptrs, (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
 
         while (--i >= 0)
             vissprite_ptrs[i] = vissprites + i;
