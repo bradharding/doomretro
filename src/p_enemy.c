@@ -154,9 +154,9 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 //
 static dboolean P_HitFriend(mobj_t *actor)
 {
-    mobj_t  *target = actor->target;
+    mobj_t  *target;
 
-    if (!target)
+    if (!(actor->flags & MF_FRIEND) || !(target = actor->target))
         return false;
 
     P_AimLineAttack(actor, R_PointToAngle2(actor->x, actor->y, target->x, target->y),
