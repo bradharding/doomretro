@@ -1,6 +1,7 @@
 ### DOOM Retro v3.2.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* will now attempt to use [*Adaptive VSync*](https://www.geforce.com/hardware/technology/adaptive-vsync) if the `vid_vsync` CVAR is `on` and the `vid_scaleapi` CVAR is `“opengl”`.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the menu’s background.

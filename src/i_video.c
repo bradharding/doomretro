@@ -1626,6 +1626,9 @@ static void SetVideoMode(dboolean output)
             {
                 refreshrate = displaymode.refresh_rate;
 
+                if (M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+                    SDL_GL_SetSwapInterval(-1);
+
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
                     if (output)
