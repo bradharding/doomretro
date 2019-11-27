@@ -156,8 +156,7 @@ dboolean SC_GetString(void)
         ScriptPtr++;
     }
     else
-        while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
-            && ScriptPtr + 1 < ScriptEndPtr && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
             *text++ = *ScriptPtr++;
 
