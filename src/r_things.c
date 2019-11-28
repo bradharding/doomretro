@@ -1216,13 +1216,12 @@ static void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {
-        int                 i = num_vissprite;
         static unsigned int num_vissprite_ptrs;
 
         if (num_vissprite_ptrs < num_vissprite * 2)
             vissprite_ptrs = I_Realloc(vissprite_ptrs, (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
 
-        while (--i >= 0)
+        for (int i = num_vissprite; i >= 0; i--)
             vissprite_ptrs[i] = vissprites + i;
 
         msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
