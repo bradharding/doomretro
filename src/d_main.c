@@ -1846,7 +1846,6 @@ static void D_DoomMainSetup(void)
     else if (M_CheckParm("-nobex"))
         C_Output("A <b>-nobex</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
 
-
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
     if (!(choseniwad = D_CheckParms()))

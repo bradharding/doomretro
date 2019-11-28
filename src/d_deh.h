@@ -146,6 +146,8 @@ extern char     *s_PD_YELLOWS;
 extern char     *s_PD_ANY;
 extern char     *s_PD_ALL3;
 extern char     *s_PD_ALL6;
+extern char     *s_KEYCARD;
+extern char     *s_SKULLKEY;
 
 extern char     *s_SECRET;
 
