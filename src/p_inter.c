@@ -48,6 +48,7 @@
 #include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 
@@ -517,8 +518,9 @@ void P_InitCards(void)
             case D1_Door_Blue_OpenStay:
             case SR_Door_Blue_OpenStay_Fast:
             case S1_Door_Blue_OpenStay_Fast:
-                if (viewplayer->cards[it_blueskull] == CARDNOTINMAP)
-                    viewplayer->cards[it_bluecard] = CARDNOTFOUNDYET;
+                if (viewplayer->cards[it_bluecard] == CARDNOTINMAP && viewplayer->cards[it_blueskull] == CARDNOTINMAP)
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>BlueKeycard</b> or <b>BlueSkullKey</b> "
+                        "things in map.", commify(i), line->special, linespecials[line->special]);
 
                 break;
 
@@ -526,8 +528,9 @@ void P_InitCards(void)
             case D1_Door_Red_OpenStay:
             case SR_Door_Red_OpenStay_Fast:
             case S1_Door_Red_OpenStay_Fast:
-                if (viewplayer->cards[it_redskull] == CARDNOTINMAP)
-                    viewplayer->cards[it_redcard] = CARDNOTFOUNDYET;
+                if (viewplayer->cards[it_redcard] == CARDNOTINMAP && viewplayer->cards[it_redskull] == CARDNOTINMAP)
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>RedKeycard</b> or <b>RedSkullKey</b> "
+                        "things in map.", commify(i), line->special, linespecials[line->special]);
 
                 break;
 
@@ -535,8 +538,9 @@ void P_InitCards(void)
             case D1_Door_Yellow_OpenStay:
             case SR_Door_Yellow_OpenStay_Fast:
             case S1_Door_Yellow_OpenStay_Fast:
-                if (viewplayer->cards[it_yellowskull] == CARDNOTINMAP)
-                    viewplayer->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                if (viewplayer->cards[it_yellowcard] == CARDNOTINMAP && viewplayer->cards[it_yellowskull] == CARDNOTINMAP)
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>YellowKeycard</b> or <b>YellowSkullKey</b> "
+                        "things in map.", commify(i), line->special, linespecials[line->special]);
 
                 break;
         }

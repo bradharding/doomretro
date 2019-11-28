@@ -39,8 +39,9 @@
 #if !defined(__P_SETUP_H__)
 #define __P_SETUP_H__
 
-extern dboolean canmodify;
-extern dboolean skipblstart;    // MaxW: Skip initial blocklist short
+extern dboolean     canmodify;
+extern dboolean     skipblstart;    // MaxW: Skip initial blocklist short
+extern const char   *linespecials[];
 
 void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);

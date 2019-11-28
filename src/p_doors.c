@@ -277,8 +277,6 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false, false);
                 }
-                else
-                    C_Warning("This door needs a blue keycard or skull key to unlock, but neither are in this map.");
 
                 S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
                 return false;
@@ -316,8 +314,6 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false, false);
                 }
-                else
-                    C_Warning("This door needs a red keycard or skull key to unlock, but neither are in this map.");
 
                 S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
                 return false;
@@ -355,8 +351,6 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false, false);
                 }
-                else
-                    C_Warning("This door needs a yellow keycard or skull key to unlock, but neither are in this map.");
 
                 S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
                 return false;
