@@ -89,7 +89,6 @@ dboolean        infiniteheight = infiniteheight_default;
 
 unsigned int    stat_distancetraveled = 0;
 
-extern dboolean autousing;
 extern dboolean successfulshot;
 extern dboolean telefragonmap30;
 

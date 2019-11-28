@@ -67,8 +67,6 @@ extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
 
-void G_RemoveChoppers(void);
-
 //
 // Movement
 //
@@ -195,15 +193,18 @@ static dboolean P_CheckForSteps(fixed_t width)
         int     delta1 = step1 - viewplayer->mo->subsector->sector->floorheight;
         int     delta2 = step2 - step1;
 
-        if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE && delta1 == delta2)
+        if (delta1 == delta2)
         {
-            viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
-            return true;
-        }
-        else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE && delta1 == delta2)
-        {
-            viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
-            return true;
+            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE)
+            {
+                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
+                return true;
+            }
+            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE)
+            {
+                viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
+                return true;
+            }
         }
     }
 

@@ -56,7 +56,6 @@ button_t            *buttonlist = NULL;
 int                 maxbuttons = MAXBUTTONS;
 
 extern texture_t    **textures;
-extern dboolean     autousing;
 
 //
 // P_InitSwitchList()

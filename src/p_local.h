@@ -105,6 +105,8 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define MLOOKUNIT           8
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
+extern dboolean autousing;
+
 void P_CalcHeight(void);
 void P_MovePlayer(void);
 void P_PlayerThink(void);

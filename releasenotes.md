@@ -4,7 +4,7 @@
 * If an incomplete filename is entered in the WAD launcher, *DOOM Retro* will now try to find the closest match.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
-* A warning will now be displayed in the console if a locked door is found with no keycard or skull key in the map to open it.
+* A warning will now be displayed in the console if there’s a locked door with no keycard or skull key provided in the map to open it.
 
 ---
 
