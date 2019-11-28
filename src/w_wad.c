@@ -194,6 +194,7 @@ char *GetCorrectCase(char *path)
     return path;
 }
 
+#if defined(_WIN32)
 char *M_NearestFilename(char *path, char *string)
 {
     WIN32_FIND_DATA FindFileData;
@@ -218,6 +219,7 @@ char *M_NearestFilename(char *path, char *string)
 
     return M_StringJoin(path, DIR_SEPARATOR_S, bestfilename, NULL);
 }
+#endif
 
 //
 // LUMP BASED ROUTINES.

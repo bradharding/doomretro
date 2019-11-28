@@ -878,6 +878,7 @@ void M_StripQuotes(char *string)
     }
 }
 
+#if defined(_WIN32)
 int levenshtein(char *s1, char *s2)
 {
     size_t s1len = strlen(s1);
@@ -905,3 +906,4 @@ int levenshtein(char *s1, char *s2)
 
     return result;
 }
+#endif
