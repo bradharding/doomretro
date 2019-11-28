@@ -64,6 +64,7 @@
 #include "c_console.h"
 #include "doomdef.h"
 #include "i_system.h"
+#include "m_fixed.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_file.h"
@@ -875,4 +876,32 @@ void M_StripQuotes(char *string)
         memmove(string, string + 1, len);
         string[len] = '\0';
     }
+}
+
+int levenshtein(char *s1, char *s2)
+{
+    size_t s1len = strlen(s1);
+    size_t s2len = strlen(s2);
+    int    *column = malloc((s1len + 1) * sizeof(int));
+    int    result;
+
+    for (int y = 1; y <= s1len; y++)
+        column[y] = y;
+
+    for (int x = 1; x <= s2len; x++)
+    {
+        column[0] = x;
+
+        for (int y = 1, lastdiag = x - 1, olddiag; y <= s1len; y++)
+        {
+            olddiag = column[y];
+            column[y] = MIN(MIN(column[y] + 1, column[y - 1] + 1), lastdiag + (s1[y - 1] != s2[x - 1]));
+            lastdiag = olddiag;
+        }
+    }
+
+    result = column[s1len];
+    free(column);
+
+    return result;
 }

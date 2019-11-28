@@ -77,6 +77,7 @@ dboolean IsBFGEdition(const char *iwadname);
 dboolean IsUltimateDOOM(const char *iwadname);
 
 char *GetCorrectCase(char *path);
+char *M_NearestFilename(char *path, char *string);
 dboolean W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 

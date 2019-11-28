@@ -99,5 +99,6 @@ char *striptrailingzero(float value, int precision);
 void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);
 void M_StripQuotes(char *string);
+int levenshtein(char *s1, char *s2);
 
 #endif

@@ -194,6 +194,31 @@ char *GetCorrectCase(char *path)
     return path;
 }
 
+char *M_NearestFilename(char *path, char *string)
+{
+    WIN32_FIND_DATA FindFileData;
+    HANDLE          hFile = FindFirstFile(M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL), &FindFileData);
+    int             bestdiff = INT_MAX;
+    char            bestfilename[MAX_PATH];
+
+    if (hFile != INVALID_HANDLE_VALUE)
+        do
+        {
+            if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+            {
+                int diff = levenshtein(FindFileData.cFileName, string);
+
+                if (diff < bestdiff)
+                {
+                    M_StringCopy(bestfilename, FindFileData.cFileName, sizeof(bestfilename));
+                    bestdiff = diff;
+                }
+            }
+        } while (FindNextFile(hFile, &FindFileData));
+
+    return M_StringJoin(path, DIR_SEPARATOR_S, bestfilename, NULL);
+}
+
 //
 // LUMP BASED ROUTINES.
 //

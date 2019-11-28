@@ -1125,6 +1125,10 @@ static int D_OpenWADLauncher(void)
                 && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg"))
                 file = M_StringJoin(file, ".wad", NULL);
 
+            // if WAD doesn't exist (that is, entered manually and may be partial filename), look for best match
+            if (!M_FileExists(file))
+                file = M_NearestFilename(M_ExtractFolder(file), leafname(file));
+
 #if defined(_WIN32)
             wad = M_StringDuplicate(file);
 #endif
