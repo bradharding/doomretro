@@ -195,30 +195,34 @@ char *GetCorrectCase(char *path)
 }
 
 #if defined(_WIN32)
-static int LevenshteinDistance(char *s1, char *s2)
+static int LevenshteinDistance(char *string1, char *string2)
 {
-    size_t  s1len = strlen(s1);
-    size_t  s2len = strlen(s2);
-    int     *column = malloc((s1len + 1) * sizeof(int));
-    int     result;
+    size_t  length1 = strlen(string1);
+    size_t  length2 = strlen(string2);
+    int     result = INT_MAX;
 
-    for (int y = 1; y <= s1len; y++)
-        column[y] = y;
-
-    for (int x = 1; x <= s2len; x++)
+    if (length1 > 0 && length2 > 0)
     {
-        column[0] = x;
+        int *column = malloc((length1 + 1) * sizeof(int));
 
-        for (int y = 1, lastdiag = x - 1, olddiag; y <= s1len; y++)
+        for (int y = 1; y <= length1; y++)
+            column[y] = y;
+
+        for (int x = 1; x <= length2; x++)
         {
-            olddiag = column[y];
-            column[y] = MIN(MIN(column[y] + 1, column[y - 1] + 1), lastdiag + (s1[y - 1] != s2[x - 1]));
-            lastdiag = olddiag;
-        }
-    }
+            column[0] = x;
 
-    result = column[s1len];
-    free(column);
+            for (int y = 1, lastdiagonal = x - 1, olddiagonal; y <= length1; y++)
+            {
+                olddiagonal = column[y];
+                column[y] = MIN(MIN(column[y] + 1, column[y - 1] + 1), lastdiagonal + (string1[y - 1] != string2[x - 1]));
+                lastdiagonal = olddiagonal;
+            }
+        }
+
+        result = column[length1];
+        free(column);
+    }
 
     return result;
 }
@@ -233,7 +237,7 @@ char *W_NearestFilename(char *path, char *string)
     if (hFile == INVALID_HANDLE_VALUE)
         return path;
 
-    M_StringCopy(filename, removeext(string), sizeof(filename));
+    M_StringCopy(filename, string, sizeof(filename));
 
     do
     {
@@ -241,7 +245,7 @@ char *W_NearestFilename(char *path, char *string)
         {
             int distance = LevenshteinDistance(removeext(FindFileData.cFileName), removeext(string));
 
-            if (distance < bestdistance)
+            if (distance <= 2 && distance < bestdistance)
             {
                 M_StringCopy(filename, FindFileData.cFileName, sizeof(filename));
                 bestdistance = distance;
