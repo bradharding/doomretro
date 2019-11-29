@@ -233,11 +233,13 @@ char *W_NearestFilename(char *path, char *string)
     if (hFile == INVALID_HANDLE_VALUE)
         return path;
 
+    M_StringCopy(filename, removeext(string), sizeof(filename));
+
     do
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            int distance = LevenshteinDistance(FindFileData.cFileName, string);
+            int distance = LevenshteinDistance(removeext(FindFileData.cFileName), removeext(string));
 
             if (distance < bestdistance)
             {

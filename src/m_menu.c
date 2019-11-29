@@ -1064,6 +1064,7 @@ static void M_DrawSave(void)
         {
             int j;
             int len = (int)strlen(savegamestrings[i]);
+            int x;
 
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
@@ -1071,45 +1072,41 @@ static void M_DrawSave(void)
 
             left[j] = '\0';
             M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
+            x = LoadDef.x - 2 + M_StringWidth(left);
 
             // draw text to right of text caret
             for (j = 0; j < len - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
 
             right[j] = '\0';
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 1, y - !M_LSCNTR, right, false);
+            M_WriteText(x + 1, y - !M_LSCNTR, right, false);
+
+            // draw text caret
+            if (windowfocused)
+            {
+                if (caretwait < I_GetTimeMS())
+                {
+                    showcaret = !showcaret;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                }
+
+                if (showcaret)
+                {
+                    int h = --y + 9;
+
+                    while (y < h)
+                        V_DrawPixel(x, y++, caretcolor, false);
+                }
+            }
+            else
+            {
+                showcaret = false;
+                caretwait = 0;
+            }
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
                 && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, savegamestrings[i], false);
-    }
-
-    // draw text caret
-    if (saveStringEnter)
-    {
-        if (windowfocused)
-        {
-            if (caretwait < I_GetTimeMS())
-            {
-                showcaret = !showcaret;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-            }
-
-            if (showcaret)
-            {
-                int x = LoadDef.x - 2 + M_StringWidth(left);
-                int y = LoadDef.y + saveSlot * LINEHEIGHT + OFFSET - 1;
-                int h = y + 9;
-
-                while (y < h)
-                    V_DrawPixel(x, y++, caretcolor, false);
-            }
-        }
-        else
-        {
-            showcaret = false;
-            caretwait = 0;
-        }
     }
 }
 
