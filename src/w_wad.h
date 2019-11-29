@@ -79,7 +79,7 @@ dboolean IsUltimateDOOM(const char *iwadname);
 char *GetCorrectCase(char *path);
 
 #if defined(_WIN32)
-char *M_NearestFilename(char *path, char *string);
+char *W_NearestFilename(char *path, char *string);
 #endif
 
 dboolean W_AddFile(char *filename, dboolean automatic);

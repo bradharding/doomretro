@@ -195,29 +195,60 @@ char *GetCorrectCase(char *path)
 }
 
 #if defined(_WIN32)
-char *M_NearestFilename(char *path, char *string)
+static int LevenshteinDistance(char *s1, char *s2)
+{
+    size_t  s1len = strlen(s1);
+    size_t  s2len = strlen(s2);
+    int     *column = malloc((s1len + 1) * sizeof(int));
+    int     result;
+
+    for (int y = 1; y <= s1len; y++)
+        column[y] = y;
+
+    for (int x = 1; x <= s2len; x++)
+    {
+        column[0] = x;
+
+        for (int y = 1, lastdiag = x - 1, olddiag; y <= s1len; y++)
+        {
+            olddiag = column[y];
+            column[y] = MIN(MIN(column[y] + 1, column[y - 1] + 1), lastdiag + (s1[y - 1] != s2[x - 1]));
+            lastdiag = olddiag;
+        }
+    }
+
+    result = column[s1len];
+    free(column);
+
+    return result;
+}
+
+char *W_NearestFilename(char *path, char *string)
 {
     WIN32_FIND_DATA FindFileData;
     HANDLE          hFile = FindFirstFile(M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL), &FindFileData);
-    int             bestdiff = INT_MAX;
-    char            bestfilename[MAX_PATH];
+    int             bestdistance = INT_MAX;
+    char            filename[MAX_PATH];
 
-    if (hFile != INVALID_HANDLE_VALUE)
-        do
+    if (hFile == INVALID_HANDLE_VALUE)
+        return path;
+
+    do
+    {
+        if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+            int distance = LevenshteinDistance(FindFileData.cFileName, string);
+
+            if (distance < bestdistance)
             {
-                int diff = levenshtein(FindFileData.cFileName, string);
-
-                if (diff < bestdiff)
-                {
-                    M_StringCopy(bestfilename, FindFileData.cFileName, sizeof(bestfilename));
-                    bestdiff = diff;
-                }
+                M_StringCopy(filename, FindFileData.cFileName, sizeof(filename));
+                bestdistance = distance;
             }
-        } while (FindNextFile(hFile, &FindFileData));
+        }
+    } while (FindNextFile(hFile, &FindFileData));
 
-    return M_StringJoin(path, DIR_SEPARATOR_S, bestfilename, NULL);
+    FindClose(hFile);
+    return M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL);
 }
 #endif
 
