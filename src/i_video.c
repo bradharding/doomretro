@@ -784,7 +784,7 @@ static void GetUpscaledTextureSize(int width, int height)
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-void nullfunc(void) {}
+static void nullfunc(void) {}
 
 static uint64_t performancefrequency;
 uint64_t        starttime;

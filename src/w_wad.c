@@ -370,7 +370,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 }
 
 // Hash function used for lump names.
-// Must be mod'ed with table size.
+// Must be modded with table size.
 // Can be used for any 8-character names.
 // by Lee Killough
 unsigned int W_LumpNameHash(const char *s)

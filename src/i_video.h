@@ -86,10 +86,8 @@ void I_SetGamma(float value);
 void I_WindowResizeBlit(void);
 #endif
 
-extern void (*blitfunc)(void);
-extern void (*mapblitfunc)(void);
-
-void nullfunc(void);
+void (*blitfunc)(void);
+void (*mapblitfunc)(void);
 
 extern dboolean     sendpause;
 extern dboolean     quitting;
