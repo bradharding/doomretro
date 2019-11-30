@@ -1286,13 +1286,23 @@ void C_Drawer(void)
                 if (*middletext)
                 {
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                        screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                    {
+                        int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+
+                        if (y >= 0)
+                            screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                    }
 
                     x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                        screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                    {
+                        int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+
+                        if (y >= 0)
+                            screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                    }
                 }
             }
         }
@@ -1328,13 +1338,23 @@ void C_Drawer(void)
             if (*middletext)
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                {
+                    int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+
+                    if (y >= 0)
+                        screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                }
 
                 x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
-                    screens[0][(CONSOLEHEIGHT - 17 + i) * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                {
+                    int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+
+                    if (y >= 0)
+                        screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                }
             }
         }
 
