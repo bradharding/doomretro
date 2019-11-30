@@ -78,7 +78,7 @@ static searchlist_t     pwad_flats;
 // lumps with these sprites must be replaced in the IWAD
 static sprite_frame_t   *sprite_frames;
 static int              num_sprite_frames;
-static int              sprite_frames_alloced;
+static int              sprite_frames_alloced = 128;
 
 dboolean                SHT2A0;
 
@@ -97,10 +97,9 @@ static int FindInList(searchlist_t *list, char *name)
 
 static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname, char *startname2, char *endname2)
 {
-    int startlump;
+    int startlump = FindInList(src_list, startname);
 
     list->numlumps = 0;
-    startlump = FindInList(src_list, startname);
 
     if (startname2 && startlump < 0)
         startlump = FindInList(src_list, startname2);
@@ -141,13 +140,7 @@ static void SetupLists(void)
 // Initialize the replace list
 static void InitSpriteList(void)
 {
-    if (!sprite_frames)
-    {
-        sprite_frames_alloced = 128;
-        sprite_frames = Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced, PU_STATIC, NULL);
-    }
-
-    num_sprite_frames = 0;
+    sprite_frames = Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced, PU_STATIC, NULL);
 }
 
 static dboolean ValidSpriteLumpName(char *name)

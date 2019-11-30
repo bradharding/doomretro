@@ -215,7 +215,7 @@ static int LevenshteinDistance(char *string1, char *string2)
             for (int y = 1, lastdiagonal = x - 1, olddiagonal; y <= length1; y++)
             {
                 olddiagonal = column[y];
-                column[y] = MIN(MIN(column[y] + 1, column[y - 1] + 1), lastdiagonal + (string1[y - 1] != string2[x - 1]));
+                column[y] = MIN(MIN(column[y], column[y - 1]) + 1, lastdiagonal + (string1[y - 1] != string2[x - 1]));
                 lastdiagonal = olddiagonal;
             }
         }
@@ -238,12 +238,13 @@ char *W_NearestFilename(char *path, char *string)
         return path;
 
     M_StringCopy(filename, string, sizeof(filename));
+    string = removeext(string);
 
     do
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            int distance = LevenshteinDistance(removeext(FindFileData.cFileName), removeext(string));
+            int distance = LevenshteinDistance(removeext(FindFileData.cFileName), string);
 
             if (distance <= 2 && distance < bestdistance)
             {
@@ -268,6 +269,7 @@ char *W_NearestFilename(char *path, char *string)
 //  found (PWAD, if all required lumps are present).
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
+//
 dboolean W_AddFile(char *filename, dboolean automatic)
 {
     static dboolean packagewadadded;

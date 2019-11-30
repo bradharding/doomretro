@@ -204,11 +204,11 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 static void P_RunThinkers(void)
 {
     for (currentthinker = thinkers[th_mobj].cnext; currentthinker != &thinkers[th_mobj]; currentthinker = currentthinker->cnext)
-        currentthinker->function(currentthinker);
+        currentthinker->function((mobj_t *)currentthinker);
 
     for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
         if (currentthinker->function)
-            currentthinker->function(currentthinker);
+            currentthinker->function((mobj_t *)currentthinker);
 
     T_MAPMusic();
 }
