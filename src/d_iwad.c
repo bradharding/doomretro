@@ -567,6 +567,7 @@ void D_SetSaveGameFolder(dboolean output)
 #if !defined(__APPLE__)
         free(appdatafolder);
 #endif
+
         free(savegamefolder_free);
     }
 

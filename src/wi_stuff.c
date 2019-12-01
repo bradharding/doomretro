@@ -546,6 +546,7 @@ static void WI_UpdateAnimatedBack(void)
 
                         a->nexttic = bcnt + a->period;
                     }
+
                     break;
             }
         }

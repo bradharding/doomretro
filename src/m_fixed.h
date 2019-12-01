@@ -39,9 +39,8 @@
 #if !defined(__M_FIXED_H__)
 #define __M_FIXED_H__
 
-//
-// Fixed point, 32bit as 16.16.
-//
+#define CHARBIT 8
+
 
 #if defined(ABS)
 #undef ABS
@@ -59,9 +58,12 @@
 #undef SWAP
 #endif
 
+//
+// Fixed point, 32bit as 16.16.
+//
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
-#define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
+#define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
 #define FIXED_MIN       INT_MIN
 #define FIXED_MAX       INT_MAX
 #define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
