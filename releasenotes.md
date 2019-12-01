@@ -1,4 +1,4 @@
-### DOOM Retro v3.2.2
+### DOOM Retro v3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If a mistyped filename is entered in the WAD launcher (for example, `doot` instead of `doom`), *DOOM Retro* will now try to find the closest match.
@@ -6,7 +6,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * A level 2 warning will now be displayed in the console if there’s a locked door with no keycard or skull key provided in the map to open it.
-* The visual glitch displayed when input text is selected in the console while it is opening or closing is now fixed.
+* The visual glitch displayed when input is selected in the console while it is opening or closing is now fixed.
 
 ---
 
