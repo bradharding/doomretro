@@ -681,6 +681,7 @@ dboolean ST_Responder(event_t *ev)
                 {
                     S_StartSound(NULL, sfx_getpow);
                     C_Input(cheat_powerup[i - 1].sequence);
+                    C_Output(s_STSTR_BEHOLD);
 
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
@@ -809,7 +810,6 @@ dboolean ST_Responder(event_t *ev)
             {
                 idbehold = true;
 
-                C_Output(s_STSTR_BEHOLD);
                 HU_SetPlayerMessage(s_STSTR_BEHOLD, false, false);
                 message_dontfuckwithme = true;
             }

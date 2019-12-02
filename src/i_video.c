@@ -49,6 +49,7 @@
 #include "SDL_opengl.h"
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -479,6 +480,8 @@ static void I_GetEvent(void)
                     {
                         idbehold = false;
                         HU_ClearMessages();
+                        C_Input("idbehold");
+                        C_Output(s_STSTR_BEHOLD);
                     }
 
 #if !defined(_WIN32)
@@ -521,6 +524,8 @@ static void I_GetEvent(void)
                 {
                     HU_ClearMessages();
                     idbehold = false;
+                    C_Input("idbehold");
+                    C_Output(s_STSTR_BEHOLD);
                 }
 
                 mousebuttonstate |= buttons[Event->button.button];

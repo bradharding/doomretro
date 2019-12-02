@@ -919,6 +919,12 @@ void G_Ticker(void)
                     D_Display();
                 }
 
+                if (idbehold)
+                {
+                    C_Input("idbehold");
+                    C_Output(s_STSTR_BEHOLD);
+                }
+
                 idbehold = false;
                 G_DoScreenShot();
                 gameaction = ga_nothing;
