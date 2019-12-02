@@ -57,6 +57,7 @@
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -480,7 +481,7 @@ static void I_GetEvent(void)
                     {
                         idbehold = false;
                         HU_ClearMessages();
-                        C_Input("idbehold");
+                        C_Input(cheat_powerup[6].sequence);
                         C_Output(s_STSTR_BEHOLD);
                     }
 
@@ -524,7 +525,7 @@ static void I_GetEvent(void)
                 {
                     HU_ClearMessages();
                     idbehold = false;
-                    C_Input("idbehold");
+                    C_Input(cheat_powerup[6].sequence);
                     C_Output(s_STSTR_BEHOLD);
                 }
 

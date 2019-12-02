@@ -291,7 +291,7 @@ static dboolean movekey(char key)
         || key == keyboardback || key == keyboardback2 || key == keyboardstrafeleft || key == keyboardstraferight);
 }
 
-static void ST_initCheats(void)
+static void ST_InitCheats(void)
 {
     cheat_mus.movekey = movekey(cheat_mus.sequence[0]);
     cheat_mus_xy.movekey = movekey(cheat_mus_xy.sequence[0]);
@@ -673,7 +673,7 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // 'behold?' power-up cheats
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < 6; i++)
             {
                 if (cht_CheckCheat(&cheat_powerup[i - 1], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
@@ -782,7 +782,7 @@ dboolean ST_Responder(event_t *ev)
                     cheat_noclip.chars_read = 0;
                     cheat_commercial_noclip.chars_read = 0;
 
-                    for (int j = 0; j < 7; j++)
+                    for (int j = 0; j < 6; j++)
                         cheat_powerup[j].chars_read = 0;
 
                     cheat_choppers.chars_read = 0;
@@ -936,7 +936,7 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // 'clev' change-level cheat
-            if (!consolecheat[0] && cht_CheckCheat(&cheat_clev, ev->data2))
+            if (!*consolecheat && cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;
 
             if (cht_CheckCheat(&cheat_clev_xy, ev->data2))
@@ -1588,5 +1588,5 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-    ST_initCheats();
+    ST_InitCheats();
 }

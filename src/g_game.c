@@ -50,6 +50,7 @@
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -921,7 +922,7 @@ void G_Ticker(void)
 
                 if (idbehold)
                 {
-                    C_Input("idbehold");
+                    C_Input(cheat_powerup[6].sequence);
                     C_Output(s_STSTR_BEHOLD);
                 }
 
@@ -1101,7 +1102,7 @@ void G_DoScreenShot(void)
             C_Output("<b>%s</b> saved.", lbmpath2);
     }
     else
-        C_Warning(1, "A screenshot couldn't be taken.");
+        C_Warning(0, "A screenshot couldn't be taken.");
 }
 
 // DOOM Par Times
