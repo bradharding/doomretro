@@ -1115,7 +1115,7 @@ void C_Drawer(void)
         int             start;
         int             end;
         int             len;
-        char            middletext[512];
+        char            partialinput[255];
         const dboolean  prevconsoleactive = consoleactive;
         static int      consolewait;
 
@@ -1265,25 +1265,23 @@ void C_Drawer(void)
 
         if (*consoleinput)
         {
-            char    lefttext[512];
-
             // draw input text to left of caret
             for (i = 0; i < MIN(selectstart, caretpos); i++)
-                lefttext[i] = consoleinput[i];
+                partialinput[i] = consoleinput[i];
 
-            lefttext[i] = '\0';
-            x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor,
+            partialinput[i] = '\0';
+            x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
             // draw any selected text to left of caret
             if (selectstart < caretpos)
             {
                 for (i = selectstart; i < selectend; i++)
-                    middletext[i - selectstart] = consoleinput[i];
+                    partialinput[i - selectstart] = consoleinput[i];
 
-                middletext[i - selectstart] = '\0';
+                partialinput[i - selectstart] = '\0';
 
-                if (*middletext)
+                if (*partialinput)
                 {
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
@@ -1293,7 +1291,7 @@ void C_Drawer(void)
                             screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                     }
 
-                    x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
+                    x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
@@ -1331,11 +1329,11 @@ void C_Drawer(void)
         if (selectend > caretpos)
         {
             for (i = selectstart; i < selectend; i++)
-                middletext[i - selectstart] = consoleinput[i];
+                partialinput[i - selectstart] = consoleinput[i];
 
-            middletext[i - selectstart] = '\0';
+            partialinput[i - selectstart] = '\0';
 
-            if (*middletext)
+            if (*partialinput)
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -1345,7 +1343,7 @@ void C_Drawer(void)
                         screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
-                x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
+                x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
@@ -1363,15 +1361,13 @@ void C_Drawer(void)
 
         if (caretpos < len)
         {
-            char    righttext[512];
-
             for (i = selectend; i < len; i++)
-                righttext[i - selectend] = consoleinput[i];
+                partialinput[i - selectend] = consoleinput[i];
 
-            righttext[i - selectend] = '\0';
+            partialinput[i - selectend] = '\0';
 
-            if (*righttext)
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor,
+            if (*partialinput)
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
         }
     }
