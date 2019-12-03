@@ -26,41 +26,43 @@
 	<dict>
 		<key>Headers/webp/decode.h</key>
 		<dict>
-			<key>hash2</key>
+			<key>hash</key>
 			<data>
-			S8L07o9cAS7lqSUnkjdCZITW3uLo6HbIMOEzhl0jfkE=
+			9ufN2yVefHcYrU6eliS9l1yNjUM=
 			</data>
-		</dict>
-		<key>Headers/webp/demux.h</key>
-		<dict>
 			<key>hash2</key>
 			<data>
-			w3vScpnZhLfZ7lZL8lhz9mIKCmoJdeRK3wq+7WKJma8=
+			8s7ftcXJv5k5OFBa3zMEwQbPash+Tg4MxNaChP4qbQ8=
 			</data>
 		</dict>
 		<key>Headers/webp/encode.h</key>
 		<dict>
-			<key>hash2</key>
+			<key>hash</key>
 			<data>
-			ObBCmcke7sx9W4IsbYpNLtQWnF37SBx/SaBBTxlgHRo=
+			Q2zlpm3yhEANJMTo3AcWKIC5j2c=
 			</data>
-		</dict>
-		<key>Headers/webp/mux_types.h</key>
-		<dict>
 			<key>hash2</key>
 			<data>
-			ZCjlNwWSEDzANYAXyJTGatgRy4Ej793V9pck6yg+hTk=
+			uQ7c2GnRCIqKmqtjVTYY8eZJLGjY7qtgkiIpYBaBGIA=
 			</data>
 		</dict>
 		<key>Headers/webp/types.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			Bc+Y/LPLmc5qD+dFKZxOXz8FOYY=
+			</data>
 			<key>hash2</key>
 			<data>
-			wKPEatIz52Wi9yzNpmjEenJtunxHlnHwvXCj5X1bMpA=
+			O96LIaVO4XeXqzf5BDBOuKpBoCCmXyymba/XapbmDow=
 			</data>
 		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			h2Kqs5KNcd1Scge8YFomJsbLXCM=
+			</data>
 			<key>hash2</key>
 			<data>
 			Ka7TErCUCDitpKl+ZEdhX0rtKsbzipt41qRLAxxYaMU=
@@ -70,6 +72,10 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			yqlW4AFb8nOprWEshdDUA7mTzus=
+			</data>
 			<key>hash2</key>
 			<data>
 			WcYyfJyGCjL1E+qjW/fZIOV1dOB4AFJ1CEp0R/Ete0Y=
@@ -77,6 +83,10 @@
 		</dict>
 		<key>Resources/LICENSE.webp.txt</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			/5oD0JcR6j9jB2eYV4Dlsnn0Xdg=
+			</data>
 			<key>hash2</key>
 			<data>
 			Kozs9mG6ldeyCbK6TamtAkxBl1oOeK83wn9NAkDR7Nw=
