@@ -1486,7 +1486,13 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    renderer = SDL_CreateRenderer(window, -1, rendererflags);
+    if (!(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
+        if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
+        {
+            vid_scaleapi = vid_scaleapi_software;
+            M_SaveCVARs();
+        }
+
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
     if (output)
