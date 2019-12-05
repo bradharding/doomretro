@@ -297,13 +297,15 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     outputhistory = -1;
 }
 
-void C_Header(const headertype_t headertype)
+void C_Header(const int tabs[8], const headertype_t headertype, const char *string)
 {
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     console[consolestrings].stringtype = headerstring;
+    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].headertype = headertype;
+    M_StringCopy(console[consolestrings].string, string, 1024);
     C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
     outputhistory = -1;

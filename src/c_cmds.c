@@ -1563,7 +1563,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
     const int   tabs[8] = { 40, 131, 0, 0, 0, 0, 0, 0 };
     int         count = 1;
 
-    C_Header(bindlistheader);
+    C_Header(tabs, bindlistheader, BINDLISTHEADER);
 
     for (int i = 0; *actions[i].action; i++)
     {
@@ -1629,7 +1629,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 continue;
 
             if (++count == 1)
-                C_Header(cmdlistheader);
+                C_Header(tabs, cmdlistheader, CMDLISTHEADER);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
@@ -1786,7 +1786,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 continue;
 
             if (++count == 1)
-                C_Header(cvarlistheader);
+                C_Header(tabs, cvarlistheader, CVARLISTHEADER);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
@@ -3069,7 +3069,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     int         count = 0;
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
-    C_Header(maplistheader);
+    C_Header(tabs, maplistheader, MAPLISTHEADER);
 
     // search through lumps for maps
     for (int i = 0; i < numlumps; i++)
@@ -3232,7 +3232,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
 
-    C_Header(mapstatsheader);
+    C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
 
     C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", titlecase(maptitle));
 
@@ -3935,7 +3935,7 @@ static void C_PlayerStats_Game(void)
         &s_M_SKILLLEVEL5
     };
 
-    C_Header(playerstatsheader);
+    C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
@@ -4166,7 +4166,7 @@ static void C_PlayerStats_NoGame(void)
         &s_M_SKILLLEVEL5
     };
 
-    C_Header(playerstatsheader);
+    C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
     C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", commify(stat_mapsstarted));
 
@@ -5332,7 +5332,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 50, 268, 0, 0, 0, 0, 0, 0 };
 
-    C_Header(thinglistheader);
+    C_Header(tabs, thinglistheader, THINGLISTHEADER);
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
