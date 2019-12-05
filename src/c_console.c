@@ -176,6 +176,7 @@ void C_Input(const char *string, ...)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
+    C_DumpConsoleStringToFile(consolestrings);
     console[consolestrings++].stringtype = inputstring;
     outputhistory = -1;
 }
@@ -198,6 +199,7 @@ void C_InputNoRepeat(const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
+        C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].stringtype = inputstring;
         outputhistory = -1;
     }
@@ -249,6 +251,7 @@ void C_Output(const char *string, ...)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, 1024);
+    C_DumpConsoleStringToFile(consolestrings);
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
 }
@@ -268,6 +271,7 @@ void C_OutputNoRepeat(const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, 1024);
+        C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].stringtype = outputstring;
         outputhistory = -1;
     }
@@ -288,6 +292,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
     outputhistory = -1;
 }
@@ -299,6 +304,7 @@ void C_Header(const headertype_t headertype)
 
     console[consolestrings].stringtype = headerstring;
     console[consolestrings].headertype = headertype;
+    C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
     outputhistory = -1;
 }
@@ -326,6 +332,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         {
             M_StringCopy(console[consolestrings].string, buffer, 1024);
             console[consolestrings].line = 1;
+            C_DumpConsoleStringToFile(consolestrings);
             console[consolestrings++].stringtype = warningstring;
         }
         else
@@ -340,6 +347,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 
             M_StringCopy(console[consolestrings].string, M_SubString(buffer, 0, truncate), 1024);
             console[consolestrings].line = 1;
+            C_DumpConsoleStringToFile(consolestrings);
             console[consolestrings++].stringtype = warningstring;
 
             if (consolestrings >= (int)consolestringsmax)
@@ -347,6 +355,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 
             M_StringCopy(console[consolestrings].string, M_SubString(buffer, truncate, (size_t)len - truncate), 1024);
             console[consolestrings].line = 2;
+            C_DumpConsoleStringToFile(consolestrings);
             console[consolestrings++].stringtype = warningstring;
         }
 
@@ -377,6 +386,7 @@ void C_PlayerMessage(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
+        C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].count = 1;
     }
 
@@ -406,6 +416,7 @@ void C_Obituary(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = obituarystring;
         console[consolestrings].tics = gametime;
+        C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].count = 1;
     }
 
@@ -429,6 +440,7 @@ void C_AddConsoleDivider(void)
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
+        C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].stringtype = dividerstring;
     }
 }

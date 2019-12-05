@@ -1653,9 +1653,86 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
         }
 }
 
+static FILE *condumpfile = NULL;
+
 //
 // condump CCMD
 //
+void C_DumpConsoleStringToFile(int index)
+{
+    if (!condumpfile)
+        return;
+
+    if (console[index].stringtype == dividerstring)
+        fprintf(condumpfile, "%s\n", DIVIDERSTRING);
+    else
+    {
+        char            *string = M_StringDuplicate(console[index].string);
+        int             len;
+        unsigned int    outpos = 0;
+        int             tabcount = 0;
+
+        strreplace(string, "<b>", "");
+        strreplace(string, "</b>", "");
+        strreplace(string, "<i>", "");
+        strreplace(string, "</i>", "");
+        len = (int)strlen(string);
+
+        if (console[index].stringtype == warningstring)
+            fputs((console[index].line == 1 ? "! " : (string[0] == ' ' ? " " : "  ")), condumpfile);
+
+        for (int inpos = 0; inpos < len; inpos++)
+        {
+            const unsigned char letter = string[inpos];
+
+            if (letter != '\n')
+            {
+                if (letter == '\t')
+                {
+                    const unsigned int  tabstop = console[index].tabs[tabcount] / 5;
+
+                    if (outpos < tabstop)
+                    {
+                        for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
+                            fputc(' ', condumpfile);
+
+                        outpos = tabstop;
+                        tabcount++;
+                    }
+                    else
+                    {
+                        fputc(' ', condumpfile);
+                        outpos++;
+                    }
+                }
+                else
+                {
+                    fputc(letter, condumpfile);
+                    outpos++;
+                }
+            }
+        }
+
+        if ((console[index].stringtype == playermessagestring || console[index].stringtype == obituarystring) && con_timestamps)
+        {
+            char    buffer[9];
+
+            for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
+                fputc(' ', condumpfile);
+
+            M_StringCopy(buffer, C_GetTimeStamp(console[index].tics), 9);
+
+            if (strlen(buffer) == 7)
+                fputc(' ', condumpfile);
+
+            fputs(C_GetTimeStamp(console[index].tics), condumpfile);
+        }
+
+        fputc('\n', condumpfile);
+        free(string);
+    }
+}
+
 static dboolean condump_cmd_func1(char *cmd, char *parms)
 {
     return (consolestrings > 1);
@@ -1664,7 +1741,6 @@ static dboolean condump_cmd_func1(char *cmd, char *parms)
 static void condump_cmd_func2(char *cmd, char *parms)
 {
     char        filename[MAX_PATH];
-    FILE        *file;
     const char  *appdatafolder = M_GetAppDataFolder();
 
     M_MakeDirectory(appdatafolder);
@@ -1681,81 +1757,11 @@ static void condump_cmd_func2(char *cmd, char *parms)
     else
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", appdatafolder, parms);
 
-    if ((file = fopen(filename, "wt")))
+    if ((condumpfile = fopen(filename, "wt")))
     {
         for (int i = 1; i < consolestrings - 1; i++)
-        {
-            if (console[i].stringtype == dividerstring)
-                fprintf(file, "%s\n", DIVIDERSTRING);
-            else
-            {
-                char            *string = M_StringDuplicate(console[i].string);
-                int             len;
-                unsigned int    outpos = 0;
-                int             tabcount = 0;
+            C_DumpConsoleStringToFile(i);
 
-                strreplace(string, "<b>", "");
-                strreplace(string, "</b>", "");
-                strreplace(string, "<i>", "");
-                strreplace(string, "</i>", "");
-                len = (int)strlen(string);
-
-                if (console[i].stringtype == warningstring)
-                    fputs((console[i].line == 1 ? "! " : (string[0] == ' ' ? " " : "  ")), file);
-
-                for (int inpos = 0; inpos < len; inpos++)
-                {
-                    const unsigned char letter = string[inpos];
-
-                    if (letter != '\n')
-                    {
-                        if (letter == '\t')
-                        {
-                            const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
-
-                            if (outpos < tabstop)
-                            {
-                                for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
-                                    fputc(' ', file);
-
-                                outpos = tabstop;
-                                tabcount++;
-                            }
-                            else
-                            {
-                                fputc(' ', file);
-                                outpos++;
-                            }
-                        }
-                        else
-                        {
-                            fputc(letter, file);
-                            outpos++;
-                        }
-                    }
-                }
-
-                if ((console[i].stringtype == playermessagestring || console[i].stringtype == obituarystring) && con_timestamps)
-                {
-                    char    buffer[9];
-
-                    for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
-                        fputc(' ', file);
-
-                    M_StringCopy(buffer, C_GetTimeStamp(console[i].tics), 9);
-
-                    if (strlen(buffer) == 7)
-                        fputc(' ', file);
-
-                    fputs(C_GetTimeStamp(console[i].tics), file);
-                }
-
-                fputc('\n', file);
-                free(string);
-            }
-        }
-
-        fclose(file);
         C_Output("Dumped %i lines from the console to <b>%s</b>.", consolestrings - 2, filename);
     }
 }
