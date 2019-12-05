@@ -484,18 +484,13 @@ static void R_InitSpriteLumps(void)
     {
         if (M_StringCompare(sc_String, "FIXSPRITEOFFSETS"))
         {
-            char    *sc_String_free;
-
             SC_MustGetString();
-            sc_String_free = removeext(sc_String);
 
-            if (M_StringCompare(pwadfile, sc_String_free))
+            if (M_StringCompare(pwadfile, sc_String))
             {
                 fixspriteoffsets = true;
                 M_SKULL1 = false;
             }
-
-            free(sc_String_free);
         }
         else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {

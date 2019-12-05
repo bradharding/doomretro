@@ -942,7 +942,7 @@ static dboolean D_CheckParms(void)
                     modifiedgame = true;
 
                     if (IWADRequiredByPWAD(myargv[1]) != none)
-                        pwadfile = removeext(leafname(myargv[1]));
+                        pwadfile = M_StringDuplicate(leafname(myargv[1]));
 
                     LoadCfgFile(myargv[1]);
 
@@ -976,7 +976,7 @@ static dboolean D_CheckParms(void)
                         modifiedgame = true;
 
                         if (IWADRequiredByPWAD(myargv[1]) != none)
-                            pwadfile = removeext(leafname(myargv[1]));
+                            pwadfile = M_StringDuplicate(leafname(myargv[1]));
 
                         LoadCfgFile(myargv[1]);
 
@@ -997,7 +997,7 @@ static dboolean D_CheckParms(void)
                             modifiedgame = true;
 
                             if (IWADRequiredByPWAD(myargv[1]) != none)
-                                pwadfile = removeext(leafname(myargv[1]));
+                                pwadfile = M_StringDuplicate(leafname(myargv[1]));
 
                             LoadCfgFile(myargv[1]);
 
@@ -1219,7 +1219,7 @@ static int D_OpenWADLauncher(void)
                         modifiedgame = true;
 
                         if (IWADRequiredByPWAD(file) != none)
-                            pwadfile = removeext(leafname(file));
+                            pwadfile = M_StringDuplicate(leafname(file));
 
                         LoadCfgFile(file);
 
@@ -1243,7 +1243,7 @@ static int D_OpenWADLauncher(void)
                             modifiedgame = true;
 
                             if (IWADRequiredByPWAD(file) != none)
-                                pwadfile = removeext(leafname(file));
+                                pwadfile = M_StringDuplicate(leafname(file));
 
                             LoadCfgFile(file);
 
@@ -1264,7 +1264,7 @@ static int D_OpenWADLauncher(void)
                                 modifiedgame = true;
 
                                 if (IWADRequiredByPWAD(file) != none)
-                                    pwadfile = removeext(leafname(file));
+                                    pwadfile = M_StringDuplicate(leafname(file));
 
                                 LoadCfgFile(file);
 
@@ -1560,7 +1560,7 @@ static int D_OpenWADLauncher(void)
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {
                                     mapspresent = true;
-                                    pwadfile = removeext(leafname(fullpath));
+                                    pwadfile = M_StringDuplicate(leafname(fullpath));
                                 }
                             }
                         }
@@ -1912,7 +1912,7 @@ static void D_DoomMainSetup(void)
                         modifiedgame = true;
 
                         if (IWADRequiredByPWAD(file) != none)
-                            pwadfile = removeext(leafname(file));
+                            pwadfile = M_StringDuplicate(leafname(file));
                     }
                 }
                 else
@@ -1938,7 +1938,7 @@ static void D_DoomMainSetup(void)
                             modifiedgame = true;
 
                             if (IWADRequiredByPWAD(file) != none)
-                                pwadfile = removeext(leafname(file));
+                                pwadfile = M_StringDuplicate(leafname(file));
                         }
                     }
                     else
@@ -1957,7 +1957,7 @@ static void D_DoomMainSetup(void)
                                 modifiedgame = true;
 
                                 if (IWADRequiredByPWAD(file) != none)
-                                    pwadfile = removeext(leafname(file));
+                                    pwadfile = M_StringDuplicate(leafname(file));
                             }
                         }
                         else
@@ -1973,7 +1973,7 @@ static void D_DoomMainSetup(void)
                                     modifiedgame = true;
 
                                     if (IWADRequiredByPWAD(file) != none)
-                                        pwadfile = removeext(leafname(file));
+                                        pwadfile = M_StringDuplicate(leafname(file));
                                 }
                             }
                         }

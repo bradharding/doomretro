@@ -653,7 +653,7 @@ void D_SetGameDescription(void)
     {
         // DOOM 1. But which version?
         if (modifiedgame && *pwadfile)
-            gamedescription = M_StringJoin(pwadfile, (strcmp(pwadfile, uppercase(pwadfile)) ? ".wad" : ".WAD"), NULL);
+            gamedescription = pwadfile;
         else if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (gamemode == retail)
@@ -668,10 +668,10 @@ void D_SetGameDescription(void)
         // DOOM 2 of some kind. But which mission?
         if (modifiedgame && *pwadfile)
         {
-            if (M_StringCompare(pwadfile, "nerve"))
+            if (M_StringCompare(pwadfile, "nerve.wad"))
                 gamedescription = s_CAPTION_DOOM2;
             else
-                gamedescription = M_StringJoin(pwadfile, (strcmp(pwadfile, uppercase(pwadfile)) ? ".wad" : ".WAD"), NULL);
+                gamedescription = pwadfile;
         }
         else if (FREEDOOM)
             gamedescription = (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2);

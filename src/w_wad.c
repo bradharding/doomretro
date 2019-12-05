@@ -205,14 +205,14 @@ static int LevenshteinDistance(char *string1, char *string2)
     {
         int *column = malloc((length1 + 1) * sizeof(int));
 
-        for (int y = 1; y <= length1; y++)
+        for (int y = 1; (size_t)y <= length1; y++)
             column[y] = y;
 
-        for (int x = 1; x <= length2; x++)
+        for (int x = 1; (size_t)x <= length2; x++)
         {
             column[0] = x;
 
-            for (int y = 1, lastdiagonal = x - 1, olddiagonal; y <= length1; y++)
+            for (int y = 1, lastdiagonal = x - 1, olddiagonal; (size_t)y <= length1; y++)
             {
                 olddiagonal = column[y];
                 column[y] = MIN(MIN(column[y], column[y - 1]) + 1, lastdiagonal + (string1[y - 1] != string2[x - 1]));
