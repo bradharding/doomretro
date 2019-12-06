@@ -279,7 +279,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
-    char            *lumps_str;
+    char            *temp;
 
     // open the file and add to directory
     wadfile_t       *wadfile = W_OpenFile(filename);
@@ -341,8 +341,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         filerover++;
     }
 
-    lumps_str = commify((int64_t)numlumps - startlump);
-    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), lumps_str,
+    temp = commify((int64_t)numlumps - startlump);
+    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), temp,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
 
     if (M_StringCompare(leafname(filename), "SIGIL_v1_21.wad")
@@ -356,7 +356,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         C_Output("<i><b>No Rest For The Living</b></i> is now available to play from the expansion menu.");
 
     free(fileinfo);
-    free(lumps_str);
+    free(temp);
 
     if (!packagewadadded)
     {

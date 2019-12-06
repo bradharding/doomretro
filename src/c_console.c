@@ -1232,10 +1232,12 @@ void C_Drawer(void)
                 if (console[i].count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
+                    char    *temp = commify(console[i].count);
 
-                    M_snprintf(buffer, sizeof(buffer), "(%s)", commify(console[i].count));
+                    M_snprintf(buffer, sizeof(buffer), "(%s)", temp);
                     C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, false, false, i);
+                    free(temp);
                 }
 
                 if (con_timestamps)
@@ -2097,12 +2099,11 @@ void C_PrintSDLVersions(void)
 
     if (revision)
     {
-        char    *revision_str = commify(revision);
+        char    *temp = commify(revision);
 
         C_Output("Using v%i.%i.%i (revision %s) of the <i><b>SDL (Simple DirectMedia Layer)</b></i> library.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, revision_str);
-
-        free(revision_str);
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, temp);
+        free(temp);
     }
     else
         C_Output("Using v%i.%i.%i of the <i><b>SDL (Simple DirectMedia Layer)</b></i> library.",

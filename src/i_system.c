@@ -208,8 +208,7 @@ void I_PrintSystemInfo(void)
     int     cores = SDL_GetCPUCount();
     char    *RAM = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i core%s and %sGB of RAM on this " PC ".",
-        (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""), RAM);
+    C_Output("There %s %i core%s and %sGB of RAM on this " PC ".", (cores > 1 ? "are" : "is"), cores, (cores > 1 ? "s" : ""), RAM);
     free(RAM);
 }
 

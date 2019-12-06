@@ -2575,8 +2575,10 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
+                char    *temp = commify(kills);
+
                 M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "The " : "All "),
-                    commify(kills), (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
+                    temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -2584,6 +2586,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
+                free(temp);
             }
             else
                 C_Warning(0, "There are no monsters in this map %s kill.", (!totalkills ? "to" : "left to"));
@@ -2608,7 +2611,9 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s %s missile%s %s exploded.", (kills == 1 ? "The" : "All"), commify(kills),
+                char    *temp = commify(kills);
+
+                M_snprintf(buffer, sizeof(buffer), "%s %s missile%s %s exploded.", (kills == 1 ? "The" : "All"), temp,
                     (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
@@ -2617,6 +2622,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
+                free(temp);
             }
             else
                 C_Warning(0, "There are no missiles to explode.");
@@ -2696,7 +2702,9 @@ void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s %s.", (kills == 1 ? "The" : "All"), commify(kills),
+                char    *temp = commify(kills);
+
+                M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s %s.", (kills == 1 ? "The" : "All"), temp,
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "has" : "have"),
                     (type == MT_BARREL ? "exploded" : "been killed"));
                 C_Output(buffer);
@@ -2706,6 +2714,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
+                free(temp);
             }
             else
             {
@@ -3231,6 +3240,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
+    char        *temp;
 
     C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
 
@@ -3324,38 +3334,68 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>", (mbfcompatible ? "<i>BOOM</i> and <i>MBF</i>-compatible" :
         (boomcompatible ? "<i>BOOM</i>-compatible" : (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing"))));
 
-    C_TabbedOutput(tabs, "Things\t<b>%s</b>", commify(numthings));
+    temp = commify(numthings);
+    C_TabbedOutput(tabs, "Things\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Monsters\t<b>%s</b>", commify(totalkills));
+    temp = commify(totalkills);
+    C_TabbedOutput(tabs, "   Monsters\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", commify(totalpickups));
+    temp = commify(totalpickups);
+    C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", commify(numdecorations));
+    temp = commify(numdecorations);
+    C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Barrels\t<b>%s</b>", commify(barrelcount));
+    temp = commify(barrelcount);
+    C_TabbedOutput(tabs, "   Barrels\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Lines\t<b>%s</b>", commify(numlines));
+    temp = commify(numlines);
+    C_TabbedOutput(tabs, "Lines\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Sides\t<b>%s</b>", commify(numsides));
+    temp = commify(numsides);
+    C_TabbedOutput(tabs, "Sides\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>", commify(numvertexes));
+    temp = commify(numvertexes);
+    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Segments\t<b>%s</b>", commify(numsegs));
+    temp = commify(numsegs);
+    C_TabbedOutput(tabs, "Segments\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>", commify(numsubsectors));
+    temp = commify(numsubsectors);
+    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", commify(numnodes));
+    temp = commify(numnodes);
+    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", temp);
+    free(temp);
 
     C_TabbedOutput(tabs, "Node format\t<b>%s nodes</b>", (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ?
         "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed, extended")));
 
-    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", commify(numsectors));
+    temp = commify(numsectors);
+    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Secret\t<b>%s</b>", commify(totalsecret));
+    temp = commify(totalsecret);
+    C_TabbedOutput(tabs, "   Secret\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Liquid\t<b>%s</b>", commify(numliquid));
+    temp = commify(numliquid);
+    C_TabbedOutput(tabs, "   Liquid\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Damaging\t<b>%s</b>", commify(numdamaging));
+    temp = commify(numdamaging);
+    C_TabbedOutput(tabs, "   Damaging\t<b>%s</b>", temp);
+    free(temp);
 
     if (blockmaprebuilt)
         C_TabbedOutput(tabs, "Blockmap\t<b>Rebuilt</b>");
@@ -3418,7 +3458,16 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else
         {
             if (width < FEETPERMILE && height < FEETPERMILE)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s feet</b>", commify(width), commify(height), commify(depth));
+            {
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
+                char    *temp3 = commify(depth);
+
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s feet</b>", temp1, temp2, temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
             else
                 C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s miles</b>",
                     striptrailingzero((float)width / FEETPERMILE, 2), striptrailingzero((float)height / FEETPERMILE, 2),
@@ -3907,7 +3956,12 @@ static char *distance(fixed_t value, dboolean showunits)
     else
     {
         if (value < FEETPERMILE)
-            M_snprintf(result, 20, "%s%s", commify(value), (showunits ? (value == 1 ? " foot" : " feet") : ""));
+        {
+            char    *temp = commify(value);
+
+            M_snprintf(result, 20, "%s%s", temp, (showunits ? (value == 1 ? " foot" : " feet") : ""));
+            free(temp);
+        }
         else
             M_snprintf(result, 20, "%s%s%s", striptrailingzero((float)value / FEETPERMILE, 2),
                 (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
@@ -3925,6 +3979,9 @@ static void C_PlayerStats_Game(void)
     skill_t     favorite = favoriteskilllevel();
     const int   time1 = leveltime / TICRATE;
     const int   time2 = stat_time / TICRATE;
+    char        *temp1;
+    char        *temp2;
+    char        *temp3;
 
     char **skilllevels[] =
     {
@@ -3967,23 +4024,31 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(mappedwalls * 100.0f / totalwalls, 1));
     }
 
-    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", commify(stat_mapsstarted));
+    temp1 = commify(stat_mapsstarted);
+    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", temp1);
+    free(temp1);
 
-    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
+    temp1 = commify(stat_mapscompleted);
+    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", temp1);
+    free(temp1);
 
-    C_TabbedOutput(tabs, "Games saved\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->gamessaved), commify(stat_gamessaved));
+    temp1 = commify(viewplayer->gamessaved);
+    temp2 = commify(stat_gamessaved);
+    C_TabbedOutput(tabs, "Games saved\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     if (favorite == sk_none)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        char    *level = titlecase(*skilllevels[favorite]);
+        temp1 = titlecase(*skilllevels[favorite]);
 
-        if (level[strlen(level) - 1] == '.')
-            level[strlen(level) - 1] = '\0';
+        if (temp1[strlen(temp1) - 1] == '.')
+            temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", level);
-        free(level);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", temp1);
+        free(temp1);
     }
 
     {
@@ -3992,156 +4057,305 @@ static void C_PlayerStats_Game(void)
         for (int i = 0; i < NUMMOBJTYPES; i++)
             killcount += viewplayer->mobjcount[i];
 
+        temp1 = commify(killcount);
+        temp2 = commify(totalkills);
+        temp3 = commify(stat_monsterskilled);
         C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            commify(killcount), commify(totalkills), (totalkills ? killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+            temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
 
     if (gamemode == commercial)
     {
+        temp1 = commify(viewplayer->mobjcount[MT_BABY]);
+        temp2 = commify(monstercount[MT_BABY]);
+        temp3 = commify(stat_monsterskilled_arachnotrons);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_BABY].plural1), commify(viewplayer->mobjcount[MT_BABY]), commify(monstercount[MT_BABY]),
-            (monstercount[MT_BABY] ? viewplayer->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0),
-            commify(stat_monsterskilled_arachnotrons));
+            sentencecase(mobjinfo[MT_BABY].plural1), temp1, temp2,
+            (monstercount[MT_BABY] ? viewplayer->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
 
+        temp1 = commify(viewplayer->mobjcount[MT_VILE]);
+        temp2 = commify(monstercount[MT_VILE]);
+        temp3 = commify(stat_monsterskilled_archviles);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_VILE].plural1), commify(viewplayer->mobjcount[MT_VILE]), commify(monstercount[MT_VILE]),
-            (monstercount[MT_VILE] ? viewplayer->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0),
-            commify(stat_monsterskilled_archviles));
+            sentencecase(mobjinfo[MT_VILE].plural1), temp1, temp2,
+            (monstercount[MT_VILE] ? viewplayer->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
 
+    temp1 = commify(viewplayer->mobjcount[MT_BRUISER]);
+    temp2 = commify(monstercount[MT_BRUISER]);
+    temp3 = commify(stat_monsterskilled_baronsofhell);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_BRUISER].plural1), commify(viewplayer->mobjcount[MT_BRUISER]), commify(monstercount[MT_BRUISER]),
-        (monstercount[MT_BRUISER] ? viewplayer->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER] : 0),
-        commify(stat_monsterskilled_baronsofhell));
+        sentencecase(mobjinfo[MT_BRUISER].plural1), temp1, temp2,
+        (monstercount[MT_BRUISER] ? viewplayer->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->mobjcount[MT_HEAD]);
+    temp2 = commify(monstercount[MT_HEAD]);
+    temp3 = commify(stat_monsterskilled_cacodemons);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_HEAD].plural1), commify(viewplayer->mobjcount[MT_HEAD]), commify(monstercount[MT_HEAD]),
-        (monstercount[MT_HEAD] ? viewplayer->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0),
-        commify(stat_monsterskilled_cacodemons));
+        sentencecase(mobjinfo[MT_HEAD].plural1), temp1, temp2,
+        (monstercount[MT_HEAD] ? viewplayer->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     if (gamemode != shareware)
+    {
+        temp1 = commify(viewplayer->mobjcount[MT_CYBORG]);
+        temp2 = commify(monstercount[MT_CYBORG]);
+        temp3 = commify(stat_monsterskilled_cyberdemons);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_CYBORG].plural1), commify(viewplayer->mobjcount[MT_CYBORG]), commify(monstercount[MT_CYBORG]),
-            (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0),
-            commify(stat_monsterskilled_cyberdemons));
+            sentencecase(mobjinfo[MT_CYBORG].plural1), temp1, temp2,
+            (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
 
+    temp1 = commify(viewplayer->mobjcount[MT_SERGEANT]);
+    temp2 = commify(monstercount[MT_SERGEANT]);
+    temp3 = commify(stat_monsterskilled_demons);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SERGEANT].plural1), commify(viewplayer->mobjcount[MT_SERGEANT]), commify(monstercount[MT_SERGEANT]),
-        (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0),
-        commify(stat_monsterskilled_demons));
+        sentencecase(mobjinfo[MT_SERGEANT].plural1), temp1, temp2,
+        (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     if (gamemode == commercial)
     {
+        temp1 = commify(viewplayer->mobjcount[MT_CHAINGUY]);
+        temp2 = commify(monstercount[MT_CHAINGUY]);
+        temp3 = commify(stat_monsterskilled_heavyweapondudes);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_CHAINGUY].plural1), commify(viewplayer->mobjcount[MT_CHAINGUY]), commify(monstercount[MT_CHAINGUY]),
-            (monstercount[MT_CHAINGUY] ? viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0),
-            commify(stat_monsterskilled_heavyweapondudes));
+            sentencecase(mobjinfo[MT_CHAINGUY].plural1), temp1, temp2,
+            (monstercount[MT_CHAINGUY] ? viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
 
+        temp1 = commify(viewplayer->mobjcount[MT_KNIGHT]);
+        temp2 = commify(monstercount[MT_KNIGHT]);
+        temp3 = commify(stat_monsterskilled_hellknights);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_KNIGHT].plural1), commify(viewplayer->mobjcount[MT_KNIGHT]), commify(monstercount[MT_KNIGHT]),
-            (monstercount[MT_KNIGHT] ? viewplayer->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT] : 0),
-            commify(stat_monsterskilled_hellknights));
+            sentencecase(mobjinfo[MT_KNIGHT].plural1), temp1, temp2,
+            (monstercount[MT_KNIGHT] ? viewplayer->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
 
+    temp1 = commify(viewplayer->mobjcount[MT_TROOP]);
+    temp2 = commify(monstercount[MT_TROOP]);
+    temp3 = commify(stat_monsterskilled_imps);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_TROOP].plural1), commify(viewplayer->mobjcount[MT_TROOP]), commify(monstercount[MT_TROOP]),
-        (monstercount[MT_TROOP] ? viewplayer->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0),
-        commify(stat_monsterskilled_imps));
+        sentencecase(mobjinfo[MT_TROOP].plural1), temp1, temp2,
+        (monstercount[MT_TROOP] ? viewplayer->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->mobjcount[MT_SKULL]);
+    temp2 = commify(monstercount[MT_SKULL]);
+    temp3 = commify(stat_monsterskilled_lostsouls);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SKULL].plural1), commify(viewplayer->mobjcount[MT_SKULL]), commify(monstercount[MT_SKULL]),
-        (monstercount[MT_SKULL] ? viewplayer->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0),
-        commify(stat_monsterskilled_lostsouls));
+        sentencecase(mobjinfo[MT_SKULL].plural1), temp1, temp2,
+        (monstercount[MT_SKULL] ? viewplayer->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     if (gamemode == commercial)
     {
+        temp1 = commify(viewplayer->mobjcount[MT_FATSO]);
+        temp2 = commify(monstercount[MT_FATSO]);
+        temp3 = commify(stat_monsterskilled_mancubi);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_FATSO].plural1), commify(viewplayer->mobjcount[MT_FATSO]), commify(monstercount[MT_FATSO]),
-            (monstercount[MT_FATSO] ? viewplayer->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO] : 0),
-            commify(stat_monsterskilled_mancubi));
+            sentencecase(mobjinfo[MT_FATSO].plural1), temp1, temp2,
+            (monstercount[MT_FATSO] ? viewplayer->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
 
+        temp1 = commify(viewplayer->mobjcount[MT_PAIN]);
+        temp2 = commify(monstercount[MT_PAIN]);
+        temp3 = commify(stat_monsterskilled_painelementals);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_PAIN].plural1), commify(viewplayer->mobjcount[MT_PAIN]), commify(monstercount[MT_PAIN]),
-            (monstercount[MT_PAIN] ? viewplayer->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0),
-            commify(stat_monsterskilled_painelementals));
+            sentencecase(mobjinfo[MT_PAIN].plural1), temp1, temp2,
+            (monstercount[MT_PAIN] ? viewplayer->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
 
+    temp1 = commify(viewplayer->mobjcount[MT_UNDEAD]);
+    temp2 = commify(monstercount[MT_UNDEAD]);
+    temp3 = commify(stat_monsterskilled_revenants);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_UNDEAD].plural1), commify(viewplayer->mobjcount[MT_UNDEAD]), commify(monstercount[MT_UNDEAD]),
-        (monstercount[MT_UNDEAD] ? viewplayer->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD] : 0),
-        commify(stat_monsterskilled_revenants));
+        sentencecase(mobjinfo[MT_UNDEAD].plural1), temp1, temp2,
+        (monstercount[MT_UNDEAD] ? viewplayer->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->mobjcount[MT_SHOTGUY]);
+    temp2 = commify(monstercount[MT_SHOTGUY]);
+    temp3 = commify(stat_monsterskilled_shotgunguys);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SHOTGUY].plural1), commify(viewplayer->mobjcount[MT_SHOTGUY]), commify(monstercount[MT_SHOTGUY]),
-        (monstercount[MT_SHOTGUY] ? viewplayer->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY] : 0),
-        commify(stat_monsterskilled_shotgunguys));
+        sentencecase(mobjinfo[MT_SHOTGUY].plural1), temp1, temp2,
+        (monstercount[MT_SHOTGUY] ? viewplayer->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->mobjcount[MT_SHADOWS]);
+    temp2 = commify(monstercount[MT_SHADOWS]);
+    temp3 = commify(stat_monsterskilled_spectres);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_SHADOWS].plural1), commify(viewplayer->mobjcount[MT_SHADOWS]), commify(monstercount[MT_SHADOWS]),
-        (monstercount[MT_SHADOWS] ? viewplayer->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0),
-        commify(stat_monsterskilled_spectres));
+        sentencecase(mobjinfo[MT_SHADOWS].plural1), temp1, temp2,
+        (monstercount[MT_SHADOWS] ? viewplayer->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     if (gamemode != shareware)
+    {
+        temp1 = commify(viewplayer->mobjcount[MT_SPIDER]);
+        temp2 = commify(monstercount[MT_SPIDER]);
+        temp3 = commify(stat_monsterskilled_spidermasterminds);
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_SPIDER].plural1), commify(viewplayer->mobjcount[MT_SPIDER]), commify(monstercount[MT_SPIDER]),
-            (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0),
-            commify(stat_monsterskilled_spidermasterminds));
+            sentencecase(mobjinfo[MT_SPIDER].plural1), temp1, temp2,
+            (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0), temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
 
+    temp1 = commify(viewplayer->mobjcount[MT_POSSESSED]);
+    temp2 = commify(monstercount[MT_POSSESSED]);
+    temp3 = commify(stat_monsterskilled_zombiemen);
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        sentencecase(mobjinfo[MT_POSSESSED].plural1), commify(viewplayer->mobjcount[MT_POSSESSED]), commify(monstercount[MT_POSSESSED]),
-        (monstercount[MT_POSSESSED] ? viewplayer->mobjcount[MT_POSSESSED] * 100 / monstercount[MT_POSSESSED] : 0),
-        commify(stat_monsterskilled_zombiemen));
+        sentencecase(mobjinfo[MT_POSSESSED].plural1), temp1, temp2,
+        (monstercount[MT_POSSESSED] ? viewplayer->mobjcount[MT_POSSESSED] * 100 / monstercount[MT_POSSESSED] : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
-    C_TabbedOutput(tabs, "Barrels exploded\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(viewplayer->mobjcount[MT_BARREL]), commify(barrelcount),
-        (barrelcount ? viewplayer->mobjcount[MT_BARREL] * 100 / barrelcount : 0), commify(stat_barrelsexploded));
+    temp1 = commify(viewplayer->mobjcount[MT_BARREL]);
+    temp2 = commify(barrelcount);
+    temp3 = commify(stat_barrelsexploded);
+    C_TabbedOutput(tabs, "%s exploded\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        sentencecase(mobjinfo[MT_BARREL].plural1), temp1, temp2,
+        (barrelcount ? viewplayer->mobjcount[MT_BARREL] * 100 / barrelcount : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->itemcount);
+    temp2 = commify(totalitems);
+    temp3 = commify(stat_itemspickedup);
     C_TabbedOutput(tabs, "Items picked up\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(viewplayer->itemcount), commify(totalitems), (totalitems ? viewplayer->itemcount * 100 / totalitems : 0),
-        commify(stat_itemspickedup));
+        temp1, temp2, (totalitems ? viewplayer->itemcount * 100 / totalitems : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
+    temp1 = commify(viewplayer->itemspickedup_ammo_bullets);
+    temp2 = commify(stat_itemspickedup_ammo_bullets);
     C_TabbedOutput(tabs, "   Ammo\t<b>%s bullet%s</b>\t<b>%s bullet%s</b>",
-        commify(viewplayer->itemspickedup_ammo_bullets), (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"),
-        commify(stat_itemspickedup_ammo_bullets), (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+        temp1, (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    free(temp1);
+    free(temp2);
 
+    temp1 = commify(viewplayer->itemspickedup_ammo_cells);
+    temp2 = commify(stat_itemspickedup_ammo_cells);
     C_TabbedOutput(tabs, "\t<b>%s cell%s</b>\t<b>%s cell%s</b>",
-        commify(viewplayer->itemspickedup_ammo_cells), (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"),
-        commify(stat_itemspickedup_ammo_cells), (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    free(temp1);
+    free(temp2);
 
+    temp1 = commify(viewplayer->itemspickedup_ammo_rockets);
+    temp2 = commify(stat_itemspickedup_ammo_rockets);
     C_TabbedOutput(tabs, "\t<b>%s rocket%s</b>\t<b>%s rocket%s</b>",
-        commify(viewplayer->itemspickedup_ammo_rockets), (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"),
-        commify(stat_itemspickedup_ammo_rockets), (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+        temp1, (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    free(temp1);
+    free(temp2);
 
+    temp1 = commify(viewplayer->itemspickedup_ammo_shells);
+    temp2 = commify(stat_itemspickedup_ammo_shells);
     C_TabbedOutput(tabs, "\t<b>%s shell%s</b>\t<b>%s shell%s</b>",
-        commify(viewplayer->itemspickedup_ammo_shells), (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"),
-        commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+        temp1, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "   Armor\t<b>%s%%</b>\t<b>%s%%</b>",
-        commify(viewplayer->itemspickedup_armor), commify(stat_itemspickedup_armor));
+    temp1 = commify(viewplayer->itemspickedup_armor);
+    temp2 = commify(stat_itemspickedup_armor);
+    C_TabbedOutput(tabs, "   Armor\t<b>%s%%</b>\t<b>%s%%</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "   Health\t<b>%s%%</b>\t<b>%s%%</b>",
-        commify(viewplayer->itemspickedup_health), commify(stat_itemspickedup_health));
+    temp1 = commify(viewplayer->itemspickedup_health);
+    temp2 = commify(stat_itemspickedup_health);
+    C_TabbedOutput(tabs, "   Health\t<b>%s%%</b>\t<b>%s%%</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
+    temp1 = commify(viewplayer->secretcount);
+    temp2 = commify(totalsecret);
+    temp3 = commify(stat_secretsrevealed);
     C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(viewplayer->secretcount), commify(totalsecret), (totalsecret ? viewplayer->secretcount * 100 / totalsecret : 0),
-        commify(stat_secretsrevealed));
+        temp1, temp2, (totalsecret ? viewplayer->secretcount * 100 / totalsecret : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>\t<b>%02i:%02i:%02i</b>",
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60, time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s%%</b>\t<b>%s%%</b>",
-        commify(viewplayer->damageinflicted), commify(stat_damageinflicted));
+    temp1 = commify(viewplayer->damageinflicted);
+    temp2 = commify(stat_damageinflicted);
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s%%</b>\t<b>%s%%</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "Damage received\t<b>%s%%</b>\t<b>%s%%</b>",
-        commify(viewplayer->damagereceived), commify(stat_damagereceived));
+    temp1 = commify(viewplayer->damagereceived);
+    temp2 = commify(stat_damagereceived);
+    C_TabbedOutput(tabs, "Damage received\t<b>%s%%</b>\t<b>%s%%</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->deaths), commify(stat_deaths));
+    temp1 = commify(viewplayer->deaths);
+    temp2 = commify(stat_deaths);
+    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
 
-    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->cheated), commify(stat_cheated));
+    temp1 = commify(viewplayer->cheated);
+    temp2 = commify(stat_cheated);
+    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->shotsfired), commify(stat_shotsfired));
+    temp1 = commify(viewplayer->shotsfired);
+    temp2 = commify(stat_shotsfired);
+    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
-    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>", commify(viewplayer->shotshit), commify(stat_shotshit));
+    temp1 = commify(viewplayer->shotshit);
+    temp2 = commify(stat_shotshit);
+    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
         (viewplayer->shotsfired ? striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1) : "0"),
@@ -4156,6 +4370,7 @@ static void C_PlayerStats_NoGame(void)
     const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
     skill_t     favorite = favoriteskilllevel();
     const int   time2 = stat_time / TICRATE;
+    char        *temp;
 
     char **skilllevels[] =
     {
@@ -4168,112 +4383,180 @@ static void C_PlayerStats_NoGame(void)
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
-    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", commify(stat_mapsstarted));
+    temp = commify(stat_mapsstarted);
+    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
+    temp = commify(stat_mapscompleted);
+    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", commify(stat_gamessaved));
+    temp = commify(stat_gamessaved);
+    C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", temp);
+    free(temp);
 
     if (favorite == sk_none)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        char    *level = titlecase(*skilllevels[favorite]);
+        char    *temp = titlecase(*skilllevels[favorite]);
 
-        if (level[strlen(level) - 1] == '.')
-            level[strlen(level) - 1] = '\0';
+        if (temp[strlen(temp) - 1] == '.')
+            temp[strlen(temp) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", level);
-        free(level);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", temp);
+        free(temp);
     }
 
-    C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", commify(stat_monsterskilled));
+    temp = commify(stat_monsterskilled);
+    C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", temp);
+    free(temp);
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_BABY].plural1), commify(stat_monsterskilled_arachnotrons));
+        temp = commify(stat_monsterskilled_arachnotrons);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_BABY].plural1), temp);
+        free(temp);
 
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_VILE].plural1), commify(stat_monsterskilled_archviles));
+        temp = commify(stat_monsterskilled_archviles);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_VILE].plural1), temp);
+        free(temp);
     }
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_BRUISER].plural1), commify(stat_monsterskilled_baronsofhell));
+    temp = commify(stat_monsterskilled_baronsofhell);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_BRUISER].plural1), temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_HEAD].plural1), commify(stat_monsterskilled_cacodemons));
+    temp = commify(stat_monsterskilled_cacodemons);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_HEAD].plural1), temp);
+    free(temp);
 
     if (gamemode != shareware)
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_CYBORG].plural1), commify(stat_monsterskilled_cyberdemons));
+    {
+        temp = commify(stat_monsterskilled_cyberdemons);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_CYBORG].plural1), temp);
+        free(temp);
+    }
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SERGEANT].plural1), commify(stat_monsterskilled_demons));
+    temp = commify(stat_monsterskilled_demons);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SERGEANT].plural1), temp);
+    free(temp);
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_CHAINGUY].plural1), commify(stat_monsterskilled_heavyweapondudes));
+        temp = commify(stat_monsterskilled_heavyweapondudes);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_CHAINGUY].plural1), temp);
+        free(temp);
 
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_KNIGHT].plural1), commify(stat_monsterskilled_hellknights));
+        temp = commify(stat_monsterskilled_hellknights);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_KNIGHT].plural1), temp);
+        free(temp);
     }
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_TROOP].plural1), commify(stat_monsterskilled_imps));
+    temp = commify(stat_monsterskilled_imps);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_TROOP].plural1), temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SKULL].plural1), commify(stat_monsterskilled_lostsouls));
+    temp = commify(stat_monsterskilled_lostsouls);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SKULL].plural1), temp);
+    free(temp);
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_FATSO].plural1), commify(stat_monsterskilled_mancubi));
+        temp = commify(stat_monsterskilled_mancubi);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_FATSO].plural1), temp);
+        free(temp);
 
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_PAIN].plural1), commify(stat_monsterskilled_painelementals));
+        temp = commify(stat_monsterskilled_painelementals);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_PAIN].plural1), temp);
+        free(temp);
     }
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_UNDEAD].plural1), commify(stat_monsterskilled_revenants));
+    temp = commify(stat_monsterskilled_revenants);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_UNDEAD].plural1), temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SHOTGUY].plural1), commify(stat_monsterskilled_shotgunguys));
+    temp = commify(stat_monsterskilled_shotgunguys);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SHOTGUY].plural1), temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SHADOWS].plural1), commify(stat_monsterskilled_spectres));
+    temp = commify(stat_monsterskilled_spectres);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SHADOWS].plural1), temp);
+    free(temp);
 
     if (gamemode != shareware)
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>",
-            sentencecase(mobjinfo[MT_SPIDER].plural1), commify(stat_monsterskilled_spidermasterminds));
+    {
+        temp = commify(stat_monsterskilled_spidermasterminds);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_SPIDER].plural1), temp);
+        free(temp);
+    }
 
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_POSSESSED].plural1), commify(stat_monsterskilled_zombiemen));
+    temp = commify(stat_monsterskilled_zombiemen);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", sentencecase(mobjinfo[MT_POSSESSED].plural1), temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Barrels exploded\t-\t<b>%s</b>", commify(stat_barrelsexploded));
+    temp = commify(stat_barrelsexploded);
+    C_TabbedOutput(tabs, "Barrels exploded\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Items picked up\t-\t<b>%s</b>", commify(stat_itemspickedup));
+    temp = commify(stat_itemspickedup);
+    C_TabbedOutput(tabs, "Items picked up\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Ammo\t-\t<b>%s bullet%s</b>",
-        commify(stat_itemspickedup_ammo_bullets), (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    temp = commify(stat_itemspickedup_ammo_bullets);
+    C_TabbedOutput(tabs, "   Ammo\t-\t<b>%s bullet%s</b>", temp, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    free(temp);
 
-    C_TabbedOutput(tabs, "\t-\t<b>%s cell%s</b>",
-        commify(stat_itemspickedup_ammo_cells), (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    temp = commify(stat_itemspickedup_ammo_cells);
+    C_TabbedOutput(tabs, "\t-\t<b>%s cell%s</b>", temp , (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    free(temp);
 
-    C_TabbedOutput(tabs, "\t-\t<b>%s rocket%s</b>",
-        commify(stat_itemspickedup_ammo_rockets), (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    temp = commify(stat_itemspickedup_ammo_rockets);
+    C_TabbedOutput(tabs, "\t-\t<b>%s rocket%s</b>", temp, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    free(temp);
 
+    temp = commify(stat_itemspickedup_ammo_shells);
     C_TabbedOutput(tabs, "\t-\t<b>%s shell%s</b>",
-        commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+        temp, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Armor\t-\t<b>%s%%</b>", commify(stat_itemspickedup_armor));
+    temp = commify(stat_itemspickedup_armor);
+    C_TabbedOutput(tabs, "   Armor\t-\t<b>%s%%</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "   Health\t-\t<b>%s%%</b>", commify(stat_itemspickedup_health));
+    temp = commify(stat_itemspickedup_health);
+    C_TabbedOutput(tabs, "   Health\t-\t<b>%s%%</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", commify(stat_secretsrevealed));
+    temp = commify(stat_secretsrevealed);
+    C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", temp);
+    free(temp);
 
     C_TabbedOutput(tabs, "Time played\t-\t<b>%02i:%02i:%02i</b>", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t-\t<b>%s%%</b>", commify(stat_damageinflicted));
+    temp = commify(stat_damageinflicted);
+    C_TabbedOutput(tabs, "Damage inflicted\t-\t<b>%s%%</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Damage received\t-\t<b>%s%%</b>", commify(stat_damagereceived));
+    temp = commify(stat_damagereceived);
+    C_TabbedOutput(tabs, "Damage received\t-\t<b>%s%%</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Deaths\t-\t<b>%s</b>", commify(stat_deaths));
+    temp = commify(stat_deaths);
+    C_TabbedOutput(tabs, "Deaths\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", commify(stat_cheated));
+    temp = commify(stat_cheated);
+    C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Shots fired\t-\t<b>%s</b>", commify(stat_shotsfired));
+    temp = commify(stat_shotsfired);
+    C_TabbedOutput(tabs, "Shots fired\t-\t<b>%s</b>", temp);
+    free(temp);
 
-    C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", commify(stat_shotshit));
+    temp = commify(stat_shotshit);
+    C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", temp);
+    free(temp);
 
     C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
@@ -4773,13 +5056,15 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
             if (resurrected)
             {
+                char    *temp = commify(resurrected);
+
                 M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been resurrected.",
-                    (resurrected == 1 ? "The " : "All "), commify(resurrected), (resurrected == 1 ? "" : "s"),
-                    (resurrected == 1 ? "has" : "have"));
+                    (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
                 message_dontfuckwithme = true;
+                free(temp);
             }
             else
                 C_Warning(0, "There are no monsters in this map to resurrect.");
@@ -4822,13 +5107,16 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
             if (resurrected)
             {
+                char    *temp = commify(resurrected);
+
                 M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s been resurrected.",
-                    (resurrected == 1 ? "The" : "All"), commify(resurrected),
-                    (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (resurrected == 1 ? "has" : "have"));
+                    (resurrected == 1 ? "The" : "All"), temp, (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                    (resurrected == 1 ? "has" : "have"));
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
                 message_dontfuckwithme = true;
+                free(temp);
             }
             else
             {
@@ -5338,6 +5626,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
         char    name[100];
+        char    *temp = commify(mobj->id);
 
         if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
@@ -5346,8 +5635,9 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : "")),
                 (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : mobj->info->name1));
 
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? commify(mobj->id) : ""), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp : ""), (mobj->id >= 0 ? "." : ""),
             sentencecase(name), mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+        free(temp);
     }
 }
 
@@ -5649,13 +5939,21 @@ static void int_cvars_func2(char *cmd, char *parms)
 
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
+                    char    *temp1 = commify(*(int *)consolecmds[i].variable);
+
                     if (consolecmds[i].flags & CF_READONLY)
-                        C_Output(PERCENTCVARISREADONLY, commify(*(int *)consolecmds[i].variable));
+                        C_Output(PERCENTCVARISREADONLY, temp1);
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output(PERCENTCVARISDEFAULT, commify(*(int *)consolecmds[i].variable));
+                        C_Output(PERCENTCVARISDEFAULT, temp1);
                     else
-                        C_Output(PERCENTCVARWITHDEFAULT,
-                            commify(*(int *)consolecmds[i].variable), commify((int)consolecmds[i].defaultnumber));
+                    {
+                        char    *temp2 = commify((int)consolecmds[i].defaultnumber);
+
+                        C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+                        free(temp2);
+                    }
+
+                    free(temp1);
                 }
                 else
                 {
@@ -6076,7 +6374,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
-                C_Output(INTEGERCVARWITHNODEFAULT, commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
+            {
+                char    *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
+
+                C_Output(INTEGERCVARWITHNODEFAULT, temp);
+                free(temp);
+            }
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
@@ -6108,7 +6411,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
-                C_Output(PERCENTCVARWITHNODEFAULT, commify(viewplayer->armorpoints));
+            {
+                char    *temp = commify(viewplayer->armorpoints);
+
+                C_Output(PERCENTCVARWITHNODEFAULT, temp);
+                free(temp);
+            }
         }
     }
     else if (M_StringCompare(cmd, stringize(health)) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
@@ -6159,7 +6467,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_ShowDescription(C_GetIndex(cmd));
 
             if (gamestate == GS_LEVEL)
-                C_Output(PERCENTCVARWITHNODEFAULT, commify(viewplayer->health));
+            {
+                char *temp = commify(viewplayer->health);
+
+                C_Output(PERCENTCVARWITHNODEFAULT, temp);
+                free(temp);
+            }
         }
     }
 }
@@ -6513,12 +6826,21 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = commify(r_screensize);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_screensize == r_screensize_default)
-            C_Output(INTEGERCVARISDEFAULT, commify(r_screensize));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, commify(r_screensize), commify(r_screensize_default));
+        {
+            char    *temp2 = commify(r_screensize_default);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6724,21 +7046,39 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
     {
+        char    *temp1 = commify(s_musicvolume);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (s_musicvolume == s_musicvolume_default)
-            C_Output(PERCENTCVARISDEFAULT, commify(s_musicvolume));
+            C_Output(PERCENTCVARISDEFAULT, temp1);
         else
-            C_Output(PERCENTCVARWITHDEFAULT, commify(s_musicvolume), commify(s_musicvolume_default));
+        {
+            char *temp2 = commify(s_musicvolume_default);
+
+            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
     else
     {
+        char    *temp1 = commify(s_sfxvolume);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (s_sfxvolume == s_sfxvolume_default)
-            C_Output(PERCENTCVARISDEFAULT, commify(s_sfxvolume));
+            C_Output(PERCENTCVARISDEFAULT, temp1);
         else
-            C_Output(PERCENTCVARWITHDEFAULT, commify(s_sfxvolume), commify(s_sfxvolume_default));
+        {
+            char    *temp2 = commify(s_sfxvolume_default);
+
+            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6815,12 +7155,21 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = commify(turbo);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (turbo == turbo_default)
-            C_Output(PERCENTCVARISDEFAULT, commify(turbo));
+            C_Output(PERCENTCVARISDEFAULT, temp1);
         else
-            C_Output(PERCENTCVARWITHDEFAULT, commify(turbo), commify(turbo_default));
+        {
+            char    *temp2 = commify(turbo_default);
+
+            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 

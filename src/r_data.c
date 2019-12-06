@@ -680,8 +680,8 @@ static void R_InitColormaps(void)
     if (numcolormaps == 1)
         C_Output("Using the <b>COLORMAP</b> lump in %s <b>%s</b>.", (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
     else
-        C_Output("Using %s colormaps from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
-            commify(numcolormaps), (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+        C_Output("Using %i colormaps from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
+            numcolormaps, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
     palsrc = palette = PLAYPAL;
 

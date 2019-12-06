@@ -678,11 +678,11 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_SIZE_CHANGED:
                             if (!vid_fullscreen)
                             {
+                                char    *temp1 = commify((windowwidth = Event->window.data1));
+                                char    *temp2 = commify((windowheight = Event->window.data2));
                                 char    size[16];
 
-                                windowwidth = Event->window.data1;
-                                windowheight = Event->window.data2;
-                                M_snprintf(size, sizeof(size), "%sx%s", commify(windowwidth), commify(windowheight));
+                                M_snprintf(size, sizeof(size), "%sx%s", temp1, temp2);
                                 vid_windowsize = M_StringDuplicate(size);
                                 M_SaveCVARs();
 
@@ -690,6 +690,9 @@ static void I_GetEvent(void)
                                 displayheight = windowheight;
                                 displaycenterx = displaywidth / 2;
                                 displaycentery = displayheight / 2;
+
+                                free(temp1);
+                                free(temp2);
                             }
 
                             break;
@@ -1214,23 +1217,23 @@ void GetWindowSize(void)
     }
     else
     {
-        char    *width_str = uncommify(width);
-        char    *height_str = uncommify(height);
-        int     w = atoi(width_str);
-        int     h = atoi(height_str);
+        char    *temp1 = uncommify(width);
+        char    *temp2 = uncommify(height);
+        int     w = atoi(temp1);
+        int     h = atoi(temp2);
 
         if (w < ORIGINALWIDTH + windowborderwidth || h < ORIGINALWIDTH * 3 / 4 + windowborderheight)
         {
             char    size[16];
-            char    *windowwidth_str = commify((windowwidth = ORIGINALWIDTH + windowborderwidth));
-            char    *windowheight_str = commify((windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight));
+            char    *temp3 = commify((windowwidth = ORIGINALWIDTH + windowborderwidth));
+            char    *temp4 = commify((windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight));
 
-            M_snprintf(size, sizeof(size), "%sx%s", windowwidth_str, windowheight_str);
+            M_snprintf(size, sizeof(size), "%sx%s", temp3, temp4);
             vid_windowsize = M_StringDuplicate(size);
             M_SaveCVARs();
 
-            free(windowwidth_str);
-            free(windowheight_str);
+            free(temp3);
+            free(temp4);
         }
         else
         {
@@ -1238,8 +1241,8 @@ void GetWindowSize(void)
             windowheight = h;
         }
 
-        free(width_str);
-        free(height_str);
+        free(temp1);
+        free(temp2);
     }
 }
 
@@ -1401,14 +1404,14 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char    *width_str = commify(width);
-                char    *height_str = commify(height);
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
 
                 C_Output("Staying at the native desktop resolution of %sx%s with a %s aspect ratio.",
-                    width_str, height_str, getaspectratio(width, height));
+                    temp1, temp2, getaspectratio(width, height));
 
-                free(width_str);
-                free(height_str);
+                free(temp1);
+                free(temp2);
             }
         }
         else
@@ -1422,14 +1425,13 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char    *width_str = commify(width);
-                char    *height_str = commify(height);
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
 
-                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.",
-                    width_str, height_str, getaspectratio(width, height));
+                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
 
-                free(width_str);
-                free(height_str);
+                free(temp1);
+                free(temp2);
             }
         }
     }
@@ -1452,13 +1454,13 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char    *width_str = commify(width);
-                char    *height_str = commify(height);
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
 
-                C_Output("Created a resizable window with dimensions %sx%s centered on the screen.", width_str, height_str);
+                C_Output("Created a resizable window with dimensions %sx%s centered on the screen.", temp1, temp2);
 
-                free(width_str);
-                free(height_str);
+                free(temp1);
+                free(temp2);
             }
         }
         else
@@ -1467,13 +1469,13 @@ static void SetVideoMode(dboolean output)
 
             if (output)
             {
-                char    *width_str = commify(width);
-                char    *height_str = commify(height);
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
 
-                C_Output("Created a resizable window with dimensions %sx%s at (%i,%i).", width_str, height_str, windowx, windowy);
+                C_Output("Created a resizable window with dimensions %sx%s at (%i,%i).", temp1, temp2, windowx, windowy);
 
-                free(width_str);
-                free(height_str);
+                free(temp1);
+                free(temp2);
             }
         }
     }
@@ -1497,32 +1499,32 @@ static void SetVideoMode(dboolean output)
 
     if (output)
     {
-        char *width_str = commify(height * 4 / 3);
-        char *height_str = commify(height);
+        char *temp1 = commify(height * 4 / 3);
+        char *temp2 = commify(height);
 
         C_Output("<i><b>" PACKAGE_NAME "</b></i> is using a software renderer.");
 
         if (nearestlinear)
         {
-            char *upscaledwidth_str = commify((int64_t)upscaledwidth * SCREENWIDTH);
-            char *upscaledheight_str = commify((int64_t)upscaledheight * SCREENHEIGHT);
+            char *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
+            char *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
             C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
-                SCREENWIDTH, SCREENHEIGHT, upscaledwidth_str, upscaledheight_str);
-            C_Output("They are then scaled down to %sx%s using linear filtering.", width_str, height_str);
+                SCREENWIDTH, SCREENHEIGHT, temp3, temp4);
+            C_Output("They are then scaled down to %sx%s using linear filtering.", temp1, temp2);
 
-            free(upscaledwidth_str);
-            free(upscaledheight_str);
+            free(temp3);
+            free(temp4);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
             C_Output("Each frame is scaled from %ix%i to %sx%s using linear filtering.",
-                SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+                SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
         else
             C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
-                SCREENWIDTH, SCREENHEIGHT, width_str, height_str);
+                SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
 
-        free(width_str);
-        free(height_str);
+        free(temp1);
+        free(temp2);
     }
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
@@ -1652,10 +1654,10 @@ static void SetVideoMode(dboolean output)
 
                     if (output)
                     {
-                        char    *vid_capfps_str = commify(vid_capfps);
+                        char    *temp = commify(vid_capfps);
 
-                        C_Output("The framerate is capped at %s FPS.", vid_capfps_str);
-                        free(vid_capfps_str);
+                        C_Output("The framerate is capped at %s FPS.", temp);
+                        free(temp);
                     }
                 }
             }
@@ -1677,10 +1679,10 @@ static void SetVideoMode(dboolean output)
 
                 if (vid_capfps)
                 {
-                    char    *vid_capfps_str = commify(vid_capfps);
+                    char    *temp = commify(vid_capfps);
 
-                    C_Output("The framerate is capped at %s FPS.", vid_capfps_str);
-                    free(vid_capfps_str);
+                    C_Output("The framerate is capped at %s FPS.", temp);
+                    free(temp);
                 }
                 else
                     C_Output("The framerate is uncapped.");

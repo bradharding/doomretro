@@ -1599,7 +1599,12 @@ dboolean V_ScreenShot(void)
         if (!count)
             M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", makevalidfilename(mapname));
         else
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", makevalidfilename(mapname), commify(count));
+        {
+            char    *temp = commify(count);
+
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", makevalidfilename(mapname), temp);
+            free(temp);
+        }
 
         count++;
         M_MakeDirectory(screenshotfolder);
@@ -1613,8 +1618,11 @@ dboolean V_ScreenShot(void)
     {
         do
         {
+            char    *temp = commify(count++);
+
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s" DIR_SEPARATOR_S "%s (%s).png",
-                screenshotfolder, makevalidfilename(mapname), commify(count++));
+                screenshotfolder, makevalidfilename(mapname), temp);
+            free(temp);
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(maprenderer, lbmpath2);

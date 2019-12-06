@@ -518,31 +518,44 @@ void P_InitCards(void)
             case D1_Door_Blue_OpenStay:
             case SR_Door_Blue_OpenStay_Fast:
             case S1_Door_Blue_OpenStay_Fast:
+            {
+                char    *temp = commify(i);
+
                 if (viewplayer->cards[it_bluecard] == CARDNOTINMAP && viewplayer->cards[it_blueskull] == CARDNOTINMAP)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>BlueKeycard</b> or <b>BlueSkullKey</b> "
-                        "things in map.", commify(i), line->special, linespecials[line->special]);
+                        "things in map.", temp, line->special, linespecials[line->special]);
+                free(temp);
 
                 break;
+            }
 
             case DR_Door_Red_OpenWaitClose:
             case D1_Door_Red_OpenStay:
             case SR_Door_Red_OpenStay_Fast:
             case S1_Door_Red_OpenStay_Fast:
+            {
+                char    *temp = commify(i);
+
                 if (viewplayer->cards[it_redcard] == CARDNOTINMAP && viewplayer->cards[it_redskull] == CARDNOTINMAP)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>RedKeycard</b> or <b>RedSkullKey</b> "
-                        "things in map.", commify(i), line->special, linespecials[line->special]);
+                        "things in map.", temp, line->special, linespecials[line->special]);
 
                 break;
+            }
 
             case DR_Door_Yellow_OpenWaitClose:
             case D1_Door_Yellow_OpenStay:
             case SR_Door_Yellow_OpenStay_Fast:
             case S1_Door_Yellow_OpenStay_Fast:
+            {
+                char    *temp = commify(i);
+
                 if (viewplayer->cards[it_yellowcard] == CARDNOTINMAP && viewplayer->cards[it_yellowskull] == CARDNOTINMAP)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>YellowKeycard</b> or <b>YellowSkullKey</b> "
-                        "things in map.", commify(i), line->special, linespecials[line->special]);
+                        "things in map.", temp, line->special, linespecials[line->special]);
 
                 break;
+            }
         }
     }
 }
