@@ -207,35 +207,35 @@ void C_InputNoRepeat(const char *string, ...)
 
 void C_IntCVAROutput(char *cvar, int value)
 {
-    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+    char    *temp = M_StringJoin(cvar, " ", NULL);
 
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, temp))
         consolestrings--;
 
     C_Input("%s %i", cvar, value);
-    free(cvar_free);
+    free(temp);
 }
 
 void C_PctCVAROutput(char *cvar, int value)
 {
-    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+    char    *temp = M_StringJoin(cvar, " ", NULL);
 
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, temp))
         consolestrings--;
 
     C_Input("%s %i%%", cvar, value);
-    free(cvar_free);
+    free(temp);
 }
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
-    char    *cvar_free = M_StringJoin(cvar, " ", NULL);
+    char    *temp = M_StringJoin(cvar, " ", NULL);
 
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar_free))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, temp))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
-    free(cvar_free);
+    free(temp);
 }
 
 void C_Output(const char *string, ...)
@@ -339,15 +339,26 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         }
         else
         {
-            int truncate = len;
+            int     truncate = len;
+            int     width;
+            char    *temp;
 
-            while (C_TextWidth(M_SubString(buffer, 0, truncate), true, true) + warningwidth + 12 > CONSOLETEXTPIXELWIDTH)
-                truncate--;
+            do
+            {
+                temp = M_SubString(buffer, 0, truncate);
+                width = C_TextWidth(temp, true, true) + warningwidth + 12;
+                free(temp);
+
+                if (width <= CONSOLETEXTPIXELWIDTH)
+                    break;
+            } while (truncate-- > 0);
 
             while (truncate > 0 && !isbreak(buffer[truncate]))
                 truncate--;
 
-            M_StringCopy(console[consolestrings].string, M_SubString(buffer, 0, truncate), 1024);
+            temp = M_SubString(buffer, 0, truncate);
+            M_StringCopy(console[consolestrings].string, temp, 1024);
+            free(temp);
             console[consolestrings].line = 1;
             C_DumpConsoleStringToFile(consolestrings);
             console[consolestrings++].stringtype = warningstring;
@@ -355,7 +366,9 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
             if (consolestrings >= (int)consolestringsmax)
                 console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-            M_StringCopy(console[consolestrings].string, M_SubString(buffer, truncate, (size_t)len - truncate), 1024);
+            temp = M_SubString(buffer, truncate, (size_t)len - truncate);
+            M_StringCopy(console[consolestrings].string, temp, 1024);
+            free(temp);
             console[consolestrings].line = 2;
             C_DumpConsoleStringToFile(consolestrings);
             console[consolestrings++].stringtype = warningstring;
@@ -862,8 +875,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     }
     else if (len > 100)
     {
-        while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width + 6 > CONSOLETEXTPIXELWIDTH)
-            truncate--;
+        do
+        {
+            char    *temp = M_SubString(text, 0, truncate);
+            int     width2 = C_TextWidth(temp, formatting, kerning) + width + 6;
+
+            free(temp);
+
+            if (width2 <= CONSOLETEXTPIXELWIDTH)
+                break;
+        } while (truncate-- > 0);
 
         if (truncate == len - 1 && text[truncate] == '.')
             truncate++;
@@ -1745,12 +1766,17 @@ dboolean C_Responder(event_t *ev)
                     }
                     else
                     {
-                        i += 1 + (consoleinput[i + 1] == ' ');
-                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i), sizeof(prefix));
+                        char    *temp1 = M_SubString(consoleinput, 0, (i += 1 + (consoleinput[i + 1] == ' ')));
+
+                        M_StringCopy(prefix, temp1, sizeof(prefix));
+                        free(temp1);
 
                         if (autocomplete == -1)
                         {
-                            M_StringCopy(input, M_SubString(consoleinput, i, (size_t)len - i), sizeof(input));
+                            char    *temp2 = M_SubString(consoleinput, i, (size_t)len - i);
+
+                            M_StringCopy(input, temp2, sizeof(input));
+                            free(temp2);
 
                             if (!*input)
                                 break;
@@ -1790,11 +1816,13 @@ dboolean C_Responder(event_t *ev)
                                 || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                 || (spaces1 == 3 && !endspace1)))
                         {
-                            M_StringCopy(consoleinput, M_StringJoin(prefix, M_StringReplace(output, input, input), NULL),
-                                sizeof(consoleinput));
+                            char    *temp = M_StringJoin(prefix, M_StringReplace(output, input, input), NULL);
+
+                            M_StringCopy(consoleinput, temp, sizeof(consoleinput));
                             caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
+                            free(temp);
                             return true;
                         }
                     }
@@ -1926,7 +1954,12 @@ dboolean C_Responder(event_t *ev)
                 // copy selected text to clipboard
                 if (modstate & KMOD_CTRL)
                     if (selectstart < selectend)
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart));
+                    {
+                        char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
+
+                        SDL_SetClipboardText(temp);
+                        free(temp);
+                    }
 
                 break;
 
@@ -1935,9 +1968,10 @@ dboolean C_Responder(event_t *ev)
                 if (modstate & KMOD_CTRL)
                 {
                     char    buffer[255];
+                    char    *temp1 = M_SubString(consoleinput, 0, selectstart);
+                    char    *temp2 = M_SubString(consoleinput, selectend, (size_t)len - selectend);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
-                        SDL_GetClipboardText(), M_SubString(consoleinput, selectend, (size_t)len - selectend));
+                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, SDL_GetClipboardText(), temp2);
                     M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
                     M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
 
@@ -1948,6 +1982,9 @@ dboolean C_Responder(event_t *ev)
                         selectstart += (int)strlen(SDL_GetClipboardText());
                         selectend = caretpos = selectstart;
                     }
+
+                    free(temp1);
+                    free(temp2);
                 }
 
                 break;
@@ -1957,8 +1994,11 @@ dboolean C_Responder(event_t *ev)
                 if (modstate & KMOD_CTRL)
                     if (selectstart < selectend)
                     {
+                        char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
+
                         C_AddToUndoHistory();
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart));
+                        SDL_SetClipboardText(temp);
+                        free(temp);
 
                         for (i = selectend; i < len; i++)
                             consoleinput[selectstart + i - selectend] = consoleinput[i];
@@ -1994,11 +2034,12 @@ dboolean C_Responder(event_t *ev)
     else if (ev->type == ev_text)
     {
         char    ch = (char)ev->data1;
+        char    *temp = NULL;
 
         if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
             + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
-            - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
-            (size_t)selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
+            - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
+            (size_t)selectend - selectstart)), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
             C_AddToUndoHistory();
 
@@ -2030,6 +2071,9 @@ dboolean C_Responder(event_t *ev)
             autocomplete = -1;
             inputhistory = -1;
         }
+
+        if (temp)
+            free(temp);
     }
     else if (ev->type == ev_mousewheel)
     {

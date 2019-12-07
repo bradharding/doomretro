@@ -258,7 +258,12 @@ static void CheckInstallRootPaths(void)
             continue;
 
         for (size_t j = 0; j < arrlen(root_path_subdirs); j++)
-            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
+        {
+            char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL);
+
+            AddIWADDir(path);
+            free(path);
+        }
 
         free(install_path);
     }
@@ -273,7 +278,12 @@ static void CheckSteamEdition(void)
         return;
 
     for (size_t i = 0; i < arrlen(steam_install_subdirs); i++)
-        AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL));
+    {
+        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL);
+
+        AddIWADDir(path);
+        free(path);
+    }
 
     free(install_path);
 }
@@ -429,6 +439,7 @@ char *D_FindWADByName(char *filename)
             return M_StringDuplicate(iwad_dirs[i]);
 
         // Construct a string for the full path
+        free(path);
         path = M_StringJoin(iwad_dirs[i], DIR_SEPARATOR_S, filename, NULL);
 
         if (M_FileExists(path))

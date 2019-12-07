@@ -865,6 +865,8 @@ static dboolean D_CheckParms(void)
 
     if (myargc == 2 && M_StringEndsWith(myargv[1], ".wad"))
     {
+        char    *folder = M_ExtractFolder(myargv[1]);
+
         // check if it's a valid and supported IWAD
         if (D_IsDOOMIWAD(myargv[1]) || (W_WadType(myargv[1]) == IWAD && !D_IsUnsupportedIWAD(myargv[1])))
         {
@@ -873,26 +875,26 @@ static dboolean D_CheckParms(void)
             if (W_AddFile(myargv[1], false))
             {
                 result = true;
-                iwadfolder = M_ExtractFolder(myargv[1]);
+                iwadfolder = M_StringDuplicate(folder);
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_21.wad");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
 
                     if (W_MergeFile(fullpath, true))
                         sigil = true;
                     else
                     {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_v1_2.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
 
                         if (W_MergeFile(fullpath, true))
                             sigil = true;
                         else
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
 
                             if (W_MergeFile(fullpath, true))
                                 sigil = true;
@@ -901,7 +903,7 @@ static dboolean D_CheckParms(void)
 
                     if (sigil)
                     {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "SIGIL_SHREDS.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
                         W_MergeFile(fullpath, true);
                     }
                 }
@@ -910,7 +912,7 @@ static dboolean D_CheckParms(void)
                 {
                     char    fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "NERVE.WAD");
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "NERVE.WAD");
 
                     if (W_MergeFile(fullpath, true))
                         nerve = true;
@@ -928,13 +930,13 @@ static dboolean D_CheckParms(void)
                 iwadrequired = doom2;
 
             // try the current folder first
-            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), iwadsrequired[iwadrequired]);
+            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
             D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
             {
                 result = true;
-                iwadfolder = M_ExtractFolder(fullpath);
+                iwadfolder = M_StringDuplicate(folder);
                 D_CheckSupportedPWAD(myargv[1]);
 
                 if (W_MergeFile(myargv[1], false))
@@ -1015,35 +1017,37 @@ static dboolean D_CheckParms(void)
 
             if (BTSXE1A && !BTSXE1B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e1b.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1b.wad");
+                result = W_MergeFile(fullpath, true);
             }
             else if (!BTSXE1A && BTSXE1B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e1a.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1a.wad");
+                result = W_MergeFile(fullpath, true);
             }
             else if (BTSXE2A && !BTSXE2B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e2b.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2b.wad");
+                result = W_MergeFile(fullpath, true);
             }
             else if (!BTSXE2A && BTSXE2B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e2a.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                result = W_MergeFile(fullpath, true);
             }
             else if (BTSXE3A && !BTSXE3B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e3b.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3b.wad");
+                result = W_MergeFile(fullpath, true);
             }
             else if (!BTSXE3A && BTSXE3B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(myargv[1]), "btsx_e3a.wad");
-                return W_MergeFile(fullpath, true);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3a.wad");
+                result = W_MergeFile(fullpath, true);
             }
         }
+
+        free(folder);
     }
 
     return result;
@@ -1120,6 +1124,7 @@ static int D_OpenWADLauncher(void)
             NSURL   *url = [urls objectAtIndex:0];
             char    *file = (char *)[url fileSystemRepresentation];
 #endif
+            char    *folder = M_ExtractFolder(file);
 
             if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh")
                 && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg"))
@@ -1128,7 +1133,7 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
             // if WAD doesn't exist (that is, entered manually and may be partial filename), look for best match
             if (!M_FileExists(file))
-                file = W_NearestFilename(M_ExtractFolder(file), leafname(file));
+                file = W_NearestFilename(folder, leafname(file));
 
             wad = M_StringDuplicate(file);
 #endif
@@ -1146,26 +1151,26 @@ static int D_OpenWADLauncher(void)
                     wad = M_StringDuplicate(leafname(file));
 #endif
 
-                    iwadfolder = M_ExtractFolder(file);
+                    iwadfolder = M_StringDuplicate(folder);
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_21.wad");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
 
                         if (W_MergeFile(fullpath, true))
                             sigil = true;
                         else
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_v1_2.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
 
                             if (W_MergeFile(fullpath, true))
                                 sigil = true;
                             else
                             {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL.wad");
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
 
                                 if (W_MergeFile(fullpath, true))
                                     sigil = true;
@@ -1174,7 +1179,7 @@ static int D_OpenWADLauncher(void)
 
                         if (sigil)
                         {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "SIGIL_SHREDS.wad");
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
                             W_MergeFile(fullpath, true);
                         }
                     }
@@ -1183,7 +1188,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "NERVE.WAD");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
                             nerve = true;
@@ -1205,13 +1210,13 @@ static int D_OpenWADLauncher(void)
 #endif
 
                 // try the current folder first
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
                 {
                     iwadfound = 1;
-                    iwadfolder = M_ExtractFolder(fullpath);
+                    iwadfolder = M_StringDuplicate(folder);
                     D_CheckSupportedPWAD(file);
 
                     if (W_MergeFile(file, false))
@@ -1282,35 +1287,37 @@ static int D_OpenWADLauncher(void)
 
                 if (BTSXE1A && !BTSXE1B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e1b.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1b.wad");
+                    W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE1A && BTSXE1B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e1a.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1a.wad");
+                    W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE2A && !BTSXE2B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e2b.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2b.wad");
+                    W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e2a.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                    W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE3A && !BTSXE3B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e3b.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3b.wad");
+                    W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE3A && BTSXE3B)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), "btsx_e3a.wad");
-                    return W_MergeFile(fullpath, true);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3a.wad");
+                    W_MergeFile(fullpath, true);
                 }
             }
+
+            free(folder);
         }
         else
         {
@@ -1919,18 +1926,19 @@ static void D_DoomMainSetup(void)
                 {
                     int     iwadrequired = IWADRequiredByPWAD(file);
                     char    fullpath[MAX_PATH];
+                    char    *folder = M_ExtractFolder(file);
 
                     if (iwadrequired == none)
                         iwadrequired = doom2;
 
                     // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", M_ExtractFolder(file), iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
                     {
                         iwadfile = M_StringDuplicate(fullpath);
-                        iwadfolder = M_ExtractFolder(fullpath);
+                        iwadfolder = M_StringDuplicate(folder);
                         D_CheckSupportedPWAD(file);
 
                         if (W_MergeFile(file, false))
@@ -1978,6 +1986,8 @@ static void D_DoomMainSetup(void)
                             }
                         }
                     }
+
+                    free(folder);
                 }
 
             }

@@ -414,7 +414,7 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
 {
     for (int i = 0; *valuealiases[i].text; i++)
         if (valuealiastype == valuealiases[i].type && value == valuealiases[i].value)
-            return valuealiases[i].text;
+            return M_StringDuplicate(valuealiases[i].text);
 
     return commify(value);
 }
@@ -1821,8 +1821,12 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name,
-                        C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS), description1);
+                {
+                    char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
+
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                    free(temp);
+                }
                 else
                     C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", count, consolecmds[i].name, description1);
             }
@@ -1834,14 +1838,22 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_TabbedOutput(tabs, "%i.\t<b>%s</b>\tn/a\t%s", count, consolecmds[i].name, description1);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases), description1);
+            {
+                char    *temp = C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases);
+
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                free(temp);
+            }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases), description1);
+            {
+                char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
+
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                free(temp);
+            }
             else if (consolecmds[i].flags & CF_FLOAT)
             {
                 if (consolecmds[i].flags & CF_PERCENT)
@@ -2744,6 +2756,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 //
 static void load_cmd_func2(char *cmd, char *parms)
 {
+    char    buffer[1024];
+
     if (!*parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
@@ -2751,8 +2765,9 @@ static void load_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    G_LoadGame(M_StringJoin((M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms,
-        (M_StringEndsWith(parms, ".save") ? "" : ".save"), NULL));
+    M_snprintf(buffer, sizeof(buffer), "%s%s%s",
+        (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
+    G_LoadGame(buffer);
 }
 
 //
@@ -4658,13 +4673,33 @@ static void reset_cmd_func2(char *cmd, char *parms)
         if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
         {
             if (flags & (CF_BOOLEAN | CF_INTEGER))
-                C_ValidateInput(M_StringJoin(parms, " ",
-                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases)), NULL));
+            {
+                char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                char    *temp2 = uncommify(temp1);
+                char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+
+                C_ValidateInput(temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
             else if (flags & CF_FLOAT)
-                C_ValidateInput(M_StringJoin(parms, " ", striptrailingzero(consolecmds[i].defaultnumber, 1), NULL));
+            {
+                char    *temp1 = striptrailingzero(consolecmds[i].defaultnumber, 1);
+                char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
+
+                C_ValidateInput(temp2);
+                free(temp1);
+                free(temp2);
+            }
             else
-                C_ValidateInput(M_StringJoin(parms, " ",
-                    (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE), NULL));
+            {
+                char    *temp = M_StringJoin(parms, " ", (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE),
+                            NULL);
+
+                C_ValidateInput(temp);
+                free(temp);
+            }
 
 #if defined(_WIN32)
             if (M_StringCompare(parms, stringize(iwadfolder)))
@@ -4701,8 +4736,14 @@ static void C_VerifyResetAll(const int key)
             if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
             {
                 if (flags & (CF_BOOLEAN | CF_INTEGER))
-                    consolecmds[i].func2(consolecmds[i].name, uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                        consolecmds[i].aliases)));
+                {
+                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp2 = uncommify(temp1);
+
+                    consolecmds[i].func2(consolecmds[i].name, temp2);
+                    free(temp1);
+                    free(temp2);
+                }
                 else if (flags & CF_FLOAT)
                     consolecmds[i].func2(consolecmds[i].name, striptrailingzero(consolecmds[i].defaultnumber, 2));
                 else
@@ -5152,6 +5193,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 //
 static void save_cmd_func2(char *cmd, char *parms)
 {
+    char    buffer[1024];
+
     if (!*parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
@@ -5159,8 +5202,9 @@ static void save_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    G_SaveGame(-1, "", M_StringJoin((M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms,
-        (M_StringEndsWith(parms, ".save") ? "" : ".save"), NULL));
+    M_snprintf(buffer, sizeof(buffer), "%s%s%s",
+        (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
+    G_SaveGame(-1, "", buffer);
 }
 
 //
@@ -5743,13 +5787,23 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
                     char    *control = M_StringDuplicate(sc_String);
 
                     if (SC_GetString())
-                        bind_cmd_func2("bind", M_StringJoin(control, " ", sc_String, NULL));
+                    {
+                        char    *temp = M_StringJoin(control, " ", sc_String, NULL);
+
+                        bind_cmd_func2("bind", temp);
+                        free(temp);
+                    }
 
                     free(control);
                 }
             }
             else if (SC_GetString())
-                C_ValidateInput(M_StringJoin(cvar, " ", sc_String, NULL));
+            {
+                char    *temp = M_StringJoin(cvar, " ", sc_String, NULL);
+
+                C_ValidateInput(temp);
+                free(temp);
+            }
 
             free(cvar);
         }
@@ -5806,15 +5860,21 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             else
             {
+                char    *temp1 = C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLVALUEALIAS);
+
                 C_ShowDescription(i);
 
                 if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
-                    C_Output(INTEGERCVARISDEFAULT,
-                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLVALUEALIAS));
+                    C_Output(INTEGERCVARISDEFAULT, temp1);
                 else
-                    C_Output(INTEGERCVARWITHDEFAULT,
-                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLVALUEALIAS),
-                        C_LookupAliasFromValue((dboolean)consolecmds[i].defaultnumber, BOOLVALUEALIAS));
+                {
+                    char    *temp2 = C_LookupAliasFromValue((dboolean)consolecmds[i].defaultnumber, BOOLVALUEALIAS);
+
+                    C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+                    free(temp2);
+                }
+
+                free(temp1);
             }
 
             break;
@@ -5840,11 +5900,16 @@ static struct
 
 static dboolean color_cvars_func1(char *cmd, char *parms)
 {
+    char        *temp;
+    dboolean    result = false;
+
     for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))
             return true;
-
-    return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0) || int_cvars_func1(cmd, parms));
+    temp = M_SubString(parms, 1, 6);
+    result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
+    free(temp);
+    return result;
 }
 
 static void color_cvars_func2(char *cmd, char *parms)
@@ -5862,9 +5927,15 @@ static void color_cvars_func2(char *cmd, char *parms)
 
     if (strlen(parms) == 7 && parms[0] == '#')
     {
-        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(PLAYPAL,
-            hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)), hextodec(M_SubString(parms, 5, 2))));
+        char    *temp1 = M_SubString(parms, 1, 2);
+        char    *temp2 = M_SubString(parms, 3, 2);
+        char    *temp3 = M_SubString(parms, 5, 2);
+
+        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(PLAYPAL, hextodec(temp1), hextodec(temp2), hextodec(temp3)));
         int_cvars_func2(cmd, buffer);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
     else
         int_cvars_func2(cmd, parms);
@@ -5957,16 +6028,21 @@ static void int_cvars_func2(char *cmd, char *parms)
                 }
                 else
                 {
+                    char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
+
                     if (consolecmds[i].flags & CF_READONLY)
-                        C_Output(INTEGERCVARISREADONLY,
-                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases));
+                        C_Output(INTEGERCVARISREADONLY, temp1);
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output(INTEGERCVARISDEFAULT,
-                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases));
+                        C_Output(INTEGERCVARISDEFAULT, temp1);
                     else
-                        C_Output(INTEGERCVARWITHDEFAULT,
-                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases),
-                            C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases));
+                    {
+                        char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+
+                        C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+                        free(temp2);
+                    }
+
+                    free(temp1);
                 }
             }
 
@@ -6142,7 +6218,12 @@ static void armortype_cvar_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(cmd));
 
         if (gamestate == GS_LEVEL)
-            C_Output(INTEGERCVARWITHNODEFAULT, C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS));
+        {
+            char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHNODEFAULT, temp);
+            free(temp);
+        }
     }
 }
 
@@ -6184,13 +6265,21 @@ static void crosshair_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (crosshair == crosshair_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS), C_LookupAliasFromValue(crosshair_default, CROSSHAIRVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(crosshair_default, CROSSHAIRVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6507,13 +6596,21 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_blood == r_blood_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS), C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6546,15 +6643,21 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT,
-                C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6596,13 +6699,21 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_detail == r_detail_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS), C_LookupAliasFromValue(r_detail_default, DETAILVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_detail_default, DETAILVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6624,13 +6735,21 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_dither == r_dither_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS), C_LookupAliasFromValue(r_dither_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_dither_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6654,13 +6773,21 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_fixmaperrors == r_fixmaperrors_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS), C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS));
+        {
+            char *temp2 = C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6731,8 +6858,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
             if (len >= 2 && buffer2[len - 1] == '0' && buffer2[len - 2] == '0')
                 buffer2[len - 1] = '\0';
 
-            C_Output(INTEGERCVARWITHDEFAULT,
-                (r_gamma == 1.0f ? "off" : buffer1), (r_gamma_default == 1.0f ? "off" : buffer2));
+            C_Output(INTEGERCVARWITHDEFAULT, (r_gamma == 1.0f ? "off" : buffer1), (r_gamma_default == 1.0f ? "off" : buffer2));
         }
     }
 }
@@ -6764,14 +6890,21 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_hud_translucency == r_hud_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_hud_translucency_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_hud_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6872,15 +7005,21 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_shadows_translucency == r_shadows_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT,
-                C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_shadows_translucency_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_shadows_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6953,13 +7092,21 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_textures == r_textures_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS), C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -6992,13 +7139,21 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (r_translucency == r_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS), C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
@@ -7195,13 +7350,21 @@ static void units_cvar_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *temp1 = C_LookupAliasFromValue(units, UNITSVALUEALIAS);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (units == units_default)
-            C_Output(INTEGERCVARISDEFAULT, C_LookupAliasFromValue(units, UNITSVALUEALIAS));
+            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-            C_Output(INTEGERCVARWITHDEFAULT,
-                C_LookupAliasFromValue(units, UNITSVALUEALIAS), C_LookupAliasFromValue(units_default, UNITSVALUEALIAS));
+        {
+            char    *temp2 = C_LookupAliasFromValue(units_default, UNITSVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 

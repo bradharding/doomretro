@@ -230,7 +230,8 @@ static int LevenshteinDistance(char *string1, char *string2)
 char *W_NearestFilename(char *path, char *string)
 {
     WIN32_FIND_DATA FindFileData;
-    HANDLE          hFile = FindFirstFile(M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL), &FindFileData);
+    char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);
+    HANDLE          hFile = FindFirstFile(file, &FindFileData);
     int             bestdistance = INT_MAX;
     char            filename[MAX_PATH];
 
@@ -255,6 +256,7 @@ char *W_NearestFilename(char *path, char *string)
     } while (FindNextFile(hFile, &FindFileData));
 
     FindClose(hFile);
+    free(file);
     return M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL);
 }
 #endif
