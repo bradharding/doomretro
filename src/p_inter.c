@@ -1671,14 +1671,20 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
             if (target->player)
+            {
+                char    *temp = titlecase(playername);
+
                 C_Obituary("%s %s %s by an exploding %s.",
-                    sentencecase(playername),
+                    temp,
                     (M_StringCompare(playername, playername_default) ? "were" : "was"),
                     (gibbed ? "gibbed" : "killed"),
                     inflicter->info->name1);
+                free(temp);
+            }
             else
             {
                 char    targetname[100];
+                char    *temp;
 
                 if (*target->name)
                     M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1689,10 +1695,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         ((target->flags & MF_FRIEND) ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
+                temp = sentencecase(targetname);
                 C_Obituary("%s was %s by an exploding %s.",
-                    sentencecase(targetname),
+                    temp,
                     (gibbed ? "gibbed" : "killed"),
                     inflicter->info->name1);
+                free(temp);
             }
         }
         else if (source->player)
@@ -1797,6 +1805,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             else
             {
                 char    sourcename[100];
+                char    *temp1;
 
                 if (*source->name)
                     M_StringCopy(sourcename, source->name, sizeof(sourcename));
@@ -1807,15 +1816,17 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
                         (*source->info->name1 ? source->info->name1 : "monster"));
 
+                temp1 = sentencecase(sourcename);
+
                 if (target->player)
                 {
-                    char    *temp = titlecase(playername);
+                    char    *temp2 = titlecase(playername);
 
                     C_Obituary("%s %s %s.",
-                        sentencecase(sourcename),
+                        temp1,
                         (gibbed ? "gibbed" : "killed"),
-                        (M_StringCompare(playername, playername_default) ? playername : temp));
-                    free(temp);
+                        (M_StringCompare(playername, playername_default) ? playername : temp2));
+                    free(temp2);
                 }
                 else
                 {
@@ -1832,10 +1843,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (*target->info->name1 ? target->info->name1 : "monster"));
 
                     C_Obituary("%s %s %s.",
-                        sentencecase(sourcename),
+                        temp1,
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         targetname);
                 }
+
+                free(temp1);
             }
         }
     }
