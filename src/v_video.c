@@ -1585,8 +1585,13 @@ dboolean V_ScreenShot(void)
                 break;
 
             default:
-                M_StringCopy(mapname, (inhelpscreens ? "Help" : titlecase(maptitle)), sizeof(mapname));
+            {
+                char    *temp = titlecase(maptitle);
+
+                M_StringCopy(mapname, (inhelpscreens ? "Help" : temp), sizeof(mapname));
+                free(temp);
                 break;
+            }
         }
 
     if (M_StringStartsWith(mapname, "The "))

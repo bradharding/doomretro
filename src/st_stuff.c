@@ -624,13 +624,15 @@ dboolean ST_Responder(event_t *ev)
                         if (musnum != NONE)
                         {
                             static char msg[80];
+                            char        *temp = uppercase(S_music[musnum].name);
 
                             S_ChangeMusic(musnum, 1, true, false);
 
-                            M_snprintf(msg, sizeof(msg), s_STSTR_MUS, uppercase(S_music[musnum].name));
+                            M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
                             message_dontfuckwithme = true;
+                            free(temp);
                         }
                         else
                             idmus = false;

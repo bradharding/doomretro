@@ -216,11 +216,21 @@ void S_Init(void)
                         if (!CacheSFX(sfx))
                             sfx->lumpnum = -1;
                         else
-                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", uppercase(namebuf));
+                        {
+                            char    *temp = uppercase(namebuf);
+
+                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", temp);
+                            free(temp);
+                        }
                     }
 
                 if (sfx->lumpnum == -1)
-                    C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", uppercase(namebuf));
+                        {
+                            char    *temp = uppercase(namebuf);
+
+                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", temp);
+                            free(temp);
+                        }
             }
         }
     }
@@ -665,7 +675,10 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     if (music->lumpnum == -1)
     {
-        C_Warning(1, "The <b>%s</b> music lump can't be found.", uppercase(namebuf));
+        char    *temp = uppercase(namebuf);
+
+        C_Warning(1, "The <b>%s</b> music lump can't be found.", temp);
+        free(temp);
         return;
     }
 
@@ -686,7 +699,10 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
             if (!handle)
             {
-                C_Warning(1, "The <b>%s</b> music lump can't be played.", uppercase(namebuf));
+                char    *temp = uppercase(namebuf);
+
+                C_Warning(1, "The <b>%s</b> music lump can't be played.", temp);
+                free(temp);
                 return;
             }
         }

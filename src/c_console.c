@@ -1795,8 +1795,16 @@ dboolean C_Responder(event_t *ev)
                         int         game;
 
                         autocomplete += direction;
-                        M_StringCopy(output, (GetCapsLockState() ? uppercase(autocompletelist[autocomplete].text) :
-                            autocompletelist[autocomplete].text), sizeof(output));
+
+                        if (GetCapsLockState())
+                        {
+                            char    *temp = uppercase(autocompletelist[autocomplete].text);
+
+                            M_StringCopy(output, temp, sizeof(output));
+                            free(temp);
+                        }
+                        else
+                            M_StringCopy(output, autocompletelist[autocomplete].text, sizeof(output));
 
                         if (M_StringCompare(output, input))
                             continue;

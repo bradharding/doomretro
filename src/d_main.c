@@ -2105,7 +2105,9 @@ static void D_DoomMainSetup(void)
             strreplace(string, ".", "");
             strreplace(string, "!", "");
 
-            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i><b>%s</b></i>.", myargv[p], string);
+            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i><b>%s</b></i>.",
+                myargv[p], string);
+            free(string);
         }
     }
 

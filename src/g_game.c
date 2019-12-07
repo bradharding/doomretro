@@ -1494,11 +1494,13 @@ void G_LoadedGameMessage(void)
     if (*savedescription)
     {
         static char buffer[1024];
+        char        *temp = titlecase(savedescription);
 
-        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED), titlecase(savedescription));
+        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED), temp);
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
+        free(temp);
     }
 
     loadaction = ga_nothing;
@@ -1572,11 +1574,13 @@ static void G_DoSaveGame(void)
         else
         {
             static char buffer[1024];
+            char        *temp = titlecase(savedescription);
 
-            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), titlecase(savedescription));
+            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), temp);
             C_Output(buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_dontfuckwithme = true;
+            free(temp);
 
             if (gameaction != ga_autosavegame)
                 S_StartSound(NULL, sfx_swtchx);

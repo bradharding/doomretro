@@ -942,7 +942,12 @@ static void M_DrawLoad(void)
     if (M_LOADG)
         M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG"));
     else
-        M_DrawCenteredString(23 + OFFSET, uppercase(s_M_LOADGAME));
+    {
+        char    *temp = uppercase(s_M_LOADGAME);
+
+        M_DrawCenteredString(23 + OFFSET, temp);
+        free(temp);
+    }
 
     for (int i = 0; i < load_end; i++)
     {
@@ -1049,7 +1054,12 @@ static void M_DrawSave(void)
     if (M_SAVEG)
         M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SAVEG"));
     else
-        M_DrawCenteredString(23 + OFFSET, uppercase(s_M_SAVEGAME));
+    {
+        char    *temp = uppercase(s_M_SAVEGAME);
+
+        M_DrawCenteredString(23 + OFFSET, temp);
+        free(temp);
+    }
 
     // draw each save game slot
     for (int i = 0; i < load_end; i++)
@@ -1358,6 +1368,7 @@ static void M_DeleteSavegameResponse(int key)
     if (key == 'y')
     {
         static char buffer[1024];
+        char        *temp;
 
         M_StringCopy(buffer, P_SaveGameFile(itemOn), sizeof(buffer));
 
@@ -1367,11 +1378,13 @@ static void M_DeleteSavegameResponse(int key)
             return;
         }
 
-        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[itemOn]));
+        temp = titlecase(savegamestrings[itemOn]);
+        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
+        free(temp);
 
         if (itemOn == quickSaveSlot)
             quickSaveSlot = -1;
@@ -1463,7 +1476,12 @@ static void M_DrawSound(void)
         SoundDef.y = 64;
     }
     else
-        M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
+    {
+        char    *temp = uppercase(s_M_SOUNDVOLUME);
+
+        M_DrawCenteredString(38 + OFFSET, temp);
+        free(temp);
+    }
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, (float)(sfxVolume * !nosfx), 4.0f, 6);
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, (float)(musicVolume * !nomusic), 4.0f, 6);
@@ -1591,7 +1609,12 @@ static void M_DrawNewGame(void)
         NewDef.y = 63;
     }
     else
-        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+    {
+        char    *temp = uppercase(s_M_NEWGAME);
+
+        M_DrawCenteredString(19 + OFFSET, temp);
+        free(temp);
+    }
 
     if (M_SKILL)
     {
@@ -1630,7 +1653,12 @@ static void M_DrawEpisode(void)
         EpiDef.y = 63;
     }
     else
-        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+    {
+        char    *temp = uppercase(s_M_NEWGAME);
+
+        M_DrawCenteredString(19 + OFFSET, temp);
+        free(temp);
+    }
 
     if (M_EPISOD)
     {
@@ -1680,7 +1708,12 @@ static void M_DrawExpansion(void)
         EpiDef.y = 63;
     }
     else
-        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+    {
+        char    *temp = uppercase(s_M_NEWGAME);
+
+        M_DrawCenteredString(19 + OFFSET, temp);
+        free(temp);
+    }
 
     if (M_EPISOD)
     {
@@ -1777,7 +1810,12 @@ static void M_DrawOptions(void)
         OptionsDef.y = 37;
     }
     else
-        M_DrawCenteredString(8 + OFFSET, uppercase(s_M_OPTIONS));
+    {
+        char    *temp = uppercase(s_M_OPTIONS);
+
+        M_DrawCenteredString(8 + OFFSET, temp);
+        free(temp);
+    }
 
     if (messages)
     {

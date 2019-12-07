@@ -2562,11 +2562,13 @@ void P_MapName(int ep, int map)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
+                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
+
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
+                free(temp);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
@@ -2580,11 +2582,13 @@ void P_MapName(int ep, int map)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
+                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
+
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
+                free(temp);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(bfgedition && (!modifiedgame || nerve) ?
@@ -2609,11 +2613,13 @@ void P_MapName(int ep, int map)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
+                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
+
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
+                free(temp);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
@@ -2627,11 +2633,13 @@ void P_MapName(int ep, int map)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
+                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
+
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path)), mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
+                free(temp);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
@@ -2664,28 +2672,35 @@ void P_MapName(int ep, int map)
 
         if (pos)
         {
-            int index = (int)(pos - maptitle) + 1;
+            int     index = (int)(pos - maptitle) + 1;
+            char    *temp = titlecase(maptitle);
 
-            if (M_StringStartsWith(uppercase(maptitle), "LEVEL"))
+            if (M_StringStartsWith(maptitle, "LEVEL"))
             {
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, temp);
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
-
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, titlecase(maptitle));
             }
             else
             {
-                M_StringCopy(mapnumandtitle, titlecase(maptitle), sizeof(mapnumandtitle));
+                M_StringCopy(mapnumandtitle, temp, sizeof(mapnumandtitle));
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
             }
+
+            free(temp);
         }
         else if (!M_StringCompare(mapnum, maptitle))
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s%s%s", mapnum, (maptitle[0] ? ": " : ""), titlecase(maptitle));
+        {
+            char    *temp = titlecase(maptitle);
+
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s%s%s", mapnum, (maptitle[0] ? ": " : ""), temp);
+            free(temp);
+        }
         else
             M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
 
