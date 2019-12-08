@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If a mistyped filename is entered in the WAD launcher (for example, `doot` instead of `doom`), *DOOM Retro* will now try to find the closest match.
 * If hardware acceleration is unavailable, *DOOM Retro* will now default to scaling each frame using software rather than crashing at startup.
+* Support has now been added for the use of [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps. This now completes *DOOM Retro’s* *MBF* compatibility.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.

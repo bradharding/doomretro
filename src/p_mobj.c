@@ -219,7 +219,9 @@ static void P_XYMovement(mobj_t *mo)
             // killough 8/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(mo->flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)
+            if (!(mo->flags & MF_MISSILE)
+                && ((mo->flags & MF_BOUNCES)
+                    || (!player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)))
             {
                 fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
                             / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
@@ -307,7 +309,10 @@ static void P_XYMovement(mobj_t *mo)
         }
     }
 
-    if ((corpse || (flags2 & MF2_FALLING))
+    // killough 8/11/98: add bouncers
+    // killough 9/15/98: add objects falling off ledges
+    // killough 11/98: only include bouncers hanging off ledges
+    if ((((mo->flags & MF_BOUNCES) && mo->z > mo->dropoffz) || corpse || (flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4 || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && mo->floorz != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
@@ -371,6 +376,93 @@ static void P_ZMovement(mobj_t *mo)
     int         flags = mo->flags;
     fixed_t     floorz = mo->floorz;
 
+    // killough 7/11/98:
+    // BFG fireballs bounced on floors and ceilings in Pre-Beta Doom
+    // killough 8/9/98: added support for non-missile objects bouncing
+    // (e.g. grenade, mine, pipebomb)
+    if ((flags & MF_BOUNCES) && mo->momz)
+    {
+        mo->z += mo->momz;
+
+        if (mo->z <= mo->floorz)                            // bounce off floors
+        {                
+            mo->z = mo->floorz;
+
+            if (mo->momz < 0)
+            {
+                mo->momz = -mo->momz;
+
+                if (!(flags & MF_NOGRAVITY))                // bounce back with decay
+                {
+                    mo->momz = ((flags & MF_FLOAT) ?        // floaters fall slowly
+                        ((flags & MF_DROPOFF) ?             // DROPOFF indicates rate
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .85)) :
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .70))) :
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .45)));
+
+                    // Bring it to rest below a certain speed
+                    if (ABS(mo->momz) <= mo->info->mass * (GRAVITY * 4 / 256))
+                        mo->momz = 0;
+                }
+
+                // killough 11/98: touchy objects explode on impact
+                if ((flags & MF_TOUCHY) && (mo->flags3 & MF3_ARMED) && mo->health > 0)
+                    P_DamageMobj(mo, NULL, NULL, mo->health, true);
+                else if ((flags & MF_FLOAT) && sentient(mo))
+                    goto floater;
+
+                return;
+            }
+        }
+        else if (mo->z >= mo->ceilingz - mo->height)
+        {
+            // bounce off ceilings
+            mo->z = mo->ceilingz - mo->height;
+
+            if (mo->momz > 0)
+            {
+                if (mo->subsector->sector->ceilingpic != skyflatnum)
+                    mo->momz = -mo->momz;                   // always bounce off non-sky ceiling
+                else if (flags & MF_MISSILE)
+                    P_RemoveMobj(mo);                       // missiles don't bounce off skies
+                else if (flags & MF_NOGRAVITY)
+                    mo->momz = -mo->momz;                   // bounce unless under gravity
+
+                if (flags & MF_FLOAT && sentient(mo))
+                    goto floater;
+
+                return;
+            }
+        }
+        else
+        {
+            if (!(flags & MF_NOGRAVITY))                    // free-fall under gravity
+                mo->momz -= mo->info->mass * (GRAVITY / 256);
+
+            if (flags & MF_FLOAT && sentient(mo))
+                goto floater;
+
+            return;
+        }
+
+        // came to a stop
+        mo->momz = 0;
+
+        if (flags & MF_MISSILE)
+        {
+            if (ceilingline && ceilingline->backsector && ceilingline->backsector->ceilingpic == skyflatnum
+                && mo->z > ceilingline->backsector->ceilingheight)
+                P_RemoveMobj(mo);                           // don't explode on skies
+            else
+                P_ExplodeMissile(mo);
+        }
+
+        if (mo->flags & MF_FLOAT && sentient(mo))
+            goto floater;
+
+        return;
+    }
+
     // check for smooth step up
     if (player && player->mo == mo && mo->z < floorz && !viewplayer->jumptics)
     {
@@ -381,6 +473,7 @@ static void P_ZMovement(mobj_t *mo)
     // adjust height
     mo->z += mo->momz;
 
+floater:
     // float down towards target if too close
     if (!((flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT)) && mo->target)
     {
@@ -426,7 +519,10 @@ static void P_ZMovement(mobj_t *mo)
 
         if (mo->momz < 0)
         {
-            if (player && player->mo == mo)
+            // killough 11/98: touchy objects explode on impact
+            if (flags & MF_TOUCHY && (mo->flags3 & MF3_ARMED) && mo->health > 0)
+                P_DamageMobj(mo, NULL, NULL, mo->health, true);
+            else if (player && player->mo == mo)
             {
                 player->jumptics = 7;
 
@@ -630,6 +726,8 @@ void P_MobjThinker(mobj_t *mobj)
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {
+        mobj->flags3 |= MF3_ARMED;  // arm a mine which has come to rest
+
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
         if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL) && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
