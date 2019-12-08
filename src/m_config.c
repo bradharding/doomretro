@@ -1050,12 +1050,11 @@ void M_LoadCVARs(char *filename)
                     char    *temp = uncommify(value);
 
                     M_StringCopy(value, temp, sizeof(value));
-                    s = M_StringDuplicate(value);
 
-                    if (*s && s[strlen(s) - 1] == '%')
-                        s[strlen(s) - 1] = '\0';
+                    if (value[strlen(value) - 1] == '%')
+                        value[strlen(value) - 1] = '\0';
 
-                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     free(temp);
                     break;
                 }
@@ -1075,12 +1074,11 @@ void M_LoadCVARs(char *filename)
                     char    *temp = uncommify(value);
 
                     M_StringCopy(value, temp, sizeof(value));
-                    s = M_StringDuplicate(value);
 
-                    if (*s && s[strlen(s) - 1] == '%')
-                        s[strlen(s) - 1] = '\0';
+                    if (value[strlen(value) - 1] == '%')
+                        value[strlen(value) - 1] = '\0';
 
-                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     free(temp);
                     break;
                 }

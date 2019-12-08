@@ -265,7 +265,7 @@ static void R_InitTextures(void)
         char            *name_p;
     } pnameslump_t;
 
-    pnameslump_t        *pnameslumps = malloc(sizeof(*pnameslumps));
+    pnameslump_t        *pnameslumps = malloc(sizeof(pnameslump_t));
     int                 maxpnameslumps = 1;
     int                 numpnameslumps = 0;
     const maptexture_t  *mtexture;
@@ -288,7 +288,7 @@ static void R_InitTextures(void)
             if (numpnameslumps == maxpnameslumps)
             {
                 maxpnameslumps++;
-                pnameslumps = I_Realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
+                pnameslumps = I_Realloc(pnameslumps, maxpnameslumps * sizeof(pnameslump_t));
             }
 
             pnameslumps[numpnameslumps].names = W_CacheLumpNum(i);
@@ -499,27 +499,27 @@ static void R_InitSpriteLumps(void)
         }
         else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {
-            char    *sc_String_free;
+            char    *temp;
 
             SC_MustGetString();
-            sc_String_free = removeext(sc_String);
+            temp = removeext(sc_String);
 
-            if (M_StringCompare(pwadfile, sc_String_free))
+            if (M_StringCompare(pwadfile, temp))
                 notranslucency = true;
 
-            free(sc_String_free);
+            free(temp);
         }
         else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
         {
-            char    *sc_String_free;
+            char    *temp;
 
             SC_MustGetString();
-            sc_String_free = removeext(sc_String);
+            temp = removeext(sc_String);
 
-            if (M_StringCompare(pwadfile, sc_String_free))
+            if (M_StringCompare(pwadfile, temp))
                 telefragonmap30 = true;
 
-            free(sc_String_free);
+            free(temp);
         }
     }
 

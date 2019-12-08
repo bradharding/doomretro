@@ -234,29 +234,34 @@ char *W_NearestFilename(char *path, char *string)
     HANDLE          hFile = FindFirstFile(file, &FindFileData);
     int             bestdistance = INT_MAX;
     char            filename[MAX_PATH];
+    char            *string1;
 
     if (hFile == INVALID_HANDLE_VALUE)
         return path;
 
     M_StringCopy(filename, string, sizeof(filename));
-    string = removeext(string);
+    string1 = removeext(string);
 
     do
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            int distance = LevenshteinDistance(removeext(FindFileData.cFileName), string);
+            char    *string2 = removeext(FindFileData.cFileName);
+            int     distance = LevenshteinDistance(string1, string2);
 
             if (distance <= 2 && distance < bestdistance)
             {
                 M_StringCopy(filename, FindFileData.cFileName, sizeof(filename));
                 bestdistance = distance;
             }
+
+            free(string2);
         }
     } while (FindNextFile(hFile, &FindFileData));
 
     FindClose(hFile);
     free(file);
+    free(string1);
     return M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL);
 }
 #endif

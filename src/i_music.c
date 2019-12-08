@@ -244,7 +244,7 @@ void *I_RegisterSong(void *data, int size)
     else
     {
         Mix_Music   *music = NULL;
-        SDL_RWops   *rwops;
+        SDL_RWops   *rwops = NULL;
 
         midimusictype = false;
         musmusictype = false;

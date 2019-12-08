@@ -221,8 +221,10 @@ dboolean I_MidiRPCResumeSong(void)
 dboolean I_MidiRPCInitServer(void)
 {
     dboolean    result;
+    char        *temp = M_GetExecutableFolder();
 
-    M_snprintf(module, sizeof(module), "%s" DIR_SEPARATOR_S "midiproc.exe", M_GetExecutableFolder());
+    M_snprintf(module, sizeof(module), "%s" DIR_SEPARATOR_S "midiproc.exe", temp);
+    free(temp);
 
     // Look for executable file
     if (!M_FileExists(module))

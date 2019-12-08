@@ -1857,8 +1857,12 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (consolecmds[i].flags & CF_FLOAT)
             {
                 if (consolecmds[i].flags & CF_PERCENT)
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%%</b>\t%s", count, consolecmds[i].name,
-                        striptrailingzero(*(float *)consolecmds[i].variable, 1), description1);
+                {
+                    char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%%</b>\t%s", count, consolecmds[i].name, temp, description1);
+                    free(temp);
+                }
                 else
                 {
                     char    buffer[128];
@@ -3615,12 +3619,27 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             const float metricdepth = depth / FEETPERMETER;
 
             if (metricwidth < METERSPERKILOMETER && metricheight < METERSPERKILOMETER && metricdepth < METERSPERKILOMETER)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s meters</b>",
-                    striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1), striptrailingzero(metricdepth, 1));
+            {
+                char    *temp1 = striptrailingzero(metricwidth, 1);
+                char    *temp2 = striptrailingzero(metricheight, 1);
+                char    *temp3 = striptrailingzero(metricdepth, 1);
+
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s meters</b>", temp1, temp2, temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s kilometers</b>",
-                    striptrailingzero(metricwidth / METERSPERKILOMETER, 1), striptrailingzero(metricheight / METERSPERKILOMETER, 1),
-                    striptrailingzero(metricdepth / METERSPERKILOMETER, 1));
+            {
+                char    *temp1 = striptrailingzero(metricwidth / METERSPERKILOMETER, 2);
+                char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
+                char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
+
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s kilometers</b>", temp1, temp2, temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
         }
         else
         {
@@ -3636,9 +3655,16 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 free(temp3);
             }
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s miles</b>",
-                    striptrailingzero((float)width / FEETPERMILE, 2), striptrailingzero((float)height / FEETPERMILE, 2),
-                    striptrailingzero((float)depth / FEETPERMILE, 2));
+            {
+                char    *temp1 = striptrailingzero((float)width / FEETPERMILE, 2);
+                char    *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
+                char    *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
+
+                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s miles</b>", temp1, temp2, temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
         }
     }
 
@@ -4133,11 +4159,20 @@ static char *distance(fixed_t value, dboolean showunits)
         if (!meters)
             M_StringCopy(result, (showunits ? "0 meters" : "0"), 20);
         else if (meters < METERSPERKILOMETER)
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters, 1), (showunits ? " meter" : ""),
-                (meters == 1.0f || !showunits ? "" : "s"));
+        {
+            char    *temp = striptrailingzero(meters, 1);
+
+            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " meter" : ""), (meters == 1.0f || !showunits ? "" : "s"));
+            free(temp);
+        }
         else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters / METERSPERKILOMETER, 2),
-                (showunits ? " kilometer" : ""), (meters == METERSPERKILOMETER || !showunits ? "" : "s"));
+        {
+            char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+
+            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " kilometer" : ""),
+                (meters == METERSPERKILOMETER || !showunits ? "" : "s"));
+            free(temp);
+        }
     }
     else
     {
@@ -4149,8 +4184,12 @@ static char *distance(fixed_t value, dboolean showunits)
             free(temp);
         }
         else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero((float)value / FEETPERMILE, 2),
-                (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
+        {
+            char    *temp = striptrailingzero((float)value / FEETPERMILE, 2);
+
+            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
+            free(temp);
+        }
     }
 
     return result;
@@ -4208,7 +4247,9 @@ static void C_PlayerStats_Game(void)
             }
         }
 
-        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", striptrailingzero(mappedwalls * 100.0f / totalwalls, 1));
+        temp1 = striptrailingzero(mappedwalls * 100.0f / totalwalls, 1);
+        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", temp1);
+        free(temp1);
     }
 
     temp1 = commify(stat_mapsstarted);
@@ -4580,9 +4621,12 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    temp1 = striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1);
+    temp2 = striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1);
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
-        (viewplayer->shotsfired ? striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1) : "0"),
-        (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
+        (viewplayer->shotsfired ? temp1 : "0"), (stat_shotsfired ? temp2 : "0"));
+    free(temp1);
+    free(temp2);
 
     C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>\t<b>%s</b>",
         distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
@@ -4818,8 +4862,9 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>",
-        (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
+    temp1 = striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1);
+    C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>", (stat_shotsfired ? temp1 : "0"));
+    free(temp1);
 
     C_TabbedOutput(tabs, "Distance traveled\t-\t<b>%s</b>", distance(stat_distancetraveled, true));
 }
@@ -4990,10 +5035,15 @@ static void C_VerifyResetAll(const int key)
                     free(temp2);
                 }
                 else if (flags & CF_FLOAT)
-                    consolecmds[i].func2(consolecmds[i].name, striptrailingzero(consolecmds[i].defaultnumber, 2));
+                {
+                    char    *temp = striptrailingzero(consolecmds[i].defaultnumber, 2);
+
+                    consolecmds[i].func2(consolecmds[i].name, temp);
+                    free(temp);
+                }
                 else
-                    consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
-                        consolecmds[i].defaultstring : EMPTYVALUE));
+                    consolecmds[i].func2(consolecmds[i].name,
+                        (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE));
             }
         }
 
@@ -6742,23 +6792,33 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
     {
+        char    *temp1 = striptrailingzero(gp_deadzone_left, 1);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (gp_deadzone_left == gp_deadzone_left_default)
-            C_Output(PERCENTCVARISDEFAULT, striptrailingzero(gp_deadzone_left, 1));
+            C_Output(PERCENTCVARISDEFAULT, temp1);
         else
-            C_Output(PERCENTCVARWITHDEFAULT,
-                striptrailingzero(gp_deadzone_left, 1), striptrailingzero(gp_deadzone_left_default, 1));
+        {
+            char    *temp2 = striptrailingzero(gp_deadzone_left_default, 1);
+
+            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+        }
     }
     else
     {
+        char    *temp1 = striptrailingzero(gp_deadzone_right, 1);
+
         C_ShowDescription(C_GetIndex(cmd));
 
         if (gp_deadzone_right == gp_deadzone_right_default)
-            C_Output(PERCENTCVARISDEFAULT, striptrailingzero(gp_deadzone_right, 1));
+            C_Output(PERCENTCVARISDEFAULT, temp1);
         else
-            C_Output(PERCENTCVARWITHDEFAULT,
-                striptrailingzero(gp_deadzone_right, 1), striptrailingzero(gp_deadzone_right_default, 1));
+        {
+            char    *temp2 = striptrailingzero(gp_deadzone_right_default, 1);
+
+            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+        }
     }
 }
 

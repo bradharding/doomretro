@@ -1561,6 +1561,7 @@ dboolean V_ScreenShot(void)
 {
     dboolean    result = false;
     char        mapname[128];
+    char        *temp1;
     int         count = 0;
 
     if (consoleactive)
@@ -1599,16 +1600,18 @@ dboolean V_ScreenShot(void)
     else if (M_StringStartsWith(mapname, "A "))
         M_snprintf(mapname, sizeof(mapname), "%s, A", M_SubString(mapname, 2, strlen(mapname) - 2));
 
+    temp1 = makevalidfilename(mapname);
+
     do
     {
         if (!count)
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", makevalidfilename(mapname));
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", temp1);
         else
         {
-            char    *temp = commify(count);
+            char    *temp2 = commify(count);
 
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", makevalidfilename(mapname), temp);
-            free(temp);
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", temp1, temp2);
+            free(temp2);
         }
 
         count++;
@@ -1616,6 +1619,7 @@ dboolean V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s" DIR_SEPARATOR_S "%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
+    free(temp1);
     result = V_SavePNG(renderer, lbmpath1);
     lbmpath2[0] = '\0';
 
@@ -1623,11 +1627,10 @@ dboolean V_ScreenShot(void)
     {
         do
         {
-            char    *temp = commify(count++);
+            char    *temp2 = commify(count++);
 
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s" DIR_SEPARATOR_S "%s (%s).png",
-                screenshotfolder, makevalidfilename(mapname), temp);
-            free(temp);
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s" DIR_SEPARATOR_S "%s (%s).png", screenshotfolder, temp1, temp2);
+            free(temp2);
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(maprenderer, lbmpath2);

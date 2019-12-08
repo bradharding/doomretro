@@ -524,8 +524,8 @@ void P_InitCards(void)
                 if (viewplayer->cards[it_bluecard] == CARDNOTINMAP && viewplayer->cards[it_blueskull] == CARDNOTINMAP)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>BlueKeycard</b> or <b>BlueSkullKey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
-                free(temp);
 
+                free(temp);
                 break;
             }
 
@@ -540,6 +540,7 @@ void P_InitCards(void)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>RedKeycard</b> or <b>RedSkullKey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
 
+                free(temp);
                 break;
             }
 
@@ -554,6 +555,7 @@ void P_InitCards(void)
                     C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>YellowKeycard</b> or <b>YellowSkullKey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
 
+                free(temp);
                 break;
             }
         }
