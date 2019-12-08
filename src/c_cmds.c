@@ -5395,6 +5395,12 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
+            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+                playername, (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
+            buffer[0] = toupper(buffer[0]);
+            C_Obituary(buffer);
+            C_HideConsole();
+            HU_SetPlayerMessage(buffer, false, false);
             cheated = true;
         }
         else
@@ -5431,7 +5437,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
                 if (resurrected)
                 {
-                    char *temp = commify(resurrected);
+                    char    *temp = commify(resurrected);
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been resurrected.",
                         (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
@@ -5446,7 +5452,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             }
             else if (resurrectcmdmobj)
             {
-                char *temp = sentencecase(parm);
+                char    *temp = sentencecase(parm);
 
                 P_ResurrectMobj(resurrectcmdmobj);
 
@@ -5485,7 +5491,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
                 if (resurrected)
                 {
-                    char *temp = commify(resurrected);
+                    char    *temp = commify(resurrected);
 
                     M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s been resurrected.",
                         (resurrected == 1 ? "The" : "All"), temp, (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
