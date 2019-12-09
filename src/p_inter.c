@@ -151,6 +151,8 @@ void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 //
 static dboolean P_TakeAmmo(ammotype_t ammotype, int num)
 {
+    weapontype_t    readyweapon;
+
     if (ammotype == am_noammo)
         return false;
 
@@ -167,10 +169,30 @@ static dboolean P_TakeAmmo(ammotype_t ammotype, int num)
 
     viewplayer->ammo[ammotype] -= num;
 
-    if (ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
+    if (ammotype == weaponinfo[(readyweapon = viewplayer->readyweapon)].ammotype)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
-    P_CheckAmmo(viewplayer->readyweapon);
+    P_CheckAmmo(readyweapon);
+
+    if (viewplayer->pendingweapon != readyweapon)
+        C_HideConsole();
+
+    return true;
+}
+
+static dboolean P_TakeWeapon(weapontype_t weapon)
+{
+    weapontype_t    readyweapon;
+
+    if (!viewplayer->weaponowned[weapon])
+        return false;
+
+    viewplayer->weaponowned[weapon] = oldweaponsowned[weapon] = false;
+    P_CheckAmmo((readyweapon = viewplayer->readyweapon));
+
+    if (viewplayer->pendingweapon != readyweapon)
+        C_HideConsole();
+
     return true;
 }
 
@@ -1520,66 +1542,31 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // BFG-9000
         case MT_MISC25:
-            if (!viewplayer->weaponowned[wp_bfg])
-                return false;
-
-            viewplayer->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_bfg);
 
         // chaingun
         case MT_CHAINGUN:
-            if (!viewplayer->weaponowned[wp_chaingun])
-                return false;
-
-            viewplayer->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_chaingun);
 
         // chainsaw
         case MT_MISC26:
-            if (!viewplayer->weaponowned[wp_chainsaw])
-                return false;
-
-            viewplayer->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_chainsaw);
 
         // rocket launcher
         case MT_MISC27:
-            if (!viewplayer->weaponowned[wp_missile])
-                return false;
-
-            viewplayer->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_missile);
 
         // plasma rifle
         case MT_MISC28:
-            if (!viewplayer->weaponowned[wp_plasma])
-                return false;
-
-            viewplayer->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_plasma);
 
         // shotgun
         case MT_SHOTGUN:
-            if (!viewplayer->weaponowned[wp_shotgun])
-                return false;
-
-            viewplayer->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_shotgun);
 
         // super shotgun
         case MT_SUPERSHOTGUN:
-            if (!viewplayer->weaponowned[wp_supershotgun])
-                return false;
-
-            viewplayer->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = false;
-            P_CheckAmmo(viewplayer->readyweapon);
-            return true;
+            return P_TakeWeapon(wp_supershotgun);
 
         default:
             return false;
