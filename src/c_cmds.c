@@ -2298,6 +2298,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             return;
         }
         else
+        {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
                 dboolean    result = false;
@@ -2348,12 +2349,8 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                 if (result)
                     break;
-                else
-                {
-                    free(parm);
-                    return;
-                }
             }
+        }
 
         viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
