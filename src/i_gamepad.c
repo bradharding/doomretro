@@ -67,6 +67,7 @@ float                       gamepadhorizontalsensitivity;
 float                       gamepadverticalsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
+char                        gamepadactionlist[NUMGAMEPADCONTROLS][255];
 
 int                         barrelvibrationtics = 0;
 int                         damagevibrationtics = 0;

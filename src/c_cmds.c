@@ -1365,6 +1365,8 @@ void bind_cmd_func2(char *cmd, char *parms)
                 keyactionlist[controls[i].value][0] = '\0';
             else if (controls[i].type == mousecontrol)
                 mouseactionlist[controls[i].value][0] = '\0';
+            else if (controls[i].type == gamepadcontrol)
+                gamepadactionlist[controls[i].value][0] = '\0';
         }
         else if (!*parm2)
         {
@@ -1493,6 +1495,11 @@ void bind_cmd_func2(char *cmd, char *parms)
                     M_StringCopy(mouseactionlist[controls[i].value], parm2, sizeof(mouseactionlist[0]));
                     M_SaveCVARs();
                 }
+                else if (controls[i].type == gamepadcontrol)
+                {
+                    M_StringCopy(gamepadactionlist[controls[i].value], parm2, sizeof(gamepadactionlist[0]));
+                    M_SaveCVARs();
+                }
             }
         }
     }
@@ -1597,6 +1604,8 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
         }
         else if (controls[i].type == mousecontrol && mouseactionlist[value][0])
             C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, mouseactionlist[value]);
+        else if (controls[i].type == gamepadcontrol && gamepadactionlist[(int)sqrt(value)][0])
+            C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, gamepadactionlist[(int)sqrt(value)]);
     }
 }
 
@@ -3667,7 +3676,6 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
         const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
-        char                *temp;
 
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         temp = uppercase(lumpname);

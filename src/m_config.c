@@ -493,6 +493,8 @@ void M_SaveCVARs(void)
             SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
         else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
             SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
+        else if (controls[i].type == gamepadcontrol && gamepadactionlist[(int)sqrt(controls[i].value)][0])
+            SaveBind(file, controls[i].control, gamepadactionlist[controls[i].value]);
 
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
@@ -963,6 +965,12 @@ void M_LoadCVARs(char *filename)
 
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
+
+        for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
+            mouseactionlist[i][0] = '\0';
+
+        for (int i = 0; i < NUMGAMEPADCONTROLS; i++)
+            gamepadactionlist[i][0] = '\0';
     }
 
     while (!feof(file))
