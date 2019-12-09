@@ -2607,7 +2607,6 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
-    char    buffer[1024];
 
     if (!*parm)
     {
@@ -2616,6 +2615,8 @@ void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
+        char    buffer[1024];
+
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             viewplayer->health = 0;
@@ -2703,7 +2704,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    char *temp = commify(kills);
+                    char    *temp = commify(kills);
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "The " : "All "),
                         temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
@@ -2739,7 +2740,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    char *temp = commify(kills);
+                    char    *temp = commify(kills);
 
                     M_snprintf(buffer, sizeof(buffer), "%s %s missile%s %s exploded.", (kills == 1 ? "The" : "All"), temp,
                         (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
@@ -2757,7 +2758,7 @@ void kill_cmd_func2(char *cmd, char *parms)
             }
             else if (killcmdmobj)
             {
-                char *temp = sentencecase(parm);
+                char    *temp = sentencecase(parm);
 
                 killcmdmobj->flags2 |= MF2_MASSACRE;
                 P_DamageMobj(killcmdmobj, NULL, NULL, killcmdmobj->health, false);
@@ -3264,8 +3265,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             case doom:
                 if (!replaced || pwad)
                 {
-                    char    *temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
-
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
@@ -3280,16 +3280,14 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         if (!M_StringCompare(wadname, "DOOM2.WAD"))
                         {
-                            char    *temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>"));
-
+                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>"));
                             M_snprintf(maplist[count++], 256, "%s</b></i>\t%s", temp, wadname);
                             free(temp);
                         }
                     }
                     else
                     {
-                        char    *temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
-
+                        temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
                         M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
                         free(temp);
@@ -3301,8 +3299,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             case pack_nerve:
                 if (M_StringCompare(wadname, "NERVE.WAD"))
                 {
-                    char    *temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
-
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, temp, wadname);
                     free(temp);
                 }
@@ -3312,8 +3309,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             case pack_plut:
                 if (!replaced || pwad)
                 {
-                    char    *temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
-
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
@@ -3324,8 +3320,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             case pack_tnt:
                 if (!replaced || pwad)
                 {
-                    char    *temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
-
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
@@ -5072,6 +5067,12 @@ static void C_VerifyResetAll(const int key)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
+        for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
+            mouseactionlist[i][0] = '\0';
+
+        for (int i = 0; i < NUMGAMEPADCONTROLS; i++)
+            gamepadactionlist[i][0] = '\0';
+
         // reset stretched sky
         if (gamestate == GS_LEVEL)
         {
@@ -5379,7 +5380,6 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
     char        *parm = removenonalpha(parms);
-    char        buffer[1024];
     dboolean    cheated = false;
 
     if (!*parm)
@@ -5389,6 +5389,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
     }
     else
     {
+        char    buffer[1024];
+
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
@@ -5649,7 +5651,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         if (spawn)
         {
             mapthing_t  mthing;
-            mobj_t      *thing;
             fixed_t     x = viewx + 100 * viewcos;
             fixed_t     y = viewy + 100 * viewsin;
 
@@ -5662,6 +5663,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             }
             else
             {
+                mobj_t  *thing;
+
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
                 mthing.angle = 0;
@@ -5990,6 +5993,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             }
         }
         else
+        {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
                 char    *temp1 = removenonalpha(mobjinfo[i].name1);
@@ -6012,7 +6016,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                     }
 
                     result = true;
-                    break;
                 }
 
                 free(temp1);
@@ -6026,6 +6029,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (result)
                     break;
             }
+        }
 
         free(parm);
     }
