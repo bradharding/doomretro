@@ -168,8 +168,9 @@ static dboolean P_TakeAmmo(ammotype_t ammotype, int num)
         return false;
 
     viewplayer->ammo[ammotype] -= num;
+    readyweapon = viewplayer->readyweapon;
 
-    if (ammotype == weaponinfo[(readyweapon = viewplayer->readyweapon)].ammotype)
+    if (ammotype == weaponinfo[readyweapon].ammotype)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     P_CheckAmmo(readyweapon);
@@ -187,8 +188,10 @@ static dboolean P_TakeWeapon(weapontype_t weapon)
     if (!viewplayer->weaponowned[weapon])
         return false;
 
-    viewplayer->weaponowned[weapon] = oldweaponsowned[weapon] = false;
-    P_CheckAmmo((readyweapon = viewplayer->readyweapon));
+    viewplayer->weaponowned[weapon] = false;
+    oldweaponsowned[weapon] = false;
+    readyweapon = viewplayer->readyweapon;
+    P_CheckAmmo(readyweapon);
 
     if (viewplayer->pendingweapon != readyweapon)
         C_HideConsole();

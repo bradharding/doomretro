@@ -340,11 +340,12 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         else
         {
             int     truncate = len;
-            int     width;
             char    *temp;
 
             do
             {
+                int width;
+
                 temp = M_SubString(buffer, 0, truncate);
                 width = C_TextWidth(temp, true, true) + warningwidth + 12;
                 free(temp);
