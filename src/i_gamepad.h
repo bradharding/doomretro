@@ -41,8 +41,6 @@
 
 #include "doomtype.h"
 
-#define NUMGAMEPADCONTROLS              17
-
 #define GAMEPAD_A                       0x00000001
 #define GAMEPAD_B                       0x00000002
 #define GAMEPAD_X                       0x00000004
@@ -90,7 +88,6 @@ extern float    gamepadhorizontalsensitivity;
 extern float    gamepadverticalsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
-extern char     gamepadactionlist[NUMGAMEPADCONTROLS][255];
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

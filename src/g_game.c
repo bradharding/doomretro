@@ -842,11 +842,6 @@ dboolean G_Responder(event_t *ev)
                         gamepadpress = false;
                     }
                 }
-                else if (ev->data1 && gamepadactionlist[ev->data1 - 1][0] && wait < I_GetTime())
-                {
-                    wait = I_GetTime() + 7;
-                    C_ExecuteInputString(gamepadactionlist[ev->data1 - 1]);
-                }
             }
 
             return true;        // eat events

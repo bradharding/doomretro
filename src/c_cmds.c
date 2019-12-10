@@ -1365,8 +1365,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                 keyactionlist[controls[i].value][0] = '\0';
             else if (controls[i].type == mousecontrol)
                 mouseactionlist[controls[i].value][0] = '\0';
-            else if (controls[i].type == gamepadcontrol)
-                gamepadactionlist[controls[i].value][0] = '\0';
         }
         else if (!*parm2)
         {
@@ -1495,11 +1493,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                     M_StringCopy(mouseactionlist[controls[i].value], parm2, sizeof(mouseactionlist[0]));
                     M_SaveCVARs();
                 }
-                else if (controls[i].type == gamepadcontrol)
-                {
-                    M_StringCopy(gamepadactionlist[controls[i].value], parm2, sizeof(gamepadactionlist[0]));
-                    M_SaveCVARs();
-                }
             }
         }
     }
@@ -1604,8 +1597,6 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
         }
         else if (controls[i].type == mousecontrol && mouseactionlist[value][0])
             C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, mouseactionlist[value]);
-        else if (controls[i].type == gamepadcontrol && gamepadactionlist[(int)sqrt(value)][0])
-            C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, gamepadactionlist[(int)sqrt(value)]);
     }
 }
 
@@ -5077,9 +5068,6 @@ static void C_VerifyResetAll(const int key)
 
         for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
             mouseactionlist[i][0] = '\0';
-
-        for (int i = 0; i < NUMGAMEPADCONTROLS; i++)
-            gamepadactionlist[i][0] = '\0';
 
         // reset stretched sky
         if (gamestate == GS_LEVEL)
