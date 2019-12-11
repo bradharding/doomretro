@@ -646,7 +646,7 @@ consolecmd_t consolecmds[] =
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows statistics about the player."),
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
-        "Prints a player <i>message</i>."),
+        "Prints a player <b>\"</b><i>message</i><b>\"</b>."),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits <i><b>" PACKAGE_NAME "</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -4873,10 +4873,18 @@ static void playerstats_cmd_func2(char *cmd, char *parms)
 //
 static void print_cmd_func2(char *cmd, char *parms)
 {
-    C_PlayerMessage(parms);
+    if (!*parms)
+    {
+        C_ShowDescription(C_GetIndex(cmd));
+        C_Output("<b>%s</b> %s", cmd, PRINTCMDFORMAT);
+    }
+    else
+    {
+        C_PlayerMessage(parms);
 
-    if (gamestate == GS_LEVEL && !message_dontfuckwithme)
-        HU_SetPlayerMessage(parms, false, false);
+        if (gamestate == GS_LEVEL && !message_dontfuckwithme)
+            HU_SetPlayerMessage(parms, false, false);
+    }
 }
 
 //
