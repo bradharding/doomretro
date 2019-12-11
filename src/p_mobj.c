@@ -1358,7 +1358,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         type = (r_blood == r_blood_all && target->blood ? target->blood : MT_BLOOD);
+    int         type = (r_blood == r_blood_all && target->blood ? target->blood : (r_blood == r_blood_green ? MT_GREENBLOOD : MT_BLOOD));
     mobjinfo_t  *info = &mobjinfo[type];
     int         blood = info->blood;
     state_t     *st = &states[info->spawnstate];

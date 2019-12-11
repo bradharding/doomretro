@@ -10,6 +10,7 @@
 * A level 2 warning will now be displayed in the console if there’s a locked door with no keycard or skull key provided in the map to open it.
 * The visual glitch displayed when input is selected in the console while it is opening or closing is now fixed.
 * Once the `condump` CCMD is used to dump the current contents of the console to a file, every line of text that is output to the console thereafter will continue to be dumped to that same file automatically.
+* The `r_blood` CVAR can now be `green`, causing all blood spilled to be green.
 
 ---
 
