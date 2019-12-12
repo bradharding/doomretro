@@ -214,6 +214,8 @@ static mobj_t *P_IndexToThing(int index)
 //
 static void saveg_read_mobj_t(mobj_t *str)
 {
+    int state;
+
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->z = saveg_read32();
@@ -230,7 +232,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->momz = saveg_read32();
     str->type = (mobjtype_t)saveg_read_enum();
     str->tics = saveg_read32();
-    str->state = &states[saveg_read32()];
+
+    state = saveg_read32();
+    str->state = &states[(state >= 0 && state < NUMSTATES ? state : mobjinfo[str->type].spawnstate)];
+
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
     str->health = saveg_read32();
