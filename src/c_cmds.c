@@ -5425,7 +5425,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                         const int   flags = thing->flags;
 
                         if (all || !!(flags & MF_FRIEND) == friends)
-                            if ((flags & MF_CORPSE) && !(thing->flags2 & MF2_DECORATION) && thing->type != MT_PLAYER)
+                            if ((flags & MF_CORPSE) && !(thing->flags2 & MF2_DECORATION)
+                                && thing->type != MT_PLAYER && thing->info->raisestate != S_NULL)
                             {
                                 P_ResurrectMobj(thing);
                                 resurrected++;
@@ -5457,7 +5458,9 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             {
                 char    *temp = sentencecase(parm);
 
-                P_ResurrectMobj(resurrectcmdmobj);
+                if ((resurrectcmdmobj->flags & MF_CORPSE) && !(resurrectcmdmobj->flags2 & MF2_DECORATION)
+                    && resurrectcmdmobj->type != MT_PLAYER && resurrectcmdmobj->info->raisestate != S_NULL)
+                    P_ResurrectMobj(resurrectcmdmobj);
 
                 if (resurrectcmdmobj->flags & MF_FRIEND)
                     cheated = true;
@@ -5479,7 +5482,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
                     while (thing)
                     {
-                        if (type == thing->type && (thing->flags & MF_CORPSE))
+                        if (type == thing->type && (thing->flags & MF_CORPSE) && !(thing->flags2 & MF2_DECORATION)
+                            && type != MT_PLAYER && thing->info->raisestate != S_NULL)
                         {
                             P_ResurrectMobj(thing);
                             resurrected++;
