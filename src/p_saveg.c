@@ -232,10 +232,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->momz = saveg_read32();
     str->type = (mobjtype_t)saveg_read_enum();
     str->tics = saveg_read32();
-
-    state = saveg_read32();
-    str->state = &states[(state >= 0 && state < NUMSTATES ? state : mobjinfo[str->type].spawnstate)];
-
+    str->state = ((state = saveg_read32()) >= 0 && state < NUMSTATES ? &states[state] : NULL);
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
     str->health = saveg_read32();
@@ -1311,6 +1308,17 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
         thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
+    }
+}
+
+void P_RemoveCorruptMobjs(void)
+{
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t  *mo = (mobj_t *)th;
+
+        if (!mo->state)
+            P_RemoveMobj(mo);
     }
 }
 
