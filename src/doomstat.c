@@ -42,7 +42,7 @@
 GameMode_t      gamemode = indetermined;
 GameMission_t   gamemission = doom;
 GameVersion_t   gameversion = exe_final;
-char            *gamedescription;
+char            gamedescription[255];
 
 dboolean        sigil;
 dboolean        autosigil = false;
