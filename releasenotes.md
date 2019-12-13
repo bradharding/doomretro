@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If a mistyped filename is entered in the WAD launcher (for example, `doot` instead of `doom`), *DOOM Retro* will now try to find the closest match.
-* If hardware acceleration is unavailable, *DOOM Retro* will now default to scaling each frame using software rather than simply crashing at startup.
+* If hardware acceleration is unavailable, *DOOM Retro* will now change the `vid_scaleapi` CVAR to `software` and scale each frame using software, rather than simply crashing at startup.
 * Support has now been added for the use of [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps. This now completes *DOOM Retro’s* *MBF* compatibility.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to the character set used in the console.
@@ -11,6 +11,7 @@
 * The visual glitch displayed when input is selected in the console while it is opening or closing is now fixed.
 * Once the `condump` CCMD is used to dump the current contents of the console to a file, every line of text that is output to the console thereafter will continue to be dumped to that same file automatically.
 * The `r_blood` CVAR can now be `green`, causing all blood spilled to be green.
+* The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
 
 ---
 
