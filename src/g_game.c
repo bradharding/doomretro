@@ -875,7 +875,6 @@ void G_Ticker(void)
 
     // do things to change the game state
     while (gameaction != ga_nothing)
-    {
         switch (gameaction)
         {
             case ga_loadlevel:
@@ -913,28 +912,12 @@ void G_Ticker(void)
                 break;
 
             case ga_screenshot:
-                if (gamestate == GS_LEVEL && !idbehold && !(viewplayer->cheats & CF_MYPOS))
-                {
-                    HU_ClearMessages();
-                    D_Display();
-                    D_Display();
-                }
-
-                if (idbehold)
-                {
-                    C_Input(cheat_powerup[6].sequence);
-                    C_Output(s_STSTR_BEHOLD);
-                }
-
-                idbehold = false;
                 G_DoScreenShot();
-                gameaction = ga_nothing;
                 break;
 
             default:
                 break;
         }
-    }
 
     // get commands, check consistency,
     // and build new consistency check
@@ -1086,6 +1069,19 @@ void G_ScreenShot(void)
 
 void G_DoScreenShot(void)
 {
+    if (idbehold)
+    {
+        idbehold = false;
+        C_Input(cheat_powerup[6].sequence);
+        C_Output(s_STSTR_BEHOLD);
+    }
+    else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
+    {
+        HU_ClearMessages();
+        D_Display();
+        D_Display();
+    }
+
     if (V_ScreenShot())
     {
         static char buffer[512];
@@ -1103,6 +1099,8 @@ void G_DoScreenShot(void)
     }
     else
         C_Warning(0, "A screenshot couldn't be taken.");
+
+    gameaction = ga_nothing;
 }
 
 // DOOM Par Times
