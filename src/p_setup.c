@@ -2673,18 +2673,21 @@ void P_MapName(int ep, int map)
         if (pos)
         {
             int     index = (int)(pos - maptitle) + 1;
-            char    *temp = titlecase(maptitle);
+            char    *temp;
 
             if (M_StringStartsWith(maptitle, "LEVEL"))
             {
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, temp);
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
+
+                temp = titlecase(maptitle);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, temp);
             }
             else
             {
+                temp = titlecase(maptitle);
                 M_StringCopy(mapnumandtitle, temp, sizeof(mapnumandtitle));
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
