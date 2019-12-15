@@ -2534,7 +2534,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - translucent = %ld", value);
 
-            states[indexnum].translucent = value;               // bool
+            states[indexnum].translucent = !!value;             // bool
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else
@@ -3439,8 +3439,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         C_Output("Processing extended string substitution");
 
     if (!holdstring)
-        if (!(holdstring = malloc(maxstrlen * sizeof(*holdstring))))
-            return;
+        holdstring = malloc(maxstrlen * sizeof(*holdstring));
 
     *holdstring = '\0';                 // empty string to start with
     strncpy(inbuffer, line, DEH_BUFFERMAX);
