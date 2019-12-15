@@ -383,7 +383,7 @@ static dboolean PIT_CheckLine(line_t *ld)
 
         // killough 8/9/98: monster-blockers don't affect friends
         // [BH] monster-blockers don't affect corpses
-        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && !(tmthing->flags & MF_FRIEND) && (ld->flags & ML_BLOCKMONSTERS))
+        if (!(tmthing->flags & MF_FRIEND || tmthing->player) && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
     }
 
@@ -1264,7 +1264,7 @@ static void P_HitSlideLine(line_t *ld)
     {
         if (icyfloor && ABS(tmymove) > ABS(tmxmove))
         {
-            if (slidemo->player && slidemo->health > 0)
+            if (slidemo->health > 0)
                 S_StartSound(slidemo, sfx_oof);             // oooff!
 
             tmxmove /= 2;                                   // absorb half the momentum
@@ -1280,7 +1280,7 @@ static void P_HitSlideLine(line_t *ld)
     {
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
-            if (slidemo->player && slidemo->health > 0)
+            if (slidemo->health > 0)
                 S_StartSound(slidemo, sfx_oof);             // oooff!
 
             tmxmove = -tmxmove / 2;                         // absorb half the momentum
@@ -1310,7 +1310,7 @@ static void P_HitSlideLine(line_t *ld)
         tmxmove = FixedMul(movelen, finecosine[moveangle]);
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
-        if (slidemo->player && slidemo->health > 0)
+        if (slidemo->health > 0)
             S_StartSound(slidemo, sfx_oof);                 // oooff!
     }
     else

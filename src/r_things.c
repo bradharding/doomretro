@@ -1094,9 +1094,7 @@ void R_DrawPlayerSprites(void)
     if ((invisibility > STARTFLASHING || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251, false);
-
-        if (weapon->state)
-            R_DrawPlayerSprite(weapon, true, (weapon->state->dehacked || altered));
+        R_DrawPlayerSprite(weapon, true, (weapon->state->dehacked || altered));
 
         if (flash->state)
             R_DrawPlayerSprite(flash, true, (flash->state->dehacked || altered));
@@ -1108,15 +1106,8 @@ void R_DrawPlayerSprites(void)
     }
     else
     {
-        muzzleflash = false;
-
-        if (weapon->state && (weapon->state->frame & FF_FULLBRIGHT))
-            muzzleflash = true;
-        else if (flash->state && (flash->state->frame & FF_FULLBRIGHT))
-            muzzleflash = true;
-
-        if (weapon->state)
-            R_DrawPlayerSprite(weapon, false, (weapon->state->dehacked || altered));
+        muzzleflash = ((weapon->state->frame & FF_FULLBRIGHT) || (flash->state && (flash->state->frame & FF_FULLBRIGHT)));
+        R_DrawPlayerSprite(weapon, false, (weapon->state->dehacked || altered));
 
         if (flash->state)
             R_DrawPlayerSprite(flash, false, (flash->state->dehacked || altered));
