@@ -6121,7 +6121,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
         char    name[100];
-        char    *temp1 = commify(mobj->id);
+        char    *temp1;
         char    *temp2;
 
         if (*mobj->name)
@@ -6132,7 +6132,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
                 (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : mobj->info->name1));
 
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : ""), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? (temp1 = commify(mobj->id)) : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);

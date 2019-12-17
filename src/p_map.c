@@ -2147,11 +2147,11 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
         for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
             if (!n->visited)                                        // unprocessed thing found
             {
-                mobj_t  *mobj;
+                mobj_t  *mobj = n->m_thing;
 
                 n->visited = true;                                  // mark thing as processed
 
-                if ((mobj = n->m_thing) && !(mobj->flags & MF_NOBLOCKMAP))
+                if (mobj && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                         // process it
 
                 break;                                              // exit and start over
