@@ -543,7 +543,7 @@ static char *SaveGameIWADName(void)
         if (gamemission == iwads[i].mission)
             return iwads[i].name;
 
-    return NULL;
+    return "unknown";
 }
 
 //
@@ -562,12 +562,8 @@ void D_SetSaveGameFolder(dboolean output)
     }
     else
     {
-        char    *iwad_name = SaveGameIWADName();
         char    *appdatafolder = M_GetAppDataFolder();
         char    *savegamefolder_free;
-
-        if (!iwad_name)
-            iwad_name = "unknown";
 
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
@@ -576,13 +572,13 @@ void D_SetSaveGameFolder(dboolean output)
 
         if (*pwadfile)
         {
-            char    *wad = removeext(pwadfile);
+            char    *temp = removeext(pwadfile);
 
-            savegamefolder = M_StringJoin(savegamefolder, wad, DIR_SEPARATOR_S, NULL);
-            free(wad);
+            savegamefolder = M_StringJoin(savegamefolder, temp, DIR_SEPARATOR_S, NULL);
+            free(temp);
         }
         else
-            savegamefolder = M_StringJoin(savegamefolder, iwad_name, DIR_SEPARATOR_S, NULL);
+            savegamefolder = M_StringJoin(savegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
 #if !defined(__APPLE__)
         free(appdatafolder);

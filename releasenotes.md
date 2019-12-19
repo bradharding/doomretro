@@ -2,8 +2,8 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If a mistyped filename is entered in the WAD launcher (for example, `doot` instead of `doom`), *DOOM Retro* will now try to find the closest match.
-* If hardware acceleration is unavailable, *DOOM Retro* will now change the `vid_scaleapi` CVAR to `software` and scale each frame using software, rather than simply crashing at startup.
-* *DOOM Retro* is now fully [*MBF*](https://doomwiki.org/wiki/MBF)-compatible. Support has now been added to `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps.
+* If hardware acceleration is unavailable, *DOOM Retro* will now change the `vid_scaleapi` CVAR to `software` and scale each frame using accordingly, rather than simply crashing during startup.
+* *DOOM Retro* is now fully [*MBF*](https://doomwiki.org/wiki/MBF)-compatible, as support has been added to `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
@@ -14,7 +14,7 @@
 * The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
 * The `episode` CVAR will now be updated if the player finishes episode 4 and *SIGIL* is loaded.
 * The `thinglist` CCMD now indicates if a thing has been dropped by a monster.
-* A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are on the command-line.
+* A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are specified on the command-line.
 
 ---
 
