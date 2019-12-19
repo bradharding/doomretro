@@ -573,7 +573,16 @@ void D_SetSaveGameFolder(dboolean output)
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
         savegamefolder_free = savegamefolder;
-        savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
+
+        if (*pwadfile)
+        {
+            char    *wad = removeext(pwadfile);
+
+            savegamefolder = M_StringJoin(savegamefolder, wad, DIR_SEPARATOR_S, NULL);
+            free(wad);
+        }
+        else
+            savegamefolder = M_StringJoin(savegamefolder, iwad_name, DIR_SEPARATOR_S, NULL);
 
 #if !defined(__APPLE__)
         free(appdatafolder);
