@@ -360,7 +360,7 @@ void S_Start(void)
 // original implementation idea: <https://www.doomworld.com/forum/topic/1585325>
 void S_UnlinkSound(mobj_t *origin)
 {
-    if (!origin->madesound)
+    if (!origin->madesound || nosfx)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)

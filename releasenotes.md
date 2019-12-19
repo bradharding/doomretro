@@ -14,6 +14,7 @@
 * The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
 * The `episode` CVAR will now be updated if the player finishes episode 4 and *SIGIL* is loaded.
 * The `thinglist` CCMD now indicates if a thing has been dropped by a monster.
+* A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are on the command-line.
 
 ---
 
