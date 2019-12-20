@@ -477,7 +477,7 @@ void R_DrawSkyColumn(void)
 
         if (!(dc_texheight & heightmask))
         {
-            heightmask = (heightmask << FRACBITS) | 0xFFFF;
+            heightmask = ((heightmask << FRACBITS) | 0xFFFF);
 
             while ((y -= 2) >= 0)
             {
@@ -1221,13 +1221,13 @@ void R_InitBuffer(int width, int height)
         ylookup1[i] = screens[1] + y;
     }
 
-    for (int y = 1; y < SCREENHEIGHT - 1; y++)
-        for (int x = 0; x < SCREENWIDTH; x++)
-            fuzztable[y * SCREENWIDTH + x] = FUZZ(-1, 1);
-
     for (int x = 0; x < SCREENWIDTH; x++)
     {
         fuzztable[x] = FUZZ(0, 1);
+
+        for (int y = 1; y < SCREENHEIGHT - 1; y++)
+            fuzztable[y * SCREENWIDTH + x] = FUZZ(-1, 1);
+
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
     }
 }

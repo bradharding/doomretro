@@ -2223,7 +2223,7 @@ void P_ResurrectMobj(mobj_t *target)
 
     target->height = info->height;
     target->radius = info->radius;
-    target->flags = info->flags | (target->flags & MF_FRIEND);
+    target->flags = (info->flags | (target->flags & MF_FRIEND));
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;

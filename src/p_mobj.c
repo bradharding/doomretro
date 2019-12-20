@@ -396,9 +396,9 @@ static void P_ZMovement(mobj_t *mo)
                 {
                     mo->momz = ((flags & MF_FLOAT) ?        // floaters fall slowly
                         ((flags & MF_DROPOFF) ?             // DROPOFF indicates rate
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .85)) :
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .70))) :
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * .45)));
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.85)) :
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.70))) :
+                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.45)));
 
                     // Bring it to rest below a certain speed
                     if (ABS(mo->momz) <= mo->info->mass * (GRAVITY * 4 / 256))
