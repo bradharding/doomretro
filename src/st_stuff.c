@@ -675,7 +675,7 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // 'behold?' power-up cheats
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 7; i++)
             {
                 if (cht_CheckCheat(&cheat_powerup[i - 1], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
