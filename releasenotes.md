@@ -1,9 +1,9 @@
 ### DOOM Retro v3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If a mistyped filename is entered in the WAD launcher (for example, `doot` instead of `doom`), *DOOM Retro* will now try to find the closest match.
+* If a mistyped filename is entered in the WAD launcher (for example, `doot.wad` instead of `doom.wad`), *DOOM Retro* will now try to find the closest match.
 * If hardware acceleration is unavailable, *DOOM Retro* will now change the `vid_scaleapi` CVAR to `software` and scale each frame using accordingly, rather than simply crashing during startup.
-* *DOOM Retro* is now fully [*MBF*](https://doomwiki.org/wiki/MBF)-compatible, as support has been added to `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps.
+* *DOOM Retro* is now fully [*MBF*](https://doomwiki.org/wiki/MBF)-compatible, as support has now been added to `BOUNCES` and `TOUCHY` flags in *DeHackEd* lumps.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.

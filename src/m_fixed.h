@@ -41,7 +41,6 @@
 
 #define CHARBIT 8
 
-
 #if defined(ABS)
 #undef ABS
 #endif

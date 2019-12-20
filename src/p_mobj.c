@@ -385,7 +385,7 @@ static void P_ZMovement(mobj_t *mo)
         mo->z += mo->momz;
 
         if (mo->z <= mo->floorz)                            // bounce off floors
-        {                
+        {
             mo->z = mo->floorz;
 
             if (mo->momz < 0)
@@ -876,9 +876,9 @@ int         iquetail;
 void P_RemoveMobj(mobj_t *mobj)
 {
     int         flags = mobj->flags;
-    mobjtype_t  type = mobj->type;
+    mobjtype_t  type;
 
-    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && type != MT_INV && type != MT_INS)
+    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && (type = mobj->type) != MT_INV && type != MT_INS)
     {
         itemrespawnque[iquehead] = mobj->spawnpoint;
         itemrespawntime[iquehead] = leveltime;
