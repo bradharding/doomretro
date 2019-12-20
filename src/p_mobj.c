@@ -918,6 +918,13 @@ void P_RemoveBloodMobj(mobj_t *mobj)
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
+    // Delete all nodes on the current sector_list
+    if (sector_list)
+    {
+        P_DelSeclist(sector_list);
+        sector_list = NULL;
+    }
+
     // free block
     P_RemoveThinker((thinker_t *)mobj);
 }
