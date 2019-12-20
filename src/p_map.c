@@ -1433,7 +1433,7 @@ void P_SlideMove(mobj_t *mo)
         {
             // the move must have hit the middle, so stairstep
 
-        stairstep:
+stairstep:
             // killough 3/15/98: Allow objects to drop off ledges
             // phares 5/4/98: kill momentum if you can't move at all
             if (!P_TryMove(mo, mo->x, mo->y + mo->momy, 1))

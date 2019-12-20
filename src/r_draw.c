@@ -1225,8 +1225,8 @@ void R_InitBuffer(int width, int height)
     {
         fuzztable[x] = FUZZ(0, 1);
 
-        for (int y = 1; y < SCREENHEIGHT - 1; y++)
-            fuzztable[y * SCREENWIDTH + x] = FUZZ(-1, 1);
+        for (int y = SCREENWIDTH; y < SCREENWIDTH * (SCREENHEIGHT - 1); y += SCREENWIDTH)
+            fuzztable[y + x] = FUZZ(-1, 1);
 
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
     }

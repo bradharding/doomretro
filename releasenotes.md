@@ -12,7 +12,7 @@
 * Once the `condump` CCMD is used to dump the current contents of the console to a file, every line of text that is output to the console thereafter will continue to be dumped to that same file automatically.
 * The `r_blood` CVAR can now be `green`, causing all blood spilled to be green.
 * The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
-* The `episode` CVAR will now be updated if the player finishes episode 4 and *SIGIL* is loaded.
+* The `episode` CVAR will now be updated if the player finishes episode 4 and [*SIGIL*](https://www.romerogames.ie/si6il) is loaded.
 * The `thinglist` CCMD now indicates if a thing has been dropped by a monster.
 * A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are specified on the command-line.
 
