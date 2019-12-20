@@ -6131,8 +6131,9 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
                 (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : mobj->info->name1));
 
+        temp1 = commify(mobj->id);
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? (temp1 = commify(mobj->id)) : "-"), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);
