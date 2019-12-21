@@ -690,12 +690,14 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         if (!serverMidiPlaying)
 #endif
         {
-            char    *filename = M_TempFile(M_StringJoin(namebuf, ".mp3", NULL));
+            char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
+            char    *path = M_TempFile(filename);
 
-            if (M_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
-                handle = Mix_LoadMUS(filename);
+            if (M_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
+                handle = Mix_LoadMUS(path);
 
             free(filename);
+            free(path);
 
             if (!handle)
             {
