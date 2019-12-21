@@ -1150,13 +1150,46 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed;
 }
 
+int G_GetParTime(int ep, int map)
+{
+    int par = P_GetMapPar((ep - 1) * 10 + map);
+
+    if (par)
+        return par;
+    else
+    {
+        char    lump[5];
+
+        // [BH] have no par time if this level is from a PWAD
+        if (gamemode == commercial)
+            M_snprintf(lump, sizeof(lump), "MAP%02i", map);
+        else
+            M_snprintf(lump, sizeof(lump), "E%iM%i", ep, map);
+
+        if (BTSX || (W_CheckMultipleLumps(lump) > 1 && (!nerve || map > 9) && !FREEDOOM))
+            return 0;
+        else if (gamemode == commercial)
+        {
+            // [BH] get correct par time for No Rest For The Living
+            //  and have no par time for TNT and Plutonia
+            if (gamemission == pack_nerve && map <= 9)
+                return npars[map - 1];
+            else if (gamemission == pack_tnt || gamemission == pack_plut)
+                return 0;
+            else
+                return cpars[map - 1];
+        }
+        else
+           return pars[ep][map];
+    }
+}
+
 extern int  episode;
 
 static void G_DoCompleted(void)
 {
     int map = (gameepisode - 1) * 10 + gamemap;
     int nextmap = P_GetMapNext(map);
-    int par = P_GetMapPar(map);
     int secretnextmap = P_GetMapSecretNext(map);
 
     gameaction = ga_nothing;
@@ -1312,36 +1345,7 @@ static void G_DoCompleted(void)
     wminfo.maxkills = totalkills;
     wminfo.maxitems = totalitems;
     wminfo.maxsecret = totalsecret;
-
-    if (par)
-        wminfo.partime = TICRATE * par;
-    else
-    {
-        char    lump[5];
-
-        // [BH] have no par time if this level is from a PWAD
-        if (gamemode == commercial)
-            M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
-        else
-            M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
-
-        if (BTSX || (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM))
-            wminfo.partime = 0;
-        else if (gamemode == commercial)
-        {
-            // [BH] get correct par time for No Rest For The Living
-            //  and have no par time for TNT and Plutonia
-            if (gamemission == pack_nerve && gamemap <= 9)
-                wminfo.partime = TICRATE * npars[gamemap - 1];
-            else if (gamemission == pack_tnt || gamemission == pack_plut)
-                wminfo.partime = 0;
-            else
-                wminfo.partime = TICRATE * cpars[gamemap - 1];
-        }
-        else
-            wminfo.partime = TICRATE * pars[gameepisode][gamemap];
-    }
-
+    wminfo.partime = G_GetParTime(gameepisode, gamemap) * TICRATE;
     wminfo.skills = (totalkills ? viewplayer->killcount : 1);
     wminfo.sitems = (totalitems ? viewplayer->itemcount : 1);
     wminfo.ssecret = viewplayer->secretcount;

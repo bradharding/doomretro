@@ -75,6 +75,8 @@ void G_SaveGame(int slot, char *description, char *name);
 void G_ExitLevel(void);
 void G_SecretExitLevel(void);
 
+int G_GetParTime(int ep, int map);
+
 void G_WorldDone(void);
 
 // Read current data from inputs and build a player movement command.
