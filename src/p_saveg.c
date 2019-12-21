@@ -1311,17 +1311,6 @@ void P_RestoreTargets(void)
     }
 }
 
-void P_RemoveCorruptMobjs(void)
-{
-    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-    {
-        mobj_t  *mo = (mobj_t *)th;
-
-        if (!mo->state)
-            P_RemoveMobj(mo);
-    }
-}
-
 //
 // P_ArchiveSpecials
 //
