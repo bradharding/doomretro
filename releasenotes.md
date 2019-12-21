@@ -2,7 +2,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The `mapstats` CCMD now displays the par time of the current map.
+* The following changes have been made to the `mapstats` CCMD:
+  * The par time of the current map is now displayed.
+  * Improvements have been made to how *BOOM* and *MBF* compatibility is detected.
 
 ---
 
