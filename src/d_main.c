@@ -1133,7 +1133,15 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
             // if WAD doesn't exist (that is, entered manually and may be partial filename), look for best match
             if (!M_FileExists(file))
-                file = W_NearestFilename(folder, leafname(file));
+            {
+                char    *temp = W_NearestFilename(folder, leafname(file));
+
+                if (!M_StringCompare(leafname(temp), leafname(file)))
+                    C_Warning(1, "<b>%s</b> couldn't be found. Did you mean <b>%s</b>?", leafname(file), leafname(temp));
+
+                file = M_StringDuplicate(temp);
+                free(temp);
+            }
 
             wad = M_StringDuplicate(file);
 #endif
