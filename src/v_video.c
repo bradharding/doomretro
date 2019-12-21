@@ -1466,15 +1466,16 @@ void V_LowGraphicDetail(void)
 
 void V_InvertScreen(void)
 {
-    int width = viewwindowx + viewwidth;
-    int height = (viewwindowy + viewheight) * SCREENWIDTH;
+    int             width = viewwindowx + viewwidth;
+    int             height = (viewwindowy + viewheight) * SCREENWIDTH;
+    lighttable_t    *colormap = colormaps[0];
 
     for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         for (int x = viewwindowx; x < width; x++)
         {
             byte    *dot = *screens + y + x;
 
-            *dot = colormaps[0][32 * 256 + *dot];
+            *dot = *(colormap + 32 * 256 + *dot);
         }
 }
 
