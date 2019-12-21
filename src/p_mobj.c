@@ -384,9 +384,9 @@ static void P_ZMovement(mobj_t *mo)
     {
         mo->z += mo->momz;
 
-        if (mo->z <= mo->floorz)                            // bounce off floors
+        if (mo->z <= floorz)                                // bounce off floors
         {
-            mo->z = mo->floorz;
+            mo->z = floorz;
 
             if (mo->momz < 0)
             {
@@ -632,7 +632,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
         mo->flags |= MF_AMBUSH;
 
     // killough 11/98: transfer friendliness from deceased
-    mo->flags = (mo->flags & ~MF_FRIEND) | (mobj->flags & MF_FRIEND);
+    mo->flags = ((mo->flags & ~MF_FRIEND) | (mobj->flags & MF_FRIEND));
 
     mo->reactiontime = 18;
 
@@ -902,9 +902,12 @@ void P_RemoveMobj(mobj_t *mobj)
         sector_list = NULL;
     }
 
-    P_SetTarget(&mobj->target, NULL);
-    P_SetTarget(&mobj->tracer, NULL);
-    P_SetTarget(&mobj->lastenemy, NULL);
+    if (flags & MF_SHOOTABLE)
+    {
+        P_SetTarget(&mobj->target, NULL);
+        P_SetTarget(&mobj->tracer, NULL);
+        P_SetTarget(&mobj->lastenemy, NULL);
+    }
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
