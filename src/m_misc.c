@@ -200,7 +200,7 @@ char *M_GetResourceFolder(void)
     char    *executablefolder = M_GetExecutableFolder();
 
 #if !defined(_WIN32)
-    // On Linux and macOS, first assume that the executable is in .../bin and
+    // On Linux and macOS, first assume that the executable is in ../bin and
     // try to load resources from ../share/doomretro.
     char    *resourcefolder = M_StringJoin(executablefolder,
                 DIR_SEPARATOR_S ".." DIR_SEPARATOR_S "share" DIR_SEPARATOR_S PACKAGE, NULL);

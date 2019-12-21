@@ -235,7 +235,7 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
             return false;
     }
 
-    // Reactivate in-stasis ceilings...for certain types.
+    // Reactivate in-stasis ceilings... for certain types.
     switch (type)
     {
         case fastCrushAndRaise:

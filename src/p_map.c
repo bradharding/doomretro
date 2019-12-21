@@ -482,9 +482,9 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         && (tmflags & MF_SOLID)                                 // solid object touches it
         && thing->health > 0                                    // touchy object is alive
         && ((thing->flags3 & MF3_ARMED)                         // Thing is an armed mine
-            || sentient(thing))                                 // ... or a sentient thing
+            || sentient(thing))                                 // ...or a sentient thing
         && (thing->type != tmthing->type                        // only different species
-            || thing->type == MT_PLAYER)                        // ... or different players
+            || thing->type == MT_PLAYER)                        // ...or different players
         && thing->z + thing->height >= tmthing->z               // touches vertically
         && tmthing->z + tmthing->height >= thing->z
         && ((type ^ MT_PAIN) | (tmthing->type ^ MT_SKULL))      // PEs and lost souls are considered same

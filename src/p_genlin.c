@@ -849,7 +849,7 @@ dboolean EV_DoGenCrusher(line_t *line)
             return false;
     }
 
-    // jff 2/22/98  Reactivate in-stasis ceilings...for certain types.
+    // jff 2/22/98  Reactivate in-stasis ceilings... for certain types.
     // jff 4/5/98 return if activated
     rtn = P_ActivateInStasisCeiling(line);
 
