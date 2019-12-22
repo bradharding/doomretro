@@ -133,13 +133,13 @@ static int *gamepadweapons[] =
 
 #define SLOWTURNTICS    6
 
-dboolean        gamekeydown[NUMKEYS];
-char            keyactionlist[NUMKEYS][255];
+dboolean        gamekeydown[NUMKEYS] = { 0 };
+char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
 static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
 dboolean        *mousebuttons = &mousearray[1]; // allow [-1]
-char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
+char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255] = { "" };
 
 dboolean        skipaction = false;
 
