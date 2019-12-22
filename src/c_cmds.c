@@ -3501,7 +3501,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int partime = G_GetParTime(gameepisode, gamemap);
 
         if (partime)
-            C_TabbedOutput(tabs, "Par time\t<b>%.2i:%.2i</b>", partime / 60, partime % 60);
+            C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", partime / 60, partime % 60);
     }
 
     temp = commify(numthings);
@@ -4272,7 +4272,7 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        temp1 = titlecase(*skilllevels[favorite]);
+        temp1 = sentencecase(*skilllevels[favorite]);
 
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';

@@ -795,10 +795,10 @@ static void WI_InitStats(void)
     if (totalsecret)
         C_TabbedOutput(tabs, "Secrets\t<b>%i%%</b>", (wbs->ssecret * 100) / wbs->maxsecret);
 
-    C_TabbedOutput(tabs, "Time\t<b>%.2i:%.2i</b>", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
+    C_TabbedOutput(tabs, "Time\t<b>%02i:%02i</b>", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par time\t<b>%.2i:%.2i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
+        C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_InitAnimatedBack();
 }
