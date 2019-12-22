@@ -1753,9 +1753,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 
                         C_Obituary("%s %s %s with their %s%s.",
                             temp,
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
-                                (M_StringCompare(targetname, "\x44\x6F\x6E\x61\x6C\x64\x20\x54\x72\x75\x6D\x70") ?
-                                "\x69\x6D\x70\x65\x61\x63\x68\x65\x64" : "killed"))),
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
                             weaponinfo[readyweapon].description,
                             (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
