@@ -54,7 +54,7 @@
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);
 dboolean CacheSFX(sfxinfo_t *sfxinfo);
-void I_UpdateSoundParams(int channel, int vol, int sep);
+void I_UpdateSoundParms(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int channel);
 dboolean I_SoundIsPlaying(int channel);

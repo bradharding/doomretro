@@ -46,9 +46,9 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_setup.h"
-#include "w_wad.h"
 #include "s_sound.h"
 #include "sc_man.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 // when to clip out sounds
@@ -422,7 +422,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParams(mobj_t *origin, int *vol, int *sep)
+static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     fixed_t     adx, ady;
@@ -500,7 +500,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
 
     // Check to see if it is audible, and if not, modify the parms
     if (origin && origin != viewplayer->mo)
-        if (!S_AdjustSoundParams(origin, &volume, &sep))
+        if (!S_AdjustSoundParms(origin, &volume, &sep))
             return;
 
     // kill old sound
@@ -615,10 +615,10 @@ void S_UpdateSounds(void)
                         volume = snd_SfxVolume;
                 }
 
-                if (!S_AdjustSoundParams(origin, &volume, &sep))
+                if (!S_AdjustSoundParms(origin, &volume, &sep))
                     S_StopChannel(cnum);
                 else
-                    I_UpdateSoundParams(c->handle, volume, sep);
+                    I_UpdateSoundParms(c->handle, volume, sep);
             }
         }
         else
