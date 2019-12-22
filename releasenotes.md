@@ -5,6 +5,7 @@
 * The following changes have been made to the `mapstats` CCMD:
   * The par time of the current map is now displayed.
   * Improvements have been made to how *BOOM* and *MBF* compatibility is detected.
+* Widescreen mode will now always retain its aspect ratio after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle fullscreen.
 
 ---
 
