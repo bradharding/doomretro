@@ -1385,7 +1385,7 @@ static void SetVideoMode(dboolean output)
     GetWindowSize();
     GetScreenResolution();
 
-    if (M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+    if (M_StringStartsWith(vid_scaleapi, "opengl"))
         windowflags |= SDL_WINDOW_OPENGL;
 
     if (vid_fullscreen)
@@ -1541,6 +1541,7 @@ static void SetVideoMode(dboolean output)
             {
                 C_Warning(1, "<i>" PACKAGE_NAME "</i> requires at least <i>OpenGL v2.1</i>.");
 
+#if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
@@ -1548,6 +1549,7 @@ static void SetVideoMode(dboolean output)
                 if (output)
                     C_Output("This is now done in hardware using <i><b>Direct3D %s</b></i>.",
                         (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+#endif
             }
             else
             {
@@ -1561,24 +1563,7 @@ static void SetVideoMode(dboolean output)
                 }
             }
         }
-#if !defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
-        {
-            if (output)
-                C_Output("This is done in hardware using <i><b>OpenGL ES</b></i>.");
-        }
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
-        {
-            if (output)
-                C_Output("This is done in hardware using <i><b>OpenGL ES 2</b></i>.");
-        }
-#elif defined(__APPLE__)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
-        {
-            if (output)
-                C_Output("This is done in hardware using <i><b>Metal</b></i>.");
-        }
-#endif
+#if defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
@@ -1591,6 +1576,24 @@ static void SetVideoMode(dboolean output)
                 M_SaveCVARs();
             }
         }
+#elif defined(__APPLE__)
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
+        {
+            if (output)
+                C_Output("This is done in hardware using <i><b>Metal</b></i>.");
+        }
+#else
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
+        {
+            if (output)
+                C_Output("This is done in hardware using <i><b>OpenGL ES</b></i>.");
+        }
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
+        {
+            if (output)
+                C_Output("This is done in hardware using <i><b>OpenGL ES 2</b></i>.");
+        }
+#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
             software = true;
@@ -1640,7 +1643,7 @@ static void SetVideoMode(dboolean output)
             {
                 refreshrate = displaymode.refresh_rate;
 
-                if (M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+                if (M_StringStartsWith(vid_scaleapi, "opengl"))
                     SDL_GL_SetSwapInterval(-1);
 
                 if (refreshrate < vid_capfps || !vid_capfps)
