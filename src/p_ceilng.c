@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "m_config.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
@@ -46,7 +47,7 @@
 // the list of ceilings moving currently, including crushers
 ceilinglist_t   *activeceilings;
 
-static void T_GradualLightingToCeiling(ceiling_t *ceiling)
+static void P_GradualLightingToCeiling(ceiling_t *ceiling)
 {
     sector_t    *sector = ceiling->sector;
     fixed_t     level = ceiling->topheight - sector->floorheight;
@@ -86,7 +87,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
 
-            T_GradualLightingToCeiling(ceiling);
+            if (r_graduallighting)
+                P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
             {
@@ -141,7 +143,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
                 }
 
-            T_GradualLightingToCeiling(ceiling);
+            if (r_graduallighting)
+                P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
             {

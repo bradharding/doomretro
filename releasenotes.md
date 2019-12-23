@@ -7,6 +7,7 @@
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
 * Widescreen mode will now always retain its aspect ratio after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window.
 * The default of the `vid_scalefilter` CVAR is now `“nearest_linear”`.
+* The `r_graduallighting` CVAR has been implemented to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
 
 ---
 

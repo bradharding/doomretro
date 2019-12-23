@@ -67,6 +67,7 @@ r_fixspriteoffsets off
 r_floatbob off
 r_fov 90
 r_gamma off
+r_graduallighting off
 r_homindicator off
 r_hud off
 r_hud_translucency off

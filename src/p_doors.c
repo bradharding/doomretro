@@ -46,6 +46,8 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
+dboolean    r_graduallighting = r_graduallighting_default;
+
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
     sector_t    *sec = door->sector;
@@ -130,7 +132,8 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            T_GradualLightingToDoor(door);
+            if (r_graduallighting)
+                T_GradualLightingToDoor(door);
 
             if (res == pastdest)
             {
@@ -199,7 +202,8 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            T_GradualLightingToDoor(door);
+            if (r_graduallighting)
+                T_GradualLightingToDoor(door);
 
             if (res == pastdest)
             {

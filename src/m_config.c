@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    179
+#define NUMCVARS                                    180
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -151,6 +151,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_floatbob,                                        BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_fov,                                             NOVALUEALIAS       ),
     CONFIG_VARIABLE_FLOAT        (r_gamma,                                           GAMMAVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_graduallighting,                                 BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_homindicator,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud,                                             BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud_translucency,                                BOOLVALUEALIAS     ),
@@ -763,6 +764,9 @@ static void M_CheckCVARs(void)
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
+
+    if (r_graduallighting != false && r_graduallighting != true)
+        r_graduallighting = r_graduallighting_default;
 
     if (r_homindicator != false && r_homindicator != true)
         r_homindicator = r_homindicator_default;

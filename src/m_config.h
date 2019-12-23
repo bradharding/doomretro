@@ -120,6 +120,7 @@ extern dboolean     r_fixspriteoffsets;
 extern dboolean     r_floatbob;
 extern int          r_fov;
 extern float        r_gamma;
+extern dboolean     r_graduallighting;
 extern dboolean     r_homindicator;
 extern dboolean     r_hud;
 extern dboolean     r_hud_translucency;
@@ -508,6 +509,8 @@ enum
 #define r_gamma_min                             gammalevels[0]
 #define r_gamma_default                         0.90f
 #define r_gamma_max                             gammalevels[GAMMALEVELS - 1]
+
+#define r_graduallighting_default               true
 
 #define r_homindicator_default                  false
 
