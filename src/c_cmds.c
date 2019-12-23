@@ -7933,8 +7933,10 @@ static void vid_pillarboxes_cvar_func2(char *cmd, char *parms)
 //
 static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
 {
-    return (!*parms || M_StringCompare(parms, vid_scaleapi_direct3d)
-#if defined(__APPLE__)
+    return (!*parms
+#if defined(_WIN32)
+        || M_StringCompare(parms, vid_scaleapi_direct3d)
+#elif defined(__APPLE__)
         || M_StringCompare(parms, vid_scaleapi_metal)
 #endif
         || M_StringCompare(parms, vid_scaleapi_opengl)
