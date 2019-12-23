@@ -867,16 +867,18 @@ static void M_CheckCVARs(void)
     if (vid_pillarboxes != false && vid_pillarboxes != true)
         vid_pillarboxes = vid_pillarboxes_default;
 
-    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
+    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
+#if defined(_WIN32)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
+#endif
 #if defined(__APPLE__)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_metal)
 #endif
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
 #if !defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
 #endif
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_software))
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
         vid_scaleapi = vid_scaleapi_default;
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
