@@ -1582,7 +1582,8 @@ static void SetVideoMode(dboolean output)
             if (output)
                 C_Output("This is done in hardware using <i><b>Metal</b></i>.");
         }
-#else
+#endif
+#if !defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
