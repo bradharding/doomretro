@@ -1158,7 +1158,7 @@ int G_GetParTime(int ep, int map)
         return par;
     else
     {
-        char    lump[5];
+        char    lump[6];
 
         // [BH] have no par time if this level is from a PWAD
         if (gamemode == commercial)
