@@ -1203,11 +1203,6 @@ static void G_DoCompleted(void)
         ST_Drawer(false, true);
     }
 
-    // [BH] allow the exit switch to turn on before the screen wipes
-    viewplayer->mo->momx = 0;
-    viewplayer->mo->momy = 0;
-    viewplayer->mo->momz = 0;
-    R_RenderPlayerView();
     I_Sleep(700);
 
     G_PlayerFinishLevel();      // take away cards and stuff
