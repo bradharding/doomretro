@@ -6,10 +6,10 @@
   * The par time of the current map is now displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
 * A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window.
-* The default of the `vid_scalefilter` CVAR is now `“nearest_linear”`.
+* The default of the `vid_scalefilter` CVAR has been changed from `“nearest”` to `“nearest_linear”`.
 * The `r_graduallighting` CVAR has been implemented to allow the player to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
 * The player’s view will no longer shift slightly when exiting a map by using a switch.
-* Incorrect par times will no longer be displayed on the intermission screen in some instances.
+* Par times are no longer be displayed on the intermission screen for maps that don’t have them.
 
 ---
 
