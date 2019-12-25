@@ -901,7 +901,7 @@ static dboolean D_CheckParms(void)
                         }
                     }
 
-                    if (sigil)
+                    if (sigil && !M_CheckParms("-nomusic") && !M_CheckParms("-nosound"))
                     {
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
                         W_MergeFile(fullpath, true);
@@ -1185,7 +1185,7 @@ static int D_OpenWADLauncher(void)
                             }
                         }
 
-                        if (sigil)
+                        if (sigil && !M_CheckParms("-nomusic") && !M_CheckParms("-nosound"))
                         {
                             M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
                             W_MergeFile(fullpath, true);
