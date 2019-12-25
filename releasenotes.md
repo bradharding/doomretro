@@ -5,6 +5,7 @@
 * The following changes have been made to the `mapstats` CCMD:
   * The par time of the current map is now displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
+  * Whether or not a music lump has been modified will now be displayed.
 * A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window.
 * The default of the `vid_scalefilter` CVAR has been changed from `“nearest”` to `“nearest_linear”`.
 * The `r_graduallighting` CVAR has been implemented to allow the player to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
