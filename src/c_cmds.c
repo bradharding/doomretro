@@ -3500,8 +3500,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "IWAD\t<b>%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
     }
 
-    C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>", (mbfcompatible ? "<i>MBF</i>-compatible" :
-        (boomcompatible ? "<i>BOOM</i>-compatible" : (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing"))));
+    C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>",
+        (mbfcompatible ? "<i>MBF</i>" : (boomcompatible ? "<i>BOOM</i>" : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
 
     {
         int partime = G_GetParTime(gameepisode, gamemap);
@@ -3554,8 +3554,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", temp);
     free(temp);
 
-    C_TabbedOutput(tabs, "Node format\t<b>%s nodes</b>", (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ?
-        "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed, extended")));
+    C_TabbedOutput(tabs, "Node format\t<b>%s</b>",
+        (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ? "<i>DeePBSP v4</i>" : "<i>ZDoom</i> (uncompressed)")));
 
     temp = commify(numsectors);
     C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", temp);
@@ -3705,7 +3705,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", "Bobby Prince");
 
         if (musmusictype)
-            C_TabbedOutput(tabs, "Music format\t<b>MUS converted to MIDI</b>");
+            C_TabbedOutput(tabs, "Music format\t<b>MUS</b>");
         else if (midimusictype || musictype == MUS_MID)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
         else if (musictype == MUS_OGG)
