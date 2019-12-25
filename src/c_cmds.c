@@ -3411,9 +3411,12 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
 
-    temp = titlecase(maptitle);
-    C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", temp);
-    free(temp);
+    if (!M_StringCompare(maptitle, mapnum))
+    {
+        temp = titlecase(maptitle);
+        C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", temp);
+        free(temp);
+    }
 
     {
         const char *authors[][6] =
