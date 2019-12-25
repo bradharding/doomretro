@@ -5324,49 +5324,53 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
     else
     {
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
-        {
-            char    *temp1 = removenonalpha(mobjinfo[i].name1);
-            char    *temp2 = removenonalpha(mobjinfo[i].plural1);
-            char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-            char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
-            char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
-            char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
-
-            resurrectcmdtype = mobjinfo[i].doomednum;
-
-            if (resurrectcmdtype >= 0
-                && (M_StringCompare(parm, temp1)
-                    || M_StringCompare(parm, temp2)
-                    || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
-                    || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
-                    || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
-                    || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
-                    || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
+            if (*mobjinfo[i].name1)
             {
-                if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
-                    resurrectcmdtype = Zombieman;
+                char    *temp1 = removenonalpha(mobjinfo[i].name1);
+                char    *temp2 = removenonalpha(mobjinfo[i].plural1);
+                char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
+                char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+                char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
-                result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                resurrectcmdtype = mobjinfo[i].doomednum;
+
+                if (resurrectcmdtype >= 0
+                    && (M_StringCompare(parm, temp1)
+                        || M_StringCompare(parm, temp2)
+                        || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
+                        || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
+                        || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
+                        || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
+                        || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
+                {
+                    if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                        resurrectcmdtype = Zombieman;
+
+                    result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                }
+
+                if (temp1)
+                    free(temp1);
+
+                if (temp2)
+                    free(temp2);
+
+                if (temp3)
+                    free(temp3);
+
+                if (temp4)
+                    free(temp4);
+
+                if (temp5)
+                    free(temp5);
+
+                if (temp6)
+                    free(temp6);
+
+                if (result)
+                    break;
             }
-
-            free(temp1);
-            free(temp2);
-
-            if (temp3)
-                free(temp3);
-
-            if (temp4)
-                free(temp4);
-
-            if (temp5)
-                free(temp5);
-
-            if (temp6)
-                free(temp6);
-
-            if (result)
-                break;
-        }
 
         if (!result)
             for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)

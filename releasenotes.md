@@ -11,7 +11,7 @@
 * The `r_graduallighting` CVAR has been implemented to allow the player to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
 * The player’s view will no longer shift slightly when exiting a map by using a switch.
 * Par times are no longer be displayed on the intermission screen for maps that don’t have them.
-* A crash will no longer occur when using the `kill` CCMD to kill a monster by their name previously set by the `name` CCMD.
+* A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
 
 ---
 
