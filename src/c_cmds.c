@@ -4114,7 +4114,7 @@ static void play_cmd_func2(char *cmd, char *parms)
 static skill_t favoriteskilllevel(void)
 {
     unsigned int    skilllevelstat = 0;
-    skill_t         favorite = sk_none;
+    skill_t         favorite = skilllevel - 1;
 
     if (skilllevelstat < stat_skilllevel_imtooyoungtodie)
     {
