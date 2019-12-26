@@ -3411,6 +3411,31 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
 
+    if (gamemode == commercial)
+    {
+        if (gamemission == pack_nerve)
+        {
+            temp = titlecase(*expansions[1]);
+            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i></b>", temp);
+            C_TabbedOutput(tabs, "Map\t<b>%i of 9</b>", gamemap);
+            free(temp);
+        }
+        else
+        {
+            temp = titlecase(*expansions[0]);
+            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i></b>", temp);
+            C_TabbedOutput(tabs, "Map\t<b>%i of %i</b>", gamemap, (bfgedition ? 33 : 32));
+            free(temp);
+        }
+    }
+    else
+    {
+        temp = titlecase(*episodes[gameepisode - 1]);
+        C_TabbedOutput(tabs, "Episode\t<b><i>%s</i></b>", temp);
+        C_TabbedOutput(tabs, "Map\t<b>%i of 9</b>", gamemap);
+        free(temp);
+    }
+
     if (!M_StringCompare(maptitle, mapnum))
     {
         temp = titlecase(maptitle);
@@ -4217,15 +4242,6 @@ static void C_PlayerStats_Game(void)
     char        *temp3;
     char        *temp4;
 
-    char **skilllevels[] =
-    {
-        &s_M_SKILLLEVEL1,
-        &s_M_SKILLLEVEL2,
-        &s_M_SKILLLEVEL3,
-        &s_M_SKILLLEVEL4,
-        &s_M_SKILLLEVEL5
-    };
-
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
@@ -4647,15 +4663,6 @@ static void C_PlayerStats_NoGame(void)
     const int   time2 = stat_time / TICRATE;
     char        *temp1;
     char        *temp2;
-
-    char **skilllevels[] =
-    {
-        &s_M_SKILLLEVEL1,
-        &s_M_SKILLLEVEL2,
-        &s_M_SKILLLEVEL3,
-        &s_M_SKILLLEVEL4,
-        &s_M_SKILLLEVEL5
-    };
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 

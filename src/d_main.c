@@ -93,6 +93,30 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+char **episodes[] =
+{
+    &s_M_EPISODE1,
+    &s_M_EPISODE2,
+    &s_M_EPISODE3,
+    &s_M_EPISODE4,
+    &s_M_EPISODE5
+};
+
+char **expansions[] =
+{
+    &s_M_EXPANSION1,
+    &s_M_EXPANSION2
+};
+
+char **skilllevels[] =
+{
+    &s_M_SKILLLEVEL1,
+    &s_M_SKILLLEVEL2,
+    &s_M_SKILLLEVEL3,
+    &s_M_SKILLLEVEL4,
+    &s_M_SKILLLEVEL5
+};
+
 static char *iwadsrequired[] =
 {
     "doom.wad",
@@ -2106,15 +2130,6 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", "", 1, 1)))
     {
-        char **skilllevels[] =
-        {
-            &s_M_SKILLLEVEL1,
-            &s_M_SKILLLEVEL2,
-            &s_M_SKILLLEVEL3,
-            &s_M_SKILLLEVEL4,
-            &s_M_SKILLLEVEL5
-        };
-
         int temp = myargv[p + 1][0] - '1';
 
         if (temp >= sk_baby && temp <= sk_nightmare)
@@ -2136,15 +2151,6 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmWithArgs("-episode", 1, 1)) && gamemode != commercial)
     {
-        char **episodes[] =
-        {
-            &s_M_EPISODE1,
-            &s_M_EPISODE2,
-            &s_M_EPISODE3,
-            &s_M_EPISODE4,
-            &s_M_EPISODE5
-        };
-
         int temp = myargv[p + 1][0] - '0';
 
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered && temp <= 3)
@@ -2168,12 +2174,6 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmWithArgs("-expansion", 1, 1)) && gamemode == commercial)
     {
-        char **expansions[] =
-        {
-            &s_M_EXPANSION1,
-            &s_M_EXPANSION2
-        };
-
         int temp = myargv[p + 1][0] - '0';
 
         if (temp <= (nerve ? 2 : 1))

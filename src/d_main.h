@@ -41,6 +41,10 @@
 
 #include "d_event.h"
 
+extern char **episodes[];
+extern char **expansions[];
+extern char **skilllevels[];
+
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
