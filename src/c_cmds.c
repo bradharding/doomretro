@@ -3841,27 +3841,28 @@ static void name_cmd_func2(char *cmd, char *parms)
             mobjtype_t  type = mobj->type;
 
             if (((namecmdanymonster && (flags & MF_SHOOTABLE) && type != MT_BARREL && type != MT_PLAYER) || type == namecmdtype)
-                && ((namecmdfriendly && (flags & MF_FRIEND)) || !namecmdfriendly))
-                if (mobj->health > 0 && P_CheckSight(viewplayer->mo, mobj))
+                && ((namecmdfriendly && (flags & MF_FRIEND)) || !namecmdfriendly)
+                && mobj->health > 0
+                && P_CheckSight(viewplayer->mo, mobj))
+            {
+                fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
+
+                if (dist < bestdist)
                 {
-                    fixed_t dist = P_ApproxDistance(mobj->x - viewx, mobj->y - viewy);
+                    bestdist = dist;
+                    bestmobj = mobj;
 
-                    if (dist < bestdist)
-                    {
-                        bestdist = dist;
-                        bestmobj = mobj;
-
-                        if (namecmdanymonster)
-                            M_StringCopy(namecmdold, mobj->info->name1, sizeof(namecmdold));
-                    }
+                    if (namecmdanymonster)
+                        M_StringCopy(namecmdold, mobj->info->name1, sizeof(namecmdold));
                 }
+            }
         }
 
         if (bestmobj)
         {
             M_StripQuotes(namecmdnew);
-            C_Output("The nearest %s%s has been %s %s.", (namecmdfriendly ? "friendly " : ""), namecmdold,
-                (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+            C_Output("The %s%s nearest to %s has been %s %s.",
+                (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }
         else

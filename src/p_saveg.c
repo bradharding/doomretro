@@ -1317,7 +1317,7 @@ void P_RestoreTargets(void)
 void P_ArchiveSpecials(void)
 {
     int         i = maxbuttons;
-    button_t    *button_ptr = buttonlist;
+    button_t    *button = buttonlist;
 
     // save off the current thinkers
     for (thinker_t *th = thinkers[th_misc].cnext; th != &thinkers[th_misc]; th = th->cnext)
@@ -1429,13 +1429,13 @@ void P_ArchiveSpecials(void)
 
     do
     {
-        if (button_ptr->btimer)
+        if (button->btimer)
         {
             saveg_write8(tc_button);
-            saveg_write_button_t(button_ptr);
+            saveg_write_button_t(button);
         }
 
-        button_ptr++;
+        button++;
     } while (--i);
 
     // add a terminating marker
