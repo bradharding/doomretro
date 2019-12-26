@@ -312,6 +312,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         bfgedition = IsBFGEdition(filename);
     else if ((M_StringCompare(leafname(filename), "SIGIL_v1_21.wad")
         || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
         || M_StringCompare(leafname(filename), "SIGIL.wad")) && automatic)
         autosigil = true;
     else if (M_StringCompare(leafname(filename), "SIGIL_SHREDS.wad")
@@ -354,6 +355,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (M_StringCompare(leafname(filename), "SIGIL_v1_21.wad")
         || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
         || M_StringCompare(leafname(filename), "SIGIL.wad"))
         C_Output("<i><b>SIGIL</b></i> is now available to play from the episode menu.");
     else if (M_StringCompare(leafname(filename), "DOOM.WAD"))
