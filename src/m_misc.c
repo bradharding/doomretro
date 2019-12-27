@@ -378,7 +378,7 @@ const char *M_StrCaseStr(const char *haystack, const char *needle)
 
     for (int i = 0; i <= len; i++)
         if (!strncasecmp(haystack + i, needle, needle_len))
-            return haystack + i;
+            return (haystack + i);
 
     return NULL;
 }

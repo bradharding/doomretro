@@ -816,7 +816,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 
 static dboolean D_IsCfgFile(char *filename)
 {
-    return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
+    return M_StringCompare(filename + strlen(filename) - 4, ".cfg");
 }
 
 static dboolean D_IsDehFile(char *filename)

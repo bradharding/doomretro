@@ -554,7 +554,7 @@ static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
     fixed_t dx = (v1->x - v2->x) >> FRACBITS;
     fixed_t dy = (v1->y - v2->y) >> FRACBITS;
 
-    return (fixed_t)(sqrt((double)dx * dx + (double)dy * dy)) << FRACBITS;
+    return ((fixed_t)(sqrt((double)dx * dx + (double)dy * dy)) << FRACBITS);
 }
 
 // e6y: Smart malloc

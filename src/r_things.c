@@ -336,7 +336,7 @@ static vissprite_t *R_NewVisSprite(void)
         vissprites = I_Realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
     }
 
-    return vissprites + num_vissprite++;
+    return (vissprites + num_vissprite++);
 }
 
 int             *mfloorclip;

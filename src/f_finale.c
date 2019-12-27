@@ -458,13 +458,13 @@ dboolean        firstevent;
 static int F_RandomizeSound(int sound)
 {
     if (sound >= sfx_posit1 && sound <= sfx_posit3)
-        return sfx_posit1 + M_Random() % 3;
+        return (sfx_posit1 + M_Random() % 3);
     else if (sound == sfx_bgsit1 || sound == sfx_bgsit2)
-        return sfx_bgsit1 + M_Random() % 2;
+        return (sfx_bgsit1 + M_Random() % 2);
     else if (sound >= sfx_podth1 && sound <= sfx_podth3)
-        return sfx_podth1 + M_Random() % 3;
+        return (sfx_podth1 + M_Random() % 3);
     else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
-        return sfx_bgdth1 + M_Random() % 2;
+        return (sfx_bgdth1 + M_Random() % 2);
     else
         return sound;
 }

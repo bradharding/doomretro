@@ -46,7 +46,7 @@
 //
 int I_GetTime(void)
 {
-    return SDL_GetTicks() * TICRATE / 1000;
+    return (SDL_GetTicks() * TICRATE / 1000);
 }
 
 //

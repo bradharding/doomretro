@@ -7,7 +7,7 @@
   * The par time of the current map is now displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
   * Whether or not a music lump has been modified will now be displayed.
-* A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window, and the `vid_borderlesswindow` CVAR was `off`.
+* A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window, and if the `vid_borderlesswindow` CVAR was `off`.
 * The default of the `vid_borderlesswindow` CVAR is now `on`.
 * The default of the `vid_scalefilter` CVAR has been changed from `“nearest”` to `“nearest_linear”`.
 * A new `r_graduallighting` CVAR has been implemented to allow the player to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
