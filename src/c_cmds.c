@@ -3416,14 +3416,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
         {
             temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i></b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (2 of 2)</b>", temp);
             C_TabbedOutput(tabs, "Map\t<b>%i of 9</b>", gamemap);
             free(temp);
         }
         else
         {
             temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i></b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (1 of %i)</b>", temp, (nerve ? 2 : 1));
             C_TabbedOutput(tabs, "Map\t<b>%i of %i</b>", gamemap, (bfgedition ? 33 : 32));
             free(temp);
         }
@@ -3431,7 +3431,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     else
     {
         temp = titlecase(*episodes[gameepisode - 1]);
-        C_TabbedOutput(tabs, "Episode\t<b><i>%s</i></b>", temp);
+        C_TabbedOutput(tabs, "Episode\t<b><i>%s</i> (%i of %i)</b>", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
         C_TabbedOutput(tabs, "Map\t<b>%i of 9</b>", gamemap);
         free(temp);
     }
