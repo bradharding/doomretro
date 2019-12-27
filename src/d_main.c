@@ -936,7 +936,12 @@ static dboolean D_CheckParms(void)
                     if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
                     {
                         M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
-                        W_MergeFile(fullpath, true);
+
+                        if (!W_MergeFile(fullpath, true))
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
+                            W_MergeFile(fullpath, true);
+                        }
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
@@ -1227,7 +1232,12 @@ static int D_OpenWADLauncher(void)
                         if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
                         {
                             M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
-                            W_MergeFile(fullpath, true);
+
+                            if (!W_MergeFile(fullpath, true))
+                            {
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
+                                W_MergeFile(fullpath, true);
+                            }
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
