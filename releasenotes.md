@@ -13,6 +13,7 @@
 * The player’s view will no longer shift slightly when exiting a map by using a switch.
 * Par times are no longer be displayed on the intermission screen for maps that don’t have them.
 * A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
+* `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
 
 ---
 
