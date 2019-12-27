@@ -1,6 +1,7 @@
 ### DOOM Retro v3.3.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the `mapstats` CCMD:
   * The episode or expansion, as well as the map number, of the current map is now displayed.
