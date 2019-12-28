@@ -1,4 +1,4 @@
-### DOOM Retro v3.3.1
+### DOOM Retro v3.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
