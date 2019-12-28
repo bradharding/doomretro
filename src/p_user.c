@@ -501,7 +501,7 @@ void P_PlayerThink(void)
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
-    if (menuactive && (vid_widescreen || !messagetoprint))
+    if (menuactive && (vid_widescreen || !messagetoprint || !consoleactive))
     {
         if (!inhelpscreens)
             mo->angle += ANG1 / 32 * spindirection;

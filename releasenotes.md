@@ -16,6 +16,7 @@
 * A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
 * The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
+* The background will now continue to spin when confirming the player wants to end a game or quit.
 
 ---
 
