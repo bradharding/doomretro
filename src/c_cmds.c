@@ -574,7 +574,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the <i><b>" PACKAGE_NAME " Wiki</b></i>."),
+        "Opens the <i><b>" PACKAGE_NAME " Wiki.</b></i>"),
     CMD_CHEAT(idbehold, false),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
@@ -648,7 +648,7 @@ consolecmd_t consolecmds[] =
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player <b>\"</b><i>message</i><b>\"</b>."),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits <i><b>" PACKAGE_NAME "</b></i>."),
+        "Quits <i><b>" PACKAGE_NAME ".</b></i>"),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -2320,7 +2320,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     {
                         char    *temp = titlecase(playername);
 
-                        C_Warning(0, "%s can't get %s in <i><b>%s</b></i>.", temp, mobjinfo[i].plural1, gamedescription);
+                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>", temp, mobjinfo[i].plural1, gamedescription);
                         free(temp);
                     }
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
@@ -2328,7 +2328,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     {
                         char    *temp = titlecase(playername);
 
-                        C_Warning(0, "%s can't get %s in <i><b>%s</b></i>.", temp, mobjinfo[i].plural1, gamedescription);
+                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>", temp, mobjinfo[i].plural1, gamedescription);
                         free(temp);
                     }
                     else
@@ -2860,12 +2860,12 @@ void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                     }
@@ -5544,12 +5544,12 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                     {
                         if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonstersSpawner)
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                         else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s</b></i>.", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                     }
@@ -5666,7 +5666,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
                 spawn = false;
             }
 
@@ -5678,7 +5678,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
                 spawn = false;
             }
         }

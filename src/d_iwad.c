@@ -704,10 +704,10 @@ void D_SetGameDescription(void)
     if (nerve)
     {
         if (bfgedition)
-            C_Output("Playing <i><b>%s: %s (%s)</b></i> and <i><b>%s: %s (%s)</b></i>.", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+            C_Output("Playing <i><b>%s: %s (%s)</b></i> and <i><b>%s: %s (%s).</b></i>", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_BFGEDITION, s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing <i><b>%s: %s</b></i> and <i><b>%s: %s</b></i>.", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+            C_Output("Playing <i><b>%s: %s</b></i> and <i><b>%s: %s.</b></i>", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil && !chex)
@@ -715,8 +715,8 @@ void D_SetGameDescription(void)
     else
     {
         if (bfgedition)
-            C_Output("Playing <i><b>%s (%s)</b></i>.", gamedescription, s_CAPTION_BFGEDITION);
+            C_Output("Playing <i><b>%s (%s).</b></i>", gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing <i><b>%s</b></i>.", gamedescription);
+            C_Output("Playing <i><b>%s.</b></i>", gamedescription);
     }
 }

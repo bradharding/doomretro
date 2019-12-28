@@ -1651,7 +1651,7 @@ static void P_LoadThings(int lump)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
-            C_Warning(2, "%s can't be spawned in <i><b>%s</b></i>.", buffer, gamedescription);
+            C_Warning(2, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
             continue;
         }
 

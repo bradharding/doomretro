@@ -360,7 +360,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         C_Output("<i><b>SIGIL</b></i> is now available to play from the episode menu.");
     else if (M_StringCompare(leafname(filename), "SIGIL_SHREDS.WAD")
         || M_StringCompare(leafname(filename), "SIGIL_SHREDS_COMPAT.wad"))
-        C_Output("Buckethead's soundtrack will now be used when playing <i><b>SIGIL</b></i>.");
+        C_Output("Buckethead's soundtrack will now be used when playing <i><b>SIGIL.</b></i>");
     else if (M_StringCompare(leafname(filename), "DOOM.WAD"))
         C_Output("<i><b>E1M4B: Phobos Mission Control</b></i> and <i><b>E1M8B: Tech Gone Bad</b></i> "
             "are now available to play using the <b>map</b> CCMD.");
