@@ -108,11 +108,11 @@ static void R_MapPlane(int y, int x1, int x2)
             return;
 
         cachedheight[y] = planeheight;
-        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, distance);
-        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
-        ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
-        ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
+        cacheddistance[y] = distance = FixedMul(planeheight, yslope[y]);
+        cachedviewcosdistance[y] = viewcosdistance = viewx + xoffset + FixedMul(viewcos, distance);
+        cachedviewsindistance[y] = viewsindistance = -viewy + yoffset - FixedMul(viewsin, distance);
+        cachedxstep[y] = ds_xstep = FixedMul(viewsin, planeheight) / dy;
+        cachedystep[y] = ds_ystep = FixedMul(viewcos, planeheight) / dy;
     }
     else
     {
@@ -124,8 +124,8 @@ static void R_MapPlane(int y, int x1, int x2)
     }
 
     dx = x1 - centerx;
-    ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
-    ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
+    ds_xfrac = viewcosdistance + dx * ds_xstep;
+    ds_yfrac = viewsindistance + dx * ds_ystep;
 
     ds_colormap = (fixedcolormap ? fixedcolormap : planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
 
