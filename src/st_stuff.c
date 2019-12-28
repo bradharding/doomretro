@@ -458,7 +458,7 @@ dboolean ST_Responder(event_t *ev)
                     oldhealth = viewplayer->health;
                     P_GiveBody(god_health, false);
 
-                    if (oldhealth < 100)
+                    if (oldhealth < initial_health)
                         P_AddBonus();
 
                     C_Output(s_STSTR_DQDON);
