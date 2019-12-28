@@ -57,7 +57,7 @@ typedef struct
     fixed_t     minz;
 } los_t;
 
-static los_t    los; // cph - made static
+static los_t    los;            // cph - made static
 
 //
 // P_DivlineSide

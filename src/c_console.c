@@ -772,35 +772,35 @@ static void C_DrawBackground(int height)
 
         for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
 
         for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
             for (int x = y + CONSOLEWIDTH - 2; x >= y; x--)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
         for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH + 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x + CONSOLEWIDTH + 1] << 8) + blurscreen[x]];
 
         for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
             for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH - 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH - 1] << 8) + blurscreen[x]];
 
         for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x + CONSOLEWIDTH] << 8) + blurscreen[x]];
 
         for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH] << 8) + blurscreen[x]];
 
         for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
             for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x + CONSOLEWIDTH - 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x + CONSOLEWIDTH - 1] << 8) + blurscreen[x]];
 
         for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[blurscreen[x] + (blurscreen[x - CONSOLEWIDTH + 1] << 8)];
+                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH + 1] << 8) + blurscreen[x]];
     }
 
     if (forceconsoleblurredraw)
@@ -832,12 +832,12 @@ static void C_DrawBackground(int height)
     // soften edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
-        screens[0][i] = tinttab50[screens[0][i] + (nearestblack << 8)];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1] + (nearestblack << 8)];
+        screens[0][i] = tinttab50[ (nearestblack << 8) + screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[(nearestblack << 8) + screens[0][i + CONSOLEWIDTH - 1]];
     }
 
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[screens[0][i] + (nearestblack << 8)];
+        screens[0][i] = tinttab25[(nearestblack << 8) + screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)

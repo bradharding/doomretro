@@ -3713,7 +3713,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         temp = uppercase(lumpname);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>", (lumps > 1 ? "Modified " : ""), temp);
+        C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>", temp, (lumps > 1 ? " (modified)" : ""));
         free(temp);
 
         if (*musictitle)

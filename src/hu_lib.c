@@ -404,7 +404,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             byte    *dest2 = &fb2[dot];
 
             if (!*source)
-                *dest1 = tinttab50[*dest2 + (nearestblack << 8)];
+                *dest1 = tinttab50[(nearestblack << 8) + *dest2];
             else if (*source != 251)
             {
                 byte color = *source;
