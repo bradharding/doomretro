@@ -15,6 +15,7 @@
 * Par times are no longer be displayed on the intermission screen for maps that don’t have them.
 * A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
+* The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
 
 ---
 
@@ -33,7 +34,6 @@
 * The visual glitch displayed when input is selected in the console while it is opening or closing is now fixed.
 * Once the `condump` CCMD is used to dump the current contents of the console to a file, every line of text that is output to the console thereafter will continue to be dumped to that same file automatically.
 * The `r_blood` CVAR can now be `green`, causing all blood spilled to be green.
-* The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
 * The `episode` CVAR will now be updated if the player finishes episode 4 and [*SIGIL*](https://www.romerogames.ie/si6il) is loaded.
 * The `thinglist` CCMD now indicates if a thing has been dropped by a monster.
 * A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are specified on the command-line.
