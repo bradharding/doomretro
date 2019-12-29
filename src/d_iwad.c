@@ -233,17 +233,15 @@ static void CheckUninstallStrings(void)
         if (!val)
             continue;
 
-        unstr = strstr(val, UNINSTALLER_STRING);
-
-        if (!unstr)
-            free(val);
-        else
+        if ((unstr = strstr(val, UNINSTALLER_STRING)))
         {
             char    *path = unstr + len;
 
             AddIWADDir(path);
             free(path);
         }
+
+        free(val);
     }
 }
 
