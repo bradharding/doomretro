@@ -524,12 +524,12 @@ void R_DrawFlippedSkyColumn(void)
 
     while (--y)
     {
-        *dest = colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]];
+        *dest = colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]];
+    *dest = colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]];
 }
 
 void R_DrawSkyColorColumn(void)

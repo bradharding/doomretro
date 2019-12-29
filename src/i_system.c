@@ -198,7 +198,7 @@ void I_PrintWindowsVersion(void)
         }
 
         if (bits == 64 && sizeof(intptr_t) == 4)
-            C_Warning(1, "The 64-bit version of <i>" PACKAGE_NAME "</i> is recommended on this system.");
+            C_Warning(1, "The 64-bit version of <i>" PACKAGE_NAME "</i> is recommended on this PC.");
     }
 }
 #endif

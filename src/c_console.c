@@ -816,10 +816,10 @@ static void C_DrawBackground(int height)
 
     for (int i = height - 2; i > 1; i -= 3)
     {
-        screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
+        screens[0][i] = colormaps[0][6 * 256 + screens[0][i]];
 
         if (((i - 1) % CONSOLEWIDTH) < CONSOLEWIDTH - 2)
-            screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
+            screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i - 1]];
     }
 
     // draw branding
@@ -843,7 +843,7 @@ static void C_DrawBackground(int height)
     if (gamestate != GS_TITLESCREEN)
         for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
             for (int j = height; j < height + i; j++)
-                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
+                screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,

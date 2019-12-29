@@ -518,7 +518,7 @@ void M_DarkBackground(void)
         }
 
         for (int i = 0; i < blurheight; i++)
-            screens[0][i] = colormaps[0][((M_Random() & 7) << 8) + screens[0][i]];
+            screens[0][i] = colormaps[0][(M_Random() & 7) * 256 + screens[0][i]];
 
         BlurScreen(screens[0], blurscreen1, blurheight);
 
@@ -536,7 +536,7 @@ void M_DarkBackground(void)
             }
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                mapscreen[i] = colormaps[0][((M_Random() & 7) << 8) + mapscreen[i]];
+                mapscreen[i] = colormaps[0][(M_Random() & 7) * 256 + mapscreen[i]];
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
