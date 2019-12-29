@@ -3522,11 +3522,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
         C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-            leafname(lumpinfo[i]->wadfile->path), (lumpinfo[i]->wadfile->type == IWAD && bfgedition ? " (BFG Edition)" : ""));
+            leafname(lumpinfo[i]->wadfile->path), (lumpinfo[i]->wadfile->type == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
         if (lumpinfo[i]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
-                (bfgedition ? " (BFG Edition)" : ""));
+                (bfgedition ? " <i>(BFG Edition)</i>" : ""));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>",

@@ -58,7 +58,7 @@
 #include "version.h"
 
 #if defined(_WIN32)
-extern char     *previouswad;
+extern char *previouswad;
 
 typedef long (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);

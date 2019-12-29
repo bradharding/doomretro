@@ -3187,10 +3187,10 @@ static void P_InitMapInfo(void)
     free(temp);
 
     if (nojump)
-        C_Warning(0, "This PWAD has disabled use of the <b>+jump</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the <b>+jump</b> action.");
 
     if (nomouselook)
-        C_Warning(0, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
 }
 
 static int QualifyMap(int map)
