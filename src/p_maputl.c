@@ -685,7 +685,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     mapx = xt1;
     mapy = yt1;
 
-    for (int count = 0; count < 100; count++)
+    for (int count = 0; count < 1000; count++)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
@@ -703,8 +703,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
         {
             case 0:
                 // neither xintercept nor yintercept match!
-                count = 100;    // Stop traversing, because somebody screwed up.
-                break;
+                return false;
 
             case 1:
                 // xintercept matches
