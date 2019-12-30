@@ -768,6 +768,7 @@ static void C_DrawBackground(int height)
 
     if (!blurred)
     {
+        // blur background
         memcpy(blurscreen, screens[0], height);
 
         for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
@@ -811,16 +812,13 @@ static void C_DrawBackground(int height)
     else
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
+    // tint background using con_backcolor CVAR
     for (int i = 0, color = nearestcolors[con_backcolor] << 8; i < height; i++)
         screens[0][i] = tinttab50[blurscreen[i] + color];
 
+    // apply corrugated glass effect to background
     for (int i = height - 2; i > 1; i -= 3)
-    {
-        screens[0][i] = colormaps[0][6 * 256 + screens[0][i]];
-
-        if (((i - 1) % CONSOLEWIDTH) < CONSOLEWIDTH - 2)
-            screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i - 1]];
-    }
+        screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i + (i % CONSOLEWIDTH && (i + 1) % CONSOLEWIDTH ? -1 : 1)]];
 
     // draw branding
     V_DrawBigTranslucentPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
@@ -829,13 +827,14 @@ static void C_DrawBackground(int height)
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
-    // soften edges
+    // soften left and right edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
         screens[0][i] = tinttab50[(nearestblack << 8) + screens[0][i + 1]];
         screens[0][i + CONSOLEWIDTH - 1] = tinttab50[(nearestblack << 8) + screens[0][i + CONSOLEWIDTH - 2]];
     }
 
+    // soften bottom edge
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
         screens[0][i] = tinttab25[(nearestblack << 8) + screens[0][i]];
 
