@@ -104,7 +104,11 @@ typedef enum
 // What version are we emulating?
 typedef enum
 {
-    exe_doom_1_9,       // DOOM 1.9: used for shareware, registered and commercial
+    exe_doom_1_2,       // DOOM 1.2: shareware and registered
+    exe_doom_1_666,     // DOOM 1.666: for shareware, registered and commercial
+    exe_doom_1_7,       // DOOM 1.7/1.7a
+    exe_doom_1_8,       // DOOM 1.8
+    exe_doom_1_9,       // DOOM 1.9
     exe_ultimate,       // Ultimate DOOM (retail)
     exe_final           // Final DOOM
 } GameVersion_t;

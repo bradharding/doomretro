@@ -618,26 +618,80 @@ void D_StartTitle(int page)
 static void InitGameVersion(void)
 {
     // Determine automatically
-    if (gamemode == shareware || gamemode == registered)
+    if (gamemode == shareware || gamemode == registered || (gamemode == commercial && gamemission == doom2))
+    {
+        dboolean    status;
+
         // original
         gameversion = exe_doom_1_9;
+
+        // Detect version from demo lump
+        for (int i = 1; i <= 3; ++i)
+        {
+            char    demolumpname[6];
+
+            M_snprintf(demolumpname, 6, "DEMO%i", i);
+
+            if (W_CheckNumForName(demolumpname) > 0)
+            {
+                byte    *demolump = W_CacheLumpName(demolumpname);
+                int     demoversion = demolump[0];
+
+                W_ReleaseLumpName(demolumpname);
+                status = true;
+
+                switch (demoversion)
+                {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        gameversion = exe_doom_1_2;
+                        break;
+
+                    case 106:
+                        gameversion = exe_doom_1_666;
+                        break;
+
+                    case 107:
+                        gameversion = exe_doom_1_7;
+                        break;
+
+                    case 108:
+                        gameversion = exe_doom_1_8;
+                        break;
+
+                    case 109:
+                        gameversion = exe_doom_1_9;
+                        break;
+
+                    default:
+                        status = false;
+                        break;
+                }
+
+                if (status)
+                    break;
+            }
+        }
+    }
     else if (gamemode == retail)
         gameversion = exe_ultimate;
     else if (gamemode == commercial)
-    {
-        if (gamemission == doom2)
-            gameversion = exe_doom_1_9;
-        else
-            // Final DOOM: TNT or Plutonia
-            gameversion = exe_final;
-    }
+        // Final DOOM: TNT or Plutonia
+        // Defaults to emulating the first Final DOOM executable,
+        // which has the crash in the demo loop; however, having
+        // this as the default should mean that it plays back
+        // most demos correctly.
+        gameversion = exe_final;
 
     // The original exe does not support retail - 4th episode not supported
     if (gameversion < exe_ultimate && gamemode == retail)
         gamemode = registered;
 
     // EXEs prior to the Final DOOM exes do not support Final DOOM.
-    if (gameversion < exe_final && gamemode == commercial)
+    if (gameversion < exe_final && gamemode == commercial && (gamemission == pack_tnt || gamemission == pack_plut))
         gamemission = doom2;
 }
 
