@@ -9,6 +9,7 @@
   * The par time of the current map is now displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
   * Whether or not a music lump has been modified will now be displayed.
+* Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window, and if the `vid_borderlesswindow` CVAR was `off`.
 * The default of the `vid_borderlesswindow` CVAR is now `on`.
 * The default of the `vid_scalefilter` CVAR has been changed from `“nearest”` to `“nearest_linear”`.
@@ -17,8 +18,8 @@
 * Par times are no longer be displayed on the intermission screen for maps that don’t have one.
 * A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
-* The background will now always be displayed correctly when confirming the use of the `resetall` CCMD.
-* The background will now continue to spin when confirming the player wants to end a game or quit.
+* The background will now always be displayed correctly when confirming use of the `resetall` CCMD.
+* The background will now continue to rotate when confirming if the player wants to end a game or quit.
 
 ---
 

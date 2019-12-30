@@ -614,6 +614,19 @@ void D_StartTitle(int page)
     D_AdvanceTitle();
 }
 
+struct
+{
+    const char      *string;
+    GameVersion_t   version;
+} gameversions[] = {
+    { "v1.2",   exe_doom_1_2   },
+    { "v1.666", exe_doom_1_666 },
+    { "v1.7",   exe_doom_1_7   },
+    { "v1.8",   exe_doom_1_8   },
+    { "v1.9",   exe_doom_1_9   },
+    { NULL,     0              }
+};
+
 // Initialize the game version
 static void InitGameVersion(void)
 {

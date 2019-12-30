@@ -827,14 +827,14 @@ static void C_DrawBackground(int height)
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
-    // soften left and right edges
+    // bevel left and right edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
         screens[0][i] = tinttab50[(nearestblack << 8) + screens[0][i + 1]];
         screens[0][i + CONSOLEWIDTH - 1] = tinttab50[(nearestblack << 8) + screens[0][i + CONSOLEWIDTH - 2]];
     }
 
-    // soften bottom edge
+    // bevel bottom edge
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
         screens[0][i] = tinttab25[(nearestblack << 8) + screens[0][i]];
 
