@@ -197,7 +197,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOVALUEALIAS       ),
-    CONFIG_VARIABLE_INT          (vid_vsync,                                         BOOLVALUEALIAS     ),
+    CONFIG_VARIABLE_INT          (vid_vsync,                                         VSYNCVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_OTHER        (vid_windowpos,                                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOVALUEALIAS       ),
@@ -273,7 +273,9 @@ valuealias_t valuealiases[] =
     { "none",    0, ARMORTYPEVALUEALIAS }, { "green",     1, ARMORTYPEVALUEALIAS },
     { "blue",    2, ARMORTYPEVALUEALIAS }, { "none",      0, CROSSHAIRVALUEALIAS },
     { "off",     0, CROSSHAIRVALUEALIAS }, { "cross",     1, CROSSHAIRVALUEALIAS },
-    { "dot",     2, CROSSHAIRVALUEALIAS }, { "",          0, NOVALUEALIAS        }
+    { "dot",     2, CROSSHAIRVALUEALIAS }, { "adaptive", -1, VSYNCVALUEALIAS     },
+    { "off",     0, VSYNCVALUEALIAS     }, { "on",        1, VSYNCVALUEALIAS     },
+    { "",        0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *string)
@@ -890,7 +892,7 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
 
-    if (vid_vsync != false && vid_vsync != true)
+    if (vid_vsync != vid_vsync_adaptive && vid_vsync != vid_vsync_off && vid_vsync != vid_vsync_on)
         vid_vsync = vid_vsync_default;
 
     if (vid_widescreen != false && vid_widescreen != true)

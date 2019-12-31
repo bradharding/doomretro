@@ -251,6 +251,13 @@ enum
     units_metric
 };
 
+enum
+{
+    vid_vsync_adaptive = -1,
+    vid_vsync_off,
+    vid_vsync_on
+};
+
 #define alwaysrun_default                       false
 
 #define am_allmapcdwallcolor_min                0
@@ -644,7 +651,7 @@ enum
 
 #define vid_showfps_default                     false
 
-#define vid_vsync_default                       true
+#define vid_vsync_default                       vid_vsync_on
 
 #define vid_widescreen_default                  false
 
@@ -778,7 +785,8 @@ typedef enum
     SCALEVALUEALIAS,
     FACEBACKVALUEALIAS,
     ARMORTYPEVALUEALIAS,
-    CROSSHAIRVALUEALIAS
+    CROSSHAIRVALUEALIAS,
+    VSYNCVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

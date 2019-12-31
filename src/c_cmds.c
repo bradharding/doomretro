@@ -396,6 +396,7 @@ static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parms);
 static void vid_scalefilter_cvar_func2(char *cmd, char *parms);
 static void vid_screenresolution_cvar_func2(char *cmd, char *parms);
 static void vid_showfps_cvar_func2(char *cmd, char *parms);
+static dboolean vid_vsync_cvar_func1(char *cmd, char *parms);
 static void vid_vsync_cvar_func2(char *cmd, char *parms);
 static void vid_widescreen_cvar_func2(char *cmd, char *parms);
 static void vid_windowpos_cvar_func2(char *cmd, char *parms);
@@ -826,8 +827,8 @@ consolecmd_t consolecmds[] =
         "The screen's resolution when fullscreen (<b>desktop</b>\nor <i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
-    CVAR_BOOL(vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, BOOLVALUEALIAS,
-        "Toggles vertical sync with the display's refresh\nrate."),
+    CVAR_BOOL(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, BOOLVALUEALIAS,
+        "Toggles vertical sync with the display's refresh\nrate (<b>on</b>, <b>off</b> or <b>adaptive</b>)."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
@@ -8074,14 +8075,42 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 //
 // vid_vsync CVAR
 //
+static dboolean vid_vsync_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, VSYNCVALUEALIAS) != INT_MIN);
+}
+
 static void vid_vsync_cvar_func2(char *cmd, char *parms)
 {
-    const dboolean  vid_vsync_old = vid_vsync;
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, VSYNCVALUEALIAS);
 
-    bool_cvars_func2(cmd, parms);
+        if (value != INT_MIN && vid_vsync != value)
+        {
+            vid_vsync = value;
+            I_RestartGraphics();
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(vid_vsync, VSYNCVALUEALIAS);
 
-    if (vid_vsync != vid_vsync_old)
-        I_RestartGraphics();
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (vid_vsync == vid_vsync_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(vid_vsync_default, VSYNCVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+    }
 }
 
 //
