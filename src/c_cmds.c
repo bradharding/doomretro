@@ -840,7 +840,7 @@ consolecmd_t consolecmds[] =
         "The last WAD to be opened by the WAD launcher."),
 #endif
     CVAR_INT(warninglevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The warning level in the console (<b>0</b>, <b>1</b> or <b>2</b>)."),
+        "The console's warning level (<b>0</b>, <b>1</b> or <b>2</b>)."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs when they\nmove (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
