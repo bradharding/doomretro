@@ -1421,25 +1421,16 @@ static void M_DeleteSavegame(void)
 //
 static void M_DrawReadThis(void)
 {
-    char    *lumpname = "HELP1";
+    char    lumpname[6];
 
-    switch (gameversion)
-    {
-        case exe_doom_1_9:
-            if (gamemode == shareware && W_CheckNumForName("HELP3") >= 0)
-                lumpname = "HELP3";
-            else
-                lumpname = (gamemode == commercial ? "HELP" : "HELP2");
-
-            break;
-
-        case exe_final:
-            lumpname = "HELP";
-            break;
-
-        default:
-            break;
-    }
+    if (gamemode == shareware)
+        M_StringCopy(lumpname, (W_CheckNumForName("HELP3") >= 0 ? "HELP3" : "HELP2"), sizeof(lumpname));
+    else if (gamemode == registered)
+        M_StringCopy(lumpname, "HELP2", sizeof(lumpname));
+    else if (gamemode == commercial)
+        M_StringCopy(lumpname, "HELP", sizeof(lumpname));
+    else
+        M_StringCopy(lumpname, "HELP1", sizeof(lumpname));
 
     if (W_CheckNumForName(lumpname) >= 0)
     {

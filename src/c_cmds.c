@@ -4110,7 +4110,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
     {
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name);
 
-        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) != -1)
+        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 1;
@@ -4122,7 +4122,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
     {
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name);
 
-        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) != -1)
+        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 2;

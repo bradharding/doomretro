@@ -783,7 +783,7 @@ void S_ParseMusInfo(char *mapid)
 
     S_music[NUMMUSIC].lumpnum = -1;
 
-    if (W_CheckNumForName("MUSINFO") != -1)
+    if (W_CheckNumForName("MUSINFO") >= 0)
     {
         int inMap = false;
 

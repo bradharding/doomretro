@@ -41,7 +41,6 @@
 // Game Mode - identify IWAD as shareware, retail etc.
 GameMode_t      gamemode = indetermined;
 GameMission_t   gamemission = doom;
-GameVersion_t   gameversion = exe_final;
 char            gamedescription[255];
 
 dboolean        sigil;

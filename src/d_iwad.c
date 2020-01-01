@@ -633,10 +633,10 @@ void D_IdentifyVersion(void)
     if (gamemission == doom)
     {
         // DOOM 1. But which version?
-        if (W_CheckNumForName("E4M1") > 0)
+        if (W_CheckNumForName("E4M1") >= 0)
             // Ultimate DOOM
             gamemode = retail;
-        else if (W_CheckNumForName("E3M1") > 0)
+        else if (W_CheckNumForName("E3M1") >= 0)
             gamemode = registered;
         else
             gamemode = shareware;

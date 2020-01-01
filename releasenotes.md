@@ -6,7 +6,7 @@
 * The following changes have been made to the `mapstats` CCMD:
   * The episode or expansion, as well as the map number, of the current map will now be displayed.
   * Whether or not the current map is secret will now be displayed.
-  * The version of the IWAD loaded, as well as whether or not it is the *BFG Edition*, will now be displayed.
+  * Whether or not the loaded IWAD is the *BFG Edition* will now be displayed.
   * The par time of the current map will now be displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
   * Whether or not a music lump has been modified will now be displayed.

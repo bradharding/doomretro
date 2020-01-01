@@ -318,7 +318,7 @@ static void R_InitTextures(void)
             while (p2 >= firstflat && p2 <= lastflat)
                 p2 = W_RangeCheckNumForName(0, p2 - 1, name);
 
-            patchlookup[patch++] = (p2 != -1 ? p2 : p1);
+            patchlookup[patch++] = (p2 >= 0 ? p2 : p1);
         }
 
     // Load the map texture definitions from textures.lmp.
@@ -330,7 +330,7 @@ static void R_InitTextures(void)
     maxoff = W_LumpLength(maptex_lump[0]);
     directory = maptex1 + 1;
 
-    if (W_CheckNumForName("TEXTURE2") != -1)
+    if (W_CheckNumForName("TEXTURE2") >= 0)
     {
         maptex_lump[1] = W_GetNumForName("TEXTURE2");
         maptex2 = W_CacheLumpNum(maptex_lump[1]);
@@ -718,7 +718,7 @@ int R_ColormapNumForName(char *name)
         return -1;
 
     if (strncasecmp(name, "COLORMAP", 8))     // COLORMAP predefined to return 0
-        if ((i = W_CheckNumForName(name)) != -1)
+        if ((i = W_CheckNumForName(name)) >= 0)
             i -= firstcolormaplump;
 
     return (i > numcolormaps ? -1 : i);
