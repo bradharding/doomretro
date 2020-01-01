@@ -1,12 +1,11 @@
 ### DOOM Retro v3.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The version of the IWAD loaded will now be displayed in the console at startup.
 * *DOOM Retro* will now only attempt to use [*Adaptive VSync*](https://www.geforce.com/hardware/technology/adaptive-vsync) if the `vid_vsync` CVAR is set to `adaptive`.
 * The following changes have been made to the `mapstats` CCMD:
   * The episode or expansion, as well as the map number, of the current map will now be displayed.
   * Whether or not the current map is secret will now be displayed.
-  * Whether or not the loaded IWAD is the *BFG Edition* will now be displayed.
+  * Whether or not the current IWAD is the *BFG Edition* will now be displayed.
   * The par time of the current map will now be displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
   * Whether or not a music lump has been modified will now be displayed.
