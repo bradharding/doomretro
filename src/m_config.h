@@ -211,7 +211,7 @@ extern char         *vid_scaleapi;
 extern char         *vid_scalefilter;
 extern char         *vid_screenresolution;
 extern dboolean     vid_showfps;
-extern dboolean     vid_vsync;
+extern int          vid_vsync;
 extern dboolean     vid_widescreen;
 extern char         *vid_windowpos;
 extern char         *vid_windowsize;
