@@ -75,7 +75,7 @@ void G_SaveGame(int slot, char *description, char *name);
 void G_ExitLevel(void);
 void G_SecretExitLevel(void);
 
-int G_GetParTime(int ep, int map);
+int G_GetParTime(void);
 
 void G_WorldDone(void);
 

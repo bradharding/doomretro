@@ -855,7 +855,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     int             truncate = len;
     unsigned char   prevletter = '\0';
     int             width = 0;
-    int             lastcolor1;
+    int             lastcolor1 = color1;
     int             startx = x;
 
     y -= CONSOLEHEIGHT - consoleheight;

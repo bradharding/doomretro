@@ -3534,7 +3534,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         (mbfcompatible ? "<i>MBF</i>" : (boomcompatible ? "<i>BOOM</i>" : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
 
     {
-        int partime = G_GetParTime(gameepisode, gamemap);
+        int partime = G_GetParTime();
 
         if (partime)
             C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", partime / 60, partime % 60);
