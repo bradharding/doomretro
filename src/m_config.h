@@ -651,7 +651,9 @@ enum
 
 #define vid_showfps_default                     false
 
+#define vid_vsync_min                           vid_vsync_adaptive
 #define vid_vsync_default                       vid_vsync_on
+#define vid_vsync_max                           vid_vsync_on
 
 #define vid_widescreen_default                  false
 

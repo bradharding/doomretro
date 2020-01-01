@@ -827,7 +827,7 @@ consolecmd_t consolecmds[] =
         "The screen's resolution when fullscreen (<b>desktop</b>\nor <i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
-    CVAR_BOOL(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, BOOLVALUEALIAS,
+    CVAR_INT(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, CF_NONE, VSYNCVALUEALIAS,
         "Toggles vertical sync with the display's refresh\nrate (<b>on</b>, <b>off</b> or <b>adaptive</b>)."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
