@@ -17,7 +17,7 @@
 * A new `r_graduallighting` CVAR has been implemented to allow the player to toggle the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
 * The player’s view will no longer shift slightly when exiting a map by using a switch.
 * Par times are no longer displayed on the intermission screen for maps that don’t have one.
-* A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD.
+* A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD as the parameter.
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
 * The background will now always be displayed correctly when confirming use of the `resetall` CCMD.
 * The background will now continue to rotate when confirming if the player wants to end a game or quit.

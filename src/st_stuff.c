@@ -1220,7 +1220,7 @@ static void ST_UpdateWidgets(void)
 
 void ST_Ticker(void)
 {
-    if (!freeze)
+    if (!freeze && !paused && !menuactive && !consoleactive)
     {
         if (!vid_widescreen)
         {
@@ -1228,7 +1228,7 @@ void ST_Ticker(void)
             ST_UpdateWidgets();
             st_oldhealth = viewplayer->health;
         }
-        else if (r_hud && !paused && !menuactive && !consoleactive)
+        else if (r_hud)
         {
             st_randomnumber = M_Random();
             ST_UpdateFaceWidget();
