@@ -633,6 +633,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types
+#define GenEnd                  0x8000
 #define GenFloorBase            0x6000
 #define GenCeilingBase          0x4000
 #define GenDoorBase             0x3C00

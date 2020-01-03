@@ -1146,7 +1146,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 // killough 11/98: reformatted
 dboolean P_SectorActive(special_e t, sector_t *sec)
 {
-    return (t == floor_special ? !!sec->floordata : // return whether
+    return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
         (t == lighting_special ? !!sec->lightingdata :  // type is active
         true)));                                        // don't know which special, must be active, shouldn't be here
@@ -1252,10 +1252,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case MT_TROOPSHOT:
             case MT_HEADSHOT:
             case MT_BRUISERSHOT:
-            case MT_TRACER:
-            case MT_FATSHOT:
-            case MT_SPAWNSHOT:
-            case MT_ARACHPLAZ:
                 return;
 
             default:
@@ -1274,7 +1270,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if (line->special >= GenFloorBase)
+        if (line->special >= GenEnd)
+        {
+            // Out of range for GenFloors
+        }
+        else if (line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
@@ -2038,7 +2038,11 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     dboolean (*linefunc)(line_t *line) = NULL;
 
     // check each range of generalized linedefs
-    if (line->special >= GenFloorBase)
+    if (line->special >= GenEnd)
+    {
+        // Out of range for GenFloors
+    }
+    else if (line->special >= GenFloorBase)
     {
         if (!thing->player)
             if ((line->special & FloorChange) || !(line->special & FloorModel))
@@ -2303,7 +2307,7 @@ void P_UpdateSpecials(void)
     for (anim_t *anim = anims; anim < lastanim; anim++)
         for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         {
-            int pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
+            int pic = anim->basepic + (leveltime / anim->speed + i) % anim->numpics;
 
             if (anim->istexture)
                 texturetranslation[i] = pic;
@@ -2764,8 +2768,8 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
-    x = (fixed_t)((dy * -l->dy - dx * l->dx) / d);  // killough 10/98:
-    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);   // Use int64_t arithmetic
+    x = (fixed_t)(((int64_t)dy * -(int64_t)l->dy - (int64_t)dx * (int64_t)l->dx) / (int64_t)d); // killough 10/98:
+    y = (fixed_t)(((int64_t)dy * (int64_t)l->dx - (int64_t)dx * (int64_t)l->dy) / (int64_t)d);  // Use int64_t arithmetic
     Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
 }
 
@@ -3013,9 +3017,10 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
     p->y_mag = y_mag >> FRACBITS;
     p->magnitude = P_ApproxDistance(p->x_mag, p->y_mag);
 
-    if (source)                                         // point source exist?
+    // point source exist?
+    if (source)
     {
-        p->radius = p->magnitude << (FRACBITS + 1);   // where force goes to zero
+        p->radius = p->magnitude << (FRACBITS + 1); // where force goes to zero
         p->x = p->source->x;
         p->y = p->source->y;
     }
@@ -3034,18 +3039,16 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 //
 // killough 10/98: allow to affect things besides players
 
-static pusher_t *tmpusher;      // pusher structure for blockmap searches
+static pusher_t *tmpusher;  // pusher structure for blockmap searches
 
 static dboolean PIT_PushThing(mobj_t *thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {
-        fixed_t speed;
         fixed_t sx = tmpusher->x;
         fixed_t sy = tmpusher->y;
-
-        speed = (tmpusher->magnitude - ((P_ApproxDistance(thing->x - sx, thing->y - sy)
-            >> FRACBITS) >> 1)) << (FRACBITS - PUSH_FACTOR - 1);
+        fixed_t speed = (tmpusher->magnitude - ((P_ApproxDistance(thing->x - sx, thing->y - sy) >> FRACBITS) >> 1))
+                    << (FRACBITS - PUSH_FACTOR - 1);
 
         // killough 10/98: make magnitude decrease with square
         // of distance, making it more in line with real nature,
