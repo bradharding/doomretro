@@ -116,14 +116,13 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
 static void STlib_DrawBigNum(st_number_t *n)
 {
-    int num = MAX(0, *n->num);
+    int num = *n->num;
 
     // if non-number, do not draw it
     if (num == 1994)
         return;
     else
     {
-        int numdigits = n->width;
         int x = n->x;
         int w = SHORT(n->p[0]->width);
 
@@ -132,6 +131,8 @@ static void STlib_DrawBigNum(st_number_t *n)
             V_DrawPatch(x - w, n->y, 0, n->p[0]);
         else
         {
+            int numdigits = n->width;
+
             // draw the new number
             while (num && numdigits--)
             {
@@ -145,8 +146,7 @@ static void STlib_DrawBigNum(st_number_t *n)
 
 static void STlib_DrawSmallNum(st_number_t *n)
 {
-    int numdigits = n->width;
-    int num = MAX(0, *n->num);
+    int num = *n->num;
     int x = n->x;
 
     // in the special case of 0, you draw 0
@@ -154,6 +154,8 @@ static void STlib_DrawSmallNum(st_number_t *n)
         statbarnumfunc(0, 160, 47, x - 4, n->y, n->p[0]);
     else
     {
+        int numdigits = n->width;
+
         // draw the new number
         while (num && numdigits--)
         {
