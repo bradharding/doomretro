@@ -20,7 +20,8 @@
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
 * The background will now always be displayed correctly when confirming use of the `resetall` CCMD.
 * The background will now continue to rotate when confirming if the player wants to end a game or quit.
-* The name of MAP05 in *Final DOOM: TNT - Evilution* has been corrected.
+* The title of MAP05 in *Final DOOM: TNT - Evilution* has been corrected.
+* The same amount of friction will now be applied to the player’s corpse as other corpses when in a liquid sector.
 
 ---
 
