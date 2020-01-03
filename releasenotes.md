@@ -8,7 +8,8 @@
   * Whether or not the current IWAD is the *BFG Edition* will now be displayed.
   * The par time of the current map will now be displayed.
   * Improvements have been made to how *BOOM* and *MBF*-compatible maps are detected.
-  * Whether or not a music lump has been modified will now be displayed.
+  * Whether or not a music lump has been modified in a PWAD will now be displayed.
+* Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby widescreen mode wouldn’t be displayed correctly after pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window, and if the `vid_borderlesswindow` CVAR was `off`.
 * The default of the `vid_borderlesswindow` CVAR is now `on`.
@@ -21,7 +22,7 @@
 * The background will now always be displayed correctly when confirming use of the `resetall` CCMD.
 * The background will now continue to rotate when confirming if the player wants to end a game or quit.
 * The title of MAP05 in *Final DOOM: TNT - Evilution* has been corrected.
-* The same amount of friction will now be applied to the player’s corpse as other corpses when in a liquid sector.
+* The amount of friction applied to the player’s corpse has been increased, matching the corpses of monsters, when in a liquid sector.
 
 ---
 
