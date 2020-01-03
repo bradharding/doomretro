@@ -330,7 +330,7 @@ static void P_XYMovement(mobj_t *mo)
             player->momy = 0;
         }
     }
-    else if ((flags2 & MF2_FEETARECLIPPED) && corpse && !player)
+    else if ((flags2 & MF2_FEETARECLIPPED) && corpse)
     {
         // [BH] increase friction for corpses in water
         mo->momx = FixedMul(mo->momx, WATERFRICTION);
