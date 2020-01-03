@@ -58,6 +58,7 @@
 #include "p_local.h"
 #include "p_saveg.h"
 #include "s_sound.h"
+#include "st_lib.h"
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -2152,6 +2153,7 @@ static void M_ChangeDetail(int choice)
     else
         C_Output(r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI);
 
+    STLib_Init();
     M_SaveCVARs();
 }
 

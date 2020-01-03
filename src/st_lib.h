@@ -120,4 +120,6 @@ void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh);
 
 void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
 
+void STLib_Init(void);
+
 #endif

@@ -69,6 +69,7 @@
 #include "s_sound.h"
 #include "sc_man.h"
 #include "sounds.h"
+#include "st_lib.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -7190,6 +7191,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
         if ((value == r_detail_low || value == r_detail_high) && r_detail != value)
         {
             r_detail = value;
+            STLib_Init();
             M_SaveCVARs();
         }
     }

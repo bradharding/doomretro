@@ -1536,12 +1536,6 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1]);
     STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
-#if SCREENSCALE == 1
-    usesmallnums = false;
-#else
-    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
-#endif
-
     // ammo count (all four kinds)
     STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
     STlib_InitNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], ST_AMMO1WIDTH);
@@ -1590,5 +1584,12 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
+#if SCREENSCALE == 1
+    usesmallnums = false;
+#else
+    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
+#endif
+
+    STLib_Init();
     ST_InitCheats();
 }

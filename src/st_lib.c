@@ -44,6 +44,8 @@
 
 dboolean    usesmallnums;
 
+void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
+
 void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width)
 {
     n->x = x;
@@ -53,7 +55,7 @@ void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int wid
     n->p = pl;
 }
 
-static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y)
+static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, patch_t *patch)
 {
     const char *lownums[10] =
     {
@@ -80,7 +82,12 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y)
     }
 }
 
-static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y)
+static void STlib_DrawLowNumPatch(int number, int color, int shadow, int x, int y, patch_t *patch)
+{
+    V_DrawPatch(x, y, 0, patch);
+}
+
+static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, patch_t *patch)
 {
     const char *highnums[10] =
     {
@@ -144,50 +151,17 @@ static void STlib_DrawSmallNum(st_number_t *n)
 
     // in the special case of 0, you draw 0
     if (!num)
-    {
-        if (usesmallnums)
-        {
-            if (r_detail == r_detail_high)
-                STlib_DrawHighNum(0, 160, 47, x - 4, n->y);
-            else
-                STlib_DrawLowNum(0, 160, 47, x - 4, n->y);
-        }
-        else
-            V_DrawPatch(x - 4, n->y, 0, n->p[0]);
-    }
-    else if (usesmallnums)
-    {
-        // draw the new number
-        if (r_detail == r_detail_high)
-        {
-            while (num && numdigits--)
-            {
-                x -= 4;
-                STlib_DrawHighNum(num % 10, 160, 47, x, n->y);
-                num /= 10;
-            }
-        }
-        else
-        {
-            while (num && numdigits--)
-            {
-                x -= 4;
-                STlib_DrawLowNum(num % 10, 160, 47, x, n->y);
-                num /= 10;
-            }
-        }
-    }
+        statbarnumfunc(0, 160, 47, x - 4, n->y, n->p[0]);
     else
     {
         // draw the new number
         while (num && numdigits--)
         {
             x -= 4;
-            V_DrawPatch(x, n->y, 0, n->p[num % 10]);
+            statbarnumfunc(num % 10, 160, 47, x, n->y, n->p[num % 10]);
             num /= 10;
         }
     }
-
 }
 
 void STlib_UpdateBigNum(st_number_t *n)
@@ -236,16 +210,12 @@ void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        if (usesmallnums)
-        {
-            if (r_detail == r_detail_high)
-                STlib_DrawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
-            else
-                STlib_DrawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
-        }
-        else
-            V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
-
+        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->p[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
+}
+
+void STLib_Init(void)
+{
+    statbarnumfunc = (!usesmallnums ? STlib_DrawLowNumPatch : (r_detail == r_detail_high ? STlib_DrawHighNum : STlib_DrawLowNum));
 }
