@@ -2838,9 +2838,12 @@ static void P_SpawnScrollers(void)
             // killough 3/1/98: scroll wall according to linedef
             // (same direction and speed as scrolling floors)
             case Scroll_ScrollWallAccordingToLineVector:
-                for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
-                    if (s != i)
-                        Add_WallScroller(dx, dy, lines + s, control, accel);
+                if (!l->tag)
+                    Add_WallScroller(dx, dy, l, control, accel);
+                else
+                    for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
+                        if (s != i)
+                            Add_WallScroller(dx, dy, lines + s, control, accel);
 
                 break;
 
