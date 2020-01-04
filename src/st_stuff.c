@@ -1237,14 +1237,13 @@ void ST_Ticker(void)
     }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
-    if (idclevtics)
-        if (!--idclevtics)
-        {
-            if (!samelevel)
-                S_StopMusic();
+    if (idclevtics && !--idclevtics)
+    {
+        if (!samelevel)
+            S_StopMusic();
 
-            G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
-        }
+        G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
+    }
 }
 
 static void ST_DoPaletteStuff(void)

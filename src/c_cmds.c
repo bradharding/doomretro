@@ -2904,8 +2904,6 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-extern int  idclevtics;
-
 static dboolean map_cmd_func1(char *cmd, char *parms)
 {
     if (!*parms)

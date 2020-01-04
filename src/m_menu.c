@@ -59,6 +59,7 @@
 #include "p_saveg.h"
 #include "s_sound.h"
 #include "st_lib.h"
+#include "st_stuff.h"
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -2520,7 +2521,7 @@ dboolean M_Responder(event_t *ev)
     int         key = -1;
     static int  keywait;
 
-    if (startingnewgame || dowipe)
+    if (startingnewgame || dowipe || idclevtics)
         return false;
 
     if (ev->type == ev_gamepad)

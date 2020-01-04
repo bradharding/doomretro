@@ -86,6 +86,8 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
+extern int      idclevtics;
+
 extern patch_t  *grnrock;
 extern patch_t  *brdr_t;
 extern patch_t  *brdr_b;
