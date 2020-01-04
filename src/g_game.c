@@ -724,7 +724,7 @@ dboolean G_Responder(event_t *ev)
                 G_PrevWeapon();
             else if (key == keyboardnextweapon && !menuactive && !paused)
                 G_NextWeapon();
-            else if (key == KEY_PAUSE && !menuactive && !keydown)
+            else if (key == KEY_PAUSE && !menuactive && !keydown && !idclevtics)
             {
                 keydown = KEY_PAUSE;
                 sendpause = true;
