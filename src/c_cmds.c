@@ -3716,9 +3716,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         temp = uppercase(lumpname);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>", temp,
-            ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? " (modified)" : ""));
+        C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>",
+            temp, ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (modified)"));
         free(temp);
 
         if (*musictitle)
