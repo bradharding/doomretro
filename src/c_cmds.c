@@ -503,7 +503,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autotilt, "", bool_cvars_func1, autotilt_cvar_func2, BOOLVALUEALIAS,
         "Toggles automatically tilting the player's view\nwhile going up or down flights of stairs."),
     CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles automatically using a door or switch when\nthe player is nearby."),
+        "Toggles automatically using doors and switches in\nfront of the player"),
     CMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
         "Binds an <i>action</i> or string of <i>commands</i> to a\n<i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",
