@@ -1,5 +1,7 @@
 ### DOOM Retro v3.4.1
 
+* Minor changes have been made to text that is output to the console.
+
 ---
 
 ###### Saturday, January 4, 2020
