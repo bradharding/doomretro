@@ -116,7 +116,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
 static void STlib_DrawBigNum(st_number_t *n)
 {
-    int num = *n->num;
+    int num = MAX(0, *n->num);
 
     // if non-number, do not draw it
     if (num == 1994)
@@ -146,7 +146,7 @@ static void STlib_DrawBigNum(st_number_t *n)
 
 static void STlib_DrawSmallNum(st_number_t *n)
 {
-    int num = *n->num;
+    int num = MAX(0, *n->num);
     int x = n->x;
 
     // in the special case of 0, you draw 0
