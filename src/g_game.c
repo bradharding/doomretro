@@ -583,8 +583,6 @@ void G_DoLoadLevel(void)
         pendinggameskill = 0;
     }
 
-    M_Seed((unsigned int)time(NULL));
-
     // initialize the msecnode_t freelist. phares 3/25/98
     // any nodes in the freelist are gone by now, cleared
     // by Z_FreeTags() when the previous level ended or player

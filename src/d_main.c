@@ -67,6 +67,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
@@ -1772,7 +1773,7 @@ static void D_DoomMainSetup(void)
     char    *iwadfile;
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
-    char    *time;
+    char    *seconds;
 
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
     free(resourcefolder);
@@ -2302,9 +2303,11 @@ static void D_DoomMainSetup(void)
 #endif
     }
 
-    time = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
-    C_Output("Startup took %s seconds to complete.", time);
-    free(time);
+    M_Seed((unsigned int)time(NULL));
+
+    seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
+    C_Output("Startup took %s seconds to complete.", seconds);
+    free(seconds);
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file
