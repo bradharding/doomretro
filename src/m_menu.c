@@ -1423,7 +1423,7 @@ static void M_DeleteSavegame(void)
 //
 static void M_DrawReadThis(void)
 {
-    char    lumpname[6];
+    char    lumpname[6] = "HELP1";
 
     if (gamemode == shareware)
         M_StringCopy(lumpname, (W_CheckNumForName("HELP3") >= 0 ? "HELP3" : "HELP2"), sizeof(lumpname));
@@ -1431,13 +1431,11 @@ static void M_DrawReadThis(void)
         M_StringCopy(lumpname, "HELP2", sizeof(lumpname));
     else if (gamemode == commercial)
         M_StringCopy(lumpname, "HELP", sizeof(lumpname));
-    else
-        M_StringCopy(lumpname, "HELP1", sizeof(lumpname));
 
     if (W_CheckNumForName(lumpname) >= 0)
     {
         if (automapactive)
-            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245, false);
+            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, nearestcolors[245], false);
         else
         {
             viewplayer->fixedcolormap = 0;
