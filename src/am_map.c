@@ -168,9 +168,6 @@ static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb 
 // LL x,y where the window is on the map (map coords)
 static fixed_t      m_x = FIXED_MAX, m_y = FIXED_MAX;
 
-// UR x,y where the window is on the map (map coords)
-static fixed_t      m_x2, m_y2;
-
 // width/height of window on map (map coords)
 static fixed_t      m_w, m_h;
 
@@ -233,8 +230,6 @@ static void AM_ActivateNewScale(void)
     m_h = FTOM(mapheight);
     m_x -= m_w / 2;
     m_y -= m_h / 2;
-    m_x2 = m_x + m_w;
-    m_y2 = m_y + m_h;
     putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? PUTBIGDOT : PUTDOT);
 }
 
@@ -251,19 +246,11 @@ static void AM_RestoreScaleAndLoc(void)
     m_w = old_m_w;
     m_h = old_m_h;
 
-    if (am_followmode)
-    {
-        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
-    }
-    else
+    if (!am_followmode)
     {
         m_x = old_m_x;
         m_y = old_m_y;
     }
-
-    m_x2 = m_x + m_w;
-    m_y2 = m_y + m_h;
 
     // Change the scaling multipliers
     scale_mtof = FixedDiv(mapwidth << FRACBITS, m_w);
@@ -327,9 +314,6 @@ static void AM_ChangeWindowLoc(void)
         m_x = BETWEEN(min_x, m_x + w + incx, max_x) - w;
         m_y = BETWEEN(min_y, m_y + h + incy, max_y) - h;
     }
-
-    m_x2 = m_x + m_w;
-    m_y2 = m_y + m_h;
 }
 
 void AM_SetColors(void)
@@ -436,14 +420,6 @@ static void AM_InitVariables(const dboolean mainwindow)
 
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
-
-    if (m_x == FIXED_MAX || am_followmode)
-    {
-        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
-        m_x2 = m_x + m_w;
-        m_y2 = m_y + m_h;
-    }
 
     // inform the status bar of the change
     ST_AutomapEvent(AM_MSGENTERED);
@@ -1197,8 +1173,6 @@ static void AM_DoFollowPlayer(void)
 {
     m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
     m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
-    m_x2 = m_x + m_w;
-    m_y2 = m_y + m_h;
 }
 
 //
@@ -2030,9 +2004,9 @@ static void AM_SetFrameVariables(void)
     if (am_rotatemode)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
-        const double    dx = (double)m_x2 - x;
-        const double    dy = (double)m_y2 - y;
-        const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
+        const fixed_t   dx = m_w / 2;
+        const fixed_t   dy = m_h / 2;
+        const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];
@@ -2045,9 +2019,9 @@ static void AM_SetFrameVariables(void)
     else
     {
         am_frame.bbox[BOXLEFT] = m_x;
-        am_frame.bbox[BOXRIGHT] = m_x2;
+        am_frame.bbox[BOXRIGHT] = m_x + m_w;
         am_frame.bbox[BOXBOTTOM] = m_y;
-        am_frame.bbox[BOXTOP] = m_y2;
+        am_frame.bbox[BOXTOP] = m_y + m_h;
     }
 }
 
