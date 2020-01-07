@@ -1320,7 +1320,7 @@ void P_RemoveCorruptMobjs(void)
     {
         mobj_t *mo = (mobj_t *)th;
 
-        if (!mo->state && mo->type != MT_TELEPORTMAN)
+        if (!mo->state && mo->info->spawnstate != S_NULL)
             P_RemoveMobj(mo);
     }
 }
