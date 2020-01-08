@@ -203,17 +203,8 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
     check->lightlevel = lightlevel;
     check->left = viewwidth;
     check->right = -1;
-
-    if (!(picnum & PL_SKYFLAT) && terraintypes[picnum] > SOLID && r_liquid_current && !x && !y)
-    {
-        check->xoffset = animatedliquidxoffs;
-        check->yoffset = animatedliquidyoffs;
-    }
-    else
-    {
-        check->xoffset = x;
-        check->yoffset = y;
-    }
+    check->xoffset = x;
+    check->yoffset = y;
 
     memset(check->top, UINT_MAX, sizeof(check->top));
     return check;
@@ -295,8 +286,17 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[SCREENHEIGHT];
     int         stop = pl->right + 1;
 
-    xoffset = pl->xoffset;
-    yoffset = pl->yoffset;
+    if (terraintypes[pl->picnum] != SOLID && r_liquid_current)
+    {
+        xoffset = animatedliquidxoffs;
+        yoffset = animatedliquidyoffs;
+    }
+    else
+    {
+        xoffset = pl->xoffset;
+        yoffset = pl->yoffset;
+    }
+
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[MIN((pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     pl->top[pl->left - 1] = UINT_MAX;
