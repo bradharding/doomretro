@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
+* A bug has been fixed whereby floor textures could be rendered incorrectly in some rare instances if the `r_liquid_current` CVAR was `on`.
 
 ---
 
