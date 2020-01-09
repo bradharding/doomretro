@@ -3725,6 +3725,7 @@ void M_ClearMenus(void)
         return;
 
     menuactive = false;
+    message_menu = false;
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
