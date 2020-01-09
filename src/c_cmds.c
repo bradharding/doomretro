@@ -517,7 +517,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(con_backcolor, con_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the console's background (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles obituaries in the console when monsters\nare killed or resurrected."),
+        "Toggles obituaries in the console when the player\nor monsters are killed."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles timestamps next to player messages and\nobituaries in the console."),
     CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
