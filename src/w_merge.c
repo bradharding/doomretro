@@ -495,10 +495,18 @@ static void DoMerge(void)
             case SECTION_HIDEF:
                 if (!strncasecmp(lump->name, "HI_END", 8))
                 {
-                    current_section = SECTION_NORMAL;
+                    int patches = i - histart - 1;
 
-                    if (i - histart - 1)
-                        C_Warning(1, "All patches between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.");
+                    if (patches)
+                    {
+                        char    *temp = commify(patches);
+
+                        C_Warning(1, "The %s%s between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.",
+                            (patches > 1 ? temp : ""), (patches > 1 ? " patches" : "patch"));
+                        free(temp);
+                    }
+
+                    current_section = SECTION_NORMAL;
                 }
 
                 break;

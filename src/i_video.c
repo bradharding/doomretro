@@ -1457,7 +1457,7 @@ static void SetVideoMode(dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a resizable window with dimensions %sx%s centered on the screen.", temp1, temp2);
+                C_Output("Created a %sx%s resizable window with centered on the screen.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
@@ -1472,7 +1472,7 @@ static void SetVideoMode(dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a resizable window with dimensions %sx%s at (%i,%i).", temp1, temp2, windowx, windowy);
+                C_Output("Created a %sx%s resizable window at (%i,%i).", temp1, temp2, windowx, windowy);
 
                 free(temp1);
                 free(temp2);
