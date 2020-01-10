@@ -1343,7 +1343,7 @@ static void SetVideoMode(dboolean output)
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
 
-    if (displayindex < 0 || displayindex >= numdisplays || !displayname)
+    if (displayindex < 0 || displayindex >= numdisplays)
     {
         if (output)
             C_Warning(1, "Unable to find display %i.", vid_display);
@@ -1457,7 +1457,7 @@ static void SetVideoMode(dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a %sx%s resizable window with centered on the screen.", temp1, temp2);
+                C_Output("Created a %sx%s resizable window centered on the screen.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
