@@ -735,7 +735,7 @@ char *trimwhitespace(char *input)
     while (end > input && isspace((unsigned char)*end))
         end--;
 
-    *(end + 1) = 0;
+    *(end + 1) = '\0';
 
     return input;
 }

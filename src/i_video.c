@@ -1354,9 +1354,19 @@ static void SetVideoMode(dboolean output)
     if (output)
     {
         if (displayname)
-            C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays, displayname);
+        {
+            if (numdisplays == 1)
+                C_Output("Using \"%s\" (the only display).", displayname);
+            else
+                C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
+        }
         else
-            C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
+        {
+            if (numdisplays == 1)
+                C_Output("Using the only display.");
+            else
+                C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
+        }
     }
 
     if (vid_vsync)
@@ -1502,7 +1512,7 @@ static void SetVideoMode(dboolean output)
         char *temp1 = commify(height * 4 / 3);
         char *temp2 = commify(height);
 
-        C_Output("<i><b>" PACKAGE_NAME "</b></i> is using a software renderer.");
+        C_Output("<i><b>" PACKAGE_NAME "</b></i> uses a software renderer to render each frame.");
 
         if (nearestlinear)
         {
@@ -1511,7 +1521,7 @@ static void SetVideoMode(dboolean output)
 
             C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp3, temp4);
-            C_Output("They are then scaled down to %sx%s using linear filtering.", temp1, temp2);
+            C_Output("Each frame is then scaled down to %sx%s using linear filtering.", temp1, temp2);
 
             free(temp3);
             free(temp4);
@@ -1547,14 +1557,14 @@ static void SetVideoMode(dboolean output)
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("This is now done in hardware using <i><b>Direct3D %s.</b></i>",
+                    C_Output("This scaling is now done in hardware using <i><b>Direct3D %s.</b></i>",
                         (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 #endif
             }
             else
             {
                 if (output)
-                    C_Output("This is done in hardware using <i><b>OpenGL v%i.%i.</b></i>", major, minor);
+                    C_Output("This scaling is done in hardware using <i><b>OpenGL v%i.%i.</b></i>", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1567,7 +1577,7 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This is done in hardware using <i><b>Direct3D %s.</b></i>",
+                C_Output("This scaling is done in hardware using <i><b>Direct3D %s.</b></i>",
                     (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
@@ -1580,19 +1590,19 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("This is done in hardware using <i><b>Metal.</b></i>");
+                C_Output("This scaling is done in hardware using <i><b>Metal.</b></i>");
         }
 #endif
 #if !defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("This is done in hardware using <i><b>OpenGL ES.</b></i>");
+                C_Output("This scaling is done in hardware using <i><b>OpenGL ES.</b></i>");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("This is done in hardware using <i><b>OpenGL ES 2.</b></i>");
+                C_Output("This scaling is done in hardware using <i><b>OpenGL ES 2.</b></i>");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
@@ -1602,7 +1612,7 @@ static void SetVideoMode(dboolean output)
             SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
             if (output)
-                C_Output("This is also done in software.");
+                C_Output("This scaling is also done in software.");
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
             {

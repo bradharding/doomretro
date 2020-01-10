@@ -3229,7 +3229,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     {
         int         ep = -1;
         int         map = -1;
-        char        lump[6];
+        char        lump[9];
         char        wadname[MAX_PATH];
         dboolean    replaced;
         dboolean    pwad;
