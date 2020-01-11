@@ -3199,20 +3199,20 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
                 }
 
-                if (mapcmdepisode-- == -1 || mapcmdmap-- == -1)
+                if (mapcmdepisode == -1 || mapcmdmap == -1)
                     continue;
 
                 M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
                 replaced = (W_CheckMultipleLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
                 pwad = (lumpinfo[i]->wadfile->type == PWAD);
-                M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode * 10 + mapcmdmap + 1), sizeof(mapinfoname));
+                M_StringCopy(mapinfoname, P_GetMapName((mapcmdepisode - 1) * 10 + mapcmdmap), sizeof(mapinfoname));
 
                 switch (gamemission)
                 {
                     case doom:
                         if (!replaced || pwad)
                         {
-                            temp = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[mapcmdepisode * 9 + mapcmdmap]);
+                            temp = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[(mapcmdepisode - 1) * 9 + mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp))
                                 result = true;
@@ -3229,7 +3229,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             {
                                 if (!M_StringCompare(wadname, "DOOM2.WAD"))
                                 {
-                                    temp = removenonalpha(*mapnames2[mapcmdmap]);
+                                    temp = removenonalpha(*mapnames2[mapcmdmap - 1]);
 
                                     if (M_StringCompare(parm, temp))
                                         result = true;
@@ -3240,7 +3240,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             else
                             {
                                 temp = removenonalpha(*mapinfoname ? mapinfoname :
-                                    (bfgedition ? *mapnames2_bfg[mapcmdmap] : *mapnames2[mapcmdmap]));
+                                    (bfgedition ? *mapnames2_bfg[mapcmdmap - 1] : *mapnames2[mapcmdmap - 1]));
 
                                 if (M_StringCompare(parm, temp))
                                     result = true;
@@ -3254,7 +3254,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_nerve:
                         if (M_StringCompare(wadname, "NERVE.WAD"))
                         {
-                            temp = removenonalpha(*mapnamesn[mapcmdmap]);
+                            temp = removenonalpha(*mapnamesn[mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp))
                                 result = true;
@@ -3267,7 +3267,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_plut:
                         if (!replaced || pwad)
                         {
-                            temp = removenonalpha(*mapnamesp[mapcmdmap]);
+                            temp = removenonalpha(*mapnamesp[mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp))
                                 result = true;
@@ -3280,7 +3280,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_tnt:
                         if (!replaced || pwad)
                         {
-                            temp = removenonalpha(*mapnamest[mapcmdmap]);
+                            temp = removenonalpha(*mapnamest[mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp))
                                 result = true;
@@ -3321,7 +3321,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;
 
-    gameepisode = mapcmdepisode + 1;
+    gameepisode = mapcmdepisode;
 
     if (gamemission == doom)
     {
@@ -3329,7 +3329,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         EpiDef.lastOn = episode - 1;
     }
 
-    gamemap = mapcmdmap + 1;
+    gamemap = mapcmdmap;
 
     if (gamestate == GS_LEVEL)
     {
