@@ -2917,13 +2917,12 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         return true;
     else
     {
-        char        *parm = uppercase(parms);
         dboolean    result = false;
 
         mapcmdepisode = 0;
         mapcmdmap = 0;
 
-        if (M_StringCompare(parm, "first"))
+        if (M_StringCompare(parms, "first"))
         {
             if (gamemode == commercial)
             {
@@ -2946,7 +2945,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if ((M_StringCompare(parm, "previous") || M_StringCompare(parm, "prev")) && gamestate != GS_TITLESCREEN)
+        else if ((M_StringCompare(parms, "previous") || M_StringCompare(parms, "prev")) && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -2979,7 +2978,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(parm, "next") && gamestate != GS_TITLESCREEN)
+        else if (M_StringCompare(parms, "next") && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -3012,7 +3011,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(parm, "last"))
+        else if (M_StringCompare(parms, "last"))
         {
             if (gamemode == commercial)
             {
@@ -3078,7 +3077,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if (M_StringCompare(parm, "random"))
+        else if (M_StringCompare(parms, "random"))
         {
             if (gamemode == commercial)
             {
@@ -3096,7 +3095,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 result = true;
             }
         }
-        else if (M_StringCompare(parm, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parms, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
@@ -3104,7 +3103,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             M_StringCopy(mapcmdlump, "E1M4B", 6);
             result = true;
         }
-        else if (M_StringCompare(parm, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parms, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
@@ -3114,15 +3113,15 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         }
         else
         {
-            M_StringCopy(mapcmdlump, parm, sizeof(mapcmdlump));
+            M_StringCopy(mapcmdlump, parms, sizeof(mapcmdlump));
 
             if (gamemode == commercial)
             {
                 mapcmdepisode = 1;
 
-                if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
+                if (sscanf(parms, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parms, "MAP%2i", &mapcmdmap) == 1)
                 {
-                    if (!((BTSX && W_CheckMultipleLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    if (!((BTSX && W_CheckMultipleLumps(parms) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
                         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
                         {
@@ -3130,17 +3129,17 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             expansion = 1;
                         }
 
-                        result = (W_CheckNumForName(parm) >= 0);
+                        result = (W_CheckNumForName(parms) >= 0);
                     }
                 }
                 else if (BTSX)
                 {
-                    if (sscanf(parm, "MAP%02iC", &mapcmdmap) == 1)
-                        result = (W_CheckNumForName(parm) >= 0);
+                    if (sscanf(parms, "MAP%02iC", &mapcmdmap) == 1)
+                        result = (W_CheckNumForName(parms) >= 0);
                     else
                     {
-                        if (sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                            sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+                        if (sscanf(parms, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                            sscanf(parms, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
 
                         if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
                             || (mapcmdepisode == 3 && BTSXE3)))
@@ -3153,9 +3152,9 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     }
                 }
             }
-            else if (sscanf(parm, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-                result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
-            else if (FREEDOOM && sscanf(parm, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parms, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+                result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parms) >= 0));
+            else if (FREEDOOM && sscanf(parms, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
                 char    lump[5];
 
@@ -3165,17 +3164,19 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         }
 
         if (!result)
+        {
+            char    *parm = removenonalpha(parms);
+
             for (int i = 0; i < numlumps; i++)
             {
                 char        wadname[MAX_PATH];
                 dboolean    replaced;
                 dboolean    pwad;
                 char        mapinfoname[128];
-                char        *temp1 = uppercase(lumpinfo[i]->name);
-                char        *temp2;
+                char        *temp = uppercase(lumpinfo[i]->name);
 
-                M_StringCopy(mapcmdlump, temp1, sizeof(mapcmdlump));
-                free(temp1);
+                M_StringCopy(mapcmdlump, temp, sizeof(mapcmdlump));
+                free(temp);
 
                 mapcmdepisode = -1;
                 mapcmdmap = -1;
@@ -3211,11 +3212,12 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case doom:
                         if (!replaced || pwad)
                         {
-                            temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[mapcmdepisode * 9 + mapcmdmap]);
+                            temp = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[mapcmdepisode * 9 + mapcmdmap]);
 
-                            if (M_StringCompare(temp1, temp2))
+                            if (M_StringCompare(parm, temp))
                                 result = true;
+
+                            free(temp);
                         }
 
                         break;
@@ -3227,21 +3229,23 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             {
                                 if (!M_StringCompare(wadname, "DOOM2.WAD"))
                                 {
-                                    temp1 = removenonalpha(parm);
-                                    temp2 = removenonalpha(*mapnames2[mapcmdmap]);
+                                    temp = removenonalpha(*mapnames2[mapcmdmap]);
 
-                                    if (M_StringCompare(temp1, temp2))
+                                    if (M_StringCompare(parm, temp))
                                         result = true;
+
+                                    free(temp);
                                 }
                             }
                             else
                             {
-                                temp1 = removenonalpha(parm);
-                                temp2 = removenonalpha(*mapinfoname ? mapinfoname :
+                                temp = removenonalpha(*mapinfoname ? mapinfoname :
                                     (bfgedition ? *mapnames2_bfg[mapcmdmap] : *mapnames2[mapcmdmap]));
 
-                                if (M_StringCompare(temp1, temp2))
+                                if (M_StringCompare(parm, temp))
                                     result = true;
+
+                                free(temp);
                             }
                         }
 
@@ -3250,11 +3254,12 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_nerve:
                         if (M_StringCompare(wadname, "NERVE.WAD"))
                         {
-                            temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(*mapnamesn[mapcmdmap]);
+                            temp = removenonalpha(*mapnamesn[mapcmdmap]);
 
-                            if (M_StringCompare(temp1, temp2))
+                            if (M_StringCompare(parm, temp))
                                 result = true;
+
+                            free(temp);
                         }
 
                         break;
@@ -3262,11 +3267,12 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_plut:
                         if (!replaced || pwad)
                         {
-                            temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(*mapnamesp[mapcmdmap]);
+                            temp = removenonalpha(*mapnamesp[mapcmdmap]);
 
-                            if (M_StringCompare(temp1, temp2))
+                            if (M_StringCompare(parm, temp))
                                 result = true;
+
+                            free(temp);
                         }
 
                         break;
@@ -3274,11 +3280,12 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     case pack_tnt:
                         if (!replaced || pwad)
                         {
-                            temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(*mapnamest[mapcmdmap]);
+                            temp = removenonalpha(*mapnamest[mapcmdmap]);
 
-                            if (M_StringCompare(temp1, temp2))
+                            if (M_StringCompare(parm, temp))
                                 result = true;
+
+                            free(temp);
                         }
 
                         break;
@@ -3288,14 +3295,11 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
 
                 if (result)
-                {
-                    free(temp1);
-                    free(temp2);
                     break;
-                }
             }
 
-        free(parm);
+            free(parm);
+        }
 
         return result;
     }
