@@ -83,8 +83,8 @@
 #define IFCMDFORMAT                 "<i>CVAR</i> <i>value</i> <b>then</b> [<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]"
 #define KILLCMDFORMAT               "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT               "<i>filename</i><b>.save</b>"
-#define MAPCMDFORMAT1               "<b>E</b><i>x</i><b>M</b><i>y</i>[<b>B</b>]|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
-#define MAPCMDFORMAT2               "<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT1               "<b>E</b><i>x</i><b>M</b><i>y</i>[<b>B</b>]|<i>title</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT2               "<b>MAP</b><i>xy</i>|<i>title</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT               "<i>soundeffect</i>|<i>music</i>"
 #define NAMECMDFORMAT               "[<b>friendly</b> ]<i>monster</i> <i>name</i>"
 #define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
@@ -533,7 +533,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
-        "Executes a series of commands stored in a file."),
+        "Executes a series of commands stored in a\nfile."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, false, "",
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
@@ -547,7 +547,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>" PACKAGE_NAME "</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the "
+        "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n<b>all</b> or certain <i>items</i> to the "
         "player."),
     CMD(god, "", alive_func1, god_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
@@ -603,7 +603,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
-        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nor explodes all <b>barrels</b> or <b>missiles</b>."),
+        "Kills the <b>player</b>, <b>all</b> monsters, a type of\n<i>monster</i>, or explodes all <b>barrels</b> or <b>missiles</b>."),
     CMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_BOOL(m_acceleration, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -774,7 +774,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
     CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
-        "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> from the "
+        "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n<b>all</b> or certain <i>items</i> from the "
         "player."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
@@ -1619,7 +1619,7 @@ static void clear_cmd_func2(char *cmd, char *parms)
 //
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
-    const int tabs[8] = { 40, 336, 0, 0, 0, 0, 0, 0 };
+    const int tabs[8] = { 40, 346, 0, 0, 0, 0, 0, 0 };
     int       count = 0;
 
     for (int i = 0; *consolecmds[i].name; i++)
@@ -2904,19 +2904,26 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
+extern char **mapnames[];
+extern char **mapnames2[];
+extern char **mapnames2_bfg[];
+extern char **mapnamesp[];
+extern char **mapnamest[];
+extern char **mapnamesn[];
+
 static dboolean map_cmd_func1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
     else
     {
-        char        *map = uppercase(parms);
+        char        *parm = uppercase(parms);
         dboolean    result = false;
 
         mapcmdepisode = 0;
         mapcmdmap = 0;
 
-        if (M_StringCompare(map, "first"))
+        if (M_StringCompare(parm, "first"))
         {
             if (gamemode == commercial)
             {
@@ -2939,7 +2946,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if ((M_StringCompare(map, "previous") || M_StringCompare(map, "prev")) && gamestate != GS_TITLESCREEN)
+        else if ((M_StringCompare(parm, "previous") || M_StringCompare(parm, "prev")) && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -2972,7 +2979,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(map, "next") && gamestate != GS_TITLESCREEN)
+        else if (M_StringCompare(parm, "next") && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -3005,7 +3012,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(map, "last"))
+        else if (M_StringCompare(parm, "last"))
         {
             if (gamemode == commercial)
             {
@@ -3071,7 +3078,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if (M_StringCompare(map, "random"))
+        else if (M_StringCompare(parm, "random"))
         {
             if (gamemode == commercial)
             {
@@ -3089,7 +3096,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 result = true;
             }
         }
-        else if (M_StringCompare(map, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parm, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
@@ -3097,7 +3104,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             M_StringCopy(mapcmdlump, "E1M4B", 6);
             result = true;
         }
-        else if (M_StringCompare(map, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parm, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
@@ -3107,15 +3114,15 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         }
         else
         {
-            M_StringCopy(mapcmdlump, map, sizeof(mapcmdlump));
+            M_StringCopy(mapcmdlump, parm, sizeof(mapcmdlump));
 
             if (gamemode == commercial)
             {
                 mapcmdepisode = 1;
 
-                if (sscanf(map, "MAP0%1i", &mapcmdmap) == 1 || sscanf(map, "MAP%2i", &mapcmdmap) == 1)
+                if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
                 {
-                    if (!((BTSX && W_CheckMultipleLumps(map) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    if (!((BTSX && W_CheckMultipleLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
                         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
                         {
@@ -3123,17 +3130,17 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             expansion = 1;
                         }
 
-                        result = (W_CheckNumForName(map) >= 0);
+                        result = (W_CheckNumForName(parm) >= 0);
                     }
                 }
                 else if (BTSX)
                 {
-                    if (sscanf(map, "MAP%02iC", &mapcmdmap) == 1)
-                        result = (W_CheckNumForName(map) >= 0);
+                    if (sscanf(parm, "MAP%02iC", &mapcmdmap) == 1)
+                        result = (W_CheckNumForName(parm) >= 0);
                     else
                     {
-                        if (sscanf(map, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                            sscanf(map, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+                        if (sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                            sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
 
                         if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
                             || (mapcmdepisode == 3 && BTSXE3)))
@@ -3146,9 +3153,9 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     }
                 }
             }
-            else if (sscanf(map, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-                result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(map) >= 0));
-            else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parm, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+                result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
+            else if (FREEDOOM && sscanf(parm, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
                 char    lump[5];
 
@@ -3157,7 +3164,141 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             }
         }
 
-        free(map);
+        if (!result)
+        {
+            for (int i = 0; i < numlumps; i++)
+            {
+                char        wadname[MAX_PATH];
+                dboolean    replaced;
+                dboolean    pwad;
+                char        mapinfoname[128];
+                char        *temp1 = uppercase(lumpinfo[i]->name);
+                char        *temp2;
+
+                M_StringCopy(mapcmdlump, temp1, sizeof(mapcmdlump));
+                free(temp1);
+
+                mapcmdepisode = -1;
+                mapcmdmap = -1;
+
+                if (gamemode == commercial)
+                {
+                    mapcmdepisode = 1;
+                    sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap);
+
+                    if (mapcmdmap == -1)
+                        sscanf(mapcmdlump, "MAP%2i", &mapcmdmap);
+                }
+                else
+                {
+                    sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap);
+
+                    if (gamemode != shareware && strlen(mapcmdlump) == 5 && mapcmdepisode != -1 && mapcmdmap != -1)
+                        M_StringCopy(speciallumpname, mapcmdlump, 6);
+                    else
+                        sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
+                }
+
+                if (mapcmdepisode-- == -1 || mapcmdmap-- == -1)
+                    continue;
+
+                M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
+                replaced = (W_CheckMultipleLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
+                pwad = (lumpinfo[i]->wadfile->type == PWAD);
+                M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode * 10 + mapcmdmap + 1), sizeof(mapinfoname));
+
+                switch (gamemission)
+                {
+                    case doom:
+                        if (!replaced || pwad)
+                        {
+                            temp1 = removenonalpha(parm);
+                            temp2 = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[mapcmdepisode * 9 + mapcmdmap]);
+
+                            if (M_StringCompare(temp1, temp2))
+                                result = true;
+                        }
+
+                        break;
+
+                    case doom2:
+                        if ((!M_StringCompare(wadname, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
+                        {
+                            if (BTSX)
+                            {
+                                if (!M_StringCompare(wadname, "DOOM2.WAD"))
+                                {
+                                    temp1 = removenonalpha(parm);
+                                    temp2 = removenonalpha(removenonalpha(*mapnames2[mapcmdmap]));
+
+                                    if (M_StringCompare(temp1, temp2))
+                                        result = true;
+                                }
+                            }
+                            else
+                            {
+                                temp1 = removenonalpha(parm);
+                                temp2 = removenonalpha(removenonalpha(*mapinfoname ? mapinfoname :
+                                    (bfgedition ? *mapnames2_bfg[mapcmdmap] : *mapnames2[mapcmdmap])));
+
+                                if (M_StringCompare(temp1, temp2))
+                                    result = true;
+                            }
+                        }
+
+                        break;
+
+                    case pack_nerve:
+                        if (M_StringCompare(wadname, "NERVE.WAD"))
+                        {
+                            temp1 = removenonalpha(parm);
+                            temp2 = removenonalpha(removenonalpha(*mapnamesn[mapcmdmap]));
+
+                            if (M_StringCompare(temp1, temp2))
+                                result = true;
+                        }
+
+                        break;
+
+                    case pack_plut:
+                        if (!replaced || pwad)
+                        {
+                            temp1 = removenonalpha(parm);
+                            temp2 = removenonalpha(removenonalpha(*mapnamesp[mapcmdmap]));
+
+                            if (M_StringCompare(temp1, temp2))
+                                result = true;
+                        }
+
+                        break;
+
+                    case pack_tnt:
+                        if (!replaced || pwad)
+                        {
+                            temp1 = removenonalpha(parm);
+                            temp2 = removenonalpha(removenonalpha(*mapnamest[mapcmdmap]));
+
+                            if (M_StringCompare(temp1, temp2))
+                                result = true;
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (result)
+                {
+                    free(temp1);
+                    free(temp2);
+                    break;
+                }
+            }
+        }
+
+        free(parm);
+
         return result;
     }
 }
@@ -3178,7 +3319,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;
 
-    gameepisode = mapcmdepisode;
+    gameepisode = mapcmdepisode + 1;
 
     if (gamemission == doom)
     {
@@ -3186,7 +3327,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         EpiDef.lastOn = episode - 1;
     }
 
-    gamemap = mapcmdmap;
+    gamemap = mapcmdmap + 1;
 
     if (gamestate == GS_LEVEL)
     {
@@ -3209,12 +3350,6 @@ static void map_cmd_func2(char *cmd, char *parms)
 // maplist CCMD
 //
 extern int  dehcount;
-extern char **mapnames[];
-extern char **mapnames2[];
-extern char **mapnames2_bfg[];
-extern char **mapnamesp[];
-extern char **mapnamest[];
-extern char **mapnamesn[];
 
 static void maplist_cmd_func2(char *cmd, char *parms)
 {
