@@ -3165,7 +3165,6 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         }
 
         if (!result)
-        {
             for (int i = 0; i < numlumps; i++)
             {
                 char        wadname[MAX_PATH];
@@ -3229,7 +3228,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                                 if (!M_StringCompare(wadname, "DOOM2.WAD"))
                                 {
                                     temp1 = removenonalpha(parm);
-                                    temp2 = removenonalpha(removenonalpha(*mapnames2[mapcmdmap]));
+                                    temp2 = removenonalpha(*mapnames2[mapcmdmap]);
 
                                     if (M_StringCompare(temp1, temp2))
                                         result = true;
@@ -3238,8 +3237,8 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                             else
                             {
                                 temp1 = removenonalpha(parm);
-                                temp2 = removenonalpha(removenonalpha(*mapinfoname ? mapinfoname :
-                                    (bfgedition ? *mapnames2_bfg[mapcmdmap] : *mapnames2[mapcmdmap])));
+                                temp2 = removenonalpha(*mapinfoname ? mapinfoname :
+                                    (bfgedition ? *mapnames2_bfg[mapcmdmap] : *mapnames2[mapcmdmap]));
 
                                 if (M_StringCompare(temp1, temp2))
                                     result = true;
@@ -3252,7 +3251,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         if (M_StringCompare(wadname, "NERVE.WAD"))
                         {
                             temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(removenonalpha(*mapnamesn[mapcmdmap]));
+                            temp2 = removenonalpha(*mapnamesn[mapcmdmap]);
 
                             if (M_StringCompare(temp1, temp2))
                                 result = true;
@@ -3264,7 +3263,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         if (!replaced || pwad)
                         {
                             temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(removenonalpha(*mapnamesp[mapcmdmap]));
+                            temp2 = removenonalpha(*mapnamesp[mapcmdmap]);
 
                             if (M_StringCompare(temp1, temp2))
                                 result = true;
@@ -3276,7 +3275,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         if (!replaced || pwad)
                         {
                             temp1 = removenonalpha(parm);
-                            temp2 = removenonalpha(removenonalpha(*mapnamest[mapcmdmap]));
+                            temp2 = removenonalpha(*mapnamest[mapcmdmap]);
 
                             if (M_StringCompare(temp1, temp2))
                                 result = true;
@@ -3295,7 +3294,6 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     break;
                 }
             }
-        }
 
         free(parm);
 

@@ -79,6 +79,10 @@ static byte general[256] =
 #define BLUES       B
 #define EXTRAS      X
 
+#define BLACK       0
+#define RED         176
+#define WHITE       4
+
 byte    *tinttab20;
 byte    *tinttab25;
 byte    *tinttab33;
@@ -156,9 +160,9 @@ void FindNearestColors(byte *palette)
         for (int i = 0; i < 256; i++)
             nearestcolors[i] = i;
 
-    nearestblack = nearestcolors[0];
-    nearestred = nearestcolors[176];
-    nearestwhite = nearestcolors[4];
+    nearestblack = nearestcolors[BLACK];
+    nearestred = nearestcolors[RED];
+    nearestwhite = nearestcolors[WHITE];
 }
 
 int FindDominantColor(patch_t *patch)
