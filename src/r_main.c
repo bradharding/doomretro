@@ -48,10 +48,6 @@
 #include "r_sky.h"
 #include "v_video.h"
 
-#define BLACK       0
-#define RED         176
-#define WHITE       4
-
 // increment every time a check is made
 int                 validcount = 1;
 
@@ -887,10 +883,10 @@ void R_RenderPlayerView(void)
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            nearestcolors[((leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK))], false);
+            ((leveltime % 20) < 9 ? nearestred : (viewplayer->fixedcolormap == INVERSECOLORMAP ? nearestwhite : nearestblack)), false);
     else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            nearestcolors[(viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)], false);
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? nearestwhite : nearestblack), false);
 
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
     R_DrawPlanes();
