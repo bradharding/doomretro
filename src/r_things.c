@@ -837,20 +837,20 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gx = fx;
     vis->gy = fy;
 
-    if (r_blood == r_blood_red)
-    {
-        vis->blood = MT_BLOOD;
-        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
-    }
-    else if (r_blood == r_blood_green)
-    {
-        vis->blood = GREENBLOOD;
-        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
-    }
-    else
+    if (r_blood == r_blood_all)
     {
         vis->blood = splat->blood;
         vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? R_DrawPausedFuzzColumn : splat->colfunc);
+    }
+    else if (r_blood == r_blood_red)
+    {
+        vis->blood = MT_BLOOD;
+        vis->colfunc = splat->colfunc;
+    }
+    else
+    {
+        vis->blood = GREENBLOOD;
+        vis->colfunc = splat->colfunc;
     }
 
     vis->texturemid = floorheight + FRACUNIT - viewz;
