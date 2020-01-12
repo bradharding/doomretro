@@ -1417,6 +1417,9 @@ void G_DoLoadGame(void)
     loadaction = gameaction;
     gameaction = ga_nothing;
 
+    if (consolestrings < 2 || !M_StringStartsWith(console[consolestrings - 3].string, "load "))
+        C_Input("load %s", savename);
+
     if (!(save_stream = fopen(savename, "rb")))
     {
         C_Warning(1, "<b>%s</b> couldn't be found.", savename);
@@ -1468,9 +1471,6 @@ void G_DoLoadGame(void)
     R_FillBackScreen();
 
     st_facecount = 0;
-
-    if (consolestrings < 2 || !M_StringStartsWith(console[consolestrings - 3].string, "load "))
-        C_Input("load %s", savename);
 
     if (consoleactive)
     {
