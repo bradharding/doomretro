@@ -1147,17 +1147,18 @@ extern char **mapnamesn[];
 
 static char *RemoveMapNum(char *string)
 {
-    char    *pos = strchr(string, ':');
+    char    *newstr = M_StringDuplicate(string);
+    char    *pos = strchr(newstr, ':');
 
     if (pos)
     {
-        string = pos + 1;
+        newstr = pos + 1;
 
-        while (string[0] == ' ')
-            string++;
+        while (newstr[0] == ' ')
+            newstr++;
     }
 
-    return string;
+    return newstr;
 }
 
 void M_UpdateSaveGameName(int i)
