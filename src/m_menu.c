@@ -1183,23 +1183,17 @@ void M_UpdateSaveGameName(int i)
             match = true;
         else
         {
-            char    *temp = NULL;
-
             switch (gamemission)
             {
                 case doom:
                     for (int j = 0; j < 9 * 5; j++)
-                    {
-                        temp = RemoveMapNum(*mapnames[j]);
-
-                        if (M_StringCompare(savegamestrings[i], temp)
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j]))
                             || M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B)
                             || M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
                         {
                             match = true;
                             break;
                         }
-                    }
 
                     break;
 
@@ -1207,80 +1201,57 @@ void M_UpdateSaveGameName(int i)
                     if (bfgedition)
                     {
                         for (int j = 0; j < 33; j++)
-                        {
-                            temp = RemoveMapNum(*mapnames2_bfg[j]);
-
-                            if (M_StringCompare(savegamestrings[i], temp))
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
                             {
                                 match = true;
                                 break;
                             }
-                        }
                     }
                     else
                     {
                         for (int j = 0; j < 32; j++)
-                        {
-                            temp = RemoveMapNum(*mapnames2[j]);
-
-                            if (M_StringCompare(savegamestrings[i], temp))
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
                             {
                                 match = true;
                                 break;
                             }
-                        }
                     }
 
                     break;
 
                 case pack_nerve:
                     for (int j = 0; j < 9; j++)
-                    {
-                        temp = RemoveMapNum(*mapnamesn[j]);
-
-                        if (M_StringCompare(savegamestrings[i], temp))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
                             break;
                         }
-                    }
 
                     break;
 
                 case pack_plut:
                     for (int j = 0; j < 32; j++)
-                    {
-                        temp = RemoveMapNum(*mapnamesp[j]);
-
-                        if (M_StringCompare(savegamestrings[i], temp))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
                         {
                             match = true;
                             break;
                         }
-                    }
 
                     break;
 
                 case pack_tnt:
                     for (int j = 0; j < 32; j++)
-                    {
-                        temp = RemoveMapNum(*mapnamest[j]);
-
-                        if (M_StringCompare(savegamestrings[i], temp))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
                         {
                             match = true;
                             break;
                         }
-                    }
 
                     break;
 
                 default:
                     break;
             }
-
-            if (temp)
-                free(temp);
         }
     }
 
