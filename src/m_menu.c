@@ -674,10 +674,10 @@ static struct
 // M_DrawString
 //  draw a string on screen
 //
-void M_DrawString(int x, int y, char *str)
+void M_DrawString(int x, int y, char *string)
 {
     static char prev;
-    int         len = (int)strlen(str);
+    int         len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
     {
@@ -685,12 +685,12 @@ void M_DrawString(int x, int y, char *str)
         int         k = 0;
         dboolean    overlapping = false;
 
-        if (str[i] < 123)
-            j = chartoi[(int)str[i]];
+        if (string[i] < 123)
+            j = chartoi[(int)string[i]];
 
         while (bigkern[k].char1)
         {
-            if (prev == bigkern[k].char1 && str[i] == bigkern[k].char2)
+            if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
             {
                 x += bigkern[k].adjust;
                 break;
@@ -703,7 +703,7 @@ void M_DrawString(int x, int y, char *str)
 
         while (overlap[k].char1)
         {
-            if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
+            if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
             {
                 overlapping = true;
                 break;
@@ -720,7 +720,7 @@ void M_DrawString(int x, int y, char *str)
             x += (int)strlen(redcharset[j]) / 18 - 2;
         }
 
-        prev = str[i];
+        prev = string[i];
     }
 }
 
@@ -728,27 +728,27 @@ void M_DrawString(int x, int y, char *str)
 // M_BigStringWidth
 //  return width of string in pixels
 //
-static int M_BigStringWidth(char *str)
+static int M_BigStringWidth(char *string)
 {
     int         w = 0;
     static char prev;
-    int         len = (int)strlen(str);
+    int         len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
     {
-        int j = chartoi[(int)str[i]];
+        int j = chartoi[(int)string[i]];
         int k = 0;
 
         while (bigkern[k].char1)
         {
-            if (prev == bigkern[k].char1 && str[i] == bigkern[k].char2)
+            if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 w += bigkern[k].adjust;
 
             k++;
         }
 
         w += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
-        prev = str[i];
+        prev = string[i];
     }
 
     return w;
@@ -758,9 +758,9 @@ static int M_BigStringWidth(char *str)
 // M_DrawCenteredString
 //  draw a string centered horizontally on screen
 //
-void M_DrawCenteredString(int y, char *str)
+void M_DrawCenteredString(int y, char *string)
 {
-    M_DrawString((ORIGINALWIDTH - M_BigStringWidth(str) - 1) / 2, y, str);
+    M_DrawString((ORIGINALWIDTH - M_BigStringWidth(string) - 1) / 2, y, string);
 }
 
 //
@@ -1145,19 +1145,19 @@ extern char **mapnamesp[];
 extern char **mapnamest[];
 extern char **mapnamesn[];
 
-static const char *RemoveMapNum(const char *str)
+static char *RemoveMapNum(char *string)
 {
-    char    *pos = strchr(str, ':');
+    char    *pos = strchr(string, ':');
 
     if (pos)
     {
-        str = pos + 1;
+        string = pos + 1;
 
-        while (str[0] == ' ')
-            str++;
+        while (string[0] == ' ')
+            string++;
     }
 
-    return str;
+    return string;
 }
 
 void M_UpdateSaveGameName(int i)
@@ -1182,73 +1182,104 @@ void M_UpdateSaveGameName(int i)
             match = true;
         else
         {
+            char    *temp = NULL;
+
             switch (gamemission)
             {
                 case doom:
                     for (int j = 0; j < 9 * 5; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j]))
+                    {
+                        temp = RemoveMapNum(*mapnames[j]);
+
+                        if (M_StringCompare(savegamestrings[i], temp)
                             || M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B)
                             || M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
                         {
                             match = true;
                             break;
                         }
+                    }
 
                     break;
 
                 case doom2:
-                case pack_nerve:
                     if (bfgedition)
                     {
                         for (int j = 0; j < 33; j++)
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+                        {
+                            temp = RemoveMapNum(*mapnames2_bfg[j]);
+
+                            if (M_StringCompare(savegamestrings[i], temp))
                             {
                                 match = true;
                                 break;
                             }
+                        }
                     }
                     else
                     {
                         for (int j = 0; j < 32; j++)
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
+                        {
+                            temp = RemoveMapNum(*mapnames2[j]);
+
+                            if (M_StringCompare(savegamestrings[i], temp))
                             {
                                 match = true;
                                 break;
                             }
+                        }
                     }
 
+                    break;
+
+                case pack_nerve:
                     for (int j = 0; j < 9; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
+                    {
+                        temp = RemoveMapNum(*mapnamesn[j]);
+
+                        if (M_StringCompare(savegamestrings[i], temp))
                         {
                             match = true;
                             break;
                         }
+                    }
 
                     break;
 
                 case pack_plut:
                     for (int j = 0; j < 32; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
+                    {
+                        temp = RemoveMapNum(*mapnamesp[j]);
+
+                        if (M_StringCompare(savegamestrings[i], temp))
                         {
                             match = true;
                             break;
                         }
+                    }
 
                     break;
 
                 case pack_tnt:
                     for (int j = 0; j < 32; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
+                    {
+                        temp = RemoveMapNum(*mapnamest[j]);
+
+                        if (M_StringCompare(savegamestrings[i], temp))
                         {
                             match = true;
                             break;
                         }
+                    }
 
                     break;
 
                 default:
                     break;
             }
+
+            if (temp)
+                free(temp);
         }
     }
 
