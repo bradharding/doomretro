@@ -472,14 +472,13 @@ void R_DrawPlanes(void)
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
                     for (int x = pl->left; x <= pl->right; x++)
-                        if ((dc_yl = pl->top[x]) != UINT_MAX)
-                            if (dc_yl <= (dc_yh = pl->bottom[x]))
-                            {
-                                dc_x = x;
-                                dc_source = R_GetTextureColumn(tex_patch,
-                                    (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
-                                skycolfunc();
-                            }
+                        if ((dc_yl = pl->top[x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[x]))
+                        {
+                            dc_x = x;
+                            dc_source = R_GetTextureColumn(tex_patch,
+                                (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+                            skycolfunc();
+                        }
                 }
                 else
                 {

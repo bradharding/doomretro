@@ -1729,7 +1729,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
         if (type == MT_SKULL && !(th->flags & MF_FUZZ))
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
-        else if (r_blood != r_blood_none && th->blood)
+        else if (th->blood)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
@@ -2107,7 +2107,7 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) : MT_BLOOD);
+            int type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
             int z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)

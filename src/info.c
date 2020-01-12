@@ -1642,7 +1642,7 @@ mobjinfo_t mobjinfo[] =
         /* plural3              */ ""
     },
 
-    // Blood (MT_BLOOD)
+    // Red Blood (MT_BLOOD)
     {
         /* doomednum            */ -1,
         /* spawnstate           */ S_BLOOD1,

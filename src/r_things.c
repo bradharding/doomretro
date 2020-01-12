@@ -586,7 +586,7 @@ static void R_ProjectSprite(mobj_t *thing)
     dboolean        flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
-    int             flags2 = thing->flags2;
+    int             flags2;
     int             frame;
     fixed_t         tr_x, tr_y;
     fixed_t         gzt;
@@ -596,6 +596,9 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         offset;
 
     if (thing->player && thing->player->mo == thing)
+        return;
+
+    if (thing->info->spawnstate == S_BLOOD1 && r_blood == r_blood_none)
         return;
 
     // [AM] Interpolate between current and last position, if prudent.
@@ -629,6 +632,7 @@ static void R_ProjectSprite(mobj_t *thing)
     // decide which patch to use for sprite relative to player
     frame = thing->frame;
     sprframe = &sprites[thing->sprite].spriteframes[frame & FF_FRAMEMASK];
+    flags2 = thing->flags2;
 
     if (sprframe->rotate)
     {
@@ -845,12 +849,12 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     else if (r_blood == r_blood_red)
     {
         vis->blood = MT_BLOOD;
-        vis->colfunc = splat->colfunc;
+        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
     }
     else
     {
         vis->blood = GREENBLOOD;
-        vis->colfunc = splat->colfunc;
+        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
     }
 
     vis->texturemid = floorheight + FRACUNIT - viewz;
