@@ -7020,7 +7020,7 @@ autocomplete_t autocompletelist[] =
     { "map habitat",                                 DOOM2ONLY },
     { "map hallsofperdition",                        DOOM1ONLY },
     { "map hallsofthedamned",                        DOOM1ONLY },
-    { "map hangar",                                  DOOM1ONLY },
+    { "map hangar",                                  DOOM1AND2 },
     { "map heck",                                    DOOM2ONLY },
     { "map hellbeneath",                             DOOM1ONLY },
     { "map hellkeep",                                DOOM1ONLY },
