@@ -198,6 +198,7 @@ static registryvalue_t bethesdanet_install_location =
 // Subdirs of the Bethesda.net Launcher install directory where IWADs are found
 static const char *bethesdanet_install_subdirs[] =
 {
+    "games\\Doom 3 BFG Edition\\base\\wads"
     "games\\DOOM II\\base",
     "games\\Ultimate DOOM\\base"
 };

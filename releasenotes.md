@@ -1,7 +1,7 @@
 ### DOOM Retro v3.4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If no IWAD is specified, *DOOM Retro* will now also check for an installation of *The Ultimate DOOM* and *DOOM II* purchased through [*Bethesda.net*](https://bethesda.net/en/store/home).
+* If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
