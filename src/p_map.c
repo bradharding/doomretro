@@ -273,6 +273,8 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 
     P_SetThingPosition(thing);
 
+    thing->z = z;
+
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
     if ((thing->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(thing))
         thing->flags2 |= MF2_FEETARECLIPPED;

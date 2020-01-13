@@ -93,7 +93,7 @@
 #define SAVECMDFORMAT               LOADCMDFORMAT
 #define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b> ]<i>monster</i>"
 #define TAKECMDFORMAT               GIVECMDFORMAT
-#define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>"
+#define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>[ <i>z</i>]"
 #define TIMERCMDFORMAT              "<i>minutes</i>"
 #define UNBINDCMDFORMAT             "<i>control</i>|<b>+</b><i>action</i>"
 
@@ -777,7 +777,7 @@ consolecmd_t consolecmds[] =
         "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n<b>all</b> or certain <i>items</i> from the "
         "player."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
-        "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
+        "Teleports the player to (<i>x</i>,<i>y</i>,<i>z</i>)."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
     CMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
@@ -6225,12 +6225,13 @@ static void teleport_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        int x = INT_MAX;
-        int y = INT_MAX;
+        fixed_t x = FIXED_MIN;
+        fixed_t y = FIXED_MIN;
+        fixed_t z = ONFLOORZ;
 
-        sscanf(parms, "%10d %10d", &x, &y);
+        sscanf(parms, "%10d %10d %10d", &x, &y, &z);
 
-        if (x != INT_MAX && y != INT_MAX)
+        if (x != FIXED_MIN && y != FIXED_MIN)
         {
             mobj_t          *mo = viewplayer->mo;
             const fixed_t   oldx = viewx;
@@ -6240,7 +6241,10 @@ static void teleport_cmd_func2(char *cmd, char *parms)
             x <<= FRACBITS;
             y <<= FRACBITS;
 
-            if (P_TeleportMove(mo, x, y, ONFLOORZ, false))
+            if (z != ONFLOORZ)
+                z <<= FRACBITS;
+
+            if (P_TeleportMove(mo, x, y, z, false))
             {
                 // spawn teleport fog at source
                 mobj_t  *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
@@ -6250,9 +6254,8 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
 
                 // spawn teleport fog at destination
-                mo->z = mo->floorz;
                 viewplayer->viewz = mo->z + viewplayer->viewheight;
-                fog = P_SpawnMobj(x + 20 * viewcos, y + 20 * viewsin, ONFLOORZ, MT_TFOG);
+                fog = P_SpawnMobj(x + 20 * viewcos, y + 20 * viewsin, z, MT_TFOG);
                 fog->angle = viewangle;
                 S_StartSound(fog, sfx_telept);
 
