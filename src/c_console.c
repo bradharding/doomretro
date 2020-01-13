@@ -277,7 +277,7 @@ void C_OutputNoRepeat(const char *string, ...)
     }
 }
 
-void C_TabbedOutput(const int tabs[8], const char *string, ...)
+void C_TabbedOutput(const int tabs[4], const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH];
@@ -297,7 +297,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     outputhistory = -1;
 }
 
-void C_Header(const int tabs[8], const headertype_t headertype, const char *string)
+void C_Header(const int tabs[4], const headertype_t headertype, const char *string)
 {
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -850,7 +850,7 @@ static void C_DrawBackground(int height)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[8], const dboolean formatting, const dboolean kerning, const int index)
+    byte *translucency, const int tabs[4], const dboolean formatting, const dboolean kerning, const int index)
 {
     int             bold = 0;
     dboolean        italics = false;
@@ -1169,7 +1169,7 @@ void C_Drawer(void)
             154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
         };
 
-        const int notabs[8] = { 0 };
+        const int notabs[4] = { 0 };
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)

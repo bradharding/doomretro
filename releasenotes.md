@@ -5,7 +5,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
-* The `map` CCMD now also accepts a map’s title as a parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
+* The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 
 ---

@@ -1544,7 +1544,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 //
 static void C_DisplayBinds(const char *action, const int value, const controltype_t type, int *count)
 {
-    const int   tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 40, 130, 0, 0 };
 
     for (int i = 0; controls[i].type; i++)
     {
@@ -1564,7 +1564,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 40, 131, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 40, 131, 0, 0 };
     int         count = 1;
 
     C_Header(tabs, bindlistheader, BINDLISTHEADER);
@@ -1619,8 +1619,8 @@ static void clear_cmd_func2(char *cmd, char *parms)
 //
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
-    const int tabs[8] = { 40, 346, 0, 0, 0, 0, 0, 0 };
-    int       count = 0;
+    const int   tabs[4] = { 40, 346, 0, 0 };
+    int         count = 0;
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CMD)
@@ -1775,7 +1775,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 //
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 40, 209, 318, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 40, 209, 318, 0 };
     int         count = 0;
 
     for (int i = 0; *consolecmds[i].name; i++)
@@ -3355,7 +3355,7 @@ extern int  dehcount;
 
 static void maplist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 40, 93, 370, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 40, 93, 370, 0 };
     int         count = 0;
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
@@ -3543,7 +3543,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 120, 240, 0, 0 };
     char        *temp;
 
     C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
@@ -4373,7 +4373,7 @@ static char *distance(fixed_t value, dboolean showunits)
 //
 static void C_PlayerStats_Game(void)
 {
-    const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 160, 281, 0, 0 };
     skill_t     favorite = favoriteskilllevel();
     const int   time1 = leveltime / TICRATE;
     const int   time2 = stat_time / TICRATE;
@@ -4798,7 +4798,7 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 160, 281, 0, 0 };
     skill_t     favorite = favoriteskilllevel();
     const int   time2 = stat_time / TICRATE;
     char        *temp1;
@@ -6282,7 +6282,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 //
 static void thinglist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[8] = { 50, 268, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 50, 268, 0, 0 };
 
     C_Header(tabs, thinglistheader, THINGLISTHEADER);
 

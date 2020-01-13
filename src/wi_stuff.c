@@ -777,7 +777,7 @@ static int  sp_state;
 
 static void WI_InitStats(void)
 {
-    const int   tabs[8] = { 100, 0, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[4] = { 100, 0, 0, 0 };
 
     state = StatCount;
     acceleratestage = false;
