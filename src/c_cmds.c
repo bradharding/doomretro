@@ -648,7 +648,7 @@ consolecmd_t consolecmds[] =
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows stats about the player."),
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
-        "Prints a player <b>\"</b><i>message</i><b>\"</b>."),
+        "Prints a player \"<i>message</i>\"."),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits <i><b>" PACKAGE_NAME ".</b></i>"),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
