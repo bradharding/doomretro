@@ -2556,9 +2556,9 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                         || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
                 {
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
-                        killcmdtype = Zombieman;
-
-                    result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                        result = false;
+                    else
+                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
                 }
 
                 if (temp1)
@@ -5496,9 +5496,9 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                         || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
-                        resurrectcmdtype = Zombieman;
-
-                    result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                        result = false;
+                    else
+                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
                 }
 
                 if (temp1)
@@ -5823,7 +5823,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             }
         }
         else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
-            spawncmdtype = Zombieman;
+        {
+            C_Warning(0, "Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>", (bfgedition ? "" : "this version of "));
+            spawn = false;
+        }
 
         if (spawn)
         {
