@@ -2555,7 +2555,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
                 {
-                    if (killcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                    if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         killcmdtype = Zombieman;
 
                     result = (mobjinfo[i].flags & MF_SHOOTABLE);
@@ -5495,7 +5495,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
-                    if (resurrectcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+                    if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         resurrectcmdtype = Zombieman;
 
                     result = (mobjinfo[i].flags & MF_SHOOTABLE);
@@ -5822,7 +5822,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 spawn = false;
             }
         }
-        else if (spawncmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+        else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
             spawncmdtype = Zombieman;
 
         if (spawn)

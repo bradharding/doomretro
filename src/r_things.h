@@ -57,6 +57,8 @@ extern dboolean r_playersprites;
 
 extern short    firstbloodsplatlump;
 
+extern dboolean allowwolfensteinss;
+
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);
 void R_ClearSprites(void);

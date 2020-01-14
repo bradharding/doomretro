@@ -1709,7 +1709,7 @@ static void P_LoadThings(int lump)
             mobj_t  *thing;
 
             // Change each Wolfenstein SS into Zombiemen in BFG Edition
-            if (mt.type == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
+            if (mt.type == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                 mt.type = Zombieman;
 
             if ((thing = P_SpawnMapThing(&mt, !nomonsters)))

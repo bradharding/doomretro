@@ -76,6 +76,8 @@ spritedef_t             *sprites;
 
 short                   firstbloodsplatlump;
 
+dboolean                allowwolfensteinss = true;
+
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
@@ -287,6 +289,20 @@ static void R_InitSpriteDefs(void)
     free(hash); // free hash table
 
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
+
+    if (gamemode != commercial || bfgedition)
+        allowwolfensteinss = false;
+    else
+    {
+        short   poss = sprites[SPR_POSS].spriteframes[0].lump[0];
+        short   sswv = sprites[SPR_SSWV].spriteframes[0].lump[0];
+
+        if (spritewidth[poss] == spritewidth[sswv]
+            && spriteheight[poss] == spriteheight[sswv]
+            && spriteoffset[poss] == spriteoffset[sswv]
+            && spritetopoffset[poss] == spritetopoffset[sswv])
+            allowwolfensteinss = false;
+    }
 }
 
 //
