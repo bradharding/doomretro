@@ -322,6 +322,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
 static dboolean take_cmd_func1(char *cmd, char *parms);
 static void take_cmd_func2(char *cmd, char *parms);
+static dboolean teleport_cmd_func1(char *cmd, char *parms);
 static void teleport_cmd_func2(char *cmd, char *parms);
 static void thinglist_cmd_func2(char *cmd, char *parms);
 static void timer_cmd_func2(char *cmd, char *parms);
@@ -776,7 +777,7 @@ consolecmd_t consolecmds[] =
     CMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n<b>all</b> or certain <i>items</i> from the "
         "player."),
-    CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
+    CMD(teleport, "", teleport_cmd_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports the player to (<i>x</i>,<i>y</i>,<i>z</i>)."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
@@ -6218,6 +6219,24 @@ static void take_cmd_func2(char *cmd, char *parms)
 //
 // teleport CCMD
 //
+static dboolean teleport_cmd_func1(char *cmd, char *parms)
+{
+    if (gamestate != GS_LEVEL)
+        return false;
+    else if (!*parms)
+        return true;
+    else
+    {
+        fixed_t x = FIXED_MIN;
+        fixed_t y = FIXED_MIN;
+        fixed_t z = ONFLOORZ;
+
+        sscanf(parms, "%10d %10d", &x, &y);
+
+        return (x != FIXED_MIN && y != FIXED_MIN);
+    }
+}
+
 static void teleport_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
