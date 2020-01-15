@@ -5825,7 +5825,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         }
         else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
         {
-            C_Warning(0, "Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>", (bfgedition ? "" : "this version of "));
+            C_Warning(0, "Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>",
+                (bfgedition ? "" : "this version of "), gamedescription);
             spawn = false;
         }
 
