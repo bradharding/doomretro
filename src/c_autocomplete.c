@@ -7868,7 +7868,6 @@ autocomplete_t autocompletelist[] =
     { "spawn friendly shotgunguy",                   DOOM1AND2 },
     { "spawn friendly spectre",                      DOOM1AND2 },
     { "spawn friendly spidermastermind",             DOOM1AND2 },
-    { "spawn friendly wolfensteinss",                DOOM2ONLY },
     { "spawn friendly zombieman",                    DOOM1AND2 },
     { "spawn greenarmor",                            DOOM1AND2 },
     { "spawn hangingleg",                            DOOM1AND2 },
