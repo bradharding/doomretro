@@ -5823,10 +5823,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 spawn = false;
             }
         }
-        else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
+        else if (spawncmdtype == WolfensteinSS && (!allowwolfensteinss || spawncmdfriendly) && !states[S_SSWV_STND].dehacked)
         {
-            C_Warning(0, "Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>",
-                (bfgedition ? "" : "this version of "), gamedescription);
+            C_Warning(0, "%s Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>",
+                (spawncmdfriendly ? "Friendly " : ""), (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
             spawn = false;
         }
 
