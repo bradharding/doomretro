@@ -124,7 +124,7 @@ typedef struct
     unsigned int        line;
     stringtype_t        stringtype;
     headertype_t        headertype;
-    const int           tabs[4];
+    int                 tabs[4];
     unsigned int        tics;
 } console_t;
 

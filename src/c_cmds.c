@@ -6228,7 +6228,8 @@ static dboolean teleport_cmd_func1(char *cmd, char *parms)
         return true;
     else
     {
-        fixed_t x = FIXED_MIN, y = FIXED_MIN;
+        fixed_t x = FIXED_MIN;
+        fixed_t y = FIXED_MIN;
 
         sscanf(parms, "%10d %10d", &x, &y);
 
@@ -6246,7 +6247,9 @@ static void teleport_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        fixed_t x = FIXED_MIN, y = FIXED_MIN, z = ONFLOORZ;
+        fixed_t x = FIXED_MIN;
+        fixed_t y = FIXED_MIN;
+        fixed_t z = FIXED_MIN;
 
         sscanf(parms, "%10d %10d %10d", &x, &y, &z);
 
