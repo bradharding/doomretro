@@ -293,36 +293,31 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
     {
-        // Make sure this is a PCM format file "fmt " chunk size must == 16
+        // Chunk size must be 16
         if ((data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24)) != 16)
             return false;
 
-        // Format must == 1 (PCM)
+        // Format must be 1 (PCM)
         if ((data[20] | (data[21] << 8)) != 1)
             return false;
 
-        // Number of channels must == 1
+        // Number of channels must be 1
         if ((data[22] | (data[23] << 8)) != 1)
             return false;
 
         samplerate = (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24));
-        length = (data[40] | (data[41] << 8) | (data[42] << 16) | (data[43] << 24));
+        length = MIN((data[40] | (data[41] << 8) | (data[42] << 16) | (data[43] << 24)), lumplen - 44);
 
-        if (length > lumplen - 44)
-            length = lumplen - 44;
-
-        bits = (data[34] | (data[35] << 8));
-
-        // Reject non 8 or 16-bit
-        if (bits != 16 && bits != 8)
+        // Must be 8 or 16-bit
+        if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
             return false;
 
         data += 44;
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
-        samplerate = ((data[3] << 8) | data[2]);
-        length = ((data[7] << 24) | (data[6] << 16) | (data[5] << 8) | data[4]);
+        samplerate = (data[2] | (data[3] << 8));
+        length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
     }
     else
         return false;
