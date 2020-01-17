@@ -66,7 +66,11 @@ void I_ShutdownMusic(void)
         return;
 
     Mix_FadeOutMusic(500);
+    while (Mix_PlayingMusic());
     music_initialized = false;
+
+    if (mus_playing)
+        I_UnRegisterSong(mus_playing->handle);
 
     Mix_CloseAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);

@@ -162,6 +162,8 @@ static void ShutdownSDL(void)
     if (music)
     {
         Mix_FadeOutMusic(500);
+        while (Mix_PlayingMusic());
+        UnregisterSong();
         Mix_FreeMusic(music);
         rw = NULL;
         music = NULL;
