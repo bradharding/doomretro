@@ -378,9 +378,13 @@ static void WI_DrawLF(void)
     if (titlepatch)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
+        short   width = SHORT(patch->width);
+        short   height = SHORT(patch->height);
 
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
-        y += SHORT(patch->height) + 2;
+        if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
+            V_DrawPagePatch(patch);
+        else
+            V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
     }
     else
     {
