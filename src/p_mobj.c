@@ -535,7 +535,7 @@ floater:
                     // Decrease viewheight for a moment
                     // after hitting the ground (hard),
                     // and utter appropriate sound.
-                    player->deltaviewheight = mo->momz >> 3;
+                    player->deltaviewheight = mo->momz / 8;
 
                     if (mo->health > 0)
                         S_StartSound(mo, sfx_oof);
@@ -701,7 +701,7 @@ void P_MobjThinker(mobj_t *mobj)
             {
                 if (mobj->momz < -GRAVITY * 8)
                 {
-                    player->deltaviewheight = mobj->momz >> 3;
+                    player->deltaviewheight = mobj->momz / 8;
 
                     if (mobj->momz < -23 * FRACUNIT)
                         P_NoiseAlert(mobj);
