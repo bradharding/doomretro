@@ -437,7 +437,7 @@ static void WI_DrawEL(void)
         short   width = SHORT(patch->width);
         short   height = SHORT(patch->height);
 
-        if (width == ORIGINALWIDTH || width == ORIGINALHEIGHT)
+        if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
             V_DrawPagePatch(patch);
         else
             V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
