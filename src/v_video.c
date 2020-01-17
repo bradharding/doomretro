@@ -510,7 +510,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
     }
 }
 
-void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
+void V_DrawConsolePatch(int x, int y, patch_t *patch, int color)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
@@ -533,7 +533,7 @@ void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
                 int height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP && *source)
-                    *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                    *dest = tinttab50[(*source == 4 ? (nearestwhite << 8) : color) + *dest];
 
                 source++;
                 dest += SCREENWIDTH;
@@ -567,12 +567,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
                 int height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP &&*source)
-                {
-                    if ((*source == 4 || *source == 82))
-                        *dest = nearestcolors[*source];
-                    else
-                        *dest = tinttab50[color + *dest];
-                }
+                    *dest = (*source == 4 || *source == 82 ? nearestcolors[*source] : tinttab50[color + *dest]);
 
                 source++;
                 dest += SCREENWIDTH;

@@ -59,7 +59,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawSTBARPatch(int x, int y, patch_t *patch);
 void V_DrawBigPatch(int x, int y, patch_t *patch);
-void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch);
+void V_DrawConsolePatch(int x, int y, patch_t *patch, int color);
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color);
 void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
     int backgroundcolor, dboolean italics, byte *translucency);

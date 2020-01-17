@@ -1279,21 +1279,22 @@ void C_Drawer(void)
             else if (stringtype == headerstring)
             {
                 const headertype_t  headertype = console[i].headertype;
+                int                 consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
                 if (headertype == bindlistheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, consoleedgecolor);
                 else if (headertype == cmdlistheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, consoleedgecolor);
                 else if (headertype == cvarlistheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, consoleedgecolor);
                 else if (headertype == maplistheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, consoleedgecolor);
                 else if (headertype == mapstatsheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, consoleedgecolor);
                 else if (headertype == playerstatsheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, consoleedgecolor);
                 else if (headertype == thinglistheader)
-                    V_DrawBigTranslucentPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, consoleedgecolor);
             }
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
