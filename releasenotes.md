@@ -4,6 +4,7 @@
 * If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
+* *DOOM Retro* will now play sound effect lumps in WAV format.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
