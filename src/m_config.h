@@ -68,6 +68,7 @@ extern dboolean     autotilt;
 extern dboolean     autouse;
 extern dboolean     centerweapon;
 extern int          con_backcolor;
+extern int          con_edgecolor;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
 extern int          crosshair;
@@ -359,6 +360,10 @@ enum
 #define con_backcolor_min                       0
 #define con_backcolor_default                   12
 #define con_backcolor_max                       255
+
+#define con_edgecolor_min                       0
+#define con_edgecolor_default                   180
+#define con_edgecolor_max                       255
 
 #define con_obituaries_default                  true
 

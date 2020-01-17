@@ -533,11 +533,45 @@ void V_DrawBigTranslucentPatch(int x, int y, patch_t *patch)
                 int height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP && *source)
+                    *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+
+                source++;
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
+{
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
+    int     w = SHORT(patch->width);
+
+    for (int col = 0; col < w; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        byte        topdelta;
+
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte    length = column->length;
+            int     count = length;
+
+            while (count--)
+            {
+                int height = topdelta + length - count;
+
+                if (y + height > CONSOLETOP &&*source)
                 {
-                    if (patch == brand && (*source == 4 || *source == 82))
+                    if ((*source == 4 || *source == 82))
                         *dest = nearestcolors[*source];
                     else
-                        *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
+                        *dest = tinttab50[color + *dest];
                 }
 
                 source++;

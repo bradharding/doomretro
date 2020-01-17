@@ -9,6 +9,7 @@
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts a third parameter, specifying the distance the player is from the floor once they are teleported.
+* The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
 
 ---
 

@@ -119,6 +119,7 @@ char                    consolecheatparm[3];
 static int              outputhistory = -1;
 
 int                     con_backcolor = con_backcolor_default;
+int                     con_edgecolor = con_edgecolor_default;
 dboolean                con_timestamps = con_timestamps_default;
 int                     warninglevel = warninglevel_default;
 
@@ -145,7 +146,6 @@ static int              consoleitalicscolor = 98;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
-static int              consoleedgecolor = 180;
 static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
 
@@ -671,7 +671,6 @@ void C_Init(void)
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
-    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
@@ -768,6 +767,8 @@ static void C_DrawBackground(int height)
 {
     static dboolean blurred;
     static byte     blurscreen[SCREENWIDTH * SCREENHEIGHT];
+    int             consolebackcolor = nearestcolors[con_backcolor] << 8;
+    int             consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
     height = (height + 5) * CONSOLEWIDTH;
 
@@ -818,15 +819,15 @@ static void C_DrawBackground(int height)
         blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     // tint background using con_backcolor CVAR
-    for (int i = 0, color = nearestcolors[con_backcolor] << 8; i < height; i++)
-        screens[0][i] = tinttab50[blurscreen[i] + color];
+    for (int i = 0; i < height; i++)
+        screens[0][i] = tinttab50[consolebackcolor + blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int i = height - 2; i > 1; i -= 3)
         screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i + (i % CONSOLEWIDTH && (i + 1) % CONSOLEWIDTH ? -1 : 1)]];
 
     // draw branding
-    V_DrawBigTranslucentPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
+    V_DrawConsoleBrandingPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, consoleedgecolor);
 
     // draw bottom edge
     for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
