@@ -435,7 +435,10 @@ static void WI_DrawEL(void)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
 
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+        if (SHORT(patch->width) >= ORIGINALWIDTH || SHORT(patch->height) >= ORIGINALHEIGHT)
+            V_DrawPagePatch(patch);
+        else
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
     }
     else
     {
