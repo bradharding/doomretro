@@ -5,6 +5,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * *DOOM Retro* will now play sound effect lumps in WAV format.
+* Some corpses will now gib in reaction to nearby barrel and rocket explosions. This feature can be disabled using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
