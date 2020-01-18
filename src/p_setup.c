@@ -1185,6 +1185,10 @@ static void P_LoadSectors(int lump)
         ss->lightlevel = ss->oldlightlevel = MAX(0, SHORT(ms->lightlevel));
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
+
+        if (ss->tag == -1)
+            ss->tag = 0;
+
         ss->nextsec = -1;
         ss->prevsec = -1;
 
