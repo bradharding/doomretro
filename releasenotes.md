@@ -1,4 +1,4 @@
-### DOOM Retro v3.4.1
+### DOOM Retro v3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
