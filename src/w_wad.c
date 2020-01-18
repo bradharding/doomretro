@@ -304,7 +304,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     // Homebrew levels?
     if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
-        I_Error("WAD file %s doesn't have an IWAD or PWAD id.", filename);
+        I_Error("%s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
@@ -442,9 +442,9 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
 
-    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) || header.id[0] != 'P'
-        || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
-        I_Error("PWAD tag not present: %s\n", pwadname);
+    if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
+        || (header.id[0] != 'I' && header.id[0] != 'P') || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
+        I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 

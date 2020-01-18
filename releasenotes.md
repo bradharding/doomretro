@@ -11,6 +11,7 @@
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts a third parameter, specifying the distance the player is from the floor once they are teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
+* WADs loaded using the `-file` command-line parameter will now always be treated as PWADs even if their headers indicate they are IWADs.
 
 ---
 
