@@ -1095,7 +1095,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
         patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
-        x -= (i && isdigit((int)buffer[i]) ? zerowidth : width);
+        x -= (i && buffer[i] != ':' ? zerowidth : width);
         V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
     }
 }

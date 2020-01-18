@@ -2077,11 +2077,12 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (corpse)
     {
-        if (r_corpses_gib)
+        // [BH] gib corpse if damage is big enough
+        if (r_corpses_gib && damage >= 10)
         {
             int state = info->xdeathstate;
 
-            if (state && target->state < &states[state] && damage >= 10)
+            if (state && target->state < &states[state])
             {
                 while (states[state].tics >= 0)
                     state++;
