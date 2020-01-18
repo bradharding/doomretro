@@ -2077,15 +2077,18 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (corpse)
     {
-        int state = info->xdeathstate;
-
-        if (r_corpses_gib && state && target->state < &states[state] && damage >= 10)
+        if (r_corpses_gib)
         {
-            while (states[state].tics >= 0)
-                state++;
+            int state = info->xdeathstate;
 
-            P_SetMobjState(target, state);
-            S_StartSound(target, sfx_slop);
+            if (state && target->state < &states[state] && damage >= 10)
+            {
+                while (states[state].tics >= 0)
+                    state++;
+
+                P_SetMobjState(target, state);
+                S_StartSound(target, sfx_slop);
+            }
         }
 
         return;
