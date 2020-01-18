@@ -312,7 +312,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
             return false;
 
-        data += 44;
+        data += 36;
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {

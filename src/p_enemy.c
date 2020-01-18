@@ -377,7 +377,7 @@ static dboolean P_SmartMove(mobj_t *actor)
                     && actor->subsector->sector->islift);
 
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
-    // dropoff==1 means always allow it, dropoff==2 means only up to 128 high,
+    // dropoff==1 means always allow it, dropoff == 2 means only up to 128 high,
     // and only if the target is immediately on the other side of the line.
     if (actor->type == MT_DOGS
         && target && !((target->flags ^ actor->flags) & MF_FRIEND)

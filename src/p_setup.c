@@ -1267,6 +1267,9 @@ static void P_LoadSectors(int lump)
                         C_Warning(2, "The tag of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
 
                         ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
+                        free(temp1);
+                        free(temp2);
+                        free(temp3);
                     }
 
                     break;
