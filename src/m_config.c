@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    181
+#define NUMCVARS                                    182
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -139,6 +139,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_brightmaps,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT_PERCENT  (r_color,                                           NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_corpses_color,                                   BOOLVALUEALIAS     ),
+    CONFIG_VARIABLE_INT          (r_corpses_gib,                                     BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,                                BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,                               BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_corpses_nudge,                                   BOOLVALUEALIAS     ),
@@ -732,6 +733,9 @@ static void M_CheckCVARs(void)
 
     if (r_corpses_color != false && r_corpses_color != true)
         r_corpses_color = r_corpses_color_default;
+
+    if (r_corpses_gib != false && r_corpses_gib != true)
+        r_corpses_gib = r_corpses_gib_default;
 
     if (r_corpses_mirrored != false && r_corpses_mirrored != true)
         r_corpses_mirrored = r_corpses_mirrored_default;

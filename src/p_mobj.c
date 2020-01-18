@@ -55,6 +55,7 @@ int         r_blood = r_blood_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
 dboolean    r_corpses_color = r_corpses_color_default;
+dboolean    r_corpses_gib = r_corpses_gib_default;
 dboolean    r_corpses_mirrored = r_corpses_mirrored_default;
 dboolean    r_corpses_moreblood = r_corpses_moreblood_default;
 dboolean    r_corpses_nudge = r_corpses_nudge_default;

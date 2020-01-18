@@ -108,6 +108,7 @@ extern dboolean     r_bloodsplats_translucency;
 extern dboolean     r_brightmaps;
 extern int          r_color;
 extern dboolean     r_corpses_color;
+extern dboolean     r_corpses_gib;
 extern dboolean     r_corpses_mirrored;
 extern dboolean     r_corpses_moreblood;
 extern dboolean     r_corpses_nudge;
@@ -491,6 +492,8 @@ enum
 #define r_color_max                             100
 
 #define r_corpses_color_default                 true
+
+#define r_corpses_gib_default                   true
 
 #define r_corpses_mirrored_default              true
 
