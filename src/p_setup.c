@@ -591,36 +591,36 @@ static void P_LoadVertexes(int lump)
 
     if (!data || !numvertexes)
         I_Error("There are no vertices in this map.");
-
-    // Copy and convert vertex coordinates,
-    // internal representation as fixed.
-    for (int i = 0; i < numvertexes; i++)
+    else
     {
-        vertexes[i].x = SHORT(data[i].x) << FRACBITS;
-        vertexes[i].y = SHORT(data[i].y) << FRACBITS;
+        // Copy and convert vertex coordinates,
+        // internal representation as fixed.
+        for (int i = 0; i < numvertexes; i++)
+        {
+            vertexes[i].x = SHORT(data[i].x) << FRACBITS;
+            vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
-        // Apply any map-specific fixes.
-        if (canmodify && r_fixmaperrors)
-            for (int j = 0; vertexfix[j].mission != -1; j++)
-            {
-                if (i == vertexfix[j].vertex
-                    && gamemission == vertexfix[j].mission
-                    && gameepisode == vertexfix[j].epsiode
-                    && gamemap == vertexfix[j].map
-                    && vertexes[i].x == SHORT(vertexfix[j].oldx) << FRACBITS
-                    && vertexes[i].y == SHORT(vertexfix[j].oldy) << FRACBITS)
-                {
-                    char    *temp = commify(vertexfix[j].vertex);
+            // Apply any map-specific fixes.
+            if (canmodify && r_fixmaperrors)
+                for (int j = 0; vertexfix[j].mission != -1; j++)
+                    if (i == vertexfix[j].vertex
+                        && gamemission == vertexfix[j].mission
+                        && gameepisode == vertexfix[j].epsiode
+                        && gamemap == vertexfix[j].map
+                        && vertexes[i].x == SHORT(vertexfix[j].oldx) << FRACBITS
+                        && vertexes[i].y == SHORT(vertexfix[j].oldy) << FRACBITS)
+                    {
+                        char    *temp = commify(vertexfix[j].vertex);
 
-                    C_Warning(2, "Vertex %s has been moved from (%i,%i) to (%i,%i).",
-                        temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
+                        C_Warning(2, "Vertex %s has been moved from (%i,%i) to (%i,%i).",
+                            temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
 
-                    vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
-                    vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
-                    free(temp);
-                    break;
-                }
-            }
+                        vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
+                        vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
+                        free(temp);
+                        break;
+                    }
+        }
     }
 
     // Free buffer memory.
@@ -1132,14 +1132,16 @@ static void P_LoadSubsectors(int lump)
 
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
-
-    for (int i = 0; i < numsubsectors; i++)
+    else
     {
-        subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
-        subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
-    }
+        for (int i = 0; i < numsubsectors; i++)
+        {
+            subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
+            subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
+        }
 
-    W_ReleaseLumpNum(lump);
+        W_ReleaseLumpNum(lump);
+    }
 }
 
 static void P_LoadSubsectors_V4(int lump)
@@ -1151,14 +1153,16 @@ static void P_LoadSubsectors_V4(int lump)
 
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
-
-    for (int i = 0; i < numsubsectors; i++)
+    else
     {
-        subsectors[i].numlines = (int)data[i].numsegs;
-        subsectors[i].firstline = (int)data[i].firstseg;
-    }
+        for (int i = 0; i < numsubsectors; i++)
+        {
+            subsectors[i].numlines = (int)data[i].numsegs;
+            subsectors[i].firstline = (int)data[i].firstseg;
+        }
 
-    W_ReleaseLumpNum(lump);
+        W_ReleaseLumpNum(lump);
+    }
 }
 
 //
@@ -1325,49 +1329,51 @@ static void P_LoadNodes(int lump)
         else
             I_Error("This map has no nodes.");
     }
-
-    for (int i = 0; i < numnodes; i++)
+    else
     {
-        node_t          *no = nodes + i;
-        const mapnode_t *mn = (const mapnode_t *)data + i;
-
-        no->x = SHORT(mn->x) << FRACBITS;
-        no->y = SHORT(mn->y) << FRACBITS;
-        no->dx = SHORT(mn->dx) << FRACBITS;
-        no->dy = SHORT(mn->dy) << FRACBITS;
-
-        for (int j = 0; j < 2; j++)
+        for (int i = 0; i < numnodes; i++)
         {
-            no->children[j] = (unsigned short)SHORT(mn->children[j]);
+            node_t          *no = nodes + i;
+            const mapnode_t *mn = (const mapnode_t *)data + i;
 
-            if (no->children[j] == 0xFFFF)
-                no->children[j] = -1;
-            else if (no->children[j] & 0x8000)
+            no->x = SHORT(mn->x) << FRACBITS;
+            no->y = SHORT(mn->y) << FRACBITS;
+            no->dx = SHORT(mn->dx) << FRACBITS;
+            no->dy = SHORT(mn->dy) << FRACBITS;
+
+            for (int j = 0; j < 2; j++)
             {
-                // Convert to extended type
-                no->children[j] &= ~0x8000;
+                no->children[j] = (unsigned short)SHORT(mn->children[j]);
 
-                // haleyjd 11/06/10: check for invalid subsector reference
-                if (no->children[j] >= numsubsectors)
+                if (no->children[j] == 0xFFFF)
+                    no->children[j] = -1;
+                else if (no->children[j] & 0x8000)
                 {
-                    char    *temp1 = commify(i);
-                    char    *temp2 = commify(no->children[j]);
+                    // Convert to extended type
+                    no->children[j] &= ~0x8000;
 
-                    C_Warning(2, "Node %s references an invalid subsector of %s.", temp1, temp2);
-                    no->children[j] = 0;
-                    free(temp1);
-                    free(temp2);
+                    // haleyjd 11/06/10: check for invalid subsector reference
+                    if (no->children[j] >= numsubsectors)
+                    {
+                        char    *temp1 = commify(i);
+                        char    *temp2 = commify(no->children[j]);
+
+                        C_Warning(2, "Node %s references an invalid subsector of %s.", temp1, temp2);
+                        no->children[j] = 0;
+                        free(temp1);
+                        free(temp2);
+                    }
+
+                    no->children[j] |= NF_SUBSECTOR;
                 }
 
-                no->children[j] |= NF_SUBSECTOR;
+                for (int k = 0; k < 4; k++)
+                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
             }
-
-            for (int k = 0; k < 4; k++)
-                no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
-    }
 
-    W_ReleaseLumpNum(lump);
+        W_ReleaseLumpNum(lump);
+    }
 }
 
 static void P_LoadNodes_V4(int lump)
