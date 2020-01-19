@@ -413,6 +413,12 @@ static short __inline clamp(short value, short deadzone)
 dboolean    altdown;
 dboolean    waspaused;
 
+static const int keypad[] =
+{
+    SDL_SCANCODE_KP_1, SDL_SCANCODE_DOWN, SDL_SCANCODE_KP_3, SDL_SCANCODE_LEFT, SDL_SCANCODE_KP_5,
+    SDL_SCANCODE_RIGHT, SDL_SCANCODE_KP_7, SDL_SCANCODE_UP, SDL_SCANCODE_KP_9, SDL_SCANCODE_KP_0
+};
+
 static void I_GetEvent(void)
 {
     SDL_Event   SDLEvent;
@@ -446,8 +452,14 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_KEYDOWN:
+            {
+                SDL_Scancode    scancode = Event->key.keysym.scancode;
+
+                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
+                    scancode = keypad[scancode - SDL_SCANCODE_KP_1];
+
                 event.type = ev_keydown;
-                event.data1 = translatekey[Event->key.keysym.scancode];
+                event.data1 = translatekey[scancode];
                 event.data2 = Event->key.keysym.sym;
 
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
@@ -499,10 +511,17 @@ static void I_GetEvent(void)
                 }
 
                 break;
+            }
 
             case SDL_KEYUP:
+            {
+                SDL_Scancode    scancode = Event->key.keysym.scancode;
+
+                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
+                    scancode = keypad[scancode - SDL_SCANCODE_KP_1];
+
                 event.type = ev_keyup;
-                event.data1 = translatekey[Event->key.keysym.scancode];
+                event.data1 = translatekey[scancode];
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
@@ -516,6 +535,7 @@ static void I_GetEvent(void)
                     D_PostEvent(&event);
 
                 break;
+            }
 
             case SDL_MOUSEBUTTONDOWN:
                 idclev = false;

@@ -4,6 +4,7 @@
 * If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
+* The <kbd>0</kbd> to <kbd>9</kbd> keys on the numeric keypad now work correctly in the console.
 * *DOOM Retro* will now play sound effect lumps in WAV format.
 * Some corpses will now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be disabled using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.

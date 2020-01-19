@@ -88,15 +88,15 @@
 #define KEY_DELETE      (0x80 + 0x60)
 
 #define KEYP_0          0x0100
-#define KEYP_1          KEY_END
-#define KEYP_2          KEY_DOWNARROW
-#define KEYP_3          KEY_PAGEDOWN
-#define KEYP_4          KEY_LEFTARROW
+#define KEYP_1          0x0101
+#define KEYP_2          0x0102
+#define KEYP_3          0x0103
+#define KEYP_4          0x0104
 #define KEYP_5          0x0105
-#define KEYP_6          KEY_RIGHTARROW
-#define KEYP_7          KEY_HOME
-#define KEYP_8          KEY_UPARROW
-#define KEYP_9          KEY_PAGEUP
+#define KEYP_6          0x0106
+#define KEYP_7          0x0107
+#define KEYP_8          0x0108
+#define KEYP_9          0x0109
 
 #define KEYP_DIVIDE     '/'
 #define KEYP_PLUS       KEY_EQUALS
