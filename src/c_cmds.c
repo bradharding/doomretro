@@ -5769,7 +5769,8 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
                 || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1)))
                 result = true;
 
-            free(temp1);
+            if (*temp1)
+                free(temp1);
 
             if (temp2)
                 free(temp2);
