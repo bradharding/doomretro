@@ -2082,7 +2082,8 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
                 || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
-            free(temp1);
+            if (*temp1)
+                free(temp1);
 
             if (temp2)
                 free(temp2);
@@ -2348,7 +2349,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                     }
                 }
 
-                free(temp1);
+                if (*temp1)
+                    free(temp1);
 
                 if (temp2)
                     free(temp2);
@@ -5924,7 +5926,8 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
                 || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
-            free(temp1);
+            if (*temp1)
+                free(temp1);
 
             if (temp2)
                 free(temp2);
@@ -6205,7 +6208,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                     result = true;
                 }
 
-                free(temp1);
+                if (*temp1)
+                    free(temp1);
 
                 if (temp2)
                     free(temp2);
