@@ -2078,7 +2078,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (corpse)
     {
         // [BH] gib corpse if damage is big enough
-        if (r_corpses_gib && damage >= 10)
+        if (r_corpses_gib && damage >= 25)
         {
             int state = info->xdeathstate;
 

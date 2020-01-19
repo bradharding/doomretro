@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
+* Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The <kbd>0</kbd> to <kbd>9</kbd> keys on the numeric keypad now work correctly in the console.
@@ -10,7 +11,7 @@
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
-* The `teleport` CCMD now accepts a third parameter, specifying the distance the player is from the floor once they are teleported.
+* The `teleport` CCMD now accepts a third parameter, specifying the height the player is from the floor once they are teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
 * WADs loaded using the `-file` command-line parameter will now always be treated as PWADs even if their headers indicate they are IWADs.
 
