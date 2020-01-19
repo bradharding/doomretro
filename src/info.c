@@ -82,10 +82,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "player",
         /* plural1              */ "players",
-        /* name2                */ "doom player",
-        /* plural2              */ "doom players",
-        /* name3                */ "",
-        /* plural3              */ ""
+        /* name2                */ "doomguy",
+        /* plural2              */ "doomguys",
+        /* name3                */ "doomslayer",
+        /* plural3              */ "doomslayers"
     },
 
     // Zombieman (MT_POSSESSED)
