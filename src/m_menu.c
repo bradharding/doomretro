@@ -3056,6 +3056,7 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F10;
+            M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
             return false;
