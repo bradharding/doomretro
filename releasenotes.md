@@ -5,9 +5,9 @@
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
-* The <kbd>0</kbd> to <kbd>9</kbd> keys on the numeric keypad now work correctly in the console.
+* The keys on the numeric keypad now work correctly in the console.
 * *DOOM Retro* will now play sound effect lumps in WAV format.
-* Some corpses will now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be disabled using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
+* Some corpses can now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be toggled using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
