@@ -5362,6 +5362,7 @@ static void resetall_cmd_func2(char *cmd, char *parms)
         s_PRESSYN);
     M_StartMessage(buffer, C_VerifyResetAll, true);
     SDL_StopTextInput();
+    S_StartSound(NULL, sfx_swtchn);
 }
 
 //
