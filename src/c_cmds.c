@@ -697,7 +697,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles some power-ups bobbing up and down."),
     CVAR_INT(r_fov, "", int_cvars_func1, r_fov_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The player's horizontal field of view (<b>45</b>\xB0 to <b>135</b>\xB0)."),
+        "The player's field of view (<b>45</b>\xB0 to <b>135</b>\xB0)."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
         "The screen's gamma correction level (<b>off</b>, or <b>0.50</b>\nto <b>2.0</b>)."),
     CVAR_BOOL(r_graduallighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
