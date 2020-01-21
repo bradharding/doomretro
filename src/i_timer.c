@@ -46,7 +46,9 @@
 //
 int I_GetTime(void)
 {
-    return (SDL_GetTicks() * TICRATE / 1000);
+    Uint32  tics = SDL_GetTicks();
+
+    return ((tics / 1000) * TICRATE + (tics % 1000) * TICRATE / 1000);
 }
 
 //
