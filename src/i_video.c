@@ -1179,7 +1179,7 @@ void I_CreateExternalAutomap(int outputlevel)
         const char  *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
-            C_Output("Created an external automap on display %i called \"%s\".", am_displayindex + 1, displayname);
+            C_Output("Created an external automap on \"%s\" (display %i).", displayname, am_displayindex + 1);
         else
             C_Output("Created an external automap on display %i.", am_displayindex + 1);
     }
