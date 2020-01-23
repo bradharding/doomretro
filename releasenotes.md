@@ -14,6 +14,7 @@
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they are teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
 * IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
+* The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to `100%` when vanilla mode is on.
 
 ---
 
