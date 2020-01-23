@@ -1554,6 +1554,7 @@ void A_FatAttack1(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t an;
     mobj_t  *mo;
     mobj_t  *target = actor->target;
+    int     speed;
 
     if (!target)
         return;
@@ -1567,8 +1568,9 @@ void A_FatAttack1(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
     mo->angle += FATSPREAD;
     an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-    mo->momy = FixedMul(mo->info->speed, finesine[an]);
+    speed = mo->info->speed;
+    mo->momx = FixedMul(speed, finecosine[an]);
+    mo->momy = FixedMul(speed, finesine[an]);
 }
 
 void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1576,6 +1578,7 @@ void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t an;
     mobj_t  *mo;
     mobj_t  *target = actor->target;
+    int     speed;
 
     if (!target)
         return;
@@ -1589,8 +1592,9 @@ void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
     mo->angle -= FATSPREAD * 2;
     an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-    mo->momy = FixedMul(mo->info->speed, finesine[an]);
+    speed = mo->info->speed;
+    mo->momx = FixedMul(speed, finecosine[an]);
+    mo->momy = FixedMul(speed, finesine[an]);
 }
 
 void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1598,6 +1602,7 @@ void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t an;
     mobj_t  *mo;
     mobj_t  *target = actor->target;
+    int     speed;
 
     if (!target)
         return;
@@ -1607,14 +1612,15 @@ void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
     mo->angle -= FATSPREAD / 2;
     an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-    mo->momy = FixedMul(mo->info->speed, finesine[an]);
+    speed = mo->info->speed;
+    mo->momx = FixedMul(speed, finecosine[an]);
+    mo->momy = FixedMul(speed, finesine[an]);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
     mo->angle += FATSPREAD / 2;
     an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-    mo->momy = FixedMul(mo->info->speed, finesine[an]);
+    mo->momx = FixedMul(speed, finecosine[an]);
+    mo->momy = FixedMul(speed, finesine[an]);
 }
 
 //
@@ -1733,28 +1739,14 @@ void A_PainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int sound;
+    int sound = actor->info->deathsound;
 
-    switch (actor->info->deathsound)
-    {
-        case sfx_None:
-            return;
-
-        case sfx_podth1:
-        case sfx_podth2:
-        case sfx_podth3:
-            sound = sfx_podth1 + M_Random() % 3;
-            break;
-
-        case sfx_bgdth1:
-        case sfx_bgdth2:
-            sound = sfx_bgdth1 + M_Random() % 2;
-            break;
-
-        default:
-            sound = actor->info->deathsound;
-            break;
-    }
+    if (sound == sfx_None)
+        return;
+    else if (sound >= sfx_podth1 && sound <= sfx_podth3)
+        sound = sfx_podth1 + M_Random() % 3;
+    else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
+        sound = sfx_bgdth1 + M_Random() % 2;
 
     S_StartSound(actor, sound);
 }

@@ -1376,15 +1376,13 @@ static void SetVideoMode(dboolean output)
         if (displayname)
         {
             if (numdisplays == 1)
-                C_Output("Using \"%s\" (the only display).", displayname);
+                C_Output("Using the \"%s\" display.", displayname);
             else
                 C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
         }
         else
         {
-            if (numdisplays == 1)
-                C_Output("Using the only display.");
-            else
+            if (numdisplays != 1)
                 C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
         }
     }
