@@ -44,7 +44,7 @@ compiler:
 
 sudo: required
 
-dist: trusty
+dist: bionic
 
 addons:
     apt:
