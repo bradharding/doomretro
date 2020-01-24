@@ -9,7 +9,7 @@
 * *DOOM Retro* will now play sound effect lumps in WAV format.
 * Some corpses can now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
-* The sprites used for dogs have now been replaced with those by Nash Muhandes, who has previously released them under the [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
+* The sprites used for dogs have now been replaced with those by Nash Muhandes, who previously released them under the [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they are teleported.

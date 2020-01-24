@@ -312,29 +312,26 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
             return false;
 
-        data += 36;
+        return ExpandSoundData(sfxinfo, data + 44, samplerate, bits, length);
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
         samplerate = (data[2] | (data[3] << 8));
         length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
+
+        // If the header specifies that the length of the sound is greater than the length of the lump
+        // itself, this is an invalid sound lump
+
+        // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
+        // although the actual cut-off length seems to vary slightly depending on the sample rate. This
+        // needs further investigation to better understand the correct behavior.
+        if (length > lumplen - 8 || length <= 48)
+            return false;
+
+        return ExpandSoundData(sfxinfo, data + 24, samplerate, bits, length - 32);
     }
     else
         return false;
-
-    // If the header specifies that the length of the sound is greater than the length of the lump
-    // itself, this is an invalid sound lump
-
-    // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
-    // although the actual cut-off length seems to vary slightly depending on the sample rate. This
-    // needs further investigation to better understand the correct behavior.
-    if (length > lumplen - 8 || length <= 48)
-        return false;
-
-    // The DMX sound library seems to skip the first 16 and last 16 bytes of the lump - reason unknown.
-
-    // Sample rate conversion
-    return ExpandSoundData(sfxinfo, data + 24, samplerate, bits, length - 32);
 }
 
 void I_UpdateSoundParms(int channel, int vol, int sep)
