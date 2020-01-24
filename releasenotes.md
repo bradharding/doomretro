@@ -1,20 +1,20 @@
 ### DOOM Retro v3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If no IWAD is specified, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
+* If no IWAD is specified on the command-line, or if run for the first time, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
+* IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The keys on the numeric keypad now work correctly in the console.
-* *DOOM Retro* will now play sound effect lumps in WAV format.
+* *DOOM Retro* will now play sound effect lumps that are in WAV format.
 * Some corpses can now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The sprites used for dogs have now been replaced with those by Nash Muhandes, who previously released them under the [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
-* The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they are teleported.
+* The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
-* IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to `100%` when vanilla mode is on.
 
 ---
