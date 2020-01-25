@@ -1279,10 +1279,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = NORM_PITCH;
-
-    if ((mobj->flags & MF_SHOOTABLE) && type != Barrel)
-        mobj->pitch += M_RandomInt(-16, 16);
+    mobj->pitch = NORM_PITCH + ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? M_RandomInt(-16, 16) : 0);
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
