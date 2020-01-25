@@ -44,12 +44,12 @@ compiler:
 
 sudo: required
 
-dist: trusty
+dist: bionic
 
 addons:
     apt:
         packages:
-            - cmake3
+            - cmake
             - libsdl2-dev
             - libsdl2-mixer-dev
             - libsdl2-image-dev
