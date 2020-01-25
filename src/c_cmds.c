@@ -3348,7 +3348,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : skilllevel - 1), gameepisode, gamemap);
+        G_DeferredInitNew(skilllevel - 1, gameepisode, gamemap);
         C_HideConsoleFast();
     }
 

@@ -788,9 +788,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->flags2 = info->flags2;
     mobj->health = info->spawnhealth;
 
-    if (z == ONCEILINGZ)
-        mobj->flags2 &= ~MF2_CASTSHADOW;
-
     if (gameskill != sk_nightmare)
         mobj->reactiontime = info->reactiontime;
 
@@ -827,7 +824,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
             mobj->flags2 |= MF2_FEETARECLIPPED;
     }
     else if (z == ONCEILINGZ)
+    {
         mobj->z = mobj->ceilingz - mobj->height;
+        mobj->flags2 &= ~MF2_CASTSHADOW;
+    }
     else
         mobj->z = z;
 
