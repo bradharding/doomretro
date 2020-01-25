@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    182
+#define NUMCVARS                                    183
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -199,6 +199,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (vid_showfps,                                       BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (vid_vsync,                                         VSYNCVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_OTHER        (vid_windowpos,                                     NOVALUEALIAS       ),
@@ -899,6 +900,8 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
+
+    vid_showfps = vid_showfps_default;
 
     if (vid_vsync != vid_vsync_adaptive && vid_vsync != vid_vsync_off && vid_vsync != vid_vsync_on)
         vid_vsync = vid_vsync_default;
