@@ -800,17 +800,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // because action routines cannot be called yet
     st = &states[info->spawnstate];
 
-    // [BH] initialize certain mobj's animations to random start frame
-    // so groups of same mobjs are deliberately out of sync
-    if (info->frames > 1)
-    {
-        int frames = M_RandomInt(0, info->frames);
-        int i = 0;
-
-        while (i++ < frames && st->nextstate != S_NULL)
-            st = &states[st->nextstate];
-    }
-
     mobj->state = st;
     mobj->tics = st->tics;
     mobj->sprite = st->sprite;
@@ -1127,14 +1116,15 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 //
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 {
-    int     i;
-    int     bit;
-    mobj_t  *mobj;
-    fixed_t x, y, z;
-    short   type = mthing->type;
-    short   options = mthing->options;
-    int     flags;
-    int     musicid = 0;
+    int         i;
+    int         bit;
+    mobj_t      *mobj;
+    fixed_t     x, y, z;
+    short       type = mthing->type;
+    short       options = mthing->options;
+    int         flags;
+    int         musicid = 0;
+    mobjinfo_t  *info;
 
     // check for players specially
     if (type == Player1Start)
@@ -1277,12 +1267,27 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
             P_SpawnMoreBlood(mobj);
     }
 
+    info = mobj->info;
+
     // [crispy] randomly colorize space marine corpse objects
-    if (mobj->info->spawnstate == S_PLAY_DIE7 || mobj->info->spawnstate == S_PLAY_XDIE9)
+    if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
 
     if ((mobj->flags2 & MF2_DECORATION) && i != MT_BARREL)
         numdecorations++;
+
+    // [BH] initialize certain mobj's animations to random start frame
+    // so groups of same mobjs are deliberately out of sync
+    if (info->frames > 1)
+    {
+        int     frames = M_RandomInt(0, info->frames);
+        state_t *st = mobj->state;
+
+        for (i = 0; i < frames && st->nextstate != S_NULL; i++)
+            st = &states[st->nextstate];
+
+        mobj->state = st;
+    }
 
     return mobj;
 }
