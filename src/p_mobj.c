@@ -777,8 +777,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
-    static int  prevx, prevy;
-    static int  prevbob;
 
     mobj->type = type;
     mobj->info = info;
@@ -813,12 +811,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->shadowoffset = info->shadowoffset;
     mobj->blood = info->blood;
 
-    // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = NORM_PITCH;
-
-    if ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL)
-        mobj->pitch += M_RandomInt(-16, 16);
-
     // set subsector and/or block links
     P_SetThingPosition(mobj);
 
@@ -826,11 +818,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->dropoffz =           // killough 11/98: for tracking dropoffs
     mobj->floorz = sector->floorheight;
     mobj->ceilingz = sector->ceilingheight;
-
-    // [BH] initialize bobbing things
-    mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
-    prevx = x;
-    prevy = y;
 
     if (z == ONFLOORZ)
     {
@@ -1125,6 +1112,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     int         flags;
     int         musicid = 0;
     mobjinfo_t  *info;
+    static int  prevx, prevy;
+    static int  prevbob;
 
     // check for players specially
     if (type == Player1Start)
@@ -1283,11 +1272,22 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         int     frames = M_RandomInt(0, info->frames);
         state_t *st = mobj->state;
 
-        for (i = 0; i < frames && st->nextstate != S_NULL; i++)
+        for (int j = 0; j < frames && st->nextstate != S_NULL; j++)
             st = &states[st->nextstate];
 
         mobj->state = st;
     }
+
+    // [BH] set random pitch for monster sounds when spawned
+    mobj->pitch = NORM_PITCH;
+
+    if ((mobj->flags & MF_SHOOTABLE) && type != Barrel)
+        mobj->pitch += M_RandomInt(-16, 16);
+
+    // [BH] initialize bobbing things
+    mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
+    prevx = x;
+    prevy = y;
 
     return mobj;
 }
