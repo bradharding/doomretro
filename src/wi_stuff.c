@@ -385,6 +385,8 @@ static void WI_DrawLF(void)
             V_DrawPagePatch(patch);
         else
             V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+
+        y += height + 2;
     }
     else
     {
