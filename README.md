@@ -1,16 +1,13 @@
 ![](https://raw.githubusercontent.com/bradharding/www.doomretro.com/master/title2.png)
-
 <br>
 <br>
 <br>
-
 *DOOM Retro* is the classic, refined *DOOM* source port for Windows PC. It represents how I like my *DOOM* to be today, in all its dark, gritty, unapologetically pixelated glory. I’ve strived to implement a set of features and maintain a certain attention to detail, while still respecting that classic, nostalgic *DOOM* experience we all hold dear.
 
 Open the <b>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)</b> for more information.
 <br>
 <br>
 <br>
-
 [![](https://img.shields.io/github/languages/top/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
 [![](https://img.shields.io/github/languages/code-size/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
 [![](https://img.shields.io/lgtm/grade/cpp/g/bradharding/doomretro.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/bradharding/doomretro/context:cpp)
@@ -26,7 +23,9 @@ Open the <b>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)</b>
 [![](https://img.shields.io/travis/bradharding/doomretro.svg?logo=travis)](https://travis-ci.com/bradharding/doomretro)
 [![](https://img.shields.io/github/stars/bradharding/doomretro.svg?logo=github)](https://github.com/bradharding/doomretro/stargazers)
 [![](https://img.shields.io/twitter/follow/doomretro.svg?style=flat&logo=twitter)](https://twitter.com/doomretro)
-
-*DOOM Retro* is Copyright &copy; 2013&ndash;2020 by [Brad Harding](mailto:brad@doomretro.com). All rights reserved. Made in [Western Sydney, Australia](https://goo.gl/maps/bxqe8QYTkSkspWrK8). *DOOM Retro* is free software: you can redistribute it and/or modify it under the terms of the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) as published by the [Free Software Foundation](https://www.fsf.org/), either version 3 of the License, or (at your option) any later version. *DOOM Retro* is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) for more details. *DOOM* is a registered trademark of [id Software LLC](https://www.idsoftware.com), a [ZeniMax Media](https://www.zenimax.com/) company, in the US and/or other countries, and is used without permission. All other trademarks are the property of their respective holders. *DOOM Retro* is in no way affiliated with nor endorsed by [id Software](https://www.idsoftware.com).
+<br>
+<br>
 <br>
 ![](https://github.com/bradharding/www.doomretro.com/blob/master/divider.png?raw=true)
+<sub>*DOOM Retro* is Copyright &copy; 2013&ndash;2020 by [Brad Harding](mailto:brad@doomretro.com). All rights reserved. Made in [Western Sydney, Australia](https://goo.gl/maps/bxqe8QYTkSkspWrK8). *DOOM Retro* is free software: you can redistribute it and/or modify it under the terms of the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) as published by the [Free Software Foundation](https://www.fsf.org/), either version 3 of the License, or (at your option) any later version. *DOOM Retro* is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) for more details. *DOOM* is a registered trademark of [id Software LLC](https://www.idsoftware.com), a [ZeniMax Media](https://www.zenimax.com/) company, in the US and/or other countries, and is used without permission. All other trademarks are the property of their respective holders. *DOOM Retro* is in no way affiliated with nor endorsed by [id Software](https://www.idsoftware.com).</sub>
+
