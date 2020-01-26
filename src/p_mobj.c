@@ -780,8 +780,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->type = type;
     mobj->info = info;
-    mobj->x = x;
-    mobj->y = y;
+    mobj->x = mobj->oldx = x;
+    mobj->y = mobj->oldy = y;
     mobj->radius = info->radius;
     mobj->height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
     mobj->flags = info->flags;
@@ -794,19 +794,18 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // do not set the state with P_SetMobjState,
     // because action routines cannot be called yet
     st = &states[info->spawnstate];
-
     mobj->state = st;
     mobj->tics = st->tics;
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
+
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
     mobj->id = -1;
-
-    P_SetShadowColumnFunction(mobj);
-
     mobj->shadowoffset = info->shadowoffset;
     mobj->blood = info->blood;
+
+    P_SetShadowColumnFunction(mobj);
 
     // set subsector and/or block links
     P_SetThingPosition(mobj);
@@ -818,22 +817,19 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     if (z == ONFLOORZ)
     {
-        mobj->z = mobj->floorz;
+        mobj->z = mobj->oldz = mobj->floorz;
 
         if ((mobj->flags2 & MF2_FOOTCLIP) && !sector->heightsec && P_IsInLiquid(mobj))
             mobj->flags2 |= MF2_FEETARECLIPPED;
     }
     else if (z == ONCEILINGZ)
     {
-        mobj->z = mobj->ceilingz - mobj->height;
+        mobj->z = mobj->oldz = mobj->ceilingz - mobj->height;
         mobj->flags2 &= ~MF2_CASTSHADOW;
     }
     else
-        mobj->z = z;
+        mobj->z = mobj->oldz = z;
 
-    mobj->oldx = mobj->x;
-    mobj->oldy = mobj->y;
-    mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
 
     mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
