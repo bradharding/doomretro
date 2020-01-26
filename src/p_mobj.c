@@ -783,7 +783,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->x = mobj->oldx = x;
     mobj->y = mobj->oldy = y;
     mobj->radius = info->radius;
-    mobj->height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
     mobj->health = info->spawnhealth;
@@ -817,6 +816,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     if (z == ONFLOORZ)
     {
+        mobj->height = info->height;
         mobj->z = mobj->oldz = mobj->floorz;
 
         if ((mobj->flags2 & MF2_FOOTCLIP) && !sector->heightsec && P_IsInLiquid(mobj))
@@ -824,11 +824,15 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     }
     else if (z == ONCEILINGZ)
     {
+        mobj->height = (type != MT_KEEN && info->projectilepassheight ? info->projectilepassheight : info->height);
         mobj->z = mobj->oldz = mobj->ceilingz - mobj->height;
         mobj->flags2 &= ~MF2_CASTSHADOW;
     }
     else
+    {
+        mobj->height = info->height;
         mobj->z = mobj->oldz = z;
+    }
 
     mobj->oldangle = mobj->angle;
 
@@ -1139,7 +1143,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     if (type == VisualModeCamera)
     {
-        char *temp = commify(thingid);
+        char    *temp = commify(thingid);
 
         C_Warning(2, "Thing %s at (%i,%i) didn't spawn because it is a \"visual mode camera\".", temp, mthing->x, mthing->y);
         free(temp);

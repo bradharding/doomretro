@@ -1527,15 +1527,15 @@ static void SetVideoMode(dboolean output)
 
     if (output)
     {
-        char *temp1 = commify(height * 4 / 3);
-        char *temp2 = commify(height);
+        char    *temp1 = commify(height * 4 / 3);
+        char    *temp2 = commify(height);
 
         C_Output("<i><b>" PACKAGE_NAME "</b></i> uses a software renderer to render each frame.");
 
         if (nearestlinear)
         {
-            char *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
-            char *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
+            char    *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
+            char    *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
             C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp3, temp4);
@@ -1651,8 +1651,8 @@ static void SetVideoMode(dboolean output)
 
             if (pglGetString)
             {
-                const char *graphicscard = (const char *)pglGetString(GL_RENDERER);
-                const char *vendor = (const char *)pglGetString(GL_VENDOR);
+                const char  *graphicscard = (const char *)pglGetString(GL_RENDERER);
+                const char  *vendor = (const char *)pglGetString(GL_VENDOR);
 
                 if (graphicscard && vendor)
                     C_Output("Using %s <i><b>%s</b></i> graphics card from <i><b>%s.</b></i>",

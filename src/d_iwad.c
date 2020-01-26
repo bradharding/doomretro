@@ -305,14 +305,14 @@ static void CheckSteamEdition(void)
 // Check for DOOM downloaded via Bethesda.net Launcher
 static void CheckBethesdaNetEdition(void)
 {
-    char *install_path = GetRegistryString(&bethesdanet_install_location);
+    char    *install_path = GetRegistryString(&bethesdanet_install_location);
 
     if (!install_path)
         return;
 
     for (size_t i = 0; i < arrlen(bethesdanet_install_subdirs); i++)
     {
-        char *path = M_StringJoin(install_path, DIR_SEPARATOR_S, bethesdanet_install_subdirs[i], NULL);
+        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, bethesdanet_install_subdirs[i], NULL);
 
         AddIWADDir(path);
         free(path);

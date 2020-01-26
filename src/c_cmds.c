@@ -2849,7 +2849,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    char *temp = commify(kills);
+                    char    *temp = commify(kills);
 
                     M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s %s.", (kills == 1 ? "The" : "All"), temp,
                         (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "has" : "have"),
@@ -5762,9 +5762,9 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
         for (int i = 0; i < NUMMOBJTYPES; i++)
         {
-            char *temp1 = removenonalpha(mobjinfo[i].name1);
-            char *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-            char *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+            char    *temp1 = removenonalpha(mobjinfo[i].name1);
+            char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+            char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
             spawncmdtype = mobjinfo[i].doomednum;
 
@@ -7228,7 +7228,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
             if (gamestate == GS_LEVEL)
             {
-                char *temp = commify(viewplayer->health);
+                char    *temp = commify(viewplayer->health);
 
                 C_Output(PERCENTCVARWITHNODEFAULT, temp);
                 free(temp);
@@ -7445,7 +7445,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
+        char    *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
 
         C_ShowDescription(C_GetIndex(cmd));
 
@@ -7453,7 +7453,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, temp1);
         else
         {
-            char *temp2 = C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS);
+            char    *temp2 = C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
@@ -7881,7 +7881,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
             C_Output(PERCENTCVARISDEFAULT, temp1);
         else
         {
-            char *temp2 = commify(s_musicvolume_default);
+            char    *temp2 = commify(s_musicvolume_default);
 
             C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
