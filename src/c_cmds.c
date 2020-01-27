@@ -2593,7 +2593,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         if (!result)
             for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
             {
-                mobj_t *mobj = (mobj_t *)th;
+                mobj_t  *mobj = (mobj_t *)th;
 
                 if (*mobj->name)
                 {
@@ -2667,7 +2667,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 for (int i = 0; i < numsectors; i++)
                 {
-                    mobj_t *thing = sectors[i].thinglist;
+                    mobj_t  *thing = sectors[i].thinglist;
 
                     while (thing)
                     {
@@ -2739,7 +2739,7 @@ void kill_cmd_func2(char *cmd, char *parms)
             {
                 for (int i = 0; i < numsectors; i++)
                 {
-                    mobj_t *thing = sectors[i].thinglist;
+                    mobj_t  *thing = sectors[i].thinglist;
 
                     while (thing)
                     {
@@ -2803,7 +2803,7 @@ void kill_cmd_func2(char *cmd, char *parms)
 
                 for (int i = 0; i < numsectors; i++)
                 {
-                    mobj_t *thing = sectors[i].thinglist;
+                    mobj_t  *thing = sectors[i].thinglist;
 
                     while (thing)
                     {
@@ -5536,7 +5536,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
         if (!result)
             for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
             {
-                mobj_t *mobj = (mobj_t *)th;
+                mobj_t  *mobj = (mobj_t *)th;
 
                 if (*mobj->name)
                 {
@@ -5597,7 +5597,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             {
                 for (int i = 0; i < numsectors; i++)
                 {
-                    mobj_t *thing = sectors[i].thinglist;
+                    mobj_t  *thing = sectors[i].thinglist;
 
                     while (thing)
                     {
@@ -5657,7 +5657,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
                 for (int i = 0; i < numsectors; i++)
                 {
-                    mobj_t *thing = sectors[i].thinglist;
+                    mobj_t  *thing = sectors[i].thinglist;
 
                     while (thing)
                     {

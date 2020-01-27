@@ -852,10 +852,9 @@ int         iquetail;
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
-    int         flags = mobj->flags;
-    mobjtype_t  type;
+    int flags = mobj->flags;
 
-    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && (type = mobj->type) != MT_INV && type != MT_INS)
+    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && mobj->type != MT_INV && mobj->type != MT_INS)
     {
         itemrespawnque[iquehead] = mobj->spawnpoint;
         itemrespawntime[iquehead] = leveltime;
@@ -1012,7 +1011,9 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
     for (const struct msecnode_s *seclist = mobj->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        mobj->z = mobj->floorz = MAX(mobj->z, seclist->m_sector->floorheight);
+        mobj->z = MAX(mobj->z, seclist->m_sector->floorheight);
+
+    mobj->floorz = mobj->z;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;

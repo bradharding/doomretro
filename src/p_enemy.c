@@ -2187,7 +2187,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     // scan the remaining thinkers to see if all Keens are dead
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t *mo = (mobj_t *)th;
+        mobj_t  *mo = (mobj_t *)th;
 
         if (mo != actor && mo->type == actor->type && mo->health > 0)
             return;         // other Keen not dead
