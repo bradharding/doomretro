@@ -1176,7 +1176,7 @@ void M_UpdateSaveGameName(int i)
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
-    if (!match && !M_StringCompare(maptitle, mapnumandtitle))
+    if (!match && !M_StringCompare(mapnum, mapnumandtitle))
     {
         if (len >= 4 && savegamestrings[i][len - 1] == '.' && savegamestrings[i][len - 2] == '.'
             && savegamestrings[i][len - 3] == '.' && savegamestrings[i][len - 4] != '.')
