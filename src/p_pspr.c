@@ -437,9 +437,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
         slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, 0);
 
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, 2 * (M_Random() % 10 + 1));
-
     A_Recoil(wp_chainsaw);
-
     P_NoiseAlert(actor);
 
     if (!linetarget)
@@ -571,9 +569,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo(1);
-
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
-
     P_SpawnPlayerMissile(actor, MT_PLASMA);
 
     player->shotsfired++;
@@ -638,19 +634,14 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_NoiseAlert(actor);
-
     S_StartSound(actor, sfx_pistol);
-
     P_SubtractAmmo(1);
-
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
-
     P_BulletSlope(actor);
 
     successfulshot = false;
 
     P_GunShot(actor, !player->refire);
-
     A_Recoil(wp_pistol);
 
     player->shotsfired++;
@@ -669,13 +660,9 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_NoiseAlert(actor);
-
     S_StartSound(actor, sfx_shotgn);
-
     P_SubtractAmmo(1);
-
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
-
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -703,13 +690,9 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_NoiseAlert(actor);
-
     S_StartSound(actor, sfx_dshtgn);
-
     P_SubtractAmmo(2);
-
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
-
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -759,17 +742,13 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_NoiseAlert(actor);
     S_StartSound(actor, sfx_pistol);
-
     P_SubtractAmmo(1);
-
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
-
     P_BulletSlope(actor);
 
     successfulshot = false;
 
     P_GunShot(actor, !player->refire);
-
     A_Recoil(wp_chaingun);
 
     player->shotsfired++;
