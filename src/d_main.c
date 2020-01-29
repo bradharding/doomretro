@@ -712,7 +712,7 @@ static void LoadDehFile(char *path)
             if (HasDehackedLump(path))
                 M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", GetCorrectCase(dehpath));
             else
-                ProcessDehFile(dehpath, 0);
+                ProcessDehFile(dehpath, 0, true);
 
             if (dehfilecount < MAXDEHFILES)
                 M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
@@ -727,7 +727,7 @@ static void LoadDehFile(char *path)
             if (HasDehackedLump(path))
                 M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", GetCorrectCase(dehpath));
             else
-                ProcessDehFile(dehpath, 0);
+                ProcessDehFile(dehpath, 0, true);
 
             if (dehfilecount < MAXDEHFILES)
                 M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
@@ -1696,7 +1696,7 @@ static void D_ProcessDehCommandLine(void)
             if (*myargv[p] == '-')
                 deh = (M_StringCompare(myargv[p], "-deh") || M_StringCompare(myargv[p], "-bex"));
             else if (deh)
-                ProcessDehFile(myargv[p], 0);
+                ProcessDehFile(myargv[p], 0, false);
     }
 }
 
@@ -1714,24 +1714,24 @@ static void D_ProcessDehInWad(void)
                 && process
                 && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)
                 && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
-                ProcessDehFile(NULL, i);
+                ProcessDehFile(NULL, i, false);
 
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
-                ProcessDehFile(NULL, i);
+                ProcessDehFile(NULL, i, false);
 
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD))
-                ProcessDehFile(NULL, i);
+                ProcessDehFile(NULL, i, false);
     }
     else if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && (process || M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)))
-                ProcessDehFile(NULL, i);
+                ProcessDehFile(NULL, i, false);
     }
     else
     {
@@ -1739,12 +1739,12 @@ static void D_ProcessDehInWad(void)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad")
                 && (process || M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)))
-                ProcessDehFile(NULL, i);
+                ProcessDehFile(NULL, i, false);
     }
 
     for (int i = 0; i < 8; i++)
         if (loaddehlast[i].present)
-            ProcessDehFile(loaddehlast[i].filename, 0);
+            ProcessDehFile(loaddehlast[i].filename, 0, false);
 }
 
 static void D_ParseStartupString(const char *string)

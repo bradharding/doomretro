@@ -1981,7 +1981,7 @@ static actionf_t deh_codeptr[NUMSTATES];
 //
 // killough 10/98:
 // substantially modified to allow input from wad lumps instead of .deh files.
-void ProcessDehFile(char *filename, int lumpnum)
+void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
 {
     DEHFILE infile;
     DEHFILE *filein = &infile;              // killough 10/98
@@ -2078,7 +2078,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             if (devparm)
                 C_Output("Branching to include file <b>%s</b>...", nextfile);
 
-            ProcessDehFile(nextfile, 0);                        // do the included file
+            ProcessDehFile(nextfile, 0, false);                 // do the included file
 
             includenotext = oldnotext;
 
@@ -2140,7 +2140,8 @@ void ProcessDehFile(char *filename, int lumpnum)
     {
         char    *temp = commify(linecount);
 
-        C_Output("Parsed %s line%s from the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", temp, (linecount > 1 ? "s" : ""),
+        C_Output("%s %s line%s from the <i><b>DeHackEd</b></i>%s file <b>%s</b>.",
+            (automatic ? "Automatically parsed" : "Parsed"), temp, (linecount > 1 ? "s" : ""),
             (M_StringEndsWith(filename, "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
 
         free(temp);
