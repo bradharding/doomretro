@@ -880,7 +880,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         width += warningwidth + 1;
         x += width;
     }
-    else if (len > 100)
+    
+    if (len > 100)
     {
         do
         {
