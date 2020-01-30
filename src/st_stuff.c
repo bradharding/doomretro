@@ -1259,7 +1259,7 @@ static void ST_DoPaletteStuff(void)
         if (viewplayer->bonuscount)
             palette = STARTBONUSPALS - 1 + MIN((viewplayer->bonuscount + 7) >> 3, NUMBONUSPALS);
         else
-            palette = MIN((count >> 3) + (doom4vanilla ? r_berserkintensity + 3 : r_berserkintensity), NUMREDPALS);
+            palette = MIN((count >> 3) + r_berserkintensity, NUMREDPALS);
     }
     else if (count)
         palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1));
