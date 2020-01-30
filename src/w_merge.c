@@ -266,7 +266,6 @@ static void AddSpriteLump(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
     int             angle_num;
-    int             i = 0;
     static int      MISFA0;
     static int      MISFB0;
     dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
@@ -281,6 +280,8 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
         if (!ispackagewad)
         {
+            int i = 0;
+
             MISFA0 += M_StringCompare(lump->name, "MISFA0");
             MISFB0 += M_StringCompare(lump->name, "MISFB0");
 
@@ -306,13 +307,10 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     // first angle
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
-    angle_num = lump->name[5] - '0';
 
-    if (!angle_num)
-    {
-        for (i = 0; i < 8; i++)
+    if (!(angle_num = lump->name[5] - '0'))
+        for (int i = 0; i < 8; i++)
             sprite->angle_lumps[i] = lump;
-    }
     else
         sprite->angle_lumps[angle_num - 1] = lump;
 
@@ -323,13 +321,10 @@ static void AddSpriteLump(lumpinfo_t *lump)
         return;
 
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
-    angle_num = lump->name[7] - '0';
 
-    if (!angle_num)
-    {
-        for (i = 0; i < 8; i++)
+    if (!(angle_num = lump->name[7] - '0'))
+        for (int i = 0; i < 8; i++)
             sprite->angle_lumps[i] = lump;
-    }
     else
         sprite->angle_lumps[angle_num - 1] = lump;
 }
