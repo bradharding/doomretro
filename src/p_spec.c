@@ -1645,7 +1645,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
         case W1_ExitLevel_GoesToSecretLevel:
             G_SecretExitLevel();
-
             break;
 
         case W1_Teleport_MonstersOnly:

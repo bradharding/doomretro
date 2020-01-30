@@ -16,6 +16,7 @@
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to `100%` when vanilla mode is on.
+* A crash will no longer when the player uses the exit to the secret level in *E5M6: Unspeakable Persecution*.
 
 ---
 
