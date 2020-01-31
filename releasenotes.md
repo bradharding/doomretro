@@ -9,17 +9,17 @@
 * The keys on the numeric keypad now work correctly in the console.
 * *DOOM Retro* will now play sound effect lumps that are in WAV format.
 * Some corpses can now be gibbed in reaction to nearby barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
-* A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
+* A bug has been fixed whereby certain floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The following changes have been made to the *MBF*-compatible helper dogs:
-  * The `DOGSA1` to `DOGSN0` lumps have now been replaced with sprites by Nash Muhandes, released under a [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
-  * The `DSDGACT` and `DSDGATK` lumps have now been replaced with edited versions of “Mr Dog_01.wav” by apolloaiello, released under a [*Creative Commons License*](https://creativecommons.org/publicdomain/zero/1.0/).
-  * The `DSDGDTH`, `DSDGPAIN` and `DSDGSIT` lumps have now been replaced with edited versions of “DogYelp.wav” by TobiasKosmos, released under a [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
+  * The `DOGSA1` to `DOGSN0` lumps have now been replaced with [sprites by Nash Muhandes](https://forum.zdoom.org/viewtopic.php?f=59&t=58035), released under the [*Creative Commons (BY 3.0)*](https://creativecommons.org/licenses/by/3.0/) license.
+  * The `DSDGACT` and `DSDGATK` lumps have now been replaced with edited versions of [“Mr Dog_01.wav” by apolloaiello](https://freesound.org/people/apolloaiello/sounds/276267/), released under the [*Creative Commons (CC0 1.0 Universal)*](https://creativecommons.org/publicdomain/zero/1.0/) license.
+  * The `DSDGDTH`, `DSDGPAIN` and `DSDGSIT` lumps have now been replaced with edited versions of [“DogYelp.wav” by TobiasKosmos](http://freesound.org/people/TobiasKosmos/sounds/163280/), released under the [*Creative Commons (BY 3.0)*](https://creativecommons.org/licenses/by/3.0/) license.
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
-* The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` (red) by default.
+* The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` by default.
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to `100%` when vanilla mode is on.
-* A crash will no longer occur when the player uses the exit to the secret level in *E5M6: Unspeakable Persecution*.
+* A crash will no longer occur when the player uses the secret exit in *E5M6: Unspeakable Persecution*.
 
 ---
 
