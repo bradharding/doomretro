@@ -1233,11 +1233,11 @@ static void G_DoCompleted(void)
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
-    if (secretexit && secretnextmap > 0)
-        wminfo.next = secretnextmap - 1;
-    else if (gamemode == commercial)
+    if (gamemode == commercial)
     {
-        if (nextmap > 0)
+        if (secretexit && secretnextmap > 0)
+            wminfo.next = secretnextmap - 1;
+        else if (nextmap > 0)
             wminfo.next = nextmap - 1;
         else if (secretexit)
         {
@@ -1295,7 +1295,9 @@ static void G_DoCompleted(void)
     }
     else
     {
-        if (nextmap > 0)
+        if (secretexit && secretnextmap > 0)
+            wminfo.next = secretnextmap - (gameepisode - 1) * 10 - 1;
+        else if (nextmap > 0)
             wminfo.next = nextmap - (gameepisode - 1) * 10 - 1;
         else if (secretexit)
             wminfo.next = 8;            // go to secret level

@@ -3086,7 +3086,7 @@ static void P_InitMapInfo(void)
                                 free(buffer);
                             }
 
-                            info->next = nextmap;
+                            info->next = (nextepisode - 1) * 10 + nextmap;
                             break;
                         }
 
@@ -3157,7 +3157,7 @@ static void P_InitMapInfo(void)
                                 free(buffer);
                             }
 
-                            info->secretnext = nextmap;
+                            info->secretnext = (nextepisode - 1) * 10 + nextmap;
                             break;
                         }
 
