@@ -1538,7 +1538,6 @@ static int D_OpenWADLauncher(void)
                 // if an IWAD has now been found, make second pass through the PWADs to merge them
                 if (iwadfound)
                 {
-                    char        D4Vpath[MAX_PATH] = "";
                     dboolean    mapspresent = false;
 
 #if defined(_WIN32)
@@ -1559,9 +1558,7 @@ static int D_OpenWADLauncher(void)
                         {
                             D_CheckSupportedPWAD(fullpath);
 
-                            if (M_StringCompare(pwadpass2, "D4V.wad"))
-                                M_StringCopy(D4Vpath, fullpath, sizeof(D4Vpath));
-                            else if (W_MergeFile(fullpath, false))
+                            if (W_MergeFile(fullpath, false))
                             {
 #if defined(_WIN32)
                                 wad = M_StringDuplicate(leafname(fullpath));
@@ -1597,11 +1594,6 @@ static int D_OpenWADLauncher(void)
                         if (W_MergeFile(fullpath, true))
                             nerve = true;
                     }
-
-                    // always merge D4V.WAD last
-                    if (*D4Vpath)
-                        if (W_MergeFile(D4Vpath, false))
-                            modifiedgame = true;
                 }
             }
 

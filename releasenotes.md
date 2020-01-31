@@ -12,8 +12,8 @@
 * A bug has been fixed whereby floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The following changes have been made to the *MBF*-compatible helper dogs:
   * The `DOGSA1` to `DOGSN0` lumps have now been replaced with sprites by Nash Muhandes, released under a [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
-  * The `DSDGACT` and `DSDGATK` lumps have now been replaced with an edited version of “Mr Dog_01.wav” by apolloaiello, released under a [*Creative Commons License*](https://creativecommons.org/publicdomain/zero/1.0/).
-  * The `DSDGDTH`, `DSDGPAIN` and `DSDGSIT` lumps have now been replaced with an edited version of “DogYelp.wav” by TobiasKosmos, released under a [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
+  * The `DSDGACT` and `DSDGATK` lumps have now been replaced with edited versions of “Mr Dog_01.wav” by apolloaiello, released under a [*Creative Commons License*](https://creativecommons.org/publicdomain/zero/1.0/).
+  * The `DSDGDTH`, `DSDGPAIN` and `DSDGSIT` lumps have now been replaced with edited versions of “DogYelp.wav” by TobiasKosmos, released under a [*Creative Commons License*](https://creativecommons.org/licenses/by/3.0/).
 * The `map` CCMD now also accepts a map’s title as its parameter. For example, entering `map nuclearplant` in the console will warp the player to *E1M2: Nuclear Plant*.
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
