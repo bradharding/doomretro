@@ -104,7 +104,6 @@ static dboolean IsFreedoom(const char *iwadname)
     }
 
     fclose(fp);
-
     return result;
 }
 
@@ -144,7 +143,6 @@ dboolean IsBFGEdition(const char *iwadname)
     }
 
     fclose(fp);
-
     return (result1 && result2);
 }
 
@@ -174,7 +172,6 @@ dboolean IsUltimateDOOM(const char *iwadname)
     }
 
     fclose(fp);
-
     return result;
 }
 
@@ -323,7 +320,6 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
     fileinfo = malloc(length);
-
     W_Read(wadfile, header.infotableofs, fileinfo, length);
 
     // Increase size of numlumps array to accommodate the new file.
@@ -332,7 +328,6 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     startlump = numlumps;
     numlumps += header.numlumps;
     lumpinfo = I_Realloc(lumpinfo, numlumps * sizeof(lumpinfo_t *));
-
     filerover = fileinfo;
 
     for (int i = startlump; i < numlumps; i++)
@@ -345,7 +340,6 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         lump_p->cache = NULL;
         strncpy(lump_p->name, filerover->name, 8);
         lumpinfo[i] = lump_p;
-
         filerover++;
     }
 
@@ -426,7 +420,6 @@ dboolean HasDehackedLump(const char *pwadname)
     }
 
     fclose(fp);
-
     return result;
 }
 
@@ -480,7 +473,6 @@ int W_WadType(char *filename)
         return 0;
 
     W_Read(wadfile, 0, &header, sizeof(header));
-
     W_CloseFile(wadfile);
 
     if (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD"))
