@@ -394,8 +394,9 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
             TWriteByte(mididata, MIDItrack, 0x7B);
             TWriteByte(mididata, MIDItrack, 0x00);
         }
-        else    // channel already allocated as a track, use those values
+        else
         {
+            // channel already allocated as a track, use those values
             MIDIchannel = MUS2MIDchannel[MUSchannel];
             MIDItrack = MIDIchan2track[MIDIchannel];
         }
@@ -481,8 +482,6 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
             case SCORE_END:
                 break;
 
-            case UNKNOWN_EVENT1:   // mus events 5 and 7
-            case UNKNOWN_EVENT2:   // meaning not known
             default:
                 return false;
         }
