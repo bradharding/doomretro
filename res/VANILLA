@@ -91,10 +91,8 @@ r_translucency off
 regenhealth off
 respawnitems off
 s_channels 8
-s_musicvolume 100%
 s_randommusic off
 s_randompitch off
-s_sfxvolume 100%
 s_stereo on
 stillbob 0%
 tossdrop off

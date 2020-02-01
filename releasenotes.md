@@ -1,14 +1,14 @@
 ### DOOM Retro v3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If no IWAD is specified on the command-line, or if run for the first time, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased through the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
+* If no IWAD is specified on the command-line, or if run for the first time, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased using the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
 * IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The keys on the numeric keypad now work correctly in the console.
 * *DOOM Retro* will now play sound effect lumps that are in WAV format.
-* The corpses of some of the smaller monsters will now be gibbed when close to barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
+* The corpses of some of the smaller monsters, as well as dead marines, will now be gibbed when close to barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby certain floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The following changes have been made to the *MBF*-compatible helper dogs:
   * The `DOGSA1` to `DOGSN0` lumps have now been replaced with [sprites by Nash Muhandes](https://forum.zdoom.org/viewtopic.php?f=59&t=58035), released under the [*Creative Commons (BY 3.0)*](https://creativecommons.org/licenses/by/3.0/) license.
@@ -18,7 +18,7 @@
 * The effects of changing the `r_blood` CVAR in the console will now always be immediate.
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` by default.
-* The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to `100%` when vanilla mode is on.
+* The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to the same lowest value when vanilla mode is on.
 * A crash will no longer occur when the player uses the secret exit in *E5M6: Unspeakable Persecution*.
 * Further improvements have been made to the support of `MAPINFO` and `RMAPINFO` lumps.
 
