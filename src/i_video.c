@@ -1851,6 +1851,8 @@ void I_ToggleFullscreen(void)
     if (nearestlinear)
         I_UpdateBlitFunc(viewplayer && viewplayer->damagecount);
 
+    S_StartSound(NULL, sfx_stnmov);
+
     if (vid_fullscreen)
         C_StrCVAROutput(stringize(vid_fullscreen), "on");
     else
