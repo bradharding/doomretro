@@ -5842,7 +5842,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            mapthing_t  mthing;
             fixed_t     x = viewx + 100 * viewcos;
             fixed_t     y = viewy + 100 * viewsin;
 
@@ -5855,11 +5854,11 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                mobj_t  *thing;
+                mapthing_t  mthing;
+                mobj_t      *thing;
 
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
-                mthing.angle = 0;
                 mthing.type = spawncmdtype;
                 mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
 
