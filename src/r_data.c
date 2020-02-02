@@ -606,7 +606,46 @@ static void R_InitSpriteLumps(void)
     }
     else if (eviternity)
         mobjinfo[MT_DOGS].blood = MT_GREENBLOOD;
-}
+    else if (doom4vanilla)
+    {
+        mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_INV].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
+        mobjinfo[MT_MEGA].flags2 &= ~MF2_FLOATBOB;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+
+        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "possessed", sizeof(mobjinfo[MT_POSSESSED].name1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "possessed", sizeof(mobjinfo[MT_POSSESSED].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "possessed security", sizeof(mobjinfo[MT_SHOTGUY].plural1));
+        M_StringCopy(mobjinfo[MT_VILE].name1, "summoner", sizeof(mobjinfo[MT_VILE].name1));
+        M_StringCopy(mobjinfo[MT_VILE].plural1, "summoners", sizeof(mobjinfo[MT_VILE].plural1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mancubus", sizeof(mobjinfo[MT_UNDEAD].name1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mancubi", sizeof(mobjinfo[MT_UNDEAD].plural1));
+        M_StringCopy(mobjinfo[MT_FATSO].name1, "revenant", sizeof(mobjinfo[MT_UNDEAD].name1));
+        M_StringCopy(mobjinfo[MT_FATSO].plural1, "revenants", sizeof(mobjinfo[MT_UNDEAD].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "hell razer", sizeof(mobjinfo[MT_CHAINGUY].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "hell razers", sizeof(mobjinfo[MT_CHAINGUY].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "pinky", sizeof(mobjinfo[MT_SERGEANT].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "pinkies", sizeof(mobjinfo[MT_SERGEANT].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name3, "demon", sizeof(mobjinfo[MT_SERGEANT].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural3, "demons", sizeof(mobjinfo[MT_SERGEANT].plural1));
+        M_StringCopy(mobjinfo[MT_SPIDER].name1, "cyberdemon", sizeof(mobjinfo[MT_SPIDER].name1));
+        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "cyberdemons", sizeof(mobjinfo[MT_SPIDER].plural1));
+        M_StringCopy(mobjinfo[MT_BABY].name1, "spider mastermind", sizeof(mobjinfo[MT_BABY].name1));
+        M_StringCopy(mobjinfo[MT_BABY].plural1, "spider masterminds", sizeof(mobjinfo[MT_BABY].plural1));
+        M_StringCopy(mobjinfo[MT_CYBORG].name1, "cyber-mancubus", sizeof(mobjinfo[MT_CYBORG].name1));
+        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "cyber-mancubi", sizeof(mobjinfo[MT_CYBORG].plural1));
+        M_StringCopy(mobjinfo[MT_PAIN].name1, "gore nest", sizeof(mobjinfo[MT_PAIN].name1));
+        M_StringCopy(mobjinfo[MT_PAIN].plural1, "gore nests", sizeof(mobjinfo[MT_PAIN].plural1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].name1, "possessed", sizeof(mobjinfo[MT_WOLFSS].name1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "possessed", sizeof(mobjinfo[MT_WOLFSS].plural1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].name2, "possessed scientist", sizeof(mobjinfo[MT_WOLFSS].name1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].plural2, "possessed scientists", sizeof(mobjinfo[MT_WOLFSS].plural1));
+        M_StringCopy(mobjinfo[MT_INV].name2, "super chainsaw", sizeof(mobjinfo[MT_INV].name1));
+        M_StringCopy(mobjinfo[MT_INV].plural2, "super chainsaws", sizeof(mobjinfo[MT_INV].plural1));
+        M_StringCopy(mobjinfo[MT_MEGA].name2, "mega doll", sizeof(mobjinfo[MT_MEGA].name1));
+        M_StringCopy(mobjinfo[MT_MEGA].plural2, "mega dolls", sizeof(mobjinfo[MT_MEGA].plural1));
+    }}
 
 //
 // R_InitColormaps

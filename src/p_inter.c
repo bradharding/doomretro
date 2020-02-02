@@ -1918,7 +1918,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && type != MT_PAIN && (M_Random() & 1))
+        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
             target->flags2 |= MF2_MIRRORED;
     }
 
@@ -1972,7 +1972,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
-    if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+    if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
         target->flags2 &= ~MF2_CASTSHADOW;
 
     if (chex)
@@ -2184,9 +2184,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             if (!(flags & MF_FUZZ))
             {
-                if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+                if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
                     target->colfunc = tlredcolfunc;
-                else if (type == MT_BRUISER || type == MT_KNIGHT)
+                else if (type == MT_BRUISER || (type == MT_KNIGHT && !doom4vanilla))
                     target->colfunc = redtogreencolfunc;
             }
 

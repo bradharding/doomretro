@@ -589,7 +589,7 @@ void D_DoAdvanceTitle(void)
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
     {
-        if (W_CheckMultipleLumps("CREDIT") > 1)
+        if (W_CheckMultipleLumps("CREDIT") > 1 && !doom4vanilla)
         {
             if (++titlesequence > 2)
                 titlesequence = 1;
@@ -678,11 +678,31 @@ typedef struct
     dboolean    present;
 } loaddehlast_t;
 
+// [BH] A list of DeHackEd files to load last
+static loaddehlast_t loaddehlast[8] =
+{
+    { "VORTEX_DoomRetro.deh" },
+    { "2_MARKV.deh"          },
+    { "3_HELLST.deh"         },
+    { "3_REAPER.deh"         },
+    { "4_HAR.deh"            },
+    { "5_GRNADE.deh"         },
+    { "6_LIGHT.deh"          },
+    { "7_GAUSS.deh"          }
+};
+
 static void LoadDehFile(char *path)
 {
-    char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+    char    *dehpath;
 
-    if (dehpath)
+    for (int i = 0; i < 8; i++)
+        if (M_StringCompare(leafname(path), loaddehlast[i].filename))
+        {
+            loaddehlast[i].present = true;
+            return;
+        }
+
+    if ((dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]")))
     {
         if (!DehFileProcessed(dehpath))
         {
@@ -823,6 +843,8 @@ static void D_CheckSupportedPWAD(char *filename)
         sprfix18 = true;
     else if (M_StringCompare(leaf, "eviternity.wad"))
         eviternity = true;
+    else if (M_StringCompare(leaf, "d4v.wad"))
+        doom4vanilla = true;
     else if (M_StringCompare(leaf, "remnant.wad"))
         remnant = true;
 }
@@ -1677,7 +1699,26 @@ static void D_ProcessDehInWad(void)
     if (*dehwarning)
         C_Warning(1, dehwarning);
 
-    if (hacx || FREEDOOM)
+    if (doom4vanilla)
+    {
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && process
+                && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)
+                && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
+                ProcessDehFile(NULL, i, false);
+
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "D4V.WAD"))
+                ProcessDehFile(NULL, i, false);
+
+        for (int i = 0; i < numlumps; i++)
+            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD))
+                ProcessDehFile(NULL, i, false);
+    }
+    else if (hacx || FREEDOOM)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
@@ -1692,6 +1733,10 @@ static void D_ProcessDehInWad(void)
                 && (process || M_StringCompare(leafname(lumpinfo[i]->wadfile->path), PACKAGE_WAD)))
                 ProcessDehFile(NULL, i, false);
     }
+
+    for (int i = 0; i < 8; i++)
+        if (loaddehlast[i].present)
+            ProcessDehFile(loaddehlast[i].filename, 0, false);
 }
 
 static void D_ParseStartupString(const char *string)
