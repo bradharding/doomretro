@@ -141,7 +141,7 @@ extern dboolean     usebrightmaps;
 //
 static int  max_rwscale = 64 * FRACUNIT;
 static int  heightbits = 12;
-static int  heightunit = (1 << 12);
+static int  heightunit = 1 << 12;
 static int  invhgtbits = 4;
 
 static void R_FixWiggle(sector_t *sector)
@@ -475,7 +475,7 @@ static void R_RenderSegLoop(void)
                 didsolidcol = true;
             }
 
-            // save texturecol for backdrawing of masked mid texture
+            // save texturecolumn for backdrawing of masked mid texture
             if (maskedtexture)
                 maskedtexturecol[rw_x] = texturecolumn;
         }

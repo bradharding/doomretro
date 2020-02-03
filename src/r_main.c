@@ -256,8 +256,8 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
     if (x_viewx < INT_MIN || x_viewx > INT_MAX || y_viewy < INT_MIN || y_viewy > INT_MAX)
     {
         // [crispy] preserving the angle by halving the distance in both directions
-        x = (int)(x_viewx / 2 + x1);
-        y = (int)(y_viewy / 2 + y1);
+        x = (fixed_t)(x_viewx / 2 + x1);
+        y = (fixed_t)(y_viewy / 2 + y1);
     }
 
     return R_PointToAngle2(x1, y1, x, y);
