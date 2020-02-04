@@ -87,7 +87,7 @@ static dboolean sendsave;                       // send a save event next tic
 
 dboolean        viewactive;
 
-int             gametime;
+int             gametime = 0;
 int             totalkills;                     // for intermission
 int             totalitems;
 int             totalsecret;

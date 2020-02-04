@@ -2052,7 +2052,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflicter && (!tplayer || !inflicter->player) && !(flags & MF_NOCLIP)
+    if (inflicter
+        && (!tplayer || !inflicter->player)
+        && !(flags & MF_NOCLIP)
         && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
@@ -2077,7 +2079,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (corpse)
     {
-        // [BH] gib corpse if damage is big enough
+        // [BH] gib corpse if enough damage
         if (r_corpses_gib && damage >= 25)
         {
             int state = info->xdeathstate;
@@ -2147,8 +2149,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             tplayer->health = 1;
             target->health = 1;
         }
-
-        if (!(tplayer->cheats & CF_BUDDHA) || tplayer->health >= 1)
+        else
         {
             tplayer->damagereceived += damage;
             stat_damagereceived = SafeAdd(stat_damagereceived, damage);

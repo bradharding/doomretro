@@ -7,7 +7,7 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The keys on the numeric keypad now work correctly in the console.
-* *DOOM Retro* will now play sound effect lumps that are in WAV format.
+* *DOOM Retro* will now play sound effect lumps that are in [WAV format](https://en.wikipedia.org/wiki/WAV).
 * The corpses of some of the smaller monsters, as well as other marines, will now be gibbed when close enough to barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby certain floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
 * The following changes have been made to the *MBF*-compatible helper dogs:
