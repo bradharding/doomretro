@@ -1494,7 +1494,6 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     fixed_t z = source->z + 32 * FRACUNIT;
     mobj_t  *th;
     angle_t an;
-    int     dist;
     int     speed;
 
     if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_clipsprites)
@@ -1517,8 +1516,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     speed = th->info->speed;
     th->momx = FixedMul(speed, finecosine[an]);
     th->momy = FixedMul(speed, finesine[an]);
-    dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / speed);
-    th->momz = (dest->z - source->z) / dist;
+    th->momz = (dest->z - source->z) / MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / speed);
     th->flags2 |= MF2_MONSTERMISSILE;
     P_CheckMissileSpawn(th);
 

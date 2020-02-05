@@ -20,7 +20,7 @@
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` by default.
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to the same lowest value when vanilla mode is on.
 * A crash will no longer occur when the player uses the secret exit in *E5M6: Unspeakable Persecution*.
-* Further improvements have been made to the support of `MAPINFO` and `RMAPINFO` lumps.
+* Further improvements have been made to the support of `MAPINFO` lumps.
 
 ---
 

@@ -2150,8 +2150,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             {
                 P_ChangeSwitchTexture(line, true);
 
-                if (canmodify && gamemission == doom2 && gamemap == 18)
-                    line->special = -G1_Door_OpenStay;
+                if (canmodify)
+                    line->special = 0;
             }
 
             break;
