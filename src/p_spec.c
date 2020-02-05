@@ -2147,12 +2147,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         case G1_Door_OpenStay:
             if (EV_DoDoor(line, doorOpen, VDOORSPEED))
-            {
-                P_ChangeSwitchTexture(line, true);
-
-                if (canmodify)
-                    line->special = 0;
-            }
+                P_ChangeSwitchTexture(line, !canmodify);
 
             break;
 
