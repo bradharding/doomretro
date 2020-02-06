@@ -807,7 +807,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     // check lines
-    if (!(thing->flags & MF_DROPPED) && (thing->x != x || thing->y != y))
+    if ((thing->flags & MF_SPECIAL) && !(thing->flags & MF_DROPPED))
     {
         radius = thing->info->pickupradius;
         tmbbox[BOXTOP] = y + radius;
