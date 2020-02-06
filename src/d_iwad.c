@@ -187,22 +187,6 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\ultimate doom\\base"
 };
 
-// Location where Bethesda.net Launcher is installed
-static registryvalue_t bethesdanet_install_location =
-{
-    HKEY_CURRENT_USER,
-    "Software\\Bethesda Softworks\\Bethesda.net",
-    "installLocation"
-};
-
-// Subdirs of the Bethesda.net Launcher install directory where IWADs are found
-static const char *bethesdanet_install_subdirs[] =
-{
-    "games\\Doom 3 BFG Edition\\base\\wads"
-    "games\\DOOM II\\base",
-    "games\\Ultimate DOOM\\base"
-};
-
 static char *GetRegistryString(registryvalue_t *reg_val)
 {
     HKEY    key;
@@ -302,24 +286,6 @@ static void CheckSteamEdition(void)
     free(install_path);
 }
 
-// Check for DOOM downloaded via Bethesda.net Launcher
-static void CheckBethesdaNetEdition(void)
-{
-    char    *install_path = GetRegistryString(&bethesdanet_install_location);
-
-    if (!install_path)
-        return;
-
-    for (size_t i = 0; i < arrlen(bethesdanet_install_subdirs); i++)
-    {
-        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, bethesdanet_install_subdirs[i], NULL);
-
-        AddIWADDir(path);
-        free(path);
-    }
-
-    free(install_path);
-}
 
 // Default install directories for DOS DOOM
 static void CheckDOSDefaults(void)
@@ -438,7 +404,6 @@ static void BuildIWADDirList(void)
     CheckUninstallStrings();
     CheckInstallRootPaths();
     CheckSteamEdition();
-    CheckBethesdaNetEdition();
     CheckDOSDefaults();
 #endif
 

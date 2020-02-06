@@ -1,7 +1,6 @@
 ### DOOM Retro v3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* If no IWAD is specified on the command-line, or if run for the first time, *DOOM Retro* will now also look for an installation of *DOOM (Original)*, *DOOM II (Original)* or *DOOM 3: BFG Edition* purchased using the [*Bethesda.net Launcher*](https://bethesda.net/game/bethesda-launcher).
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
 * IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
 * Minor changes have been made to the character set used in the console.
