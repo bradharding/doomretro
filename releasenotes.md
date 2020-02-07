@@ -22,6 +22,7 @@
 * Further improvements have been made to the support of `MAPINFO` lumps.
 * A sound is now made when toggling between fullscreen and a window.
 * Lines with special 46 (“GR Door Open Stay”) now work correctly.
+* Monsters can no longer be spawned using the `spawn` CCMD when the `nomonsters` CCMD is in effect.
 
 ---
 

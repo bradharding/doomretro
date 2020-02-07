@@ -5839,6 +5839,11 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 (spawncmdfriendly ? "Friendly " : ""), (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
             spawn = false;
         }
+        else if (nomonsters && spawncmdtype >= 0 && (mobjinfo[P_FindDoomedNum(spawncmdtype)].flags & MF_SHOOTABLE))
+        {
+            C_Warning(0, "Monsters can't be spawned when the <b>nomonsters</b> CCMD is in effect.");
+            spawn = false;
+        }
 
         if (spawn)
         {
