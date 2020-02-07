@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include <assert.h>
 #include <memory.h>
 
 #include "SDL_mixer.h"
@@ -65,8 +64,6 @@ static dboolean             sound_initialized;
 static allocated_sound_t    *channels_playing[s_channels_max];
 
 static int                  mixer_freq;
-static uint16_t             mixer_format;
-static int                  mixer_channels;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
@@ -241,82 +238,42 @@ static void ReleaseSoundOnChannel(int channel)
         FreeAllocatedSound(snd);
 }
 
-static dboolean ConvertibleRatio(int freq1, int freq2)
-{
-    if (freq1 > freq2)
-        return ConvertibleRatio(freq2, freq1);
-    else if (freq2 % freq1)
-        return false;   // Not in a direct ratio
-    else
-    {
-        // Check the ratio is a power of 2
-        int ratio = freq2 / freq1;
-
-        while (!(ratio & 1))
-            ratio >>= 1;
-
-        return (ratio == 1);
-    }
-}
-
 // Generic sound expansion function for any sample rate.
 static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int bits, int length)
 {
     unsigned int        samplecount = length / (bits / 8);
     unsigned int        expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    Mix_Chunk           *chunk;
-    SDL_AudioCVT        cvt;
+    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
+    int                 expand_ratio = (samplecount << 8) / expanded_length;
+    double              dt = 1.0 / mixer_freq;
+    double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
     if (!snd)
         return false;
 
-    chunk = &snd->chunk;
-
-    if (samplerate <= mixer_freq
-        && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&cvt, (bits == 8 ? AUDIO_U8 : AUDIO_S16), 1, samplerate, mixer_format, mixer_channels, mixer_freq) > 0)
+    if (bits == 8)
     {
-        cvt.len = length;
-        cvt.buf = malloc((size_t)cvt.len * cvt.len_mult);
-        assert(cvt.buf != NULL);
-        memcpy(cvt.buf, data, length);
+        for (unsigned int i = 0; i < expanded_length; i++)
+        {
+            byte    src = data[(i * expand_ratio) >> 8];
 
-        SDL_ConvertAudio(&cvt);
-
-        memcpy(chunk->abuf, cvt.buf, chunk->alen);
-        free(cvt.buf);
+            expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
+        }
     }
     else
     {
-        int16_t *expanded = (int16_t *)chunk->abuf;
-        int     expand_ratio = (samplecount << 8) / expanded_length;
-        double  dt = 1.0 / mixer_freq;
-        double  alpha = dt / (1.0 / (M_PI * samplerate) + dt);
-
-        if (bits == 8)
+        for (unsigned int i = 0; i < expanded_length; i++)
         {
-            for (unsigned int i = 0; i < expanded_length; i++)
-            {
-                byte    src = data[(i * expand_ratio) >> 8];
+            byte    src = ((i * expand_ratio) >> 8) * 2;
 
-                expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
-            }
+            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }
-        else
-        {
-            for (unsigned int i = 0; i < expanded_length; i++)
-            {
-                byte    src = ((i * expand_ratio) >> 8) * 2;
-
-                expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
-            }
-        }
-
-        // Apply low-pass filter
-        for (unsigned int i = 2; i < expanded_length * 2; i++)
-            expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
     }
+
+    // Apply low-pass filter
+    for (unsigned int i = 2; i < expanded_length * 2; i++)
+        expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
     return true;
 }
@@ -466,6 +423,8 @@ void I_ShutdownSound(void)
 dboolean I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
+    uint16_t            mixer_format;
+    int                 mixer_channels;
 
     // No sounds yet
     for (int i = 0; i < s_channels_max; i++)
