@@ -9,7 +9,7 @@
 * *DOOM Retro* will now play sound effect lumps that are in [WAV format](https://en.wikipedia.org/wiki/WAV).
 * The corpses of some of the smaller monsters, as well as other marines, will now be gibbed when close enough to barrel and rocket explosions. This feature can be toggled on or off using the new `r_corpses_gib` CVAR, which is `on` by default and `off` when vanilla mode is on.
 * A bug has been fixed whereby certain floor textures would glitch in some rare instances if the `r_liquid_current` CVAR was `on`.
-* The following changes have been made to the *MBF*-compatible helper dogs:
+* The following changes have been made to *DOOM Retro’s* *MBF*-compatible helper dogs:
   * The `DOGSA1` to `DOGSN0` lumps have now been replaced with [sprites by Nash Muhandes](https://forum.zdoom.org/viewtopic.php?f=59&t=58035), released under the [*Creative Commons (BY 3.0)*](https://creativecommons.org/licenses/by/3.0/) license.
   * The `DSDGACT` and `DSDGATK` lumps have now been replaced with edited versions of [“Mr Dog_01.wav” by apolloaiello](https://freesound.org/people/apolloaiello/sounds/276267/), released under the [*Creative Commons (CC0 1.0 Universal)*](https://creativecommons.org/publicdomain/zero/1.0/) license.
   * The `DSDGDTH`, `DSDGPAIN` and `DSDGSIT` lumps have now been replaced with edited versions of [“DogYelp.wav” by TobiasKosmos](http://freesound.org/people/TobiasKosmos/sounds/163280/), released under the [*Creative Commons (BY 3.0)*](https://creativecommons.org/licenses/by/3.0/) license.
@@ -20,6 +20,8 @@
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to the same lowest value when vanilla mode is on.
 * A crash will no longer occur when the player uses the secret exit in *E5M6: Unspeakable Persecution*.
 * Further improvements have been made to the support of `MAPINFO` lumps.
+* A sound is now made when toggling between fullscreen and a window.
+* Lines with special 46 (“GR Door Open Stay”) now work correctly.
 
 ---
 

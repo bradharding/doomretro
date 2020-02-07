@@ -1034,7 +1034,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case G1_Floor_RaiseToLowestCeiling:
-        case G1_Door_OpenStay:
+        case GR_Door_OpenStay:
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
         case Scroll_ScrollTextureLeft:
         case Scroll_ScrollTextureRight:

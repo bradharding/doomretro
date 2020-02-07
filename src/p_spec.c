@@ -2131,7 +2131,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         }
 
     // Impacts that other things can activate.
-    if (!thing->player && line->special != G1_Door_OpenStay)
+    if (!thing->player && line->special != GR_Door_OpenStay)
         return;
 
     if (!P_CheckTag(line))                  // jff 2/27/98 disallow zero tag on some types
@@ -2145,7 +2145,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
             break;
 
-        case G1_Door_OpenStay:
+        case GR_Door_OpenStay:
             if (EV_DoDoor(line, doorOpen, VDOORSPEED))
                 P_ChangeSwitchTexture(line, !canmodify);
 
