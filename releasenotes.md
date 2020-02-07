@@ -18,7 +18,7 @@
 * The `teleport` CCMD now accepts an optional third parameter, specifying the height the player will be from the floor once they have teleported.
 * The color of the console’s bottom edge may now be changed using the new `con_edgecolor` CVAR. It is `180` by default.
 * The `s_musicvolume` and `s_sfxvolume` CVARs are now both set to the same lowest value when vanilla mode is on.
-* A crash will no longer occur when the player uses the secret exit in *E5M6: Unspeakable Persecution*.
+* A crash will no longer occur when the player uses the secret exit in *SIGIL’s E5M6: Unspeakable Persecution*.
 * Further improvements have been made to the support of `MAPINFO` lumps.
 * A sound is now made when toggling between fullscreen and a window.
 * Lines with special 46 (“GR Door Open Stay”) now work correctly.
@@ -1813,7 +1813,7 @@
 * Stylized quotes are now used in place of double quotes in the console.
 * Text in the console is now slightly translucent.
 * A random static effect has been applied to the console’s background.
-* The effects of changing the `vid_windowpos` and `vid_windowsize` CVARs while in the console and in a window is now immediate.
+* The effects of changing the `vid_windowpos` and `vid_windowsize` CVARs while in the console and in a window are now immediate.
 
 ---
 
