@@ -296,7 +296,7 @@ const char *linespecials[] =
     "SR Ceiling lower to floor",
     "W1 Ceiling lower to 8 above floor",
     "SR Floor lower to highest floor",
-    "G1 Door open stay",
+    "GR Door open stay",
     "G1 Floor raise to next highest floor (changes texture)",
     "Scroll texture left",
     "S1 Ceiling lower to 8 above floor (perpetual slow crusher damage)",
