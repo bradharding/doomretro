@@ -1,5 +1,6 @@
 ### DOOM Retro v3.5.1
 
+* Minor changes have been made to text that is output to the console.
 * Monsters can now be spawned using the `spawn` CCMD when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 
 ---

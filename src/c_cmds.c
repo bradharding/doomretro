@@ -5842,14 +5842,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            fixed_t     x = viewx + 100 * viewcos;
-            fixed_t     y = viewy + 100 * viewsin;
+            fixed_t x = viewx + 100 * viewcos;
+            fixed_t y = viewy + 100 * viewsin;
 
             if (P_CheckLineSide(viewplayer->mo, x, y))
             {
                 char    *temp = titlecase(playername);
 
-                C_Warning(0, "%s %s too close to the wall.", temp, (M_StringCompare(playername, playername_default) ? "are" : "is"));
+                C_Warning(0, "%s %s too close to that wall.", temp, (M_StringCompare(playername, playername_default) ? "are" : "is"));
                 free(temp);
             }
             else
