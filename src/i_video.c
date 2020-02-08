@@ -1113,8 +1113,11 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    uint32_t    rmask, gmask, bmask, amask;
-    int         bpp;
+    uint32_t    rmask = 0;
+    uint32_t    gmask = 0;
+    uint32_t    bmask = 0;
+    uint32_t    amask = 0;
+    int         bpp = 0;
     int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
@@ -1143,10 +1146,8 @@ void I_CreateExternalAutomap(int outputlevel)
     SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
     mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
-        mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
-    else
-        mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask);
+    mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
@@ -1358,8 +1359,11 @@ static void SetVideoMode(dboolean output)
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
     int                 width, height;
-    uint32_t            rmask, gmask, bmask, amask;
-    int                 bpp;
+    uint32_t            rmask = 0;
+    uint32_t            gmask = 0;
+    uint32_t            bmask = 0;
+    uint32_t            amask = 0;
+    int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
 
@@ -1753,10 +1757,8 @@ static void SetVideoMode(dboolean output)
 
     screens[0] = surface->pixels;
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask))
-        buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
-    else
-        buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask);
+    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
 
     SDL_FillRect(buffer, NULL, 0);
 
@@ -1768,8 +1770,8 @@ static void SetVideoMode(dboolean output)
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
-        texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH,
-            upscaledheight * SCREENHEIGHT);
+        texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
     }
 
     palette = SDL_AllocPalette(256);
