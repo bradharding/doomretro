@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Monsters can now be spawned using the `spawn` CCMD when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
+* In the widescreen HUD, the player’s armor is now on the left side of the screen next to their health, and their ammo is now on the right.
 
 ---
 

@@ -60,18 +60,18 @@
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
 
-#define HUD_AMMO_X                  102
+#define HUD_ARMOR_X                 104
+#define HUD_ARMOR_Y                 HUD_HEALTH_Y
+#define HUD_ARMOR_HIGHLIGHT_WAIT    250
+
+#define HUD_KEYS_X                  (SCREENWIDTH - 68)
+#define HUD_KEYS_Y                  HUD_HEALTH_Y
+
+#define HUD_AMMO_X                  (SCREENWIDTH - 36)
 #define HUD_AMMO_Y                  HUD_HEALTH_Y
 #define HUD_AMMO_MIN                20
 #define HUD_AMMO_WAIT               250
 #define HUD_AMMO_HIGHLIGHT_WAIT     250
-
-#define HUD_KEYS_X                  (SCREENWIDTH - 87)
-#define HUD_KEYS_Y                  HUD_HEALTH_Y
-
-#define HUD_ARMOR_X                 (SCREENWIDTH - 41)
-#define HUD_ARMOR_Y                 HUD_HEALTH_Y
-#define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
 #define HUD_KEY_WAIT                250
 

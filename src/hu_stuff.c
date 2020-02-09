@@ -479,7 +479,7 @@ static void HU_DrawHUD(void)
     patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive || freeze);
     const int           currenttime = I_GetTimeMS();
-    int                 keypic_x = (armor ? HUD_KEYS_X : SCREENWIDTH - 13);
+    int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
     static dboolean     showkey;
 
@@ -522,6 +522,61 @@ static void HU_DrawHUD(void)
         }
     }
 
+    if (armor)
+    {
+        int armor_x = HUDNumberWidth(armor);
+
+        armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
+
+        if ((patch = (viewplayer->armortype == armortype_green ? greenarmorpatch : bluearmorpatch)))
+            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
+
+        if (armorhighlight > currenttime)
+        {
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
+
+            if (!emptytallpercent)
+                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+        }
+        else
+        {
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
+
+            if (!emptytallpercent)
+                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+        }
+    }
+
+    for (int i = 1; i <= NUMCARDS; i++)
+        for (int j = 0; j < NUMCARDS; j++)
+            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
+            {
+                keypic_x -= SHORT(patch->width);
+                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+                keypic_x -= 5;
+            }
+
+    if (viewplayer->neededcardflash)
+    {
+        if ((patch = keypics[viewplayer->neededcard].patch))
+        {
+            if (!gamepaused && keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+
+            if (showkey)
+                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+        }
+    }
+    else
+    {
+        showkey = false;
+        keywait = 0;
+    }
+
     if (health > 0)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
@@ -560,61 +615,6 @@ static void HU_DrawHUD(void)
                     ammowait = 0;
                 }
             }
-        }
-    }
-
-    for (int i = 1; i <= NUMCARDS; i++)
-        for (int j = 0; j < NUMCARDS; j++)
-            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
-            {
-                keypic_x -= SHORT(patch->width);
-                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-                keypic_x -= 5;
-            }
-
-    if (viewplayer->neededcardflash)
-    {
-        if ((patch = keypics[viewplayer->neededcard].patch))
-        {
-            if (!gamepaused && keywait < currenttime)
-            {
-                showkey = !showkey;
-                keywait = currenttime + HUD_KEY_WAIT;
-                viewplayer->neededcardflash--;
-            }
-
-            if (showkey)
-                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-        }
-    }
-    else
-    {
-        showkey = false;
-        keywait = 0;
-    }
-
-    if (armor)
-    {
-        int armor_x = HUDNumberWidth(armor);
-
-        armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
-
-        if ((patch = (viewplayer->armortype == armortype_green ? greenarmorpatch : bluearmorpatch)))
-            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
-
-        if (armorhighlight > currenttime)
-        {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
-
-            if (!emptytallpercent)
-                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
-        }
-        else
-        {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
-
-            if (!emptytallpercent)
-                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
         }
     }
 }
