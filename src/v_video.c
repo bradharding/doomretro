@@ -1597,7 +1597,7 @@ dboolean V_ScreenShot(void)
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));
     else if (menuactive)
-        M_StringCopy(mapname, "Menu", sizeof(mapname));
+        M_StringCopy(mapname, (inhelpscreens ? "Help" : "Menu"), sizeof(mapname));
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
     else
@@ -1619,7 +1619,7 @@ dboolean V_ScreenShot(void)
             {
                 char    *temp = titlecase(maptitle);
 
-                M_StringCopy(mapname, (inhelpscreens ? "Help" : temp), sizeof(mapname));
+                M_StringCopy(mapname, temp, sizeof(mapname));
                 free(temp);
                 break;
             }
