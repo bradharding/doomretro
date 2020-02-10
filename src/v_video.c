@@ -1617,18 +1617,28 @@ dboolean V_ScreenShot(void)
 
             default:
             {
-                char    *temp = titlecase(maptitle);
+                char    *temp2 = titlecase(maptitle);
 
-                M_StringCopy(mapname, temp, sizeof(mapname));
-                free(temp);
+                M_StringCopy(mapname, temp2, sizeof(mapname));
+                free(temp2);
                 break;
             }
         }
 
     if (M_StringStartsWith(mapname, "The "))
-        M_snprintf(mapname, sizeof(mapname), "%s, The", M_SubString(mapname, 4, strlen(mapname) - 4));
+    {
+        char    *temp2 = M_SubString(mapname, 4, strlen(mapname) - 4);
+
+        M_snprintf(mapname, sizeof(mapname), "%s, The", temp2);
+        free(temp2);
+    }
     else if (M_StringStartsWith(mapname, "A "))
-        M_snprintf(mapname, sizeof(mapname), "%s, A", M_SubString(mapname, 2, strlen(mapname) - 2));
+    {
+        char    *temp2 = M_SubString(mapname, 2, strlen(mapname) - 2);
+
+        M_snprintf(mapname, sizeof(mapname), "%s, A", temp2);
+        free(temp2);
+    }
 
     temp1 = makevalidfilename(mapname);
 
