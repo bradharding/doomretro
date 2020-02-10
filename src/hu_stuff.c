@@ -486,7 +486,7 @@ static void HU_DrawHUD(void)
     health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
     if ((patch = faces[st_faceindex]))
-        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
+        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab66);
 
     if (healthhighlight > currenttime)
     {
