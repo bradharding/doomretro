@@ -3,7 +3,9 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Monsters can now be spawned using the `spawn` CCMD when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
-* In the widescreen HUD, the player’s armor is now on the left side of the screen next to their health, and their ammo is now on the right.
+* The following changes have been made to the widescreen HUD:
+  * The HUD has been brought in slightly from the edges of the screen.
+  * The player’s armor is now on the left side of the screen next to their health, and their ammo is on the right.
 
 ---
 
@@ -13,7 +15,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
-* IWADs specified using the `-file` command-line parameter will now always be treated as PWADs.
+* IWADs specified using the `-file` command-line parameter will now be treated as PWADs.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The keys on the numeric keypad now work correctly in the console.
