@@ -159,6 +159,7 @@ void P_ExplodeMissile(mobj_t *mo);
 #define BARRELMS    1500
 
 void P_NoiseAlert(mobj_t *target);
+dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_MAPUTL

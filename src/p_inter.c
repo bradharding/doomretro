@@ -226,7 +226,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 
     // give double ammo in trainer mode, you'll need in nightmare
     if (gameskill == sk_baby || gameskill == sk_nightmare)
-        num <<= 1;
+        num *= 2;
 
     oldammo = viewplayer->ammo[ammotype];
     viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
@@ -1981,8 +1981,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     }
 }
 
-dboolean P_CheckMeleeRange(mobj_t *actor);
-
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -2160,8 +2158,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (target->health <= 0)
         {
-            int gibhealth = info->gibhealth;
-
             if (!(flags & MF_FUZZ))
             {
                 if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
@@ -2173,8 +2169,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
             if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
-                && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
-                target->health = gibhealth - 1;
+                && P_CheckMeleeRange(target) && damage >= 10 && info->gibhealth < 0)
+                target->health = info->gibhealth - 1;
 
             P_KillMobj(target, inflicter, source);
             return;
