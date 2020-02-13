@@ -520,7 +520,7 @@ void M_DarkBackground(void)
         }
 
         for (int i = 0; i < blurheight; i++)
-            screens[0][i] = colormaps[0][(M_Random() & 7) * 256 + screens[0][i]];
+            screens[0][i] = colormaps[0][(M_Random() & 5) * 256 + screens[0][i]];
 
         BlurScreen(screens[0], blurscreen1, blurheight);
 
