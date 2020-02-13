@@ -6,6 +6,7 @@
 * The following changes have been made to the widescreen HUD:
   * The HUD has been brought in slightly from the edges of the screen.
   * The player’s armor is now on the left side of the screen next to their health, and their ammo is on the right.
+* A teleport fog now appears when using the `spawn` CCMD.
 
 ---
 

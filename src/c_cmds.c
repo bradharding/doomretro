@@ -5814,7 +5814,11 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             else
             {
                 mapthing_t  mthing;
-                mobj_t      *thing;
+                mobj_t      *thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
+
+                thing->angle = ANG45 * (angle / 45);
+                S_StartSound(thing, sfx_telept);
 
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
@@ -5823,7 +5827,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                 if ((thing = P_SpawnMapThing(&mthing, true)))
                 {
-                    thing->angle = R_PointToAngle2(thing->x, thing->y, viewx, viewy);
+                    thing->angle = angle;
 
                     if (thing->flags & MF_COUNTITEM)
                     {
