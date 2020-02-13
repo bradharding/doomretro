@@ -474,7 +474,7 @@ void P_SetLifts(void)
 //
 
 //
-// getSide()
+// getSide
 // Will return a side_t*
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
@@ -485,7 +485,7 @@ side_t *getSide(int currentSector, int line, int side)
 }
 
 //
-// getSector()
+// getSector
 // Will return a sector_t*
 //  given the number of the current sector,
 //  the line number and the side (0/1) that you want.
@@ -496,7 +496,7 @@ sector_t *getSector(int currentSector, int line, int side)
 }
 
 //
-// twoSided()
+// twoSided
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
@@ -508,7 +508,7 @@ dboolean twoSided(int sector, int line)
 }
 
 //
-// getNextSector()
+// getNextSector
 // Return sector_t * of sector next to current.
 // NULL if not two-sided line
 //
@@ -523,7 +523,7 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
 }
 
 //
-// P_IsSelfReferencingSector()
+// P_IsSelfReferencingSector
 //
 dboolean P_IsSelfReferencingSector(sector_t *sec)
 {
@@ -542,7 +542,7 @@ dboolean P_IsSelfReferencingSector(sector_t *sec)
 }
 
 //
-// P_FindLowestFloorSurrounding()
+// P_FindLowestFloorSurrounding
 // FIND LOWEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
@@ -562,7 +562,7 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 }
 
 //
-// P_FindHighestFloorSurrounding()
+// P_FindHighestFloorSurrounding
 // FIND HIGHEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
@@ -644,7 +644,7 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 }
 
 //
-// P_FindNextLowestCeiling()
+// P_FindNextLowestCeiling
 //
 // Passed a sector and a ceiling height, returns the fixed point value
 // of the largest ceiling height in a surrounding sector smaller than
@@ -680,7 +680,7 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 }
 
 //
-// P_FindNextHighestCeiling()
+// P_FindNextHighestCeiling
 //
 // Passed a sector and a ceiling height, returns the fixed point value
 // of the smallest ceiling height in a surrounding sector larger than
@@ -754,7 +754,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 }
 
 //
-// P_FindShortestTextureAround()
+// P_FindShortestTextureAround
 //
 // Passed a sector number, returns the shortest lower texture on a
 // linedef bounding the sector.
@@ -786,7 +786,7 @@ fixed_t P_FindShortestTextureAround(int secnum)
 }
 
 //
-// P_FindShortestUpperAround()
+// P_FindShortestUpperAround
 //
 // Passed a sector number, returns the shortest upper texture on a
 // linedef bounding the sector.
@@ -818,7 +818,7 @@ fixed_t P_FindShortestUpperAround(int secnum)
 }
 
 //
-// P_FindModelFloorSector()
+// P_FindModelFloorSector
 //
 // Passed a floor height and a sector number, return a pointer to a
 // a sector with that floor height across the lowest numbered two sided
@@ -849,7 +849,7 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 }
 
 //
-// P_FindModelCeilingSector()
+// P_FindModelCeilingSector
 //
 // Passed a ceiling height and a sector number, return a pointer to a
 // a sector with that ceiling height across the lowest numbered two sided
@@ -953,7 +953,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 }
 
 //
-// P_CanUnlockGenDoor()
+// P_CanUnlockGenDoor
 //
 // Passed a generalized locked door linedef and a player, returns whether
 // the player has the keys necessary to unlock that door.
@@ -1133,7 +1133,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 }
 
 //
-// P_SectorActive()
+// P_SectorActive
 //
 // Passed a linedef special class (floor, ceiling, lighting) and a sector
 // returns whether the sector is already busy with a linedef special of the
@@ -1153,7 +1153,7 @@ dboolean P_SectorActive(special_e t, sector_t *sec)
 }
 
 //
-// P_CheckTag()
+// P_CheckTag
 //
 // Passed a line, returns true if the tag is non-zero or the line special
 // allows no tag without harm.

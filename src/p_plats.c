@@ -295,7 +295,7 @@ manual_plat:
 // is used.
 
 //
-// P_ActivateInStasis()
+// P_ActivateInStasis
 // Activate a plat that has been put in stasis
 // (stopped perpetual floor, instant floor/ceil toggle)
 //
@@ -314,7 +314,7 @@ void P_ActivateInStasis(int tag)
 }
 
 //
-// EV_StopPlat()
+// EV_StopPlat
 // Handler for "stop perpetual floor" linedef type
 //
 dboolean EV_StopPlat(line_t *line)
@@ -335,7 +335,7 @@ dboolean EV_StopPlat(line_t *line)
 }
 
 //
-// P_AddActivePlat()
+// P_AddActivePlat
 // Add a plat to the head of the active plat list
 //
 void P_AddActivePlat(plat_t *plat)
@@ -353,7 +353,7 @@ void P_AddActivePlat(plat_t *plat)
 }
 
 //
-// P_RemoveActivePlat()
+// P_RemoveActivePlat
 // Remove a plat from the active plat list
 //
 void P_RemoveActivePlat(plat_t *plat)
@@ -370,7 +370,7 @@ void P_RemoveActivePlat(plat_t *plat)
 }
 
 //
-// P_RemoveAllActivePlats()
+// P_RemoveAllActivePlats
 // Remove all plats from the active plat list
 //
 void P_RemoveAllActivePlats(void)

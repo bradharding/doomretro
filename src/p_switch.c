@@ -58,7 +58,7 @@ int                 maxbuttons = MAXBUTTONS;
 extern texture_t    **textures;
 
 //
-// P_InitSwitchList()
+// P_InitSwitchList
 //
 // Only called at game initialization in order to list the set of switches
 // and buttons known to the engine. This enables their texture to change

@@ -114,7 +114,7 @@ void P_AddThinker(thinker_t *thinker)
 static thinker_t    *currentthinker;
 
 //
-// P_RemoveThinkerDelayed()
+// P_RemoveThinkerDelayed
 //
 // Called automatically as part of the thinker loop in P_RunThinkers(),
 // on nodes which are pending deletion.

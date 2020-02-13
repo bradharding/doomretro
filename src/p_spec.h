@@ -131,7 +131,7 @@ dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum);
 dboolean EV_DoDonut(line_t *line);
 
 //
-// P_LIGHTS
+// P_LIGHTS.C
 //
 typedef struct
 {
@@ -199,7 +199,7 @@ void P_SpawnGlowingLight(sector_t *sector);
 void T_FireFlicker(fireflicker_t *flick);
 
 //
-// P_SWITCH
+// P_SWITCH.C
 //
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -247,7 +247,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
 void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
 
 //
-// P_PLATS
+// P_PLATS.C
 //
 typedef enum
 {
@@ -318,7 +318,7 @@ dboolean EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
-// P_DOORS
+// P_DOORS.C
 //
 typedef enum
 {
@@ -382,7 +382,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec);
 void P_SpawnDoorRaiseIn5Mins(sector_t *sec);
 
 //
-// P_CEILING
+// P_CEILING.C
 //
 typedef enum
 {
@@ -451,7 +451,7 @@ dboolean EV_CeilingCrushStop(line_t *line);
 dboolean P_ActivateInStasisCeiling(line_t *line);
 
 //
-// P_FLOOR
+// P_FLOOR.C
 //
 typedef enum
 {
@@ -617,7 +617,7 @@ void T_Pusher(pusher_t *p);     // phares 3/20/98: Push thinker
 mobj_t *P_GetPushThing(int s);
 
 //
-// P_TELEPT
+// P_TELEPT.C
 //
 dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
 dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);

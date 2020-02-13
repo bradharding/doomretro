@@ -377,7 +377,7 @@ void P_RemoveActiveCeiling(ceiling_t *ceiling)
 }
 
 //
-// P_RemoveAllActiveCeilings()
+// P_RemoveAllActiveCeilings
 // Removes all ceilings from the active ceiling list
 //
 void P_RemoveAllActiveCeilings(void)

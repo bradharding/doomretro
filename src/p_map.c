@@ -139,7 +139,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
 //
 // killough 8/28/98:
 //
-// P_GetFriction()
+// P_GetFriction
 //
 // Returns the friction associated with a particular mobj.
 int P_GetFriction(const mobj_t *mo, int *frictionfactor)

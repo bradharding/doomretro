@@ -147,7 +147,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 }
 
 //
-// P_HitFriend()
+// P_HitFriend
 //
 // killough 12/98
 // This function tries to prevent shooting at friends
