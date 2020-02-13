@@ -89,7 +89,7 @@
 #define WEAPONTOP           (32 * FRACUNIT)
 
 //
-// P_PSPR
+// P_PSPR.C
 //
 void P_SetupPsprites(void);
 void P_MovePsprites(void);
@@ -98,7 +98,7 @@ void P_DropWeapon(void);
 void P_SetPsprite(size_t position, statenum_t stnum);
 
 //
-// P_USER
+// P_USER.C
 //
 // 16 pixels of bob
 #define MAXBOB              0x100000
@@ -114,7 +114,7 @@ void P_ResurrectPlayer(int health);
 void P_ChangeWeapon(weapontype_t newweapon);
 
 //
-// P_MOBJ
+// P_MOBJ.C
 //
 #define ONFLOORZ            FIXED_MIN
 #define ONCEILINGZ          FIXED_MAX
@@ -154,7 +154,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 
 //
-// P_ENEMY
+// P_ENEMY.C
 //
 #define BARRELMS    1500
 
@@ -162,7 +162,7 @@ void P_NoiseAlert(mobj_t *target);
 dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
-// P_MAPUTL
+// P_MAPUTL.C
 //
 typedef struct
 {
@@ -219,7 +219,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat);
 void P_CheckIntercepts(void);
 
 //
-// P_MAP
+// P_MAP.C
 //
 
 // If "floatok" true, move would be ok
@@ -266,7 +266,7 @@ void P_ApplyTorque(mobj_t *mo);                             // killough 9/12/98
 void P_MapEnd(void);
 
 //
-// P_SETUP
+// P_SETUP.C
 //
 extern const byte   *rejectmatrix;  // for fast sight rejection
 extern int          *blockmaplump;
@@ -282,7 +282,7 @@ extern int          blockmapxneg;
 extern int          blockmapyneg;
 
 //
-// P_INTER
+// P_INTER.C
 //
 #define MAXHEALTH   100
 
@@ -313,7 +313,7 @@ extern int      maxammo[];
 extern int      clipammo[];
 
 //
-// P_SPEC
+// P_SPEC.C
 //
 #include "p_spec.h"
 
