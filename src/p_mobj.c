@@ -94,6 +94,8 @@ void P_DelSeclist(msecnode_t *node);
 //
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
+    pspdef_t    *psp = &viewplayer->psprites[ps_weapon];
+
     do
     {
         state_t *st;
@@ -114,7 +116,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         // Modified handling.
         // Call action functions when the state is set
         if (st->action)
-            st->action(mobj, NULL, NULL);
+            st->action(mobj, viewplayer, psp);
 
         state = st->nextstate;
     } while (!mobj->tics);

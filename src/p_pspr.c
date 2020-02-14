@@ -763,20 +763,17 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Light0(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (player)
-        player->extralight = 0;
+    player->extralight = 0;
 }
 
 void A_Light1(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (player)
-        player->extralight = 1;
+    player->extralight = 1;
 }
 
 void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (player)
-        player->extralight = 2;
+    player->extralight = 2;
 }
 
 //
