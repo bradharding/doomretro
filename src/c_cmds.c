@@ -5767,6 +5767,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     else
     {
         dboolean    spawn = true;
+        mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
 
         if (gamemode != commercial)
         {
@@ -5774,10 +5775,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
             if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner)
             {
-                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 
                 if (!*buffer)
-                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
@@ -5786,10 +5787,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
             if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
             {
-                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 
                 if (!*buffer)
-                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
+                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
@@ -5813,12 +5814,13 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
             else
             {
+                dboolean    shootable = (mobjinfo[type].flags & MF_SHOOTABLE);
                 mapthing_t  mthing;
-                mobj_t      *thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                mobj_t      *thing = P_SpawnMobj(x, y, ONFLOORZ, (shootable ? MT_TFOG : MT_IFOG));
                 angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
 
                 thing->angle = ANG45 * (angle / 45);
-                S_StartSound(thing, sfx_telept);
+                S_StartSound(thing, (shootable ? sfx_telept : sfx_itmbk));
 
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
