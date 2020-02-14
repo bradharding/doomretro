@@ -457,8 +457,6 @@ menu_t SaveDef =
     load1
 };
 
-static int blurheight;
-
 static void BlurScreen(byte *screen, byte *blurscreen, int height)
 {
     for (int i = 0; i < height; i++)
@@ -506,8 +504,7 @@ void M_DarkBackground(void)
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
     static int  prevtic = -1;
-
-    blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    int         blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     if (gametime != prevtic)
     {
