@@ -564,9 +564,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
 
             while (count--)
             {
-                int height = topdelta + length - count;
-
-                if (y + height > CONSOLETOP &&*source)
+                if (y + topdelta + length - count > CONSOLETOP && *source)
                     *dest = (*source == 4 || *source == 82 ? nearestcolors[*source] : tinttab50[color + *dest]);
 
                 source++;

@@ -5,9 +5,9 @@
 * Monsters can now be spawned using the `spawn` CCMD when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the widescreen HUD:
   * The HUD has been brought in slightly from the edges of the screen.
-  * The player’s armor is now on the left side of the screen next to their health, and their ammo is on the right.
+  * The player’s armor is now on the left side of the screen next to their health, and the ammo for their currently equipped weapon on the right.
 * Item and teleport fogs are now spawned when using the `spawn` CCMD.
-* The thing triangles in the automap representing *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
+* Thing triangles in the automap representing *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 * Minor improvements have been made to the menu’s background.
 
 ---
