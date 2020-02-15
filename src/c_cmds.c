@@ -5815,12 +5815,22 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             else
             {
                 dboolean    shootable = (mobjinfo[type].flags & MF_SHOOTABLE);
-                mapthing_t  mthing;
-                mobj_t      *thing = P_SpawnMobj(x, y, ONFLOORZ, (shootable ? MT_TFOG : MT_IFOG));
+                mobj_t      *thing;
                 angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
+                mapthing_t  mthing;
+
+                if (shootable)
+                {
+                    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                    S_StartSound(thing, sfx_telept);
+                }
+                else
+                {
+                    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_IFOG);
+                    S_StartSound(thing, sfx_itmbk);
+                }
 
                 thing->angle = ANG45 * (angle / 45);
-                S_StartSound(thing, (shootable ? sfx_telept : sfx_itmbk));
 
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
