@@ -9,6 +9,7 @@
 * Item and teleport fogs are now spawned when using the `spawn` CCMD.
 * Thing triangles in the automap representing *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 * Minor improvements have been made to the menu’s background.
+* The player’s view angle is now reset when exiting the menu.
 
 ---
 

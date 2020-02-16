@@ -119,6 +119,7 @@ static dboolean usinggamepad;
 static menu_t   *currentMenu;
 
 int             spindirection;
+static angle_t  playerangle;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_menu;
@@ -3554,8 +3555,13 @@ void M_StartControlPanel(void)
     if (vid_motionblur)
         I_SetMotionBlur(0);
 
-    if (gamestate == GS_LEVEL && !vid_widescreen && !automapactive && !inhelpscreens)
-        R_SetViewSize(8);
+    if (gamestate == GS_LEVEL)
+    {
+        playerangle = viewplayer->mo->angle;
+
+        if (!vid_widescreen && !automapactive && !inhelpscreens)
+            R_SetViewSize(8);
+    }
 
     if (automapactive)
         AM_SetAutomapSize();
@@ -3739,6 +3745,8 @@ void M_ClearMenus(void)
     if (gamestate == GS_LEVEL)
     {
         I_SetPalette(&PLAYPAL[st_palette * 768]);
+
+        viewplayer->mo->angle = playerangle;
 
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
