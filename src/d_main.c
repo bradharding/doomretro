@@ -464,14 +464,15 @@ static byte     *splashpal;
 void D_PageTicker(void)
 {
     static int  pagewait;
+    int         pagetime;
 
     if (menuactive || startingnewgame || consoleactive)
         return;
 
-    if (pagewait < I_GetTime())
+    if (pagewait < (pagetime = I_GetTime()))
     {
         pagetic--;
-        pagewait = I_GetTime();
+        pagewait = pagetime;
 
         if (splashscreen)
             logotic--;
@@ -773,7 +774,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" doesn't support %s.", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " doesn't support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
 
 #if defined(_WIN32)
@@ -934,8 +935,8 @@ static dboolean D_CheckParms(void)
         // if it's a PWAD, determine the IWAD required and try loading that as well
         else if (W_WadType(myargv[1]) == PWAD && !D_IsUnsupportedPWAD(myargv[1]))
         {
-            int     iwadrequired = IWADRequiredByPWAD(myargv[1]);
-            char    fullpath[MAX_PATH];
+            GameMission_t   iwadrequired = IWADRequiredByPWAD(myargv[1]);
+            char            fullpath[MAX_PATH];
 
             if (iwadrequired == none)
                 iwadrequired = doom2;
@@ -1230,8 +1231,8 @@ static int D_OpenWADLauncher(void)
             // if it's a PWAD, determine the IWAD required and try loading that as well
             else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
             {
-                int     iwadrequired = IWADRequiredByPWAD(file);
-                char    fullpath[MAX_PATH];
+                GameMission_t   iwadrequired = IWADRequiredByPWAD(file);
+                char            fullpath[MAX_PATH];
 
                 if (iwadrequired == none)
                     iwadrequired = doom2;
@@ -1491,7 +1492,7 @@ static int D_OpenWADLauncher(void)
 
                     if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
                     {
-                        int iwadrequired = IWADRequiredByPWAD(fullpath);
+                        GameMission_t   iwadrequired = IWADRequiredByPWAD(fullpath);
 
                         if (iwadrequired != none)
                         {
@@ -1907,12 +1908,12 @@ static void D_DoomMainSetup(void)
                     char    buffer[256];
 
 #if defined(_WIN32)
-                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " couldn't find %s.", (*wad ? wad : "any IWADs"));
 
                     if (previouswad)
                         wad = M_StringDuplicate(previouswad);
 #else
-                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find any IWADs.");
+                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " couldn't find any IWADs.");
 #endif
 
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
@@ -1947,9 +1948,9 @@ static void D_DoomMainSetup(void)
                 }
                 else
                 {
-                    int     iwadrequired = IWADRequiredByPWAD(file);
-                    char    fullpath[MAX_PATH];
-                    char    *folder = M_ExtractFolder(file);
+                    GameMission_t   iwadrequired = IWADRequiredByPWAD(file);
+                    char            fullpath[MAX_PATH];
+                    char            *folder = M_ExtractFolder(file);
 
                     if (iwadrequired == none)
                         iwadrequired = doom2;
@@ -2017,7 +2018,7 @@ static void D_DoomMainSetup(void)
         } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
-        I_Error(PACKAGE_NAME" couldn't find any IWADs.");
+        I_Error(PACKAGE_NAME " couldn't find any IWADs.");
 
     W_Init();
 
