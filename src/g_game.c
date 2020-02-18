@@ -151,7 +151,6 @@ dboolean        m_invertyaxis = m_invertyaxis_default;
 dboolean        m_novertical = m_novertical_default;
 dboolean        mouselook = mouselook_default;
 
-dboolean        canmouselook = false;
 dboolean        usemouselook = false;
 
 static int      dclicktime;

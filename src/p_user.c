@@ -44,6 +44,7 @@
 #include "m_menu.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "r_sky.h"
 #include "s_sound.h"
 
 #define AUTOTILTUNIT    30
@@ -63,7 +64,6 @@ dboolean        autousing = false;
 int             deathcount = 0;
 int             deadlookdir = -1;
 
-extern dboolean canmouselook;
 extern dboolean skipaction;
 extern dboolean usemouselook;
 
@@ -218,8 +218,8 @@ void P_MovePlayer(void)
 {
     mobj_t      *mo = viewplayer->mo;
     ticcmd_t    *cmd = &viewplayer->cmd;
-    signed char forward = cmd->forwardmove;
-    signed char side = cmd->sidemove;
+    char        forward = cmd->forwardmove;
+    char        side = cmd->sidemove;
 
     mo->angle += (cmd->angleturn * turbo / 100) << FRACBITS;
 

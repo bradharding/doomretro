@@ -63,7 +63,6 @@ unsigned int    stat_shotshit = 0;
 dboolean        successfulshot;
 dboolean        skippsprinterp;
 
-extern dboolean canmouselook;
 extern dboolean hitwall;
 extern dboolean usemouselook;
 

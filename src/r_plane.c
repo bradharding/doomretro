@@ -83,7 +83,6 @@ dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
 extern fixed_t      animatedliquidxoffs;
 extern fixed_t      animatedliquidyoffs;
-extern dboolean     canmouselook;
 
 //
 // R_MapPlane
