@@ -630,6 +630,7 @@ static void C_DrawScrollbar(void)
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
+        const int   gripstart = facestart + (faceend - facestart - CONSOLEWIDTH * 3) / 2;
 
         // Draw scrollbar track
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
@@ -642,6 +643,12 @@ static void C_DrawScrollbar(void)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
+
+        // Draw scrollbar grip
+        for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
+            if (y - offset >= 0)
+                for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+                    screens[0][y - offset + x] = nearestblack;
 
         scrollbardrawn = true;
     }
