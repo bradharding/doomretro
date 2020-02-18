@@ -2903,9 +2903,9 @@ void P_SetupLevel(int ep, int map)
 
     massacre = false;
 
-    P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
+    P_SetLiquids();
 
     P_LoadThings(lumpnum + ML_THINGS);
 
@@ -3220,7 +3220,7 @@ char *P_GetMapAuthor(int map)
 void P_GetMapLiquids(int map)
 {
     for (int i = 0; i < liquidlumps; i++)
-        sectors[mapinfo[QualifyMap(map)].liquid[i]].terraintype = LIQUID;
+        terraintypes[mapinfo[QualifyMap(map)].liquid[i]] = LIQUID;
 }
 
 int P_GetMapMusic(int map)
@@ -3257,7 +3257,7 @@ dboolean P_GetMapNoJump(int map)
 void P_GetMapNoLiquids(int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
-        sectors[mapinfo[QualifyMap(map)].noliquid[i]].terraintype = SOLID;
+        terraintypes[mapinfo[QualifyMap(map)].liquid[i]] = SOLID;
 }
 
 dboolean P_GetMapNoMouselook(int map)

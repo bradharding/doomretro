@@ -10,6 +10,7 @@
 * Thing triangles in the automap representing *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 * Minor improvements have been made to the menu’s background.
 * The player’s view is now reset again when exiting the menu.
+* A bug has been fixed whereby using `LIQUID` or `NOLIQUID` in a `MAPINFO` lump would have no effect.
 
 ---
 
