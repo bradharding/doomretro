@@ -149,6 +149,7 @@ static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
 static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
+static int              consolescrollbargripcolor = 104;
 
 static int              consolecolors[STRINGTYPES];
 
@@ -649,7 +650,7 @@ static void C_DrawScrollbar(void)
             for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
                 if (y - offset >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
-                        screens[0][y - offset + x] = nearestblack;
+                        screens[0][y - offset + x] = consolescrollbargripcolor;
 
         scrollbardrawn = true;
     }
@@ -683,6 +684,7 @@ void C_Init(void)
     consoledividercolor = nearestcolors[consoledividercolor];
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
+    consolescrollbargripcolor = nearestcolors[consolescrollbargripcolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
