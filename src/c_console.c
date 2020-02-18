@@ -621,16 +621,16 @@ static void C_DrawScrollbar(void)
     const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
     const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
     const int   facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
+                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings);
     const int   faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
+                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings);
 
-    if (trackstart == facestart && trackend == faceend)
+    if (trackstart == facestart * CONSOLEWIDTH && trackend == faceend * CONSOLEWIDTH)
         scrollbardrawn = false;
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
-        const int   gripstart = facestart + (faceend - facestart - CONSOLEWIDTH * 3) / 2;
+        const int   gripstart = (facestart + (faceend - facestart) / 2 - 3) * CONSOLEWIDTH;
 
         // Draw scrollbar track
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
@@ -639,7 +639,7 @@ static void C_DrawScrollbar(void)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // Draw scrollbar face
-        for (int y = facestart; y < faceend; y += CONSOLEWIDTH)
+        for (int y = facestart * CONSOLEWIDTH; y < faceend * CONSOLEWIDTH; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
