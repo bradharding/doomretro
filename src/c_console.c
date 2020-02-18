@@ -630,7 +630,7 @@ static void C_DrawScrollbar(void)
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
-        const int   gripstart = (facestart + (faceend - facestart) / 2 - 3) * CONSOLEWIDTH;
+        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * CONSOLEWIDTH;
 
         // Draw scrollbar track
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
@@ -645,10 +645,11 @@ static void C_DrawScrollbar(void)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
 
         // Draw scrollbar grip
-        for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
-            if (y - offset >= 0)
-                for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
-                    screens[0][y - offset + x] = nearestblack;
+        if (faceend - facestart > 7)
+            for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
+                if (y - offset >= 0)
+                    for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+                        screens[0][y - offset + x] = nearestblack;
 
         scrollbardrawn = true;
     }
@@ -796,7 +797,7 @@ static void C_DrawBackground(int height)
 
         for (int y = CONSOLEWIDTH; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
             for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x + M_RandomInt(-1, 1) * CONSOLEWIDTH + M_RandomInt(-1, 1)] << 8) + blurscreen[x]];
+                blurscreen[x] = tinttab50[(blurscreen[x] << 8) + blurscreen[x]];
 
         for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
             for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
