@@ -621,10 +621,10 @@ static void C_DrawScrollbar(void)
 {
     const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
     const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
-    const int   facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings);
-    const int   faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings);
+    const int   facestart = CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings;
+    const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
 
     if (trackstart == facestart * CONSOLEWIDTH && trackend == faceend * CONSOLEWIDTH)
         scrollbardrawn = false;
@@ -633,19 +633,19 @@ static void C_DrawScrollbar(void)
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
         const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * CONSOLEWIDTH;
 
-        // Draw scrollbar track
+        // draw scrollbar track
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
-        // Draw scrollbar face
+        // draw scrollbar face
         for (int y = facestart * CONSOLEWIDTH; y < faceend * CONSOLEWIDTH; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
 
-        // Draw scrollbar grip
+        // draw scrollbar grip
         if (faceend - facestart > 7)
             for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
                 if (y - offset >= 0)
@@ -1980,14 +1980,13 @@ dboolean C_Responder(event_t *ev)
 
             case 'c':
                 // copy selected text to clipboard
-                if (modstate & KMOD_CTRL)
-                    if (selectstart < selectend)
-                    {
-                        char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
+                if ((modstate & KMOD_CTRL) && selectstart < selectend)
+                {
+                    char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
 
-                        SDL_SetClipboardText(temp);
-                        free(temp);
-                    }
+                    SDL_SetClipboardText(temp);
+                    free(temp);
+                }
 
                 break;
 
@@ -2019,37 +2018,35 @@ dboolean C_Responder(event_t *ev)
 
             case 'x':
                 // cut selected text to clipboard
-                if (modstate & KMOD_CTRL)
-                    if (selectstart < selectend)
-                    {
-                        char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
+                if ((modstate & KMOD_CTRL) && selectstart < selectend)
+                {
+                    char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
 
-                        C_AddToUndoHistory();
-                        SDL_SetClipboardText(temp);
-                        free(temp);
+                    C_AddToUndoHistory();
+                    SDL_SetClipboardText(temp);
+                    free(temp);
 
-                        for (i = selectend; i < len; i++)
-                            consoleinput[selectstart + i - selectend] = consoleinput[i];
+                    for (i = selectend; i < len; i++)
+                        consoleinput[selectstart + i - selectend] = consoleinput[i];
 
-                        consoleinput[selectstart + i - selectend] = '\0';
-                        caretpos = selectend = selectstart;
-                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                        showcaret = true;
-                    }
+                    consoleinput[selectstart + i - selectend] = '\0';
+                    caretpos = selectend = selectstart;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    showcaret = true;
+                }
 
                 break;
 
             case 'z':
                 // undo
-                if (modstate & KMOD_CTRL)
-                    if (undolevels)
-                    {
-                        undolevels--;
-                        M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
-                        caretpos = undohistory[undolevels].caretpos;
-                        selectstart = undohistory[undolevels].selectstart;
-                        selectend = undohistory[undolevels].selectend;
-                    }
+                if ((modstate & KMOD_CTRL) && undolevels)
+                {
+                    undolevels--;
+                    M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                    caretpos = undohistory[undolevels].caretpos;
+                    selectstart = undohistory[undolevels].selectstart;
+                    selectend = undohistory[undolevels].selectend;
+                }
 
                 break;
         }
