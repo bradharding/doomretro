@@ -190,16 +190,13 @@ static void P_XYMovement(mobj_t *mo)
     mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
     mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
 
-    xmove = mo->momx;
-    ymove = mo->momy;
-
-    if (xmove < 0)
+    if ((xmove = mo->momx) < 0)
     {
         xmove = -xmove;
         stepdir = 1;
     }
 
-    if (ymove < 0)
+    if ((ymove = mo->momy) < 0)
     {
         ymove = -ymove;
         stepdir |= 2;
@@ -1282,7 +1279,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = NORM_PITCH + ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? M_RandomInt(-16, 16) : 0);
+    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? NORM_PITCH + M_RandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());

@@ -454,7 +454,9 @@ dboolean ST_Responder(event_t *ev)
                 if (viewplayer->cheats & CF_GODMODE)
                 {
                     viewplayer->cheats &= ~CF_BUDDHA;
-                    viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+
+                    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
+                        viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
@@ -911,7 +913,9 @@ dboolean ST_Responder(event_t *ev)
                 if (viewplayer->cheats & CF_BUDDHA)
                 {
                     viewplayer->cheats &= ~CF_GODMODE;
-                    viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+
+                    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
+                        viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
                     C_Output(s_STSTR_BUDDHAON);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
