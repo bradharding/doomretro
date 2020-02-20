@@ -453,6 +453,9 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_GODMODE)
                 {
+                    viewplayer->cheats &= ~CF_BUDDHA;
+                    viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
                     oldhealth = viewplayer->health;
@@ -688,6 +691,12 @@ dboolean ST_Responder(event_t *ev)
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
                     {
+                        if (i == pw_invulnerability)
+                        {
+                            viewplayer->cheats &= ~CF_BUDDHA;
+                            viewplayer->cheats &= ~CF_GODMODE;
+                        }
+
                         P_GivePower(i);
 
                         // [BH] set to -1 so power-up won't run out, but can still be toggled off using cheat
@@ -841,6 +850,9 @@ dboolean ST_Responder(event_t *ev)
                         viewplayer->pendingweapon = wp_chainsaw;
                     }
 
+                    viewplayer->cheats &= ~CF_BUDDHA;
+                    viewplayer->cheats &= ~CF_GODMODE;
+
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
                     P_GivePower(pw_invulnerability);
@@ -898,6 +910,9 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_BUDDHA)
                 {
+                    viewplayer->cheats &= ~CF_GODMODE;
+                    viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+
                     C_Output(s_STSTR_BUDDHAON);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
 
