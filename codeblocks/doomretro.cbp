@@ -153,9 +153,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/m_controls.h" />
-		<Unit filename="../src/m_fixed.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../src/m_fixed.h" />
 		<Unit filename="../src/m_menu.c">
 			<Option compilerVar="CC" />

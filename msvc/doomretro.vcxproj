@@ -453,7 +453,6 @@
     <ClCompile Include="..\src\m_cheat.c" />
     <ClCompile Include="..\src\m_config.c" />
     <ClCompile Include="..\src\m_controls.c" />
-    <ClCompile Include="..\src\m_fixed.c" />
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />

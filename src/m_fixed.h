@@ -39,23 +39,12 @@
 #if !defined(__M_FIXED_H__)
 #define __M_FIXED_H__
 
-#define CHARBIT 8
+#include "doomtype.h"
 
-#if defined(ABS)
 #undef ABS
-#endif
-
-#if defined(MAX)
-#undef MAX
-#endif
-
-#if defined(MIN)
 #undef MIN
-#endif
-
-#if defined(SWAP)
+#undef MAX
 #undef SWAP
-#endif
 
 //
 // Fixed point, 32bit as 16.16.
@@ -69,15 +58,68 @@
 
 typedef int fixed_t;
 
-int ABS(int a);
-int MAX(int a, int b);
-int MIN(int a, int b);
-int BETWEEN(int a, int b, int c);
-float BETWEENF(float a, float b, float c);
-int SIGN(int a);
-fixed_t FixedMul(fixed_t a, fixed_t b);
-fixed_t FixedDiv(fixed_t a, fixed_t b);
-fixed_t FixedMod(fixed_t a, fixed_t b);
-unsigned int SafeAdd(unsigned int a, int b);
+static inline int ABS(int a)
+{
+    int b = a >> 31;
+
+    return ((a ^ b) - b);
+}
+
+static inline int MAX(int a, int b)
+{
+    b = a - b;
+    return (a - (b & (b >> 31)));
+}
+
+static inline int MIN(int a, int b)
+{
+    a -= b;
+    return (b + (a & (a >> 31)));
+}
+
+static inline int BETWEEN(int a, int b, int c)
+{
+    return MAX(a, MIN(b, c));
+}
+
+static inline float BETWEENF(float a, float b, float c)
+{
+    return (b < a ? a : (b > c ? c : b));
+}
+
+static inline int SIGN(int a)
+{
+    return (1 | (a >> 31));
+}
+
+static inline fixed_t FixedMul(fixed_t a, fixed_t b)
+{
+    return (((int64_t)a * b) >> FRACBITS);
+}
+
+static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
+{
+    if ((ABS(a) >> 14) >= ABS(b))
+        return ((a ^ b) >> 31) ^ FIXED_MAX;
+    else
+        return (fixed_t)(((int64_t)a << FRACBITS) / b);
+}
+
+static inline fixed_t FixedMod(fixed_t a, fixed_t b)
+{
+    if (b & (b - 1))
+    {
+        fixed_t r = a % b;
+
+        return (r < 0 ? r + b : r);
+    }
+    else
+        return (a & (b - 1));
+}
+
+static inline unsigned int SafeAdd(unsigned int a, int b)
+{
+    return (b > 0 && (unsigned int)b > UINT_MAX - a ? a : a + b);
+}
 
 #endif
