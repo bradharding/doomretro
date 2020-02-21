@@ -832,7 +832,8 @@ static void CalculateFPS(void)
         starttime = currenttime;
     }
 
-    C_UpdateFPS();
+    if (framespersecond)
+        C_UpdateFPS();
 }
 
 #if defined(_WIN32)
