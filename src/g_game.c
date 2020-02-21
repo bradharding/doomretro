@@ -176,6 +176,7 @@ unsigned int    stat_skilllevel_nightmare = 0;
 
 extern int      barrelms;
 extern int      st_palette;
+extern int      logotic;
 extern int      pagetic;
 extern int      timer;
 extern int      countdown;
@@ -644,8 +645,6 @@ void G_ToggleAlwaysRun(evtype_t type)
     M_SaveCVARs();
 }
 
-extern dboolean splashscreen;
-
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
@@ -681,7 +680,10 @@ dboolean G_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
 
             if (splashscreen)
+            {
+                logotic = MAX(77, logotic);
                 pagetic = MIN(10, pagetic);
+            }
             else
             {
                 M_StartControlPanel();

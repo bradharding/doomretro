@@ -448,7 +448,7 @@ static void D_DoomLoop(void)
 //
 int             titlesequence = 0;
 int             pagetic = 3 * TICRATE;
-static int      logotic = 3 * TICRATE;
+int             logotic = 3 * TICRATE;
 
 static patch_t  *pagelump;
 static patch_t  *splashlump;
