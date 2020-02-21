@@ -224,7 +224,7 @@ static uint32_t ReadTime(uint8_t **musptrp)
 // Returns the maximum channel number unassigned unless that is 9 in which
 // case 10 is returned.
 //
-static char FirstChannelAvailable(signed char MUS2MIDchannel[])
+static char FirstChannelAvailable(char MUS2MIDchannel[MIDI_TRACKS])
 {
     char    max = -1;
 
