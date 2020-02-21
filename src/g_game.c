@@ -679,12 +679,10 @@ dboolean G_Responder(event_t *ev)
             gamepadwait = I_GetTime() + 8;
             mousewait = I_GetTime() + 5;
 
-            if (splashscreen)
-            {
-                logotic = MAX(77, logotic);
-                pagetic = MIN(10, pagetic);
-            }
-            else
+            logotic = MAX(77, logotic);
+            pagetic = MIN(10, pagetic);
+
+            if (!splashscreen)
             {
                 M_StartControlPanel();
                 S_StartSound(NULL, sfx_swtchn);

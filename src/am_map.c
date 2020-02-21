@@ -1401,7 +1401,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                     while (x0 != x1)
                     {
-                        int mask = ~(error >> (sizeof(int) * CHARBIT - 1));
+                        int mask = ~(error >> 31);
 
                         putdot((x0 += sx), (y0 += (sy & mask)), color);
                         error += dy - (dx & mask);
@@ -1417,7 +1417,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                     while (y0 != y1)
                     {
-                        int mask = ~(error >> (sizeof(int) * CHARBIT - 1));
+                        int mask = ~(error >> 31);
 
                         putdot((x0 += (sx & mask)), (y0 += sy), color);
                         error += dx - (dy & mask);

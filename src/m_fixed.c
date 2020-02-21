@@ -41,7 +41,7 @@
 
 int ABS(int a)
 {
-    int b = a >> (sizeof(int) * CHARBIT - 1);
+    int b = a >> 31;
 
     return ((a ^ b) - b);
 }
@@ -49,13 +49,13 @@ int ABS(int a)
 int MAX(int a, int b)
 {
     b = a - b;
-    return (a - (b & (b >> (sizeof(int) * CHARBIT - 1))));
+    return (a - (b & (b >> 31)));
 }
 
 int MIN(int a, int b)
 {
     a -= b;
-    return (b + (a & (a >> (sizeof(int) * CHARBIT - 1))));
+    return (b + (a & (a >> 31)));
 }
 
 int BETWEEN(int a, int b, int c)
@@ -70,7 +70,7 @@ float BETWEENF(float a, float b, float c)
 
 int SIGN(int a)
 {
-    return (1 | (a >> (sizeof(int) * CHARBIT - 1)));
+    return (1 | (a >> 31));
 }
 
 fixed_t FixedMul(fixed_t a, fixed_t b)
@@ -81,7 +81,7 @@ fixed_t FixedMul(fixed_t a, fixed_t b)
 fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((ABS(a) >> 14) >= ABS(b))
-        return ((a ^ b) >> (sizeof(int) * CHARBIT - 1)) ^ FIXED_MAX;
+        return ((a ^ b) >> 31) ^ FIXED_MAX;
     else
         return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }
