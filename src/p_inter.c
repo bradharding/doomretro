@@ -1796,7 +1796,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     C_Obituary("%s %s %s.",
                         temp1,
                         (gibbed ? "gibbed" : "killed"),
-                        (M_StringCompare(playername, playername_default) ? playername : playername));
+                        playername);
                 else
                 {
                     char    targetname[100];
