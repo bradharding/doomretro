@@ -680,9 +680,10 @@ dboolean G_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
 
             logotic = MAX(77, logotic);
-            pagetic = MIN(10, pagetic);
 
-            if (!splashscreen)
+            if (splashscreen)
+                pagetic = MIN(10, pagetic);
+            else
             {
                 M_StartControlPanel();
                 S_StartSound(NULL, sfx_swtchn);
@@ -709,9 +710,8 @@ dboolean G_Responder(event_t *ev)
             return true;        // automap ate it
     }
 
-    if (gamestate == GS_FINALE)
-        if (F_Responder(ev))
-            return true;        // finale ate the event
+    if (gamestate == GS_FINALE && F_Responder(ev))
+        return true;        // finale ate the event
 
     switch (ev->type)
     {
@@ -844,12 +844,9 @@ dboolean G_Responder(event_t *ev)
 
             return true;        // eat events
 
-        case ev_none:
-        case ev_text:
+        default:
             return false;
     }
-
-    return false;
 }
 
 void D_Display(void);
