@@ -1345,7 +1345,7 @@ void C_Drawer(void)
                     }
 
                     x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
-                        consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
+                             consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
@@ -1368,11 +1368,15 @@ void C_Drawer(void)
             }
 
             if (showcaret)
-                for (int y = (consoleheight - 17) * SCREENWIDTH; y < (consoleheight - 3) * SCREENWIDTH; y += SCREENWIDTH)
+            {
+                byte    *dest = &screens[0][(consoleheight - 17) * SCREENWIDTH + x];
+
+                for (int y = 0; y < 14 * SCREENWIDTH; y += SCREENWIDTH)
                 {
-                    screens[0][y + x] = consolecaretcolor;
-                    screens[0][y + x + 1] = consolecaretcolor;
+                    *(dest + y) = consolecaretcolor;
+                    *(dest + y + 1) = consolecaretcolor;
                 }
+            }
         }
         else
         {
