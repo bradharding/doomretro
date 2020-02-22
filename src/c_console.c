@@ -107,7 +107,6 @@ size_t                  consolestringsmax = 0;
 static size_t           undolevels;
 static undohistory_t    *undohistory;
 
-static patch_t          *caret;
 static int              caretpos;
 static dboolean         showcaret = true;
 static int              caretwait;
@@ -129,7 +128,6 @@ static int              zerowidth;
 static int              warningwidth;
 static int              dotwidth;
 static int              dividerwidth;
-static int              caretwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
@@ -704,7 +702,6 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215");
     unknownchar = W_CacheLumpName("DRFON000");
 
-    caret = W_CacheLumpName("DRCARET");
     divider = W_CacheLumpName("DRDIVIDE");
     warning = W_CacheLumpName("DRFONWRN");
     altunderscores = W_CacheLumpName("DRFONUND");
@@ -725,7 +722,6 @@ void C_Init(void)
     warningwidth = SHORT(warning->width);
     dotwidth = SHORT(dot->width);
     dividerwidth = SHORT(divider->width);
-    caretwidth = SHORT(caret->width);
 
     while (*autocompletelist[++numautocomplete].text);
 }
@@ -1372,7 +1368,11 @@ void C_Drawer(void)
             }
 
             if (showcaret)
-                V_DrawConsoleTextPatch(x, consoleheight - 17, caret, caretwidth, consolecaretcolor, NOBACKGROUNDCOLOR, false, NULL);
+                for (int y = (consoleheight - 17) * SCREENWIDTH; y < (consoleheight - 3) * SCREENWIDTH; y += SCREENWIDTH)
+                {
+                    screens[0][y + x] = consolecaretcolor;
+                    screens[0][y + x + 1] = consolecaretcolor;
+                }
         }
         else
         {
@@ -1380,7 +1380,7 @@ void C_Drawer(void)
             caretwait = 0;
         }
 
-        x += SHORT(caret->width);
+        x += 3;
 
         // draw any selected text to right of caret
         if (selectend > caretpos)
