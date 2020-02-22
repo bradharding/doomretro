@@ -52,11 +52,11 @@
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
 #define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
-#define FIXED_MIN       INT_MIN
-#define FIXED_MAX       INT_MAX
+#define FIXED_MIN       INT32_MIN
+#define FIXED_MAX       INT32_MAX
 #define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
-typedef int fixed_t;
+typedef int32_t fixed_t;
 
 static inline int ABS(int a)
 {
@@ -99,8 +99,8 @@ static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 
 static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    if ((ABS(a) >> 14) >= ABS(b))
-        return ((a ^ b) >> 31) ^ FIXED_MAX;
+    if ((ABS(a) >> 15) >= ABS(b))
+        return (((a ^ b) >> 31) ^ FIXED_MAX);
     else
         return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }

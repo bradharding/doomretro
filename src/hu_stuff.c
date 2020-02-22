@@ -1188,7 +1188,7 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
 
 void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 {
-    char    buffer[1024] = "";
+    char    buffer[133] = "";
 
     if (!*message)
         return;

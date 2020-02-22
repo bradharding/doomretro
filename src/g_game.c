@@ -682,7 +682,7 @@ dboolean G_Responder(event_t *ev)
             logotic = MAX(77, logotic);
 
             if (splashscreen)
-                pagetic = MIN(10, pagetic);
+                pagetic = MIN(pagetic, 10);
             else
             {
                 M_StartControlPanel();
