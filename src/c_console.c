@@ -887,7 +887,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         width += warningwidth + 1;
         x += width;
     }
-    
+
     if (len > 100)
     {
         do
@@ -1133,9 +1133,9 @@ void C_UpdateTimer(void)
 
         if (tics != prevtics)
         {
-            int     hours = (tics = (prevtics = tics) / TICRATE) / 3600;
-            int     minutes = ((tics %= 3600)) / 60;
-            int     seconds = tics % 60;
+            int hours = (tics = (prevtics = tics) / TICRATE) / 3600;
+            int minutes = ((tics %= 3600)) / 60;
+            int seconds = tics % 60;
 
             if (seconds >= 60)
             {
