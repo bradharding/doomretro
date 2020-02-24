@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* The value of the `vid_showfps` CVAR will no longer be reset during startup.
 
 ---
 
