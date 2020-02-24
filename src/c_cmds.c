@@ -5814,7 +5814,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
             else
             {
-                dboolean    shootable = mobjinfo[type].flags & MF_SHOOTABLE;
+                int         flags = mobjinfo[type].flags;
+                dboolean    shootable = flags & MF_SHOOTABLE;
                 mobj_t      *thing;
                 angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
                 mapthing_t  mthing;
@@ -5826,7 +5827,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 }
                 else
                 {
-                    thing = P_SpawnMobj(x, y, ((mobjinfo[type].flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ), MT_IFOG);
+                    thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[type].flags2 & MF2_FLOATBOB) ?
+                        14 * FRACUNIT : ONFLOORZ), MT_IFOG);
                     S_StartSound(thing, sfx_itmbk);
                 }
 

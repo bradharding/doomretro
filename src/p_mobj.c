@@ -976,7 +976,7 @@ void P_RespawnSpecials(void)
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[i].flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ);
 
     // spawn a teleport fog at the new spot
     mo = P_SpawnMobj(x, y, z, MT_IFOG);
