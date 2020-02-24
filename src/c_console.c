@@ -1111,7 +1111,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 
 void C_UpdateFPS(void)
 {
-    if (!dowipe && !paused && !menuactive && !splashscreen)
+    if (!dowipe && !splashscreen)
     {
         char    buffer[32];
 
