@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
-* Item fogs that are spawned when using the `spawn` or `respawnitems` CCMD are now always positioned correctly.
+* Item fogs that are spawned while using the `spawn` or `respawnitems` CCMDs are now always positioned correctly.
 
 ---
 

@@ -5814,25 +5814,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
             else
             {
-                int         flags = mobjinfo[type].flags;
-                dboolean    shootable = flags & MF_SHOOTABLE;
-                mobj_t      *thing;
-                angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
                 mapthing_t  mthing;
-
-                if (shootable)
-                {
-                    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
-                    S_StartSound(thing, sfx_telept);
-                }
-                else
-                {
-                    thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[type].flags2 & MF2_FLOATBOB) ?
-                        14 * FRACUNIT : ONFLOORZ), MT_IFOG);
-                    S_StartSound(thing, sfx_itmbk);
-                }
-
-                thing->angle = ANG45 * (angle / 45);
+                mobj_t      *thing;
 
                 mthing.x = x >> FRACBITS;
                 mthing.y = y >> FRACBITS;
@@ -5841,9 +5824,13 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                 if ((thing = P_SpawnMapThing(&mthing, true)))
                 {
+                    angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
+                    int         flags = thing->flags;
+                    dboolean    shootable = flags & MF_SHOOTABLE;
+
                     thing->angle = angle;
 
-                    if (thing->flags & MF_COUNTITEM)
+                    if (flags & MF_COUNTITEM)
                     {
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         M_SaveCVARs();
@@ -5854,6 +5841,20 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         M_SaveCVARs();
                     }
+
+                    if (shootable)
+                    {
+                        thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                        S_StartSound(thing, sfx_telept);
+                    }
+                    else
+                    {
+                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ : (thing->flags2 & MF2_FLOATBOB) ?
+                            14 * FRACUNIT : ONFLOORZ), MT_IFOG);
+                        S_StartSound(thing, sfx_itmbk);
+                    }
+
+                    thing->angle = ANG45 * (angle / 45);
 
                     C_HideConsole();
                 }
