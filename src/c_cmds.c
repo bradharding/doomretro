@@ -5826,7 +5826,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 }
                 else
                 {
-                    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_IFOG);
+                    thing = P_SpawnMobj(x, y, ((mobjinfo[type].flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ), MT_IFOG);
                     S_StartSound(thing, sfx_itmbk);
                 }
 
