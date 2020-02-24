@@ -76,6 +76,7 @@ dboolean        remnant;
 dboolean        modifiedgame;
 
 dboolean        DMENUPIC;
+dboolean        DSSECRET;
 dboolean        FREEDOOM;
 dboolean        FREEDM;
 dboolean        M_DOOM;
@@ -105,4 +106,3 @@ dboolean        STCFN034;
 dboolean        STYSNUM0;
 dboolean        TITLEPIC;
 dboolean        WISCRT2;
-dboolean        DSSECRET;

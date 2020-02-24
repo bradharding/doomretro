@@ -120,6 +120,7 @@ extern dboolean         doom4vanilla;
 extern dboolean         remnant;
 
 extern dboolean         DMENUPIC;
+extern dboolean         DSSECRET;
 extern dboolean         FREEDOOM;
 extern dboolean         FREEDM;
 extern dboolean         M_DOOM;
@@ -149,7 +150,6 @@ extern dboolean         STCFN034;
 extern dboolean         STYSNUM0;
 extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
-extern dboolean         DSSECRET;
 
 // -------------------------
 // Internal parameters for sound rendering.

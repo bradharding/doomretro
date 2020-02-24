@@ -465,7 +465,7 @@ static void I_GetEvent(void)
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
                     event.data2 = 0;
 
-                altdown = (Event->key.keysym.mod & KMOD_ALT);
+                altdown = Event->key.keysym.mod & KMOD_ALT;
 
                 if (event.data1)
                 {
@@ -522,7 +522,7 @@ static void I_GetEvent(void)
 
                 event.type = ev_keyup;
                 event.data1 = translatekey[scancode];
-                altdown = (Event->key.keysym.mod & KMOD_ALT);
+                altdown = Event->key.keysym.mod & KMOD_ALT;
                 keydown = 0;
 
 #if !defined(_WIN32)

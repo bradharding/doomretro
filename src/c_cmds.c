@@ -2528,7 +2528,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
                     else
-                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                        result = mobjinfo[i].flags & MF_SHOOTABLE;
                 }
 
                 if (temp1)
@@ -5471,7 +5471,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
                     else
-                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                        result = mobjinfo[i].flags & MF_SHOOTABLE;
                 }
 
                 if (temp1)
@@ -5814,7 +5814,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
             else
             {
-                dboolean    shootable = (mobjinfo[type].flags & MF_SHOOTABLE);
+                dboolean    shootable = mobjinfo[type].flags & MF_SHOOTABLE;
                 mobj_t      *thing;
                 angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
                 mapthing_t  mthing;
@@ -5846,7 +5846,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         M_SaveCVARs();
                     }
-                    else if (spawncmdfriendly && (thing->flags & MF_SHOOTABLE))
+                    else if (spawncmdfriendly && shootable)
                     {
                         thing->flags |= MF_FRIEND;
                         stat_cheated = SafeAdd(stat_cheated, 1);

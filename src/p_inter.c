@@ -1866,7 +1866,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 {
     dboolean    gibbed;
-    dboolean    massacre = (target->flags2 & MF2_MASSACRE);
+    dboolean    massacre = target->flags2 & MF2_MASSACRE;
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     int         gibhealth = info->gibhealth;
