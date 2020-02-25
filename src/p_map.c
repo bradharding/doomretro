@@ -1722,7 +1722,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     // Spawn bullet puffs or blood spots,
     // depending on target type.
-    if (th->flags & MF_NOBLOOD)
+    if ((th->flags & MF_NOBLOOD) || r_blood == r_blood_none)
         P_SpawnPuff(x, y, z, shootangle);
     else
     {

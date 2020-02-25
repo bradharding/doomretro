@@ -615,9 +615,6 @@ static void R_ProjectSprite(mobj_t *thing)
     if (thing->player && thing->player->mo == thing)
         return;
 
-    if (thing->info->spawnstate == S_BLOOD1 && r_blood == r_blood_none)
-        return;
-
     // [AM] Interpolate between current and last position, if prudent.
     if (thing->interpolate && interpolatesprites)
     {
