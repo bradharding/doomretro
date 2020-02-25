@@ -238,7 +238,8 @@ enum
     r_blood_none,
     r_blood_red,
     r_blood_all,
-    r_blood_green
+    r_blood_green,
+    r_blood_colors
 };
 
 enum
@@ -473,7 +474,7 @@ enum
 
 #define r_blood_min                             r_blood_none
 #define r_blood_default                         r_blood_all
-#define r_blood_max                             r_blood_green
+#define r_blood_max                             r_blood_colors
 
 #define r_bloodsplats_max_min                   0
 #define r_bloodsplats_max_default               65536

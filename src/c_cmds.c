@@ -659,7 +659,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the effect when the player has a\nberserk power-up and their fists equipped (<b>0</b> to <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
-        "The colors of the blood of the player and monsters\n(<b>all</b>, <b>none</b>, <b>red</b> or <b>green</b>)."),
+        "The colors of the blood of the player and monsters\n(<b>none</b>, <b>all</b>, or <b>red</b>, <b>green</b> or <b>colors</b> only)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The maximum number of blood splats allowed in a\nmap (<b>0</b> to <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,

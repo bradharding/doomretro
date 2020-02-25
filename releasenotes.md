@@ -4,6 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
 * Item fogs that are spawned while using the `spawn` or `respawnitems` CCMDs are now always positioned correctly.
+* The `r_blood` CVAR can now be `colors`, causing only colored blood to be spilled (all spectre blood will be red instead of fuzzy).
 
 ---
 

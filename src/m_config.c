@@ -269,7 +269,8 @@ valuealias_t valuealiases[] =
     { "low",     0, DETAILVALUEALIAS    }, { "high",      1, DETAILVALUEALIAS    },
     { "off",     1, GAMMAVALUEALIAS     }, { "none",      0, BLOODVALUEALIAS     },
     { "red",     1, BLOODVALUEALIAS     }, { "all",       2, BLOODVALUEALIAS     },
-    { "green",   3, BLOODVALUEALIAS     }, { "imperial",  0, UNITSVALUEALIAS     },
+    { "green",   3, BLOODVALUEALIAS     }, { "colors",    4, BLOODVALUEALIAS     },
+    { "colours", 4, BLOODVALUEALIAS     }, { "imperial",  0, UNITSVALUEALIAS     },
     { "metric",  1, UNITSVALUEALIAS     }, { "off",       0, CAPVALUEALIAS       },
     { "none",   -1, SKYVALUEALIAS       }, { "off",      -1, SKYVALUEALIAS       },
     { "none",    5, FACEBACKVALUEALIAS  }, { "off",       5, FACEBACKVALUEALIAS  },
@@ -719,7 +720,8 @@ static void M_CheckCVARs(void)
 
     r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
 
-    if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all && r_blood != r_blood_green)
+    if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all && r_blood != r_blood_green
+        && r_blood != r_blood_colors)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
