@@ -262,24 +262,23 @@ static default_t cvars[NUMCVARS] =
 
 valuealias_t valuealiases[] =
 {
-    { "off",     0, BOOLVALUEALIAS      }, { "on",        1, BOOLVALUEALIAS      },
-    { "0",       0, BOOLVALUEALIAS      }, { "1",         1, BOOLVALUEALIAS      },
-    { "no",      0, BOOLVALUEALIAS      }, { "yes",       1, BOOLVALUEALIAS      },
-    { "false",   0, BOOLVALUEALIAS      }, { "true",      1, BOOLVALUEALIAS      },
-    { "low",     0, DETAILVALUEALIAS    }, { "high",      1, DETAILVALUEALIAS    },
-    { "off",     1, GAMMAVALUEALIAS     }, { "none",      0, BLOODVALUEALIAS     },
-    { "red",     1, BLOODVALUEALIAS     }, { "all",       2, BLOODVALUEALIAS     },
-    { "green",   3, BLOODVALUEALIAS     }, { "colors",    4, BLOODVALUEALIAS     },
-    { "colours", 4, BLOODVALUEALIAS     }, { "imperial",  0, UNITSVALUEALIAS     },
-    { "metric",  1, UNITSVALUEALIAS     }, { "off",       0, CAPVALUEALIAS       },
-    { "none",   -1, SKYVALUEALIAS       }, { "off",      -1, SKYVALUEALIAS       },
-    { "none",    5, FACEBACKVALUEALIAS  }, { "off",       5, FACEBACKVALUEALIAS  },
-    { "none",    0, ARMORTYPEVALUEALIAS }, { "green",     1, ARMORTYPEVALUEALIAS },
-    { "blue",    2, ARMORTYPEVALUEALIAS }, { "none",      0, CROSSHAIRVALUEALIAS },
-    { "off",     0, CROSSHAIRVALUEALIAS }, { "cross",     1, CROSSHAIRVALUEALIAS },
-    { "dot",     2, CROSSHAIRVALUEALIAS }, { "adaptive", -1, VSYNCVALUEALIAS     },
-    { "off",     0, VSYNCVALUEALIAS     }, { "on",        1, VSYNCVALUEALIAS     },
-    { "",        0, NOVALUEALIAS        }
+    { "off",       0, BOOLVALUEALIAS      }, { "on",      1, BOOLVALUEALIAS      },
+    { "0",         0, BOOLVALUEALIAS      }, { "1",       1, BOOLVALUEALIAS      },
+    { "no",        0, BOOLVALUEALIAS      }, { "yes",     1, BOOLVALUEALIAS      },
+    { "false",     0, BOOLVALUEALIAS      }, { "true",    1, BOOLVALUEALIAS      },
+    { "low",       0, DETAILVALUEALIAS    }, { "high",    1, DETAILVALUEALIAS    },
+    { "off",       1, GAMMAVALUEALIAS     }, { "none",    0, BLOODVALUEALIAS     },
+    { "red",       1, BLOODVALUEALIAS     }, { "all",     2, BLOODVALUEALIAS     },
+    { "green",     3, BLOODVALUEALIAS     }, { "nofuzz",  4, BLOODVALUEALIAS     },
+    { "imperial",  0, UNITSVALUEALIAS     }, { "metric",  1, UNITSVALUEALIAS     },
+    { "off",       0, CAPVALUEALIAS       }, { "none",   -1, SKYVALUEALIAS       },
+    { "off",      -1, SKYVALUEALIAS       }, { "none",    5, FACEBACKVALUEALIAS  },
+    { "off",       5, FACEBACKVALUEALIAS  }, { "none",    0, ARMORTYPEVALUEALIAS },
+    { "green",     1, ARMORTYPEVALUEALIAS }, { "blue",    2, ARMORTYPEVALUEALIAS },
+    { "none",      0, CROSSHAIRVALUEALIAS }, { "off",     0, CROSSHAIRVALUEALIAS },
+    { "cross",     1, CROSSHAIRVALUEALIAS }, { "dot",     2, CROSSHAIRVALUEALIAS },
+    { "adaptive", -1, VSYNCVALUEALIAS     }, { "off",     0, VSYNCVALUEALIAS     },
+    { "on",        1, VSYNCVALUEALIAS     }, { "",        0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *string)
@@ -721,7 +720,7 @@ static void M_CheckCVARs(void)
     r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
 
     if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all && r_blood != r_blood_green
-        && r_blood != r_blood_colors)
+        && r_blood != r_blood_nofuzz)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
