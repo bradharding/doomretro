@@ -179,6 +179,10 @@ void C_Input(const char *string, ...)
     C_DumpConsoleStringToFile(consolestrings);
     console[consolestrings++].stringtype = inputstring;
     outputhistory = -1;
+    consoleinput[0] = '\0';
+    caretpos = 0;
+    selectstart = 0;
+    selectend = 0;
 }
 
 void C_InputNoRepeat(const char *string, ...)
@@ -202,6 +206,10 @@ void C_InputNoRepeat(const char *string, ...)
         C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].stringtype = inputstring;
         outputhistory = -1;
+        consoleinput[0] = '\0';
+        caretpos = 0;
+        selectstart = 0;
+        selectend = 0;
     }
 }
 
