@@ -522,7 +522,7 @@ void M_SaveCVARs(void)
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int valuealiastype)
 {
-    int parm = 0;
+    int parm = INT_MAX;
 
     for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
