@@ -79,7 +79,9 @@ static inline int MIN(int a, int b)
 
 static inline int BETWEEN(int a, int b, int c)
 {
-    return MAX(a, MIN(b, c));
+    b -= c;
+    c = a - c - (b & (b >> 31));
+    return (a - (c & (c >> 31)));
 }
 
 static inline float BETWEENF(float a, float b, float c)

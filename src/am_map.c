@@ -1272,24 +1272,24 @@ static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
     return !(outcode1 & outcode2);
 }
 
-static __inline void _PUTDOT(byte *dot, byte *color)
+static inline void _PUTDOT(byte *dot, byte *color)
 {
     *dot = *(*dot + color);
 }
 
-static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
         _PUTDOT(mapscreen + y + x, color);
 }
 
-static __inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
+static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
         *(mapscreen + y + x) = *color;
 }
 
-static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
@@ -1324,7 +1324,7 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     }
 }
 
-static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
     {
@@ -1914,7 +1914,7 @@ static void AM_DrawPath(void)
     }
 }
 
-static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
+static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 {
     byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
 
@@ -1927,7 +1927,7 @@ static __inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
     *dest = *(*dest + color);
 }
 
-static __inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
+static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
     byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
 

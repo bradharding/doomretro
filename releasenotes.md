@@ -5,9 +5,9 @@
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
 * Item fogs spawned while using the `spawn` or `respawnitems` CCMDs are now always positioned correctly.
 * The following changes have been made to the `r_blood` CVAR:
-  * The CVAR can now be `nofuzz`, causing all blood spilled by spectres, and the player while they have a partial invisibility power-up, to be red instead of fuzzy.
+  * The CVAR can now be set to `nofuzz`, causing all blood spilled by spectres, as well as the player while they have a partial invisibility power-up, to be red instead of fuzzy.
   * Puffs are now spawned instead of nothing when the CVAR is `none`.
-  * All blood will now be red as intended when the CVAR is `red`.
+  * All blood spilled will now be red as intended when the CVAR is `red`.
 
 ---
 

@@ -405,7 +405,7 @@ static int AccelerateMouse(int value)
     return (value > 10 ? value * 2 - 10 : (value < -10 ? value * 2 + 10 : value));
 }
 
-static short __inline clamp(short value, short deadzone)
+static short inline clamp(short value, short deadzone)
 {
     return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
 }
