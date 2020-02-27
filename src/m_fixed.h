@@ -67,21 +67,17 @@ static inline int ABS(int a)
 
 static inline int MAX(int a, int b)
 {
-    b = a - b;
-    return (a - (b & (b >> 31)));
+    return (a - (b & ((b = a - b) >> 31)));
 }
 
 static inline int MIN(int a, int b)
 {
-    a -= b;
-    return (b + (a & (a >> 31)));
+    return (b + (a & ((a -= b) >> 31)));
 }
 
 static inline int BETWEEN(int a, int b, int c)
 {
-    b -= c;
-    c = a - c - (b & (b >> 31));
-    return (a - (c & (c >> 31)));
+    return (a - (c & ((c = a - c - (b & ((b -= c) >> 31))) >> 31)));
 }
 
 static inline float BETWEENF(float a, float b, float c)
@@ -109,14 +105,7 @@ static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 
 static inline fixed_t FixedMod(fixed_t a, fixed_t b)
 {
-    if (b & (b - 1))
-    {
-        fixed_t r = a % b;
-
-        return (r < 0 ? r + b : r);
-    }
-    else
-        return (a & (b - 1));
+    return (b & (b - 1) ? ((a %= b) < 0 ? a + b : a) : a & (b - 1));
 }
 
 static inline unsigned int SafeAdd(unsigned int a, int b)
