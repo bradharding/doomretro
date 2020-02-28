@@ -5824,14 +5824,12 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                 if ((thing = P_SpawnMapThing(&mthing, true)))
                 {
-                    angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
-                    int         flags = thing->flags;
-                    dboolean    shootable = flags & MF_SHOOTABLE;
-                    dboolean    nogravity = flags & MF_NOGRAVITY;
+                    angle_t angle = R_PointToAngle2(x, y, viewx, viewy);
+                    int     flags = thing->flags;
 
                     thing->angle = angle;
 
-                    if (shootable)
+                    if (flags & MF_SHOOTABLE)
                     {
                         if (spawncmdfriendly)
                         {
@@ -5840,10 +5838,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        if (nogravity)
+                        if (flags & MF_NOGRAVITY)
+                        {
                             thing->z = 32 * FRACUNIT;
+                            thing = P_SpawnMobj(x, y, 32 * FRACUNIT, MT_TFOG);
+                        }
+                        else
+                            thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
 
-                        thing = P_SpawnMobj(x, y, (nogravity ? 32 * FRACUNIT : ONFLOORZ), MT_TFOG);
                         S_StartSound(thing, sfx_telept);
                     }
                     else
@@ -5856,6 +5858,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                         thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
                             ((thing->flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
+
                         S_StartSound(thing, sfx_itmbk);
                     }
 

@@ -141,7 +141,7 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
-    // opening / clipping determination
+    // opening/clipping determination
     for (int i = 0; i < viewwidth; i++)
     {
         floorclip[i] = viewheight;
