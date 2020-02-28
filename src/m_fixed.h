@@ -67,17 +67,21 @@ static inline int ABS(int a)
 
 static inline int MAX(int a, int b)
 {
-    return (a - (b & ((b = a - b) >> 31)));
+    b = a - b;
+    return (a - (b & (b >> 31)));
 }
 
 static inline int MIN(int a, int b)
 {
-    return (b + (a & ((a -= b) >> 31)));
+    a -= b;
+    return (b + (a & (a >> 31)));
 }
 
 static inline int BETWEEN(int a, int b, int c)
 {
-    return (a - (c & ((c = a - c - (b & ((b -= c) >> 31))) >> 31)));
+    b -= c;
+    c = a - c - (b & (b >> 31));
+    return (a - (c & (c >> 31)));
 }
 
 static inline float BETWEENF(float a, float b, float c)
