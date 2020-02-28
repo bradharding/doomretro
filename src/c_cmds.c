@@ -5831,20 +5831,15 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                     thing->angle = angle;
 
-                    if (flags & MF_COUNTITEM)
-                    {
-                        stat_cheated = SafeAdd(stat_cheated, 1);
-                        M_SaveCVARs();
-                    }
-                    else if (spawncmdfriendly && shootable)
-                    {
-                        thing->flags |= MF_FRIEND;
-                        stat_cheated = SafeAdd(stat_cheated, 1);
-                        M_SaveCVARs();
-                    }
-
                     if (shootable)
                     {
+                        if (spawncmdfriendly)
+                        {
+                            thing->flags |= MF_FRIEND;
+                            stat_cheated = SafeAdd(stat_cheated, 1);
+                            M_SaveCVARs();
+                        }
+
                         if (nogravity)
                             thing->z = 32 * FRACUNIT;
 
@@ -5853,6 +5848,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     }
                     else
                     {
+                        if (flags & MF_COUNTITEM)
+                        {
+                            stat_cheated = SafeAdd(stat_cheated, 1);
+                            M_SaveCVARs();
+                        }
+
+                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
+                            ((thing->flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
                         S_StartSound(thing, sfx_itmbk);
                     }
 
