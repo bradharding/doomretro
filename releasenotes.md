@@ -8,6 +8,7 @@
   * The CVAR can now be set to `nofuzz`, causing all blood spilled by spectres, as well as the player while they have a partial invisibility power-up, to be red instead of fuzzy.
   * Puffs are now spawned instead of nothing when the CVAR is `none`.
   * All blood spilled will now be red as intended when the CVAR is `red`.
+* Flying monsters spawned using the `spawn` CCMD are now spawned higher off the floor.
 
 ---
 

@@ -5827,6 +5827,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     angle_t     angle = R_PointToAngle2(x, y, viewx, viewy);
                     int         flags = thing->flags;
                     dboolean    shootable = flags & MF_SHOOTABLE;
+                    dboolean    nogravity = flags & MF_NOGRAVITY;
 
                     thing->angle = angle;
 
@@ -5844,13 +5845,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                     if (shootable)
                     {
-                        thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                        if (nogravity)
+                            thing->z = 32 * FRACUNIT;
+
+                        thing = P_SpawnMobj(x, y, (nogravity ? 32 * FRACUNIT : ONFLOORZ), MT_TFOG);
                         S_StartSound(thing, sfx_telept);
                     }
                     else
                     {
-                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ : (thing->flags2 & MF2_FLOATBOB) ?
-                            14 * FRACUNIT : ONFLOORZ), MT_IFOG);
                         S_StartSound(thing, sfx_itmbk);
                     }
 
