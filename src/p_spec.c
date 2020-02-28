@@ -2474,8 +2474,14 @@ void P_SpawnSpecials(void)
 
     if (p)
     {
-        P_SetTimer(atoi(myargv[p + 1]));
-        C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
+        int minutes = atoi(myargv[p + 1]);
+
+        if (minutes > 0)
+        {
+            P_SetTimer(minutes);
+            C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %i minute%s.",
+                timer, (timer == 1 ? "" : "s"));
+        }
     }
 
     if (M_CheckParm("-avg"))
