@@ -297,7 +297,7 @@ static void R_MakeSpans(visplane_t *pl)
     }
 
     planeheight = ABS(pl->height - viewz);
-    planezlight = zlight[MIN((pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+    planezlight = zlight[MIN(((pl->lightlevel + r_levelbrightness * 16) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     pl->top[pl->left - 1] = UINT_MAX;
     pl->top[stop] = UINT_MAX;
 

@@ -82,6 +82,7 @@
 dboolean            m_acceleration = m_acceleration_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
+int                 r_levelbrightness = r_levelbrightness_default;
 dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
 int                 vid_capfps = vid_capfps_default;
 int                 vid_display = vid_display_default;

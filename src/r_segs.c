@@ -186,7 +186,8 @@ static void R_FixWiggle(sector_t *sector)
 
 static lighttable_t **GetLightTable(const int lightlevel)
 {
-    return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
+    return scalelight[BETWEEN(0, ((lightlevel + r_levelbrightness * 16) >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast,
+        LIGHTLEVELS - 1)];
 }
 
 static void R_BlastMaskedSegColumn(const rcolumn_t *column)

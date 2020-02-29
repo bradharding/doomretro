@@ -708,6 +708,8 @@ consolecmd_t consolecmds[] =
         "Toggles the heads-up display when in widescreen\nmode."),
     CVAR_BOOL(r_hud_translucency, "", bool_cvars_func1, r_hud_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display\nwhen in widescreen mode."),
+    CVAR_INT(r_levelbrightness, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The brightness of the level (<b>0</b> to <b>4</b>)."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bob of liquid sectors and the sprites\nin them."),
     CVAR_BOOL(r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

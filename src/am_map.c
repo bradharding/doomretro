@@ -638,7 +638,7 @@ void AM_AddToPath(void)
 
     if (pathpointnum >= pathpointnum_max)
     {
-        pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 1024);
+        pathpointnum_max = (pathpointnum_max ? (pathpointnum_max << 1) : 1024);
         pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
