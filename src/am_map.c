@@ -633,7 +633,7 @@ void AM_AddToPath(void)
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
-    if (pathpointnum && ABS(prevx - x) < FRACUNIT && ABS(prevy - y) < FRACUNIT)
+    if (ABS(prevx - x) < FRACUNIT && ABS(prevy - y) < FRACUNIT)
         return;
 
     if (pathpointnum >= pathpointnum_max)
@@ -642,8 +642,8 @@ void AM_AddToPath(void)
         pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
-    prevx = pathpoints[pathpointnum].x = x;
-    prevy = pathpoints[pathpointnum++].y = y;
+    pathpoints[pathpointnum].x = prevx = x;
+    pathpoints[pathpointnum++].y = prevy = y;
 }
 
 void AM_ToggleRotateMode(void)

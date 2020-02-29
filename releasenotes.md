@@ -9,7 +9,7 @@
   * Puffs are now spawned instead of nothing when the CVAR is `none`.
   * All blood spilled will now be red as intended when the CVAR is `red`.
 * Flying monsters spawned using the `spawn` CCMD are now spawned higher off the ground.
-* The player’s path around the current map will now always be recorded even if the `am_path` CVAR is `off`, but still won’t be displayed in the automap unless that CVAR is `on`.
+* The player’s path around the current map will now always be recorded even if the `am_path` CVAR is `off`, but still won’t be displayed in the automap unless the CVAR is `on`.
 
 ---
 
@@ -83,7 +83,7 @@
 * The default of the `vid_scalefilter` CVAR has been changed from `“nearest”` to `“nearest_linear”`.
 * A new `r_graduallighting` CVAR has been implemented that toggles the gradual lighting under doors and crushing sectors. It is `on` by default and `off` when vanilla mode is on.
 * The player’s view will no longer shift slightly when exiting a map by using a switch.
-* Par times are no longer displayed on the intermission screen for maps that don’t have one.
+* Par times are no longer displayed on the intermission screen for maps that don’t have them.
 * A crash will no longer occur when using the `kill` or `resurrect` CCMDs with a monster’s name previously set by the `name` CCMD as the parameter.
 * `SIGIL_SHREDS.wad` will no longer be automatically loaded if music has been disabled by specifying `-nomusic` or `-nosound` on the command-line.
 * The background will now always be displayed correctly when confirming use of the `resetall` CCMD.
