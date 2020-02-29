@@ -9,6 +9,7 @@
   * Puffs are now spawned instead of nothing when the CVAR is `none`.
   * All blood spilled will now be red as intended when the CVAR is `red`.
 * Flying monsters spawned using the `spawn` CCMD are now spawned higher off the ground.
+* The player’s path around the current map will now always be recorded even if the `am_path` CVAR is `off`, but still won’t be displayed in the automap unless that CVAR is `on`.
 
 ---
 

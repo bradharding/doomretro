@@ -2563,7 +2563,6 @@ void P_SpawnSpecials(void)
     P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
 
     for (int i = 0; i < numlines; i++, line++)
-    {
         switch (line->special)
         {
             // killough 3/7/98:
@@ -2617,7 +2616,6 @@ void P_SpawnSpecials(void)
 
                 break;
         }
-    }
 }
 
 // killough 2/28/98:
