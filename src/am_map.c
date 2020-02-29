@@ -630,8 +630,10 @@ void AM_AddToPath(void)
 {
     const int   x = viewplayer->mo->x >> FRACTOMAPBITS;
     const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
+    static int  prevx = INT_MAX;
+    static int  prevy = INT_MAX;
 
-    if (pathpointnum && ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT && ABS(pathpoints[pathpointnum - 1].y - y) < FRACUNIT)
+    if (pathpointnum && ABS(prevx - x) < FRACUNIT && ABS(prevy - y) < FRACUNIT)
         return;
 
     if (pathpointnum >= pathpointnum_max)
@@ -640,10 +642,8 @@ void AM_AddToPath(void)
         pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
-    pathpoints[pathpointnum].x = x;
-    pathpoints[pathpointnum].y = y;
-
-    pathpointnum++;
+    prevx = pathpoints[pathpointnum].x = x;
+    prevy = pathpoints[pathpointnum++].y = y;
 }
 
 void AM_ToggleRotateMode(void)
