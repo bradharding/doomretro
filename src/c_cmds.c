@@ -3711,7 +3711,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
 
         outside = outside * 100 / numsectors;
-        C_TabbedOutput(tabs, "   Inside/outside\t<b>%i%%</b>/<b>%i%%</b>", 100 - outside, outside);
+        C_TabbedOutput(tabs, "   Inside/outside\t<b>%i%%/%i%%</b>", 100 - outside, outside);
     }
 
     temp = commify(totalsecret);
