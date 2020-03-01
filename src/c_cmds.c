@@ -3700,18 +3700,18 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     {
-        int outdoor = 0;
+        int outside = 0;
 
         for (int i = 0; i < numsectors; i++)
         {
             short   picnum = sectors[i].ceilingpic;
 
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
-                outdoor++;
+                outside++;
         }
 
-        C_TabbedOutput(tabs, "   Indoor/outdoor\t<b>%i%%</b>/<b>%i%%</b>",
-            100 - outdoor * 100 / numsectors, outdoor * 100 / numsectors);
+        outside = outside * 100 / numsectors;
+        C_TabbedOutput(tabs, "   Inside/outside\t<b>%i%%</b>/<b>%i%%</b>", 100 - outside, outside);
     }
 
     temp = commify(totalsecret);
