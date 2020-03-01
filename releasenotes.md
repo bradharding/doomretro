@@ -1,6 +1,7 @@
 ### DOOM Retro v3.5.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
 * Item fogs spawned while using the `spawn` or `respawnitems` CCMDs are now always positioned correctly.
@@ -10,6 +11,7 @@
   * All blood spilled will now be red as intended when the CVAR is `red`.
 * Flying monsters spawned using the `spawn` CCMD are now spawned higher off the ground.
 * The player’s path around the current map will now always be recorded even if the `am_path` CVAR is `off`, but still won’t be displayed in the automap unless the CVAR is `on`.
+* Additional brightness can now be applied to levels by using the new `r_levelbrightness` CVAR. It can be between `0` and `4` and is `0` by default and when vanilla mode is on.
 
 ---
 
