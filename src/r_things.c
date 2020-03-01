@@ -938,7 +938,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         if (splat && drawbloodsplats)
         {
-            spritelights = scalelight[MIN(((lightlevel + r_levelbrightness * 16) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
             do
             {
@@ -950,7 +950,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 return;
         }
         else if (thing)
-            spritelights = scalelight[MIN(((lightlevel + r_levelbrightness * 16) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         else
             return;
 
@@ -961,7 +961,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         if (!thing)
             return;
 
-        spritelights = scalelight[MIN(((lightlevel + r_levelbrightness * 16) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         drawshadows = false;
     }
 
@@ -1100,7 +1100,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
             {
                 sector_t *sec = viewplayer->mo->subsector->sector;
                 short    lightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
-                int      lightnum = ((lightlevel + r_levelbrightness * 16) >> OLDLIGHTSEGSHIFT) + extralight;
+                int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }

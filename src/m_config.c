@@ -157,7 +157,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_homindicator,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud,                                             BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud_translucency,                                BOOLVALUEALIAS     ),
-    CONFIG_VARIABLE_INT          (r_levelbrightness,                                 NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,                              BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_liquid_current,                                  BOOLVALUEALIAS     ),
@@ -789,8 +788,6 @@ static void M_CheckCVARs(void)
 
     if (r_hud_translucency != false && r_hud_translucency != true)
         r_hud_translucency = r_hud_translucency_default;
-
-    r_levelbrightness = BETWEEN(r_levelbrightness_min, r_levelbrightness, r_levelbrightness_max);
 
     if (r_liquid_bob != false && r_liquid_bob != true)
         r_liquid_bob = r_liquid_bob_default;

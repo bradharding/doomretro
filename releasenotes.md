@@ -11,8 +11,7 @@
   * All blood spilled will now be red as intended when the CVAR is `red`.
 * Flying monsters spawned using the `spawn` CCMD are now spawned higher off the ground.
 * The player’s path around the current map will now always be recorded even if the `am_path` CVAR is `off`, but still won’t be displayed in the automap unless the CVAR is `on`.
-* Additional brightness can now be applied to levels by using the new `r_levelbrightness` CVAR. It can be between `0` and `4` and is `0` by default and when vanilla mode is on.
-* The `mapstats` CCMD now displays how much the current map is indoors and outdoors.
+* The `mapstats` CCMD now displays how much of the current map is indoors versus outdoors.
 
 ---
 
