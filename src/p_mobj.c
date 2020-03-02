@@ -1208,6 +1208,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->spawnpoint = *mthing;
     mobj->musicid = musicid;
 
+    numspawnedthings++;
+
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 

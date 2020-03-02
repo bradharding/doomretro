@@ -136,6 +136,7 @@ int                 numsides;
 side_t              *sides;
 
 int                 numthings;
+int                 numspawnedthings;
 int                 thingid;
 int                 numdecorations;
 
@@ -1645,6 +1646,7 @@ static void P_LoadThings(int lump)
         I_Error("There are no things in this map.");
 
     M_Seed(numthings);
+    numspawnedthings = 0;
     numdecorations = 0;
 
     for (thingid = 0; thingid < numthings; thingid++)

@@ -3648,7 +3648,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", partime / 60, partime % 60);
     }
 
-    temp = commify(numthings);
+    temp = commify(numspawnedthings);
     C_TabbedOutput(tabs, "Things\t<b>%s</b>", temp);
     free(temp);
 
