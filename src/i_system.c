@@ -190,7 +190,7 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
 
-            C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %s).</b></i>",
+            C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s%s%ws%s</b></i> (Build %s).",
                 bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""), build);
 
