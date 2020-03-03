@@ -1,5 +1,6 @@
 ### DOOM Retro v3.5.2
 
+* *DOOM Retro* now uses [*SDL v2.0.12*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
