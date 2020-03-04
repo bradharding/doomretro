@@ -488,7 +488,7 @@ static void HU_DrawHUD(void)
     if ((patch = faces[st_faceindex]))
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab66);
 
-    if (healthhighlight > currenttime)
+    if (healthhighlight > currenttime && r_hud_translucency)
     {
         DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, V_DrawHighlightedHUDNumberPatch);
 
@@ -531,7 +531,7 @@ static void HU_DrawHUD(void)
         if ((patch = (viewplayer->armortype == armortype_green ? greenarmorpatch : bluearmorpatch)))
             hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
-        if (armorhighlight > currenttime)
+        if (armorhighlight > currenttime && r_hud_translucency)
         {
             DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
 
@@ -595,7 +595,7 @@ static void HU_DrawHUD(void)
                 hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
-                (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
+                (ammohighlight > currenttime && r_hud_translucency ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
             if (!gamepaused)
             {
