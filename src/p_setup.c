@@ -135,7 +135,6 @@ line_t              *lines;
 int                 numsides;
 side_t              *sides;
 
-int                 numthings;
 int                 numspawnedthings;
 int                 thingid;
 int                 numdecorations;
@@ -1641,6 +1640,7 @@ static void P_LoadZNodes(int lump)
 static void P_LoadThings(int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
+    int                 numthings;
 
     if (!data || !(numthings = W_LumpLength(lump) / sizeof(mapthing_t)))
         I_Error("There are no things in this map.");

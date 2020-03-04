@@ -107,7 +107,6 @@ extern side_t       *sides;
 
 extern int          numtextures;
 
-extern int          numthings;
 extern int          numspawnedthings;
 extern int          thingid;
 extern int          numdecorations;
