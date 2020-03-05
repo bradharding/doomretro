@@ -10,12 +10,12 @@
   * The CVAR can now be set to `nofuzz`, causing all blood spilled by spectres (as well as the player while they have a partial invisibility power-up) to be red instead of fuzzy.
   * Puffs are now spawned instead of nothing when the CVAR is `none`.
   * All blood spilled will now be red as intended when the CVAR is `red`.
-* Flying monsters spawned using the `spawn` CCMD are now spawned higher off the ground.
+* Flying monsters spawned using the `spawn` CCMD now spawn higher off the ground.
 * The player’s path around the current map will now always be recorded even while the `am_path` CVAR is `off`.
 * The following changes have been made to the `mapstats` CCMD:
-  * The number of things in the map is now accurate.
+  * The total number of things in the current map is now accurate.
   * How much the current map is inside/outside is now displayed.
-* The numbers in the widescreen HUD now flash brighter when they change, regardless of whether the `r_hud_translucency` CVAR is `on` or `off`.
+* The numbers in the widescreen HUD now flash brighter when they change, and do so consistently regardless of whether the `r_hud_translucency` CVAR is `on` or `off`.
 
 ---
 
