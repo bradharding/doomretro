@@ -5916,7 +5916,6 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "pistol"))
         result = true;
     else
-    {
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
         {
             char    *temp1 = removenonalpha(mobjinfo[i].name1);
@@ -5941,7 +5940,6 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
             if (result)
                 break;
         }
-    }
 
     free(parm);
     return result;
