@@ -15,7 +15,7 @@
 * The following changes have been made to the `mapstats` CCMD:
   * The number of things in the map is now accurate.
   * How much the current map is inside/outside is now displayed.
-* The numbers in the widescreen HUD will now always be displayed correctly when the `r_hud_translucency` CVAR is `off`.
+* The numbers in the widescreen HUD are now flash brighter when they change, regardless of whether the `r_hud_translucency` CVAR is `on` or `off`.
 
 ---
 
