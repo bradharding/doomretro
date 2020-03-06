@@ -69,6 +69,7 @@
 #include "c_console.h"
 #include "i_swap.h"
 #include "m_misc.h"
+#include "p_setup.h"
 #include "r_main.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -88,6 +89,7 @@ static rpatch_t     *texture_composites;
 static short        BIGDOOR7;
 static short        FIREBLU1;
 static short        SKY1;
+static short        STEP2;
 
 extern int          numspritelumps;
 extern int          numtextures;
@@ -467,7 +469,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 ? 0 : texpatch->originy);
+                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && !canmodify) ? 0 : texpatch->originy);
 
                 // set up the post's data
                 post->topdelta = top + oy;
@@ -594,6 +596,7 @@ void R_InitPatches(void)
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
+    STEP2 = R_CheckTextureNumForName("STEP2");
 
     for (int i = 0; i < numspritelumps; i++)
         createPatch(firstspritelump + i);
