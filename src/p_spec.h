@@ -236,7 +236,7 @@ typedef struct
 
 #define MAXBUTTONS  32
 
-// 1 second, in ticks.
+// 1 second, in tics.
 #define BUTTONTIME  35
 
 extern button_t *buttonlist;

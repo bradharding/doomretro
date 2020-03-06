@@ -242,7 +242,7 @@ static int                  st_shotguns;
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
 
-// a random number per tick
+// a random number per tic
 static int                  st_randomnumber;
 
 int                         oldhealth = 100;

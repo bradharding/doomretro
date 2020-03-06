@@ -297,7 +297,7 @@ void T_MoveFloor(floormove_t *floor)
 // T_MoveElevator()
 //
 // Move an elevator to it's destination (up or down)
-// Called once per tick for each moving floor.
+// Called once per tic for each moving floor.
 //
 // Passed an elevator_t structure that contains all pertinent info about the
 // move. See P_SPEC.H for fields.

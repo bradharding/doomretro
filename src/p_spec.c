@@ -2251,7 +2251,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case 1:
-                // 2/5 damage per 31 ticks
+                // 2/5 damage per 31 tics
                 if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
@@ -2259,7 +2259,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case 2:
-                // 5/10 damage per 31 ticks
+                // 5/10 damage per 31 tics
                 if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
@@ -2267,7 +2267,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case 3:
-                // 10/20 damage per 31 ticks
+                // 10/20 damage per 31 tics
                 if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5) // take damage even with suit
                     if (!(leveltime & 0x1F))
                         P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);

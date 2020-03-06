@@ -39,17 +39,15 @@
 #if !defined(__D_TICCMD_H__)
 #define __D_TICCMD_H__
 
-// The data sampled per tick (single player)
-// and transmitted to other peers (multiplayer).
-// Mainly movements/button commands per game tick,
-// plus a checksum for internal state consistency.
+// The data sampled per tic..
+// Mainly movements/button commands per game tic.
 typedef struct
 {
     char    forwardmove;    // * 2048 for move
     char    sidemove;       // * 2048 for move
     short   angleturn;      // << 16 for angle delta
     byte    buttons;
-    int lookdir;
+    int     lookdir;
 } ticcmd_t;
 
 #endif

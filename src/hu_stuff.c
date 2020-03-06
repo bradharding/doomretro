@@ -1072,7 +1072,7 @@ void HU_Ticker(void)
 {
     const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
-    // tick down message counter if message is up
+    // tic down message counter if message is up
     if (message_counter && (!menuactive || message_menu) && !idmypos && !--message_counter)
     {
         message_on = false;

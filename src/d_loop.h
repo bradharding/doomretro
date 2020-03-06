@@ -40,9 +40,9 @@
 #define __D_LOOP_H__
 
 // Tic handling related.
-#define BACKUPTICS  6
+#define BACKUPTICS  8
 
-// how many ticks to run?
+// how many tics to run?
 void TryRunTics(void);
 
 #endif

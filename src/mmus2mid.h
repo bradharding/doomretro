@@ -45,7 +45,7 @@
 
 typedef struct                          // a midi file
 {
-    int                 divisions;      // number of ticks per quarter note
+    int                 divisions;      // number of tics per quarter note
 
     struct
     {

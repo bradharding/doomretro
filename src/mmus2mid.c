@@ -352,7 +352,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     // allocate the first track which is a special tempo/key track
     // note multiple tracks means midi format 1
 
-    // set the divisions (ticks per quarter note)
+    // set the divisions (tics per quarter note)
     mididata->divisions = 89;
 
     // allocate for midi tempo/key track, allow for end of track
@@ -579,7 +579,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
     if (!(*mid = (uint8_t *)malloc(total)))
         return;
 
-    // fill in number of tracks and big endian divisions (ticks/qnote)
+    // fill in number of tracks and big endian divisions (tics/qnote)
     midihdr[10] = 0;
     midihdr[11] = (uint8_t)ntrks;   // set number of tracks in header
     midihdr[12] = (mididata->divisions >> 8) & 0x7F;

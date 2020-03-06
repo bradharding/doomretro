@@ -52,7 +52,7 @@
 
 // Finally, for odd reasons, the player input
 // is buffered within the player data struct,
-// as commands per game tick.
+// as commands per game tic.
 #include "d_ticcmd.h"
 
 typedef enum

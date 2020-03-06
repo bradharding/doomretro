@@ -1003,7 +1003,7 @@ void WI_CheckForAccelerate(void)
         viewplayer->usedown = false;
 }
 
-// Updates stuff each tick
+// Updates stuff each tic
 void WI_Ticker(void)
 {
     if (menuactive || paused || consoleactive)
