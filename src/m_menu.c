@@ -3561,10 +3561,15 @@ void M_StartControlPanel(void)
 
         if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(8);
-    }
 
-    if (automapactive)
-        AM_SetAutomapSize();
+        if (automapactive)
+        {
+            AM_SetAutomapSize();
+
+            if (!am_rotatemode)
+                viewplayer->mo->angle = ANG90;
+        }
+    }
 }
 
 //

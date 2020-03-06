@@ -1975,7 +1975,7 @@ static void AM_SetFrameVariables(void)
     am_frame.center.x = x;
     am_frame.center.y = y;
 
-    if (am_rotatemode)
+    if (am_rotatemode || menuactive)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
         const fixed_t   dx = m_w / 2;

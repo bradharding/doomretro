@@ -16,6 +16,8 @@
   * The total number of things in the current map is now accurate.
   * How much the current map is inside/outside is now displayed.
 * The numbers in the widescreen HUD now flash brighter when they change, and do so regardless of whether the `r_hud_translucency` CVAR is `on` or `off`.
+* 3D bridges that use the `STEP2` wall texture are now rendered correctly.
+* The automap will now rotate correctly in the background if the menu is open and the `am_rotatemode` CVAR is `off`.
 
 ---
 
