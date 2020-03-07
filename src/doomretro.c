@@ -78,42 +78,6 @@ static void I_SetProcessDPIAware(void)
     }
 }
 
-static HHOOK    g_hKeyboardHook;
-
-void G_ScreenShot(void);
-
-LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
-{
-    dboolean    bEatKeystroke = false;
-
-    if (nCode == HC_ACTION)
-        switch (wParam)
-        {
-            case WM_KEYDOWN:
-            case WM_SYSKEYDOWN:
-            case WM_KEYUP:
-            case WM_SYSKEYUP:
-                if (windowfocused)
-                {
-                    DWORD   vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
-
-                    if (vkCode == VK_LWIN || vkCode == VK_RWIN)
-                        bEatKeystroke = ((!menuactive && !paused && !consoleactive) || vid_fullscreen);
-                    else if (keyboardscreenshot == KEY_PRINTSCREEN && vkCode == VK_SNAPSHOT)
-                    {
-                        if (wParam == WM_KEYDOWN)
-                            G_ScreenShot();
-
-                        bEatKeystroke = true;
-                    }
-                }
-
-                break;
-        }
-
-    return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
-}
-
 static WNDPROC  oldProc;
 static HICON    icon;
 
@@ -249,7 +213,6 @@ void I_InitWindows32(void)
 void I_ShutdownWindows32(void)
 {
     DestroyIcon(icon);
-    UnhookWindowsHookEx(g_hKeyboardHook);
     ReleaseMutex(hInstanceMutex);
     CloseHandle(hInstanceMutex);
     I_AccessibilityShortcutKeys(true);
@@ -269,8 +232,6 @@ int main(int argc, char **argv)
         SetForegroundWindow(FindWindow(PACKAGE_MUTEX, NULL));
         return 1;
     }
-
-    g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
     // Save the current sticky/toggle/filter key settings so they can be restored them later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
