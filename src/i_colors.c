@@ -83,6 +83,7 @@ static byte general[256] =
 #define RED         176
 #define WHITE       4
 
+byte    *tinttab15;
 byte    *tinttab20;
 byte    *tinttab25;
 byte    *tinttab33;
@@ -256,6 +257,7 @@ void I_InitTintTables(byte *palette)
 {
     int lump = W_CheckNumForName("TRANMAP");
 
+    tinttab15 = GenerateTintTable(palette, 15, general, ALL);
     tinttab20 = GenerateTintTable(palette, 20, general, ALL);
     tinttab25 = GenerateTintTable(palette, 25, general, ALL);
     tinttab33 = GenerateTintTable(palette, 33, general, ALL);

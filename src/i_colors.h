@@ -42,6 +42,7 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
+extern byte *tinttab15;
 extern byte *tinttab20;
 extern byte *tinttab25;
 extern byte *tinttab33;
