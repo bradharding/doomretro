@@ -1657,11 +1657,17 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
             if (target->player)
-                C_Obituary("%s %s %s by an exploding %s.",
-                    playername,
-                    (M_StringCompare(playername, playername_default) ? "were" : "was"),
-                    (gibbed ? "gibbed" : "killed"),
-                    inflicter->info->name1);
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Obituary("You were %s by an exploding %s.",
+                        (gibbed ? "gibbed" : "killed"),
+                        inflicter->info->name1);
+                else
+                    C_Obituary("%s was %s by an exploding %s.",
+                        playername,
+                        (gibbed ? "gibbed" : "killed"),
+                        inflicter->info->name1);
+            }
             else
             {
                 char    targetname[100];
@@ -1720,7 +1726,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 {
                     if (target->player)
                         C_Obituary("%s %s themselves with their own %s.",
-                            playername,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (gibbed ? "gibbed" : "killed"),
                             weaponinfo[readyweapon].description);
                     else
@@ -1737,7 +1743,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
                         C_Obituary("%s %s %s with their %s%s.",
-                            playername,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
                             weaponinfo[readyweapon].description,
@@ -1751,9 +1757,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             if (source->type == MT_TFOG)
             {
                 if (target->player)
-                    C_Obituary("%s %s telefragged.",
-                        playername,
-                        (M_StringCompare(playername, playername_default) ? "were" : "was"));
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_Obituary("You were telefragged.");
+                    else
+                        C_Obituary("%s was telefragged.", playername);
+                }
                 else
                 {
                     char    targetname[100];
@@ -1820,9 +1829,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         sector_t    *sector = viewplayer->mo->subsector->sector;
 
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
-            C_Obituary("%s %s crushed to death.",
-                playername,
-                (M_StringCompare(playername, playername_default) ? "were" : "was"));
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Obituary("You were crushed to death.");
+            else
+                C_Obituary("%s was crushed to death.", playername);
+
+        }
         else
         {
             if (sector->terraintype != SOLID)
@@ -1833,22 +1846,31 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     "slime", "gray slime", "goop",   "icy water", "tar",  "sludge"
                 };
 
-                C_Obituary("%s died in %s.", playername, liquids[sector->terraintype]);
+                C_Obituary("%s died in %s.",
+                    (M_StringCompare(playername, playername_default) ? "You" : playername),
+                    liquids[sector->terraintype]);
             }
             else
             {
                 short   floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
-                    C_Obituary("%s died on molten rock.", playername);
+                    C_Obituary("%s died on molten rock.",
+                        (M_StringCompare(playername, playername_default) ? "You" : playername));
                 else if (healthcvar)
-                    C_Obituary("%s killed %s.",
-                        playername,
-                        (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_Obituary("You killed yourself.");
+                    else
+                        C_Obituary("%s killed themselves.", playername);
+                }
                 else
-                    C_Obituary("%s blew %s up.",
-                        playername,
-                        (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_Obituary("You blew yourself up.");
+                    else
+                        C_Obituary("%s blew themselves up.", playername);
+                }
             }
         }
     }
