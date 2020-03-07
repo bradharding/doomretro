@@ -119,6 +119,17 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 }
 
 //
+// P_EquipWeapon
+//
+void P_EquipWeapon(weapontype_t weapon)
+{
+    viewplayer->pendingweapon = weapon;
+
+    if (weaponinfo[weapon].ammotype != weaponinfo[viewplayer->readyweapon].ammotype)
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+}
+
+//
 // P_BringUpWeapon
 // Starts bringing the pending weapon up
 // from the bottom of the screen.
@@ -161,30 +172,30 @@ dboolean P_CheckAmmo(weapontype_t weapon)
     // Preferences are set here.
     if (viewplayer->weaponowned[wp_plasma]
         && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].minammo)
-        viewplayer->pendingweapon = wp_plasma;
+        P_EquipWeapon(wp_plasma);
     else if (viewplayer->weaponowned[wp_supershotgun]
         && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].minammo
         && viewplayer->preferredshotgun == wp_supershotgun)
-        viewplayer->pendingweapon = wp_supershotgun;
+        P_EquipWeapon(wp_supershotgun);
     else if (viewplayer->weaponowned[wp_chaingun]
         && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].minammo)
-        viewplayer->pendingweapon = wp_chaingun;
+        P_EquipWeapon(wp_chaingun);
     else if (viewplayer->weaponowned[wp_shotgun]
         && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].minammo)
-        viewplayer->pendingweapon = wp_shotgun;
+        P_EquipWeapon(wp_shotgun);
     else if (viewplayer->weaponowned[wp_pistol]
         && viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].minammo)
-        viewplayer->pendingweapon = wp_pistol;
+        P_EquipWeapon(wp_pistol);
     else if (viewplayer->weaponowned[wp_chainsaw])
-        viewplayer->pendingweapon = wp_chainsaw;
+        P_EquipWeapon(wp_chainsaw);
     else if (viewplayer->weaponowned[wp_missile]
         && viewplayer->ammo[am_misl] >= weaponinfo[wp_missile].minammo)
-        viewplayer->pendingweapon = wp_missile;
+        P_EquipWeapon(wp_missile);
     else if (viewplayer->weaponowned[wp_bfg]
         && viewplayer->ammo[am_cell] >= weaponinfo[wp_bfg].minammo)
-        viewplayer->pendingweapon = wp_bfg;
+        P_EquipWeapon(wp_bfg);
     else
-        viewplayer->pendingweapon = wp_fist;
+        P_EquipWeapon(wp_fist);
 
     return false;
 }

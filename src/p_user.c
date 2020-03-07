@@ -484,7 +484,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
 
     if (newweapon != wp_nochange && newweapon != viewplayer->readyweapon && viewplayer->weaponowned[newweapon])
     {
-        viewplayer->pendingweapon = newweapon;
+        P_EquipWeapon(newweapon);
 
         if (newweapon == wp_fist && viewplayer->powers[pw_strength])
             S_StartSound(NULL, sfx_getpow);

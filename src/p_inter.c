@@ -247,12 +247,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
     {
         case am_clip:
             if (viewplayer->readyweapon == wp_fist)
-            {
-                if (viewplayer->weaponowned[wp_chaingun])
-                    viewplayer->pendingweapon = wp_chaingun;
-                else
-                    viewplayer->pendingweapon = wp_pistol;
-            }
+                P_EquipWeapon(viewplayer->weaponowned[wp_chaingun] ? wp_chaingun : wp_pistol);
 
             break;
 
@@ -261,17 +256,16 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
             {
                 if (viewplayer->weaponowned[wp_supershotgun] && viewplayer->preferredshotgun == wp_supershotgun
                     && viewplayer->ammo[am_shell] >= 2)
-                    viewplayer->pendingweapon = wp_supershotgun;
+                    P_EquipWeapon(wp_supershotgun);
                 else if (viewplayer->weaponowned[wp_shotgun])
-                    viewplayer->pendingweapon = wp_shotgun;
+                    P_EquipWeapon(wp_shotgun);
             }
 
             break;
 
         case am_cell:
-            if (viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol)
-                if (viewplayer->weaponowned[wp_plasma])
-                    viewplayer->pendingweapon = wp_plasma;
+            if ((viewplayer->readyweapon == wp_fist || viewplayer->readyweapon == wp_pistol) && viewplayer->weaponowned[wp_plasma])
+                P_EquipWeapon(wp_plasma);
 
             break;
 
@@ -357,7 +351,7 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-        viewplayer->pendingweapon = weapon;
+        P_EquipWeapon(weapon);
     }
 
     return (gaveweapon || gaveammo);
@@ -376,7 +370,7 @@ dboolean P_GiveAllWeapons(void)
         viewplayer->fistorchainsaw = wp_chainsaw;
 
         if (viewplayer->readyweapon == wp_fist)
-            viewplayer->pendingweapon = wp_chainsaw;
+            P_EquipWeapon(wp_chainsaw);
 
         result = true;
     }
@@ -393,7 +387,7 @@ dboolean P_GiveAllWeapons(void)
         viewplayer->preferredshotgun = wp_supershotgun;
 
         if (viewplayer->readyweapon == wp_shotgun)
-            viewplayer->pendingweapon = wp_supershotgun;
+            P_EquipWeapon(wp_supershotgun);
 
         result = true;
     }
@@ -989,7 +983,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
 
             if (viewplayer->readyweapon != wp_fist && !strength)
-                viewplayer->pendingweapon = wp_fist;
+                P_EquipWeapon(wp_fist);
 
             viewplayer->fistorchainsaw = wp_fist;
             sound = sfx_getpow;
@@ -1457,7 +1451,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             viewplayer->fistorchainsaw = wp_chainsaw;
 
             if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
-                viewplayer->pendingweapon = wp_chainsaw;
+                P_EquipWeapon(wp_chainsaw);
 
             return true;
 

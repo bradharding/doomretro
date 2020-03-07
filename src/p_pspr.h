@@ -79,5 +79,6 @@ typedef struct
 } pspdef_t;
 
 dboolean P_CheckAmmo(weapontype_t weapon);
+void P_EquipWeapon(weapontype_t weapon);
 
 #endif

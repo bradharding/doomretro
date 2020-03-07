@@ -205,7 +205,7 @@ void G_NextWeapon(void)
 
     if (i != readyweapon)
     {
-        viewplayer->pendingweapon = i;
+        P_EquipWeapon(i);
 
         if (i == wp_fist && viewplayer->powers[pw_strength])
             S_StartSound(NULL, sfx_getpow);
@@ -234,7 +234,7 @@ void G_PrevWeapon(void)
 
     if (i != readyweapon)
     {
-        viewplayer->pendingweapon = i;
+        P_EquipWeapon(i);
 
         if (i == wp_fist && viewplayer->powers[pw_strength])
             S_StartSound(NULL, sfx_getpow);

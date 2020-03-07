@@ -2275,7 +2275,7 @@ static void give_cmd_func2(char *cmd, char *parms)
 
             viewplayer->weaponowned[wp_pistol] = true;
             oldweaponsowned[wp_pistol] = true;
-            viewplayer->pendingweapon = wp_pistol;
+            P_EquipWeapon(wp_pistol);
             C_HideConsole();
             free(parm);
             return;
@@ -5985,7 +5985,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                     result = true;
                 }
 
-            viewplayer->pendingweapon = wp_fist;
+            P_EquipWeapon(wp_fist);
 
             for (ammotype_t i = 0; i < NUMAMMO; i++)
                 if (viewplayer->ammo[i])
@@ -6043,7 +6043,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                     result = true;
                 }
 
-            viewplayer->pendingweapon = wp_fist;
+            P_EquipWeapon(wp_fist);
 
             if (result)
                 C_HideConsole();
@@ -6060,7 +6060,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                     result = true;
                 }
 
-            viewplayer->pendingweapon = wp_fist;
+            P_EquipWeapon(wp_fist);
 
             if (result)
                 C_HideConsole();
