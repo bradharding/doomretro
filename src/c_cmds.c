@@ -7149,40 +7149,43 @@ static void player_cvars_func2(char *cmd, char *parms)
             sscanf(parms, "%10d", &value);
             value = BETWEEN(health_min, value, maxhealth);
 
-            if (viewplayer->health <= 0)
+            if (value != viewplayer->health)
             {
-                if (value <= 0)
+                if (viewplayer->health <= 0)
                 {
-                    viewplayer->health = value;
-                    viewplayer->mo->health = value;
-                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                    if (value <= 0)
+                    {
+                        viewplayer->health = value;
+                        viewplayer->mo->health = value;
+                        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                    }
+                    else
+                    {
+                        P_ResurrectPlayer(value);
+                        P_AddBonus();
+                        S_StartSound(NULL, sfx_itemup);
+                    }
                 }
                 else
                 {
-                    P_ResurrectPlayer(value);
-                    P_AddBonus();
-                    S_StartSound(NULL, sfx_itemup);
-                }
-            }
-            else
-            {
-                if (value < viewplayer->health)
-                {
-                    healthcvar = true;
-                    P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
-                    healthcvar = false;
-                }
-                else
-                {
-                    P_UpdateHealthStat(value - viewplayer->health);
-                    viewplayer->health = value;
-                    viewplayer->mo->health = value;
-                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-                    P_AddBonus();
-                    S_StartSound(NULL, sfx_itemup);
-                }
+                    if (value < viewplayer->health)
+                    {
+                        healthcvar = true;
+                        P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
+                        healthcvar = false;
+                    }
+                    else
+                    {
+                        P_UpdateHealthStat(value - viewplayer->health);
+                        viewplayer->health = value;
+                        viewplayer->mo->health = value;
+                        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                        P_AddBonus();
+                        S_StartSound(NULL, sfx_itemup);
+                    }
 
-                C_HideConsole();
+                    C_HideConsole();
+                }
             }
         }
         else
