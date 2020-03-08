@@ -3071,11 +3071,7 @@ dboolean M_Responder(event_t *ev)
     // screenshot
     if (key == keyboardscreenshot)
     {
-#if defined(_WIN32)
-        if (key != KEY_PRINTSCREEN)
-#endif
-            G_ScreenShot();
-
+        G_ScreenShot();
         return false;
     }
 
