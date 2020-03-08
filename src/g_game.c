@@ -1059,7 +1059,8 @@ static void G_DoReborn(void)
 
 void G_ScreenShot(void)
 {
-    gameaction = ga_screenshot;
+    if (!splashscreen)
+        gameaction = ga_screenshot;
 }
 
 void G_DoScreenShot(void)
