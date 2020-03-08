@@ -212,6 +212,9 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char **argv)
 {
+    myargc = argc;
+    myargv = argv;
+
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
@@ -236,9 +239,6 @@ int main(int argc, char **argv)
 
     I_SetProcessDPIAware();
 #endif
-
-    myargc = argc;
-    myargv = argv;
 
     D_DoomMain();
 

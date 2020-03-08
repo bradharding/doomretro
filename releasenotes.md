@@ -17,7 +17,7 @@
   * The total number of things in the current map is now accurate.
   * How much the current map is inside/outside is now displayed.
 * The following changes have been made to the numbers displayed in the widescreen HUD:
-  * Health, armor and ammo now flash slightly brighter when they change, and do so regardless of whether the `r_hud_translucency` CVAR is `on` or `off`.
+  * Health, armor and ammo now flash slightly brighter when they change, and do so even when the `r_hud_translucency` CVAR is `off`.
   * Ammo now flashes when the player switches to a weapon with different ammo.
   * Health and ammo now flash on and off when low and the `r_hud_translucency` CVAR is `off`.
 * 3D bridges that use the `STEP2` wall texture are now rendered correctly.
