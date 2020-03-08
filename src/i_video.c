@@ -1976,8 +1976,6 @@ void I_InitGraphics(void)
     I_InitWindows32();
 #endif
 
-    SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
-
     SDL_SetWindowTitle(window, PACKAGE_NAME);
 
     I_UpdateBlitFunc(false);
