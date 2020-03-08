@@ -91,6 +91,7 @@ extern int          numcolormaps;   // killough 4/4/98: dynamic number of maps
 extern lighttable_t **colormaps;
 extern int          extralight;
 extern lighttable_t *fixedcolormap;
+extern dboolean     setsizeneeded;
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.

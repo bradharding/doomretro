@@ -62,6 +62,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "r_main.h"
 #include "s_sound.h"
 #include "v_video.h"
 #include "version.h"
@@ -195,7 +196,6 @@ dboolean            alwaysrun = alwaysrun_default;
 
 evtype_t            lasteventtype = ev_none;
 
-extern dboolean     setsizeneeded;
 extern int          st_palette;
 extern int          windowborderwidth;
 extern int          windowborderheight;

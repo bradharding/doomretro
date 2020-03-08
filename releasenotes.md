@@ -2,14 +2,14 @@
 
 * *DOOM Retro* now uses [*SDL v2.0.12*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug has been fixed whereby quickly tapping a key would be ignored in some rare instances.
+* The keyboard controls are now much more responsive.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
 * Item fogs spawned while using the `spawn` or `respawnitems` CCMDs are now always positioned correctly.
 * The following changes have been made to the `r_blood` CVAR:
   * The CVAR can now be set to `nofuzz`, causing all blood spilled by spectres (as well as the player while they have a partial invisibility power-up) to be red instead of fuzzy.
-  * Puffs are now spawned instead of nothing when the CVAR is `none`.
+  * Puffs are now spawned rather than nothing when the CVAR is `none`.
   * All blood spilled will now be red when the CVAR is `red`, and green when the CVAR is `green`.
 * Flying monsters spawned using the `spawn` CCMD now spawn higher off the ground.
 * The player’s path around the current map will now always be recorded even while the `am_path` CVAR is `off`.

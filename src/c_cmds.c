@@ -137,7 +137,6 @@ dboolean            vanilla = false;
 
 char                *version = version_default;
 
-extern dboolean     setsizeneeded;
 extern char         *packageconfig;
 extern int          st_palette;
 extern int          timer;

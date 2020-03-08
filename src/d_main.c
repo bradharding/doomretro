@@ -215,7 +215,6 @@ void D_PostEvent(event_t *ev)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t         wipegamestate = GS_TITLESCREEN;
 
-extern dboolean     setsizeneeded;
 extern dboolean     message_on;
 extern gameaction_t loadaction;
 

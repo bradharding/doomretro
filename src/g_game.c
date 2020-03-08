@@ -1173,8 +1173,6 @@ int G_GetParTime(void)
     }
 }
 
-extern int  episode;
-
 static void G_DoCompleted(void)
 {
     int map = (gameepisode - 1) * 10 + gamemap;
@@ -1404,8 +1402,6 @@ void G_LoadGame(char *name)
     M_StringCopy(savename, name, sizeof(savename));
     gameaction = ga_loadgame;
 }
-
-extern dboolean setsizeneeded;
 
 void G_DoLoadGame(void)
 {
