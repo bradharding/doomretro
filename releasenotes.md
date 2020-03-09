@@ -14,8 +14,9 @@
 * Flying monsters spawned using the `spawn` CCMD now spawn higher off the ground.
 * The player’s path around the current map will now always be recorded even while the `am_path` CVAR is `off`.
 * The following changes have been made to the `mapstats` CCMD:
-  * The total number of things in the current map is now accurate.
+  * The total number of things in the current map is now correct.
   * How much the current map is inside/outside is now displayed.
+* The number of times the player has died in the current map is now correct in the `playerstats` CCMD.
 * The following changes have been made to the numbers displayed in the widescreen HUD:
   * Health, armor and ammo now flash slightly brighter when they change, and do so even when the `r_hud_translucency` CVAR is `off`.
   * Ammo now flashes when the player switches to a weapon with different ammo.

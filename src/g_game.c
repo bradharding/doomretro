@@ -553,7 +553,6 @@ void G_DoLoadLevel(void)
     viewplayer->cheated = 0;
     viewplayer->shotshit = 0;
     viewplayer->shotsfired = 0;
-    viewplayer->deaths = 0;
     viewplayer->distancetraveled = 0;
     viewplayer->gamessaved = 0;
     viewplayer->itemspickedup_ammo_bullets = 0;
@@ -1021,12 +1020,14 @@ void G_PlayerReborn(void)
     int killcount = viewplayer->killcount;
     int itemcount = viewplayer->itemcount;
     int secretcount = viewplayer->secretcount;
+    int deaths = viewplayer->deaths;
 
     memset(viewplayer, 0, sizeof(*viewplayer));
 
     viewplayer->killcount = killcount;
     viewplayer->itemcount = itemcount;
     viewplayer->secretcount = secretcount;
+    viewplayer->deaths = deaths;
 
     // don't do anything immediately
     viewplayer->usedown = true;
