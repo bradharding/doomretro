@@ -2827,6 +2827,8 @@ void P_SetupLevel(int ep, int map)
         viewplayer->cheats &= ~CF_ALLMAP_THINGS;
     }
 
+    prevlumpnum = lumpnum;
+
     mapformat = P_CheckMapFormat(lumpnum);
 
     canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || (sigil && gamemission == doom) || gamemission == pack_nerve
