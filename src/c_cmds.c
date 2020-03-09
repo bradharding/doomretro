@@ -4752,6 +4752,8 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(viewplayer->deaths);
     temp2 = commify(stat_deaths);
     C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     temp1 = commify(viewplayer->cheated);
     temp2 = commify(stat_cheated);
