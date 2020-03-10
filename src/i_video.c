@@ -80,6 +80,7 @@
 #endif
 
 // CVARs
+dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
@@ -192,7 +193,6 @@ HANDLE              CapFPSEvent;
 #endif
 
 static dboolean     capslock;
-dboolean            alwaysrun = alwaysrun_default;
 
 evtype_t            lasteventtype = ev_none;
 

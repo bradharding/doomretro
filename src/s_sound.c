@@ -208,29 +208,28 @@ void S_Init(void)
 
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
             {
-                if (!CacheSFX(sfx))
-                    if (W_CheckMultipleLumps(namebuf) > 1)
+                if (!CacheSFX(sfx) && W_CheckMultipleLumps(namebuf) > 1)
+                {
+                    sfx->lumpnum = W_GetLastNumForName(namebuf);
+
+                    if (!CacheSFX(sfx))
+                        sfx->lumpnum = -1;
+                    else
                     {
-                        sfx->lumpnum = W_GetLastNumForName(namebuf);
+                        char    *temp = uppercase(namebuf);
 
-                        if (!CacheSFX(sfx))
-                            sfx->lumpnum = -1;
-                        else
-                        {
-                            char    *temp = uppercase(namebuf);
-
-                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", temp);
-                            free(temp);
-                        }
+                        C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", temp);
+                        free(temp);
                     }
+                }
 
                 if (sfx->lumpnum == -1)
-                        {
-                            char    *temp = uppercase(namebuf);
+                {
+                    char    *temp = uppercase(namebuf);
 
-                            C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", temp);
-                            free(temp);
-                        }
+                    C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", temp);
+                    free(temp);
+                }
             }
         }
     }
