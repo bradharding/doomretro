@@ -453,7 +453,7 @@ enum
 #define m_novertical_default                    true
 
 #define m_sensitivity_min                       0
-#define m_sensitivity_default                   16
+#define m_sensitivity_default                   8
 #define m_sensitivity_max                       128
 
 #define messages_default                        false

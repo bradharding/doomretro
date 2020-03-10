@@ -3,6 +3,7 @@
 * *DOOM Retro* now uses [*SDL v2.0.12*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The keyboard controls are now much more responsive.
+* The default of the `m_sensitivity` CVAR has been changed from `16` to `8`.
 * Further improvements have been made to the console’s autocomplete feature.
 * Minor changes have been made to text that is output to the console.
 * The value of the `vid_showfps` CVAR will no longer be reset during startup.
