@@ -610,7 +610,6 @@ void AM_ClearMarks(void)
             // clear all marks
             C_Output(s_AMSTR_MARKSCLEARED);
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
-            message_dontfuckwithme = true;
             markpointnum = 0;
         }
         else if (markpress == 1)
@@ -621,8 +620,9 @@ void AM_ClearMarks(void)
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
             C_Output(message);
             HU_SetPlayerMessage(message, false, true);
-            message_dontfuckwithme = true;
         }
+
+        message_dontfuckwithme = true;
     }
 }
 

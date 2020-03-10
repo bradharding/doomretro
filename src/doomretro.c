@@ -101,18 +101,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         else if ((wParam & 0xFFF0) == SC_KEYMENU)
             return false;
     }
-    else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))
+    else if (msg == WM_SYSKEYDOWN)
     {
-        I_ToggleFullscreen();
-        return true;
+        if (wParam == VK_RETURN && !(lParam & 0x40000000))
+        {
+            I_ToggleFullscreen();
+            return true;
+        }
     }
     else if (msg == WM_DEVICECHANGE)
     {
         I_ShutdownGamepad();
         I_InitGamepad();
     }
-    else if (msg == WM_SIZE && !vid_fullscreen)
-        I_WindowResizeBlit();
+    else if (msg == WM_SIZE)
+    {
+        if (!vid_fullscreen)
+            I_WindowResizeBlit();
+    }
     else if (msg == WM_GETMINMAXINFO)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
