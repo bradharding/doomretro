@@ -38,24 +38,21 @@
 
 static unsigned int seed;
 
-static unsigned int fastrand(void)
-{
-    return ((seed = 214013 * seed + 2531011) >> 16);
-}
+#define FASTRAND    ((seed = 214013 * seed + 2531011) >> 16)
 
 int M_Random(void)
 {
-    return (fastrand() & 255);
+    return (FASTRAND & 255);
 }
 
 int M_SubRandom(void)
 {
-    return ((fastrand() & 510) - 255);
+    return ((FASTRAND & 510) - 255);
 }
 
 int M_RandomInt(int lower, int upper)
 {
-    return (fastrand() % (upper - lower + 1) + lower);
+    return (FASTRAND % (upper - lower + 1) + lower);
 }
 
 int M_RandomIntNoRepeat(int lower, int upper, int previous)

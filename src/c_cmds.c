@@ -2667,7 +2667,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                                         const int   r = M_RandomInt(-1, 1);
 
                                         thing->momx += FRACUNIT * r;
-                                        thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                                        thing->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
                                     }
 
                                     kills++;
@@ -2745,7 +2745,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                     const int   r = M_RandomInt(-1, 1);
 
                     killcmdmobj->momx += FRACUNIT * r;
-                    killcmdmobj->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                    killcmdmobj->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
                 }
 
                 M_snprintf(buffer, sizeof(buffer), "%s was killed.", temp);
@@ -2796,7 +2796,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                                     const int   r = M_RandomInt(-1, 1);
 
                                     thing->momx += FRACUNIT * r;
-                                    thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                                    thing->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
                                 }
 
                                 kills++;

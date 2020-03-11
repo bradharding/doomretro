@@ -428,15 +428,10 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
     dboolean    unblocking = false;
-    int         flags;
-    int         tmflags;
-    dboolean    corpse;
-    int         type;
-
-    flags = thing->flags;
-    tmflags = tmthing->flags;
-    corpse = flags & MF_CORPSE;
-    type = thing->type;
+    int         flags = thing->flags;
+    int         tmflags = tmthing->flags;
+    dboolean    corpse = flags & MF_CORPSE;
+    int         type = thing->type;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (corpse && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && !thing->nudge && thing->z == tmthing->z && r_corpses_nudge)
@@ -445,7 +440,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             const int   r = M_RandomInt(-1, 1);
 
             thing->momx += FRACUNIT * r;
-            thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+            thing->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
             thing->nudge = TICRATE;
 
             if (!(thing->flags2 & MF2_FEETARECLIPPED))
