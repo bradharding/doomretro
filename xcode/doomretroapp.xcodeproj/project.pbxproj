@@ -47,7 +47,6 @@
 		AB5A82931A8DB9EB00AF539F /* m_cheat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82161A8DB9EB00AF539F /* m_cheat.c */; };
 		AB5A82961A8DB9EB00AF539F /* m_menu.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821C1A8DB9EB00AF539F /* m_menu.c */; };
 		AB5A82971A8DB9EB00AF539F /* m_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821E1A8DB9EB00AF539F /* m_misc.c */; };
-		AB5A82981A8DB9EB00AF539F /* m_random.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82201A8DB9EB00AF539F /* m_random.c */; };
 		AB5A829F1A8DB9EB00AF539F /* mmus2mid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */; };
 		AB5A82A01A8DB9EB00AF539F /* p_ceilng.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */; };
 		AB5A82A11A8DB9EB00AF539F /* p_doors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822D1A8DB9EB00AF539F /* p_doors.c */; };
@@ -197,7 +196,6 @@
 		AB5A821D1A8DB9EB00AF539F /* m_menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_menu.h; path = ../src/m_menu.h; sourceTree = SOURCE_ROOT; };
 		AB5A821E1A8DB9EB00AF539F /* m_misc.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_misc.c; path = ../src/m_misc.c; sourceTree = SOURCE_ROOT; };
 		AB5A821F1A8DB9EB00AF539F /* m_misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_misc.h; path = ../src/m_misc.h; sourceTree = SOURCE_ROOT; };
-		AB5A82201A8DB9EB00AF539F /* m_random.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_random.c; path = ../src/m_random.c; sourceTree = SOURCE_ROOT; };
 		AB5A82211A8DB9EB00AF539F /* m_random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_random.h; path = ../src/m_random.h; sourceTree = SOURCE_ROOT; };
 		AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = mmus2mid.c; path = ../src/mmus2mid.c; sourceTree = SOURCE_ROOT; };
 		AB5A822B1A8DB9EB00AF539F /* mmus2mid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmus2mid.h; path = ../src/mmus2mid.h; sourceTree = SOURCE_ROOT; };
@@ -431,7 +429,6 @@
 				AB5A821D1A8DB9EB00AF539F /* m_menu.h */,
 				AB5A821E1A8DB9EB00AF539F /* m_misc.c */,
 				AB5A821F1A8DB9EB00AF539F /* m_misc.h */,
-				AB5A82201A8DB9EB00AF539F /* m_random.c */,
 				AB5A82211A8DB9EB00AF539F /* m_random.h */,
 				AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */,
 				AB5A822B1A8DB9EB00AF539F /* mmus2mid.h */,
@@ -607,7 +604,6 @@
 				AB5A82A91A8DB9EB00AF539F /* p_mobj.c in Sources */,
 				AB5A82851A8DB9EB00AF539F /* g_game.c in Sources */,
 				AB5A82881A8DB9EB00AF539F /* i_gamepad.c in Sources */,
-				AB5A82981A8DB9EB00AF539F /* m_random.c in Sources */,
 				AB5A82CA1A8DB9EB00AF539F /* z_zone.c in Sources */,
 				AB5A82B71A8DB9EB00AF539F /* r_main.c in Sources */,
 				AB5A82B01A8DB9EB00AF539F /* p_switch.c in Sources */,

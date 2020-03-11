@@ -455,7 +455,6 @@
     <ClCompile Include="..\src\m_controls.c" />
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
-    <ClCompile Include="..\src\m_random.c" />
     <ClCompile Include="..\src\mmus2mid.c" />
     <ClCompile Include="..\src\p_ceilng.c" />
     <ClCompile Include="..\src\p_doors.c" />
