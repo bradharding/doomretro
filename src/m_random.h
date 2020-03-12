@@ -62,7 +62,7 @@ static inline int M_RandomIntNoRepeat(int lower, int upper, int previous)
 {
     int randomint;
 
-    while ((randomint = M_RandomInt(lower, upper)) == previous);
+    while ((randomint = (FASTRAND % (upper - lower + 1) + lower)) == previous);
 
     return randomint;
 }

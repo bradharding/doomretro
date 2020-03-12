@@ -89,12 +89,11 @@ void I_InitGamepad(void)
         int numjoysticks = SDL_NumJoysticks();
 
         for (int i = 0; i < numjoysticks; i++)
-            if ((joystick = SDL_JoystickOpen(i)))
-                if (SDL_IsGameController(i))
-                {
-                    gamecontroller = SDL_GameControllerOpen(i);
-                    break;
-                }
+            if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
+            {
+                gamecontroller = SDL_GameControllerOpen(i);
+                break;
+            }
 
         if (!gamecontroller)
             SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
@@ -128,25 +127,25 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
-    if (gamecontroller)
+    if (!gamecontroller)
+        return;
+
+    if (haptic)
     {
-        if (haptic)
-        {
-            SDL_HapticClose(haptic);
-            haptic = NULL;
-            barrelvibrationtics = 0;
-            damagevibrationtics = 0;
-            weaponvibrationtics = 0;
-        }
-
-        SDL_GameControllerClose(gamecontroller);
-        gamecontroller = NULL;
-
-        SDL_JoystickClose(joystick);
-        joystick = NULL;
-
-        SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+        SDL_HapticClose(haptic);
+        haptic = NULL;
+        barrelvibrationtics = 0;
+        damagevibrationtics = 0;
+        weaponvibrationtics = 0;
     }
+
+    SDL_GameControllerClose(gamecontroller);
+    gamecontroller = NULL;
+
+    SDL_JoystickClose(joystick);
+    joystick = NULL;
+
+    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
 }
 
 void I_GamepadVibration(int strength)

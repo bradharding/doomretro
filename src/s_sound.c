@@ -131,24 +131,23 @@ extern dboolean     serverMidiPlaying;
 static void InitSfxModule(void)
 {
     if (I_InitSound())
-    {
         C_Output("Sound effects are playing at a sample rate of %.1fkHz over %i channels%s.", SAMPLERATE / 1000.0f, s_channels,
             (M_StringCompare(SDL_GetCurrentAudioDriver(), "directsound") ? " using the <i><b>DirectSound</b></i> API" : ""));
-        return;
+    else
+    {
+        C_Warning(1, "Sound effects couldn't be initialized.");
+        nosfx = true;
     }
-
-    C_Warning(1, "Sound effects couldn't be initialized.");
-    nosfx = true;
 }
 
 // Initialize music.
 static void InitMusicModule(void)
 {
-    if (I_InitMusic())
-        return;
-
-    C_Warning(1, "Music couldn't be initialized.");
-    nomusic = true;
+    if (!I_InitMusic())
+    {
+        C_Warning(1, "Music couldn't be initialized.");
+        nomusic = true;
+    }
 }
 
 //
@@ -163,17 +162,19 @@ void S_Init(void)
         nomusic = true;
         nosfx = true;
     }
-
-    if (M_CheckParm("-nomusic"))
+    else
     {
-        C_Output("A <b>-nomusic</b> parameter was found on the command-line. Music has been disabled.");
-        nomusic = true;
-    }
+        if (M_CheckParm("-nomusic"))
+        {
+            C_Output("A <b>-nomusic</b> parameter was found on the command-line. Music has been disabled.");
+            nomusic = true;
+        }
 
-    if (M_CheckParm("-nosfx"))
-    {
-        C_Output("A <b>-nosfx</b> parameter was found on the command-line. Sound effects have been disabled.");
-        nosfx = true;
+        if (M_CheckParm("-nosfx"))
+        {
+            C_Output("A <b>-nosfx</b> parameter was found on the command-line. Sound effects have been disabled.");
+            nosfx = true;
+        }
     }
 
     if (!nosfx)
@@ -498,9 +499,8 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
     }
 
     // Check to see if it is audible, and if not, modify the parms
-    if (origin && origin != viewplayer->mo)
-        if (!S_AdjustSoundParms(origin, &volume, &sep))
-            return;
+    if (origin && origin != viewplayer->mo && !S_AdjustSoundParms(origin, &volume, &sep))
+        return;
 
     // kill old sound
     if (origin || (gamestate == GS_FINALE && sfx_id == sfx_dshtgn))
@@ -803,17 +803,16 @@ void S_ParseMusInfo(char *mapid)
                     break;
 
                 // Check number in range
-                if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES)
-                    if (SC_GetString())
-                    {
-                        int lumpnum = W_CheckNumForName(sc_String);
+                if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
+                {
+                    int lumpnum = W_CheckNumForName(sc_String);
 
-                        if (lumpnum >= 0)
-                        {
-                            musinfo.items[num] = lumpnum;
-                            W_CacheLumpNum(lumpnum);
-                        }
+                    if (lumpnum >= 0)
+                    {
+                        musinfo.items[num] = lumpnum;
+                        W_CacheLumpNum(lumpnum);
                     }
+                }
             }
 
         SC_Close();
