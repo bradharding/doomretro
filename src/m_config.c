@@ -902,8 +902,7 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
 
-    if (vid_showfps != false && vid_showfps != true)
-        vid_showfps = vid_showfps_default;
+    vid_showfps = vid_showfps_default;
 
     if (vid_vsync != vid_vsync_adaptive && vid_vsync != vid_vsync_off && vid_vsync != vid_vsync_on)
         vid_vsync = vid_vsync_default;
