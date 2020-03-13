@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_setup.h"
@@ -452,7 +453,7 @@ static void WI_DrawEL(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, sizeof(name), "CWILV%2.2d", wbs->next);
+            M_snprintf(name, sizeof(name), "CWILV%02d", wbs->next);
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
@@ -799,7 +800,11 @@ static void WI_InitStats(void)
     cnt_par = -1;
     cnt_pause = TICRATE;
 
-    C_Output("<b><i>%s</i></b> finished.", maptitle);
+    if (M_StringCompare(playername, playername_default))
+        C_Output("You have finished <b><i>%s</i><b>.", mapnumandtitle);
+    else
+        C_Output("%s has finished <b><i>%s</i><b>.", playername, mapnumandtitle);
+
 
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
@@ -1045,7 +1050,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
     {
         for (int i = 0; i < NUMCMAPS; i++)
         {
-            M_snprintf(name, sizeof(name), "CWILV%2.2d", i);
+            M_snprintf(name, sizeof(name), "CWILV%02d", i);
             callback(name, &lnames[i]);
         }
     }
