@@ -315,7 +315,6 @@ static void WI_DrawWILVchar(int x, int y, int i)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
-static char mapname[128];
 static char nextmapname[128];
 
 static const int chartoi[130] =
@@ -393,7 +392,7 @@ static void WI_DrawLF(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, sizeof(name), "CWILV%2.2d", wbs->last);
+            M_snprintf(name, sizeof(name), "CWILV%02d", wbs->last);
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->last);
 
@@ -412,7 +411,7 @@ static void WI_DrawLF(void)
         }
         else
         {
-            WI_DrawWILV(y, mapname);
+            WI_DrawWILV(y, maptitle);
             y += 14;
         }
     }
@@ -800,7 +799,7 @@ static void WI_InitStats(void)
     cnt_par = -1;
     cnt_pause = TICRATE;
 
-    C_Output("%s finished.", mapname);
+    C_Output("<b><i>%s</i></b> finished.", maptitle);
 
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
@@ -1211,7 +1210,6 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
 
-    M_StringCopy(mapname, maptitle, 128);
     P_MapName(wbs->epsd + 1, wbs->next + 1);
     M_StringCopy(nextmapname, maptitle, 128);
 }
