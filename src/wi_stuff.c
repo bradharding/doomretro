@@ -1078,7 +1078,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
                     if (wbs->epsd != 1 || j != 8)
                     {
                         // animations
-                        M_snprintf(name, sizeof(name), "WIA%i%.2d%.2d", wbs->epsd, j, i);
+                        M_snprintf(name, sizeof(name), "WIA%i%02d%02d", wbs->epsd, j, i);
                         callback(name, &a->p[i]);
                     }
                     else

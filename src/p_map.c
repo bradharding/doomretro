@@ -1999,16 +1999,13 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticali
 
 //
 // SECTOR HEIGHT CHANGING
-// After modifying a sectors floor or ceiling height,
+// After modifying a sector's floor or ceiling height,
 // call this routine to adjust the positions
 // of all things that touch the sector.
 //
 // If anything doesn't fit anymore, true will be returned.
-// If crunch is true, they will take damage
-//  as they are being crushed.
-// If Crunch is false, you should set the sector height back
-//  the way it was and call P_ChangeSector again
-//  to undo the changes.
+// If crunch is true, they will take damage as they are being crushed.
+// If crunch is false, you should set the sector height back the way it was and call P_ChangeSector() again to undo the changes.
 //
 static dboolean crushchange;
 static dboolean nofit;

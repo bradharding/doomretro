@@ -216,7 +216,7 @@ void HU_Init(void)
     {
         char    buffer[9];
 
-        M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
+        M_snprintf(buffer, sizeof(buffer), "STCFN%03d", j++);
         hu_font[i] = W_CacheLumpName(buffer);
     }
 

@@ -199,26 +199,17 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
         unsigned char   nextletter = l->l[i + 1];
         patch_t         *patch = unknownchar;
         int             j = 0;
+        const int       c = letter - CONSOLEFONTSTART;
 
-        if (letter == 194 && nextletter == 176)
+        if (c >= 0 && c < CONSOLEFONTSIZE)
+            patch = consolefont[c];
+
+        if (!i || prevletter == ' ')
         {
-            patch = degree;
-            i++;
-        }
-        else
-        {
-            const int   c = letter - CONSOLEFONTSTART;
-
-            if (c >= 0 && c < CONSOLEFONTSIZE)
-                patch = consolefont[c];
-
-            if (!i || prevletter == ' ')
-            {
-                if (letter == '\'')
-                    patch = lsquote;
-                else if (letter == '\"')
-                    patch = ldquote;
-            }
+            if (letter == '\'')
+                patch = lsquote;
+            else if (letter == '\"')
+                patch = ldquote;
         }
 
         // [BH] apply kerning to certain character pairs
