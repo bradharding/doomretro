@@ -372,20 +372,18 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             {
                 unsigned char   src = underscores[y1 * ORIGINALWIDTH + x1];
 
-                for (int y2 = 0; y2 < scale; y2++)
-                    for (int x2 = 0; x2 < scale; x2++)
-                    {
-                        byte    *dest = &tempscreen[((l->y + y1 + 7) * scale + y2) * SCREENWIDTH + (l->x + x1 - 3) * scale + x2];
+                if (src != ' ')
+                    for (int y2 = 0; y2 < scale; y2++)
+                        for (int x2 = 0; x2 < scale; x2++)
+                        {
+                            byte    *dest = &tempscreen[((l->y + y1 + 6) * scale + y2) * SCREENWIDTH + (l->x + x1 - 3) * scale + x2];
 
-                        if (src == 251)
-                            *dest = 0;
-                        else if (src != ' ')
-                            *dest = src;
-                    }
+                            *dest = (src == 251 ? 0 : src);
+                        }
             }
     }
 
-    // [BH] draw entire message from buffer onto screen with translucency
+    // [BH] draw entire message from buffer onto screen
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
@@ -401,18 +399,15 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             int     dot = yy * SCREENWIDTH + xx;
             byte    *source = &tempscreen[dot];
             byte    *dest1 = &fb1[dot];
-            byte    *dest2 = &fb2[dot];
 
             if (!*source)
-                *dest1 = tinttab50[(nearestblack << 8) + *dest2];
+                *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                byte color = *source;
-
                 if (vid_widescreen && r_hud_translucency && !hacx)
-                    color = tinttab66[(color << 8) + *dest2];
-
-                *dest1 = color;
+                    *dest1 = tinttab66[(*source << 8) + fb2[dot]];
+                else
+                    *dest1 = *source;
             }
         }
 }
