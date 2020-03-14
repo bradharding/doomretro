@@ -114,7 +114,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
     }
 }
 
-static void STlib_DrawBigNum(st_number_t *n)
+void STlib_UpdateBigNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
 
@@ -144,7 +144,7 @@ static void STlib_DrawBigNum(st_number_t *n)
     }
 }
 
-static void STlib_DrawSmallNum(st_number_t *n)
+void STlib_UpdateSmallNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
     int x = n->x;
@@ -164,16 +164,6 @@ static void STlib_DrawSmallNum(st_number_t *n)
             num /= 10;
         }
     }
-}
-
-void STlib_UpdateBigNum(st_number_t *n)
-{
-    STlib_DrawBigNum(n);
-}
-
-void STlib_UpdateSmallNum(st_number_t *n)
-{
-    STlib_DrawSmallNum(n);
 }
 
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)

@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Timestamps in the console are now yellow.
+* Timestamps in the console are now slightly yellow in color.
 * A bug has been fixed whereby screenshots couldn’t be taken while the console was open.
 
 ---
