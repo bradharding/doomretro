@@ -520,8 +520,6 @@ consolecmd_t consolecmds[] =
         "The color of the console's bottom edge (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles obituaries in the console when the player\nor monsters are killed."),
-    CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles timestamps next to player messages and\nobituaries in the console."),
     CMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
         "Dumps the contents of the console to a file."),
     CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
@@ -1722,7 +1720,7 @@ void C_DumpConsoleStringToFile(int index)
             }
         }
 
-        if ((console[index].stringtype == playermessagestring || console[index].stringtype == obituarystring) && con_timestamps)
+        if (console[index].stringtype == playermessagestring || console[index].stringtype == obituarystring)
         {
             char    buffer[9];
 

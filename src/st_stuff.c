@@ -423,7 +423,6 @@ void ST_AutomapEvent(int type)
 }
 
 extern char cheatkey;
-extern int  episode;
 
 static int ST_CalcPainOffset(void);
 

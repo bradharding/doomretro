@@ -70,7 +70,6 @@ extern dboolean     centerweapon;
 extern int          con_backcolor;
 extern int          con_edgecolor;
 extern dboolean     con_obituaries;
-extern dboolean     con_timestamps;
 extern int          crosshair;
 extern int          crosshaircolor;
 extern int          episode;
@@ -368,8 +367,6 @@ enum
 #define con_edgecolor_max                       255
 
 #define con_obituaries_default                  true
-
-#define con_timestamps_default                  true
 
 #define crosshair_min                           crosshair_none
 #define crosshair_default                       crosshair_none

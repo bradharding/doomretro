@@ -120,7 +120,6 @@ static int              outputhistory = -1;
 
 int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
-dboolean                con_timestamps = con_timestamps_default;
 int                     warninglevel = warninglevel_default;
 
 static int              timerx;
@@ -1284,8 +1283,7 @@ void C_Drawer(void)
                     free(temp);
                 }
 
-                if (con_timestamps)
-                    C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 2, y, console[i].tics);
+                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 2, y, console[i].tics);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],

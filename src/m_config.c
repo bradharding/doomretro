@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    183
+#define NUMCVARS                                    182
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -102,7 +102,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (con_backcolor,                                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (con_edgecolor,                                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS     ),
-    CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (crosshair,                                         CROSSHAIRVALUEALIAS),
     CONFIG_VARIABLE_INT          (crosshaircolor,                                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS       ),
@@ -633,9 +632,6 @@ static void M_CheckCVARs(void)
 
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;
-
-    if (con_timestamps != false && con_timestamps != true)
-        con_timestamps = con_timestamps_default;
 
     if (crosshair != crosshair_none && crosshair != crosshair_cross && crosshair != crosshair_dot)
         crosshair = crosshair_default;
