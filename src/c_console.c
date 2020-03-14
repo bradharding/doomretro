@@ -1113,7 +1113,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
         int     width = SHORT(patch->width);
 
         x -= (i && buffer[i] != ':' ? zerowidth : width);
-        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
 
