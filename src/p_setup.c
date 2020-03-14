@@ -2838,9 +2838,9 @@ void P_SetupLevel(int ep, int map)
     C_AddConsoleDivider();
 
     if (M_StringCompare(playername, playername_default))
-        C_Output("You have %s <b><i>%s</i><b>.", (samelevel ? "reentered": "entered"), maptitle);
+        C_PlayerMessage("You have %s <b><i>%s</i><b>.", (samelevel ? "reentered": "entered"), maptitle);
     else
-        C_Output("%s has %s <b><i>%s</i><b>.", playername, (samelevel ? "reentered" : "entered"), maptitle);
+        C_PlayerMessage("%s has %s <b><i>%s</i><b>.", playername, (samelevel ? "reentered" : "entered"), maptitle);
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT * 2;
