@@ -4754,6 +4754,12 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    temp1 = commify(viewplayer->suicides);
+    temp2 = commify(stat_suicides);
+    C_TabbedOutput(tabs, "Suicides\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     temp1 = commify(viewplayer->cheated);
     temp2 = commify(stat_cheated);
     C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
@@ -4990,6 +4996,10 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = commify(stat_deaths);
     C_TabbedOutput(tabs, "Deaths\t-\t<b>%s</b>", temp1);
+    free(temp1);
+
+    temp1 = commify(stat_suicides);
+    C_TabbedOutput(tabs, "Suicides\t-\t<b>%s</b>", temp1);
     free(temp1);
 
     temp1 = commify(stat_cheated);

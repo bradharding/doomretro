@@ -2826,6 +2826,7 @@ void P_SetupLevel(int ep, int map)
         viewplayer->cheats &= ~CF_ALLMAP;
         viewplayer->cheats &= ~CF_ALLMAP_THINGS;
         viewplayer->deaths = 0;
+        viewplayer->suicides = 0;
     }
 
     prevlumpnum = lumpnum;

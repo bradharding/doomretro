@@ -214,13 +214,14 @@ typedef struct player_s
     fixed_t         bounce;
     fixed_t         bouncemax;
 
-    // For playerstats cmd
+    // For playerstats CCMD
     int             damageinflicted;
     int             damagereceived;
     int             cheated;
     int             shotshit;
     int             shotsfired;
     int             deaths;
+    int             suicides;
     int             mobjcount[NUMMOBJTYPES];
     int             distancetraveled;
     int             gamessaved;

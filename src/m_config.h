@@ -193,6 +193,7 @@ extern unsigned int stat_skilllevel_heynottoorough;
 extern unsigned int stat_skilllevel_hurtmeplenty;
 extern unsigned int stat_skilllevel_ultraviolence;
 extern unsigned int stat_skilllevel_nightmare;
+extern unsigned int stat_suicides;
 extern unsigned int stat_time;
 extern int          stillbob;
 extern dboolean     tossdrop;

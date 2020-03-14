@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    182
+#define NUMCVARS                                    183
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -256,6 +256,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_imtooyoungtodie,                   NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_nightmare,                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_ultraviolence,                     NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_suicides,                                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,                                         NOVALUEALIAS       )
 };
 

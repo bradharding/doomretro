@@ -1021,6 +1021,7 @@ void G_PlayerReborn(void)
     int itemcount = viewplayer->itemcount;
     int secretcount = viewplayer->secretcount;
     int deaths = viewplayer->deaths;
+    int suicides = viewplayer->suicides;
 
     memset(viewplayer, 0, sizeof(*viewplayer));
 
@@ -1028,6 +1029,7 @@ void G_PlayerReborn(void)
     viewplayer->itemcount = itemcount;
     viewplayer->secretcount = secretcount;
     viewplayer->deaths = deaths;
+    viewplayer->suicides = suicides;
 
     // don't do anything immediately
     viewplayer->usedown = true;

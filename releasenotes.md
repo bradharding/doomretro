@@ -5,6 +5,7 @@
 * The `con_timestamps` CVAR has been deprecated. Timestamps will now always appear in the console.
 * Timestamps in the console are now slightly yellow in color.
 * A bug has been fixed whereby screenshots couldn’t be taken while the console was open.
+* The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
 
 ---
 

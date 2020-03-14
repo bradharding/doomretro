@@ -113,6 +113,7 @@ unsigned int    stat_monsterskilled_shotgunguys = 0;
 unsigned int    stat_monsterskilled_spectres = 0;
 unsigned int    stat_monsterskilled_spidermasterminds = 0;
 unsigned int    stat_monsterskilled_zombiemen = 0;
+unsigned int    stat_suicides = 0;
 
 extern dboolean healthcvar;
 extern int      idclevtics;
@@ -1939,6 +1940,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (type == MT_BARREL && source)
         P_SetTarget(&target->target, source);
 
+    target->inflicter = inflicter->type;
+
     if (target->player)
     {
         target->flags &= ~MF_SOLID;
@@ -1948,8 +1951,16 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (automapactive)
             AM_Stop();          // don't die in automap, switch view prior to dying
 
-        viewplayer->deaths++;
-        stat_deaths = SafeAdd(stat_deaths, 1);
+        if ((source && source->player) || (inflicter->type == MT_BARREL && inflicter->inflicter == MT_PLAYER))
+        {
+            viewplayer->suicides++;
+            stat_suicides = SafeAdd(stat_suicides, 1);
+        }
+        else
+        {
+            viewplayer->deaths++;
+            stat_deaths = SafeAdd(stat_deaths, 1);
+        }
     }
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;

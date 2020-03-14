@@ -273,8 +273,8 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     str->madesound = saveg_read32();
     str->flags3 = saveg_read32();
+    str->inflicter = saveg_read32();
 
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -342,8 +342,8 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     saveg_write32(str->madesound);
     saveg_write32(str->flags3);
+    saveg_write32(str->inflicter);
 
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
@@ -511,8 +511,8 @@ static void saveg_read_player_t(void)
     viewplayer->itemspickedup_ammo_shells = saveg_read32();
     viewplayer->itemspickedup_armor = saveg_read32();
     viewplayer->itemspickedup_health = saveg_read32();
+    viewplayer->suicides = saveg_read32();
 
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -609,8 +609,8 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->itemspickedup_ammo_shells);
     saveg_write32(viewplayer->itemspickedup_armor);
     saveg_write32(viewplayer->itemspickedup_health);
+    saveg_write32(viewplayer->suicides);
 
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
