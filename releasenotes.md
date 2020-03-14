@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* A bug has been fixed whereby screenshots couldn’t be taken while the console was open.
 
 ---
 

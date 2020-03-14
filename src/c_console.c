@@ -1580,6 +1580,11 @@ dboolean C_Responder(event_t *ev)
             C_HideConsole();
             return true;
         }
+        else if (key == keyboardscreenshot)
+        {
+            G_DoScreenShot();
+            return true;
+        }
 
         switch (key)
         {
