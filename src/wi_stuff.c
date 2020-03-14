@@ -316,6 +316,7 @@ static void WI_DrawWILVchar(int x, int y, int i)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
+static char mapname[128];
 static char nextmapname[128];
 
 static const int chartoi[130] =
@@ -801,9 +802,9 @@ static void WI_InitStats(void)
     cnt_pause = TICRATE;
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have finished <b><i>%s</i><b>.", mapnumandtitle);
+        C_PlayerMessage("You have finished <b><i>%s</i></b>.", mapname);
     else
-        C_PlayerMessage("%s has finished <b><i>%s</i><b>.", playername, mapnumandtitle);
+        C_PlayerMessage("%s has finished <b><i>%s</i></b>.", playername, mapname);
 
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
@@ -1214,6 +1215,7 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
 
+    M_StringCopy(mapname, maptitle, 128);
     P_MapName(wbs->epsd + 1, wbs->next + 1);
     M_StringCopy(nextmapname, maptitle, 128);
 }
