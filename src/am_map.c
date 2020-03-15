@@ -628,12 +628,12 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    const int   x = viewplayer->mo->x >> FRACTOMAPBITS;
-    const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
+    const int   x = viewplayer->mo->x;
+    const int   y = viewplayer->mo->y;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
-    if (ABS(prevx - x) < FRACUNIT && ABS(prevy - y) < FRACUNIT)
+    if (prevx == x && prevy == y)
         return;
 
     if (pathpointnum >= pathpointnum_max)
@@ -1880,10 +1880,10 @@ static void AM_DrawPath(void)
             {
                 mpoint_t    start;
 
-                start.x = pathpoints[i - 1].x;
-                start.y = pathpoints[i - 1].y;
-                end.x = pathpoints[i].x;
-                end.y = pathpoints[i].y;
+                start.x = pathpoints[i - 1].x >> FRACTOMAPBITS;
+                start.y = pathpoints[i - 1].y >> FRACTOMAPBITS;
+                end.x = pathpoints[i].x >> FRACTOMAPBITS;
+                end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
                 if (ABS(start.x - end.x) > FRACUNIT * 4 || ABS(start.y - end.y) > FRACUNIT * 4)
                     continue;
