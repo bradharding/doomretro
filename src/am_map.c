@@ -1868,14 +1868,13 @@ static void AM_DrawPath(void)
     if (pathpointnum >= 1)
     {
         mpoint_t    player;
+        mpoint_t    end;
 
         player.x = viewplayer->mo->x >> FRACTOMAPBITS;
         player.y = viewplayer->mo->y >> FRACTOMAPBITS;
 
         if (am_rotatemode)
         {
-            mpoint_t    end;
-
             for (int i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start;
@@ -1901,8 +1900,6 @@ static void AM_DrawPath(void)
         }
         else
         {
-            mpoint_t    end;
-
             for (int i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start;

@@ -1691,7 +1691,6 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
                             mobjinfo[inflicter->inflicter].name1);
                 }
-
             }
             else
             {
@@ -1810,7 +1809,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             else
             {
                 char    sourcename[100];
-                char    *temp1;
+                char    *temp;
 
                 if (*source->name)
                     M_StringCopy(sourcename, source->name, sizeof(sourcename));
@@ -1821,11 +1820,11 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
                         (*source->info->name1 ? source->info->name1 : "monster"));
 
-                temp1 = sentencecase(sourcename);
+                temp = sentencecase(sourcename);
 
                 if (target->player)
                     C_Obituary("%s %s %s.",
-                        temp1,
+                        temp,
                         (gibbed ? "gibbed" : "killed"),
                         playername);
                 else
@@ -1843,12 +1842,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (*target->info->name1 ? target->info->name1 : "monster"));
 
                     C_Obituary("%s %s %s.",
-                        temp1,
+                        temp,
                         (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         targetname);
                 }
 
-                free(temp1);
+                free(temp);
             }
         }
     }
