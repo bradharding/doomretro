@@ -1940,7 +1940,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (type == MT_BARREL && source)
         P_SetTarget(&target->target, source);
 
-    target->inflicter = inflicter->type;
+    if (inflicter)
+        target->inflicter = inflicter->type;
 
     if (target->player)
     {
