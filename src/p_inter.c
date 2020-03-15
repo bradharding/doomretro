@@ -1952,7 +1952,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (automapactive)
             AM_Stop();          // don't die in automap, switch view prior to dying
 
-        if ((source && source->player) || (inflicter->type == MT_BARREL && inflicter->inflicter == MT_PLAYER))
+        if ((source && source->player) || (inflicter && inflicter->type == MT_BARREL && inflicter->inflicter == MT_PLAYER))
         {
             viewplayer->suicides++;
             stat_suicides = SafeAdd(stat_suicides, 1);

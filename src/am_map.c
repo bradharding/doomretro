@@ -1919,10 +1919,7 @@ static void AM_DrawPath(void)
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-            {
-                AM_RotatePoint(&player);
                 AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
-            }
         }
     }
 }
