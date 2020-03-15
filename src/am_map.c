@@ -1901,13 +1901,28 @@ static void AM_DrawPath(void)
         }
         else
         {
+            mpoint_t    end;
+
             for (int i = 1; i < pathpointnum; i++)
-                if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
-                    && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
-                    AM_DrawFline(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, pathcolor, putbigdot);
+            {
+                mpoint_t    start;
+
+                start.x = pathpoints[i - 1].x >> FRACTOMAPBITS;
+                start.y = pathpoints[i - 1].y >> FRACTOMAPBITS;
+                end.x = pathpoints[i].x >> FRACTOMAPBITS;
+                end.y = pathpoints[i].y >> FRACTOMAPBITS;
+
+                if (ABS(start.x - end.x) > FRACUNIT * 4 || ABS(start.y - end.y) > FRACUNIT * 4)
+                    continue;
+
+                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, putbigdot);
+            }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-                AM_DrawFline(pathpoints[pathpointnum - 1].x, pathpoints[pathpointnum - 1].y, player.x, player.y, pathcolor, putbigdot);
+            {
+                AM_RotatePoint(&player);
+                AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
+            }
         }
     }
 }
