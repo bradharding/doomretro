@@ -1659,15 +1659,39 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         {
             if (target->player)
             {
-                if (M_StringCompare(playername, playername_default))
-                    C_Obituary("You were %s by an exploding %s.",
-                        (gibbed ? "gibbed" : "killed"),
-                        inflicter->info->name1);
+                if (inflicter->inflicter == MT_PLAYER)
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_Obituary("You were %s by %s %s that you exploded.",
+                            (gibbed ? "gibbed" : "killed"),
+                            (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                            inflicter->info->name1);
+                    else
+                        C_Obituary("%s was %s by %s %s that they exploded.",
+                            playername,
+                            (gibbed ? "gibbed" : "killed"),
+                            (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                            inflicter->info->name1);
+                }
                 else
-                    C_Obituary("%s was %s by an exploding %s.",
-                        playername,
-                        (gibbed ? "gibbed" : "killed"),
-                        inflicter->info->name1);
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_Obituary("You were %s by %s %s exploded by %s %s.",
+                            (gibbed ? "gibbed" : "killed"),
+                            (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                            inflicter->info->name1,
+                            (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                            mobjinfo[inflicter->inflicter].name1);
+                    else
+                        C_Obituary("%s was %s by %s %s exploded by %s %s.",
+                            playername,
+                            (gibbed ? "gibbed" : "killed"),
+                            (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                            inflicter->info->name1,
+                            (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                            mobjinfo[inflicter->inflicter].name1);
+                }
+
             }
             else
             {
@@ -1684,10 +1708,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
                 temp = sentencecase(targetname);
-                C_Obituary("%s was %s by an exploding %s.",
+                C_Obituary("%s was %s by %s %s exploded by %s %s.",
                     temp,
                     (gibbed ? "gibbed" : "killed"),
-                    inflicter->info->name1);
+                    (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                    inflicter->info->name1,
+                    (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                    mobjinfo[inflicter->inflicter].name1);
                 free(temp);
             }
         }
