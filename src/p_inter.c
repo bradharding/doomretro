@@ -1707,13 +1707,23 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         (*target->info->name1 ? target->info->name1 : "monster"));
 
                 temp = sentencecase(targetname);
-                C_Obituary("%s was %s by %s %s exploded by %s %s.",
-                    temp,
-                    (gibbed ? "gibbed" : "killed"),
-                    (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                    inflicter->info->name1,
-                    (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
-                    mobjinfo[inflicter->inflicter].name1);
+
+                if (inflicter->inflicter == MT_PLAYER)
+                    C_Obituary("%s was %s by %s %s exploded by %s.",
+                        temp,
+                        (gibbed ? "gibbed" : "killed"),
+                        (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                        inflicter->info->name1,
+                        playername);
+                else
+                    C_Obituary("%s was %s by %s %s exploded by %s %s.",
+                        temp,
+                        (gibbed ? "gibbed" : "killed"),
+                        (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
+                        inflicter->info->name1,
+                        (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                        mobjinfo[inflicter->inflicter].name1);
+
                 free(temp);
             }
         }
