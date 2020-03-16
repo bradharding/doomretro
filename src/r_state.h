@@ -115,10 +115,12 @@ typedef enum
 {
     DOOMBSP,
     DEEPBSP,
-    ZDBSPX
+    ZDBSPX,
+    HEXEN
 } mapformat_t;
 
 extern mapformat_t  mapformat;
+extern const char   *mapformats[];
 
 extern dboolean     boomcompatible;
 extern dboolean     mbfcompatible;

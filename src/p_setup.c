@@ -242,6 +242,14 @@ static dboolean samelevel;
 
 mapformat_t     mapformat;
 
+const char *mapformats[] =
+{
+    "Regular",
+    "<i>DeePBSP v4</i>",
+    "<i>ZDoom</i> (uncompressed)",
+    "<i>Hexen</i>"
+};
+
 dboolean        boomcompatible;
 dboolean        mbfcompatible;
 dboolean        blockmaprebuilt;
@@ -2733,7 +2741,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     int         b;
 
     if ((b = lumpnum + ML_BLOCKMAP + 1) < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
-        I_Error("Hexen format maps are not supported.");
+        format = HEXEN;
     else if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))
     {
         if (!memcmp(n, "xNd4\0\0\0\0", 8))
