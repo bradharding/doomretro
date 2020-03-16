@@ -7180,7 +7180,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     if (value < viewplayer->health)
                     {
                         healthcvar = true;
-                        P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
+                        P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - value, false);
                         healthcvar = false;
                     }
                     else
