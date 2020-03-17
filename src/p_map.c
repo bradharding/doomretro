@@ -385,7 +385,8 @@ static dboolean PIT_CheckLine(line_t *ld)
 
         // killough 8/9/98: monster-blockers don't affect friends
         // [BH] monster-blockers don't affect corpses
-        if (!(tmthing->flags & MF_FRIEND || tmthing->player) && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
+        if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags3 & MF3_SPAWNEDBYPLAYER))
+            && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
     }
 

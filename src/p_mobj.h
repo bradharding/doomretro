@@ -308,7 +308,10 @@ enum
 enum
 {
     // Object is armed (for MF_TOUCHY objects)
-    MF3_ARMED                     = 0x00000001
+    MF3_ARMED                     = 0x00000001,
+
+    // Object was spawned by played using spawn CCMD
+    MF3_SPAWNEDBYPLAYER           = 0x00000002
 };
 
 typedef enum
