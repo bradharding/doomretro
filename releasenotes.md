@@ -6,7 +6,9 @@
 * Timestamps in the console are now a translucent yellow.
 * A bug has been fixed whereby screenshots couldn’t be taken while the console was open.
 * The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
-* Obituaries in the console involving an exploding barrel now indicate who caused the explosion.
+* The following changes have been made to obituaries in the console:
+  * Obituaries involving an exploding barrel now indicate who caused the explosion.
+  * Names set using the `name` CCMD will now be displayed when an arch-vile resurrects a monster.
 
 ---
 

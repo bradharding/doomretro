@@ -1376,12 +1376,12 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                 if (!P_BlockThingsIterator(bx, by, PIT_VileCheck))
                 {
                     // got one!
-                    mobj_t      *temp = actor->target;
+                    mobj_t      *prevtarget = actor->target;
                     mobjinfo_t  *info = corpsehit->info;
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor, NULL, NULL);
-                    actor->target = temp;
+                    actor->target = prevtarget;
 
                     P_SetMobjState(actor, S_VILE_HEAL1);
                     S_StartSound(corpsehit, sfx_slop);
@@ -1413,7 +1413,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     {
                         char    actorname[100];
                         char    corpsehitname[100];
-                        char *temp;
+                        char    *temp;
 
                         if (*actor->name)
                             M_StringCopy(actorname, actor->name, sizeof(actorname));
