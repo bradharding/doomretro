@@ -9,6 +9,7 @@
 * The following changes have been made to obituaries in the console:
   * Obituaries involving an exploding barrel now indicate who caused the explosion.
   * Names set using the `name` CCMD will now be displayed when an arch-vile resurrects a monster.
+* Minor changes have been made to the menu’s background.
 
 ---
 
