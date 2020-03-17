@@ -1410,8 +1410,34 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
-                        C_Obituary("%s %s resurrected %s %s.", (isvowel(actor->info->name1[0]) ? "An" : "A"),
-                            actor->info->name1, (isvowel(info->name1[0]) ? "an" : "a"), info->name1);
+                    {
+                        char    actorname[100];
+                        char    corpsehitname[100];
+                        char *temp;
+
+                        if (*actor->name)
+                            M_StringCopy(actorname, actor->name, sizeof(actorname));
+                        else
+                            M_snprintf(actorname, sizeof(actorname), "%s %s%s",
+                                ((actor->flags & MF_FRIEND) && monstercount[actor->type] == 1 ? "the" :
+                                    (isvowel(actor->info->name1[0]) ? "an" : "a")),
+                                ((actor->flags & MF_FRIEND) ? "friendly " : ""),
+                                (*actor->info->name1 ? actor->info->name1 : "monster"));
+
+                        temp = sentencecase(actorname);
+
+                        if (*corpsehit->name)
+                            M_StringCopy(corpsehitname, corpsehit->name, sizeof(corpsehitname));
+                        else
+                            M_snprintf(corpsehitname, sizeof(corpsehitname), "%s dead%s%s",
+                                ((corpsehit->flags & MF_FRIEND) && monstercount[corpsehit->type] == 1 ? "the" :
+                                    (isvowel(corpsehit->info->name1[0]) ? "an" : "a")),
+                                ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
+                                (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
+
+                        C_Obituary("%s resurrected %s.", temp, corpsehitname);
+                        free(temp);
+                    }
 
                     // killough 8/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);
