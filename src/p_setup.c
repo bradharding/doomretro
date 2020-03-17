@@ -244,10 +244,9 @@ mapformat_t     mapformat;
 
 const char *mapformats[] =
 {
-    "Regular",
-    "<i>DeePBSP v4</i>",
-    "<i>ZDoom</i> (uncompressed)",
-    "<i>Hexen</i>"
+    "BSP",
+    "DeePBSP v4",
+    "ZDBSP (uncompressed)"
 };
 
 dboolean        boomcompatible;
@@ -2741,8 +2740,9 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     int         b;
 
     if ((b = lumpnum + ML_BLOCKMAP + 1) < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
-        format = HEXEN;
-    else if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))
+        I_Error("Hexen format maps are not supported.");
+
+    if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))
     {
         if (!memcmp(n, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
