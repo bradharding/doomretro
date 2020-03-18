@@ -244,9 +244,9 @@ mapformat_t     mapformat;
 
 const char *mapformats[] =
 {
-    "BSP",
-    "DeePBSP v4",
-    "ZDBSP (uncompressed)"
+    "Regular",
+    "<i>DeeP</i>",
+    "<i>ZDoom</i> extended (uncompressed)"
 };
 
 dboolean        boomcompatible;
