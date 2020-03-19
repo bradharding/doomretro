@@ -2,13 +2,14 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The `con_timestamps` CVAR has been deprecated. Timestamps will now always appear in the console next to player messages.
-* Timestamps in the console are now a translucent yellow.
 * A bug has been fixed whereby screenshots couldn’t be taken while the console was open.
-* The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
+* The following changes have been made to timestamps in the console:
+  * The `con_timestamps` CVAR has been deprecated. Timestamps will now always appear in the console next to player messages.
+  * Timestamps in the console are now a translucent yellow.
 * The following changes have been made to obituaries in the console:
   * Obituaries involving an exploding barrel now indicate who caused the explosion.
   * Names set using the `name` CCMD will now be used when an arch-vile resurrects a monster.
+* The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
 * All monsters spawned using the `spawn` CCMD can now cross monster-blocking lines.
 
 ---
