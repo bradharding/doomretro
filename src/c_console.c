@@ -101,7 +101,7 @@ static short            spacewidth;
 
 static char             consoleinput[255];
 static int              numautocomplete;
-int                     consolestrings;
+int                     consolestrings = 0;
 size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;

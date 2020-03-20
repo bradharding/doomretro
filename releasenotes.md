@@ -11,6 +11,7 @@
   * Names set using the `name` CCMD will now be used when an arch-vile resurrects a monster.
 * The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
 * All monsters spawned using the `spawn` CCMD can now cross monster-blocking lines.
+* More blood splats now appear around decorative corpses.
 
 ---
 

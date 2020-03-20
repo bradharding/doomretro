@@ -1068,7 +1068,7 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
     if (blood)
     {
         int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int     max = M_RandomInt(50, 100) + radius;
+        int     max = M_RandomInt(100, 150) + radius;
         fixed_t x = mobj->x;
         fixed_t y = mobj->y;
         fixed_t floorz = mobj->floorz;
