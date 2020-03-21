@@ -600,6 +600,9 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             const int   c = letter - CONSOLEFONTSTART;
 
             w += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
+
+            if (letter == '-' && italics)
+                w++;
         }
 
         if (kerning)
@@ -610,9 +613,6 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
                     w += altkern[j].adjust;
                     break;
                 }
-
-            if (letter == '-' && italics)
-                w++;
 
             if (prevletter == '/' && italics)
                 w -= 2;
@@ -993,6 +993,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (letter == '\"')
                         patch = ldquote;
                 }
+
+                if (letter == '-' && italics)
+                    x++;
             }
 
             if (kerning)
@@ -1003,9 +1006,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x += altkern[j].adjust;
                         break;
                     }
-
-                if (letter == '-' && italics)
-                    x++;
 
                 if (prevletter == '/' && italics)
                     x -= 2;
