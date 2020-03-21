@@ -3706,14 +3706,11 @@ static int deh_GetData(char *s, char *k, long *l, char **strval)
     buffer[i] = '\0';                       // terminate the key before the '='
 
     if (!*t)                                // end of string with no equal sign
-        okrc = false;
+        okrc = 0;
     else
     {
         if (!*++t)
-        {
-            val = 0;                        // in case "thiskey =" with no value
-            okrc = 0;
-        }
+            okrc = 0;                       // in case "thiskey =" with no value
 
         // we've incremented t
         if (!M_StrToInt(t, &val))

@@ -115,6 +115,9 @@ void I_PrintWindowsVersion(void)
                 break;
 
             case PRODUCT_ENTERPRISE:
+            case PRODUCT_ENTERPRISE_SERVER:
+            case PRODUCT_ENTERPRISE_SERVER_CORE:
+            case PRODUCT_ENTERPRISE_SERVER_IA64:
                 M_StringCopy(typename, "Enterprise", sizeof(typename));
                 break;
 
@@ -133,12 +136,6 @@ void I_PrintWindowsVersion(void)
             case PRODUCT_DATACENTER_SERVER:
             case PRODUCT_DATACENTER_SERVER_CORE:
                 M_StringCopy(typename, "Datacenter Edition", sizeof(typename));
-                break;
-
-            case PRODUCT_ENTERPRISE_SERVER:
-            case PRODUCT_ENTERPRISE_SERVER_CORE:
-            case PRODUCT_ENTERPRISE_SERVER_IA64:
-                M_StringCopy(typename, "Enterprise", sizeof(typename));
                 break;
 
             case PRODUCT_SMALLBUSINESS_SERVER:
@@ -166,6 +163,7 @@ void I_PrintWindowsVersion(void)
         {
             char    infoname[32] = "NT";
             char    *build = commify(info.dwBuildNumber);
+            size_t  versionlen = wcslen(info.szCSDVersion);
 
             if (info.dwMajorVersion == 5)
             {
@@ -190,9 +188,12 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
 
-            C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s%s%ws%s</b></i> (Build %s).",
-                bits, infoname, (*typename ? " " : ""), typename, (wcslen(info.szCSDVersion) ? " (" : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""), build);
+            if (wcslen(info.szCSDVersion) > 0)
+                C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s (%ws)</b></i> (Build %s).",
+                    bits, infoname, (*typename ? " " : ""), typename, info.szCSDVersion, build);
+            else
+                C_Output("Running on %i-bit <i><b>Microsoft Windows %s%s%s</b></i> (Build %s).",
+                    bits, infoname, (*typename ? " " : ""), typename, build);
 
             free(build);
         }

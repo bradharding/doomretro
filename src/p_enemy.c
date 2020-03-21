@@ -948,8 +948,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             //         and it's not friendly
             //         and we can see it)
             //  try to find a new one; return if successful
-            if (!(target
-                && target->health > 0
+            if (!(target->health > 0
                 && (((((target->flags ^ actor->flags) & MF_FRIEND) || !(actor->flags & MF_FRIEND)) && P_CheckSight(actor, target))))
                 && P_LookForTargets(actor, true))
                 return;

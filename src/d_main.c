@@ -1386,23 +1386,20 @@ static int D_OpenWADLauncher(void)
 
                 if (D_IsDOOMIWAD(fullpath))
                 {
-                    if (!iwadfound)
-                    {
-                        D_IdentifyIWADByName(fullpath);
+                    D_IdentifyIWADByName(fullpath);
 
-                        if (W_AddFile(fullpath, false))
-                        {
-                            iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+                    if (W_AddFile(fullpath, false))
+                    {
+                        iwadfound = 1;
+                        sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
+                        isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
 
 #if defined(_WIN32)
-                            wad = M_StringDuplicate(leafname(fullpath));
+                        wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
-                            iwadfolder = M_ExtractFolder(fullpath);
-                            break;
-                        }
+                        iwadfolder = M_ExtractFolder(fullpath);
+                        break;
                     }
                 }
 

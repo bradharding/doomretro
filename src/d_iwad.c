@@ -199,7 +199,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
         return NULL;
 
     // Find the type and length of the string, and only accept strings.
-    if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS && valtype == REG_SZ)
+    if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS && valtype == REG_SZ && len > 0)
     {
         // Allocate a buffer for the value and read the value
         result = malloc((size_t)len + 1);

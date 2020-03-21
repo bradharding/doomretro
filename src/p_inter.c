@@ -958,7 +958,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     HU_PlayerMessage(buffer, true, false);
                 }
                 else
-                    HU_PlayerMessage((viewplayer->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), true, false);
+                    HU_PlayerMessage(s_GOTMEDIKIT, true, false);
             }
 
             break;

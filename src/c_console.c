@@ -548,7 +548,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             w += SHORT(trademark->width);
             i++;
         }
-        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 1]) == 'm' && text[i + 2] == ')'
+        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
             && formatting)
         {
             w += SHORT(trademark->width);
@@ -952,7 +952,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             else if (letter == 153)
                 patch = trademark;
-            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 1]) == 'm' && text[i + 2] == ')'
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
                 && formatting)
             {
                 patch = trademark;
@@ -1144,18 +1144,6 @@ void C_UpdateTimer(void)
             int hours = (tics = (prevtics = tics) / TICRATE) / 3600;
             int minutes = ((tics %= 3600)) / 60;
             int seconds = tics % 60;
-
-            if (seconds >= 60)
-            {
-                minutes += seconds / 60;
-                seconds %= 60;
-            }
-
-            if (minutes >= 60)
-            {
-                hours += minutes / 60;
-                minutes %= 60;
-            }
 
             M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         }
@@ -1851,7 +1839,7 @@ dboolean C_Responder(event_t *ev)
 
                         len2 = (int)strlen(output);
                         spaces2 = numspaces(output);
-                        endspace2 = (output[len2 - 1] == ' ');
+                        endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
                         game = autocompletelist[autocomplete].game;
 
                         if ((game == DOOM1AND2

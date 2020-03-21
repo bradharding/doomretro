@@ -2962,7 +2962,7 @@ static void P_InitMapInfo(void)
             return;
 
     info = mapinfo;
-    memset(info, 0, sizeof(mapinfo_t));
+    memset(info, 0, sizeof(*info));
 
     for (int i = 0; i < NUMLIQUIDS; i++)
     {
@@ -3013,7 +3013,7 @@ static void P_InitMapInfo(void)
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
-                    return;
+                    break;
                 }
                 else
                 {

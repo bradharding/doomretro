@@ -572,7 +572,7 @@ char *sentencecase(const char *str)
 {
     char    *newstr = M_StringDuplicate(str);
 
-    if (strlen(newstr) > 0)
+    if (newstr[0] != '\0')
         newstr[0] = toupper(newstr[0]);
 
     return newstr;

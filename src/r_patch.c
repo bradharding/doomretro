@@ -105,7 +105,7 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
         if (spot < column->topdelta)
             return false;
 
-        if (spot >= column->topdelta && spot <= column->topdelta + column->length)
+        if (spot <= column->topdelta + column->length)
             return true;
 
         column = (const column_t *)((const byte *)column + 3 + column->length + 1);

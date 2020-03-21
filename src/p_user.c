@@ -479,7 +479,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
             newweapon = viewplayer->preferredshotgun = wp_supershotgun;
         else if (viewplayer->readyweapon == wp_supershotgun
             || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->ammo[am_shell] == 1))
-            newweapon = viewplayer->preferredshotgun = wp_shotgun;
+            viewplayer->preferredshotgun = wp_shotgun;
     }
 
     if (newweapon != wp_nochange && newweapon != viewplayer->readyweapon && viewplayer->weaponowned[newweapon])

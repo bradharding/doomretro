@@ -1313,15 +1313,12 @@ static void G_DoCompleted(void)
                     break;
 
                 case 3:
+                case 5:
                     wminfo.next = 6;
                     break;
 
                 case 4:
                     wminfo.next = 2;
-                    break;
-
-                case 5:
-                    wminfo.next = 6;
                     break;
             }
         }

@@ -244,7 +244,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     unsigned int        samplecount = length / (bits / 8);
     unsigned int        expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
+    int16_t             *expanded;
     int                 expand_ratio = (samplecount << 8) / expanded_length;
     double              dt = 1.0 / mixer_freq;
     double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
@@ -252,24 +252,22 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     if (!snd)
         return false;
 
+    expanded = (int16_t *)(&snd->chunk)->abuf;
+
     if (bits == 8)
-    {
         for (unsigned int i = 0; i < expanded_length; i++)
         {
             byte    src = data[(i * expand_ratio) >> 8];
 
             expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
         }
-    }
     else
-    {
         for (unsigned int i = 0; i < expanded_length; i++)
         {
             byte    src = ((i * expand_ratio) >> 8) * 2;
 
             expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }
-    }
 
     // Apply low-pass filter
     for (unsigned int i = 2; i < expanded_length * 2; i++)

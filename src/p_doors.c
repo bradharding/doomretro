@@ -143,10 +143,6 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorBlazeClose:
                     case genBlazeRaise:
                     case genBlazeClose:
-                        door->sector->ceilingdata = NULL;
-                        P_RemoveThinker(&door->thinker);        // unlink and free
-                        break;
-
                     case doorNormal:
                     case doorClose:
                     case genRaise:
@@ -489,7 +485,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     vldoor_t    *door;
 
     // if the wrong side of door is pushed, give oof sound
-    if (line->sidenum[1] == NO_INDEX)           // killough
+    if (line->sidenum[1] == NO_INDEX && player) // killough
     {
         S_StartSound(player->mo, sfx_noway);    // killough 3/20/98
         return;                                 //  [BH] use sfx_noway instead of sfx_oof
