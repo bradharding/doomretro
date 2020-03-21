@@ -611,6 +611,9 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
                     break;
                 }
 
+            if (letter == '-' && italics)
+                w++;
+
             if (prevletter == '/' && italics)
                 w -= 2;
             else if (prevletter == '.' && letter == ' ' && !bold && !italics)
@@ -1000,6 +1003,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x += altkern[j].adjust;
                         break;
                     }
+
+                if (letter == '-' && italics)
+                    x++;
 
                 if (prevletter == '/' && italics)
                     x -= 2;
