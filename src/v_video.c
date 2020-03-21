@@ -60,6 +60,8 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
+byte            *menushadow;
+
 static fixed_t  DX, DY;
 static fixed_t  DXI, DYI;
 
@@ -738,9 +740,8 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, int
 
 void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 {
-    byte        *desttop;
-    int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *shadow = &tinttab50[nearestblack << 8];
+    byte    *desttop;
+    int     w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -773,7 +774,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*dot != 47 && *dot != 191))
-                        *dot = shadow[*dot];
+                        *dot = menushadow[*dot];
                 }
 
                 srccol += DYI;
@@ -1335,9 +1336,8 @@ static const byte nogreen[256] =
 
 void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 {
-    byte        *desttop;
-    int         w = SHORT(patch->width) << FRACBITS;
-    const byte  *shadow = &tinttab50[nearestblack << 8];
+    byte    *desttop;
+    int     w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1368,7 +1368,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     dot = dest + SCREENWIDTH * 2 + 2;
 
                     if (*dot != 47 && *dot != 191)
-                        *dot = shadow[*dot];
+                        *dot = menushadow[*dot];
                 }
 
                 dest += SCREENWIDTH;
@@ -1420,8 +1420,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
-    byte        *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
-    const byte  *shadow = &tinttab50[nearestblack << 8];
+    byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
 
     if (color == 251)
     {
@@ -1431,15 +1430,13 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
                 {
                     byte    *dot = dest + yy + xx;
 
-                    *dot = shadow[*dot];
+                    *dot = menushadow[*dot];
                 }
     }
     else if (color && color != 32)
-    {
         for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
             for (int xx = 0; xx < SCREENSCALE; xx++)
                 *(dest + yy + xx) = color;
-    }
 }
 
 void GetPixelSize(dboolean reset)
@@ -1448,7 +1445,8 @@ void GetPixelSize(dboolean reset)
     int height = -1;
 
     if (sscanf(r_lowpixelsize, "%10dx%10d", &width, &height) == 2
-        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
+        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT
+        && (width >= 2 || height >= 2))
     {
         pixelwidth = width;
         pixelheight = height * SCREENWIDTH;

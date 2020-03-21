@@ -40,6 +40,7 @@
 
 #include "i_colors.h"
 #include "i_swap.h"
+#include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -164,6 +165,8 @@ void FindNearestColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
+
+    menushadow = &tinttab50[nearestblack << 8];
 }
 
 int FindDominantColor(patch_t *patch)
