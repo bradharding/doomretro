@@ -2094,10 +2094,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "blue keycard",
         /* plural1              */ "blue keycards",
-        /* name2                */ "blue card",
-        /* plural2              */ "blue cards",
-        /* name3                */ "",
-        /* plural3              */ ""
+        /* name2                */ "blue key",
+        /* plural2              */ "blue keys",
+        /* name3                */ "blue card",
+        /* plural3              */ "blue cards",
     },
 
     // Red Keycard (MT_MISC5)
@@ -2136,10 +2136,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "red keycard",
         /* plural1              */ "red keycards",
-        /* name2                */ "red card",
-        /* plural2              */ "red cards",
-        /* name3                */ "",
-        /* plural3              */ ""
+        /* name2                */ "red key",
+        /* plural2              */ "red keys",
+        /* name3                */ "red card",
+        /* plural3              */ "red cards"
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -2178,10 +2178,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "yellow keycard",
         /* plural1              */ "yellow keycards",
-        /* name2                */ "yellow card",
-        /* plural2              */ "yellow cards",
-        /* name3                */ "",
-        /* plural3              */ ""
+        /* name2                */ "yellow key",
+        /* plural2              */ "yellow keys",
+        /* name3                */ "yellow card",
+        /* plural3              */ "yellow cards"
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -2472,10 +2472,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "invulnerability power-up",
         /* plural1              */ "invulnerability power-ups",
-        /* name2                */ "invulnerability",
-        /* plural2              */ "invulnerabilities",
-        /* name3                */ "invulnerability sphere",
-        /* plural3              */ "invulnerability spheres",
+        /* name2                */ "invulnerability sphere",
+        /* plural2              */ "invulnerability spheres",
+        /* name3                */ "invulnerability",
+        /* plural3              */ "invulnerabilities",
     },
 
     // Berserk (MT_MISC13)
@@ -3312,8 +3312,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "plasma rifle",
         /* plural1              */ "plasma rifles",
-        /* name2                */ "",
-        /* plural2              */ "",
+        /* name2                */ "plasma gun",
+        /* plural2              */ "plasma guns",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3396,8 +3396,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "super shotgun",
         /* plural1              */ "super shotguns",
-        /* name2                */ "",
-        /* plural2              */ "",
+        /* name2                */ "double-barreled shotgun",
+        /* plural2              */ "double-barreled shotguns",
         /* name3                */ "",
         /* plural3              */ ""
     },
