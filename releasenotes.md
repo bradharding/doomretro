@@ -12,6 +12,7 @@
 * The number of times the player commits suicide is now displayed by the `playerstats` CCMD.
 * All monsters spawned using the `spawn` CCMD can now cross monster-blocking lines.
 * More blood splats now appear around decorative corpses.
+* A crash will no longer occur when trying to spawn a berserk power-up using the `spawn` CCMD in *DOOM (Shareware)*.
 
 ---
 

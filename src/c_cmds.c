@@ -5809,7 +5809,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 spawn = false;
             }
 
-            if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
+            if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind || spawncmdtype == Berserk))
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 
