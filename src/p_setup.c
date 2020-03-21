@@ -2771,6 +2771,7 @@ void P_SetupLevel(int ep, int map)
     char        lumpname[6];
     int         lumpnum;
     static int  prevlumpnum = -1;
+    char        *temp;
 
     boomcompatible = false;
     mbfcompatible = false;
@@ -2848,10 +2849,14 @@ void P_SetupLevel(int ep, int map)
 
     C_AddConsoleDivider();
 
+    temp = titlecase(maptitle);
+
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have %s <b><i>%s</i></b>.", (samelevel ? "reentered": "entered"), maptitle);
+        C_PlayerMessage("You have %s <b><i>%s</i></b>.", (samelevel ? "reentered": "entered"), temp);
     else
-        C_PlayerMessage("%s has %s <b><i>%s</i></b>.", playername, (samelevel ? "reentered" : "entered"), maptitle);
+        C_PlayerMessage("%s has %s <b><i>%s</i></b>.", playername, (samelevel ? "reentered" : "entered"), temp);
+
+    free(temp);
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT * 2;
