@@ -1453,6 +1453,8 @@ dboolean C_ExecuteInputString(const char *input)
 
 dboolean C_ValidateInput(const char *input)
 {
+    const int   length = (int)strlen(input);
+
     for (int i = 0; *consolecmds[i].name; i++)
     {
         char    cmd[128] = "";
@@ -1461,8 +1463,6 @@ dboolean C_ValidateInput(const char *input)
         {
             if (consolecmds[i].parameters)
             {
-                const int   length = (int)strlen(input);
-
                 if (isdigit((int)input[length - 2]) && isdigit((int)input[length - 1]))
                 {
                     consolecheatparm[0] = input[length - 2];
@@ -1505,9 +1505,9 @@ dboolean C_ValidateInput(const char *input)
                     if (!executingalias && !resettingcvar)
                     {
                         if (*parms)
-                            C_Input((input[strlen(input) - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
+                            C_Input((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
                         else
-                            C_Input("%s%s", cmd, (input[strlen(input) - 1] == ' ' ? " " : ""));
+                            C_Input("%s%s", cmd, (input[length - 1] == ' ' ? " " : ""));
                     }
 
                     consolecmds[i].func2(consolecmds[i].name, parms);

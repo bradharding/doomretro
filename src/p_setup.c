@@ -62,6 +62,8 @@
 #define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
+#define MAXMAPINFO              100
+
 #define NUMLIQUIDS              256
 
 #define MCMD_AUTHOR             1
@@ -188,7 +190,7 @@ dboolean            skipblstart;            // MaxW: Skip initial blocklist shor
 static int          rejectlump = -1;        // cph - store reject lump num if cached
 const byte          *rejectmatrix;          // cph - const*
 
-static mapinfo_t    mapinfo[101];
+static mapinfo_t    mapinfo[MAXMAPINFO + 1];
 
 static char *mapcmdnames[] =
 {
@@ -2962,7 +2964,7 @@ static void P_InitMapInfo(void)
             return;
 
     info = mapinfo;
-    memset(info, 0, sizeof(*info));
+    memset(info, 0, sizeof(mapinfo_t) * (MAXMAPINFO + 1));
 
     for (int i = 0; i < NUMLIQUIDS; i++)
     {

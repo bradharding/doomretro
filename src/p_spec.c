@@ -2506,15 +2506,12 @@ void P_SpawnSpecials(void)
                 break;
 
             case LightBlinks_2Hz:
+            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
                 P_SpawnStrobeFlash(sector, FASTDARK, false);
                 break;
 
             case LightBlinks_1Hz:
                 P_SpawnStrobeFlash(sector, SLOWDARK, false);
-                break;
-
-            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                P_SpawnStrobeFlash(sector, FASTDARK, false);
                 break;
 
             case LightGlows_1PlusSec:
