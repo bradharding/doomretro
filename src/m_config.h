@@ -98,7 +98,6 @@ extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
 extern char         *playername;
-extern dboolean     r_althud;
 extern int          r_berserkintensity;
 extern int          r_blood;
 extern int          r_bloodsplats_max;
@@ -125,6 +124,7 @@ extern dboolean     r_graduallighting;
 extern dboolean     r_homindicator;
 extern dboolean     r_hud;
 extern dboolean     r_hud_translucency;
+extern dboolean     r_hudtype;
 extern dboolean     r_liquid_bob;
 extern dboolean     r_liquid_clipsprites;
 extern dboolean     r_liquid_current;
@@ -246,6 +246,13 @@ enum
 {
     r_detail_low,
     r_detail_high
+};
+
+enum
+{
+    r_hudtype_1993,
+    r_hudtype_2016,
+    r_hudtype_2020
 };
 
 enum
@@ -464,8 +471,6 @@ enum
 
 #define playername_default                      "you"
 
-#define r_althud_default                        false
-
 #define r_berserkintensity_min                  0
 #define r_berserkintensity_default              2
 #define r_berserkintensity_max                  8
@@ -531,6 +536,10 @@ enum
 #define r_hud_default                           true
 
 #define r_hud_translucency_default              true
+
+#define r_hudtype_min                           r_hudtype_1993
+#define r_hudtype_default                       r_hudtype_1993
+#define r_hudtype_max                           r_hudtype_2020
 
 #define r_liquid_bob_default                    true
 
@@ -795,7 +804,8 @@ typedef enum
     FACEBACKVALUEALIAS,
     ARMORTYPEVALUEALIAS,
     CROSSHAIRVALUEALIAS,
-    VSYNCVALUEALIAS
+    VSYNCVALUEALIAS,
+    HUDTYPEVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

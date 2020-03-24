@@ -513,7 +513,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (!vid_widescreen || (r_hud && !r_althud)))
+                    && (!vid_widescreen || (r_hud && r_hudtype == r_hudtype_1993)))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
@@ -573,7 +573,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (!vid_widescreen || (r_hud && !r_althud)))
+                    && (!vid_widescreen || (r_hud && r_hudtype == r_hudtype_1993)))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;

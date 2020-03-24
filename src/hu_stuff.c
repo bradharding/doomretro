@@ -99,10 +99,10 @@ static patch_t          *bluearmorpatch;
 int                     crosshair = crosshair_default;
 int                     crosshaircolor = crosshaircolor_default;
 char                    *playername = playername_default;
-dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
+dboolean                r_hudtype = r_hudtype_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -982,7 +982,7 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen)
         {
-            if (r_althud)
+            if (r_hudtype == r_hudtype_2016)
             {
                 w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
                 w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
@@ -1016,7 +1016,7 @@ void HU_Drawer(void)
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
-            if (r_althud)
+            if (r_hudtype == r_hudtype_2016)
                 HUlib_DrawAltAutomapTextLine(&w_title, false);
             else
                 HUlib_DrawTextLine(&w_title, false);
@@ -1047,7 +1047,7 @@ void HU_Drawer(void)
 
         if (vid_widescreen && r_hud)
         {
-            if (r_althud)
+            if (r_hudtype == r_hudtype_2016)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
@@ -1055,7 +1055,7 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            if (vid_widescreen && r_althud)
+            if (vid_widescreen && r_hudtype == r_hudtype_2016)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
                 HUlib_DrawTextLine(&w_title, true);

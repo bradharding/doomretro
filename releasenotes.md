@@ -1,5 +1,7 @@
 ### DOOM Retro v3.5.4
 
+* The `r_althud` CVAR has been replaced with the new `r_hudtype` CVAR. Its value is the year of the version of *DOOM* the widescreen HUD is inspired by, which can be either `1993`, `2016` or `2020`. It is `1993` by default and when vanilla mode is on.
+
 ---
 
 ###### Monday, March 23, 2020

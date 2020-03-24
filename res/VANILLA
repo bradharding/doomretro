@@ -49,7 +49,6 @@ movebob 100%
 notarget off
 pistolstart off
 playername "you"
-r_althud off
 r_blood red
 r_brightmaps off
 r_color 100
@@ -72,6 +71,7 @@ r_graduallighting off
 r_homindicator off
 r_hud off
 r_hud_translucency off
+r_hudtype 1993
 r_liquid_bob off
 r_liquid_clipsprites off
 r_liquid_current off
