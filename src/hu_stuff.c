@@ -671,9 +671,9 @@ static void HU_AltInit(void)
 
     for (int i = 0; i < 10; i++)
     {
-        M_snprintf(buffer, sizeof(buffer), "DRHUD%i", i);
+        M_snprintf(buffer, sizeof(buffer), "DRHUD1%iA", i);
         altnum[i] = W_CacheLumpName(buffer);
-        M_snprintf(buffer, sizeof(buffer), "DRHUD%i_2", i);
+        M_snprintf(buffer, sizeof(buffer), "DRHUD1%iB", i);
         altnum2[i] = W_CacheLumpName(buffer);
     }
 
@@ -683,8 +683,8 @@ static void HU_AltInit(void)
     altarmpatch = W_CacheLumpName("DRHUDARM");
 
     altendpatch = W_CacheLumpName("DRHUDE");
-    altmarkpatch = W_CacheLumpName("DRHUDI");
-    altmark2patch = W_CacheLumpName("DRHUDI_2");
+    altmarkpatch = W_CacheLumpName("DRHUDIA");
+    altmark2patch = W_CacheLumpName("DRHUDIB");
 
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
