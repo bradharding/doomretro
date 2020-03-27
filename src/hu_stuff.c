@@ -1030,17 +1030,17 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen)
         {
-            if (r_hudtype == r_hudtype_2016)
+            if (r_hudtype == r_hudtype_1993)
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
+                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
 
                 HUlib_DrawSText(&w_message, message_external);
             }
             else
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
-                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
+                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
 
                 HUlib_DrawSText(&w_message, message_external);
             }
@@ -1064,10 +1064,10 @@ void HU_Drawer(void)
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
-            if (r_hudtype == r_hudtype_2016)
-                HUlib_DrawAltAutomapTextLine(&w_title, false);
-            else
+            if (r_hudtype == r_hudtype_1993)
                 HUlib_DrawTextLine(&w_title, false);
+            else
+                HUlib_DrawAltAutomapTextLine(&w_title, false);
         }
         else
         {
