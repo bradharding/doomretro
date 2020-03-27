@@ -1,6 +1,6 @@
 ### DOOM Retro v3.5.4
 
-* The `r_althud` CVAR has been replaced with the new `r_hudtype` CVAR. Its value is the year of the version of *DOOM* the widescreen HUD is inspired by, which can be either `1993`, `2016` or `2020`. It is `1993` by default and when vanilla mode is on.
+* The `r_althud` CVAR has been replaced with the new `r_hudtype` CVAR. Its value is the year of the version of *DOOM* the widescreen HUD is inspired by, which can be either `1993` (the default and when vanilla mode is on), `2016` (the existing alternate HUD inspired by [*DOOM*](https://bethesda.net/en/store/product/DO4CSTPCDG01) released in 2016) or `2020` (a new HUD inspired by [*DOOM Eternal*](https://bethesda.net/en/store/product/DO5CS1PCBG01BASE)).
 
 ---
 
