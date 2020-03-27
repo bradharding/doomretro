@@ -160,6 +160,7 @@ static struct
 };
 
 static void HU_AltInit(void);
+static void HU_Alt2Init(void);
 
 static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
@@ -261,6 +262,7 @@ void HU_Init(void)
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
     HU_AltInit();
+    HU_Alt2Init();
     HU_SetTranslucency();
 }
 
@@ -960,6 +962,52 @@ static void HU_DrawAltHUD(void)
     }
 }
 
+static patch_t  *alt2num[10];
+static patch_t  *alt2bigbarpatch;
+static patch_t  *alt2smallbarhwidth;
+static patch_t  *alt2ammo[4];
+static patch_t  *alt2leftpatch[2][2];
+static patch_t  *alt2rightpatch;
+
+static void HU_Alt2Init(void)
+{
+    char    buffer[9];
+
+    for (int i = 0; i < 10; i++)
+    {
+        M_snprintf(buffer, sizeof(buffer), "DRHUD2%i", i);
+        alt2num[i] = W_CacheLumpName(buffer);
+    }
+
+    alt2bigbarpatch = W_CacheLumpName("DRHUDBR1");
+    alt2smallbarhwidth = W_CacheLumpName("DRHUDBR2");
+
+    for (int i = 0; i < 4; i++)
+    {
+        M_snprintf(buffer, sizeof(buffer), "DRHUDAM%i", i + 1);
+        alt2ammo[i] = W_CacheLumpName(buffer);
+    }
+
+    alt2leftpatch[0][0] = W_CacheLumpName("DRHUD2LA");
+    alt2leftpatch[0][1] = W_CacheLumpName("DRHUD2LB");
+    alt2leftpatch[1][0] = W_CacheLumpName("DRHUD2LC");
+    alt2leftpatch[1][1] = W_CacheLumpName("DRHUD2LD");
+
+    alt2rightpatch = W_CacheLumpName("DRHUD2R");
+}
+
+static void HU_DrawAlt2HUD(void)
+{
+    // armor
+    althudfunc(ALTHUD_LEFT_X - 26, ALTHUD_Y - 17, alt2leftpatch[0][0], WHITE, white);
+
+    // health
+    althudfunc(ALTHUD_LEFT_X - 20, ALTHUD_Y + 4, alt2leftpatch[1][0], WHITE, white);
+
+    // ammo
+    althudfunc(ALTHUD_RIGHT_X + 56, ALTHUD_Y + 4, alt2rightpatch, WHITE, white);
+}
+
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
@@ -1047,15 +1095,17 @@ void HU_Drawer(void)
 
         if (vid_widescreen && r_hud)
         {
-            if (r_hudtype == r_hudtype_2016)
+            if (r_hudtype == r_hudtype_1993)
+                HU_DrawHUD();
+            else if (r_hudtype == r_hudtype_2016)
                 HU_DrawAltHUD();
             else
-                HU_DrawHUD();
+                HU_DrawAlt2HUD();
         }
 
         if (mapwindow)
         {
-            if (vid_widescreen && r_hudtype == r_hudtype_2016)
+            if (vid_widescreen && r_hudtype != r_hudtype_1993)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
                 HUlib_DrawTextLine(&w_title, true);
