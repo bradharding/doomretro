@@ -930,8 +930,10 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
             {
                 byte    dot = *source++;
 
-                if (dot)
-                    *dest = (dot == from ? to : nearestcolors[dot]);
+                if (dot == from)
+                    *dest = to;
+                else if (dot)
+                    *dest = nearestcolors[dot];
 
                 dest += SCREENWIDTH;
             }
@@ -964,8 +966,10 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
             {
                 byte    dot = *source++;
 
-                if (dot)
-                    *dest = alttinttab60[(dot == from ? to : (nearestcolors[dot] << 8)) + *dest];
+                if (dot == from)
+                    *dest = alttinttab60[to + *dest];
+                else if (dot)
+                    *dest = alttinttab60[(nearestcolors[dot] << 8) + *dest];
 
                 dest += SCREENWIDTH;
             }
