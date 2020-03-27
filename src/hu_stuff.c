@@ -999,13 +999,13 @@ static void HU_Alt2Init(void)
 static void HU_DrawAlt2HUD(void)
 {
     // armor
-    althudfunc(ALTHUD_LEFT_X - 26, ALTHUD_Y - 17, alt2leftpatch[0][0], WHITE, white);
+    althudfunc(ALTHUD_LEFT_X - 30, ALTHUD_Y - 16, alt2leftpatch[0][0], WHITE, white);
 
     // health
-    althudfunc(ALTHUD_LEFT_X - 20, ALTHUD_Y + 4, alt2leftpatch[1][0], WHITE, white);
+    althudfunc(ALTHUD_LEFT_X - 24, ALTHUD_Y + 4, alt2leftpatch[1][0], WHITE, white);
 
     // ammo
-    althudfunc(ALTHUD_RIGHT_X + 56, ALTHUD_Y + 4, alt2rightpatch, WHITE, white);
+    althudfunc(ALTHUD_RIGHT_X + 60, ALTHUD_Y + 4, alt2rightpatch, WHITE, white);
 }
 
 void HU_DrawDisk(void)

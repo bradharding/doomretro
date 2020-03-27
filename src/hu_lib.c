@@ -472,7 +472,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        if (vid_widescreen && r_hudtype == r_hudtype_2016)
+        if (vid_widescreen && r_hudtype != r_hudtype_1993)
             HUlib_DrawAltHUDTextLine(l);
         else
             HUlib_DrawTextLine(l, external);
