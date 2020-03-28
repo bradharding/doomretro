@@ -506,6 +506,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\releasenotes.md" />
+    <None Include="..\res\CHEXDEH" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\DRCOMPAT" />
