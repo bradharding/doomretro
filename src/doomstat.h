@@ -100,7 +100,6 @@ extern dboolean         breach;
 extern dboolean         chex;
 extern dboolean         chex1;
 extern dboolean         chex2;
-extern dboolean         chexdeh;
 extern dboolean         hacx;
 extern dboolean         BTSX;
 extern dboolean         BTSXE1;

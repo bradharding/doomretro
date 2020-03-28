@@ -53,7 +53,6 @@ dboolean        breach;
 dboolean        chex;
 dboolean        chex1;
 dboolean        chex2;
-dboolean        chexdeh;
 dboolean        hacx;
 dboolean        BTSX;
 dboolean        BTSXE1;

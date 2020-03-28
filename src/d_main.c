@@ -706,9 +706,6 @@ static void LoadDehFile(char *path)
     {
         if (!DehFileProcessed(dehpath))
         {
-            if (chex)
-                chexdeh = true;
-
             if (HasDehackedLump(path))
                 M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", GetCorrectCase(dehpath));
             else
@@ -1691,7 +1688,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    dboolean    process = (!chexdeh && !M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
+    dboolean    process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
 
     if (*dehwarning)
         C_Warning(1, dehwarning);
@@ -1724,6 +1721,9 @@ static void D_ProcessDehInWad(void)
     }
     else
     {
+        if (chex1)
+            ProcessDehFile(NULL, W_GetNumForName("CHEXDEH"), true);
+
         for (int i = numlumps - 1; i >= 0; i--)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && !M_StringCompare(leafname(lumpinfo[i]->wadfile->path), "SIGIL_v1_2.wad")
