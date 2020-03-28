@@ -129,6 +129,7 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
+static void (*althudfunc2)(int, int, patch_t *, int[], int[]);
 void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
@@ -158,6 +159,11 @@ static struct
     { "YSKUA0", "YSKUB0" },
     { "RSKUA0", "RSKUB0" }
 };
+
+static int defaultcolors[] = { 108,  97,  87,   4 };
+static int armorcolors[] =   { 124, 119, 117, 112 };
+static int healthcolors[] =  { 206, 197, 196, 193 };
+static int ammocolors[] =    { 235, 223, 221, 214 };
 
 static void HU_AltInit(void);
 static void HU_Alt2Init(void);
@@ -192,6 +198,7 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
         althudfunc = V_DrawTranslucentAltHUDPatch;
         althudtextfunc =  V_DrawTranslucentAltHUDText;
+        althudfunc2 = V_DrawTranslucentAltHUDPatch2;
         fillrectfunc = V_FillSoftTransRect;
         fillrectfunc2 = V_FillTransRect;
         coloroffset = 0;
@@ -202,6 +209,7 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawHUDPatch;
         althudfunc = V_DrawAltHUDPatch;
         althudtextfunc = V_DrawAltHUDText;
+        althudfunc2 = V_DrawAltHUDPatch2;
         fillrectfunc = V_FillRect;
         fillrectfunc2 = V_FillRect;
         coloroffset = 4;
@@ -994,18 +1002,25 @@ static void HU_Alt2Init(void)
     alt2leftpatch[1][1] = W_CacheLumpName("DRHUD2LD");
 
     alt2rightpatch = W_CacheLumpName("DRHUD2R");
+
+    for (int i = 0; i < 4; i++)
+    {
+        armorcolors[i] = nearestcolors[armorcolors[i]];
+        healthcolors[i] = nearestcolors[healthcolors[i]];
+        ammocolors[i] = nearestcolors[ammocolors[i]];
+    }
 }
 
 static void HU_DrawAlt2HUD(void)
 {
     // armor
-    althudfunc(ALTHUD_LEFT_X - 30, ALTHUD_Y - 16, alt2leftpatch[0][0], WHITE, white);
+    althudfunc2(ALTHUD_LEFT_X - 30, ALTHUD_Y - 16, alt2leftpatch[0][0], defaultcolors, armorcolors);
 
     // health
-    althudfunc(ALTHUD_LEFT_X - 24, ALTHUD_Y + 4, alt2leftpatch[1][0], WHITE, white);
+    althudfunc2(ALTHUD_LEFT_X - 24, ALTHUD_Y + 4, alt2leftpatch[1][0], defaultcolors, healthcolors);
 
     // ammo
-    althudfunc(ALTHUD_RIGHT_X + 60, ALTHUD_Y + 4, alt2rightpatch, WHITE, white);
+    althudfunc2(ALTHUD_RIGHT_X + 60, ALTHUD_Y + 4, alt2rightpatch, defaultcolors, ammocolors);
 }
 
 void HU_DrawDisk(void)
