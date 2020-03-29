@@ -130,6 +130,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (mouselook,                                         BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                                           NOVALUEALIAS       ),
     CONFIG_VARIABLE_STRING       (playername,                                        NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (r_althud,                                          BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_berserkintensity,                                NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_blood,                                           BLOODVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                                 NOVALUEALIAS       ),
@@ -155,7 +156,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_homindicator,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud,                                             BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_hud_translucency,                                BOOLVALUEALIAS     ),
-    CONFIG_VARIABLE_INT          (r_hudtype,                                         HUDTYPEVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,                              BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_liquid_current,                                  BOOLVALUEALIAS     ),
@@ -278,9 +278,7 @@ valuealias_t valuealiases[] =
     { "none",      0, CROSSHAIRVALUEALIAS }, { "off",     0, CROSSHAIRVALUEALIAS },
     { "cross",     1, CROSSHAIRVALUEALIAS }, { "dot",     2, CROSSHAIRVALUEALIAS },
     { "adaptive", -1, VSYNCVALUEALIAS     }, { "off",     0, VSYNCVALUEALIAS     },
-    { "on",        1, VSYNCVALUEALIAS     }, { "1993",    0, HUDTYPEVALUEALIAS   }, 
-    { "2016",      1, HUDTYPEVALUEALIAS   }, { "2020",    2, HUDTYPEVALUEALIAS   },
-    { "",          0, NOVALUEALIAS        }
+    { "on",        1, VSYNCVALUEALIAS     }, { "",        0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *string)
@@ -713,6 +711,9 @@ static void M_CheckCVARs(void)
     if (!*playername)
         playername = M_StringDuplicate(playername_default);
 
+    if (r_althud != false && r_althud != true)
+        r_althud = r_althud_default;
+
     r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
 
     if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all && r_blood != r_blood_green
@@ -784,9 +785,6 @@ static void M_CheckCVARs(void)
 
     if (r_hud_translucency != false && r_hud_translucency != true)
         r_hud_translucency = r_hud_translucency_default;
-
-    if (r_hudtype != r_hudtype_1993 && r_hudtype != r_hudtype_2016 && r_hudtype != r_hudtype_2020)
-        r_hudtype = r_hudtype_default;
 
     if (r_liquid_bob != false && r_liquid_bob != true)
         r_liquid_bob = r_liquid_bob_default;

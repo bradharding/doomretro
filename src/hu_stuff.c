@@ -99,10 +99,10 @@ static patch_t          *bluearmorpatch;
 int                     crosshair = crosshair_default;
 int                     crosshaircolor = crosshaircolor_default;
 char                    *playername = playername_default;
+dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
-dboolean                r_hudtype = r_hudtype_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -129,7 +129,6 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
-static void (*althudfunc2)(int, int, patch_t *, int[], int[]);
 void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
@@ -160,13 +159,7 @@ static struct
     { "RSKUA0", "RSKUB0" }
 };
 
-static int defaultcolors[] = { 108,  97,  87,   4 };
-static int armorcolors[] =   { 124, 119, 117, 112 };
-static int healthcolors[] =  { 206, 197, 196, 193 };
-static int ammocolors[] =    { 235, 223, 221, 214 };
-
 static void HU_AltInit(void);
-static void HU_Alt2Init(void);
 
 static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
@@ -198,7 +191,6 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
         althudfunc = V_DrawTranslucentAltHUDPatch;
         althudtextfunc =  V_DrawTranslucentAltHUDText;
-        althudfunc2 = V_DrawTranslucentAltHUDPatch2;
         fillrectfunc = V_FillSoftTransRect;
         fillrectfunc2 = V_FillTransRect;
         coloroffset = 0;
@@ -209,7 +201,6 @@ void HU_SetTranslucency(void)
         hudnumfunc = V_DrawHUDPatch;
         althudfunc = V_DrawAltHUDPatch;
         althudtextfunc = V_DrawAltHUDText;
-        althudfunc2 = V_DrawAltHUDPatch2;
         fillrectfunc = V_FillRect;
         fillrectfunc2 = V_FillRect;
         coloroffset = 4;
@@ -270,7 +261,6 @@ void HU_Init(void)
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
     HU_AltInit();
-    HU_Alt2Init();
     HU_SetTranslucency();
 }
 
@@ -970,102 +960,6 @@ static void HU_DrawAltHUD(void)
     }
 }
 
-static patch_t  *alt2num[10];
-static patch_t  *alt2bigbarpatch;
-static patch_t  *alt2smallbarhwidth;
-static patch_t  *alt2ammo[4];
-static patch_t  *alt2leftpatch[2][2];
-static patch_t  *alt2rightpatch;
-
-static void HU_Alt2Init(void)
-{
-    char    buffer[9];
-
-    for (int i = 0; i < 10; i++)
-    {
-        M_snprintf(buffer, sizeof(buffer), "DRHUD2%i", i);
-        alt2num[i] = W_CacheLumpName(buffer);
-    }
-
-    alt2bigbarpatch = W_CacheLumpName("DRHUDBR1");
-    alt2smallbarhwidth = W_CacheLumpName("DRHUDBR2");
-
-    for (int i = 0; i < 4; i++)
-    {
-        M_snprintf(buffer, sizeof(buffer), "DRHUDAM%i", i + 1);
-        alt2ammo[i] = W_CacheLumpName(buffer);
-    }
-
-    alt2leftpatch[0][0] = W_CacheLumpName("DRHUD2LA");
-    alt2leftpatch[0][1] = W_CacheLumpName("DRHUD2LB");
-    alt2leftpatch[1][0] = W_CacheLumpName("DRHUD2LC");
-    alt2leftpatch[1][1] = W_CacheLumpName("DRHUD2LD");
-
-    alt2rightpatch = W_CacheLumpName("DRHUD2R");
-
-    for (int i = 0; i < 4; i++)
-    {
-        armorcolors[i] = nearestcolors[armorcolors[i]];
-        healthcolors[i] = nearestcolors[healthcolors[i]];
-        ammocolors[i] = nearestcolors[ammocolors[i]];
-    }
-}
-
-static void DrawAlt2HUDNumber(int x, int y, int val, int from[4], int to[4])
-{
-    patch_t *patch;
-
-    if (val >= 100)
-    {
-        patch = alt2num[val / 100];
-        althudfunc2(x, y, patch, from, to);
-        x += SHORT(patch->width) + 2;
-
-        patch = alt2num[(val %= 100) / 10];
-        althudfunc2(x, y, patch, from, to);
-        x += SHORT(patch->width) + 2;
-    }
-    else if (val >= 10)
-    {
-        patch = alt2num[val / 10];
-        althudfunc2(x, y, patch, from, to);
-        x += SHORT(patch->width) + 2;
-    }
-
-    althudfunc2(x, y, alt2num[val % 10], from, to);
-}
-
-static int Alt2HUDNumberWidth(int val)
-{
-    int width = 0;
-
-    if (val >= 100)
-    {
-        width = SHORT(alt2num[val / 100]->width) + 2;
-        width += SHORT(alt2num[(val %= 100) / 10]->width) + 2;
-    }
-    else if (val >= 10)
-        width = SHORT(alt2num[val / 10]->width) + 2;
-
-    return (width + SHORT(alt2num[val % 10]->width));
-}
-
-static void HU_DrawAlt2HUD(void)
-{
-    // armor
-    althudfunc2(ALTHUD_LEFT_X - 30, ALTHUD_Y - 16, alt2leftpatch[0][0], defaultcolors, armorcolors);
-    DrawAlt2HUDNumber(ALTHUD_LEFT_X + 14, ALTHUD_Y - 9, viewplayer->armorpoints, defaultcolors, armorcolors);
-
-    // health
-    althudfunc2(ALTHUD_LEFT_X - 24, ALTHUD_Y + 4, alt2leftpatch[1][0], defaultcolors, healthcolors);
-    DrawAlt2HUDNumber(ALTHUD_LEFT_X + 14, ALTHUD_Y + 6, viewplayer->health, defaultcolors, healthcolors);
-
-    // ammo
-    althudfunc2(ALTHUD_RIGHT_X + 60, ALTHUD_Y + 4, alt2rightpatch, defaultcolors, ammocolors);
-    DrawAlt2HUDNumber(ALTHUD_RIGHT_X + 80, ALTHUD_Y + 6, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype],
-        defaultcolors, ammocolors);
-}
-
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
@@ -1088,17 +982,17 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen)
         {
-            if (r_hudtype == r_hudtype_1993)
+            if (r_althud)
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
-                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
+                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
 
                 HUlib_DrawSText(&w_message, message_external);
             }
             else
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
+                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
 
                 HUlib_DrawSText(&w_message, message_external);
             }
@@ -1122,10 +1016,10 @@ void HU_Drawer(void)
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
-            if (r_hudtype == r_hudtype_1993)
-                HUlib_DrawTextLine(&w_title, false);
-            else
+            if (r_althud)
                 HUlib_DrawAltAutomapTextLine(&w_title, false);
+            else
+                HUlib_DrawTextLine(&w_title, false);
         }
         else
         {
@@ -1153,17 +1047,15 @@ void HU_Drawer(void)
 
         if (vid_widescreen && r_hud)
         {
-            if (r_hudtype == r_hudtype_1993)
-                HU_DrawHUD();
-            else if (r_hudtype == r_hudtype_2016)
+            if (r_althud)
                 HU_DrawAltHUD();
             else
-                HU_DrawAlt2HUD();
+                HU_DrawHUD();
         }
 
         if (mapwindow)
         {
-            if (vid_widescreen && r_hudtype != r_hudtype_1993)
+            if (vid_widescreen && r_althud)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
                 HUlib_DrawTextLine(&w_title, true);
