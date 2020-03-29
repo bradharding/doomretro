@@ -1011,16 +1011,59 @@ static void HU_Alt2Init(void)
     }
 }
 
+static void DrawAlt2HUDNumber(int x, int y, int val, int from[4], int to[4])
+{
+    patch_t *patch;
+
+    if (val >= 100)
+    {
+        patch = alt2num[val / 100];
+        althudfunc2(x, y, patch, from, to);
+        x += SHORT(patch->width) + 2;
+
+        patch = alt2num[(val %= 100) / 10];
+        althudfunc2(x, y, patch, from, to);
+        x += SHORT(patch->width) + 2;
+    }
+    else if (val >= 10)
+    {
+        patch = alt2num[val / 10];
+        althudfunc2(x, y, patch, from, to);
+        x += SHORT(patch->width) + 2;
+    }
+
+    althudfunc2(x, y, alt2num[val % 10], from, to);
+}
+
+static int Alt2HUDNumberWidth(int val)
+{
+    int width = 0;
+
+    if (val >= 100)
+    {
+        width = SHORT(alt2num[val / 100]->width) + 2;
+        width += SHORT(alt2num[(val %= 100) / 10]->width) + 2;
+    }
+    else if (val >= 10)
+        width = SHORT(alt2num[val / 10]->width) + 2;
+
+    return (width + SHORT(alt2num[val % 10]->width));
+}
+
 static void HU_DrawAlt2HUD(void)
 {
     // armor
     althudfunc2(ALTHUD_LEFT_X - 30, ALTHUD_Y - 16, alt2leftpatch[0][0], defaultcolors, armorcolors);
+    DrawAlt2HUDNumber(ALTHUD_LEFT_X + 14, ALTHUD_Y - 9, viewplayer->armorpoints, defaultcolors, armorcolors);
 
     // health
     althudfunc2(ALTHUD_LEFT_X - 24, ALTHUD_Y + 4, alt2leftpatch[1][0], defaultcolors, healthcolors);
+    DrawAlt2HUDNumber(ALTHUD_LEFT_X + 14, ALTHUD_Y + 6, viewplayer->health, defaultcolors, healthcolors);
 
     // ammo
     althudfunc2(ALTHUD_RIGHT_X + 60, ALTHUD_Y + 4, alt2rightpatch, defaultcolors, ammocolors);
+    DrawAlt2HUDNumber(ALTHUD_RIGHT_X + 80, ALTHUD_Y + 6, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype],
+        defaultcolors, ammocolors);
 }
 
 void HU_DrawDisk(void)
