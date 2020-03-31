@@ -413,7 +413,7 @@ static void WI_DrawLF(void)
         }
         else
         {
-            WI_DrawWILV(y, maptitle);
+            WI_DrawWILV(y, mapname);
             y += 14;
         }
     }
