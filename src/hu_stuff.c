@@ -815,13 +815,16 @@ static void HU_DrawAltHUD(void)
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
     int             barcolor2 = (health <= 20 ? red : (health >= 100 ? green : color));
-    int             barcolor1 = barcolor2 + (barcolor2 == green ? coloroffset : 0);
+    int             barcolor1 = barcolor2;
     int             keypic_x = ALTHUD_RIGHT_X;
     static int      keywait;
     static dboolean showkey;
     int             powerup = 0;
     int             powerupbar = 0;
     int             max;
+
+    if (barcolor1 == green)
+        barcolor1 += coloroffset;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health, color);
 

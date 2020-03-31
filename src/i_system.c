@@ -163,7 +163,6 @@ void I_PrintWindowsVersion(void)
         {
             char    infoname[32] = "NT";
             char    *build = commify(info.dwBuildNumber);
-            size_t  versionlen = wcslen(info.szCSDVersion);
 
             if (info.dwMajorVersion == 5)
             {
