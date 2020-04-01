@@ -465,45 +465,51 @@ static void I_GetEvent(void)
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
                     event.data2 = 0;
 
-                if ((altdown = Event->key.keysym.mod & KMOD_ALT))
-                {
-                    if (event.data1 == KEY_F4)
-                    {
-                        I_Sleep(300);
-                        I_Quit(true);
-                    }
-                    else if (event.data1 == KEY_TAB)
-                    {
-                        event.data1 = 0;
-                        event.data2 = 0;
-                    }
-                }
+                altdown = Event->key.keysym.mod & KMOD_ALT;
 
-                if (!isdigit(event.data2))
+                if (event.data1)
                 {
-                    idclev = false;
-                    idmus = false;
-                }
+                    if (altdown)
+                    {
+                        if (event.data1 == KEY_F4)
+                        {
+                            I_Sleep(300);
+                            I_Quit(true);
+                        }
+                        else if (event.data1 == KEY_TAB)
+                        {
+                            event.data1 = 0;
+                            event.data2 = 0;
+                        }
+                    }
 
-                if (idbehold && keys[event.data2])
-                {
-                    idbehold = false;
-                    HU_ClearMessages();
-                    C_Input(cheat_powerup[6].sequence);
-                    C_Output(s_STSTR_BEHOLD);
-                }
+                    if (!isdigit(event.data2))
+                    {
+                        idclev = false;
+                        idmus = false;
+                    }
+
+                    if (idbehold && keys[event.data2])
+                    {
+                        idbehold = false;
+                        HU_ClearMessages();
+                        C_Input(cheat_powerup[6].sequence);
+                        C_Output(s_STSTR_BEHOLD);
+                    }
 
 #if !defined(_WIN32)
-                // Handle ALT+ENTER on non-Windows systems
-                if (altdown && event.data1 == KEY_ENTER && !enterdown)
-                {
-                    enterdown = true;
-                    I_ToggleFullscreen();
-                    return;
-                }
+                    // Handle ALT+ENTER on non-Windows systems
+                    if (altdown && event.data1 == KEY_ENTER && !enterdown)
+                    {
+                        enterdown = true;
+                        I_ToggleFullscreen();
+                        return;
+                    }
 #endif
 
-                D_PostEvent(&event);
+                    D_PostEvent(&event);
+                }
+
                 break;
             }
 
@@ -524,8 +530,9 @@ static void I_GetEvent(void)
                 if (event.data1 == KEY_ENTER)
                     enterdown = false;
 #endif
+                if (event.data1)
+                    D_PostEvent(&event);
 
-                D_PostEvent(&event);
                 break;
             }
 
