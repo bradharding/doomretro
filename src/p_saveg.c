@@ -1637,7 +1637,7 @@ void P_UnArchiveMap(void)
     if ((automapactive = saveg_read_bool()) || mapwindow)
         AM_Start(automapactive);
 
-    if ((markpointnum = saveg_read32()))
+    if ((markpointnum = markpointnum_max = saveg_read32()))
     {
         markpoints = I_Realloc(markpoints, markpointnum * sizeof(*markpoints));
 
@@ -1648,7 +1648,7 @@ void P_UnArchiveMap(void)
         }
     }
 
-    if ((pathpointnum = saveg_read32()))
+    if ((pathpointnum = pathpointnum_max = saveg_read32()))
     {
         pathpoints = I_Realloc(pathpoints, pathpointnum * sizeof(*pathpoints));
 
