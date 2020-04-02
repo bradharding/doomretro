@@ -2,7 +2,8 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* A bug has been fixed whereby the wrong map name could be displayed on the intermission screen in some instances.
+* A bug has been fixed whereby the wrong map name would be displayed on the intermission screen in some instances.
+* A brightmap is now applied to the `SLADRIP2` texture when the `r_brightmaps` CVAR is `on`.
 
 ---
 

@@ -57,7 +57,6 @@
 // a patch or sprite is composed of zero or more columns.
 //
 
-// killough 4/17/98: make firstcolormaplump, lastcolormaplump external
 static int  firstcolormaplump;
 
 int         firstflat;

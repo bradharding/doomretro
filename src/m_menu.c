@@ -3772,12 +3772,11 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if ((!saveStringEnter || !whichSkull) && windowfocused)
-        if (--skullAnimCounter <= 0)
-        {
-            whichSkull ^= 1;
-            skullAnimCounter = 8;
-        }
+    if ((!saveStringEnter || !whichSkull) && windowfocused && --skullAnimCounter <= 0)
+    {
+        whichSkull ^= 1;
+        skullAnimCounter = 8;
+    }
 }
 
 //
