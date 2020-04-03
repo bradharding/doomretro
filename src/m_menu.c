@@ -3566,7 +3566,7 @@ void M_StartControlPanel(void)
                 viewplayer->mo->angle = ANG90;
         }
 
-        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / 2);
+        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
     }
 }
 

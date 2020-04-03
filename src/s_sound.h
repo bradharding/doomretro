@@ -44,12 +44,14 @@
 #include "r_defs.h"
 #include "sounds.h"
 
-#define CHANNELS            2
-#define CHUNKSIZE           1024
-#define SAMPLERATE          44100
+#define CHANNELS                    2
+#define CHUNKSIZE                   1024
+#define SAMPLERATE                  44100
 
-#define MAX_MUSIC_VOLUME    MIX_MAX_VOLUME
-#define MAX_SFX_VOLUME      MIX_MAX_VOLUME
+#define MAX_MUSIC_VOLUME            MIX_MAX_VOLUME
+#define MAX_SFX_VOLUME              MIX_MAX_VOLUME
+
+#define LOWER_MUSIC_VOLUME_FACTOR   3
 
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);

@@ -753,8 +753,8 @@ void C_ShowConsole(void)
 
     if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
-    else if (gamestate == GS_LEVEL)
-        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / 2);
+
+    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
 
     SDL_StartTextInput();
 }
@@ -772,8 +772,8 @@ void C_HideConsole(void)
         consoleactive = false;
         S_StartSound(NULL, sfx_swtchx);
     }
-    else if (gamestate == GS_LEVEL)
-        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+    
+    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
 }
 
 void C_HideConsoleFast(void)

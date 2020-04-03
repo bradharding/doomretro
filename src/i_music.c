@@ -80,21 +80,16 @@ void I_ShutdownMusic(void)
 #endif
 }
 
-static dboolean SDLIsInitialized(void)
+// Initialize music subsystem
+dboolean I_InitMusic(void)
 {
     int         freq;
     int         channels;
     uint16_t    format;
 
-    return Mix_QuerySpec(&freq, &format, &channels);
-}
-
-// Initialize music subsystem
-dboolean I_InitMusic(void)
-{
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
-    if (!SDLIsInitialized())
+    if (!Mix_QuerySpec(&freq, &format, &channels))
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
@@ -119,12 +114,12 @@ dboolean I_InitMusic(void)
     return music_initialized;
 }
 
-//
-// SDL_mixer's native MIDI music playing does not pause properly.
-// As a workaround, set the volume to 0 when paused.
-//
-static void UpdateMusicVolume(void)
+// Set music volume (0 - MAX_MUSIC_VOLUME)
+void I_SetMusicVolume(int volume)
 {
+    // Internal state variable.
+    current_music_volume = volume;
+
 #if defined(_WIN32)
     // adjust server volume
     if (serverMidiPlaying)
@@ -135,15 +130,6 @@ static void UpdateMusicVolume(void)
 #endif
 
     Mix_VolumeMusic(current_music_volume);
-}
-
-// Set music volume (0 - MAX_MUSIC_VOLUME)
-void I_SetMusicVolume(int volume)
-{
-    // Internal state variable.
-    current_music_volume = volume;
-
-    UpdateMusicVolume();
 }
 
 // Start playing a mid
