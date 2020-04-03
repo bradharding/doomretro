@@ -495,7 +495,7 @@ void D_PageDrawer(void)
             if (logotic >= 77 && logotic < 94)
                 V_DrawBigPatch(143, 167, logolump[94 - logotic]);
 
-            I_SetSimplePalette(&splashpal[(pagetic < 9 ? (9 - pagetic) : (pagetic > 94 ? (pagetic - 94) : 0)) * 768]);
+            I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
             prevtic = pagetic;
         }
     }
@@ -2132,7 +2132,6 @@ static void D_DoomMainSetup(void)
             startepisode = temp;
             episode = temp;
             M_SaveCVARs();
-            startmap = 1;
 
             if (gamemode == commercial)
                 M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
@@ -2154,8 +2153,6 @@ static void D_DoomMainSetup(void)
             gamemission = (temp == 1 ? doom2 : pack_nerve);
             expansion = temp;
             M_SaveCVARs();
-            startepisode = 1;
-            startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
             C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now <i><b>%s.</b></i>",
@@ -2194,8 +2191,6 @@ static void D_DoomMainSetup(void)
 
                 if (p + 2 < myargc)
                     startmap = myargv[p + 2][0] - '0';
-                else
-                    startmap = 1;
             }
 
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
