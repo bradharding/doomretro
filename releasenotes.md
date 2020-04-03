@@ -1,5 +1,7 @@
 ### DOOM Retro v3.5.5
 
+* Music is now quieter when the menu is open and a game is being played.
+
 ---
 
 ###### Friday, April 3, 2020

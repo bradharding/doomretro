@@ -3565,6 +3565,8 @@ void M_StartControlPanel(void)
             if (!am_rotatemode)
                 viewplayer->mo->angle = ANG90;
         }
+
+        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / 2);
     }
 }
 
@@ -3754,6 +3756,9 @@ void M_ClearMenus(void)
 
         if (automapactive)
             AM_SetAutomapSize();
+
+
+        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
     }
 }
 
