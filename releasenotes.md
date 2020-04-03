@@ -1,7 +1,8 @@
 ### DOOM Retro v3.5.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The music volume is now lower while the menu or console is open.
+* The music volume is now lowered while the menu or console is open.
+* Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
 
 ---
 
