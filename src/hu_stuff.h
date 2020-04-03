@@ -75,6 +75,10 @@
 
 #define HUD_KEY_WAIT                250
 
+#define ALTHUD_LEFT_X               56
+#define ALTHUD_RIGHT_X              (SCREENWIDTH - 179)
+#define ALTHUD_Y                    (SCREENHEIGHT - SBARHEIGHT - 37)
+
 //
 // HEADS UP TEXT
 //

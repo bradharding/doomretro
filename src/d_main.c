@@ -855,10 +855,6 @@ static dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
-#if !defined(_WIN32) && !defined(__OpenBSD__)
-    wordexp_t   p;
-#endif
-
     if (myargc == 2 && M_StringEndsWith(myargv[1], ".wad"))
     {
         char    *folder = M_ExtractFolder(myargv[1]);
@@ -966,6 +962,8 @@ static dboolean D_CheckParms(void)
 #if defined(_WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
 #else
+                wordexp_t   p;
+
                 if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0], iwadsrequired[iwadrequired]);

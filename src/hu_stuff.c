@@ -623,10 +623,6 @@ static void HU_DrawHUD(void)
     }
 }
 
-#define ALTHUD_LEFT_X   56
-#define ALTHUD_RIGHT_X  (SCREENWIDTH - 179)
-#define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
-
 typedef struct
 {
     int     color;
