@@ -761,6 +761,9 @@ void C_ShowConsole(void)
 
 void C_HideConsole(void)
 {
+    if (!consoleactive)
+        return;
+
     SDL_StopTextInput();
 
     consoledirection = -1;

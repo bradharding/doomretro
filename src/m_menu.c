@@ -3757,7 +3757,6 @@ void M_ClearMenus(void)
         if (automapactive)
             AM_SetAutomapSize();
 
-
         S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
     }
 }
