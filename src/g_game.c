@@ -728,6 +728,8 @@ dboolean G_Responder(event_t *ev)
 
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
+
+                S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / (paused ? 2 : 1));
             }
             else if (key == keyboardalwaysrun && !keydown)
             {
