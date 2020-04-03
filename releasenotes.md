@@ -1,6 +1,7 @@
 ### DOOM Retro v3.5.5
 
-* Music is now quieter when the menu or paused and a game is being played, or when the console is open.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The music volume is now lower while the menu or console is open.
 
 ---
 

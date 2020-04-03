@@ -56,9 +56,6 @@ void D_DoomMain(void);
 // Called by IO functions when input is detected.
 void D_PostEvent(event_t *ev);
 
-// Read events from all input devices
-void D_ProcessEvents(void);
-
 //
 // BASE LEVEL
 //
