@@ -1135,7 +1135,8 @@ static int D_OpenWADLauncher(void)
             char    *folder = M_ExtractFolder(file);
 
             if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh")
-                && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg"))
+                && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg")
+                && (strlen(file) < 4 || file[strlen(file) - 4] != '.'))
                 file = M_StringJoin(file, ".wad", NULL);
 
 #if defined(_WIN32)
