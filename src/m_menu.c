@@ -1019,6 +1019,7 @@ static void M_LoadSelect(int choice)
         functionkey = 0;
         quickSaveSlot = choice;
         M_ClearMenus();
+        S_StopMusic();
         G_LoadGame(name);
     }
     else
@@ -1929,6 +1930,7 @@ static void M_EndGameResponse(int key)
     }
 
     currentMenu->lastOn = itemOn;
+    S_StopMusic();
     M_ClearMenus();
     viewactive = false;
     automapactive = false;
