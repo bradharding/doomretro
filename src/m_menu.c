@@ -510,6 +510,8 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1))
     {
+        M_Seed(gametime);
+
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
             screens[0][i] = nearestblack;
@@ -2249,6 +2251,7 @@ static void M_SizeDisplay(int choice)
             break;
     }
 
+    blurtic = -1;
     skippsprinterp = true;
 }
 
