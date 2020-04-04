@@ -1648,6 +1648,7 @@ thingfix_t thingfix[] =
     { doom2,            1,  30,     1, MonstersSpawner,           2880,    1424,    2880,    1424,     270, DEFAULT                            },
 
     { doom2,            1,  31,    60, Demon,                     1376,     800,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
+    { doom2,            1,  31,    80, BurningBarrel,             1664,     448,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
     { doom2,            1,  31,   265, WolfensteinSS,            -4576,    1952,   -4576,    1952, DEFAULT, (MTF_NORMAL | MTF_HARD)            },
 
     { doom2,            1,  32,    67, PlayerDeathmatchStart,     1216,    4640,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
