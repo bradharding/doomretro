@@ -2478,9 +2478,12 @@ void P_SpawnSpecials(void)
 
         if (minutes > 0)
         {
+            char    *temp = commify(minutes);
+
+            C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %s minute%s.",
+                temp, (minutes == 1 ? "" : "s"));
             P_SetTimer(minutes);
-            C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %i minute%s.",
-                timer, (timer == 1 ? "" : "s"));
+            free(temp);
         }
     }
 

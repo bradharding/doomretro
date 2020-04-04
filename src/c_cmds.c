@@ -6327,9 +6327,9 @@ static void timer_cmd_func2(char *cmd, char *parms)
             char    *temp = commify(value);
 
             if (value == timer)
-                C_Output("The timer for each map has been reset to %s minutes.", temp);
+                C_Output("The timer for each map has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
             else if (value)
-                C_Output("The timer for each map is now %s minutes.", temp);
+                C_Output("The timer for each map is now %s minute%s.", temp, (value == 1 ? "" : "s"));
             else
                 C_Output("The timer for each map has been cleared.");
 
