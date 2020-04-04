@@ -1288,7 +1288,7 @@ void C_Drawer(void)
                     free(temp);
                 }
 
-                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 2, y, console[i].tics);
+                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, console[i].tics);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
