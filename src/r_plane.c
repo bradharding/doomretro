@@ -344,15 +344,15 @@ static int  offsets[1024 * 4096];
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[4096];
-    static int  prevleveltime = -1;
+    static int  prevgametime = -1;
     static int  prevflatnum = -1;
     static byte *normalflat;
     static int  *offset;
 
-    if (prevleveltime != leveltime)
+    if (prevgametime != gametime)
     {
-        offset = &offsets[(leveltime & 1023) << 12];
-        prevleveltime = leveltime;
+        offset = &offsets[(gametime & 1023) << 12];
+        prevgametime = gametime;
 
         if (prevflatnum != flatnum)
         {
