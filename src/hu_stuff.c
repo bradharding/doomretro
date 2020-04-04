@@ -474,10 +474,10 @@ static void HU_DrawHUD(void)
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUDNumberWidth(health);
     static dboolean     healthanim;
-    byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
-                            || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
-    patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive || freeze);
+    byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
+                            || health > HUD_HEALTH_MIN || gamepaused ? tinttab66 : tinttab25);
+    patch_t             *patch;
     const int           currenttime = I_GetTimeMS();
     int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
@@ -570,7 +570,7 @@ static void HU_DrawHUD(void)
                 viewplayer->neededcardflash--;
             }
 
-            if (showkey)
+            if (showkey || gamepaused)
                 hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
         }
     }
@@ -592,7 +592,7 @@ static void HU_DrawHUD(void)
             static dboolean ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
-            translucency = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
+            translucency = (ammoanim || ammo > HUD_AMMO_MIN || gamepaused ? tinttab66 : tinttab25);
 
             if ((patch = ammopic[ammotype].patch))
                 hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
