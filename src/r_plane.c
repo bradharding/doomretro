@@ -38,6 +38,7 @@
 
 #include <string.h>
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -349,7 +350,7 @@ static byte *R_DistortedFlat(int flatnum)
     static byte *normalflat;
     static int  *offset;
 
-    if (prevgametime != gametime)
+    if (prevgametime != gametime && !consoleactive && !paused)
     {
         offset = &offsets[(gametime & 1023) << 12];
         prevgametime = gametime;
