@@ -496,6 +496,8 @@ static void BlurScreen(byte *screen, byte *blurscreen, int height)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 }
 
+static int  blurtic = -1;
+
 //
 // M_DarkBackground
 //  darken and blur background while menu is displayed
@@ -504,10 +506,9 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-    static int  prevtic = -1;
     int         blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    if (gametime != prevtic)
+    if (gametime != blurtic && (!(gametime % 3) || blurtic == -1))
     {
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
@@ -544,7 +545,7 @@ void M_DarkBackground(void)
                 blurscreen2[i] = tinttab33[blurscreen2[i]];
         }
 
-        prevtic = gametime;
+        blurtic = gametime;
     }
 
     memcpy(screens[0], blurscreen1, blurheight);
@@ -3738,6 +3739,7 @@ void M_ClearMenus(void)
 
     menuactive = false;
     message_menu = false;
+    blurtic = -1;
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
