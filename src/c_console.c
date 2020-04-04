@@ -775,12 +775,15 @@ void C_HideConsole(void)
         consoleactive = false;
         S_StartSound(NULL, sfx_swtchx);
     }
-    
+
     S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
 }
 
 void C_HideConsoleFast(void)
 {
+    if (!consoleactive)
+        return;
+
     SDL_StopTextInput();
 
     consoledirection = -1;
@@ -1161,7 +1164,7 @@ void C_UpdateTimer(void)
             M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         }
 
-        C_DrawOverlayText(timerx, CONSOLETEXTY, buffer, consoletimercolor, true);
+        C_DrawOverlayText(timerx, (vid_showfps ? CONSOLETEXTY + CONSOLELINEHEIGHT : CONSOLETEXTY), buffer, consoletimercolor, true);
     }
 }
 
