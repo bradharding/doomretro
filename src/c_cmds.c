@@ -7840,7 +7840,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         {
             s_musicvolume = value;
             musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 31 + 50) / 100;
-            S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+            S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
             M_SaveCVARs();
         }
         else if (s_sfxvolume != value)

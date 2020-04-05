@@ -1533,7 +1533,7 @@ static void M_MusicVol(int choice)
         case 0:
             if (musicVolume > 0)
             {
-                S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 31);
+                S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 31 / (gamestate == GS_LEVEL ? LOWER_MUSIC_VOLUME_FACTOR : 1));
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
@@ -1545,7 +1545,7 @@ static void M_MusicVol(int choice)
         case 1:
             if (musicVolume < 31)
             {
-                S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 31);
+                S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 31 / (gamestate == GS_LEVEL ? LOWER_MUSIC_VOLUME_FACTOR : 1));
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
