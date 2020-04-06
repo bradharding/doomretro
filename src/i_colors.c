@@ -83,6 +83,7 @@ static byte general[256] =
 #define BLACK       0
 #define RED         176
 #define WHITE       4
+#define YELLOW      160
 
 byte    *tinttab15;
 byte    *tinttab20;
@@ -116,6 +117,7 @@ byte    nearestcolors[256];
 byte    nearestblack;
 byte    nearestred;
 byte    nearestwhite;
+byte    nearestyellow;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
@@ -165,6 +167,7 @@ void FindNearestColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
+    nearestyellow = nearestcolors[YELLOW];
 
     menushadow = &tinttab40[nearestblack << 8];
 }
