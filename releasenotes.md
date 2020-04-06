@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The music volume is now lowered while the menu or console is open.
+* The music volume is now lowered while either the menu or console is open.
 * Minor improvements have been made to the menu’s background.
 * Minor improvements have been made to the widescreen HUD.
 * Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.

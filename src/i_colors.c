@@ -117,7 +117,6 @@ byte    nearestcolors[256];
 byte    nearestblack;
 byte    nearestred;
 byte    nearestwhite;
-byte    nearestyellow;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
@@ -167,9 +166,9 @@ void FindNearestColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
-    nearestyellow = nearestcolors[YELLOW];
 
     menushadow = &tinttab40[nearestblack << 8];
+    hudhighlight = &tinttab15[nearestcolors[YELLOW] << 8];
 }
 
 int FindDominantColor(patch_t *patch)

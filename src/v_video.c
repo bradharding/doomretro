@@ -61,6 +61,7 @@
 byte            *screens[5];
 
 byte            *menushadow;
+byte            *hudhighlight;
 
 static fixed_t  DX, DY;
 static fixed_t  DXI, DYI;
@@ -844,7 +845,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : tinttab15[(nearestyellow << 8) + dot]);
+                *dest = (dot == 109 ? tinttab33[*dest] : hudhighlight[dot]);
                 dest += SCREENWIDTH;
             }
 
