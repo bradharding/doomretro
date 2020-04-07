@@ -3165,6 +3165,9 @@ dboolean M_Responder(event_t *ev)
                 expansion = itemOn + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(expansion), expansion);
+
+                if (gamestate != GS_LEVEL)
+                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
             else if (currentMenu == &NewDef)
             {
@@ -3243,6 +3246,9 @@ dboolean M_Responder(event_t *ev)
                 expansion = itemOn + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(expansion), expansion);
+
+                if (gamestate != GS_LEVEL)
+                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
             else if (currentMenu == &NewDef)
             {
@@ -3434,6 +3440,9 @@ dboolean M_Responder(event_t *ev)
                         expansion = itemOn + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(expansion), expansion);
+
+                        if (gamestate != GS_LEVEL)
+                            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
                     else if (currentMenu == &NewDef)
                     {
@@ -3495,6 +3504,9 @@ dboolean M_Responder(event_t *ev)
                         expansion = itemOn + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(expansion), expansion);
+
+                        if (gamestate != GS_LEVEL)
+                            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
                     else if (currentMenu == &NewDef)
                     {

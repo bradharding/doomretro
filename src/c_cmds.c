@@ -6944,7 +6944,12 @@ static void expansion_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (expansion != expansion_old && gamemode == commercial)
+    {
         ExpDef.lastOn = (nerve ? expansion : 1) - 1;
+
+        if (gamestate != GS_LEVEL)
+            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+    }
 }
 
 //
