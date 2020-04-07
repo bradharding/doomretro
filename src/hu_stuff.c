@@ -392,7 +392,7 @@ static int HUDNumberWidth(int val)
 static void HU_DrawCrosshair(void)
 {
     byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] :
-                         &tinttab40[nearestcolors[crosshaircolor] << 8]);
+                &tinttab40[nearestcolors[crosshaircolor] << 8]);
 
     if (crosshair == crosshair_cross)
     {
@@ -817,7 +817,7 @@ static void HU_DrawAltHUD(void)
     static dboolean showkey;
     int             powerup = 0;
     int             powerupbar = 0;
-    int             max;
+    int             max = 1;
 
     if (barcolor1 == green)
         barcolor1 += coloroffset;
@@ -976,8 +976,6 @@ void HU_Drawer(void)
         {
             w_message.l->x = 0;
             w_message.l->y = 0;
-
-            HUlib_DrawSText(&w_message, message_external);
         }
         else if (vid_widescreen)
         {
@@ -985,24 +983,20 @@ void HU_Drawer(void)
             {
                 w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
                 w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
-
-                HUlib_DrawSText(&w_message, message_external);
             }
             else
             {
                 w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
                 w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
-
-                HUlib_DrawSText(&w_message, message_external);
             }
         }
         else
         {
             w_message.l->x = HU_MSGX;
             w_message.l->y = HU_MSGY;
-
-            HUlib_DrawSText(&w_message, message_external);
         }
+
+        HUlib_DrawSText(&w_message, message_external);
 
         if (message_menu)
             return;
