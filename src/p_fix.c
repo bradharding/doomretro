@@ -1547,6 +1547,9 @@ sectorfix_t sectorfix[] =
 
     { doom2,            1,  19,     63, "",        "",                 176,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
+    { doom2,            1,  21,     50, "",        "",             DEFAULT,           200, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,  21,     54, "",        "",             DEFAULT,           200, DEFAULT,                           DEFAULT, DEFAULT },
+
     { doom2,            1,  27,     80, "",        "FLAT5_2",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
     { doom2,            1,  27,     93, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 

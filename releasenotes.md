@@ -7,6 +7,7 @@
 * Minor improvements have been made to the widescreen HUD.
 * Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
 * The timer displayed when the `timer` CCMD is used will now be positioned lower if the `vid_showfps` CVAR is `on`.
+* More fixes have been applied to certain maps in the `doom2.wad` IWAD when the `r_fixmaperrors` CVAR is `on`.
 
 ---
 
