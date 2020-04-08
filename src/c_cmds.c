@@ -3328,11 +3328,12 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     const int   tabs[4] = { 40, 93, 370, 0 };
     int         count = 0;
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
+    dboolean    mapfound[50] = { false };
 
     C_Header(tabs, maplistheader, MAPLISTHEADER);
 
     // search through lumps for maps
-    for (int i = 0; i < numlumps; i++)
+    for (int i = numlumps - 1; i >= 0; i--)
     {
         int         ep = -1;
         int         map = -1;
@@ -3364,9 +3365,10 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 sscanf(lump, "E%1iM%1i", &ep, &map);
         }
 
-        if (ep-- == -1 || map-- == -1)
+        if (ep-- == -1 || map-- == -1 || mapfound[ep * 10 + map + 1])
             continue;
 
+        mapfound[ep * 10 + map + 1] = true;
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
@@ -3387,7 +3389,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 break;
 
             case doom2:
-                if ((!M_StringCompare(wadname, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
+                if ((!M_StringCompare(wadname, "NERVE.WAD") && (!replaced || pwad || nerve)) || hacx)
                 {
                     if (BTSX)
                     {
