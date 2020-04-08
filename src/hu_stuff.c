@@ -1027,9 +1027,10 @@ void HU_Drawer(void)
         if (crosshair != crosshair_none)
         {
             ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
-            actionf_t   action = viewplayer->psprites[ps_weapon].state->action;
+            actionf_t   action;
 
-            if (ammotype != am_noammo && viewplayer->ammo[ammotype] && action != A_Raise && action != A_Lower)
+            if (ammotype != am_noammo && viewplayer->ammo[ammotype]
+                && (action = viewplayer->psprites[ps_weapon].state->action) != A_Raise && action != A_Lower)
             {
                 if (r_hud_translucency)
                     HU_DrawCrosshair();

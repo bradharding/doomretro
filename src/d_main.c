@@ -812,8 +812,6 @@ static void D_CheckSupportedPWAD(char *filename)
         nerve = true;
         expansion = 2;
     }
-    else if (M_StringCompare(leaf, "breach.wad"))
-        breach = true;
     else if (M_StringCompare(leaf, "chex.wad"))
         chex = chex1 = true;
     else if (M_StringCompare(leaf, "chex2.wad"))

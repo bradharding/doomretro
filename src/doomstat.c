@@ -49,7 +49,6 @@ dboolean        buckethead = false;
 dboolean        nerve;
 dboolean        bfgedition;
 
-dboolean        breach;
 dboolean        chex;
 dboolean        chex1;
 dboolean        chex2;

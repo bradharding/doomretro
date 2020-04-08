@@ -96,7 +96,6 @@ extern dboolean         buckethead;
 extern dboolean         nerve;
 extern dboolean         bfgedition;
 
-extern dboolean         breach;
 extern dboolean         chex;
 extern dboolean         chex1;
 extern dboolean         chex2;
