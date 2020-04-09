@@ -6078,7 +6078,7 @@ static void take_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
         {
-            for (weapontype_t i = wp_shotgun; i < NUMWEAPONS; i++)
+            for (weapontype_t i = wp_pistol; i < NUMWEAPONS; i++)
                 if (viewplayer->weaponowned[i])
                 {
                     viewplayer->weaponowned[i] = oldweaponsowned[i] = false;
