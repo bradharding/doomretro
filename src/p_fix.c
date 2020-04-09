@@ -1289,7 +1289,7 @@ linefix_t linefix[] =
     { pack_plut,        1,  29,    1144,    0, "",         "",            "",                -37,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  29,    1147,    0, "",         "",            "",                 19,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  29,    1150,    0, "",         "",            "",                 10,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { pack_plut,        1,  29,    2842,    0, "PANCASE2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  29,    2842,    0, "A-BROCK2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  29,    2936,    0, "",         "",            "",                 22,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  29,    2938,    0, "",         "",            "",                 26,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
@@ -1467,6 +1467,7 @@ linefix_t linefix[] =
     { pack_tnt,         1,  32,     634,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_tnt,         1,  32,     635,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_tnt,         1,  32,     636,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_tnt,         1,  32,     872,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   SR_Door_OpenStay_Fast,                      DEFAULT },
 
     { -1,               0,   0,       0,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT }
 };
@@ -1558,6 +1559,8 @@ sectorfix_t sectorfix[] =
     { pack_plut,        1,   4,    103, "RROCK03", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
     { pack_plut,        1,   8,    130, "",        "",             DEFAULT,             0, DEFAULT,                           DEFAULT, DEFAULT },
+
+    { pack_plut,        1,  10,     71, "",        "FLOOR7_1",     DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
     { pack_plut,        1,  16,     95, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT, DEFAULT },
     { pack_plut,        1,  16,     96, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT, DEFAULT },
@@ -1664,8 +1667,10 @@ thingfix_t thingfix[] =
     { pack_plut,        1,  12,   226, Nothing,                    992,   -3360,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
 
     { pack_plut,        1,  30,   206, MegaSphere,                -480,    1920,    -480,    1920, DEFAULT, MTF_NOTSINGLE                      },
+    { pack_plut,        1,  30,   250, Berserk,                  -2368,    3424,   -2368,    3424, DEFAULT, MTF_NOTSINGLE                      },
     { pack_plut,        1,  30,   251, Berserk,                  -2272,    2368,   -2272,    2368, DEFAULT, MTF_NOTSINGLE                      },
     { pack_plut,        1,  30,   252, Berserk,                  -1632,    2464,   -1632,    2464, DEFAULT, MTF_NOTSINGLE                      },
+    { pack_plut,        1,  30,   253, Berserk,                   -288,    2400,    -288,    2400, DEFAULT, MTF_NOTSINGLE                      },
     { pack_plut,        1,  30,   254, Berserk,                  -1248,    3104,   -1248,    3104, DEFAULT, MTF_NOTSINGLE                      },
 
     { pack_tnt,         1,   3,     7, TeleportDestination,       -416,     416,    -416,     416,     135, DEFAULT                            },
