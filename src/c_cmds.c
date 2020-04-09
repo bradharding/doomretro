@@ -2143,7 +2143,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already has everything.", playername);
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have everything.");
+                else
+                    C_Warning(0, "%s already has everything.", playername);
+
                 free(parm);
                 return;
             }
@@ -2158,8 +2162,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s full health.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have full health.");
+                else
+                    C_Warning(0, "%s already has full health.", playername);
+
                 free(parm);
                 return;
             }
@@ -2174,8 +2181,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s all the weapons.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have all the weapons.");
+                else
+                    C_Warning(0, "%s already has all the weapons.", playername);
+
                 free(parm);
                 return;
             }
@@ -2190,8 +2200,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s full ammo.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have full ammo.");
+                else
+                    C_Warning(0, "%s already has full ammo.", playername);
+
                 free(parm);
                 return;
             }
@@ -2207,8 +2220,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s full armor.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have full armor.");
+                else
+                    C_Warning(0, "%s already has full armor.", playername);
+
                 free(parm);
                 return;
             }
@@ -2223,8 +2239,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s all the keycards and skull keys.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have all the keycards and skull keys.");
+                else
+                    C_Warning(0, "%s already has all the keycards and skull keys.", playername);
+
                 free(parm);
                 return;
             }
@@ -2239,8 +2258,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s all the keycards.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have all the keycards.");
+                else
+                    C_Warning(0, "%s already has all the keycards.", playername);
+
                 free(parm);
                 return;
             }
@@ -2255,8 +2277,11 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                C_Warning(0, "%s already %s all the skull keys.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have all the skull keys.");
+                else
+                    C_Warning(0, "%s already has all the skull keys.", playername);
+
                 free(parm);
                 return;
             }
@@ -2265,8 +2290,11 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             if (viewplayer->weaponowned[wp_pistol])
             {
-                C_Warning(0, "%s already %s a pistol.",
-                    playername, (M_StringCompare(playername, playername_default) ? "have" : "has"));
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have a pistol.");
+                else
+                    C_Warning(0, "%s already has a pistol.", playername);
+
                 free(parm);
                 return;
             }
@@ -2296,10 +2324,15 @@ static void give_cmd_func2(char *cmd, char *parms)
                     dboolean    old_freeze = freeze;
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
-                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>", playername, mobjinfo[i].plural1, gamedescription);
+
+                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
+                            (M_StringCompare(playername, playername_default ? "You" : playername)),
+                            mobjinfo[i].plural1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>", playername, mobjinfo[i].plural1, gamedescription);
+                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
+                            (M_StringCompare(playername, playername_default ? "You" : playername)),
+                            mobjinfo[i].plural1, gamedescription);
                     else
                     {
                         freeze = false;
@@ -3630,13 +3663,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         int     i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
         char    wadname[MAX_PATH];
+        int     wadtype = lumpinfo[i]->wadfile->type;
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), MAX_PATH);
 
-        C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-            wadname, (lumpinfo[i]->wadfile->type == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
+        C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
+            (wadtype == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
-        if (lumpinfo[i]->wadfile->type == PWAD)
+        if (wadtype == PWAD)
             C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
                 (bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
@@ -5865,8 +5899,12 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             fixed_t y = viewy + 100 * viewsin;
 
             if (P_CheckLineSide(viewplayer->mo, x, y))
-                C_Warning(0, "%s %s too close to that wall.",
-                    playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You are too close to that wall.");
+                else
+                    C_Warning(0, "%s is too close to that wall.", playername);
+            }
             else
             {
                 mapthing_t  mthing;
@@ -6059,9 +6097,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
                 C_HideConsole();
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have anything.");
             else
-                C_Warning(0, "%s %s have anything.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have anything.", playername);
         }
         else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth"))
         {
@@ -6072,16 +6111,18 @@ static void take_cmd_func2(char *cmd, char *parms)
                 healthcvar = false;
                 C_HideConsole();
             }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You are already dead.");
             else
-                C_Warning(0, "%s %s already dead.",
-                    playername, (M_StringCompare(playername, playername_default) ? "are" : "is"));
+                C_Warning(0, "%s is already dead.", playername);
         }
         else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
         {
             for (weapontype_t i = wp_pistol; i < NUMWEAPONS; i++)
                 if (viewplayer->weaponowned[i])
                 {
-                    viewplayer->weaponowned[i] = oldweaponsowned[i] = false;
+                    viewplayer->weaponowned[i] = false;
+                    oldweaponsowned[i] = false;
                     result = true;
                 }
 
@@ -6089,9 +6130,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
                 C_HideConsole();
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any weapons.");
             else
-                C_Warning(0, "%s %s have any weapons.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any weapons.", playername);
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo"))
         {
@@ -6106,9 +6148,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
                 C_HideConsole();
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any ammo.");
             else
-                C_Warning(0, "%s %s have any ammo.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any ammo.", playername);
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
                 || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour"))
@@ -6119,9 +6162,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->armortype = armortype_none;
                 C_HideConsole();
             }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any armor.");
             else
-                C_Warning(0, "%s %s have any armor.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any armor.", playername);
         }
         else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
         {
@@ -6134,9 +6178,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
                 C_HideConsole();
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any keycards or skull keys.");
             else
-                C_Warning(0, "%s %s have any keycards or skull keys.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any keycards or skull keys.", playername);
         }
         else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
@@ -6147,9 +6192,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_yellowcard] = 0;
                 C_HideConsole();
             }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any keycards.");
             else
-                C_Warning(0, "%s %s have any keycards.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any keycards.", playername);
         }
         else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
@@ -6160,16 +6206,14 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_yellowskull] = 0;
                 C_HideConsole();
             }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any skull keys.");
             else
-                C_Warning(0, "%s %s have any skull keys.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
+                C_Warning(0, "%s doesn't have any skull keys.", playername);
         }
         else if (M_StringCompare(parm, "pistol"))
         {
-            if (!viewplayer->weaponowned[wp_pistol])
-                C_Warning(0, "%s %s have a pistol.",
-                    playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"));
-            else
+            if (viewplayer->weaponowned[wp_pistol])
             {
                 viewplayer->weaponowned[wp_pistol] = false;
                 oldweaponsowned[wp_pistol] = false;
@@ -6179,6 +6223,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
                 P_CheckAmmo(viewplayer->readyweapon);
             }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have a pistol.");
+            else
+                C_Warning(0, "%s doesn't have a pistol.", playername);
         }
         else
         {
@@ -6194,11 +6242,14 @@ static void take_cmd_func2(char *cmd, char *parms)
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
                         || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
-                    if (!P_TakeSpecialThing(i))
-                        C_Warning(0, "%s %s have a %s.",
-                            playername, (M_StringCompare(playername, playername_default) ? "don't" : "doesn't"), mobjinfo[i].name1);
-
-                    result = true;
+                    if (P_TakeSpecialThing(i))
+                        result = true;
+                    else if (M_StringCompare(playername, playername_default))
+                        C_Warning(0, "You don't have %s %s.",
+                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                    else
+                        C_Warning(0, "%s doesn't have %s %s.",
+                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), playername, mobjinfo[i].name1);
                 }
 
                 if (*temp1)
