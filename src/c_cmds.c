@@ -3628,14 +3628,43 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     {
-        int i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+        int     i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+        char    wadname[MAX_PATH];
+
+        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), MAX_PATH);
 
         C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-            leafname(lumpinfo[i]->wadfile->path), (lumpinfo[i]->wadfile->type == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
+            wadname, (lumpinfo[i]->wadfile->type == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
         if (lumpinfo[i]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
                 (bfgedition ? " <i>(BFG Edition)</i>" : ""));
+
+        if (M_StringCompare(wadname, "DOOM.WAD"))
+        {
+            if (bfgedition)
+                C_TabbedOutput(tabs, "Release date\t<b>October 16, 2012</b>");
+            else if (gameepisode == 4)
+                C_TabbedOutput(tabs, "Release date\t<b>April 30, 1995</b>");
+            else
+                C_TabbedOutput(tabs, "Release date\t<b>December 10, 1993</b>");
+        }
+        else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
+            || M_StringCompare(wadname, "SIGIL_v1_2.wad")
+            || M_StringCompare(wadname, "SIGIL_v1_1.wad")
+            || M_StringCompare(wadname, "SIGIL.wad"))
+            C_TabbedOutput(tabs, "Release date\t<b>May 22, 2019</b>");
+        else if (M_StringCompare(wadname, "DOOM2.WAD"))
+        {
+            if (bfgedition)
+                C_TabbedOutput(tabs, "Release date\t<b>October 16, 2012</b>");
+            else
+                C_TabbedOutput(tabs, "Release date\t<b>September 30, 1994</b>");
+        }
+        else if (M_StringCompare(wadname, "NERVE.WAD"))
+            C_TabbedOutput(tabs, "Release date\t<b>September 27, 2006</b>");
+        else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
+            C_TabbedOutput(tabs, "Release date\t<b>June 17, 1996</b>");
     }
 
     C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>",
