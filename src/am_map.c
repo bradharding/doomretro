@@ -217,7 +217,7 @@ am_frame_t          am_frame;
 
 static dboolean     isteleportline[NUMLINESPECIALS];
 
-static void AM_Rotate(fixed_t *xp, fixed_t *yp, angle_t angle);
+static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, byte *);
 static void PUTDOT(unsigned int x, unsigned int y, byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, byte *color);
@@ -1127,23 +1127,14 @@ dboolean AM_Responder(const event_t *ev)
 // Rotation in 2D.
 // Used to rotate player arrow line character.
 //
-static void AM_Rotate(fixed_t *xp, fixed_t *yp, angle_t angle)
+static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle)
 {
-    static angle_t  prevangle = UINT_MAX;
-    static fixed_t  x, y;
+    const fixed_t   cosine = finecosine[(angle >>= ANGLETOFINESHIFT)];
+    const fixed_t   sine = finesine[angle];
+    const fixed_t   temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
 
-    if (angle != prevangle)
-    {
-        fixed_t  cosine = finecosine[(angle >>= ANGLETOFINESHIFT)];
-        fixed_t  sine = finesine[angle];
-
-        x = FixedMul(*xp, cosine) - FixedMul(*yp, sine);
-        y = FixedMul(*xp, sine) + FixedMul(*yp, cosine);
-    }
-
-    prevangle = angle;
-    *xp = x;
-    *yp = y;
+    *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
+    *x = temp;
 }
 
 static void AM_RotatePoint(mpoint_t *point)
