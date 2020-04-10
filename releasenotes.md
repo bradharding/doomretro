@@ -2,12 +2,16 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The music volume is now lowered while either the menu or console is open.
-* Minor improvements have been made to the menu’s background.
-* Minor improvements have been made to the widescreen HUD.
+* The music volume now lowers while either the menu or console is open.
+* The following changes have been made to the menu’s background:
+  * The random noise is now slightly slower.
+  * Liquid sectors now still animate in the background when the menu is open.
+* The following changes have been made to the widescreen HUD:
+  * Health, armor and ammo now flash gold rather than white when they change.
+  * Keycards are skull keys that the player picks up are now slightly higher.
 * Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
 * The timer displayed when the `timer` CCMD is used will now be positioned lower if the `vid_showfps` CVAR is `on`.
-* More fixes have been applied to certain maps in the `doom2.wad`, `plutonia.wad` and `tnt.wad` IWADs when the `r_fixmaperrors` CVAR is `on`.
+* More fixes have been applied to certain maps in the *DOOM* and *DOOM II* IWADs when the `r_fixmaperrors` CVAR is `on`.
 * The `mapstats` CCMD now displays the release date for maps in certain WADs.
 
 ---
