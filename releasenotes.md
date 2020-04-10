@@ -8,9 +8,9 @@
   * Liquid sectors now still animate in the background when the menu is open.
 * The following changes have been made to the widescreen HUD:
   * Health, armor and ammo now flash gold rather than white when they change.
-  * Keycards are skull keys that the player picks up are now slightly higher.
+  * Keycards and skull keys that the player picks up are now slightly higher.
 * Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
-* The timer displayed when the `timer` CCMD is used will now be positioned lower if the `vid_showfps` CVAR is `on`.
+* The timer displayed by the `timer` CCMD will now be positioned lower if the `vid_showfps` CVAR is `on`.
 * More fixes have been applied to certain maps in the *DOOM* and *DOOM II* IWADs when the `r_fixmaperrors` CVAR is `on`.
 * The `mapstats` CCMD now displays the release date for maps in certain WADs.
 
