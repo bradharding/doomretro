@@ -1141,6 +1141,7 @@ static void AM_Rotate(fixed_t *xp, fixed_t *yp, angle_t angle)
         y = FixedMul(*xp, sine) + FixedMul(*yp, cosine);
     }
 
+    prevangle = angle;
     *xp = x;
     *yp = y;
 }
