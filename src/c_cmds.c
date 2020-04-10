@@ -2326,12 +2326,12 @@ static void give_cmd_func2(char *cmd, char *parms)
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
                         C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
-                            (M_StringCompare(playername, playername_default ? "You" : playername)),
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                         C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
-                            (M_StringCompare(playername, playername_default ? "You" : playername)),
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else
                     {
