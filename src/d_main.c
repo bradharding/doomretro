@@ -2061,7 +2061,7 @@ static void D_DoomMainSetup(void)
 
     if (gamemode == retail && !sigil && episode == 5)
     {
-        episode = 4;
+        episode = 1;
         M_SaveCVARs();
     }
 
