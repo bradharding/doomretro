@@ -2052,14 +2052,13 @@ static void D_DoomMainSetup(void)
     D_ProcessDehInWad();
 
     if (!M_StringCompare(s_VERSION, PACKAGE_NAMEANDVERSIONSTRING))
-        I_Error("%s is the wrong version.", packagewad);
+        I_Error("The wrong version of %s was found.", packagewad);
 
     D_SetGameDescription();
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
-
-    if (gamemode == retail && !sigil && episode == 5)
+    else if (gamemission == doom && !sigil && episode == 5)
     {
         episode = 1;
         M_SaveCVARs();
@@ -2071,7 +2070,7 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-            I_Error("You cannot load PWADs with DOOM1.WAD.");
+            I_Error("You can't load PWADs with DOOM1.WAD.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
@@ -2088,7 +2087,7 @@ static void D_DoomMainSetup(void)
 
             for (int i = 0; i < 23; i++)
                 if (W_CheckNumForName(name[i]) < 0)
-                    I_Error("This is not the registered version.");
+                    I_Error("This is not the registered version of DOOM.WAD.");
         }
     }
 
