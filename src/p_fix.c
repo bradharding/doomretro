@@ -181,7 +181,8 @@ linefix_t linefix[] =
     { doom,             2,   4,    1062,    0, "GRAYVINE", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   4,    1071,    0, "MARBLE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
-    { doom,             2,   5,     184,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
+    { doom,             2,   5,     382,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                        100 },
+    { doom,             2,   5,     388,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                        100 },
     { doom,             2,   5,     590,    0, "",         "",            "STEP1",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   5,     590,    1, "BROVINE",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   5,    1027,    1, "COMPSPAN", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -367,6 +368,10 @@ linefix_t linefix[] =
     { doom,             3,   4,    1069,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                          DEFAULT },
 
     { doom,             3,   5,     557,    0, "",         "",            "",                160,       112, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             3,   5,     833,    0, "",         "FIREWALL",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             3,   5,     834,    0, "",         "FIREWALL",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             3,   5,     836,    0, "",         "FIREWALL",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             3,   5,     839,    0, "",         "FIREWALL",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             3,   5,    1125,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
     { doom,             3,   5,    1283,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
     { doom,             3,   5,    1284,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
@@ -374,6 +379,8 @@ linefix_t linefix[] =
     { doom,             3,   5,    1291,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
     { doom,             3,   5,    1295,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
     { doom,             3,   5,    1299,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                                0 },
+    { doom,             3,   5,    1329,    1, "",         "",            "METAL",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             3,   5,    1330,    1, "",         "",            "METAL",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { doom,             3,   6,     298,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Teleport_MonstersOnly,                   DEFAULT },
     { doom,             3,   6,     299,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Teleport_MonstersOnly,                   DEFAULT },
@@ -500,6 +507,7 @@ linefix_t linefix[] =
     { doom,             4,   2,     623,    0, "",         "",            "",                -16,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   2,     630,    0, "",         "",            "",                -48,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
+    { doom,             4,   3,      46,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   WR_Lift_LowerWaitRaise,                     DEFAULT },
     { doom,             4,   3,     364,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
     { doom,             4,   3,     365,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                          0 },
     { doom,             4,   3,     735,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Floor_RaiseToLowestCeiling,              DEFAULT },
@@ -1484,6 +1492,8 @@ sectorfix_t sectorfix[] =
 
     { doom,             2,   4,    173, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
     { doom,             2,   4,    177, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+
+    { doom,             2,   5,    127, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 1,     100 },
 
     { doom,             3,   5,    161, "",        "",                   0,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
