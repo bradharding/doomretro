@@ -12,7 +12,8 @@
 * Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
 * The timer displayed by the `timer` CCMD will now be positioned lower if the `vid_showfps` CVAR is `on`.
 * More fixes have been applied to certain maps in the official *DOOM* and *DOOM II* WADs when the `r_fixmaperrors` CVAR is `on`.
-* The `mapstats` CCMD now displays the release date for maps in certain WADs.
+* The `mapstats` CCMD now displays the release date for maps in the official *DOOM* and *DOOM II* WADs.
+* The brightness of item and teleport fogs has been reduced when the `r_translucency` CVAR is `on`.
 
 ---
 
