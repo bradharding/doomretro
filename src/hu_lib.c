@@ -196,7 +196,6 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
     for (int i = 0; i < len; i++)
     {
         unsigned char   letter = l->l[i];
-        unsigned char   nextletter = l->l[i + 1];
         patch_t         *patch = unknownchar;
         int             j = 0;
         const int       c = letter - CONSOLEFONTSTART;

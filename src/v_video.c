@@ -944,46 +944,6 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
     }
 }
 
-void V_DrawAltHUDPatch2(int x, int y, patch_t *patch, int from[4], int to[4])
-{
-    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
-    int     w = SHORT(patch->width);
-
-    for (int col = 0; col < w; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[column->topdelta * SCREENWIDTH];
-            byte    length = column->length;
-            byte    count = length;
-
-            while (count--)
-            {
-                byte    dot = *source++;
-
-                if (dot == from[0])
-                    *dest = to[0];
-                else if (dot == from[1])
-                    *dest = to[1];
-                else if (dot == from[2])
-                    *dest = to[2];
-                else if (dot == from[3])
-                    *dest = to[3];
-                else if (dot)
-                    *dest = nearestcolors[dot];
-
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
 void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
@@ -1009,46 +969,6 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
                 if (dot == from)
                     *dest = alttinttab60[to + *dest];
-                else if (dot)
-                    *dest = alttinttab60[(nearestcolors[dot] << 8) + *dest];
-
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawTranslucentAltHUDPatch2(int x, int y, patch_t *patch, int from[4], int to[4])
-{
-    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
-    int     w = SHORT(patch->width);
-
-    for (int col = 0; col < w; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[column->topdelta * SCREENWIDTH];
-            byte    length = column->length;
-            byte    count = length;
-
-            while (count--)
-            {
-                byte    dot = *source++;
-
-                if (dot == from[0])
-                    *dest = alttinttab60[(to[0] << 8) + *dest];
-                else if (dot == from[1])
-                    *dest = alttinttab60[(to[1] << 8) + *dest];
-                else if (dot == from[2])
-                    *dest = alttinttab60[(to[2] << 8) + *dest];
-                else if (dot == from[3])
-                    *dest = alttinttab60[(to[3] << 8) + *dest];
                 else if (dot)
                     *dest = alttinttab60[(nearestcolors[dot] << 8) + *dest];
 
