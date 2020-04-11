@@ -1003,14 +1003,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (letter == '\"')
                         patch = ldquote;
                 }
-
-                if (italics)
-                {
-                    if (letter == '-')
-                        x++;
-                    else if (letter == '\'')
-                        x--;
-                }
             }
 
             if (kerning)
@@ -1022,9 +1014,19 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         break;
                     }
 
-                if (prevletter == '/' && italics)
-                    x -= 2;
-                else if (prevletter == '.' && letter == ' ' && !bold && !italics)
+                if (italics)
+                {
+                    if (letter == '-')
+                        x++;
+                    else if (letter == '\'')
+                        x--;
+
+                    if (prevletter == '/')
+                        x -= 2;
+                    else if (prevletter == '\'')
+                        x++;
+                }
+                else if (prevletter == '.' && letter == ' ' && !bold)
                     x += 2;
             }
 
