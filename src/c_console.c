@@ -1004,8 +1004,13 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         patch = ldquote;
                 }
 
-                if (letter == '-' && italics)
-                    x++;
+                if (italics)
+                {
+                    if (letter == '-')
+                        x++;
+                    else if (letter == '\'')
+                        x--;
+                }
             }
 
             if (kerning)
