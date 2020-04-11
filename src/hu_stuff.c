@@ -316,7 +316,7 @@ void HU_Start(void)
 
 static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
 {
-    int     oldval = val;
+    int     oldval;
     patch_t *patch;
 
     if (val < 0)
@@ -332,8 +332,6 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
         }
         else
             val = 0;
-
-        oldval = val;
     }
 
     if (val > 99)
@@ -343,6 +341,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
         *x += SHORT(patch->width);
     }
 
+    oldval = val;
     val %= 100;
 
     if (val > 9 || oldval > 99)
@@ -359,7 +358,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
 
 static int HUDNumberWidth(int val)
 {
-    int oldval = val;
+    int oldval;
     int width = 0;
 
     if (val < 0)
@@ -374,13 +373,12 @@ static int HUDNumberWidth(int val)
         }
         else
             val = 0;
-
-        oldval = val;
     }
 
     if (val > 99)
         width += SHORT(tallnum[val / 100]->width);
 
+    oldval = val;
     val %= 100;
 
     if (val > 9 || oldval > 99)
