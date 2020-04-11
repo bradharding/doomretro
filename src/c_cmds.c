@@ -3670,10 +3670,6 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
             (wadtype == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
-        if (wadtype == PWAD)
-            C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
-                (bfgedition ? " <i>(BFG Edition)</i>" : ""));
-
         if (M_StringCompare(wadname, "DOOM.WAD"))
         {
             if (bfgedition)
@@ -3699,6 +3695,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Release date\t<b>September 27, 2006</b>");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
             C_TabbedOutput(tabs, "Release date\t<b>June 17, 1996</b>");
+
+        if (wadtype == PWAD)
+            C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
+                (bfgedition ? " <i>(BFG Edition)</i>" : ""));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>",
