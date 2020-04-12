@@ -1982,7 +1982,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 //
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality)
 {
-    fixed_t dist = (damage + MAXRADIUS) << FRACBITS;
+    fixed_t dist = (damage << FRACBITS) + MAXRADIUS;
     int     xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
     int     xl = P_GetSafeBlockX(spot->x - dist - bmaporgx);
     int     yh = P_GetSafeBlockY(spot->y + dist - bmaporgy);
