@@ -118,12 +118,12 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "player",
-        /* plural1              */ "players",
-        /* name2                */ "doomguy",
-        /* plural2              */ "doomguys",
-        /* name3                */ "doomslayer",
-        /* plural3              */ "doomslayers"
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Zombieman (MT_POSSESSED)
@@ -162,8 +162,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "zombieman",
         /* plural1              */ "zombiemen",
-        /* name2                */ "former human",
-        /* plural2              */ "former humans",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -204,10 +204,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "shotgun guy",
         /* plural1              */ "shotgun guys",
-        /* name2                */ "former human sergeant",
-        /* plural2              */ "former human sergeants",
-        /* name3                */ "sergeant",
-        /* plural3              */ "sergeants"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Arch-vile (MT_VILE)
@@ -246,8 +246,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 4 * FRACUNIT,
         /* name1                */ "arch-vile",
         /* plural1              */ "arch-viles",
-        /* name2                */ "vile",
-        /* plural2              */ "viles",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -287,9 +287,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "arch-vile fire",
-        /* plural1              */ "arch-vile fires",
-        /* name2                */ "fire",
-        /* plural2              */ "fires",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -330,8 +330,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
-        /* name2                */ "undead",
-        /* plural2              */ "undead",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -371,11 +371,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "revenant projectile",
-        /* plural1              */ "revenant projectiles",
-        /* name2                */ "revenant tracer",
-        /* plural2              */ "revenant tracers",
-        /* name3                */ "tracer",
-        /* plural3              */ "tracers"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Smoke (MT_SMOKE)
@@ -413,9 +413,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "smoke",
-        /* plural1              */ "smoke",
-        /* name2                */ "revenant tracer smoke",
-        /* plural2              */ "revenant tracer smoke",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -456,8 +456,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
-        /* name2                */ "fatso",
-        /* plural2              */ "fatsos",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -497,9 +497,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "mancubus projectile",
-        /* plural1              */ "mancubus projectiles",
-        /* name2                */ "fat shot",
-        /* plural2              */ "fat shots",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -542,8 +542,8 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "heavy weapon dudes",
         /* name2                */ "chaingunner",
         /* plural2              */ "chaingunners",
-        /* name3                */ "chaingun guy",
-        /* plural3              */ "chaingun guys"
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Imp (MT_TROOP)
@@ -582,8 +582,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "imp",
         /* plural1              */ "imps",
-        /* name2                */ "doom imps",
-        /* plural2              */ "doom imps",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -791,9 +791,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "baron of hell/hell knight projectile",
-        /* plural1              */ "baron of hell/hell knight projectiles",
-        /* name2                */ "baron ball",
-        /* plural2              */ "baron balls",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -920,7 +920,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "spider masterminds",
         /* name2                */ "spiderdemon",
         /* plural2              */ "spiderdemons",
-        /* name3                */ "the spider mastermind",
+        /* name3                */ "",
         /* plural3              */ ""
     },
 
@@ -1086,8 +1086,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "Wolfenstein SS",
         /* plural1              */ "Wolfenstein SS",
-        /* name2                */ "SS Nazi",
-        /* plural2              */ "SS Nazis",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1170,9 +1170,9 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "icon of sin",
         /* plural1              */ "icons of sin",
-        /* name2                */ "boss brain",
-        /* plural2              */ "boss brains",
-        /* name3                */ "romero",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
         /* plural3              */ ""
     },
 
@@ -1211,9 +1211,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "monsters spawner",
-        /* plural1              */ "monsters spawners",
-        /* name2                */ "boss eye",
-        /* plural2              */ "boss eyes",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1253,9 +1253,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "monsters target",
-        /* plural1              */ "monsters targets",
-        /* name2                */ "boss target",
-        /* plural2              */ "boss targets",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1295,9 +1295,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "icon of sin projectile",
-        /* plural1              */ "icon of sin projectiles",
-        /* name2                */ "spawn shot",
-        /* plural2              */ "spawn shots",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1337,9 +1337,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "icon of sin fire",
-        /* plural1              */ "icon of sin fires",
-        /* name2                */ "spawn fire",
-        /* plural2              */ "spawn fires",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1380,8 +1380,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "barrel",
         /* plural1              */ "barrels",
-        /* name2                */ "explosive barrel",
-        /* plural2              */ "explosive barrels",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1421,11 +1421,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "imp projectile",
-        /* plural1              */ "imp projectiles",
-        /* name2                */ "imp ball",
-        /* plural2              */ "imp balls",
-        /* name3                */ "troop shot",
-        /* plural3              */ "troop shots"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -1464,10 +1464,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "cacodemon projectile",
         /* plural1              */ "cacodemon projectiles",
-        /* name2                */ "cacodemon ball",
-        /* plural2              */ "cacodemon balls",
-        /* name3                */ "head shot",
-        /* plural3              */ "head shots"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -1505,9 +1505,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "rocket launcher projectile",
-        /* plural1              */ "rocket launcher projectiles",
-        /* name2                */ "rocket",
-        /* plural2              */ "rockets",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1547,11 +1547,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "plasma rifle projectile",
-        /* plural1              */ "plasma rifle projectile",
-        /* name2                */ "plasma ball",
-        /* plural2              */ "plasma balls",
-        /* name3                */ "plasma",
-        /* plural3              */ "plasma"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // BFG-9000 Projectile (MT_BFG)
@@ -1589,9 +1589,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "BFG-9000 projectile",
-        /* plural1              */ "BFG-9000 projectiles",
-        /* name2                */ "BFG ball",
-        /* plural2              */ "BFG balls",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1631,11 +1631,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "arachnotron projectile",
-        /* plural1              */ "arachnotron projectiles",
-        /* name2                */ "arachnotron plasma",
-        /* plural2              */ "arachnotron plasma",
-        /* name3                */ "arachplaz",
-        /* plural3              */ "arachplaz"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Bullet Puff (MT_PUFF)
@@ -1673,9 +1673,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "bullet puff",
-        /* plural1              */ "bullet puffs",
-        /* name2                */ "puff",
-        /* plural2              */ "puffs",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1715,9 +1715,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ REDBLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "red blood",
-        /* plural1              */ "red blood",
-        /* name2                */ "blood",
-        /* plural2              */ "blood",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1757,9 +1757,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "teleport fog",
-        /* plural1              */ "teleport fogs",
-        /* name2                */ "tfog",
-        /* plural2              */ "tfogs",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1799,9 +1799,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "item fog",
-        /* plural1              */ "item fogs",
-        /* name2                */ "IFOG",
-        /* plural2              */ "IFOGs",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -1841,11 +1841,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "teleport destination",
-        /* plural1              */ "teleport destinations",
-        /* name2                */ "teleport dest",
-        /* plural2              */ "teleport dests",
-        /* name3                */ "TELEPORTMAN",
-        /* plural3              */ "TELEPORTMANs"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
@@ -1883,11 +1883,11 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ 0,
         /* shadowoffset         */ 0,
         /* name1                */ "BFG-9000 secondary projectile",
-        /* plural1              */ "BFG-9000 secondary projectiles",
-        /* name2                */ "BFG extra",
-        /* plural2              */ "BFG extras",
-        /* name3                */ "EXTRABFG",
-        /* plural3              */ "EXTRABFGs"
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Green Armor (MT_MISC0)
@@ -2094,10 +2094,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "blue keycard",
         /* plural1              */ "blue keycards",
-        /* name2                */ "blue key",
-        /* plural2              */ "blue keys",
-        /* name3                */ "blue card",
-        /* plural3              */ "blue cards",
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ "",
     },
 
     // Red Keycard (MT_MISC5)
@@ -2136,10 +2136,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "red keycard",
         /* plural1              */ "red keycards",
-        /* name2                */ "red key",
-        /* plural2              */ "red keys",
-        /* name3                */ "red card",
-        /* plural3              */ "red cards"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -2178,10 +2178,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "yellow keycard",
         /* plural1              */ "yellow keycards",
-        /* name2                */ "yellow key",
-        /* plural2              */ "yellow keys",
-        /* name3                */ "yellow card",
-        /* plural3              */ "yellow cards"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -2220,8 +2220,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "yellow skull key",
         /* plural1              */ "yellow skull keys",
-        /* name2                */ "yellow skull",
-        /* plural2              */ "yellow skulls",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -2262,8 +2262,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "red skull key",
         /* plural1              */ "red skull keys",
-        /* name2                */ "red skull",
-        /* plural2              */ "red skulls",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -2304,8 +2304,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "blue skull key",
         /* plural1              */ "blue skull keys",
-        /* name2                */ "blue skull",
-        /* plural2              */ "blue skulls",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -2388,8 +2388,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "medikit",
         /* plural1              */ "medikits",
-        /* name2                */ "medkit",
-        /* plural2              */ "medkits",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -2472,10 +2472,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "invulnerability power-up",
         /* plural1              */ "invulnerability power-ups",
-        /* name2                */ "invulnerability sphere",
-        /* plural2              */ "invulnerability spheres",
-        /* name3                */ "invulnerability",
-        /* plural3              */ "invulnerabilities",
+        /* name2                */ "invulnerability",
+        /* plural2              */ "invulnerabilities",
+        /* name3                */ "",
+        /* plural3              */ "",
     },
 
     // Berserk (MT_MISC13)
@@ -2558,8 +2558,8 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "partial invisibility power-ups",
         /* name2                */ "partial invisibility",
         /* plural2              */ "partial invisibilities",
-        /* name3                */ "blur sphere",
-        /* plural3              */ "blur spheres"
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -2600,8 +2600,8 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "radiation shielding suit power-ups",
         /* name2                */ "radiation shielding suit",
         /* plural2              */ "radiation shielding suits",
-        /* name3                */ "rad suit",
-        /* plural3              */ "rad suits"
+        /* name3                */ "radsuit",
+        /* plural3              */ "radsuits"
     },
 
     // Computer Area Map (MT_MISC15)
@@ -3438,8 +3438,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "tall techno floor lamp",
         /* plural1              */ "tall techno floor lamps",
-        /* name2                */ "tech lamp",
-        /* plural2              */ "tech lamps",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3480,8 +3480,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short techno floor lamp",
         /* plural1              */ "short techno floor lamps",
-        /* name2                */ "tech lamp 2",
-        /* plural2              */ "tech lamp 2",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3732,8 +3732,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short red column with skull",
         /* plural1              */ "short red columns with skulls",
-        /* name2                */ "skull column",
-        /* plural2              */ "skull columns",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3774,8 +3774,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short green column with beating heart",
         /* plural1              */ "short green columns with beating hearts",
-        /* name2                */ "heart column",
-        /* plural2              */ "heart columns",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3900,8 +3900,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "torched tree",
         /* plural1              */ "torched trees",
-        /* name2                */ "torch tree",
-        /* plural2              */ "torch trees",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3942,8 +3942,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "tall blue firestick",
         /* plural1              */ "tall blue firesticks",
-        /* name2                */ "blue torch",
-        /* plural2              */ "blue torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -3984,8 +3984,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "tall green firestick",
         /* plural1              */ "tall green firesticks",
-        /* name2                */ "green torch",
-        /* plural2              */ "green torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4026,8 +4026,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "tall red firestick",
         /* plural1              */ "tall red firesticks",
-        /* name2                */ "red torch",
-        /* plural2              */ "red torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4068,8 +4068,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short blue firestick",
         /* plural1              */ "short blue firesticks",
-        /* name2                */ "short blue torch",
-        /* plural2              */ "short blue torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4110,8 +4110,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short green firestick",
         /* plural1              */ "short green firesticks",
-        /* name2                */ "short green torch",
-        /* plural2              */ "short green torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4152,8 +4152,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "short red firestick",
         /* plural1              */ "short red firesticks",
-        /* name2                */ "short red torch",
-        /* plural2              */ "short red torches",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4236,8 +4236,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "tall techno pillar",
         /* plural1              */ "tall techno pillars",
-        /* name2                */ "tech pillar",
-        /* plural2              */ "tech pillars",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4362,8 +4362,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (twitching, blocking)",
         /* plural1              */ "hanging victim (twitching, blocking)",
-        /* name2                */ "bloody twitch",
-        /* plural2              */ "bloody twitch",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4404,8 +4404,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (arms out, blocking)",
         /* plural1              */ "hanging victim (arms out, blocking)",
-        /* name2                */ "meat 2",
-        /* plural2              */ "meat 2",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4446,8 +4446,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (one-legged, blocking)",
         /* plural1              */ "hanging victim (one-legged, blocking)",
-        /* name2                */ "meat 3",
-        /* plural2              */ "meat 3",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4488,8 +4488,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging pair of legs (blocking)",
         /* plural1              */ "hanging pair of legs (blocking)",
-        /* name2                */ "meat 4",
-        /* plural2              */ "meat 4",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4530,8 +4530,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging leg (blocking)",
         /* plural1              */ "hanging leg (blocking)",
-        /* name2                */ "meat 5",
-        /* plural2              */ "meat 5",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4572,8 +4572,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (arms out)",
         /* plural1              */ "hanging victims (arms out)",
-        /* name2                */ "non-solid meat 2",
-        /* plural2              */ "non-solid meat 2",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4614,8 +4614,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging pair of legs",
         /* plural1              */ "hanging pairs of legs",
-        /* name2                */ "non-solid meat 4",
-        /* plural2              */ "non-solid meat 4",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4656,8 +4656,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (one-legged)",
         /* plural1              */ "hanging victims (one-legged)",
-        /* name2                */ "non-solid meat 3",
-        /* plural2              */ "non-solid meat 3",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4698,8 +4698,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging leg",
         /* plural1              */ "hanging legs",
-        /* name2                */ "non-solid meat 5",
-        /* plural2              */ "non-solid meat 5",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4740,8 +4740,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (twitching)",
         /* plural1              */ "hanging victims (twitching)",
-        /* name2                */ "non-solid twitch",
-        /* plural2              */ "non-solid twitch",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4822,10 +4822,10 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "dead player",
-        /* plural1              */ "dead players",
-        /* name2                */ "dead marine",
-        /* plural2              */ "dead marines",
+        /* name1                */ "dead marine",
+        /* plural1              */ "dead marines",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4866,8 +4866,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead zombieman",
         /* plural1              */ "dead zombiemen",
-        /* name2                */ "dead former human",
-        /* plural2              */ "dead former humans",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -4992,8 +4992,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead imp",
         /* plural1              */ "dead imps",
-        /* name2                */ "dead doom imp",
-        /* plural2              */ "dead doom imps",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5034,10 +5034,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead shotgun guy",
         /* plural1              */ "dead shotgun guys",
-        /* name2                */ "dead former human sergeant",
-        /* plural2              */ "dead former human sergeants",
-        /* name3                */ "dead sergeant",
-        /* plural3              */ "dead sergeants"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Bloody mess 1 (MT_MISC68)
@@ -5076,10 +5076,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "bloody mess 1",
         /* plural1              */ "bloody mess 1",
-        /* name2                */ "gibbed marine",
-        /* plural2              */ "gibbed marines",
-        /* name3                */ "gibbed player",
-        /* plural3              */ "gibbed players"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Bloody mess 2 (MT_MISC69)
@@ -5118,10 +5118,10 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "bloody mess 2",
         /* plural1              */ "bloody mess 2",
-        /* name2                */ "gibbed marine extra",
-        /* plural2              */ "gibbed marines extra",
-        /* name3                */ "gibbed player extra",
-        /* plural3              */ "gibbed players extra"
+        /* name2                */ "",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Five skulls shishkebab (MT_MISC70)
@@ -5160,8 +5160,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "five skulls shishkebab",
         /* plural1              */ "five skulls shishkebabs",
-        /* name2                */ "heads on a stick",
-        /* plural2              */ "heads on sticks",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5202,8 +5202,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pool of blood and bones",
         /* plural1              */ "pools of blood and bones",
-        /* name2                */ "gibs",
-        /* plural2              */ "gibs",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5244,8 +5244,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "skull on a pole",
         /* plural1              */ "skulls on poles",
-        /* name2                */ "head on a stick",
-        /* plural2              */ "heads on sticks",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5286,8 +5286,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pile of skulls and candles",
         /* plural1              */ "piles of skulls and candles",
-        /* name2                */ "head candles",
-        /* plural2              */ "head candles",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5328,8 +5328,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "impaled human",
         /* plural1              */ "impaled humans",
-        /* name2                */ "dead stick",
-        /* plural2              */ "dead sticks",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5370,8 +5370,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "twitching impaled human",
         /* plural1              */ "twitching impaled humans",
-        /* name2                */ "live stick",
-        /* plural2              */ "live sticks",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5412,8 +5412,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "large brown tree",
         /* plural1              */ "large brown trees",
-        /* name2                */ "big tree",
-        /* plural2              */ "big trees",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5496,8 +5496,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (guts removed)",
         /* plural1              */ "hanging victims (guts removed)",
-        /* name2                */ "hang no guts",
-        /* plural2              */ "hang no guts",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5538,8 +5538,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging victim (guts and brain removed)",
         /* plural1              */ "hanging victims (guts and brain removed)",
-        /* name2                */ "hang b no brain",
-        /* plural2              */ "hang b no brain",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5580,8 +5580,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "hanging torso (looking down)",
         /* plural1              */ "hanging torsos (looking down)",
-        /* name2                */ "hang t looking down",
-        /* plural2              */ "hang t looking down",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5621,9 +5621,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "hanging torso (open skull)",
-        /* plural1              */ "hanging torso (open skull)",
-        /* name2                */ "hang t skull",
-        /* plural2              */ "hang t skull",
+        /* plural1              */ "hanging torsos (open skull)",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5663,9 +5663,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "hanging torso (looking up)",
-        /* plural1              */ "hanging torso (looking up)",
-        /* name2                */ "hang t looking up",
-        /* plural2              */ "hang t looking up",
+        /* plural1              */ "hanging torsos (looking up)",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5705,9 +5705,9 @@ mobjinfo_t mobjinfo[] =
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "hanging torso (brain removed)",
-        /* plural1              */ "hanging torso (brain removed)",
-        /* name2                */ "hang t no brain",
-        /* plural2              */ "hang t no brain",
+        /* plural1              */ "hanging torsos (brain removed)",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5748,8 +5748,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pool of blood and guts",
         /* plural1              */ "pools of blood and guts",
-        /* name2                */ "colon gibs",
-        /* plural2              */ "colon gibs",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5790,8 +5790,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pool of blood",
         /* plural1              */ "pools of blood",
-        /* name2                */ "small blood pool",
-        /* plural2              */ "small blood pools",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5832,8 +5832,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pool of brains",
         /* plural1              */ "pools of brains",
-        /* name2                */ "brain stem",
-        /* plural2              */ "brain stems",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5874,8 +5874,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "point pusher",
         /* plural1              */ "point pushers",
-        /* name2                */ "PUSH",
-        /* plural2              */ "PUSH",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -5916,8 +5916,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "point puller",
         /* plural1              */ "point pullers",
-        /* name2                */ "PULL",
-        /* plural2              */ "PULL",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6000,8 +6000,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "plasma ball 1",
         /* plural1              */ "plasma ball 1",
-        /* name2                */ "PLASMA1",
-        /* plural2              */ "PLASMA1",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6042,8 +6042,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "plasma ball 2",
         /* plural1              */ "plasma ball 2",
-        /* name2                */ "PLASMA2",
-        /* plural2              */ "PLASMA2",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6084,8 +6084,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "evil sceptre",
         /* plural1              */ "evil sceptres",
-        /* name2                */ "SCEPTRE",
-        /* plural2              */ "SCEPTRE",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6126,8 +6126,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "unholy bible",
         /* plural1              */ "unholy bibles",
-        /* name2                */ "BIBLE",
-        /* plural2              */ "BIBLE",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6168,8 +6168,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "music source",
         /* plural1              */ "music sources",
-        /* name2                */ "MUSICSOURCE",
-        /* plural2              */ "MUSICSOURCE",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
@@ -6378,8 +6378,8 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "rocket trail",
         /* plural1              */ "rocket trails",
-        /* name2                */ "TRAIL",
-        /* plural2              */ "TRAIL",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },
