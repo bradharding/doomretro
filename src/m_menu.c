@@ -508,7 +508,7 @@ void M_DarkBackground(void)
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
     int         blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    if (gametime != blurtic && (!(gametime % 3) || blurtic == -1))
+    if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
         M_Seed(gametime);
 
