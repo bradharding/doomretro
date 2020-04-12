@@ -692,7 +692,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
             char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
             char    *path = M_TempFile(filename);
 
-            if (M_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
+            if (W_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
                 handle = Mix_LoadMUS(path);
 
             free(filename);

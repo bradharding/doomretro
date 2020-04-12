@@ -69,6 +69,6 @@ void W_CloseFile(wadfile_t *wad);
 // Returns the number of bytes read.
 size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
 
-dboolean M_WriteFile(char const *name, const void *source, size_t length);
+dboolean W_WriteFile(char const *name, const void *source, size_t length);
 
 #endif
