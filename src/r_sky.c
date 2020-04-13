@@ -46,15 +46,15 @@
 //
 // sky mapping
 //
-int             skyflatnum;
-int             skytexture;
-int             skytexturemid;
-int             skycolumnoffset = 0;
-int             skyscrolldelta;
+int         skyflatnum;
+int         skytexture;
+int         skytexturemid;
+int         skycolumnoffset = 0;
+int         skyscrolldelta;
 
-fixed_t         skyiscale;
+fixed_t     skyiscale;
 
-dboolean        canmouselook = false;
+dboolean    canmouselook = false;
 
 void R_InitSkyMap(void)
 {
@@ -126,7 +126,8 @@ void R_InitSkyMap(void)
         else
             skytexturemid = 0;
 
-        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / ((uint64_t)viewwidth * SCREENHEIGHT)) * skyheight / SKYSTRETCH_HEIGHT;
+        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / ((uint64_t)viewwidth * SCREENHEIGHT))
+            * skyheight / SKYSTRETCH_HEIGHT;
     }
     else
     {

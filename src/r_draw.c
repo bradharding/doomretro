@@ -464,12 +464,14 @@ void R_DrawSkyColumn(void)
 
     if (dc_texheight == 128)
     {
-        while (y--)
+        while (--y)
         {
             *dest = colormap[dc_source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
+
+        *dest = colormap[dc_source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
     }
     else
     {
@@ -502,7 +504,7 @@ void R_DrawSkyColumn(void)
                 while (frac >= heightmask)
                     frac -= heightmask;
 
-            while (y--)
+            while (--y)
             {
                 *dest = colormap[dc_source[frac >> FRACBITS]];
                 dest += SCREENWIDTH;
@@ -510,6 +512,8 @@ void R_DrawSkyColumn(void)
                 if ((frac += dc_iscale) >= heightmask)
                     frac -= heightmask;
             }
+
+            *dest = colormap[dc_source[frac >> FRACBITS]];
         }
     }
 }
