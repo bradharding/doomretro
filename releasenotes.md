@@ -14,6 +14,7 @@
 * More fixes have been applied to certain maps in the official *DOOM* and *DOOM II* WADs when the `r_fixmaperrors` CVAR is `on`.
 * The `mapstats` CCMD now displays the release date for maps in the official *DOOM* and *DOOM II* WADs.
 * The brightness of item and teleport fogs has been reduced when the `r_translucency` CVAR is `on`.
+* Following a change made to the latest official *DOOM II* port available through the *Bethesda.net Launcher*, MAP04 to MAP08 in *No Rest For The Living* now use the `SKY3` texture for their skies.
 
 ---
 
