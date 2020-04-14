@@ -102,7 +102,7 @@ static char     saveOldString[SAVESTRINGSIZE];
 
 dboolean        inhelpscreens;
 dboolean        menuactive;
-static dboolean savegames;
+dboolean        savegames;
 dboolean        startingnewgame;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
@@ -1131,7 +1131,6 @@ static void M_DoSave(int slot)
 {
     M_ClearMenus();
     G_SaveGame(slot, savegamestrings[slot], "");
-    savegames = true;
     functionkey = 0;
     quickSaveSlot = slot;
 }

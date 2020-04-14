@@ -1551,6 +1551,8 @@ static void G_DoSaveGame(void)
 
         free(backup_savegame_file);
 
+        savegames = true;
+
         if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
 
