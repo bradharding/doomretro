@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The music volume now lowers while either the menu or console is open.
+* The music volume is now lower while either the menu or console is open.
 * The following changes have been made to the menu’s background:
   * The random noise is now slightly slower.
   * Liquid sectors now still animate in the background when the menu is open.
@@ -13,8 +13,8 @@
 * The timer displayed by the `timer` CCMD will now be positioned lower if the `vid_showfps` CVAR is `on`.
 * More fixes have been applied to certain maps in the official *DOOM* and *DOOM II* WADs when the `r_fixmaperrors` CVAR is `on`.
 * The `mapstats` CCMD now displays the release date for maps in the official *DOOM* and *DOOM II* WADs.
-* The brightness of item and teleport fogs has been reduced when the `r_translucency` CVAR is `on`.
-* Following a change made to the official *DOOM II* port available through the *Bethesda.net Launcher*, MAP04 to MAP08 in *No Rest For The Living* now use the `SKY3` texture as their skies.
+* The translucency of item and teleport fogs is no longer additive when the `r_translucency` CVAR is `on`.
+* Due to a change in a recent patch of the official [*DOOM II* port](https://bethesda.net/en/store/product/DO2GNGPCBG01) available through the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher), MAP04 to MAP08 in *No Rest For The Living* now use the `SKY3` texture as their skies.
 
 ---
 
