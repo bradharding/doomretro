@@ -2070,17 +2070,18 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
     {
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
         {
-            char    *temp1 = removenonalpha(mobjinfo[i].name1);
+            char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
             char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
             char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
-            if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, temp1)
-                || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
-                || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+            if ((mobjinfo[i].flags & MF_SPECIAL)
+                && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
+                    || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
+                    || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
-            if (*temp1)
+            if (temp1)
                 free(temp1);
 
             if (temp2)
@@ -2311,12 +2312,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
                 dboolean    result = false;
-                char        *temp1 = removenonalpha(mobjinfo[i].name1);
+                char        *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
                 char        *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char        *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
                 if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (M_StringCompare(parm, temp1)
+                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
                         || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
@@ -2343,7 +2344,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     }
                 }
 
-                if (*temp1)
+                if (temp1)
                     free(temp1);
 
                 if (temp2)
@@ -2538,8 +2539,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             if (*mobjinfo[i].name1)
             {
-                char    *temp1 = removenonalpha(mobjinfo[i].name1);
-                char    *temp2 = removenonalpha(mobjinfo[i].plural1);
+                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
+                char    *temp2 = (*mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
                 char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
                 char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
@@ -2548,8 +2549,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                 killcmdtype = mobjinfo[i].doomednum;
 
                 if (killcmdtype >= 0
-                    && (M_StringCompare(parm, temp1)
-                        || M_StringCompare(parm, temp2)
+                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
+                        || (*mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
@@ -3984,11 +3985,11 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
             if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
                 dboolean    result = false;
-                char        *temp1 = removenonalpha(mobjinfo[i].name1);
+                char        *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
                 char        *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char        *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
-                if (M_StringStartsWith(parm, temp1))
+                if (*mobjinfo[i].name1 && M_StringStartsWith(parm, temp1))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
                     strreplace(parm, temp1, "");
@@ -4013,7 +4014,8 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     result = true;
                 }
 
-                free(temp1);
+                if (temp1)
+                    free(temp1);
 
                 if (temp2)
                     free(temp2);
@@ -5539,8 +5541,8 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             if (*mobjinfo[i].name1)
             {
-                char    *temp1 = removenonalpha(mobjinfo[i].name1);
-                char    *temp2 = removenonalpha(mobjinfo[i].plural1);
+                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
+                char    *temp2 = (*mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
                 char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
                 char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
@@ -5549,8 +5551,8 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                 resurrectcmdtype = mobjinfo[i].doomednum;
 
                 if (resurrectcmdtype >= 0
-                    && (M_StringCompare(parm, temp1)
-                        || M_StringCompare(parm, temp2)
+                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
+                        || (*mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
@@ -5814,19 +5816,20 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
         for (int i = 0; i < NUMMOBJTYPES; i++)
         {
-            char    *temp1 = removenonalpha(mobjinfo[i].name1);
+            char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
             char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
             char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
             spawncmdtype = mobjinfo[i].doomednum;
 
-            if (spawncmdtype >= 0 && (M_StringCompare(parm, temp1)
+            if (spawncmdtype >= 0
+                && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                 || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
                 || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1)))
                 result = true;
 
-            if (*temp1)
+            if (temp1)
                 free(temp1);
 
             if (temp2)
@@ -5998,17 +6001,18 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
     else
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
         {
-            char    *temp1 = removenonalpha(mobjinfo[i].name1);
+            char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
             char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
             char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
-            if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, temp1)
-                || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
-                || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+            if ((mobjinfo[i].flags & MF_SPECIAL)
+                && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
+                    || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
+                    || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
-            if (*temp1)
+            if (temp1)
                 free(temp1);
 
             if (temp2)
@@ -6232,12 +6236,12 @@ static void take_cmd_func2(char *cmd, char *parms)
         {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
-                char    *temp1 = removenonalpha(mobjinfo[i].name1);
+                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
                 char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
                 if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (M_StringCompare(parm, temp1)
+                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
                         || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
@@ -6252,7 +6256,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), playername, mobjinfo[i].name1);
                 }
 
-                if (*temp1)
+                if (temp1)
                     free(temp1);
 
                 if (temp2)
