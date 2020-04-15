@@ -1759,17 +1759,25 @@ static void condump_cmd_func2(char *cmd, char *parms)
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", appdatafolder);
 
         while (M_FileExists(filename))
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%i).txt", appdatafolder, ++count);
+        {
+            char    *temp = commify(++count);
+
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%s).txt", appdatafolder, temp);
+            free(temp);
+        }
     }
     else
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", appdatafolder, parms);
 
     if ((condumpfile = fopen(filename, "wt")))
     {
+        char    *temp = commify(consolestrings - 2);
+
         for (int i = 1; i < consolestrings - 1; i++)
             C_DumpConsoleStringToFile(i);
 
-        C_Output("Dumped %i lines from the console to <b>%s</b>.", consolestrings - 2, filename);
+        C_Output("Dumped %s lines from the console to <b>%s</b>.", temp, filename);
+        free(temp);
     }
 }
 
@@ -6390,7 +6398,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 
         temp1 = commify(mobj->id);
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i,%i,%i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);
