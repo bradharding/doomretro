@@ -1425,6 +1425,7 @@ static void P_LoadNodes_V4(int lump)
     W_ReleaseLumpNum(lump);
 }
 
+// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
 static void P_LoadZSegs(const byte *data)
 {
     for (int i = 0; i < numsegs; i++)
@@ -1436,8 +1437,8 @@ static void P_LoadZSegs(const byte *data)
         seg_t               *li = segs + i;
         const mapseg_znod_t *ml = (const mapseg_znod_t *)data + i;
 
-        v1 = ml->v1;
-        v2 = ml->v2;
+        v1 = LONG(ml->v1);
+        v2 = LONG(ml->v2);
 
         linedefnum = (unsigned short)SHORT(ml->linedef);
 
@@ -1517,6 +1518,8 @@ static void P_LoadZSegs(const byte *data)
     }
 }
 
+// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
+// <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
 static void P_LoadZNodes(int lump)
 {
     byte            *data = W_CacheLumpNum(lump);
@@ -1532,10 +1535,10 @@ static void P_LoadZNodes(int lump)
     data += 4;
 
     // Read extra vertices added during node building
-    orgVerts = *((const unsigned int *)data);
+    orgVerts = LONG(*((const unsigned int *)data));
     data += sizeof(orgVerts);
 
-    newVerts = *((const unsigned int *)data);
+    newVerts = LONG(*((const unsigned int *)data));
     data += sizeof(newVerts);
 
     if (!samelevel)
@@ -1550,10 +1553,10 @@ static void P_LoadZNodes(int lump)
 
         for (unsigned int i = 0; i < newVerts; i++)
         {
-            newvertarray[i + orgVerts].x = *((const unsigned int *)data);
+            newvertarray[i + orgVerts].x = LONG(*((const unsigned int *)data));
             data += sizeof(newvertarray[0].x);
 
-            newvertarray[i + orgVerts].y = *((const unsigned int *)data);
+            newvertarray[i + orgVerts].y = LONG(*((const unsigned int *)data));
             data += sizeof(newvertarray[0].y);
         }
 
@@ -1579,7 +1582,7 @@ static void P_LoadZNodes(int lump)
     }
 
     // Read the subsectors
-    numSubs = *((const unsigned int *)data);
+    numSubs = LONG(*((const unsigned int *)data));
     data += sizeof(numSubs);
     numsubsectors = numSubs;
 
@@ -1593,8 +1596,8 @@ static void P_LoadZNodes(int lump)
         const mapsubsector_znod_t   *mseg = (const mapsubsector_znod_t *)data + i;
 
         subsectors[i].firstline = currSeg;
-        subsectors[i].numlines = mseg->numsegs;
-        currSeg += mseg->numsegs;
+        subsectors[i].numlines = LONG(mseg->numsegs);
+        currSeg += LONG(mseg->numsegs);
     }
 
     data += numSubs * sizeof(mapsubsector_znod_t);
@@ -1614,7 +1617,7 @@ static void P_LoadZNodes(int lump)
     data += numsegs * sizeof(mapseg_znod_t);
 
     // Read nodes
-    numNodes = *((const unsigned int *)data);
+    numNodes = LONG(*((const unsigned int *)data));
     data += sizeof(numNodes);
     numnodes = numNodes;
     nodes = calloc_IfSameLevel(nodes, numNodes, sizeof(node_t));
@@ -1631,7 +1634,7 @@ static void P_LoadZNodes(int lump)
 
         for (int j = 0; j < 2; j++)
         {
-            no->children[j] = (unsigned int)(mn->children[j]);
+            no->children[j] = LONG(mn->children[j]);
 
             for (int k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
