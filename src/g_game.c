@@ -1417,7 +1417,9 @@ void G_DoLoadGame(void)
 
     if (!(save_stream = fopen(savename, "rb")))
     {
-        C_Warning(1, "<b>%s</b> couldn't be found.", savename);
+        menuactive = false;
+        C_ShowConsole();
+        C_Warning(1, "<b>%s</b> couldn't be loaded.", savename);
         loadaction = ga_nothing;
         return;
     }
