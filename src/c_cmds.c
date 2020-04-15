@@ -5551,6 +5551,9 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                 char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
                 char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
+                if (M_StringStartsWith(parm, "all"))
+                    strreplace(parm, "all", "");
+
                 resurrectcmdtype = mobjinfo[i].doomednum;
 
                 if (resurrectcmdtype >= 0
