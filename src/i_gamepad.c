@@ -112,7 +112,10 @@ void I_InitGamepad(void)
                 C_OutputNoRepeat("A gamepad is connected.");
 
             if (!(haptic = SDL_HapticOpenFromJoystick(joystick)) || SDL_HapticRumbleInit(haptic) < 0)
+            {
+                haptic = NULL;
                 C_Warning(1, "This gamepad doesn't support vibration.");
+            }
 
             SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
         }
