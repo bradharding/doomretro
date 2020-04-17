@@ -987,6 +987,25 @@ void P_RespawnSpecials(void)
 }
 
 //
+// P_SetPlayerViewheight
+//
+void P_SetPlayerViewheight(void)
+{
+    mobj_t  *mo = viewplayer->mo;
+
+    for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        mo->z = MAX(mo->z, seclist->m_sector->floorheight);
+
+    mo->floorz = mo->z;
+
+    viewplayer->viewheight = VIEWHEIGHT;
+    viewplayer->viewz = viewplayer->oldviewz = mo->z + viewplayer->viewheight;
+
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+        viewplayer->viewz -= FOOTCLIPSIZE;
+}
+
+//
 // P_SpawnPlayer
 // Called when a player is spawned on the level.
 // Most of the player structure stays unchanged
@@ -1008,12 +1027,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
 
-    if (mobj->player->mo == mobj)
-        for (const struct msecnode_s *seclist = mobj->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            mobj->z = MAX(mobj->z, seclist->m_sector->floorheight);
-
-    mobj->floorz = mobj->z;
-
     viewplayer->mo = mobj;
     viewplayer->playerstate = PST_LIVE;
     viewplayer->refire = 0;
@@ -1022,12 +1035,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->bonuscount = 0;
     viewplayer->extralight = 0;
     viewplayer->fixedcolormap = 0;
-
-    viewplayer->viewheight = VIEWHEIGHT;
-    viewplayer->viewz = viewplayer->oldviewz = mobj->z + viewplayer->viewheight;
-
-    if ((mobj->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
-        viewplayer->viewz -= FOOTCLIPSIZE;
 
     viewplayer->psprites[ps_weapon].sx = 0;
     viewplayer->mo->momx = 0;

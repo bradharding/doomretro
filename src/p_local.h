@@ -132,6 +132,8 @@ extern int          iquetail;
 
 void P_RespawnSpecials(void);
 
+void P_SetPlayerViewheight(void);
+
 void P_InitCards(void);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
