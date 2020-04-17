@@ -148,6 +148,8 @@ static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
 static int              consolescrollbargripcolor = 104;
 
+static byte             *consolebevel;
+
 static int              consolecolors[STRINGTYPES];
 
 dboolean                scrollbardrawn;
@@ -702,6 +704,8 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
 
+    consolebevel = &tinttab50[nearestblack << 8];
+
     brand = W_CacheLumpName("DRBRAND");
     dot = W_CacheLumpName("DRFON046");
     lsquote = W_CacheLumpName("DRFON145");
@@ -865,13 +869,13 @@ static void C_DrawBackground(int height)
     // bevel left and right edges
     for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
-        screens[0][i] = tinttab50[(nearestblack << 8) + screens[0][i + 1]];
-        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[(nearestblack << 8) + screens[0][i + CONSOLEWIDTH - 2]];
+        screens[0][i] = consolebevel[screens[0][i + 1]];
+        screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
     }
 
     // bevel bottom edge
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = tinttab25[(nearestblack << 8) + screens[0][i]];
+        screens[0][i] = consolebevel[screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
