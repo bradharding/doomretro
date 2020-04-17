@@ -1004,7 +1004,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
-    mobj->floorz = mobj->z;
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
@@ -1012,6 +1011,8 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     if (mobj->player->mo == mobj)
         for (const struct msecnode_s *seclist = mobj->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             mobj->z = MAX(mobj->z, seclist->m_sector->floorheight);
+
+    mobj->floorz = mobj->z;
 
     viewplayer->mo = mobj;
     viewplayer->playerstate = PST_LIVE;

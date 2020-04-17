@@ -312,7 +312,7 @@ static dboolean PIT_CrossLine(line_t *ld)
     if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING/* | ML_BLOCKMONSTERS*/)))
         if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
             || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
-            || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
+            || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM]
             || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]))
             if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
                 return false;   // line blocks trajectory
