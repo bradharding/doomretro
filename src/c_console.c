@@ -748,6 +748,7 @@ void C_ShowConsole(void)
     consoleanim = 0;
     showcaret = true;
     caretwait = 0;
+    skipaction = false;
 
     if (viewplayer)
         viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
@@ -1338,7 +1339,7 @@ void C_Drawer(void)
         if (quitcmd)
             return;
 
-        if (*consoleinput)
+        if (consoleinput[0] != '\0')
         {
             // draw input text to left of caret
             for (i = 0; i < MIN(selectstart, caretpos); i++)
@@ -1356,7 +1357,7 @@ void C_Drawer(void)
 
                 partialinput[i - selectstart] = '\0';
 
-                if (*partialinput)
+                if (partialinput[0] != '\0')
                 {
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
@@ -1416,7 +1417,7 @@ void C_Drawer(void)
 
             partialinput[i - selectstart] = '\0';
 
-            if (*partialinput)
+            if (partialinput[0] != '\0')
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -1449,7 +1450,7 @@ void C_Drawer(void)
 
             partialinput[i - selectend] = '\0';
 
-            if (*partialinput)
+            if (partialinput[0] != '\0')
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
         }
@@ -1531,7 +1532,7 @@ dboolean C_ValidateInput(const char *input)
                 {
                     if (!executingalias && !resettingcvar)
                     {
-                        if (*parms)
+                        if (parms[0] != '\0')
                             C_Input((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
                         else
                             C_Input("%s%s", cmd, (input[length - 1] == ' ' ? " " : ""));
@@ -1669,7 +1670,7 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_ENTER:
                 // confirm input
-                if (*consoleinput)
+                if (consoleinput[0] != '\0')
                 {
                     char        *string = M_StringDuplicate(consoleinput);
                     char        *strings[255];
@@ -1799,7 +1800,7 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_TAB:
                 // autocomplete
-                if (*consoleinput && caretpos == len)
+                if (consoleinput[0] != '\0' && caretpos == len)
                 {
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;

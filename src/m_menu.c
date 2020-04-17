@@ -130,7 +130,6 @@ extern dboolean dowipe;
 
 extern dboolean splashscreen;
 
-extern dboolean skipaction;
 extern dboolean skippsprinterp;
 
 //
