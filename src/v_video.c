@@ -41,6 +41,7 @@
 #include "SDL_image.h"
 
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_swap.h"
@@ -1553,7 +1554,6 @@ char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
 extern char     maptitle[128];
-extern dboolean splashscreen;
 extern int      titlesequence;
 
 static dboolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
@@ -1659,11 +1659,13 @@ dboolean V_ScreenShot(void)
     } while (M_FileExists(lbmpath1));
 
     free(temp1);
+
     result = V_SavePNG(renderer, lbmpath1);
-    lbmpath2[0] = '\0';
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
+        lbmpath2[0] = '\0';
+
         do
         {
             char    *temp2 = commify(count++);

@@ -45,6 +45,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_colors.h"

@@ -128,8 +128,6 @@ extern int      st_palette;
 
 extern dboolean dowipe;
 
-extern dboolean splashscreen;
-
 extern dboolean skippsprinterp;
 
 //

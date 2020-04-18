@@ -101,8 +101,6 @@ extern dboolean     idbehold;
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
 
-extern dboolean     splashscreen;
-
 extern int          windowx;
 extern int          windowy;
 extern int          windowheight;
