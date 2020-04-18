@@ -402,6 +402,7 @@ void C_PlayerMessage(const char *string, ...)
     if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
         console[i].tics = gametime;
+        console[i].timestamp[0] = '\0';
         console[i].count++;
     }
     else
@@ -412,6 +413,7 @@ void C_PlayerMessage(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
+        console[consolestrings].timestamp[0] = '\0';
         C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].count = 1;
     }
@@ -432,6 +434,7 @@ void C_Obituary(const char *string, ...)
     if (i >= 0 && console[i].stringtype == obituarystring && M_StringCompare(console[i].string, buffer))
     {
         console[i].tics = gametime;
+        console[i].timestamp[0] = '\0';
         console[i].count++;
     }
     else
@@ -442,6 +445,7 @@ void C_Obituary(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].stringtype = obituarystring;
         console[consolestrings].tics = gametime;
+        console[consolestrings].timestamp[0] = '\0';
         C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].count = 1;
     }
@@ -1103,7 +1107,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color, d
     }
 }
 
-char *C_GetTimeStamp(int index)
+char *C_CreateTimeStamp(int index)
 {
     int hours = gamestarttime.tm_hour;
     int minutes = gamestarttime.tm_min;
@@ -1133,16 +1137,17 @@ static void C_DrawTimeStamp(int x, int y, int index)
 {
     char    buffer[9];
 
-    M_StringCopy(buffer, (*console[index].timestamp ? console[index].timestamp : C_GetTimeStamp(index)), 9);
+    M_StringCopy(buffer, (*console[index].timestamp ? console[index].timestamp : C_CreateTimeStamp(index)), 9);
     y -= CONSOLEHEIGHT - consoleheight;
 
     for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
     {
-        patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
+        char    ch = buffer[i];
+        patch_t *patch = consolefont[ch - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
-        x -= (i && buffer[i] != ':' ? zerowidth : width);
-        V_DrawConsoleTextPatch(x + (i && buffer[i] == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
+        x -= (i && ch != ':' ? zerowidth : width);
+        V_DrawConsoleTextPatch(x + (i && ch == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
 

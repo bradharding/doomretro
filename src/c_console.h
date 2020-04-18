@@ -198,6 +198,6 @@ void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
-char *C_GetTimeStamp(int index);
+char *C_CreateTimeStamp(int index);
 
 #endif
