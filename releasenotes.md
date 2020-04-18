@@ -1,5 +1,6 @@
 ### DOOM Retro v3.5.6
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The name of the PWAD is no longer displayed in the automap if the map is untitled.
 * Improvements have been made to the support of [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
 

@@ -1103,12 +1103,12 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color, d
     }
 }
 
-char *C_GetTimeStamp(unsigned int tics)
+char *C_GetTimeStamp(int index)
 {
-    static char buffer[9];
-    int         hours = gamestarttime.tm_hour;
-    int         minutes = gamestarttime.tm_min;
-    int         seconds = gamestarttime.tm_sec;
+    int hours = gamestarttime.tm_hour;
+    int minutes = gamestarttime.tm_min;
+    int seconds = gamestarttime.tm_sec;
+    int tics = console[index].tics;
 
     if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
     {
@@ -1125,15 +1125,15 @@ char *C_GetTimeStamp(unsigned int tics)
     if ((hours += tics / 3600) > 12)
         hours %= 12;
 
-    M_snprintf(buffer, 9, "%i:%02i:%02i", hours, minutes, seconds);
-    return buffer;
+    M_snprintf(console[index].timestamp, 9, "%i:%02i:%02i", hours, minutes, seconds);
+    return console[index].timestamp;
 }
 
-static void C_DrawTimeStamp(int x, int y, unsigned int tics)
+static void C_DrawTimeStamp(int x, int y, int index)
 {
     char    buffer[9];
 
-    M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
+    M_StringCopy(buffer, (*console[index].timestamp ? console[index].timestamp : C_GetTimeStamp(index)), 9);
     y -= CONSOLEHEIGHT - consoleheight;
 
     for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
@@ -1301,7 +1301,7 @@ void C_Drawer(void)
                     free(temp);
                 }
 
-                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, console[i].tics);
+                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, i);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],

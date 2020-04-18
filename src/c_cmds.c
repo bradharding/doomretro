@@ -1727,12 +1727,12 @@ void C_DumpConsoleStringToFile(int index)
             for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
                 fputc(' ', condumpfile);
 
-            M_StringCopy(buffer, C_GetTimeStamp(console[index].tics), 9);
+            M_StringCopy(buffer, C_GetTimeStamp(index), 9);
 
             if (strlen(buffer) == 7)
                 fputc(' ', condumpfile);
 
-            fputs(C_GetTimeStamp(console[index].tics), condumpfile);
+            fputs(C_GetTimeStamp(index), condumpfile);
         }
 
         fputc('\n', condumpfile);

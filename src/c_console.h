@@ -126,6 +126,7 @@ typedef struct
     headertype_t        headertype;
     int                 tabs[4];
     unsigned int        tics;
+    char                timestamp[9];
 } console_t;
 
 extern console_t        *console;
@@ -197,6 +198,6 @@ void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
-char *C_GetTimeStamp(unsigned int tics);
+char *C_GetTimeStamp(int index);
 
 #endif
