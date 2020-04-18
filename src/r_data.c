@@ -574,6 +574,15 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
 
+        M_StringCopy(weaponinfo[wp_pistol].description, "handgun", sizeof(weaponinfo[wp_pistol].description));
+        M_StringCopy(weaponinfo[wp_shotgun].description, "pump-action shotgun", sizeof(weaponinfo[wp_shotgun].description));
+        M_StringCopy(weaponinfo[wp_chaingun].description, "minigun", sizeof(weaponinfo[wp_chaingun].description));
+        M_StringCopy(weaponinfo[wp_missile].description, "missile launcher", sizeof(weaponinfo[wp_missile].description));
+        M_StringCopy(weaponinfo[wp_plasma].description, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].description));
+        M_StringCopy(weaponinfo[wp_bfg].description, "SKAG 1337", sizeof(weaponinfo[wp_bfg].description));
+        M_StringCopy(weaponinfo[wp_chainsaw].description, "angle grinder", sizeof(weaponinfo[wp_chainsaw].description));
+        M_StringCopy(weaponinfo[wp_supershotgun].description, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].description));
+
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
         M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "shotgun zombie", sizeof(mobjinfo[MT_SHOTGUY].name1));
