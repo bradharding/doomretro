@@ -2586,16 +2586,13 @@ void P_MapName(int ep, int map)
                 || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
-                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
-
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
-                free(temp);
+                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
@@ -2606,16 +2603,13 @@ void P_MapName(int ep, int map)
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname && !BTSX)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
-                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
-
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
-                free(temp);
+                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(bfgedition && (!modifiedgame || nerve) ?
@@ -2627,7 +2621,7 @@ void P_MapName(int ep, int map)
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesn[map - 1]), sizeof(maptitle));
 
@@ -2637,16 +2631,13 @@ void P_MapName(int ep, int map)
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
-                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
-
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
-                free(temp);
+                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
@@ -2657,16 +2648,13 @@ void P_MapName(int ep, int map)
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
-                char    *temp = uppercase(leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path));
-
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s", temp, mapnum);
-                free(temp);
+                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));

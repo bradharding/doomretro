@@ -1,5 +1,7 @@
 ### DOOM Retro v3.5.6
 
+* The name of the PWAD is no longer displayed in the automap if the map is untitled.
+
 ---
 
 ###### Saturday, April 18, 2020

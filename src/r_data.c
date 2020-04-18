@@ -638,7 +638,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_INV].plural2, "super chainsaws", sizeof(mobjinfo[MT_INV].plural1));
         M_StringCopy(mobjinfo[MT_MEGA].name2, "mega doll", sizeof(mobjinfo[MT_MEGA].name1));
         M_StringCopy(mobjinfo[MT_MEGA].plural2, "mega dolls", sizeof(mobjinfo[MT_MEGA].plural1));
-    }}
+    }
+}
 
 //
 // R_InitColormaps
