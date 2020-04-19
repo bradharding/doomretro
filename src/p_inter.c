@@ -1756,7 +1756,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
                             weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while you went berserk" : ""));
+                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
                     }
                 }
                 else
@@ -1784,7 +1784,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
                             weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while they went berserk" : ""));
+                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
                     }
                 }
             }
