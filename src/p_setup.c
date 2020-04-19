@@ -62,8 +62,6 @@
 #define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
-#define MAXMAPINFO              100
-
 #define NUMLIQUIDS              256
 
 #define MCMD_AUTHOR             1
@@ -190,7 +188,7 @@ dboolean            skipblstart;            // MaxW: Skip initial blocklist shor
 static int          rejectlump = -1;        // cph - store reject lump num if cached
 const byte          *rejectmatrix;          // cph - const*
 
-static mapinfo_t    mapinfo[MAXMAPINFO + 1];
+static mapinfo_t    mapinfo[100];
 
 static char *mapcmdnames[] =
 {
@@ -2843,9 +2841,11 @@ void P_SetupLevel(int ep, int map)
     temp = titlecase(maptitle);
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have %s <b><i>%s</i></b>.", (samelevel ? "reentered": "entered"), temp);
+        C_PlayerMessage("You have %s <b><i>%s</i></b>%s",
+            (samelevel ? "reentered": "entered"), temp, (temp[strlen(temp) - 1] == '.' ? "" : "."));
     else
-        C_PlayerMessage("%s has %s <b><i>%s</i></b>.", playername, (samelevel ? "reentered" : "entered"), temp);
+        C_PlayerMessage("%s has %s <b><i>%s</i></b>%s",
+            playername, (samelevel ? "reentered" : "entered"), temp, (temp[strlen(temp) - 1] == '.' ? "" : "."));
 
     free(temp);
 
@@ -2960,7 +2960,7 @@ static void P_InitMapInfo(void)
             return;
 
     info = mapinfo;
-    memset(info, 0, sizeof(mapinfo_t) * (MAXMAPINFO + 1));
+    memset(info, 0, sizeof(info));
 
     for (int i = 0; i < NUMLIQUIDS; i++)
     {

@@ -802,9 +802,9 @@ static void WI_InitStats(void)
     cnt_pause = TICRATE;
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have finished <b><i>%s</i></b>.", mapname);
+        C_PlayerMessage("You have finished <b><i>%s</i></b>%s", mapname, (mapname[strlen(mapname) - 1] == '.' ? "" : "."));
     else
-        C_PlayerMessage("%s has finished <b><i>%s</i></b>.", playername, mapname);
+        C_PlayerMessage("%s has finished <b><i>%s</i></b>%s", playername, mapname, (mapname[strlen(mapname) - 1] == '.' ? "" : "."));
 
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);

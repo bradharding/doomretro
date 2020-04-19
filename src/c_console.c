@@ -1112,9 +1112,9 @@ char *C_CreateTimeStamp(int index)
     int hours = gamestarttime.tm_hour;
     int minutes = gamestarttime.tm_min;
     int seconds = gamestarttime.tm_sec;
-    int tics = console[index].tics;
+    int tics = console[index].tics / TICRATE;
 
-    if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
+    if ((seconds += (tics % 3600) % 60) >= 60)
     {
         minutes += seconds / 60;
         seconds %= 60;

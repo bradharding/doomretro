@@ -1,6 +1,7 @@
 ### DOOM Retro v3.5.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The name of the PWAD is no longer displayed in the automap if the map is untitled.
 * Improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * A bug has been fixed whereby the wrong music could be played in some rare instances.
