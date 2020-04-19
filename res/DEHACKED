@@ -1,3 +1,7 @@
+Patch File for DeHackEd v3.0
+Doom version = 19
+Patch format = 6
+
 [STRINGS]
 VERSION = DOOM Retro v3.5.6
 D_DEVSTR = Development mode ON.

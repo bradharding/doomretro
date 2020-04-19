@@ -1,0 +1,90 @@
+Patch File for DeHackEd v3.0
+Doom version = 19
+Patch format = 6
+
+[STRINGS]
+E1TEXT = Are you prepared for the next mission?
+GOTARMOR = Picked up the Chex(R) Armor.
+GOTMEGA = Picked up the Super Chex(R) Armor!
+GOTHTHBONUS = Picked up a glass of water.
+GOTARMBONUS = Picked up slime repellent.
+GOTSTIM = Picked up a bowl of fruit.
+GOTMEDINEED = Picked up some needed vegetables!
+GOTMEDIKIT = Picked up a bowl of vegetables.
+GOTSUPER = Supercharge Breakfast!
+GOTBLUECARD = Picked up a blue key.
+GOTYELWCARD = Picked up a yellow key.
+GOTREDCARD = Picked up a red key.
+GOTSUIT = Slimeproof Suit
+GOTCLIP = Picked up a mini zorch recharge.
+GOTCLIPBOX = Picked up a mini zorch pack.
+GOTROCKET = Picked up a zorch propulsor recharge.
+GOTROCKETX2 = Picked up a zorch propulsor recharge.
+GOTROCKBOX = Picked up a zorch propulsor pack.
+GOTCELL = Picked up a phasing zorcher recharge.
+GOTCELLX2 = Picked up a phasing zorcher recharge.
+GOTCELLBOX = Picked up a phasing zorcher pack.
+GOTSHELLS = Picked up a large zorcher recharge.
+GOTSHELLSX2 = Picked up a large zorcher recharge.
+GOTSHELLBOX = Picked up a large zorcher pack.
+GOTBACKPACK = Picked up a Zorchpak!
+GOTBFG9000 = You got the LAZ Device!
+GOTCHAINGUN = You got the Rapid Zorcher!
+GOTCHAINSAW = You got the Super Bootspork!
+GOTLAUNCHER = You got the Zorch Propulsor!
+GOTPLASMA = You got the Phasing Zorcher!
+GOTSHOTGUN = You got the Large Zorcher!
+GOTSHOTGUN2 = You got the Super Large Zorcher!
+KEYCARD = key
+HUSTR_E1M1 = E1M1: Landing Zone
+HUSTR_E1M2 = E1M2: Storage Facility
+HUSTR_E1M3 = E1M3: Experimental Lab
+HUSTR_E1M4 = E1M4: Arboretum
+HUSTR_E1M5 = E1M5: Caverns of Bazoik
+STSTR_DQDON = Invincible Mode On
+STSTR_DQDOFF = Invincible Mode Off
+STSTR_KFAADDED = Super Zorch Added
+STSTR_FAADDED = Zorch Added
+STSTR_CHOPPERS = Eat Chex(R)!
+
+Frame 537
+Duration = 3
+
+Frame 538
+Duration = 3
+
+Frame 539 
+Duration = 0
+
+Thing 2 (Zombieman)
+Close attack frame = 184
+Far attack frame = 0
+
+Thing 3 (Shotgun guy)
+Close attack frame = 217
+Far attack frame = 0
+
+Thing 16 (Boss)
+Width = 2883584
+Height = 6553600
+Speed = 0
+
+Thing 19
+Height = 0
+
+Cheat 0
+Chainsaw = joelkoenigs
+God mode = davidbrus
+Ammo & Keys = scottholman
+Ammo = mikekoenigs
+No Clipping 1 = charlesjacobi
+No Clipping 2 = charlesjacobi
+Invincibility = andrewbenson
+Berserk = deanhyers
+Invisibility = marybregi
+Radiation Suit = allen
+Auto-map = digitalcafe
+Lite-amp Goggles = joshuastorms
+Level Warp = leesnyder
+Player Position = kimhyers
+Map cheat = sherrill

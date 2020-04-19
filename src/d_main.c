@@ -1719,7 +1719,7 @@ static void D_ProcessDehInWad(void)
     else
     {
         if (chex1)
-            ProcessDehFile(NULL, W_GetNumForName("CHEXDEH"), true);
+            ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
 
         for (int i = numlumps - 1; i >= 0; i--)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
