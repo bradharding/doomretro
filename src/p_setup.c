@@ -2960,7 +2960,7 @@ static void P_InitMapInfo(void)
             return;
 
     info = mapinfo;
-    memset(info, 0, sizeof(info));
+    memset(info, 0, sizeof(*info));
 
     for (int i = 0; i < NUMLIQUIDS; i++)
     {
