@@ -3031,7 +3031,7 @@ static void P_InitMapInfo(void)
             // Process optional tokens
             while (SC_GetString())
             {
-                if (SC_Compare("MAP") || SC_Compare("DEFAULTMAP"))
+                if (SC_Compare("MAP") || SC_Compare("DEFAULTMAP") || SC_Compare("CLUSTERDEF"))
                 {
                     SC_UnGet();
                     break;
