@@ -59,7 +59,7 @@
                                         "property of their respective holders. DOOM Retro is in no way affiliated with nor endorsed " \
                                         "by id Software."
 #define PACKAGE_WAD                     "doomretro.wad"
-#define PACKAGE_WIKIHELPURL             "https://github.com/bradharding/doomretro/wiki/THE-CONSOLE"
+#define PACKAGE_WIKIURL                 "https://github.com/bradharding/doomretro/wiki"
 #define PACKAGE_WIKILICENSEURL          "https://github.com/bradharding/doomretro/wiki/LICENSE"
 
 #endif

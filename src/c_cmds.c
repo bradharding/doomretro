@@ -2412,11 +2412,11 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", PACKAGE_WIKIHELPURL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", PACKAGE_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    system("xdg-open " PACKAGE_WIKIHELPURL);
+    system("xdg-open " PACKAGE_WIKIURL);
 #elif defined(__APPLE__)
-    system("open " PACKAGE_WIKIHELPURL);
+    system("open " PACKAGE_WIKIURL);
 #endif
 }
 
