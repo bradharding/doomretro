@@ -6962,6 +6962,7 @@ autocomplete_t autocompletelist[] =
     { "kill wolfensteinss",                          DOOM2ONLY },
     { "kill zombiemen",                              DOOM1AND2 },
     { "+left",                                       DOOM1AND2 },
+    { "license",                                     DOOM1AND2 },
     { "load ",                                       DOOM1AND2 },
     { "m_acceleration ",                             DOOM1AND2 },
     { "m_acceleration off",                          DOOM1AND2 },

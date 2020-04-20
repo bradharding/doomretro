@@ -290,6 +290,7 @@ static void help_cmd_func2(char *cmd, char *parms);
 static void if_cmd_func2(char *cmd, char *parms);
 static dboolean kill_cmd_func1(char *cmd, char *parms);
 static void kill_cmd_func2(char *cmd, char *parms);
+static void license_cmd_func2(char *cmd, char *parms);
 static void load_cmd_func2(char *cmd, char *parms);
 static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
@@ -604,6 +605,8 @@ consolecmd_t consolecmds[] =
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters, a type of\n<i>monster</i>, or explodes all <b>barrels</b> or <b>missiles</b>."),
+    CMD(license, "", null_func1, license_cmd_func2, false, "",
+        "Displays the <i><b>" PACKAGE_LICENSE ".</b></i>"),
     CMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_BOOL(m_acceleration, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -2414,9 +2417,6 @@ static void help_cmd_func2(char *cmd, char *parms)
     system("xdg-open " PACKAGE_WIKIHELPURL);
 #elif defined(__APPLE__)
     system("open " PACKAGE_WIKIHELPURL);
-#else
-    C_HideConsoleFast();
-    M_ShowHelp(0);
 #endif
 }
 
@@ -2893,6 +2893,20 @@ void kill_cmd_func2(char *cmd, char *parms)
 
         free(parm);
     }
+}
+
+//
+// license CCMD
+//
+static void license_cmd_func2(char *cmd, char *parms)
+{
+#if defined(_WIN32)
+    ShellExecute(NULL, "open", PACKAGE_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
+#elif defined(__linux__)
+    system("xdg-open " PACKAGE_WIKILICENSEURL);
+#elif defined(__APPLE__)
+    system("open " PACKAGE_WIKILICENSEURL);
+#endif
 }
 
 //
