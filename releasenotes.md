@@ -2,10 +2,10 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The name of the PWAD is no longer displayed in the automap if the map is untitled.
-* Improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
+* The name of the PWAD is no longer displayed in the automap if the current map has no title.
+* Several improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * A bug has been fixed whereby the wrong music could be played in some rare instances.
-* A new `license` CCMD has been implemented that will open the [*License*](https://github.com/bradharding/doomretro/wiki/LICENSE) chapter of the [*DOOM Retro Wiki*](https://github.com/bradharding/doomretro/wiki) in the default browser.
+* A new `license` CCMD has been implemented that will display the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
 
 ---
 

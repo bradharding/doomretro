@@ -2295,9 +2295,8 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
-    if (timer)
-        if (!--countdown)
-            G_ExitLevel();
+    if (timer && !--countdown)
+        G_ExitLevel();
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
@@ -2326,59 +2325,58 @@ void P_UpdateSpecials(void)
 
     // DO BUTTONS
     for (int i = 0; i < maxbuttons; i++)
-        if (buttonlist[i].btimer)
-            if (!--buttonlist[i].btimer)
+        if (buttonlist[i].btimer && !--buttonlist[i].btimer)
+        {
+            line_t      *line = buttonlist[i].line;
+            sector_t    *sector = line->backsector;
+            int         sidenum = line->sidenum[0];
+            short       toptexture = sides[sidenum].toptexture;
+            short       midtexture = sides[sidenum].midtexture;
+            short       bottomtexture = sides[sidenum].bottomtexture;
+            int         btexture = buttonlist[i].btexture;
+
+            switch (buttonlist[i].where)
             {
-                line_t      *line = buttonlist[i].line;
-                sector_t    *sector = line->backsector;
-                int         sidenum = line->sidenum[0];
-                short       toptexture = sides[sidenum].toptexture;
-                short       midtexture = sides[sidenum].midtexture;
-                short       bottomtexture = sides[sidenum].bottomtexture;
-                int         btexture = buttonlist[i].btexture;
+                case top:
+                    sides[sidenum].toptexture = btexture;
 
-                switch (buttonlist[i].where)
-                {
-                    case top:
-                        sides[sidenum].toptexture = btexture;
-
-                        if (midtexture == toptexture)
-                            sides[sidenum].midtexture = btexture;
-
-                        if (bottomtexture == toptexture)
-                            sides[sidenum].bottomtexture = btexture;
-
-                        break;
-
-                    case middle:
+                    if (midtexture == toptexture)
                         sides[sidenum].midtexture = btexture;
 
-                        if (toptexture == midtexture)
-                            sides[sidenum].toptexture = btexture;
-
-                        if (bottomtexture == midtexture)
-                            sides[sidenum].bottomtexture = btexture;
-
-                        break;
-
-                    case bottom:
+                    if (bottomtexture == toptexture)
                         sides[sidenum].bottomtexture = btexture;
 
-                        if (toptexture == bottomtexture)
-                            sides[sidenum].toptexture = btexture;
+                    break;
 
-                        if (midtexture == bottomtexture)
-                            sides[sidenum].midtexture = btexture;
+                case middle:
+                    sides[sidenum].midtexture = btexture;
 
-                        break;
+                    if (toptexture == midtexture)
+                        sides[sidenum].toptexture = btexture;
 
-                    case nowhere:
-                        break;
-                }
+                    if (bottomtexture == midtexture)
+                        sides[sidenum].bottomtexture = btexture;
 
-                if (!sector || (!sector->floordata && !sector->ceilingdata) || line->tag != sector->tag)
-                    S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
+                    break;
+
+                case bottom:
+                    sides[sidenum].bottomtexture = btexture;
+
+                    if (toptexture == bottomtexture)
+                        sides[sidenum].toptexture = btexture;
+
+                    if (midtexture == bottomtexture)
+                        sides[sidenum].midtexture = btexture;
+
+                    break;
+
+                case nowhere:
+                    break;
             }
+
+            if (!sector || (!sector->floordata && !sector->ceilingdata) || line->tag != sector->tag)
+                S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
+        }
 }
 
 //
