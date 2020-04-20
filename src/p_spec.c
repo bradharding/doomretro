@@ -1276,17 +1276,15 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
         else if (line->special >= GenFloorBase)
         {
-            if (!thing->player)
-                if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;                     // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
+                return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
             linefunc = EV_DoGenFloor;
         }
         else if (line->special >= GenCeilingBase)
         {
-            if (!thing->player)
-                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;                     // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
+                return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
             linefunc = EV_DoGenCeiling;
         }
@@ -1321,25 +1319,22 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
         else if (line->special >= GenLiftBase)
         {
-            if (!thing->player)
-                if (!(line->special & LiftMonster))
-                    return;                     // monsters disallowed
+            if (!thing->player && !(line->special & LiftMonster))
+                return;                         // monsters disallowed
 
             linefunc = EV_DoGenLift;
         }
         else if (line->special >= GenStairsBase)
         {
-            if (!thing->player)
-                if (!(line->special & StairMonster))
-                    return;                     // monsters disallowed
+            if (!thing->player && !(line->special & StairMonster))
+                return;                         // monsters disallowed
 
             linefunc = EV_DoGenStairs;
         }
         else if (line->special >= GenCrusherBase)
         {
-            if (!thing->player)
-                if (!(line->special & CrusherMonster))
-                    return;                     // monsters disallowed
+            if (!thing->player && !(line->special & CrusherMonster))
+                return;                         // monsters disallowed
 
             linefunc = EV_DoGenCrusher;
         }
@@ -2043,17 +2038,15 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
     else if (line->special >= GenFloorBase)
     {
-        if (!thing->player)
-            if ((line->special & FloorChange) || !(line->special & FloorModel))
-                return;                     // FloorModel is "Allow Monsters" if FloorChange is 0
+        if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
+            return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
         linefunc = EV_DoGenFloor;
     }
     else if (line->special >= GenCeilingBase)
     {
-        if (!thing->player)
-            if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                return;                     // CeilingModel is "Allow Monsters" if CeilingChange is 0
+        if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
+            return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
         linefunc = EV_DoGenCeiling;
     }
@@ -2088,25 +2081,22 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
     else if (line->special >= GenLiftBase)
     {
-        if (!thing->player)
-            if (!(line->special & LiftMonster))
-                return;                     // monsters disallowed
+        if (!thing->player && !(line->special & LiftMonster))
+            return;                         // monsters disallowed
 
         linefunc = EV_DoGenLift;
     }
     else if (line->special >= GenStairsBase)
     {
-        if (!thing->player)
-            if (!(line->special & StairMonster))
-                return;                     // monsters disallowed
+        if (!thing->player && !(line->special & StairMonster))
+            return;                         // monsters disallowed
 
         linefunc = EV_DoGenStairs;
     }
     else if (line->special >= GenCrusherBase)
     {
-        if (!thing->player)
-            if (!(line->special & CrusherMonster))
-                return;                     // monsters disallowed
+        if (!thing->player && !(line->special & CrusherMonster))
+            return;                         // monsters disallowed
 
         linefunc = EV_DoGenCrusher;
     }
@@ -2197,24 +2187,21 @@ void P_PlayerInSpecialSector(sector_t *sector)
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
-                if (!viewplayer->powers[pw_ironfeet])
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
-                if (!viewplayer->powers[pw_ironfeet])
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5)
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
+                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
 
@@ -2252,25 +2239,22 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case 1:
                 // 2/5 damage per 31 tics
-                if (!viewplayer->powers[pw_ironfeet])
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case 2:
                 // 5/10 damage per 31 tics
-                if (!viewplayer->powers[pw_ironfeet])
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case 3:
                 // 10/20 damage per 31 tics
-                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5) // take damage even with suit
-                    if (!(leveltime & 0x1F))
-                        P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
+                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 0x1F))
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
         }
