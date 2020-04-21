@@ -619,17 +619,7 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
     }
     else if (chex)
-    {
-        states[S_POSS_DIE5].tics = 0;
-        states[S_POSS_XDIE9].tics = 0;
-        states[S_SPOS_DIE5].tics = 0;
-        states[S_SPOS_XDIE9].tics = 0;
-        states[S_TROO_DIE5].tics = 0;
-        states[S_TROO_XDIE8].tics = 0;
-        states[S_SARG_DIE6].tics = 0;
-        states[S_BOSS_DIE7].tics = 0;
         mobjinfo[MT_BLOOD].blood = GREENBLOOD;
-    }
     else if (hacx)
     {
         mobjinfo[MT_HEAD].flags2 |= MF2_DONTMAP;

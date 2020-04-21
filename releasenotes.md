@@ -6,7 +6,7 @@
 * Several improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
 * A bug has been fixed whereby the wrong music could be played in some rare instances.
 * The randomness of the music chosen when the `s_randommusic` CVAR is `on` has been improved.
-* A new `license` CCMD has been implemented that will display the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
+* A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
 * A message is now displayed in the console whenever an item respawns if the `respawnitems` CCMD is used, or a monster respawns if the `respawnmonsters` CCMD is used or the *Nightmare!* skill level is selected.
 
 ---
