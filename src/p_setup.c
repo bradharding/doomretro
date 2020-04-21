@@ -1699,8 +1699,8 @@ static void P_LoadThings(int lump)
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
                     {
                         C_Warning(2, "Thing %s has been removed.", temp);
+
                         spawn = false;
-                        break;
                     }
                     else
                     {
@@ -1709,20 +1709,22 @@ static void P_LoadThings(int lump)
 
                         mt.x = SHORT(thingfix[j].newx);
                         mt.y = SHORT(thingfix[j].newy);
-                    }
 
-                    if (thingfix[j].angle != DEFAULT)
-                    {
-                        C_Warning(2, "The angle of thing %s has been changed from %i\xB0 to %i\xB0.", temp, mt.angle, thingfix[j].angle);
+                        if (thingfix[j].angle != DEFAULT)
+                        {
+                            C_Warning(2, "The angle of thing %s has been changed from %i\xB0 to %i\xB0.",
+                                temp, mt.angle, thingfix[j].angle);
 
-                        mt.angle = SHORT(thingfix[j].angle);
-                    }
+                            mt.angle = SHORT(thingfix[j].angle);
+                        }
 
-                    if (thingfix[j].options != DEFAULT)
-                    {
-                        C_Warning(2, "The flags of thing %s have been changed from %i to %i.", temp, mt.options, thingfix[j].options);
+                        if (thingfix[j].options != DEFAULT)
+                        {
+                            C_Warning(2, "The flags of thing %s have been changed from %i to %i.",
+                                temp, mt.options, thingfix[j].options);
 
-                        mt.options = thingfix[j].options;
+                            mt.options = thingfix[j].options;
+                        }
                     }
 
                     free(temp);
