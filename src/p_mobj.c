@@ -633,6 +633,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     // remove the old monster
     P_RemoveMobj(mobj);
+
+    if (con_obituaries)
+        C_Obituary("%s %s respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 }
 
 //
@@ -976,6 +979,9 @@ void P_RespawnSpecials(void)
     // spawn a teleport fog at the new spot
     mo = P_SpawnMobj(x, y, z, MT_IFOG);
     S_StartSound(mo, sfx_itmbk);
+
+    if (con_obituaries)
+        C_Obituary("%s %s respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // spawn it
     mo = P_SpawnMobj(x, y, z, i);
