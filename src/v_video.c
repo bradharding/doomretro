@@ -1482,15 +1482,28 @@ void V_LowGraphicDetail(void)
         height = (viewwindowy + viewheight) * SCREENWIDTH;
     }
 
-    for (int y = top; y < height; y += pixelheight)
-        for (int x = left; x < width; x += pixelwidth)
-        {
-            byte    *dot = *screens + y + x;
+    if (pixelwidth == 2 && pixelheight == 2)
+    {
+        for (int y = top; y < height; y += 2)
+            for (int x = left; x < width; x += 2)
+            {
+                byte    *dot = *screens + y + x;
 
-            for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                    *(dot + yy + xx) = *dot;
-        }
+                *(dot + 1) = *dot;
+                *(dot + SCREENWIDTH) = *dot;
+                *(dot + SCREENWIDTH + 1) = *dot;
+            }
+    }
+    else
+        for (int y = top; y < height; y += pixelheight)
+            for (int x = left; x < width; x += pixelwidth)
+            {
+                byte    *dot = *screens + y + x;
+
+                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                        *(dot + yy + xx) = *dot;
+            }
 }
 
 void V_InvertScreen(void)
