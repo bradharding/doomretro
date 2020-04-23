@@ -1467,21 +1467,8 @@ void GetPixelSize(dboolean reset)
     }
 }
 
-void V_LowGraphicDetail(void)
+void V_LowGraphicDetail(int left, int top, int width, int height)
 {
-    int left = 0;
-    int top = 0;
-    int width = SCREENWIDTH;
-    int height = SCREENHEIGHT * SCREENWIDTH;
-
-    if (gamestate == GS_LEVEL)
-    {
-        left = viewwindowx;
-        top = viewwindowy * SCREENWIDTH;
-        width = viewwindowx + viewwidth;
-        height = (viewwindowy + viewheight) * SCREENWIDTH;
-    }
-
     if (pixelwidth == 2 && pixelheight == 2)
     {
         for (int y = top; y < height; y += 2)
