@@ -1471,7 +1471,7 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
 {
     if (pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH)
     {
-        for (int y = top; y < height; y += 2)
+        for (int y = top; y < height; y += 2 * SCREENWIDTH)
             for (int x = left; x < width; x += 2)
             {
                 byte    *dot = *screens + y + x;
