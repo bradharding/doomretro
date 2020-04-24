@@ -2844,10 +2844,10 @@ void P_SetupLevel(int ep, int map)
 
     if (M_StringCompare(playername, playername_default))
         C_PlayerMessage("You have %s <b><i>%s</i></b>%s",
-            (samelevel ? "reentered": "entered"), temp, (temp[strlen(temp) - 1] == '.' ? "" : "."));
+            (samelevel ? "reentered": "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
     else
         C_PlayerMessage("%s has %s <b><i>%s</i></b>%s",
-            playername, (samelevel ? "reentered" : "entered"), temp, (temp[strlen(temp) - 1] == '.' ? "" : "."));
+            playername, (samelevel ? "reentered" : "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
     free(temp);
 

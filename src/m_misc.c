@@ -783,6 +783,11 @@ dboolean isvowel(const char ch)
     return !!strchr("aeiouAEIOU", ch);
 }
 
+dboolean ispunctuation(const char ch)
+{
+    return !!strchr(".!?", ch);
+}
+
 dboolean isbreak(const char ch)
 {
     return !!strchr(" /\\-", ch);
