@@ -1499,9 +1499,7 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
                 {
                     byte    *dot = *screens + y + x;
 
-                    *(dot + 1) = *dot;
-                    *(dot + SCREENWIDTH) = *dot;
-                    *(dot + SCREENWIDTH + 1) = *dot;
+                    *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = *dot;
                 }
     }
     else
