@@ -857,7 +857,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the recoiling of the player's weapon when\nfired."),
     CVAR_BOOL(wipe, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the wipe effect when transitioning between\nscreens."),
+        "Toggles wiping when transitioning between screens."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

@@ -1463,7 +1463,6 @@ void GetPixelSize(dboolean reset)
         pixelwidth = 2;
         pixelheight = 2 * SCREENWIDTH;
         r_lowpixelsize = r_lowpixelsize_default;
-
         M_SaveCVARs();
     }
 }
