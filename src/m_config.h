@@ -570,7 +570,7 @@ enum
 #define r_skycolor_default                      r_skycolor_none
 #define r_skycolor_max                          255
 
-#define r_supersampling_default                 false
+#define r_supersampling_default                 true
 
 #define r_textures_default                      true
 
