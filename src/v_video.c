@@ -1477,10 +1477,10 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
                 for (int x = left; x < width; x += 2)
                 {
                     byte    *dot = *screens + y + x;
-                    byte    y1 = tinttab50[(*dot << 8) + *(dot + width)];
-                    byte    y2 = tinttab50[(*(dot + 1) << 8) + *(dot + width + 1)];
+                    byte    y1 = tinttab50[(*dot << 8) + *(dot + SCREENWIDTH)];
+                    byte    y2 = tinttab50[(*(dot + 1) << 8) + *(dot + SCREENWIDTH + 1)];
 
-                    *dot = *(dot + 1) = *(dot + width) = *(dot + width + 1) = tinttab50[(y1 << 8) + y2];
+                    *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = tinttab50[(y1 << 8) + y2];
                 }
         else
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
