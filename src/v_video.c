@@ -1427,6 +1427,17 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
+#if SCREENSCALE == 2
+    byte    *dot = &screens[0][(y * SCREENWIDTH + x) * 2];
+
+    if (color == 251)
+    {
+        if (drawshadow)
+            *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = menushadow[*dot];
+    }
+    else if (color && color != 32)
+        *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = color;
+#else
     byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
 
     if (color == 251)
@@ -1444,6 +1455,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
         for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
             for (int xx = 0; xx < SCREENSCALE; xx++)
                 *(dest + yy + xx) = color;
+#endif
 }
 
 void GetPixelSize(dboolean reset)
