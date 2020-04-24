@@ -140,6 +140,7 @@ extern dboolean     r_shadows_translucency;
 extern dboolean     r_shake_barrels;
 extern int          r_shake_damage;
 extern int          r_skycolor;
+extern dboolean     r_supersampling;
 extern dboolean     r_textures;
 extern dboolean     r_translucency;
 extern int          s_channels;
@@ -568,6 +569,8 @@ enum
 #define r_skycolor_min                          0
 #define r_skycolor_default                      r_skycolor_none
 #define r_skycolor_max                          255
+
+#define r_supersampling_default                 false
 
 #define r_textures_default                      true
 

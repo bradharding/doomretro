@@ -70,6 +70,7 @@ static fixed_t  DXI, DYI;
 static int      pixelwidth;
 static int      pixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
+dboolean        r_supersampling = r_supersampling_default;
 
 static char     screenshotfolder[MAX_PATH];
 
@@ -1471,15 +1472,26 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
 {
     if (pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH)
     {
-        for (int y = top; y < height; y += 2 * SCREENWIDTH)
-            for (int x = left; x < width; x += 2)
-            {
-                byte    *dot = *screens + y + x;
+        if (r_supersampling)
+            for (int y = top; y < height; y += 2 * SCREENWIDTH)
+                for (int x = left; x < width; x += 2)
+                {
+                    byte    *dot = *screens + y + x;
+                    byte    y1 = tinttab50[(*dot << 8) + *(dot + width)];
+                    byte    y2 = tinttab50[(*(dot + 1) << 8) + *(dot + width + 1)];
 
-                *(dot + 1) = *dot;
-                *(dot + SCREENWIDTH) = *dot;
-                *(dot + SCREENWIDTH + 1) = *dot;
-            }
+                    *dot = *(dot + 1) = *(dot + width) = *(dot + width + 1) = tinttab50[(y1 << 8) + y2];
+                }
+        else
+            for (int y = top; y < height; y += 2 * SCREENWIDTH)
+                for (int x = left; x < width; x += 2)
+                {
+                    byte    *dot = *screens + y + x;
+
+                    *(dot + 1) = *dot;
+                    *(dot + SCREENWIDTH) = *dot;
+                    *(dot + SCREENWIDTH + 1) = *dot;
+                }
     }
     else
         for (int y = top; y < height; y += pixelheight)

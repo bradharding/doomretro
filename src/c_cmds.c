@@ -739,6 +739,8 @@ consolecmd_t consolecmds[] =
         "The amount the screen shakes when the player is\nattacked (<b>0%</b> to <b>100%</b>)."),
     CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
         "The color of the sky (<b>none</b>, or <b>0</b> to <b>255</b>)."),
+    CVAR_BOOL(r_supersampling, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles supersampling when the graphic detail is\nlow."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,

@@ -86,6 +86,7 @@ r_shadows off
 r_shake_barrels off
 r_shake_damage 0%
 r_skycolor none
+r_supersampling off
 r_textures on
 r_translucency off
 regenhealth off

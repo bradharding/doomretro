@@ -8,6 +8,7 @@
 * The randomness of the music chosen when the `s_randommusic` CVAR is `on` has been improved.
 * A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
 * A message is now displayed in the console whenever an item respawns if the `respawnitems` CCMD is used, or a monster respawns if the `respawnmonsters` CCMD is used or the *Nightmare!* skill level is selected.
+* A new `r_supersampling` CVAR has been implemented that applies supersampling when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is `2×2`. This CVAR is `off` by default and when vanilla mode is on.
 
 ---
 

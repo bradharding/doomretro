@@ -56,7 +56,7 @@ extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 
-#define NUMCVARS                                    183
+#define NUMCVARS                                    184
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -171,6 +171,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_shake_barrels,                                   BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_skycolor,                                        SKYVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (r_supersampling,                                   BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_textures,                                        BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (r_translucency,                                    BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (s_channels,                                        NOVALUEALIAS       ),
@@ -825,6 +826,9 @@ static void M_CheckCVARs(void)
 
     if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
         r_skycolor = r_skycolor_default;
+
+    if (r_supersampling != false && r_supersampling != true)
+        r_supersampling = r_supersampling_default;
 
     if (r_textures != false && r_textures != true)
         r_textures = r_textures_default;
