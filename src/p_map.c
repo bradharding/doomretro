@@ -2038,7 +2038,6 @@ static void PIT_ChangeSector(mobj_t *thing)
             int y = thing->y;
             int blood = mobjinfo[thing->blood].blood;
             int floorz = thing->floorz;
-            int type = thing->type;
 
             for (int i = 0; i < max; i++)
             {
@@ -2050,6 +2049,8 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             if (thing->blood == MT_BLOOD || ((flags & MF_FUZZ) && r_blood != r_blood_nofuzz))
             {
+                int type = thing->type;
+
                 P_SetMobjState(thing, S_GIBS);
 
                 thing->flags &= ~MF_SOLID;
