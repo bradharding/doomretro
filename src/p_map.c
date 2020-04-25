@@ -2048,7 +2048,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                     y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), blood, floorz, NULL);
             }
 
-            if (thing->blood == MT_BLOOD)
+            if (thing->blood == MT_BLOOD || ((flags & MF_FUZZ) && r_blood != r_blood_nofuzz))
             {
                 P_SetMobjState(thing, S_GIBS);
 
