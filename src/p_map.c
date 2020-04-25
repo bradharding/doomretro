@@ -2030,43 +2030,40 @@ static void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_NOBLOOD) && thing->blood)
+        if (!(flags & MF_NOBLOOD))
         {
+            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+            int max = M_RandomInt(50, 100) + radius;
+            int x = thing->x;
+            int y = thing->y;
+            int blood = mobjinfo[thing->blood].blood;
+            int floorz = thing->floorz;
             int type = thing->type;
 
-            if (!(flags & MF_FUZZ))
+            for (int i = 0; i < max; i++)
             {
-                int blood = mobjinfo[thing->blood].blood;
+                int angle = M_RandomInt(0, FINEANGLES - 1);
 
-                if (blood)
-                {
-                    int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-                    int max = M_RandomInt(50, 100) + radius;
-                    int x = thing->x;
-                    int y = thing->y;
-                    int floorz = thing->floorz;
-
-                    for (int i = 0; i < max; i++)
-                    {
-                        int angle = M_RandomInt(0, FINEANGLES - 1);
-                        int fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-                        int fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
-
-                        P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
-                    }
-                }
+                P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
+                    fy + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), blood, floorz, NULL);
             }
 
-            P_SetMobjState(thing, S_GIBS);
+            if (thing->blood == MT_BLOOD)
+            {
+                P_SetMobjState(thing, S_GIBS);
 
-            thing->flags &= ~MF_SOLID;
+                thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
-                thing->flags2 |= MF2_MIRRORED;
+                if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG
+                    && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
+                    thing->flags2 |= MF2_MIRRORED;
 
-            thing->height = 0;
-            thing->radius = 0;
-            thing->shadowoffset = 0;
+                thing->height = 0;
+                thing->radius = 0;
+                thing->shadowoffset = 0;
+            }
+            else
+                P_RemoveMobj(thing);
 
             S_StartSound(thing, sfx_slop);
         }
