@@ -13,6 +13,7 @@
 * When using the `kill` CCMD, the items dropped by monsters can no longer teleport, just like their corpses.
 * A bug has been fixed whereby some hanging decorations wouldn’t be positioned correctly in some instances.
 * Those monsters that don’t have red blood will no longer leave gibs if crushed by a lowering ceiling.
+* Blood will no longer be spawned while a monster is being crushed by a lowering ceiling and the `r_blood` CVAR is `none`.
 
 ---
 

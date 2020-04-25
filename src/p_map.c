@@ -2095,8 +2095,8 @@ static void PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
     {
-        if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
-            || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
+        if (!(flags & MF_NOBLOOD) && thing->blood && r_blood != r_blood_none
+            && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
             int type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
             int z = thing->z + thing->height * 2 / 3;
