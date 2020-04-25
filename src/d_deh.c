@@ -2330,10 +2330,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                             value |= deh_mobjflags[iy].value;
 
-                            // [BH] hack to use vanilla height of dehacked hanging decorations
-                            if (deh_mobjflags[iy].value == MF_SPAWNCEILING && (mobjinfo[indexnum].flags2 & MF2_DECORATION))
-                                mobjinfo[indexnum].height = 16 * FRACUNIT;
-
                             // [BH] no blood splats if thing is dehacked...
                             mobjinfo[indexnum].blood = 0;
                             break;
