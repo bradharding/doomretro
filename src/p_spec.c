@@ -1535,7 +1535,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Teleport:
-            if (EV_Teleport(line, side, thing))
+            if (EV_Teleport(line, side, thing) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
@@ -1639,7 +1639,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Teleport_MonstersOnly:
-            if (!thing->player && EV_Teleport(line, side, thing))
+            if (!thing->player && EV_Teleport(line, side, thing) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
@@ -1831,7 +1831,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Teleport_AlsoMonsters_Silent_SameAngle:
-            if (EV_SilentTeleport(line, side, thing))
+            if (EV_SilentTeleport(line, side, thing) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
@@ -1873,31 +1873,31 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_TeleportToLineWithSameTag_Silent_SameAngle:
-            if (EV_SilentLineTeleport(line, side, thing, false))
+            if (EV_SilentLineTeleport(line, side, thing, false) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
 
         case W1_TeleportToLineWithSameTag_Silent_ReversedAngle:
-            if (EV_SilentLineTeleport(line, side, thing, true))
+            if (EV_SilentLineTeleport(line, side, thing, true) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
 
         case W1_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
-            if (!thing->player && EV_SilentLineTeleport(line, side, thing, true))
+            if (!thing->player && EV_SilentLineTeleport(line, side, thing, true) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
 
         case W1_TeleportToLineWithSameTag_MonstersOnly_Silent:
-            if (!thing->player && EV_SilentLineTeleport(line, side, thing, false))
+            if (!thing->player && EV_SilentLineTeleport(line, side, thing, false) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
 
         case W1_Teleport_MonstersOnly_Silent:
-            if (!thing->player && EV_SilentTeleport(line, side, thing))
+            if (!thing->player && EV_SilentTeleport(line, side, thing) && !(thing->flags & MF_CORPSE))
                 line->special = 0;
 
             break;
