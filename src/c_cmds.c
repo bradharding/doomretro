@@ -3384,6 +3384,21 @@ static void map_cmd_func2(char *cmd, char *parms)
 //
 extern int  dehcount;
 
+void removemapnum(char *title)
+{
+    char *pos = strchr(title, ':');
+
+    if (pos)
+    {
+        int index = (int)(pos - title) + 1;
+
+        memmove(title, title + index, strlen(title) - index + 1);
+
+        if (title[0] == ' ')
+            memmove(title, title + 1, strlen(title));
+    }
+}
+
 static void maplist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[4] = { 40, 93, 370, 0 };
@@ -3442,6 +3457,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (!replaced || pwad)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
+                    removemapnum(temp);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
@@ -3457,6 +3473,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         if (!M_StringCompare(wadname, "DOOM2.WAD"))
                         {
                             temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>"));
+                            removemapnum(temp);
                             M_snprintf(maplist[count++], 256, "%s</b></i>\t%s", temp, wadname);
                             free(temp);
                         }
@@ -3464,6 +3481,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     else
                     {
                         temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
+                        removemapnum(temp);
                         M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
                         free(temp);
@@ -3476,6 +3494,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(wadname, "NERVE.WAD"))
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
+                    removemapnum(temp);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, temp, wadname);
                     free(temp);
                 }
@@ -3486,6 +3505,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (!replaced || pwad)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
+                    removemapnum(temp);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
@@ -3497,6 +3517,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (!replaced || pwad)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
+                    removemapnum(temp);
                     M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
