@@ -1257,10 +1257,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             default:
                 break;
         }
-
-        // [BH] Corpses can't trigger specials
-        if ((thing->flags & MF_CORPSE) && thing->type != MT_BARREL)
-            return;
     }
 
     // jff 02/04/98 add check here for generalized linedef types
