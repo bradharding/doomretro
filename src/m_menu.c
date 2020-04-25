@@ -786,7 +786,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
     short   width = SHORT(patch->width);
     short   height = SHORT(patch->height);
 
-    if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
+    if (height == ORIGINALHEIGHT)
         V_DrawPagePatch(patch);
     else
         V_DrawPatchWithShadow(x, y, patch, false);
@@ -801,7 +801,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
     short   width = SHORT(patch->width);
     short   height = SHORT(patch->height);
 
-    if (width == ORIGINALWIDTH || height == ORIGINALHEIGHT)
+    if (height == ORIGINALHEIGHT)
         V_DrawPagePatch(patch);
     else
         V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + SHORT(patch->leftoffset), y, patch, false);
