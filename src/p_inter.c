@@ -2042,6 +2042,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         if (r_mirroredweapons && (M_Random() & 1))
             mo->flags2 |= MF2_MIRRORED;
+
+        if (massacre)
+            mo->flags2 |= MF2_MASSACRE;
     }
 }
 
