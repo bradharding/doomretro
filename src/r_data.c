@@ -490,29 +490,30 @@ static void R_InitSpriteLumps(void)
                 M_SKULL1 = false;
             }
         }
+        else if (M_StringCompare(sc_String, "NOBLUEGREENBLOOD"))
+        {
+            SC_MustGetString();
+
+            if (M_StringCompare(pwadfile, sc_String))
+            {
+                mobjinfo[MT_HEAD].blood = MT_BLOOD;
+                mobjinfo[MT_BRUISER].blood = MT_BLOOD;
+                mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+            }
+        }
         else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {
-            char    *temp;
-
             SC_MustGetString();
-            temp = removeext(sc_String);
 
-            if (M_StringCompare(pwadfile, temp))
+            if (M_StringCompare(pwadfile, sc_String))
                 notranslucency = true;
-
-            free(temp);
         }
         else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
         {
-            char    *temp;
-
             SC_MustGetString();
-            temp = removeext(sc_String);
 
-            if (M_StringCompare(pwadfile, temp))
+            if (M_StringCompare(pwadfile, sc_String))
                 telefragonmap30 = true;
-
-            free(temp);
         }
     }
 

@@ -8,10 +8,10 @@
 * The randomness of the music chosen when the `s_randommusic` CVAR is `on` has been improved.
 * A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
 * A message is now displayed in the console whenever an item or monster respawns.
-* A new `r_supersampling` CVAR has been implemented that applies supersampling when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is `2×2`. This CVAR is `on` by default and `off` when vanilla mode is on.
+* A new `r_supersampling` CVAR has been implemented that applies supersampling to the player’s view when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is `2×2`. This CVAR is `on` by default and `off` when vanilla mode is on.
 * Corpses can now trigger line specials.
 * When using the `kill` CCMD, the items dropped by monsters can no longer teleport, just like their corpses.
-* A bug has been fixed whereby some hanging decorations wouldn’t be positioned correctly in some instances.
+* A bug has been fixed whereby some hanging decorations would be positioned incorrectly in some instances.
 * Those monsters that don’t have red blood will no longer leave gibs if crushed.
 * Blood will no longer be spawned while a monster is being crushed and the `r_blood` CVAR is `none`.
 * A bug has been fixed whereby bobbing power-ups wouldn’t stop moving once off the edge of a *BOOM*-compatible scrolling sector and the `r_floatbob` CVAR is `on`.
