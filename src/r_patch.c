@@ -67,6 +67,7 @@
 */
 
 #include "c_console.h"
+#include "doomstat.h"
 #include "i_swap.h"
 #include "m_misc.h"
 #include "p_setup.h"
@@ -469,7 +470,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && canmodify) ? 0 : texpatch->originy);
+                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) ? 0 : texpatch->originy);
 
                 // set up the post's data
                 post->topdelta = top + oy;
