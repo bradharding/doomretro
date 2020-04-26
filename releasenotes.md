@@ -15,6 +15,7 @@
 * Those monsters that don’t have red blood will no longer leave gibs if crushed.
 * Blood will no longer be spawned while a monster is being crushed and the `r_blood` CVAR is `none`.
 * A bug has been fixed whereby bobbing power-ups wouldn’t stop moving once off the edge of a *BOOM*-compatible scrolling sector and the `r_floatbob` CVAR is `on`.
+* Improvements have been made to how gradual lighting is applied to doors and crushing ceilings when the `r_graduallighting` CVAR is `on`.
 
 ---
 

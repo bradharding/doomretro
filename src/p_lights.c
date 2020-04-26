@@ -219,7 +219,7 @@ dboolean EV_TurnTagLightsOff(line_t *line)
                 min = temp->lightlevel;
         }
 
-        sector->lightlevel = min;
+        sector->lightlevel = sector->oldlightlevel = min;
     }
 
     return true;
@@ -247,7 +247,7 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
                     tbright = temp->lightlevel;
             }
 
-        sector->lightlevel = tbright;
+        sector->lightlevel = sector->oldlightlevel = tbright;
     }
 
     return true;
