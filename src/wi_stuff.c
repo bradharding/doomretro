@@ -379,13 +379,12 @@ static void WI_DrawLF(void)
     if (titlepatch)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
-        short   width = SHORT(patch->width);
         short   height = SHORT(patch->height);
 
         if (height == ORIGINALHEIGHT)
             V_DrawPagePatch(patch);
         else
-            V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
 
         y += height + 2;
     }
@@ -401,13 +400,12 @@ static void WI_DrawLF(void)
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
             patch_t *patch = lnames[wbs->last];
-            short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
 
             if (height == ORIGINALHEIGHT)
                 V_DrawPagePatch(patch);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
 
             y += height + 2;
         }
@@ -441,13 +439,12 @@ static void WI_DrawEL(void)
     if (titlepatch)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
-        short   width = SHORT(patch->width);
         short   height = SHORT(patch->height);
 
         if (height == ORIGINALHEIGHT)
             V_DrawPagePatch(patch);
         else
-            V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
     }
     else
     {
@@ -461,13 +458,12 @@ static void WI_DrawEL(void)
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
             patch_t *patch = lnames[wbs->next];
-            short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
 
             if (height == ORIGINALHEIGHT)
                 V_DrawPagePatch(patch);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         }
         else
             WI_DrawWILV(y, nextmapname);
