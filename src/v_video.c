@@ -1479,11 +1479,11 @@ void GetPixelSize(dboolean reset)
     }
 }
 
-void V_LowGraphicDetail(int left, int top, int width, int height)
+void V_LowGraphicDetail(int left, int top, int width, int height, dboolean supersampling)
 {
     if (pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH)
     {
-        if (r_supersampling)
+        if (supersampling)
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
                 for (int x = left; x < width; x += 2)
                 {

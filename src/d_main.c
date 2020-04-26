@@ -319,7 +319,10 @@ void D_Display(void)
 
             if (r_detail == r_detail_low)
                 V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH,
-                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH);
+                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH, r_supersampling);
+            else if (viewplayer->damagecount && r_shake_damage >= r_shake_damage_default)
+                V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH,
+                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH, true);
         }
 
         HU_Drawer();

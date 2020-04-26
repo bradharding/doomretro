@@ -9,6 +9,7 @@
 * A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
 * A message is now displayed in the console whenever an item or monster respawns.
 * A new `r_supersampling` CVAR has been implemented that applies supersampling to the player’s view when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is `2×2`. This CVAR is `on` by default and `off` when vanilla mode is on.
+* The effect when the player is damaged has been enhanced when the `r_shake_damage` CVAR is at least `50%`.
 * Corpses can now trigger teleporter line specials.
 * When using the `kill` CCMD, the items dropped by monsters can no longer teleport, just like their corpses.
 * A bug has been fixed whereby some hanging decorations would be positioned incorrectly in some instances.
