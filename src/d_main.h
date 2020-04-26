@@ -44,6 +44,7 @@
 extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];
+extern char     *pwadfile;
 extern dboolean splashscreen;
 
 //

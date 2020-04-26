@@ -43,6 +43,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
@@ -51,8 +52,6 @@
 #include "m_misc.h"
 #include "version.h"
 #include "w_wad.h"
-
-extern char *pwadfile;
 
 // Array of locations to search for IWAD files
 //

@@ -14,7 +14,7 @@
 * A bug has been fixed whereby some hanging decorations would be positioned incorrectly in some instances.
 * Those monsters that don’t have red blood will no longer leave gibs if crushed.
 * Blood will no longer be spawned while a monster is being crushed and the `r_blood` CVAR is `none`.
-* A bug has been fixed whereby bobbing power-ups wouldn’t stop moving once off the edge of a *BOOM*-compatible scrolling sector and the `r_floatbob` CVAR is `on`.
+* A bug has been fixed whereby certain power-ups wouldn’t stop moving once off the edge of a *BOOM*-compatible scrolling sector and the `r_floatbob` CVAR was `on`.
 * Improvements have been made to how gradual lighting is applied to doors and crushing ceilings when the `r_graduallighting` CVAR is `on`.
 * The `STEP2` texture now appears correctly in *MAP01: Entryway* again.
 

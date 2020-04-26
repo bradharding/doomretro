@@ -236,8 +236,6 @@ static struct
     { "ZELDOOR",  DOOM1AND2, redonly        }, { "",         0,         0              }
 };
 
-extern char *pwadfile;
-
 //
 // R_GetTextureColumn
 //
