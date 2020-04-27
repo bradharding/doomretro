@@ -1938,13 +1938,10 @@ static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
     byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
 
+    *(dest++) = color;
     *dest = color;
-    dest++;
-    *dest = color;
-    dest += mapwidth;
-    *dest = color;
-    dest--;
-    *dest = color;
+    *(dest += mapwidth) = color;
+    *(--dest) = color;
 }
 
 #define CENTERX ORIGINALWIDTH / 2

@@ -1428,17 +1428,31 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
 #if SCREENSCALE == 2
-    byte    *dot = &screens[0][(y * SCREENWIDTH + x) * 2];
-
     if (color == 251)
     {
         if (drawshadow)
-            *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = menushadow[*dot];
+        {
+            byte    *dot = *screens + (y * SCREENWIDTH + x) * 2;
+
+            color = menushadow[*dot];
+            *(dot++) = color;
+            *dot = color;
+            *(dot += SCREENWIDTH) = color;
+            *(--dot) = color;
+        }
+
     }
     else if (color && color != 32)
-        *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = color;
+    {
+        byte    *dot = *screens + (y * SCREENWIDTH + x) * 2;
+
+        *(dot++) = color;
+        *dot = color;
+        *(dot += SCREENWIDTH) = color;
+        *(--dot) = color;
+    }
 #else
-    byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
+    byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
 
     if (color == 251)
     {
@@ -1488,18 +1502,25 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
                 for (int x = left; x < width; x += 2)
                 {
                     byte    *dot = *screens + y + x;
-                    byte    y1 = tinttab50[(*dot << 8) + *(dot + SCREENWIDTH)];
-                    byte    y2 = tinttab50[(*(dot + 1) << 8) + *(dot + SCREENWIDTH + 1)];
+                    byte    color = tinttab50[(tinttab50[(*dot << 8) + *(dot + SCREENWIDTH)] << 8)
+                                + tinttab50[(*(dot + 1) << 8) + *(dot + SCREENWIDTH + 1)]];
 
-                    *dot = *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = tinttab50[(y1 << 8) + y2];
+                    *(dot++) = color;
+                    *dot = color;
+                    *(dot += SCREENWIDTH) = color;
+                    *(--dot) = color;
                 }
         else
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
                 for (int x = left; x < width; x += 2)
                 {
                     byte    *dot = *screens + y + x;
+                    byte    color = *dot;
 
-                    *(dot + 1) = *(dot + SCREENWIDTH) = *(dot + SCREENWIDTH + 1) = *dot;
+                    *(dot++) = color;
+                    *dot = color;
+                    *(dot += SCREENWIDTH) = color;
+                    *(--dot) = color;
                 }
     }
     else
