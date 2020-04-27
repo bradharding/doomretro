@@ -1432,7 +1432,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
     {
         if (drawshadow)
         {
-            byte    *dot = *screens + (y * SCREENWIDTH + x) * 2;
+            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
 
             color = menushadow[*dot];
             *(dot++) = color;
@@ -1444,7 +1444,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + (y * SCREENWIDTH + x) * 2;
+        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
 
         *(dot++) = color;
         *dot = color;
@@ -1452,11 +1452,12 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
         *(--dot) = color;
     }
 #else
-    byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
-
     if (color == 251)
     {
         if (drawshadow)
+        {
+            byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
+
             for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
                 {
@@ -1464,11 +1465,16 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 
                     *dot = menushadow[*dot];
                 }
+        }
     }
     else if (color && color != 32)
+    {
+        byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
+
         for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
             for (int xx = 0; xx < SCREENSCALE; xx++)
                 *(dest + yy + xx) = color;
+    }
 #endif
 }
 

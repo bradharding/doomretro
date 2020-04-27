@@ -1496,7 +1496,7 @@ static void P_LoadZSegs(const byte *data)
             free(temp);
         }
 
-        if ((ldef->flags & ML_TWOSIDED) && (ldef->sidenum[side ^ 1] != NO_INDEX))
+        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != NO_INDEX)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
