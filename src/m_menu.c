@@ -553,7 +553,7 @@ void M_DarkBackground(void)
         memcpy(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
     if (r_detail == r_detail_low)
-        V_LowGraphicDetail(0, 0, SCREENWIDTH, blurheight, true);
+        V_LowGraphicDetail(0, 0, SCREENWIDTH, blurheight);
 }
 
 static byte blues[] =
