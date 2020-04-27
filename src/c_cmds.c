@@ -2729,7 +2729,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s%s %smonster%s in this map %s been killed.", (kills == 1 ? "The " : "All "),
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s in this map %s been killed.", (kills == 1 ? "The" : "All"),
                         temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                     C_Output(buffer);
                     C_HideConsole();

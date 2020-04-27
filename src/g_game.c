@@ -692,7 +692,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;
         }
-        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == keyboardalwaysrun && !keydown)
+        else if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun && !keydown)
         {
             keydown = KEY_CAPSLOCK;
             G_ToggleAlwaysRun(ev_keydown);
