@@ -698,6 +698,12 @@ dboolean G_Responder(event_t *ev)
             G_ToggleAlwaysRun(ev_keydown);
             return true;
         }
+        else if (ev->type == ev_keydown && ev->data1 == keyboardscreenshot && !keydown)
+        {
+            keydown = KEY_CAPSLOCK;
+            G_DoScreenShot();
+            return true;
+        }
 
         return false;
     }
