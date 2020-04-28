@@ -39,7 +39,7 @@
 #if !defined(__P_INTER_H__)
 #define __P_INTER_H__
 
-dboolean P_GiveBody(int num, dboolean stat);
+dboolean P_GiveBody(int num, int max, dboolean stat);
 dboolean P_GiveMegaHealth(dboolean stat);
 dboolean P_GiveArmor(armortype_t armortype, dboolean stat);
 dboolean P_GiveAllCards(void);

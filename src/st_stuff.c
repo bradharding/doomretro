@@ -460,7 +460,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
                     oldhealth = viewplayer->health;
-                    P_GiveBody(god_health, false);
+                    P_GiveBody(god_health, god_health, false);
 
                     if (oldhealth < initial_health)
                         P_AddBonus();

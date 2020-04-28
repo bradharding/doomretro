@@ -433,15 +433,15 @@ void P_UpdateHealthStat(int num)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-dboolean P_GiveBody(int num, dboolean stat)
+dboolean P_GiveBody(int num, int max, dboolean stat)
 {
     int oldhealth;
 
-    if (viewplayer->health >= MAXHEALTH)
+    if (viewplayer->health >= max)
         return false;
 
     oldhealth = viewplayer->health;
-    viewplayer->health = MIN(oldhealth + num, MAXHEALTH);
+    viewplayer->health = MIN(oldhealth + num, max);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
@@ -727,7 +727,7 @@ dboolean P_GivePower(int power)
             break;
 
         case pw_strength:
-            P_GiveBody(100, true);
+            P_GiveBody(100, MAXHEALTH, true);
             break;
 
         case pw_invisibility:
@@ -934,7 +934,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // stimpack
         case SPR_STIM:
-            if (!P_GiveBody(10, stat))
+            if (!P_GiveBody(10, MAXHEALTH, stat))
                 return;
 
             if (message)
@@ -944,7 +944,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         // medikit
         case SPR_MEDI:
-            if (!P_GiveBody(25, stat))
+            if (!P_GiveBody(25, MAXHEALTH, stat))
                 return;
 
             if (message)

@@ -17,6 +17,7 @@
 * A bug has been fixed whereby certain power-ups wouldn’t stop moving once off the edge of a *BOOM*-compatible scrolling sector and the `r_floatbob` CVAR was `on`.
 * Improvements have been made to how gradual lighting is applied to doors and crushing ceilings when the `r_graduallighting` CVAR is `on`.
 * The `STEP2` texture now appears correctly in *MAP01: Entryway* again.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ---
 
