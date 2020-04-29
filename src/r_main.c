@@ -436,6 +436,9 @@ void R_ExecuteSetViewSize(void)
     pspritescale = FixedDiv(viewwidth, ORIGINALWIDTH);
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
+    if (gamestate == GS_LEVEL)
+        R_InitSkyMap();
+
     // thing clipping
     for (int i = 0; i < viewwidth; i++)
         viewheightarray[i] = viewheight;
