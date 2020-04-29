@@ -389,7 +389,7 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-dboolean    setsizeneeded = false;
+dboolean    setsizeneeded;
 static int  setblocks;
 
 void R_SetViewSize(int blocks)
@@ -436,7 +436,8 @@ void R_ExecuteSetViewSize(void)
     pspritescale = FixedDiv(viewwidth, ORIGINALWIDTH);
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
-    R_InitSkyMap();
+    if (gamestate == GS_LEVEL)
+        R_InitSkyMap();
 
     // thing clipping
     for (int i = 0; i < viewwidth; i++)
