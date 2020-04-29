@@ -1456,7 +1456,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
     {
         if (drawshadow)
         {
-            byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
+            byte    *dest = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
             for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
@@ -1469,7 +1469,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
     }
     else if (color && color != 32)
     {
-        byte    *dest = *screens + (y * SCREENWIDTH + x) * SCREENSCALE;
+        byte    *dest = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
         for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
             for (int xx = 0; xx < SCREENSCALE; xx++)
@@ -1508,8 +1508,8 @@ void V_LowGraphicDetail(int left, int top, int width, int height)
                 for (int x = left; x < width; x += 2)
                 {
                     byte    *dot = *screens + y + x;
-                    byte    color = tinttab50[(tinttab50[(*dot << 8) + *(dot + SCREENWIDTH)] << 8)
-                                + tinttab50[(*(dot + 1) << 8) + *(dot + SCREENWIDTH + 1)]];
+                    byte    color = tinttab50[(tinttab50[(*dot << 8) + *(dot + 1)] << 8)
+                                    + tinttab50[(*(dot + SCREENWIDTH) << 8) + *(dot + SCREENWIDTH + 1)]];
 
                     *(dot++) = color;
                     *dot = color;
@@ -1545,14 +1545,14 @@ void V_InvertScreen(void)
 {
     int             width = viewwindowx + viewwidth;
     int             height = (viewwindowy + viewheight) * SCREENWIDTH;
-    lighttable_t    *colormap = colormaps[0];
+    lighttable_t    *colormap = colormaps[0] + 32 * 256;
 
     for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         for (int x = viewwindowx; x < width; x++)
         {
             byte    *dot = *screens + y + x;
 
-            *dot = *(colormap + 32 * 256 + *dot);
+            *dot = *(colormap + *dot);
         }
 }
 
