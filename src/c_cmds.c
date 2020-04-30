@@ -3741,7 +3741,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, "Release date\t<b>September 30, 1994</b>");
         }
         else if (M_StringCompare(wadname, "NERVE.WAD"))
-            C_TabbedOutput(tabs, "Release date\t<b>September 27, 2006</b>");
+            C_TabbedOutput(tabs, "Release date\t<b>May 26, 2010</b>");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
             C_TabbedOutput(tabs, "Release date\t<b>June 17, 1996</b>");
 
