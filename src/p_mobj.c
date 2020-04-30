@@ -982,13 +982,13 @@ void P_RespawnSpecials(void)
     mo = P_SpawnMobj(x, y, z, MT_IFOG);
     S_StartSound(mo, sfx_itmbk);
 
-    if (con_obituaries)
-        C_Obituary("%s %s respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
-
     // spawn it
     mo = P_SpawnMobj(x, y, z, i);
     mo->spawnpoint = *mthing;
     mo->angle = ANG45 * (mthing->angle / 45);
+
+    if (con_obituaries)
+        C_Obituary("%s %s respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // pull it from the queue
     iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
