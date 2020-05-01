@@ -19,6 +19,7 @@
 * The `STEP2` texture now appears correctly in *MAP01: Entryway* again.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The sky will now be rendered correctly when the `r_screensize` CVAR is less than `7`.
+* Screenshots may now only be taken when not playing a game if the `+screenshot` action is still bound to the <kbd>PRINTSCREEN</kbd> key.
 
 ---
 

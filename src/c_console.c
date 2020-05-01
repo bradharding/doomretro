@@ -1601,7 +1601,7 @@ dboolean C_Responder(event_t *ev)
             C_HideConsole();
             return true;
         }
-        else if (key == keyboardscreenshot)
+        else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
         {
             G_DoScreenShot();
             return true;

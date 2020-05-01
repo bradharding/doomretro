@@ -698,7 +698,7 @@ dboolean G_Responder(event_t *ev)
                 G_ToggleAlwaysRun(ev_keydown);
                 return true;
             }
-            else if (ev->data1 == keyboardscreenshot)
+            else if (ev->data1 == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
             {
                 keydown = keyboardscreenshot;
                 G_DoScreenShot();

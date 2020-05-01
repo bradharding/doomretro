@@ -3065,7 +3065,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == keyboardscreenshot)
+    if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
     {
         G_ScreenShot();
         return false;
