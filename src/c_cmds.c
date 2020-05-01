@@ -3121,7 +3121,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             {
                 mapcmdepisode = (gamemode == shareware || chex ? 1 :
                     M_RandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
-                mapcmdmap = M_RandomIntNoRepeat(1, 8, gamemap);
+                mapcmdmap = M_RandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
             }
