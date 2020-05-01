@@ -68,6 +68,9 @@
 #include "version.h"
 #include "w_wad.h"
 
+#define I_SDLError(func)    I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: " \
+                                "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+
 #define MAXDISPLAYS         8
 
 #define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
@@ -1108,7 +1111,8 @@ static void GetDisplays(void)
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
 
     for (int i = 0; i < numdisplays; i++)
-        SDL_GetDisplayBounds(i, &displays[i]);
+        if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
+            I_SDLError(SDL_GetDisplayBounds);
 }
 
 void I_CreateExternalAutomap(int outputlevel)
@@ -1136,38 +1140,56 @@ void I_CreateExternalAutomap(int outputlevel)
         return;
     }
 
-    SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
+    if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
 
-    mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+    if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0,
-        (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN));
+        (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))))
+        I_SDLError(SDL_CreateWindow);
 
-    maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE);
-    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
-    mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
+    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
+        I_SDLError(SDL_CreateRenderer);
 
-    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask);
-    mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
+    if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16) < 0)
+        I_SDLError(SDL_RenderSetLogicalSize);
+
+    if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
+        I_SDLError(SDL_CreateRGBSurface);
+
+    if (!(SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask)))
+        I_SDLError(SDL_PixelFormatEnumToMasks);
+
+    if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
+        I_SDLError(SDL_CreateRGBSurface);
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
-    maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
+    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+        I_SDLError(SDL_CreateTexture);
 
     if (nearestlinear)
     {
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
+        if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE)))
+            I_SDLError(SDL_SetHintWithPriority);
 
-        maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+            I_SDLError(SDL_CreateTexture);
 
         mapblitfunc = I_Blit_Automap_NearestLinear;
     }
     else
         mapblitfunc = I_Blit_Automap;
 
-    mappalette = SDL_AllocPalette(256);
-    SDL_SetSurfacePalette(mapsurface, mappalette);
-    SDL_SetPaletteColors(mappalette, colors, 0, 256);
+    if (!(mappalette = SDL_AllocPalette(256)))
+        I_SDLError(SDL_AllocPalette);
+
+    if (SDL_SetSurfacePalette(mapsurface, mappalette) < 0)
+        I_SDLError(SDL_SetSurfacePalette);
+
+    if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
+        I_SDLError(SDL_SetPaletteColors);
 
     mapscreen = mapsurface->pixels;
     map_rect.w = SCREENWIDTH;
@@ -1407,10 +1429,13 @@ static void SetVideoMode(dboolean output)
             M_SaveCVARs();
         }
 
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
+        if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE)))
+            I_SDLError(SDL_SetHintWithPriority);
     }
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+    if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
+
     software = M_StringCompare(vid_scaleapi, vid_scaleapi_software);
 
     GetWindowPosition();
@@ -1430,9 +1455,10 @@ static void SetVideoMode(dboolean output)
             if (!width || !height)
                 I_Error("Graphics couldn't be initialized.");
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)));
+                (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
+                I_SDLError(SDL_CreateWindow);
 
             if (output)
             {
@@ -1451,9 +1477,10 @@ static void SetVideoMode(dboolean output)
             width = screenwidth;
             height = screenheight;
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)));
+                (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
+                I_SDLError(SDL_CreateWindow);
 
             if (output)
             {
@@ -1481,8 +1508,9 @@ static void SetVideoMode(dboolean output)
 
         if (!windowx && !windowy)
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags);
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
+                I_SDLError(SDL_CreateWindow);
 
             if (output)
             {
@@ -1497,7 +1525,8 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags);
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
+                I_SDLError(SDL_CreateWindow);
 
             if (output)
             {
@@ -1521,13 +1550,17 @@ static void SetVideoMode(dboolean output)
     displaycentery = displayheight / 2;
 
     if (!(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
-        if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
+        if (!(renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
+            I_SDLError(SDL_CreateRenderer);
+        else
         {
+            C_Warning(1, "The <b>vid_scaleapi</b> CVAR was changed from <b>%s</b> to <b>\"software\"</b>.", vid_scaleapi);
             vid_scaleapi = vid_scaleapi_software;
             M_SaveCVARs();
         }
 
-    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+        I_SDLError(SDL_RenderSetLogicalSize);
 
     if (output)
     {
@@ -1576,7 +1609,9 @@ static void SetVideoMode(dboolean output)
 #if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
-                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+
+                if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE)))
+                    I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
                     C_Output("This scaling is now done in hardware using <i><b>Direct3D %s.</b></i>",
@@ -1631,7 +1666,9 @@ static void SetVideoMode(dboolean output)
         {
             software = true;
             nearestlinear = false;
-            SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
+
+            if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
+                I_SDLError(SDL_SetHintWithPriority);
 
             if (output)
                 C_Output("This scaling is also done in software.");
@@ -1753,29 +1790,42 @@ static void SetVideoMode(dboolean output)
         }
     }
 
-    surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
+    if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
+        I_SDLError(SDL_CreateRGBSurface);
 
     screens[0] = surface->pixels;
 
-    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask);
-    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask);
+    if (!(SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask)))
+        I_SDLError(SDL_PixelFormatEnumToMasks);
+
+    if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
+        I_SDLError(SDL_CreateRGBSurface);
 
     SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
+        if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
+            I_SDLError(SDL_SetHintWithPriority);
 
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
+    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+        I_SDLError(SDL_CreateTexture);
 
     if (nearestlinear)
     {
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
-        texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
-            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
+        if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE)))
+            I_SDLError(SDL_SetHintWithPriority);
+
+        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+            I_SDLError(SDL_CreateTexture);
     }
 
-    palette = SDL_AllocPalette(256);
-    SDL_SetSurfacePalette(surface, palette);
+    if (!(palette = SDL_AllocPalette(256)))
+        I_SDLError(SDL_AllocPalette);
+
+    if (SDL_SetSurfacePalette(surface, palette) < 0)
+        I_SDLError(SDL_SetSurfacePalette);
+
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 
     src_rect.w = SCREENWIDTH;
