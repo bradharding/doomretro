@@ -117,7 +117,7 @@ byte                *PLAYPAL;
 
 static byte         *oscreen;
 byte                *mapscreen;
-SDL_Window          *mapwindow;
+SDL_Window          *mapwindow = NULL;
 SDL_Renderer        *maprenderer;
 static SDL_Texture  *maptexture;
 static SDL_Texture  *maptexture_upscaled;
