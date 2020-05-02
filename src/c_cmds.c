@@ -5975,6 +5975,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     int     flags = thing->flags;
 
                     thing->angle = angle;
+                    thing->id = thingid++;
 
                     if (flags & MF_SHOOTABLE)
                     {
