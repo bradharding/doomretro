@@ -633,7 +633,7 @@ void AM_AddToPath(void)
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
-    if (prevx == x && prevy == y)
+    if (ABS(x - prevx) < 32 * FRACUNIT && ABS(y - prevy) < 32 * FRACUNIT)
         return;
 
     if (pathpointnum >= pathpointnum_max)
