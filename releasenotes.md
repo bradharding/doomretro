@@ -1,3 +1,9 @@
+### DOOM Retro v3.5.7
+
+---
+
+###### Saturday, May 2, 2020
+
 ### DOOM Retro v3.5.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
