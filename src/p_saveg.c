@@ -1118,7 +1118,7 @@ void P_UnArchiveWorld(void)
         sector->floorpic = saveg_read16();
         sector->terraintype = terraintypes[sector->floorpic];
         sector->ceilingpic = saveg_read16();
-        sector->lightlevel = saveg_read16();
+        sector->lightlevel = sector->oldlightlevel = saveg_read16();
         sector->special = saveg_read16();
         sector->tag = saveg_read16();
         sector->ceilingdata = NULL;
