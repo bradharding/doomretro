@@ -162,6 +162,7 @@ static int      dclicks2;
 
 static int      savegameslot;
 static char     savedescription[SAVESTRINGSIZE];
+char            savename[MAX_PATH];
 
 gameaction_t    loadaction = ga_nothing;
 
@@ -857,10 +858,6 @@ dboolean G_Responder(event_t *ev)
             return false;
     }
 }
-
-void D_Display(void);
-
-static char savename[256];
 
 //
 // G_Ticker

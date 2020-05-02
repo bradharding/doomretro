@@ -109,8 +109,7 @@ void P_CalcHeight(void)
     if (viewplayer->playerstate == PST_LIVE)
     {
         // Regular movement bobbing
-        // (needs to be calculated for gun swing
-        // even if not on ground)
+        // (needs to be calculated for gun swing even if not on ground)
         fixed_t momx = viewplayer->momx;
         fixed_t momy = viewplayer->momy;
         fixed_t bob = (MAXBOB * stillbob / 400) / 2;

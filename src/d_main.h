@@ -47,6 +47,8 @@ extern char     **skilllevels[];
 extern char     *pwadfile;
 extern dboolean splashscreen;
 
+void D_Display(void);
+
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
