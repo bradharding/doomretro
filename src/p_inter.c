@@ -2155,12 +2155,16 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (freeze && (!inflicter || !inflicter->player))
             return;
 
+        // ignore damage if in god mode or player about to warp
+        if ((tplayer->cheats & CF_GODMODE) || idclevtics)
+            return;
+
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel && damage >= target->health)
             damage = target->health - 1;
 
-        // below certain threshold, ignore damage in god mode, or with invulnerability power-up
-        if ((tplayer->cheats & CF_GODMODE) || idclevtics || (damage < 1000 && tplayer->powers[pw_invulnerability]))
+        // below certain threshold, ignore damage if player has invulnerability power-up
+        if (tplayer->powers[pw_invulnerability] && damage < 1000)
             return;
 
         if (adjust && tplayer->armorpoints)
@@ -2174,19 +2178,24 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 tplayer->armortype = armortype_none;
             }
 
-            tplayer->armorpoints -= saved;
-            damage -= saved;
-
             if (saved)
+            {
+                tplayer->armorpoints -= saved;
+                damage -= saved;
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+            }
         }
 
         tplayer->health -= damage;
         target->health -= damage;
-        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
         if (tplayer->health <= 0 && (tplayer->cheats & CF_BUDDHA))
         {
+            int stat = tplayer->health + damage - 1;
+
+            tplayer->damagereceived += stat;
+            stat_damagereceived = SafeAdd(stat_damagereceived, stat);
+
             tplayer->health = 1;
             target->health = 1;
         }
