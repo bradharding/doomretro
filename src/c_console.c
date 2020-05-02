@@ -1388,7 +1388,7 @@ void C_Drawer(void)
         }
 
         // draw caret
-        if (consoledirection == 1 && windowfocused && !messagetoprint)
+        if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
         {
             if (caretwait < I_GetTimeMS())
             {
