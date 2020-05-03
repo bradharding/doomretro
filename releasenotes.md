@@ -4,7 +4,8 @@
 * Things spawned using the `spawn` CCMD are now given an ID that is displayed by the `thinglist` CCMD.
 * The gamepad can now be used to open the menu from the title screen again.
 * A bug has been fixed whereby incomplete `MAPINFO` lumps could cause a crash.
-* The names in *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
+* The names used during *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
+* The player’s weapon may no longer be changed when freeze mode is on.
 
 ---
 

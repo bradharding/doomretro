@@ -725,9 +725,9 @@ dboolean G_Responder(event_t *ev)
         case ev_keydown:
             key = ev->data1;
 
-            if (key == keyboardprevweapon && !menuactive && !paused)
+            if (key == keyboardprevweapon && !menuactive && !paused && !freeze)
                 G_PrevWeapon();
-            else if (key == keyboardnextweapon && !menuactive && !paused)
+            else if (key == keyboardnextweapon && !menuactive && !paused && !freeze)
                 G_NextWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown && !idclevtics)
             {
@@ -746,7 +746,7 @@ dboolean G_Responder(event_t *ev)
             {
                 gamekeydown[key] = true;
 
-                if (keyactionlist[key][0])
+                if (keyactionlist[key][0] && !freeze)
                     C_ExecuteInputString(keyactionlist[key]);
             }
 
@@ -767,10 +767,10 @@ dboolean G_Responder(event_t *ev)
             for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = !!(mousebutton & j);
 
-            if (mouseactionlist[mousebutton][0])
+            if (mouseactionlist[mousebutton][0] && !freeze)
                 C_ExecuteInputString(mouseactionlist[mousebutton]);
 
-            if (!automapactive && !menuactive && !paused)
+            if (!automapactive && !menuactive && !paused && !freeze)
             {
                 if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
                     G_NextWeapon();
@@ -788,7 +788,7 @@ dboolean G_Responder(event_t *ev)
         }
 
         case ev_mousewheel:
-            if (!automapactive && !menuactive && !paused)
+            if (!automapactive && !menuactive && !paused && !freeze)
             {
                 if (ev->data1 < 0)
                 {
@@ -818,7 +818,7 @@ dboolean G_Responder(event_t *ev)
                 static int  wait;
                 int         time = I_GetTime();
 
-                if ((gamepadbuttons & gamepadnextweapon) && wait < time)
+                if ((gamepadbuttons & gamepadnextweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
@@ -828,7 +828,7 @@ dboolean G_Responder(event_t *ev)
                         gamepadpress = false;
                     }
                 }
-                else if ((gamepadbuttons & gamepadprevweapon) && wait < time)
+                else if ((gamepadbuttons & gamepadprevweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
