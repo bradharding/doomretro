@@ -2984,9 +2984,9 @@ static void P_InitMapInfo(void)
         mapinfo[i].par = 0;
         mapinfo[i].pistolstart = false;
         mapinfo[i].secretnext = 0;
-        mapinfo[i].sky1texture = 0;
+        mapinfo[i].sky1texture = -1;
         mapinfo[i].sky1scrolldelta = 0;
-        mapinfo[i].titlepatch = 0;
+        mapinfo[i].titlepatch = -1;
     }
 
     SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
@@ -3257,17 +3257,17 @@ void P_GetMapLiquids(int map)
 
 int P_GetMapMusic(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].music : 0);
+    return mapinfo[map].music;
 }
 
 char *P_GetMapMusicComposer(int map)
 {
-    return (MAPINFO >= 0 && mapinfo[map].musiccomposer[0] ? mapinfo[map].musiccomposer : "");
+    return mapinfo[map].musiccomposer;
 }
 
 char *P_GetMapMusicTitle(int map)
 {
-    return (MAPINFO >= 0 && mapinfo[map].musictitle[0] ? mapinfo[map].musictitle : "");
+    return mapinfo[map].musictitle;
 }
 
 char *P_GetMapName(int map)
@@ -3278,7 +3278,7 @@ char *P_GetMapName(int map)
 
 int P_GetMapNext(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].next : 0);
+    return mapinfo[map].next;
 }
 
 dboolean P_GetMapNoJump(int map)
@@ -3299,32 +3299,32 @@ dboolean P_GetMapNoMouselook(int map)
 
 int P_GetMapPar(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].par : 0);
+    return mapinfo[map].par;
 }
 
 dboolean P_GetMapPistolStart(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].pistolstart : false);
+    return mapinfo[map].pistolstart;
 }
 
 int P_GetMapSecretNext(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].secretnext : 0);
+    return mapinfo[map].secretnext;
 }
 
 int P_GetMapSky1Texture(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].sky1texture : 0);
+    return mapinfo[map].sky1texture;
 }
 
 int P_GetMapSky1ScrollDelta(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].sky1scrolldelta : 0);
+    return mapinfo[map].sky1scrolldelta;
 }
 
 int P_GetMapTitlePatch(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[map].titlepatch : 0);
+    return mapinfo[map].titlepatch;
 }
 
 //
