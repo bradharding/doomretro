@@ -660,12 +660,12 @@ dboolean G_Responder(event_t *ev)
     {
         if (!menuactive
             && !consoleactive
-            && (ev->type == ev_keydown && !keydown)
+            && ((ev->type == ev_keydown && !keydown)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
             || (ev->type == ev_gamepad
                 && gamepadwait < I_GetTime()
                 && gamepadbuttons
-                && !(gamepadbuttons &(GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+                && !(gamepadbuttons &(GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT)))))
         {
             if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
             {
