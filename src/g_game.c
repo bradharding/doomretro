@@ -746,11 +746,11 @@ dboolean G_Responder(event_t *ev)
             {
                 gamekeydown[key] = true;
 
-                if (keyactionlist[key][0] && !freeze)
+                if (keyactionlist[key][0])
                     C_ExecuteInputString(keyactionlist[key]);
             }
 
-            return true;        // eat key down events
+            return true;        // eat events
 
         case ev_keyup:
             keydown = 0;
@@ -810,7 +810,7 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;
+            return true;        // eat events
 
         case ev_gamepad:
             if (!automapactive && !menuactive && !paused)
