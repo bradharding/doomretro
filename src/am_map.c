@@ -628,12 +628,10 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    const int   x = viewplayer->mo->x;
-    const int   y = viewplayer->mo->y;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
-    if (ABS(x - prevx) < 32 * FRACUNIT && ABS(y - prevy) < 32 * FRACUNIT)
+    if (ABS(viewx - prevx) < 54 * FRACUNIT && ABS(viewy - prevy) < 54 * FRACUNIT)
         return;
 
     if (pathpointnum >= pathpointnum_max)
@@ -642,8 +640,8 @@ void AM_AddToPath(void)
         pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
-    pathpoints[pathpointnum].x = prevx = x;
-    pathpoints[pathpointnum++].y = prevy = y;
+    pathpoints[pathpointnum].x = prevx = viewx;
+    pathpoints[pathpointnum++].y = prevy = viewy;
 }
 
 void AM_ToggleRotateMode(void)
