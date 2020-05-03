@@ -301,7 +301,7 @@ static void AM_ChangeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_Rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
+        AM_Rotate(&incx, &incy, viewangle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -1167,8 +1167,8 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
 }
 
 //
@@ -1683,16 +1683,18 @@ static void AM_DrawPlayer(void)
 
     const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
-    angle_t     angle = viewplayer->mo->angle;
+    angle_t     angle;
 
-    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
-    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
+    point.x = viewx >> FRACTOMAPBITS;
+    point.y = viewy >> FRACTOMAPBITS;
 
     if (am_rotatemode)
     {
         AM_RotatePoint(&point);
         angle = ANG90;
     }
+    else
+        angle = viewangle;
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -1756,7 +1758,7 @@ static void AM_DrawThings(void)
                     if (am_rotatemode)
                     {
                         AM_RotatePoint(&point);
-                        angle -= viewplayer->mo->angle - ANG90;
+                        angle -= viewangle - ANG90;
                     }
 
                     fx = CXMTOF(point.x);
@@ -1868,8 +1870,8 @@ static void AM_DrawPath(void)
         mpoint_t    player;
         mpoint_t    end;
 
-        player.x = viewplayer->mo->x >> FRACTOMAPBITS;
-        player.y = viewplayer->mo->y >> FRACTOMAPBITS;
+        player.x = viewx >> FRACTOMAPBITS;
+        player.y = viewy >> FRACTOMAPBITS;
 
         if (am_rotatemode)
         {
@@ -1981,7 +1983,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode || menuactive)
     {
-        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const fixed_t   dx = m_w / 2;
         const fixed_t   dy = m_h / 2;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
