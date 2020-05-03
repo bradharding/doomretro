@@ -658,23 +658,33 @@ dboolean G_Responder(event_t *ev)
     // any other key pops up menu if on title screen
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
-        if (ev->type == ev_keydown && !keydown)
+        if (!menuactive
+            && !consoleactive
+            && (ev->type == ev_keydown && !keydown)
+            || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
+            || (ev->type == ev_gamepad
+                && gamepadwait < I_GetTime()
+                && gamepadbuttons
+                && !(gamepadbuttons &(GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
         {
-            if (!menuactive && !consoleactive
-                && ((ev->data1 != KEY_PAUSE
-                    && ev->data1 != KEY_SHIFT
-                    && ev->data1 != KEY_ALT
-                    && ev->data1 != KEY_CTRL
-                    && ev->data1 != KEY_CAPSLOCK
-                    && ev->data1 != KEY_NUMLOCK
-                    && ev->data1 != KEY_PRINTSCREEN
-                    && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
-                    && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
-                    || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
-                    || (ev->type == ev_gamepad
-                        && gamepadwait < I_GetTime()
-                        && gamepadbuttons
-                        && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT)))))
+            if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
+            {
+                keydown = keyboardalwaysrun;
+                G_ToggleAlwaysRun(ev_keydown);
+            }
+            else if (ev->type == ev_keydown && ev->data1 == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
+            {
+                keydown = keyboardscreenshot;
+                G_DoScreenShot();
+            }
+            else if (ev->data1 != KEY_PAUSE
+                && ev->data1 != KEY_SHIFT
+                && ev->data1 != KEY_ALT
+                && ev->data1 != KEY_CTRL
+                && ev->data1 != KEY_CAPSLOCK
+                && ev->data1 != KEY_NUMLOCK
+                && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
+                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
             {
                 keydown = ev->data1;
                 gamepadbuttons = 0;
@@ -690,21 +700,9 @@ dboolean G_Responder(event_t *ev)
                     M_StartControlPanel();
                     S_StartSound(NULL, sfx_swtchn);
                 }
+            }
 
-                return true;
-            }
-            else if (ev->data1 == keyboardalwaysrun)
-            {
-                keydown = keyboardalwaysrun;
-                G_ToggleAlwaysRun(ev_keydown);
-                return true;
-            }
-            else if (ev->data1 == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
-            {
-                keydown = keyboardscreenshot;
-                G_DoScreenShot();
-                return true;
-            }
+            return true;
         }
 
         return false;
