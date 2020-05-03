@@ -424,8 +424,8 @@ static void F_TextWrite(void)
 
 typedef struct
 {
-    const char  *name;
-    const char  **dehackedname;
+    char        *name;
+    char        **dehackedname;
     mobjtype_t  type;
 } castinfo_t;
 
