@@ -1,6 +1,10 @@
 ### DOOM Retro v3.5.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Things spawned using the `spawn` CCMD are now given an ID that is displayed by the `thinglist` CCMD.
+* The gamepad can now be used to open the menu from the title screen.
+* A bug has been crashed whereby incomplete `MAPINFO` lumps could cause a crash.
+* The names in *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
 
 ---
 
