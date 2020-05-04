@@ -408,20 +408,6 @@ static void ST_RefreshBackground(void)
     }
 }
 
-//
-// ST_AutomapEvent
-//
-// haleyjd 09/29/04: Replaces the weird hack Dave Taylor put into
-// ST_Responder to toggle the status bar when the automap is toggled.
-// The automap now calls this function instead of sending fake events
-// to ST_Responder, allowing that function to be minimized.
-//
-void ST_AutomapEvent(int type)
-{
-    if (type == AM_MSGENTERED)
-        st_firsttime = true;
-}
-
 extern char cheatkey;
 
 static int ST_CalcPainOffset(void);

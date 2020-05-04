@@ -420,9 +420,6 @@ static void AM_InitVariables(const dboolean mainwindow)
 
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
-
-    // inform the status bar of the change
-    ST_AutomapEvent(AM_MSGENTERED);
 }
 
 static void AM_LevelInit(void)
@@ -450,7 +447,6 @@ void AM_Stop(void)
 {
     automapactive = false;
     HU_ClearMessages();
-    ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
 

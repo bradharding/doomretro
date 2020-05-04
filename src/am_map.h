@@ -45,10 +45,6 @@
 #define MAPBITS         12
 #define FRACTOMAPBITS   (FRACBITS - MAPBITS)
 
-// Used by ST StatusBar stuff.
-#define AM_MSGENTERED   1
-#define AM_MSGEXITED    0
-
 typedef struct
 {
     fixed_t x, y;
