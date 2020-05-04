@@ -119,6 +119,6 @@ extern int      quickSaveSlot;
 extern int      st_facecount;
 extern dboolean oldweaponsowned[NUMWEAPONS];
 extern dboolean skipaction;
-extern          char savename[MAX_PATH];
+extern char     savename[MAX_PATH];
 
 #endif

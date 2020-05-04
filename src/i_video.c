@@ -446,7 +446,7 @@ static void I_GetEvent(void)
 
                     if (isprint(ch))
                     {
-                        event_t textevent = { ev_text, ch, 0, 0 };
+                        event_t textevent = { ev_textinput, ch, 0, 0 };
 
                         D_PostEvent(&textevent);
                     }

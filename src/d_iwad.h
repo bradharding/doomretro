@@ -41,12 +41,6 @@
 
 #include "doomdef.h"
 
-typedef struct
-{
-    char            *name;
-    GameMission_t   mission;
-} iwads_t;
-
 char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);
 char *D_FindIWAD(void);

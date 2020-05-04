@@ -301,6 +301,12 @@ static void CheckDOSDefaults(void)
 
 #endif
 
+typedef struct
+{
+    char            *name;
+    GameMission_t   mission;
+} iwads_t;
+
 static const iwads_t iwads[] =
 {
     { "doom2",    doom2      },

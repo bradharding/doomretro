@@ -54,7 +54,7 @@ typedef enum
     ev_mouse,
     ev_mousewheel,
     ev_gamepad,
-    ev_text
+    ev_textinput
 } evtype_t;
 
 // Event structure.
@@ -119,6 +119,5 @@ enum
 // GLOBAL VARIABLES
 //
 extern gameaction_t gameaction;
-extern dboolean     altdown;
 
 #endif

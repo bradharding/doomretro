@@ -2669,7 +2669,7 @@ dboolean M_Responder(event_t *ev)
     // Save Game string input
     if (saveStringEnter)
     {
-        if (ev->type == ev_text)
+        if (ev->type == ev_textinput)
         {
             ch = toupper(ev->data1);
 

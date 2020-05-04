@@ -2098,7 +2098,7 @@ dboolean C_Responder(event_t *ev)
         scrollspeed = TICRATE;
         return false;
     }
-    else if (ev->type == ev_text)
+    else if (ev->type == ev_textinput)
     {
         char    ch = (char)ev->data1;
         char    *temp = NULL;
