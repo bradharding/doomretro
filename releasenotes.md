@@ -7,6 +7,7 @@
 * The names used during *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
 * The player’s weapon can no longer be changed while freeze mode is on.
 * The horizontal offset of the player’s weapon sprite will no longer be corrected when the `r_fixspriteoffsets` CVAR is `off`.
+* The effects of the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
 
 ---
 
