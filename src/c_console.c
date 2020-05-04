@@ -150,6 +150,7 @@ static int              consolescrollbarfacecolor = 94;
 static int              consolescrollbargripcolor = 104;
 
 static byte             *consolebevel;
+static byte             *consoleautomapbevel;
 
 static int              consolecolors[STRINGTYPES];
 
@@ -710,6 +711,7 @@ void C_Init(void)
     consolecolors[obituarystring] = consoleplayermessagecolor;
 
     consolebevel = &tinttab50[nearestblack << 8];
+    consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
 
     brand = W_CacheLumpName("DRBRAND");
     dot = W_CacheLumpName("DRFON046");
@@ -802,14 +804,13 @@ void C_HideConsoleFast(void)
     consoleactive = false;
 }
 
-static void C_DrawBackground(int height)
+static void C_DrawBackground(void)
 {
     static dboolean blurred;
     static byte     blurscreen[SCREENWIDTH * SCREENHEIGHT];
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
     int             consoleedgecolor = nearestcolors[con_edgecolor] << 8;
-
-    height = (height + 5) * CONSOLEWIDTH;
+    int             height = (consoleheight + 5) * CONSOLEWIDTH;
 
     if (!blurred)
     {
@@ -873,11 +874,18 @@ static void C_DrawBackground(int height)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // bevel left and right edges
-    for (int i = 0; i < height; i += CONSOLEWIDTH)
-    {
-        screens[0][i] = consolebevel[screens[0][i + 1]];
-        screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
-    }
+    if (automapactive && am_backcolor == am_backcolor_default)
+        for (int i = 0; i < height; i += CONSOLEWIDTH)
+        {
+            screens[0][i] = consoleautomapbevel[screens[0][i + 1]];
+            screens[0][i + CONSOLEWIDTH - 1] = consoleautomapbevel[screens[0][i + CONSOLEWIDTH - 2]];
+        }
+    else
+        for (int i = 0; i < height; i += CONSOLEWIDTH)
+        {
+            screens[0][i] = consolebevel[screens[0][i + 1]];
+            screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
+        }
 
     // bevel bottom edge
     for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
@@ -1268,7 +1276,7 @@ void C_Drawer(void)
         I_UpdateBlitFunc(false);
 
         // draw background and bottom edge
-        C_DrawBackground(consoleheight);
+        C_DrawBackground();
 
         // draw the scrollbar
         C_DrawScrollbar();
