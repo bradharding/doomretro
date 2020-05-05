@@ -1432,12 +1432,13 @@ static void AM_DrawGrid(void)
     const fixed_t   starty = m_y - (minlen - m_h) / 2;
     fixed_t         start;
     fixed_t         end;
+    fixed_t         adjust;
 
     // Figure out start of vertical gridlines
     start = startx;
 
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
-        start -= (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth;
+    if ((adjust = (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth))
+        start -= adjust;
 
     end = startx + minlen;
 
@@ -1458,8 +1459,8 @@ static void AM_DrawGrid(void)
     // Figure out start of horizontal gridlines
     start = starty;
 
-    if ((start - (bmaporgy >> FRACTOMAPBITS)) % gridwidth)
-        start -= (start - (bmaporgy >> FRACTOMAPBITS)) % gridwidth;
+    if ((adjust = (start - (bmaporgy >> FRACTOMAPBITS)) % gridheight))
+        start -= adjust;
 
     end = starty + minlen;
 

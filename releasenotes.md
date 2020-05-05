@@ -4,11 +4,11 @@
 * Things spawned using the `spawn` CCMD are now given an ID that is displayed by the `thinglist` CCMD.
 * The gamepad can now be used to open the menu from the title screen again.
 * A bug has been fixed whereby an incomplete `MAPINFO` lump in a PWAD could cause a crash.
-* The names of monsters displayed during *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
+* The names of the monsters displayed during *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
 * The player’s weapon can no longer be changed while freeze mode is on.
 * The horizontal offset of the player’s weapon sprite will no longer be fixed when the `r_fixspriteoffsets` CVAR is `off`.
 * The effects of both the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
-* Screenshots may now be taken when playing a game if the `+screenshot` action is bound to something other than the <kbd>PRINTSCREEN</kbd> key.
+* Screenshots may now be taken again while playing a game and the `+screenshot` action has been bound to something other than the <kbd>PRINTSCREEN</kbd> key.
 
 ---
 
