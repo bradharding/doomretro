@@ -1443,18 +1443,18 @@ static void AM_DrawGrid(void)
     end = startx + minlen;
 
     // Draw vertical gridlines
-    for (fixed_t x = start; x < end; x += gridwidth)
-    {
-        mline_t ml = { { x, starty }, { x, starty + minlen } };
-
-        if (am_rotatemode)
+    if (am_rotatemode)
+        for (fixed_t x = start; x < end; x += gridwidth)
         {
+            mline_t ml = { { x, starty }, { x, starty + minlen } };
+
             AM_RotatePoint(&ml.a);
             AM_RotatePoint(&ml.b);
+            AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
         }
-
-        AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
-    }
+    else
+        for (fixed_t x = start; x < end; x += gridwidth)
+            AM_DrawFline(x, starty, x, starty + minlen, gridcolor, PUTDOT);
 
     // Figure out start of horizontal gridlines
     start = starty;
@@ -1465,18 +1465,18 @@ static void AM_DrawGrid(void)
     end = starty + minlen;
 
     // Draw horizontal gridlines
-    for (fixed_t y = start; y < end; y += gridheight)
-    {
-        mline_t ml = { { startx, y }, { startx + minlen, y } };
-
-        if (am_rotatemode)
+    if (am_rotatemode)
+        for (fixed_t y = start; y < end; y += gridheight)
         {
+            mline_t ml = { { startx, y }, { startx + minlen, y } };
+
             AM_RotatePoint(&ml.a);
             AM_RotatePoint(&ml.b);
+            AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
         }
-
-        AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
-    }
+    else
+        for (fixed_t y = start; y < end; y += gridheight)
+            AM_DrawFline(startx, y, startx + minlen, y, gridcolor, PUTDOT);
 }
 
 //
