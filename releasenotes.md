@@ -1,6 +1,7 @@
 ### DOOM Retro v3.5.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * Things spawned using the `spawn` CCMD are now given an ID that is displayed by the `thinglist` CCMD.
 * The gamepad can now be used to open the menu from the title screen again.
 * A bug has been fixed whereby an incomplete `MAPINFO` lump in a PWAD could cause a crash.

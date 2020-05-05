@@ -1479,7 +1479,7 @@ static void AM_DrawGrid(void)
             AM_DrawFline(startx, y, startx + minlen, y, gridcolor, PUTDOT);
 }
 
-static mline_t(*rotatewallsfunc)(mline_t);
+static mline_t (*rotatewallsfunc)(mline_t);
 
 static mline_t AM_RotateWalls(mline_t mline)
 {

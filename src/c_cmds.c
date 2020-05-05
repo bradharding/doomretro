@@ -3423,6 +3423,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         M_StringCopy(lump, temp, sizeof(lump));
         free(temp);
 
+        speciallumpname[0] = '\0';
+
         if (gamemode == commercial)
         {
             ep = 1;
@@ -3444,7 +3446,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         if (ep-- == -1 || map-- == -1 || mapfound[ep * 10 + map + 1])
             continue;
 
-        mapfound[ep * 10 + map + 1] = true;
+        if (!*speciallumpname)
+            mapfound[ep * 10 + map + 1] = true;
+
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
