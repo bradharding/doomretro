@@ -1458,8 +1458,8 @@ static void AM_DrawGrid(void)
     // Figure out start of horizontal gridlines
     start = starty;
 
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
-        start -= (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth;
+    if ((start - (bmaporgy >> FRACTOMAPBITS)) % gridwidth)
+        start -= (start - (bmaporgy >> FRACTOMAPBITS)) % gridwidth;
 
     end = starty + minlen;
 
