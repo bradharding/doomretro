@@ -1479,6 +1479,20 @@ static void AM_DrawGrid(void)
             AM_DrawFline(startx, y, startx + minlen, y, gridcolor, PUTDOT);
 }
 
+static mline_t(*rotatewallsfunc)(mline_t);
+
+static mline_t AM_RotateWalls(mline_t mline)
+{
+    AM_RotatePoint(&mline.a);
+    AM_RotatePoint(&mline.b);
+    return mline;
+}
+
+static mline_t AM_DoNotRotateWalls(mline_t mline)
+{
+    return mline;
+}
+
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
@@ -1488,6 +1502,8 @@ static void AM_DrawWalls(void)
     const dboolean  allmap = viewplayer->powers[pw_allmap];
     const dboolean  cheating = viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
     int             i = 0;
+
+    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
 
     while (i < numlines)
     {
@@ -1517,11 +1533,7 @@ static void AM_DrawWalls(void)
                 mline.b.x = line.v2->x >> FRACTOMAPBITS;
                 mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
-                if (am_rotatemode || menuactive)
-                {
-                    AM_RotatePoint(&mline.a);
-                    AM_RotatePoint(&mline.b);
-                }
+                mline = rotatewallsfunc(mline);
 
                 if (special
                     && isteleportline[special]
