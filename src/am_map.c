@@ -1384,38 +1384,35 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
                 while (x0 != x1)
                     putdot((x0 += sx), (y0 += sy), color);
             }
+            else if (dx > dy)
+            {
+                // x-major line
+                int error = (dy <<= 1) - dx;
+
+                dx <<= 1;
+
+                while (x0 != x1)
+                {
+                    int mask = ~(error >> 31);
+
+                    putdot((x0 += sx), (y0 += (sy & mask)), color);
+                    error += dy - (dx & mask);
+                }
+            }
             else
             {
-                if (dx > dy)
+                // y-major line
+                int error = (dx <<= 1) - dy;
+
+                dy <<= 1;
+                y1 *= mapwidth;
+
+                while (y0 != y1)
                 {
-                    // x-major line
-                    int error = (dy <<= 1) - dx;
+                    int mask = ~(error >> 31);
 
-                    dx <<= 1;
-
-                    while (x0 != x1)
-                    {
-                        int mask = ~(error >> 31);
-
-                        putdot((x0 += sx), (y0 += (sy & mask)), color);
-                        error += dy - (dx & mask);
-                    }
-                }
-                else
-                {
-                    // y-major line
-                    int error = (dx <<= 1) - dy;
-
-                    dy <<= 1;
-                    y1 *= mapwidth;
-
-                    while (y0 != y1)
-                    {
-                        int mask = ~(error >> 31);
-
-                        putdot((x0 += (sx & mask)), (y0 += sy), color);
-                        error += dx - (dy & mask);
-                    }
+                    putdot((x0 += (sx & mask)), (y0 += sy), color);
+                    error += dx - (dy & mask);
                 }
             }
         }
@@ -1504,9 +1501,8 @@ static void AM_DrawWalls_Cheating(void)
         if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
             && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
-            const sector_t          *back = line.backsector;
-            const unsigned short    special = line.special;
-            mline_t                 mline;
+            const sector_t  *back = line.backsector;
+            mline_t         mline;
 
             mline.a.x = line.v1->x >> FRACTOMAPBITS;
             mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1515,7 +1511,7 @@ static void AM_DrawWalls_Cheating(void)
 
             mline = rotatewallsfunc(mline);
 
-            if (special && isteleportline[special])
+            if (isteleportline[line.special])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
             else if (!back)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
@@ -1549,9 +1545,8 @@ static void AM_DrawWalls_AllMap(void)
 
             if (!(flags & ML_DONTDRAW))
             {
-                const sector_t          *back = line.backsector;
-                const unsigned short    special = line.special;
-                mline_t                 mline;
+                const sector_t  *back = line.backsector;
+                mline_t         mline;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1560,7 +1555,7 @@ static void AM_DrawWalls_AllMap(void)
 
                 mline = rotatewallsfunc(mline);
 
-                if (special && isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
+                if (isteleportline[line.special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
                         ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), PUTDOT);
                 else if (!back || (flags & ML_SECRET))
@@ -1612,10 +1607,8 @@ static void AM_DrawWalls(void)
 
             if (!(flags & ML_DONTDRAW) && (flags & ML_MAPPED))
             {
-                const sector_t          *back = line.backsector;
-                const dboolean          secret = flags & ML_SECRET;
-                const unsigned short    special = line.special;
-                mline_t                 mline;
+                const sector_t  *back = line.backsector;
+                mline_t         mline;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1624,10 +1617,10 @@ static void AM_DrawWalls(void)
 
                 mline = rotatewallsfunc(mline);
 
-                if (special && isteleportline[special] && back && back->ceilingheight != back->floorheight
-                    && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !secret)
+                if (isteleportline[line.special] && back && back->ceilingheight != back->floorheight
+                    && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
-                else if (!back || secret)
+                else if (!back || (flags & ML_SECRET))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
                 else
                 {

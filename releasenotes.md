@@ -10,7 +10,7 @@
 * The horizontal offset of the player’s weapon sprite will no longer be fixed when the `r_fixspriteoffsets` CVAR is `off`.
 * The effects of both the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
 * Screenshots may now be taken again while playing a game and the `+screenshot` action has been bound to something other than the <kbd>PRINTSCREEN</kbd> key.
-* When using [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/) with a PWAD, if a `STBAR` lump is present in the PWAD, it will now be used.
+* When a PWAD is loaded with [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/), if a `STBAR` lump is present in that PWAD, it will now be used.
 
 ---
 
