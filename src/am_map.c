@@ -1210,7 +1210,6 @@ void AM_Ticker(void)
 void AM_ClearFB(void)
 {
     memset(mapscreen, backcolor, maparea);
-    return;
 }
 
 //
@@ -1660,11 +1659,8 @@ static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
             y2 = line.b.y;
         }
 
-        if (angle)
-        {
-            AM_Rotate(&x1, &y1, angle);
-            AM_Rotate(&x2, &y2, angle);
-        }
+        AM_Rotate(&x1, &y1, angle);
+        AM_Rotate(&x2, &y2, angle);
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, PUTDOT2);
     }
@@ -1694,11 +1690,8 @@ static void AM_DrawTransLineCharacter(const mline_t *lineguy, const int lineguyl
             y2 = line.b.y;
         }
 
-        if (angle)
-        {
-            AM_Rotate(&x1, &y1, angle);
-            AM_Rotate(&x2, &y2, angle);
-        }
+        AM_Rotate(&x1, &y1, angle);
+        AM_Rotate(&x2, &y2, angle);
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, PUTTRANSDOT);
     }
