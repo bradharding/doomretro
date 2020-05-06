@@ -1493,21 +1493,57 @@ static mline_t AM_DoNotRotateWalls(mline_t mline)
     return mline;
 }
 
-//
-// Determines visible lines, draws them.
-// This is LineDef based, not LineSeg based.
-//
-static void AM_DrawWalls(void)
+static void AM_DrawWalls_Cheating(void)
 {
-    const dboolean  allmap = viewplayer->powers[pw_allmap];
-    const dboolean  cheating = viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
-    int             i = 0;
-
-    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
-
-    while (i < numlines)
+    for (int i = 0; i < numlines; i++)
     {
-        const line_t    line = lines[i++];
+        const line_t    line = lines[i];
+
+        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
+            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
+            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
+            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
+            continue;
+        else
+        {
+            const unsigned short    flags = line.flags;
+            const sector_t          *back = line.backsector;
+            const dboolean          mapped = flags & ML_MAPPED;
+            const dboolean          secret = flags & ML_SECRET;
+            const unsigned short    special = line.special;
+            mline_t                 mline;
+
+            mline.a.x = line.v1->x >> FRACTOMAPBITS;
+            mline.a.y = line.v1->y >> FRACTOMAPBITS;
+            mline.b.x = line.v2->x >> FRACTOMAPBITS;
+            mline.b.y = line.v2->y >> FRACTOMAPBITS;
+
+            mline = rotatewallsfunc(mline);
+
+            if (special && isteleportline[special])
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
+            else if (!back)
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
+            else
+            {
+                const sector_t  *front = line.frontsector;
+
+                if (back->floorheight != front->floorheight)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
+                else if (back->ceilingheight != front->ceilingheight)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
+                else
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, PUTDOT);
+            }
+        }
+    }
+}
+
+static void AM_DrawWalls_AllMap(void)
+{
+    for (int i = 0; i < numlines; i++)
+    {
+        const line_t    line = lines[i];
 
         if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
             || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
@@ -1518,7 +1554,7 @@ static void AM_DrawWalls(void)
         {
             const unsigned short    flags = line.flags;
 
-            if ((flags & ML_DONTDRAW) && !cheating)
+            if (flags & ML_DONTDRAW)
                 continue;
             else
             {
@@ -1537,25 +1573,18 @@ static void AM_DrawWalls(void)
 
                 if (special
                     && isteleportline[special]
-                    && ((flags & ML_TELEPORTTRIGGERED) || cheating || (back && isteleport[back->floorpic])))
+                    && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                 {
-                    if (cheating || (mapped && !secret && back && back->ceilingheight != back->floorheight))
-                    {
+                    if (mapped && !secret && back && back->ceilingheight != back->floorheight)
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
-                        continue;
-                    }
-                    else if (allmap)
-                    {
+                    else
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor, PUTDOT);
-                        continue;
-                    }
                 }
-
-                if (!back || (secret && !cheating))
+                else if (!back || secret)
                 {
-                    if (mapped || cheating)
+                    if (mapped)
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
-                    else if (allmap)
+                    else
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapwallcolor, putbigdot);
                 }
                 else
@@ -1564,20 +1593,83 @@ static void AM_DrawWalls(void)
 
                     if (back->floorheight != front->floorheight)
                     {
-                        if (mapped || cheating)
+                        if (mapped)
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
-                        else if (allmap)
+                        else
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor, PUTDOT);
                     }
                     else if (back->ceilingheight != front->ceilingheight)
                     {
-                        if (mapped || cheating)
+                        if (mapped)
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
-                        else if (allmap)
+                        else
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapcdwallcolor, PUTDOT);
                     }
-                    else if (cheating)
+                    else
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, PUTDOT);
+                }
+            }
+        }
+    }
+}
+
+static void AM_DrawWalls(void)
+{
+    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
+
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    {
+        AM_DrawWalls_Cheating();
+        return;
+    }
+    else if (viewplayer->powers[pw_allmap])
+    {
+        AM_DrawWalls_AllMap();
+        return;
+    }
+
+    for (int i = 0; i < numlines; i++)
+    {
+        const line_t    line = lines[i];
+
+        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
+            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
+            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
+            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
+            continue;
+        else
+        {
+            const unsigned short    flags = line.flags;
+
+            if (flags & ML_DONTDRAW)
+                continue;
+            else if (flags & ML_MAPPED)
+            {
+                const sector_t          *back = line.backsector;
+                const dboolean          secret = flags & ML_SECRET;
+                const unsigned short    special = line.special;
+                mline_t                 mline;
+
+                mline.a.x = line.v1->x >> FRACTOMAPBITS;
+                mline.a.y = line.v1->y >> FRACTOMAPBITS;
+                mline.b.x = line.v2->x >> FRACTOMAPBITS;
+                mline.b.y = line.v2->y >> FRACTOMAPBITS;
+
+                mline = rotatewallsfunc(mline);
+
+                if (special && isteleportline[special] && back && back->ceilingheight != back->floorheight
+                    && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !secret)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
+                else if (!back || secret)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
+                else
+                {
+                    const sector_t  *front = line.frontsector;
+
+                    if (back->floorheight != front->floorheight)
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
+                    else if (back->ceilingheight != front->ceilingheight)
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
                 }
             }
         }
