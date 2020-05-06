@@ -3,13 +3,14 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Things spawned using the `spawn` CCMD are now given an ID that is displayed by the `thinglist` CCMD.
-* The gamepad can now be used to open the menu from the title screen again.
+* The mouse and gamepad can now be used to open the menu from the title screen again.
 * A bug has been fixed whereby an incomplete `MAPINFO` lump in a PWAD could cause a crash.
 * The names of the monsters displayed during *DOOM II’s* cast sequence can now be specified in `DEHACKED` lumps.
 * The player’s weapon can no longer be changed while freeze mode is on.
 * The horizontal offset of the player’s weapon sprite will no longer be fixed when the `r_fixspriteoffsets` CVAR is `off`.
 * The effects of both the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
 * Screenshots may now be taken again while playing a game and the `+screenshot` action has been bound to something other than the <kbd>PRINTSCREEN</kbd> key.
+* When using [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/) with a PWAD, if a `STBAR` lump is present in the PWAD, it will now be used.
 
 ---
 

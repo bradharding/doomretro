@@ -1468,9 +1468,9 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
 static void ST_LoadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS"))
-        *variable = (FREEDOOM || hacx ? W_CacheLastLumpName("STARMS") : W_CacheLumpName("STARMS"));
+        *variable = ((FREEDOOM && !modifiedgame) || hacx ? W_CacheLastLumpName("STARMS") : W_CacheLumpName("STARMS"));
     else if (M_StringCompare(lumpname, "STBAR"))
-        *variable = (FREEDOOM || hacx ? W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
+        *variable = ((FREEDOOM && !modifiedgame) || hacx ? W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
     else
         *variable = W_CacheLumpName(lumpname);
 }
