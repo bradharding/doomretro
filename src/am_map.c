@@ -1498,18 +1498,13 @@ static void AM_DrawWalls_Cheating(void)
     for (int i = 0; i < numlines; i++)
     {
         const line_t    line = lines[i];
+        const fixed_t   *lbbox = line.bbox;
+        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
-            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
-            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
-            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
-            continue;
-        else
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
-            const unsigned short    flags = line.flags;
             const sector_t          *back = line.backsector;
-            const dboolean          mapped = flags & ML_MAPPED;
-            const dboolean          secret = flags & ML_SECRET;
             const unsigned short    special = line.special;
             mline_t                 mline;
 
@@ -1544,23 +1539,17 @@ static void AM_DrawWalls_AllMap(void)
     for (int i = 0; i < numlines; i++)
     {
         const line_t    line = lines[i];
+        const fixed_t   *lbbox = line.bbox;
+        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
-            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
-            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
-            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
-            continue;
-        else
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
-            if (flags & ML_DONTDRAW)
-                continue;
-            else
+            if (!(flags & ML_DONTDRAW))
             {
                 const sector_t          *back = line.backsector;
-                const dboolean          mapped = flags & ML_MAPPED;
-                const dboolean          secret = flags & ML_SECRET;
                 const unsigned short    special = line.special;
                 mline_t                 mline;
 
@@ -1571,40 +1560,22 @@ static void AM_DrawWalls_AllMap(void)
 
                 mline = rotatewallsfunc(mline);
 
-                if (special
-                    && isteleportline[special]
-                    && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
-                {
-                    if (mapped && !secret && back && back->ceilingheight != back->floorheight)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
-                    else
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor, PUTDOT);
-                }
-                else if (!back || secret)
-                {
-                    if (mapped)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
-                    else
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapwallcolor, putbigdot);
-                }
+                if (special && isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                        ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), PUTDOT);
+                else if (!back || (flags & ML_SECRET))
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                        ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor), putbigdot);
                 else
                 {
                     const sector_t  *front = line.frontsector;
 
                     if (back->floorheight != front->floorheight)
-                    {
-                        if (mapped)
-                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
-                        else
-                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapfdwallcolor, PUTDOT);
-                    }
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                            ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor), PUTDOT);
                     else if (back->ceilingheight != front->ceilingheight)
-                    {
-                        if (mapped)
-                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
-                        else
-                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, allmapcdwallcolor, PUTDOT);
-                    }
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                            ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), PUTDOT);
                     else
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, PUTDOT);
                 }
@@ -1631,19 +1602,15 @@ static void AM_DrawWalls(void)
     for (int i = 0; i < numlines; i++)
     {
         const line_t    line = lines[i];
+        const fixed_t   *lbbox = line.bbox;
+        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
-            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
-            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
-            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
-            continue;
-        else
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
-            if (flags & ML_DONTDRAW)
-                continue;
-            else if (flags & ML_MAPPED)
+            if (!(flags & ML_DONTDRAW) && (flags & ML_MAPPED))
             {
                 const sector_t          *back = line.backsector;
                 const dboolean          secret = flags & ML_SECRET;
