@@ -11,6 +11,7 @@
 * The effects of both the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
 * Screenshots may now be taken again while playing a game and the `+screenshot` action has been bound to something other than the <kbd>PRINTSCREEN</kbd> key.
 * When a PWAD is loaded with [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/), if a `STBAR` lump is present in that PWAD, it will now be used.
+* Fixing a bug present in *Vanilla DOOM*, monsters will now always be alerted if attacked during the second frame of their idle animation.
 
 ---
 

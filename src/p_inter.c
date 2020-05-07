@@ -2264,6 +2264,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
+        state_t *state = target->state;
+        state_t *spawnstate = &states[info->spawnstate];
+
         // if not intent on another player, chase after this one
         if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
             P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
@@ -2271,7 +2274,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         P_SetTarget(&target->target, source);                   // killough 11/98
         target->threshold = BASETHRESHOLD;
 
-        if (target->state == &states[info->spawnstate] && info->seestate != S_NULL)
+        // [BH] Fix enemy not waking up if damaged during second frame of their idle animation
+        if ((state == spawnstate || state == &states[spawnstate->nextstate]) && info->seestate != S_NULL)
             P_SetMobjState(target, info->seestate);
     }
 
