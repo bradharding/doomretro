@@ -1580,19 +1580,6 @@ static void AM_DrawWalls_AllMap(void)
 
 static void AM_DrawWalls(void)
 {
-    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
-
-    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-    {
-        AM_DrawWalls_Cheating();
-        return;
-    }
-    else if (viewplayer->powers[pw_allmap])
-    {
-        AM_DrawWalls_AllMap();
-        return;
-    }
-
     for (int i = 0; i < numlines; i++)
     {
         const line_t    line = lines[i];
@@ -2031,8 +2018,10 @@ static void AM_DrawSolidCrosshair(void)
 
 static void AM_SetFrameVariables(void)
 {
-    const fixed_t   x = m_x + m_w / 2;
-    const fixed_t   y = m_y + m_h / 2;
+    const fixed_t   dx = m_w / 2;
+    const fixed_t   dy = m_h / 2;
+    const fixed_t   x = m_x + dx;
+    const fixed_t   y = m_y + dy;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
@@ -2040,8 +2029,6 @@ static void AM_SetFrameVariables(void)
     if (am_rotatemode || menuactive)
     {
         const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
-        const fixed_t   dx = m_w / 2;
-        const fixed_t   dy = m_h / 2;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         am_frame.sin = finesine[angle];
@@ -2065,7 +2052,15 @@ void AM_Drawer(void)
 {
     AM_SetFrameVariables();
     AM_ClearFB();
-    AM_DrawWalls();
+
+    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
+
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+        AM_DrawWalls_Cheating();
+    else if (viewplayer->powers[pw_allmap])
+        AM_DrawWalls_AllMap();
+    else
+        AM_DrawWalls();
 
     if (am_grid)
         AM_DrawGrid();
