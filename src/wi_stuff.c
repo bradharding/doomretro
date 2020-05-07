@@ -376,7 +376,7 @@ static void WI_DrawLF(void)
     int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
 
     // draw <LevelName>
-    if (titlepatch)
+    if (titlepatch != -1)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
@@ -436,7 +436,7 @@ static void WI_DrawEL(void)
     // draw level
     y += SHORT(entering->height) + 2;
 
-    if (titlepatch)
+    if (titlepatch != -1)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
