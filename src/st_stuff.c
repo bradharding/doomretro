@@ -1099,7 +1099,7 @@ static void ST_UpdateFaceWidget(void)
     {
         if (viewplayer->damagecount && viewplayer->attacker && viewplayer->attacker != viewplayer->mo)
         {
-            // [BH] fix ouch-face when damage > 20
+            // [BH] Fix <https://doomwiki.org/wiki/Ouch_face>.
             if (st_oldhealth - viewplayer->health > ST_MUCHPAIN)
             {
                 priority = 8;   // [BH] keep ouch-face visible
@@ -1135,7 +1135,7 @@ static void ST_UpdateFaceWidget(void)
         // getting hurt because of your own damn stupidity
         if (viewplayer->damagecount)
         {
-            // [BH] fix ouch-face when damage > 20
+            // [BH] Fix <https://doomwiki.org/wiki/Ouch_face>.
             if (st_oldhealth - viewplayer->health > ST_MUCHPAIN)
             {
                 priority = 7;
