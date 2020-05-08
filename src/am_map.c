@@ -1418,6 +1418,20 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
     }
 }
 
+static mline_t (*rotatelinefunc)(mline_t);
+
+static mline_t AM_RotateLine(mline_t mline)
+{
+    AM_RotatePoint(&mline.a);
+    AM_RotatePoint(&mline.b);
+    return mline;
+}
+
+static mline_t AM_DoNotRotateLine(mline_t mline)
+{
+    return mline;
+}
+
 //
 // Draws flat (floor/ceiling tile) aligned grid lines.
 //
@@ -1434,50 +1448,26 @@ static void AM_DrawGrid(void)
     end = startx + minlen;
 
     // Draw vertical gridlines
-    if (am_rotatemode)
-        for (fixed_t x = start; x < end; x += gridwidth)
-        {
-            mline_t ml = { { x, starty }, { x, starty + minlen } };
+    for (fixed_t x = start; x < end; x += gridwidth)
+    {
+        mline_t mline = { { x, starty }, { x, starty + minlen } };
 
-            AM_RotatePoint(&ml.a);
-            AM_RotatePoint(&ml.b);
-            AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
-        }
-    else
-        for (fixed_t x = start; x < end; x += gridwidth)
-            AM_DrawFline(x, starty, x, starty + minlen, gridcolor, PUTDOT);
+        mline = rotatelinefunc(mline);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, gridcolor, PUTDOT);
+    }
 
     // Figure out start of horizontal gridlines
     start = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
     end = starty + minlen;
 
     // Draw horizontal gridlines
-    if (am_rotatemode)
-        for (fixed_t y = start; y < end; y += gridheight)
-        {
-            mline_t ml = { { startx, y }, { startx + minlen, y } };
+    for (fixed_t y = start; y < end; y += gridheight)
+    {
+        mline_t mline = { { startx, y }, { startx + minlen, y } };
 
-            AM_RotatePoint(&ml.a);
-            AM_RotatePoint(&ml.b);
-            AM_DrawFline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor, PUTDOT);
-        }
-    else
-        for (fixed_t y = start; y < end; y += gridheight)
-            AM_DrawFline(startx, y, startx + minlen, y, gridcolor, PUTDOT);
-}
-
-static mline_t (*rotatewallsfunc)(mline_t);
-
-static mline_t AM_RotateWalls(mline_t mline)
-{
-    AM_RotatePoint(&mline.a);
-    AM_RotatePoint(&mline.b);
-    return mline;
-}
-
-static mline_t AM_DoNotRotateWalls(mline_t mline)
-{
-    return mline;
+        mline = rotatelinefunc(mline);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, gridcolor, PUTDOT);
+    }
 }
 
 static void AM_DrawWalls_Cheating(void)
@@ -1500,7 +1490,7 @@ static void AM_DrawWalls_Cheating(void)
             mline.b.x = line.v2->x >> FRACTOMAPBITS;
             mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
-            mline = rotatewallsfunc(mline);
+            mline = rotatelinefunc(mline);
 
             if (isteleportline[line.special])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
@@ -1551,7 +1541,7 @@ static void AM_DrawWalls_AllMap(void)
                 mline.b.x = line.v2->x >> FRACTOMAPBITS;
                 mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
-                mline = rotatewallsfunc(mline);
+                mline = rotatelinefunc(mline);
 
                 if (isteleportline[line.special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
@@ -1600,7 +1590,7 @@ static void AM_DrawWalls(void)
                 mline.b.x = line.v2->x >> FRACTOMAPBITS;
                 mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
-                mline = rotatewallsfunc(mline);
+                mline = rotatelinefunc(mline);
 
                 if (isteleportline[line.special] && back && back->ceilingheight != back->floorheight
                     && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
@@ -2052,7 +2042,7 @@ void AM_Drawer(void)
     AM_SetFrameVariables();
     AM_ClearFB();
 
-    rotatewallsfunc = (am_rotatemode || menuactive ? AM_RotateWalls : AM_DoNotRotateWalls);
+    rotatelinefunc = (am_rotatemode || menuactive ? AM_RotateLine : AM_DoNotRotateLine);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         AM_DrawWalls_Cheating();

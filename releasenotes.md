@@ -1,5 +1,7 @@
 ### DOOM Retro v3.5.8
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* When in the automap and the menu is open, the grid will now rotate in the background if the `am_rotatemode` CVAR is `off`.
 ---
 
 ###### Friday, May 8, 2020
