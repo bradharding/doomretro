@@ -1392,7 +1392,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                 while (x0 != x1)
                 {
-                    int mask = ~(error >> 31);
+                    const int   mask = ~(error >> 31);
 
                     putdot((x0 += sx), (y0 += (sy & mask)), color);
                     error += dy - (dx & mask);
@@ -1408,7 +1408,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                 while (y0 != y1)
                 {
-                    int mask = ~(error >> 31);
+                    const int   mask = ~(error >> 31);
 
                     putdot((x0 += (sx & mask)), (y0 += sy), color);
                     error += dx - (dy & mask);
@@ -1428,14 +1428,9 @@ static void AM_DrawGrid(void)
     const fixed_t   starty = m_y - (minlen - m_h) / 2;
     fixed_t         start;
     fixed_t         end;
-    fixed_t         adjust;
 
     // Figure out start of vertical gridlines
-    start = startx;
-
-    if ((adjust = (start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth))
-        start -= adjust;
-
+    start = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
     end = startx + minlen;
 
     // Draw vertical gridlines
@@ -1453,11 +1448,7 @@ static void AM_DrawGrid(void)
             AM_DrawFline(x, starty, x, starty + minlen, gridcolor, PUTDOT);
 
     // Figure out start of horizontal gridlines
-    start = starty;
-
-    if ((adjust = (start - (bmaporgy >> FRACTOMAPBITS)) % gridheight))
-        start -= adjust;
-
+    start = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
     end = starty + minlen;
 
     // Draw horizontal gridlines
@@ -1497,11 +1488,12 @@ static void AM_DrawWalls_Cheating(void)
         const fixed_t   *lbbox = line.bbox;
         const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
-            const sector_t  *back = line.backsector;
-            mline_t         mline;
+            mline_t mline;
 
             mline.a.x = line.v1->x >> FRACTOMAPBITS;
             mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1512,18 +1504,23 @@ static void AM_DrawWalls_Cheating(void)
 
             if (isteleportline[line.special])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, PUTDOT);
-            else if (!back)
-                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
             else
             {
-                const sector_t  *front = line.frontsector;
+                const sector_t  *back = line.backsector;
 
-                if (back->floorheight != front->floorheight)
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
-                else if (back->ceilingheight != front->ceilingheight)
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
+                if (!back)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
                 else
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, PUTDOT);
+                {
+                    const sector_t *front = line.frontsector;
+
+                    if (back->floorheight != front->floorheight)
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, PUTDOT);
+                    else if (back->ceilingheight != front->ceilingheight)
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, PUTDOT);
+                    else
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, PUTDOT);
+                }
             }
         }
     }
@@ -1537,8 +1534,10 @@ static void AM_DrawWalls_AllMap(void)
         const fixed_t   *lbbox = line.bbox;
         const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
