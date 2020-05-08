@@ -1440,15 +1440,10 @@ static void AM_DrawGrid(void)
     const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
     const fixed_t   startx = m_x - (minlen - m_w) / 2;
     const fixed_t   starty = m_y - (minlen - m_h) / 2;
-    fixed_t         start;
-    fixed_t         end;
-
-    // Figure out start of vertical gridlines
-    start = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
-    end = startx + minlen;
+    fixed_t         end = startx + minlen;
 
     // Draw vertical gridlines
-    for (fixed_t x = start; x < end; x += gridwidth)
+    for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < end; x += gridwidth)
     {
         mline_t mline = { { x, starty }, { x, starty + minlen } };
 
@@ -1456,12 +1451,10 @@ static void AM_DrawGrid(void)
         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, gridcolor, PUTDOT);
     }
 
-    // Figure out start of horizontal gridlines
-    start = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
     end = starty + minlen;
 
     // Draw horizontal gridlines
-    for (fixed_t y = start; y < end; y += gridheight)
+    for (fixed_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < end; y += gridheight)
     {
         mline_t mline = { { startx, y }, { startx + minlen, y } };
 
@@ -2027,6 +2020,8 @@ static void AM_SetFrameVariables(void)
         am_frame.bbox[BOXRIGHT] = x + r;
         am_frame.bbox[BOXBOTTOM] = y - r;
         am_frame.bbox[BOXTOP] = y + r;
+
+        rotatelinefunc = AM_RotateLine;
     }
     else
     {
@@ -2034,6 +2029,8 @@ static void AM_SetFrameVariables(void)
         am_frame.bbox[BOXRIGHT] = m_x + m_w;
         am_frame.bbox[BOXBOTTOM] = m_y;
         am_frame.bbox[BOXTOP] = m_y + m_h;
+
+        rotatelinefunc = AM_DoNotRotateLine;
     }
 }
 
@@ -2041,8 +2038,6 @@ void AM_Drawer(void)
 {
     AM_SetFrameVariables();
     AM_ClearFB();
-
-    rotatelinefunc = (am_rotatemode || menuactive ? AM_RotateLine : AM_DoNotRotateLine);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         AM_DrawWalls_Cheating();
