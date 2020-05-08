@@ -2984,9 +2984,9 @@ static void P_InitMapInfo(void)
         mapinfo[i].par = 0;
         mapinfo[i].pistolstart = false;
         mapinfo[i].secretnext = 0;
-        mapinfo[i].sky1texture = -1;
+        mapinfo[i].sky1texture = 0;
         mapinfo[i].sky1scrolldelta = 0;
-        mapinfo[i].titlepatch = -1;
+        mapinfo[i].titlepatch = 0;
     }
 
     SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);

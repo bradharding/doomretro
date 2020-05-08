@@ -64,7 +64,7 @@ void R_InitSkyMap(void)
     skytexture = P_GetMapSky1Texture(map);
     canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt) && !nomouselook);
 
-    if (skytexture == -1 || (BTSX && !canmouselook))
+    if (!skytexture || (BTSX && !canmouselook))
     {
         if (gamemode == commercial)
         {
