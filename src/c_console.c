@@ -875,11 +875,19 @@ static void C_DrawBackground(void)
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)
-        for (int i = 0; i < height; i += CONSOLEWIDTH)
-        {
+    {
+        for (int i = 0; i < height - 3 * CONSOLEWIDTH; i += CONSOLEWIDTH)
             screens[0][i] = consoleautomapbevel[screens[0][i + 1]];
+
+        for (int i = height - 3 * CONSOLEWIDTH; i < height; i += CONSOLEWIDTH)
+            screens[0][i] = consolebevel[screens[0][i + 1]];
+
+        for (int i = 0; i < height - (brandheight + 3) * CONSOLEWIDTH; i += CONSOLEWIDTH)
             screens[0][i + CONSOLEWIDTH - 1] = consoleautomapbevel[screens[0][i + CONSOLEWIDTH - 2]];
-        }
+
+        for (int i = height - (brandheight + 3) * CONSOLEWIDTH; i < height; i += CONSOLEWIDTH)
+            screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
+    }
     else
         for (int i = 0; i < height; i += CONSOLEWIDTH)
         {
