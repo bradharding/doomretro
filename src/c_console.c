@@ -161,6 +161,7 @@ extern int              framespersecond;
 extern int              refreshrate;
 extern dboolean         dowipe;
 extern dboolean         quitcmd;
+extern dboolean         vanilla;
 extern dboolean         togglingvanilla;
 
 void C_Input(const char *string, ...)
@@ -1183,7 +1184,7 @@ void C_UpdateFPS(void)
 
 void C_UpdateTimer(void)
 {
-    if (!paused && !menuactive)
+    if (!paused && !menuactive && !vanilla)
     {
         static char buffer[9];
         int         tics = countdown;
