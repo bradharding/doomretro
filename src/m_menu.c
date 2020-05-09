@@ -1721,8 +1721,6 @@ static void M_VerifyNightmare(int key)
         M_SetupNextMenu(&NewDef);
     else
     {
-        S_StartSound(NULL, sfx_swtchx);
-        I_Sleep(1000);
         quickSaveSlot = -1;
         M_ClearMenus();
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
