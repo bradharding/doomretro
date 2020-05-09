@@ -64,14 +64,14 @@
 #define MAXVIBRATIONSTRENGTH            65535
 #define CHAINSAWIDLEVIBRATIONSTRENGTH   15000
 
-#define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYup                (float)(-gamepadthumbLY - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbLYdown              (float)(gamepadthumbLY - gamepadleftdeadzone) / (SHRT_MAX - gamepadleftdeadzone)
-#define gamepadthumbRXleft              (float)(-gamepadthumbRX - gamepadrightdeadzone) / (SHRT_MAX - gamepadrightdeadzone)
-#define gamepadthumbRXright             (float)(gamepadthumbRX - gamepadrightdeadzone) / (SHRT_MAX - gamepadrightdeadzone)
-#define gamepadthumbRYup                (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / (SHRT_MAX - gamepadrightdeadzone))
-#define gamepadthumbRYdown              (float)(gamepadthumbRY - gamepadrightdeadzone) / (SHRT_MAX - gamepadrightdeadzone)
+#define gamepadthumbLXleft              ((float)(-gamepadthumbLX - gamepadleftdeadzone) / SHRT_MAX)
+#define gamepadthumbLXright             ((float)(gamepadthumbLX - gamepadleftdeadzone) / SHRT_MAX)
+#define gamepadthumbLYup                ((float)(-gamepadthumbLY - gamepadleftdeadzone) / SHRT_MAX)
+#define gamepadthumbLYdown              ((float)(gamepadthumbLY - gamepadleftdeadzone) / SHRT_MAX)
+#define gamepadthumbRXleft              ((float)(-gamepadthumbRX - gamepadrightdeadzone) / SHRT_MAX)
+#define gamepadthumbRXright             ((float)(gamepadthumbRX - gamepadrightdeadzone) / SHRT_MAX)
+#define gamepadthumbRYup                (-(float)(-gamepadthumbRY - gamepadrightdeadzone) / SHRT_MAX)
+#define gamepadthumbRYdown              ((float)(gamepadthumbRY - gamepadrightdeadzone) / SHRT_MAX)
 
 extern int      barrelvibrationtics;
 extern int      damagevibrationtics;
