@@ -865,7 +865,7 @@ static void C_DrawBackground(void)
 
     // apply corrugated glass effect to background
     for (int i = height - 2; i > 1; i -= 3)
-        screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i + (i % CONSOLEWIDTH && (i + 1) % CONSOLEWIDTH ? -1 : 1)]];
+        screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i + ((i % CONSOLEWIDTH) && (i + 1) % CONSOLEWIDTH ? -1 : 1)]];
 
     // draw branding
     V_DrawConsoleBrandingPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, consoleedgecolor);
