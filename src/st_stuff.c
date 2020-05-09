@@ -184,7 +184,6 @@ patch_t                     *faces[ST_NUMFACES];
 
 // main bar right
 static patch_t              *armsbg;
-static patch_t              *armsbg2;
 
 // weapon ownership patches
 static patch_t              *arms[6][2];
@@ -391,19 +390,23 @@ static void ST_RefreshBackground(void)
     if (st_statusbaron)
     {
 #if SCREENSCALE == 1
-        V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
-        V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
-#else
-        if (STBAR >= 3 || r_detail == r_detail_low)
+        if (STBAR >= 3)
         {
             V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
         else
+            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+#else
+        if (STBAR >= 3)
         {
-            V_DrawBigPatch(ST_X, ST_Y, sbar2);
-            V_DrawBigPatch(ST_ARMSBGX * 2, ST_Y, armsbg2);
+            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
+        else if (r_detail == r_detail_low)
+            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+        else
+            V_DrawBigPatch(ST_X, ST_Y, sbar2);
 #endif
     }
 }
@@ -1382,12 +1385,9 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
 
     // arms background
     callback("STARMS", &armsbg);
-    callback("STARMS2", &armsbg2);
 
     armsbg->leftoffset = 0;
     armsbg->topoffset = 0;
-    armsbg2->leftoffset = 0;
-    armsbg2->topoffset = 0;
 
     // arms ownership widgets
     // [BH] now manually drawn
