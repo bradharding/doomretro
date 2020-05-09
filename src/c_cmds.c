@@ -343,7 +343,6 @@ static void alwaysrun_cvar_func2(char *cmd, char *parms);
 static void am_external_cvar_func2(char *cmd, char *parms);
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
-static void am_path_cvar_func2(char *cmd, char *parms);
 static dboolean armortype_cvar_func1(char *cmd, char *parms);
 static void armortype_cvar_func2(char *cmd, char *parms);
 static void autotilt_cvar_func2(char *cmd, char *parms);
@@ -473,7 +472,7 @@ consolecmd_t consolecmds[] =
         "The size of the grid in the automap (<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
-    CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(am_path, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the player's path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's path in the automap (<b>0</b> to\n<b>255</b>)."),
@@ -6956,19 +6955,6 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
         else
             C_Output(INTEGERCVARWITHDEFAULT, am_gridsize, am_gridsize_default);
     }
-}
-
-//
-// am_path CVAR
-//
-static void am_path_cvar_func2(char *cmd, char *parms)
-{
-    const dboolean  am_path_old = am_path;
-
-    bool_cvars_func2(cmd, parms);
-
-    if (!am_path && am_path_old)
-        pathpointnum = 0;
 }
 
 //
