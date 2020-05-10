@@ -7,6 +7,8 @@
 * The timer shown when the `timer` CCMD is used is no longer displayed if vanilla mode is enabled.
 * Only one sound is now heard when confirming the selection of the *Nightmare!* skill level.
 * A bug has been fixed whereby the “entering” intermission screen would be displayed at the end of MAP30 in some instances.
+* The times when to update the savegame description if saving a game have been improved.
+* Improvements have been made to the left and right edges of the console when it’s open over the automap.
 
 ---
 
