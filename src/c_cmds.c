@@ -425,10 +425,10 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
     { #name, #alt, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc, 0, 0 }
 #define CMD_CHEAT(name, parms) \
     { #name, "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "", 0, 0 }
-#define CVAR_BOOL(name, alt, cond, func, valuealiases, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, valuealiases, false, true, "", desc, name##_default, 0 }
-#define CVAR_INT(name, alt, cond, func, flags, valuealiases, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, valuealiases, name##_min, name##_max, "", desc, name##_default, 0 }
+#define CVAR_BOOL(name, alt, cond, func, aliases, desc) \
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, aliases, false, true, "", desc, name##_default, 0 }
+#define CVAR_INT(name, alt, cond, func, flags, aliases, desc) \
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT(name, alt, cond, func, flags, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, name##_default, 0 }
 #define CVAR_STR(name, alt, cond, func, flags, desc) \

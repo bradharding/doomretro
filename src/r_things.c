@@ -159,7 +159,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 // 1/25/98, 1/31/98 killough : Rewritten for performance
 //
 // Empirically verified to have excellent hash properties across standard DOOM sprites:
-#define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
+#define R_SpriteNameHash(s) ((s[0] - ((size_t)s[1] * 3 - (size_t)s[3] * 2 - s[2]) * 2))
 
 static void R_InitSpriteDefs(void)
 {
