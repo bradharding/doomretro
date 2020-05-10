@@ -980,6 +980,12 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 && viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0
                 && viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)
             {
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                {
+                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
+                }
+
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);
@@ -1108,6 +1114,12 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 || viewplayer->cards[it_bluecard] <= 0 || viewplayer->cards[it_blueskull] <= 0
                 || viewplayer->cards[it_yellowcard] <= 0 || viewplayer->cards[it_yellowskull] <= 0))
             {
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                {
+                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
+                }
+
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);
@@ -1119,6 +1131,12 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 || (viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0)
                 || (viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)))
             {
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                {
+                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
+                }
+
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);

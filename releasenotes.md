@@ -6,9 +6,11 @@
 * The player’s path in the automap is no longer reset when vanilla mode is enabled and the `am_path` CVAR is `on`.
 * The timer shown when the `timer` CCMD is used is no longer displayed if vanilla mode is enabled.
 * Only one sound is now heard when confirming the selection of the *Nightmare!* skill level.
-* A bug has been fixed whereby the “entering” intermission screen would be displayed at the end of MAP30 in some instances.
+* A bug has been fixed whereby the “entering” intermission screen would be displayed when exiting MAP30 in some instances.
 * The times when to update the savegame description if saving a game have been improved.
 * Improvements have been made to the left and right edges of the console when it’s open over the automap.
+* Minor improvements have been made to the widescreen HUD when god mode is enabled.
+* When the player tries to open a door that requires more than one, or any, keycard or skull key that they don’t have, those keys will now flash in the widescreen HUD.
 
 ---
 

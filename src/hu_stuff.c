@@ -559,7 +559,31 @@ static void HU_DrawHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        if ((patch = keypics[viewplayer->neededcard].patch))
+        int neededcard = viewplayer->neededcard;
+
+        if (neededcard == it_allkeys)
+        {
+            if (!gamepaused && keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+
+            if (showkey || gamepaused)
+                for (int i = 0; i < NUMCARDS; i++)
+                {
+                    patch = keypics[i].patch;
+
+                    if (viewplayer->cards[i] != i)
+                    {
+                        keypic_x -= SHORT(patch->width);
+                        hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+                        keypic_x -= 5;
+                    }
+                }
+        }
+        else if ((patch = keypics[neededcard].patch))
         {
             if (!gamepaused && keywait < currenttime)
             {
