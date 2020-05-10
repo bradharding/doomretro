@@ -4,7 +4,7 @@
 * When both the automap and menu are open, the grid will now still rotate in the background if the `am_rotatemode` CVAR is `off`.
 * The player’s path in the automap is no longer reset when vanilla mode is enabled and the `am_path` CVAR is `on`.
 * The timer shown when the `timer` CCMD is used is no longer displayed if vanilla mode is enabled.
-* Only one sound is now heard when confirming selection of the *Nightmare!* skill level.
+* Only one sound is now heard when confirming the selection of the *Nightmare!* skill level.
 
 ---
 

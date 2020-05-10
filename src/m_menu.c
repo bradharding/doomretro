@@ -854,10 +854,9 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-static dboolean M_CheckSaveGame(void)
+static dboolean M_CheckSaveGame(int *ep, int *map)
 {
     FILE    *file = fopen(P_SaveGameFile(itemOn), "rb");
-    int     ep;
     int     mission;
 
     if (!file)
@@ -866,8 +865,8 @@ static dboolean M_CheckSaveGame(void)
     for (int i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(file);
 
-    ep = saveg_read8(file);
-    saveg_read8(file);
+    *ep = saveg_read8(file);
+    *map = saveg_read8(file);
     mission = saveg_read8(file);
     fclose(file);
 
@@ -906,10 +905,10 @@ static dboolean M_CheckSaveGame(void)
     if (mission != gamemission)
         return false;
 
-    if (ep > 1 && gamemode == shareware)
+    if (*ep > 1 && gamemode == shareware)
         return false;
 
-    if (ep > 3 && gamemode == registered)
+    if (*ep > 3 && gamemode == registered)
         return false;
 
     return true;
@@ -1000,7 +999,10 @@ static void M_DrawSaveLoadBorder(int x, int y)
 //
 static void M_LoadSelect(int choice)
 {
-    if (M_CheckSaveGame())
+    int ep;
+    int map;
+
+    if (M_CheckSaveGame(&ep, &map))
     {
         char    name[SAVESTRINGSIZE];
 
@@ -1175,75 +1177,73 @@ void M_UpdateSaveGameName(int i)
             match = true;
         else
         {
-            switch (gamemission)
-            {
-                case doom:
-                    for (int j = 0; j < 9 * 5; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j]))
-                            || M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B)
-                            || M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
+            int ep;
+            int map;
+
+            if (M_CheckSaveGame(&ep, &map))
+                switch (gamemission)
+                {
+                    case doom:
+                        if ((map == 10 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B))
+                            || (map == 11 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
+                            || M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[(ep - 1) * 9 + map - 1])))
                         {
                             match = true;
                             break;
                         }
 
-                    break;
+                        break;
 
-                case doom2:
-                    if (bfgedition)
-                    {
-                        for (int j = 0; j < 33; j++)
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+                    case doom2:
+                        if (bfgedition)
+                        {
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[map - 1])))
                             {
                                 match = true;
                                 break;
                             }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < 32; j++)
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
+                        }
+                        else
+                        {
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[map - 1])))
                             {
                                 match = true;
                                 break;
                             }
-                    }
+                        }
 
-                    break;
+                        break;
 
-                case pack_nerve:
-                    for (int j = 0; j < 9; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
+                    case pack_nerve:
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[map - 1])))
                         {
                             match = true;
                             break;
                         }
 
-                    break;
+                        break;
 
-                case pack_plut:
-                    for (int j = 0; j < 32; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
+                    case pack_plut:
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[map - 1])))
                         {
                             match = true;
                             break;
                         }
 
-                    break;
+                        break;
 
-                case pack_tnt:
-                    for (int j = 0; j < 32; j++)
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
+                    case pack_tnt:
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[map - 1])))
                         {
                             match = true;
                             break;
                         }
 
-                    break;
+                        break;
 
-                default:
-                    break;
-            }
+                    default:
+                        break;
+                }
         }
     }
 
