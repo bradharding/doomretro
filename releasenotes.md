@@ -5,6 +5,7 @@
 * The player’s path in the automap is no longer reset when vanilla mode is enabled and the `am_path` CVAR is `on`.
 * The timer shown when the `timer` CCMD is used is no longer displayed if vanilla mode is enabled.
 * Only one sound is now heard when confirming the selection of the *Nightmare!* skill level.
+* A bug has been fixed whereby the “entering” intermission screen would be displayed at the end of MAP30 in some instances.
 
 ---
 
