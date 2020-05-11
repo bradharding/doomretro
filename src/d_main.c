@@ -318,8 +318,8 @@ void D_Display(void)
             }
 
             if (r_detail == r_detail_low)
-                V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH,
-                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH);
+                V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
+                    (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
         }
 
         HU_Drawer();

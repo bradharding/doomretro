@@ -52,6 +52,9 @@ extern byte *screens[5];
 extern byte *menushadow;
 extern byte *hudhighlight;
 
+extern int  lowpixelwidth;
+extern int  lowpixelheight;
+
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
 
@@ -98,7 +101,7 @@ void V_DrawPagePatch(patch_t *patch);
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow);
 
 void GetPixelSize(dboolean reset);
-void V_LowGraphicDetail(int left, int top, int width, int height);
+void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight);
 void V_InvertScreen(void);
 
 dboolean V_ScreenShot(void);

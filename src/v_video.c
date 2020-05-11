@@ -67,8 +67,8 @@ byte            *hudhighlight;
 static fixed_t  DX, DY;
 static fixed_t  DXI, DYI;
 
-static int      pixelwidth;
-static int      pixelheight;
+int             lowpixelwidth;
+int             lowpixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
 dboolean        r_supersampling = r_supersampling_default;
 
@@ -1475,21 +1475,21 @@ void GetPixelSize(dboolean reset)
         && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT
         && (width >= 2 || height >= 2))
     {
-        pixelwidth = width;
-        pixelheight = height * SCREENWIDTH;
+        lowpixelwidth = width;
+        lowpixelheight = height * SCREENWIDTH;
     }
     else if (reset)
     {
-        pixelwidth = 2;
-        pixelheight = 2 * SCREENWIDTH;
+        lowpixelwidth = 2;
+        lowpixelheight = 2 * SCREENWIDTH;
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
     }
 }
 
-void V_LowGraphicDetail(int left, int top, int width, int height)
+void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    if (pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH)
+    if ((pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH) || menuactive)
     {
         if (r_supersampling)
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
