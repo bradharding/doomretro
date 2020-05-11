@@ -917,7 +917,9 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        if (!(menuactive || paused || consoleactive || freeze))
+        const dboolean  gamepaused = (menuactive || paused || consoleactive || freeze);
+
+        if (!gamepaused)
         {
             int currenttime = I_GetTimeMS();
 
@@ -929,7 +931,7 @@ static void HU_DrawAltHUD(void)
             }
         }
 
-        if (showkey)
+        if (showkey || gamepaused)
         {
             altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
             patch_t     *patch = altkeypic.patch;
