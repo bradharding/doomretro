@@ -559,7 +559,7 @@ static void HU_DrawHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        int neededcard = viewplayer->neededcard;
+        const int   neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
         {
@@ -572,16 +572,12 @@ static void HU_DrawHUD(void)
 
             if (showkey || gamepaused)
                 for (int i = 0; i < NUMCARDS; i++)
-                {
-                    patch = keypics[i].patch;
-
-                    if (viewplayer->cards[i] != i)
+                    if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
                     {
                         keypic_x -= SHORT(patch->width);
                         hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab66);
                         keypic_x -= 5;
                     }
-                }
         }
         else if ((patch = keypics[neededcard].patch))
         {
@@ -918,25 +914,54 @@ static void HU_DrawAltHUD(void)
     if (viewplayer->neededcardflash)
     {
         const dboolean  gamepaused = (menuactive || paused || consoleactive || freeze);
+        const int       neededcard = viewplayer->neededcard;
 
-        if (!gamepaused)
+        if (neededcard == it_allkeys)
         {
-            int currenttime = I_GetTimeMS();
-
-            if (keywait < currenttime)
+            if (!gamepaused)
             {
-                showkey = !showkey;
-                keywait = currenttime + HUD_KEY_WAIT;
-                viewplayer->neededcardflash--;
+                int currenttime = I_GetTimeMS();
+
+                if (keywait < currenttime)
+                {
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
+                }
             }
+
+            if (showkey || gamepaused)
+                for (int i = 0; i < NUMCARDS; i++)
+                    if (viewplayer->cards[i] != i)
+                    {
+                        altkeypic_t altkeypic = altkeypics[i];
+                        patch_t     *patch = altkeypic.patch;
+
+                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                        keypic_x += SHORT(patch->width) + 4;
+                    }
         }
-
-        if (showkey || gamepaused)
+        else
         {
-            altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
-            patch_t     *patch = altkeypic.patch;
+            if (!gamepaused)
+            {
+                int currenttime = I_GetTimeMS();
 
-            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                if (keywait < currenttime)
+                {
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
+                }
+            }
+
+            if (showkey || gamepaused)
+            {
+                altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
+                patch_t     *patch = altkeypic.patch;
+
+                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+            }
         }
     }
     else

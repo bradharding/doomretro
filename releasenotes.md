@@ -10,7 +10,7 @@
 * The times when to update the savegame description if saving a game have been improved.
 * Improvements have been made to the left and right edges of the console when it’s open over the automap.
 * Minor improvements have been made to the widescreen HUD when god mode is enabled.
-* When the player tries to open a door that requires more than one, or any, keycard or skull key that they don’t have, those keys will now flash in the widescreen HUD.
+* When the player tries to open a *BOOM*-compatible door that requires more than one (or any) keycard or skull key that they don’t have, all of those keys will now flash in the widescreen HUD.
 
 ---
 
