@@ -58,11 +58,11 @@ static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
 static SDL_Haptic           *haptic;
 
-int                         gamepadbuttons;
-short                       gamepadthumbLX;
-short                       gamepadthumbLY;
-short                       gamepadthumbRX;
-short                       gamepadthumbRY;
+int                         gamepadbuttons = 0;
+short                       gamepadthumbLX = 0;
+short                       gamepadthumbLY = 0;
+short                       gamepadthumbRX = 0;
+short                       gamepadthumbRY = 0;
 float                       gamepadhorizontalsensitivity;
 float                       gamepadverticalsensitivity;
 short                       gamepadleftdeadzone;
@@ -86,9 +86,7 @@ void I_InitGamepad(void)
         C_Warning(1, "Gamepad support couldn't be initialized.");
     else
     {
-        int numjoysticks = SDL_NumJoysticks();
-
-        for (int i = 0; i < numjoysticks; i++)
+        for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
             {
                 gamecontroller = SDL_GameControllerOpen(i);
@@ -120,12 +118,6 @@ void I_InitGamepad(void)
             SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
         }
     }
-
-    gamepadbuttons = 0;
-    gamepadthumbLX = 0;
-    gamepadthumbLY = 0;
-    gamepadthumbRX = 0;
-    gamepadthumbRY = 0;
 }
 
 void I_ShutdownGamepad(void)

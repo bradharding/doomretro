@@ -449,7 +449,7 @@ static void DoMerge(void)
     // Add PWAD lumps
     current_section = SECTION_NORMAL;
 
-    for (int i = 0, histart; i < pwad.numlumps; i++)
+    for (int i = 0, histart = -1; i < pwad.numlumps; i++)
     {
         lumpinfo_t  *lump = pwad.lumps[i];
 
@@ -488,7 +488,7 @@ static void DoMerge(void)
                 break;
 
             case SECTION_HIDEF:
-                if (!strncasecmp(lump->name, "HI_END", 8))
+                if (!strncasecmp(lump->name, "HI_END", 8) && histart != -1)
                 {
                     int patches = i - histart - 1;
 
