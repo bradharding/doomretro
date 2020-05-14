@@ -3,15 +3,15 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When both the automap and menu are open, the grid will now still rotate in the background if the `am_rotatemode` CVAR is `off`.
+* The menu background will no longer be affected if the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is not `2×2`.
 * The player’s path in the automap is no longer reset when vanilla mode is enabled and the `am_path` CVAR is `on`.
 * The timer shown when the `timer` CCMD is used is no longer displayed if vanilla mode is enabled.
 * Only one sound is now heard when confirming the selection of the *Nightmare!* skill level.
 * A bug has been fixed whereby the “entering” intermission screen would be displayed when exiting MAP30 in some instances.
-* The times when to update the savegame description if saving a game have been improved.
+* When to update the savegame description if saving a game has been improved.
 * Improvements have been made to the left and right edges of the console when it’s open over the automap.
 * Minor improvements have been made to the widescreen HUD when god mode is enabled.
 * When the player tries to open a *BOOM*-compatible door that requires more than one (or any) keycard or skull key that they don’t have, all of those keys will now flash in the widescreen HUD.
-* The menu background will no longer be affected if the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is not `2×2`.
 * The gamepad can now be used again to change monsters during *DOOM II’s* cast sequence.
 
 ---

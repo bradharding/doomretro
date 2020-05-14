@@ -1834,10 +1834,7 @@ static void AM_DrawMarks(void)
         int         temp = number;
         int         digits = 1;
         int         x, y;
-        mpoint_t    point;
-
-        point.x = markpoints[i].x;
-        point.y = markpoints[i].y;
+        mpoint_t    point = { markpoints[i].x, markpoints[i].y };
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -1892,20 +1889,14 @@ static void AM_DrawPath(void)
 {
     if (pathpointnum >= 1)
     {
-        mpoint_t    player;
         mpoint_t    end;
-
-        player.x = viewplayer->mo->x >> FRACTOMAPBITS;
-        player.y = viewplayer->mo->y >> FRACTOMAPBITS;
 
         if (am_rotatemode)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start;
+                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
 
-                start.x = pathpoints[i - 1].x >> FRACTOMAPBITS;
-                start.y = pathpoints[i - 1].y >> FRACTOMAPBITS;
                 end.x = pathpoints[i].x >> FRACTOMAPBITS;
                 end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
@@ -1919,6 +1910,9 @@ static void AM_DrawPath(void)
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
+                mobj_t      *mo = viewplayer->mo;
+                mpoint_t    player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
+
                 AM_RotatePoint(&player);
                 AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
             }
@@ -1927,10 +1921,8 @@ static void AM_DrawPath(void)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start;
+                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
 
-                start.x = pathpoints[i - 1].x >> FRACTOMAPBITS;
-                start.y = pathpoints[i - 1].y >> FRACTOMAPBITS;
                 end.x = pathpoints[i].x >> FRACTOMAPBITS;
                 end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
@@ -1941,7 +1933,11 @@ static void AM_DrawPath(void)
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-                AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
+            {
+                mobj_t  *mo = viewplayer->mo;
+
+                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, pathcolor, putbigdot);
+            }
         }
     }
 }
