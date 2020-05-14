@@ -12,6 +12,7 @@
 * Minor improvements have been made to the widescreen HUD when god mode is enabled.
 * When the player tries to open a *BOOM*-compatible door that requires more than one (or any) keycard or skull key that they don’t have, all of those keys will now flash in the widescreen HUD.
 * The menu background will no longer be affected if the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is not `2×2`.
+* The gamepad can now be used again to change monsters during *DOOM II’s* cast sequence.
 
 ---
 

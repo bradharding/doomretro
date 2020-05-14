@@ -43,6 +43,7 @@
 #include "d_englsh.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
+#include "i_gamepad.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -690,7 +691,7 @@ static dboolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
-    if (ev->type == ev_gamepad && !(ev->data1 & gamepadfire) && !(ev->data1 & gamepaduse))
+    if (ev->type == ev_gamepad && !(gamepadbuttons & gamepadfire) && !(gamepadbuttons & gamepaduse))
         return false;
 
     if (castdeath)
