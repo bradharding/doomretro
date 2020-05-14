@@ -677,7 +677,8 @@ dboolean G_Responder(event_t *ev)
                 keydown = keyboardscreenshot;
                 G_DoScreenShot();
             }
-            else if (ev->data1 != KEY_PAUSE
+            else if (ev->type == ev_keydown
+                && ev->data1 != KEY_PAUSE
                 && ev->data1 != KEY_SHIFT
                 && ev->data1 != KEY_ALT
                 && ev->data1 != KEY_CTRL
