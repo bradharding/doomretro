@@ -487,7 +487,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_tswallcolor, am_tswallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap with no change in\nheight (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_wallcolor, am_wallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
+        "The color of one-sided walls in the automap (<b>0</b> to\n<b>255</b>)."),
     CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo for the player's currently\nequipped weapon."),
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
