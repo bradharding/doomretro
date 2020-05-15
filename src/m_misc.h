@@ -72,6 +72,7 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_TempFile(char *s);
 char *M_StringJoin(char *s, ...);
 dboolean M_StringStartsWith(const char *s, const char *prefix);
+dboolean M_StringStartsWithExact(const char *s, const char *prefix);
 dboolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, int buf_len, const char *s, ...);

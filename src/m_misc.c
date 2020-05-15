@@ -460,6 +460,14 @@ dboolean M_StringStartsWith(const char *s, const char *prefix)
     return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
 
+// Returns true if string begins with the specified prefix.
+dboolean M_StringStartsWithExact(const char *s, const char *prefix)
+{
+    size_t  len = strlen(prefix);
+
+    return (strlen(s) >= len && !strncmp(s, prefix, len));
+}
+
 // Returns true if string ends with the specified suffix.
 dboolean M_StringEndsWith(const char *s, const char *suffix)
 {

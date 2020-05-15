@@ -1863,18 +1863,17 @@ static void M_ChangeMessages(int choice)
     {
         C_StrCVAROutput(stringize(messages), "on");
         C_Output(s_MSGON);
-        message_menu = true;
         HU_SetPlayerMessage(s_MSGON, false, false);
     }
     else
     {
         C_StrCVAROutput(stringize(messages), "off");
         C_Output(s_MSGOFF);
-        message_menu = true;
         HU_SetPlayerMessage(s_MSGOFF, false, false);
     }
 
     message_dontfuckwithme = true;
+    message_menu = true;
     M_SaveCVARs();
 }
 
