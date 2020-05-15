@@ -13,6 +13,7 @@
 * Minor improvements have been made to the widescreen HUD when god mode is enabled.
 * When the player tries to open a *BOOM*-compatible door that requires more than one (or any) keycard or skull key that they don’t have, all of those keys will now flash in the widescreen HUD.
 * The gamepad can now be used again to change monsters during *DOOM II’s* cast sequence.
+* The `2`, `3` and `4` digits used for marks in the automap are now consistent with those used in the console.
 
 ---
 
