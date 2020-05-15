@@ -2912,7 +2912,7 @@ dboolean M_Responder(event_t *ev)
             else
                 M_ShowHelp(0);
 
-            return false;
+            return true;
         }
 
         // Save
@@ -2937,7 +2937,7 @@ dboolean M_Responder(event_t *ev)
                 M_SaveGame(0);
             }
 
-            return false;
+            return true;
         }
 
         // Load
@@ -2961,7 +2961,7 @@ dboolean M_Responder(event_t *ev)
                 M_LoadGame(0);
             }
 
-            return false;
+            return true;
         }
 
         else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4) && !keydown)
@@ -2985,7 +2985,7 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchn);
             }
 
-            return false;
+            return true;
         }
 
         // Toggle graphic detail
@@ -3009,7 +3009,7 @@ dboolean M_Responder(event_t *ev)
                 functionkey = KEY_F6;
 
             M_QuickSave();
-            return false;
+            return true;
         }
 
         // End game
@@ -3020,7 +3020,7 @@ dboolean M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
-            return false;
+            return true;
         }
 
         // Toggle messages
@@ -3040,7 +3040,7 @@ dboolean M_Responder(event_t *ev)
             keydown = key;
             functionkey = KEY_F9;
             M_QuickLoad();
-            return false;
+            return true;
         }
 
         // Quit DOOM Retro
@@ -3051,7 +3051,7 @@ dboolean M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
-            return false;
+            return true;
         }
     }
 
