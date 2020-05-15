@@ -372,8 +372,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             if (gamekeydown[key] && !keydown)
             {
                 keydown = key;
-                cmd->buttons |= BT_CHANGE;
-                cmd->buttons |= i << BT_WEAPONSHIFT;
+                cmd->buttons |= BT_CHANGE | (i << BT_WEAPONSHIFT);
                 break;
             }
             else if (gamepadbuttons & *gamepadweapons[i])
@@ -381,8 +380,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
-                    cmd->buttons |= BT_CHANGE;
-                    cmd->buttons |= i << BT_WEAPONSHIFT;
+                    cmd->buttons |= BT_CHANGE | (i << BT_WEAPONSHIFT);
                     break;
                 }
             }
@@ -418,9 +416,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
 
         // strafe double click
-        bstrafe = mousebuttons[mousestrafe];
-
-        if (bstrafe != dclickstate2 && dclicktime2 > 1)
+        if ((bstrafe = mousebuttons[mousestrafe]) != dclickstate2 && dclicktime2 > 1)
         {
             dclickstate2 = bstrafe;
 
