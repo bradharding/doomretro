@@ -76,7 +76,6 @@ static hu_textline_t    w_title;
 
 dboolean                message_on;
 dboolean                message_dontfuckwithme;
-dboolean                message_menu;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
 
@@ -1016,7 +1015,7 @@ void HU_DrawDisk(void)
 
 void HU_Drawer(void)
 {
-    if (menuactive && !message_menu)
+    if (menuactive)
         return;
 
     if (w_message.l->l[0])
@@ -1046,9 +1045,6 @@ void HU_Drawer(void)
         }
 
         HUlib_DrawSText(&w_message, message_external);
-
-        if (message_menu)
-            return;
     }
 
     if (automapactive)
@@ -1120,11 +1116,10 @@ void HU_Ticker(void)
     const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
     // tic down message counter if message is up
-    if (message_counter && (!menuactive || message_menu) && !idmypos && !--message_counter)
+    if (message_counter && !menuactive && !idmypos && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
-        message_menu = false;
         message_external = false;
     }
 

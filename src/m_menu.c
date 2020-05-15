@@ -122,7 +122,6 @@ int             spindirection;
 static angle_t  playerangle;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
-extern dboolean message_menu;
 
 extern int      st_palette;
 
@@ -1858,22 +1857,26 @@ static void M_Options(int choice)
 static void M_ChangeMessages(int choice)
 {
     messages = !messages;
+    C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
 
-    if (messages)
+    if (!menuactive)
     {
-        C_StrCVAROutput(stringize(messages), "on");
-        C_Output(s_MSGON);
-        HU_SetPlayerMessage(s_MSGON, false, false);
+        if (messages)
+        {
+            C_Output(s_MSGON);
+            HU_SetPlayerMessage(s_MSGON, false, false);
+        }
+        else
+        {
+            C_Output(s_MSGOFF);
+            HU_SetPlayerMessage(s_MSGOFF, false, false);
+        }
+
+        message_dontfuckwithme = true;
     }
     else
-    {
-        C_StrCVAROutput(stringize(messages), "off");
-        C_Output(s_MSGOFF);
-        HU_SetPlayerMessage(s_MSGOFF, false, false);
-    }
+        C_Output(messages ? s_MSGON : s_MSGOFF);
 
-    message_dontfuckwithme = true;
-    message_menu = true;
     M_SaveCVARs();
 }
 
@@ -3742,7 +3745,6 @@ void M_ClearMenus(void)
         return;
 
     menuactive = false;
-    message_menu = false;
     blurtic = -1;
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)

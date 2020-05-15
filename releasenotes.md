@@ -15,6 +15,7 @@
 * The gamepad can now be used again to change monsters during *DOOM II’s* cast sequence.
 * The `2`, `3` and `4` digits used for marks in the automap are now consistent with those displayed in the console.
 * All function keys may now be used while the console is open.
+* A bug has been fixed whereby the widescreen HUD would momentarily disappear when pressing the <kbd>F8</kbd> key to toggle player messages.
 
 ---
 
