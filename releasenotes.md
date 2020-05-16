@@ -1,6 +1,7 @@
 ### DOOM Retro v3.6
 
 * Fixing a bug present in *Vanilla DOOM*, scrolling wall textures (such as the `SP_FACE1` textures in MAP05 of `plutonia.wad`) will now always scroll at the correct speed.
+* A bug has been fixed whereby certain power-ups wouldn’t bob when the `r_floatbob` CVAR was `on`.
 
 ---
 
