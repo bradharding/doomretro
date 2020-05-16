@@ -2634,8 +2634,16 @@ void P_SpawnSpecials(void)
 // killough 3/7/98
 void T_Scroll(scroll_t *s)
 {
-    fixed_t dx = s->dx;
-    fixed_t dy = s->dy;
+    fixed_t     dx = s->dx;
+    fixed_t     dy = s->dy;
+    static int  prevaffectee = -1;
+    static int  prevtime = -1;
+
+    if (prevaffectee == s->affectee && prevtime == gametime)
+        return;
+
+    prevaffectee = s->affectee;
+    prevtime = gametime;
 
     if (s->control != -1)
     {
