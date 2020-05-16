@@ -1,5 +1,5 @@
 [STRINGS]
-VERSION = DOOM Retro v3.6
+VERSION = DOOM Retro v3.5.9
 D_DEVSTR = Development mode ON.
 PRESSKEY = (Press any key to continue.)
 PRESSYN = (Press 'Y' or 'N' to continue.)
@@ -52,7 +52,7 @@ GOTCELLBOX = %s picked up a cell pack.
 GOTSHELLS = %s picked up 4 shotgun shells.
 GOTSHELLSX2 = %s picked up 8 shotgun shells.
 GOTSHELLBOX = %s picked up a box of shotgun shells.
-GOTBACKPACK = %s picked up a backpack full of ammo!
+GOTBACKPACK = %s picked up a backpack!
 GOTBFG9000 = %s picked up a BFG-9000! Oh, yes...
 GOTCHAINGUN = %s picked up a chaingun!
 GOTCHAINSAW = %s picked up a chainsaw! Find some meat!
