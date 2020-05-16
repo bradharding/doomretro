@@ -2608,7 +2608,7 @@ void P_SpawnSpecials(void)
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
-                    sectors[s].sky = (i | PL_SKYFLAT);
+                    sectors[s].sky = i | PL_SKYFLAT;
 
                 break;
         }
@@ -2634,16 +2634,20 @@ void P_SpawnSpecials(void)
 // killough 3/7/98
 void T_Scroll(scroll_t *s)
 {
-    fixed_t     dx = s->dx;
-    fixed_t     dy = s->dy;
-    static int  prevaffectee = -1;
-    static int  prevtime = -1;
+    fixed_t dx = s->dx;
+    fixed_t dy = s->dy;
 
-    if (prevaffectee == s->affectee && prevtime == gametime)
-        return;
+    if (s->type == sc_side)
+    {
+        static int  prevaffectee = -1;
+        static int  prevtime = -1;
 
-    prevaffectee = s->affectee;
-    prevtime = gametime;
+        if (prevaffectee == s->affectee && prevtime == gametime)
+            return;
+
+        prevaffectee = s->affectee;
+        prevtime = gametime;
+    }
 
     if (s->control != -1)
     {
