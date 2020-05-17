@@ -528,6 +528,7 @@ static void I_GetEvent(void)
                 if (event.data1 == KEY_ENTER)
                     enterdown = false;
 #endif
+
                 if (event.data1)
                     D_PostEvent(&event);
 
@@ -558,8 +559,6 @@ static void I_GetEvent(void)
                 keydown = 0;
                 event.type = ev_mousewheel;
                 event.data1 = Event->wheel.y;
-                event.data2 = 0;
-                event.data3 = 0;
                 D_PostEvent(&event);
                 break;
 
