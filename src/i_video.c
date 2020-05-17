@@ -468,7 +468,10 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                 {
-                    int key;
+                    int key = Event->key.keysym.sym;
+
+                    if (key < SDLK_SPACE || key > SDLK_z)
+                        key = 0;
 
                     if (altdown)
                     {
@@ -481,7 +484,7 @@ static void I_GetEvent(void)
                             event.data1 = 0;
                     }
 
-                    if (!isdigit((key = Event->key.keysym.sym)))
+                    if (!isdigit((key)))
                     {
                         idclev = false;
                         idmus = false;

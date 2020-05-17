@@ -2507,9 +2507,9 @@ void M_ChangeGamma(dboolean shift)
 //
 // M_Responder
 //
-int         gamepadwait;
-int         mousewait;
-dboolean    gamepadpress;
+int         gamepadwait = 0;
+int         mousewait = 0;
+dboolean    gamepadpress = false;
 
 dboolean M_Responder(event_t *ev)
 {
