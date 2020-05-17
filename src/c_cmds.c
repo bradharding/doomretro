@@ -1754,19 +1754,21 @@ static void condump_cmd_func2(char *cmd, char *parms)
     char        filename[MAX_PATH];
     const char  *appdatafolder = M_GetAppDataFolder();
 
-    M_MakeDirectory(appdatafolder);
-
     if (!*parms)
     {
-        int count = 0;
+        char    consolefolder[MAX_PATH];
+        int     count = 0;
 
-        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", appdatafolder);
+        M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
+        M_MakeDirectory(consolefolder);
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", consolefolder);
 
         while (M_FileExists(filename))
         {
             char    *temp = commify(++count);
 
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%s).txt", appdatafolder, temp);
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s" DIR_SEPARATOR_S "condump (%s).txt",
+                appdatafolder, consolefolder, temp);
             free(temp);
         }
     }
