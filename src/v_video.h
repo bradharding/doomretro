@@ -40,6 +40,7 @@
 #define __V_VIDEO_H__
 
 #include "r_data.h"
+#include "w_file.h"
 
 //
 // VIDEO
