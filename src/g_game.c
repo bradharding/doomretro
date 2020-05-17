@@ -326,11 +326,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         forward -= (int)(forwardmove[run] * gamepadthumbLYdown);
 
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
-        side = sidemove[run];
+        side += sidemove[run];
     else if (gamepadthumbLX > 0)
     {
         if (gp_thumbsticks == 2)
-            side = (int)(sidemove[run] * gamepadthumbLXright);
+            side += (int)(sidemove[run] * gamepadthumbLXright);
         else
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbLXright * gamepadhorizontalsensitivity);
     }
