@@ -75,6 +75,7 @@
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
+#include "w_file.h"
 #include "w_merge.h"
 #include "w_wad.h"
 #include "wi_stuff.h"
@@ -2069,6 +2070,8 @@ static void D_DoomMainSetup(void)
     }
 
     D_SetSaveGameFolder(true);
+
+    C_Output("Screenshots will be saved in <b>%s</b>.", screenshotfolder);
 
     // Check for -file in shareware
     if (modifiedgame)

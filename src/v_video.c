@@ -72,7 +72,7 @@ int             lowpixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
 dboolean        r_supersampling = r_supersampling_default;
 
-static char     screenshotfolder[MAX_PATH];
+char            screenshotfolder[MAX_PATH];
 
 extern patch_t  *brand;
 extern dboolean vanilla;
@@ -1577,12 +1577,14 @@ void V_Init(void)
     {
         char    *appdatafolder = M_GetAppDataFolder();
 
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots", appdatafolder);
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots\\", appdatafolder);
 
 #if !defined(__APPLE__)
         free(appdatafolder);
 #endif
     }
+
+    M_MakeDirectory(screenshotfolder);
 }
 
 char            lbmname1[MAX_PATH];
@@ -1690,7 +1692,6 @@ dboolean V_ScreenShot(void)
         }
 
         count++;
-        M_MakeDirectory(screenshotfolder);
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s" DIR_SEPARATOR_S "%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
