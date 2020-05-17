@@ -463,15 +463,13 @@ static void I_GetEvent(void)
 
                 event.type = ev_keydown;
                 event.data1 = translatekey[scancode];
-                event.data2 = Event->key.keysym.sym;
-
-                if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
-                    event.data2 = 0;
 
                 altdown = Event->key.keysym.mod & KMOD_ALT;
 
                 if (event.data1)
                 {
+                    int key;
+
                     if (altdown)
                     {
                         if (event.data1 == KEY_F4)
@@ -480,19 +478,16 @@ static void I_GetEvent(void)
                             I_Quit(true);
                         }
                         else if (event.data1 == KEY_TAB)
-                        {
                             event.data1 = 0;
-                            event.data2 = 0;
-                        }
                     }
 
-                    if (!isdigit(event.data2))
+                    if (!isdigit((key = Event->key.keysym.sym)))
                     {
                         idclev = false;
                         idmus = false;
                     }
 
-                    if (idbehold && keys[event.data2])
+                    if (idbehold && key < 255 && keys[key])
                     {
                         idbehold = false;
                         HU_ClearMessages();
