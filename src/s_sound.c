@@ -634,8 +634,10 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
+#if defined(_WIN32)
     if (!serverMidiPlaying && (musmusictype || midimusictype || Mix_GetMusicType(NULL) == MUS_MID))
         return;
+#endif
 
     S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
 }
