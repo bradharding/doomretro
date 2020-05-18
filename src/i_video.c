@@ -484,13 +484,13 @@ static void I_GetEvent(void)
                             event.data1 = 0;
                     }
 
-                    if (!isdigit((key)))
+                    if (!isdigit(key))
                     {
                         idclev = false;
                         idmus = false;
                     }
 
-                    if (idbehold && key < 255 && keys[key])
+                    if (idbehold && keys[key])
                     {
                         idbehold = false;
                         HU_ClearMessages();
