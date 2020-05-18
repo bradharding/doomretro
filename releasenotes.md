@@ -6,6 +6,7 @@
 * A bug has been fixed whereby certain power-ups wouldn’t bob when the `r_floatbob` CVAR was `on`.
 * The player’s ability to [straferun](https://doomwiki.org/wiki/Straferunning) has now been restored.
 * Files created using the `condump` CCMD when no parameter is specified will now be saved in a new `console` folder.
+* The mouse and gamepad can now be used to open the menu from the title screen again.
 
 ---
 

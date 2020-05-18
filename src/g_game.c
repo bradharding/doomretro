@@ -656,7 +656,16 @@ dboolean G_Responder(event_t *ev)
     {
         if (!menuactive
             && !consoleactive
-            && ((ev->type == ev_keydown && !keydown)
+            && ((ev->type == ev_keydown
+                && !keydown
+                && ev->data1 != KEY_PAUSE
+                && ev->data1 != KEY_SHIFT
+                && ev->data1 != KEY_ALT
+                && ev->data1 != KEY_CTRL
+                && ev->data1 != KEY_CAPSLOCK
+                && ev->data1 != KEY_NUMLOCK
+                && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
+                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
             || (ev->type == ev_gamepad
                 && gamepadwait < I_GetTime()
@@ -673,15 +682,7 @@ dboolean G_Responder(event_t *ev)
                 keydown = keyboardscreenshot;
                 G_DoScreenShot();
             }
-            else if (ev->type == ev_keydown
-                && ev->data1 != KEY_PAUSE
-                && ev->data1 != KEY_SHIFT
-                && ev->data1 != KEY_ALT
-                && ev->data1 != KEY_CTRL
-                && ev->data1 != KEY_CAPSLOCK
-                && ev->data1 != KEY_NUMLOCK
-                && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
-                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
+            else
             {
                 keydown = ev->data1;
                 gamepadbuttons = 0;
