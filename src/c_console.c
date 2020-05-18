@@ -767,8 +767,7 @@ void C_ShowConsole(void)
     if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
 
-    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
-
+    S_LowerMusicVolume();
     SDL_StartTextInput();
 }
 

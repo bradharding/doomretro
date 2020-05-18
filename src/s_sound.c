@@ -632,6 +632,14 @@ void S_SetMusicVolume(int volume)
     I_SetMusicVolume(volume);
 }
 
+void S_LowerMusicVolume(void)
+{
+    if (!serverMidiPlaying && (musmusictype || midimusictype || Mix_GetMusicType(NULL) == MUS_MID))
+        return;
+
+    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
+}
+
 void S_SetSfxVolume(int volume)
 {
     snd_SfxVolume = volume;

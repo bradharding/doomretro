@@ -121,6 +121,7 @@ void S_ResumeSound(void);
 void S_UpdateSounds(void);
 
 void S_SetMusicVolume(int volume);
+void S_LowerMusicVolume(void);
 void S_SetSfxVolume(int volume);
 
 dboolean I_AnySoundStillPlaying(void);
