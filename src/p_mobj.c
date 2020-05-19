@@ -116,7 +116,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         // Modified handling.
         // Call action functions when the state is set
         if (st->action)
-            st->action(mobj, viewplayer, psp);
+            st->action(mobj, NULL, NULL);
 
         state = st->nextstate;
     } while (!mobj->tics);
