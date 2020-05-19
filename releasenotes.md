@@ -5,8 +5,9 @@
 * Fixing a bug present in *Vanilla DOOM*, scrolling wall textures (such as the `SP_FACE1` textures in MAP05 of `plutonia.wad`) will now always scroll at the correct speed.
 * A bug has been fixed whereby certain power-ups wouldn’t bob when the `r_floatbob` CVAR was `on`.
 * The player’s ability to [straferun](https://doomwiki.org/wiki/Straferunning) has now been restored.
+* The `A_RandomJump` codepointer now works again if specified in a `DEHACKED` lump.
 * Files created by the `condump` CCMD when no parameter is specified will now be saved in a new `console` folder.
-* The mouse and gamepad can now be used to open the menu from the title screen again.
+* The mouse or a gamepad can now be used to open the menu from the title screen again.
 
 ---
 
