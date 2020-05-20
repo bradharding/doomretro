@@ -2285,7 +2285,7 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             mobj_t  *newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z, type);
 
-            newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
+            newmobj->flags = (newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND);
 
             if (newmobj->flags & MF_COUNTKILL)
             {

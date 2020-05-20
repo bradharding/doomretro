@@ -94,8 +94,6 @@ void P_DelSeclist(msecnode_t *node);
 //
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
-    pspdef_t    *psp = &viewplayer->psprites[ps_weapon];
-
     do
     {
         state_t *st;
