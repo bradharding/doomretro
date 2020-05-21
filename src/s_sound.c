@@ -557,7 +557,7 @@ void S_StartSoundOnce(void *origin, int sfx_id)
 //
 // Stop and resume music, during game PAUSE.
 //
-void S_PauseSound(void)
+void S_PauseMusic(void)
 {
     if (mus_playing && !mus_paused)
     {
@@ -566,7 +566,7 @@ void S_PauseSound(void)
     }
 }
 
-void S_ResumeSound(void)
+void S_ResumeMusic(void)
 {
     if (mus_playing && mus_paused)
     {

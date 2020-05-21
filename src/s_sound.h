@@ -113,8 +113,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 void S_StopMusic(void);
 
 // Stop and resume music, during game PAUSE.
-void S_PauseSound(void);
-void S_ResumeSound(void);
+void S_PauseMusic(void);
+void S_ResumeMusic(void);
 
 //
 // Updates music & sounds

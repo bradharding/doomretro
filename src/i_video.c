@@ -673,7 +673,7 @@ static void I_GetEvent(void)
                             windowfocused = true;
 
                             if (menuactive || consoleactive)
-                                S_ResumeSound();
+                                S_ResumeMusic();
 
                             I_InitKeyboard();
                             break;
@@ -684,7 +684,7 @@ static void I_GetEvent(void)
                             if (gamestate == GS_LEVEL && !paused)
                             {
                                 if (menuactive || consoleactive)
-                                    S_PauseSound();
+                                    S_PauseMusic();
                                 else
                                     sendpause = true;
                             }

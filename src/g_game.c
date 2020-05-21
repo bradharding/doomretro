@@ -928,7 +928,8 @@ void G_Ticker(void)
             case BTS_PAUSE:
                 if ((paused = !paused))
                 {
-                    S_PauseSound();
+                    S_StopSounds();
+                    S_PauseMusic();
                     S_StartSound(NULL, sfx_swtchn);
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(PLAYPAL);
@@ -937,7 +938,7 @@ void G_Ticker(void)
                 }
                 else
                 {
-                    S_ResumeSound();
+                    S_ResumeMusic();
                     S_StartSound(NULL, sfx_swtchx);
                     I_SetPalette(&PLAYPAL[st_palette * 768]);
                 }
@@ -1697,7 +1698,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     if (paused)
     {
         paused = false;
-        S_ResumeSound();
+        S_ResumeMusic();
     }
 
     if (skill > sk_nightmare)

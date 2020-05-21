@@ -3090,7 +3090,7 @@ dboolean M_Responder(event_t *ev)
             if (paused)
             {
                 paused = false;
-                S_ResumeSound();
+                S_ResumeMusic();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
