@@ -10,6 +10,7 @@
 * The mouse or a gamepad can now be used to open the menu from the title screen again.
 * The volume of sound effects will now quickly fade when the menu or console are opened, or the game is paused.
 * Linedefs with the *BOOM*-compatible line special of 190 (“SR Change Texture And Effect”) will now work as intended.
+* The interpolation of floors and ceilings that move instantly has now been fixed when the `vid_capfps` CVAR is greater than `35`.
 
 ---
 
