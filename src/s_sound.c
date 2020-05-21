@@ -280,7 +280,7 @@ void S_StopSounds(void)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo)
-            S_StopChannel(cnum);
+            Mix_FadeOutChannel(cnum, 500);
 }
 
 static int S_GetMusicNum(void)

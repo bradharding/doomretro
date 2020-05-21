@@ -8,6 +8,7 @@
 * The `A_RandomJump` codepointer now works again if specified in a `DEHACKED` lump.
 * Files created by the `condump` CCMD when no parameter is specified will now be saved in a new `console` folder.
 * The mouse or a gamepad can now be used to open the menu from the title screen again.
+* Sound effects now fade when opening the menu or console.
 
 ---
 

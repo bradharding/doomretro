@@ -768,6 +768,7 @@ void C_ShowConsole(void)
         S_StartSound(NULL, sfx_swtchn);
 
     S_LowerMusicVolume();
+    S_StopSounds();
     SDL_StartTextInput();
 }
 
