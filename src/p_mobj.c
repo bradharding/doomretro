@@ -96,27 +96,28 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     do
     {
-        state_t *st;
-
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
             return false;
         }
+        else
+        {
+            state_t *st = &states[state];
 
-        st = &states[state];
-        mobj->state = st;
-        mobj->tics = st->tics;
-        mobj->sprite = st->sprite;
-        mobj->frame = st->frame;
+            mobj->state = st;
+            mobj->tics = st->tics;
+            mobj->sprite = st->sprite;
+            mobj->frame = st->frame;
 
-        // Modified handling.
-        // Call action functions when the state is set
-        if (st->action)
-            st->action(mobj, NULL, NULL);
+            // Modified handling.
+            // Call action functions when the state is set
+            if (st->action)
+                st->action(mobj, NULL, NULL);
 
-        state = st->nextstate;
+            state = st->nextstate;
+        }
     } while (!mobj->tics);
 
     return true;

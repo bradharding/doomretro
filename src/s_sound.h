@@ -71,6 +71,7 @@ void *I_RegisterSong(void *data, int size);
 void I_UnRegisterSong(void *handle);
 void I_PlaySong(void *handle, dboolean looping);
 void I_StopSong(void);
+dboolean I_AnySoundStillPlaying(void);
 
 //
 // Initializes sound stuff, including volume
@@ -123,8 +124,6 @@ void S_UpdateSounds(void);
 void S_SetMusicVolume(int volume);
 void S_LowerMusicVolume(void);
 void S_SetSfxVolume(int volume);
-
-dboolean I_AnySoundStillPlaying(void);
 
 #define MAX_MUS_ENTRIES 64
 
