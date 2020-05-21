@@ -804,6 +804,12 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             break;
 
+        case SR_ChangeTextureAndEffect:
+            if (EV_DoChange(line, trigChangeOnly))
+                P_ChangeSwitchTexture(line, true);
+
+            break;
+
         case SR_Floor_RaiseDonut_ChangesTexture:
             if (EV_DoDonut(line))
                 P_ChangeSwitchTexture(line, true);
