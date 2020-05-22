@@ -63,7 +63,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 {
     fixed_t     oldceilingheight = sector->ceilingheight;
     fixed_t     oldfloorheight = sector->floorheight;
-    dboolean    instant = false;
 
     switch (floororceiling)
     {
@@ -73,7 +72,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                 case DOWN:
                     if (sector->floorheight - speed < dest)
                     {
-                        instant = (oldfloorheight < dest);
                         sector->floorheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -97,7 +95,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     if (sector->floorheight + speed > dest)
                     {
-                        instant = (oldfloorheight > dest);
                         sector->floorheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -134,7 +131,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     if (sector->ceilingheight - speed < dest)
                     {
-                        instant = (oldceilingheight < dest);
                         sector->ceilingheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -166,7 +162,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                 case UP:
                     if (sector->ceilingheight + speed > dest)
                     {
-                        instant = (oldceilingheight > dest);
                         sector->ceilingheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -189,14 +184,11 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
             break;
     }
 
-    if (!instant)
-    {
-        if (!elevator || floororceiling == FLOOR)
-            sector->oldfloorheight = oldfloorheight;
+    if (!elevator || floororceiling == FLOOR)
+        sector->oldfloorheight = oldfloorheight;
 
-        if (!elevator || floororceiling == CEILING)
-            sector->oldceilingheight = oldceilingheight;
-    }
+    if (!elevator || floororceiling == CEILING)
+        sector->oldceilingheight = oldceilingheight;
 
     sector->oldgametime = gametime;
     return ok;
