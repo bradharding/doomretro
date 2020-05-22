@@ -61,8 +61,8 @@
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
     int floororceiling, int direction, dboolean elevator)
 {
-    fixed_t oldceilingheight = sector->ceilingheight;
     fixed_t oldfloorheight = sector->floorheight;
+    fixed_t oldceilingheight = sector->ceilingheight;
 
     switch (floororceiling)
     {

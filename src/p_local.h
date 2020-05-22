@@ -122,13 +122,8 @@ void P_ChangeWeapon(weapontype_t newweapon);
 // Time interval for item respawning.
 #define ITEMQUEUESIZE       512
 
-#define CARDNOTFOUNDYET     -1
+#define CARDNOTFOUNDYET    -1
 #define CARDNOTINMAP        0
-
-extern mapthing_t   itemrespawnque[ITEMQUEUESIZE];
-extern int          itemrespawntime[ITEMQUEUESIZE];
-extern int          iquehead;
-extern int          iquetail;
 
 void P_RespawnSpecials(void);
 
@@ -138,7 +133,7 @@ void P_InitCards(void);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 void P_SetShadowColumnFunction(mobj_t *mobj);
-mobjtype_t P_FindDoomedNum(unsigned int type);
+mobjtype_t P_FindDoomedNum(int type);
 
 void P_RemoveMobj(mobj_t *mobj);
 void P_RemoveBloodMobj(mobj_t *mobj);

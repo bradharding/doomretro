@@ -842,10 +842,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     return mobj;
 }
 
-mapthing_t  itemrespawnque[ITEMQUEUESIZE];
+mapthing_t  itemrespawnqueue[ITEMQUEUESIZE];
 int         itemrespawntime[ITEMQUEUESIZE];
-int         iquehead;
-int         iquetail;
+int         iqueuehead;
+int         iqueuetail;
 
 //
 // P_RemoveMobj
@@ -856,13 +856,13 @@ void P_RemoveMobj(mobj_t *mobj)
 
     if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && mobj->type != MT_INV && mobj->type != MT_INS)
     {
-        itemrespawnque[iquehead] = mobj->spawnpoint;
-        itemrespawntime[iquehead] = leveltime;
-        iquehead = (iquehead + 1) & (ITEMQUEUESIZE - 1);
+        itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
+        itemrespawntime[iqueuehead] = leveltime;
+        iqueuehead = (iqueuehead + 1) & (ITEMQUEUESIZE - 1);
 
         // lose one off the end?
-        if (iquehead == iquetail)
-            iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
+        if (iqueuehead == iqueuetail)
+            iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
     }
 
     // unlink from sector and block lists
@@ -913,7 +913,7 @@ void P_RemoveBloodMobj(mobj_t *mobj)
 // Finds a mobj type with a matching doomednum
 // killough 8/24/98: rewrote to use hashing
 //
-mobjtype_t P_FindDoomedNum(unsigned int type)
+mobjtype_t P_FindDoomedNum(int type)
 {
     static struct
     {
@@ -933,7 +933,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
         for (i = 0; i < NUMMOBJTYPES; i++)
             if (mobjinfo[i].doomednum != -1)
             {
-                unsigned int    h = (unsigned int)mobjinfo[i].doomednum % NUMMOBJTYPES;
+                int    h = mobjinfo[i].doomednum % NUMMOBJTYPES;
 
                 hash[i].next = hash[h].first;
                 hash[h].first = i;
@@ -942,7 +942,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
 
     i = hash[type % NUMMOBJTYPES].first;
 
-    while (i < NUMMOBJTYPES && (unsigned int)mobjinfo[i].doomednum != type)
+    while (i < NUMMOBJTYPES && mobjinfo[i].doomednum != type)
         i = hash[i].next;
 
     return i;
@@ -962,14 +962,14 @@ void P_RespawnSpecials(void)
         return;
 
     // nothing left to respawn?
-    if (iquehead == iquetail)
+    if (iqueuehead == iqueuetail)
         return;
 
     // wait at least 30 seconds
-    if (leveltime - itemrespawntime[iquetail] < 30 * TICRATE)
+    if (leveltime - itemrespawntime[iqueuetail] < 30 * TICRATE)
         return;
 
-    mthing = &itemrespawnque[iquetail];
+    mthing = &itemrespawnqueue[iqueuetail];
 
     // find which type to spawn
     // killough 8/23/98: use table for faster lookup
@@ -992,7 +992,7 @@ void P_RespawnSpecials(void)
         C_Obituary("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // pull it from the queue
-    iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
+    iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
 //
