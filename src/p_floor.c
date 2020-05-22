@@ -311,38 +311,41 @@ void T_MoveFloor(floormove_t *floor)
 void T_MoveElevator(elevator_t *elevator)
 {
     result_e    res;
+    sector_t    *sec = elevator->sector;
 
-    if (elevator->direction < 0)                // moving down
+    if (elevator->direction == DOWN)            // moving down
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
+        res = T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
 
-        // jff 4/7/98 don't move ceil if blocked
+        // jff 4/7/98 don't move ceiling if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
+            T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
     }
     else                                        // up
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
+        res = T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
 
         // jff 4/7/98 don't move floor if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
+            T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
     }
 
     // make floor move sound
-    if (!(leveltime & 7))
-        S_StartSectorSound(&elevator->sector->soundorg, sfx_stnmov);
+    if (!(leveltime & 7)
+        // [BH] don't make sound once elevator is at its destination height
+        && sec->floorheight != elevator->floordestheight)
+        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)                        // if destination height achieved
     {
-        elevator->sector->floordata = NULL;
-        elevator->sector->ceilingdata = NULL;
+        sec->floordata = NULL;
+        sec->ceilingdata = NULL;
         P_RemoveThinker(&elevator->thinker);    // remove elevator from actives
 
         // make floor stop sound
-        S_StartSectorSound(&elevator->sector->soundorg, sfx_pstop);
+        S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
 }
 
