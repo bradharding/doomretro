@@ -218,41 +218,43 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 //
 dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
+    int special;
+
     if (side)
         return false;
 
     // jff 02/04/98 add check here for generalized floor/ceil mover
-    if (line->special >= GenCrusherBase)
+    if ((special = line->special) >= GenCrusherBase && special < GenEnd)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
         dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if (line->special >= GenFloorBase)
+        if (special >= GenFloorBase)
         {
             if (!thing->player)
-                if ((line->special & FloorChange) || !(line->special & FloorModel))
+                if ((special & FloorChange) || !(special & FloorModel))
                     return false;                       // FloorModel is "Allow Monsters" if FloorChange is 0
 
-            if (!line->tag && (line->special & 6) != 6) // jff 2/27/98 all non-manual
+            if (!line->tag && (special & 6) != 6)       // jff 2/27/98 all non-manual
                 return false;                           // generalized types require tag
 
             linefunc = EV_DoGenFloor;
         }
-        else if (line->special >= GenCeilingBase)
+        else if (special >= GenCeilingBase)
         {
             if (!thing->player)
-                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
+                if ((special & CeilingChange) || !(special & CeilingModel))
                     return false;                       // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
             linefunc = EV_DoGenCeiling;
         }
-        else if (line->special >= GenDoorBase)
+        else if (special >= GenDoorBase)
         {
             if (!thing->player)
             {
-                if (!(line->special & DoorMonster))
+                if (!(special & DoorMonster))
                     return false;                       // monsters disallowed from this door
 
                 if (line->flags & ML_SECRET)            // they can't open secret doors either
@@ -261,7 +263,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenDoor;
         }
-        else if (line->special >= GenLockedBase)
+        else if (special >= GenLockedBase)
         {
             if (!thing->player)
                 return false;                           // monsters disallowed from unlocking doors
@@ -271,18 +273,18 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             linefunc = EV_DoGenLockedDoor;
         }
-        else if (line->special >= GenLiftBase)
+        else if (special >= GenLiftBase)
         {
             if (!thing->player)
-                if (!(line->special & LiftMonster))
+                if (!(special & LiftMonster))
                     return false;                       // monsters disallowed
 
             linefunc = EV_DoGenLift;
         }
-        else if (line->special >= GenStairsBase)
+        else if (special >= GenStairsBase)
         {
             if (!thing->player)
-                if (!(line->special & StairMonster))
+                if (!(special & StairMonster))
                     return false;                       // monsters disallowed
 
             linefunc = EV_DoGenStairs;
@@ -290,14 +292,14 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         else
         {
             if (!thing->player)
-                if (!(line->special & CrusherMonster))
+                if (!(special & CrusherMonster))
                     return false;                       // monsters disallowed
 
             linefunc = EV_DoGenCrusher;
         }
 
         if (linefunc)
-            switch ((line->special & TriggerType) >> TriggerTypeShift)
+            switch ((special & TriggerType) >> TriggerTypeShift)
             {
                 case PushOnce:
                     if (linefunc(line))
@@ -334,7 +336,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         if (line->flags & ML_SECRET)
             return false;
 
-        switch (line->special)
+        switch (special)
         {
             case DR_Door_OpenWaitClose_AlsoMonsters:
             case D1_Door_Blue_OpenStay:
@@ -357,7 +359,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         return false;
 
     // do something
-    switch (line->special)
+    switch (special)
     {
         // MANUALS
         case DR_Door_OpenWaitClose_Fast:

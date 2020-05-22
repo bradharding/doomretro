@@ -196,10 +196,9 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
         if (!elevator || floororceiling == CEILING)
             sector->oldceilingheight = oldceilingheight;
-
-        sector->oldgametime = gametime;
     }
 
+    sector->oldgametime = gametime;
     return ok;
 }
 
