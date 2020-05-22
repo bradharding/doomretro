@@ -185,10 +185,14 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
             break;
     }
 
-    if (!elevator || floororceiling == FLOOR)
+    if (!elevator)
+    {
         sector->oldfloorheight = oldfloorheight;
-
-    if (!elevator || floororceiling == CEILING)
+        sector->oldceilingheight = oldceilingheight;
+    }
+    else if (floororceiling == FLOOR)
+        sector->oldfloorheight = oldfloorheight;
+    else
         sector->oldceilingheight = oldceilingheight;
 
     sector->oldgametime = gametime;
