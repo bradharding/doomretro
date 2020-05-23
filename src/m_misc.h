@@ -55,13 +55,13 @@ char *M_ExtractFolder(char *path);
 
 // Returns the file system location where application resource files are located.
 // On Windows and Linux, this is the folder in which doomretro.exe is located;
-// on OSX, this is the Contents/Resources folder within the application bundle.
+// on macOS, this is the Contents/Resources folder within the application bundle.
 char *M_GetResourceFolder(void);
 
 // Returns the file system location where generated application
 // data (configuration files, logs, savegames etc.) should be saved.
 // On Windows and Linux, this is the folder in which doomretro.exe is located;
-// on OSX, this is ~/Library/Application Support/DOOM Retro/.
+// on macOS, this is ~/Library/Application Support/DOOM Retro/.
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);

@@ -36,7 +36,7 @@
 #========================================================================
 #
 
-#[sneakernets] For OSX 32-bit and 64-bit
+# [sneakernets] For macOS 32-bit and 64-bit
 OPTIMIZE = -O2 -m32
 CFLAGS = $(OPTIMIZE) -g `sdl-config --cflags` $(INCLUDES)
 LDFLAGS = -g `sdl-config --libs` -lSDL_mixer -lSDL2_image -framework CoreFoundation

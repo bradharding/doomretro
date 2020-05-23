@@ -171,7 +171,7 @@ char *M_GetAppDataFolder(void)
         closedir(resourcedir);
 
 #if defined(__APPLE__)
-        // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
+        // On macOS, store generated application files in ~/Library/Application Support/DOOM Retro.
         NSFileManager   *manager = [NSFileManager defaultManager];
         NSURL           *baseAppSupportURL = [manager URLsForDirectory : NSApplicationSupportDirectory
                             inDomains : NSUserDomainMask].firstObject;
@@ -214,7 +214,7 @@ char *M_GetResourceFolder(void)
     }
 
 #if defined(__APPLE__)
-    // On OSX, load resources from the Contents/Resources folder within the application bundle
+    // On macOS, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
     NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
 
