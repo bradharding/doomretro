@@ -342,7 +342,9 @@ void T_MoveElevator(elevator_t *elevator)
         P_RemoveThinker(&elevator->thinker);    // remove elevator from actives
 
         // make floor stop sound
-        S_StartSectorSound(&sec->soundorg, sfx_pstop);
+        // [BH] don't make stop sound if floor already at its destination height
+        if (elevator->stopsound)
+            S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
 }
 
@@ -855,6 +857,8 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->direction = (elevator->floordestheight > sec->floorheight ? UP : DOWN);
                 break;
         }
+
+        elevator->stopsound = (sec->floorheight != elevator->floordestheight);
     }
 
     return rtn;

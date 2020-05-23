@@ -545,6 +545,7 @@ typedef struct
     fixed_t     floordestheight;
     fixed_t     ceilingdestheight;
     fixed_t     speed;
+    dboolean    stopsound;
 } elevator_t;
 
 #define ELEVATORSPEED   (FRACUNIT * 4)
