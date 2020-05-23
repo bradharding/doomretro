@@ -216,8 +216,8 @@ void P_MovePlayer(void)
 {
     mobj_t      *mo = viewplayer->mo;
     ticcmd_t    *cmd = &viewplayer->cmd;
-    char        forward = cmd->forwardmove;
-    char        side = cmd->sidemove;
+    signed char forward = cmd->forwardmove;
+    signed char side = cmd->sidemove;
 
     mo->angle += (cmd->angleturn * turbo / 100) << FRACBITS;
 
