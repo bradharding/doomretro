@@ -137,10 +137,6 @@ dboolean            vanilla = false;
 
 char                *version = version_default;
 
-extern char         *packageconfig;
-extern int          st_palette;
-extern int          timer;
-
 const control_t controls[] =
 {
     { "1",             keyboardcontrol, '1'                    }, { "2",             keyboardcontrol, '2'                    },
@@ -3538,7 +3534,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // sort the map list
     for (int i = 0; i < count; i++)
         for (int j = i + 1; j < count; j++)
-            if (strcmp(maplist[i], maplist[j]) > 0)
+            if (M_StringCompare(maplist[i], maplist[j]) > 0)
             {
                 char    temp[256];
 

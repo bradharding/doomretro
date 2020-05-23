@@ -176,10 +176,8 @@ unsigned int    stat_skilllevel_ultraviolence = 0;
 unsigned int    stat_skilllevel_nightmare = 0;
 
 extern int      barrelms;
-extern int      st_palette;
 extern int      logotic;
 extern int      pagetic;
-extern int      timer;
 extern int      countdown;
 
 void G_RemoveChoppers(void)

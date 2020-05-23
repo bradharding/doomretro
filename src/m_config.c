@@ -42,6 +42,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_iwad.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
@@ -52,7 +53,6 @@
 
 static dboolean cvarsloaded;
 
-extern char     *packageconfig;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 

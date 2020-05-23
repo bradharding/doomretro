@@ -87,6 +87,7 @@ void ST_Start(void);
 void ST_Init(void);
 
 extern int      idclevtics;
+extern int      st_palette;
 
 extern patch_t  *grnrock;
 extern patch_t  *brdr_t;

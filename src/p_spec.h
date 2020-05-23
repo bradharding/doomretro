@@ -47,6 +47,7 @@ typedef enum
     lighting_special
 } special_e;
 
+extern int              timer;
 extern fixed_t          animatedliquiddiff;
 extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;

@@ -942,7 +942,7 @@ static void WI_UpdateStats(void)
     }
 }
 
-void M_DrawString(int x, int y, char *str);
+void M_DrawString(int x, int y, char *string);
 
 static void WI_DrawStats(void)
 {

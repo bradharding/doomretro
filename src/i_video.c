@@ -64,6 +64,7 @@
 #include "m_random.h"
 #include "r_main.h"
 #include "s_sound.h"
+#include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -199,7 +200,6 @@ static dboolean     capslock;
 
 evtype_t            lasteventtype = ev_none;
 
-extern int          st_palette;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 

@@ -91,7 +91,7 @@ void M_EndingGame(void);
 void M_ChangeGamma(dboolean shift);
 
 void M_DarkBackground(void);
-void M_DrawCenteredString(int y, char *str);
+void M_DrawCenteredString(int y, char *string);
 
 void M_SetWindowCaption(void);
 

@@ -123,8 +123,6 @@ static angle_t  playerangle;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 
-extern int      st_palette;
-
 extern dboolean dowipe;
 
 extern dboolean skippsprinterp;

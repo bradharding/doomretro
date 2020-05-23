@@ -853,6 +853,7 @@ static void saveg_read_elevator_t(elevator_t *str)
     str->floordestheight = saveg_read32();
     str->ceilingdestheight = saveg_read32();
     str->speed = saveg_read32();
+    //str->stopsound = saveg_read32();
 }
 
 static void saveg_write_elevator_t(elevator_t *str)
@@ -863,6 +864,7 @@ static void saveg_write_elevator_t(elevator_t *str)
     saveg_write32(str->floordestheight);
     saveg_write32(str->ceilingdestheight);
     saveg_write32(str->speed);
+    //saveg_write32(str->stopsound);
 }
 
 static void saveg_read_scroll_t(scroll_t *str)
@@ -987,11 +989,11 @@ dboolean P_ReadSaveGameHeader(char *description)
     memset(vcheck, 0, sizeof(vcheck));
     strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
 
-    if (strcmp(read_vcheck, vcheck))
+    if (M_StringCompare(read_vcheck, vcheck))
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, "This savegame requires <i>%s</i>.", read_vcheck);
+        C_Warning(1, "This savegame was saved using <i>%s</i>.", read_vcheck);
         return false;   // bad version
     }
 
@@ -1013,7 +1015,7 @@ dboolean P_ReadSaveGameHeader(char *description)
         }
     }
 
-    saveg_read8();
+    saveg_read8();      // gamemission
 
     // get the times
     a = saveg_read8();
