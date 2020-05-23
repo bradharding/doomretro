@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_colors.h"
@@ -127,7 +128,6 @@ dboolean            r_translucency = r_translucency_default;
 
 extern int          barrelms;
 extern dboolean     transferredsky;
-extern dboolean     vanilla;
 extern lighttable_t **walllights;
 
 //

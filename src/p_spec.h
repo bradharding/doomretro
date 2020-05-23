@@ -48,6 +48,7 @@ typedef enum
 } special_e;
 
 extern int              timer;
+extern int              countdown;
 extern fixed_t          animatedliquiddiff;
 extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;

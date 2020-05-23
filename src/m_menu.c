@@ -121,10 +121,6 @@ static menu_t   *currentMenu;
 int             spindirection;
 static angle_t  playerangle;
 
-extern patch_t  *hu_font[HU_FONTSIZE];
-
-extern dboolean dowipe;
-
 extern dboolean skippsprinterp;
 
 //
@@ -1128,14 +1124,6 @@ static void M_DoSave(int slot)
 //
 // User wants to save. Start string input for M_Responder
 //
-extern char maptitle[];
-extern char **mapnames[];
-extern char **mapnames2[];
-extern char **mapnames2_bfg[];
-extern char **mapnamesp[];
-extern char **mapnamest[];
-extern char **mapnamesn[];
-
 static char *RemoveMapNum(char *string)
 {
     char    *newstr = M_StringDuplicate(string);

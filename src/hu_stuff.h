@@ -39,6 +39,8 @@
 #if !defined(__HU_STUFF_H__)
 #define __HU_STUFF_H__
 
+#include "r_defs.h"
+
 //
 // Globally visible constants.
 //
@@ -95,6 +97,8 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
+
+extern patch_t  *hu_font[HU_FONTSIZE];
 
 extern int      healthhighlight;
 extern int      ammohighlight;

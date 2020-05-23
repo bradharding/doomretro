@@ -265,8 +265,6 @@ static dboolean cheat_func1(char *cmd, char *parms);
 static dboolean game_func1(char *cmd, char *parms);
 static dboolean null_func1(char *cmd, char *parms);
 
-void alias_cmd_func2(char *cmd, char *parms);
-void bind_cmd_func2(char *cmd, char *parms);
 static void bindlist_cmd_func2(char *cmd, char *parms);
 static void clear_cmd_func2(char *cmd, char *parms);
 static void cmdlist_cmd_func2(char *cmd, char *parms);
@@ -2930,13 +2928,6 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-extern char **mapnames[];
-extern char **mapnames2[];
-extern char **mapnames2_bfg[];
-extern char **mapnamesp[];
-extern char **mapnamest[];
-extern char **mapnamesn[];
-
 static dboolean map_cmd_func1(char *cmd, char *parms)
 {
     if (!*parms)
@@ -3379,8 +3370,6 @@ static void map_cmd_func2(char *cmd, char *parms)
 //
 // maplist CCMD
 //
-extern int  dehcount;
-
 void removemapnum(char *title)
 {
     char *pos = strchr(title, ':');
@@ -7199,8 +7188,6 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 //
 // ammo, armor and health CVARs
 //
-dboolean P_CheckAmmo(weapontype_t weapon);
-
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
     return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL));

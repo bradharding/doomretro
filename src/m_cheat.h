@@ -68,8 +68,6 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
-extern int          leveltime;
-
 extern cheatseq_t   cheat_mus;
 extern cheatseq_t   cheat_mus_xy;
 extern cheatseq_t   cheat_god;

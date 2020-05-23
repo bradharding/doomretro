@@ -491,6 +491,15 @@ extern char     *startup3;
 extern char     *startup4;
 extern char     *startup5;
 
+extern char     **mapnames[];
+extern char     **mapnames2[];
+extern char     **mapnames2_bfg[];
+extern char     **mapnamesp[];
+extern char     **mapnamest[];
+extern char     **mapnamesn[];
+
+extern int      dehcount;
+
 void ProcessDehFile(char *filename, int lumpnum, dboolean automatic);
 
 #endif

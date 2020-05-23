@@ -198,7 +198,6 @@ extern gamestate_t      gamestate;
 extern int              gametime;
 extern struct tm        gamestarttime;
 
-extern int              vid_capfps;
 extern dboolean         realframe;
 
 // Intermission stats.

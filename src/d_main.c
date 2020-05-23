@@ -182,9 +182,6 @@ static dboolean     error;
 
 struct tm           gamestarttime;
 
-extern int          countdown;
-extern evtype_t     lasteventtype;
-
 #if defined(_WIN32)
 extern HANDLE       CapFPSEvent;
 #endif

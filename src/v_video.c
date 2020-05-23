@@ -40,6 +40,7 @@
 
 #include "SDL_image.h"
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -75,7 +76,6 @@ dboolean        r_supersampling = r_supersampling_default;
 char            screenshotfolder[MAX_PATH];
 
 extern patch_t  *brand;
-extern dboolean vanilla;
 
 //
 // V_FillRect

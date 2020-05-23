@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_colors.h"
@@ -94,7 +95,6 @@ extern dboolean         drawbloodsplats;
 extern dboolean         notranslucency;
 extern dboolean         SHT2A0;
 extern dboolean         skippsprinterp;
-extern dboolean         vanilla;
 
 //
 // R_InstallSpriteLump

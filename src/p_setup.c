@@ -2561,19 +2561,10 @@ static void P_CalcSegsLength(void)
     }
 }
 
-char        mapnum[6];
-char        maptitle[256];
-char        mapnumandtitle[512];
-char        automaptitle[512];
-
-extern char **mapnames[45];
-extern char **mapnames2[32];
-extern char **mapnames2_bfg[33];
-extern char **mapnamesp[32];
-extern char **mapnamest[32];
-extern char **mapnamesn[9];
-
-extern int  dehcount;
+char    mapnum[6];
+char    maptitle[256];
+char    mapnumandtitle[512];
+char    automaptitle[512];
 
 // Determine map name to use
 void P_MapName(int ep, int map)

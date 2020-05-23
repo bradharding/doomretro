@@ -39,6 +39,7 @@
 #include <ctype.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -117,7 +118,6 @@ extern int              caretcolor;
 extern patch_t          *faces[ST_NUMFACES];
 extern int              st_faceindex;
 extern dboolean         usemouselook;
-extern dboolean         vanilla;
 
 int M_StringWidth(char *string);
 

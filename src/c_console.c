@@ -57,6 +57,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_spec.h"
 #include "r_main.h"
 #include "s_sound.h"
 #include "st_stuff.h"
@@ -156,13 +157,9 @@ static int              consolecolors[STRINGTYPES];
 
 dboolean                scrollbardrawn;
 
-extern int              countdown;
 extern int              framespersecond;
 extern int              refreshrate;
-extern dboolean         dowipe;
 extern dboolean         quitcmd;
-extern dboolean         vanilla;
-extern dboolean         togglingvanilla;
 
 void C_Input(const char *string, ...)
 {

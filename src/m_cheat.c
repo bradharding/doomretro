@@ -41,6 +41,7 @@
 
 #include "c_console.h"
 #include "doomdef.h"
+#include "doomstat.h"
 #include "m_cheat.h"
 #include "m_misc.h"
 

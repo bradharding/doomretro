@@ -119,5 +119,6 @@ enum
 // GLOBAL VARIABLES
 //
 extern gameaction_t gameaction;
+extern evtype_t     lasteventtype;
 
 #endif

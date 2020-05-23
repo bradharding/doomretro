@@ -178,7 +178,6 @@ unsigned int    stat_skilllevel_nightmare = 0;
 extern int      barrelms;
 extern int      logotic;
 extern int      pagetic;
-extern int      countdown;
 
 void G_RemoveChoppers(void)
 {

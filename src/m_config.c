@@ -53,9 +53,6 @@
 
 static dboolean cvarsloaded;
 
-extern dboolean vanilla;
-extern dboolean togglingvanilla;
-
 #define NUMCVARS                                    184
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
