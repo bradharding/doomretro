@@ -64,8 +64,6 @@ dboolean        autousing = false;
 int             deathcount = 0;
 int             deadlookdir = -1;
 
-extern dboolean usemouselook;
-
 //
 // Movement
 //

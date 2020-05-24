@@ -175,7 +175,6 @@ unsigned int    stat_skilllevel_hurtmeplenty = 0;
 unsigned int    stat_skilllevel_ultraviolence = 0;
 unsigned int    stat_skilllevel_nightmare = 0;
 
-extern int      barrelms;
 extern int      logotic;
 extern int      pagetic;
 
@@ -1618,8 +1617,6 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
 // G_DeferredLoadLevel
 // [BH] Called when the IDCLEV cheat is used.
 //
-extern msecnode_t   *sector_list;
-
 void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
     d_skill = skill;

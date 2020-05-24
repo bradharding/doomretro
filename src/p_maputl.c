@@ -41,8 +41,6 @@
 #include "p_local.h"
 #include "p_setup.h"
 
-extern msecnode_t   *sector_list;   // phares 3/16/98
-
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 
 //

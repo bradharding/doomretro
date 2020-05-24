@@ -45,8 +45,10 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_saveg.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "st_stuff.h"
 #include "version.h"
 #include "z_zone.h"
 

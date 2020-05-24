@@ -39,6 +39,7 @@
 #if !defined(__G_GAME_H__)
 #define __G_GAME_H__
 
+#include "d_event.h"
 #include "i_video.h"
 #include "w_file.h"
 
@@ -108,17 +109,13 @@ extern dboolean gamepadpress;
 extern char     lbmname1[MAX_PATH];
 extern char     lbmpath1[MAX_PATH];
 extern char     lbmpath2[MAX_PATH];
-extern char     mapnum[6];
-extern char     maptitle[256];
-extern char     mapnumandtitle[512];
 extern char     keyactionlist[NUMKEYS][255];
 extern char     mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 extern int      mousewait;
-extern int      keydown;
 extern int      quickSaveSlot;
 extern int      st_facecount;
-extern dboolean oldweaponsowned[NUMWEAPONS];
 extern dboolean skipaction;
 extern char     savename[MAX_PATH];
+extern dboolean usemouselook;
 
 #endif

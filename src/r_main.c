@@ -126,7 +126,6 @@ int                 r_skycolor = r_skycolor_default;
 dboolean            r_textures = r_textures_default;
 dboolean            r_translucency = r_translucency_default;
 
-extern int          barrelms;
 extern dboolean     transferredsky;
 extern lighttable_t **walllights;
 

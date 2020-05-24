@@ -44,6 +44,7 @@
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "hu_lib.h"
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -52,6 +53,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_setup.h"
 #include "r_draw.h"
 #include "r_main.h"
 #include "version.h"
@@ -599,8 +601,6 @@ dboolean V_IsEmptyPatch(patch_t *patch)
 
     return true;
 }
-
-extern byte tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 {
@@ -1591,7 +1591,6 @@ char            lbmname1[MAX_PATH];
 char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
-extern char     maptitle[128];
 extern int      titlesequence;
 
 static dboolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)

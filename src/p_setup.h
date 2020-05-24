@@ -43,6 +43,11 @@ extern dboolean     canmodify;
 extern dboolean     skipblstart;    // MaxW: Skip initial blocklist short
 extern const char   *linespecials[];
 
+extern char         mapnum[6];
+extern char         maptitle[256];
+extern char         mapnumandtitle[512];
+extern char         automaptitle[512];
+
 void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);
 

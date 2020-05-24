@@ -54,6 +54,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -88,8 +89,6 @@ static int              message_counter;
 
 static dboolean         headsupactive;
 
-byte                    tempscreen[SCREENWIDTH * SCREENHEIGHT];
-
 static patch_t          *minuspatch;
 static short            minuspatchwidth;
 static int              minuspatchy;
@@ -117,9 +116,6 @@ extern dboolean         emptytallpercent;
 extern int              caretcolor;
 extern patch_t          *faces[ST_NUMFACES];
 extern int              st_faceindex;
-extern dboolean         usemouselook;
-
-int M_StringWidth(char *string);
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);

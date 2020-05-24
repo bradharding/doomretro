@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
@@ -64,7 +65,6 @@ dboolean        successfulshot;
 dboolean        skippsprinterp;
 
 extern dboolean hitwall;
-extern dboolean usemouselook;
 
 //
 // A_Recoil

@@ -57,6 +57,7 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "st_lib.h"
 #include "st_stuff.h"
@@ -169,7 +170,6 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow);
 static int M_StringHeight(char *string);
 void M_ClearMenus(void);
 
-int M_StringWidth(char *string);
 void M_StartMessage(char *string, void *routine, dboolean input);
 
 //

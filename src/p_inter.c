@@ -51,6 +51,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "st_stuff.h"
 
 // Ty 03/07/98 - add deh externals
 // Maximums and such were hardcoded values. Need to externalize those for

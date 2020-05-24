@@ -76,7 +76,6 @@ int                         restorevibrationstrength;
 
 extern dboolean             idclev;
 extern dboolean             idmus;
-extern dboolean             idbehold;
 
 void I_InitGamepad(void)
 {

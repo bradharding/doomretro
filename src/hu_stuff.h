@@ -103,7 +103,7 @@ extern patch_t  *hu_font[HU_FONTSIZE];
 extern int      healthhighlight;
 extern int      ammohighlight;
 extern int      armorhighlight;
-extern char     automaptitle[133];
 extern dboolean drawdisk;
+extern dboolean idbehold;
 
 #endif

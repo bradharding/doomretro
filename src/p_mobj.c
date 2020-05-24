@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "m_config.h"
@@ -77,11 +78,9 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern fixed_t      animatedliquiddiffs[64];
-extern int          deadlookdir;
-extern int          deathcount;
-extern msecnode_t   *sector_list;   // phares 3/16/98
-extern dboolean     usemouselook;
+extern fixed_t  animatedliquiddiffs[64];
+extern int      deadlookdir;
+extern int      deathcount;
 
 void A_Recoil(weapontype_t weapon);
 void G_PlayerReborn(void);

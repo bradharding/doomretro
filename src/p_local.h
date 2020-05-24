@@ -155,6 +155,8 @@ void P_ExplodeMissile(mobj_t *mo);
 //
 #define BARRELMS    1500
 
+extern int  barrelms;
+
 void P_NoiseAlert(mobj_t *target);
 dboolean P_CheckMeleeRange(mobj_t *actor);
 
@@ -221,17 +223,17 @@ void P_CheckIntercepts(void);
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-extern fixed_t  attackrange;
-extern dboolean floatok;
-extern dboolean felldown;       // killough 11/98: indicates object pushed off ledge
-extern fixed_t  tmfloorz;
-extern fixed_t  tmceilingz;
-extern fixed_t  tmbbox[4];      // phares 3/20/98
+extern fixed_t      attackrange;
+extern dboolean     floatok;
+extern dboolean     felldown;       // killough 11/98: indicates object pushed off ledge
+extern fixed_t      tmfloorz;
+extern fixed_t      tmceilingz;
+extern fixed_t      tmbbox[4];      // phares 3/20/98
+extern msecnode_t   *sector_list;
+extern line_t       *ceilingline;
+extern line_t       *blockline;
 
-extern line_t   *ceilingline;
-extern line_t   *blockline;
-
-extern dboolean infight;
+extern dboolean     infight;
 
 void P_CheckSpechits(void);
 dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);

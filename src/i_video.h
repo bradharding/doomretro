@@ -96,7 +96,6 @@ extern int          keydown;
 
 extern dboolean     idclev;
 extern dboolean     idmus;
-extern dboolean     idbehold;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];

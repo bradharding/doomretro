@@ -92,6 +92,7 @@ void M_ChangeGamma(dboolean shift);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *string);
+int M_StringWidth(char *string);
 
 void M_SetWindowCaption(void);
 

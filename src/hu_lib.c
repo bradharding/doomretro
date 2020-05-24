@@ -42,12 +42,15 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
+#include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
+
+byte            tempscreen[SCREENWIDTH * SCREENHEIGHT];
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;

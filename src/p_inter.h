@@ -57,6 +57,4 @@ void P_UpdateHealthStat(int num);
 void P_UpdateKillStat(mobjtype_t type, int value);
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
 
-extern dboolean oldweaponsowned[NUMWEAPONS];
-
 #endif
