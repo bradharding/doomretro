@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The `TEKWALL1` texture will now appear as it does in *Vanilla DOOM*.
+* The color of bloodsplats now vary slightly.
 
 ---
 
