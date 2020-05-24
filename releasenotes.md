@@ -1,5 +1,8 @@
 ### DOOM Retro v3.5.10
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The `TEKWALL1` texture will now appear as it does in *Vanilla DOOM*.
+
 ---
 
 ###### Saturday, May 23, 2020
