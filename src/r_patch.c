@@ -91,6 +91,7 @@ static short        BIGDOOR7;
 static short        FIREBLU1;
 static short        SKY1;
 static short        STEP2;
+static short        TEKWALL1;
 
 extern int          numspritelumps;
 extern int          numtextures;
@@ -353,7 +354,6 @@ static void createTextureCompositePatch(int id)
     int                 patchNum;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;
-    int                 oy;
     int                 count;
     int                 pixelDataSize;
     int                 columnsDataSize;
@@ -458,6 +458,7 @@ static void createTextureCompositePatch(int id)
 
             while (oldColumn->topdelta != 0xFF)
             {
+                int     oy = texpatch->originy;
                 rpost_t *post = &composite_patch->columns[tx].posts[countsInColumn[tx].posts_used];
 
                 // e6y: support for DeePsea's true tall patches
@@ -470,7 +471,8 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                oy = (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) ? 0 : texpatch->originy);
+                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) || id == TEKWALL1)
+                    oy = 0;
 
                 // set up the post's data
                 post->topdelta = top + oy;
@@ -598,6 +600,7 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
     STEP2 = R_CheckTextureNumForName("STEP2");
+    TEKWALL1 = R_CheckTextureNumForName("TEKWALL1");
 
     for (int i = 0; i < numspritelumps; i++)
         createPatch(firstspritelump + i);
