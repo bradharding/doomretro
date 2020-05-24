@@ -85,7 +85,9 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
+extern dboolean idclev;
 extern int      idclevtics;
+extern dboolean idmus;
 extern int      st_palette;
 extern dboolean oldweaponsowned[NUMWEAPONS];
 

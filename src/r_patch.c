@@ -84,18 +84,16 @@
 //
 
 // Re-engineered patch support
-static rpatch_t     *patches;
-static rpatch_t     *texture_composites;
+static rpatch_t *patches;
+static rpatch_t *texture_composites;
 
-static short        BIGDOOR7;
-static short        FIREBLU1;
-static short        SKY1;
-static short        STEP2;
-static short        TEKWALL1;
+static short    BIGDOOR7;
+static short    FIREBLU1;
+static short    SKY1;
+static short    STEP2;
+static short    TEKWALL1;
 
-extern int          numspritelumps;
-extern int          numtextures;
-extern texture_t    **textures;
+extern int      numspritelumps;
 
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {

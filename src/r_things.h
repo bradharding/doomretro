@@ -53,8 +53,6 @@ extern int64_t  sprtopscreen;
 extern fixed_t  pspritescale;
 extern fixed_t  pspriteiscale;
 
-extern dboolean r_playersprites;
-
 extern short    firstbloodsplatlump;
 
 extern dboolean allowwolfensteinss;

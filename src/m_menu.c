@@ -122,8 +122,6 @@ static menu_t   *currentMenu;
 int             spindirection;
 static angle_t  playerangle;
 
-extern dboolean skippsprinterp;
-
 //
 // PROTOTYPES
 //
@@ -135,8 +133,6 @@ static void M_LoadGame(int choice);
 static void M_SaveGame(int choice);
 static void M_Options(int choice);
 static void M_EndGame(int choice);
-
-void M_QuitDOOM(int choice);
 
 static void M_ChangeMessages(int choice);
 static void M_ChangeSensitivity(int choice);
@@ -168,9 +164,6 @@ static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, dboolean shadow);
 static int M_StringHeight(char *string);
-void M_ClearMenus(void);
-
-void M_StartMessage(char *string, void *routine, dboolean input);
 
 //
 // DOOM MENU

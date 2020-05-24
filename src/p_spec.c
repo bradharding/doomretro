@@ -131,7 +131,6 @@ static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
 extern int          numflats;
-extern texture_t    **textures;
 
 static struct
 {

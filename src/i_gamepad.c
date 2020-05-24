@@ -74,9 +74,6 @@ int                         weaponvibrationtics = 0;
 int                         idlevibrationstrength;
 int                         restorevibrationstrength;
 
-extern dboolean             idclev;
-extern dboolean             idmus;
-
 void I_InitGamepad(void)
 {
     if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)

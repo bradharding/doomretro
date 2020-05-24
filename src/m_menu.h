@@ -102,10 +102,10 @@ int M_CountSaveGames(void);
 void M_StartMessage(char *string, void *routine, dboolean input);
 
 void M_ShowHelp(int choice);
+void M_QuitDOOM(int choice);
 
 extern dboolean messagetoprint;
 
-extern int      gamepadmenu;
 extern dboolean nomusic;
 extern dboolean nosound;
 extern dboolean nosfx;

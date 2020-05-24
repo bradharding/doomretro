@@ -39,6 +39,7 @@
 #include <ctype.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -56,6 +57,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "sc_man.h"
+#include "st_stuff.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -555,8 +557,6 @@ static const char *sectorspecials[] =
     "Damage -10 or 20% health",
     "Light flickers (randomly)"
 };
-
-extern texture_t    **textures;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -2743,9 +2743,6 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
 
     return format;
 }
-
-extern dboolean idclev;
-extern dboolean massacre;
 
 //
 // P_SetupLevel

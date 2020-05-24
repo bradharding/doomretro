@@ -94,7 +94,6 @@ dboolean                r_playersprites = r_playersprites_default;
 extern dboolean         drawbloodsplats;
 extern dboolean         notranslucency;
 extern dboolean         SHT2A0;
-extern dboolean         skippsprinterp;
 
 //
 // R_InstallSpriteLump

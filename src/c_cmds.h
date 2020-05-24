@@ -123,6 +123,7 @@ extern dboolean         executingalias;
 extern dboolean         resettingcvar;
 extern dboolean         vanilla;
 extern dboolean         togglingvanilla;
+extern dboolean         massacre;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);

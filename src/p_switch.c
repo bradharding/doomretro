@@ -55,8 +55,6 @@ static int          numswitches;        // killough
 button_t            *buttonlist = NULL;
 int                 maxbuttons = MAXBUTTONS;
 
-extern texture_t    **textures;
-
 //
 // P_InitSwitchList
 //

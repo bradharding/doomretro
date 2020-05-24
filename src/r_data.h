@@ -142,4 +142,6 @@ int R_CheckTextureNumForName(char *name);
 
 int R_ColormapNumForName(char *name);   // killough 4/4/98
 
+extern texture_t    **textures;
+
 #endif
