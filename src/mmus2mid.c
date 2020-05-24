@@ -41,6 +41,9 @@
 #include "i_system.h"
 #include "mmus2mid.h"
 
+// initial track size allocation
+#define TRACKBUFFERSIZE 1024L
+
 // some macros to decode mus event bit fields
 #define last(e)         ((uint8_t)((e) & 0x80))
 #define event_type(e)   ((uint8_t)(((e) & 0x7F) >> 4))
@@ -94,9 +97,6 @@ typedef struct
 
 // array of info about tracks
 static TrackInfo track[MIDI_TRACKS];
-
-// initial track size allocation
-static uint32_t TRACKBUFFERSIZE = 1024L;
 
 // lookup table MUS -> MID controls
 static uint8_t MUS2MIDcontrol[15] =

@@ -109,7 +109,7 @@ static fixed_t  gamepadangleturn[2] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
-static int *weapon_keys[] =
+static int *keyboardweapons[] =
 {
     &keyboardweapon1,
     &keyboardweapon2,
@@ -363,7 +363,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (!idclev && !idmus)
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
-            int key = *weapon_keys[i];
+            int key = *keyboardweapons[i];
 
             if (gamekeydown[key] && !keydown)
             {

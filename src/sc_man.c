@@ -52,13 +52,12 @@
 char            *sc_String;
 int             sc_Number;
 int             sc_Line;
-dboolean        sc_End;
 
-static char     ScriptName[16];
 static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static int      ScriptLumpNum;
+static dboolean sc_End;
 static dboolean ScriptOpen;
 static dboolean AlreadyGot;
 
@@ -69,7 +68,6 @@ void SC_Open(char *name)
     SC_Close();
     ScriptLumpNum = W_GetNumForName(name);
     ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);
-    M_StringCopy(ScriptName, name, sizeof(ScriptName));
     ScriptPtr = ScriptBuffer;
     ScriptEndPtr = ScriptPtr + W_LumpLength(ScriptLumpNum);
     sc_Line = 1;

@@ -73,7 +73,6 @@ struct lumpinfo_s
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 
-dboolean IsBFGEdition(const char *iwadname);
 dboolean IsUltimateDOOM(const char *iwadname);
 
 char *GetCorrectCase(char *path);
@@ -95,7 +94,6 @@ int W_GetSecondNumForName(const char *name);
 int W_CheckMultipleLumps(const char *name);
 
 int W_LumpLength(int lump);
-void W_ReadLump(int lump, void *dest);
 
 void *W_CacheLumpNum(int lumpnum);
 

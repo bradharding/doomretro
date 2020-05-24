@@ -3370,7 +3370,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 //
 // maplist CCMD
 //
-void removemapnum(char *title)
+static void removemapnum(char *title)
 {
     char *pos = strchr(title, ':');
 

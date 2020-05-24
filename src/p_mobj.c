@@ -841,10 +841,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     return mobj;
 }
 
-mapthing_t  itemrespawnqueue[ITEMQUEUESIZE];
-int         itemrespawntime[ITEMQUEUESIZE];
-int         iqueuehead;
-int         iqueuetail;
+static mapthing_t   itemrespawnqueue[ITEMQUEUESIZE];
+static int          itemrespawntime[ITEMQUEUESIZE];
+static int          iqueuehead;
+static int          iqueuetail;
 
 //
 // P_RemoveMobj

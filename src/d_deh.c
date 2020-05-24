@@ -2851,7 +2851,6 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     int     episode;
     int     level;
     int     partime;
-    int     oldpar;
 
     boomcompatible = true;
 
@@ -2896,10 +2895,8 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                     C_Warning(1, "Invalid MAPxy value MAP%i.", level);
                 else
                 {
-                    oldpar = cpars[level - 1];
-
                     if (devparm)
-                        C_Output("Changed par time for MAP%02d from %i to %i seconds", level, oldpar, partime);
+                        C_Output("Changed par time for MAP%02d from %i to %i seconds", level, cpars[level - 1], partime);
 
                     cpars[level - 1] = partime;
                 }
@@ -2914,11 +2911,10 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                 C_Warning(1, "Invalid ExMy values E%iM%i.", episode, level);
             else
             {
-                oldpar = pars[episode][level];
-                pars[episode][level] = partime;
-
                 if (devparm)
-                    C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, oldpar, partime);
+                    C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, pars[episode][level], partime);
+
+                pars[episode][level] = partime;
             }
         }
     }

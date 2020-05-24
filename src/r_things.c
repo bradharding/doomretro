@@ -1113,7 +1113,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
 //
 // R_DrawPlayerSprites
 //
-void R_DrawPlayerSprites(void)
+static void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
     dboolean    altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);

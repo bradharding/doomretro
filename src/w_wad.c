@@ -107,7 +107,7 @@ static dboolean IsFreedoom(const char *iwadname)
     return result;
 }
 
-dboolean IsBFGEdition(const char *iwadname)
+static dboolean IsBFGEdition(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
@@ -621,7 +621,7 @@ int W_LumpLength(int lump)
 // Loads the lump into the given buffer,
 //  which must be >= W_LumpLength().
 //
-void W_ReadLump(int lump, void *dest)
+static void W_ReadLump(int lump, void *dest)
 {
     size_t      c;
     lumpinfo_t  *l = lumpinfo[lump];

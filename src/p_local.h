@@ -186,7 +186,6 @@ typedef dboolean (*traverser_t)(intercept_t *in);
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line);
 int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld);
-void P_MakeDivline(line_t *li, divline_t *dl);
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 
 // MAES: support 512x512 blockmaps.
@@ -238,7 +237,6 @@ extern dboolean     infight;
 void P_CheckSpechits(void);
 dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 mobj_t *P_CheckOnMobj(mobj_t *thing);
-void P_FakeZMovement(mobj_t *mo);
 dboolean P_IsInLiquid(mobj_t *thing);
 dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff);
 dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);

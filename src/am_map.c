@@ -498,14 +498,14 @@ static dboolean AM_GetSpeedToggle(void)
     return ((!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
 
-void AM_ToggleZoomOut(void)
+static void AM_ToggleZoomOut(void)
 {
     speedtoggle = AM_GetSpeedToggle();
     mtof_zoommul = M_ZOOMOUT;
     ftom_zoommul = M_ZOOMIN;
 }
 
-void AM_ToggleZoomIn(void)
+static void AM_ToggleZoomIn(void)
 {
     speedtoggle = AM_GetSpeedToggle();
     mtof_zoommul = M_ZOOMIN;

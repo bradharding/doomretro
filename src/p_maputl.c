@@ -111,7 +111,7 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 //
 // P_MakeDivline
 //
-void P_MakeDivline(line_t *li, divline_t *dl)
+static void P_MakeDivline(line_t *li, divline_t *dl)
 {
     dl->x = li->v1->x;
     dl->y = li->v1->y;

@@ -39,12 +39,9 @@
 #if !defined(__SC_MAN_H__)
 #define __SC_MAN_H__
 
-extern char     *sc_String;
-extern int      sc_Number;
-extern int      sc_Line;
-extern dboolean sc_End;
-extern dboolean sc_FileScripts;
-extern char     *sc_ScriptsDir;
+extern char *sc_String;
+extern int  sc_Number;
+extern int  sc_Line;
 
 void SC_Open(char *name);
 void SC_Close(void);

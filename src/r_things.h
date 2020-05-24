@@ -60,7 +60,6 @@ extern dboolean allowwolfensteinss;
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);
 void R_ClearSprites(void);
-void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);
 
 #endif

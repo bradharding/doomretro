@@ -77,7 +77,6 @@ extern dboolean         modifiedgame;
 // Defaults for menu, methinks.
 extern skill_t          startskill;
 extern int              startepisode;
-extern int              startmap;
 
 extern dboolean         autostart;
 

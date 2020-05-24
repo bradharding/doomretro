@@ -825,6 +825,57 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 }
 
 //
+// P_FakeZMovement
+//
+static void P_FakeZMovement(mobj_t *mo)
+{
+    // adjust height
+    mo->z += mo->momz;
+
+    if ((mo->flags & MF_FLOAT) && mo->target)
+        // float down towards target if too close
+        if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
+        {
+            fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+
+            if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
+                mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
+        }
+
+    // clip movement
+    if (mo->z <= mo->floorz)
+    {
+        // hit the floor
+        if (mo->flags & MF_SKULLFLY)
+            mo->momz = -mo->momz;       // the skull slammed into something
+
+        if (mo->momz < 0)
+            mo->momz = 0;
+
+        mo->z = mo->floorz;
+    }
+    else if (!(mo->flags & MF_NOGRAVITY))
+    {
+        if (!mo->momz)
+            mo->momz = -GRAVITY;
+
+        mo->momz -= GRAVITY;
+    }
+
+    if (mo->z + mo->height > mo->ceilingz)
+    {
+        // hit the ceiling
+        if (mo->momz > 0)
+            mo->momz = 0;
+
+        if (mo->flags & MF_SKULLFLY)
+            mo->momz = -mo->momz;       // the skull slammed into something
+
+        mo->z = mo->ceilingz - mo->height;
+    }
+}
+
+//
 // P_CheckOnMobj
 // Checks if the new Z position is legal
 //
@@ -886,57 +937,6 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 
     *tmthing = oldmo;
     return NULL;
-}
-
-//
-// P_FakeZMovement
-//
-void P_FakeZMovement(mobj_t *mo)
-{
-    // adjust height
-    mo->z += mo->momz;
-
-    if ((mo->flags & MF_FLOAT) && mo->target)
-        // float down towards target if too close
-        if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
-        {
-            fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
-
-            if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
-                mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
-        }
-
-    // clip movement
-    if (mo->z <= mo->floorz)
-    {
-        // hit the floor
-        if (mo->flags & MF_SKULLFLY)
-            mo->momz = -mo->momz;       // the skull slammed into something
-
-        if (mo->momz < 0)
-            mo->momz = 0;
-
-        mo->z = mo->floorz;
-    }
-    else if (!(mo->flags & MF_NOGRAVITY))
-    {
-        if (!mo->momz)
-            mo->momz = -GRAVITY;
-
-        mo->momz -= GRAVITY;
-    }
-
-    if (mo->z + mo->height > mo->ceilingz)
-    {
-        // hit the ceiling
-        if (mo->momz > 0)
-            mo->momz = 0;
-
-        if (mo->flags & MF_SKULLFLY)
-            mo->momz = -mo->momz;       // the skull slammed into something
-
-        mo->z = mo->ceilingz - mo->height;
-    }
 }
 
 dboolean P_IsInLiquid(mobj_t *thing)

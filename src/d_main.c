@@ -166,7 +166,7 @@ unsigned int        stat_runs = 0;
 
 skill_t             startskill;
 int                 startepisode;
-int                 startmap;
+static int          startmap;
 dboolean            autostart;
 
 dboolean            advancetitle;
