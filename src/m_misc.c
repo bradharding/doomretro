@@ -478,7 +478,7 @@ dboolean M_StringEndsWith(const char *s, const char *suffix)
 }
 
 // Safe, portable vsnprintf().
-int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
+void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {
     int result;
 
@@ -493,24 +493,17 @@ int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
     // If truncated, change the final char in the buffer to a \0.
     // A negative result indicates a truncated buffer on Windows.
     if (result < 0 || result >= buf_len)
-    {
         buf[buf_len - 1] = '\0';
-        result = buf_len - 1;
-    }
-
-    return result;
 }
 
 // Safe, portable snprintf().
-int M_snprintf(char *buf, int buf_len, const char *s, ...)
+void M_snprintf(char *buf, int buf_len, const char *s, ...)
 {
     va_list args;
-    int     result;
 
     va_start(args, s);
-    result = M_vsnprintf(buf, buf_len, s, args);
+    M_vsnprintf(buf, buf_len, s, args);
     va_end(args);
-    return result;
 }
 
 #if !defined(strndup)
