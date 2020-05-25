@@ -480,7 +480,7 @@ dboolean M_StringEndsWith(const char *s, const char *suffix)
 // Safe, portable vsnprintf().
 void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {
-    if (buf_len < 1)
+    if (buf_len >= 1)
     {
         // Windows (and other OSes?) has a vsnprintf() that doesn't always
         // append a trailing \0. So we must do it, and write into a buffer
