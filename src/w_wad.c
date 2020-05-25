@@ -529,8 +529,7 @@ int W_CheckMultipleLumps(const char *name)
 
 //
 // W_RangeCheckNumForName
-// Linear Search that checks for a lump number ONLY
-// inside a range, not all lumps.
+// Linear Search that checks for a lump number ONLY inside a range, not all lumps.
 //
 int W_RangeCheckNumForName(int min, int max, const char *name)
 {
@@ -594,9 +593,8 @@ int W_GetSecondNumForName(const char *name)
     int i;
 
     for (i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8))
-            if (++count == 2)
-                break;
+        if (!strncasecmp(lumpinfo[i]->name, name, 8) && ++count == 2)
+            break;
 
     if (i == numlumps)
         I_Error("W_GetSecondNumForName: %s not found!", name);
@@ -618,8 +616,7 @@ int W_LumpLength(int lump)
 
 //
 // W_ReadLump
-// Loads the lump into the given buffer,
-//  which must be >= W_LumpLength().
+// Loads the lump into the given buffer, which must be >= W_LumpLength().
 //
 static void W_ReadLump(int lump, void *dest)
 {
@@ -629,9 +626,7 @@ static void W_ReadLump(int lump, void *dest)
     if (!l->size || !dest)
         return;
 
-    c = W_Read(l->wadfile, l->position, dest, l->size);
-
-    if (c < (size_t)l->size)
+    if ((c = W_Read(l->wadfile, l->position, dest, l->size)) < (size_t)l->size)
         I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
 }
 

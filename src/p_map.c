@@ -1318,8 +1318,7 @@ static void P_HitSlideLine(line_t *ld)
             deltaangle += ANG180;
 
         lineangle >>= ANGLETOFINESHIFT;
-        deltaangle >>= ANGLETOFINESHIFT;
-        newlen = FixedMul(movelen, finecosine[deltaangle]);
+        newlen = FixedMul(movelen, finecosine[deltaangle >> ANGLETOFINESHIFT]);
         tmxmove = FixedMul(newlen, finecosine[lineangle]);
         tmymove = FixedMul(newlen, finesine[lineangle]);
     }
@@ -1388,35 +1387,31 @@ void P_SlideMove(mobj_t *mo)
     {
         fixed_t leadx, leady;
         fixed_t trailx, traily;
-        int     x, y;
 
         if (!--hitcount)
             goto stairstep;     // don't loop forever
 
         // trace along the three leading corners
-        x = mo->x;
-        y = mo->y;
-
         if (mo->momx > 0)
         {
-            leadx = x + radius;
-            trailx = x - radius;
+            leadx = mo->x + radius;
+            trailx = mo->x - radius;
         }
         else
         {
-            leadx = x - radius;
-            trailx = x + radius;
+            leadx = mo->x - radius;
+            trailx = mo->x + radius;
         }
 
         if (mo->momy > 0)
         {
-            leady = y + radius;
-            traily = y - radius;
+            leady = mo->y + radius;
+            traily = mo->y - radius;
         }
         else
         {
-            leady = y - radius;
-            traily = y + radius;
+            leady = mo->y - radius;
+            traily = mo->y + radius;
         }
 
         bestslidefrac = FRACUNIT + 1;
