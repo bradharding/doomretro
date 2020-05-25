@@ -21,7 +21,6 @@
 		</Build>
 		<Unit filename="../src/Makefile" />
 		<Unit filename="../src/Makefile.osx" />
-		<Unit filename="../src/Makefile.rpi" />
 		<Unit filename="../src/am_map.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -514,7 +514,6 @@
     <None Include="..\src\doomretro.manifest" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.osx" />
-    <None Include="..\src\Makefile.rpi" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
