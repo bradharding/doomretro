@@ -224,9 +224,9 @@ static uint32_t ReadTime(uint8_t **musptrp)
 // Returns the maximum channel number unassigned unless that is 9 in which
 // case 10 is returned.
 //
-static char FirstChannelAvailable(char MUS2MIDchannel[MIDI_TRACKS])
+static char FirstChannelAvailable(signed char MUS2MIDchannel[MIDI_TRACKS])
 {
-    char    max = -1;
+    signed char max = -1;
 
     // find the largest MIDI channel assigned so far
     for (int i = 0; i < 15; i++)
@@ -306,7 +306,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     size_t              muslen;
     static MUSheader    MUSh;
     uint8_t             MIDIchan2track[MIDI_TRACKS];
-    char                MUS2MIDchannel[MIDI_TRACKS];
+    signed char         MUS2MIDchannel[MIDI_TRACKS];
 
     // haleyjd 04/04/10: don't bite off more than you can chew
     if (size < sizeof(MUSheader))
