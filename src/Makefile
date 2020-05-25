@@ -36,7 +36,7 @@
 #========================================================================
 #
 
-OPTFLAGS = -O2
+OPTFLAGS = -O2 -fsigned-char
 CFLAGS = $(OPTFLAGS) -g `sdl2-config --cflags`
 LDFLAGS = -g `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lm
 
