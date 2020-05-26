@@ -1292,14 +1292,14 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
                 return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
-            linefunc = EV_DoGenFloor;
+            linefunc = &EV_DoGenFloor;
         }
         else if (line->special >= GenCeilingBase)
         {
             if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
                 return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
-            linefunc = EV_DoGenCeiling;
+            linefunc = &EV_DoGenCeiling;
         }
         else if (line->special >= GenDoorBase)
         {
@@ -1312,7 +1312,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                     return;
             }
 
-            linefunc = EV_DoGenDoor;
+            linefunc = &EV_DoGenDoor;
         }
         else if (line->special >= GenLockedBase)
         {
@@ -1328,28 +1328,28 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             else
                 return;
 
-            linefunc = EV_DoGenLockedDoor;
+            linefunc = &EV_DoGenLockedDoor;
         }
         else if (line->special >= GenLiftBase)
         {
             if (!thing->player && !(line->special & LiftMonster))
                 return;                         // monsters disallowed
 
-            linefunc = EV_DoGenLift;
+            linefunc = &EV_DoGenLift;
         }
         else if (line->special >= GenStairsBase)
         {
             if (!thing->player && !(line->special & StairMonster))
                 return;                         // monsters disallowed
 
-            linefunc = EV_DoGenStairs;
+            linefunc = &EV_DoGenStairs;
         }
         else if (line->special >= GenCrusherBase)
         {
             if (!thing->player && !(line->special & CrusherMonster))
                 return;                         // monsters disallowed
 
-            linefunc = EV_DoGenCrusher;
+            linefunc = &EV_DoGenCrusher;
         }
 
         // if it was a valid generalized type
@@ -2054,14 +2054,14 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
             return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
-        linefunc = EV_DoGenFloor;
+        linefunc = &EV_DoGenFloor;
     }
     else if (line->special >= GenCeilingBase)
     {
         if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
             return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
-        linefunc = EV_DoGenCeiling;
+        linefunc = &EV_DoGenCeiling;
     }
     else if (line->special >= GenDoorBase)
     {
@@ -2074,7 +2074,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                 return;
         }
 
-        linefunc = EV_DoGenDoor;
+        linefunc = &EV_DoGenDoor;
     }
     else if (line->special >= GenLockedBase)
     {
@@ -2090,28 +2090,28 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         else
             return;
 
-        linefunc = EV_DoGenLockedDoor;
+        linefunc = &EV_DoGenLockedDoor;
     }
     else if (line->special >= GenLiftBase)
     {
         if (!thing->player && !(line->special & LiftMonster))
             return;                         // monsters disallowed
 
-        linefunc = EV_DoGenLift;
+        linefunc = &EV_DoGenLift;
     }
     else if (line->special >= GenStairsBase)
     {
         if (!thing->player && !(line->special & StairMonster))
             return;                         // monsters disallowed
 
-        linefunc = EV_DoGenStairs;
+        linefunc = &EV_DoGenStairs;
     }
     else if (line->special >= GenCrusherBase)
     {
         if (!thing->player && !(line->special & CrusherMonster))
             return;                         // monsters disallowed
 
-        linefunc = EV_DoGenCrusher;
+        linefunc = &EV_DoGenCrusher;
     }
 
     if (linefunc)
@@ -2414,7 +2414,7 @@ dboolean EV_DoDonut(line_t *line)
             // Spawn rising slime
             floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
-            floor->thinker.function = T_MoveFloor;
+            floor->thinker.function = &T_MoveFloor;
             P_AddThinker(&floor->thinker);
 
             s2->floordata = floor;
@@ -2429,7 +2429,7 @@ dboolean EV_DoDonut(line_t *line)
             // Spawn lowering donut-hole
             floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
-            floor->thinker.function = T_MoveFloor;
+            floor->thinker.function = &T_MoveFloor;
             P_AddThinker(&floor->thinker);
 
             s1->floordata = floor;
@@ -2752,7 +2752,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 
     s->affectee = affectee;
 
-    s->thinker.function = T_Scroll;
+    s->thinker.function = &T_Scroll;
     P_AddThinker(&s->thinker);
 }
 
@@ -3035,7 +3035,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
     p->affectee = affectee;
 
-    p->thinker.function = T_Pusher;
+    p->thinker.function = &T_Pusher;
     P_AddThinker(&p->thinker);
 }
 
@@ -3145,7 +3145,7 @@ void T_Pusher(pusher_t *p)
 
         for (int bx = xl; bx <= xh; bx++)
             for (int by = yl; by <= yh; by++)
-                P_BlockThingsIterator(bx, by, PIT_PushThing);
+                P_BlockThingsIterator(bx, by, &PIT_PushThing);
 
         return;
     }

@@ -209,5 +209,5 @@ void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 
 void STLib_Init(void)
 {
-    statbarnumfunc = (!usesmallnums ? STlib_DrawLowNumPatch : (r_detail == r_detail_high ? STlib_DrawHighNum : STlib_DrawLowNum));
+    statbarnumfunc = (!usesmallnums ? &STlib_DrawLowNumPatch : (r_detail == r_detail_high ? &STlib_DrawHighNum : &STlib_DrawLowNum));
 }

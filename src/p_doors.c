@@ -395,7 +395,7 @@ manual_door:
         rtn = true;
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-        door->thinker.function = T_VerticalDoor;
+        door->thinker.function = &T_VerticalDoor;
         P_AddThinker(&door->thinker);
 
         sec->ceilingdata = door;
@@ -639,14 +639,14 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     if (!player)
                         return;
 
-                    if (door->thinker.function == T_VerticalDoor)
+                    if (door->thinker.function == &T_VerticalDoor)
                     {
                         door->direction = -1;   // start going down immediately
 
                         // [BH] play correct door sound
                         S_StartSectorSound(&sec->soundorg, (door->type == doorBlazeRaise ? sfx_bdcls : sfx_dorcls));
                     }
-                    else if (door->thinker.function == T_PlatRaise)
+                    else if (door->thinker.function == &T_PlatRaise)
                     {
                         plat_t  *plat = (plat_t *)door;
 
@@ -676,7 +676,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     // new door thinker
     door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-    door->thinker.function = T_VerticalDoor;
+    door->thinker.function = &T_VerticalDoor;
     P_AddThinker(&door->thinker);
 
     sec->ceilingdata = door;
@@ -739,7 +739,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 {
     vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-    door->thinker.function = T_VerticalDoor;
+    door->thinker.function = &T_VerticalDoor;
     P_AddThinker(&door->thinker);
 
     sec->ceilingdata = door;
@@ -758,7 +758,7 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 {
     vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-    door->thinker.function = T_VerticalDoor;
+    door->thinker.function = &T_VerticalDoor;
     P_AddThinker(&door->thinker);
 
     sec->ceilingdata = door;

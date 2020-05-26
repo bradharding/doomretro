@@ -238,7 +238,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!line->tag && (special & 6) != 6)       // jff 2/27/98 all non-manual
                 return false;                           // generalized types require tag
 
-            linefunc = EV_DoGenFloor;
+            linefunc = &EV_DoGenFloor;
         }
         else if (special >= GenCeilingBase)
         {
@@ -246,7 +246,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if ((special & CeilingChange) || !(special & CeilingModel))
                     return false;                       // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
-            linefunc = EV_DoGenCeiling;
+            linefunc = &EV_DoGenCeiling;
         }
         else if (special >= GenDoorBase)
         {
@@ -259,7 +259,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                     return false;
             }
 
-            linefunc = EV_DoGenDoor;
+            linefunc = &EV_DoGenDoor;
         }
         else if (special >= GenLockedBase)
         {
@@ -269,7 +269,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!P_CanUnlockGenDoor(line))
                 return false;
 
-            linefunc = EV_DoGenLockedDoor;
+            linefunc = &EV_DoGenLockedDoor;
         }
         else if (special >= GenLiftBase)
         {
@@ -277,7 +277,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (!(special & LiftMonster))
                     return false;                       // monsters disallowed
 
-            linefunc = EV_DoGenLift;
+            linefunc = &EV_DoGenLift;
         }
         else if (special >= GenStairsBase)
         {
@@ -285,7 +285,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (!(special & StairMonster))
                     return false;                       // monsters disallowed
 
-            linefunc = EV_DoGenStairs;
+            linefunc = &EV_DoGenStairs;
         }
         else
         {
@@ -293,7 +293,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (!(special & CrusherMonster))
                     return false;                       // monsters disallowed
 
-            linefunc = EV_DoGenCrusher;
+            linefunc = &EV_DoGenCrusher;
         }
 
         if (linefunc)

@@ -256,7 +256,7 @@ static int P_IsUnderDamage(mobj_t *actor)
     {
         const ceiling_t *ceiling = seclist->m_sector->ceilingdata;  // Crushing ceiling
 
-        if (ceiling && ceiling->thinker.function == T_MoveCeiling)
+        if (ceiling && ceiling->thinker.function == &T_MoveCeiling)
             direction |= ceiling->direction;
     }
 
@@ -601,7 +601,7 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
     const int   yh = P_GetSafeBlockY((tmbbox[BOXTOP] = actor->y + actor->radius) - bmaporgy);
     const int   yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = actor->y - actor->radius) - bmaporgy);
 
-    floorz = actor->z;                                      // remember floor height
+    floorz = actor->z;                                          // remember floor height
     dropoff_deltax = 0;
     dropoff_deltay = 0;
 
@@ -610,9 +610,9 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            P_BlockLinesIterator(bx, by, PIT_AvoidDropoff); // all contacted lines
+            P_BlockLinesIterator(bx, by, &PIT_AvoidDropoff);    // all contacted lines
 
-    return (dropoff_deltax | dropoff_deltay);               // Non-zero if movement prescribed
+    return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
 }
 
 //
@@ -1372,7 +1372,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
             for (int by = yl; by <= yh; by++)
             {
                 // Call PIT_VileCheck() to check whether object is a corpse that can be raised.
-                if (!P_BlockThingsIterator(bx, by, PIT_VileCheck))
+                if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck))
                 {
                     // got one!
                     mobj_t      *prevtarget = actor->target;

@@ -254,7 +254,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, PIT_StompThing))
+            if (!P_BlockThingsIterator(bx, by, &PIT_StompThing))
                 return false;
 
     // the move is ok,
@@ -681,7 +681,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockLinesIterator(bx, by, PIT_CrossLine))
+            if (!P_BlockLinesIterator(bx, by, &PIT_CrossLine))
                 return true;
 
     return false;
@@ -798,7 +798,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
+            if (!P_BlockThingsIterator(bx, by, &PIT_CheckThing))
                 return false;
 
     // check lines
@@ -818,7 +818,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockLinesIterator(bx, by, PIT_CheckLine))
+            if (!P_BlockLinesIterator(bx, by, &PIT_CheckLine))
                 return false;
 
     return true;
@@ -929,7 +929,7 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, PIT_CheckOnMobjZ))
+            if (!P_BlockThingsIterator(bx, by, &PIT_CheckOnMobjZ))
             {
                 *tmthing = oldmo;
                 return onmobj;
@@ -1143,7 +1143,7 @@ void P_ApplyTorque(mobj_t *mo)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            P_BlockLinesIterator(bx, by, PIT_ApplyTorque);
+            P_BlockLinesIterator(bx, by, &PIT_ApplyTorque);
 
     // If any momentum, mark object as 'falling' using engine-internal flags
     if (mo->momx | mo->momy)
@@ -1416,9 +1416,9 @@ void P_SlideMove(mobj_t *mo)
 
         bestslidefrac = FRACUNIT + 1;
 
-        P_PathTraverse(leadx, leady, leadx + mo->momx, leady + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
-        P_PathTraverse(trailx, leady, trailx + mo->momx, leady + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
-        P_PathTraverse(leadx, traily, leadx + mo->momx, traily + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
+        P_PathTraverse(leadx, leady, leadx + mo->momx, leady + mo->momy, PT_ADDLINES, &PTR_SlideTraverse);
+        P_PathTraverse(trailx, leady, trailx + mo->momx, leady + mo->momy, PT_ADDLINES, &PTR_SlideTraverse);
+        P_PathTraverse(leadx, traily, leadx + mo->momx, traily + mo->momy, PT_ADDLINES, &PTR_SlideTraverse);
 
         // move up to the wall
         if (bestslidefrac == FRACUNIT + 1)
@@ -1767,7 +1767,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
     // killough 8/2/98: prevent friends from aiming at friends
     aim_flags_mask = mask;
 
-    P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), PTR_AimTraverse);
+    P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), &PTR_AimTraverse);
 
     if (linetarget)
         return aimslope;
@@ -1798,7 +1798,7 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     attackrange = distance;
     aimslope = slope;
 
-    P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), PTR_ShootTraverse);
+    P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), &PTR_ShootTraverse);
 }
 
 //
@@ -1886,8 +1886,8 @@ void P_UseLines(void)
     y2 = y1 + (USERANGE >> FRACBITS) * finesine[angle];
 
     // This added test makes the "oof" sound work on 2s lines -- killough:
-    if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse))
-        if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_NoWayTraverse))
+    if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_UseTraverse))
+        if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_NoWayTraverse))
             if (!autousing)
                 S_StartSound(usething, sfx_noway);
 }
@@ -1990,7 +1990,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticali
 
     for (int y = yl; y <= yh; y++)
         for (int x = xl; x <= xh; x++)
-            P_BlockThingsIterator(x, y, PIT_RadiusAttack);
+            P_BlockThingsIterator(x, y, &PIT_RadiusAttack);
 }
 
 //
@@ -2357,7 +2357,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            P_BlockLinesIterator(bx, by, PIT_GetSectors);
+            P_BlockLinesIterator(bx, by, &PIT_GetSectors);
 
     // Add the sector of the (x,y) point to sector_list.
     sector_list = P_AddSecnode(thing->subsector->sector, thing, sector_list);

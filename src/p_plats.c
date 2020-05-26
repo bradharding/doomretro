@@ -201,7 +201,7 @@ manual_plat:
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
 
-        plat->thinker.function = T_PlatRaise;
+        plat->thinker.function = &T_PlatRaise;
         P_AddThinker(&plat->thinker);
 
         plat->type = type;
@@ -308,7 +308,7 @@ void P_ActivateInStasis(int tag)
         if (plat->tag == tag && plat->status == in_stasis)
         {
             plat->status = (plat->type == toggleUpDn ? (plat->oldstatus == up ? down : up) : plat->oldstatus);
-            plat->thinker.function = T_PlatRaise;
+            plat->thinker.function = &T_PlatRaise;
         }
     }
 }

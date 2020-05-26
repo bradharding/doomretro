@@ -879,7 +879,7 @@ void P_MovePsprites(void)
     if (flash->tics != -1 && !--flash->tics)
         P_SetPsprite(ps_flash, flash->state->nextstate);
 
-    if (weapon->state->action == A_WeaponReady)
+    if (weapon->state->action == &A_WeaponReady)
     {
         // bob the weapon based on movement speed
         fixed_t momx = viewplayer->momx;

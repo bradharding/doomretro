@@ -1328,7 +1328,7 @@ static void M_QuickLoad(void)
     S_StartSound(NULL, sfx_swtchn);
 
     if (M_StringEndsWith(s_QLPROMPT, s_PRESSYN))
-        M_StartMessage(s_QLPROMPT, M_QuickLoadResponse, true);
+        M_StartMessage(s_QLPROMPT, &M_QuickLoadResponse, true);
     else
     {
         static char buffer[160];
@@ -1336,7 +1336,7 @@ static void M_QuickLoad(void)
         M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quickSaveSlot]);
         M_SplitString(buffer);
         M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(buffer, M_QuickLoadResponse, true);
+        M_StartMessage(buffer, &M_QuickLoadResponse, true);
     }
 }
 
@@ -1390,7 +1390,7 @@ static void M_DeleteSavegame(void)
     M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveSlot]);
     M_SplitString(buffer);
     M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
-    M_StartMessage(buffer, M_DeleteSavegameResponse, true);
+    M_StartMessage(buffer, &M_DeleteSavegameResponse, true);
 }
 
 //
@@ -1722,13 +1722,13 @@ static void M_ChooseSkill(int choice)
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
         if (M_StringEndsWith(s_NIGHTMARE, s_PRESSYN))
-            M_StartMessage(s_NIGHTMARE, M_VerifyNightmare, true);
+            M_StartMessage(s_NIGHTMARE, &M_VerifyNightmare, true);
         else
         {
             static char buffer[160];
 
             M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, (usinggamepad ? s_PRESSA : s_PRESSYN));
-            M_StartMessage(buffer, M_VerifyNightmare, true);
+            M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
         return;
@@ -1928,13 +1928,13 @@ static void M_EndGame(int choice)
         return;
 
     if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
-        M_StartMessage(s_ENDGAME, M_EndGameResponse, true);
+        M_StartMessage(s_ENDGAME, &M_EndGameResponse, true);
     else
     {
         static char buffer[160];
 
         M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(buffer, M_EndGameResponse, true);
+        M_StartMessage(buffer, &M_EndGameResponse, true);
     }
 }
 
@@ -2032,7 +2032,7 @@ void M_QuitDOOM(int choice)
 
     M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), OPERATINGSYSTEM);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
-    M_StartMessage(endstring, M_QuitResponse, true);
+    M_StartMessage(endstring, &M_QuitResponse, true);
 }
 
 static void M_SliderSound(void)

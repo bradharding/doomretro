@@ -992,13 +992,13 @@ void I_UpdateBlitFunc(dboolean shake)
     dboolean    override = (vid_fullscreen && !(displayheight % ORIGINALHEIGHT));
 
     if (shake && !software)
-        blitfunc = (vid_showfps ? (nearestlinear && !override ? I_Blit_NearestLinear_ShowFPS_Shake :
-            I_Blit_ShowFPS_Shake) : (nearestlinear && !override ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
+        blitfunc = (vid_showfps ? (nearestlinear && !override ? &I_Blit_NearestLinear_ShowFPS_Shake :
+            &I_Blit_ShowFPS_Shake) : (nearestlinear && !override ? &I_Blit_NearestLinear_Shake : &I_Blit_Shake));
     else
-        blitfunc = (vid_showfps ? (nearestlinear && !override ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
-            (nearestlinear && !override ? I_Blit_NearestLinear : I_Blit));
+        blitfunc = (vid_showfps ? (nearestlinear && !override ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_ShowFPS) :
+            (nearestlinear && !override ? &I_Blit_NearestLinear : &I_Blit));
 
-    mapblitfunc = (mapwindow ? (nearestlinear && !override ? I_Blit_Automap_NearestLinear : I_Blit_Automap) : nullfunc);
+    mapblitfunc = (mapwindow ? (nearestlinear && !override ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
 }
 
 //
@@ -1124,7 +1124,7 @@ void I_CreateExternalAutomap(int outputlevel)
     int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
-    mapblitfunc = nullfunc;
+    mapblitfunc = &nullfunc;
 
     if (!am_external)
         return;
@@ -1176,10 +1176,10 @@ void I_CreateExternalAutomap(int outputlevel)
             SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError(SDL_CreateTexture);
 
-        mapblitfunc = I_Blit_Automap_NearestLinear;
+        mapblitfunc = &I_Blit_Automap_NearestLinear;
     }
     else
-        mapblitfunc = I_Blit_Automap;
+        mapblitfunc = &I_Blit_Automap;
 
     if (!(mappalette = SDL_AllocPalette(256)))
         I_SDLError(SDL_AllocPalette);
@@ -1218,7 +1218,7 @@ void I_DestroyExternalAutomap(void)
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
     mapscreen = NULL;
-    mapblitfunc = nullfunc;
+    mapblitfunc = &nullfunc;
 }
 
 void GetWindowPosition(void)

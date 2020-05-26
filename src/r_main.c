@@ -519,98 +519,98 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        basecolfunc = R_DrawColumn;
-        fuzzcolfunc = R_DrawFuzzColumn;
-        transcolfunc = R_DrawTranslatedColumn;
-        wallcolfunc = R_DrawWallColumn;
-        bmapwallcolfunc = R_DrawBrightMapWallColumn;
-        segcolfunc = R_DrawColumn;
+        basecolfunc = &R_DrawColumn;
+        fuzzcolfunc = &R_DrawFuzzColumn;
+        transcolfunc = &R_DrawTranslatedColumn;
+        wallcolfunc = &R_DrawWallColumn;
+        bmapwallcolfunc = &R_DrawBrightMapWallColumn;
+        segcolfunc = &R_DrawColumn;
 
         if (r_skycolor != r_skycolor_default)
-            skycolfunc = R_DrawSkyColorColumn;
+            skycolfunc = &R_DrawSkyColorColumn;
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
-                R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+                &R_DrawFlippedSkyColumn : &R_DrawSkyColumn);
 
-        spanfunc = R_DrawSpan;
+        spanfunc = &R_DrawSpan;
 
         if (r_translucency)
         {
-            tlcolfunc = R_DrawTranslucentColumn;
-            tl50colfunc = R_DrawTranslucent50Column;
-            tl50segcolfunc = (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column);
-            tl33colfunc = R_DrawTranslucent33Column;
-            tlgreencolfunc = R_DrawTranslucentGreenColumn;
-            tlredcolfunc = R_DrawTranslucentRedColumn;
-            tlredwhitecolfunc1 = R_DrawTranslucentRedWhiteColumn1;
-            tlredwhitecolfunc2 = R_DrawTranslucentRedWhiteColumn2;
-            tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
-            tlbluecolfunc = R_DrawTranslucentBlueColumn;
-            tlgreen33colfunc = R_DrawTranslucentGreen33Column;
-            tlred33colfunc = R_DrawTranslucentRed33Column;
-            tlblue25colfunc = R_DrawTranslucentBlue25Column;
-            tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
-            tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
-            megaspherecolfunc = R_DrawMegaSphereColumn;
-            supershotguncolfunc = R_DrawTranslucentSuperShotgunColumn;
+            tlcolfunc = &R_DrawTranslucentColumn;
+            tl50colfunc = &R_DrawTranslucent50Column;
+            tl50segcolfunc = (r_dither ? &R_DrawDitheredColumn : &R_DrawTranslucent50Column);
+            tl33colfunc = &R_DrawTranslucent33Column;
+            tlgreencolfunc = &R_DrawTranslucentGreenColumn;
+            tlredcolfunc = &R_DrawTranslucentRedColumn;
+            tlredwhitecolfunc1 = &R_DrawTranslucentRedWhiteColumn1;
+            tlredwhitecolfunc2 = &R_DrawTranslucentRedWhiteColumn2;
+            tlredwhite50colfunc = &R_DrawTranslucentRedWhite50Column;
+            tlbluecolfunc = &R_DrawTranslucentBlueColumn;
+            tlgreen33colfunc = &R_DrawTranslucentGreen33Column;
+            tlred33colfunc = &R_DrawTranslucentRed33Column;
+            tlblue25colfunc = &R_DrawTranslucentBlue25Column;
+            tlredtoblue33colfunc = &R_DrawTranslucentRedToBlue33Column;
+            tlredtogreen33colfunc = &R_DrawTranslucentRedToGreen33Column;
+            megaspherecolfunc = &R_DrawMegaSphereColumn;
+            supershotguncolfunc = &R_DrawTranslucentSuperShotgunColumn;
         }
         else
         {
-            tlcolfunc = R_DrawColumn;
-            tl50colfunc = R_DrawColumn;
-            tl50segcolfunc = R_DrawColumn;
-            tl33colfunc = R_DrawColumn;
-            tlgreencolfunc = R_DrawColumn;
-            tlredcolfunc = R_DrawColumn;
-            tlredwhitecolfunc1 = R_DrawColumn;
-            tlredwhitecolfunc2 = R_DrawColumn;
-            tlredwhite50colfunc = R_DrawColumn;
-            tlbluecolfunc = R_DrawColumn;
-            tlgreen33colfunc = R_DrawColumn;
-            tlred33colfunc = R_DrawColumn;
-            tlblue25colfunc = R_DrawColumn;
-            tlredtoblue33colfunc = R_DrawRedToBlueColumn;
-            tlredtogreen33colfunc = R_DrawRedToGreenColumn;
-            megaspherecolfunc = R_DrawSolidMegaSphereColumn;
-            supershotguncolfunc = R_DrawSuperShotgunColumn;
+            tlcolfunc = &R_DrawColumn;
+            tl50colfunc = &R_DrawColumn;
+            tl50segcolfunc = &R_DrawColumn;
+            tl33colfunc = &R_DrawColumn;
+            tlgreencolfunc = &R_DrawColumn;
+            tlredcolfunc = &R_DrawColumn;
+            tlredwhitecolfunc1 = &R_DrawColumn;
+            tlredwhitecolfunc2 = &R_DrawColumn;
+            tlredwhite50colfunc = &R_DrawColumn;
+            tlbluecolfunc = &R_DrawColumn;
+            tlgreen33colfunc = &R_DrawColumn;
+            tlred33colfunc = &R_DrawColumn;
+            tlblue25colfunc = &R_DrawColumn;
+            tlredtoblue33colfunc = &R_DrawRedToBlueColumn;
+            tlredtogreen33colfunc = &R_DrawRedToGreenColumn;
+            megaspherecolfunc = &R_DrawSolidMegaSphereColumn;
+            supershotguncolfunc = &R_DrawSuperShotgunColumn;
         }
 
-        bloodsplatcolfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
-        redtobluecolfunc = R_DrawRedToBlueColumn;
-        redtogreencolfunc = R_DrawRedToGreenColumn;
-        psprcolfunc = R_DrawPlayerSpriteColumn;
+        bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
+        redtobluecolfunc = &R_DrawRedToBlueColumn;
+        redtogreencolfunc = &R_DrawRedToGreenColumn;
+        psprcolfunc = &R_DrawPlayerSpriteColumn;
     }
     else
     {
-        basecolfunc = R_DrawColorColumn;
-        fuzzcolfunc = R_DrawTranslucentColor50Column;
-        transcolfunc = R_DrawColorColumn;
-        wallcolfunc = R_DrawColorColumn;
-        bmapwallcolfunc = R_DrawColorColumn;
-        segcolfunc = R_DrawColorColumn;
-        skycolfunc = (r_skycolor == r_skycolor_default ? R_DrawColorColumn : R_DrawSkyColorColumn);
-        spanfunc = R_DrawColorSpan;
-        tlcolfunc = R_DrawColorColumn;
-        tl50colfunc = R_DrawColorColumn;
-        tl50segcolfunc = (r_translucency ? (r_dither ? R_DrawDitheredColorColumn : R_DrawTranslucentColor50Column) : R_DrawColorColumn);
-        tl33colfunc = R_DrawColorColumn;
-        tlgreencolfunc = R_DrawColorColumn;
-        tlredcolfunc = R_DrawColorColumn;
-        tlredwhitecolfunc1 = R_DrawColorColumn;
-        tlredwhitecolfunc2 = R_DrawColorColumn;
-        tlredwhite50colfunc = R_DrawColorColumn;
-        tlbluecolfunc = R_DrawColorColumn;
-        tlgreen33colfunc = R_DrawColorColumn;
-        tlred33colfunc = R_DrawColorColumn;
-        tlblue25colfunc = R_DrawColorColumn;
-        tlredtoblue33colfunc = R_DrawColorColumn;
-        tlredtogreen33colfunc = R_DrawColorColumn;
-        bloodsplatcolfunc = R_DrawColorColumn;
-        megaspherecolfunc = R_DrawColorColumn;
-        supershotguncolfunc = R_DrawColorColumn;
-        redtobluecolfunc = R_DrawColorColumn;
-        redtogreencolfunc = R_DrawColorColumn;
-        psprcolfunc = R_DrawColorColumn;
+        basecolfunc = &R_DrawColorColumn;
+        fuzzcolfunc = &R_DrawTranslucentColor50Column;
+        transcolfunc = &R_DrawColorColumn;
+        wallcolfunc = &R_DrawColorColumn;
+        bmapwallcolfunc = &R_DrawColorColumn;
+        segcolfunc = &R_DrawColorColumn;
+        skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
+        spanfunc = &R_DrawColorSpan;
+        tlcolfunc = &R_DrawColorColumn;
+        tl50colfunc = &R_DrawColorColumn;
+        tl50segcolfunc = (r_translucency ? (r_dither ? &R_DrawDitheredColorColumn : &R_DrawTranslucentColor50Column) : R_DrawColorColumn);
+        tl33colfunc = &R_DrawColorColumn;
+        tlgreencolfunc = &R_DrawColorColumn;
+        tlredcolfunc = &R_DrawColorColumn;
+        tlredwhitecolfunc1 = &R_DrawColorColumn;
+        tlredwhitecolfunc2 = &R_DrawColorColumn;
+        tlredwhite50colfunc = &R_DrawColorColumn;
+        tlbluecolfunc = &R_DrawColorColumn;
+        tlgreen33colfunc = &R_DrawColorColumn;
+        tlred33colfunc = &R_DrawColorColumn;
+        tlblue25colfunc = &R_DrawColorColumn;
+        tlredtoblue33colfunc = &R_DrawColorColumn;
+        tlredtogreen33colfunc = &R_DrawColorColumn;
+        bloodsplatcolfunc = &R_DrawColorColumn;
+        megaspherecolfunc = &R_DrawColorColumn;
+        supershotguncolfunc = &R_DrawColorColumn;
+        redtobluecolfunc = &R_DrawColorColumn;
+        redtogreencolfunc = &R_DrawColorColumn;
+        psprcolfunc = &R_DrawColorColumn;
     }
 
     for (int i = 0; i < NUMMOBJTYPES; i++)

@@ -686,11 +686,11 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     for (int count = 0; count < 1000; count++)
     {
         if (flags & PT_ADDLINES)
-            if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
+            if (!P_BlockLinesIterator(mapx, mapy, &PIT_AddLineIntercepts))
                 return false;   // early out
 
         if (flags & PT_ADDTHINGS)
-            if (!P_BlockThingsIterator(mapx, mapy, PIT_AddThingIntercepts))
+            if (!P_BlockThingsIterator(mapx, mapy, &PIT_AddThingIntercepts))
                 return false;   // early out
 
         if (mapx == xt2 && mapy == yt2)
@@ -723,14 +723,14 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
                 // be checked.
                 if (flags & PT_ADDLINES)
                 {
-                    P_BlockLinesIterator(mapx + mapxstep, mapy, PIT_AddLineIntercepts);
-                    P_BlockLinesIterator(mapx, mapy + mapystep, PIT_AddLineIntercepts);
+                    P_BlockLinesIterator(mapx + mapxstep, mapy, &PIT_AddLineIntercepts);
+                    P_BlockLinesIterator(mapx, mapy + mapystep, &PIT_AddLineIntercepts);
                 }
 
                 if (flags & PT_ADDTHINGS)
                 {
-                    P_BlockThingsIterator(mapx + mapxstep, mapy, PIT_AddThingIntercepts);
-                    P_BlockThingsIterator(mapx, mapy + mapystep, PIT_AddThingIntercepts);
+                    P_BlockThingsIterator(mapx + mapxstep, mapy, &PIT_AddThingIntercepts);
+                    P_BlockThingsIterator(mapx, mapy + mapystep, &PIT_AddThingIntercepts);
                 }
 
                 xintercept += xstep;

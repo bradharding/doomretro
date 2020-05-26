@@ -1478,7 +1478,7 @@ static void ST_LoadCallback(char *lumpname, patch_t **variable)
 
 static void ST_LoadGraphics(void)
 {
-    ST_LoadUnloadGraphics(ST_LoadCallback);
+    ST_LoadUnloadGraphics(&ST_LoadCallback);
 }
 
 static void ST_LoadData(void)

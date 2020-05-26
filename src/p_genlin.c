@@ -112,7 +112,7 @@ manual_floor:
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
-        floor->thinker.function = T_MoveFloor;
+        floor->thinker.function = &T_MoveFloor;
         P_AddThinker(&floor->thinker);
 
         sec->floordata = floor;
@@ -314,7 +314,7 @@ manual_ceiling:
         rtn = true;
         ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
 
-        ceiling->thinker.function = T_MoveCeiling;
+        ceiling->thinker.function = &T_MoveCeiling;
         P_AddThinker(&ceiling->thinker);
 
         sec->ceilingdata = ceiling;
@@ -523,7 +523,7 @@ manual_lift:
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
 
-        plat->thinker.function = T_PlatRaise;
+        plat->thinker.function = &T_PlatRaise;
         P_AddThinker(&plat->thinker);
 
         plat->sector = sec;
@@ -681,7 +681,7 @@ manual_stair:
         rtn = true;
         floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
-        floor->thinker.function = T_MoveFloor;
+        floor->thinker.function = &T_MoveFloor;
         P_AddThinker(&floor->thinker);
 
         sec->floordata = floor;
@@ -788,7 +788,7 @@ manual_stair:
                 secnum = newsecnum;
                 floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
-                floor->thinker.function = T_MoveFloor;
+                floor->thinker.function = &T_MoveFloor;
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;
@@ -883,7 +883,7 @@ manual_crusher:
         rtn = true;
         ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
 
-        ceiling->thinker.function = T_MoveCeiling;
+        ceiling->thinker.function = &T_MoveCeiling;
         P_AddThinker(&ceiling->thinker);
 
         sec->ceilingdata = ceiling;     // jff 2/22/98
@@ -991,7 +991,7 @@ manual_locked:
         rtn = true;
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-        door->thinker.function = T_VerticalDoor;
+        door->thinker.function = &T_VerticalDoor;
         P_AddThinker(&door->thinker);
 
         sec->ceilingdata = door;        // jff 2/22/98
@@ -1106,7 +1106,7 @@ manual_door:
         rtn = true;
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
-        door->thinker.function = T_VerticalDoor;
+        door->thinker.function = &T_VerticalDoor;
         P_AddThinker(&door->thinker);
 
         sec->ceilingdata = door;

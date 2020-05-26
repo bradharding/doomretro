@@ -269,7 +269,7 @@ manual_ceiling:
         rtn = true;
         ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
 
-        ceiling->thinker.function = T_MoveCeiling;
+        ceiling->thinker.function = &T_MoveCeiling;
         P_AddThinker(&ceiling->thinker);
 
         sec->ceilingdata = ceiling;
@@ -406,7 +406,7 @@ dboolean P_ActivateInStasisCeiling(line_t *line)
         if (ceiling->tag == line->tag && !ceiling->direction)
         {
             ceiling->direction = ceiling->olddirection;
-            ceiling->thinker.function = T_MoveCeiling;
+            ceiling->thinker.function = &T_MoveCeiling;
             result = true;
         }
     }

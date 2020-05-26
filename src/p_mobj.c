@@ -669,7 +669,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)
+        if (mobj->thinker.function == &P_RemoveThinkerDelayed)
             return;
     }
 
@@ -721,7 +721,7 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function == P_RemoveThinkerDelayed)
+        if (mobj->thinker.function == &P_RemoveThinkerDelayed)
             return;
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
@@ -762,9 +762,9 @@ void P_MobjThinker(mobj_t *mobj)
 void P_SetShadowColumnFunction(mobj_t *mobj)
 {
     if ((mobj->flags & MF_FUZZ) && r_textures)
-        mobj->shadowcolfunc = (r_shadows_translucency ? R_DrawFuzzyShadowColumn : R_DrawSolidFuzzyShadowColumn);
+        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawFuzzyShadowColumn : &R_DrawSolidFuzzyShadowColumn);
     else
-        mobj->shadowcolfunc = (r_shadows_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn);
+        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawShadowColumn : &R_DrawSolidShadowColumn);
 }
 
 //
@@ -835,7 +835,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->oldangle = mobj->angle;
 
-    mobj->thinker.function = (type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
+    mobj->thinker.function = (type == MT_MUSICSOURCE ? &MusInfoThinker : &P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
     return mobj;
@@ -1342,7 +1342,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->z = z + (M_SubRandom() << 10);
 
-    th->thinker.function = P_MobjThinker;
+    th->thinker.function = &P_MobjThinker;
     P_AddThinker(&th->thinker);
 
     // don't make punches spark on the wall
@@ -1424,7 +1424,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->z = BETWEEN(minz, z + (M_SubRandom() << 10), maxz);
 
-        th->thinker.function = P_MobjThinker;
+        th->thinker.function = &P_MobjThinker;
         P_AddThinker(&th->thinker);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);

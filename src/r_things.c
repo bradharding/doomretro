@@ -740,9 +740,9 @@ static void R_ProjectSprite(mobj_t *thing)
     if (thing->flags & MF_FUZZ)
     {
         if (r_blood == r_blood_nofuzz && thing->type == MT_FUZZYBLOOD)
-            vis->colfunc = (r_translucency ? R_DrawTranslucent33Column : R_DrawColumn);
+            vis->colfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
         else if (pausesprites)
-            vis->colfunc = (r_textures ? R_DrawPausedFuzzColumn : thing->colfunc);
+            vis->colfunc = (r_textures ? &R_DrawPausedFuzzColumn : thing->colfunc);
         else
             vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     }
@@ -864,22 +864,22 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (r_blood == r_blood_all)
     {
         vis->blood = splat->blood;
-        vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? R_DrawPausedFuzzColumn : splat->colfunc);
+        vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? &R_DrawPausedFuzzColumn : splat->colfunc);
     }
     else if (r_blood == r_blood_red)
     {
         vis->blood = MT_BLOOD;
-        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
+        vis->colfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
     }
     else if (r_blood == r_blood_nofuzz)
     {
         vis->blood = (splat->colfunc == fuzzcolfunc ? MT_BLOOD : splat->blood);
-        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
+        vis->colfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
     }
     else
     {
         vis->blood = GREENBLOOD;
-        vis->colfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
+        vis->colfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
     }
 
     vis->texturemid = floorheight + FRACUNIT - viewz;

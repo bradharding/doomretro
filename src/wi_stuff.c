@@ -1148,7 +1148,7 @@ static void WI_LoadData(void)
     else
         lnames = Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
 
-    WI_LoadUnloadData(WI_LoadCallback);
+    WI_LoadUnloadData(&WI_LoadCallback);
 
     // These two graphics are special cased because we're sharing
     // them with the status bar code
@@ -1172,7 +1172,7 @@ static void WI_UnloadCallback(char *name, patch_t **variable)
 
 static void WI_UnloadData(void)
 {
-    WI_LoadUnloadData(WI_UnloadCallback);
+    WI_LoadUnloadData(&WI_UnloadCallback);
 }
 
 void WI_Drawer(void)
