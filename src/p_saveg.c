@@ -1522,6 +1522,7 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_plat_t(plat);
                 plat->sector->floordata = plat;
+                plat->thinker.function = T_PlatRaise;
                 P_AddThinker(&plat->thinker);
                 P_AddActivePlat(plat);
                 break;
