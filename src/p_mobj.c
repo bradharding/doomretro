@@ -1072,14 +1072,14 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 // P_SpawnMoreBlood
 // [BH] Spawn blood splats around corpses
 //
-static void P_SpawnMoreBlood(mobj_t *mobj)
+void P_SpawnMoreBlood(mobj_t *mobj)
 {
     int blood = mobjinfo[mobj->blood].blood;
 
     if (blood)
     {
         int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int     max = M_RandomInt(100, 150) + radius;
+        int     max = M_RandomInt(150, 200) + radius;
         fixed_t x = mobj->x;
         fixed_t y = mobj->y;
         fixed_t floorz = mobj->floorz;

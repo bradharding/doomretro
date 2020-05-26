@@ -2704,12 +2704,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                                     P_DamageMobj(thing, NULL, NULL, thing->health, false);
 
                                     if (!(flags & MF_NOBLOOD))
-                                    {
-                                        const int   r = M_RandomInt(-1, 1);
-
-                                        thing->momx += FRACUNIT * r;
-                                        thing->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
-                                    }
+                                        P_SpawnMoreBlood(thing);
 
                                     kills++;
                                 }

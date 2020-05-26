@@ -140,6 +140,7 @@ void P_RemoveBloodMobj(mobj_t *mobj);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
+void P_SpawnMoreBlood(mobj_t *mobj);
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters);
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
