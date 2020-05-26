@@ -351,7 +351,9 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-        P_EquipWeapon(weapon);
+
+        if (weapon != wp_missile && weapon != wp_bfg)
+            P_EquipWeapon(weapon);
     }
 
     return (gaveweapon || gaveammo);

@@ -412,8 +412,6 @@ static void ST_RefreshBackground(void)
     }
 }
 
-extern char cheatkey;
-
 static int ST_CalcPainOffset(void);
 
 // Respond to keyboard input events,

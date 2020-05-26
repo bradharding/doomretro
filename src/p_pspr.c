@@ -188,12 +188,6 @@ dboolean P_CheckAmmo(weapontype_t weapon)
         P_EquipWeapon(wp_pistol);
     else if (viewplayer->weaponowned[wp_chainsaw])
         P_EquipWeapon(wp_chainsaw);
-    else if (viewplayer->weaponowned[wp_missile]
-        && viewplayer->ammo[am_misl] >= weaponinfo[wp_missile].minammo)
-        P_EquipWeapon(wp_missile);
-    else if (viewplayer->weaponowned[wp_bfg]
-        && viewplayer->ammo[am_cell] >= weaponinfo[wp_bfg].minammo)
-        P_EquipWeapon(wp_bfg);
     else
         P_EquipWeapon(wp_fist);
 

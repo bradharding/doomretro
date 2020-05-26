@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The `TEKWALL1` texture will now appear as it does in *Vanilla DOOM*.
 * The colors of bloodsplats now vary slightly.
+* The player will no longer automatically switch to the rocket launcher or BFG-9000 if they either pick them up or run out of ammo for the other weapons.
 
 ---
 
