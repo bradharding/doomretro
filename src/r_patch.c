@@ -91,7 +91,6 @@ static short    BIGDOOR7;
 static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
-static short    TEKWALL1;
 
 extern int      numspritelumps;
 
@@ -469,7 +468,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) || id == TEKWALL1)
+                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame))
                     oy = 0;
 
                 // set up the post's data
@@ -598,7 +597,6 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
     STEP2 = R_CheckTextureNumForName("STEP2");
-    TEKWALL1 = R_CheckTextureNumForName("TEKWALL1");
 
     for (int i = 0; i < numspritelumps; i++)
         createPatch(firstspritelump + i);
