@@ -231,9 +231,6 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    RegisterHotKey(NULL, 1, MOD_ALT, VK_SNAPSHOT);
-    RegisterHotKey(NULL, 2, 0, VK_SNAPSHOT);
-
     // Save the current sticky/toggle/filter key settings so they can be restored them later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
     SystemParametersInfo(SPI_GETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);

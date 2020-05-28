@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
-* The player will no longer automatically switch to the rocket launcher or BFG-9000 if they either pick them up or run out of ammo for the other weapons.
+* The player will no longer automatically switch to the rocket launcher or BFG-9000 if they either pick them up or run out of ammo for all other weapons.
 
 ---
 
