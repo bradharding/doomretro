@@ -308,7 +308,9 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     if (wadfile->type == IWAD)
         bfgedition = IsBFGEdition(filename);
 
-    header.numlumps = LONG(header.numlumps);
+    if (!(header.numlumps = LONG(header.numlumps)))
+        return false;
+
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
     fileinfo = malloc(length);
