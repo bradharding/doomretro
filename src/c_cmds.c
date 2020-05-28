@@ -1434,6 +1434,22 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                             bound = true;
                             C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
+
+#if defined(_WIN32)
+                            if (M_StringCompare(actions[action].action, "+screenshot"))
+                            {
+                                if (keyboardscreenshot == KEY_PRINTSCREEN)
+                                {
+                                    RegisterHotKey(NULL, 1, MOD_ALT, VK_SNAPSHOT);
+                                    RegisterHotKey(NULL, 2, 0, VK_SNAPSHOT);
+                                }
+                                else
+                                {
+                                    UnregisterHotKey(NULL, 1);
+                                    UnregisterHotKey(NULL, 2);
+                                }
+                            }
+#endif
                         }
 
                         break;
