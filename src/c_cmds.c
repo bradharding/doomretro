@@ -3518,7 +3518,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // sort the map list
     for (int i = 0; i < count; i++)
         for (int j = i + 1; j < count; j++)
-            if (M_StringCompare(maplist[i], maplist[j]) > 0)
+            if (strcmp(maplist[i], maplist[j]) > 0)
             {
                 char    temp[256];
 
