@@ -1255,26 +1255,34 @@ void ST_Ticker(void)
 static void ST_DoPaletteStuff(void)
 {
     int palette = 0;
-    int count = viewplayer->damagecount;
 
     if (viewplayer->powers[pw_strength]
         && (viewplayer->pendingweapon == wp_fist
             || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0 && r_berserkintensity)
     {
-        if (viewplayer->bonuscount)
-            palette = STARTBONUSPALS - 1 + MIN((viewplayer->bonuscount + 7) >> 3, NUMBONUSPALS);
+        int bonuscount = viewplayer->bonuscount;
+
+        if (bonuscount)
+            palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else
-            palette = MIN((count >> 3) + (doom4vanilla ? r_berserkintensity + 3 : r_berserkintensity), NUMREDPALS);
+            palette = MIN((viewplayer->damagecount >> 3) + r_berserkintensity + 3 * doom4vanilla, NUMREDPALS);
     }
-    else if (count)
-        palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1));
-    else if (viewplayer->health > 0)
+    else
     {
-        if (viewplayer->bonuscount)
-            palette = STARTBONUSPALS - 1 + MIN((viewplayer->bonuscount + 7) >> 3, NUMBONUSPALS);
-        else if (viewplayer->powers[pw_ironfeet] > STARTFLASHING || (viewplayer->powers[pw_ironfeet] & 8))
-            palette = RADIATIONPAL;
+        int damagecount = viewplayer->damagecount;
+
+        if (damagecount)
+            palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((damagecount + 7) >> 3, NUMREDPALS - 1));
+        else if (viewplayer->health > 0)
+        {
+            int bonuscount = viewplayer->bonuscount;
+
+            if (bonuscount)
+                palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
+            else if (viewplayer->powers[pw_ironfeet] > STARTFLASHING || (viewplayer->powers[pw_ironfeet] & 8))
+                palette = RADIATIONPAL;
+        }
     }
 
     if (palette != st_palette)

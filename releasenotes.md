@@ -4,8 +4,8 @@
 * Minor changes have been made to text that is output to the console.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
-* To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 if either they pick them up or run out of all other ammo.
-* The player’s face will now appear correctly in the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced in a PWAD.
+* To avoid the player accidentally firing them, they will no longer automatically switch to the rocket launcher or BFG-9000 when picking them up or if they run out of all other ammo.
+* The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced in a PWAD.
 
 ---
 
