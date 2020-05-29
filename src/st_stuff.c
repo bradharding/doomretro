@@ -242,9 +242,6 @@ static int                  st_shotguns;
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
 
-// a random number per tic
-static int                  st_randomnumber;
-
 int                         oldhealth = 100;
 
 dboolean                    idclev;
@@ -1190,7 +1187,7 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = st_randomnumber % 3;
+        faceindex = M_Random() % 3;
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
@@ -1230,13 +1227,11 @@ void ST_Ticker(void)
     {
         if (!vid_widescreen)
         {
-            st_randomnumber = M_Random();
             ST_UpdateWidgets();
             st_oldhealth = viewplayer->health;
         }
-        else if (r_hud)
+        else if (r_hud && !r_althud)
         {
-            st_randomnumber = M_Random();
             ST_UpdateFaceWidget();
             st_oldhealth = viewplayer->health;
         }
