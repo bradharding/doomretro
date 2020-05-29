@@ -272,9 +272,6 @@ static patch_t          *colon;
 // 0-9 graphic
 static patch_t          *num[10];
 
-// minus sign
-static patch_t          *wiminus;
-
 // "Finished!" graphics
 static patch_t          *finished;
 
@@ -601,7 +598,6 @@ static int WI_DrawNum(int x, int y, int n, int digits)
     else
     {
         int fontwidth = SHORT(num[0]->width);
-        int neg;
 
         if (digits < 0)
         {
@@ -623,9 +619,6 @@ static int WI_DrawNum(int x, int y, int n, int digits)
             }
         }
 
-        if ((neg = (n < 0)))
-            n = -n;
-
         // draw the new number
         while (digits--)
         {
@@ -635,10 +628,6 @@ static int WI_DrawNum(int x, int y, int n, int digits)
             x -= 2 * (n % 10 == 1);
             n /= 10;
         }
-
-        // draw a minus sign if necessary
-        if (neg)
-            V_DrawPatch((x -= 8), y, 0, wiminus);
 
         return x;
     }
@@ -1089,9 +1078,6 @@ static void WI_LoadUnloadData(load_callback_t callback)
                 }
             }
     }
-
-    // More hacks on minus sign.
-    callback("WIMINUS", &wiminus);
 
     for (int i = 0; i < 10; i++)
     {
