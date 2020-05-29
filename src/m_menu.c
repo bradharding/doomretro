@@ -805,7 +805,7 @@ static void M_ReadSaveStrings(void)
 
         if (!(handle = fopen(name, "rb")))
         {
-            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
+            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[i]));
             LoadGameMenu[i].status = 0;
             continue;
         }
@@ -819,7 +819,7 @@ static void M_ReadSaveStrings(void)
         }
         else
         {
-            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
+            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[i]));
             LoadGameMenu[i].status = 0;
         }
 
@@ -1227,7 +1227,7 @@ void M_UpdateSaveGameName(int i)
 
     if (match)
     {
-        M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
+        M_StringCopy(savegamestrings[i], maptitle, sizeof(savegamestrings[i]));
         len = (int)strlen(savegamestrings[i]);
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
@@ -1258,7 +1258,7 @@ static void M_SaveSelect(int choice)
     SDL_StartTextInput();
     saveStringEnter = true;
     saveSlot = choice;
-    M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
+    M_StringCopy(saveOldString, savegamestrings[saveSlot], sizeof(saveOldString));
     M_UpdateSaveGameName(saveSlot);
     saveCharIndex = (int)strlen(savegamestrings[saveSlot]);
     showcaret = !showcaret;
@@ -2727,7 +2727,7 @@ dboolean M_Responder(event_t *ev)
                     saveStringEnter = false;
                     caretwait = 0;
                     showcaret = false;
-                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, SAVESTRINGSIZE);
+                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, sizeof(savegamestrings[saveSlot]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
 

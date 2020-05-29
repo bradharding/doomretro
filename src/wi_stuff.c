@@ -1215,11 +1215,11 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
 
-    M_StringCopy(mapname, temp, 128);
+    M_StringCopy(mapname, temp, sizeof(mapname));
     free(temp);
 
     P_MapName(wbs->epsd + 1, wbs->next + 1);
-    M_StringCopy(nextmapname, maptitle, 128);
+    M_StringCopy(nextmapname, maptitle, sizeof(nextmapname));
 }
 
 void WI_Start(wbstartstruct_t *wbstartstruct)

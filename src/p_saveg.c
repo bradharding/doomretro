@@ -1008,12 +1008,12 @@ dboolean P_ReadSaveGameHeader(char *description)
         if (gamemap == 10)
         {
             gamemap = 4;
-            M_StringCopy(speciallumpname, "E1M4B", 6);
+            M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
         }
         else if (gamemap == 11)
         {
             gamemap = 8;
-            M_StringCopy(speciallumpname, "E1M8B", 6);
+            M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
         }
     }
 

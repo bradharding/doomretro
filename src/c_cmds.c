@@ -1741,7 +1741,7 @@ void C_DumpConsoleStringToFile(int index)
             for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
                 fputc(' ', condumpfile);
 
-            M_StringCopy(buffer, C_CreateTimeStamp(index), 9);
+            M_StringCopy(buffer, C_CreateTimeStamp(index), sizeof(buffer));
 
             if (strlen(buffer) == 7)
                 fputc(' ', condumpfile);
@@ -3129,16 +3129,16 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
-            M_StringCopy(speciallumpname, "E1M4B", 6);
-            M_StringCopy(mapcmdlump, "E1M4B", 6);
+            M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
+            M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
             result = true;
         }
         else if (M_StringCompare(parm, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
-            M_StringCopy(speciallumpname, "E1M8B", 6);
-            M_StringCopy(mapcmdlump, "E1M8B", 6);
+            M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
+            M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
             result = true;
         }
         else
@@ -3222,7 +3222,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap);
 
                     if (gamemode != shareware && strlen(mapcmdlump) == 5 && mapcmdepisode != -1 && mapcmdmap != -1)
-                        M_StringCopy(speciallumpname, mapcmdlump, 6);
+                        M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
                     else
                         sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
                 }
@@ -3435,7 +3435,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             sscanf(lump, "E%1iM%1iB", &ep, &map);
 
             if (gamemode != shareware && strlen(lump) == 5 && ep != -1 && map != -1)
-                M_StringCopy(speciallumpname, lump, 6);
+                M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
             else
                 sscanf(lump, "E%1iM%1i", &ep, &map);
         }
@@ -3538,9 +3538,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             {
                 char    temp[256];
 
-                M_StringCopy(temp, maplist[i], 256);
-                M_StringCopy(maplist[i], maplist[j], 256);
-                M_StringCopy(maplist[j], temp, 256);
+                M_StringCopy(temp, maplist[i], sizeof(temp));
+                M_StringCopy(maplist[i], maplist[j], sizeof(maplist[i]));
+                M_StringCopy(maplist[j], temp, sizeof(maplist[j]));
             }
 
     // display the map list
@@ -3715,7 +3715,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         char    wadname[MAX_PATH];
         int     wadtype = lumpinfo[i]->wadfile->type;
 
-        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), MAX_PATH);
+        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
 
         C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
             (wadtype == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
