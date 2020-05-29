@@ -69,8 +69,8 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define I_SDLError(func)    I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: " \
-                                "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)    I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: \"%s\".", \
+                                __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #define MAXDISPLAYS         8
 
@@ -1720,7 +1720,7 @@ static void SetVideoMode(dboolean output)
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
                     if (output)
-                        C_Output("The framerate is synced to the display's refresh rate of %iHz.", refreshrate);
+                        C_Output("The framerate is synced with the display's refresh rate of %iHz.", refreshrate);
                 }
                 else
                 {
@@ -1738,7 +1738,7 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            if (vid_capfps)
+            if (vid_capfps < vid_capfps_max)
                 I_CapFPS(vid_capfps);
 
             if (output)
@@ -1746,9 +1746,9 @@ static void SetVideoMode(dboolean output)
                 if (vid_vsync)
                 {
                     if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
-                        C_Warning(1, "Vertical sync can't be enabled in software.");
+                        C_Warning(1, "The framerate can't be synced with the display's refresh rate in software.");
                     else
-                        C_Warning(1, "Vertical sync can't be enabled on this video card.");
+                        C_Warning(1, "The framerate can't be synced with the display's refresh rate using this graphics card.");
                 }
 
                 if (vid_capfps)

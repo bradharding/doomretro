@@ -1,9 +1,10 @@
 ### DOOM Retro v3.5.10
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
-* The player will no longer automatically switch to the rocket launcher or BFG-9000 if they either pick them up or run out of ammo for all other weapons.
+* To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 if either they pick them up or run out of all other ammo.
 * The player’s face will now appear correctly in the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced in a PWAD.
 
 ---
