@@ -303,14 +303,15 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
         I_Error("%s doesn't have an IWAD or PWAD id.", filename);
 
-    wadfile->type = (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
-
-    if (wadfile->type == IWAD)
+    if (!strncmp(header.id, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD"))
+    {
+        wadfile->type = IWAD;
         bfgedition = IsBFGEdition(filename);
+    }
+    else
+        wadfile->type = PWAD;
 
-    if (!(header.numlumps = LONG(header.numlumps)))
-        return false;
-
+    header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
     fileinfo = malloc(length);
@@ -344,24 +345,23 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
     free(temp);
 
-    if (M_StringCompare(leafname(filename), "SIGIL_v1_21.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
-        || M_StringCompare(leafname(filename), "SIGIL.wad"))
+    if (M_StringEndsWith(filename, "SIGIL_v1_21.wad")
+        || M_StringEndsWith(filename, "SIGIL_v1_2.wad")
+        || M_StringEndsWith(filename, "SIGIL_v1_1.wad")
+        || M_StringEndsWith(filename, "SIGIL.wad"))
     {
         autosigil = automatic;
         C_Output("<i><b>SIGIL</b></i> is now available to play from the episode menu.");
     }
-    else if (M_StringCompare(leafname(filename), "SIGIL_SHREDS.WAD")
-        || M_StringCompare(leafname(filename), "SIGIL_SHREDS_COMPAT.wad"))
+    else if (M_StringEndsWith(filename, "SIGIL_SHREDS.WAD") || M_StringEndsWith(filename, "SIGIL_SHREDS_COMPAT.wad"))
     {
         buckethead = true;
         C_Output("Buckethead's soundtrack will now be used when playing <i><b>SIGIL.</b></i>");
     }
-    else if (M_StringCompare(leafname(filename), "DOOM.WAD"))
+    else if (M_StringEndsWith(filename, "DOOM.WAD"))
         C_Output("<i><b>E1M4B: Phobos Mission Control</b></i> and <i><b>E1M8B: Tech Gone Bad</b></i> "
             "are now available to play using the <b>map</b> CCMD.");
-    else if (M_StringCompare(leafname(filename), "NERVE.WAD"))
+    else if (M_StringEndsWith(filename, "NERVE.WAD"))
         C_Output("<i><b>No Rest For The Living</b></i> is now available to play from the expansion menu.");
 
     if (!packagewadadded)
