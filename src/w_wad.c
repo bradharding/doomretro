@@ -278,7 +278,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 {
     static dboolean packagewadadded;
     wadinfo_t       header;
-    int             length;
+    size_t          length;
     int             startlump;
     filelump_t      *fileinfo;
     filelump_t      *filerover;
@@ -297,7 +297,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         FREEDOOM = true;
 
     // WAD file
-    W_Read(wadfile, 0, &header, sizeof(header));
+    if (!W_Read(wadfile, 0, &header, sizeof(header)))
+        return false;
 
     // Homebrew levels?
     if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
