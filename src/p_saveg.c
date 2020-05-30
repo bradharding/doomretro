@@ -991,7 +991,7 @@ dboolean P_ReadSaveGameHeader(char *description)
     memset(vcheck, 0, sizeof(vcheck));
     strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
 
-    if (M_StringCompare(read_vcheck, vcheck))
+    if (!M_StringCompare(read_vcheck, vcheck))
     {
         menuactive = false;
         C_ShowConsole();
