@@ -332,7 +332,7 @@ void P_InitPicAnims(void)
             last = R_CheckFlatNumForName(sc_String);
             SC_MustGetString();
 
-            if (first >= 0 && last >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + first]->wadfile->path), sc_String))
+            if (first >= 0 && last >= 0 && M_StringEndsWith(lumpinfo[firstflat + first]->wadfile->path, sc_String))
                 for (int i = first; i <= last; i++)
                     terraintypes[i] = (noliquid ? SOLID : LIQUID);
         }

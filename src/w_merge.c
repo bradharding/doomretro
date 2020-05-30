@@ -268,7 +268,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int             angle_num;
     static int      MISFA0;
     static int      MISFB0;
-    dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
+    dboolean        ispackagewad = M_StringEndsWith(lump->wadfile->path, PACKAGE_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;

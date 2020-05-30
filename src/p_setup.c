@@ -3014,7 +3014,7 @@ static void P_InitMapInfo(void)
 
             if (map < 0 || map > 99)
             {
-                if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
+                if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
                     C_Warning(0, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
