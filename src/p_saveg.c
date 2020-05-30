@@ -995,7 +995,7 @@ dboolean P_ReadSaveGameHeader(char *description)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, "This savegame was saved using <i>%s</i>.", read_vcheck);
+        C_Warning(1, "This savegame is incompatible with <i>" PACKAGE_NAMEANDVERSIONSTRING "</i>.");
         return false;   // bad version
     }
 
