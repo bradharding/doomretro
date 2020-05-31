@@ -5,8 +5,9 @@
 * The `condump` CCMD now works again.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
-* To avoid the player accidentally firing them, they will no longer automatically switch to the rocket launcher or BFG-9000 when picking them up or if they run out of all other ammo.
-* The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced in a PWAD.
+* To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 upon picking them up, or if they run out of all other ammo.
+* The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced by a PWAD.
+* The minimum value of the `vid_capfps` CVAR has been changed from `1` to `10`.
 
 ---
 
@@ -23,7 +24,7 @@
 * Files created by the `condump` CCMD when no parameter is specified will now be saved in a new `console` folder.
 * The mouse or a gamepad can now be used to open the menu from the title screen again.
 * Linedefs that have the *BOOM*-compatible line special of 190 (“SR Change Texture And Effect”) now work.
-* The interpolation of floors and ceilings that move instantly has now been fixed when the `vid_capfps` CVAR is greater than `35`.
+* The interpolation of floors and ceilings that move instantly has now been fixed when the `vid_capfps` CVAR is not `35`.
 
 ---
 

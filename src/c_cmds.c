@@ -8189,7 +8189,15 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
         int_cvars_func2(cmd, parms);
 
         if (vid_capfps != vid_capfps_old)
-            I_CapFPS(vid_capfps);
+        {
+            if (vid_capfps < 10)
+            {
+                vid_capfps = vid_capfps_old;
+                M_SaveCVARs();
+            }
+            else
+                I_CapFPS(vid_capfps);
+        }
     }
 }
 

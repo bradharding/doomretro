@@ -552,7 +552,7 @@ manual_lift:
                 plat->type = genPerpetual;
                 plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 plat->high = MAX(P_FindHighestFloorSurrounding(sec), sec->floorheight);
-                plat->status = M_Random() & 1;
+                plat->status = (plat_e)(M_Random() & 1);
                 break;
         }
 
