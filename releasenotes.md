@@ -8,6 +8,7 @@
 * To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 upon picking them up, or if they run out of all other ammo.
 * The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced by a PWAD.
 * The minimum value of the `vid_capfps` CVAR has been changed from `1` to `10`.
+* A bug has been fixed whereby the music volume wouldn’t be restored when the console closed in some instances.
 
 ---
 

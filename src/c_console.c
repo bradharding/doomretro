@@ -798,6 +798,8 @@ void C_HideConsoleFast(void)
     consoleanim = 0;
     consoleheight = 0;
     consoleactive = false;
+
+    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
 }
 
 static void C_DrawBackground(void)
