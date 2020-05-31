@@ -1251,11 +1251,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
             mobj->flags2 |= MF2_BOSS;
 
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && r_corpses_mirrored && (M_Random() & 1))
+    if ((flags & MF_CORPSE) && (M_Random() & 1) && r_corpses_mirrored)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] randomly mirror weapons
-    if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1))
+    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] spawn blood splats around corpses
