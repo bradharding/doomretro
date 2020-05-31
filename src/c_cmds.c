@@ -798,7 +798,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, vid_borderlesswindow_cvar_func2, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>1</b> to <b>1,000</b>). Interpolation is\n"
+        "The number of frames per second at which to cap\nthe framerate (<b>off</b>, or <b>10</b> to <b>1,000</b>). Interpolation is\n"
         "disabled when this CVAR is <b>35</b>."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
