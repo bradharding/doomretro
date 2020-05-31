@@ -1661,6 +1661,10 @@ static void P_LoadThings(int lump)
     numspawnedthings = 0;
     numdecorations = 0;
 
+    prevthingx = 0;
+    prevthingy = 0;
+    prevthingbob = 0;
+
     for (thingid = 0; thingid < numthings; thingid++)
     {
         mapthing_t  mt = data[thingid];
@@ -1745,10 +1749,10 @@ static void P_LoadThings(int lump)
             {
                 int flags = thing->flags;
 
-                thing->id = thingid;
-
                 if ((flags & MF_TOUCHY) || (flags & MF_BOUNCES) || (flags & MF_FRIEND))
                     mbfcompatible = true;
+
+                thing->id = thingid;
             }
         }
     }

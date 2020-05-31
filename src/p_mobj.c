@@ -1112,6 +1112,9 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
+int prevthingx, prevthingy;
+int prevthingbob;
+
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 {
     int         i;
@@ -1123,8 +1126,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     int         flags;
     int         musicid = 0;
     mobjinfo_t  *info;
-    static int  prevx, prevy;
-    static int  prevbob;
 
     // check for players specially
     if (type == Player1Start)
@@ -1295,9 +1296,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? NORM_PITCH + M_RandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevbob = (x == prevx && y == prevy ? prevbob : M_Random());
-    prevx = x;
-    prevy = y;
+    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : M_Random());
+    prevthingx = x;
+    prevthingy = y;
 
     return mobj;
 }

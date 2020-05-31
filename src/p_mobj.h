@@ -462,4 +462,7 @@ typedef struct bloodsplat_s
     void                (*colfunc)(void);
 } bloodsplat_t;
 
+extern int  prevthingx, prevthingy;
+extern int  prevthingbob;
+
 #endif
