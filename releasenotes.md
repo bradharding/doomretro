@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* The `condump` CCMD now works again.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
 * To avoid the player accidentally firing them, they will no longer automatically switch to the rocket launcher or BFG-9000 when picking them up or if they run out of all other ammo.

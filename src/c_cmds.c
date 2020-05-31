@@ -1777,8 +1777,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
         {
             char    *temp = commify(++count);
 
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s" DIR_SEPARATOR_S "condump (%s).txt",
-                appdatafolder, consolefolder, temp);
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%s).txt", consolefolder, temp);
             free(temp);
         }
     }
@@ -1789,7 +1788,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
     {
         char    *temp = commify((int64_t)consolestrings - 2);
 
-        for (int i = 1; i < consolestrings - 1; i++)
+        for (int i = 1; i < consolestrings; i++)
             C_DumpConsoleStringToFile(i);
 
         C_Output("Dumped %s lines from the console to <b>%s</b>.", temp, filename);
