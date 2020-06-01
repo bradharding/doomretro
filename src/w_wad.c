@@ -297,8 +297,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         FREEDOOM = true;
 
     // WAD file
-    if (!W_Read(wadfile, 0, &header, sizeof(header)))
-        return false;
+    W_Read(wadfile, 0, &header, sizeof(header));
 
     // Homebrew levels?
     if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))

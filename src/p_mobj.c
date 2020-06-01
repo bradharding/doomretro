@@ -995,9 +995,9 @@ void P_RespawnSpecials(void)
 }
 
 //
-// P_SetPlayerViewheight
+// P_SetPlayerViewHeight
 //
-void P_SetPlayerViewheight(void)
+void P_SetPlayerViewHeight(void)
 {
     mobj_t  *mo = viewplayer->mo;
 

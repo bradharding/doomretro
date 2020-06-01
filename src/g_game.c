@@ -606,7 +606,7 @@ void G_DoLoadLevel(void)
     for (int i = 0; i < BACKUPTICS; i++)
         memset(&localcmds[i], 0, sizeof(ticcmd_t));
 
-    P_SetPlayerViewheight();
+    P_SetPlayerViewHeight();
 
     stat_mapsstarted = SafeAdd(stat_mapsstarted, 1);
 

@@ -127,7 +127,7 @@ void P_ChangeWeapon(weapontype_t newweapon);
 
 void P_RespawnSpecials(void);
 
-void P_SetPlayerViewheight(void);
+void P_SetPlayerViewHeight(void);
 
 void P_InitCards(void);
 

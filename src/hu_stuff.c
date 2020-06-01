@@ -283,7 +283,7 @@ void HU_Start(void)
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
-    while (M_StringWidth(s) > (vid_widescreen ? (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
+    while (M_StringWidth(s) > (vid_widescreen ? SCREENWIDTH - 12 : ORIGINALWIDTH - 6))
     {
         if (len >= 2 && s[len - 2] == ' ')
         {
