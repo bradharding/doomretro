@@ -260,6 +260,8 @@ void V_DrawPagePatch(patch_t *patch)
     DY = (SCREENHEIGHT << FRACBITS) / height;
     DYI = (height << FRACBITS) / SCREENHEIGHT;
 
+    memset(screens[0], nearestblack, SCREENWIDTH * SCREENHEIGHT);
+
     V_DrawPatch(0, 0, 0, patch);
 
     DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
