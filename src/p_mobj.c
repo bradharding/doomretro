@@ -642,9 +642,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
 void P_MobjThinker(mobj_t *mobj)
 {
     int         flags = mobj->flags;
-    int         flags2 = mobj->flags2;
+    int         flags2;
     player_t    *player = mobj->player;
-    sector_t    *sector = mobj->subsector->sector;
+    sector_t    *sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1)
@@ -672,6 +672,9 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function == &P_RemoveThinkerDelayed)
             return;
     }
+
+    flags2 = mobj->flags2;
+    sector = mobj->subsector->sector;
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
@@ -976,7 +979,7 @@ void P_RespawnSpecials(void)
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : (mobjinfo[i].flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ);
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ((mobjinfo[i].flags2 & MF2_FLOATBOB) ? 14 * FRACUNIT : ONFLOORZ));
 
     // spawn a teleport fog at the new spot
     mo = P_SpawnMobj(x, y, z, MT_IFOG);
