@@ -9,6 +9,7 @@
 * The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced by a PWAD.
 * The minimum value of the `vid_capfps` CVAR has been changed from `1` to `10`.
 * A bug has been fixed whereby the music volume wouldn’t be restored when closing the console in some instances.
+* The randomization of certain features when a thing is spawned at the start of a map (such as whether a corpse is mirrored or not, or the placement of blood splats around a corpse) is now consistent if the map is restarted.
 
 ---
 
