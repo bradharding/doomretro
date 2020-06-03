@@ -6432,7 +6432,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         else
             M_snprintf(name, sizeof(name), "%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : "player"));
+                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : mobj->info->name1));
 
         temp1 = commify(mobj->id);
         temp2 = sentencecase(name);

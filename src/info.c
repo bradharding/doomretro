@@ -118,7 +118,7 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "player",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
