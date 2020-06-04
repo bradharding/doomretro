@@ -39,10 +39,37 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
-int M_Random(void);
-int M_SubRandom(void);
-int M_RandomInt(int lower, int upper);
-int M_RandomIntNoRepeat(int lower, int upper, int previous);
-void M_Seed(unsigned int value);
+extern unsigned int seed;
+
+#define FASTRAND    ((seed = 214013 * seed + 2531011) >> 16)
+
+static inline int M_Random(void)
+{
+    return (FASTRAND & 255);
+}
+
+static inline int M_SubRandom(void)
+{
+    return ((FASTRAND & 510) - 255);
+}
+
+static inline int M_RandomInt(int lower, int upper)
+{
+    return (FASTRAND % (upper - lower + 1) + lower);
+}
+
+static inline int M_RandomIntNoRepeat(int lower, int upper, int previous)
+{
+    int result;
+
+    while ((result = (FASTRAND % (upper - lower + 1) + lower)) == previous);
+
+    return result;
+}
+
+static inline void M_Seed(unsigned int value)
+{
+    seed = value;
+}
 
 #endif
