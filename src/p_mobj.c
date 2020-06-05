@@ -1160,7 +1160,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     {
         char    *temp = commify(thingid);
 
-        C_Warning(2, "Thing %s at (%i,%i) didn't spawn because it is a \"visual mode camera\".", temp, mthing->x, mthing->y);
+        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it is a \"visual mode camera\".", temp, mthing->x, mthing->y);
         free(temp);
         return NULL;
     }
@@ -1171,7 +1171,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
 
-        C_Warning(2, "Thing %s at (%i,%i) didn't spawn because it has an unknown type.", temp, mthing->x, mthing->y);
+        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it is of an unknown type.", temp, mthing->x, mthing->y);
         free(temp);
         return NULL;
     }
@@ -1180,12 +1180,12 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (!(options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors))
     {
         if (*mobjinfo[i].name1)
-            C_Warning(2, "The %s at (%i,%i) didn't spawn because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
+            C_Warning(2, "The %s at (%i,%i) wasn't spawned because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
         else
         {
             char    *temp = commify(thingid);
 
-            C_Warning(2, "Thing %s at (%i,%i) didn't spawn because it has no skill flags.", temp, mthing->x, mthing->y);
+            C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it has no skill flags.", temp, mthing->x, mthing->y);
             free(temp);
         }
 

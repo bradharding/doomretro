@@ -7,10 +7,10 @@
 * More blood splats are now spawned under corpses.
 * To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 upon picking them up, or if they run out of all other ammo.
 * The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced by a PWAD.
+* If any weapon pickup sprites have been changed in a PWAD, their silhouettes will no longer appear in the alternate widescreen HUD.
 * The minimum value of the `vid_capfps` CVAR has been changed from `1` to `10`.
 * A bug has been fixed whereby the music volume wouldn’t be restored when closing the console in some instances.
 * The randomization of certain features when a thing is spawned at the start of a map (such as whether a corpse is mirrored or not, or the placement of blood splats around a corpse) is now consistent if the map is restarted.
-* If any of the weapon sprites have been changed by a PWAD, their silhouettes will no longer appear in the alternate widescreen HUD.
 
 ---
 

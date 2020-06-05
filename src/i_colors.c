@@ -85,37 +85,38 @@ static byte general[256] =
 #define WHITE       4
 #define YELLOW      160
 
-byte    *tinttab15;
-byte    *tinttab25;
-byte    *tinttab33;
-byte    *tinttab40;
-byte    *tinttab50;
-byte    *tinttab60;
-byte    *tinttab66;
-byte    *tinttab75;
+static byte *tinttab15;
 
-byte    *alttinttab20;
-byte    *alttinttab40;
-byte    *alttinttab60;
+byte        *tinttab25;
+byte        *tinttab33;
+byte        *tinttab40;
+byte        *tinttab50;
+byte        *tinttab60;
+byte        *tinttab66;
+byte        *tinttab75;
 
-byte    *tranmap;
+byte        *alttinttab20;
+byte        *alttinttab40;
+byte        *alttinttab60;
 
-byte    *tinttabadditive;
-byte    *tinttabred;
-byte    *tinttabredwhite1;
-byte    *tinttabredwhite2;
-byte    *tinttabgreen;
-byte    *tinttabblue;
+byte        *tranmap;
 
-byte    *tinttabred33;
-byte    *tinttabredwhite50;
-byte    *tinttabgreen33;
-byte    *tinttabblue25;
+byte        *tinttabadditive;
+byte        *tinttabred;
+byte        *tinttabredwhite1;
+byte        *tinttabredwhite2;
+byte        *tinttabgreen;
+byte        *tinttabblue;
 
-byte    nearestcolors[256];
-byte    nearestblack;
-byte    nearestred;
-byte    nearestwhite;
+byte        *tinttabred33;
+byte        *tinttabredwhite50;
+byte        *tinttabgreen33;
+byte        *tinttabblue25;
+
+byte        nearestcolors[256];
+byte        nearestblack;
+byte        nearestred;
+byte        nearestwhite;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
