@@ -5,7 +5,7 @@
 * The `condump` CCMD now works again.
 * The colors of blood splats now vary slightly.
 * More blood splats are now spawned under corpses.
-* To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 upon picking them up, or if they run out of all other ammo.
+* To avoid accidentally firing them, the player will no longer automatically switch to the rocket launcher or BFG-9000 if they run out of all other ammo.
 * The player’s face will now appear correctly in both the status bar and widescreen HUD when god mode is enabled and the `STFGOD0` lump has been replaced by a PWAD.
 * If any weapon pickup sprites have been changed in a PWAD, their silhouettes will no longer appear in the alternate widescreen HUD.
 * The minimum value of the `vid_capfps` CVAR has been changed from `1` to `10`.
