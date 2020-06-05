@@ -1675,7 +1675,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
                 return false;
         }
 
-        // Spawn bullet puffs.
+        // spawn bullet puff
         P_SpawnPuff(dltrace.x + FixedMul(dltrace.dx, frac), dltrace.y + FixedMul(dltrace.dy, frac), z, shootangle);
 
         // don't go any farther
@@ -1711,8 +1711,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     if ((shootthing->flags2 & MF2_FEETARECLIPPED) && (shootthing->player && r_liquid_lowerview))
         z -= FOOTCLIPSIZE;
 
-    // Spawn bullet puffs or blood spots,
-    // depending on target type.
+    // Spawn bullet puff or blood, depending on target type.
     if ((th->flags & MF_NOBLOOD) || r_blood == r_blood_none)
         P_SpawnPuff(x, y, z, shootangle);
     else

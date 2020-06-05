@@ -6424,7 +6424,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
         char    name[100];
-        char    *temp1;
+        char    *temp1 = commify(mobj->id);
         char    *temp2;
 
         if (*mobj->name)
@@ -6432,9 +6432,8 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         else
             M_snprintf(name, sizeof(name), "%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : mobj->info->name1));
+                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")));
 
-        temp1 = commify(mobj->id);
         temp2 = sentencecase(name);
         C_TabbedOutput(tabs, "%s%s\t%s\t(%i,%i,%i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
