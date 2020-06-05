@@ -60,6 +60,7 @@ typedef struct
     int             tics;
     int             prev;
     int             next;
+    char            spritename[9];
     dboolean        altered;
 } weaponinfo_t;
 

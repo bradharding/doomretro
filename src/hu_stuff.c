@@ -674,9 +674,10 @@ static int      yellow;
 
 static void HU_AltInit(void)
 {
-    char    buffer[9];
-    patch_t *altkeypatch;
-    patch_t *altskullpatch;
+    char        buffer[9];
+    patch_t     *altkeypatch;
+    patch_t     *altskullpatch;
+    dboolean    weaponschanged = false;
 
     for (int i = 0; i < 10; i++)
     {
@@ -715,10 +716,15 @@ static void HU_AltInit(void)
     altkeypics[5].patch = altskullpatch;
 
     for (int i = 1; i < NUMWEAPONS; i++)
-    {
-        M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-        altweapon[i] = W_CacheLumpName(buffer);
-    }
+        if (*weaponinfo[i].spritename && W_CheckMultipleLumps(weaponinfo[i].spritename) > 1)
+            weaponschanged = true;
+
+    if (!weaponschanged)
+        for (int i = 1; i < NUMWEAPONS; i++)
+        {
+            M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
+            altweapon[i] = W_CacheLumpName(buffer);
+        }
 
     altleftpatch = W_CacheLumpName("DRHUDL");
     altrightpatch = W_CacheLumpName("DRHUDR");

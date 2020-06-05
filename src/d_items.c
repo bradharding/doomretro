@@ -54,7 +54,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    37500,
         /* tics */        10,
         /* prev */        wp_bfg,
-        /* next */        wp_chainsaw
+        /* next */        wp_chainsaw,
+        /* spritename */  ""
     },
 
     {
@@ -70,7 +71,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    45000,
         /* tics */        10,
         /* prev */        wp_chainsaw,
-        /* next */        wp_shotgun
+        /* next */        wp_shotgun,
+        /* spritename */  ""
     },
 
     {
@@ -86,7 +88,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    52500,
         /* tics */        10,
         /* prev */        wp_pistol,
-        /* next */        wp_supershotgun
+        /* next */        wp_supershotgun,
+        /* spritename */  "SHOTA0"
     },
 
     {
@@ -102,7 +105,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    45000,
         /* tics */        10,
         /* prev */        wp_supershotgun,
-        /* next */        wp_missile
+        /* next */        wp_missile,
+        /* spritename */  "MGUNA0"
     },
 
     {
@@ -118,7 +122,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    60000,
         /* tics */        20,
         /* prev */        wp_chaingun,
-        /* next */        wp_plasma
+        /* next */        wp_plasma,
+        /* spritename */  "LAUNA0"
     },
 
     {
@@ -134,7 +139,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    52500,
         /* tics */        10,
         /* prev */        wp_missile,
-        /* next */        wp_bfg
+        /* next */        wp_bfg,
+        /* spritename */  "PLASA0"
     },
 
     {
@@ -150,7 +156,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    45000,
         /* tics */        30,
         /* prev */        wp_plasma,
-        /* next */        wp_fist
+        /* next */        wp_fist,
+        /* spritename */  "BFUGA0"
     },
 
     {
@@ -166,7 +173,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    45000,
         /* tics */        10,
         /* prev */        wp_fist,
-        /* next */        wp_pistol
+        /* next */        wp_pistol,
+        /* spritename */  "CSAWA0"
     },
 
     {
@@ -182,6 +190,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* strength */    60000,
         /* tics */        10,
         /* prev */        wp_shotgun,
-        /* next */        wp_chaingun
+        /* next */        wp_chaingun,
+        /* spritename */  "SGN2A0"
     }
 };
