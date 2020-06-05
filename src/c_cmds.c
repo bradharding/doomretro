@@ -811,7 +811,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_motionblur, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when the player turns\nquickly (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_pillarboxes_cvar_func2, BOOLVALUEALIAS,
-        "Toggles using the black pillarboxes either side of\nthe screen for palette effects."),
+        "Toggles using the pillarboxes either side of the\nscreen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale each frame (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
