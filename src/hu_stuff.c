@@ -716,7 +716,7 @@ static void HU_AltInit(void)
     altkeypics[5].patch = altskullpatch;
 
     for (int i = 1; i < NUMWEAPONS; i++)
-        if (*weaponinfo[i].spritename && W_CheckMultipleLumps(weaponinfo[i].spritename) > 1)
+        if (*weaponinfo[i].spritename && lumpinfo[W_GetNumForName(weaponinfo[i].spritename)]->wadfile->type == PWAD)
             weaponschanged = true;
 
     if (!weaponschanged)
