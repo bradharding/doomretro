@@ -833,7 +833,7 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->toptexture)
-                                C_Warning(2, "The missing top texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing top texture of linedef %s is now <b>%.8s</b>.",
                                     temp, linefix[j].toptexture);
                             else
                                 C_Warning(2, "The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
@@ -854,7 +854,7 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->midtexture)
-                                C_Warning(2, "The missing middle texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing middle texture of linedef %s is now <b>%.8s</b>.",
                                     temp, linefix[j].middletexture);
                             else
                                 C_Warning(2, "The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
@@ -875,7 +875,7 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->bottomtexture)
-                                C_Warning(2, "The missing bottom texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing bottom texture of linedef %s is now <b>%.8s</b>.",
                                     temp, linefix[j].bottomtexture);
                             else
                                 C_Warning(2, "The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
