@@ -720,7 +720,10 @@ static void HU_AltInit(void)
         int lump = W_CheckNumForName(weaponinfo[i].spritename);
 
         if (lump >= 0 && lumpinfo[lump]->wadfile->type == PWAD)
+        {
             weaponschanged = true;
+            break;
+        }
     }
 
     if (!weaponschanged)

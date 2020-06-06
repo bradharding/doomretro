@@ -259,6 +259,7 @@ char    *s_HUSTR_E3M4 = HUSTR_E3M4;
 char    *s_HUSTR_E3M5 = HUSTR_E3M5;
 char    *s_HUSTR_E3M6 = HUSTR_E3M6;
 char    *s_HUSTR_E3M7 = HUSTR_E3M7;
+char    *s_HUSTR_E3M7_ALT = "";
 char    *s_HUSTR_E3M8 = HUSTR_E3M8;
 char    *s_HUSTR_E3M9 = HUSTR_E3M9;
 char    *s_HUSTR_E4M1 = HUSTR_E4M1;
@@ -290,6 +291,7 @@ char    *s_HUSTR_8 = HUSTR_8;
 char    *s_HUSTR_9 = HUSTR_9;
 char    *s_HUSTR_10 = HUSTR_10;
 char    *s_HUSTR_11 = HUSTR_11;
+char    *s_HUSTR_11_ALT = "";
 char    *s_HUSTR_12 = HUSTR_12;
 char    *s_HUSTR_13 = HUSTR_13;
 char    *s_HUSTR_14 = HUSTR_14;
@@ -828,6 +830,7 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_E3M5,                 "HUSTR_E3M5"                 },
     { &s_HUSTR_E3M6,                 "HUSTR_E3M6"                 },
     { &s_HUSTR_E3M7,                 "HUSTR_E3M7"                 },
+    { &s_HUSTR_E3M7_ALT,             "HUSTR_E3M7_ALT"             },
     { &s_HUSTR_E3M8,                 "HUSTR_E3M8"                 },
     { &s_HUSTR_E3M9,                 "HUSTR_E3M9"                 },
     { &s_HUSTR_E4M1,                 "HUSTR_E4M1"                 },
@@ -859,6 +862,7 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_9,                    "HUSTR_9"                    },
     { &s_HUSTR_10,                   "HUSTR_10"                   },
     { &s_HUSTR_11,                   "HUSTR_11"                   },
+    { &s_HUSTR_11_ALT,               "HUSTR_11_ALT"               },
     { &s_HUSTR_12,                   "HUSTR_12"                   },
     { &s_HUSTR_13,                   "HUSTR_13"                   },
     { &s_HUSTR_14,                   "HUSTR_14"                   },
