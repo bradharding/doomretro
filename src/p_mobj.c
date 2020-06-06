@@ -1171,7 +1171,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
 
-        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it is of an unknown type.", temp, mthing->x, mthing->y);
+        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.", temp, mthing->x, mthing->y);
         free(temp);
         return NULL;
     }

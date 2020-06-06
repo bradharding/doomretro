@@ -2297,15 +2297,16 @@ void P_UpdateSpecials(void)
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
-        for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
-        {
-            int pic = anim->basepic + (leveltime / anim->speed + i) % anim->numpics;
+        if (!(leveltime & (anim->speed - 1)))
+            for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
+            {
+                int pic = anim->basepic + (leveltime / anim->speed + i) % anim->numpics;
 
-            if (anim->istexture)
-                texturetranslation[i] = pic;
-            else
-                flattranslation[i] = firstflat + pic;
-        }
+                if (anim->istexture)
+                    texturetranslation[i] = pic;
+                else
+                    flattranslation[i] = firstflat + pic;
+            }
 
     animatedliquiddiff += animatedliquiddiffs[leveltime & 63];
     animatedliquidxoffs += animatedliquidxdir;
