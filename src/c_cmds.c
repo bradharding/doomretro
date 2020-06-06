@@ -3632,6 +3632,34 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         temp = titlecase(maptitle);
         C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", temp);
         free(temp);
+
+        if (gamemode == commercial)
+        {
+            if (gamemap == 11)
+            {
+                if (M_StringCompare(maptitle, "'O' Of Destruction!"))
+                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>Circle Of Death</i></b>");
+            }
+            else if (gamemap == 31)
+            {
+                if (M_StringCompare(maptitle, "Wolfenstein"))
+                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>IDKFA</i></b>");
+                else if (M_StringCompare(maptitle, "IDKFA"))
+                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>Wolfenstein</i></b>");
+            }
+            else if (gamemap == 32)
+            {
+                if (M_StringCompare(maptitle, "Grosse"))
+                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>Keen</i></b>");
+                else if (M_StringCompare(maptitle, "Keen"))
+                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>Grosse</i></b>");
+            }
+        }
+        else if (gameepisode == 3 && gamemap == 7)
+        {
+            if (M_StringCompare(maptitle, "Gate To Limbo"))
+                C_TabbedOutput(tabs, "Alternate Title\t<b><i>Limbo</i></b>");
+        }
     }
 
     {
