@@ -347,27 +347,30 @@ static byte *R_DistortedFlat(int flatnum)
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevgametime != gametime && !consoleactive && !paused)
+    if (!consoleactive && !paused && (!freeze || menuactive))
     {
-        offset = &offsets[(gametime & 1023) << 12];
-        prevgametime = gametime;
+        if (prevgametime != gametime)
+        {
+            offset = &offsets[(gametime & 1023) << 12];
+            prevgametime = gametime;
 
-        if (prevflatnum != flatnum)
+            if (prevflatnum != flatnum)
+            {
+                normalflat = lumpinfo[firstflat + flatnum]->cache;
+                prevflatnum = flatnum;
+            }
+
+            for (int i = 0; i < 4096; i++)
+                distortedflat[i] = normalflat[offset[i]];
+        }
+        else if (prevflatnum != flatnum)
         {
             normalflat = lumpinfo[firstflat + flatnum]->cache;
             prevflatnum = flatnum;
+
+            for (int i = 0; i < 4096; i++)
+                distortedflat[i] = normalflat[offset[i]];
         }
-
-        for (int i = 0; i < 4096; i++)
-            distortedflat[i] = normalflat[offset[i]];
-    }
-    else if (prevflatnum != flatnum)
-    {
-        normalflat = lumpinfo[firstflat + flatnum]->cache;
-        prevflatnum = flatnum;
-
-        for (int i = 0; i < 4096; i++)
-            distortedflat[i] = normalflat[offset[i]];
     }
 
     return distortedflat;

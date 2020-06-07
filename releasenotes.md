@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on` and freeze mode is enabled.
 
 ---
 
