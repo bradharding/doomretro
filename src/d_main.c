@@ -449,7 +449,7 @@ int             pagetic = 3 * TICRATE;
 int             logotic = 3 * TICRATE;
 
 static patch_t  *pagelump;
-static patch_t  *splashlump;
+static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;
 static patch_t  *creditlump;
@@ -540,7 +540,7 @@ void D_DoAdvanceTitle(void)
     if (!titlesequence)
     {
         titlesequence = 1;
-        V_DrawBigPatch(0, 0, splashlump);
+        V_DrawBigPatch(0, 366, fineprintlump);
         V_DrawBigPatch(143, 167, logolump[0]);
         return;
     }
@@ -2247,7 +2247,7 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    splashlump = W_CacheLumpName("SPLASH");
+    fineprintlump = W_CacheLumpName("FINEPRNT");
     splashpal = W_CacheLumpName("SPLSHPAL");
 
     for (int i = 0; i < 18; i++)
