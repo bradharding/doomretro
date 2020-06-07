@@ -413,10 +413,10 @@ static short inline clamp(short value, short deadzone)
     return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
 }
 
-dboolean    altdown;
-dboolean    waspaused;
+dboolean    altdown = false;
+dboolean    waspaused = false;
 
-static const int keypad[] =
+static const SDL_Scancode keypad[] =
 {
     SDL_SCANCODE_KP_1, SDL_SCANCODE_DOWN, SDL_SCANCODE_KP_3, SDL_SCANCODE_LEFT, SDL_SCANCODE_KP_5,
     SDL_SCANCODE_RIGHT, SDL_SCANCODE_KP_7, SDL_SCANCODE_UP, SDL_SCANCODE_KP_9, SDL_SCANCODE_KP_0
@@ -1590,8 +1590,7 @@ static void SetVideoMode(dboolean output)
             free(temp4);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Each frame is scaled from %ix%i to %sx%s using linear filtering.",
-                SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
+            C_Output("Each frame is scaled from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
         else
             C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
@@ -1813,9 +1812,8 @@ static void SetVideoMode(dboolean output)
 
     SDL_FillRect(buffer, NULL, 0);
 
-    if (nearestlinear)
-        if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
-            I_SDLError(SDL_SetHintWithPriority);
+    if (nearestlinear && !(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
 
     if (!(texture = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError(SDL_CreateTexture);

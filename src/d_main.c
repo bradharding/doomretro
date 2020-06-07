@@ -540,7 +540,7 @@ void D_DoAdvanceTitle(void)
     if (!titlesequence)
     {
         titlesequence = 1;
-        V_DrawBigPatch(0, 366, fineprintlump);
+        V_DrawBigPatch(12, 366, fineprintlump);
         V_DrawBigPatch(143, 167, logolump[0]);
         return;
     }
