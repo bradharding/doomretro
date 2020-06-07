@@ -1116,11 +1116,12 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    uint32_t    rmask = 0;
-    uint32_t    gmask = 0;
-    uint32_t    bmask = 0;
-    uint32_t    amask = 0;
-    int         bpp = 0;
+    uint32_t    pixelformat;
+    uint32_t    rmask;
+    uint32_t    gmask;
+    uint32_t    bmask;
+    uint32_t    amask;
+    int         bpp;
     int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
@@ -1156,7 +1157,9 @@ void I_CreateExternalAutomap(int outputlevel)
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError(SDL_CreateRGBSurface);
 
-    if (!(SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask)))
+    pixelformat = SDL_GetWindowPixelFormat(mapwindow);
+
+    if (!(SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask)))
         I_SDLError(SDL_PixelFormatEnumToMasks);
 
     if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
@@ -1164,7 +1167,7 @@ void I_CreateExternalAutomap(int outputlevel)
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError(SDL_CreateTexture);
 
     if (nearestlinear)
@@ -1172,8 +1175,8 @@ void I_CreateExternalAutomap(int outputlevel)
         if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE)))
             I_SDLError(SDL_SetHintWithPriority);
 
-        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
+            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError(SDL_CreateTexture);
 
         mapblitfunc = &I_Blit_Automap_NearestLinear;
@@ -1380,10 +1383,11 @@ static void SetVideoMode(dboolean output)
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
     int                 width, height;
-    uint32_t            rmask = 0;
-    uint32_t            gmask = 0;
-    uint32_t            bmask = 0;
-    uint32_t            amask = 0;
+    uint32_t            pixelformat;
+    uint32_t            rmask;
+    uint32_t            gmask;
+    uint32_t            bmask;
+    uint32_t            amask;
     int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
@@ -1796,7 +1800,9 @@ static void SetVideoMode(dboolean output)
 
     screens[0] = surface->pixels;
 
-    if (!(SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask)))
+    pixelformat = SDL_GetWindowPixelFormat(window);
+
+    if (!(SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask)))
         I_SDLError(SDL_PixelFormatEnumToMasks);
 
     if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
@@ -1808,7 +1814,7 @@ static void SetVideoMode(dboolean output)
         if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
             I_SDLError(SDL_SetHintWithPriority);
 
-    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(texture = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError(SDL_CreateTexture);
 
     if (nearestlinear)
@@ -1816,7 +1822,7 @@ static void SetVideoMode(dboolean output)
         if (!(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE)))
             I_SDLError(SDL_SetHintWithPriority);
 
-        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+        if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
             upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError(SDL_CreateTexture);
     }
