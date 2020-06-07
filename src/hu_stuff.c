@@ -726,7 +726,7 @@ static void HU_AltInit(void)
         }
     }
 
-    if (!weaponschanged)
+    if (!weaponschanged || BTSX)
         for (int i = 1; i < NUMWEAPONS; i++)
         {
             M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
