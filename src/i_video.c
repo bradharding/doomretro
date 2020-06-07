@@ -1167,6 +1167,9 @@ void I_CreateExternalAutomap(int outputlevel)
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
+    if (nearestlinear && !(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
+
     if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError(SDL_CreateTexture);
 
