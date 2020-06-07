@@ -154,7 +154,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
     // When the object is straddling sectors with the same
     // floorheight that have different frictions, use the lowest
     // friction value (muddy has precedence over icy).
-    if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)))
+    if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)) && !freeze)
         for (const msecnode_t *m = mo->touching_sectorlist; m; m = m->m_tnext)
         {
             const sector_t  *sec = m->m_sector;
