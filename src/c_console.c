@@ -358,7 +358,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
                 width = C_TextWidth(temp, true, true) + warningwidth + 12;
                 free(temp);
 
-                if (width <= CONSOLETEXTPIXELWIDTH)
+                if (width <= CONSOLETEXTPIXELWIDTH - 8)
                     break;
             } while (truncate-- > 0);
 
