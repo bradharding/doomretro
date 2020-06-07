@@ -1844,20 +1844,17 @@ void I_ToggleWidescreen(dboolean toggle)
     if (toggle)
     {
         vid_widescreen = true;
-        SDL_RenderSetLogicalSize(renderer, 0, 0);
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
     else
     {
         vid_widescreen = false;
+        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+        src_rect.h = SCREENHEIGHT;
 
         if (gamestate == GS_LEVEL)
             ST_DoRefresh();
-
-        SDL_RenderSetLogicalSize(renderer, 0, 0);
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
-        src_rect.h = SCREENHEIGHT;
     }
 
     returntowidescreen = false;
