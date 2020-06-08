@@ -1629,7 +1629,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         }
 
         // position a bit closer
-        frac = in->frac - FixedDiv(4 * FRACUNIT, attackrange);
+        frac = in->frac - 128/*FixedDiv(4 * FRACUNIT, attackrange)*/;
         distz = FixedMul(aimslope, FixedMul(attackrange, frac));
         z = shootz + distz;
 
@@ -1702,7 +1702,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
     // hit thing
     // position a bit closer
-    frac = in->frac - FixedDiv(10 * FRACUNIT, attackrange);
+    frac = in->frac - (attackrange == MISSILERANGE ? 320 : 10240)/*FixedDiv(10 * FRACUNIT, attackrange)*/;
 
     x = dltrace.x + FixedMul(dltrace.dx, frac);
     y = dltrace.y + FixedMul(dltrace.dy, frac);

@@ -423,6 +423,8 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     angle_t         an = viewangle;
 
+                    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
+
                     if (picnum & PL_SKYFLAT)
                     {
                         // Sky Linedef
@@ -430,6 +432,15 @@ void R_DrawPlanes(void)
 
                         // Sky transferred from first sidedef
                         const side_t    *s = sides + *l->sidenum;
+
+                        if (s->missingtoptexture)
+                        {
+                            for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                                if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                    R_DrawColorColumn();
+
+                            continue;
+                        }
 
                         // Texture comes from upper texture of reference sidedef
                         texture = texturetranslation[s->toptexture];
@@ -464,16 +475,14 @@ void R_DrawPlanes(void)
                         dc_texturemid = skytexturemid;
                     }
 
-                    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
                     dc_iscale = skyiscale;
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
-                    for (int x = pl->left; x <= pl->right; x++)
-                        if ((dc_yl = pl->top[x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[x]))
+                    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                        if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
-                            dc_x = x;
                             dc_source = R_GetTextureColumn(tex_patch,
-                                (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+                                (((an + xtoviewangle[dc_x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
                             skycolfunc();
                         }
                 }
