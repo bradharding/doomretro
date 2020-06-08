@@ -427,7 +427,7 @@ void R_DrawPlanes(void)
 
                     if (picnum & PL_SKYFLAT)
                     {
-                        // Sky Linedef
+                        // Sky linedef
                         const line_t    *l = lines + (picnum & ~PL_SKYFLAT);
 
                         // Sky transferred from first sidedef
