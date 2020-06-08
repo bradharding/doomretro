@@ -651,7 +651,7 @@ static void P_CheckLinedefs(void)
                 if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
                     C_Warning(2, "Linedef %s has no line special and an unknown tag of %s.", temp1, temp2);
                 else
-                    C_Warning(2, "Linedef %s has no line special but has a tag of %s.", temp1, temp2);
+                    C_Warning(2, "Linedef %s has a tag of %s but no line special.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);

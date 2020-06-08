@@ -2,8 +2,12 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on` and freeze mode is enabled.
-* Friction is no longer applied to the player on icy or muddy sectors when freeze mode is enabled.
+* *DOOM Retro* now better supports displays on older systems.
+* The silhouettes of weapons will now be displayed in the alternate widescreen HUD when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* The automap will now appear correctly when the `vid_scalefilter` CVAR is `nearest_linear` and the `am_external` CVAR is `on`.
+* The following changes have been made when freeze mode is enabled:
+  * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
+  * Friction is no longer applied to the player’s movement when on *BOOM*-compatible icy or muddy sectors.
 
 ---
 
