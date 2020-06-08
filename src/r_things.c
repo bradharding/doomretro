@@ -680,8 +680,9 @@ static void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+    // killough 4/9/98: clip things which are out of view due to height
+    if (FixedMul(fz - viewz, xscale) > (viewheight << FRACBITS)
+        || (viewheight << FRACBITS) - viewheight < FixedMul(viewz - gzt, xscale))
         return;
 
     // calculate edges of the shape
