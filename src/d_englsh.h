@@ -46,8 +46,8 @@
 //
 // d_main.C
 //
-#define D_DEVSTR            "Development mode ON.\n"
 #define D_CDROM             "CD-ROM Version: default.cfg from c:\\doomdata\n"
+#define D_DEVSTR            "Development mode ON."
 
 //
 // m_menu.c
