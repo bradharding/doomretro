@@ -43,10 +43,13 @@
 
 #if defined(_WIN32)
 #define OPERATINGSYSTEM "Windows"
+#define EXECUTABLE      "executable"
 #elif defined(__APPLE__)
 #define OPERATINGSYSTEM "macOS"
+#define EXECUTABLE      "binary"
 #else
 #define OPERATINGSYSTEM "Linux"
+#define EXECUTABLE      "binary"
 #endif
 
 //
