@@ -182,8 +182,8 @@ static void R_RecalcLineFlags(line_t *line)
     }
 }
 
-// [AM] Interpolate the passed sector, if prudent.
-static void R_MaybeInterpolateSector(sector_t *sector)
+// [AM] Interpolate the passed sector.
+static void R_InterpolateSector(sector_t *sector)
 {
     sector_t    *heightsec = sector->heightsec;
 
@@ -382,8 +382,7 @@ static void R_AddLine(seg_t *line)
     if ((int)angle2 <= -(int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
-    // The seg is in the view range,
-    // but not necessarily visible.
+    // The seg is in the view range, but not necessarily visible.
     angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
     angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
 
@@ -400,10 +399,8 @@ static void R_AddLine(seg_t *line)
     {
         sector_t    tempsec;    // killough 3/8/98: ceiling/water hack
 
-        // [AM] Interpolate sector movement before
-        //      running clipping tests. Frontsector
-        //      should already be interpolated.
-        R_MaybeInterpolateSector(backsector);
+        // [AM] Interpolate sector movement before running clipping tests. Frontsector should already be interpolated.
+        R_InterpolateSector(backsector);
 
         // killough 3/8/98, 4/4/98: hack for invisible ceilings/deep water
         backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
@@ -522,9 +519,8 @@ static void R_Subsector(int num)
 
     frontsector = sector;
 
-    // [AM] Interpolate sector movement. Usually only needed
-    //      when you're standing inside the sector.
-    R_MaybeInterpolateSector(frontsector);
+    // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
+    R_InterpolateSector(frontsector);
 
     // killough 3/8/98, 4/4/98: Deep water/fake ceiling effect
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
@@ -574,8 +570,7 @@ static void R_Subsector(int num)
 
 //
 // RenderBSPNode
-// Renders all subsectors below a given node,
-//  traversing subtree recursively.
+// Renders all subsectors below a given node, traversing subtree recursively.
 // Just call with BSP root.
 void R_RenderBSPNode(int bspnum)
 {

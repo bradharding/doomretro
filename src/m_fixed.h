@@ -101,10 +101,7 @@ static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 
 static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    if ((ABS(a) >> 15) >= ABS(b))
-        return (((a ^ b) >> 31) ^ FIXED_MAX);
-    else
-        return (fixed_t)(((int64_t)a << FRACBITS) / b);
+    return ((ABS(a) >> 15) >= ABS(b) ? (((a ^ b) >> 31) ^ FIXED_MAX) : (fixed_t)(((int64_t)a << FRACBITS) / b));
 }
 
 static inline fixed_t FixedMod(fixed_t a, fixed_t b)
