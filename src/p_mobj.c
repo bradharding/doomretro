@@ -1121,7 +1121,6 @@ int prevthingbob;
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 {
     mobjtype_t  i;
-    int         bit = (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)));
     mobj_t      *mobj;
     fixed_t     x, y;
     short       type = mthing->type;
@@ -1137,9 +1136,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         viewplayer->mo->id = thingid;
         return NULL;
     }
-    else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
+    
+    if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
-    else if (type >= MusicSourceMin && type <= MusicSourceMax)
+
+    if (type >= MusicSourceMin && type <= MusicSourceMax)
     {
         musicid = type - MusicSourceMin;
         type = MusicSourceMax;
@@ -1180,7 +1181,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         return NULL;
     }
 
-    if (!(options & bit))
+    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)))))
         return NULL;
 
     // [BH] don't spawn any monster corpses if -nomonsters
@@ -1219,7 +1220,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     {
         mobj->flags |= MF_FRIEND;           // killough 10/98:
         mbfcompatible = true;
-        P_UpdateThinker(&mobj->thinker);    // transfer friendliness flag
     }
 
     flags = mobj->flags;
