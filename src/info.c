@@ -6134,7 +6134,7 @@ mobjinfo_t mobjinfo[] =
 
     // MT_MUSICSOURCE
     {
-        /* doomednum            */ MusicSource,
+        /* doomednum            */ MusicSourceMax,
         /* spawnstate           */ S_TNT1,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,

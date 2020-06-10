@@ -737,7 +737,8 @@ enum
     LostSoul                                           =  3006,
     Pusher                                             =  5001,
     Puller                                             =  5002,
-    MusicSource                                        = 14164,
+    MusicSourceMin                                     = 14100,
+    MusicSourceMax                                     = 14164,
     VisualModeCamera                                   = 32000
 };
 

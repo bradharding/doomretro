@@ -1120,10 +1120,10 @@ int prevthingbob;
 
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 {
-    int         i;
-    int         bit;
+    mobjtype_t  i;
+    int         bit = (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)));
     mobj_t      *mobj;
-    fixed_t     x, y, z;
+    fixed_t     x, y;
     short       type = mthing->type;
     short       options = mthing->options;
     int         flags;
@@ -1139,24 +1139,12 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
-
-    if (options & MTF_NOTSINGLE)
-        return NULL;
-
-    if (gameskill == sk_baby)
-        bit = 1;
-    else if (gameskill == sk_nightmare)
-        bit = 4;
-    else
-        bit = 1 << (gameskill - 1);
-
-    if (type >= 14100 && type <= 14164)
+    else if (type >= MusicSourceMin && type <= MusicSourceMax)
     {
-        musicid = type - 14100;
-        type = MusicSource;
+        musicid = type - MusicSourceMin;
+        type = MusicSourceMax;
     }
-
-    if (type == VisualModeCamera)
+    else if (type == VisualModeCamera)
     {
         char    *temp = commify(thingid);
 
@@ -1217,9 +1205,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
-    mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
+    mobj = P_SpawnMobj(x, y, ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ), i);
     mobj->spawnpoint = *mthing;
     mobj->musicid = musicid;
 
