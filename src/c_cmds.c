@@ -4153,8 +4153,14 @@ static void name_cmd_func2(char *cmd, char *parms)
         if (bestmobj)
         {
             M_StripQuotes(namecmdnew);
-            C_Output("The %s%s nearest to %s has been %s %s.",
-                (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+
+            if (monstercount[bestmobj->type] == 1)
+                C_Output("The %s%s has been %s %s.",
+                    (namecmdfriendly ? "friendly " : ""), namecmdold, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+            else
+                C_Output("The %s%s nearest to %s has been %s %s.",
+                    (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }
         else
