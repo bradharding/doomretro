@@ -421,7 +421,7 @@ static void P_ZMovement(mobj_t *mo)
                 else if (flags & MF_NOGRAVITY)
                     mo->momz = -mo->momz;                   // bounce unless under gravity
 
-                if (flags & MF_FLOAT && sentient(mo))
+                if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
 
                 return;
@@ -432,7 +432,7 @@ static void P_ZMovement(mobj_t *mo)
             if (!(flags & MF_NOGRAVITY))                    // free-fall under gravity
                 mo->momz -= mo->info->mass * (GRAVITY / 256);
 
-            if (flags & MF_FLOAT && sentient(mo))
+            if ((flags & MF_FLOAT) && sentient(mo))
                 goto floater;
 
             return;
@@ -450,7 +450,7 @@ static void P_ZMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
         }
 
-        if (mo->flags & MF_FLOAT && sentient(mo))
+        if ((mo->flags & MF_FLOAT) && sentient(mo))
             goto floater;
 
         return;

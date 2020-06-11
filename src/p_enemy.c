@@ -1549,12 +1549,11 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!target->player || !(target->flags & MF_NOCLIP))
         target->momz = 1000 * FRACUNIT / target->info->mass;
 
-    an = actor->angle >> ANGLETOFINESHIFT;
-
     if (!(fire = actor->tracer))
         return;
 
     // move the fire between the vile and the player
+    an = actor->angle >> ANGLETOFINESHIFT;
     fire->x = target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
     fire->y = target->y - FixedMul(24 * FRACUNIT, finesine[an]);
     P_RadiusAttack(fire, actor, 70, true);
