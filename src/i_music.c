@@ -109,6 +109,9 @@ dboolean I_InitMusic(void)
     // Initialize RPC server
     if (I_MidiRPCInitServer())
         midirpc = I_MidiRPCInitClient();
+#else
+    if (!SDL_getenv("SDL_SOUNDFONTS"))
+        C_Warning(0, "The <b>SDL_SOUNDFONTS</b> environment variable has not been set.");
 #endif
 
     return music_initialized;
