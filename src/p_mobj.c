@@ -1154,6 +1154,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         return NULL;
     }
 
+    if (options & MTF_NOTSINGLE)
+        return NULL;
+
     // killough 8/23/98: use table for faster lookup
     if ((i = P_FindDoomedNum(type)) == NUMMOBJTYPES)
     {
