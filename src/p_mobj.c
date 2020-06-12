@@ -1462,7 +1462,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
             else
             {
                 splat->colfunc = bloodsplatcolfunc;
-                splat->blood = blood + M_RandomInt(-2, 2);
+                splat->blood = blood + M_RandomInt(-2, 1);
             }
 
             splat->x = x;
