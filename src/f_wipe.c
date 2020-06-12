@@ -84,7 +84,7 @@ static void wipe_initMelt(void)
     ypos[0] = ypos[1] = -(M_Random() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
-        ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + (M_Random() % 3) - 1, 0);
+        ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + M_Random() % 3 - 1, 0);
 }
 
 static dboolean wipe_doMelt(int tics)

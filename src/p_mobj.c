@@ -1234,15 +1234,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         totalpickups++;
 
     if (mobj->tics > 0)
-        mobj->tics = 1 + (M_Random() % mobj->tics);
+        mobj->tics = 1 + M_Random() % mobj->tics;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] identify boss monsters so sounds won't be clipped
-    if (gamemode != commercial)
-        if (gamemap == 8 && ((gameepisode == 1 && i == MT_BRUISER) || (gameepisode == 2 && i == MT_CYBORG)
-            || (gameepisode == 3 && i == MT_SPIDER)))
-            mobj->flags2 |= MF2_BOSS;
+    if (gamemode != commercial && gamemap == 8
+        && ((gameepisode == 1 && i == MT_BRUISER) || (gameepisode == 2 && i == MT_CYBORG) || (gameepisode == 3 && i == MT_SPIDER)))
+        mobj->flags2 |= MF2_BOSS;
 
     // [BH] randomly mirror corpses
     if ((flags & MF_CORPSE) && (M_Random() & 1) && r_corpses_mirrored)

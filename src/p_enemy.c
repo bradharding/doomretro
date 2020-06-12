@@ -1003,7 +1003,7 @@ void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     S_StartSound(actor, sfx_pistol);
     P_LineAttack(actor, actor->angle + (M_SubRandom() << 20), MISSILERANGE,
-        P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), ((M_Random() % 5) + 1) * 3);
+        P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), (M_Random() % 5 + 1) * 3);
 }
 
 void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1016,7 +1016,7 @@ void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     for (int i = 0; i < 3; i++)
         P_LineAttack(actor, actor->angle + (M_SubRandom() << 20), MISSILERANGE,
-            P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), ((M_Random() % 5) + 1) * 3);
+            P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), (M_Random() % 5 + 1) * 3);
 }
 
 void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1027,7 +1027,7 @@ void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     S_StartSound(actor, sfx_shotgn);
     P_LineAttack(actor, actor->angle + (M_SubRandom() << 20), MISSILERANGE,
-        P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), ((M_Random() % 5) + 1) * 3);
+        P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0), (M_Random() % 5 + 1) * 3);
 }
 
 void A_CPosRefire(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1290,7 +1290,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_skepch);
-        P_DamageMobj(target, actor, actor, ((M_Random() % 10) + 1) * 6, true);
+        P_DamageMobj(target, actor, actor, (M_Random() % 10 + 1) * 6, true);
     }
 }
 
