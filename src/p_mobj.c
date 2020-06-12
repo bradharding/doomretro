@@ -495,11 +495,13 @@ floater:
 
                 if (blood != FUZZYBLOOD)
                 {
-                    fixed_t r1 = M_RandomInt(-3, 3) << FRACBITS;
-                    fixed_t r2 = M_RandomInt(-3, 3) << FRACBITS;
+                    fixed_t x1 = M_RandomInt(-3, 3) << FRACBITS;
+                    fixed_t y1 = M_RandomInt(-3, 3) << FRACBITS;
+                    fixed_t x2 = M_RandomIntNoRepeat(-3, 3, x1) << FRACBITS;
+                    fixed_t y2 = M_RandomIntNoRepeat(-3, 3, y1) << FRACBITS;
 
-                    P_SpawnBloodSplat(x + r1, y + r2, blood, floorz, NULL);
-                    P_SpawnBloodSplat(x - r1, y - r2, blood, floorz, NULL);
+                    P_SpawnBloodSplat(x + x1, y + y1, blood, floorz, NULL);
+                    P_SpawnBloodSplat(x - x2, y - y2, blood, floorz, NULL);
                 }
             }
 
