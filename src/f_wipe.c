@@ -97,18 +97,14 @@ static dboolean wipe_doMelt(int tics)
             if (ypos[i] < 0)
             {
                 ypos[i]++;
-                done = false;
                 continue;
             }
 
             if (ypos[i] < SCREENHEIGHT)
             {
-                int     dy = (ypos[i] < 16 ? ypos[i] + 1 : speed);
+                int     dy = MIN((ypos[i] < 16 ? ypos[i] + 1 : speed), SCREENHEIGHT - ypos[i]);
                 short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + ypos[i]];
                 short   *d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
-
-                if (ypos[i] + dy >= SCREENHEIGHT)
-                    dy = SCREENHEIGHT - ypos[i];
 
                 for (int idx = 0, j = dy; j; j--, idx += SCREENWIDTH / 2)
                     d[idx] = *s++;

@@ -748,11 +748,9 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
 // MAES: support 512x512 blockmaps.
 int P_GetSafeBlockX(int coord)
 {
-    coord >>= MAPBLOCKSHIFT;
-
     // If x is LE than those special values, interpret as positive.
     // Otherwise, leave it as it is.
-    if (coord <= blockmapxneg)
+    if ((coord >>= MAPBLOCKSHIFT) <= blockmapxneg)
         return (coord & 0x01FF);    // Broke width boundary
 
     return coord;
@@ -761,12 +759,10 @@ int P_GetSafeBlockX(int coord)
 // MAES: support 512x512 blockmaps.
 int P_GetSafeBlockY(int coord)
 {
-    coord >>= MAPBLOCKSHIFT;
-
     // If y is LE than those special values, interpret as positive.
     // Otherwise, leave it as it is.
-    if (coord <= blockmapyneg)
-        return (coord & 0x01FF);    // Broke width boundary
+    if ((coord >>= MAPBLOCKSHIFT) <= blockmapyneg)
+        return (coord & 0x01FF);    // Broke height boundary
 
     return coord;
 }
