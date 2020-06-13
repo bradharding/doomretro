@@ -11,6 +11,7 @@
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
   * Friction is no longer applied to the player’s movement when they are on a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
+* The player arrow in the automap now has smoother movement.
 
 ---
 
