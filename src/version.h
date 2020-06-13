@@ -50,7 +50,7 @@
 #define PACKAGE_COPYRIGHT               "\xA9 2013\x962020 by Brad Harding. All rights reserved."
 #define PACKAGE_FILENAME                "doomretro.exe"
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
-#define PACKAGE_LICENSE                 "GNU General Public License"
+#define PACKAGE_LICENSE                 "GNU General Public License v3.0"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%i.save"
