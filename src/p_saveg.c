@@ -179,14 +179,14 @@ static void saveg_write_mapthing_t(mapthing_t *str)
     saveg_write16(str->options);
 }
 
-static int P_ThingToIndex(mobj_t *thing, int thread)
+static int P_ThingToIndex(mobj_t *thing)
 {
     int i = 0;
 
     if (!thing)
         return 0;
 
-    for (thinker_t *th = thinkers[thread].cnext; th != &thinkers[thread]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         i++;
 
@@ -197,14 +197,14 @@ static int P_ThingToIndex(mobj_t *thing, int thread)
     return 0;
 }
 
-static mobj_t *P_IndexToThing(int index, int thread)
+static mobj_t *P_IndexToThing(int index)
 {
     int i = 0;
 
     if (!index)
         return NULL;
 
-    for (thinker_t *th = thinkers[thread].cnext; th != &thinkers[thread]; th = th->cnext)
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         if (++i == index)
             return (mobj_t *)th;
 
@@ -309,13 +309,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);
-    saveg_write32(P_ThingToIndex(str->target, th_mobj));
+    saveg_write32(P_ThingToIndex(str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
     saveg_write_bool(!!str->player);
     saveg_write_mapthing_t(&str->spawnpoint);
-    saveg_write32(P_ThingToIndex(str->tracer, th_mobj));
-    saveg_write32(P_ThingToIndex(str->lastenemy, th_mobj));
+    saveg_write32(P_ThingToIndex(str->tracer));
+    saveg_write32(P_ThingToIndex(str->lastenemy));
     saveg_write32(str->floatbob);
     saveg_write32(str->shadowoffset);
     saveg_write16(str->gear);
@@ -580,7 +580,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->secretcount);
     saveg_write32(viewplayer->damagecount);
     saveg_write32(viewplayer->bonuscount);
-    saveg_write32(P_ThingToIndex(viewplayer->attacker, th_mobj));
+    saveg_write32(P_ThingToIndex(viewplayer->attacker));
     saveg_write32(viewplayer->extralight);
     saveg_write32(viewplayer->fixedcolormap);
     saveg_write_pspdef_t(&viewplayer->psprites[ps_weapon]);
@@ -1072,14 +1072,14 @@ void P_ArchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        saveg_write16(sector->floorheight >> FRACBITS);
-        saveg_write16(sector->ceilingheight >> FRACBITS);
+        saveg_write32(sector->floorheight >> FRACBITS);
+        saveg_write32(sector->ceilingheight >> FRACBITS);
         saveg_write16(sector->floorpic);
         saveg_write16(sector->ceilingpic);
         saveg_write16(sector->lightlevel);
         saveg_write16(sector->special);
         saveg_write16(sector->tag);
-        saveg_write32(P_ThingToIndex(sector->soundtarget, th_misc));
+        saveg_write32(P_ThingToIndex(sector->soundtarget));
     }
 
     // do lines
@@ -1098,8 +1098,8 @@ void P_ArchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            saveg_write16(side->textureoffset >> FRACBITS);
-            saveg_write16(side->rowoffset >> FRACBITS);
+            saveg_write32(side->textureoffset >> FRACBITS);
+            saveg_write32(side->rowoffset >> FRACBITS);
             saveg_write16(side->toptexture);
             saveg_write16(side->bottomtexture);
             saveg_write16(side->midtexture);
@@ -1121,8 +1121,8 @@ void P_UnArchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        sector->floorheight = saveg_read16() << FRACBITS;
-        sector->ceilingheight = saveg_read16() << FRACBITS;
+        sector->floorheight = saveg_read32() << FRACBITS;
+        sector->ceilingheight = saveg_read32() << FRACBITS;
         sector->floorpic = saveg_read16();
         sector->terraintype = terraintypes[sector->floorpic];
         sector->ceilingpic = saveg_read16();
@@ -1151,8 +1151,8 @@ void P_UnArchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            side->textureoffset = saveg_read16() << FRACBITS;
-            side->rowoffset = saveg_read16() << FRACBITS;
+            side->textureoffset = saveg_read32() << FRACBITS;
+            side->rowoffset = saveg_read32() << FRACBITS;
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();
@@ -1303,10 +1303,10 @@ void P_RestoreTargets(void)
     sector_t    *sec = sectors;
     int         targetlimit = MIN(numsectors, TARGETLIMIT - 1);
 
-    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker, th_mobj));
+    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing(attacker));
 
     for (int i = 0; i < targetlimit; i++, sec++)
-        P_SetNewTarget(&sec->soundtarget, P_IndexToThing(soundtargets[i], th_misc));
+        P_SetNewTarget(&sec->soundtarget, P_IndexToThing(soundtargets[i]));
 
     thingindex = 0;
 
@@ -1314,9 +1314,9 @@ void P_RestoreTargets(void)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex], th_mobj));
-        P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex], th_mobj));
-        P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex], th_mobj));
+        P_SetNewTarget(&mo->target, P_IndexToThing(targets[thingindex]));
+        P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex]));
+        P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex]));
         thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
     }
 }
