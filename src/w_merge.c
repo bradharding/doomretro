@@ -178,9 +178,8 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     // Grow list?
     if (num_sprite_frames >= sprite_frames_alloced)
     {
-        sprite_frame_t  *newframes;
+        sprite_frame_t  *newframes = Z_Malloc((size_t)sprite_frames_alloced * 2 * sizeof(*sprite_frames), PU_STATIC, NULL);
 
-        newframes = Z_Malloc((size_t)sprite_frames_alloced * 2 * sizeof(*sprite_frames), PU_STATIC, NULL);
         memcpy(newframes, sprite_frames, sprite_frames_alloced * sizeof(*sprite_frames));
         Z_Free(sprite_frames);
         sprite_frames_alloced *= 2;

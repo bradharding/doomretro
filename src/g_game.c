@@ -1444,7 +1444,6 @@ void G_DoLoadGame(void)
     P_UnArchiveMap();
 
     P_RestoreTargets();
-    P_RemoveCorruptMobjs();
 
     P_MapEnd();
 

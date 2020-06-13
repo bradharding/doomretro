@@ -931,7 +931,7 @@ static void saveg_read_button_t(button_t *str)
 
 static void saveg_write_button_t(button_t *str)
 {
-    saveg_write32((str->line ? str->line->id : -1));
+    saveg_write32(str->line ? str->line->id : -1);
     saveg_write_enum(str->where);
     saveg_write32(str->btexture);
     saveg_write32(str->btimer);
@@ -1318,20 +1318,6 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->tracer, P_IndexToThing(tracers[thingindex], th_mobj));
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing(lastenemies[thingindex], th_mobj));
         thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
-    }
-}
-
-//
-// P_RemoveCorruptMobjs
-//
-void P_RemoveCorruptMobjs(void)
-{
-    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-    {
-        mobj_t  *mo = (mobj_t *)th;
-
-        if (!mo->state && mo->info->spawnstate != S_NULL)
-            P_RemoveMobj(mo);
     }
 }
 
