@@ -97,6 +97,7 @@ static dboolean wipe_doMelt(int tics)
             if (ypos[i] < 0)
             {
                 ypos[i]++;
+                done = false;
                 continue;
             }
 

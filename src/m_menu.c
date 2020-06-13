@@ -846,7 +846,7 @@ static dboolean M_CheckSaveGame(int *ep, int *map)
     int     mission;
 
     if (!file)
-        return true;
+        return false;
 
     for (int i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(file);
@@ -1165,57 +1165,32 @@ void M_UpdateSaveGameName(int i)
                         if ((map == 10 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B))
                             || (map == 11 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
                             || M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[(ep - 1) * 9 + map - 1])))
-                        {
                             match = true;
-                            break;
-                        }
 
                         break;
 
                     case doom2:
-                        if (bfgedition)
-                        {
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[map - 1])))
-                            {
-                                match = true;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[map - 1])))
-                            {
-                                match = true;
-                                break;
-                            }
-                        }
+                        if (M_StringCompare(savegamestrings[i],
+                            RemoveMapNum(bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1])))
+                            match = true;
 
                         break;
 
                     case pack_nerve:
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[map - 1])))
-                        {
                             match = true;
-                            break;
-                        }
 
                         break;
 
                     case pack_plut:
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[map - 1])))
-                        {
                             match = true;
-                            break;
-                        }
 
                         break;
 
                     case pack_tnt:
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[map - 1])))
-                        {
                             match = true;
-                            break;
-                        }
 
                         break;
 
