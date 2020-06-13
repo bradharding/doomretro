@@ -1089,10 +1089,10 @@ void G_DoScreenShot(void)
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
 
-        C_Output("<b>%s</b> saved.", lbmpath1);
+        C_Output("<b>%s</b> was saved.", lbmpath1);
 
         if (*lbmpath2)
-            C_Output("<b>%s</b> saved.", lbmpath2);
+            C_Output("<b>%s</b> was saved.", lbmpath2);
     }
     else
         C_Warning(0, "A screenshot couldn't be taken.");
@@ -1556,7 +1556,7 @@ static void G_DoSaveGame(void)
             C_Input("save %s", savegame_file);
 
         if (consoleactive)
-            C_Output("<b>%s</b> saved.", savename);
+            C_Output("<b>%s</b> was saved.", savename);
         else
         {
             static char buffer[1024];
