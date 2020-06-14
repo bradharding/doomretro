@@ -624,8 +624,9 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    const int   x = viewplayer->mo->x;
-    const int   y = viewplayer->mo->y;
+    mobj_t      *mo = viewplayer->mo;
+    const int   x = mo->x;
+    const int   y = mo->y;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
@@ -1165,8 +1166,10 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
+    mobj_t  *mo = viewplayer->mo;
+
+    m_x = (mo->x >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (mo->y >> FRACTOMAPBITS) - m_h / 2;
 }
 
 //
@@ -1709,9 +1712,10 @@ static void AM_DrawPlayer(void)
     const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
     angle_t     angle;
+    mobj_t      *mo = viewplayer->mo;
 
-    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
-    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
+    point.x = mo->x >> FRACTOMAPBITS;
+    point.y = mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
     {
@@ -1719,7 +1723,7 @@ static void AM_DrawPlayer(void)
         angle = ANG90;
     }
     else
-        angle = viewplayer->mo->angle;
+        angle = mo->angle;
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -1744,6 +1748,8 @@ static void AM_DrawThings(void)
         { {  65536,      0 }, { -32768,  45875 } },
         { { -32768,  45875 }, { -32768, -45875 } }
     };
+
+    angle_t angleoffset = viewplayer->mo->angle - ANG90;
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -1783,7 +1789,7 @@ static void AM_DrawThings(void)
                     if (am_rotatemode)
                     {
                         AM_RotatePoint(&point);
-                        angle -= viewplayer->mo->angle - ANG90;
+                        angle -= angleoffset;
                     }
 
                     fx = CXMTOF(point.x);
