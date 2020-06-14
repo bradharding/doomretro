@@ -1,4 +1,4 @@
-### DOOM Retro v3.5.11
+### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this, the format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
