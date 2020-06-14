@@ -1,7 +1,7 @@
 ### DOOM Retro v3.5.11
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Savegames created with previous versions of *DOOM Retro* are not compatible with this version.
+* A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this, the format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
