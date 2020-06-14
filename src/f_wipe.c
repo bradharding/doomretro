@@ -48,14 +48,13 @@
 // SCREEN WIPE PACKAGE
 //
 
-static byte *wipe_scr_start;
-static byte *wipe_scr_end;
-static byte *wipe_scr;
+static byte     *wipe_scr_start;
+static byte     *wipe_scr_end;
+static byte     *wipe_scr;
+static short    dest[SCREENWIDTH * SCREENHEIGHT];
 
 static void wipe_shittyColMajorXform(short *array)
 {
-    short   dest[SCREENWIDTH * SCREENHEIGHT];
-
     for (int y = 0; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH / 2; x++)
             dest[y + x * SCREENHEIGHT] = array[y * SCREENWIDTH / 2 + x];
@@ -81,7 +80,7 @@ static void wipe_initMelt(void)
     // setup initial column positions
     // (ypos < 0 => not ready to scroll yet)
     ypos = malloc(SCREENWIDTH * sizeof(int));
-    ypos[0] = ypos[1] = -(M_Random() & 15);
+    ypos[0] = ypos[1] = -M_Random() & 15;
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + M_Random() % 3 - 1, 0);
@@ -92,15 +91,15 @@ static void wipe_Melt(int i, int dy)
     short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + ypos[i]];
     short   *d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
 
-    for (int idx = 0, j = dy; j; j--, idx += SCREENWIDTH / 2)
-        d[idx] = *s++;
+    for (int j = 0, k = dy; k; k--, j += SCREENWIDTH / 2)
+        d[j] = *s++;
 
     ypos[i] += dy;
     s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
     d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
 
-    for (int idx = 0, j = SCREENHEIGHT - ypos[i]; j; j--, idx += SCREENWIDTH / 2)
-        d[idx] = *s++;
+    for (int j = 0, k = SCREENHEIGHT - ypos[i]; k; k--, j += SCREENWIDTH / 2)
+        d[j] = *s++;
 }
 
 static dboolean wipe_doMelt(int tics)
