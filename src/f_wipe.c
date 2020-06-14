@@ -87,39 +87,43 @@ static void wipe_initMelt(void)
         ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + M_Random() % 3 - 1, 0);
 }
 
+static void wipe_Melt(int i, int dy)
+{
+    short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + ypos[i]];
+    short   *d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
+
+    for (int idx = 0, j = dy; j; j--, idx += SCREENWIDTH / 2)
+        d[idx] = *s++;
+
+    ypos[i] += dy;
+    s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
+    d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
+
+    for (int idx = 0, j = SCREENHEIGHT - ypos[i]; j; j--, idx += SCREENWIDTH / 2)
+        d[idx] = *s++;
+}
+
 static dboolean wipe_doMelt(int tics)
 {
     dboolean    done = true;
 
     while (tics--)
         for (int i = 0; i < SCREENWIDTH / 2; i++)
-        {
             if (ypos[i] < 0)
             {
                 ypos[i]++;
                 done = false;
-                continue;
             }
-
-            if (ypos[i] < SCREENHEIGHT)
+            else if (ypos[i] < 16)
             {
-                int     dy = MIN((ypos[i] < 16 ? ypos[i] + 1 : speed), SCREENHEIGHT - ypos[i]);
-                short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + ypos[i]];
-                short   *d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
-
-                for (int idx = 0, j = dy; j; j--, idx += SCREENWIDTH / 2)
-                    d[idx] = *s++;
-
-                ypos[i] += dy;
-                s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
-                d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
-
-                for (int idx = 0, j = SCREENHEIGHT - ypos[i]; j; j--, idx += SCREENWIDTH / 2)
-                    d[idx] = *s++;
-
+                wipe_Melt(i, ypos[i] + 1);
                 done = false;
             }
-        }
+            else if (ypos[i] < SCREENHEIGHT)
+            {
+                wipe_Melt(i, MIN(speed, SCREENHEIGHT - ypos[i]));
+                done = false;
+            }
 
     return done;
 }
