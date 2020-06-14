@@ -715,7 +715,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     str->texture = saveg_read16();
     str->floordestheight = saveg_read32();
     str->speed = saveg_read32();
-    str->stopsound = saveg_read32();
+    str->stopsound = saveg_read_bool();
 }
 
 static void saveg_write_floormove_t(floormove_t *str)
@@ -728,7 +728,7 @@ static void saveg_write_floormove_t(floormove_t *str)
     saveg_write16(str->texture);
     saveg_write32(str->floordestheight);
     saveg_write32(str->speed);
-    saveg_write32(str->stopsound);
+    saveg_write_bool(str->stopsound);
 }
 
 //
@@ -855,7 +855,7 @@ static void saveg_read_elevator_t(elevator_t *str)
     str->floordestheight = saveg_read32();
     str->ceilingdestheight = saveg_read32();
     str->speed = saveg_read32();
-    str->stopsound = saveg_read32();
+    str->stopsound = saveg_read_bool();
 }
 
 static void saveg_write_elevator_t(elevator_t *str)
