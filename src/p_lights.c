@@ -186,14 +186,7 @@ dboolean EV_StartLightStrobing(line_t *line)
     int secnum = -1;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
-    {
-        sector_t    *sec = sectors + secnum;
-
-        if (P_SectorActive(lighting_special, sec))
-            continue;
-
-        P_SpawnStrobeFlash(sec, SLOWDARK, false);
-    }
+        P_SpawnStrobeFlash(sectors + secnum, SLOWDARK, false);
 
     return true;
 }

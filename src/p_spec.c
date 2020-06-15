@@ -1165,8 +1165,7 @@ dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
-        (t == lighting_special ? !!sec->lightingdata :  // type is active
-        true)));                                        // don't know which special, must be active, shouldn't be here
+        true));                                         // don't know which special, must be active, shouldn't be here
 }
 
 //

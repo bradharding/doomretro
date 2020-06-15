@@ -131,8 +131,7 @@ typedef struct sector_s
 
     // thinker_t for reversible actions
     void                *floordata;             // jff 2/22/98 make thinkers on
-    void                *ceilingdata;           // floors, ceilings, lighting,
-    void                *lightingdata;          // independent of one another
+    void                *ceilingdata;           // floors and ceilings, independent of one another
 
     // list of mobjs that are at least partially in the sector
     // thinglist is a subset of touching_thinglist

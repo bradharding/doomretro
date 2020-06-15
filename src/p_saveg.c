@@ -1132,7 +1132,6 @@ void P_UnArchiveWorld(void)
         sector->tag = saveg_read16();
         sector->ceilingdata = NULL;
         sector->floordata = NULL;
-        sector->lightingdata = NULL;
         soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
     }
 

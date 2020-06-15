@@ -43,8 +43,7 @@
 typedef enum
 {
     floor_special,
-    ceiling_special,
-    lighting_special
+    ceiling_special
 } special_e;
 
 extern int              timer;
