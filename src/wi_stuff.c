@@ -300,7 +300,7 @@ static patch_t          **lnames;
 // slam background
 static void WI_SlamBackground(void)
 {
-    memcpy(screens[0], screens[1], SCREENWIDTH * SCREENHEIGHT);
+    memcpy(screens[0], screens[1], SCREENAREA);
 }
 
 // [BH] Draws character of "<Levelname>"

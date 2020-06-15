@@ -50,7 +50,7 @@
 #include "v_data.h"
 #include "v_video.h"
 
-byte            tempscreen[SCREENWIDTH * SCREENHEIGHT];
+byte            tempscreen[SCREENAREA];
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
@@ -272,7 +272,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     // draw the new stuff
     x = l->x;
     y = l->y;
-    memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
+    memset(tempscreen, 251, SCREENAREA);
 
     for (int i = 0; i < len; i++)
     {

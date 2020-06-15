@@ -402,7 +402,7 @@ void AM_SetAutomapSize(void)
     else
     {
         mapheight = SCREENHEIGHT;
-        maparea = SCREENWIDTH * SCREENHEIGHT;
+        maparea = SCREENAREA;
         mapbottom = SCREENWIDTH * (SCREENHEIGHT - 1);
     }
 }

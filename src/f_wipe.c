@@ -51,7 +51,9 @@
 static byte     *wipe_scr_start;
 static byte     *wipe_scr_end;
 static byte     *wipe_scr;
-static short    dest[SCREENWIDTH * SCREENHEIGHT];
+static int      *ypos;
+static int      speed;
+static short    dest[SCREENAREA];
 
 static void wipe_shittyColMajorXform(short *array)
 {
@@ -59,18 +61,15 @@ static void wipe_shittyColMajorXform(short *array)
         for (int x = 0; x < SCREENWIDTH / 2; x++)
             dest[y + x * SCREENHEIGHT] = array[y * SCREENWIDTH / 2 + x];
 
-    memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
+    memcpy(array, dest, SCREENAREA);
 }
-
-static int  *ypos;
-static int  speed;
 
 static void wipe_initMelt(void)
 {
     speed = (SCREENHEIGHT - (SBARHEIGHT * vid_widescreen)) / 16;
 
     // copy start screen to main screen
-    memcpy(wipe_scr, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT);
+    memcpy(wipe_scr, wipe_scr_start, SCREENAREA);
 
     // makes this wipe faster (in theory)
     // to have stuff in column-major format
@@ -136,15 +135,15 @@ static void wipe_exitMelt(void)
 
 void wipe_StartScreen(void)
 {
-    wipe_scr_start = malloc(SCREENWIDTH * SCREENHEIGHT);
-    memcpy(wipe_scr_start, screens[0], SCREENWIDTH * SCREENHEIGHT);
+    wipe_scr_start = malloc(SCREENAREA);
+    memcpy(wipe_scr_start, screens[0], SCREENAREA);
 }
 
 void wipe_EndScreen(void)
 {
-    wipe_scr_end = malloc(SCREENWIDTH * SCREENHEIGHT);
-    memcpy(wipe_scr_end, screens[0], SCREENWIDTH * SCREENHEIGHT);
-    memcpy(screens[0], wipe_scr_start, SCREENWIDTH * SCREENHEIGHT);
+    wipe_scr_end = malloc(SCREENAREA);
+    memcpy(wipe_scr_end, screens[0], SCREENAREA);
+    memcpy(screens[0], wipe_scr_start, SCREENAREA);
 }
 
 dboolean wipe_ScreenWipe(int tics)

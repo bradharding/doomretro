@@ -61,7 +61,7 @@
 
 #define WHITE   4
 
-// Each screen is [SCREENWIDTH * SCREENHEIGHT];
+// Each screen is [SCREENAREA];
 byte            *screens[5];
 
 byte            *menushadow;
@@ -260,7 +260,7 @@ void V_DrawPagePatch(patch_t *patch)
     DY = (SCREENHEIGHT << FRACBITS) / height;
     DYI = (height << FRACBITS) / SCREENHEIGHT;
 
-    memset(screens[0], nearestblack, SCREENWIDTH * SCREENHEIGHT);
+    memset(screens[0], nearestblack, SCREENAREA);
 
     V_DrawPatch(0, 0, 0, patch);
 
@@ -1551,7 +1551,7 @@ void V_InvertScreen(void)
 //
 void V_Init(void)
 {
-    byte                *base = malloc(SCREENWIDTH * SCREENHEIGHT * 4);
+    byte                *base = malloc(SCREENAREA * 4);
     const SDL_version   *linked = IMG_Linked_Version();
     int                 p;
 
@@ -1564,7 +1564,7 @@ void V_Init(void)
             SDL_IMAGE_FILENAME, PACKAGE_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     for (int i = 0; i < 4; i++)
-        screens[i] = &base[i * SCREENWIDTH * SCREENHEIGHT];
+        screens[i] = &base[i * SCREENAREA];
 
     DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
     DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;

@@ -2023,7 +2023,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mapscreen = oscreen = malloc(SCREENWIDTH * SCREENHEIGHT);
+    mapscreen = oscreen = malloc(SCREENAREA);
     I_CreateExternalAutomap(2);
 
 #if defined(_WIN32)
@@ -2033,7 +2033,7 @@ void I_InitGraphics(void)
     SDL_SetWindowTitle(window, PACKAGE_NAME);
 
     I_UpdateBlitFunc(false);
-    memset(screens[0], nearestblack, SCREENWIDTH * SCREENHEIGHT);
+    memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
 
     while (SDL_PollEvent(&dummy));

@@ -60,7 +60,7 @@ int         scaledviewwidth;
 int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
-int         fuzztable[SCREENWIDTH * SCREENHEIGHT];
+int         fuzztable[SCREENAREA];
 
 static byte *ylookup0[SCREENHEIGHT];
 static byte *ylookup1[SCREENHEIGHT];
@@ -972,7 +972,7 @@ void R_DrawPausedFuzzColumn(void)
     {
         *dest = fullcolormap[6 * 256 + dest[MAX(0, fuzztable[fuzzpos++])]];
 
-        if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+        if (fuzzpos == SCREENAREA)
             fuzzpos = 0;
     }
     else if (!fuzztable[fuzzpos++])
@@ -986,7 +986,7 @@ void R_DrawPausedFuzzColumn(void)
         *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
         dest += SCREENWIDTH;
 
-        if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+        if (fuzzpos == SCREENAREA)
             fuzzpos = 0;
     }
 
@@ -1219,7 +1219,7 @@ void R_InitBuffer(int width, int height)
     // Same with base row offset.
     viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) / 2);
 
-    for (int i = 0, y = viewwindowy * SCREENWIDTH + viewwindowx; y < SCREENWIDTH * SCREENHEIGHT; i++, y += SCREENWIDTH)
+    for (int i = 0, y = viewwindowy * SCREENWIDTH + viewwindowx; y < SCREENAREA; i++, y += SCREENWIDTH)
     {
         ylookup0[i] = screens[0] + y;
         ylookup1[i] = screens[1] + y;

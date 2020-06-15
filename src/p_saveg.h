@@ -96,6 +96,7 @@ void P_ArchiveMap(void);
 void P_UnArchiveMap(void);
 
 void P_RestoreTargets(void);
+void P_RemoveCorruptMobjs(void);
 
 extern FILE *save_stream;
 

@@ -70,7 +70,7 @@ extern byte             *dc_black40;
 extern byte             *dc_source;
 
 extern const int        fuzzrange[3];
-extern int              fuzztable[SCREENWIDTH * SCREENHEIGHT];
+extern int              fuzztable[SCREENAREA];
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT here.

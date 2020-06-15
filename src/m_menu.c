@@ -487,7 +487,7 @@ static int  blurtic = -1;
 //
 void M_DarkBackground(void)
 {
-    static byte blurscreen1[SCREENWIDTH * SCREENHEIGHT];
+    static byte blurscreen1[SCREENAREA];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
     int         blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
@@ -568,7 +568,7 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
-    for (int y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
+    for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
         for (int x = y; x < y + SCREENWIDTH; x += 2)
         {
             byte    *dot = *screens + x;
