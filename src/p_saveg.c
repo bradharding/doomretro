@@ -270,7 +270,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->strafecount = saveg_read16();
 
     if (str->flags & MF_SHOOTABLE)
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 32; i++)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
@@ -339,7 +339,7 @@ static void saveg_write_mobj_t(mobj_t *str)
         for (i = 0; str->name[i] != '\0'; i++)
             saveg_write8(str->name[i]);
 
-        for (; i < 100; i++)
+        for (; i < 32; i++)
             saveg_write8(0);
     }
 

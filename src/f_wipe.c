@@ -79,7 +79,7 @@ static void wipe_initMelt(void)
     // setup initial column positions
     // (ypos < 0 => not ready to scroll yet)
     ypos = malloc(SCREENWIDTH * sizeof(int));
-    ypos[0] = ypos[1] = -M_Random() & 15;
+    ypos[0] = ypos[1] = -(M_Random() % 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + M_Random() % 3 - 1, 0);
@@ -101,27 +101,26 @@ static void wipe_Melt(int i, int dy)
         d[j] = *s++;
 }
 
-static dboolean wipe_doMelt(int tics)
+static dboolean wipe_doMelt(void)
 {
     dboolean    done = true;
 
-    while (tics--)
-        for (int i = 0; i < SCREENWIDTH / 2; i++)
-            if (ypos[i] < 0)
-            {
-                ypos[i]++;
-                done = false;
-            }
-            else if (ypos[i] < 16)
-            {
-                wipe_Melt(i, ypos[i] + 1);
-                done = false;
-            }
-            else if (ypos[i] < SCREENHEIGHT)
-            {
-                wipe_Melt(i, MIN(speed, SCREENHEIGHT - ypos[i]));
-                done = false;
-            }
+    for (int i = 0; i < SCREENWIDTH / 2; i++)
+        if (ypos[i] < 0)
+        {
+            ypos[i]++;
+            done = false;
+        }
+        else if (ypos[i] < 16)
+        {
+            wipe_Melt(i, ypos[i] + 1);
+            done = false;
+        }
+        else if (ypos[i] < SCREENHEIGHT)
+        {
+            wipe_Melt(i, MIN(speed, SCREENHEIGHT - ypos[i]));
+            done = false;
+        }
 
     return done;
 }
@@ -146,7 +145,7 @@ void wipe_EndScreen(void)
     memcpy(screens[0], wipe_scr_start, SCREENAREA);
 }
 
-dboolean wipe_ScreenWipe(int tics)
+dboolean wipe_ScreenWipe(void)
 {
     // when zero, stop the wipe
     static dboolean go;
@@ -160,7 +159,7 @@ dboolean wipe_ScreenWipe(int tics)
     }
 
     // do a piece of wipe-in
-    if (wipe_doMelt(tics))
+    if (wipe_doMelt())
     {
         // final stuff
         go = false;

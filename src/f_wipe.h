@@ -45,6 +45,6 @@
 
 void wipe_StartScreen(void);
 void wipe_EndScreen(void);
-dboolean wipe_ScreenWipe(int tics);
+dboolean wipe_ScreenWipe(void);
 
 #endif

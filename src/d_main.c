@@ -398,7 +398,7 @@ void D_Display(void)
         } while (tics <= 0);
 
         wipestart = nowtime;
-        done = wipe_ScreenWipe(tics);
+        done = wipe_ScreenWipe();
 
         M_Drawer();
         blitfunc();             // blit buffer
