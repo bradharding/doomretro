@@ -261,12 +261,12 @@ typedef struct
     dboolean    fullbright;
     int         blood;
     int         shadowoffset;
-    char        name1[32];
-    char        plural1[32];
-    char        name2[32];
-    char        plural2[32];
-    char        name3[32];
-    char        plural3[32];
+    char        name1[33];
+    char        plural1[33];
+    char        name2[33];
+    char        plural2[33];
+    char        name3[33];
+    char        plural3[33];
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
 } mobjinfo_t;

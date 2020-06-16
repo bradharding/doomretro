@@ -4036,7 +4036,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
         strreplace(parm, "player", "");
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
-        return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
+        return (namecmdnew[0] != '\0' && sizeof(namecmdnew) < 33);
     }
 
     if (gamestate == GS_LEVEL)
@@ -4052,7 +4052,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
             strreplace(parm, "monster", "");
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
-            return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
+            return (namecmdnew[0] != '\0' && sizeof(namecmdnew) < 33);
         }
         else
             namecmdanymonster = false;
@@ -4100,7 +4100,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     free(temp3);
 
                 if (result)
-                    return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
+                    return (namecmdnew[0] != '\0' && sizeof(namecmdnew) < 33);
             }
     }
 

@@ -443,7 +443,7 @@ typedef struct mobj_s
     int                 id;
     int                 musicid;
 
-    char                name[32];
+    char                name[33];
 
     dboolean            madesound;
     mobjtype_t          inflicter;
