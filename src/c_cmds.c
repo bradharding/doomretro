@@ -4020,8 +4020,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 //
 static dboolean namecmdfriendly;
 static dboolean namecmdanymonster;
-static char     namecmdnew[100];
-static char     namecmdold[100];
+static char     namecmdnew[32];
+static char     namecmdold[32];
 static int      namecmdtype = NUMMOBJTYPES;
 
 static dboolean name_cmd_func1(char *cmd, char *parms)
@@ -4036,7 +4036,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
         strreplace(parm, "player", "");
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
-        return (namecmdnew[0] != '\0');
+        return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
     }
 
     if (gamestate == GS_LEVEL)
@@ -4052,7 +4052,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
             strreplace(parm, "monster", "");
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
-            return (namecmdnew[0] != '\0');
+            return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
         }
         else
             namecmdanymonster = false;
@@ -4100,7 +4100,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                     free(temp3);
 
                 if (result)
-                    return (namecmdnew[0] != '\0');
+                    return (namecmdnew[0] != '\0' && strlen(namecmdnew) <= 32);
             }
     }
 

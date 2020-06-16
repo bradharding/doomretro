@@ -1138,7 +1138,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         viewplayer->mo->id = thingid;
         return NULL;
     }
-    
+
     if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
