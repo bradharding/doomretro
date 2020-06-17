@@ -786,7 +786,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when\nthey die."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
-        "The speed of the player (<b>10%</b> to <b>400%</b>)."),
+        "The speed the player moves (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
         "Unbinds the +<i>action</i> from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
