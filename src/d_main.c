@@ -369,7 +369,7 @@ void D_Display(void)
             C_UpdateTimer();
 
         // normal update
-        blitfunc();             // blit buffer
+        blitfunc();
         mapblitfunc();
 
 #if defined(_WIN32)
@@ -401,7 +401,7 @@ void D_Display(void)
         done = wipe_ScreenWipe();
 
         M_Drawer();
-        blitfunc();             // blit buffer
+        blitfunc();
         mapblitfunc();
 
 #if defined(_WIN32)
