@@ -2421,17 +2421,17 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         }
 
         if ((string = M_StringCompare(key, "Name1")))
-            strncpy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
         else if ((string = M_StringCompare(key, "Plural1")))
-            strncpy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
-            strncpy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));
         else if ((string = M_StringCompare(key, "Plural2")))
-            strncpy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural2));
         else if ((string = M_StringCompare(key, "Name3")))
-            strncpy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name3));
         else if ((string = M_StringCompare(key, "Plural3")))
-            strncpy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), 100);
+            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural3));
 
         if (string && devparm)
             C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
