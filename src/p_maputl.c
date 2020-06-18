@@ -425,7 +425,7 @@ void P_CheckIntercepts(void)
 divline_t   dltrace;
 
 //
-// PIT_AddLineIntercepts.
+// PIT_AddLineIntercepts
 // Looks for lines in the given block
 // that intercept the given trace
 // to add to the intercepts list.
@@ -435,8 +435,7 @@ divline_t   dltrace;
 //
 static dboolean PIT_AddLineIntercepts(line_t *ld)
 {
-    int         s1;
-    int         s2;
+    int         s1, s2;
     fixed_t     frac;
     divline_t   dl;
 
@@ -453,22 +452,22 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     }
 
     if (s1 == s2)
-        return true;    // line isn't crossed
+        return true;        // line isn't crossed
 
     // hit the line
     P_MakeDivline(ld, &dl);
 
     if ((frac = P_InterceptVector(&dltrace, &dl)) < 0)
-        return true;    // behind source
+        return true;        // behind source
 
-    P_CheckIntercepts();  // killough
+    P_CheckIntercepts();    // killough
 
     intercept_p->frac = frac;
     intercept_p->isaline = true;
     intercept_p->d.line = ld;
     intercept_p++;
 
-    return true;        // continue
+    return true;            // continue
 }
 
 //

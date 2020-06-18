@@ -1,7 +1,7 @@
 ### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to be changed, breaking compatibility with previous versions of *DOOM Retro*.
+* A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
 * The pseudo-randomness in *DOOM Retro*, which affects many things such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots, now more closely resembles *Vanilla DOOM*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
@@ -9,10 +9,10 @@
   * Minor changes have been made to some of them.
   * They will now be displayed again when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The external automap will now be scaled correctly when the `vid_scalefilter` CVAR is `nearest_linear` and the `am_external` CVAR is `on`.
-* If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically switch to them.
+* If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically switch to them as intended.
 * The following changes have been made when freeze mode is enabled:
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
-  * Friction is no longer applied to the player’s movement when they are on a *BOOM*-compatible icy or muddy sector.
+  * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
 * The player arrow in the automap now has smoother movement.
 

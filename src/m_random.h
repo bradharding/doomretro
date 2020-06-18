@@ -93,7 +93,7 @@ static inline void M_Seed(unsigned int value)
 
 static inline int M_Random2(void)
 {
-    return ((seed = 214013 * seed + 2531011) >> 16);
+    return ((seed2 = 214013 * seed2 + 2531011) >> 16);
 }
 
 static inline void M_Seed2(unsigned int value)
