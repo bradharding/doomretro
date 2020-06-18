@@ -39,6 +39,9 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
+#define RAND    rndtable[(seed = (seed + 1) & 255)]
+#define BIGRAND ((bigseed = 214013 * bigseed + 2531011) >> 16)
+
 static const unsigned char rndtable[] =
 {
       0,   8, 109, 220, 222, 241, 149, 107,  75, 248, 254, 140,  16,  66,  74,  21,
@@ -64,24 +67,26 @@ extern unsigned int bigseed;
 
 static inline int M_Random(void)
 {
-    return rndtable[(seed = (seed + 1) & 255)];
+    return RAND;
 }
 
 static inline int M_SubRandom(void)
 {
-    return (M_Random() - M_Random());
+    int r = RAND;
+
+    return (r - RAND);
 }
 
 static inline int M_RandomInt(int lower, int upper)
 {
-    return (M_Random() % (upper - lower + 1) + lower);
+    return (RAND % (upper - lower + 1) + lower);
 }
 
 static inline int M_RandomIntNoRepeat(int lower, int upper, int previous)
 {
     int result;
 
-    while ((result = (M_Random() % (upper - lower + 1) + lower)) == previous);
+    while ((result = (RAND % (upper - lower + 1) + lower)) == previous);
 
     return result;
 }
@@ -93,12 +98,12 @@ static inline void M_Seed(unsigned int value)
 
 static inline int M_BigRandom(void)
 {
-    return ((bigseed = 214013 * bigseed + 2531011) >> 16);
+    return BIGRAND;
 }
 
 static inline int M_BigRandomInt(int lower, int upper)
 {
-    return (M_BigRandom() % (upper - lower + 1) + lower);
+    return (BIGRAND % (upper - lower + 1) + lower);
 }
 
 static inline void M_BigSeed(unsigned int value)
