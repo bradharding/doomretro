@@ -456,7 +456,8 @@ static void BlurScreen(byte *screen, byte *blurscreen, int height)
 
     for (int y = SCREENWIDTH; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + M_RandomInt(-1, 1) * SCREENWIDTH + M_RandomInt(-1, 1)] << 8) + blurscreen[x]];
+            blurscreen[x] = tinttab50[(blurscreen[x + (M_Random2() % 3 - 1) * SCREENWIDTH
+                + (M_Random2() % 3 - 1)] << 8) + blurscreen[x]];
 
     for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
         for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
@@ -493,8 +494,6 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
-        M_Seed(gametime);
-
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
             screens[0][i] = nearestblack;
@@ -504,7 +503,7 @@ void M_DarkBackground(void)
         }
 
         for (int i = 0; i < blurheight; i++)
-            screens[0][i] = colormaps[0][(M_Random() & 5) * 256 + screens[0][i]];
+            screens[0][i] = colormaps[0][(M_Random2() & 5) * 256 + screens[0][i]];
 
         BlurScreen(screens[0], blurscreen1, blurheight);
 
@@ -522,7 +521,7 @@ void M_DarkBackground(void)
             }
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                mapscreen[i] = colormaps[0][(M_Random() & 7) * 256 + mapscreen[i]];
+                mapscreen[i] = colormaps[0][(M_Random2() & 7) * 256 + mapscreen[i]];
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
@@ -3765,6 +3764,8 @@ void M_Init(void)
     messageLastMenuActive = false;
     quickSaveSlot = -1;
     spindirection = ((M_Random() & 1) ? 1 : -1);
+
+    M_Seed2((unsigned int)time(NULL));
 
     if (autostart)
     {

@@ -37,3 +37,4 @@
 */
 
 unsigned int    seed;
+unsigned int    seed2;
