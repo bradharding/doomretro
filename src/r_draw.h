@@ -39,7 +39,7 @@
 #if !defined(__R_DRAW_H__)
 #define __R_DRAW_H__
 
-#define FUZZ(a, b)      fuzzrange[M_RandomInt(a, b) + 1]
+#define FUZZ(a, b)      fuzzrange[M_BigRandomInt(a, b) + 1]
 
 // [BH] Compensate for rounding errors in DOOM's renderer by stretching wall
 //  columns by 1px. This eliminates the randomly-colored pixels ("sparkles")
