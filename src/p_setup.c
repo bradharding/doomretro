@@ -1658,6 +1658,7 @@ static void P_LoadThings(int lump)
         I_Error("There are no things in this map.");
 
     M_Seed(numthings);
+    M_BigSeed(numthings);
     numspawnedthings = 0;
     numdecorations = 0;
 
@@ -1758,6 +1759,7 @@ static void P_LoadThings(int lump)
     }
 
     M_Seed((unsigned int)time(NULL));
+    M_BigSeed((unsigned int)time(NULL));
     W_ReleaseLumpNum(lump);
 }
 
@@ -2847,8 +2849,8 @@ void P_SetupLevel(int ep, int map)
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT * 2;
-    animatedliquidxdir = M_RandomInt(-FRACUNIT / 12, FRACUNIT / 12);
-    animatedliquidydir = M_RandomInt(-FRACUNIT / 12, FRACUNIT / 12);
+    animatedliquidxdir = M_BigRandomInt(-FRACUNIT / 12, FRACUNIT / 12);
+    animatedliquidydir = M_BigRandomInt(-FRACUNIT / 12, FRACUNIT / 12);
 
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;

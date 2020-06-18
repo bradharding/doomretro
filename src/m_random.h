@@ -60,7 +60,7 @@ static const unsigned char rndtable[] =
 };
 
 extern unsigned int seed;
-extern unsigned int seed2;
+extern unsigned int bigseed;
 
 static inline int M_Random(void)
 {
@@ -91,14 +91,19 @@ static inline void M_Seed(unsigned int value)
     seed = value;
 }
 
-static inline int M_Random2(void)
+static inline int M_BigRandom(void)
 {
-    return ((seed2 = 214013 * seed2 + 2531011) >> 16);
+    return ((bigseed = 214013 * bigseed + 2531011) >> 16);
 }
 
-static inline void M_Seed2(unsigned int value)
+static inline int M_BigRandomInt(int lower, int upper)
 {
-    seed2 = value;
+    return (M_BigRandom() % (upper - lower + 1) + lower);
+}
+
+static inline void M_BigSeed(unsigned int value)
+{
+    bigseed = value;
 }
 
 #endif

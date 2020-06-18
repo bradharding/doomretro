@@ -2302,8 +2302,6 @@ static void D_DoomMainSetup(void)
 #endif
     }
 
-    M_Seed((unsigned int)time(NULL));
-
     seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
     C_Output("Startup took %s seconds to complete.", seconds);
     free(seconds);

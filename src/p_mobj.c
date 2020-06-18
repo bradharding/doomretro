@@ -1103,7 +1103,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
             if (!mobj->bloodsplats)
                 break;
 
-            angle = M_RandomInt(0, FINEANGLES - 1);
+            angle = M_BigRandomInt(0, FINEANGLES - 1);
             fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
             fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
