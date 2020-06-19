@@ -1103,6 +1103,9 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
+            w_title.x = HU_TITLEX * SCREENSCALE;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
+
             if (vid_widescreen && r_althud)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else

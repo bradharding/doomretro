@@ -100,11 +100,11 @@ static void HU_DrawDot(int x, int y, unsigned char src)
 }
 
 // [BH] draw an individual character to temporary buffer
-static void HU_DrawChar(int x, int y, int ch)
+static void HU_DrawChar(int x, int y, int ch, dboolean external)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (vid_widescreen)
+    if (vid_widescreen || external)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
@@ -307,7 +307,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
-                if (vid_widescreen)
+                if (vid_widescreen || external)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
@@ -335,7 +335,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y - 1, j);
+                HU_DrawChar(x, y - 1, j, external);
             }
 
             x += w;
@@ -376,7 +376,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (!vid_widescreen)
+    if (!vid_widescreen && !external)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;
@@ -393,7 +393,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                if (vid_widescreen && r_hud_translucency && !hacx)
+                if ((vid_widescreen || external) && r_hud_translucency && !hacx)
                     *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;

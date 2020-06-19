@@ -8,7 +8,7 @@
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
   * Minor changes have been made to some of them.
   * They will now be displayed again when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
-* The external automap will now be scaled correctly when the `vid_scalefilter` CVAR is `nearest_linear` and the `am_external` CVAR is `on`.
+* The map title in the external automap will now be positioned correctly when the `am_external` CVAR is `on`.
 * If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically switch to them as intended.
 * The following changes have been made when freeze mode is enabled:
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
