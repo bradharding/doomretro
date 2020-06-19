@@ -283,6 +283,17 @@ static void saveg_read_mobj_t(mobj_t *str)
     saveg_read32();
     saveg_read32();
     saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -348,6 +359,17 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->inflicter);
 
     // [BH] For future features without breaking savegame compatibility
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
@@ -534,6 +556,9 @@ static void saveg_read_player_t(void)
     saveg_read32();
     saveg_read32();
     saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_player_t(void)
@@ -621,6 +646,9 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->bouncemax);
 
     // [BH] For future features without breaking savegame compatibility
+    saveg_write32(0);
+    saveg_write32(0);
+    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
@@ -1081,6 +1109,12 @@ void P_ArchiveWorld(void)
         saveg_write16(sector->special);
         saveg_write16(sector->tag);
         saveg_write32(P_ThingToIndex(sector->soundtarget));
+
+        // [BH] For future features without breaking savegame compatibility
+        saveg_write32(0);
+        saveg_write32(0);
+        saveg_write32(0);
+        saveg_write32(0);
     }
 
     // do lines
@@ -1107,6 +1141,12 @@ void P_ArchiveWorld(void)
             saveg_write_bool(side->missingtoptexture);
             saveg_write_bool(side->missingbottomtexture);
             saveg_write_bool(side->missingmidtexture);
+
+            // [BH] For future features without breaking savegame compatibility
+            saveg_write32(0);
+            saveg_write32(0);
+            saveg_write32(0);
+            saveg_write32(0);
         }
     }
 }
@@ -1133,6 +1173,12 @@ void P_UnArchiveWorld(void)
         sector->ceilingdata = NULL;
         sector->floordata = NULL;
         soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
+
+        // [BH] For future features without breaking savegame compatibility
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
     }
 
     // do lines
@@ -1159,6 +1205,12 @@ void P_UnArchiveWorld(void)
             side->missingtoptexture = saveg_read_bool();
             side->missingbottomtexture = saveg_read_bool();
             side->missingmidtexture = saveg_read_bool();
+
+            // [BH] For future features without breaking savegame compatibility
+            saveg_read32();
+            saveg_read32();
+            saveg_read32();
+            saveg_read32();
         }
     }
 }
