@@ -2037,7 +2037,8 @@ void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    G_ExitLevel();
+    if (!(actor->flags2 & MF2_MASSACRE))
+        G_ExitLevel();
 }
 
 static mobj_t *A_NextBrainTarget(void)

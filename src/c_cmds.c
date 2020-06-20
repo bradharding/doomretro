@@ -2712,8 +2712,7 @@ void kill_cmd_func2(char *cmd, char *parms)
                                     stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                                     kills++;
                                 }
-                                else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN
-                                    && (type != MT_HEAD || !hacx))
+                                else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
                                     P_DamageMobj(thing, NULL, NULL, thing->health, false);
