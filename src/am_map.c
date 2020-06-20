@@ -308,11 +308,11 @@ static void AM_ChangeWindowLoc(void)
     }
     else
     {
-        const fixed_t   w = m_w / 2;
-        const fixed_t   h = m_h / 2;
+        const fixed_t   width = m_w / 2;
+        const fixed_t   height = m_h / 2;
 
-        m_x = BETWEEN(min_x, m_x + w + incx, max_x) - w;
-        m_y = BETWEEN(min_y, m_y + h + incy, max_y) - h;
+        m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
+        m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
     }
 }
 
@@ -1778,7 +1778,7 @@ static void AM_DrawThings(void)
                     angle_t     angle = thing->angle;
                     int         fx, fy;
                     const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                    const int   width = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
@@ -1793,8 +1793,8 @@ static void AM_DrawThings(void)
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
-                    if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapheight + w)
-                        AM_DrawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, angle, thingcolor, point.x, point.y);
+                    if (fx >= -width && fx <= (int)mapwidth + width && fy >= -width && fy <= (int)mapheight + width)
+                        AM_DrawLineCharacter(thingtriangle, THINGTRIANGLELINES, width, angle, thingcolor, point.x, point.y);
                 }
 
                 thing = thing->snext;

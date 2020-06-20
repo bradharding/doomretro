@@ -1657,7 +1657,6 @@ static void P_LoadThings(int lump)
     if (!data || !(numthings = W_LumpLength(lump) / sizeof(mapthing_t)))
         I_Error("There are no things in this map.");
 
-    M_Seed(numthings);
     M_BigSeed(numthings);
     numspawnedthings = 0;
     numdecorations = 0;
