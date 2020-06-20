@@ -4573,6 +4573,7 @@ static void C_PlayerStats_Game(void)
     char            *temp2;
     char            *temp3;
     char            *temp4;
+    char            *temp5;
     int             killcount = 0;
     int             shotsfired1 = 0;
     int             shotsfired2 = 0;
@@ -4983,22 +4984,110 @@ static void C_PlayerStats_Game(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         shotsfired1 += viewplayer->shotsfired[i];
 
-    temp1 = commify(shotsfired1);
-    temp2 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
-        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
-    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
-    free(temp1);
-    free(temp2);
-
     for (int i = 0; i < NUMWEAPONS; i++)
         shotshit1 += viewplayer->shotshit[i];
 
     temp1 = commify(shotshit1);
-    temp2 = commify((shotshit2 = stat_shotshit_pistol + stat_shotshit_shotgun + stat_shotshit_supershotgun
+    temp2 = commify(shotsfired1);
+    temp3 = commify((shotshit2 = stat_shotshit_pistol + stat_shotshit_shotgun + stat_shotshit_supershotgun
         + stat_shotshit_chaingun + stat_shotshit_rocketlauncher + stat_shotshit_plasmarifle + stat_shotshit_bfg9000));
-    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+    temp4 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
+        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
+    C_TabbedOutput(tabs, "Shots hit/fired\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4);
     free(temp1);
     free(temp2);
+    free(temp3);
+    free(temp4);
+
+    temp1 = sentencecase(weaponinfo[wp_pistol].description);
+    temp2 = commify(viewplayer->shotshit[wp_pistol]);
+    temp3 = commify(viewplayer->shotsfired[wp_pistol]);
+    temp4 = commify(stat_shotshit_pistol);
+    temp5 = commify(stat_shotsfired_pistol);
+    C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
+
+    temp1 = sentencecase(weaponinfo[wp_shotgun].description);
+    temp2 = commify(viewplayer->shotshit[wp_shotgun]);
+    temp3 = commify(viewplayer->shotsfired[wp_shotgun]);
+    temp4 = commify(stat_shotshit_shotgun);
+    temp5 = commify(stat_shotsfired_shotgun);
+    C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
+
+    if (gamemode == commercial)
+    {
+        temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
+        temp2 = commify(viewplayer->shotshit[wp_supershotgun]);
+        temp3 = commify(viewplayer->shotsfired[wp_supershotgun]);
+        temp4 = commify(stat_shotshit_supershotgun);
+        temp5 = commify(stat_shotsfired_supershotgun);
+        C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        free(temp5);
+    }
+
+    temp1 = sentencecase(weaponinfo[wp_chaingun].description);
+    temp2 = commify(viewplayer->shotshit[wp_chaingun]);
+    temp3 = commify(viewplayer->shotsfired[wp_chaingun]);
+    temp4 = commify(stat_shotshit_chaingun);
+    temp5 = commify(stat_shotsfired_chaingun);
+    C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
+
+    temp1 = sentencecase(weaponinfo[wp_missile].description);
+    temp2 = commify(viewplayer->shotshit[wp_missile]);
+    temp3 = commify(viewplayer->shotsfired[wp_missile]);
+    temp4 = commify(stat_shotshit_rocketlauncher);
+    temp5 = commify(stat_shotsfired_rocketlauncher);
+    C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
+
+    if (gamemode != shareware)
+    {
+        temp1 = sentencecase(weaponinfo[wp_plasma].description);
+        temp2 = commify(viewplayer->shotshit[wp_plasma]);
+        temp3 = commify(viewplayer->shotsfired[wp_plasma]);
+        temp4 = commify(stat_shotshit_plasmarifle);
+        temp5 = commify(stat_shotsfired_plasmarifle);
+        C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        free(temp5);
+
+        temp1 = sentencecase(weaponinfo[wp_bfg].description);
+        temp2 = commify(viewplayer->shotshit[wp_bfg]);
+        temp3 = commify(viewplayer->shotsfired[wp_bfg]);
+        temp4 = commify(stat_shotshit_bfg9000);
+        temp5 = commify(stat_shotsfired_bfg9000);
+        C_TabbedOutput(tabs, "   %s\t<b>%s/%s</b>\t<b>%s/%s</b>", temp1, temp2, temp3, temp4, temp5);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        free(temp5);
+    }
 
     temp1 = striptrailingzero(shotshit1 * 100.0f / shotsfired1, 1);
     temp2 = striptrailingzero(shotshit2 * 100.0f / shotsfired2, 1);
@@ -5035,6 +5124,7 @@ static void C_PlayerStats_NoGame(void)
     const int       time2 = stat_time / TICRATE;
     char            *temp1;
     char            *temp2;
+    char            *temp3;
     int             shotsfired = 0;
     int             shotshit = 0;
 
@@ -5246,15 +5336,75 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    temp1 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
-        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
-    C_TabbedOutput(tabs, "Shots fired\t-\t<b>%s</b>", temp1);
-    free(temp1);
-
     temp1 = commify((shotshit = stat_shotshit_pistol + stat_shotshit_shotgun + stat_shotshit_supershotgun
         + stat_shotshit_chaingun + stat_shotshit_rocketlauncher + stat_shotshit_plasmarifle + stat_shotshit_bfg9000));
-    C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", temp1);
+    temp2 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
+        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
+    C_TabbedOutput(tabs, "Shots hit/fired\t-\t<b>%s/%s</b>", temp1, temp2);
     free(temp1);
+    free(temp2);
+
+    temp1 = sentencecase(weaponinfo[wp_pistol].description);
+    temp2 = commify(stat_shotshit_pistol);
+    temp3 = commify(stat_shotsfired_pistol);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    temp1 = sentencecase(weaponinfo[wp_shotgun].description);
+    temp2 = commify(stat_shotshit_shotgun);
+    temp3 = commify(stat_shotsfired_shotgun);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    if (gamemode == commercial)
+    {
+        temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
+        temp2 = commify(stat_shotshit_supershotgun);
+        temp3 = commify(stat_shotsfired_supershotgun);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
+
+    temp1 = sentencecase(weaponinfo[wp_chaingun].description);
+    temp2 = commify(stat_shotshit_chaingun);
+    temp3 = commify(stat_shotsfired_chaingun);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    temp1 = sentencecase(weaponinfo[wp_missile].description);
+    temp2 = commify(stat_shotshit_rocketlauncher);
+    temp3 = commify(stat_shotsfired_rocketlauncher);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    if (gamemode != shareware)
+    {
+        temp1 = sentencecase(weaponinfo[wp_plasma].description);
+        temp2 = commify(stat_shotshit_plasmarifle);
+        temp3 = commify(stat_shotsfired_plasmarifle);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+
+        temp1 = sentencecase(weaponinfo[wp_bfg].description);
+        temp2 = commify(stat_shotshit_bfg9000);
+        temp3 = commify(stat_shotsfired_bfg9000);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s/%s</b>", temp1, temp2, temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
 
     temp1 = striptrailingzero(shotshit * 100.0f / shotsfired, 1);
     C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>", (shotsfired ? temp1 : "0"));
