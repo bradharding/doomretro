@@ -15,6 +15,7 @@
   * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
 * The player arrow in the automap now has smoother movement.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ---
 

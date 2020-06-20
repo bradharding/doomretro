@@ -2439,6 +2439,14 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
             mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
     }
+
+    // [BH] Disable bobbing and translucency if thing no longer a pickup
+    if ((mobjinfo[indexnum].flags2 & MF2_FLOATBOB) && !(mobjinfo[indexnum].flags & MF_SPECIAL))
+    {
+        mobjinfo[indexnum].flags2 &= ~MF2_FLOATBOB;
+        mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_33;
+        mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_BLUE_25;
+    }
 }
 
 // ====================================================================
