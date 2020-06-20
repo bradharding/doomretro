@@ -296,8 +296,8 @@ static void P_XYMovement(mobj_t *mo)
                 fixed_t floorz = mo->floorz;
 
                 for (int i = 0; i < max; i++)
-                    P_SpawnBloodSplat(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                        mo->y + (M_RandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
+                    P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
+                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
             }
         }
     }
@@ -495,10 +495,10 @@ floater:
 
                 if (blood != FUZZYBLOOD)
                 {
-                    fixed_t x1 = M_RandomInt(-3, 3) << FRACBITS;
-                    fixed_t y1 = M_RandomInt(-3, 3) << FRACBITS;
-                    fixed_t x2 = M_RandomIntNoRepeat(-3, 3, x1) << FRACBITS;
-                    fixed_t y2 = M_RandomIntNoRepeat(-3, 3, y1) << FRACBITS;
+                    fixed_t x1 = M_BigRandomInt(-3, 3) << FRACBITS;
+                    fixed_t y1 = M_BigRandomInt(-3, 3) << FRACBITS;
+                    fixed_t x2 = M_BigRandomIntNoRepeat(-3, 3, x1) << FRACBITS;
+                    fixed_t y2 = M_BigRandomIntNoRepeat(-3, 3, y1) << FRACBITS;
 
                     P_SpawnBloodSplat(x + x1, y + y1, blood, floorz, NULL);
                     P_SpawnBloodSplat(x - x2, y - y2, blood, floorz, NULL);
@@ -1084,15 +1084,15 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     if (blood)
     {
         int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int     max = M_RandomInt(150, 200) + radius;
+        int     max = M_BigRandomInt(150, 200) + radius;
         fixed_t x = mobj->x;
         fixed_t y = mobj->y;
         fixed_t floorz = mobj->floorz;
 
         if (!(mobj->flags & MF_SPAWNCEILING))
         {
-            x += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-            y += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+            x += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
+            y += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
         }
 
         for (int i = 0; i < max; i++)
@@ -1104,8 +1104,8 @@ void P_SpawnMoreBlood(mobj_t *mobj)
                 break;
 
             angle = M_BigRandomInt(0, FINEANGLES - 1);
-            fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-            fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+            fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
+            fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
 
             P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
         }
@@ -1236,7 +1236,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         totalpickups++;
 
     if (mobj->tics > 0)
-        mobj->tics = 1 + M_Random() % mobj->tics;
+        mobj->tics = 1 + M_BigRandom() % mobj->tics;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
@@ -1246,11 +1246,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         mobj->flags2 |= MF2_BOSS;
 
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && (M_Random() & 1) && r_corpses_mirrored)
+    if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] randomly mirror weapons
-    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1) && r_mirroredweapons)
+    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] spawn blood splats around corpses
@@ -1268,7 +1268,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     // [crispy] randomly colorize space marine corpse objects
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
-        mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
+        mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSSHIFT);
 
     if ((mobj->flags2 & MF2_DECORATION) && i != MT_BARREL)
         numdecorations++;
@@ -1277,7 +1277,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     // so groups of same mobjs are deliberately out of sync
     if (info->frames > 1)
     {
-        int     frames = M_RandomInt(0, info->frames);
+        int     frames = M_BigRandomInt(0, info->frames);
         state_t *st = mobj->state;
 
         for (int j = 0; j < frames && st->nextstate != S_NULL; j++)
@@ -1287,10 +1287,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? NORM_PITCH + M_RandomInt(-16, 16) : NORM_PITCH);
+    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : M_Random());
+    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : M_BigRandom());
     prevthingx = x;
     prevthingy = y;
 
@@ -1318,10 +1318,10 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
-    th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+    th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
 
     th->state = st;
-    th->tics = MAX(1, st->tics - (M_Random() & 3));
+    th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
     th->sprite = st->sprite;
     th->frame = st->frame;
 
@@ -1335,7 +1335,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
 
-    th->z = z + (M_SubRandom() << 10);
+    th->z = z + (M_BigSubRandom() << 10);
 
     th->thinker.function = &P_MobjThinker;
     P_AddThinker(&th->thinker);
@@ -1363,14 +1363,14 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    mobj_t  *th = P_SpawnMobj(x, y, z + (M_SubRandom() << 10), MT_TRAIL);
+    mobj_t  *th = P_SpawnMobj(x, y, z + (M_BigSubRandom() << 10), MT_TRAIL);
 
     th->momz = FRACUNIT / 2;
-    th->tics -= M_Random() & 3;
+    th->tics -= M_BigRandom() & 3;
 
     th->angle = angle;
 
-    th->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
+    th->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
 }
 
 //
@@ -1396,13 +1396,13 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->type = type;
         th->info = info;
-        th->x = x + M_RandomInt(-2, 2) * FRACUNIT;
-        th->y = y + M_RandomInt(-2, 2) * FRACUNIT;
+        th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
+        th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->flags = info->flags;
-        th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+        th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
 
         th->state = st;
-        th->tics = MAX(1, st->tics - (M_Random() & 2));
+        th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
         th->sprite = st->sprite;
         th->frame = st->frame;
 
@@ -1417,7 +1417,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->floorz = sector->interpfloorheight;
         th->ceilingz = sector->interpceilingheight;
 
-        th->z = BETWEEN(minz, z + (M_SubRandom() << 10), maxz);
+        th->z = BETWEEN(minz, z + (M_BigSubRandom() << 10), maxz);
 
         th->thinker.function = &P_MobjThinker;
         P_AddThinker(&th->thinker);
@@ -1427,7 +1427,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
-        angle += M_SubRandom() * 0xB60B60;
+        angle += M_BigSubRandom() * 0xB60B60;
 
         if (damage <= 12 && th->state->nextstate)
             P_SetMobjState(th, th->state->nextstate);
@@ -1451,10 +1451,10 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
         if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
-            int             patch = firstbloodsplatlump + (M_Random() & 7);
+            int             patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
             splat->patch = patch;
-            splat->flip = M_Random() & 1;
+            splat->flip = M_BigRandom() & 1;
 
             if (blood == FUZZYBLOOD)
             {
@@ -1464,7 +1464,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
             else
             {
                 splat->colfunc = bloodsplatcolfunc;
-                splat->blood = blood + M_RandomInt(-2, 1);
+                splat->blood = blood + M_BigRandomInt(-2, 1);
             }
 
             splat->x = x;

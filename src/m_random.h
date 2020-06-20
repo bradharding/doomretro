@@ -101,9 +101,23 @@ static inline int M_BigRandom(void)
     return BIGRAND;
 }
 
+static inline int M_BigSubRandom(void)
+{
+    return ((BIGRAND & 510) - 255);
+}
+
 static inline int M_BigRandomInt(int lower, int upper)
 {
     return (BIGRAND % (upper - lower + 1) + lower);
+}
+
+static inline int M_BigRandomIntNoRepeat(int lower, int upper, int previous)
+{
+    int result;
+
+    while ((result = (BIGRAND % (upper - lower + 1) + lower)) == previous);
+
+    return result;
 }
 
 static inline void M_BigSeed(unsigned int value)
