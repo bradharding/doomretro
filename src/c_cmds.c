@@ -4549,7 +4549,7 @@ static void C_PlayerStats_Game(void)
     }
 
     temp1 = commify(stat_mapsstarted);
-    C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", temp1);
+    C_TabbedOutput(tabs, "Maps started\t<b>1</b>\t<b>%s</b>", temp1);
     free(temp1);
 
     temp1 = commify(stat_mapscompleted);
