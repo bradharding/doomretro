@@ -5006,8 +5006,14 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    if (favoriteweapon1 == wp_nochange)
+    if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
         C_TabbedOutput(tabs, "Favorite weapon\t-\t-");
+    else if (favoriteweapon1 == wp_nochange)
+    {
+        temp1 = sentencecase(weaponinfo[favoriteweapon2].description);
+        C_TabbedOutput(tabs, "Favorite weapon\t-\t<b>%s</b>", temp1);
+        free(temp1);
+    }
     else
     {
         temp1 = sentencecase(weaponinfo[favoriteweapon1].description);
