@@ -301,7 +301,7 @@ static void AM_ChangeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_Rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
+        AM_Rotate(&incx, &incy, viewangle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -1166,10 +1166,8 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    mobj_t  *mo = viewplayer->mo;
-
-    m_x = (mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
 }
 
 //
@@ -1723,7 +1721,7 @@ static void AM_DrawPlayer(void)
         angle = ANG90;
     }
     else
-        angle = mo->angle;
+        angle = viewangle;
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -1749,7 +1747,7 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    angle_t angleoffset = viewplayer->mo->angle - ANG90;
+    angle_t angleoffset = viewangle - ANG90;
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -2012,7 +2010,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode || menuactive)
     {
-        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         am_frame.sin = finesine[angle];
