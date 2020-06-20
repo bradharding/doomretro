@@ -1781,8 +1781,8 @@ static void AM_DrawThings(void)
                     const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
-                    point.x = thing->x >> FRACTOMAPBITS;
-                    point.y = thing->y >> FRACTOMAPBITS;
+                    point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
+                    point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
 
                     if (am_rotatemode)
                     {
