@@ -53,7 +53,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                    184
+#define NUMCVARS                                    196
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -247,8 +247,20 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_zombiemen,                     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_runs,                                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed,                              NOVALUEALIAS       ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,                                   NOVALUEALIAS       ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,                                     NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_pistol,                            NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_shotgun,                           NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_supershotgun,                      NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_chaingun,                          NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_rocketlauncher,                    NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_plasmarifle,                       NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired_bfg9000,                           NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_pistol,                              NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_shotgun,                             NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_supershotgun,                        NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_chaingun,                            NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_rocketlauncher,                      NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_plasmarifle,                         NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit_bfg9000,                             NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_heynottoorough,                    NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_hurtmeplenty,                      NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_skilllevel_imtooyoungtodie,                   NOVALUEALIAS       ),

@@ -58,8 +58,20 @@ int             weaponbob = weaponbob_default;
 dboolean        weaponbounce = weaponbounce_default;
 dboolean        weaponrecoil = weaponrecoil_default;
 
-unsigned int    stat_shotsfired = 0;
-unsigned int    stat_shotshit = 0;
+unsigned int    stat_shotsfired_pistol = 0;
+unsigned int    stat_shotsfired_shotgun = 0;
+unsigned int    stat_shotsfired_supershotgun = 0;
+unsigned int    stat_shotsfired_chaingun = 0;
+unsigned int    stat_shotsfired_rocketlauncher = 0;
+unsigned int    stat_shotsfired_plasmarifle = 0;
+unsigned int    stat_shotsfired_bfg9000 = 0;
+unsigned int    stat_shotshit_pistol = 0;
+unsigned int    stat_shotshit_shotgun = 0;
+unsigned int    stat_shotshit_supershotgun = 0;
+unsigned int    stat_shotshit_chaingun = 0;
+unsigned int    stat_shotshit_rocketlauncher = 0;
+unsigned int    stat_shotshit_plasmarifle = 0;
+unsigned int    stat_shotshit_bfg9000 = 0;
 
 dboolean        successfulshot;
 dboolean        skippsprinterp;
@@ -478,8 +490,8 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SubtractAmmo(1);
     P_SpawnPlayerMissile(actor, MT_ROCKET);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_missile]++;
+    stat_shotsfired_rocketlauncher = SafeAdd(stat_shotsfired_rocketlauncher, 1);
 }
 
 //
@@ -576,8 +588,8 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
     P_SpawnPlayerMissile(actor, MT_PLASMA);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_plasma]++;
+    stat_shotsfired_plasmarifle = SafeAdd(stat_shotsfired_plasmarifle, 1);
 }
 
 //
@@ -648,13 +660,13 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_pistol);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_pistol]++;
+    stat_shotsfired_pistol = SafeAdd(stat_shotsfired_pistol, 1);
 
     if (successfulshot)
     {
-        player->shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
+        player->shotshit[wp_pistol]++;
+        stat_shotshit_pistol = SafeAdd(stat_shotshit_pistol, 1);
     }
 }
 
@@ -676,13 +688,13 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_Recoil(wp_shotgun);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_shotgun]++;
+    stat_shotsfired_shotgun = SafeAdd(stat_shotsfired_shotgun, 1);
 
     if (successfulshot)
     {
-        player->shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
+        player->shotshit[wp_shotgun]++;
+        stat_shotshit_shotgun = SafeAdd(stat_shotshit_shotgun, 1);
     }
 
     player->preferredshotgun = wp_shotgun;
@@ -707,13 +719,13 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_Recoil(wp_supershotgun);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_supershotgun]++;
+    stat_shotsfired_supershotgun = SafeAdd(stat_shotsfired_supershotgun, 1);
 
     if (successfulshot)
     {
-        player->shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
+        player->shotshit[wp_supershotgun]++;
+        stat_shotshit_supershotgun = SafeAdd(stat_shotshit_supershotgun, 1);
     }
 
     player->preferredshotgun = wp_supershotgun;
@@ -755,13 +767,13 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_chaingun);
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    player->shotsfired[wp_chaingun]++;
+    stat_shotsfired_chaingun = SafeAdd(stat_shotsfired_chaingun, 1);
 
     if (successfulshot)
     {
-        player->shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
+        player->shotshit[wp_chaingun]++;
+        stat_shotshit_chaingun = SafeAdd(stat_shotshit_chaingun, 1);
     }
 }
 
@@ -818,13 +830,13 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (mo->player)
     {
-        mo->player->shotsfired++;
-        stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+        mo->player->shotsfired[wp_bfg]++;
+        stat_shotsfired_bfg9000 = SafeAdd(stat_shotsfired_bfg9000, 1);
 
         if (successfulshot)
         {
-            mo->player->shotshit++;
-            stat_shotshit = SafeAdd(stat_shotshit, 1);
+            mo->player->shotshit[wp_bfg]++;
+            stat_shotshit_bfg9000 = SafeAdd(stat_shotshit_bfg9000, 1);
         }
     }
 

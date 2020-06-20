@@ -585,15 +585,15 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         {
             if (tmthing->type == MT_PLASMA)
             {
-                viewplayer->shotshit++;
-                stat_shotshit = SafeAdd(stat_shotshit, 1);
+                viewplayer->shotshit[wp_plasma]++;
+                stat_shotshit_plasmarifle = SafeAdd(stat_shotshit_plasmarifle, 1);
             }
             else if (tmthing->type == MT_ROCKET)
             {
                 if (tmthing->nudge == 1)
                 {
-                    viewplayer->shotshit++;
-                    stat_shotshit = SafeAdd(stat_shotshit, 1);
+                    viewplayer->shotshit[wp_missile]++;
+                    stat_shotshit_rocketlauncher = SafeAdd(stat_shotshit_rocketlauncher, 1);
                 }
 
                 tmthing->nudge++;
@@ -1959,8 +1959,8 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
         {
             if (bombspot->nudge == 1)
             {
-                viewplayer->shotshit++;
-                stat_shotshit = SafeAdd(stat_shotshit, 1);
+                viewplayer->shotshit[wp_missile]++;
+                stat_shotshit_rocketlauncher = SafeAdd(stat_shotshit_rocketlauncher, 1);
             }
 
             bombspot->nudge++;

@@ -543,8 +543,8 @@ void G_DoLoadLevel(void)
     viewplayer->damageinflicted = 0;
     viewplayer->damagereceived = 0;
     viewplayer->cheated = 0;
-    viewplayer->shotshit = 0;
-    viewplayer->shotsfired = 0;
+    memset(viewplayer->shotshit, 0, sizeof(viewplayer->shotshit));
+    memset(viewplayer->shotsfired, 0, sizeof(viewplayer->shotsfired));
     viewplayer->distancetraveled = 0;
     viewplayer->gamessaved = 0;
     viewplayer->itemspickedup_ammo_bullets = 0;

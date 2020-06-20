@@ -4451,6 +4451,64 @@ static skill_t favoriteskilllevel(void)
     return favorite;
 }
 
+static weapontype_t favoriteweapon(dboolean total)
+{
+    weapontype_t    favorite = wp_nochange;
+
+    if (total)
+    {
+        unsigned int    shotsfiredstat = 0;
+
+        if (shotsfiredstat < stat_shotsfired_pistol)
+        {
+            shotsfiredstat = stat_shotsfired_pistol;
+            favorite = wp_pistol;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_shotgun)
+        {
+            shotsfiredstat = stat_shotsfired_shotgun;
+            favorite = wp_shotgun;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_supershotgun)
+        {
+            shotsfiredstat = stat_shotsfired_supershotgun;
+            favorite = wp_supershotgun;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_chaingun)
+        {
+            shotsfiredstat = stat_shotsfired_chaingun;
+            favorite = wp_chaingun;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_rocketlauncher)
+        {
+            shotsfiredstat = stat_shotsfired_rocketlauncher;
+            favorite = wp_missile;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_plasmarifle)
+        {
+            shotsfiredstat = stat_shotsfired_plasmarifle;
+            favorite = wp_plasma;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_bfg9000)
+            favorite = wp_bfg;
+    }
+    else
+        for (int i = 0, shotsfiredstat = 0; i < NUMWEAPONS; i++)
+            if (shotsfiredstat < viewplayer->shotsfired[i])
+            {
+                shotsfiredstat = viewplayer->shotsfired[i];
+                favorite = i;
+            }
+
+    return favorite;
+}
+
 static char *distance(fixed_t value, dboolean showunits)
 {
     char    *result = malloc(20);
@@ -4505,14 +4563,21 @@ static char *distance(fixed_t value, dboolean showunits)
 //
 static void C_PlayerStats_Game(void)
 {
-    const int   tabs[4] = { 160, 281, 0, 0 };
-    skill_t     favorite = favoriteskilllevel();
-    const int   time1 = leveltime / TICRATE;
-    const int   time2 = stat_time / TICRATE;
-    char        *temp1;
-    char        *temp2;
-    char        *temp3;
-    char        *temp4;
+    const int       tabs[4] = { 160, 281, 0, 0 };
+    skill_t         favoriteskilllevel1 = favoriteskilllevel();
+    weapontype_t    favoriteweapon1 = favoriteweapon(false);
+    weapontype_t    favoriteweapon2 = favoriteweapon(true);
+    const int       time1 = leveltime / TICRATE;
+    const int       time2 = stat_time / TICRATE;
+    char            *temp1;
+    char            *temp2;
+    char            *temp3;
+    char            *temp4;
+    int             killcount = 0;
+    int             shotsfired1 = 0;
+    int             shotsfired2 = 0;
+    int             shotshit1 = 0;
+    int             shotshit2 = 0;
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
@@ -4562,34 +4627,36 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    if (favorite == sk_none)
+    if (favoriteskilllevel1 == sk_none)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        temp1 = sentencecase(*skilllevels[favorite]);
+        temp1 = titlecase(*skilllevels[skilllevel - 1]);
 
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", temp1);
-        free(temp1);
-    }
+        temp2 = titlecase(*skilllevels[favoriteskilllevel1]);
 
-    {
-        int killcount = 0;
+        if (temp2[strlen(temp2) - 1] == '.')
+            temp2[strlen(temp2) - 1] = '\0';
 
-        for (int i = 0; i < NUMMOBJTYPES; i++)
-            killcount += viewplayer->mobjcount[i];
-
-        temp1 = commify(killcount);
-        temp2 = commify(totalkills);
-        temp3 = commify(stat_monsterskilled);
-        C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+        C_TabbedOutput(tabs, "Favorite skill level\t<b><i>%s</i></b>\t<b><i>%s</i></b>", temp1, temp2);
         free(temp1);
         free(temp2);
-        free(temp3);
     }
+
+    for (int i = 0; i < NUMMOBJTYPES; i++)
+        killcount += viewplayer->mobjcount[i];
+
+    temp1 = commify(killcount);
+    temp2 = commify(totalkills);
+    temp3 = commify(stat_monsterskilled);
+    C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     if (gamemode == commercial)
     {
@@ -4913,24 +4980,42 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->shotsfired);
-    temp2 = commify(stat_shotsfired);
+    for (int i = 0; i < NUMWEAPONS; i++)
+        shotsfired1 += viewplayer->shotsfired[i];
+
+    temp1 = commify(shotsfired1);
+    temp2 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
+        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->shotshit);
-    temp2 = commify(stat_shotshit);
+    for (int i = 0; i < NUMWEAPONS; i++)
+        shotshit1 += viewplayer->shotshit[i];
+
+    temp1 = commify(shotshit1);
+    temp2 = commify((shotshit2 = stat_shotshit_pistol + stat_shotshit_shotgun + stat_shotshit_supershotgun
+        + stat_shotshit_chaingun + stat_shotshit_rocketlauncher + stat_shotshit_plasmarifle + stat_shotshit_bfg9000));
     C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
     free(temp1);
     free(temp2);
 
-    temp1 = striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1);
-    temp2 = striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1);
-    C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
-        (viewplayer->shotsfired ? temp1 : "0"), (stat_shotsfired ? temp2 : "0"));
+    temp1 = striptrailingzero(shotshit1 * 100.0f / shotsfired1, 1);
+    temp2 = striptrailingzero(shotshit2 * 100.0f / shotsfired2, 1);
+    C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>", (shotsfired1 ? temp1 : "0"), (shotsfired2 ? temp2 : "0"));
     free(temp1);
     free(temp2);
+
+    if (favoriteweapon1 == wp_nochange)
+        C_TabbedOutput(tabs, "Favorite weapon\t-\t-");
+    else
+    {
+        temp1 = sentencecase(weaponinfo[favoriteweapon1].description);
+        temp2 = sentencecase(weaponinfo[favoriteweapon2].description);
+        C_TabbedOutput(tabs, "Favorite weapon\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
 
     C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>\t<b>%s</b>",
         distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
@@ -4938,11 +5023,14 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int   tabs[4] = { 160, 281, 0, 0 };
-    skill_t     favorite = favoriteskilllevel();
-    const int   time2 = stat_time / TICRATE;
-    char        *temp1;
-    char        *temp2;
+    const int       tabs[4] = { 160, 281, 0, 0 };
+    skill_t         favoriteskilllevel1 = favoriteskilllevel();
+    weapontype_t    favoriteweapon1 = favoriteweapon(true);
+    const int       time2 = stat_time / TICRATE;
+    char            *temp1;
+    char            *temp2;
+    int             shotsfired = 0;
+    int             shotshit = 0;
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
@@ -4958,11 +5046,11 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Games saved\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    if (favorite == sk_none)
+    if (favoriteskilllevel1 == sk_none)
         C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
     else
     {
-        temp1 = titlecase(*skilllevels[favorite]);
+        temp1 = titlecase(*skilllevels[favoriteskilllevel1]);
 
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
@@ -5115,8 +5203,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commify(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t-\t<b>%s shell%s</b>",
-        temp1, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t<b>%s shell%s</b>", temp1, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commify(stat_itemspickedup_armor);
@@ -5153,17 +5240,28 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    temp1 = commify(stat_shotsfired);
+    temp1 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
+        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots fired\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    temp1 = commify(stat_shotshit);
+    temp1 = commify((shotshit = stat_shotshit_pistol + stat_shotshit_shotgun + stat_shotshit_supershotgun
+        + stat_shotshit_chaingun + stat_shotshit_rocketlauncher + stat_shotshit_plasmarifle + stat_shotshit_bfg9000));
     C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    temp1 = striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1);
-    C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>", (stat_shotsfired ? temp1 : "0"));
+    temp1 = striptrailingzero(shotshit * 100.0f / shotsfired, 1);
+    C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>", (shotsfired ? temp1 : "0"));
     free(temp1);
+
+    if (favoriteweapon1 == wp_nochange)
+        C_TabbedOutput(tabs, "Favorite weapon\t-\t-");
+    else
+    {
+        temp1 = sentencecase(weaponinfo[favoriteweapon1].description);
+        C_TabbedOutput(tabs, "Favorite weapon\t-\t<b>%s</b>", temp1);
+        free(temp1);
+    }
 
     C_TabbedOutput(tabs, "Distance traveled\t-\t<b>%s</b>", distance(stat_distancetraveled, true));
 }
