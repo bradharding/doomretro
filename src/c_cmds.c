@@ -4574,8 +4574,6 @@ static void C_PlayerStats_Game(void)
     char            *temp3;
     char            *temp4;
     char            *temp5;
-    char            *temp6;
-    char            *temp7;
     int             killcount = 0;
     int             shotsfired1 = 0;
     int             shotsfired2 = 0;
@@ -4611,7 +4609,7 @@ static void C_PlayerStats_Game(void)
             }
         }
 
-        temp1 = striptrailingzero(mappedwalls * 100.0f / totalwalls, 1);
+        temp1 = striptrailingzero((totalwalls ? mappedwalls * 100.0f / totalwalls : 0.0f), 1);
         C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-", temp1);
         free(temp1);
     }
@@ -4991,148 +4989,136 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(shotssuccessful1);
     temp2 = commify(shotsfired1);
-    temp3 = striptrailingzero((shotsfired1 ? shotssuccessful1 * 100.0f / shotsfired1 : 0.0f), 1);
-    temp4 = commify((shotssuccessful2 = stat_shotssuccessful_pistol + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun
+    temp3 = commify((shotssuccessful2 = stat_shotssuccessful_pistol + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun
         + stat_shotssuccessful_chaingun + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle
         + stat_shotssuccessful_bfg9000));
-    temp5 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
+    temp4 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
         + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
-    temp6 = striptrailingzero((shotsfired2 ? shotssuccessful2 * 100.0f / shotsfired2 : 0.0f), 1);
-    C_TabbedOutput(tabs, "Shots successful/fired\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>",
-        temp1, temp2, temp3, temp4, temp5, temp6);
+    C_TabbedOutput(tabs, "Shots successful/fired\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, (shotsfired1 ? shotssuccessful1 * 100 / shotsfired1 : 0), temp3, temp4,
+        (shotsfired2 ? shotssuccessful2 * 100 / shotsfired2 : 0));
     free(temp1);
     free(temp2);
     free(temp3);
     free(temp4);
-    free(temp5);
-    free(temp6);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].description);
     temp2 = commify(viewplayer->shotssuccessful[wp_pistol]);
     temp3 = commify(viewplayer->shotsfired[wp_pistol]);
-    temp4 = striptrailingzero((viewplayer->shotsfired[wp_pistol] ?
-        viewplayer->shotssuccessful[wp_pistol] * 100.0f / viewplayer->shotsfired[wp_pistol] : 0.0f), 1);
-    temp5 = commify(stat_shotssuccessful_pistol);
-    temp6 = commify(stat_shotsfired_pistol);
-    temp7 = striptrailingzero((stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100.0f / stat_shotsfired_pistol : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+    temp4 = commify(stat_shotssuccessful_pistol);
+    temp5 = commify(stat_shotsfired_pistol);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_pistol] ? viewplayer->shotssuccessful[wp_pistol] * 100 / viewplayer->shotsfired[wp_pistol] : 0),
+        temp4, temp5,
+        (stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol : 0));
     free(temp1);
     free(temp2);
     free(temp3);
     free(temp4);
     free(temp5);
-    free(temp6);
-    free(temp7);
 
     temp1 = sentencecase(weaponinfo[wp_shotgun].description);
     temp2 = commify(viewplayer->shotssuccessful[wp_shotgun]);
     temp3 = commify(viewplayer->shotsfired[wp_shotgun]);
-    temp4 = striptrailingzero((viewplayer->shotsfired[wp_shotgun] ?
-        viewplayer->shotssuccessful[wp_shotgun] * 100.0f / viewplayer->shotsfired[wp_shotgun] : 0.0f), 1);
-    temp5 = commify(stat_shotssuccessful_shotgun);
-    temp6 = commify(stat_shotsfired_shotgun);
-    temp7 = striptrailingzero((stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100.0f / stat_shotsfired_shotgun : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+    temp4 = commify(stat_shotssuccessful_shotgun);
+    temp5 = commify(stat_shotsfired_shotgun);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_shotgun] ? viewplayer->shotssuccessful[wp_shotgun] * 100 / viewplayer->shotsfired[wp_shotgun] : 0),
+        temp4, temp5,
+        (stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun : 0));
     free(temp1);
     free(temp2);
     free(temp3);
     free(temp4);
     free(temp5);
-    free(temp6);
-    free(temp7);
 
     if (gamemode == commercial)
     {
         temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
         temp2 = commify(viewplayer->shotssuccessful[wp_supershotgun]);
         temp3 = commify(viewplayer->shotsfired[wp_supershotgun]);
-        temp4 = striptrailingzero((viewplayer->shotsfired[wp_supershotgun] ?
-            viewplayer->shotssuccessful[wp_supershotgun] * 100.0f / viewplayer->shotsfired[wp_supershotgun] : 0.0f), 1);
-        temp5 = commify(stat_shotssuccessful_supershotgun);
-        temp6 = commify(stat_shotsfired_supershotgun);
-        temp7 = striptrailingzero((stat_shotsfired_supershotgun ?
-            stat_shotssuccessful_supershotgun * 100.0f / stat_shotsfired_supershotgun : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+        temp4 = commify(stat_shotssuccessful_supershotgun);
+        temp5 = commify(stat_shotsfired_supershotgun);
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3,
+            (viewplayer->shotsfired[wp_supershotgun] ?
+                viewplayer->shotssuccessful[wp_supershotgun] * 100 / viewplayer->shotsfired[wp_supershotgun] : 0),
+            temp4, temp5,
+            (stat_shotsfired_supershotgun ? stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun : 0));
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
         free(temp5);
-        free(temp6);
-        free(temp7);
     }
 
     temp1 = sentencecase(weaponinfo[wp_chaingun].description);
     temp2 = commify(viewplayer->shotssuccessful[wp_chaingun]);
     temp3 = commify(viewplayer->shotsfired[wp_chaingun]);
-    temp4 = striptrailingzero((viewplayer->shotsfired[wp_chaingun] ?
-        viewplayer->shotssuccessful[wp_chaingun] * 100.0f / viewplayer->shotsfired[wp_chaingun] : 0.0f), 1);
-    temp5 = commify(stat_shotssuccessful_chaingun);
-    temp6 = commify(stat_shotsfired_chaingun);
-    temp7 = striptrailingzero((stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100.0f / stat_shotsfired_chaingun : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+    temp4 = commify(stat_shotssuccessful_chaingun);
+    temp5 = commify(stat_shotsfired_chaingun);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_chaingun] ? viewplayer->shotssuccessful[wp_chaingun] * 100 / viewplayer->shotsfired[wp_chaingun] : 0),
+        temp4, temp5,
+        (stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun : 0));
     free(temp1);
     free(temp2);
     free(temp3);
     free(temp4);
     free(temp5);
-    free(temp6);
-    free(temp7);
 
     temp1 = sentencecase(weaponinfo[wp_missile].description);
     temp2 = commify(viewplayer->shotssuccessful[wp_missile]);
     temp3 = commify(viewplayer->shotsfired[wp_missile]);
-    temp4 = striptrailingzero((viewplayer->shotsfired[wp_missile] ?
-        viewplayer->shotssuccessful[wp_missile] * 100.0f / viewplayer->shotsfired[wp_missile] : 0.0f), 1);
-    temp5 = commify(stat_shotssuccessful_rocketlauncher);
-    temp6 = commify(stat_shotsfired_rocketlauncher);
-    temp7 = striptrailingzero((stat_shotsfired_rocketlauncher ?
-        stat_shotssuccessful_rocketlauncher * 100.0f / stat_shotsfired_rocketlauncher : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+    temp4 = commify(stat_shotssuccessful_rocketlauncher);
+    temp5 = commify(stat_shotsfired_rocketlauncher);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_missile] ? viewplayer->shotssuccessful[wp_missile] * 100 / viewplayer->shotsfired[wp_missile] : 0),
+        temp4, temp5,
+        (stat_shotsfired_rocketlauncher ? stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher : 0));
     free(temp1);
     free(temp2);
     free(temp3);
     free(temp4);
     free(temp5);
-    free(temp6);
-    free(temp7);
 
     if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].description);
         temp2 = commify(viewplayer->shotssuccessful[wp_plasma]);
         temp3 = commify(viewplayer->shotsfired[wp_plasma]);
-        temp4 = striptrailingzero((viewplayer->shotsfired[wp_plasma] ?
-            viewplayer->shotssuccessful[wp_plasma] * 100.0f / viewplayer->shotsfired[wp_plasma] : 0.0f), 1);
-        temp5 = commify(stat_shotssuccessful_plasmarifle);
-        temp6 = commify(stat_shotsfired_plasmarifle);
-        temp7 = striptrailingzero((stat_shotsfired_plasmarifle ?
-            stat_shotssuccessful_plasmarifle * 100.0f / stat_shotsfired_plasmarifle : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+        temp4 = commify(stat_shotssuccessful_plasmarifle);
+        temp5 = commify(stat_shotsfired_plasmarifle);
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3,
+            (viewplayer->shotsfired[wp_plasma] ? viewplayer->shotssuccessful[wp_plasma] * 100 / viewplayer->shotsfired[wp_plasma] : 0),
+            temp4, temp5,
+            (stat_shotsfired_plasmarifle ? stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle : 0));
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
         free(temp5);
-        free(temp6);
-        free(temp7);
 
         temp1 = sentencecase(weaponinfo[wp_bfg].description);
         temp2 = commify(viewplayer->shotssuccessful[wp_bfg]);
         temp3 = commify(viewplayer->shotsfired[wp_bfg]);
-        temp4 = striptrailingzero((viewplayer->shotsfired[wp_bfg] ?
-            viewplayer->shotssuccessful[wp_bfg] * 100.0f / viewplayer->shotsfired[wp_bfg] : 0.0f), 1);
-        temp5 = commify(stat_shotssuccessful_bfg9000);
-        temp6 = commify(stat_shotsfired_bfg9000);
-        temp7 = striptrailingzero((stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100.0f / stat_shotsfired_bfg9000 : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%s%%)</b>\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4, temp5, temp6, temp7);
+        temp4 = commify(stat_shotssuccessful_bfg9000);
+        temp5 = commify(stat_shotsfired_bfg9000);
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3,
+            (viewplayer->shotsfired[wp_bfg] ? viewplayer->shotssuccessful[wp_bfg] * 100 / viewplayer->shotsfired[wp_bfg] : 0),
+            temp4, temp5,
+            (stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000 : 0));
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
         free(temp5);
-        free(temp6);
-        free(temp7);
     }
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
@@ -5165,7 +5151,6 @@ static void C_PlayerStats_NoGame(void)
     char            *temp1;
     char            *temp2;
     char            *temp3;
-    char            *temp4;
     int             shotsfired = 0;
     int             shotssuccessful = 0;
 
@@ -5382,89 +5367,81 @@ static void C_PlayerStats_NoGame(void)
         + stat_shotssuccessful_bfg9000));
     temp2 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
         + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
-    temp3 = striptrailingzero((shotsfired ? shotssuccessful * 100.0f / shotsfired : 0.0f), 1);
-    C_TabbedOutput(tabs, "Shots successful/fired\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3);
+    C_TabbedOutput(tabs, "Shots successful/fired\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, (shotsfired ? shotssuccessful * 100 / shotsfired : 0));
     free(temp1);
     free(temp2);
-    free(temp3);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].description);
     temp2 = commify(stat_shotssuccessful_pistol);
     temp3 = commify(stat_shotsfired_pistol);
-    temp4 = striptrailingzero((stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100.0f / stat_shotsfired_pistol : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3, (stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol : 0));
     free(temp1);
     free(temp2);
     free(temp3);
-    free(temp4);
 
     temp1 = sentencecase(weaponinfo[wp_shotgun].description);
     temp2 = commify(stat_shotssuccessful_shotgun);
     temp3 = commify(stat_shotsfired_shotgun);
-    temp4 = striptrailingzero((stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100.0f / stat_shotsfired_shotgun : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3, (stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun : 0));
     free(temp1);
     free(temp2);
     free(temp3);
-    free(temp4);
 
     if (gamemode == commercial)
     {
         temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
         temp2 = commify(stat_shotssuccessful_supershotgun);
         temp3 = commify(stat_shotsfired_supershotgun);
-        temp4 = striptrailingzero((stat_shotsfired_supershotgun ?
-            stat_shotssuccessful_supershotgun * 100.0f / stat_shotsfired_supershotgun : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3,
+            (stat_shotsfired_supershotgun ? stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun : 0));
         free(temp1);
         free(temp2);
         free(temp3);
-        free(temp4);
     }
 
     temp1 = sentencecase(weaponinfo[wp_chaingun].description);
     temp2 = commify(stat_shotssuccessful_chaingun);
     temp3 = commify(stat_shotsfired_chaingun);
-    temp4 = striptrailingzero((stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100.0f / stat_shotsfired_chaingun : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3, (stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun : 0));
     free(temp1);
     free(temp2);
     free(temp3);
-    free(temp4);
 
     temp1 = sentencecase(weaponinfo[wp_missile].description);
     temp2 = commify(stat_shotssuccessful_rocketlauncher);
     temp3 = commify(stat_shotsfired_rocketlauncher);
-    temp4 = striptrailingzero((stat_shotsfired_rocketlauncher ?
-        stat_shotssuccessful_rocketlauncher * 100.0f / stat_shotsfired_rocketlauncher : 0.0f), 1);
-    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (stat_shotsfired_rocketlauncher ? stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher : 0));
     free(temp1);
     free(temp2);
     free(temp3);
-    free(temp4);
 
     if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].description);
         temp2 = commify(stat_shotssuccessful_plasmarifle);
         temp3 = commify(stat_shotsfired_plasmarifle);
-        temp4 = striptrailingzero((stat_shotsfired_plasmarifle ?
-            stat_shotssuccessful_plasmarifle * 100.0f / stat_shotsfired_plasmarifle : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3,
+            (stat_shotsfired_plasmarifle ? stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle : 0));
         free(temp1);
         free(temp2);
         free(temp3);
-        free(temp4);
 
         temp1 = sentencecase(weaponinfo[wp_bfg].description);
         temp2 = commify(stat_shotssuccessful_bfg9000);
         temp3 = commify(stat_shotsfired_bfg9000);
-        temp4 = striptrailingzero((stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100.0f / stat_shotsfired_bfg9000 : 0.0f), 1);
-        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%s%%)</b>", temp1, temp2, temp3, temp4);
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+            temp1, temp2, temp3, (stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000 : 0));
         free(temp1);
         free(temp2);
         free(temp3);
-        free(temp4);
     }
 
     if (favoriteweapon1 == wp_nochange)

@@ -16,7 +16,10 @@
 * Minor improvements have been made to the spread and color of blood splats.
 * The player arrow in the automap now has smoother movement.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
-* The `playerstats` CCMD now displays a `Shots successful/fired` stat for every weapon, as well as a new `Favorite weapon` stat.
+* The following changes have been made to the `playerstats` CCMD:
+  * A `Shots successful/fired` stat is now displayed for every weapon.
+  * The `Weapon accuracy` stat has been removed, and is instead displayed for every weapon.
+  * There is a new `Favorite weapon` stat.
 
 ---
 
