@@ -839,9 +839,9 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-static dboolean M_CheckSaveGame(int *ep, int *map)
+static dboolean M_CheckSaveGame(int *ep, int *map, int slot)
 {
-    FILE    *file = fopen(P_SaveGameFile(itemOn), "rb");
+    FILE    *file = fopen(P_SaveGameFile(slot), "rb");
     int     mission;
 
     if (!file)
@@ -987,7 +987,7 @@ static void M_LoadSelect(int choice)
     int ep;
     int map;
 
-    if (M_CheckSaveGame(&ep, &map))
+    if (M_CheckSaveGame(&ep, &map, choice))
     {
         char    name[SAVESTRINGSIZE];
 
@@ -1157,7 +1157,7 @@ void M_UpdateSaveGameName(int i)
             int ep;
             int map;
 
-            if (M_CheckSaveGame(&ep, &map))
+            if (M_CheckSaveGame(&ep, &map, i))
                 switch (gamemission)
                 {
                     case doom:
