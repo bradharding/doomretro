@@ -218,7 +218,7 @@ typedef struct player_s
     int             damageinflicted;
     int             damagereceived;
     int             cheated;
-    int             shotshit[NUMWEAPONS];
+    int             shotssuccessful[NUMWEAPONS];
     int             shotsfired[NUMWEAPONS];
     int             deaths;
     int             suicides;

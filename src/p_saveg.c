@@ -524,7 +524,7 @@ static void saveg_read_player_t(void)
     viewplayer->cheated = saveg_read32();
 
     for (int i = 0; i < NUMWEAPONS; i++)
-        viewplayer->shotshit[i] = saveg_read32();
+        viewplayer->shotssuccessful[i] = saveg_read32();
 
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->shotsfired[i] = saveg_read32();
@@ -632,7 +632,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->cheated);
 
     for (int i = 0; i < NUMWEAPONS; i++)
-        saveg_write32(viewplayer->shotshit[i]);
+        saveg_write32(viewplayer->shotssuccessful[i]);
 
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->shotsfired[i]);

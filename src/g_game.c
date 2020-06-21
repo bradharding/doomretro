@@ -543,7 +543,7 @@ void G_DoLoadLevel(void)
     viewplayer->damageinflicted = 0;
     viewplayer->damagereceived = 0;
     viewplayer->cheated = 0;
-    memset(viewplayer->shotshit, 0, sizeof(viewplayer->shotshit));
+    memset(viewplayer->shotssuccessful, 0, sizeof(viewplayer->shotssuccessful));
     memset(viewplayer->shotsfired, 0, sizeof(viewplayer->shotsfired));
     viewplayer->distancetraveled = 0;
     viewplayer->gamessaved = 0;
