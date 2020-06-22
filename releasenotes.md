@@ -1,3 +1,5 @@
+![](https://github.com/bradharding/www.doomretro.com/raw/master/title3.png?raw=true)
+
 ### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
