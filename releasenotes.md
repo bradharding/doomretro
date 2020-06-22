@@ -1,4 +1,4 @@
-![](https://github.com/bradharding/www.doomretro.com/raw/master/title3.png?raw=true)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/title3.png)
 
 ### DOOM Retro v3.6
 
