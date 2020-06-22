@@ -1575,14 +1575,14 @@ static void SetVideoMode(dboolean output)
         char    *temp1 = commify(height * 4 / 3);
         char    *temp2 = commify(height);
 
-        C_Output("<i><b>" PACKAGE_NAME "</b></i> uses a software renderer to render each frame.");
+        C_Output("A software renderer is used to render each frame.");
 
         if (nearestlinear)
         {
             char    *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
             char    *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
+            C_Output("Each frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp3, temp4);
             C_Output("Each frame is then scaled down to %sx%s using linear filtering.", temp1, temp2);
 
@@ -1590,9 +1590,9 @@ static void SetVideoMode(dboolean output)
             free(temp4);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Each frame is scaled from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
+            C_Output("Each frame is scaled up from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
         else
-            C_Output("Each frame is scaled from %ix%i to %sx%s using nearest-neighbor interpolation.",
+            C_Output("Each frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
 
         free(temp1);
