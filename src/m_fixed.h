@@ -109,9 +109,9 @@ static inline fixed_t FixedMod(fixed_t a, fixed_t b)
     return ((b & (b - 1)) ? ((a %= b) < 0 ? a + b : a) : (a & (b - 1)));
 }
 
-static inline unsigned int SafeAdd(unsigned int a, int b)
+static inline unsigned int SafeAdd(unsigned int a, unsigned int b)
 {
-    return (b > 0 && (unsigned int)b > UINT_MAX - a ? a : a + b);
+    return (b > UINT_MAX - a ? a : a + b);
 }
 
 #endif
