@@ -767,7 +767,8 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         { "hexen.wad",    "Hexen"   },
         { "hexdd.wad",    "Hexen"   },
         { "strife0.wad",  "Strife"  },
-        { "strife1.wad",  "Strife"  }
+        { "strife1.wad",  "Strife"  },
+        { "voices.wad",   "Strife"  }
     };
 
     for (int i = 0; i < arrlen(unsupported); i++)
@@ -851,7 +852,7 @@ static void D_CheckSupportedPWAD(char *filename)
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (M_StringEndsWith(filename, PACKAGE_WAD) || M_StringEndsWith(filename, "voices.wad"));
+    return (error = (M_StringEndsWith(filename, PACKAGE_WAD)));
 }
 
 static dboolean D_CheckParms(void)
@@ -1901,8 +1902,7 @@ static void D_DoomMainSetup(void)
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
 #if defined(_WIN32)
-                else if (!choseniwad && !error
-                    && (!*wad || (M_StringEndsWith(wad, ".wad") && !M_StringEndsWith(wad, PACKAGE_WAD))))
+                else if (!choseniwad && !error && (!*wad || (M_StringEndsWith(wad, ".wad"))))
 #else
                 else if (!choseniwad && !error)
 #endif
