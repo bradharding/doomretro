@@ -313,7 +313,6 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             player->attackdown = true;
             P_FireWeapon();
-            return;
         }
     }
     else

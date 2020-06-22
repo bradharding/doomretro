@@ -47,6 +47,7 @@
 
 #define GAMMALEVELS         31
 
+dboolean MouseShouldBeGrabbed(void);
 void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
 dboolean GetCapsLockState(void);

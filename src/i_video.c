@@ -1693,9 +1693,8 @@ static void SetVideoMode(dboolean output)
 
         if (output)
         {
-            typedef const GLubyte *(APIENTRY *glStringFn_t)(GLenum);
-
-            glStringFn_t    pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
+            typedef const GLubyte   *(APIENTRY *glStringFn_t)(GLenum);
+            glStringFn_t            pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
 
             if (pglGetString)
             {
