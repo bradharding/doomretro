@@ -1116,6 +1116,7 @@ void P_ArchiveWorld(void)
         saveg_write16(sector->floorpic);
         saveg_write16(sector->ceilingpic);
         saveg_write16(sector->lightlevel);
+        saveg_write16(sector->oldlightlevel);
         saveg_write16(sector->special);
         saveg_write16(sector->tag);
         saveg_write32(P_ThingToIndex(sector->soundtarget));
@@ -1177,7 +1178,8 @@ void P_UnArchiveWorld(void)
         sector->floorpic = saveg_read16();
         sector->terraintype = terraintypes[sector->floorpic];
         sector->ceilingpic = saveg_read16();
-        sector->lightlevel = sector->oldlightlevel = saveg_read16();
+        sector->lightlevel = saveg_read16();
+        sector->oldlightlevel = saveg_read16();
         sector->special = saveg_read16();
         sector->tag = saveg_read16();
         sector->ceilingdata = NULL;
