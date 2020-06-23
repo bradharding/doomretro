@@ -23,7 +23,7 @@
   * The `Weapon accuracy` stat has been removed, and is instead displayed for every weapon.
   * There is a new `Favorite weapon` stat.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, June 7, 2020
 
@@ -42,7 +42,7 @@
 * The randomization of certain features when a thing is spawned at the start of a map (such as whether a corpse is mirrored or not, or the placement of blood splats around a corpse) is now consistent if the map is restarted.
 * The `mapstats` CCMD now displays alternate titles for those few maps that have one.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, May 23, 2020
 
@@ -59,7 +59,7 @@
 * Linedefs that have the *BOOM*-compatible line special of 190 (“SR Change Texture And Effect”) now work.
 * The interpolation of floors and ceilings that move instantly has now been fixed when the `vid_capfps` CVAR is not `35`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, May 16, 2020
 
@@ -82,7 +82,7 @@
 * All function keys may now be used while the console is open.
 * A bug has been fixed whereby the widescreen HUD would momentarily disappear when pressing the <kbd>F8</kbd> key to toggle player messages.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, May 8, 2020
 
@@ -101,7 +101,7 @@
 * When a PWAD is loaded with [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/), if a `STBAR` lump is present in that PWAD, it will now be used.
 * Fixing a bug present in *Vanilla DOOM*, monsters will now always be alerted if attacked during the second frame of their idle animation.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, May 2, 2020
 
@@ -128,7 +128,7 @@
 * The sky will now be rendered correctly when the `r_screensize` CVAR is less than `7`.
 * Screenshots may now only be taken when not playing a game if the `+screenshot` action is still bound to the <kbd>PRINTSCREEN</kbd> key.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, April 18, 2020
 
@@ -150,7 +150,7 @@
 * The translucency of item and teleport fogs is no longer additive when the `r_translucency` CVAR is `on`.
 * Due to a change in the latest patch of the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher) version of [*DOOM II*](https://bethesda.net/en/store/product/DO2GNGPCBG01), MAP04 to MAP08 in *No Rest For The Living* now use the `SKY3` texture as their skies.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 3, 2020
 
@@ -161,7 +161,7 @@
 * A bug has been fixed whereby the wrong map name would be displayed on the intermission screen in some instances.
 * A brightmap is now applied to the `SLADRIP2` texture when the `r_brightmaps` CVAR is `on`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, March 23, 2020
 
@@ -181,7 +181,7 @@
 * More blood splats now appear around decorative corpses.
 * A crash will no longer occur when trying to spawn a berserk power-up using the `spawn` CCMD in *DOOM (Shareware)*.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, March 13, 2020
 
@@ -210,7 +210,7 @@
 * 3D bridges that use the `STEP2` wall texture are now rendered correctly.
 * The automap will now rotate correctly in the background if the menu is open and the `am_rotatemode` CVAR is `off`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 21, 2020
 
@@ -230,7 +230,7 @@
 * A bug has been fixed whereby the use of `LIQUID` or `NOLIQUID` in a `MAPINFO` lump would have no effect.
 * The scrollbar in the console has been widened and now includes a grip.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, February 8, 2020
 
@@ -260,7 +260,7 @@
 * Lines with special 46 (“GR Door Open Stay”) now work correctly.
 * Monsters can no longer be spawned using the `spawn` CCMD when the `nomonsters` CCMD is in effect.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, January 4, 2020
 
@@ -290,7 +290,7 @@
 * The title of MAP05 in *Final DOOM: TNT - Evilution* has been corrected.
 * The amount of friction applied to the player’s corpse has been increased, matching the corpses of monsters, when in a liquid sector.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, December 21, 2019
 
@@ -311,7 +311,7 @@
 * The `thinglist` CCMD now indicates if a thing has been dropped by a monster.
 * A crash will no longer occur when a monster tries to make a noise and the `-nosfx` or `-nosound` parameters are specified on the command-line.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, November 27, 2019
 
@@ -325,7 +325,7 @@
 * Minor improvements have been made to the menu’s background.
 * A bug has been fixed whereby blood splats around crushed corpses could appear black in some rare instances.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, November 25, 2019
 
@@ -354,7 +354,7 @@
 * A countdown will now be displayed in the top right of the screen if a timer is set using the `timer` CCMD.
 * The number of maps started now appears alongside the number of maps completed in the `playerstats` CCMD.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, November 2, 2019
 
@@ -381,7 +381,7 @@
 * The correct sound is now played when a *BOOM*-compatible generalized door opens or closes at normal speed.
 * Linedefs with specials but no sectors tagged are now handled better.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, October 11, 2019
 
@@ -402,7 +402,7 @@
 * Obituaries that involve a friendly monster will now indicate if there’s only one of them in the map.
 * Further improvements have been made to the support for Noiser’s [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, October 1, 2019
 
@@ -422,7 +422,7 @@
 * The path of the player that appears in the automap when the `am_path` CVAR is `on` is now thicker.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 21, 2019
 
@@ -444,7 +444,7 @@
 * The crosshair displayed using the `crosshair` CVAR no longer needs the `mouselook` CVAR to be `on`.
 * The correct music will now be played on the intermission screen of episodes 1 to 4 when John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il) has been autoloaded.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 14, 2019
 
@@ -461,7 +461,7 @@
   * Rocket trails are disabled, regardless of the value of the `r_rockettrails` CVAR.
 * Minor changes have been made to text that is output to the console.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, September 9, 2019
 
@@ -470,7 +470,7 @@
 * Changes have been made to improve the overall stability of *DOOM Retro*.
 * A bug has been fixed whereby the BFG-9000 wouldn’t always target monsters correctly when fired, and in some instances would kill the player themselves.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 7, 2019
 
@@ -546,7 +546,7 @@
 * If an error is found in a `MAPINFO` lump, a warning will now be displayed in the console rather than *DOOM Retro* exiting with an error.
 * The `IDFA` and `IDKFA` cheats will no longer work if the player already has all the items those cheats provide.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, June 1, 2019
 
@@ -557,7 +557,7 @@
   * The `+jump` action is no longer disabled if `SIGIL.wad` is loaded automatically.
   * A bug has been fixed whereby the `SIGILINT` lump was being displayed in the intermission’s background for episodes 1 to 4.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, May 31, 2019
 
@@ -575,7 +575,7 @@
 * A bug has been fixed whereby if the `-warp` command-line parameter was used, the player couldn’t access either the menu or the console.
 * The `mapstats` CCMD will now show the lump name of the current map’s music.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, May 26, 2019
 
@@ -590,7 +590,7 @@
 * A bug has been fixed whereby the player wouldn’t die as intended when exiting certain maps in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity), causing them to erroneously retain their weapons and ammo when warping to the next map.
 * If the WAD selected in the WAD launcher causes *DOOM Retro* to exit with an error, the `wad` CVAR will not be updated.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, May 13, 2019
 
@@ -650,7 +650,7 @@
 * Elements in the alternate widescreen HUD that are meant to be blue now appear blue rather than purple when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * A bug has been fixed whereby the splash damage from rockets would be doubled in some instances.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, February 17, 2019
 
@@ -669,7 +669,7 @@
 * If the `iwadfolder` CVAR is reset using either the `reset` or `resetall` CCMDs, the WAD launcher will try to find a common *DOOM* or *DOOM II* installation again the next time it is opened.
 * The value of the `facebackcolor` CVAR is no longer applied to the background of the player’s face in the widescreen HUD.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, February 2, 2019
 
@@ -731,7 +731,7 @@
 * Barrels will now animate correctly if their sprites have been replaced in a PWAD.
 * The player’s view will now always be at the correct height when they are spawned at the start of a map.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, November 18, 2018
 
@@ -747,7 +747,7 @@
 * A bug has been fixed whereby the flash of the player’s weapon would sometimes be positioned incorrectly if the player was firing when dropping down from a higher sector and the `weaponbounce` CVAR was `on`.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, November 4, 2018
 
@@ -792,7 +792,7 @@
 * The `+use` action can no longer be used if the `autouse` CVAR is `on`.
 * Items dropped by monsters when they are killed will now be rendered correctly if dropped on a moving platform and the `vid_capfps` CVAR is a value other than `35`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 8, 2018
 
@@ -812,7 +812,7 @@
 * A gamepad’s right thumbstick can no longer be used to move forward when the `mouselook` CVAR is `off` and the `gp_thumbsticks` CVAR is `2`.
 * Looking up and down using a gamepad’s right thumbstick is now smooth when the `mouselook` CVAR is `on`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, August 24, 2018
 
@@ -833,7 +833,7 @@
 * A bug has been fixed whereby monsters could be spawned at an incorrect height in some rare instances.
 * Some translucency effects have been improved.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 4, 2018
 
@@ -847,7 +847,7 @@
 * If the super shotgun was selected by the player more recently than the shotgun, it will now be selected when pressing the <kbd>3</kbd> key, and vice versa.
 * Improvements have been made to the gradual lighting effect under doors and crushing ceilings.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, August 3, 2018
 
@@ -890,7 +890,7 @@
 * An obituary is now displayed when the player is crushed to death by a moving ceiling and the `con_obituaries` CVAR is `on`.
 * Whether sound effects are played in mono or stereo can now be changed using the new `s_stereo` CVAR. It is `on` by default and when vanilla mode is enabled.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, March 31, 2018
 
@@ -900,7 +900,7 @@
 * The player’s view will no longer go past the floor or ceiling in some rare instances.
 * A bug has been fixed whereby the player would fire their weapon when the game was unpaused using the <kbd>PAUSE</kbd> key.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, March 29, 2018
 
@@ -935,7 +935,7 @@
 * Player messages will now always be positioned correctly when the `r_messagepos` CVAR is changed from its default of `(3,2)`.
 * The map title in the automap is now always positioned correctly when the `r_messagescale` CVAR is `small`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 23, 2018
 
@@ -955,7 +955,7 @@
 * The AI of monsters has been improved when on or next to a lift.
 * How far away a monster is vertically from the player during its melee attack is no longer taken into account if the `infiniteheight` CVAR is `on`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 9, 2018
 
@@ -975,7 +975,7 @@
 * A bug has been fixed whereby a monster’s position would be interpolated when teleporting if the `vid_capfps` CVAR was a value other than `35`.
 * Giving the player and monsters infinite height can now be toggled on or off using the new `infiniteheight` CVAR. This CVAR is `off` by default and `on` when vanilla mode is enabled.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 26, 2018
 
@@ -990,7 +990,7 @@
 * A crash will no longer occur when picking up an invulnerability power-up on the same map after loading a savegame.
 * The `playername` CVAR is now used instead of “OUR HERO” when displaying the player in *DOOM II’s* cast sequence.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 19, 2018
 
@@ -1010,7 +1010,7 @@
 * The vertical axis of a *DirectInput* gamepad’s right thumbstick when looking up and down will now be inverted when the `gp_invertyaxis` CVAR is `on`.
 * The shadows cast by the monsters in *DOOM II’s* cast sequence are now more consistent with how they appear during a game.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 5, 2018
 
@@ -1043,7 +1043,7 @@
 * The brightmaps for several wall textures are now fixed.
 * A bug present in *Vanilla DOOM* has been fixed whereby [Mancubi projectiles would sometimes pass through walls](https://doomwiki.org/wiki/Mancubus_fireball_clipping).
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, December 16, 2017
 
@@ -1058,7 +1058,7 @@
 * Both player messages and the map title in the automap are no longer truncated in the middle of the screen in some instances.
 * Sprites that are replaced in PWADs will now be offset correctly.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, December 7, 2017
 
@@ -1076,7 +1076,7 @@
 * The infighting among monsters once the player dies can now be toggled on or off using the new `infighting` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * An incorrect obituary is no longer displayed in the console when the player uses the `kill` CCMD to kill themselves.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, November 25, 2017
 
@@ -1117,7 +1117,7 @@
 * The `m_doubleclick_use` CVAR is now turned `on` and the `vid_showfps` CVAR `off` when vanilla mode is enabled.
 * An obituary is now displayed in the console when the player is killed by an exploding barrel or a damaging sector, and the `con_obituaries` CVAR is `on`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, October 11, 2017
 
@@ -1142,7 +1142,7 @@
 * Any lumps in a PWAD between `HI_START` and `HI_END` markers will now be ignored.
 * A bug has been fixed whereby when unbinding certain controls using the `unbind` CCMD, that control would then be bound again the next time *DOOM Retro* was run.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 30, 2017
 
@@ -1162,7 +1162,7 @@
 * When using the `idclip` cheat, `idclip` will now be displayed in the console rather than `idspispopd`.
 * A crash will no longer occur when trying to display the spectre in *DOOM II’s* cast sequence.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, September 8, 2017
 
@@ -1179,7 +1179,7 @@
 * Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 * A bug has been fixed whereby the slight current enabled using the `r_liquid_current` CVAR wasn’t being applied to some liquid sectors.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 26, 2017
 
@@ -1203,7 +1203,7 @@
 * Reducing the `health` CVAR will now work correctly when playing the *I’m too young to die* skill level.
 * If no IWAD is specified, *DOOM Retro* will now also check for an installation of *DOOM 3: BFG Edition* purchased through [*GOG.com*](https://www.gog.com/game/doom_3_bfg_edition).
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, July 31, 2017
 
@@ -1220,7 +1220,7 @@
 * Pain elementals can no longer spawn lost souls behind their target when directly in front of them.
 * The Hall of Mirrors indicator enabled using the `r_homindicator` CVAR will now work when in no clipping mode and freeze mode.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, July 16, 2017
 
@@ -1236,7 +1236,7 @@
 * A bug has been fixed whereby the player’s rocket launcher would shift to the left when fired.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, July 5, 2017
 
@@ -1248,7 +1248,7 @@
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby a crash could occur when exiting a map in some instances.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, June 30, 2017
 
@@ -1310,7 +1310,7 @@
 * The effects of changing the `r_fixspriteoffsets` CVAR are now immediate.
 * The grid in the automap is now slightly darker.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 7, 2017
 
@@ -1331,7 +1331,7 @@
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 * A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would randomly become non-homing, and vice versa, when loading a savegame or when pausing then unpausing a game.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, March 27, 2017
 
@@ -1341,7 +1341,7 @@
 * The value of the `r_messagescale` CVAR is now displayed correctly in `doomretro.cfg`.
 * Over 200 additional map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in `doom.wad`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, March 26, 2017
 
@@ -1367,7 +1367,7 @@
 * The maximum value the `r_screensize` CVAR can be set to is now `7` rather than `8`. Setting the CVAR to `8` previously had no effect.
 * The player can no longer trigger secrets when in freeze mode.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, March 8, 2017
 
@@ -1383,7 +1383,7 @@
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby it was possible for some controls to be bound twice to the same action in `doomretro.cfg`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, February 28, 2017
 
@@ -1396,7 +1396,7 @@
 * The header of WADs specified on the command-line using the `-file` parameter will no longer be checked.
 * A bug has been fixed whereby the super shotgun would appear entirely translucent when the player fired it.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, February 27, 2017
 
@@ -1454,7 +1454,7 @@
 * A bug has been fixed whereby the individual monster stats in the `playerstats` CCMD would be recalculated incorrectly when an arch-vile resurrected another monster.
 * Fixes have been applied to three locked doors in E2M2 and E2M6 of `doom.wad` so that monsters can’t open them from the other side.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 13, 2017
 
@@ -1465,7 +1465,7 @@
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
 * Savegames no longer become corrupted in some instances. Consequently, savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 6, 2017
 
@@ -1497,7 +1497,7 @@
 * A bug has been fixed whereby the <kbd>,</kbd> key couldn’t be bound nor unbound in the console.
 * The bound controls displayed by the `bindlist` CCMD are now enumerated correctly.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, December 2, 2016
 
@@ -1528,7 +1528,7 @@
 * A bug has been fixed whereby when the `s_randommusic` CVAR was `on`, random music would attempt to start playing at the start of a map but then stop, and the game would become almost completely unresponsive.
 * When the `s_randommusic` CVAR is `on`, the random music chosen at the start of a map will now loop rather than different music starting to play after the first finishes.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, November 19, 2016
 
@@ -1546,7 +1546,7 @@
 * Music will now be paused if either the menu or console is open and the window loses focus.
 * A crash will no longer occur when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, November 15, 2016
 
@@ -1564,7 +1564,7 @@
 * The console now opens and closes at a consistent speed, slowing down as it is almost completely opened.
 * The title of the currently playing music track, as well as the number of secret sectors, are now displayed in the output of the `mapstats` CCMD.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, November 10, 2016
 
@@ -1592,7 +1592,7 @@
 * Sectors with multiple effects in some *BOOM*-compatible maps will now behave correctly.
 * The weapon keys <kbd>1</kbd> to <kbd>7</kbd> will no longer momentarily fail to work after entering an invalid parameter for the `IDMUSxy` cheat.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 29, 2016
 
@@ -1611,7 +1611,7 @@
 * The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
 * A time limit for each map can now be set using the `-timer` command-line parameter.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 22, 2016
 
@@ -1652,7 +1652,7 @@
 * Pressing a gamepad button bound to the `+clearmark`, `+followmode`, `+grid`, `+mark`, `+maxzoom` or `+rotatemode` actions now works as intended in the automap.
 * The `vid_scaleapi` and `vid_widescreen` CVARs will now be reset correctly when using either the `reset` or `resetall` CCMDs.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, October 6, 2016
 
@@ -1669,7 +1669,7 @@
 * A bug has been fixed whereby the player’s death sound wasn’t being played when they died.
 * Blood splats are no longer spawned around corpse decorations that are in a liquid sector.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, September 30, 2016
 
@@ -1737,7 +1737,7 @@
 * The suicide bombers in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) will now explode as intended.
 * If a `TITLEPIC` lump exists in a PWAD, and there is no `CREDIT` lump to accompany it, then the `CREDIT` lump in the IWAD won’t be displayed during the title sequence.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, July 30, 2016
 
@@ -1758,7 +1758,7 @@
 * A `respawnitems` CCMD has been implemented that allows most items to be respawned 30 seconds after the player picks them up, replicating what happens in *DOOM* multiplayer.
 * The contents of `doomretro.cfg` have been rearranged slightly and commented.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, July 16, 2016
 
@@ -1778,7 +1778,7 @@
 * A bug has been fixed whereby rocket launcher frames would be shown when firing the photon ’zooka in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The text caret’s animation now resets each time the console is open, and is hidden when the console closes.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, July 5, 2016
 
@@ -1802,7 +1802,7 @@
 * The value of `r_lowpixelsize` will no longer affect the display of the title screen when the menu is open.
 * The <kbd>F5</kbd> key can no longer be used to change the graphic detail when the automap is open.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, June 18, 2016
 
@@ -1825,7 +1825,7 @@
 * Parameters can no longer be entered at the end of CCMDs that don’t use them.
 * The player’s view will no longer jump slightly when dropping down between two liquid sectors greater than 24 units apart.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, June 9, 2016
 
@@ -1841,7 +1841,7 @@
 * The `centerweapon` CVAR can now also be entered as `centreweapon`.
 * The `centered` value for the `vid_windowpos` CVAR can now also be entered as `centred`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, June 4, 2016
 
@@ -1888,7 +1888,7 @@
 * [*ZDoom’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
 * A bug has been fixed whereby a frame would be skipped when rotating monsters in the *DOOM II* cast sequence.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, May 3, 2016
 
@@ -1910,7 +1910,7 @@
 * Improvements have been made to the accuracy of “Weapon accuracy” in the output of the `playerstats` CCMD.
 * The corpses of monsters are no longer spawned if “No monsters” has been set.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, April 24, 2016
 
@@ -1931,7 +1931,7 @@
 * The <kbd>WINDOWS</kbd> key can no longer be pressed when fullscreen, as intended.
 * The *Windows* screensaver is now disabled while *DOOM Retro* is running.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, April 9, 2016
 
@@ -1946,7 +1946,7 @@
 * Double-resolution yellow and gray digits will no longer be displayed in the status bar if a `STBAR` lump from a PWAD is used.
 * The correct WAD is displayed in the output of the `mapstats` in *DOOM II: Hell On Earth* if `nerve.wad` is also present.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, April 2, 2016
 
@@ -1993,7 +1993,7 @@
 * The <kbd>E</kbd> key may now be pressed as an alternative to <kbd>SPACE</kbd> to use doors, switches, etc. It is bound to the `+use2` action.
 * When the `vid_showfps` CVAR is enabled, the frames per second is now displayed correctly while the screen shakes when the player is injured.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, February 18, 2016
 
@@ -2005,7 +2005,7 @@
 * An invalid character will no longer be displayed in the console when changing the music or SFX volume in the menu.
 * A bug has been fixed whereby when adjusting the SFX volume in the menu, the music volume was being displayed in the console instead.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, February 10, 2016
 
@@ -2029,7 +2029,7 @@
 * A bug has been fixed whereby using the `map` CCMD would cause the game to crash in some instances.
 * The selected episode or expansion in the menu is set as necessary when using the `map` CCMD.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, January 30, 2016
 
@@ -2051,7 +2051,7 @@
 * A random static effect has been applied to the console’s background.
 * The effects of changing the `vid_windowpos` and `vid_windowsize` CVARs while in the console and in a window are now immediate.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, January 17, 2016
 
@@ -2064,7 +2064,7 @@
 * A bug has been fixed whereby the muzzle flash of some weapons could be offset from the muzzle in some rare instances.
 * The file `smpeg2.dll` is now included with *DOOM Retro* again.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, January 10, 2016
 
@@ -2074,7 +2074,7 @@
 * The `+run` action may now be bound to a mouse button.
 * The player’s weapon will no longer be fullbright while the player is injured.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, January 9, 2016
 
@@ -2166,7 +2166,7 @@
 * The small digits used in the status bar and for marks in the automap are now consistent with those used in the console.
 * A bug has been fixed whereby if the `r_gamma` CVAR was set to `2.0`, the gamma correction level would still be set to the default of `0.75` at startup.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, October 21, 2015
 
@@ -2234,7 +2234,7 @@
 * A warning is now displayed in the console when a music lump can’t be played.
 * Tilde characters are now removed from the files saved using the `condump` CCMD.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 5, 2015
 
@@ -2250,7 +2250,7 @@
 * Support has been added for certain hacks to the `NODE` lump of a map. See [here](http://doomwiki.org/wiki/Linguortal) for more information.
 * The chaingunner’s refire frame is now fullbright.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 29, 2015
 
@@ -2273,7 +2273,7 @@
 * The game will no longer crash when trying to bind an action to an invalid control using the `bind` CCMD. And now a warning will be displayed in the console advising that it couldn’t be bound.
 * The `+alwaysrun` action can now be bound to a gamepad button.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, August 20, 2015
 
@@ -2290,7 +2290,7 @@
 * A bug has been fixed whereby the game would crash when trying to draw teleport lines in the automap in some instances.
 * The game will no longer crash when trying to use the <kbd>F9</kbd> to quickload a game in some rare instances.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, August 12, 2015
 
@@ -2299,7 +2299,7 @@
 * Although quite often the same folder, *DOOM Retro* will now put savegames in the same folder as the executable, rather than the current working folder.
 * A bug has been fixed whereby sprites would appear through closed doors in some instances.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, August 9, 2015
 
@@ -2321,7 +2321,7 @@
 * Brightmaps will no longer be rendered when the player has an invulnerability power-up, or in areas with a *BOOM* colormap.
 * A crash will no longer occur when a *BOOM* pusher or puller thing is present in a map.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, August 2, 2015
 
@@ -2438,7 +2438,7 @@
 * A bug has been fixed whereby warnings weren’t being displayed in the console.
 * The <kbd>WINDOWS</kbd> key is now only disabled during a game, and not while the game is in a menu, paused, in the console, or on the title screen.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ### DOOM Retro v1.7.1
 
@@ -2477,7 +2477,7 @@
 * A bug has been fixed whereby the map name in the automap was displayed incorrectly when using [*ZDL*](http://zdoom.org/wiki/ZDL) to launch the game.
 * The “fuzzy” edges of spectre shadows are now paused while the console is open.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, April 20, 2015
 
@@ -2523,7 +2523,7 @@
 * The automap will no longer disappear, nor the game crash, when zooming out in very large maps.
 * Translucency is now applied to MegaSpheres as originally intended.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, February 3, 2015
 
@@ -2545,7 +2545,7 @@
 * Diminished lighting from the player has been enhanced.
 * Blood splats are now only spawned at the same height as corpses as they slide.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, January 25, 2015
 
@@ -2562,7 +2562,7 @@
 * Savegames will now be placed in the `savegames\DOOM2.WAD\` folder rather than the `savegames\unknown.wad\` folder when `nerve.wad` is loaded.
 * The player’s weapon is now recentered after teleporting.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, January 19, 2015
 
@@ -2598,7 +2598,7 @@
 * The edges of shadows are now black when the `translucency` setting in `doomretro.cfg` to `false`.
 * The `sfxvolume` and `musicvolume` settings in `doomretro.cfg` will no longer round down to `0%` when set to `6%`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, December 10, 2014
 
@@ -2626,7 +2626,7 @@
 * The player will now bob as intended when `playerbob` is greater than `75%`.
 * Changes have been made to the messages displayed when adding and clearing marks.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, November 25, 2014
 
@@ -2669,7 +2669,7 @@
 * A bug has been fixed present in *Vanilla DOOM* whereby the vertical position of an arch-vile’s fire attack could be set incorrectly in some instances.
 * There is no longer any small upward thrust when the player is receives an arch-vile’s fire attack while “no clipping mode” is on using the `IDCLIP` cheat.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, November 8, 2014
 
@@ -2688,7 +2688,7 @@
 * The <kbd>,</kbd> and <kbd>.</kbd> keys can now also be used to strafe left and right, as they could in *Vanilla DOOM*. They are changed using the `key_strafeleft2` and `key_straferight2` settings in `doomretro.cfg`.
 * Shifted characters are now allowed when entering savegame descriptions. (In *Vanilla DOOM*, pressing <kbd>SHIFT</kbd> + <kbd>/</kbd>, for example, would still display “/” rather than “?”.)
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, November 4, 2014
 
@@ -2709,7 +2709,7 @@
 * A bug has been fixed whereby switching to and from the chainsaw using the number keys really quickly would cause either a crash, or the player’s weapon to disappear completely.
 * The player’s weapon bob is now consistent with *Vanilla DOOM*.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 25, 2014
 
@@ -2810,7 +2810,7 @@
 * A bug has been fixed whereby you could switch weapons when zooming in the automap if both actions were set to the gamepad’s left and right shoulder buttons.
 * Skies with heights other than 128 pixels are now rendered correctly.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, August 15, 2014
 
@@ -2830,7 +2830,7 @@
 * Minor changes have been made to a few messages.
 * A bug has been fixed whereby *DOOM Retro* would exit with an error if the `IDDQD` cheat was used to resurrect a dead player.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, August 7, 2014
 
@@ -2859,7 +2859,7 @@
 * *DOOM Retro* will no longer crash if the player walks over a very deep hole.
 * The intensity of the vibration effect for XInput-compatible controllers when the player fires a weapon or is injured has been increased. Previously, the effect on the *Logitech F710 controller* could barely be felt.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, July 17, 2014
 
@@ -2944,7 +2944,7 @@
 * A bug has been fixed whereby pressing <kbd>SPACE</kbd> to advance a finale text screen would carry over to the following map, and cause the player to use a switch if they started directly in front of one (such as is the case for *MAP07: Dead Simple* in *DOOM II: Hell On Earth*).
 * The flashing key in the HUD will now be updated if the player tries opening another locked door that requires a different key to the one currently flashing.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, May 13, 2014
 
@@ -2968,7 +2968,7 @@
 * A bug has been fixed whereby use of the `-episode`, `-skill` and `-warp` command-line parameters would cause the game to silently crash.
 * Gamepads now work correctly.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, May 6, 2014
 
@@ -2993,7 +2993,7 @@
 * A flashing HOM (“Hall of Mirrors”) indicator has been implemented. The screen will flash red in place of missing textures, but not when the player has enabled “no clipping mode” using the `IDCLIP` or `IDSPISPOPD` cheats.
 * When saving a game, the savegame description will only be updated to the current map name if it hasn’t been changed to something other than map name previously.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, April 29, 2014
 
@@ -3006,7 +3006,7 @@
 * Projectiles will now pass through map decorations like they do in *Vanilla DOOM*. (Please note that this particular change means savegames from previous versions of *DOOM Retro* won’t work with *DOOM Retro v1.4.1*.)
 * If music can’t be loaded for a particular map, that map will still load without music rather than the game exiting with an error.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 25, 2014
 
@@ -3062,7 +3062,7 @@
 * The small ‘3’ and ‘8’ digits used for marks in the automap, and the small ‘3’ digit in the status bar, have been altered slightly.
 * There is now a chance that the super shotgun may gib a monster when fired at point blank range. (This idea has been taken from Fabian Greffrath’s *Crispy DOOM*.)
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, April 1, 2014
 
@@ -3122,7 +3122,7 @@
 * There are no longer any overlapping drop shadows in the menus.
 * Keys are now positioned correctly in the status bar.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, March 1, 2014
 
@@ -3174,7 +3174,7 @@
 * The player arrow in the automap will now be translucent while the player has a partial invisibility power-up.
 * In *DOOM II (BFG Edition)*, since `TITLEPIC` isn’t present in the IWAD, the otherwise unused `DMENUPIC` is now used instead of `INTERPIC`.
 
----
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 24, 2014
 
@@ -3213,3 +3213,5 @@
 * A bug has been fixed whereby if a game is saved while a platform is moving, it could potentially cause the game to crash when that savegame is loaded.
 * When using the `IDCLEVxy` cheat, keycards and skull keys are no longer removed from the status bar before the screen is wiped.
 * The correct message is now displayed when entering the `IDKFA` cheat.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
