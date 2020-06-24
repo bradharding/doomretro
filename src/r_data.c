@@ -69,7 +69,6 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-dboolean    notranslucency = false;
 dboolean    telefragonmap30 = false;
 
 int         numtextures;
@@ -386,7 +385,7 @@ static void R_InitTextures(void)
                 I_Error("R_InitTextures: Patch %i is missing in the %.8s texture", SHORT(mpatch->patch), uppercase(texture->name));
         }
 
-        for (mask = 1; mask * 2 <= texture->width; mask <<= 1);
+        for (mask = 1; mask * 2 <= texture->width; mask *= 2);
 
         texture->widthmask = mask - 1;
         textureheight[i] = texture->height << FRACBITS;
@@ -394,9 +393,11 @@ static void R_InitTextures(void)
 
     free(patchlookup);                                          // killough
 
-    for (int i = 0; i < 2; i++)                                 // cph - release the TEXTUREx lumps
-        if (maptex_lump[i] != -1)
-            W_ReleaseLumpNum(maptex_lump[i]);
+    if (maptex_lump[0] != -1)
+        W_ReleaseLumpNum(maptex_lump[0]);
+
+    if (maptex_lump[1] != -1)
+        W_ReleaseLumpNum(maptex_lump[1]);
 
     // Create translation table for global animation.
     // killough 4/9/98: make column offsets 32-bit;
@@ -404,11 +405,10 @@ static void R_InitTextures(void)
     texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
     for (int i = 0; i < numtextures; i++)
+    {
         texturetranslation[i] = i;
-
-    // killough 1/31/98: Initialize texture hash table
-    for (int i = 0; i < numtextures; i++)
-        textures[i]->index = -1;
+        textures[i]->index = -1;                                // killough 1/31/98: Initialize texture hash table
+    }
 
     for (int i = numtextures - 1; i >= 0; i--)
     {
@@ -424,15 +424,10 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    int i = 0;
-
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
-    while (brightmaps[i].mask)
-    {
-        int game = brightmaps[i].game;
-
+    for (int i = 0, game = brightmaps[i].game; brightmaps[i].mask; i++)
         if (*brightmaps[i].texture
             && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
         {
@@ -441,9 +436,6 @@ static void R_InitBrightmaps(void)
             if (num != -1)
                 brightmap[num] = brightmaps[i].mask;
         }
-
-        i++;
-    }
 }
 
 //
@@ -498,13 +490,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].blood = MT_BLOOD;
                 mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
             }
-        }
-        else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
-        {
-            SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, sc_String))
-                notranslucency = true;
         }
         else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
         {
