@@ -5122,12 +5122,18 @@ static void C_PlayerStats_Game(void)
     }
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t-\t-");
+    {
+        temp1 = sentencecase(weaponinfo[wp_pistol].description);
+        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s", temp1, temp1);
+        free(temp1);
+    }
     else if (favoriteweapon1 == wp_nochange)
     {
-        temp1 = sentencecase(weaponinfo[favoriteweapon2].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t-\t<b>%s</b>", temp1);
+        temp1 = sentencecase(weaponinfo[wp_pistol].description);
+        temp2 = sentencecase(weaponinfo[favoriteweapon2].description);
+        C_TabbedOutput(tabs, "Favorite weapon\t%s\t<b>%s</b>", temp1, temp2);
         free(temp1);
+        free(temp2);
     }
     else
     {
