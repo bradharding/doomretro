@@ -1038,13 +1038,13 @@ void HU_Drawer(void)
         {
             if (r_althud)
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
-                w_message.l->y = BETWEEN(0, HU_MSGY, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+                w_message.l->x = HU_MSGX;
+                w_message.l->y = HU_MSGY;
             }
             else
             {
-                w_message.l->x = BETWEEN(0, HU_MSGX * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l)) + 9;
-                w_message.l->y = BETWEEN(0, HU_MSGY * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height) + 4;
+                w_message.l->x = HU_MSGX * SCREENSCALE + 9;
+                w_message.l->y = HU_MSGY * SCREENSCALE + 4;
             }
         }
         else
