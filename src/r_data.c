@@ -761,7 +761,7 @@ int R_FlatNumForName(char *name)
 
     if (i == -1)
     {
-        if (*name != '-')
+        if (*name && *name != '-')
         {
             char    *temp = uppercase(name);
 
@@ -819,7 +819,7 @@ int R_TextureNumForName(char *name)
 
     if (i == -1)
     {
-        if (*name != '-')
+        if (*name && *name != '-')
         {
             char    *temp = uppercase(name);
 
