@@ -113,12 +113,9 @@ static void saveg_write8(byte value)
 
 static short saveg_read16(void)
 {
-    int result;
+    int result = saveg_read8();
 
-    result = saveg_read8();
-    result |= saveg_read8() << 8;
-
-    return result;
+    return (result | (saveg_read8() << 8));
 }
 
 static void saveg_write16(short value)
@@ -129,14 +126,12 @@ static void saveg_write16(short value)
 
 static int saveg_read32(void)
 {
-    int result;
+    int result = saveg_read8();
 
-    result = saveg_read8();
     result |= saveg_read8() << 8;
     result |= saveg_read8() << 16;
-    result |= saveg_read8() << 24;
 
-    return result;
+    return (result | (saveg_read8() << 24));
 }
 
 static void saveg_write32(int value)

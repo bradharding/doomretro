@@ -416,7 +416,7 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
-    time_t      now = time(0);
+    time_t      now = time(NULL);
     player_t    player;
 
 #if defined(_WIN32)

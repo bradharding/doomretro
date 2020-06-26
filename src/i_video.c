@@ -69,8 +69,8 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: \"%s\".", \
-                                    __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with this error:\n" \
+                                    "    \"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #define MAXDISPLAYS             8
 
