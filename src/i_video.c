@@ -69,15 +69,15 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define I_SDLError(func)    I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: \"%s\".", \
-                                __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with the error: \"%s\".", \
+                                    __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
-#define MAXDISPLAYS         8
+#define MAXDISPLAYS             8
 
-#define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
-#define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
+#define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
+#define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
 
-#define SHAKEANGLE          ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+#define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0

@@ -865,7 +865,9 @@ void P_SetupPsprites(void)
     // spawn the gun
     viewplayer->pendingweapon = viewplayer->readyweapon;
     P_BringUpWeapon();
-    skippsprinterp = true;
+
+    if (r_playersprites)
+        skippsprinterp = true;
 }
 
 //

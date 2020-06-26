@@ -1895,7 +1895,7 @@ static void D_DoomMainSetup(void)
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
 #if defined(_WIN32)
-                else if (!choseniwad && !error && (!*wad || (M_StringEndsWith(wad, ".wad"))))
+                else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
 #else
                 else if (!choseniwad && !error)
 #endif
