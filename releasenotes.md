@@ -24,6 +24,7 @@
   * The `Weapon accuracy` stat has been removed, and is instead displayed for every weapon.
   * There is a new `Favorite weapon` stat.
 * The precision of the player’s angle when using the `IDMYPOS` cheat has been improved.
+* Certain cheats are now still active when the player respawns after death.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

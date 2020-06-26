@@ -428,7 +428,7 @@ static void D_DoomLoop(void)
     R_ExecuteSetViewSize();
 
     viewplayer = &player;
-    viewplayer->damagecount = 0;
+    memset(viewplayer, 0, sizeof(*viewplayer));
 
     while (true)
     {
