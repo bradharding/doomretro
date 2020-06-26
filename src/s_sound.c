@@ -578,11 +578,6 @@ void S_UpdateSounds(void)
     for (int cnum = 0; cnum < s_channels; cnum++)
     {
         channel_t   *c = &channels[cnum];
-        sfxinfo_t   *sfx = c->sfxinfo;
-
-        if (!sfx)
-            continue;
-
         if (I_SoundIsPlaying(c->handle))
         {
             // initialize parameters
@@ -591,8 +586,12 @@ void S_UpdateSounds(void)
             // check non-local sounds for distance clipping or modify their parms
             if (origin && origin != viewplayer->mo)
             {
-                int sep = NORM_SEP;
-                int volume = snd_SfxVolume;
+                int         sep = NORM_SEP;
+                int         volume = snd_SfxVolume;
+                sfxinfo_t   *sfx = c->sfxinfo;
+
+                if (!sfx)
+                    continue;
 
                 if (sfx->link)
                 {
