@@ -8061,6 +8061,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             r_screensize = value;
             M_SaveCVARs();
             R_SetViewSize(r_screensize);
+            skippsprinterp = true;
         }
     }
     else
