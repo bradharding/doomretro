@@ -336,7 +336,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 
     // As a special case, the "directory" may refer directly to an
     // IWAD file if the path comes from DOOMWADDIR or DOOMWADPATH.
-    if (DirIsFile(dir, iwadname) && probe != NULL)
+    if (DirIsFile(dir, iwadname) && probe)
         return probe;
 
     // Construct the full path to the IWAD if it is located in
@@ -344,7 +344,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
     if (!strcmp(dir, "."))
         filename = M_StringDuplicate(iwadname);
     else
-        filename = M_StringJoin(dir, DIR_SEPARATOR_S, iwadname, NULL);
+        filename = M_StringJoin(dir, DIR_SEPARATOR_S, iwadname, ".wad", NULL);
 
     free(probe);
     probe = M_FileCaseExists(filename);
@@ -573,6 +573,7 @@ char *D_FindIWAD(void)
 
         D_IdentifyIWADByName(result);
     }
+#if !defined(_WIN32) && !defined(__APPLE__)
     else
     {
         // Search through the list and look for an IWAD
@@ -581,6 +582,7 @@ char *D_FindIWAD(void)
         for (int i = 0; !result && i < num_iwad_dirs; i++)
             result = SearchDirectoryForIWAD(iwad_dirs[i]);
     }
+#endif
 
     return result;
 }
