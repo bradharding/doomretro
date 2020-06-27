@@ -86,7 +86,7 @@
 #include <fnmatch.h>
 #include <libgen.h>
 
-#if !defined(__OpenBSD__)
+#if !defined(__OpenBSD__) && !defined(__HAIKU__)
 #include <wordexp.h>
 #endif
 #endif
@@ -956,7 +956,7 @@ static dboolean D_CheckParms(void)
             else
             {
                 // otherwise try the iwadfolder CVAR
-#if defined(_WIN32) || defined(__OpenBSD__)
+#if defined(_WIN32) || defined(__OpenBSD__) || defined(__HAIKU__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
 #else
                 wordexp_t   p;
