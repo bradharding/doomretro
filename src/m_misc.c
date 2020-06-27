@@ -84,11 +84,14 @@
 #include <errno.h>
 #include <libgen.h>
 #include <unistd.h>
-#elif defined(__linux__)
+#elif defined(__linux__) | defined(__HAIKU__)
 #include <dirent.h>
 #include <errno.h>
 #include <libgen.h>
 #include <unistd.h>
+#if defined(__HAIKU__)
+#include <kernel/image.h>
+#endif
 #endif
 
 //
@@ -339,6 +342,21 @@ char *M_GetExecutableFolder(void)
     }
 
     return dirname(exe);
+#elif defined(__HAIKU__)
+    char *exe = malloc(MAXPATHLEN);
+    image_info ii;
+    int32_t ck = 0;
+    exe[0] = '\0';
+
+    while (get_next_image_info(0, &ck, &ii) == B_OK) {
+	    if (ii.type == B_APP_IMAGE) {
+		    strcpy(exe, ii.name);
+		    return dirname(exe);
+	    }
+    }
+
+    strcpy(exe, ".");
+    return exe;
 #else
     char    *folder = malloc(2);
 
