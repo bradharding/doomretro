@@ -383,6 +383,30 @@ static void AddXdgDirs(void)
     // Classic WADs.
     AddIWADPath(env, "/games/doom3bfg/base/wads");
 }
+
+#if !defined(__APPLE__)
+// Steam on Linux allows installing some select Windows games,
+// including the classic Doom series (running DOSBox via Wine). We
+// could parse *.vdf files to more accurately detect installation
+// locations, but the defaults are likely to be good enough for just
+// about everyone.
+static void AddSteamDirs(void)
+{
+    char    *homedir = getenv("HOME");
+    char    *steampath;
+
+    if (!homedir)
+        homedir = "/";
+
+    steampath = M_StringJoin(homedir, "/.steam/root/steamapps/common", NULL);
+
+    AddIWADPath(steampath, "/Doom 2/base");
+    AddIWADPath(steampath, "/Ultimate Doom/base");
+    AddIWADPath(steampath, "/Final Doom/base");
+    AddIWADPath(steampath, "/DOOM 3 BFG Edition/base/wads");
+    free(steampath);
+}
+#endif
 #endif
 
 typedef struct
@@ -548,6 +572,10 @@ static void BuildIWADDirList(void)
     CheckDOSDefaults();
 #else
     AddXdgDirs();
+
+#if !defined(__APPLE__)
+    AddSteamDirs();
+#endif
 #endif
 
     // Don't run this function again.
