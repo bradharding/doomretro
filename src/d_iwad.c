@@ -298,6 +298,91 @@ static void CheckDOSDefaults(void)
     AddIWADDir("\\dooms");      // Shareware versions
     AddIWADDir("\\doomsw");
 }
+#else
+// Add IWAD directories parsed from splitting a path string containing
+// paths separated by PATH_SEPARATOR. 'suffix' is a string to concatenate
+// to the end of the paths before adding them.
+static void AddIWADPath(const char *path, const char *suffix)
+{
+    char    *p;
+    char    *dup_path = M_StringDuplicate(path);
+
+    // Split into individual dirs within the list.
+    char    *left = dup_path;
+
+    while (true)
+        if ((p = strchr(left, PATH_SEPARATOR)))
+        {
+            // Break at the separator and use the left hand side
+            // as another iwad dir
+            *p = '\0';
+
+            AddIWADDir(M_StringJoin(left, suffix, NULL));
+            left = p + 1;
+        }
+        else
+            break;
+
+    AddIWADDir(M_StringJoin(left, suffix, NULL));
+    free(dup_path);
+}
+
+// Add standard directories where IWADs are located on Unix systems.
+// To respect the freedesktop.org specification we support overriding
+// using standard environment variables. See the XDG Base Directory
+// Specification:
+// <http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html>
+static void AddXdgDirs(void)
+{
+    // Quote:
+    // > $XDG_DATA_HOME defines the base directory relative to which
+    // > user specific data files should be stored. If $XDG_DATA_HOME
+    // > is either not set or empty, a default equal to
+    // > $HOME/.local/share should be used.
+    char    *env = getenv("XDG_DATA_HOME");
+    char    *tmp_env = NULL;
+
+    if (!env)
+    {
+        char    *homedir = getenv("HOME");
+
+        if (!homedir)
+            homedir = "/";
+
+        tmp_env = M_StringJoin(homedir, "/.local/share", NULL);
+        env = tmp_env;
+    }
+
+    // We support $XDG_DATA_HOME/games/doom (which will usually be
+    // ~/.local/share/games/doom) as a user-writable extension to
+    // the usual /usr/share/games/doom location.
+    AddIWADDir(M_StringJoin(env, "/games/doom", NULL));
+    free(tmp_env);
+
+    // Quote:
+    // > $XDG_DATA_DIRS defines the preference-ordered set of base
+    // > directories to search for data files in addition to the
+    // > $XDG_DATA_HOME base directory. The directories in $XDG_DATA_DIRS
+    // > should be seperated with a colon ':'.
+    // >
+    // > If $XDG_DATA_DIRS is either not set or empty, a value equal to
+    // > /usr/local/share/:/usr/share/ should be used.
+
+    if (!(env = getenv("XDG_DATA_DIRS")))
+        // (Trailing / omitted from paths, as it is added below)
+        env = "/usr/local/share:/usr/share";
+
+    // The "standard" location for IWADs on Unix that is supported by most
+    // source ports is /usr/share/games/doom - we support this through the
+    // XDG_DATA_DIRS mechanism, through which it can be overridden.
+    AddIWADPath(env, "/games/doom");
+    AddIWADPath(env, "/doom");
+
+    // The convention set by RBDOOM-3-BFG is to install Doom 3: BFG
+    // Edition into this directory, under which includes the Doom
+    // Classic WADs.
+    AddIWADPath(env, "/games/doom3bfg/base/wads");
+}
 #endif
 
 typedef struct
@@ -422,7 +507,7 @@ static void AddDoomWADPath(void)
     // Split into individual dirs within the list.
     p = doomwadpath;
 
-    for (;;)
+    while (true)
     {
         if ((p = strchr(p, PATH_SEPARATOR)))
         {
@@ -461,6 +546,8 @@ static void BuildIWADDirList(void)
     CheckInstallRootPaths();
     CheckSteamEdition();
     CheckDOSDefaults();
+#else
+    AddXdgDirs();
 #endif
 
     // Don't run this function again.

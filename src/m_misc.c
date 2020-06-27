@@ -374,7 +374,7 @@ char *M_StringJoin(char *s, ...)
 
     va_start(args, s);
 
-    for (;;)
+    while (true)
     {
         v = va_arg(args, char *);
 
@@ -393,7 +393,7 @@ char *M_StringJoin(char *s, ...)
 
     va_start(args, s);
 
-    for (;;)
+    while (true)
     {
         if (!(v = va_arg(args, char *)))
             break;
