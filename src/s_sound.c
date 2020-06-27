@@ -578,6 +578,7 @@ void S_UpdateSounds(void)
     for (int cnum = 0; cnum < s_channels; cnum++)
     {
         channel_t   *c = &channels[cnum];
+
         if (I_SoundIsPlaying(c->handle))
         {
             // initialize parameters

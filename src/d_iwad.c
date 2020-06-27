@@ -298,7 +298,6 @@ static void CheckDOSDefaults(void)
     AddIWADDir("\\dooms");      // Shareware versions
     AddIWADDir("\\doomsw");
 }
-
 #endif
 
 typedef struct
