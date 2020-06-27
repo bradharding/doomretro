@@ -117,6 +117,58 @@ dboolean M_FileExists(const char *filename)
     return false;
 }
 
+// Check if a file exists by probing for common case variation of its filename.
+// Returns a newly allocated string that the caller is responsible for freeing.
+char *M_FileCaseExists(const char *path)
+{
+    char    *path_dup = M_StringDuplicate(path);
+    char    *filename;
+    char    *ext;
+
+    // 0: actual path
+    if (M_FileExists(path_dup))
+        return path_dup;
+
+    if ((filename = strrchr(path_dup, DIR_SEPARATOR)))
+        filename++;
+    else
+        filename = path_dup;
+
+    // 1: lowercase filename, e.g. doom2.wad
+    lowercase(filename);
+
+    if (M_FileExists(path_dup))
+        return path_dup;
+
+    // 2: uppercase filename, e.g. DOOM2.WAD
+    uppercase(filename);
+
+    if (M_FileExists(path_dup))
+        return path_dup;
+
+    // 3. uppercase basename with lowercase extension, e.g. DOOM2.wad
+    if ((ext = strrchr(path_dup, '.')) && ext > filename)
+    {
+        lowercase(ext + 1);
+
+        if (M_FileExists(path_dup))
+            return path_dup;
+    }
+
+    // 4. lowercase filename with uppercase first letter, e.g. Doom2.wad
+    if (strlen(filename) > 1)
+    {
+        lowercase(filename + 1);
+
+        if (M_FileExists(path_dup))
+            return path_dup;
+    }
+
+    // 5. no luck
+    free(path_dup);
+    return NULL;
+}
+
 // Check if a folder exists
 dboolean M_FolderExists(const char *folder)
 {
