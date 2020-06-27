@@ -1436,77 +1436,56 @@ void P_ArchiveSpecials(void)
         {
             saveg_write8(tc_ceiling);
             saveg_write_ceiling_t((ceiling_t *)th);
-            continue;
         }
-
-        if (th->function == &T_VerticalDoor)
+        else if (th->function == &T_VerticalDoor)
         {
             saveg_write8(tc_door);
             saveg_write_vldoor_t((vldoor_t *)th);
-            continue;
         }
-
-        if (th->function == &T_MoveFloor)
+        else if (th->function == &T_MoveFloor)
         {
             saveg_write8(tc_floor);
             saveg_write_floormove_t((floormove_t *)th);
-            continue;
         }
-
-        if (th->function == &T_PlatRaise)
+        else if (th->function == &T_PlatRaise)
         {
             saveg_write8(tc_plat);
             saveg_write_plat_t((plat_t *)th);
-            continue;
         }
-
-        if (th->function == &T_LightFlash)
+        else if (th->function == &T_LightFlash)
         {
             saveg_write8(tc_flash);
             saveg_write_lightflash_t((lightflash_t *)th);
-            continue;
         }
-
-        if (th->function == &T_StrobeFlash)
+        else if (th->function == &T_StrobeFlash)
         {
             saveg_write8(tc_strobe);
             saveg_write_strobe_t((strobe_t *)th);
-            continue;
         }
-
-        if (th->function == &T_Glow)
+        else if (th->function == &T_Glow)
         {
             saveg_write8(tc_glow);
             saveg_write_glow_t((glow_t *)th);
-            continue;
         }
-
-        if (th->function == &T_FireFlicker)
+        else if (th->function == &T_FireFlicker)
         {
             saveg_write8(tc_fireflicker);
             saveg_write_fireflicker_t((fireflicker_t *)th);
-            continue;
         }
-
-        if (th->function == &T_MoveElevator)
+        else if (th->function == &T_MoveElevator)
         {
             saveg_write8(tc_elevator);
             saveg_write_elevator_t((elevator_t *)th);
-            continue;
         }
-
-        if (th->function == &T_Scroll)
+        else if (th->function == &T_Scroll)
         {
             saveg_write8(tc_scroll);
             saveg_write_scroll_t((scroll_t *)th);
-            continue;
         }
-
-        if (th->function == &T_Pusher)
+        else if (th->function == &T_Pusher)
         {
             saveg_write8(tc_pusher);
             saveg_write_pusher_t((pusher_t *)th);
-            continue;
         }
     }
 

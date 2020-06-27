@@ -353,13 +353,12 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 
 // Search a directory to try to find an IWAD
 // Returns the location of the IWAD if found, otherwise NULL.
+#if !defined(_WIN32) && !defined(__APPLE__)
 static char *SearchDirectoryForIWAD(char *dir)
 {
-    char    *filename;
-
     for (size_t i = 0; i < arrlen(iwads); ++i)
     {
-        filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
+        char    *filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
 
         if (filename)
         {
@@ -370,6 +369,7 @@ static char *SearchDirectoryForIWAD(char *dir)
 
     return NULL;
 }
+#endif
 
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
