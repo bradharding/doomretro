@@ -1666,13 +1666,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         C_Obituary("You were %s by %s %s that you exploded.",
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            inflicter->info->name1);
+                            (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ?
+                                inflicter->info->name1 : "monster"));
                     else
                         C_Obituary("%s was %s by %s %s that they exploded.",
                             playername,
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            inflicter->info->name1);
+                            (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ?
+                                inflicter->info->name1 : "monster"));
                 }
                 else
                 {
@@ -1680,7 +1682,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         C_Obituary("You were %s by %s %s that %s %s exploded.",
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            inflicter->info->name1,
+                            (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ?
+                                inflicter->info->name1 : "monster"),
                             (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
                             mobjinfo[inflicter->inflicter].name1);
                     else
@@ -1688,7 +1691,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             playername,
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            inflicter->info->name1,
+                            (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ?
+                                inflicter->info->name1 : "monster"),
                             (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
                             mobjinfo[inflicter->inflicter].name1);
                 }
@@ -1705,7 +1709,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                             (isvowel(target->info->name1[0]) ? "an" : "a")),
                         ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                        (*target->info->name1 ? target->info->name1 : "monster"));
+                        (*target->info->name1 && !&states[target->info->spawnstate].dehacked ? target->info->name1 : "monster"));
 
                 temp = sentencecase(targetname);
 
@@ -1714,14 +1718,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         temp,
                         (gibbed ? "gibbed" : "killed"),
                         (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                        inflicter->info->name1,
+                        (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ? inflicter->info->name1 : "monster"),
                         playername);
                 else
                     C_Obituary("%s was %s by %s %s that %s %s exploded.",
                         temp,
                         (gibbed ? "gibbed" : "killed"),
                         (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                        inflicter->info->name1,
+                        (*inflicter->info->name1 && !&states[inflicter->info->spawnstate].dehacked ? inflicter->info->name1 : "monster"),
                         (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
                         mobjinfo[inflicter->inflicter].name1);
 
@@ -1751,7 +1755,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                     (isvowel(target->info->name1[0]) ? "an" : "a")),
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                                (*target->info->name1 ? target->info->name1 : "monster"));
+                                (*target->info->name1 && !&states[target->info->spawnstate].dehacked ? target->info->name1 : "monster"));
 
                         C_Obituary("You %s %s using your %s%s.",
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1778,7 +1782,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                     (isvowel(target->info->name1[0]) ? "an" : "a")),
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                                (*target->info->name1 ? target->info->name1 : "monster"));
+                                (*target->info->name1 && !&states[target->info->spawnstate].dehacked ? target->info->name1 : "monster"));
 
                         C_Obituary("%s %s %s using their %s%s.",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
@@ -1812,7 +1816,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             ((target->flags &MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                 (isvowel(target->info->name1[0]) ? "an" : "a")),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                            (*target->info->name1 && !&states[target->info->spawnstate].dehacked ? target->info->name1 : "monster"));
 
                     C_Obituary("%s was telefragged.", targetname);
                 }
@@ -1829,7 +1833,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         ((source->flags &MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
                             (isvowel(source->info->name1[0]) ? "an" : "a")),
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
-                        (*source->info->name1 ? source->info->name1 : "monster"));
+                        (*source->info->name1 && !&states[source->info->spawnstate].dehacked ? source->info->name1 : "monster"));
 
                 temp = sentencecase(sourcename);
 
@@ -1850,7 +1854,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                 (isvowel(target->info->name1[0]) ? "an" : "a"))),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                            (*target->info->name1 && !&states[target->info->spawnstate].dehacked ? target->info->name1 : "monster"));
 
                     C_Obituary("%s %s %s.",
                         temp,
