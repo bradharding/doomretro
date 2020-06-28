@@ -3286,6 +3286,9 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
                         S_StartSound(NULL, sfx_pistol);
 
+                    if (currentMenu != &NewDef)
+                        D_FadeScreen();
+
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
             }
@@ -3315,6 +3318,7 @@ dboolean M_Responder(event_t *ev)
                 currentMenu = currentMenu->prevMenu;
                 itemOn = currentMenu->lastOn;
                 S_StartSound(NULL, sfx_swtchn);
+                D_FadeScreen();
             }
             else
             {
