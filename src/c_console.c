@@ -769,7 +769,10 @@ void C_ShowConsole(void)
         mousebuttons[i] = false;
 
     if (gamestate == GS_TITLESCREEN && !devparm)
+    {
         S_StartSound(NULL, sfx_swtchn);
+        D_FadeScreen();
+    }
 
     S_LowerMusicVolume();
     SDL_StartTextInput();
