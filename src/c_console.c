@@ -793,6 +793,7 @@ void C_HideConsole(void)
         consoleheight = 0;
         consoleactive = false;
         S_StartSound(NULL, sfx_swtchx);
+        D_FadeScreen();
     }
 
     S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
