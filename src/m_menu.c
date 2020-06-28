@@ -3049,7 +3049,6 @@ dboolean M_Responder(event_t *ev)
             {
                 M_StartControlPanel();
                 S_StartSound(NULL, sfx_swtchn);
-                D_FadeScreen();
             }
         }
 
@@ -3537,6 +3536,8 @@ void M_StartControlPanel(void)
 
         S_LowerMusicVolume();
     }
+
+    D_FadeScreen();
 }
 
 //
