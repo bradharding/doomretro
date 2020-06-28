@@ -1,4 +1,4 @@
-![](https://github.com/bradharding/www.doomretro.com/raw/master/title2.png)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/readme.png)
 <br>
 <br>
 <br>

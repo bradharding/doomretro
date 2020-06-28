@@ -1,12 +1,12 @@
-![](https://github.com/bradharding/www.doomretro.com/raw/master/title3.png)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
 ### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
 * The gradual lighting under doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
-* A subtle fade transition is now applied to the screen in certain instances, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
-* The random number generator (RNG) in *DOOM Retro*, which affects many things such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots, now more closely resembles the RNG in *Vanilla DOOM*.
+* A subtle fade transition is now applied in certain instances, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
+* The pseudorandom number generator in *DOOM Retro*, which affects many things such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots, now more closely resembles the one used in *Vanilla DOOM*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
@@ -18,7 +18,7 @@
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
   * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
-* The player arrow in the automap now has smoother movement.
+* There is now smoother movement in the automap.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The following changes have been made to the `playerstats` CCMD:
   * A `Shots successful/fired` stat is now displayed for every weapon.
