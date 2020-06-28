@@ -135,6 +135,7 @@ char                *savegamefolder;
 
 char                *pwadfile = "";
 
+dboolean            fade = fade_default;
 char                *iwadfolder = iwadfolder_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
@@ -211,7 +212,12 @@ void D_PostEvent(event_t *ev)
 
 void D_FadeScreen(void)
 {
-    int height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    int height;
+
+    if (!fade)
+        return;
+
+    height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     for (int i = 0; i < height; i++)
         fadescreen[i] = screens[0][i];

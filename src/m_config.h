@@ -75,6 +75,7 @@ extern int          crosshaircolor;
 extern int          episode;
 extern int          expansion;
 extern int          facebackcolor;
+extern dboolean     fade;
 extern dboolean     gp_analog;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
@@ -402,6 +403,8 @@ enum
 #define facebackcolor_none                      5
 #define facebackcolor_default                   facebackcolor_none
 #define facebackcolor_max                       255
+
+#define fade_default                            true
 
 #define gp_analog_default                       true
 

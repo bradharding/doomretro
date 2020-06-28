@@ -28,6 +28,7 @@ autouse off
 centerweapon off
 crosshair none
 facebackcolor none
+fade off
 freeze off
 gp_analog off
 gp_invertyaxis off

@@ -53,7 +53,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                    196
+#define NUMCVARS                                    197
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -104,6 +104,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     FACEBACKVALUEALIAS ),
+    CONFIG_VARIABLE_INT          (fade,                                              BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (gp_analog,                                         BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS       ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS       ),
@@ -656,6 +657,9 @@ static void M_CheckCVARs(void)
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
+
+    if (fade != false && fade != true)
+        fade = fade_default;
 
     if (gp_analog != false && gp_analog != true)
         gp_analog = gp_analog_default;
