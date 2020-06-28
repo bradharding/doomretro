@@ -68,6 +68,7 @@
 
 #define LINEHEIGHT  17
 #define OFFSET      (vid_widescreen ? 0 : 17)
+#define FADECOUNT   15
 
 int             episode = episode_default;
 int             expansion = expansion_default;
@@ -121,6 +122,9 @@ static menu_t   *currentMenu;
 
 int             spindirection;
 static angle_t  playerangle;
+
+byte            lastmenuscreen[SCREENWIDTH * SCREENHEIGHT];
+int             fadecount = 0;
 
 //
 // PROTOTYPES
@@ -3324,6 +3328,11 @@ dboolean M_Responder(event_t *ev)
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
+
+                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                    lastmenuscreen[i] = screens[0][i];
+
+                fadecount = FADECOUNT;
             }
 
             if (inhelpscreens)

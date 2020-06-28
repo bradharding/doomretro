@@ -58,6 +58,7 @@
 #include "f_wipe.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -367,6 +368,21 @@ void D_Display(void)
 
         if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
+
+        if (!menuactive && fadecount)
+        {
+            if (fadecount < 5)
+                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                    screens[0][i] = tinttab75[(screens[0][i] << 8) + lastmenuscreen[i]];
+            else if (fadecount < 10)
+                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                    screens[0][i] = tinttab50[(screens[0][i] << 8) + lastmenuscreen[i]];
+            else
+                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                    screens[0][i] = tinttab25[(screens[0][i] << 8) + lastmenuscreen[i]];
+
+            fadecount--;
+        }
 
         // normal update
         blitfunc();
