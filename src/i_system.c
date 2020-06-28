@@ -223,7 +223,7 @@ void I_Quit(dboolean shutdown)
 {
     if (shutdown)
     {
-        D_FadeScreen();
+        D_FadeScreenToBlack();
 
         S_Shutdown();
 

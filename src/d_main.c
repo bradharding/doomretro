@@ -209,6 +209,16 @@ void D_PostEvent(event_t *ev)
     G_Responder(ev);
 }
 
+void D_FadeScreen(void)
+{
+    int height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+
+    for (int i = 0; i < height; i++)
+        fadescreen[i] = screens[0][i];
+
+    fadecount = FADECOUNT;
+}
+
 //
 // D_Display
 //  draw current display, possibly wiping it from the previous
@@ -524,9 +534,9 @@ void D_PageDrawer(void)
 }
 
 //
-// D_FadeScreen
+// D_FadeScreenToBlack
 //
-void D_FadeScreen(void)
+void D_FadeScreenToBlack(void)
 {
     for (double i = 0.9; i >= 0.0; i -= 0.1)
     {

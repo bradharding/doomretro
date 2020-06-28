@@ -3318,19 +3318,13 @@ dboolean M_Responder(event_t *ev)
             }
             else
             {
-                int height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
-
-                for (int i = 0; i < height; i++)
-                    fadescreen[i] = screens[0][i];
-
-                fadecount = FADECOUNT;
-
                 functionkey = 0;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
+                D_FadeScreen();
             }
 
             if (inhelpscreens)
