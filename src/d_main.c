@@ -174,6 +174,9 @@ dboolean            advancetitle;
 dboolean            dowipe;
 static dboolean     forcewipe;
 
+byte                fadescreen[SCREENWIDTH * SCREENHEIGHT];
+int                 fadecount = 0;
+
 dboolean            splashscreen = true;
 
 static int          startuptimer;
@@ -369,17 +372,19 @@ void D_Display(void)
         if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
 
-        if (!menuactive && fadecount)
+        if (fadecount)
         {
+            int height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+
             if (fadecount < FADECOUNT / 3)
-                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-                    screens[0][i] = tinttab75[(screens[0][i] << 8) + lastmenuscreen[i]];
+                for (int i = 0; i < height; i++)
+                    screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
             else if (fadecount < FADECOUNT * 2 / 3)
-                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-                    screens[0][i] = tinttab50[(screens[0][i] << 8) + lastmenuscreen[i]];
+                for (int i = 0; i < height; i++)
+                    screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
             else
-                for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-                    screens[0][i] = tinttab25[(screens[0][i] << 8) + lastmenuscreen[i]];
+                for (int i = 0; i < height; i++)
+                    screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
 
             fadecount--;
         }

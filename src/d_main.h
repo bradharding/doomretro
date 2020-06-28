@@ -40,6 +40,12 @@
 #define __D_MAIN_H__
 
 #include "d_event.h"
+#include "doomdef.h"
+
+#define FADECOUNT   24
+
+extern byte     fadescreen[SCREENWIDTH * SCREENHEIGHT];
+extern int      fadecount;
 
 extern char     **episodes[];
 extern char     **expansions[];
