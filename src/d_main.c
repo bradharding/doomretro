@@ -371,10 +371,10 @@ void D_Display(void)
 
         if (!menuactive && fadecount)
         {
-            if (fadecount < 5)
+            if (fadecount < FADECOUNT / 3)
                 for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
                     screens[0][i] = tinttab75[(screens[0][i] << 8) + lastmenuscreen[i]];
-            else if (fadecount < 10)
+            else if (fadecount < FADECOUNT * 2 / 3)
                 for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
                     screens[0][i] = tinttab50[(screens[0][i] << 8) + lastmenuscreen[i]];
             else

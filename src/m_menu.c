@@ -68,7 +68,6 @@
 
 #define LINEHEIGHT  17
 #define OFFSET      (vid_widescreen ? 0 : 17)
-#define FADECOUNT   15
 
 int             episode = episode_default;
 int             expansion = expansion_default;

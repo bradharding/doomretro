@@ -41,6 +41,8 @@
 
 #include "p_saveg.h"
 
+#define FADECOUNT   24
+
 typedef struct
 {
     short           status;
