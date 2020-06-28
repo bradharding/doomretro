@@ -2383,11 +2383,11 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
 void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
+    inhelpscreens = true;
     M_StartControlPanel();
     currentMenu = &ReadDef;
     itemOn = 0;
     S_StartSound(NULL, sfx_swtchn);
-    inhelpscreens = true;
 
     if (vid_widescreen)
     {
@@ -3324,7 +3324,9 @@ dboolean M_Responder(event_t *ev)
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
-                D_FadeScreen();
+
+                if (!inhelpscreens)
+                    D_FadeScreen();
             }
 
             if (inhelpscreens)
@@ -3537,7 +3539,8 @@ void M_StartControlPanel(void)
         S_LowerMusicVolume();
     }
 
-    D_FadeScreen();
+    if (!inhelpscreens)
+        D_FadeScreen();
 }
 
 //
