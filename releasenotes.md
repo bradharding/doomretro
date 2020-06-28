@@ -5,7 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
 * The gradual lighting under doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
-* A subtle fade transition is now applied to the screen when exiting the menu, or toggling the automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
+* A subtle fade transition is now applied to the screen in certain instances, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
 * The random number generator (RNG) in *DOOM Retro*, which affects many things such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots, now more closely resembles the RNG in *Vanilla DOOM*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
