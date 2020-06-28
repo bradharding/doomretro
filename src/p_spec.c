@@ -2199,20 +2199,20 @@ void P_PlayerInSpecialSector(sector_t *sector)
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
-                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
-                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 0x1F))
+                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
@@ -2251,21 +2251,21 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case 1:
                 // 2/5 damage per 31 tics
-                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case 2:
                 // 5/10 damage per 31 tics
-                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 0x1F))
+                if (!viewplayer->powers[pw_ironfeet] && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case 3:
                 // 10/20 damage per 31 tics
-                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 0x1F))
+                if ((!viewplayer->powers[pw_ironfeet] || M_Random() < 5) && !(leveltime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;

@@ -76,9 +76,7 @@
 #include <libgen.h>
 #include <mach-o/dyld.h>
 #include <errno.h>
-#endif
-
-#if defined(__OpenBSD__) || defined(__FreeBSD__)
+#elif defined(__OpenBSD__) || defined(__FreeBSD__)
 #include <sys/sysctl.h>
 #include <dirent.h>
 #include <errno.h>
