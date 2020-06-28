@@ -711,7 +711,7 @@ dboolean G_Responder(event_t *ev)
     }
 
     if (gamestate == GS_FINALE && F_Responder(ev))
-        return true;        // finale ate the event
+        return true;            // finale ate the event
 
     switch (ev->type)
     {
@@ -729,6 +729,8 @@ dboolean G_Responder(event_t *ev)
 
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
+
+                D_FadeScreen();
             }
             else if (key == keyboardalwaysrun && !keydown)
             {
