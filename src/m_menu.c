@@ -997,7 +997,6 @@ static void M_LoadSelect(int choice)
         functionkey = 0;
         quickSaveSlot = choice;
         M_ClearMenus();
-        S_StopMusic();
         G_LoadGame(name);
     }
     else
