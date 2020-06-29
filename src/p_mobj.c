@@ -1169,6 +1169,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (options & MTF_NOTSINGLE)
         return NULL;
 
+    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)))))
+        return NULL;
+
     // killough 8/23/98: use table for faster lookup
     if ((i = P_FindDoomedNum(type)) == NUMMOBJTYPES)
     {
@@ -1195,9 +1198,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
         return NULL;
     }
-
-    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)))))
-        return NULL;
 
     // [BH] don't spawn any monster corpses if -nomonsters
     if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && i != MT_MISC62)
@@ -1234,7 +1234,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
     {
         mobj->flags |= MF_FRIEND;           // killough 10/98:
-        P_UpdateThinker(&mobj->thinker);    // transfer friendliness flag
         mbfcompatible = true;
     }
 
