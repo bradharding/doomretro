@@ -1131,6 +1131,16 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     int         musicid = 0;
     mobjinfo_t  *info;
 
+    // killough 11/98: clear flags unused by DOOM
+    //
+    // We clear the flags unused in DOOM if we see flag mask 256 set, since
+    // it is reserved to be 0 under the new scheme. A 1 in this reserved bit
+    // indicates it's a DOOM wad made by a DOOM editor which puts 1's in
+    // bits that weren't used in DOOM (such as HellMaker wads). So we should
+    // then simply ignore all upper bits.
+    if (options & MTF_RESERVED)
+        options &= MTF_EASY | MTF_NORMAL | MTF_HARD | MTF_AMBUSH | MTF_NOTSINGLE;
+
     // check for players specially
     if (type == Player1Start)
     {
