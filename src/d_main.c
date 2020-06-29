@@ -402,6 +402,7 @@ void D_Display(void)
                 for (int i = 0; i < height; i++)
                     screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
 
+            I_Sleep(1);
             fadecount--;
         }
 

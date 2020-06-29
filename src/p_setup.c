@@ -663,7 +663,7 @@ static void P_CheckLinedefs(void)
             {
                 char    *temp = commify(ld->id);
 
-                C_Warning(2, "Linedef %s has line special %i (\"%s\") but no tag.", temp, ld->special, linespecials[ld->special]);
+                C_Warning(2, "Linedef %s has the line special %i (\"%s\") but no tag.", temp, ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -671,7 +671,7 @@ static void P_CheckLinedefs(void)
                 char    *temp1 = commify(ld->id);
                 char    *temp2 = commify(ld->tag);
 
-                C_Warning(2, "Linedef %s has line special %i (\"%s\") but an unknown tag of %s.",
+                C_Warning(2, "Linedef %s has the line special %i (\"%s\") but an unknown tag of %s.",
                     temp1, ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);

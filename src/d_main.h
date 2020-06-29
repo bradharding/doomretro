@@ -42,7 +42,7 @@
 #include "d_event.h"
 #include "doomdef.h"
 
-#define FADECOUNT   24
+#define FADECOUNT   33
 
 extern byte     fadescreen[SCREENWIDTH * SCREENHEIGHT];
 extern int      fadecount;
