@@ -3135,7 +3135,6 @@ dboolean M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
-            D_FadeScreen();
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
@@ -3217,7 +3216,6 @@ dboolean M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
-            D_FadeScreen();
             return false;
         }
 
@@ -3233,7 +3231,6 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_pistol);
             }
 
-            D_FadeScreen();
             return false;
         }
 
@@ -3249,7 +3246,6 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_pistol);
             }
 
-            D_FadeScreen();
             return false;
         }
 
