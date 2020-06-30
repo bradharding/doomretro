@@ -521,7 +521,7 @@ void M_DarkBackground(void)
             }
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                mapscreen[i] = colormaps[0][(M_BigRandom() & 7) * 256 + mapscreen[i]];
+                mapscreen[i] = colormaps[0][(M_BigRandom() & 5) * 256 + mapscreen[i]];
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
