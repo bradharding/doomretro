@@ -612,20 +612,17 @@ static void P_LoadVertexes(int lump)
             // Apply any map-specific fixes.
             if (canmodify && r_fixmaperrors)
                 for (int j = 0; vertexfix[j].mission != -1; j++)
-                    if (i == vertexfix[j].vertex
-                        && gamemission == vertexfix[j].mission
-                        && gameepisode == vertexfix[j].epsiode
-                        && gamemap == vertexfix[j].map
-                        && vertexes[i].x == SHORT(vertexfix[j].oldx) << FRACBITS
-                        && vertexes[i].y == SHORT(vertexfix[j].oldy) << FRACBITS)
+                    if (gamemission == vertexfix[j].mission && gameepisode == vertexfix[j].episode && gamemap == vertexfix[j].map
+                        && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
+                        && vertexes[i].y == vertexfix[j].oldy << FRACBITS)
                     {
                         char    *temp = commify(vertexfix[j].vertex);
 
                         C_Warning(2, "Vertex %s has been moved from (%i,%i) to (%i,%i).",
                             temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
 
-                        vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
-                        vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
+                        vertexes[i].x = vertexfix[j].newx << FRACBITS;
+                        vertexes[i].y = vertexfix[j].newy << FRACBITS;
                         free(temp);
                         break;
                     }
@@ -818,10 +815,8 @@ static void P_LoadSegs(int lump)
         // [BH] Apply any map-specific fixes.
         if (canmodify && r_fixmaperrors)
             for (int j = 0; linefix[j].mission != -1; j++)
-            {
-                if (linedefnum == linefix[j].linedef && gamemission == linefix[j].mission
-                    && gameepisode == linefix[j].epsiode && gamemap == linefix[j].map
-                    && side == linefix[j].side)
+                if (gamemission == linefix[j].mission && gameepisode == linefix[j].episode && gamemap == linefix[j].map
+                    && linedefnum == linefix[j].linedef && side == linefix[j].side)
                 {
                     if (*linefix[j].toptexture)
                     {
@@ -894,7 +889,7 @@ static void P_LoadSegs(int lump)
 
                         C_Warning(2, "The horizontal texture offset of linedef %s has been changed from %s to %s.", temp1, temp2, temp3);
 
-                        li->offset = SHORT(linefix[j].offset) << FRACBITS;
+                        li->offset = linefix[j].offset << FRACBITS;
                         li->sidedef->textureoffset = 0;
                         free(temp1);
                         free(temp2);
@@ -909,7 +904,7 @@ static void P_LoadSegs(int lump)
 
                         C_Warning(2, "The vertical texture offset of linedef %s has been changed from %s to %s.", temp1, temp2, temp3);
 
-                        li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
+                        li->sidedef->rowoffset = linefix[j].rowoffset << FRACBITS;
                         free(temp1);
                         free(temp2);
                         free(temp3);
@@ -971,7 +966,6 @@ static void P_LoadSegs(int lump)
 
                     break;
                 }
-            }
 
         if (li->linedef->special >= MBFLINESPECIALS)
             mbfcompatible = true;
@@ -1208,9 +1202,8 @@ static void P_LoadSectors(int lump)
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
             for (int j = 0; sectorfix[j].mission != -1; j++)
-            {
-                if (i == sectorfix[j].sector && gamemission == sectorfix[j].mission
-                    && gameepisode == sectorfix[j].epsiode && gamemap == sectorfix[j].map)
+                if (gamemission == sectorfix[j].mission && gameepisode == sectorfix[j].episode && gamemap == sectorfix[j].map
+                    && i == sectorfix[j].sector)
                 {
                     if (*sectorfix[j].floorpic)
                     {
@@ -1290,7 +1283,6 @@ static void P_LoadSectors(int lump)
 
                     break;
                 }
-            }
 
         // [AM] Sector interpolation. Even if we're
         //      not running uncapped, the renderer still
@@ -1695,9 +1687,9 @@ static void P_LoadThings(int lump)
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
             for (int j = 0; thingfix[j].mission != -1; j++)
-                if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].epsiode
-                    && gamemap == thingfix[j].map && thingid == thingfix[j].thing && mt.type == thingfix[j].type
-                    && mt.x == SHORT(thingfix[j].oldx) && mt.y == SHORT(thingfix[j].oldy))
+                if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].episode && gamemap == thingfix[j].map
+                    && thingid == thingfix[j].thing && mt.type == thingfix[j].type
+                    && mt.x == thingfix[j].oldx && mt.y == thingfix[j].oldy)
                 {
                     char    *temp = commify(thingid);
 
@@ -1712,15 +1704,15 @@ static void P_LoadThings(int lump)
                         C_Warning(2, "The position of thing %s has been changed from (%i,%i) to (%i,%i).",
                             temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
-                        mt.x = SHORT(thingfix[j].newx);
-                        mt.y = SHORT(thingfix[j].newy);
+                        mt.x = thingfix[j].newx;
+                        mt.y = thingfix[j].newy;
 
                         if (thingfix[j].angle != DEFAULT)
                         {
                             C_Warning(2, "The angle of thing %s has been changed from %i\xB0 to %i\xB0.",
                                 temp, mt.angle, thingfix[j].angle);
 
-                            mt.angle = SHORT(thingfix[j].angle);
+                            mt.angle = thingfix[j].angle;
                         }
 
                         if (thingfix[j].options != DEFAULT)
