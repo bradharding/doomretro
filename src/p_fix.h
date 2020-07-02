@@ -89,8 +89,7 @@ typedef struct
     int     floorheight;
     int     ceilingheight;
     int     special;
-    int     oldtag;
-    int     newtag;
+    int     tag;
 } sectorfix_t;
 
 extern sectorfix_t  sectorfix[];

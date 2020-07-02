@@ -1274,15 +1274,15 @@ static void P_LoadSectors(int lump)
                         free(temp);
                     }
 
-                    if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT || sectorfix[j].oldtag == ss->tag))
+                    if (sectorfix[j].tag != DEFAULT)
                     {
                         char    *temp1 = commify(sectorfix[j].sector);
                         char    *temp2 = commify(ss->tag);
-                        char    *temp3 = commify(sectorfix[j].newtag);
+                        char    *temp3 = commify(sectorfix[j].tag);
 
                         C_Warning(2, "The tag of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
 
-                        ss->tag = sectorfix[j].newtag;
+                        ss->tag = sectorfix[j].tag;
                         free(temp1);
                         free(temp2);
                         free(temp3);
