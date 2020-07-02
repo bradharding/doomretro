@@ -1242,7 +1242,7 @@ static void P_LoadSectors(int lump)
 
                         C_Warning(2, "The floor height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
 
-                        ss->floorheight = SHORT(sectorfix[j].floorheight) << FRACBITS;
+                        ss->floorheight = sectorfix[j].floorheight << FRACBITS;
                         free(temp1);
                         free(temp2);
                         free(temp3);
@@ -1256,7 +1256,7 @@ static void P_LoadSectors(int lump)
 
                         C_Warning(2, "The ceiling height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
 
-                        ss->ceilingheight = SHORT(sectorfix[j].ceilingheight) << FRACBITS;
+                        ss->ceilingheight = sectorfix[j].ceilingheight << FRACBITS;
                         free(temp1);
                         free(temp2);
                         free(temp3);
@@ -1264,14 +1264,13 @@ static void P_LoadSectors(int lump)
 
                     if (sectorfix[j].special != DEFAULT)
                     {
-
                         char    *temp = commify(sectorfix[j].sector);
 
                         C_Warning(2, "The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
                             temp, ss->special, sectorspecials[ss->special],
                             sectorfix[j].special, sectorspecials[sectorfix[j].special]);
 
-                        ss->special = SHORT(sectorfix[j].special);
+                        ss->special = sectorfix[j].special;
                         free(temp);
                     }
 

@@ -7506,7 +7506,6 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 
     if (mouselook != mouselook_old)
     {
-
         if (gamestate == GS_LEVEL)
         {
             R_InitSkyMap();
