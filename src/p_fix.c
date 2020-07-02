@@ -181,6 +181,7 @@ linefix_t linefix[] =
     { doom,             2,   4,    1062,    0, "GRAYVINE", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             2,   4,    1071,    0, "MARBLE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
+    { doom,             2,   5,     184,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                               0 },
     { doom,             2,   5,     382,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                             100 },
     { doom,             2,   5,     388,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                             100 },
     { doom,             2,   5,     590,    0, "",         "",            "STEP1",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
