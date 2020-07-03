@@ -42,7 +42,8 @@
 #include "d_event.h"
 #include "doomdef.h"
 
-#define FADECOUNT   33
+#define FASTFADECOUNT   21
+#define SLOWFADECOUNT   33
 
 extern byte     fadescreen[SCREENWIDTH * SCREENHEIGHT];
 extern int      fadecount;
@@ -77,6 +78,6 @@ void D_AdvanceTitle(void);
 void D_DoAdvanceTitle(void);
 void D_StartTitle(int page);
 void D_FadeScreenToBlack(void);
-void D_FadeScreen(void);
+void D_FadeScreen(int count);
 
 #endif

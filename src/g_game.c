@@ -730,7 +730,7 @@ dboolean G_Responder(event_t *ev)
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
 
-                D_FadeScreen();
+                D_FadeScreen(SLOWFADECOUNT);
             }
             else if (key == keyboardalwaysrun && !keydown)
             {

@@ -771,7 +771,7 @@ void C_ShowConsole(void)
     if (gamestate == GS_TITLESCREEN && !devparm)
     {
         S_StartSound(NULL, sfx_swtchn);
-        D_FadeScreen();
+        D_FadeScreen(FASTFADECOUNT);
     }
 
     S_LowerMusicVolume();
@@ -793,7 +793,7 @@ void C_HideConsole(void)
         consoleheight = 0;
         consoleactive = false;
         S_StartSound(NULL, sfx_swtchx);
-        D_FadeScreen();
+        D_FadeScreen(FASTFADECOUNT);
     }
 
     S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
