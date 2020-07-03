@@ -3810,11 +3810,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(numlines);
-    C_TabbedOutput(tabs, "Lines\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Linedefs\t<b>%s</b>", temp);
     free(temp);
 
     temp = commify(numsides);
-    C_TabbedOutput(tabs, "Sides\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Sidedefs\t<b>%s</b>", temp);
     free(temp);
 
     temp = commify(numvertexes);
@@ -3833,7 +3833,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", temp);
     free(temp);
 
-    C_TabbedOutput(tabs, "Node format\t<b>%s</b>", mapformats[mapformat]);
+    C_TabbedOutput(tabs, "   Format\t<b>%s</b>", mapformats[mapformat]);
 
     temp = commify(numsectors);
     C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", temp);

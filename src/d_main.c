@@ -176,7 +176,7 @@ dboolean            dowipe;
 static dboolean     forcewipe;
 
 static byte         fadescreen[SCREENWIDTH * SCREENHEIGHT];
-static int          fadeheight = 0;
+static int          fadeheight;
 static int          fadecount = 0;
 static int          fadecountmax;
 
