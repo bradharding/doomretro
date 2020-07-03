@@ -175,9 +175,10 @@ dboolean            advancetitle;
 dboolean            dowipe;
 static dboolean     forcewipe;
 
-byte                fadescreen[SCREENWIDTH * SCREENHEIGHT];
-int                 fadecount = 0;
-int                 fadecountmax;
+static byte         fadescreen[SCREENWIDTH * SCREENHEIGHT];
+static int          fadeheight = 0;
+static int          fadecount = 0;
+static int          fadecountmax;
 
 dboolean            splashscreen = true;
 
@@ -213,14 +214,12 @@ void D_PostEvent(event_t *ev)
 
 void D_FadeScreen(int count)
 {
-    int height;
-
     if (!fade)
         return;
 
-    height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
-    for (int i = 0; i < height; i++)
+    for (int i = 0; i < fadeheight; i++)
         fadescreen[i] = screens[0][i];
 
     fadecount = count;
@@ -392,16 +391,14 @@ void D_Display(void)
 
         if (fadecount)
         {
-            int height = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
-
             if (fadecount < fadecountmax / 3)
-                for (int i = 0; i < height; i++)
+                for (int i = 0; i < fadeheight; i++)
                     screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
             else if (fadecount < fadecountmax * 2 / 3)
-                for (int i = 0; i < height; i++)
+                for (int i = 0; i < fadeheight; i++)
                     screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
             else
-                for (int i = 0; i < height; i++)
+                for (int i = 0; i < fadeheight; i++)
                     screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
 
             I_Sleep(1);

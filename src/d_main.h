@@ -45,9 +45,6 @@
 #define FASTFADECOUNT   21
 #define SLOWFADECOUNT   33
 
-extern byte     fadescreen[SCREENWIDTH * SCREENHEIGHT];
-extern int      fadecount;
-
 extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];
