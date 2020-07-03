@@ -26,7 +26,7 @@
   * There is a new `Favorite weapon` stat.
 * The precision of the angle the player is facing when using the `IDMYPOS` cheat has been improved.
 * Certain cheats are now still active when the player respawns after death.
-* Fixes that involve changing a sector’s tag will now work as intended when the `r_fixmaperrors` CVAR is `on`.
+* Fixes to maps that involve changing a sector’s tag will now work as intended when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
