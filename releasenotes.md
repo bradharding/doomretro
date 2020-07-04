@@ -26,7 +26,7 @@
   * There is a new `Favorite weapon` stat.
 * The precision of the angle the player is facing when using the `IDMYPOS` cheat has been improved.
 * Certain cheats are now still active when the player respawns after death.
-* The effect applied when the player is damaged and the `r_shake_damage` CVAR is `on` is now still applied when god mode is enabled.
+* The effect applied when the player is attacked and the `r_shake_damage` CVAR is `on` is now still applied when god mode is enabled.
 * Fixes to maps that involve changing a sector’s tag will now work as intended when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
