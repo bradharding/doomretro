@@ -1252,8 +1252,7 @@ static void ST_DoPaletteStuff(void)
     int palette = 0;
 
     if (viewplayer->powers[pw_strength]
-        && (viewplayer->pendingweapon == wp_fist
-            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
+        && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0 && r_berserkintensity)
     {
         int bonuscount = viewplayer->bonuscount;
@@ -1291,16 +1290,20 @@ static void ST_DrawWidgets(dboolean refresh)
 {
     STlib_UpdateBigNum(&w_ready);
 
-    for (int i = 0; i < 4; i++)
-    {
-        STlib_UpdateSmallNum(&w_ammo[i]);
-        STlib_UpdateSmallNum(&w_maxammo[i]);
-    }
+    STlib_UpdateSmallNum(&w_ammo[0]);
+    STlib_UpdateSmallNum(&w_ammo[1]);
+    STlib_UpdateSmallNum(&w_ammo[2]);
+    STlib_UpdateSmallNum(&w_ammo[3]);
+
+    STlib_UpdateSmallNum(&w_maxammo[0]);
+    STlib_UpdateSmallNum(&w_maxammo[1]);
+    STlib_UpdateSmallNum(&w_maxammo[2]);
+    STlib_UpdateSmallNum(&w_maxammo[3]);
 
     STlib_UpdatePercent(&w_health, refresh);
     STlib_UpdatePercent(&w_armor, refresh);
 
-    st_shotguns = (viewplayer->weaponowned[wp_shotgun] | viewplayer->weaponowned[wp_supershotgun]);
+    st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
     STlib_UpdateArmsIcon(&w_arms[0], refresh, 0);
     STlib_UpdateArmsIcon(&w_arms[1], refresh, 1);
@@ -1318,8 +1321,9 @@ static void ST_DrawWidgets(dboolean refresh)
 
     STlib_UpdateMultIcon(&w_faces, refresh);
 
-    for (int i = 0; i < 3; i++)
-        STlib_UpdateMultIcon(&w_keyboxes[i], refresh);
+    STlib_UpdateMultIcon(&w_keyboxes[0], refresh);
+    STlib_UpdateMultIcon(&w_keyboxes[1], refresh);
+    STlib_UpdateMultIcon(&w_keyboxes[2], refresh);
 }
 
 void ST_DoRefresh(void)
