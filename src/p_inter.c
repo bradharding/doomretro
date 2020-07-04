@@ -2156,10 +2156,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (freeze && (!inflicter || !inflicter->player))
             return;
 
-        // ignore damage if in god mode or player about to warp
-        if ((cheats & CF_GODMODE) || idclevtics)
-            return;
-
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel && damage >= target->health)
             damage = target->health - 1;
@@ -2187,8 +2183,12 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             }
         }
 
-        tplayer->health -= damage;
-        target->health -= damage;
+        // ignore damage if in god mode or player about to warp
+        if (!(cheats & CF_GODMODE) && !idclevtics)
+        {
+            tplayer->health -= damage;
+            target->health -= damage;
+        }
 
         if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
         {
