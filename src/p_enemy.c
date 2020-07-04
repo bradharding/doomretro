@@ -1808,8 +1808,10 @@ void A_SkullPop(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Pain(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (actor->info->painsound)
-        S_StartSound(actor, actor->info->painsound);
+    int painsound = actor->info->painsound;
+
+    if (painsound && (!actor->player || !(actor->player->cheats & CF_GODMODE)))
+        S_StartSound(actor, painsound);
 }
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
