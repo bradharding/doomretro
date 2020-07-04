@@ -2128,7 +2128,6 @@ static void M_SizeDisplay(int choice)
                 {
                     r_hud = true;
                     C_StrCVAROutput(stringize(r_hud), "on");
-                    D_FadeScreen(SLOWFADECOUNT);
                 }
                 else if (vid_widescreen)
                 {
@@ -2164,7 +2163,6 @@ static void M_SizeDisplay(int choice)
                     r_hud = false;
                     C_StrCVAROutput(stringize(r_hud), "off");
                     S_StartSound(NULL, sfx_stnmov);
-                    D_FadeScreen(SLOWFADECOUNT);
                     M_SaveCVARs();
                 }
             }
