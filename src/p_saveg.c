@@ -1524,7 +1524,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_ceiling:
             {
-                ceiling_t   *ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
+                ceiling_t   *ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
 
                 saveg_read_ceiling_t(ceiling);
                 ceiling->sector->ceilingdata = ceiling;
@@ -1536,7 +1536,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_door:
             {
-                vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
+                vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
                 saveg_read_vldoor_t(door);
                 door->sector->ceilingdata = door;
@@ -1547,7 +1547,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_floor:
             {
-                floormove_t *floor = Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
+                floormove_t *floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
 
                 saveg_read_floormove_t(floor);
                 floor->sector->floordata = floor;
@@ -1558,7 +1558,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_plat:
             {
-                plat_t  *plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
+                plat_t  *plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
 
                 saveg_read_plat_t(plat);
                 plat->sector->floordata = plat;
@@ -1570,7 +1570,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_flash:
             {
-                lightflash_t    *flash = Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
+                lightflash_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = &T_LightFlash;
@@ -1581,7 +1581,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_strobe:
             {
-                strobe_t    *strobe = Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
+                strobe_t    *strobe = Z_Calloc(1, sizeof(*strobe), PU_LEVSPEC, NULL);
 
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = &T_StrobeFlash;
@@ -1592,7 +1592,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_glow:
             {
-                glow_t  *glow = Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
+                glow_t  *glow = Z_Calloc(1, sizeof(*glow), PU_LEVSPEC, NULL);
 
                 saveg_read_glow_t(glow);
                 glow->thinker.function = &T_Glow;
@@ -1603,7 +1603,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_fireflicker:
             {
-                fireflicker_t   *flick = Z_Malloc(sizeof(*flick), PU_LEVEL, NULL);
+                fireflicker_t   *flick = Z_Calloc(1, sizeof(*flick), PU_LEVSPEC, NULL);
 
                 saveg_read_fireflicker_t(flick);
                 flick->thinker.function = &T_FireFlicker;
@@ -1614,18 +1614,19 @@ void P_UnArchiveSpecials(void)
 
             case tc_elevator:
             {
-                elevator_t  *elevator = Z_Malloc(sizeof(*elevator), PU_LEVEL, NULL);
+                elevator_t  *elevator = Z_Calloc(1, sizeof(*elevator), PU_LEVSPEC, NULL);
 
                 saveg_read_elevator_t(elevator);
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = &T_MoveElevator;
+                elevator->thinker.menu = false;
                 P_AddThinker(&elevator->thinker);
                 break;
             }
 
             case tc_scroll:
             {
-                scroll_t    *scroll = Z_Malloc(sizeof(*scroll), PU_LEVEL, NULL);
+                scroll_t    *scroll = Z_Calloc(1, sizeof(*scroll), PU_LEVSPEC, NULL);
 
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = &T_Scroll;
@@ -1636,7 +1637,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_pusher:
             {
-                pusher_t    *pusher = Z_Malloc(sizeof(*pusher), PU_LEVEL, NULL);
+                pusher_t    *pusher = Z_Calloc(1, sizeof(*pusher), PU_LEVSPEC, NULL);
 
                 saveg_read_pusher_t(pusher);
                 pusher->thinker.function = &T_Pusher;
@@ -1648,7 +1649,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_button:
             {
-                button_t    *button = Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
+                button_t    *button = Z_Calloc(1, sizeof(*button), PU_LEVSPEC, NULL);
 
                 saveg_read_button_t(button);
                 P_StartButton(button->line, button->where, button->btexture, button->btimer);
