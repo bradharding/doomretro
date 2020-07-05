@@ -2787,7 +2787,7 @@ dboolean M_Responder(event_t *ev)
     {
         int ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
-        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n'
+        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
             && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
