@@ -71,6 +71,9 @@ typedef struct thinker_s
     // killough 11/98: count of how many other objects reference
     // this one using pointers. Used for garbage collection.
     unsigned int        references;
+
+    // [BH] active during menu
+    dboolean            menu;
 } thinker_t;
 
 #endif

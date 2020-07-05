@@ -2756,6 +2756,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
     s->affectee = affectee;
 
     s->thinker.function = &T_Scroll;
+    s->thinker.menu = true;
     P_AddThinker(&s->thinker);
 }
 
@@ -3039,6 +3040,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
     p->affectee = affectee;
 
     p->thinker.function = &T_Pusher;
+    p->thinker.menu = true;
     P_AddThinker(&p->thinker);
 }
 

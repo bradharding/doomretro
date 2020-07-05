@@ -1574,6 +1574,7 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = &T_LightFlash;
+                flash->thinker.menu = true;
                 P_AddThinker(&flash->thinker);
                 break;
             }
@@ -1584,6 +1585,7 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = &T_StrobeFlash;
+                strobe->thinker.menu = true;
                 P_AddThinker(&strobe->thinker);
                 break;
             }
@@ -1594,17 +1596,19 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_glow_t(glow);
                 glow->thinker.function = &T_Glow;
+                glow->thinker.menu = true;
                 P_AddThinker(&glow->thinker);
                 break;
             }
 
             case tc_fireflicker:
             {
-                fireflicker_t   *fireflicker = Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
+                fireflicker_t   *flick = Z_Malloc(sizeof(*flick), PU_LEVEL, NULL);
 
-                saveg_read_fireflicker_t(fireflicker);
-                fireflicker->thinker.function = &T_FireFlicker;
-                P_AddThinker(&fireflicker->thinker);
+                saveg_read_fireflicker_t(flick);
+                flick->thinker.function = &T_FireFlicker;
+                flick->thinker.menu = true;
+                P_AddThinker(&flick->thinker);
                 break;
             }
 
@@ -1625,6 +1629,7 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = &T_Scroll;
+                scroll->thinker.menu = true;
                 P_AddThinker(&scroll->thinker);
                 break;
             }
@@ -1635,6 +1640,7 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_pusher_t(pusher);
                 pusher->thinker.function = &T_Pusher;
+                pusher->thinker.menu = true;
                 pusher->source = P_GetPushThing(pusher->affectee);
                 P_AddThinker(&pusher->thinker);
                 break;
