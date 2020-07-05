@@ -514,7 +514,17 @@ void D_PageTicker(void)
     }
 
     if (pagetic < 0)
+    {
         D_AdvanceTitle();
+
+        if (splashscreen)
+        {
+            for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                screens[0][i] = nearestblack;
+
+            D_FadeScreen(FASTFADECOUNT);
+        }
+    }
 }
 
 //
