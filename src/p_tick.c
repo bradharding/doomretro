@@ -223,23 +223,33 @@ void P_Ticker(void)
 
     P_PlayerThink();
 
-    if (menuactive || consoleactive)
+    if (consoleactive)
         return;
 
-    P_MapEnd();
-
-    if (freeze)
+    if (menuactive)
     {
-        P_MobjThinker(viewplayer->mo);
-        return;
+        for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
+            if (currentthinker->function)
+                currentthinker->function((mobj_t *)currentthinker);
     }
+    else
+    {
+        P_MapEnd();
 
-    P_RunThinkers();
+        if (freeze)
+        {
+            P_MobjThinker(viewplayer->mo);
+            return;
+        }
 
-    P_UpdateSpecials();
-    P_RespawnSpecials();
+        P_RunThinkers();
 
-    // for par times
-    leveltime++;
-    stat_time = SafeAdd(stat_time, 1);
+        P_UpdateSpecials();
+
+        P_RespawnSpecials();
+
+        // for par times
+        leveltime++;
+        stat_time = SafeAdd(stat_time, 1);
+    }
 }
