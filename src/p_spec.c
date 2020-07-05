@@ -2291,9 +2291,6 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
-    if (timer && !--countdown)
-        G_ExitLevel();
-
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
         if (!(gametime & (anim->speed - 1)))
@@ -2319,6 +2316,12 @@ void P_UpdateSpecials(void)
         animatedliquidyoffs = 0;
 
     skycolumnoffset += skyscrolldelta;
+
+    if (menuactive)
+        return;
+
+    if (timer && !--countdown)
+        G_ExitLevel();
 
     // DO BUTTONS
     for (int i = 0; i < maxbuttons; i++)
