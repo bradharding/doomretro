@@ -46,6 +46,8 @@ sudo: required
 
 dist: bionic
 
+group: edge
+
 addons:
     apt:
         packages:
