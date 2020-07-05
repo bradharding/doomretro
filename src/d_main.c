@@ -1188,8 +1188,8 @@ static int D_OpenWADLauncher(void)
                 file = M_StringDuplicate(temp);
                 free(temp);
             }
-
-            wad = M_StringDuplicate(file);
+            else
+                wad = M_StringDuplicate(file);
 #endif
 
             // check if it's a valid and supported IWAD
