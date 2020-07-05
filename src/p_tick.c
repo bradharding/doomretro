@@ -231,6 +231,8 @@ void P_Ticker(void)
         for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
             if (currentthinker->function)
                 currentthinker->function((mobj_t *)currentthinker);
+
+        P_UpdateSpecials();
     }
     else
     {
