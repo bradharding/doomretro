@@ -186,6 +186,7 @@ static int          startuptimer;
 
 dboolean            realframe;
 static dboolean     error;
+static dboolean     guess;
 
 struct tm           gamestarttime;
 
@@ -563,7 +564,7 @@ void D_FadeScreenToBlack(void)
 
 //
 // D_AdvanceTitle
-// Called after each titlesequence finishes
+// Called after each title sequence finishes
 //
 void D_AdvanceTitle(void)
 {
@@ -1139,8 +1140,6 @@ static int D_OpenWADLauncher(void)
     fileopenedok = (clicked == NSModalResponseOK);
 #endif
 
-    error = false;
-
     if (fileopenedok)
     {
         dboolean    onlyoneselected;
@@ -1185,11 +1184,18 @@ static int D_OpenWADLauncher(void)
             {
                 char    *temp = W_NearestFilename(folder, leafname(file));
 
-                if (!M_StringEndsWith(temp, leafname(file)))
-                    C_Warning(1, "<b>%s</b> couldn't be found. Did you mean <b>%s</b>?", leafname(file), leafname(temp));
+                if (!temp)
+                    error = true;
+                else
+                {
+                    guess = true;
 
-                file = M_StringDuplicate(temp);
-                free(temp);
+                    if (!M_StringEndsWith(temp, leafname(file)))
+                        C_Warning(1, "<b>%s</b> couldn't be found. Did you mean <b>%s</b>?", leafname(file), leafname(temp));
+
+                    file = M_StringDuplicate(temp);
+                    free(temp);
+                }
             }
             else
                 wad = M_StringDuplicate(file);
@@ -1205,7 +1211,8 @@ static int D_OpenWADLauncher(void)
                     iwadfound = 1;
 
 #if defined(_WIN32)
-                    wad = M_StringDuplicate(leafname(file));
+                    if (!guess)
+                        wad = M_StringDuplicate(leafname(file));
 #endif
 
                     iwadfolder = M_StringDuplicate(folder);
@@ -1275,7 +1282,8 @@ static int D_OpenWADLauncher(void)
                     iwadrequired = doom2;
 
 #if defined(_WIN32)
-                wad = M_StringDuplicate(leafname(file));
+                if (!guess)
+                    wad = M_StringDuplicate(leafname(file));
 #endif
 
                 // try the current folder first
@@ -1433,7 +1441,8 @@ static int D_OpenWADLauncher(void)
                         isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
 
 #if defined(_WIN32)
-                        wad = M_StringDuplicate(leafname(fullpath));
+                        if (!guess)
+                            wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
                         iwadfolder = M_ExtractFolder(fullpath);
@@ -1478,7 +1487,8 @@ static int D_OpenWADLauncher(void)
                             isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
 
 #if defined(_WIN32)
-                            wad = M_StringDuplicate(leafname(fullpath));
+                            if (!guess)
+                                wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
                             iwadfolder = M_ExtractFolder(fullpath);
@@ -1618,7 +1628,8 @@ static int D_OpenWADLauncher(void)
                             if (W_MergeFile(fullpath, false))
                             {
 #if defined(_WIN32)
-                                wad = M_StringDuplicate(leafname(fullpath));
+                                if (!guess)
+                                    wad = M_StringDuplicate(leafname(fullpath));
 #endif
 
                                 modifiedgame = true;

@@ -259,7 +259,8 @@ char *W_NearestFilename(char *path, char *string)
     FindClose(hFile);
     free(file);
     free(string1);
-    return M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL);
+
+    return (bestdistance == INT_MAX ? NULL : M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL));
 }
 #endif
 
