@@ -6,7 +6,9 @@
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
 * The gradual lighting under doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
-* Lighting effects are now still applied to the menu’s background.
+* Changes to lighting are now still applied to the menu’s background.
+* The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
+* Minor improvements have been made when mistyping a filename in the WAD launcher.
 * The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
