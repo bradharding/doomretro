@@ -1296,7 +1296,7 @@ static void P_HitSlideLine(line_t *ld)
         lineangle += ANG180;
 
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
-    moveangle += 10;    // prevents sudden path reversal due to rounding error
+    moveangle += 10;                                        // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
     movelen = P_ApproxDistance(tmxmove, tmymove);
 

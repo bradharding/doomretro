@@ -218,10 +218,7 @@ void D_FadeScreen(int count)
         return;
 
     fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
-
-    for (int i = 0; i < fadeheight; i++)
-        fadescreen[i] = screens[0][i];
-
+    memcpy(fadescreen, screens[0], fadeheight);
     fadecount = count;
     fadecountmax = count;
 }
@@ -519,9 +516,7 @@ void D_PageTicker(void)
 
         if (splashscreen)
         {
-            for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-                screens[0][i] = nearestblack;
-
+            memset(screens[0], nearestblack, SCREENAREA);
             D_FadeScreen(FASTFADECOUNT);
         }
     }
