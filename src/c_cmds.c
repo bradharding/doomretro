@@ -99,18 +99,18 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "It is currently <b>%s</b> and is <b>%s</b> by default."
-#define INTEGERCVARWITHNODEFAULT    "It is currently <b>%s</b>."
-#define INTEGERCVARISDEFAULT        "It is currently its default of <b>%s</b>."
-#define INTEGERCVARISREADONLY       "It is currently <b>%s</b> and is read-only."
-#define PERCENTCVARWITHDEFAULT      "It is currently <b>%s%%</b> and is <b>%s%%</b> by default."
-#define PERCENTCVARWITHNODEFAULT    "It is currently <b>%s%%</b>."
-#define PERCENTCVARISDEFAULT        "It is currently its default of <b>%s%%</b>."
-#define PERCENTCVARISREADONLY       "It is currently <b>%s%%</b> and is read-only."
-#define STRINGCVARWITHDEFAULT       "It is currently <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
-#define STRINGCVARISDEFAULT         "It is currently its default of <b>\"%s\"</b>."
-#define STRINGCVARISREADONLY        "It is currently <b>%s%s%s</b> and is read-only."
-#define TIMECVARISREADONLY          "It is currently <b>%02i:%02i:%02i</b> and is read-only."
+#define INTEGERCVARWITHDEFAULT      "This CVAR is currently set to <b>%s</b> and is <b>%s</b> by default."
+#define INTEGERCVARWITHNODEFAULT    "This CVAR is currently set to <b>%s</b>."
+#define INTEGERCVARISDEFAULT        "This CVAR is currently set to its default of <b>%s</b>."
+#define INTEGERCVARISREADONLY       "This CVAR is currently set to <b>%s</b> and is read-only."
+#define PERCENTCVARWITHDEFAULT      "This CVAR is currently set to <b>%s%%</b> and is <b>%s%%</b> by default."
+#define PERCENTCVARWITHNODEFAULT    "This CVAR is currently set to <b>%s%%</b>."
+#define PERCENTCVARISDEFAULT        "This CVAR is currently set to its default of <b>%s%%</b>."
+#define PERCENTCVARISREADONLY       "This CVAR is currently set to <b>%s%%</b> and is read-only."
+#define STRINGCVARWITHDEFAULT       "This CVAR is currently set to <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
+#define STRINGCVARISDEFAULT         "This CVAR is currently set to its default of <b>\"%s\"</b>."
+#define STRINGCVARISREADONLY        "This CVAR is currently set to <b>%s%s%s</b> and is read-only."
+#define TIMECVARISREADONLY          "This CVAR is currently set to <b>%02i:%02i:%02i</b> and is read-only."
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f
