@@ -59,7 +59,7 @@ void T_FireFlicker(fireflicker_t *flick)
     if (--flick->count)
         return;
 
-    amount = (M_Random() & 3) * 16;
+    amount = (M_BigRandom() & 3) * 16;
 
     if (flick->sector->lightlevel - amount < flick->minlight)
         flick->sector->lightlevel = flick->minlight;
@@ -102,12 +102,12 @@ void T_LightFlash(lightflash_t *flash)
     if (flash->sector->lightlevel == flash->maxlight)
     {
         flash->sector->lightlevel = flash->minlight;
-        flash->count = (M_Random() & flash->mintime) + 1;
+        flash->count = (M_BigRandom() & flash->mintime) + 1;
     }
     else
     {
         flash->sector->lightlevel = flash->maxlight;
-        flash->count = (M_Random() & flash->maxtime) + 1;
+        flash->count = (M_BigRandom() & flash->maxtime) + 1;
     }
 }
 
@@ -129,7 +129,7 @@ void P_SpawnLightFlash(sector_t *sector)
     flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
     flash->maxtime = 63;
     flash->mintime = 7;
-    flash->count = (M_Random() & flash->maxtime) + 1;
+    flash->count = (M_BigRandom() & flash->maxtime) + 1;
 }
 
 //
@@ -178,7 +178,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, dboolean insync)
     if (strobe->minlight == strobe->maxlight)
         strobe->minlight = 0;
 
-    strobe->count = (insync ? 1 : (M_Random() & 7) + 1);
+    strobe->count = (insync ? 1 : (M_BigRandom() & 7) + 1);
 }
 
 //
