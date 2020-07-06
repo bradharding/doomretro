@@ -99,18 +99,18 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "This CVAR is currently set to <b>%s</b> and is <b>%s</b> by default."
-#define INTEGERCVARWITHNODEFAULT    "This CVAR is currently set to <b>%s</b>."
-#define INTEGERCVARISDEFAULT        "This CVAR is currently set to its default of <b>%s</b>."
-#define INTEGERCVARISREADONLY       "This CVAR is currently set to <b>%s</b> and is read-only."
-#define PERCENTCVARWITHDEFAULT      "This CVAR is currently set to <b>%s%%</b> and is <b>%s%%</b> by default."
-#define PERCENTCVARWITHNODEFAULT    "This CVAR is currently set to <b>%s%%</b>."
-#define PERCENTCVARISDEFAULT        "This CVAR is currently set to its default of <b>%s%%</b>."
-#define PERCENTCVARISREADONLY       "This CVAR is currently set to <b>%s%%</b> and is read-only."
-#define STRINGCVARWITHDEFAULT       "This CVAR is currently set to <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
-#define STRINGCVARISDEFAULT         "This CVAR is currently set to its default of <b>\"%s\"</b>."
-#define STRINGCVARISREADONLY        "This CVAR is currently set to <b>%s%s%s</b> and is read-only."
-#define TIMECVARISREADONLY          "This CVAR is currently set to <b>%02i:%02i:%02i</b> and is read-only."
+#define INTEGERCVARWITHDEFAULT      "It is set to <b>%s</b> and is <b>%s</b> by default."
+#define INTEGERCVARWITHNODEFAULT    "It is set to <b>%s</b>."
+#define INTEGERCVARISDEFAULT        "It is set to its default of <b>%s</b>."
+#define INTEGERCVARISREADONLY       "It is set to <b>%s</b> and is read-only."
+#define PERCENTCVARWITHDEFAULT      "It is set to <b>%s%%</b> and is <b>%s%%</b> by default."
+#define PERCENTCVARWITHNODEFAULT    "It is set to <b>%s%%</b>."
+#define PERCENTCVARISDEFAULT        "It is set to its default of <b>%s%%</b>."
+#define PERCENTCVARISREADONLY       "It is set to <b>%s%%</b> and is read-only."
+#define STRINGCVARWITHDEFAULT       "It is set to <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
+#define STRINGCVARISDEFAULT         "It is set to its default of <b>\"%s\"</b>."
+#define STRINGCVARISREADONLY        "It is set to <b>%s%s%s</b> and is read-only."
+#define TIMECVARISREADONLY          "It is set to <b>%02i:%02i:%02i</b> and is read-only."
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f
@@ -1051,10 +1051,13 @@ static int C_GetIndex(const char *cmd)
 
 static void C_ShowDescription(int index)
 {
+    char    description[255];
     char    description1[255];
     char    *p;
 
-    M_StringCopy(description1, consolecmds[index].description, sizeof(description1));
+    M_StringCopy(description, consolecmds[index].description, sizeof(description));
+    description[0] = tolower(description[0]);
+    M_snprintf(description1, sizeof(description1), "This CVAR %s", description);
 
     if ((p = strchr(description1, '\n')))
     {
@@ -1070,7 +1073,7 @@ static void C_ShowDescription(int index)
             *p++ = '\0';
             M_StringCopy(description3, p, sizeof(description3));
 
-            if (C_TextWidth(consolecmds[index].description, true, true) > CONSOLETEXTPIXELWIDTH)
+            if (C_TextWidth(description1, true, true) > CONSOLETEXTPIXELWIDTH)
             {
                 C_Output("%s %s", description1, description2);
                 C_Output(description3);
