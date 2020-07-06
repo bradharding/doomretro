@@ -3285,7 +3285,7 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
                         S_StartSound(NULL, sfx_pistol);
 
-                    if (currentMenu != &NewDef)
+                    if (currentMenu != &LoadDef && currentMenu != &NewDef)
                         D_FadeScreen(SLOWFADECOUNT);
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
