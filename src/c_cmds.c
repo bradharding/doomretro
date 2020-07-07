@@ -7629,6 +7629,11 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     if (value <= 0)
                     {
+                        if (value < viewplayer->health)
+                            viewplayer->damagecount = viewplayer->health - value;
+                        else
+                            S_StartSound(NULL, sfx_itemup);
+
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
                         healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;

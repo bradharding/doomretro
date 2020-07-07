@@ -3,7 +3,7 @@
 ### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug has been fixed whereby a crash could occur when saving a game in some instances. Because of this fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
+* A bug has been fixed whereby a crash could occur when saving a game in some instances. Unfortunately, because of this important fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
 * The gradual lighting under doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
 * Animated textures and changes to lighting will now still update in the background when the menu is open.
