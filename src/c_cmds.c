@@ -114,7 +114,7 @@
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f
-#define METERSPERKILOMETER          1000
+#define METERSPERKILOMETER          1000.0f
 #define FEETPERMILE                 5280
 
 alias_t             aliases[MAXALIASES];

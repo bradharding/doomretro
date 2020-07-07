@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-// the list of ceilings moving currently, including crushers
+// the list of ceilings currently moving, including crushers
 ceilinglist_t   *activeceilings;
 
 static void P_GradualLightingToCeiling(ceiling_t *ceiling)

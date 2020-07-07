@@ -427,6 +427,7 @@ static const iwads_t iwads[] =
     { "",         0          }
 };
 
+#if !defined(_WIN32) && !defined(__APPLE__)
 // Returns true if the specified path is a path to a file
 // of the specified name.
 static dboolean DirIsFile(char *path, char *filename)
@@ -462,7 +463,6 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 
 // Search a directory to try to find an IWAD
 // Returns the location of the IWAD if found, otherwise NULL.
-#if !defined(_WIN32) && !defined(__APPLE__)
 static char *SearchDirectoryForIWAD(char *dir)
 {
     for (size_t i = 0; i < arrlen(iwads); ++i)
