@@ -10,7 +10,6 @@
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.
 * The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
-* Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
   * Minor changes have been made to some of them.
