@@ -353,7 +353,6 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
 
 static int HUDNumberWidth(int val)
 {
-    int oldval;
     int width = 0;
 
     if (val < 0)
@@ -370,14 +369,13 @@ static int HUDNumberWidth(int val)
             val = 0;
     }
 
-    if (val > 99)
-        width += SHORT(tallnum[val / 100]->width);
-
-    oldval = val;
-    val %= 100;
-
-    if (val > 9 || oldval > 99)
-        width += SHORT(tallnum[val / 10]->width);
+    if (val >= 100)
+    {
+        width = SHORT(tallnum[val / 100]->width) + 2;
+        width += SHORT(tallnum[(val %= 100) / 10]->width) + 2;
+    }
+    else if (val >= 10)
+        width = SHORT(tallnum[val / 10]->width) + 2;
 
     return (width + SHORT(tallnum[val % 10]->width));
 }

@@ -1488,6 +1488,8 @@ void C_Drawer(void)
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
         }
+
+        I_Sleep(1);
     }
     else
         consoleactive = false;
