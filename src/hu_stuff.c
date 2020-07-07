@@ -311,7 +311,6 @@ void HU_Start(void)
 
 static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
 {
-    int     oldval;
     patch_t *patch;
 
     if (val < 0)
@@ -329,26 +328,27 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
             val = 0;
     }
 
-    if (val > 99)
+    if (val >= 100)
     {
-        patch = tallnum[val / 100];
-        drawhudnumfunc(*x, y, patch, translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val / 100]), translucency);
+        *x += SHORT(patch->width);
+        drawhudnumfunc(*x, y, (patch = tallnum[(val %= 100) / 10]), translucency);
+        *x += SHORT(patch->width);
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
         *x += SHORT(patch->width);
     }
-
-    oldval = val;
-    val %= 100;
-
-    if (val > 9 || oldval > 99)
+    else if (val >= 10)
     {
-        patch = tallnum[val / 10];
-        drawhudnumfunc(*x, y, patch, translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val / 10]), translucency);
+        *x += SHORT(patch->width);
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
         *x += SHORT(patch->width);
     }
-
-    patch = tallnum[val % 10];
-    drawhudnumfunc(*x, y, patch, translucency);
-    *x += SHORT(patch->width);
+    else
+    {
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
+        *x += SHORT(patch->width);
+    }
 }
 
 static int HUDNumberWidth(int val)
@@ -747,8 +747,6 @@ static void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
 {
-    patch_t *patch;
-
     if (val < 0)
     {
         val = -val;
@@ -758,22 +756,22 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
 
     if (val >= 100)
     {
-        patch = altnum[val / 100];
-        althudfunc(x, y, patch, WHITE, color);
-        x += SHORT(patch->width) + 2;
+        patch_t *patch = altnum[val / 100];
 
-        patch = altnum[(val %= 100) / 10];
         althudfunc(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 2;
+        althudfunc(x, y, (patch = altnum[(val %= 100) / 10]), WHITE, color);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color);
     }
     else if (val >= 10)
     {
-        patch = altnum[val / 10];
-        althudfunc(x, y, patch, WHITE, color);
-        x += SHORT(patch->width) + 2;
-    }
+        patch_t *patch = altnum[val / 10];
 
-    althudfunc(x, y, altnum[val % 10], WHITE, color);
+        althudfunc(x, y, patch, WHITE, color);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color);
+    }
+    else
+        althudfunc(x, y, altnum[val % 10], WHITE, color);
 }
 
 static int AltHUDNumberWidth(int val)
