@@ -580,7 +580,7 @@ void R_RenderBSPNode(int bspnum)
     {
         const node_t    *bsp = nodes + bspnum;
 
-        if ((bsp->dx >> FRACBITS) * ((viewy - bsp->y) >> FRACBITS) < (bsp->dy >> FRACBITS) * ((viewx - bsp->x) >> FRACBITS))
+        if (((int64_t)viewy - bsp->y) * bsp->dx + ((int64_t)bsp->x - viewx) * bsp->dy <= 0)
         {
             if (R_CheckBBox(bsp->bbox[0]))
                 R_RenderBSPNode(bsp->children[0]);
