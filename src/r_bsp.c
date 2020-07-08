@@ -517,13 +517,11 @@ static void R_Subsector(int num)
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
-    frontsector = sector;
-
     // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
-    R_InterpolateSector(frontsector);
+    R_InterpolateSector(sector);
 
     // killough 3/8/98, 4/4/98: Deep water/fake ceiling effect
-    frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+    frontsector = R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
         || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
@@ -575,7 +573,7 @@ static void R_Subsector(int num)
 void R_RenderBSPNode(int bspnum)
 {
     if (bspnum & NF_SUBSECTOR)
-        R_Subsector(bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR);
+        R_Subsector(bspnum & ~NF_SUBSECTOR);
     else
     {
         const node_t    *bsp = nodes + bspnum;
