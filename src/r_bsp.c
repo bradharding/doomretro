@@ -257,18 +257,19 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
     if (s)
     {
         sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        dboolean    underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        dboolean    underwater = (heightsec && viewz <= heightsec->floorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
 
         // Replace floor and ceiling height with other sector's heights.
+        tempsec->floorheight = s->floorheight;
+        tempsec->ceilingheight = s->ceilingheight;
         tempsec->interpfloorheight = s->interpfloorheight;
         tempsec->interpceilingheight = s->interpceilingheight;
 
         // killough 11/98: prevent sudden light changes from non-water sectors:
-        if (underwater && ((tempsec->interpfloorheight = sec->interpfloorheight),
-            (tempsec->interpceilingheight = s->interpfloorheight - 1), !back))
+        if (underwater && ((tempsec->floorheight = sec->floorheight), (tempsec->ceilingheight = s->floorheight - 1), !back))
         {
             // head-below-floor hack
             tempsec->floorpic = s->floorpic;
@@ -277,7 +278,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
             if (s->ceilingpic == skyflatnum)
             {
-                tempsec->interpfloorheight = tempsec->interpceilingheight + 1;
+                tempsec->floorheight = tempsec->ceilingheight + 1;
                 tempsec->ceilingpic = tempsec->floorpic;
                 tempsec->ceiling_xoffs = tempsec->floor_xoffs;
                 tempsec->ceiling_yoffs = tempsec->floor_yoffs;
@@ -297,13 +298,11 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             if (ceilinglightlevel)
                 *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
-        else if (heightsec
-            && viewz >= heightsec->interpceilingheight
-            && sec->interpceilingheight > s->interpceilingheight)
+        else if (heightsec && viewz >= heightsec->ceilingheight && sec->ceilingheight > s->ceilingheight)
         {
             // Above-ceiling hack
-            tempsec->interpceilingheight = s->interpceilingheight;
-            tempsec->interpfloorheight = s->interpceilingheight + 1;
+            tempsec->ceilingheight = s->ceilingheight;
+            tempsec->floorheight = s->ceilingheight + 1;
 
             tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
             tempsec->floor_xoffs = tempsec->ceiling_xoffs = s->ceiling_xoffs;
@@ -311,7 +310,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
             if (s->floorpic != skyflatnum)
             {
-                tempsec->interpceilingheight = sec->interpceilingheight;
+                tempsec->ceilingheight = sec->ceilingheight;
                 tempsec->floorpic = s->floorpic;
                 tempsec->floor_xoffs = s->floor_xoffs;
                 tempsec->floor_yoffs = s->floor_yoffs;

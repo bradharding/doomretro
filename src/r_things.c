@@ -1370,24 +1370,18 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-    int i;
-
     pausesprites = (menuactive || paused || consoleactive || freeze);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency);
 
     // draw all blood splats
-    i = num_bloodsplatvissprite;
-
-    while (i-- > 0)
+    for (int i = num_bloodsplatvissprite - 1; i >= 0; i--)
         R_DrawBloodSplatSprite(&bloodsplatvissprites[i]);
 
     R_SortVisSprites();
 
     // draw all other vissprites back to front
-    i = num_vissprite;
-
-    while (i-- > 0)
+    for (int i = num_vissprite - 1; i >= 0; i--)
         R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked mid textures
