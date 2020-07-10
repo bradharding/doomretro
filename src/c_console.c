@@ -1220,6 +1220,7 @@ void C_Drawer(void)
         char            partialinput[255];
         const dboolean  prevconsoleactive = consoleactive;
         static int      consolewait;
+        int             tics = I_GetTimeMS();
 
         const int consoledown[] =
         {
@@ -1237,9 +1238,9 @@ void C_Drawer(void)
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
             consoleheight = CONSOLEHEIGHT;
-        else if (consolewait < I_GetTimeMS())
+        else if (consolewait < tics)
         {
-            consolewait = I_GetTimeMS() + 10;
+            consolewait = tics + 10;
 
             if (consoledirection == 1)
             {
@@ -1412,10 +1413,10 @@ void C_Drawer(void)
         // draw caret
         if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
         {
-            if (caretwait < I_GetTimeMS())
+            if (caretwait < tics)
             {
                 showcaret = !showcaret;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                caretwait = tics + CARETBLINKTIME;
             }
 
             if (showcaret)

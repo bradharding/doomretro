@@ -4,9 +4,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Unfortunately, because of this important fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
-* The gradual lighting under doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
+* The gradual lighting applied under open doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
-* A white flash will now be displayed when pressing the <kbd>PRINTSCREEN</kbd> key to take a screenshot.
+* The screen will now flash white when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * Animated textures and changes to lighting will now still update in the background when the menu is open.
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.

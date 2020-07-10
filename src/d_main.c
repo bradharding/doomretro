@@ -96,6 +96,8 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#define FADETICS    50
+
 char **episodes[] =
 {
     &s_M_EPISODE1,
@@ -235,7 +237,7 @@ static void D_UpdateFade(void)
 
     if (fadewait < (tics = I_GetTimeMS()))
     {
-        fadewait = tics + 50;
+        fadewait = tics + FADETICS;
         fadecount--;
     }
 
