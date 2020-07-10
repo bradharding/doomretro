@@ -47,6 +47,7 @@
 #include "f_finale.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -1088,6 +1089,8 @@ void G_DoScreenShot(void)
         static char buffer[512];
 
         S_StartSound(NULL, sfx_scrsht);
+        memset(screens[0], nearestwhite, SCREENAREA);
+        D_FadeScreen();
 
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
         HU_SetPlayerMessage(buffer, false, false);
