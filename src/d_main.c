@@ -232,24 +232,24 @@ void D_FadeScreen(void)
 //
 static void D_UpdateFade(void)
 {
+    static byte *tinttab;
+    byte        *tinttabs[4] = { NULL, tinttab75, tinttab50, tinttab25 };
     static int  fadewait;
-    int         tics;
+    int         tics = I_GetTimeMS();
 
-    if (fadewait < (tics = I_GetTimeMS()))
+    if (fadewait < tics)
     {
         fadewait = tics + FADETICS;
-        fadecount--;
+        tinttab = tinttabs[--fadecount];
     }
 
-    if (fadecount == 3)
+    if (tinttab)
         for (int i = 0; i < fadeheight; i++)
-            screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
-    else if (fadecount == 2)
-        for (int i = 0; i < fadeheight; i++)
-            screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
-    else if (fadecount == 1)
-        for (int i = 0; i < fadeheight; i++)
-            screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
+        {
+            byte    *dot = *screens + i;
+
+            *dot = tinttab[(*dot << 8) + fadescreen[i]];
+        }
 }
 
 //
