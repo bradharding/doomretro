@@ -1089,7 +1089,10 @@ void G_DoScreenShot(void)
         static char buffer[512];
 
         S_StartSound(NULL, sfx_scrsht);
-        memset(screens[0], nearestwhite, SCREENAREA);
+
+        for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+            screens[0][i] = tinttab50[(nearestwhite << 8) + screens[0][i]];
+
         D_FadeScreen();
 
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);

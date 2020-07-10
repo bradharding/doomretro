@@ -105,7 +105,7 @@ typedef enum
 #define VANILLAWIDTH       320
 #define VANILLAHEIGHT      200
 
-#define ORIGINALSBARHEIGHT  32
+#define VANILLASBARHEIGHT  32
 
 #define SCREENSCALE         2
 
@@ -113,7 +113,7 @@ typedef enum
 #define SCREENHEIGHT        (VANILLAHEIGHT * SCREENSCALE)
 #define SCREENAREA          (SCREENWIDTH * SCREENHEIGHT)
 
-#define SBARHEIGHT          (ORIGINALSBARHEIGHT * SCREENSCALE)
+#define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)
 
 // State updates, number of tics/second.
 #define TICRATE             35
