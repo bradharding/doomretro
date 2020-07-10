@@ -689,7 +689,7 @@ dboolean AM_Responder(const event_t *ev)
                 AM_Start(true);
                 viewactive = false;
                 rc = true;
-                D_FadeScreen(SLOWFADECOUNT);
+                D_FadeScreen();
             }
         }
         else
@@ -789,7 +789,7 @@ dboolean AM_Responder(const event_t *ev)
                     keydown = key;
                     viewactive = true;
                     AM_Stop();
-                    D_FadeScreen(SLOWFADECOUNT);
+                    D_FadeScreen();
                 }
 
                 // toggle maximum zoom

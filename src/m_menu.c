@@ -3286,7 +3286,7 @@ dboolean M_Responder(event_t *ev)
                         S_StartSound(NULL, sfx_pistol);
 
                     if (currentMenu != &LoadDef && currentMenu != &NewDef)
-                        D_FadeScreen(SLOWFADECOUNT);
+                        D_FadeScreen();
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
@@ -3317,7 +3317,7 @@ dboolean M_Responder(event_t *ev)
                 currentMenu = currentMenu->prevMenu;
                 itemOn = currentMenu->lastOn;
                 S_StartSound(NULL, sfx_swtchn);
-                D_FadeScreen(SLOWFADECOUNT);
+                D_FadeScreen();
             }
             else
             {
@@ -3329,7 +3329,7 @@ dboolean M_Responder(event_t *ev)
                 firstevent = true;
 
                 if (!inhelpscreens)
-                    D_FadeScreen(SLOWFADECOUNT);
+                    D_FadeScreen();
             }
 
             if (inhelpscreens)
@@ -3543,7 +3543,7 @@ void M_StartControlPanel(void)
     }
 
     if (!inhelpscreens)
-        D_FadeScreen(SLOWFADECOUNT);
+        D_FadeScreen();
 }
 
 //

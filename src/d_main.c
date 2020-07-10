@@ -178,7 +178,6 @@ static dboolean     forcewipe;
 static byte         fadescreen[SCREENWIDTH * SCREENHEIGHT];
 static int          fadeheight;
 static int          fadecount = 0;
-static int          fadecountmax;
 
 dboolean            splashscreen = true;
 
@@ -213,15 +212,14 @@ void D_PostEvent(event_t *ev)
     G_Responder(ev);
 }
 
-void D_FadeScreen(int count)
+void D_FadeScreen(void)
 {
     if (!fade)
         return;
 
     fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
     memcpy(fadescreen, screens[0], fadeheight);
-    fadecount = count;
-    fadecountmax = count;
+    fadecount = 4;
 }
 
 //
@@ -389,18 +387,23 @@ void D_Display(void)
 
         if (fadecount)
         {
-            if (fadecount < fadecountmax / 3)
-                for (int i = 0; i < fadeheight; i++)
-                    screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
-            else if (fadecount < fadecountmax * 2 / 3)
-                for (int i = 0; i < fadeheight; i++)
-                    screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
-            else
+            static int  fadewait;
+
+            if (fadewait < I_GetTimeMS())
+            {
+                fadewait = I_GetTimeMS() + 50;
+                fadecount--;
+            }
+
+            if (fadecount == 3)
                 for (int i = 0; i < fadeheight; i++)
                     screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
-
-            I_Sleep(1);
-            fadecount--;
+            else if (fadecount == 2)
+                for (int i = 0; i < fadeheight; i++)
+                    screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
+            else if (fadecount == 1)
+                for (int i = 0; i < fadeheight; i++)
+                    screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
         }
 
         // normal update
@@ -518,7 +521,7 @@ void D_PageTicker(void)
         if (splashscreen)
         {
             memset(screens[0], nearestblack, SCREENAREA);
-            D_FadeScreen(FASTFADECOUNT);
+            D_FadeScreen();
         }
     }
 }

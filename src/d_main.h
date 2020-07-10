@@ -42,9 +42,6 @@
 #include "d_event.h"
 #include "doomdef.h"
 
-#define FASTFADECOUNT   21
-#define SLOWFADECOUNT   33
-
 extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];
@@ -75,6 +72,6 @@ void D_AdvanceTitle(void);
 void D_DoAdvanceTitle(void);
 void D_StartTitle(int page);
 void D_FadeScreenToBlack(void);
-void D_FadeScreen(int count);
+void D_FadeScreen(void);
 
 #endif
