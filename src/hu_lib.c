@@ -357,9 +357,9 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         int scale = (vid_widescreen ? 1 : 2);
 
         for (int y1 = 0; y1 < 4; y1++)
-            for (int x1 = 0; x1 < ORIGINALWIDTH; x1++)
+            for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
             {
-                unsigned char   src = underscores[y1 * ORIGINALWIDTH + x1];
+                unsigned char   src = underscores[y1 * VANILLAWIDTH + x1];
 
                 if (src != ' ')
                     for (int y2 = 0; y2 < scale; y2++)

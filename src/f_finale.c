@@ -374,7 +374,7 @@ static void F_TextWrite(void)
             continue;
         }
 
-        if (cx > ORIGINALWIDTH - 12)
+        if (cx > VANILLAWIDTH - 12)
             continue;
 
         if (STCFN034)
@@ -762,7 +762,7 @@ static void F_CastPrint(const char *text)
     }
 
     // draw it
-    cx = (ORIGINALWIDTH - width) / 2;
+    cx = (VANILLAWIDTH - width) / 2;
     ch = text;
 
     while (ch)
@@ -793,7 +793,7 @@ static void F_CastDrawer(void)
     int             lump;
     int             rot = 0;
     patch_t         *patch;
-    int             y = ORIGINALHEIGHT - 30;
+    int             y = VANILLAHEIGHT - 30;
     mobjtype_t      type = castorder[castnum].type;
 
     // erase the entire screen to a background
@@ -829,25 +829,25 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawFlippedSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawFlippedShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
             }
             else
             {
                 if (type == MT_SHADOWS)
-                    V_DrawFlippedSolidSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawFlippedSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
             }
         }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
-            V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
+            V_DrawFlippedTranslucentRedPatch(VANILLAWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
-            V_DrawFlippedFuzzPatch(ORIGINALWIDTH / 2, y, patch);
+            V_DrawFlippedFuzzPatch(VANILLAWIDTH / 2, y, patch);
         else
-            V_DrawFlippedPatch(ORIGINALWIDTH / 2, y, patch);
+            V_DrawFlippedPatch(VANILLAWIDTH / 2, y, patch);
     }
     else
     {
@@ -858,25 +858,25 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
             }
             else
             {
                 if (type == MT_SHADOWS)
-                    V_DrawSolidSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                    V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
             }
         }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
-            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
+            V_DrawTranslucentRedPatch(VANILLAWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
-            V_DrawFuzzPatch(ORIGINALWIDTH / 2, y, patch);
+            V_DrawFuzzPatch(VANILLAWIDTH / 2, y, patch);
         else
-            V_DrawPatch(ORIGINALWIDTH / 2, y, 0, patch);
+            V_DrawPatch(VANILLAWIDTH / 2, y, 0, patch);
     }
 }
 
@@ -912,24 +912,24 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 //
 static void F_BunnyScroll(void)
 {
-    int             scrolled = BETWEEN(0, ORIGINALWIDTH - (finalecount - 230) / 2, ORIGINALWIDTH);
+    int             scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
     patch_t         *p1 = W_CacheLumpName("PFUB2");
     patch_t         *p2 = W_CacheLumpName("PFUB1");
     char            name[10];
     int             stage;
     static int      laststage;
-    const fixed_t   yscale = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
-    const fixed_t   xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
+    const fixed_t   yscale = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
+    const fixed_t   xscale = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t         frac = 0;
 
-    for (int x = 0; x < ORIGINALWIDTH; x++)
+    for (int x = 0; x < VANILLAWIDTH; x++)
     {
         do
         {
-            if (x + scrolled < ORIGINALWIDTH)
+            if (x + scrolled < VANILLAWIDTH)
                 F_DrawPatchCol(frac / xscale, p1, x + scrolled, yscale);
             else
-                F_DrawPatchCol(frac / xscale, p2, x + scrolled - ORIGINALWIDTH, yscale);
+                F_DrawPatchCol(frac / xscale, p2, x + scrolled - VANILLAWIDTH, yscale);
 
             frac += xscale;
         } while ((frac >> FRACBITS) <= x);
@@ -939,7 +939,7 @@ static void F_BunnyScroll(void)
         return;
     else if (finalecount < 1180)
     {
-        V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName("END0"), false);
+        V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName("END0"), false);
         laststage = 0;
         return;
     }
@@ -951,7 +951,7 @@ static void F_BunnyScroll(void)
     }
 
     M_snprintf(name, sizeof(name), "END%i", stage);
-    V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName(name), false);
+    V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName(name), false);
 }
 
 static void F_ArtScreenDrawer(void)

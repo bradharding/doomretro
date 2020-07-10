@@ -743,7 +743,7 @@ static int M_BigStringWidth(char *string)
 //
 void M_DrawCenteredString(int y, char *string)
 {
-    M_DrawString((ORIGINALWIDTH - M_BigStringWidth(string) - 1) / 2, y, string);
+    M_DrawString((VANILLAWIDTH - M_BigStringWidth(string) - 1) / 2, y, string);
 }
 
 //
@@ -768,7 +768,7 @@ static void M_SplitString(char *string)
 //
 static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
-    if (SHORT(patch->height) == ORIGINALHEIGHT)
+    if (SHORT(patch->height) == VANILLAHEIGHT)
         V_DrawPagePatch(patch);
     else
         V_DrawPatchWithShadow(x, y, patch, false);
@@ -780,10 +780,10 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 //
 static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
-    if (SHORT(patch->height) == ORIGINALHEIGHT)
+    if (SHORT(patch->height) == VANILLAHEIGHT)
         V_DrawPagePatch(patch);
     else
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
+        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
 }
 
 //
@@ -2304,7 +2304,7 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < w; x1++)
-            if (x + x1 < ORIGINALWIDTH && y + y1 < ORIGINALHEIGHT)
+            if (x + x1 < VANILLAWIDTH && y + y1 < VANILLAHEIGHT)
                 V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * w + x1], shadow);
 }
 
@@ -2348,7 +2348,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
         {
             w = SHORT(hu_font[c]->width);
 
-            if (cx + w > ORIGINALWIDTH)
+            if (cx + w > VANILLAWIDTH)
                 break;
 
             if (shadow)
@@ -2368,7 +2368,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
 
             w = (int)strlen(smallcharset[c]) / 10 - 1;
 
-            if (cx + w > ORIGINALWIDTH)
+            if (cx + w > VANILLAWIDTH)
                 break;
 
             M_DrawSmallChar(cx, cy, c, shadow);
@@ -3576,7 +3576,7 @@ void M_Drawer(void)
         if (vid_widescreen && gamestate == GS_LEVEL)
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
         else
-            y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;
+            y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2 - 1;
 
         while (messageString[start] != '\0')
         {
@@ -3602,7 +3602,7 @@ void M_Drawer(void)
                 start += (int)strlen(string);
             }
 
-            x = (ORIGINALWIDTH - M_StringWidth(string)) / 2;
+            x = (VANILLAWIDTH - M_StringWidth(string)) / 2;
 
             if (!M_StringWidth(string))
                 y -= 4;
@@ -3666,7 +3666,7 @@ void M_Drawer(void)
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
 
-            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= ORIGINALHEIGHT && !remnant)
+            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= VANILLAHEIGHT && !remnant)
                 yy -= OFFSET;
 
             if (M_SKULL1)

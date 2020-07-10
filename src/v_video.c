@@ -213,10 +213,10 @@ void V_DrawSTBARPatch(int x, int y, patch_t *patch)
     int     w = SHORT(patch->width);
     int     col = 0;
 
-    if (w > ORIGINALWIDTH)
+    if (w > VANILLAWIDTH)
     {
-        col = (w - ORIGINALWIDTH) / 2;
-        w = ORIGINALWIDTH + col;
+        col = (w - VANILLAWIDTH) / 2;
+        w = VANILLAWIDTH + col;
     }
 
     w <<= FRACBITS;
@@ -264,10 +264,10 @@ void V_DrawPagePatch(patch_t *patch)
 
     V_DrawPatch(0, 0, 0, patch);
 
-    DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << FRACBITS) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
+    DX = (SCREENWIDTH << FRACBITS) / VANILLAWIDTH;
+    DXI = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT;
+    DYI = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
 }
 
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
@@ -1566,10 +1566,10 @@ void V_Init(void)
     for (int i = 0; i < 4; i++)
         screens[i] = &base[i * SCREENAREA];
 
-    DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << FRACBITS) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
+    DX = (SCREENWIDTH << FRACBITS) / VANILLAWIDTH;
+    DXI = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT;
+    DYI = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
 
     GetPixelSize(true);
 

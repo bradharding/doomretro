@@ -289,11 +289,11 @@ static void R_InitTables(void)
 {
     // viewangle tangent table
     for (int i = 0; i < FINEANGLES / 2; i++)
-        finetangent[i] = (fixed_t)(FRACUNIT * tan(((double)i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
+        finetangent[i] = (fixed_t)(tan(((double)i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES) * FRACUNIT);
 
     // finesine table
     for (int i = 0; i < 5 * FINEANGLES / 4; i++)
-        finesine[i] = (fixed_t)(FRACUNIT * sin((i + 0.5) * M_PI * 2 / FINEANGLES));
+        finesine[i] = (fixed_t)(sin((i + 0.5) * M_PI * 2 / FINEANGLES) * FRACUNIT);
 }
 
 static void R_InitPointToAngle(void)
@@ -432,7 +432,7 @@ void R_ExecuteSetViewSize(void)
     R_InitTextureMapping();
 
     // psprite scales
-    pspritescale = FixedDiv(viewwidth, ORIGINALWIDTH);
+    pspritescale = FixedDiv(viewwidth, VANILLAWIDTH);
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     if (gamestate == GS_LEVEL)

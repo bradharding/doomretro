@@ -381,7 +381,7 @@ static dboolean P_SmartMove(mobj_t *actor)
     // and only if the target is immediately on the other side of the line.
     if (actor->type == MT_DOGS
         && target && !((target->flags ^ actor->flags) & MF_FRIEND)
-        && (target->player || P_ApproxDistance(actor->x - target->x, actor->y - target->y) < FRACUNIT * 144)
+        && (target->player || P_ApproxDistance(actor->x - target->x, actor->y - target->y) < 144 * FRACUNIT)
         && M_Random() < 235)
         dropoff = (target->player ? 1 : 2);
 
@@ -575,9 +575,9 @@ static dboolean PIT_AvoidDropoff(line_t *line)
 
         // The monster must contact one of the two floors,
         // and the other must be a tall dropoff (more than 24).
-        if (back == floorz && front < floorz - FRACUNIT * 24)
+        if (back == floorz && front < floorz - 24 * FRACUNIT)
             angle = R_PointToAngle2(0, 0, line->dx, line->dy) >> ANGLETOFINESHIFT;  // front side dropoff
-        else if (front == floorz && back < floorz - FRACUNIT * 24)
+        else if (front == floorz && back < floorz - 24 * FRACUNIT)
             angle = R_PointToAngle2(line->dx, line->dy, 0, 0) >> ANGLETOFINESHIFT;  // back side dropoff
         else
             return true;
@@ -626,7 +626,7 @@ static void P_NewChaseDir(mobj_t *actor)
     fixed_t deltax = target->x - actor->x;
     fixed_t deltay = target->y - actor->y;
 
-    if (actor->floorz - actor->dropoffz > FRACUNIT * 24 && actor->z <= actor->floorz
+    if (actor->floorz - actor->dropoffz > 24 * FRACUNIT && actor->z <= actor->floorz
         && !(actor->flags & (MF_DROPOFF | MF_FLOAT)) && P_AvoidDropoff(actor))   // Move away from dropoff
     {
         P_DoNewChaseDir(actor, dropoff_deltax, dropoff_deltay);
@@ -1790,7 +1790,7 @@ void A_SkullPop(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo = P_SpawnMobj(actor->x, actor->y, actor->z + 48 * FRACUNIT, MT_GIBDTH);
     mo->momx = M_SubRandom() << 9;
     mo->momy = M_SubRandom() << 9;
-    mo->momz = FRACUNIT * 2 + (M_Random() << 6);
+    mo->momz = 2 * FRACUNIT + (M_Random() << 6);
 
     // Attach player mobj to bloody skull
     player = actor->player;
@@ -2010,7 +2010,7 @@ void A_BrainPain(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     // [BH] Fix <https://doomwiki.org/wiki/Lopsided_final_boss_explosions>
-    for (int x = actor->x - 258 * FRACUNIT; x < actor->x + 258 * FRACUNIT; x += FRACUNIT * 8)
+    for (int x = actor->x - 258 * FRACUNIT; x < actor->x + 258 * FRACUNIT; x += 8 * FRACUNIT)
     {
         int     y = actor->y - 320 * FRACUNIT;
         int     z = 128 + M_Random() * 2 * FRACUNIT;
@@ -2247,7 +2247,7 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
     int     n = actor->info->damage;
 
     // Mushroom parameters are part of code pointer's state
-    fixed_t misc1 = (actor->state->misc1 ? actor->state->misc1 : FRACUNIT * 4);
+    fixed_t misc1 = (actor->state->misc1 ? actor->state->misc1 : 4 * FRACUNIT);
     fixed_t misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
 
     A_Explode(actor, NULL, NULL);                               // First make normal explosion

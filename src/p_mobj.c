@@ -389,9 +389,9 @@ static void P_ZMovement(mobj_t *mo)
                 {
                     mo->momz = ((flags & MF_FLOAT) ?        // floaters fall slowly
                         ((flags & MF_DROPOFF) ?             // DROPOFF indicates rate
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.85)) :
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.70))) :
-                        FixedMul(mo->momz, (fixed_t)(FRACUNIT * 0.45)));
+                        FixedMul(mo->momz, (fixed_t)(0.85 * FRACUNIT)) :
+                        FixedMul(mo->momz, (fixed_t)(0.70 * FRACUNIT))) :
+                        FixedMul(mo->momz, (fixed_t)(0.45 * FRACUNIT)));
 
                     // Bring it to rest below a certain speed
                     if (ABS(mo->momz) <= mo->info->mass * (GRAVITY * 4 / 256))
@@ -1428,7 +1428,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
-        th->momz = FRACUNIT * (2 + i / 6);
+        th->momz = (2 + i / 6) * FRACUNIT;
 
         th->angle = angle;
         angle += M_BigSubRandom() * 0xB60B60;

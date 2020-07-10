@@ -390,19 +390,19 @@ static void ST_RefreshBackground(void)
 #if SCREENSCALE == 1
         if (STBAR >= 3)
         {
-            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
+            V_DrawSTBARPatch(ST_X, VANILLAHEIGHT - ORIGINALSBARHEIGHT, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
         else
-            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+            V_DrawSTBARPatch(ST_X, VANILLAHEIGHT - ORIGINALSBARHEIGHT, sbar);
 #else
         if (STBAR >= 3)
         {
-            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
+            V_DrawSTBARPatch(ST_X, VANILLAHEIGHT - ORIGINALSBARHEIGHT, sbar);
+            V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - ORIGINALSBARHEIGHT, 0, armsbg);
         }
         else if (r_detail == r_detail_low)
-            V_DrawSTBARPatch(ST_X, ORIGINALHEIGHT - ORIGINALSBARHEIGHT, sbar);
+            V_DrawSTBARPatch(ST_X, VANILLAHEIGHT - ORIGINALSBARHEIGHT, sbar);
         else
             V_DrawBigPatch(ST_X, ST_Y, sbar2);
 #endif

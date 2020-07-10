@@ -73,7 +73,7 @@
 #define SP_STATSY   50
 
 #define SP_TIMEX    16
-#define SP_TIMEY    (ORIGINALHEIGHT - 32)
+#define SP_TIMEY    (VANILLAHEIGHT - 32)
 
 typedef enum
 {
@@ -346,7 +346,7 @@ static void WI_DrawWILV(int y, char *str)
         w += (j == -1 ? 6 : ((int)strlen(wilv[j]) / 13 - 2));
     }
 
-    x = (ORIGINALWIDTH - w - 1) / 2;
+    x = (VANILLAWIDTH - w - 1) / 2;
 
     for (int i = 0; i < len; i++)
     {
@@ -368,7 +368,7 @@ static void WI_DrawWILV(int y, char *str)
 // Draws "<Levelname> Finished!"
 static void WI_DrawLF(void)
 {
-    int x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
+    int x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
     int y = WI_TITLEY;
     int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
 
@@ -378,10 +378,10 @@ static void WI_DrawLF(void)
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
 
-        if (height == ORIGINALHEIGHT)
+        if (height == VANILLAHEIGHT)
             V_DrawPagePatch(patch);
         else
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
 
         y += height + 2;
     }
@@ -399,10 +399,10 @@ static void WI_DrawLF(void)
             patch_t *patch = lnames[wbs->last];
             short   height = SHORT(patch->height);
 
-            if (height == ORIGINALHEIGHT)
+            if (height == VANILLAHEIGHT)
                 V_DrawPagePatch(patch);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
 
             y += height + 2;
         }
@@ -413,7 +413,7 @@ static void WI_DrawLF(void)
         }
     }
 
-    if (y >= ORIGINALHEIGHT)
+    if (y >= VANILLAHEIGHT)
         y = WI_TITLEY + 24;
 
     // draw "Finished!"
@@ -423,7 +423,7 @@ static void WI_DrawLF(void)
 // Draws "Entering <LevelName>"
 static void WI_DrawEL(void)
 {
-    int x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
+    int x = (VANILLAWIDTH - SHORT(entering->width)) / 2;
     int y = WI_TITLEY;
     int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
@@ -438,10 +438,10 @@ static void WI_DrawEL(void)
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
 
-        if (height == ORIGINALHEIGHT)
+        if (height == VANILLAHEIGHT)
             V_DrawPagePatch(patch);
         else
-            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
     }
     else
     {
@@ -457,10 +457,10 @@ static void WI_DrawEL(void)
             patch_t *patch = lnames[wbs->next];
             short   height = SHORT(patch->height);
 
-            if (height == ORIGINALHEIGHT)
+            if (height == VANILLAHEIGHT)
                 V_DrawPagePatch(patch);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         }
         else
             WI_DrawWILV(y, nextmapname);
@@ -479,7 +479,7 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
         int right = left + SHORT(c[i]->width);
         int bottom = top + SHORT(c[i]->height);
 
-        if (left >= 0 && right < ORIGINALWIDTH && top >= 0 && bottom < ORIGINALHEIGHT)
+        if (left >= 0 && right < VANILLAWIDTH && top >= 0 && bottom < VANILLAHEIGHT)
             fits = true;
         else
             i++;
@@ -946,10 +946,10 @@ static void WI_DrawStats(void)
     WI_DrawLF();
 
     V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, kills, false);
-    WI_DrawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
+    WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
 
     V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, items, false);
-    WI_DrawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
+    WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
 
     if (totalsecret)
     {
@@ -958,16 +958,16 @@ static void WI_DrawStats(void)
         else
             V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false);
 
-        WI_DrawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
+        WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
     }
 
     V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
-    WI_DrawTime(ORIGINALWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
 
     if (wbs->partime)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3), SP_TIMEY + 1, par, false);
-        WI_DrawTime(ORIGINALWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
+        V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3), SP_TIMEY + 1, par, false);
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
     }
 }
 

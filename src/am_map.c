@@ -132,7 +132,7 @@ static byte *am_crosshaircolor2;
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 200.0)))
+#define M_ZOOMIN        ((fixed_t)((uint64_t)(1.0 + F_PANINC / 200.0) * FRACUNIT))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
@@ -1906,7 +1906,7 @@ static void AM_DrawPath(void)
                 end.x = pathpoints[i].x >> FRACTOMAPBITS;
                 end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
-                if (ABS(start.x - end.x) > FRACUNIT * 4 || ABS(start.y - end.y) > FRACUNIT * 4)
+                if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
 
                 AM_RotatePoint(&start);
@@ -1932,7 +1932,7 @@ static void AM_DrawPath(void)
                 end.x = pathpoints[i].x >> FRACTOMAPBITS;
                 end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
-                if (ABS(start.x - end.x) > FRACUNIT * 4 || ABS(start.y - end.y) > FRACUNIT * 4)
+                if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
 
                 AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, putbigdot);
@@ -1971,8 +1971,8 @@ static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
     *(--dest) = color;
 }
 
-#define CENTERX ORIGINALWIDTH / 2
-#define CENTERY (ORIGINALHEIGHT - ORIGINALSBARHEIGHT) / 2
+#define CENTERX VANILLAWIDTH / 2
+#define CENTERY (VANILLAHEIGHT - ORIGINALSBARHEIGHT) / 2
 
 static void AM_DrawCrosshair(void)
 {

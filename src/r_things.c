@@ -49,8 +49,8 @@
 #include "z_zone.h"
 
 #define MAX_SPRITE_FRAMES   29
-#define MINZ                (FRACUNIT * 4)
-#define BASEYCENTER         (ORIGINALHEIGHT / 2)
+#define MINZ                (4 * FRACUNIT)
+#define BASEYCENTER         (VANILLAHEIGHT / 2)
 
 #define MAXVISSPRITES       128
 
@@ -990,7 +990,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     int             lump = sprframe->lump[0];
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (!r_fixspriteoffsets || (altered && !vanilla) ?
+    tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT - (!r_fixspriteoffsets || (altered && !vanilla) ?
         spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritescale)) >> FRACBITS;
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;

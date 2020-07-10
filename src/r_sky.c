@@ -119,20 +119,20 @@ void R_InitSkyMap(void)
     {
         int skyheight = textureheight[skytexture] >> FRACBITS;
 
-        if (skyheight >= 128 && skyheight < 200)
+        if (skyheight >= 128 && skyheight < VANILLAHEIGHT)
             skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
-        else if (skyheight > 200)
-            skytexturemid = (200 - skyheight) * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
+        else if (skyheight > VANILLAHEIGHT)
+            skytexturemid = (VANILLAHEIGHT - skyheight) * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
         else
             skytexturemid = 0;
 
-        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / ((uint64_t)viewwidth * SCREENHEIGHT))
+        skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT))
             * skyheight / SKYSTRETCH_HEIGHT;
     }
     else
     {
-        skytexturemid = ORIGINALHEIGHT / 2 * FRACUNIT;
-        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / ((uint64_t)viewwidth * SCREENHEIGHT));
+        skytexturemid = VANILLAHEIGHT / 2 * FRACUNIT;
+        skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT));
     }
 
     if (consoleactive)

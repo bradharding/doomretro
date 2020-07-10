@@ -74,8 +74,8 @@
 
 #define MAXDISPLAYS             8
 
-#define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
-#define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
+#define MAXUPSCALEWIDTH         (1600 / VANILLAWIDTH)
+#define MAXUPSCALEHEIGHT        (1200 / VANILLAHEIGHT)
 
 #define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
@@ -989,7 +989,7 @@ static void I_Blit_Automap_NearestLinear(void)
 
 void I_UpdateBlitFunc(dboolean shake)
 {
-    dboolean    override = (vid_fullscreen && !(displayheight % ORIGINALHEIGHT));
+    dboolean    override = (vid_fullscreen && !(displayheight % VANILLAHEIGHT));
 
     if (shake && !software)
         blitfunc = (vid_showfps ? (nearestlinear && !override ? &I_Blit_NearestLinear_ShowFPS_Shake :
@@ -1270,11 +1270,11 @@ void GetWindowSize(void)
         int     w = atoi(temp1);
         int     h = atoi(temp2);
 
-        if (w < ORIGINALWIDTH + windowborderwidth || h < ORIGINALWIDTH * 3 / 4 + windowborderheight)
+        if (w < VANILLAWIDTH + windowborderwidth || h < VANILLAWIDTH * 3 / 4 + windowborderheight)
         {
             char    size[16];
-            char    *temp3 = commify((windowwidth = ORIGINALWIDTH + windowborderwidth));
-            char    *temp4 = commify((windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight));
+            char    *temp3 = commify((windowwidth = VANILLAWIDTH + windowborderwidth));
+            char    *temp4 = commify((windowheight = VANILLAWIDTH * 3 / 4 + windowborderheight));
 
             M_snprintf(size, sizeof(size), "%sx%s", temp3, temp4);
             vid_windowsize = M_StringDuplicate(size);

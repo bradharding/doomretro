@@ -212,6 +212,9 @@ void D_PostEvent(event_t *ev)
     G_Responder(ev);
 }
 
+//
+// D_FadeScreen
+//
 void D_FadeScreen(void)
 {
     if (!fade)
@@ -220,6 +223,48 @@ void D_FadeScreen(void)
     fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
     memcpy(fadescreen, screens[0], fadeheight);
     fadecount = 4;
+}
+
+//
+// D_UpdateFade
+//
+static void D_UpdateFade(void)
+{
+    static int  fadewait;
+    int         tics;
+
+    if (fadewait < (tics = I_GetTimeMS()))
+    {
+        fadewait = tics + 50;
+        fadecount--;
+    }
+
+    if (fadecount == 3)
+        for (int i = 0; i < fadeheight; i++)
+            screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
+    else if (fadecount == 2)
+        for (int i = 0; i < fadeheight; i++)
+            screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
+    else if (fadecount == 1)
+        for (int i = 0; i < fadeheight; i++)
+            screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
+}
+
+//
+// D_FadeScreenToBlack
+//
+void D_FadeScreenToBlack(void)
+{
+    if (!fade)
+        return;
+
+    for (double i = 0.9; i >= 0.0; i -= 0.1)
+    {
+        I_SetPaletteWithBrightness(PLAYPAL, i);
+        blitfunc();
+        I_SetExternalAutomapPalette();
+        I_Sleep(30);
+    }
 }
 
 //
@@ -354,18 +399,18 @@ void D_Display(void)
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
             if (vid_widescreen)
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
                     viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, patch, false);
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
+                    (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false);
         }
         else
         {
             if (vid_widescreen)
                 M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
             else
-                M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, s_M_PAUSED);
+                M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
         }
     }
 
@@ -386,25 +431,7 @@ void D_Display(void)
             C_UpdateTimer();
 
         if (fadecount)
-        {
-            static int  fadewait;
-
-            if (fadewait < I_GetTimeMS())
-            {
-                fadewait = I_GetTimeMS() + 50;
-                fadecount--;
-            }
-
-            if (fadecount == 3)
-                for (int i = 0; i < fadeheight; i++)
-                    screens[0][i] = tinttab25[(screens[0][i] << 8) + fadescreen[i]];
-            else if (fadecount == 2)
-                for (int i = 0; i < fadeheight; i++)
-                    screens[0][i] = tinttab50[(screens[0][i] << 8) + fadescreen[i]];
-            else if (fadecount == 1)
-                for (int i = 0; i < fadeheight; i++)
-                    screens[0][i] = tinttab75[(screens[0][i] << 8) + fadescreen[i]];
-        }
+            D_UpdateFade();
 
         // normal update
         blitfunc();
@@ -546,23 +573,6 @@ void D_PageDrawer(void)
     }
     else if (pagelump)
         V_DrawPagePatch(pagelump);
-}
-
-//
-// D_FadeScreenToBlack
-//
-void D_FadeScreenToBlack(void)
-{
-    if (!fade)
-        return;
-
-    for (double i = 0.9; i >= 0.0; i -= 0.1)
-    {
-        I_SetPaletteWithBrightness(PLAYPAL, i);
-        blitfunc();
-        I_SetExternalAutomapPalette();
-        I_Sleep(30);
-    }
 }
 
 //

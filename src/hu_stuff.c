@@ -283,7 +283,7 @@ void HU_Start(void)
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
-    while (M_StringWidth(s) > (vid_widescreen ? SCREENWIDTH - 12 : ORIGINALWIDTH - 6))
+    while (M_StringWidth(s) > (vid_widescreen ? SCREENWIDTH - 12 : VANILLAWIDTH - 6))
     {
         if (len >= 2 && s[len - 2] == ' ')
         {
@@ -1067,7 +1067,7 @@ void HU_Drawer(void)
         else
         {
             w_title.x = HU_TITLEX;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+            w_title.y = VANILLAHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
 
             HUlib_DrawTextLine(&w_title, false);
         }
@@ -1176,7 +1176,7 @@ void HU_Ticker(void)
         {
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
-            int     maxwidth = ORIGINALWIDTH - 6;
+            int     maxwidth = VANILLAWIDTH - 6;
 
             if (vid_widescreen)
                 maxwidth *= SCREENSCALE;

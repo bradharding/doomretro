@@ -440,8 +440,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         {
             const int   r = M_RandomInt(-1, 1);
 
-            thing->momx += FRACUNIT * r;
-            thing->momy += FRACUNIT * (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1));
+            thing->momx += r * FRACUNIT;
+            thing->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
             thing->nudge = TICRATE;
 
             if (!(thing->flags2 & MF2_FEETARECLIPPED))
@@ -1106,7 +1106,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
             // Avoid moving too fast all of a sudden (step into "overdrive")
             dist = FixedMul(x, x) + FixedMul(y, y);
 
-            while (dist > FRACUNIT * 4 && mo->gear < MAXGEAR)
+            while (dist > 4 * FRACUNIT && mo->gear < MAXGEAR)
             {
                 mo->gear++;
                 x >>= 1;
@@ -1719,13 +1719,13 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         mobjtype_t  type = th->type;
 
         if (type == MT_SKULL && !(th->flags & MF_FUZZ))
-            P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
+            P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
         else if (th->blood)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
             else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
-                P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
+                P_SpawnBlood(x, y, z + M_RandomInt(4, 16) * FRACUNIT, shootangle, la_damage, th);
         }
     }
 
@@ -1757,8 +1757,8 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
 
     // can't shoot outside view angles
-    topslope = (ORIGINALHEIGHT / 2) * FRACUNIT / (ORIGINALWIDTH / 2);
-    bottomslope = -(ORIGINALHEIGHT / 2) * FRACUNIT / (ORIGINALWIDTH / 2);
+    topslope = (VANILLAHEIGHT / 2) * FRACUNIT / (VANILLAWIDTH / 2);
+    bottomslope = -(VANILLAHEIGHT / 2) * FRACUNIT / (VANILLAWIDTH / 2);
 
     attackrange = distance;
     linetarget = NULL;
