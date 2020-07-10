@@ -286,7 +286,6 @@ void D_Display(void)
     static dboolean     menuactivestate;
     static dboolean     pausedstate = false;
     static gamestate_t  oldgamestate = GS_NONE;
-    static int          borderdrawcount;
     static int          saved_gametime = -1;
     int                 nowtime;
     int                 tics;
@@ -301,7 +300,6 @@ void D_Display(void)
     {
         R_ExecuteSetViewSize();
         oldgamestate = GS_NONE; // force background redraw
-        borderdrawcount = 3;
     }
 
     // save the current screen if about to wipe
@@ -367,17 +365,7 @@ void D_Display(void)
         if (!automapactive)
         {
             if (scaledviewwidth != SCREENWIDTH)
-            {
-                if (menuactive || menuactivestate || !viewactivestate || vid_showfps || countdown || paused
-                    || pausedstate || message_on || consoleheight > CONSOLETOP)
-                    borderdrawcount = 3;
-
-                if (borderdrawcount)
-                {
-                    R_DrawViewBorder();     // erase old menu stuff
-                    borderdrawcount--;
-                }
-            }
+                R_DrawViewBorder();
 
             if (r_detail == r_detail_low)
                 V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
