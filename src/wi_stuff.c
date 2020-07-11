@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -917,6 +918,8 @@ static void WI_UpdateStats(void)
                 WI_InitNoState();
             else
                 WI_InitShowNextLoc();
+
+            D_FadeScreen();
         }
     }
     else if (sp_state & 1)
