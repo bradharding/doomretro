@@ -2623,6 +2623,17 @@ dboolean M_Responder(event_t *ev)
     else if (ev->type == ev_keyup)
     {
         keydown = 0;
+
+        if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
+        {
+            S_StartSound(NULL, sfx_scrsht);
+
+            for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
+                screens[0][i] = tinttab50[(nearestwhite << 8) + screens[0][i]];
+
+            D_FadeScreen();
+        }
+
         return false;
     }
 

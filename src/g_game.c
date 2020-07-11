@@ -1088,13 +1088,6 @@ void G_DoScreenShot(void)
     {
         static char buffer[512];
 
-        S_StartSound(NULL, sfx_scrsht);
-
-        for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-            screens[0][i] = tinttab50[(nearestwhite << 8) + screens[0][i]];
-
-        D_FadeScreen();
-
         M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
