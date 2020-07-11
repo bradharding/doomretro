@@ -580,7 +580,7 @@ manual_lift:
         switch (Dely)
         {
             case 0:
-                plat->wait = 1 * TICRATE;
+                plat->wait = TICRATE;
                 break;
 
             case 1:

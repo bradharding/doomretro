@@ -47,7 +47,6 @@
 #include "f_finale.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"

@@ -2627,10 +2627,7 @@ dboolean M_Responder(event_t *ev)
         if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
         {
             S_StartSound(NULL, sfx_scrsht);
-
-            for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++)
-                screens[0][i] = tinttab50[(nearestwhite << 8) + screens[0][i]];
-
+            memset(screens[0], nearestwhite, SCREENAREA);
             D_FadeScreen();
         }
 

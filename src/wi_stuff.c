@@ -687,7 +687,7 @@ static void WI_InitNoState(void)
 {
     state = NoState;
     acceleratestage = false;
-    cnt = (gamemode == commercial ? 1 * TICRATE : 10);
+    cnt = (gamemode == commercial ? TICRATE : 10);
 }
 
 static void WI_UpdateNoState(void)
