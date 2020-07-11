@@ -50,9 +50,12 @@
 
 void M_MakeDirectory(const char *path);
 dboolean M_FileExists(const char *filename);
-char *M_FileCaseExists(const char *path);
 dboolean M_FolderExists(const char *folder);
 char *M_ExtractFolder(char *path);
+
+#if !defined(_WIN32) && !defined(__APPLE__)
+char *M_FileCaseExists(const char *path);
+#endif
 
 // Returns the file system location where application resource files are located.
 // On Windows and Linux, this is the folder in which doomretro.exe is located;

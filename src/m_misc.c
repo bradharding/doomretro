@@ -119,6 +119,7 @@ dboolean M_FileExists(const char *filename)
     return false;
 }
 
+#if !defined(_WIN32) && !defined(__APPLE__)
 // Check if a file exists by probing for common case variation of its filename.
 // Returns a newly allocated string that the caller is responsible for freeing.
 char *M_FileCaseExists(const char *path)
@@ -170,6 +171,7 @@ char *M_FileCaseExists(const char *path)
     free(path_dup);
     return NULL;
 }
+#endif
 
 // Check if a folder exists
 dboolean M_FolderExists(const char *folder)
