@@ -203,32 +203,19 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (!actor->info->meleestate)
         dist -= 128;                    // no melee attack, so fire more
 
+    if (actor->info->maxattackrange > 0 && dist > actor->info->maxattackrange)
+        return false;                   // too far away
+
+    if (actor->info->meleestate != S_NULL && dist < actor->info->meleethreshold)
+        return false;                   // close for fist attack
+
     type = actor->type;
 
-    if (type == MT_VILE)
-    {
-        if (dist > 896)
-            return false;               // too far away
-    }
-    else if (type == MT_UNDEAD)
-    {
-        if (dist < 196)
-            return false;               // close for fist attack
-
-        dist >>= 1;
-    }
-    else if (type == MT_CYBORG)
-    {
+    if (type == MT_CYBORG || type == MT_SPIDER || type == MT_UNDEAD || type == MT_SKULL)
         dist >>= 1;
 
-        if (dist > 160)
-            dist = 160;
-    }
-    else if (type == MT_SPIDER || type == MT_SKULL)
-        dist >>= 1;
-
-    if (dist > 200)
-        dist = 200;
+    if (dist > actor->info->minmissilechance)
+        dist = actor->info->minmissilechance;
 
     if (M_Random() < dist)
         return false;

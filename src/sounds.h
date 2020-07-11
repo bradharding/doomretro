@@ -321,6 +321,7 @@ enum
     sfx_dgdth,
     sfx_dgpain,
 
+    // e6y
     sfx_secret,
     sfx_gibdth,
 
