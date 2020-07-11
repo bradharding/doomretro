@@ -1765,7 +1765,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int sound = actor->info->deathsound;
 
-    if (sound == sfx_None)
+    if (sound == sfx_none)
         return;
     else if (sound >= sfx_podth1 && sound <= sfx_podth3)
         sound = sfx_podth1 + M_Random() % 3;

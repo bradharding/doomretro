@@ -204,7 +204,7 @@ enum
 //
 enum
 {
-    sfx_None,
+    sfx_none,
     sfx_pistol,
     sfx_shotgn,
     sfx_sgcock,
