@@ -226,7 +226,7 @@ void P_Ticker(void)
     if (consoleactive)
         return;
 
-    if (menuactive)
+    if (menuactive && !freeze)
     {
         for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
             if (currentthinker->function && currentthinker->menu)

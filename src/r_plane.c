@@ -347,7 +347,7 @@ static byte *R_DistortedFlat(int flatnum)
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevgametime != gametime && !consoleactive && !paused && (!freeze || menuactive))
+    if (prevgametime != gametime && !consoleactive && !paused && !freeze)
     {
         offset = &offsets[(gametime & 1023) << 12];
         prevgametime = gametime;
