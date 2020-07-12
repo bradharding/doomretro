@@ -537,7 +537,7 @@ void M_DarkBackground(void)
     if (mapwindow)
         memcpy(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
-    if (r_detail == r_detail_low)
+    if (r_detail == r_detail_low && !automapactive)
         V_LowGraphicDetail(0, 0, SCREENWIDTH, blurheight, 2, 2 * SCREENWIDTH);
 }
 
