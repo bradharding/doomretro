@@ -282,7 +282,6 @@ static void saveg_read_mobj_t(mobj_t *str)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
-    str->flags3 = saveg_read32();
     str->inflicter = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
@@ -363,7 +362,6 @@ static void saveg_write_mobj_t(mobj_t *str)
     }
 
     saveg_write32(str->madesound);
-    saveg_write32(str->flags3);
     saveg_write32(str->inflicter);
 
     // [BH] For future features without breaking savegame compatibility

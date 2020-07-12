@@ -399,7 +399,7 @@ static void P_ZMovement(mobj_t *mo)
                 }
 
                 // killough 11/98: touchy objects explode on impact
-                if ((flags & MF_TOUCHY) && (mo->flags3 & MF3_ARMED) && mo->health > 0)
+                if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
                     P_DamageMobj(mo, NULL, NULL, mo->health, true);
                 else if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
@@ -515,7 +515,7 @@ floater:
         if (mo->momz < 0)
         {
             // killough 11/98: touchy objects explode on impact
-            if (flags & MF_TOUCHY && (mo->flags3 & MF3_ARMED) && mo->health > 0)
+            if (flags & MF_TOUCHY && (mo->flags2 & MF2_ARMED) && mo->health > 0)
                 P_DamageMobj(mo, NULL, NULL, mo->health, true);
             else if (player && player->mo == mo)
             {
@@ -731,7 +731,7 @@ void P_MobjThinker(mobj_t *mobj)
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {
-        mobj->flags3 |= MF3_ARMED;  // arm a mine which has come to rest
+        mobj->flags2 |= MF2_ARMED;  // arm a mine which has come to rest
 
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off

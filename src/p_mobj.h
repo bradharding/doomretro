@@ -221,98 +221,101 @@ enum
     MF_TRANSLUCENT      = 0x80000000    // phares
 };
 
-enum
-{
-    // Apply additive translucency
-    MF2_TRANSLUCENT               = 0x00000001,
-    // Apply additive translucency on red only
-    MF2_TRANSLUCENT_REDONLY       = 0x00000002,
-    // Apply additive translucency on green only
-    MF2_TRANSLUCENT_GREENONLY     = 0x00000004,
-    // Apply additive translucency on blue only
-    MF2_TRANSLUCENT_BLUEONLY      = 0x00000008,
-    // Apply 33% alpha translucency
-    MF2_TRANSLUCENT_33            = 0x00000010,
-    // Apply 50% alpha translucency
-    MF2_TRANSLUCENT_50            = 0x00000020,
-    // Apply additive translucency on all red to white
-    MF2_TRANSLUCENT_REDWHITEONLY  = 0x00000040,
-    // Convert all red to green, then apply 33% alpha translucency
-    MF2_TRANSLUCENT_REDTOGREEN_33 = 0x00000080,
-    // Convert all red to blue, then apply 33% alpha translucency
-    MF2_TRANSLUCENT_REDTOBLUE_33  = 0x00000100,
-    // Apply 33% alpha translucency on all blue
-    MF2_TRANSLUCENT_BLUE_25       = 0x00000200,
+// Apply additive translucency
+#define MF2_TRANSLUCENT                 0x0000000001
 
-    // Convert all red to green
-    MF2_REDTOGREEN                = 0x00000400,
-    // Convert all green to red
-    MF2_GREENTORED                = 0x00000800,
-    // Convert all red to blue
-    MF2_REDTOBLUE                 = 0x00001000,
+// Apply additive translucency on red only
+#define MF2_TRANSLUCENT_REDONLY         0x0000000002
 
-    // Object bobs up and down
-    MF2_FLOATBOB                  = 0x00002000,
+// Apply additive translucency on green only
+#define MF2_TRANSLUCENT_GREENONLY       0x0000000004
 
-    // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00004000,
+// Apply additive translucency on blue only
+#define MF2_TRANSLUCENT_BLUEONLY        0x0000000008
 
-    MF2_FALLING                   = 0x00008000,
+// Apply 33% alpha translucency
+#define MF2_TRANSLUCENT_33              0x0000000010
 
-    // Object is resting on top of another object
-    MF2_ONMOBJ                    = 0x00010000,
+// Apply 50% alpha translucency
+#define MF2_TRANSLUCENT_50              0x0000000020
 
-    // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00020000,
+// Apply additive translucency on all red to white
+#define MF2_TRANSLUCENT_REDWHITEONLY    0x0000000040
 
-    // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00040000,
+// Convert all red to green, then apply 33% alpha translucency
+#define MF2_TRANSLUCENT_REDTOGREEN_33   0x0000000080
 
-    // Object's feet will be clipped in liquid
-    MF2_FOOTCLIP                  = 0x00080000,
+// Convert all red to blue, then apply 33% alpha translucency
+#define MF2_TRANSLUCENT_REDTOBLUE_33    0x0000000100
 
-    // Object won't bob in liquid
-    MF2_NOLIQUIDBOB               = 0x00100000,
+// Apply 33% alpha translucency on all blue
+#define MF2_TRANSLUCENT_BLUE_25         0x0000000200
 
-    // Object's feet are now being clipped
-    MF2_FEETARECLIPPED            = 0x00200000,
+// Convert all red to green
+#define MF2_REDTOGREEN                  0x0000000400
+// Convert all green to red
+#define MF2_GREENTORED                  0x0000000800
+// Convert all red to blue
+#define MF2_REDTOBLUE                   0x0000001000
 
-    // Object casts a shadow
-    MF2_CASTSHADOW                = 0x00400000,
+// Object bobs up and down
+#define MF2_FLOATBOB                    0x0000002000
 
-    // Object is blood
-    MF2_BLOOD                     = 0x00800000,
+// Mirrored horizontally
+#define MF2_MIRRORED                    0x0000004000
 
-    // Object's thing triangle is not displayed in automap
-    MF2_DONTMAP                   = 0x01000000,
+#define MF2_FALLING                     0x0000008000
 
-    // Object has smoke trail
-    MF2_SMOKETRAIL                = 0x02000000,
+// Object is resting on top of another object
+#define MF2_ONMOBJ                      0x0000010000
 
-    // Object can be crushed into blood splats by moving sectors
-    MF2_CRUSHABLE                 = 0x04000000,
+// Object is allowed to pass over/under other objects
+#define MF2_PASSMOBJ                    0x0000020000
 
-    // All objects are being killed
-    MF2_MASSACRE                  = 0x08000000,
+// Object is a corpse and being resurrected
+#define MF2_RESURRECTING                0x0000040000
 
-    // Object is a map decoration
-    MF2_DECORATION                = 0x10000000,
+// Object's feet will be clipped in liquid
+#define MF2_FOOTCLIP                    0x0000080000
 
-    // Object is a missile from a monster
-    MF2_MONSTERMISSILE            = 0x40000000,
+// Object won't bob in liquid
+#define MF2_NOLIQUIDBOB                 0x0000100000
 
-    // Object is a boss monster
-    MF2_BOSS                      = 0x80000000
-};
+// Object's feet are now being clipped
+#define MF2_FEETARECLIPPED              0x0000200000
 
-enum
-{
-    // Object is armed (for MF_TOUCHY objects)
-    MF3_ARMED                     = 0x00000001,
+// Object casts a shadow
+#define MF2_CASTSHADOW                  0x0000400000
 
-    // Object was spawned by played using spawn CCMD
-    MF3_SPAWNEDBYPLAYER           = 0x00000002
-};
+// Object is blood
+#define MF2_BLOOD                       0x0000800000
+
+// Object's thing triangle is not displayed in automap
+#define MF2_DONTMAP                     0x0001000000
+
+// Object has smoke trail
+#define MF2_SMOKETRAIL                  0x0002000000
+
+// Object can be crushed into blood splats by moving sectors
+#define MF2_CRUSHABLE                   0x0004000000
+
+// All objects are being killed
+#define MF2_MASSACRE                    0x0008000000
+
+// Object is a map decoration
+#define MF2_DECORATION                  0x0010000000
+
+// Object is a missile from a monster
+#define MF2_MONSTERMISSILE              0x0040000000
+
+// Object is a boss monster
+#define MF2_BOSS                        0x0080000000
+
+// Object is armed (for MF_TOUCHY objects)
+#define MF2_ARMED                       0x0100000000
+
+// Object was spawned by played using spawn CCMD
+#define MF2_SPAWNEDBYPLAYER             0x0200000000
 
 typedef enum
 {
@@ -374,7 +377,6 @@ typedef struct mobj_s
     state_t             *state;
     int                 flags;
     uint64_t            flags2;
-    int                 flags3;
 
     int                 health;
 
