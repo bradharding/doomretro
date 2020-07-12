@@ -49,6 +49,7 @@ extern char     *packageconfig;
 extern char     *pwadfile;
 extern dboolean splashscreen;
 extern dboolean dowipe;
+extern int      fadecount;
 
 void D_Display(void);
 

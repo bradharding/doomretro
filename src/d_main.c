@@ -179,7 +179,7 @@ static dboolean     forcewipe;
 
 static byte         fadescreen[SCREENWIDTH * SCREENHEIGHT];
 static int          fadeheight;
-static int          fadecount = 0;
+int                 fadecount = 0;
 
 dboolean            splashscreen = true;
 
