@@ -1704,6 +1704,7 @@ static void M_ChooseSkill(int choice)
             M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
+        D_FadeScreen();
         return;
     }
 
@@ -2814,7 +2815,10 @@ dboolean M_Responder(event_t *ev)
         if (endinggame)
             endinggame = false;
         else
+        {
             S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
+            D_FadeScreen();
+        }
 
         return true;
     }
