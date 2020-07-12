@@ -3800,6 +3800,11 @@ void M_Init(void)
     ExpDef.lastOn = expansion - 1;
     NewDef.lastOn = skilllevel - 1;
     SaveDef.lastOn = LoadDef.lastOn = savegame - 1;
+
+    if (!*savegamestrings[SaveDef.lastOn])
+        while (SaveDef.lastOn && !*savegamestrings[SaveDef.lastOn])
+            SaveDef.lastOn--;
+
     OptionsDef.lastOn = msgs;
     M_ReadSaveStrings();
 
