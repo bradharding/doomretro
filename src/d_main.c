@@ -96,7 +96,7 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#define FADETICS    50
+#define FADETICS    40
 
 char **episodes[] =
 {
