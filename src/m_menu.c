@@ -1070,7 +1070,7 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + saveCharIndex];
 
             right[j] = '\0';
-            M_WriteText(x + 1, y - !M_LSCNTR, right, false);
+            M_WriteText(x + 2, y - !M_LSCNTR, right, false);
 
             // draw text caret
             if (windowfocused)
@@ -1083,10 +1083,13 @@ static void M_DrawSave(void)
 
                 if (showcaret)
                 {
-                    int h = --y + 9;
+                    int h = y + SHORT(hu_font[0]->height);
 
                     while (y < h)
-                        V_DrawPixel(x, y++, caretcolor, false);
+                    {
+                        V_DrawPixel(x, y, caretcolor, false);
+                        V_DrawPixel(x + 1, y++, caretcolor, false);
+                    }
                 }
             }
             else

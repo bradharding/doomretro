@@ -144,7 +144,7 @@ static void saveg_write32(int value)
 
 static uint64_t saveg_read64(void)
 {
-    uint64_t result = saveg_read32();
+    uint64_t    result = saveg_read32();
 
     return (result | ((uint64_t)saveg_read32() << 32));
 }
