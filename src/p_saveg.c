@@ -142,6 +142,19 @@ static void saveg_write32(int value)
     saveg_write8((value >> 24) & 0xFF);
 }
 
+static uint64_t saveg_read64(void)
+{
+    uint64_t result = saveg_read32();
+
+    return (result | ((uint64_t)saveg_read32() << 32));
+}
+
+static void saveg_write64(uint64_t value)
+{
+    saveg_write32(value & 0xFFFFFFFF);
+    saveg_write32((value >> 32) & 0xFFFFFFFF);
+}
+
 // Enum values are 32-bit integers.
 #define saveg_read_enum     saveg_read32
 #define saveg_write_enum    saveg_write32
@@ -231,7 +244,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->tics = saveg_read32();
     str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
     str->flags = saveg_read32();
-    str->flags2 = saveg_read32();
+    str->flags2 = saveg_read64();
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
@@ -311,7 +324,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->tics);
     saveg_write32((int)(str->state - states));
     saveg_write32(str->flags);
-    saveg_write32(str->flags2);
+    saveg_write64(str->flags2);
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);

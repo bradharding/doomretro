@@ -258,7 +258,7 @@ typedef struct
     int         damage;
     int         activesound;
     int         flags;
-    int         flags2;
+    uint64_t    flags2;
     int         raisestate;
     int         frames;
     dboolean    fullbright;

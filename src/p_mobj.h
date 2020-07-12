@@ -373,7 +373,7 @@ typedef struct mobj_s
     int                 tics;                   // state tic counter
     state_t             *state;
     int                 flags;
-    int                 flags2;
+    uint64_t            flags2;
     int                 flags3;
 
     int                 health;

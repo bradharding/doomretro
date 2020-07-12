@@ -160,7 +160,7 @@ static void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type = mo->type;
-    int         flags2 = mo->flags2;
+    uint64_t    flags2 = mo->flags2;
     dboolean    corpse;
     int         stepdir = 0;
 
@@ -644,7 +644,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
 void P_MobjThinker(mobj_t *mobj)
 {
     int         flags = mobj->flags;
-    int         flags2;
+    uint64_t    flags2;
     player_t    *player = mobj->player;
     sector_t    *sector;
 

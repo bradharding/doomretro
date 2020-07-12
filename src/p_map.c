@@ -1129,17 +1129,17 @@ static dboolean PIT_ApplyTorque(line_t *ld)
 //
 void P_ApplyTorque(mobj_t *mo)
 {
-    int x = mo->x;
-    int y = mo->y;
-    int radius = mo->radius;
-    int xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
-    int xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
-    int yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
-    int yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
-    int flags2 = mo->flags2;    // Remember the current state, for gear-change
+    int         x = mo->x;
+    int         y = mo->y;
+    int         radius = mo->radius;
+    int         xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
+    int         xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
+    int         yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
+    int         yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
+    uint64_t    flags2 = mo->flags2;            // Remember the current state, for gear-change
 
     tmthing = mo;
-    validcount++;               // prevents checking same line twice
+    validcount++;                               // prevents checking same line twice
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
@@ -1177,7 +1177,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
 {
     fixed_t     oldfloorz = thing->floorz;      // haleyjd
     dboolean    onfloor = (thing->z == oldfloorz);
-    int         flags2 = thing->flags2;
+    uint64_t    flags2 = thing->flags2;
     player_t    *player = thing->player;
 
     P_CheckPosition(thing, thing->x, thing->y);
