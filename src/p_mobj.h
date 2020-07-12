@@ -317,6 +317,9 @@ enum
 // Object was spawned by played using spawn CCMD
 #define MF2_SPAWNEDBYPLAYER             0x0200000000
 
+// Object has higher attack probability
+#define MF2_MISSILEMORE                 0x0400000000
+
 typedef enum
 {
     DI_EAST,

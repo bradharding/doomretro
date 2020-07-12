@@ -170,9 +170,8 @@ static dboolean P_HitFriend(mobj_t *actor)
 //
 static dboolean P_CheckMissileRange(mobj_t *actor)
 {
-    fixed_t     dist;
-    mobj_t      *target = actor->target;
-    mobjtype_t  type;
+    fixed_t dist;
+    mobj_t  *target = actor->target;
 
     if (!P_CheckSight(actor, target))
         return false;
@@ -209,9 +208,7 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->info->meleestate != S_NULL && dist < actor->info->meleethreshold)
         return false;                   // close for fist attack
 
-    type = actor->type;
-
-    if (type == MT_CYBORG || type == MT_SPIDER || type == MT_UNDEAD || type == MT_SKULL)
+    if (actor->flags2 & MF2_MISSILEMORE)
         dist >>= 1;
 
     if (dist > actor->info->minmissilechance)
