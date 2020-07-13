@@ -102,10 +102,10 @@ typedef enum
 } GameMission_t;
 
 // Screen width and height.
-#define VANILLAWIDTH       320
-#define VANILLAHEIGHT      200
+#define VANILLAWIDTH        320
+#define VANILLAHEIGHT       200
 
-#define VANILLASBARHEIGHT  32
+#define VANILLASBARHEIGHT   32
 
 #define SCREENSCALE         2
 

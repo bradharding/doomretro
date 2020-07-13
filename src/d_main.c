@@ -224,7 +224,7 @@ void D_FadeScreen(void)
 
     fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
     memcpy(fadescreen, screens[0], fadeheight);
-    fadecount = 4;
+    fadecount = 3;
 }
 
 //
@@ -240,7 +240,7 @@ static void D_UpdateFade(void)
     if (fadewait < tics)
     {
         fadewait = tics + FADETICS;
-        tinttab = tinttabs[--fadecount];
+        tinttab = tinttabs[fadecount--];
     }
 
     if (tinttab)
