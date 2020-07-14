@@ -8,7 +8,7 @@
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
 * The screen will now flash white when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * Animated textures and changes to lighting will now still update in the background when the menu is open.
-* The text caret in the savegame menu is now fatter and shorter.
+* The text caret in the savegame menu is now shorter.
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.
 * The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.

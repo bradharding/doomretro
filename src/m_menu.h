@@ -110,7 +110,6 @@ extern dboolean nomusic;
 extern dboolean nosound;
 extern dboolean nosfx;
 extern dboolean firstevent;
-extern byte     grays[256];
 extern dboolean startingnewgame;
 extern dboolean savegames;
 extern dboolean inhelpscreens;

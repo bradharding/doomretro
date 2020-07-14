@@ -94,6 +94,8 @@ fixed_t     *newspritetopoffset;
 
 dboolean    r_fixspriteoffsets = r_fixspriteoffsets_default;
 
+byte        grays[256];
+
 static byte notgray[256] =
 {
     0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -667,8 +669,6 @@ static void R_InitSpriteLumps(void)
 //
 // killough 4/4/98: Add support for C_START/C_END markers
 //
-byte    grays[256];
-
 static void R_InitColormaps(void)
 {
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
