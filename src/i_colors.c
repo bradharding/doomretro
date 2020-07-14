@@ -171,13 +171,12 @@ void FindNearestColors(byte *palette)
     hudhighlight = &tinttab15[nearestcolors[YELLOW] << 8];
 }
 
-int FindDominantColor(patch_t *patch)
+int FindDominantColor(patch_t *patch, byte *palette)
 {
     int     w = SHORT(patch->width);
     int     dominantcolor = 0;
     int     dominantcolorcount = 0;
     byte    colorcount[256] = { 0 };
-    byte    *splashpal = W_CacheLumpName("SPLSHPAL");
 
     for (int col = 0; col < w; col++)
     {
@@ -197,18 +196,17 @@ int FindDominantColor(patch_t *patch)
     }
 
     for (int i = 0; i < 256; i++)
-        if (colorcount[i] > dominantcolorcount)
-        {
-            byte    red = *splashpal++;
-            byte    green = *splashpal++;
-            byte    blue = *splashpal++;
+    {
+        byte    red = *palette++;
+        byte    green = *palette++;
+        byte    blue = *palette++;
 
-            if (red >= 128 || green >= 128 || blue >= 128)
-            {
-                dominantcolor = i;
-                dominantcolorcount = colorcount[i];
-            }
+        if (colorcount[i] > dominantcolorcount && (red >= 128 || green >= 128 || blue >= 128))
+        {
+            dominantcolor = i;
+            dominantcolorcount = colorcount[i];
         }
+    }
 
     return dominantcolor;
 }

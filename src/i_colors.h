@@ -75,6 +75,6 @@ void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, int red, int green, int blue);
 void FindNearestColors(byte *palette);
 
-int FindDominantColor(patch_t *patch);
+int FindDominantColor(patch_t *patch, byte *palette);
 
 #endif
