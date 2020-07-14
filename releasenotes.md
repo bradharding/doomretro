@@ -9,7 +9,7 @@
 * The screen will now flash white when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * Animated textures and changes to lighting will now still update in the background when the menu is open.
 * The following changes have been made to the text caret in the savegame menu:
-  * It is now shorter.
+  * It now matches the height of the accompanying text.
   * Its color has been improved in some instances.
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.

@@ -201,7 +201,7 @@ int FindDominantColor(patch_t *patch, byte *palette)
         byte    green = *palette++;
         byte    blue = *palette++;
 
-        if (colorcount[i] > dominantcolorcount && (red >= 128 || green >= 128 || blue >= 128))
+        if ((red >= 128 || green >= 128 || blue >= 128) && colorcount[i] > dominantcolorcount)
         {
             dominantcolor = i;
             dominantcolorcount = colorcount[i];
