@@ -4425,8 +4425,8 @@ static void play_cmd_func2(char *cmd, char *parms)
 
 static skill_t favoriteskilllevel(void)
 {
-    unsigned int    skilllevelstat = 0;
-    skill_t         favorite = skilllevel - 1;
+    uint64_t    skilllevelstat = 0;
+    skill_t     favorite = skilllevel - 1;
 
     if (skilllevelstat < stat_skilllevel_imtooyoungtodie)
     {
@@ -4464,7 +4464,7 @@ static weapontype_t favoriteweapon(dboolean total)
 
     if (total)
     {
-        unsigned int    shotsfiredstat = 0;
+        uint64_t    shotsfiredstat = 0;
 
         if (shotsfiredstat < stat_shotsfired_pistol)
         {
@@ -4516,7 +4516,7 @@ static weapontype_t favoriteweapon(dboolean total)
     return favorite;
 }
 
-static char *distance(fixed_t value, dboolean showunits)
+static char *distance(uint64_t value, dboolean showunits)
 {
     char    *result = malloc(20);
 
@@ -4575,7 +4575,7 @@ static void C_PlayerStats_Game(void)
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
     const int       time1 = leveltime / TICRATE;
-    const int       time2 = stat_time / TICRATE;
+    const uint64_t  time2 = stat_time / TICRATE;
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -4583,9 +4583,9 @@ static void C_PlayerStats_Game(void)
     char            *temp5;
     int             killcount = 0;
     int             shotsfired1 = 0;
-    int             shotsfired2 = 0;
+    uint64_t        shotsfired2 = 0;
     int             shotssuccessful1 = 0;
-    int             shotssuccessful2 = 0;
+    uint64_t        shotssuccessful2 = 0;
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 
@@ -5160,12 +5160,12 @@ static void C_PlayerStats_NoGame(void)
     const int       tabs[4] = { 160, 281, 0, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
-    const int       time2 = stat_time / TICRATE;
+    const uint64_t  time2 = stat_time / TICRATE;
     char            *temp1;
     char            *temp2;
     char            *temp3;
-    int             shotsfired = 0;
-    int             shotssuccessful = 0;
+    uint64_t        shotsfired = 0;
+    uint64_t        shotssuccessful = 0;
 
     C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
 

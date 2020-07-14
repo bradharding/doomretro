@@ -152,63 +152,63 @@ extern int          s_sfxvolume;
 extern dboolean     s_stereo;
 extern int          savegame;
 extern int          skilllevel;
-extern unsigned int stat_barrelsexploded;
-extern unsigned int stat_cheated;
-extern unsigned int stat_damageinflicted;
-extern unsigned int stat_damagereceived;
-extern unsigned int stat_deaths;
-extern unsigned int stat_distancetraveled;
-extern unsigned int stat_gamessaved;
-extern unsigned int stat_itemspickedup;
-extern unsigned int stat_itemspickedup_ammo_bullets;
-extern unsigned int stat_itemspickedup_ammo_cells;
-extern unsigned int stat_itemspickedup_ammo_rockets;
-extern unsigned int stat_itemspickedup_ammo_shells;
-extern unsigned int stat_itemspickedup_armor;
-extern unsigned int stat_itemspickedup_health;
-extern unsigned int stat_mapscompleted;
-extern unsigned int stat_mapsstarted;
-extern unsigned int stat_monsterskilled;
-extern unsigned int stat_monsterskilled_arachnotrons;
-extern unsigned int stat_monsterskilled_archviles;
-extern unsigned int stat_monsterskilled_baronsofhell;
-extern unsigned int stat_monsterskilled_cacodemons;
-extern unsigned int stat_monsterskilled_cyberdemons;
-extern unsigned int stat_monsterskilled_demons;
-extern unsigned int stat_monsterskilled_heavyweapondudes;
-extern unsigned int stat_monsterskilled_hellknights;
-extern unsigned int stat_monsterskilled_imps;
-extern unsigned int stat_monsterskilled_lostsouls;
-extern unsigned int stat_monsterskilled_mancubi;
-extern unsigned int stat_monsterskilled_painelementals;
-extern unsigned int stat_monsterskilled_revenants;
-extern unsigned int stat_monsterskilled_shotgunguys;
-extern unsigned int stat_monsterskilled_spectres;
-extern unsigned int stat_monsterskilled_spidermasterminds;
-extern unsigned int stat_monsterskilled_zombiemen;
-extern unsigned int stat_runs;
-extern unsigned int stat_secretsrevealed;
-extern unsigned int stat_shotsfired_pistol;
-extern unsigned int stat_shotsfired_shotgun;
-extern unsigned int stat_shotsfired_supershotgun;
-extern unsigned int stat_shotsfired_chaingun;
-extern unsigned int stat_shotsfired_rocketlauncher;
-extern unsigned int stat_shotsfired_plasmarifle;
-extern unsigned int stat_shotsfired_bfg9000;
-extern unsigned int stat_shotssuccessful_pistol;
-extern unsigned int stat_shotssuccessful_shotgun;
-extern unsigned int stat_shotssuccessful_supershotgun;
-extern unsigned int stat_shotssuccessful_chaingun;
-extern unsigned int stat_shotssuccessful_rocketlauncher;
-extern unsigned int stat_shotssuccessful_plasmarifle;
-extern unsigned int stat_shotssuccessful_bfg9000;
-extern unsigned int stat_skilllevel_imtooyoungtodie;
-extern unsigned int stat_skilllevel_heynottoorough;
-extern unsigned int stat_skilllevel_hurtmeplenty;
-extern unsigned int stat_skilllevel_ultraviolence;
-extern unsigned int stat_skilllevel_nightmare;
-extern unsigned int stat_suicides;
-extern unsigned int stat_time;
+extern uint64_t     stat_barrelsexploded;
+extern uint64_t     stat_cheated;
+extern uint64_t     stat_damageinflicted;
+extern uint64_t     stat_damagereceived;
+extern uint64_t     stat_deaths;
+extern uint64_t     stat_distancetraveled;
+extern uint64_t     stat_gamessaved;
+extern uint64_t     stat_itemspickedup;
+extern uint64_t     stat_itemspickedup_ammo_bullets;
+extern uint64_t     stat_itemspickedup_ammo_cells;
+extern uint64_t     stat_itemspickedup_ammo_rockets;
+extern uint64_t     stat_itemspickedup_ammo_shells;
+extern uint64_t     stat_itemspickedup_armor;
+extern uint64_t     stat_itemspickedup_health;
+extern uint64_t     stat_mapscompleted;
+extern uint64_t     stat_mapsstarted;
+extern uint64_t     stat_monsterskilled;
+extern uint64_t     stat_monsterskilled_arachnotrons;
+extern uint64_t     stat_monsterskilled_archviles;
+extern uint64_t     stat_monsterskilled_baronsofhell;
+extern uint64_t     stat_monsterskilled_cacodemons;
+extern uint64_t     stat_monsterskilled_cyberdemons;
+extern uint64_t     stat_monsterskilled_demons;
+extern uint64_t     stat_monsterskilled_heavyweapondudes;
+extern uint64_t     stat_monsterskilled_hellknights;
+extern uint64_t     stat_monsterskilled_imps;
+extern uint64_t     stat_monsterskilled_lostsouls;
+extern uint64_t     stat_monsterskilled_mancubi;
+extern uint64_t     stat_monsterskilled_painelementals;
+extern uint64_t     stat_monsterskilled_revenants;
+extern uint64_t     stat_monsterskilled_shotgunguys;
+extern uint64_t     stat_monsterskilled_spectres;
+extern uint64_t     stat_monsterskilled_spidermasterminds;
+extern uint64_t     stat_monsterskilled_zombiemen;
+extern uint64_t     stat_runs;
+extern uint64_t     stat_secretsrevealed;
+extern uint64_t     stat_shotsfired_pistol;
+extern uint64_t     stat_shotsfired_shotgun;
+extern uint64_t     stat_shotsfired_supershotgun;
+extern uint64_t     stat_shotsfired_chaingun;
+extern uint64_t     stat_shotsfired_rocketlauncher;
+extern uint64_t     stat_shotsfired_plasmarifle;
+extern uint64_t     stat_shotsfired_bfg9000;
+extern uint64_t     stat_shotssuccessful_pistol;
+extern uint64_t     stat_shotssuccessful_shotgun;
+extern uint64_t     stat_shotssuccessful_supershotgun;
+extern uint64_t     stat_shotssuccessful_chaingun;
+extern uint64_t     stat_shotssuccessful_rocketlauncher;
+extern uint64_t     stat_shotssuccessful_plasmarifle;
+extern uint64_t     stat_shotssuccessful_bfg9000;
+extern uint64_t     stat_skilllevel_imtooyoungtodie;
+extern uint64_t     stat_skilllevel_heynottoorough;
+extern uint64_t     stat_skilllevel_hurtmeplenty;
+extern uint64_t     stat_skilllevel_ultraviolence;
+extern uint64_t     stat_skilllevel_nightmare;
+extern uint64_t     stat_suicides;
+extern uint64_t     stat_time;
 extern int          stillbob;
 extern dboolean     tossdrop;
 extern int          turbo;
@@ -790,9 +790,9 @@ enum
 
 typedef enum
 {
-    DEFAULT_INT,
-    DEFAULT_INT_UNSIGNED,
-    DEFAULT_INT_PERCENT,
+    DEFAULT_INT32,
+    DEFAULT_UINT64,
+    DEFAULT_INT32_PERCENT,
     DEFAULT_STRING,
     DEFAULT_FLOAT,
     DEFAULT_FLOAT_PERCENT,

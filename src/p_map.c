@@ -87,7 +87,7 @@ static mobj_t   *onmobj;
 
 dboolean        infiniteheight = infiniteheight_default;
 
-unsigned int    stat_distancetraveled = 0;
+uint64_t        stat_distancetraveled = 0;
 
 extern dboolean successfulshot;
 extern dboolean telefragonmap30;

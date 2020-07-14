@@ -97,7 +97,7 @@ typedef struct
 
 #define MAXANIMS    32
 
-unsigned int        stat_secretsrevealed = 0;
+uint64_t            stat_secretsrevealed = 0;
 
 dboolean            r_liquid_bob = r_liquid_bob_default;
 

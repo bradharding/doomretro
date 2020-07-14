@@ -43,8 +43,8 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-int             leveltime;
-unsigned int    stat_time = 0;
+int         leveltime;
+uint64_t    stat_time = 0;
 
 //
 // THINKERS

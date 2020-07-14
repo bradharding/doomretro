@@ -166,7 +166,7 @@ dboolean            regenhealth;
 dboolean            respawnitems;
 dboolean            respawnmonsters;        // checkparm of -respawn
 
-unsigned int        stat_runs = 0;
+uint64_t            stat_runs = 0;
 
 skill_t             startskill;
 int                 startepisode;

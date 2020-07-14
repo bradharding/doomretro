@@ -254,7 +254,7 @@ static dboolean             samelevel;
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;
 
-unsigned int                stat_cheated = 0;
+uint64_t                    stat_cheated = 0;
 
 cheatseq_t cheat_mus = CHEAT("idmus", 0);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
