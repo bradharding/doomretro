@@ -3827,7 +3827,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(numvertexes);
-    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Vertexes\t<b>%s</b>", temp);
     free(temp);
 
     temp = commify(numsegs);

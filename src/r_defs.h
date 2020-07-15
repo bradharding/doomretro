@@ -250,7 +250,7 @@ typedef struct line_s
 {
     int                 id;
 
-    // Vertices, from v1 to v2.
+    // Vertexes, from v1 to v2.
     vertex_t            *v1;
     vertex_t            *v2;
 

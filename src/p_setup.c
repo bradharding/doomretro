@@ -599,7 +599,7 @@ static void P_LoadVertexes(int lump)
     vertexes = calloc_IfSameLevel(vertexes, numvertexes, sizeof(vertex_t));
 
     if (!data || !numvertexes)
-        I_Error("There are no vertices in this map.");
+        I_Error("There are no vertexes in this map.");
     else
     {
         // Copy and convert vertex coordinates,
@@ -1531,7 +1531,7 @@ static void P_LoadZNodes(int lump)
     // skip header
     data += 4;
 
-    // Read extra vertices added during node building
+    // Read extra vertexes added during node building
     orgVerts = LONG(*((const unsigned int *)data));
     data += sizeof(orgVerts);
 
@@ -2099,7 +2099,7 @@ static void P_CreateBlockMap(void)
     //
     // For each linedef:
     //
-    //   Map the starting and ending vertices to blocks.
+    //   Map the starting and ending vertexes to blocks.
     //
     //   Starting in the starting vertex's block, do:
     //
@@ -2493,7 +2493,7 @@ static void P_GroupLines(void)
 
 static void P_RemoveSlimeTrails(void)                   // killough 10/98
 {
-    byte    *hit = calloc(1, numvertexes);              // Hitlist for vertices
+    byte    *hit = calloc(1, numvertexes);              // Hitlist for vertexes
 
     if (!hit)
         return;

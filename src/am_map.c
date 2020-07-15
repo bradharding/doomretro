@@ -259,7 +259,7 @@ static void AM_RestoreScaleAndLoc(void)
 }
 
 //
-// Determines bounding box of all vertices, sets global variables controlling zoom range.
+// Determines bounding box of all vertexes, sets global variables controlling zoom range.
 //
 static void AM_FindMinMaxBoundaries(void)
 {

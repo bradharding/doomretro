@@ -56,7 +56,7 @@ enum
     ML_THINGS,      // Monsters, items...
     ML_LINEDEFS,    // LineDefs, from editing
     ML_SIDEDEFS,    // SideDefs, from editing
-    ML_VERTEXES,    // Vertices, edited and BSP splits generated
+    ML_VERTEXES,    // Vertexes, edited and BSP splits generated
     ML_SEGS,        // LineSegs, from LineDefs split by BSP
     ML_SSECTORS,    // SubSectors, list of LineSegs
     ML_NODES,       // BSP nodes
