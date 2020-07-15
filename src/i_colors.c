@@ -216,7 +216,6 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
     byte    *result = malloc(256 * 256);
 
     for (int foreground = 0; foreground < 256; foreground++)
-    {
         if ((filter[foreground] & colors) || colors == ALL || colors == ALTHUD)
         {
             for (int background = 0; background < 256; background++)
@@ -251,7 +250,6 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
         else
             for (int background = 0; background < 256; background++)
                 result[(background << 8) + foreground] = foreground;
-    }
 
     return result;
 }

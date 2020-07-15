@@ -72,7 +72,7 @@ typedef struct
 
 typedef enum
 {
-    CT_CMD   = 1,
+    CT_CCMD  = 1,
     CT_CVAR  = 2,
     CT_CHEAT = 3
 } cmdtype_t;

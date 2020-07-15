@@ -10,7 +10,7 @@
 * Animated textures and changes to lighting will now still update in the background when the menu is open.
 * The following changes have been made to the text caret in the savegame menu:
   * It now matches the height of the accompanying text.
-  * Its color has been improved in some instances.
+  * Its color now better matches that of the accompanying text in some instances.
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.
 * The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
