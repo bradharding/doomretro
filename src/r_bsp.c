@@ -558,8 +558,7 @@ static void R_Subsector(int num)
     {
         sector->validcount = validcount;
 
-        if (!menuactive)
-            R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
+        R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
     }
 
     while (count--)
