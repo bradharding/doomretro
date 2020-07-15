@@ -591,7 +591,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmypos, false),
     CMD_CHEAT(idspispopd, false),
     CMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
-        "If a <i>CVAR</i> equals a <i>value</i> then execute a string\nof <i>commands</i>."),
+        "Executes a string of <i>commands</i> if a <i>CVAR</i>\nequals a <i>value</i>."),
     CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles infighting among monsters once the player\ndies."),
     CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -1057,9 +1057,13 @@ static void C_ShowDescription(int index)
 
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
-    M_snprintf(description1, sizeof(description1), "This CVAR %s%s",
-        (M_StringStartsWith(description, "toggles") ? "" : ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")),
-        description);
+
+    if (consolecmds[index].type == CT_CMD)
+        M_snprintf(description1, sizeof(description1), "This CCMD %s", description);
+    else
+        M_snprintf(description1, sizeof(description1), "This CVAR %s%s",
+            (M_StringStartsWith(description, "toggles") ? "" : ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")),
+            description);
 
     if ((p = strchr(description1, '\n')))
     {
