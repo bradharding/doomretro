@@ -4575,7 +4575,7 @@ static void C_PlayerStats_Game(void)
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
     const int       time1 = leveltime / TICRATE;
-    const uint64_t  time2 = stat_time / TICRATE;
+    const int       time2 = (int)(stat_time / TICRATE);
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -5003,7 +5003,7 @@ static void C_PlayerStats_Game(void)
         + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots successful/fired\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
         temp1, temp2, (shotsfired1 ? shotssuccessful1 * 100 / shotsfired1 : 0), temp3, temp4,
-        (shotsfired2 ? shotssuccessful2 * 100 / shotsfired2 : 0));
+        (shotsfired2 ? (int)(shotssuccessful2 * 100 / shotsfired2) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5018,7 +5018,7 @@ static void C_PlayerStats_Game(void)
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_pistol] ? viewplayer->shotssuccessful[wp_pistol] * 100 / viewplayer->shotsfired[wp_pistol] : 0),
         temp4, temp5,
-        (stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol : 0));
+        (stat_shotsfired_pistol ? (int)(stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5034,7 +5034,7 @@ static void C_PlayerStats_Game(void)
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_shotgun] ? viewplayer->shotssuccessful[wp_shotgun] * 100 / viewplayer->shotsfired[wp_shotgun] : 0),
         temp4, temp5,
-        (stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun : 0));
+        (stat_shotsfired_shotgun ? (int)(stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5053,7 +5053,7 @@ static void C_PlayerStats_Game(void)
             (viewplayer->shotsfired[wp_supershotgun] ?
                 viewplayer->shotssuccessful[wp_supershotgun] * 100 / viewplayer->shotsfired[wp_supershotgun] : 0),
             temp4, temp5,
-            (stat_shotsfired_supershotgun ? stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun : 0));
+            (stat_shotsfired_supershotgun ? (int)(stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5070,7 +5070,7 @@ static void C_PlayerStats_Game(void)
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_chaingun] ? viewplayer->shotssuccessful[wp_chaingun] * 100 / viewplayer->shotsfired[wp_chaingun] : 0),
         temp4, temp5,
-        (stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun : 0));
+        (stat_shotsfired_chaingun ? (int)(stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5086,7 +5086,7 @@ static void C_PlayerStats_Game(void)
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_missile] ? viewplayer->shotssuccessful[wp_missile] * 100 / viewplayer->shotsfired[wp_missile] : 0),
         temp4, temp5,
-        (stat_shotsfired_rocketlauncher ? stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher : 0));
+        (stat_shotsfired_rocketlauncher ? (int)(stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5104,7 +5104,7 @@ static void C_PlayerStats_Game(void)
             temp1, temp2, temp3,
             (viewplayer->shotsfired[wp_plasma] ? viewplayer->shotssuccessful[wp_plasma] * 100 / viewplayer->shotsfired[wp_plasma] : 0),
             temp4, temp5,
-            (stat_shotsfired_plasmarifle ? stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle : 0));
+            (stat_shotsfired_plasmarifle ? (int)(stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5120,7 +5120,7 @@ static void C_PlayerStats_Game(void)
             temp1, temp2, temp3,
             (viewplayer->shotsfired[wp_bfg] ? viewplayer->shotssuccessful[wp_bfg] * 100 / viewplayer->shotsfired[wp_bfg] : 0),
             temp4, temp5,
-            (stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000 : 0));
+            (stat_shotsfired_bfg9000 ? (int)(stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5160,7 +5160,7 @@ static void C_PlayerStats_NoGame(void)
     const int       tabs[4] = { 160, 281, 0, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
-    const uint64_t  time2 = stat_time / TICRATE;
+    const int       time2 = (int)(stat_time / TICRATE);
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -5381,7 +5381,7 @@ static void C_PlayerStats_NoGame(void)
     temp2 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
         + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots successful/fired\t-\t<b>%s of %s (%i%%)</b>",
-        temp1, temp2, (shotsfired ? shotssuccessful * 100 / shotsfired : 0));
+        temp1, temp2, (shotsfired ? (int)(shotssuccessful * 100 / shotsfired) : 0));
     free(temp1);
     free(temp2);
 
@@ -5389,7 +5389,7 @@ static void C_PlayerStats_NoGame(void)
     temp2 = commify(stat_shotssuccessful_pistol);
     temp3 = commify(stat_shotsfired_pistol);
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
-        temp1, temp2, temp3, (stat_shotsfired_pistol ? stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol : 0));
+        temp1, temp2, temp3, (stat_shotsfired_pistol ? (int)(stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5398,7 +5398,7 @@ static void C_PlayerStats_NoGame(void)
     temp2 = commify(stat_shotssuccessful_shotgun);
     temp3 = commify(stat_shotsfired_shotgun);
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
-        temp1, temp2, temp3, (stat_shotsfired_shotgun ? stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun : 0));
+        temp1, temp2, temp3, (stat_shotsfired_shotgun ? (int)(stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5410,7 +5410,7 @@ static void C_PlayerStats_NoGame(void)
         temp3 = commify(stat_shotsfired_supershotgun);
         C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
             temp1, temp2, temp3,
-            (stat_shotsfired_supershotgun ? stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun : 0));
+            (stat_shotsfired_supershotgun ? (int)(stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5420,7 +5420,7 @@ static void C_PlayerStats_NoGame(void)
     temp2 = commify(stat_shotssuccessful_chaingun);
     temp3 = commify(stat_shotsfired_chaingun);
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
-        temp1, temp2, temp3, (stat_shotsfired_chaingun ? stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun : 0));
+        temp1, temp2, temp3, (stat_shotsfired_chaingun ? (int)(stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5430,7 +5430,7 @@ static void C_PlayerStats_NoGame(void)
     temp3 = commify(stat_shotsfired_rocketlauncher);
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
         temp1, temp2, temp3,
-        (stat_shotsfired_rocketlauncher ? stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher : 0));
+        (stat_shotsfired_rocketlauncher ? (int)(stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher) : 0));
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5442,7 +5442,7 @@ static void C_PlayerStats_NoGame(void)
         temp3 = commify(stat_shotsfired_plasmarifle);
         C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
             temp1, temp2, temp3,
-            (stat_shotsfired_plasmarifle ? stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle : 0));
+            (stat_shotsfired_plasmarifle ? (int)(stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5451,7 +5451,7 @@ static void C_PlayerStats_NoGame(void)
         temp2 = commify(stat_shotssuccessful_bfg9000);
         temp3 = commify(stat_shotsfired_bfg9000);
         C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
-            temp1, temp2, temp3, (stat_shotsfired_bfg9000 ? stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000 : 0));
+            temp1, temp2, temp3, (stat_shotsfired_bfg9000 ? (int)(stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
