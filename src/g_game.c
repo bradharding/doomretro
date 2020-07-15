@@ -47,6 +47,7 @@
 #include "f_finale.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -672,7 +673,7 @@ dboolean G_Responder(event_t *ev)
                 keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
             }
-            else if (ev->type == ev_keydown && ev->data1 == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
+            else if (ev->type == ev_keydown && ev->data1 == keyboardscreenshot)
             {
                 keydown = keyboardscreenshot;
                 G_DoScreenShot();
@@ -695,6 +696,13 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
+            return true;
+        }
+        else if (!menuactive && !consoleactive && ev->type == ev_keyup && ev->data1 == keyboardscreenshot)
+        {
+            S_StartSound(NULL, sfx_scrsht);
+            memset(screens[0], nearestwhite, SCREENAREA);
+            D_FadeScreen();
             return true;
         }
 
