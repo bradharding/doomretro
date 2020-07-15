@@ -2406,6 +2406,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags2 = value;
                 }
             }
+            else if (M_StringCompare(key, "Dropped item"))
+                mobjinfo[indexnum].droppeditem = (int)value - 1;
             else
             {
                 pix = (int *)&mobjinfo[indexnum];
