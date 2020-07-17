@@ -2380,7 +2380,7 @@ void P_UpdateSpecials(void)
 }
 
 //
-// Special Stuff that cannot be categorized
+// Special stuff that cannot be categorized
 //
 dboolean EV_DoDonut(line_t *line)
 {
@@ -2675,16 +2675,16 @@ void T_Scroll(scroll_t *s)
 
     switch (s->type)
     {
-        side_t      *side;
         sector_t    *sec;
-        fixed_t     height;
-        fixed_t     waterheight;                // killough 4/4/98: add waterheight
 
         case sc_side:                           // killough 3/7/98: Scroll wall texture
-            side = sides + s->affectee;
+        {
+            side_t  *side = sides + s->affectee;
+
             side->textureoffset += dx;
             side->rowoffset += dy;
             break;
+        }
 
         case sc_floor:                          // killough 3/7/98: Scroll floor texture
             sec = sectors + s->affectee;
@@ -2699,6 +2699,10 @@ void T_Scroll(scroll_t *s)
             break;
 
         case sc_carry:
+        {
+            fixed_t height;
+            fixed_t waterheight;                // killough 4/4/98: add waterheight
+
             // killough 3/7/98: Carry things on floor
             // killough 3/20/98: use new sector list which reflects true members
             // killough 3/27/98: fix carrier bug
@@ -2721,6 +2725,7 @@ void T_Scroll(scroll_t *s)
             }
 
             break;
+        }
     }
 }
 

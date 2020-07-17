@@ -87,7 +87,6 @@ void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 
 //
-//
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //

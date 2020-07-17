@@ -280,7 +280,6 @@ void F_Ticker(void)
 }
 
 //
-//
 // F_TextWrite
 //
 void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
