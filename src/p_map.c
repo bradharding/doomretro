@@ -1237,12 +1237,10 @@ static fixed_t  tmymove;
 //
 static void P_HitSlideLine(line_t *ld)
 {
-    int         side;
     angle_t     lineangle;
     angle_t     moveangle;
     angle_t     deltaangle;
     fixed_t     movelen;
-    dboolean    icyfloor;       // is floor icy?
 
     // phares:
     // Under icy conditions, if the angle of approach to the wall
@@ -1253,9 +1251,9 @@ static void P_HitSlideLine(line_t *ld)
     // Check for the special cases of horz or vert walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
-    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
-        && slidemo->z <= slidemo->floorz
-        && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
+    dboolean    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
+                            && slidemo->z <= slidemo->floorz
+                            && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -1289,10 +1287,9 @@ static void P_HitSlideLine(line_t *ld)
         return;
     }
 
-    side = P_PointOnLineSide(slidemo->x, slidemo->y, ld);
     lineangle = R_PointToAngle2(0, 0, ld->dx, ld->dy);
 
-    if (side == 1)
+    if (P_PointOnLineSide(slidemo->x, slidemo->y, ld) == 1)
         lineangle += ANG180;
 
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);

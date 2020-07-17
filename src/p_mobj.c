@@ -777,8 +777,8 @@ void P_SetShadowColumnFunction(mobj_t *mobj)
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 {
     mobj_t      *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
-    state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
+    state_t     *st = &states[info->spawnstate];
     sector_t    *sector;
 
     mobj->type = type;
@@ -795,7 +795,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     // do not set the state with P_SetMobjState,
     // because action routines cannot be called yet
-    st = &states[info->spawnstate];
     mobj->state = st;
     mobj->tics = st->tics;
     mobj->sprite = st->sprite;
@@ -836,8 +835,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
         mobj->height = info->height;
         mobj->z = mobj->oldz = z;
     }
-
-    mobj->oldangle = mobj->angle;
 
     mobj->thinker.function = (type == MT_MUSICSOURCE ? &MusInfoThinker : &P_MobjThinker);
     P_AddThinker(&mobj->thinker);
@@ -1226,7 +1223,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
     {
-        mobj->flags |= MF_FRIEND;           // killough 10/98:
+        mobj->flags |= MF_FRIEND;   // killough 10/98
         mbfcompatible = true;
     }
 
