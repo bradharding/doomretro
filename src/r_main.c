@@ -627,7 +627,7 @@ void R_InitColumnFunctions(void)
         else if (info->doomednum == MegaSphere && !doom4vanilla && !hacx)
         {
             info->colfunc = megaspherecolfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = megaspherecolfunc;
         }
         else if (info->flags & MF_FUZZ)
         {
@@ -652,12 +652,12 @@ void R_InitColumnFunctions(void)
         else if (flags2 & MF2_TRANSLUCENT_33)
         {
             info->colfunc = tl33colfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = tl33colfunc;
         }
         else if ((info->flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
         {
             info->colfunc = tl50colfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = tl50colfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
         {
@@ -667,27 +667,27 @@ void R_InitColumnFunctions(void)
         else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
         {
             info->colfunc = tlredtogreen33colfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = tlredtogreen33colfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
         {
             info->colfunc = tlredtoblue33colfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = tlredtoblue33colfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
         {
             info->colfunc = tlblue25colfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = tlblue25colfunc;
         }
         else if (flags2 & MF2_REDTOGREEN)
         {
             info->colfunc = redtogreencolfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = redtogreencolfunc;
         }
         else if (flags2 & MF2_REDTOBLUE)
         {
             info->colfunc = redtobluecolfunc;
-            info->altcolfunc = basecolfunc;
+            info->altcolfunc = redtobluecolfunc;
         }
         else
         {
