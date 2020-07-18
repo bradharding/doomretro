@@ -7,7 +7,9 @@
 * The gradual lighting applied under open doors and crushing ceilings is now correctly restored in savegames when the `r_graduallighting` CVAR is `on`.
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
 * The screen will now flash white when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
-* Animated textures and changes to lighting will now still update in the background when the menu is open.
+* The following changes have been made to the menu’s background:
+  * A slight dithered effect is now applied.
+  * Animated textures and changes to lighting will now still update.
 * The following changes have been made to the text caret in the savegame menu:
   * It now matches the height of the accompanying text.
   * Its color now better matches that of the accompanying text in some instances.
