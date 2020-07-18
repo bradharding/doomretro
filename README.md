@@ -21,7 +21,7 @@ Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)<
 [![](https://img.shields.io/travis/bradharding/doomretro.svg?logo=travis)](https://travis-ci.com/bradharding/doomretro)
 [![](https://img.shields.io/github/stars/bradharding/doomretro.svg?logo=github)](https://github.com/bradharding/doomretro/stargazers)
 [![](https://img.shields.io/twitter/follow/doomretro.svg?style=flat&logo=twitter)](https://twitter.com/doomretro)
-![](https://img.shields.io/discord/485551763542245427?style=flat&logo=discord)
+[![](https://img.shields.io/discord/485551763542245427?style=flat&logo=discord)](http://discordapp.com/invite/jAfAyWG)
 <br>
 <br>
 <br>
