@@ -1180,7 +1180,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         else
         {
             // clip this piece of the bloodsplat
-            int r1 = MAX(ds->x1, x1);
+            int r1 = MAX(x1, ds->x1);
             int r2 = MIN(ds->x2, x2);
 
             if (silhouette & SIL_TOP)
@@ -1294,7 +1294,7 @@ static void R_DrawSprite(const vissprite_t *spr)
         else
         {
             // clip this piece of the sprite
-            int r1 = MAX(ds->x1, x1);
+            int r1 = MAX(x1, ds->x1);
             int r2 = MIN(ds->x2, x2);
 
             if (silhouette & SIL_TOP)

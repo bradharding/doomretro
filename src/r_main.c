@@ -137,10 +137,10 @@ extern lighttable_t **walllights;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    fixed_t nx = node->x;
-    fixed_t ny = node->y;
-    fixed_t ndx = node->dx;
-    fixed_t ndy = node->dy;
+    const fixed_t   nx = node->x;
+    const fixed_t   ny = node->y;
+    const int64_t   ndx = node->dx;
+    const int64_t   ndy = node->dy;
 
     if (!ndx)
         return (x <= nx ? (ndy > 0) : (ndy < 0));
@@ -155,15 +155,15 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
     if ((ndy ^ ndx ^ x ^ y) < 0)
         return ((ndy ^ x) < 0); // (left is negative)
 
-    return ((int64_t)y * ndx >= (int64_t)ndy * x);
+    return (y * ndx >= ndy * x);
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    fixed_t lx = line->v1->x;
-    fixed_t ly = line->v1->y;
-    int64_t ldx = line->dx;
-    int64_t ldy = line->dy;
+    const fixed_t   lx = line->v1->x;
+    const fixed_t   ly = line->v1->y;
+    const int64_t   ldx = line->dx;
+    const int64_t   ldy = line->dy;
 
     if (!ldx)
         return (x <= lx ? (ldy > 0) : (ldy < 0));
@@ -189,7 +189,7 @@ static int SlopeDiv(unsigned int num, unsigned int den)
         return (ANG45 - 1);
 
     ans = ((uint64_t)num << 3) / (den >> 8);
-    return (int)(ans <= SLOPERANGE ? tantoangle[ans] : (ANG45 - 1));
+    return (int)(ans <= SLOPERANGE ? tantoangle[ans] : ANG45 - 1);
 }
 
 //
