@@ -490,11 +490,11 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[SCREENAREA];
     static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-    int         blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    const int   blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
-        int white = nearestwhite << 8;
+        const int   white = nearestwhite << 8;
 
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
@@ -504,7 +504,7 @@ void M_DarkBackground(void)
             screens[0][i + SCREENWIDTH - 1] = nearestblack;
         }
 
-        for (int y = 2; y < blurheight; y += SCREENWIDTH * 4)
+        for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
             for (int x = 2; x < SCREENWIDTH; x += 4)
                 screens[0][y + x] = tinttab50[white + screens[0][y + x]];
 
@@ -523,7 +523,7 @@ void M_DarkBackground(void)
                 mapscreen[i + SCREENWIDTH - 1] = nearestblack;
             }
 
-            for (int y = 2; y < blurheight; y += SCREENWIDTH * 4)
+            for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
                 for (int x = 2; x < SCREENWIDTH; x += 4)
                     mapscreen[y + x] = tinttab50[white + mapscreen[y + x]];
 
