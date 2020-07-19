@@ -27,7 +27,10 @@
   * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
 * There is now smoother movement in the automap.
-* Minor improvements have been made to the support of `DEHACKED` lumps.
+* The following changes have been made to the support of `DEHACKED` lumps:
+  * Altering the names of SFX and music lumps will no longer affect the `play` CCMD.
+  * `Melee threshold`, `Max attack range` and `Min missile chance` values have been added to `Thing` blocks.
+  * `Dropped item` values in `Thing` blocks are now 1-based rather than 0-based.
 * The following changes have been made to the `playerstats` CCMD:
   * A `Shots successful/fired` stat is now displayed for every weapon.
   * The `Weapon accuracy` stat has been removed, and is instead displayed for every weapon.

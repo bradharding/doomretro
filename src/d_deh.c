@@ -1529,7 +1529,7 @@ static dboolean includenotext;
 // These are for mobjinfo_t types. Each is an integer
 // within the structure, so we can use index of the string in this
 // array to offset by sizeof(int) into the mobjinfo_t array at [nn]
-// * things are base zero but dehacked considers them to start at #1. ***
+// * things are base zero but dehacked considers them to start at #1.
 static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 {
     "ID #",                     // .doomednum
