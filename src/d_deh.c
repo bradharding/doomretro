@@ -3413,15 +3413,15 @@ static void deh_procText(DEHFILE *fpin, char *line)
         for (i = 1; i < NUMSFX; i++)
         {
             // avoid short prefix erroneous match
-            if (strlen(S_sfx[i].name) != fromlen)
+            if (strlen(S_sfx[i].name2) != fromlen)
                 continue;
 
-            if (!strncasecmp(S_sfx[i].name, inbuffer, fromlen))
+            if (!strncasecmp(S_sfx[i].name1, inbuffer, fromlen))
             {
                 if (devparm)
-                    C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name, usedlen, &inbuffer[fromlen]);
+                    C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name1, usedlen, &inbuffer[fromlen]);
 
-                strncpy(S_sfx[i].name, &inbuffer[fromlen], 9);
+                strncpy(S_sfx[i].name1, &inbuffer[fromlen], 9);
                 found = true;
                 break;                      // only one matches, quit early
             }
@@ -3433,15 +3433,15 @@ static void deh_procText(DEHFILE *fpin, char *line)
             for (i = 1; i < NUMMUSIC; i++)
             {
                 // avoid short prefix erroneous match
-                if (strlen(S_music[i].name) != fromlen)
+                if (strlen(S_music[i].name1) != fromlen)
                     continue;
 
-                if (!strncasecmp(S_music[i].name, inbuffer, fromlen))
+                if (!strncasecmp(S_music[i].name1, inbuffer, fromlen))
                 {
                     if (devparm)
-                        C_Output("Changing name of music from %s to %*s", S_music[i].name, usedlen, &inbuffer[fromlen]);
+                        C_Output("Changing name of music from %s to %*s", S_music[i].name1, usedlen, &inbuffer[fromlen]);
 
-                    strncpy(S_music[i].name, &inbuffer[fromlen], 9);
+                    strncpy(S_music[i].name1, &inbuffer[fromlen], 9);
                     found = true;
                     break;                  // only one matches, quit early
                 }

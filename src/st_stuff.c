@@ -613,7 +613,7 @@ dboolean ST_Responder(event_t *ev)
                         if (musnum != NONE)
                         {
                             static char msg[80];
-                            char        *temp = uppercase(S_music[musnum].name);
+                            char        *temp = uppercase(S_music[musnum].name1);
 
                             S_ChangeMusic(musnum, 1, true, false);
 

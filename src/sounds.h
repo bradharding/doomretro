@@ -63,7 +63,8 @@ enum
 struct sfxinfo_s
 {
     // up to 6-character name
-    char            name[9];
+    char            name1[9];
+    char            name2[9];
 
     // SFX singularity (only one at a time)
     int             singularity;
@@ -87,7 +88,8 @@ struct sfxinfo_s
 typedef struct
 {
     // up to 6-character name
-    char            name[9];
+    char            name1[9];
+    char            name2[9];
 
     char            title1[32];
     char            title2[32];
@@ -118,7 +120,7 @@ extern dboolean     musmusictype;
 //
 enum
 {
-    mus_None,
+    mus_none,
     mus_e1m1,
     mus_e1m2,
     mus_e1m3,

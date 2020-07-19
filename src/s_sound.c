@@ -205,7 +205,7 @@ void S_Init(void)
             if (sfx->link)
                 sfx = sfx->link;
 
-            M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
+            M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
 
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
             {
@@ -658,7 +658,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     // shutdown old music
     S_StopMusic();
 
-    M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
+    M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
 
     // get lumpnum if necessary
     if (autosigil)
