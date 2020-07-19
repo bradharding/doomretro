@@ -118,6 +118,8 @@ byte        nearestblack;
 byte        nearestred;
 byte        nearestwhite;
 
+byte        *menudither;
+
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
     int bestdiff = INT_MAX;
@@ -167,6 +169,7 @@ void FindNearestColors(byte *palette)
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
 
+    menudither = &tinttab50[nearestwhite << 8];
     menushadow = &tinttab40[nearestblack << 8];
     hudhighlight = &tinttab15[nearestcolors[YELLOW] << 8];
 }

@@ -494,8 +494,6 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
-        const int   white = nearestwhite << 8;
-
         for (int i = 0; i < blurheight; i += SCREENWIDTH)
         {
             screens[0][i] = nearestblack;
@@ -506,7 +504,11 @@ void M_DarkBackground(void)
 
         for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
             for (int x = 2; x < SCREENWIDTH; x += 4)
-                screens[0][y + x] = tinttab50[white + screens[0][y + x]];
+            {
+                byte    *dot = *screens + x + y;
+
+                *dot = menudither[*dot];
+            }
 
         BlurScreen(screens[0], blurscreen1, blurheight);
 
@@ -525,7 +527,11 @@ void M_DarkBackground(void)
 
             for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
                 for (int x = 2; x < SCREENWIDTH; x += 4)
-                    mapscreen[y + x] = tinttab50[white + mapscreen[y + x]];
+                {
+                    byte    *dot = mapscreen + x + y;
+
+                    *dot = menudither[*dot];
+                }
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
