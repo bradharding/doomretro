@@ -178,6 +178,7 @@ void C_IntCVAROutput(char *cvar, int value);
 void C_PctCVAROutput(char *cvar, int value);
 void C_StrCVAROutput(char *cvar, char *string);
 void C_Output(const char *string, ...);
+void C_OutputWrap(const char *string, ...);
 void C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[4], const char *string, ...);
 void C_Header(const int tabs[4], const headertype_t headertype, const char *string);

@@ -264,6 +264,75 @@ void C_Output(const char *string, ...)
     outputhistory = -1;
 }
 
+void C_OutputWrap(const char *string, ...)
+{
+    va_list argptr;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(argptr, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+    va_end(argptr);
+
+    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
+    {
+        int len = (int)strlen(buffer);
+
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+        if (len <= 100)
+        {
+            M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
+            console[consolestrings].line = 1;
+            C_DumpConsoleStringToFile(consolestrings);
+            console[consolestrings++].stringtype = outputstring;
+        }
+        else
+        {
+            int     truncate = len;
+            char    *temp;
+
+            do
+            {
+                int width;
+
+                temp = M_SubString(buffer, 0, truncate);
+                width = C_TextWidth(temp, true, true);
+                free(temp);
+
+                if (width <= CONSOLETEXTPIXELWIDTH - 8)
+                    break;
+            } while (truncate-- > 0);
+
+            while (truncate > 0 && !isbreak(buffer[truncate]))
+                truncate--;
+
+            temp = M_SubString(buffer, 0, truncate);
+            M_StringCopy(console[consolestrings].string, temp, sizeof(console[consolestrings].string));
+            free(temp);
+            console[consolestrings].line = 1;
+            C_DumpConsoleStringToFile(consolestrings);
+            console[consolestrings++].stringtype = outputstring;
+
+            if (consolestrings >= (int)consolestringsmax)
+                console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+            temp = M_SubString(buffer, truncate, (size_t)len - truncate);
+
+            if (*temp)
+            {
+                M_StringCopy(console[consolestrings].string, trimwhitespace(temp), sizeof(console[consolestrings].string));
+                free(temp);
+                console[consolestrings].line = 2;
+                C_DumpConsoleStringToFile(consolestrings);
+                console[consolestrings++].stringtype = outputstring;
+            }
+        }
+
+        outputhistory = -1;
+    }
+}
+
 void C_OutputNoRepeat(const char *string, ...)
 {
     va_list argptr;
@@ -379,7 +448,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 
             if (*temp)
             {
-                M_StringCopy(console[consolestrings].string, temp, sizeof(console[consolestrings].string));
+                M_StringCopy(console[consolestrings].string, trimwhitespace(temp), sizeof(console[consolestrings].string));
                 free(temp);
                 console[consolestrings].line = 2;
                 C_DumpConsoleStringToFile(consolestrings);
