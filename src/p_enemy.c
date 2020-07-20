@@ -38,6 +38,7 @@
 
 #include <string.h>
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -361,7 +362,7 @@ static dboolean P_SmartMove(mobj_t *actor)
                     && actor->subsector->sector->islift);
 
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
-    // dropoff==1 means always allow it, dropoff == 2 means only up to 128 high,
+    // dropoff == 1 means always allow it, dropoff == 2 means only up to 128 high,
     // and only if the target is immediately on the other side of the line.
     if (actor->type == MT_DOGS
         && target && !((target->flags ^ actor->flags) & MF_FRIEND)
@@ -1980,7 +1981,6 @@ void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 // [jeff] remove limit on braintargets
 //  and fix <https://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets>
-
 void A_BrainAwake(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     S_StartSound(NULL, sfx_bossit);
@@ -2055,8 +2055,6 @@ static mobj_t *A_NextBrainTarget(void)
     return found;
 }
 
-extern dboolean massacre;
-
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *target;
@@ -2102,7 +2100,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
     // Will the next move put the cube closer to the target point than it is now?
     dist = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
 
-    if ((unsigned int)dist < (unsigned int)actor->reactiontime)
+    if (dist < actor->reactiontime)
     {
         actor->reactiontime = dist; // Yes. Still flying
         return;

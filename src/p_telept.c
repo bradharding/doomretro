@@ -256,7 +256,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
             int         fudge = FUDGEFACTOR;
 
             // Whether this is a player, and if so, a pointer to its player_t.
-            // Voodoo dolls are excluded by making sure thing->player->mo==thing.
+            // Voodoo dolls are excluded by making sure thing->player->mo == thing.
             player_t    *player = (thing->player && thing->player->mo == thing ? thing->player : NULL);
 
             // Whether walking towards first side of exit linedef steps down
