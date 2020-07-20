@@ -1550,7 +1550,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Death sound",              // .deathsound
     "Dropped item",             // .droppeditem
     "Melee threshold",          // .meleethreshold
-    "Max attack range",         // .maxattackrange
+    "Max target range",         // .maxattackrange
     "Min missile chance",       // .minmissilechance
     "Speed",                    // .speed
     "Width",                    // .radius
