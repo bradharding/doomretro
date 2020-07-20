@@ -44,7 +44,6 @@
 #define FINEANGLES          8192
 #define FINEMASK            (FINEANGLES - 1)
 
-// 0x100000000 to 0x2000
 #define ANGLETOFINESHIFT    19
 
 // Effective size is 10240.

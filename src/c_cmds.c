@@ -1067,14 +1067,14 @@ static void C_ShowDescription(int index)
 
     if ((p = strchr(description1, '\n')))
     {
-        char    description2[255] = "";
+        char    description2[255];
 
         *p++ = '\0';
         M_StringCopy(description2, p, sizeof(description2));
 
         if ((p = strchr(description2, '\n')))
         {
-            char    description3[255] = "";
+            char    description3[255];
 
             *p++ = '\0';
             M_StringCopy(description3, p, sizeof(description3));

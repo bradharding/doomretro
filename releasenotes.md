@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v3.6
+#### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby a crash could occur when saving a game in some instances. Unfortunately, because of this important fix, the format of savegames has needed to change, breaking compatibility with previous versions of *DOOM Retro*.
@@ -45,7 +45,7 @@
 
 ###### Sunday, June 7, 2020
 
-### DOOM Retro v3.5.10
+#### DOOM Retro v3.5.10
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -64,7 +64,7 @@
 
 ###### Saturday, May 23, 2020
 
-### DOOM Retro v3.5.9
+#### DOOM Retro v3.5.9
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -81,7 +81,7 @@
 
 ###### Saturday, May 16, 2020
 
-### DOOM Retro v3.5.8
+#### DOOM Retro v3.5.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -104,7 +104,7 @@
 
 ###### Friday, May 8, 2020
 
-### DOOM Retro v3.5.7
+#### DOOM Retro v3.5.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -123,7 +123,7 @@
 
 ###### Saturday, May 2, 2020
 
-### DOOM Retro v3.5.6
+#### DOOM Retro v3.5.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -150,7 +150,7 @@
 
 ###### Saturday, April 18, 2020
 
-### DOOM Retro v3.5.5
+#### DOOM Retro v3.5.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -172,7 +172,7 @@
 
 ###### Friday, April 3, 2020
 
-### DOOM Retro v3.5.4
+#### DOOM Retro v3.5.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
@@ -183,7 +183,7 @@
 
 ###### Monday, March 23, 2020
 
-### DOOM Retro v3.5.3
+#### DOOM Retro v3.5.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -203,7 +203,7 @@
 
 ###### Friday, March 13, 2020
 
-### DOOM Retro v3.5.2
+#### DOOM Retro v3.5.2
 
 * *DOOM Retro* now uses [*SDL v2.0.12*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -232,7 +232,7 @@
 
 ###### Friday, February 21, 2020
 
-### DOOM Retro v3.5.1
+#### DOOM Retro v3.5.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
@@ -252,7 +252,7 @@
 
 ###### Saturday, February 8, 2020
 
-### DOOM Retro v3.5
+#### DOOM Retro v3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of IWADs that contain censored Wolfenstein SS sprites.
@@ -282,7 +282,7 @@
 
 ###### Saturday, January 4, 2020
 
-### DOOM Retro v3.4
+#### DOOM Retro v3.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will now only attempt to use [*Adaptive VSync*](https://www.geforce.com/hardware/technology/adaptive-vsync) if the `vid_vsync` CVAR is set to `adaptive`.
@@ -312,7 +312,7 @@
 
 ###### Saturday, December 21, 2019
 
-### DOOM Retro v3.3
+#### DOOM Retro v3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If a mistyped filename is entered in the WAD launcher (for example, `doot.wad` instead of `doom.wad`), *DOOM Retro* will now try to find the closest match.
@@ -333,7 +333,7 @@
 
 ###### Wednesday, November 27, 2019
 
-### DOOM Retro v3.2.1
+#### DOOM Retro v3.2.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will now attempt to use [*Adaptive VSync*](https://www.geforce.com/hardware/technology/adaptive-vsync) if the `vid_vsync` CVAR is `on` and the `vid_scaleapi` CVAR is `“opengl”`.
@@ -347,7 +347,7 @@
 
 ###### Monday, November 25, 2019
 
-### DOOM Retro v3.2
+#### DOOM Retro v3.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
@@ -376,7 +376,7 @@
 
 ###### Saturday, November 2, 2019
 
-### DOOM Retro v3.1
+#### DOOM Retro v3.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM II: Hell On Earth’s* IWAD no longer needs to be the *BFG Edition* for [`nerve.wad`](https://doomwiki.org/wiki/No_Rest_for_the_Living) to be automatically loaded if found.
@@ -403,7 +403,7 @@
 
 ###### Friday, October 11, 2019
 
-### DOOM Retro v3.0.5
+#### DOOM Retro v3.0.5
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
@@ -424,7 +424,7 @@
 
 ###### Tuesday, October 1, 2019
 
-### DOOM Retro v3.0.4
+#### DOOM Retro v3.0.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the character set used in the console.
@@ -444,7 +444,7 @@
 
 ###### Saturday, September 21, 2019
 
-### DOOM Retro v3.0.3
+#### DOOM Retro v3.0.3
 
 * The behavior of the `-nodeh` command-line parameter has changed. It will still disable the automatic loading of `.deh` files, `.bex` files and `DEHACKED` lumps, but will now load `.deh` and `.bex` files if selected in the WAD launcher or specified using the `-deh` command-line parameter.
 * A bug has been fixed whereby dogs spawned in front of the player using the `spawn` CCMD in the console would always be friendly, even when the `friendly` parameter wasn’t used. This bug also affected PWADs that would replace the dog using a `DEHACKED` patch. All monsters of that type spawned at the start of a map would be friendly and therefore attack and be attacked by other monsters. (An example of this are the nightmare demons in [*Eviternity*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/eviternity).)
@@ -466,7 +466,7 @@
 
 ###### Saturday, September 14, 2019
 
-### DOOM Retro v3.0.2
+#### DOOM Retro v3.0.2
 
 * Changes have been made to improve the overall stability of *DOOM Retro*.
 * A bug has been fixed whereby nearby monsters wouldn’t hear when the player fired the BFG-9000.
@@ -483,7 +483,7 @@
 
 ###### Monday, September 9, 2019
 
-### DOOM Retro v3.0.1
+#### DOOM Retro v3.0.1
 
 * Changes have been made to improve the overall stability of *DOOM Retro*.
 * A bug has been fixed whereby the BFG-9000 wouldn’t always target monsters correctly when fired, and in some instances would kill the player themselves.
@@ -492,7 +492,7 @@
 
 ###### Saturday, September 7, 2019
 
-### DOOM Retro v3.0
+#### DOOM Retro v3.0
 
 * *DOOM Retro* now uses [*SDL v2.0.10*](https://www.libsdl.org) and [*SDL_image v2.0.5*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time and the WAD launcher automatically navigates to a *DOOM* or *DOOM II* installation it has found, the corresponding IWAD will now also be selected.
@@ -568,7 +568,7 @@
 
 ###### Saturday, June 1, 2019
 
-### DOOM Retro v2.9.3
+#### DOOM Retro v2.9.3
 
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il):
   * The `SKY5_ZD` lump is now used instead of the `SKY5` lump to render the sky.
@@ -579,7 +579,7 @@
 
 ###### Friday, May 31, 2019
 
-### DOOM Retro v2.9.2
+#### DOOM Retro v2.9.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il):
@@ -597,7 +597,7 @@
 
 ###### Sunday, May 26, 2019
 
-### DOOM Retro v2.9.1
+#### DOOM Retro v2.9.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The support for John Romero’s megawad [*SIGIL*](https://www.romerogames.ie/si6il) has been greatly improved.
@@ -612,7 +612,7 @@
 
 ###### Monday, May 13, 2019
 
-### DOOM Retro v2.9
+#### DOOM Retro v2.9
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -672,7 +672,7 @@
 
 ###### Sunday, February 17, 2019
 
-### DOOM Retro v2.8.1
+#### DOOM Retro v2.8.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -691,7 +691,7 @@
 
 ###### Saturday, February 2, 2019
 
-### DOOM Retro v2.8
+#### DOOM Retro v2.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Noise is now applied to the menu’s background. Also, if the menu is opened while playing a game, the status bar or widescreen HUD as well as all sprites will be hidden, and the player’s view will slowly rotate either left or right.
@@ -753,7 +753,7 @@
 
 ###### Sunday, November 18, 2018
 
-### DOOM Retro v2.7.5
+#### DOOM Retro v2.7.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -769,7 +769,7 @@
 
 ###### Sunday, November 4, 2018
 
-### DOOM Retro v2.7.4
+#### DOOM Retro v2.7.4
 
 * *DOOM Retro* now uses [*SDL v2.0.9*](https://www.libsdl.org), [*SDL_mixer v2.0.4*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.0.4*](https://www.libsdl.org/SDL_image).
 * When *DOOM Retro* is opened for the first time, the WAD launcher will now try to find a common *DOOM* or *DOOM II* installation.
@@ -814,7 +814,7 @@
 
 ###### Saturday, September 8, 2018
 
-### DOOM Retro v2.7.3
+#### DOOM Retro v2.7.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -834,7 +834,7 @@
 
 ###### Friday, August 24, 2018
 
-### DOOM Retro v2.7.2
+#### DOOM Retro v2.7.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Slightly more blood splats are now spawned when blood hits the floor.
@@ -855,7 +855,7 @@
 
 ###### Saturday, August 4, 2018
 
-### DOOM Retro v2.7.1
+#### DOOM Retro v2.7.1
 
 * The player will now move correctly when using a gamepad.
 * The `r_diskicon` CVAR will now be turned `on` when vanilla mode is enabled.
@@ -869,7 +869,7 @@
 
 ###### Friday, August 3, 2018
 
-### DOOM Retro v2.7
+#### DOOM Retro v2.7
 
 * With John Romero’s express permission, [*E1M4B: Phobos Mission Control*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m4b) and [*E1M8B: Tech Gone Bad*](https://www.doomworld.com/idgames/levels/doom/Ports/d-f/e1m8b) are now included with *DOOM Retro*. If either the *DOOM Registered* or *The Ultimate DOOM* IWADs are loaded, these maps may be played by entering `map E1M4B` or `map E1M8B` in the console.
 * *DOOM Retro’s* splash screen has been redesigned.
@@ -912,7 +912,7 @@
 
 ###### Saturday, March 31, 2018
 
-### DOOM Retro v2.6.9
+#### DOOM Retro v2.6.9
 
 * The targets of monsters will now be restored correctly when loading a savegame.
 * The player’s view will no longer go past the floor or ceiling in some rare instances.
@@ -922,7 +922,7 @@
 
 ###### Thursday, March 29, 2018
 
-### DOOM Retro v2.6.8
+#### DOOM Retro v2.6.8
 
 * *DOOM Retro* now uses [*SDL v2.0.8*](http://libsdl.org) and [*SDL_image v2.0.3*](http://libsdl.org/SDL_image).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -957,7 +957,7 @@
 
 ###### Friday, February 23, 2018
 
-### DOOM Retro v2.6.7
+#### DOOM Retro v2.6.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
@@ -977,7 +977,7 @@
 
 ###### Friday, February 9, 2018
 
-### DOOM Retro v2.6.6
+#### DOOM Retro v2.6.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the wall textures visible beyond a moving sector would shift slightly.
@@ -997,7 +997,7 @@
 
 ###### Friday, January 26, 2018
 
-### DOOM Retro v2.6.5
+#### DOOM Retro v2.6.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the wrong description would be displayed when entering a CVAR without a value in the console.
@@ -1012,7 +1012,7 @@
 
 ###### Friday, January 19, 2018
 
-### DOOM Retro v2.6.4
+#### DOOM Retro v2.6.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby an error would be displayed when trying to load `doom1.wad`.
@@ -1032,7 +1032,7 @@
 
 ###### Friday, January 5, 2018
 
-### DOOM Retro v2.6.3
+#### DOOM Retro v2.6.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth*:
@@ -1065,7 +1065,7 @@
 
 ###### Saturday, December 16, 2017
 
-### DOOM Retro v2.6.2
+#### DOOM Retro v2.6.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
@@ -1080,7 +1080,7 @@
 
 ###### Thursday, December 7, 2017
 
-### DOOM Retro v2.6.1
+#### DOOM Retro v2.6.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby sound effects weren’t playing correctly for some users.
@@ -1098,7 +1098,7 @@
 
 ###### Saturday, November 25, 2017
 
-### DOOM Retro v2.6
+#### DOOM Retro v2.6
 
 * *DOOM Retro* now uses [*SDL v2.0.7*](http://libsdl.org), [*SDL_mixer v2.0.2*](http://libsdl.org/SDL_mixer) and [*SDL_image v2.0.2*](http://libsdl.org/SDL_image).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1139,7 +1139,7 @@
 
 ###### Wednesday, October 11, 2017
 
-### DOOM Retro v2.5.7
+#### DOOM Retro v2.5.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The icon of `doomretro.exe` has been redesigned.
@@ -1164,7 +1164,7 @@
 
 ###### Saturday, September 30, 2017
 
-### DOOM Retro v2.5.6
+#### DOOM Retro v2.5.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `r_corpses_color` CVAR are now immediate.
@@ -1184,7 +1184,7 @@
 
 ###### Friday, September 8, 2017
 
-### DOOM Retro v2.5.5
+#### DOOM Retro v2.5.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
@@ -1201,7 +1201,7 @@
 
 ###### Saturday, August 26, 2017
 
-### DOOM Retro v2.5.4
+#### DOOM Retro v2.5.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The behavior of lost souls has been restored to better resemble *Vanilla DOOM*.
@@ -1225,7 +1225,7 @@
 
 ###### Monday, July 31, 2017
 
-### DOOM Retro v2.5.3
+#### DOOM Retro v2.5.3
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player has the berserk power-up and their fist selected, and when the `IDBEHOLDx` cheat is used.
@@ -1242,7 +1242,7 @@
 
 ###### Sunday, July 16, 2017
 
-### DOOM Retro v2.5.2
+#### DOOM Retro v2.5.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Savegames for *DOOM II: No Rest For The Living* are now saved in the correct folder, rather than in the same folder as *DOOM II: Hell On Earth* savegames.
@@ -1258,7 +1258,7 @@
 
 ###### Wednesday, July 5, 2017
 
-### DOOM Retro v2.5.1
+#### DOOM Retro v2.5.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If no IWAD is found when loading a PWAD using the WAD launcher (either in the same folder as the PWAD or the folder specified by the `iwadfolder` CVAR), several common installation folders will now be checked.
@@ -1270,7 +1270,7 @@
 
 ###### Friday, June 30, 2017
 
-### DOOM Retro v2.5
+#### DOOM Retro v2.5
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor improvements have been made to *DOOM Retro’s* renderer.
@@ -1332,7 +1332,7 @@
 
 ###### Friday, April 7, 2017
 
-### DOOM Retro v2.4.5
+#### DOOM Retro v2.4.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Sprites taller than 255 pixels are now supported.
@@ -1353,7 +1353,7 @@
 
 ###### Monday, March 27, 2017
 
-### DOOM Retro v2.4.4
+#### DOOM Retro v2.4.4
 
 * A bug has been fixed whereby a crash would often occur when the player died and the `vid_widescreen` CVAR was `off`.
 * The value of the `r_messagescale` CVAR is now displayed correctly in `doomretro.cfg`.
@@ -1363,7 +1363,7 @@
 
 ###### Sunday, March 26, 2017
 
-### DOOM Retro v2.4.3
+#### DOOM Retro v2.4.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The <kbd>ENTER</kbd> key may now be used as an alternative to the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
@@ -1389,7 +1389,7 @@
 
 ###### Wednesday, March 8, 2017
 
-### DOOM Retro v2.4.2
+#### DOOM Retro v2.4.2
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2017*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1405,7 +1405,7 @@
 
 ###### Tuesday, February 28, 2017
 
-### DOOM Retro v2.4.1
+#### DOOM Retro v2.4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to accommodate for the release of [*Back To Saturn X E1: Get Out Of My Stations v1.0*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1):
@@ -1418,7 +1418,7 @@
 
 ###### Monday, February 27, 2017
 
-### DOOM Retro v2.4
+#### DOOM Retro v2.4
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly when rendering blood splats and shadows.
 * Improvements have been made to *DOOM Retro’s* renderer.
@@ -1476,7 +1476,7 @@
 
 ###### Friday, January 13, 2017
 
-### DOOM Retro v2.3.9
+#### DOOM Retro v2.3.9
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby multiple files couldn’t be loaded using *DOOM Retro’s* WAD launcher.
@@ -1487,7 +1487,7 @@
 
 ###### Friday, January 6, 2017
 
-### DOOM Retro v2.3.8
+#### DOOM Retro v2.3.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
 * *DOOM Retro’s* splash screen has been redesigned.
@@ -1519,7 +1519,7 @@
 
 ###### Friday, December 2, 2016
 
-### DOOM Retro v2.3.7
+#### DOOM Retro v2.3.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -1550,7 +1550,7 @@
 
 ###### Saturday, November 19, 2016
 
-### DOOM Retro v2.3.6
+#### DOOM Retro v2.3.6
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2017 RC*](https://www.visualstudio.com/vs/visual-studio-2017-rc/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1568,7 +1568,7 @@
 
 ###### Tuesday, November 15, 2016
 
-### DOOM Retro v2.3.5
+#### DOOM Retro v2.3.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -1586,7 +1586,7 @@
 
 ###### Thursday, November 10, 2016
 
-### DOOM Retro v2.3.4
+#### DOOM Retro v2.3.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
@@ -1614,7 +1614,7 @@
 
 ###### Saturday, October 29, 2016
 
-### DOOM Retro v2.3.3
+#### DOOM Retro v2.3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The limited MIDI support in *Windows Vista* and above has now been overcome, allowing the music volume to be adjusted independently of the sound effects volume. To allow this to happen, an additional file called `midiproc.exe` is now included and needs to remain in the same folder as `doomretro.exe`.
@@ -1633,7 +1633,7 @@
 
 ###### Saturday, October 22, 2016
 
-### DOOM Retro v2.3.2
+#### DOOM Retro v2.3.2
 
 * *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1674,7 +1674,7 @@
 
 ###### Thursday, October 6, 2016
 
-### DOOM Retro v2.3.1
+#### DOOM Retro v2.3.1
 
 * The correct value of the `ammo` CVAR is now displayed when the player has their fists or chainsaw selected.
 * A bug has been fixed whereby lost souls wouldn’t be fullbright at certain angles.
@@ -1691,7 +1691,7 @@
 
 ###### Friday, September 30, 2016
 
-### DOOM Retro v2.3
+#### DOOM Retro v2.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the format of savegames and so are not compatible with previous versions of *DOOM Retro*.
@@ -1759,7 +1759,7 @@
 
 ###### Saturday, July 30, 2016
 
-### DOOM Retro v2.2.5
+#### DOOM Retro v2.2.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The shadows of mancubi have been raised slightly.
@@ -1780,7 +1780,7 @@
 
 ###### Saturday, July 16, 2016
 
-### DOOM Retro v2.2.4
+#### DOOM Retro v2.2.4
 
 * Blood splats and shadows are now drawn at greater distances.
 * Minor changes have been made to some elements of the console.
@@ -1800,7 +1800,7 @@
 
 ###### Tuesday, July 5, 2016
 
-### DOOM Retro v2.2.3
+#### DOOM Retro v2.2.3
 
 * *DOOM Retro* is now completely portable. The configuration file, `doomretro.cfg`, is now saved in the same folder as the executable, savegames are saved in a `savegames\` folder and screenshots are saved in a `screenshots\` folder.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1824,7 +1824,7 @@
 
 ###### Saturday, June 18, 2016
 
-### DOOM Retro v2.2.2
+#### DOOM Retro v2.2.2
 
 * One IWAD or PWAD may now be specified on the command-line without the need for the `-iwad` or `-file` command-line parameters.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -1847,7 +1847,7 @@
 
 ###### Thursday, June 9, 2016
 
-### DOOM Retro v2.2.1
+#### DOOM Retro v2.2.1
 
 * *DOOM Retro* is now back to supporting *Windows XP* again.
 * A crash will no longer occur when pressing the <kbd>PRINTSCREEN</kbd> key to take a screenshot on a display with an aspect ratio less than 4:3 (such as 1280×1024).
@@ -1863,7 +1863,7 @@
 
 ###### Saturday, June 4, 2016
 
-### DOOM Retro v2.2
+#### DOOM Retro v2.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro’s* settings and savegames are now placed in `C:\<username>\DOOM Retro\`.
@@ -1910,7 +1910,7 @@
 
 ###### Tuesday, May 3, 2016
 
-### DOOM Retro v2.1.3
+#### DOOM Retro v2.1.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Scrolling up in the options menu now works correctly.
@@ -1932,7 +1932,7 @@
 
 ###### Sunday, April 24, 2016
 
-### DOOM Retro v2.1.2
+#### DOOM Retro v2.1.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the format of savegames that breaks compatibility with previous versions of *DOOM Retro*.
@@ -1953,7 +1953,7 @@
 
 ###### Saturday, April 9, 2016
 
-### DOOM Retro v2.1.1
+#### DOOM Retro v2.1.1
 
 * Pain elementals can now shoot lost souls through two-sided walls that have the `ML_BLOCKMONSTERS` flag, as is possible in *Vanilla DOOM*. (An example of this is at the end of MAP04 in [`requiem.wad`](https://www.doomworld.com/idgames/levels/doom2/megawads/requiem).)
 * The screen will no longer briefly flash if the player has a berserk or radiation shielding suit power-up and then loads a savegame or starts a new game from the menu.
@@ -1968,7 +1968,7 @@
 
 ###### Saturday, April 2, 2016
 
-### DOOM Retro v2.1
+#### DOOM Retro v2.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Support has been added for the `SWITCHES` lump.
@@ -2015,7 +2015,7 @@
 
 ###### Thursday, February 18, 2016
 
-### DOOM Retro v2.0.5
+#### DOOM Retro v2.0.5
 
 * Bugs have been fixed whereby using `map next` in the console would warp the player to the next episode rather than the next map, and `map ExMy` wouldn’t warp at all.
 * 100 additional sprites, named `SP00` to `SP99` and numbered 145 to 244, have been added for use in *DeHackEd* lumps.
@@ -2027,7 +2027,7 @@
 
 ###### Wednesday, February 10, 2016
 
-### DOOM Retro v2.0.4
+#### DOOM Retro v2.0.4
 
 * Using an `A_FireOldBFG` code pointer in a *DeHackEd* lump will no longer cause the game to freeze.
 * The following improvements have been made to [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) support:
@@ -2051,7 +2051,7 @@
 
 ###### Saturday, January 30, 2016
 
-### DOOM Retro v2.0.3
+#### DOOM Retro v2.0.3
 
 * “Pistol start” gameplay is now supported. By using the `pistolstart` CCMD, (or specifying `-pistolstart` on the command-line), the player’s health, armor, weapons and ammo will be reset at the start of each map. Also, a `PISTOLSTART` definition may now be used in `MAPINFO` lumps.
 * The muzzle flash of the player’s rocket launcher has been fixed.
@@ -2073,7 +2073,7 @@
 
 ###### Sunday, January 17, 2016
 
-### DOOM Retro v2.0.2
+#### DOOM Retro v2.0.2
 
 * A rare bug has been fixed whereby the player’s view would continuously move or turn in one direction by itself.
 * The `+run` action now works correctly when bound to a mouse button.
@@ -2086,7 +2086,7 @@
 
 ###### Sunday, January 10, 2016
 
-### DOOM Retro v2.0.1
+#### DOOM Retro v2.0.1
 
 * A bug has been fixed whereby the screen wouldn’t stop shaking after the player was killed in some instances.
 * The `+run` action may now be bound to a mouse button.
@@ -2096,7 +2096,7 @@
 
 ###### Saturday, January 9, 2016
 
-### DOOM Retro v2.0
+#### DOOM Retro v2.0
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the official releases of [*SDL v2.0.4*](http://libsdl.org) and [*SDL_mixer v2.0.1*](http://libsdl.org/SDL_mixer).
@@ -2188,7 +2188,7 @@
 
 ###### Wednesday, October 21, 2015
 
-### DOOM Retro v1.9
+#### DOOM Retro v1.9
 
 * *DOOM Retro* now allows the automap to be shown on a second display. This feature may be enabled using the `am_external` CVAR, and will display a fullscreen 16:10 automap in the first display it finds that is not the main display set by the `vid_display` CVAR. While this external automap is displayed, the <kbd>TAB</kbd> key is disabled, and the `IDDT` cheat can be entered at any time. Also, the automap’s usual controls are unavailable, but the grid and rotate mode may still be toggled in the console using the relevant CVARs.
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
@@ -2256,7 +2256,7 @@
 
 ###### Saturday, September 5, 2015
 
-### DOOM Retro v1.8.5
+#### DOOM Retro v1.8.5
 
 * More than one instance of `-file` may now appear on the command-line.
 * The amount of “map revealed” in the output of the `playerstats` CCMD is now always calculated correctly.
@@ -2272,7 +2272,7 @@
 
 ###### Saturday, August 29, 2015
 
-### DOOM Retro v1.8.4
+#### DOOM Retro v1.8.4
 
 * Entering the `playername` CVAR without a value will now display the value it is currently set to.
 * Gradual lighting is now applied to the sectors under all doors as they open and close, similar to the effect introduced in *BOOM*.
@@ -2295,7 +2295,7 @@
 
 ###### Thursday, August 20, 2015
 
-### DOOM Retro v1.8.3
+#### DOOM Retro v1.8.3
 
 * A bug has been fixed whereby some platforms would move silently.
 * The brightmap for walls with the `SW2BRN2` texture has been fixed.
@@ -2312,7 +2312,7 @@
 
 ###### Wednesday, August 12, 2015
 
-### DOOM Retro v1.8.2
+#### DOOM Retro v1.8.2
 
 * Although quite often the same folder, *DOOM Retro* will now put savegames in the same folder as the executable, rather than the current working folder.
 * A bug has been fixed whereby sprites would appear through closed doors in some instances.
@@ -2321,7 +2321,7 @@
 
 ###### Sunday, August 9, 2015
 
-### DOOM Retro v1.8.1
+#### DOOM Retro v1.8.1
 
 * The width of the text is now checked before pasting in the console.
 * *DOOM Retro* will now look in the same folder as the executable, rather than the current working folder, to find `doomretro.wad` and `doomretro.cfg`.
@@ -2343,7 +2343,7 @@
 
 ###### Sunday, August 2, 2015
 
-### DOOM Retro v1.8
+#### DOOM Retro v1.8
 
 * An extensive number of optimizations have been made to improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2015*](http://www.visualstudio.com/vs-2015-product-editions). *Visual Studio’s* runtime library is now statically linked to the binary, meaning it doesn’t need to be installed.
@@ -2458,7 +2458,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-### DOOM Retro v1.7.1
+#### DOOM Retro v1.7.1
 
 ###### Thursday, May 14, 2015
 
@@ -2499,7 +2499,7 @@
 
 ###### Monday, April 20, 2015
 
-### DOOM Retro v1.7
+#### DOOM Retro v1.7
 
 * *DOOM Retro* now uses [*SDL 2.0.3*](http://www.libsdl.org/) for its graphics and audio. This brings significant performance improvements, as the screen is now scaled using hardware acceleration when possible, as well as the following features:
   * The monitor to display the game on can now be specified.
@@ -2545,7 +2545,7 @@
 
 ###### Tuesday, February 3, 2015
 
-### DOOM Retro v1.6.7
+#### DOOM Retro v1.6.7
 
 * A bug has been fixed whereby *DOOM Retro* would crash at startup when trying to run in a screen resolution that wasn’t widescreen.
 * *DOOM Retro* will no longer crash after successive presses of <kbd>ALT</kbd> + <kbd>ENTER</kbd> to switch between fullscreen and windowed modes.
@@ -2567,7 +2567,7 @@
 
 ###### Sunday, January 25, 2015
 
-### DOOM Retro v1.6.6
+#### DOOM Retro v1.6.6
 
 * The new liquid animation that was introduced in *DOOM Retro v1.6.5* has been improved upon such that the entire textures of the sectors will now also rise and fall, rather than just their edges.
 * Due to this change in animation, the floating objects in liquid sectors now rise and fall in sync with each other and the sector.
@@ -2584,7 +2584,7 @@
 
 ###### Monday, January 19, 2015
 
-### DOOM Retro v1.6.5
+#### DOOM Retro v1.6.5
 
 * Many optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby secret sectors that lower and change their texture may not be displayed in the automap correctly.
@@ -2620,7 +2620,7 @@
 
 ###### Wednesday, December 10, 2014
 
-### DOOM Retro v1.6.4
+#### DOOM Retro v1.6.4
 
 * Several optimizations have been made in an attempt to further improve the overall performance of *DOOM Retro*.
 * *DeHackEd* files (`*.deh` and `*.bex`) are now displayed and can be loaded in the WAD launcher. <kbd>CTRL</kbd>-click to select them along with the WAD file(s) you want to load.
@@ -2648,7 +2648,7 @@
 
 ###### Tuesday, November 25, 2014
 
-### DOOM Retro v1.6.3
+#### DOOM Retro v1.6.3
 
 * Several internal optimizations have been made in an attempt to improve the overall performance of *DOOM Retro*.
 * Decorative corpses are now randomly mirrored when a map is loaded.
@@ -2691,7 +2691,7 @@
 
 ###### Saturday, November 8, 2014
 
-### DOOM Retro v1.6.2
+#### DOOM Retro v1.6.2
 
 * A bug, inadvertently introduced in v1.6.1, has been fixed whereby the wrong colored keys would appear in the HUD.
 * The default value for the `saturation` setting in `doomretro.cfg` has been changed from `0.75` to `1.00`.
@@ -2710,7 +2710,7 @@
 
 ###### Tuesday, November 4, 2014
 
-### DOOM Retro v1.6.1
+#### DOOM Retro v1.6.1
 
 * If a *DeHackEd* file (with a `.deh` extension) is present with the same name and in the same folder as the selected PWAD, it will be automatically opened as well.
 * Improvements have been made to when the player slides against walls.
@@ -2731,7 +2731,7 @@
 
 ###### Saturday, October 25, 2014
 
-### DOOM Retro v1.6
+#### DOOM Retro v1.6
 
 * Further enhancements have been made to *DOOM Retro’s* overall performance and stability.
 * Widescreen mode is no longer stretched horizontally on displays with a greater aspect ratio than 16:10.
@@ -2832,7 +2832,7 @@
 
 ###### Friday, August 15, 2014
 
-### DOOM Retro v1.5.2
+#### DOOM Retro v1.5.2
 
 * Monster targets are now completely restored upon loading a game, regardless of whether they were targeting the player, or they were infighting.
 * A Boss Brain no longer needs to be in MAP30 for the monsters it spawns to telefrag the player.
@@ -2852,7 +2852,7 @@
 
 ###### Thursday, August 7, 2014
 
-### DOOM Retro v1.5.1
+#### DOOM Retro v1.5.1
 
 * A splash screen is now displayed briefly when *DOOM Retro* is opened.
 * Several optimizations have been made to improve *DOOM Retro’s* overall performance and reduce the size of its executable.
@@ -2881,7 +2881,7 @@
 
 ###### Thursday, July 17, 2014
 
-### DOOM Retro v1.5
+#### DOOM Retro v1.5
 
 * An extensive amount of enhancements have been made to *DOOM Retro’s* overall performance and stability.
 * By default, *DOOM Retro* will now try running at a resolution of 1280×800. If that isn’t available, the desktop resolution will be used.
@@ -2966,7 +2966,7 @@
 
 ###### Tuesday, May 13, 2014
 
-### DOOM Retro v1.4.3
+#### DOOM Retro v1.4.3
 
 * The screen size can now be adjusted correctly in the options menu when not in a game.
 * The size of the pixels when the graphic detail is “LOW” can now be changed by editing the `pixelwidth` and `pixelheight` settings in `doomretro.cfg`. Both are set to a default of `2`.
@@ -2990,7 +2990,7 @@
 
 ###### Tuesday, May 6, 2014
 
-### DOOM Retro v1.4.2
+#### DOOM Retro v1.4.2
 
 * Several more limits have been removed, allowing larger and more detailed maps to be loaded without crashing.
 * *DOOM Retro* will now try to fix some common map errors before loading a map.
@@ -3015,7 +3015,7 @@
 
 ###### Tuesday, April 29, 2014
 
-### DOOM Retro v1.4.1
+#### DOOM Retro v1.4.1
 
 * A bug has been fixed whereby the sound would become disabled if adjusting the volume through the menu or pausing and then unpausing the game.
 * The visplane limit has been removed, allowing for more detailed levels to run without crashing.
@@ -3028,7 +3028,7 @@
 
 ###### Friday, April 25, 2014
 
-### DOOM Retro v1.4
+#### DOOM Retro v1.4
 
 * Several optimizations have been made that improve the overall performance of *DOOM Retro*.
 * When *DOOM Retro* is opened for the first time the following message is now displayed:
@@ -3084,7 +3084,7 @@
 
 ###### Tuesday, April 1, 2014
 
-### DOOM Retro v1.3
+#### DOOM Retro v1.3
 
 * An extensive number of optimizations have been made that improve the overall performance of *DOOM Retro*.
 * A heads-up display (HUD) is now shown in widescreen mode.
@@ -3144,7 +3144,7 @@
 
 ###### Saturday, March 1, 2014
 
-### DOOM Retro v1.2.1
+#### DOOM Retro v1.2.1
 
 * *DOOM Retro* is now compiled using *Microsoft Visual Studio Express 2013 for Windows Desktop*.
 * *DOOM Retro* is now distributed with version 1.2.14 of `SDL.dll` and version 1.2.12 of `SDL_mixer.dll`.
@@ -3196,7 +3196,7 @@
 
 ###### Friday, January 24, 2014
 
-### DOOM Retro v1.1
+#### DOOM Retro v1.1
 
 * The source code is no longer distributed with *DOOM Retro* itself, and has instead been made separately available in a [*GitHub* repository](http://github.com/bradharding/doomretro). Please visit this site to follow the latest daily developments, and report any [issues](http://github.com/bradharding/doomretro/issues) that you may encounter.
 * The correct and complete version information is now displayed when right-clicking on `doomretro.exe` and selecting “Properties”.
