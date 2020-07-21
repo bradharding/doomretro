@@ -513,7 +513,11 @@ void M_DarkBackground(void)
         BlurScreen(screens[0], blurscreen1, blurheight);
 
         for (int i = 0; i < blurheight; i++)
-            blurscreen1[i] = tinttab40[blurscreen1[i]];
+        {
+            byte    *dot = blurscreen1 + i;
+
+            *dot = menushadow[*dot];
+        }
 
         if (mapwindow)
         {
@@ -536,7 +540,11 @@ void M_DarkBackground(void)
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
-                blurscreen2[i] = tinttab40[blurscreen2[i]];
+            {
+                byte    *dot = blurscreen2 + i;
+
+                *dot = menushadow[*dot];
+            }
         }
 
         blurtic = gametime;
