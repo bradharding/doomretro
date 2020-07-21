@@ -962,9 +962,8 @@ static void HU_DrawAltHUD(void)
             if (showkey || gamepaused)
             {
                 altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
-                patch_t     *patch = altkeypic.patch;
 
-                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
             }
         }
     }
@@ -998,8 +997,10 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
-    if (powerupbar == INT_MAX || (!powerupbar && viewplayer->powers[pw_strength]
-        && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange) || viewplayer->pendingweapon == wp_fist)))
+    if (powerupbar == INT_MAX
+        || (!powerupbar && viewplayer->powers[pw_strength]
+            && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
+                || viewplayer->pendingweapon == wp_fist)))
     {
         max = STARTFLASHING + 1;
         powerupbar = STARTFLASHING + 1;
