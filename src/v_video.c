@@ -64,9 +64,6 @@
 // Each screen is [SCREENAREA];
 byte            *screens[5];
 
-byte            *menushadow;
-byte            *hudhighlight;
-
 static fixed_t  DX, DY;
 static fixed_t  DXI, DYI;
 
@@ -274,9 +271,6 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
-    const int   black = nearestblack << 8;
-    const byte  *body = tinttab40 + black;
-    const byte  *edge = tinttab25 + black;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -294,26 +288,26 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (count == 1)
-                *dest = edge[*dest];
+                *dest = black25[*dest];
             else if (count == 2)
             {
-                *dest = edge[*dest];
+                *dest = black25[*dest];
                 dest += SCREENWIDTH;
-                *dest = edge[*dest];
+                *dest = black25[*dest];
             }
             else
             {
                 count--;
-                *dest = edge[*dest];
+                *dest = black25[*dest];
                 dest += SCREENWIDTH;
 
                 while (--count)
                 {
-                    *dest = body[*dest];
+                    *dest = black40[*dest];
                     dest += SCREENWIDTH;
                 }
 
-                *dest = edge[*dest];
+                *dest = black25[*dest];
             }
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -779,7 +773,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*dot != 47 && *dot != 191))
-                        *dot = menushadow[*dot];
+                        *dot = black40[*dot];
                 }
 
                 srccol += DYI;
@@ -837,7 +831,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : hudhighlight[dot]);
+                *dest = (dot == 109 ? tinttab33[*dest] : yellow15[dot]);
                 dest += SCREENWIDTH;
             }
 
@@ -1365,7 +1359,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     dot = dest + SCREENWIDTH * 2 + 2;
 
                     if (*dot != 47 && *dot != 191)
-                        *dot = menushadow[*dot];
+                        *dot = black40[*dot];
                 }
 
                 dest += SCREENWIDTH;
@@ -1424,7 +1418,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
         {
             byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
 
-            color = menushadow[*dot];
+            color = black40[*dot];
             *(dot++) = color;
             *dot = color;
             *(dot += SCREENWIDTH) = color;
@@ -1453,7 +1447,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
                 {
                     byte    *dot = dest + yy + xx;
 
-                    *dot = menushadow[*dot];
+                    *dot = black40[*dot];
                 }
         }
     }

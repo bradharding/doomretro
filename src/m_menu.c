@@ -507,7 +507,7 @@ void M_DarkBackground(void)
             {
                 byte    *dot = *screens + x + y;
 
-                *dot = menudither[*dot];
+                *dot = white50[*dot];
             }
 
         BlurScreen(screens[0], blurscreen1, blurheight);
@@ -516,7 +516,7 @@ void M_DarkBackground(void)
         {
             byte    *dot = blurscreen1 + i;
 
-            *dot = menushadow[*dot];
+            *dot = black40[*dot];
         }
 
         if (mapwindow)
@@ -534,7 +534,7 @@ void M_DarkBackground(void)
                 {
                     byte    *dot = mapscreen + x + y;
 
-                    *dot = menudither[*dot];
+                    *dot = white50[*dot];
                 }
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
@@ -543,7 +543,7 @@ void M_DarkBackground(void)
             {
                 byte    *dot = blurscreen2 + i;
 
-                *dot = menushadow[*dot];
+                *dot = black40[*dot];
             }
         }
 

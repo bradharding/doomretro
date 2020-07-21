@@ -50,9 +50,6 @@
 // Screen 1 is an extra buffer.
 extern byte *screens[5];
 
-extern byte *menushadow;
-extern byte *hudhighlight;
-
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
 

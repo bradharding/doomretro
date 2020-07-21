@@ -71,7 +71,10 @@ extern byte nearestblack;
 extern byte nearestred;
 extern byte nearestwhite;
 
-extern byte *menudither;
+extern byte *black25;
+extern byte *black40;
+extern byte *yellow15;
+extern byte *white50;
 
 void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, int red, int green, int blue);
