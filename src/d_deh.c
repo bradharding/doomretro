@@ -3334,15 +3334,14 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
 static void deh_procText(DEHFILE *fpin, char *line)
 {
     char        key[DEH_MAXKEYLEN];
-    char        inbuffer[DEH_BUFFERMAX * 2];    // can't use line -- double size buffer too.
-    int         i;                              // loop variable
-    int         fromlen, tolen;                 // as specified on the text block line
-    int         usedlen;                        // shorter of fromlen and tolen if not matched
-    dboolean    found = false;                  // to allow early exit once found
-    char        *line2 = NULL;                  // duplicate line for rerouting
+    char        inbuffer[DEH_BUFFERMAX * 2];                // can't use line -- double size buffer too.
+    int         i;                                          // loop variable
+    int         fromlen, tolen;                             // as specified on the text block line
+    dboolean    found = false;                              // to allow early exit once found
+    char        *line2 = NULL;                              // duplicate line for rerouting
 
     // Ty 04/11/98 - Included file may have NOTEXT skip flag set
-    if (includenotext)                      // flag to skip included deh-style text
+    if (includenotext)                                      // flag to skip included deh-style text
     {
         C_Output("Skipped text block because of NOTEXT directive.");
         strcpy(inbuffer, line);
@@ -3380,9 +3379,9 @@ static void deh_procText(DEHFILE *fpin, char *line)
     {
         i = 0;
 
-        while (sprnames[i])                 // null terminated list in info.c   // jff 3/19/98
-        {                                                                       // check pointer
-            if (!strncasecmp(sprnames[i], inbuffer, fromlen))                   // not first char
+        while (sprnames[i])                                 // null terminated list in info.c   // jff 3/19/98
+        {                                                                                       // check pointer
+            if (!strncasecmp(sprnames[i], inbuffer, fromlen))                                   // not first char
             {
                 if (devparm)
                     C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen, &inbuffer[fromlen]);
@@ -3395,16 +3394,16 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                 strncpy(sprnames[i], &inbuffer[fromlen], tolen);
                 found = true;
-                break;                      // only one matches, quit early
+                break;                                      // only one matches, quit early
             }
 
-            i++;                            // next array element
+            i++;                                            // next array element
         }
     }
 
-    if (!found && fromlen < 7 && tolen < 7) // lengths of music and sfx are 6 or shorter
+    if (!found && fromlen < 7 && tolen < 7)                 // lengths of music and sfx are 6 or shorter
     {
-        usedlen = (fromlen < tolen ? fromlen : tolen);
+        int usedlen = (fromlen < tolen ? fromlen : tolen);  // shorter of fromlen and tolen if not matched
 
         if (fromlen != tolen && devparm)
             C_Warning(1, "Mismatched lengths from %i to %i. Using %i.", fromlen, tolen, usedlen);
@@ -3423,11 +3422,11 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                 strncpy(S_sfx[i].name1, &inbuffer[fromlen], 9);
                 found = true;
-                break;                      // only one matches, quit early
+                break;                                      // only one matches, quit early
             }
         }
 
-        if (!found)                         // not yet
+        if (!found)                                         // not yet
         {
             // Try music name entries - see sounds.c
             for (i = 1; i < NUMMUSIC; i++)
@@ -3443,13 +3442,13 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                     strncpy(S_music[i].name1, &inbuffer[fromlen], 9);
                     found = true;
-                    break;                  // only one matches, quit early
+                    break;                                  // only one matches, quit early
                 }
             }
         }
     }
 
-    if (!found)                             // Nothing we want to handle here -- see if strings can deal with it.
+    if (!found)                                             // Nothing we want to handle here -- see if strings can deal with it.
     {
         if (devparm)
             C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i",
@@ -3464,7 +3463,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
         deh_procStringSub(NULL, inbuffer, trimwhitespace(line2));
     }
 
-    free(line2);                            // may be NULL, ignored by free()
+    free(line2);                                            // may be NULL, ignored by free()
 }
 
 static void deh_procError(DEHFILE *fpin, char *line)

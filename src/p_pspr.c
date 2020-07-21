@@ -414,14 +414,13 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     slope;
+    int     slope = P_AimLineAttack(actor, angle, MELEERANGE, MF_FRIEND);
     int     damage = (M_Random() % 10 + 1) << 1;
 
     if (player->powers[pw_strength])
         damage *= 10;
 
-    // killough 8/2/98: make autoaiming prefer enemies
-    if ((slope = P_AimLineAttack(actor, angle, MELEERANGE, MF_FRIEND), !linetarget))
+    if (!linetarget)
         slope = P_AimLineAttack(actor, angle, MELEERANGE, 0);
 
     hitwall = false;
@@ -444,11 +443,9 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     slope;
+    int     slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, MF_FRIEND);
 
-    // use MELEERANGE + 1 so the puff doesn't skip the flash
-    // killough 8/2/98: make autoaiming prefer enemies
-    if ((slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, MF_FRIEND), !linetarget))
+    if (!linetarget)
         slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, 0);
 
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, 2 * (M_Random() % 10 + 1));
