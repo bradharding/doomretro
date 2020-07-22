@@ -535,7 +535,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (y + topdelta + length - count > CONSOLETOP && *source)
-                    *dest = tinttab50[(*source == 4 ? (nearestwhite << 8) : color) + *dest];
+                    *dest = tinttab50[(*source << 8) + *dest];
 
                 source++;
                 dest += SCREENWIDTH;
