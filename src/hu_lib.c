@@ -58,7 +58,6 @@ extern patch_t  *lsquote;
 extern patch_t  *ldquote;
 extern patch_t  *unknownchar;
 extern patch_t  *altunderscores;
-extern int      white;
 
 static void HUlib_ClearTextLine(hu_textline_t *t)
 {
@@ -130,14 +129,14 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
     unsigned char   prevletter = '\0';
     int             x = 10;
-    int             color = white;
+    int             color = nearestwhite;
     int             len = l->len;
 
     if (!automapactive)
     {
         x = HU_ALTHUDMSGX;
-        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : white) :
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + white] : nearestblack));
+        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestwhite) :
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestblack));
     }
 
     if (idbehold)
@@ -226,7 +225,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
             j++;
         }
 
-        althudtextfunc(x, SCREENHEIGHT - SBARHEIGHT - 16, fb1, patch, white);
+        althudtextfunc(x, SCREENHEIGHT - SBARHEIGHT - 16, fb1, patch, nearestwhite);
         x += SHORT(patch->width);
         prevletter = letter;
     }

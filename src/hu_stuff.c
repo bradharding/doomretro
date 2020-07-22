@@ -662,7 +662,6 @@ static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
 
-int             white;
 static int      gray;
 static int      darkgray;
 static int      green;
@@ -734,7 +733,6 @@ static void HU_AltInit(void)
     altleftpatch = W_CacheLumpName("DRHUDL");
     altrightpatch = W_CacheLumpName("DRHUDR");
 
-    white = nearestcolors[WHITE];
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
     green = nearestcolors[GREEN];
@@ -789,11 +787,10 @@ static int AltHUDNumberWidth(int val)
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color)
 {
-    patch_t *patch;
-
     if (val >= 100)
     {
-        patch = altnum2[val / 100];
+        patch_t *patch = altnum2[val / 100];
+
         althudfunc(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 2;
 
@@ -803,7 +800,8 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
     }
     else if (val >= 10)
     {
-        patch = altnum2[val / 10];
+        patch_t *patch = altnum2[val / 10];
+
         althudfunc(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 2;
     }
@@ -829,7 +827,7 @@ static int AltHUDNumber2Width(int val)
 static void HU_DrawAltHUD(void)
 {
     dboolean        invert = ((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures));
-    int             color = (invert ? colormaps[0][32 * 256 + white] : white);
+    int             color = (invert ? colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
     int             barcolor2 = (health <= 20 ? red : (health >= 100 ? green : color));
