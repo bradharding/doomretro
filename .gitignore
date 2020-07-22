@@ -1,4 +1,4 @@
-﻿#
+﻿﻿#
 #========================================================================
 #
 #                           D O O M  R e t r o
@@ -44,7 +44,22 @@
 *.user
 *.sln.docstates
 *.vcxproj.FileListAbsolute.txt
-*.nativecodeanalysis.sarif
+*.bak
+console/
+savegames/
+screenshots/
+msvc/Release/doomretro.cfg
+msvc/Release/doomretro.lib
+msvc/Release/doomretro.wad
+msvc/Debug/doomretro.cfg
+msvc/Debug/doomretro.lib
+msvc/Debug/doomretro.wad
+msvc/x64/Release/doomretro.cfg
+msvc/x64/Release/doomretro.lib
+msvc/x64/Release/doomretro.wad
+msvc/x64/Debug/doomretro.cfg
+msvc/x64/Debug/doomretro.lib
+msvc/x64/Debug/doomretro.wad
 
 # Build results
 [Dd]ebugPublic/
@@ -52,14 +67,6 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-
-# MSTest test Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-
-#NUNIT
-*.VisualState.xml
-TestResult.xml
 
 *_i.c
 *_p.c
@@ -90,22 +97,18 @@ TestResult.xml
 *.lastbuildstate
 *.idb
 *.res
-stderr.txt
-stdout.txt
 *.exe
 *.unsuccessfulbuild
 *.cod
 *.map
 *.nativecodeanalysis.xml
 *.nativecodeanalysis.all.xml
+*.nativecodeanalysis.sarif
 *.lastcodeanalysissucceeded
 *.opendb
 *.iobj
 *.ipdb
 *.bsc
-
-# Chutzpah Test files
-_Chutzpah*
 
 # Visual C++ cache files
 .vs/
@@ -121,106 +124,6 @@ ipch/
 *.vsp
 *.vspx
 
-# TFS 2012 Local Workspace
-$tf/
-
-# Guidance Automation Toolkit
-*.gpState
-
-# ReSharper is a .NET coding add-in
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
-
-# JustCode is a .NET coding addin-in
-.JustCode
-
-# TeamCity is a build add-in
-_TeamCity*
-
-# DotCover is a Code Coverage Tool
-*.dotCover
-
-# NCrunch
-*.ncrunch*
-_NCrunch_*
-.*crunch*.local.xml
-
-# MightyMoose
-*.mm.*
-AutoTest.Net/
-
-# Installshield output folder
-[Ee]xpress/
-
-# DocProject is a documentation generator add-in
-DocProject/buildhelp/
-DocProject/Help/*.HxT
-DocProject/Help/*.HxC
-DocProject/Help/*.hhc
-DocProject/Help/*.hhk
-DocProject/Help/*.hhp
-DocProject/Help/Html2
-DocProject/Help/html
-
-# Click-Once directory
-publish/
-
-# Publish Web Output
-*.[Pp]ublish.xml
-*.azurePubxml
-
-# NuGet Packages Directory
-msvc/packages/*
-## TODO: If the tool you use requires repositories.config, also uncomment the next line
-#!packages/repositories.config
-
-# Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
-# This line needs to be after the ignore of the build folder (and the packages folder if the line above has been uncommented)
-!packages/build/
-
-# Windows Azure Build Output
-csx/
-*.build.csdef
-
-# Windows Store app package directory
-AppPackages/
-
-# Others
-sql/
-*.Cache
-ClientBin/
-[Ss]tyle[Cc]op.*
-~$*
-*~
-*.dbmdl
-*.dbproj.schemaview
-*.pfx
-*.publishsettings
-node_modules/
-
-# RIA/Silverlight projects
-Generated_Code/
-
-# Backup & report files from converting an old project file to a newer
-# Visual Studio version. Backup files are not needed, because we have git ;-)
-_UpgradeReport_Files/
-Backup*/
-UpgradeLog*.XML
-UpgradeLog*.htm
-
-# SQL Server files
-App_Data/*.mdf
-App_Data/*.ldf
-
-# Business Intelligence projects
-*.rdl.data
-*.bim.layout
-*.bim_*.settings
-
-# Microsoft Fakes
-FakesAssemblies/
-
 # =========================
 # Windows detritus
 # =========================
@@ -231,32 +134,6 @@ ehthumbs.db
 
 # Folder config file
 Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-*.bak
-
-*.exp
-
-console/
-savegames/
-screenshots/
-msvc/Release/condump*.txt
-msvc/Release/doomretro.cfg
-msvc/Release/doomretro.lib
-msvc/Release/doomretro.wad
-msvc/Debug/condump*.txt
-msvc/Debug/doomretro.cfg
-msvc/Debug/doomretro.lib
-msvc/Debug/doomretro.wad
-msvc/x64/Release/condump*.txt
-msvc/x64/Release/doomretro.cfg
-msvc/x64/Release/doomretro.lib
-msvc/x64/Release/doomretro.wad
-msvc/x64/Debug/condump*.txt
-msvc/x64/Debug/doomretro.cfg
-msvc/x64/Debug/doomretro.lib
-msvc/x64/Debug/doomretro.wad
 
 # =========================
 # macOS detritus
