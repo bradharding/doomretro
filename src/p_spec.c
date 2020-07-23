@@ -2286,7 +2286,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-int timer;
+int timer = 0;
 int countdown;
 
 void P_UpdateSpecials(void)
