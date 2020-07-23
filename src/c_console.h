@@ -101,7 +101,7 @@ typedef enum
 #define BINDLISTHEADER          "\tCONTROL\t+ACTION/COMMAND(S)"
 #define CMDLISTHEADER           "\tCCMD\tDESCRIPTION"
 #define CVARLISTHEADER          "\tCVAR\tVALUE\tDESCRIPTION"
-#define MAPLISTHEADER           "\tMAP\tNAME\tWAD"
+#define MAPLISTHEADER           "\tMAP\tTITLE\tWAD"
 #define MAPSTATSHEADER          "STAT\tVALUE"
 #define PLAYERSTATSHEADER       "STAT\tCURRENT MAP\tTOTAL"
 #define THINGLISTHEADER         "\tTHING\tPOSITION"
