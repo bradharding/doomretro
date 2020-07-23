@@ -573,7 +573,6 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
 
                 source++;
                 dest += SCREENWIDTH;
-                height++;
             }
 
             column = (column_t *)((byte *)column + length + 4);
