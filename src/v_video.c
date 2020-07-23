@@ -476,11 +476,11 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
         {
-            const byte  *source = (byte *)column + 3;
+            byte        *source = (byte *)column + 3;
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta;
+            int         height = topdelta + 1;
 
             while (count--)
             {
@@ -527,18 +527,20 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color)
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
-            byte    length = column->length;
-            int     count = length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = length;
+            int         height = topdelta + 1;
 
             while (count--)
             {
-                if (y + topdelta + length - count > CONSOLETOP && *source)
+                if (y + height > CONSOLETOP && *source)
                     *dest = tinttab50[(*source << 8) + *dest];
 
                 source++;
                 dest += SCREENWIDTH;
+                height++;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -559,18 +561,20 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
-            byte    length = column->length;
-            int     count = length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = length;
+            int         height = topdelta + 1;
 
             while (count--)
             {
-                if (y + topdelta + length - count > CONSOLETOP && *source)
+                if (y + height > CONSOLETOP && *source)
                     *dest = (*source == 4 || *source == 82 ? nearestcolors[*source] : tinttab50[color + *dest]);
 
                 source++;
                 dest += SCREENWIDTH;
+                height++;
             }
 
             column = (column_t *)((byte *)column + length + 4);
