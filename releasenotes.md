@@ -10,6 +10,7 @@
 * The following changes have been made to the menu’s background:
   * A slight dithered effect is now applied.
   * Animated textures and changes to lighting will now still update.
+  * The animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down.
 * The following changes have been made to the text caret in the savegame menu:
   * It now matches the height of the accompanying text.
   * Its color now better matches that of the accompanying text in some instances.
