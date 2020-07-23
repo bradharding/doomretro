@@ -59,7 +59,8 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define WHITE   4
+#define WHITE       4
+#define LIGHTGRAY   82
 
 // Each screen is [SCREENAREA];
 byte            *screens[5];
@@ -480,11 +481,11 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta + 1;
+            int         height = topdelta;
 
             while (count--)
             {
-                if (y + height > CONSOLETOP)
+                if (y + (++height) > CONSOLETOP)
                 {
                     if (backgroundcolor == NOBACKGROUNDCOLOR)
                     {
@@ -506,7 +507,6 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
 
                 source++;
                 dest += SCREENWIDTH;
-                height++;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -531,16 +531,15 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color)
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta + 1;
+            int         height = topdelta;
 
             while (count--)
             {
-                if (y + height > CONSOLETOP && *source)
+                if (y + (++height) > CONSOLETOP && *source)
                     *dest = tinttab50[(*source << 8) + *dest];
 
                 source++;
                 dest += SCREENWIDTH;
-                height++;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -565,12 +564,12 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta + 1;
+            int         height = topdelta;
 
             while (count--)
             {
-                if (y + height > CONSOLETOP && *source)
-                    *dest = (*source == 4 || *source == 82 ? nearestcolors[*source] : tinttab50[color + *dest]);
+                if (y + (++height) > CONSOLETOP && *source)
+                    *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] : tinttab50[color + *dest]);
 
                 source++;
                 dest += SCREENWIDTH;
