@@ -172,7 +172,7 @@ void FindNearestColors(byte *palette)
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
 
-    black25 = &tinttab40[nearestblack << 8];
+    black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
     yellow15 = &tinttab15[nearestcolors[YELLOW] << 8];
     white50 = &tinttab50[nearestwhite << 8];
