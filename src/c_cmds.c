@@ -6748,7 +6748,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 //
 static void thinglist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[4] = { 50, 268, 0, 0 };
+    const int   tabs[4] = { 50, 300, 0, 0 };
 
     C_Header(tabs, thinglistheader, THINGLISTHEADER);
 
