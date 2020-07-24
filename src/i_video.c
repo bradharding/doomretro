@@ -790,6 +790,9 @@ static void UpdateGrab(void)
     dboolean        grab = MouseShouldBeGrabbed();
     static dboolean currently_grabbed;
 
+    if (grab == currently_grabbed)
+        return;
+
     if (grab && !currently_grabbed)
         SetShowCursor(false);
     else if (!grab && currently_grabbed)
@@ -2044,6 +2047,8 @@ void I_InitGraphics(void)
     I_UpdateBlitFunc(false);
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
+
+    I_Sleep(500);
 
     while (SDL_PollEvent(&dummy));
 }
