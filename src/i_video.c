@@ -115,6 +115,8 @@ static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
 static SDL_Surface  *surface;
 static SDL_Surface  *buffer;
+static void         *pixels;
+static int          pitch;
 static SDL_Palette  *palette;
 static SDL_Color    colors[256];
 byte                *PLAYPAL;
@@ -127,6 +129,8 @@ static SDL_Texture  *maptexture;
 static SDL_Texture  *maptexture_upscaled;
 static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;
+static void         *mappixels;
+static int          mappitch;
 static SDL_Palette  *mappalette;
 
 static dboolean     nearestlinear;
@@ -841,7 +845,7 @@ static void CalculateFPS(void)
 void I_WindowResizeBlit(void)
 {
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
 
     if (nearestlinear)
@@ -863,7 +867,7 @@ static void I_Blit(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -874,7 +878,7 @@ static void I_Blit_NearestLinear(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -889,7 +893,7 @@ static void I_Blit_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -901,7 +905,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -915,7 +919,7 @@ static void I_Blit_Shake(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
@@ -927,7 +931,7 @@ static void I_Blit_NearestLinear_Shake(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -943,7 +947,7 @@ static void I_Blit_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
@@ -956,7 +960,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -969,7 +973,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 static void I_Blit_Automap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_RenderPresent(maprenderer);
@@ -978,7 +982,7 @@ static void I_Blit_Automap(void)
 static void I_Blit_Automap_NearestLinear(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
+    SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
@@ -1164,6 +1168,9 @@ void I_CreateExternalAutomap(int outputlevel)
 
     if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError(SDL_CreateRGBSurface);
+
+    mappitch = mapbuffer->pitch;
+    mappixels = mapbuffer->pixels;
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
@@ -1808,6 +1815,9 @@ static void SetVideoMode(dboolean output)
 
     if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError(SDL_CreateRGBSurface);
+
+    pitch = buffer->pitch;
+    pixels = buffer->pixels;
 
     SDL_FillRect(buffer, NULL, 0);
 
