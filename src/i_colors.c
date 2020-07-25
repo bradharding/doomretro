@@ -85,7 +85,9 @@ static byte filter[256] =
 
 static byte *tinttab15;
 
+byte        *tinttab20;
 byte        *tinttab25;
+byte        *tinttab30;
 byte        *tinttab33;
 byte        *tinttab40;
 byte        *tinttab50;
@@ -116,6 +118,7 @@ byte        nearestblack;
 byte        nearestred;
 byte        nearestwhite;
 
+byte        *black10;
 byte        *black25;
 byte        *black40;
 byte        *black50;
@@ -171,6 +174,7 @@ void FindNearestColors(byte *palette)
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
 
+    black10 = &tinttab20[nearestblack << 8];
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
     black50 = &tinttab50[nearestblack << 8];
@@ -276,7 +280,9 @@ void I_InitTintTables(byte *palette)
     int lump = W_CheckNumForName("TRANMAP");
 
     tinttab15 = GenerateTintTable(palette, 15, ALL);
+    tinttab20 = GenerateTintTable(palette, 20, ALL);
     tinttab25 = GenerateTintTable(palette, 25, ALL);
+    tinttab30 = GenerateTintTable(palette, 30, ALL);
     tinttab33 = GenerateTintTable(palette, 33, ALL);
     tinttab40 = GenerateTintTable(palette, 40, ALL);
     tinttab50 = GenerateTintTable(palette, 50, ALL);
