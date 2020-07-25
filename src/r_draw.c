@@ -927,11 +927,13 @@ const int       fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    byte    *dest;
     int     y = dc_yh - dc_yl;
 
     if (!y)
         return;
+
+    dest = ylookup0[dc_yl] + dc_x;;
 
     // top
     if (!dc_yl)
@@ -960,11 +962,13 @@ void R_DrawFuzzColumn(void)
 
 void R_DrawPausedFuzzColumn(void)
 {
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    byte    *dest;
     int     y = dc_yh - dc_yl;
 
     if (!y)
         return;
+
+    dest = ylookup0[dc_yl] + dc_x;;
 
     // top
     if (!dc_yl)

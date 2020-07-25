@@ -1315,11 +1315,10 @@ static void R_DrawSprite(const vissprite_t *spr)
     if (spr->heightsec) // only things in specially marked sectors
     {
         fixed_t     h;
-        fixed_t     mh;
+        fixed_t     mh = spr->heightsec->interpfloorheight;
         sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if ((mh = spr->heightsec->interpfloorheight) > spr->gz
-            && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+        if (mh > spr->gz && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (mh <= 0 || (phs && viewz > phs->interpfloorheight))
             {

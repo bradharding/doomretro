@@ -477,12 +477,14 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            int         height = topdelta + 1;
 
-            for (int i = 1; i < CONSOLELINEHEIGHT; i++)
+            for (int i = length; i >= 0; i--)
             {
-                if (y + i > CONSOLETOP)
+                if (y + height > CONSOLETOP)
                 {
                     if (backgroundcolor == NOBACKGROUNDCOLOR)
                     {
@@ -491,7 +493,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
                             byte    *dot = dest;
 
                             if (italics)
-                                dot += italicize[i];
+                                dot += italicize[height];
 
                             *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
                         }
@@ -504,9 +506,10 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
 
                 source++;
                 dest += SCREENWIDTH;
+                height++;
             }
 
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
