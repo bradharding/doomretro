@@ -87,7 +87,6 @@ static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
 static patch_t          *warning;
-static patch_t          *divider;
 static patch_t          *bindlist;
 static patch_t          *cmdlist;
 static patch_t          *cvarlist;
@@ -127,7 +126,6 @@ static int              timerx;
 static int              zerowidth;
 static int              warningwidth;
 static int              dotwidth;
-static int              dividerwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
@@ -794,7 +792,6 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215");
     unknownchar = W_CacheLumpName("DRFON000");
 
-    divider = W_CacheLumpName("DRDIVIDE");
     warning = W_CacheLumpName("DRFONWRN");
     altunderscores = W_CacheLumpName("DRFONUND");
 
@@ -813,7 +810,6 @@ void C_Init(void)
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
     dotwidth = SHORT(dot->width);
-    dividerwidth = SHORT(divider->width);
 
     while (*autocompletelist[++numautocomplete].text);
 }
@@ -1405,10 +1401,12 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
             {
-                int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
+                int yy = y + 5 - (CONSOLEHEIGHT - consoleheight);
 
                 if (yy > 0)
                 {
+                    yy *= SCREENWIDTH;
+
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
                         screens[0][yy + xx] = tinttab50[consoledividercolor + screens[0][yy + xx]];
 
