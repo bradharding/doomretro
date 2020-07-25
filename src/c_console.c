@@ -768,7 +768,7 @@ void C_Init(void)
     consoleitalicscolor = nearestcolors[consoleitalicscolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
-    consoledividercolor = nearestcolors[consoledividercolor];
+    consoledividercolor = nearestcolors[consoledividercolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
     consolescrollbargripcolor = nearestcolors[consolescrollbargripcolor];
@@ -1404,8 +1404,20 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
-                    divider, dividerwidth, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            {
+                int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
+
+                if (yy > 0)
+                {
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
+                        screens[0][yy + xx] = tinttab50[consoledividercolor + screens[0][yy + xx]];
+
+                    yy += SCREENWIDTH;
+
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
+                        screens[0][yy + xx] = tinttab50[consoledividercolor + screens[0][yy + xx]];
+                }
+            }
             else if (stringtype == headerstring)
             {
                 const headertype_t  headertype = console[i].headertype;
