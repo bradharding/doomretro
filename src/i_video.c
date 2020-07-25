@@ -115,7 +115,7 @@ static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
 static SDL_Surface  *surface;
 static SDL_Surface  *buffer;
-static void         *pixels;
+static byte         *pixels;
 static int          pitch;
 static SDL_Palette  *palette;
 static SDL_Color    colors[256];
@@ -129,7 +129,7 @@ static SDL_Texture  *maptexture;
 static SDL_Texture  *maptexture_upscaled;
 static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;
-static void         *mappixels;
+static byte         *mappixels;
 static int          mappitch;
 static SDL_Palette  *mappalette;
 

@@ -1700,7 +1700,7 @@ dboolean V_ScreenShot(void)
 
     result = V_SavePNG(renderer, lbmpath1);
 
-    if (mapwindow && result && gamestate == GS_LEVEL)
+    if (result && mapwindow && gamestate == GS_LEVEL)
     {
         lbmpath2[0] = '\0';
 

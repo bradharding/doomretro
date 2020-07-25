@@ -194,12 +194,12 @@ void R_DrawColorColumn(void)
 
 void R_DrawShadowColumn(void)
 {
-    int     y = dc_yh - dc_yl + 1;
+    int     y = dc_yh - dc_yl;
     byte    *dest = ylookup0[dc_yl] + dc_x;
 
-    if (y == 1)
+    if (!y)
         *dest = *(*dest + dc_black25);
-    else if (y == 2)
+    else if (y == 1)
     {
         *dest = *(*dest + dc_black25);
         dest += SCREENWIDTH;
@@ -207,7 +207,6 @@ void R_DrawShadowColumn(void)
     }
     else
     {
-        y--;
         *dest = *(*dest + dc_black25);
         dest += SCREENWIDTH;
 
