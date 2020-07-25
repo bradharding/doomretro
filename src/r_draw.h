@@ -69,6 +69,7 @@ extern byte             *dc_black40;
 // first pixel in a column
 extern byte             *dc_source;
 
+extern int              fuzzpos;
 extern const int        fuzzrange[3];
 extern int              fuzztable[SCREENAREA];
 
@@ -77,7 +78,7 @@ extern int              fuzztable[SCREENAREA];
 void R_DrawColumn(void);
 void R_DrawColorColumn(void);
 void R_DrawWallColumn(void);
-void R_DrawBrightMapWallColumn(void);
+void R_DrawBrightmapWallColumn(void);
 void R_DrawSkyColumn(void);
 void R_DrawFlippedSkyColumn(void);
 void R_DrawSkyColorColumn(void);

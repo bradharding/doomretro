@@ -523,7 +523,7 @@ void R_InitColumnFunctions(void)
         fuzzcolfunc = &R_DrawFuzzColumn;
         transcolfunc = &R_DrawTranslatedColumn;
         wallcolfunc = &R_DrawWallColumn;
-        bmapwallcolfunc = &R_DrawBrightMapWallColumn;
+        bmapwallcolfunc = &R_DrawBrightmapWallColumn;
         segcolfunc = &R_DrawColumn;
 
         if (r_skycolor != r_skycolor_default)

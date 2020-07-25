@@ -60,6 +60,8 @@ int         scaledviewwidth;
 int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
+
+int         fuzzpos;
 int         fuzztable[SCREENAREA];
 
 static byte *ylookup0[SCREENHEIGHT];
@@ -149,8 +151,6 @@ byte            *dc_black40;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
-
-extern int      fuzzpos;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -350,7 +350,7 @@ void R_DrawWallColumn(void)
     }
 }
 
-void R_DrawBrightMapWallColumn(void)
+void R_DrawBrightmapWallColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;

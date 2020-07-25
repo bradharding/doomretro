@@ -361,7 +361,6 @@ fixed_t         spryscale;
 int64_t         sprtopscreen;
 static int64_t  shadowtopscreen;
 static int64_t  shadowshift;
-int             fuzzpos;
 
 static void (*shadowcolfunc)(void);
 
