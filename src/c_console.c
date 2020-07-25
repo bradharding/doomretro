@@ -1444,6 +1444,12 @@ void C_Drawer(void)
                     consoleboldcolor, tinttab66, notabs, true, true, i);
         }
 
+        for (i = 0; i < SCREENWIDTH; i++)
+            screens[0][i] = black50[screens[0][i]];
+
+        for (i = SCREENWIDTH + 1; i < SCREENWIDTH * 2 - 1; i++)
+            screens[0][i] = black25[screens[0][i]];
+
         if (quitcmd)
             return;
 

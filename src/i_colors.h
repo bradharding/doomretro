@@ -73,6 +73,7 @@ extern byte nearestwhite;
 
 extern byte *black25;
 extern byte *black40;
+extern byte *black50;
 extern byte *yellow15;
 extern byte *white50;
 
