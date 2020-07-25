@@ -2023,7 +2023,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
-    if (info->droppeditem)
+    if (info->droppeditem != MT_NULL)
     {
         mobj_t  *mo;
 

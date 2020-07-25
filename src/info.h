@@ -44,7 +44,7 @@
 
 typedef enum
 {
-    NOTYPE = -1,
+    MT_NULL = -1,
     MT_PLAYER,
     MT_POSSESSED,
     MT_SHOTGUY,
