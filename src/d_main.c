@@ -512,7 +512,6 @@ static byte     *splashpal;
 
 //
 // D_PageTicker
-// Handles timing for warped projection
 //
 void D_PageTicker(void)
 {

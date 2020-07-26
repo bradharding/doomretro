@@ -3619,13 +3619,15 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Map\t<b>%i of 9%s</b>", gamemap, (gamemap == 9 ? " (secret)": ""));
             free(temp);
         }
-        else
+        else if (nerve)
         {
             temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (1 of %i)</b>", temp, (nerve ? 2 : 1));
+            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (1 of 2)</b>", temp);
             C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (bfgedition ? 33 : 32), (gamemap >= 31 ? " (secret)" : ""));
             free(temp);
         }
+        else
+            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (bfgedition ? 33 : 32), (gamemap >= 31 ? " (secret)" : ""));
     }
     else
     {

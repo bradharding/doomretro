@@ -206,8 +206,6 @@ dboolean            am_rotatemode = am_rotatemode_default;
 static int          gridwidth;
 static int          gridheight;
 
-static dboolean     stopped = true;
-
 static dboolean     bigstate;
 static dboolean     movement;
 int                 keydown;
@@ -436,7 +434,7 @@ static void AM_LevelInit(void)
     putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
-    // for saving & restoring
+    // for saving and restoring
     old_m_x = m_x;
     old_m_y = m_y;
     old_m_w = m_w;
@@ -447,7 +445,6 @@ void AM_Stop(void)
 {
     automapactive = false;
     HU_ClearMessages();
-    stopped = true;
 }
 
 int lastlevel = -1;
@@ -455,11 +452,6 @@ int lastepisode = -1;
 
 void AM_Start(const dboolean mainwindow)
 {
-    if (!stopped)
-        AM_Stop();
-
-    stopped = false;
-
     if (lastlevel != gamemap || lastepisode != gameepisode)
     {
         AM_LevelInit();
