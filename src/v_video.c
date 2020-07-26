@@ -482,7 +482,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
             const byte  length = column->length;
             int         height = topdelta + 1;
 
-            for (int i = length; i >= 0; i--)
+            for (int i = length; i > 0; i--)
             {
                 if (y + height > CONSOLETOP)
                 {
