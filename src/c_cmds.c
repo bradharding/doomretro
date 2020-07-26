@@ -3592,16 +3592,16 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 #define TM      "Tom Mustaine"
 #define TW      "Tim Willits"
 #define WW      "William D. Whitaker"
-#define AMSP    AM" and "SP
-#define BKTH2   BK" and "TH2
-#define DC2DB   DC2" and "DB
-#define DCMC    DC" and "MC
-#define DCTH2   DC" and "TH2
-#define JRTH    JR" and "TH
-#define JSTH2   JS" and "TH2
-#define MSJL    MS" and "JL
-#define RPJM2   RP" and "JM2
-#define SPTH    SP" and "TH
+#define AMSP    AM " and " SP
+#define BKTH2   BK " and " TH2
+#define DC2DB   DC2 " and " DB
+#define DCMC    DC " and " MC
+#define DCTH2   DC " and " TH2
+#define JRTH    JR " and " TH
+#define JSTH2   JS " and " TH2
+#define MSJL    MS " and " JL
+#define RPJM2   RP " and " JM2
+#define SPTH    SP " and " TH
 
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
@@ -3616,15 +3616,17 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         {
             temp = titlecase(*expansions[1]);
             C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (2 of 2)</b>", temp);
-            C_TabbedOutput(tabs, "Map\t<b>%i of %s</b>", gamemap, (gamemap == 9 ? "9 (secret)": "8"));
             free(temp);
+
+            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
         }
         else if (nerve)
         {
             temp = titlecase(*expansions[0]);
             C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (1 of 2)</b>", temp);
-            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
             free(temp);
+
+            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
         }
         else
             C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
@@ -3633,8 +3635,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         temp = titlecase(*episodes[gameepisode - 1]);
         C_TabbedOutput(tabs, "Episode\t<b><i>%s</i> (%i of %i)</b>", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
-        C_TabbedOutput(tabs, "Map\t<b>%i of %s</b>", gamemap, (gamemap == 9 ? "9 (secret)" : "8"));
         free(temp);
+
+        C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
     }
 
     if (!M_StringCompare(maptitle, mapnum))
@@ -3648,21 +3651,21 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             if (gamemap == 11)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_11))
-                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_11_ALT);
+                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_11_ALT);
             }
             else if (gamemap == 31)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_31))
-                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_31_BFG);
+                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_31_BFG);
                 else if (M_StringCompare(maptitle, s_HUSTR_31_BFG))
-                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_31);
+                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_31);
             }
             else if (gamemap == 32)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_32))
-                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_32_BFG);
+                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_32_BFG);
                 else if (M_StringCompare(maptitle, s_HUSTR_32_BFG))
-                    C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_32);
+                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_32);
             }
         }
         else if (gameepisode == 3 && gamemap == 7)
