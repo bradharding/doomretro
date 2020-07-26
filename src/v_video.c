@@ -479,10 +479,9 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
         {
             byte        *source = (byte *)column + 3;
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
-            const byte  length = column->length;
             int         height = topdelta + 1;
 
-            for (int i = length; i > 0; i--)
+            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
                 if (y + height > CONSOLETOP)
                 {
@@ -509,7 +508,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width, int color,
                 height++;
             }
 
-            column = (column_t *)((byte *)column + length + 4);
+            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
         }
     }
 }
