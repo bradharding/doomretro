@@ -1675,7 +1675,7 @@ dboolean C_ValidateInput(const char *input)
 
                 if (actions[i].func)
                 {
-                    if (consoleactive)
+                    if (consoleactive && actions[i].hideconsole)
                         C_HideConsoleFast();
 
                     actions[i].func();
