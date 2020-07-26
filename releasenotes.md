@@ -18,7 +18,6 @@
 * Minor improvements have been made when mistyping a filename in the WAD launcher.
 * The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
 * Minor changes have been made to text that is output to the console.
-* A slight shadow is now applied to the very top of the console.
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
   * Minor changes have been made to some of them.
   * They will now be displayed again when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
