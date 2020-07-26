@@ -876,13 +876,15 @@ static void alwaysrun_action_func(void)
 
 static void automap_action_func(void)
 {
+    if (mapwindow)
+        return;
+
     if (!automapactive)
-    {
-        if (!mapwindow)
-            AM_Start(true);
-    }
+        AM_Start(true);
     else
         AM_Stop();
+
+    D_FadeScreen();
 }
 
 static void back_action_func(void)

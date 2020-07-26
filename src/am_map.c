@@ -966,6 +966,7 @@ dboolean AM_Responder(const event_t *ev)
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
+                    D_FadeScreen();
                 }
 
                 // zoom out
