@@ -1002,7 +1002,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 width -= spacewidth;
         }
         else
-            V_DrawConsolePatch(x, y, warning, color1);
+            V_DrawConsoleOutputTextPatch(x, y, warning, warningwidth, color1, color2, false, translucency);
 
         width += warningwidth + 1;
         x += width;
