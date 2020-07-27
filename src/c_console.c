@@ -2301,24 +2301,24 @@ static const char *dayofweek(int d, int m, int y)
 
 void C_PrintCompileDate(void)
 {
-    int         day, month, year, hour, minute;
-    char        mth[4] = "";
-    const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+    char    mth[4] = "";
+    int     day, year, hour, minute;
 
-    const char *months[] =
+    if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) == 3 && sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) == 2)
     {
-        "", "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    };
+        const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+        int         month = (int)(strstr(mths, mth) - mths) / 3;
 
-    if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) != 3 || sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) != 2)
-        return;
+        const char *months[] =
+        {
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        };
 
-    month = (int)(strstr(mths, mth) - mths) / 3 + 1;
-
-    C_Output("This %i-bit <i><b>%s</b></i> %s of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
-        (int)sizeof(intptr_t) * 8, WINDOWS, EXECUTABLE, PACKAGE_NAMEANDVERSIONSTRING, hour - 12 * (hour > 12), minute,
-        (hour < 12 ? "am" : "pm"), dayofweek(day, month, year), months[month], day, year);
+        C_Output("This %i-bit <i><b>%s</b></i> %s of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
+            (int)sizeof(intptr_t) * 8, WINDOWS, EXECUTABLE, PACKAGE_NAMEANDVERSIONSTRING, hour - 12 * (hour > 12), minute,
+            (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
+    }
 
 #if defined(_MSC_FULL_VER)
     if (_MSC_BUILD)
