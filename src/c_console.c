@@ -1381,7 +1381,7 @@ void C_Drawer(void)
 
         for (i = start; i < end; i++)
         {
-            const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
+            int                 y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
             const stringtype_t  stringtype = console[i].stringtype;
 
             if (stringtype == playermessagestring || stringtype == obituarystring)
@@ -1407,20 +1407,18 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
             {
-                int yy = y + 5 - (CONSOLEHEIGHT - consoleheight);
-
-                if (yy >= CONSOLETOP)
+                if ((y += 5 - (CONSOLEHEIGHT - consoleheight)) >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
-                        screens[0][yy * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * CONSOLEWIDTH + xx]];
+                        screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
 
-                if (++yy >= CONSOLETOP)
+                if (++y >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
-                        screens[0][yy * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * CONSOLEWIDTH + xx]];
+                        screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
             }
             else if (stringtype == headerstring)
             {
                 const headertype_t  headertype = console[i].headertype;
-                int                 consoleedgecolor = nearestcolors[con_edgecolor] << 8;
+                const int           consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
                 if (headertype == bindlistheader)
                     V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, consoleedgecolor);
