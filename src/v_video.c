@@ -481,7 +481,7 @@ void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width, int co
 
             for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                if (y + i > CONSOLETOP)
+                if (y + i >= CONSOLETOP)
                 {
                     if (*source == WHITE)
                         *dest = color;
@@ -517,7 +517,7 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
 
             for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                if (y + i > CONSOLETOP && *source)
+                if (y + i >= CONSOLETOP && *source)
                 {
                     byte    *dot = dest;
 
