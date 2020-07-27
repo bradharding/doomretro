@@ -72,12 +72,6 @@ struct sfxinfo_s
     // SFX priority
     int             priority;
 
-    // referenced sound if a link
-    sfxinfo_t       *link;
-
-    // volume if a link
-    int             volume;
-
     // SFX lumpnum
     int             lumpnum;
 };

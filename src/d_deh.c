@@ -2690,7 +2690,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_sfxinfo[4]))      // Zero 2
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[5]))      // Zero 3
-            S_sfx[indexnum].volume = value;
+            /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[6]))      // Zero 4
             /* nop */;
         else  if (M_StringCompare(key, deh_sfxinfo[7]))     // Neg. One 1
