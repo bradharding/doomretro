@@ -1420,20 +1420,22 @@ void C_Drawer(void)
                 const headertype_t  headertype = console[i].headertype;
                 const int           consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
+                y += 4 - (CONSOLEHEIGHT - consoleheight);
+
                 if (headertype == bindlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, bindlist, consoleedgecolor);
                 else if (headertype == cmdlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, cmdlist, consoleedgecolor);
                 else if (headertype == cvarlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, cvarlist, consoleedgecolor);
                 else if (headertype == maplistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, maplist, consoleedgecolor);
                 else if (headertype == mapstatsheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, mapstats, consoleedgecolor);
                 else if (headertype == playerstatsheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, playerstats, consoleedgecolor);
                 else if (headertype == thinglistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist, consoleedgecolor);
+                    V_DrawConsolePatch(CONSOLETEXTX, y, thinglist, consoleedgecolor);
             }
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,

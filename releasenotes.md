@@ -8,7 +8,7 @@
 * A subtle fade transition is now applied in certain situations, such as when toggling the menu or automap. This effect may be disabled using the new `fade` CVAR, which is `on` by default, and `off` when vanilla mode is enabled.
 * The screen will now flash white when taking a screenshot by pressing the <kbd>PRINTSCREEN</kbd> key.
 * The following changes have been made to the menu’s background:
-  * A slight dithered effect is now applied.
+  * A subtle dithered effect is now applied.
   * Animated textures and changes to lighting will now still update.
   * The animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down.
 * The following changes have been made to the text caret in the savegame menu:
@@ -16,13 +16,13 @@
   * Its color now better matches that of the accompanying text in some instances.
 * The <kbd>BACKSPACE</kbd> key may now be used to cancel centered messages.
 * Minor improvements have been made when mistyping a filename in the WAD launcher.
-* The randomization of certain features (such as the amount of damage inflicted on and by the player, and the angle of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
+* The randomization of certain features (such as the amount of damage inflicted on and by the player, and the trajectories of the player’s gunshots) now more closely resembles what occurs in *Vanilla DOOM*.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the silhouettes of weapons in the alternate widescreen HUD:
   * Minor changes have been made to some of them.
   * They will now be displayed again when playing [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The map title in the external automap will now be positioned correctly when the `am_external` CVAR is `on`.
-* If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically switch to them as intended.
+* If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically equip them as intended.
 * The following changes have been made when freeze mode is enabled:
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
   * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
