@@ -722,28 +722,27 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar track
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
-            if (y - offset >= 0)
+            if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // draw scrollbar face
         for (int y = facestart * CONSOLEWIDTH; y < faceend * CONSOLEWIDTH; y += CONSOLEWIDTH)
-            if (y - offset >= 0)
+            if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
 
         // draw scrollbar grip
         if (faceend - facestart > 7)
             for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
-                if (y - offset >= 0)
+                if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[0][y - offset + x] = consolescrollbargripcolor;
 
-        // draw bottom shadow
-        if (faceend * CONSOLEWIDTH < trackend)
-            if (faceend * CONSOLEWIDTH - offset >= 0)
-                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][faceend * CONSOLEWIDTH - offset + x] = tinttab20[screens[0][faceend * CONSOLEWIDTH - offset + x]];
+        // draw scrollbar face shadow
+        if (faceend * CONSOLEWIDTH - offset >= CONSOLETOP)
+            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                screens[0][faceend * CONSOLEWIDTH - offset + x] = tinttab20[screens[0][faceend * CONSOLEWIDTH - offset + x]];
 
         scrollbardrawn = true;
     }
