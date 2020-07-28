@@ -1078,34 +1078,37 @@ void G_ScreenShot(void)
 
 void G_DoScreenShot(void)
 {
-    if (idbehold)
+    if (!fadecount)
     {
-        idbehold = false;
-        C_Input(cheat_powerup[6].sequence);
-        C_Output(s_STSTR_BEHOLD);
+        if (idbehold)
+        {
+            idbehold = false;
+            C_Input(cheat_powerup[6].sequence);
+            C_Output(s_STSTR_BEHOLD);
+        }
+        else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
+        {
+            HU_ClearMessages();
+            D_Display();
+            D_Display();
+        }
+
+        if (V_ScreenShot())
+        {
+            static char buffer[512];
+
+            M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
+            HU_SetPlayerMessage(buffer, false, false);
+            message_dontfuckwithme = true;
+
+            C_Output("<b>%s</b> was saved.", lbmpath1);
+
+            if (*lbmpath2)
+                C_Output("<b>%s</b> was saved.", lbmpath2);
+        }
+        else
+            C_Warning(0, "A screenshot couldn't be taken.");
     }
-    else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
-    {
-        HU_ClearMessages();
-        D_Display();
-        D_Display();
-    }
-
-    if (V_ScreenShot())
-    {
-        static char buffer[512];
-
-        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
-        HU_SetPlayerMessage(buffer, false, false);
-        message_dontfuckwithme = true;
-
-        C_Output("<b>%s</b> was saved.", lbmpath1);
-
-        if (*lbmpath2)
-            C_Output("<b>%s</b> was saved.", lbmpath2);
-    }
-    else
-        C_Warning(0, "A screenshot couldn't be taken.");
 
     gameaction = ga_nothing;
 }
