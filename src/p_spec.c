@@ -887,7 +887,7 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 // Rewritten by Lee Killough to use chained hashing to improve speed
 int P_FindSectorFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? sectors[start].nexttag : sectors[(unsigned)line->tag % (unsigned)numsectors].firsttag);
+    start = (start >= 0 ? sectors[start].nexttag : sectors[(unsigned int)line->tag % numsectors].firsttag);
 
     while (start >= 0 && sectors[start].tag != line->tag)
         start = sectors[start].nexttag;
@@ -898,7 +898,7 @@ int P_FindSectorFromLineTag(const line_t *line, int start)
 // killough 4/16/98: Same thing, only for linedefs
 int P_FindLineFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? lines[start].nexttag : lines[(unsigned)line->tag % (unsigned)numlines].firsttag);
+    start = (start >= 0 ? lines[start].nexttag : lines[(unsigned int)line->tag % numlines].firsttag);
 
     while (start >= 0 && lines[start].tag != line->tag)
         start = lines[start].nexttag;
@@ -909,26 +909,26 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 void P_InitTagLists(void)
 {
-    for (int i = numsectors; --i >= 0;)                             // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0;)                     // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (int i = numsectors; --i >= 0;)                             // Proceed from last to first sector
-    {                                                               // so that lower sectors appear first
-        int j = (unsigned)sectors[i].tag % (unsigned)numsectors;    // Hash func
+    for (int i = numsectors; --i >= 0;)                     // Proceed from last to first sector
+    {                                                       // so that lower sectors appear first
+        int j = (unsigned int)sectors[i].tag % numsectors;  // Hash func
 
-        sectors[i].nexttag = sectors[j].firsttag;                   // Prepend sector to chain
+        sectors[i].nexttag = sectors[j].firsttag;           // Prepend sector to chain
         sectors[j].firsttag = i;
     }
 
     // killough 4/17/98: same thing, only for linedefs
-    for (int i = numlines; --i >= 0;)                               // Initially make all slots empty.
+    for (int i = numlines; --i >= 0;)                       // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (int i = numlines; --i >= 0;)                               // Proceed from last to first linedef
-    {                                                               // so that lower linedefs appear first
-        int j = (unsigned)lines[i].tag % (unsigned)numlines;        // Hash func
+    for (int i = numlines; --i >= 0;)                       // Proceed from last to first linedef
+    {                                                       // so that lower linedefs appear first
+        int j = (unsigned int)lines[i].tag % numlines;      // Hash func
 
-        lines[i].nexttag = lines[j].firsttag;                       // Prepend linedef to chain
+        lines[i].nexttag = lines[j].firsttag;               // Prepend linedef to chain
         lines[j].firsttag = i;
     }
 }
