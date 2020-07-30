@@ -41,6 +41,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_englsh.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
@@ -521,6 +522,8 @@ static void F_CastTicker(void)
 
         caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         castframes = 0;
+
+        D_FadeScreen();
     }
     else
     {
