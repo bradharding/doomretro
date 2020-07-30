@@ -43,7 +43,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_STRING_SIZE 256
+#define MAX_STRING_SIZE 1024
 #define ASCII_COMMENT1  ';'
 #define ASCII_COMMENT2  '/'
 #define ASCII_QUOTE     '"'
@@ -109,7 +109,7 @@ dboolean SC_GetString(void)
 
     while (!foundToken)
     {
-        while (ScriptPtr < ScriptEndPtr && *ScriptPtr <= 32)
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '=' || *ScriptPtr == ','))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -156,7 +156,16 @@ dboolean SC_GetString(void)
     else
         while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
+            if (*ScriptPtr == '{' || *ScriptPtr == '}')
+                ScriptPtr++;
+            
             *text++ = *ScriptPtr++;
+
+            if (*ScriptPtr == '=' || *ScriptPtr == ',')
+            {
+                ScriptPtr++;
+                break;
+            }
 
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
@@ -170,9 +179,6 @@ void SC_MustGetString(void)
 {
     if (!SC_GetString())
         SC_ScriptError();
-
-    if (SC_Compare("="))
-        SC_GetString();
 }
 
 dboolean SC_GetNumber(void)

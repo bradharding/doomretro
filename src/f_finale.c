@@ -49,6 +49,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "s_sound.h"
+#include "p_setup.h"
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -102,6 +103,9 @@ static void F_ConsoleFinaleText(void)
 //
 // F_StartFinale
 //
+
+extern dboolean secretexit;
+
 void F_StartFinale(void)
 {
     viewactive = false;
@@ -113,10 +117,46 @@ void F_StartFinale(void)
 
     C_AddConsoleDivider();
 
+    char *intertext = P_GetInterText(gamemap);
+    char *intersecret = P_GetInterSecretText(gamemap);
+    if (intertext[0] || (intersecret[0] && secretexit))
+    {
+        if (!secretexit)
+        {
+            if (M_StringCompare(intertext, "clear"))
+            {
+                gameaction = ga_worlddone;
+                return;
+            }
+            finaletext = intertext;
+        }
+        else
+        {
+            if (M_StringCompare(intersecret, "clear"))
+            {
+                gameaction = ga_worlddone;
+                return;
+            }
+            finaletext = intersecret;
+        }
+
+        char *interbackdrop = P_GetInterBackrop(gamemap);
+        finaleflat = interbackdrop[0] ? interbackdrop : "FLOOR4_8";
+        
+        int mus = P_GetInterMusic(gamemap);
+        if (mus > 0)
+        {
+           S_ChangeMusInfoMusic(mus, true);
+        }
+        else
+        {
+            S_ChangeMusic(gamemode == commercial ? mus_read_m : mus_victor, true, false, false);
+        }
+    }
     // Okay - IWAD dependent stuff.
     // This has been changed severely, and
     //  some stuff might have changed in the process.
-    switch (gamemode)
+    else switch (gamemode)
     {
         // DOOM 1 - E1, E3 or E4, but each nine missions
         case shareware:
@@ -259,7 +299,24 @@ void F_Ticker(void)
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
         {
-            if (gamemode != commercial)
+            if (P_GetMapEndCast(gamemap))
+            {
+                F_StartCast();
+            }
+            else if (P_GetMapEndBunny(gamemap))
+            {
+                finalecount = 0;
+                finalestage = F_STAGE_ARTSCREEN;
+                wipegamestate = GS_NONE;
+                S_StartMusic(mus_bunny);
+            }
+            else if (P_GetMapEndGame(gamemap))
+            {
+                finalecount = 0;
+                finalestage = F_STAGE_ARTSCREEN;
+                wipegamestate = GS_NONE;
+            }
+            else if (gamemode != commercial)
             {
                 finalecount = 0;
                 finalestage = F_STAGE_ARTSCREEN;
@@ -298,55 +355,63 @@ static void F_TextWrite(void)
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
-    src = (byte *)W_CacheLumpName((char *)finaleflat);
-    dest = screens[0];
+    int lumpnum = W_GetNumForName(finaleflat);
 
-#if SCREENSCALE == 1
-    for (int y = 0; y < SCREENHEIGHT; y++)
+    if (W_LumpLength(lumpnum) == 4096) // 64x64 flat
     {
-        for (int x = 0; x < SCREENWIDTH / 64; x++)
+        src = (byte *)W_CacheLumpNum(lumpnum);
+        dest = screens[0];
+#if SCREENSCALE == 1
+        for (int y = 0; y < SCREENHEIGHT; y++)
         {
-            memcpy(dest, src + ((y & 63) << 6), 64);
-            dest += 64;
-        }
-
-        if (SCREENWIDTH & 63)
-        {
-            memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
-            dest += (SCREENWIDTH & 63);
-        }
-    }
-#else
-    for (int y = 0; y < SCREENHEIGHT; y += 2)
-        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
-        {
-            for (int i = 0; i < 64; i++)
+            for (int x = 0; x < SCREENWIDTH / 64; x++)
             {
-                int     j = i * 2;
-                byte    dot = src[(((y / 2) & 63) << 6) + i];
-
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
-
-                j++;
-
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
-
-                j += SCREENWIDTH;
-
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
-
-                j--;
-
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
+                memcpy(dest, src + ((y & 63) << 6), 64);
+                dest += 64;
             }
 
-            dest += 128;
+            if (SCREENWIDTH & 63)
+            {
+                memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
+                dest += (SCREENWIDTH & 63);
+            }
         }
+#else
+        for (int y = 0; y < SCREENHEIGHT; y += 2)
+            for (int x = 0; x < SCREENWIDTH / 32; x += 2)
+            {
+                for (int i = 0; i < 64; i++)
+                {
+                    int     j = i * 2;
+                    byte    dot = src[(((y / 2) & 63) << 6) + i];
+
+                    if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                        *(dest + j) = dot;
+
+                    j++;
+
+                    if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                        *(dest + j) = dot;
+
+                    j += SCREENWIDTH;
+
+                    if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                        *(dest + j) = dot;
+
+                    j--;
+
+                    if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                        *(dest + j) = dot;
+                }
+
+                dest += 128;
+            }
 #endif
+    }
+    else
+    {
+        V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
+    }
 
     for (; count; count--)
     {
@@ -955,8 +1020,21 @@ static void F_BunnyScroll(void)
 
 static void F_ArtScreenDrawer(void)
 {
-    if (gameepisode == 3)
+    int lumpnum = P_GetMapEndPic(gamemap);
+    if (lumpnum > 0)
+    {
+        if (!finalestage)
+            F_TextWrite();
+        else
+        {
+            V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
+            return;
+        }
+    }
+    else if (P_GetMapEndBunny(gamemap) || gameepisode == 3)
+    {
         F_BunnyScroll();
+    }
     else
     {
         char    *lumpname;
@@ -964,8 +1042,10 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
+            {
                 lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
                 break;
+            }
 
             case 2:
                 lumpname = "VICTORY2";

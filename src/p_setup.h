@@ -55,6 +55,15 @@ void P_MapName(int ep, int map);
 void P_Init(void);
 
 char *P_GetMapAuthor(int map);
+char *P_GetInterBackrop(int map);
+int P_GetInterMusic(int map);
+char *P_GetInterText(int map);
+char *P_GetInterSecretText(int map);
+dboolean P_GetMapEndBunny(int map);
+dboolean P_GetMapEndCast(int map);
+dboolean P_GetMapEndGame(int map);
+int P_GetMapEndPic(int map);
+int P_GetMapEnterPic(int map);
 void P_GetMapLiquids(int map);
 int P_GetMapMusic(int map);
 char *P_GetMapMusicComposer(int map);
