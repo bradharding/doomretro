@@ -63,6 +63,7 @@
 
 #define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
+#define UMAPINFO_SCRIPT_NAME    "UMAPINFO"
 
 #define MAXMAPINFO              100
 
@@ -70,21 +71,37 @@
 
 #define MCMD_AUTHOR             1
 #define MCMD_CLUSTER            2
-#define MCMD_LIQUID             3
-#define MCMD_MUSIC              4
-#define MCMD_MUSICCOMPOSER      5
-#define MCMD_MUSICTITLE         6
-#define MCMD_NEXT               7
-#define MCMD_NOBRIGHTMAP        8
-#define MCMD_NOFREELOOK         9
-#define MCMD_NOJUMP             10
-#define MCMD_NOLIQUID           11
-#define MCMD_NOMOUSELOOK        12
-#define MCMD_PAR                13
-#define MCMD_PISTOLSTART        14
-#define MCMD_SECRETNEXT         15
-#define MCMD_SKY1               16
-#define MCMD_TITLEPATCH         17
+#define MCMD_ENDBUNNY           3
+#define MCMD_ENDCAST            4
+#define MCMD_ENDGAME            5
+#define MCMD_ENDPIC             6
+#define MCMD_EPISODE            7
+#define MCMD_ENTERPIC           8
+#define MCMD_EXITPIC            9
+#define MCMD_INTERBACKDROP      10
+#define MCMD_INTERMUSIC         11
+#define MCMD_INTERTEXT          12
+#define MCMD_INTERTEXTSECRET    13
+#define MCMD_LEVELNAME          14
+#define MCMD_LEVELPIC           15
+#define MCMD_LIQUID             16
+#define MCMD_MUSIC              17
+#define MCMD_MUSICCOMPOSER      18
+#define MCMD_MUSICTITLE         19
+#define MCMD_NEXT               20
+#define MCMD_NEXTSECRET         21
+#define MCMD_NOBRIGHTMAP        22
+#define MCMD_NOFREELOOK         23
+#define MCMD_NOJUMP             24
+#define MCMD_NOLIQUID           25
+#define MCMD_NOMOUSELOOK        26
+#define MCMD_PAR                27
+#define MCMD_PARTIME            28
+#define MCMD_PISTOLSTART        29
+#define MCMD_SECRETNEXT         30
+#define MCMD_SKY1               31
+#define MCMD_SKYTEXTURE         32
+#define MCMD_TITLEPATCH         33
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -92,6 +109,16 @@ struct mapinfo_s
 {
     char        author[128];
     int         cluster;
+    dboolean    endbunny;
+    dboolean    endcast;
+    dboolean    endgame;
+    int         endpic;
+    int         enterpic;
+    int         exitpic;
+    char        interbackdrop[9];
+    int         intermusic;
+    char        intertext[1024];
+    char        intertextsecret[1024];
     int         liquid[NUMLIQUIDS];
     int         music;
     char        musiccomposer[128];
@@ -194,23 +221,41 @@ const byte          *rejectmatrix;          // cph - const*
 
 static mapinfo_t    mapinfo[MAXMAPINFO];
 
+void M_AddEpisode(int map, int ep, const char *gfx, const char *text, dboolean clear);//char *def);
+
 static char *mapcmdnames[] =
 {
     "AUTHOR",
+    "ENDBUNNY",
+    "ENDCAST",
+    "ENDGAME",
+    "ENDPIC",
+    "ENTERPIC",
+    "EXITPIC",
+    "EPISODE",
+    "INTERBACKDROP",
+    "INTERMUSIC",
+    "INTERTEXT",
+    "INTERTEXTSECRET",
     "LIQUID",
+    "LEVELNAME",
+    "LEVELPIC",
     "MUSIC",
     "MUSICCOMPOSER",
     "MUSICTITLE",
     "NEXT",
+    "NEXTSECRET",
     "NOBRIGHTMAP",
     "NOFREELOOK",
     "NOJUMP",
     "NOLIQUID",
     "NOMOUSELOOK",
     "PAR",
+    "PARTIME",
     "PISTOLSTART",
     "SECRETNEXT",
     "SKY1",
+    "SKYTEXTURE",
     "TITLEPATCH",
     NULL
 };
@@ -218,25 +263,42 @@ static char *mapcmdnames[] =
 static int mapcmdids[] =
 {
     MCMD_AUTHOR,
+    MCMD_ENDBUNNY,
+    MCMD_ENDCAST,
+    MCMD_ENDGAME,
+    MCMD_ENDPIC,
+    MCMD_ENTERPIC,
+    MCMD_EXITPIC,
+    MCMD_EPISODE,
+    MCMD_INTERBACKDROP,
+    MCMD_INTERMUSIC,
+    MCMD_INTERTEXT,
+    MCMD_INTERTEXTSECRET,
     MCMD_LIQUID,
+    MCMD_LEVELNAME,
+    MCMD_LEVELPIC,
     MCMD_MUSIC,
     MCMD_MUSICCOMPOSER,
     MCMD_MUSICTITLE,
     MCMD_NEXT,
+    MCMD_NEXTSECRET,
     MCMD_NOBRIGHTMAP,
     MCMD_NOFREELOOK,
     MCMD_NOJUMP,
     MCMD_NOLIQUID,
     MCMD_NOMOUSELOOK,
     MCMD_PAR,
+    MCMD_PARTIME,
     MCMD_PISTOLSTART,
     MCMD_SECRETNEXT,
     MCMD_SKY1,
+    MCMD_SKYTEXTURE,
     MCMD_TITLEPATCH,
 };
 
 dboolean        canmodify;
 dboolean        transferredsky;
+static int      UMAPINFO;
 static int      RMAPINFO;
 static int      MAPINFO;
 
@@ -2939,6 +3001,7 @@ void P_SetupLevel(int ep, int map)
 static int  liquidlumps;
 static int  noliquidlumps;
 
+
 static void P_InitMapInfo(void)
 {
     int         mapmax = 1;
@@ -2948,15 +3011,25 @@ static void P_InitMapInfo(void)
 
     if (M_CheckParm("-nomapinfo"))
         return;
-
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
-        if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
-            return;
+        if ((UMAPINFO = MAPINFO = W_CheckNumForName(UMAPINFO_SCRIPT_NAME)) < 0)
+            if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
+                return;
 
     for (int i = 0; i < MAXMAPINFO; i++)
     {
         mapinfo[i].author[0] = '\0';
+        mapinfo[i].endbunny = false;
+        mapinfo[i].endcast = false;
+        mapinfo[i].endgame = false;
+        mapinfo[i].endpic = 0;
+        mapinfo[i].enterpic = 0;
+        mapinfo[i].exitpic = 0;
         mapinfo[i].cluster = 0;
+        mapinfo[i].interbackdrop[0] = '\0';
+        mapinfo[i].intermusic = 0;
+        mapinfo[i].intertext[0] = '\0';
+        mapinfo[i].intertextsecret[0] = '\0';
 
         for (int j = 0; j < NUMLIQUIDS; j++)
         {
@@ -2979,7 +3052,8 @@ static void P_InitMapInfo(void)
         mapinfo[i].titlepatch = 0;
     }
 
-    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
+    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : (UMAPINFO >= 0 ? UMAPINFO_SCRIPT_NAME :
+        MAPINFO_SCRIPT_NAME));
 
     while (SC_GetString())
     {
@@ -3032,11 +3106,10 @@ static void P_InitMapInfo(void)
             }
 
             info = &mapinfo[map];
-
             // Map name must follow the number
-            SC_MustGetString();
+            //SC_MustGetString();
 
-            if (!SC_Compare("LOOKUP"))
+            if (SC_GetString() && !SC_Compare("LOOKUP"))
                 M_StringCopy(info->name, sc_String, sizeof(info->name));
 
             // Process optional tokens
@@ -3061,6 +3134,117 @@ static void P_InitMapInfo(void)
                             info->cluster = sc_Number;
                             break;
 
+                        case MCMD_ENDBUNNY:
+                            SC_MustGetString();
+                            if (SC_Compare("true"))
+                                info->endbunny = true;
+                            break;
+
+                        case MCMD_ENDCAST:
+                            SC_MustGetString();
+                            if (SC_Compare("true"))
+                                info->endcast = true;
+                            break;
+
+                        case MCMD_ENDGAME:
+                            SC_MustGetString();
+                            if (SC_Compare("true"))
+                                info->endgame = true;
+                            break;
+
+                        case MCMD_ENDPIC:
+                            SC_MustGetString();
+                            info->endpic = W_GetNumForName(sc_String);
+                            break;
+
+                        case MCMD_ENTERPIC:
+                            SC_MustGetString();
+                            info->enterpic = W_GetNumForName(sc_String);
+                            break;
+
+                        case MCMD_EXITPIC:
+                            SC_MustGetString();
+                            info->exitpic = W_GetNumForName(sc_String);
+                            break;
+
+                        case MCMD_EPISODE:
+                        {
+                            char gfx[9];
+                            char text[128];
+
+                            SC_MustGetString();
+                            if (SC_Compare("clear"))
+                            {
+                                M_AddEpisode(map, ep, "", "", true);
+                                break;
+                            }
+                            M_StringCopy(gfx, sc_String, sizeof(gfx));
+                            SC_MustGetString();
+                            M_StringCopy(text, sc_String, sizeof(text));
+                            SC_MustGetString(); // skip key
+
+                            M_AddEpisode(map, ep, gfx, text, false);
+                            break;
+                        }
+
+                        case MCMD_INTERBACKDROP:
+                            SC_MustGetString();
+                            M_StringCopy(info->interbackdrop, sc_String, sizeof(info->interbackdrop));
+                            break;
+
+                        case MCMD_INTERMUSIC:
+                            SC_MustGetString();
+                            info->intermusic = W_CheckNumForName(sc_String);
+                            break;
+
+                        case MCMD_INTERTEXTSECRET:
+                        {
+                            char buf[1024];
+                            buf[0] = '\0';
+                            while (SC_GetString())
+                            {
+                                if (SC_MatchString(mapcmdnames) >= 0 || SC_Compare("MAP"))
+                                {
+                                    SC_UnGet();
+                                    break;
+                                }
+
+                                if (!buf[0])
+                                    M_StringCopy(buf, sc_String, sizeof(buf));
+                                else
+                                {
+                                    strcat(buf, "\n");
+                                    strcat(buf, sc_String);
+                                }
+                            }
+                            M_StringCopy(info->intertextsecret, buf, sizeof(info->intertextsecret));
+                            break;
+                        }
+  
+                        case MCMD_INTERTEXT:
+                        {
+                            char buf[1024];
+                            buf[0] = '\0';
+                            while (SC_GetString())
+                            {
+                                if (SC_MatchString(mapcmdnames) >= 0 || SC_Compare("MAP"))
+                                {
+                                    SC_UnGet();
+                                    break;
+                                }
+                                
+                                if (!buf[0])
+                                    M_StringCopy(buf, sc_String, sizeof(buf));
+                                else
+                                {
+                                    strcat(buf, "\n");
+                                    strcat(buf, sc_String);
+                                }
+                            }
+                            M_StringCopy(info->intertext, buf, sizeof(info->intertext));
+                            break;
+                        }
+
                         case MCMD_LIQUID:
                         {
                             int lump;
@@ -3072,6 +3256,11 @@ static void P_InitMapInfo(void)
 
                             break;
                         }
+
+                        case MCMD_LEVELNAME:
+                            SC_MustGetString();
+                            M_StringCopy(info->name, sc_String, sizeof(info->name));
+                            break;
 
                         case MCMD_MUSIC:
                             SC_MustGetString();
@@ -3151,6 +3340,7 @@ static void P_InitMapInfo(void)
                             break;
 
                         case MCMD_PAR:
+                        case MCMD_PARTIME:
                             SC_MustGetNumber();
                             info->par = sc_Number;
                             break;
@@ -3158,7 +3348,8 @@ static void P_InitMapInfo(void)
                         case MCMD_PISTOLSTART:
                             info->pistolstart = true;
                             break;
-
+                        
+                        case MCMD_NEXTSECRET:
                         case MCMD_SECRETNEXT:
                         {
                             int nextepisode = 1;
@@ -3200,6 +3391,12 @@ static void P_InitMapInfo(void)
 
                             break;
 
+                        case MCMD_SKYTEXTURE:
+                            SC_MustGetString();
+                            info->sky1texture = info->sky1texture = R_TextureNumForName(sc_String);
+                            break;
+                        
+                        case MCMD_LEVELPIC:
                         case MCMD_TITLEPATCH:
                             SC_MustGetString();
                             info->titlepatch = W_CheckNumForName(sc_String);
@@ -3223,7 +3420,8 @@ static void P_InitMapInfo(void)
 
     temp = commify(sc_Line);
     C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", temp, (sc_Line > 1 ? "s" : ""),
-        (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
+        (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
+        (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 
     if (nojump)
@@ -3237,6 +3435,51 @@ char *P_GetMapAuthor(int map)
 {
     return (MAPINFO >= 0 && mapinfo[map].author[0] ? mapinfo[map].author :
         (((E1M4B || *speciallumpname) && map == 4) || ((E1M8B || *speciallumpname) && map == 8) ? s_AUTHOR_ROMERO : ""));
+}
+
+char *P_GetInterBackrop(int map)
+{
+    return mapinfo[map].interbackdrop;
+}
+
+int P_GetInterMusic(int map)
+{
+    return mapinfo[map].intermusic;
+}
+
+char *P_GetInterText(int map)
+{
+    return mapinfo[map].intertext;
+}
+
+char *P_GetInterSecretText(int map)
+{
+    return mapinfo[map].intertextsecret;
+}
+
+dboolean P_GetMapEndBunny(int map)
+{
+    return mapinfo[map].endbunny;
+}
+
+dboolean P_GetMapEndCast(int map)
+{
+    return mapinfo[map].endcast;
+}
+
+dboolean P_GetMapEndGame(int map)
+{
+    return mapinfo[map].endgame;
+}
+
+int P_GetMapEndPic(int map)
+{
+    return mapinfo[map].endpic;
+}
+
+int P_GetMapEnterPic(int map)
+{
+    return mapinfo[map].enterpic;
 }
 
 void P_GetMapLiquids(int map)

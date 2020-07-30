@@ -218,7 +218,11 @@ static menuitem_t EpisodeMenu[] =
     { 1, "M_EPI2", M_Episode, &s_M_EPISODE2 },
     { 1, "M_EPI3", M_Episode, &s_M_EPISODE3 },
     { 1, "M_EPI4", M_Episode, &s_M_EPISODE4 },
-    { 1, "M_EPI5", M_Episode, &s_M_EPISODE5 }
+    { 1, "M_EPI5", M_Episode, &s_M_EPISODE5 },
+    // Some extra empty episodes for extensibility through UMAPINFO
+    { 1, "M_EPI6", M_Episode, &s_M_EPISODE6 },
+    { 1, "M_EPI7", M_Episode, &s_M_EPISODE7 },
+    { 1, "M_EPI8", M_Episode, &s_M_EPISODE8 }
 };
 
 menu_t EpiDef =
@@ -1559,51 +1563,51 @@ static void M_DrawMainMenu(void)
 }
 
 //
-// M_NewGame
-//
-static void M_DrawNewGame(void)
-{
-    M_DarkBackground();
-
-    if (M_NEWG)
-    {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
-        NewDef.x = (chex ? 98 : 48);
-        NewDef.y = 63;
-    }
-    else if (M_NGAME)
-    {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NGAME"));
-        NewDef.x = (chex ? 98 : 48);
-        NewDef.y = 63;
-    }
-    else
-    {
-        char    *temp = uppercase(s_M_NEWGAME);
-
-        M_DrawCenteredString(19 + OFFSET, temp);
-        free(temp);
-    }
-
-    if (M_SKILL)
-    {
-        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
-        NewDef.x = (chex ? 98 : 48);
-        NewDef.y = 63;
-    }
-    else
-        M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
-}
-
-static void M_NewGame(int choice)
-{
-    M_SetupNextMenu(chex ? &NewDef : (gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
-}
-
-//
 // M_Episode
 //
 static int  epi;
+
+// This is for customized episode menus
+dboolean EpiCustom;
+short EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 }, EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+
+void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean clear)
+{
+    if (!EpiCustom)
+    {
+        EpiCustom = true;
+        if (gamemode == commercial)
+            EpiDef.numitems = 0;
+        // No more than 4 Eps expected when having UMAPINFO (prevent SIGILv1.2 from showing twice)
+        else if (EpiDef.numitems > 4)
+            EpiDef.numitems = 4;
+    }
+    if (clear)
+    {
+        EpiDef.numitems = 0;
+    }
+    else
+    {
+        if (EpiDef.numitems >= 8)
+            return;
+
+        EpiMenuEpi[EpiDef.numitems] = ep;
+        EpiMenuMap[EpiDef.numitems] = map - ((ep - 1) * 10);
+        M_StringCopy(EpisodeMenu[EpiDef.numitems].name, gfx, 9);
+        EpisodeMenu[EpiDef.numitems].name[9] = 0;
+        EpisodeMenu[EpiDef.numitems].text[0] = M_StringDuplicate(txt);
+
+        EpiDef.numitems++;
+    }
+    if (EpiDef.numitems <= 4)
+    {
+        EpiDef.y = 63;
+    }
+    else
+    {
+        EpiDef.y = 63 - (EpiDef.numitems - 4) * (LINEHEIGHT / 2);
+    }
+}
 
 static void M_DrawEpisode(void)
 {
@@ -1731,25 +1735,34 @@ static void M_ChooseSkill(int choice)
     I_Sleep(1000);
     quickSaveSlot = -1;
     M_ClearMenus();
-    G_DeferredInitNew((skill_t)choice, epi + 1, 1);
+    
+    if (!EpiCustom)
+        G_DeferredInitNew((skill_t)choice, epi + 1, 1);
+    else
+        G_DeferredInitNew((skill_t)choice, EpiMenuEpi[epi], EpiMenuMap[epi]);
+    
+    //G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 
 static void M_Episode(int choice)
 {
-    if (gamemode == shareware && choice)
+    if (!EpiCustom)
     {
-        if (M_StringEndsWith(s_SWSTRING, s_PRESSYN))
-            M_StartMessage(s_SWSTRING, NULL, false);
-        else
+        if (gamemode == shareware && choice)
         {
-            static char buffer[160];
+            if (M_StringEndsWith(s_SWSTRING, s_PRESSYN))
+                M_StartMessage(s_SWSTRING, NULL, false);
+            else
+            {
+                static char buffer[160];
 
-            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
-            M_StartMessage(buffer, NULL, false);
+                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
+                M_StartMessage(buffer, NULL, false);
+            }
+
+            M_SetupNextMenu(&EpiDef);
+            return;
         }
-
-        M_SetupNextMenu(&EpiDef);
-        return;
     }
 
     epi = choice;
@@ -1762,6 +1775,48 @@ static void M_Expansion(int choice)
     D_SetSaveGameFolder(false);
     M_ReadSaveStrings();
     M_SetupNextMenu(&NewDef);
+}
+
+//
+// M_NewGame
+//
+static void M_DrawNewGame(void)
+{
+    M_DarkBackground();
+
+    if (M_NEWG)
+    {
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
+    }
+    else if (M_NGAME)
+    {
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
+    }
+    else
+    {
+        char    *temp = uppercase(s_M_NEWGAME);
+
+        M_DrawCenteredString(19 + OFFSET, temp);
+        free(temp);
+    }
+
+    if (M_SKILL)
+    {
+        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
+        NewDef.x = (chex ? 98 : 48);
+        NewDef.y = 63;
+    }
+    else
+        M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
+}
+
+static void M_NewGame(int choice)
+{
+    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !EpiCustom) ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
@@ -3722,6 +3777,9 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
+                    else if (W_CheckNumForName(name) < 0) // Custom Episode
+                        M_WriteText(x, y + OFFSET, *text, true);
+                        //M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                         M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (**text)

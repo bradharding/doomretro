@@ -727,6 +727,9 @@ static void WI_UpdateShowNextLoc(void)
 
 static void WI_DrawShowNextLoc(void)
 {
+    if (P_GetMapEndGame(gamemap))
+        return;
+
     WI_SlamBackground();
 
     // draw animated background
@@ -1144,7 +1147,15 @@ static void WI_LoadData(void)
 
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
+    {
+        int lumpnum = P_GetMapEnterPic(gamemap);
+        if (lumpnum > 0)
+        {
+            V_DrawPatch(0, 0, 1, W_CacheLumpNum(lumpnum));
+            return;
+        }
         M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
+    }
     else if (sigil && wbs->epsd == 4)
         M_StringCopy(bg_lumpname, "SIGILINT", sizeof(bg_lumpname));
     else

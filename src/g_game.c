@@ -1144,7 +1144,7 @@ static const int npars[9] =
 //
 // G_DoCompleted
 //
-static dboolean secretexit;
+dboolean secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1367,6 +1367,13 @@ void G_WorldDone(void)
 
     if (secretexit)
         viewplayer->didsecret = true;
+    
+    char *intertext = P_GetInterText(gamemap);
+    if (P_GetInterText(gamemap)[0] || (P_GetInterSecretText(gamemap)[0] && secretexit))
+    {
+        F_StartFinale();
+        return;
+    }
 
     if (gamemode == commercial)
     {
