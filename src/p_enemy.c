@@ -803,34 +803,30 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
         && P_LookForTargets(actor, false))
         && !(target
             && (target->flags & MF_SHOOTABLE)
-            && (P_SetTarget(&actor->target, target), !(flags & MF_AMBUSH) || P_CheckSight(actor, target)))
+            && (P_SetTarget(&actor->target, target), (!(flags & MF_AMBUSH) || P_CheckSight(actor, target))))
         && (friend || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
     if (actor->info->seesound)
     {
-        int sound;
-
         switch (actor->info->seesound)
         {
             case sfx_posit1:
             case sfx_posit2:
             case sfx_posit3:
-                sound = sfx_posit1 + M_Random() % 3;
+                S_StartSound(actor, sfx_posit1 + M_Random() % 3);
                 break;
 
             case sfx_bgsit1:
             case sfx_bgsit2:
-                sound = sfx_bgsit1 + M_Random() % 2;
+                S_StartSound(actor, sfx_bgsit1 + M_Random() % 2);
                 break;
 
             default:
-                sound = actor->info->seesound;
+                S_StartSound(actor, actor->info->seesound);
                 break;
         }
-
-        S_StartSound(actor, sound);
 
         // [crispy] make seesounds uninterruptible
         S_UnlinkSound(actor);

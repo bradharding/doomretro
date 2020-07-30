@@ -528,7 +528,6 @@ static void F_CastTicker(void)
     else
     {
         int st;
-        int sfx = 0;
 
         // just advance to next state in animation
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
@@ -542,11 +541,11 @@ static void F_CastTicker(void)
         switch (st)
         {
             case S_PLAY_ATK1:
-                sfx = sfx_dshtgn;
+                S_StartSound(NULL, sfx_dshtgn);
                 break;
 
             case S_POSS_ATK2:
-                sfx = sfx_pistol;
+                S_StartSound(NULL, sfx_pistol);
                 break;
 
             case S_SPOS_ATK2:
@@ -555,23 +554,23 @@ static void F_CastTicker(void)
             case S_CPOS_ATK4:
             case S_SPID_ATK2:
             case S_SPID_ATK3:
-                sfx = sfx_shotgn;
+                S_StartSound(NULL, sfx_shotgn);
                 break;
 
             case S_VILE_ATK2:
-                sfx = sfx_vilatk;
+                S_StartSound(NULL, sfx_vilatk);
                 break;
 
             case S_SKEL_FIST2:
-                sfx = sfx_skeswg;
+                S_StartSound(NULL, sfx_skeswg);
                 break;
 
             case S_SKEL_FIST4:
-                sfx = sfx_skepch;
+                S_StartSound(NULL, sfx_skepch);
                 break;
 
             case S_SKEL_MISS2:
-                sfx = sfx_skeatk;
+                S_StartSound(NULL, sfx_skeatk);
                 break;
 
             case S_FATT_ATK8:
@@ -580,35 +579,32 @@ static void F_CastTicker(void)
             case S_BOSS_ATK2:
             case S_BOS2_ATK2:
             case S_HEAD_ATK2:
-                sfx = sfx_firsht;
+                S_StartSound(NULL, sfx_firsht);
                 break;
 
             case S_TROO_ATK3:
-                sfx = sfx_claw;
+                S_StartSound(NULL, sfx_claw);
                 break;
 
             case S_SARG_ATK2:
-                sfx = sfx_sgtatk;
+                S_StartSound(NULL, sfx_sgtatk);
                 break;
 
             case S_SKULL_ATK2:
             case S_PAIN_ATK3:
-                sfx = sfx_sklatk;
+                S_StartSound(NULL, sfx_sklatk);
                 break;
 
             case S_BSPI_ATK2:
-                sfx = sfx_plasma;
+                S_StartSound(NULL, sfx_plasma);
                 break;
 
             case S_CYBER_ATK2:
             case S_CYBER_ATK4:
             case S_CYBER_ATK6:
-                sfx = sfx_rlaunc;
+                S_StartSound(NULL, sfx_rlaunc);
                 break;
         }
-
-        if (sfx)
-            S_StartSound(NULL, sfx);
     }
 
     if (!castdeath && castframes == 12)
