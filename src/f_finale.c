@@ -344,7 +344,6 @@ static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
     byte        *src;
-    byte        *dest;
     int         w;
     int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
@@ -358,8 +357,9 @@ static void F_TextWrite(void)
 
     if (W_LumpLength(lumpnum) == 4096)  // 64x64 flat
     {
+        byte    *dest = screens[0];
+
         src = (byte *)W_CacheLumpNum(lumpnum);
-        dest = screens[0];
 
 #if SCREENSCALE == 1
         for (int y = 0; y < SCREENHEIGHT; y++)

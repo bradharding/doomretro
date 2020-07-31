@@ -353,10 +353,10 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
     const byte  *shadow = &tinttab40[nearestblack << 8];
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -393,10 +393,10 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1162,10 +1162,10 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
     const byte  *shadow = &tinttab40[nearestblack << 8];
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1202,10 +1202,10 @@ void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1276,10 +1276,10 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1310,10 +1310,10 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
-    int         fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
