@@ -221,8 +221,6 @@ const byte          *rejectmatrix;          // cph - const*
 
 static mapinfo_t    mapinfo[MAXMAPINFO];
 
-void M_AddEpisode(int map, int ep, const char *gfx, const char *text, dboolean clear);//char *def);
-
 static char *mapcmdnames[] =
 {
     "AUTHOR",
@@ -3001,7 +2999,6 @@ void P_SetupLevel(int ep, int map)
 static int  liquidlumps;
 static int  noliquidlumps;
 
-
 static void P_InitMapInfo(void)
 {
     int         mapmax = 1;
@@ -3052,8 +3049,7 @@ static void P_InitMapInfo(void)
         mapinfo[i].titlepatch = 0;
     }
 
-    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : (UMAPINFO >= 0 ? UMAPINFO_SCRIPT_NAME :
-        MAPINFO_SCRIPT_NAME));
+    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : (UMAPINFO >= 0 ? UMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME));
 
     while (SC_GetString())
     {
@@ -3106,8 +3102,6 @@ static void P_InitMapInfo(void)
             }
 
             info = &mapinfo[map];
-            // Map name must follow the number
-            //SC_MustGetString();
 
             if (SC_GetString() && !SC_Compare("LOOKUP"))
                 M_StringCopy(info->name, sc_String, sizeof(info->name));
@@ -3136,20 +3130,26 @@ static void P_InitMapInfo(void)
 
                         case MCMD_ENDBUNNY:
                             SC_MustGetString();
+
                             if (SC_Compare("true"))
                                 info->endbunny = true;
+
                             break;
 
                         case MCMD_ENDCAST:
                             SC_MustGetString();
+
                             if (SC_Compare("true"))
                                 info->endcast = true;
+
                             break;
 
                         case MCMD_ENDGAME:
                             SC_MustGetString();
+
                             if (SC_Compare("true"))
                                 info->endgame = true;
+
                             break;
 
                         case MCMD_ENDPIC:
@@ -3169,15 +3169,17 @@ static void P_InitMapInfo(void)
 
                         case MCMD_EPISODE:
                         {
-                            char gfx[9];
-                            char text[128];
+                            char    gfx[9];
+                            char    text[128];
 
                             SC_MustGetString();
+
                             if (SC_Compare("clear"))
                             {
                                 M_AddEpisode(map, ep, "", "", true);
                                 break;
                             }
+
                             M_StringCopy(gfx, sc_String, sizeof(gfx));
                             SC_MustGetString();
                             M_StringCopy(text, sc_String, sizeof(text));
@@ -3199,8 +3201,8 @@ static void P_InitMapInfo(void)
 
                         case MCMD_INTERTEXTSECRET:
                         {
-                            char buf[1024];
-                            buf[0] = '\0';
+                            char    buf[1024] = "";
+
                             while (SC_GetString())
                             {
                                 if (SC_MatchString(mapcmdnames) >= 0 || SC_Compare("MAP"))
@@ -3217,14 +3219,15 @@ static void P_InitMapInfo(void)
                                     strcat(buf, sc_String);
                                 }
                             }
+
                             M_StringCopy(info->intertextsecret, buf, sizeof(info->intertextsecret));
                             break;
                         }
   
                         case MCMD_INTERTEXT:
                         {
-                            char buf[1024];
-                            buf[0] = '\0';
+                            char    buf[1024] = "";
+
                             while (SC_GetString())
                             {
                                 if (SC_MatchString(mapcmdnames) >= 0 || SC_Compare("MAP"))
@@ -3241,6 +3244,7 @@ static void P_InitMapInfo(void)
                                     strcat(buf, sc_String);
                                 }
                             }
+
                             M_StringCopy(info->intertext, buf, sizeof(info->intertext));
                             break;
                         }
@@ -3393,7 +3397,7 @@ static void P_InitMapInfo(void)
 
                         case MCMD_SKYTEXTURE:
                             SC_MustGetString();
-                            info->sky1texture = info->sky1texture = R_TextureNumForName(sc_String);
+                            info->sky1texture = R_TextureNumForName(sc_String);
                             break;
                         
                         case MCMD_LEVELPIC:
@@ -3419,8 +3423,8 @@ static void P_InitMapInfo(void)
     mapcount = mapmax;
 
     temp = commify(sc_Line);
-    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", temp, (sc_Line > 1 ? "s" : ""),
-        (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
+    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.",
+        temp, (sc_Line > 1 ? "s" : ""), (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 

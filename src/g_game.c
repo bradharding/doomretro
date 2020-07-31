@@ -1363,13 +1363,15 @@ static void G_DoCompleted(void)
 //
 void G_WorldDone(void)
 {
+    char    *intertext = P_GetInterText(gamemap);
+    char    *intersecrettext = P_GetInterSecretText(gamemap);
+
     gameaction = ga_worlddone;
 
     if (secretexit)
         viewplayer->didsecret = true;
     
-    char *intertext = P_GetInterText(gamemap);
-    if (P_GetInterText(gamemap)[0] || (P_GetInterSecretText(gamemap)[0] && secretexit))
+    if (*intertext || (*intersecrettext && secretexit))
     {
         F_StartFinale();
         return;

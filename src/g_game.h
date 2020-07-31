@@ -117,5 +117,6 @@ extern int      st_facecount;
 extern dboolean skipaction;
 extern char     savename[MAX_PATH];
 extern dboolean usemouselook;
+extern dboolean secretexit;
 
 #endif

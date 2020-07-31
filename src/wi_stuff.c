@@ -1149,11 +1149,13 @@ static void WI_LoadData(void)
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
         int lumpnum = P_GetMapEnterPic(gamemap);
+
         if (lumpnum > 0)
         {
             V_DrawPatch(0, 0, 1, W_CacheLumpNum(lumpnum));
             return;
         }
+
         M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
     }
     else if (sigil && wbs->epsd == 4)

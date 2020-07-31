@@ -43,6 +43,7 @@
 #include "d_englsh.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
@@ -105,10 +106,11 @@ static void F_ConsoleFinaleText(void)
 // F_StartFinale
 //
 
-extern dboolean secretexit;
-
 void F_StartFinale(void)
 {
+    char    *intertext = P_GetInterText(gamemap);
+    char    *intersecret = P_GetInterSecretText(gamemap);
+
     viewactive = false;
     automapactive = false;
 
@@ -118,10 +120,11 @@ void F_StartFinale(void)
 
     C_AddConsoleDivider();
 
-    char *intertext = P_GetInterText(gamemap);
-    char *intersecret = P_GetInterSecretText(gamemap);
-    if (intertext[0] || (intersecret[0] && secretexit))
+    if (*intertext || (*intersecret && secretexit))
     {
+        char    *interbackdrop = P_GetInterBackrop(gamemap);
+        int     mus = P_GetInterMusic(gamemap);
+
         if (!secretexit)
         {
             if (M_StringCompare(intertext, "clear"))
@@ -129,6 +132,7 @@ void F_StartFinale(void)
                 gameaction = ga_worlddone;
                 return;
             }
+
             finaletext = intertext;
         }
         else
@@ -138,118 +142,114 @@ void F_StartFinale(void)
                 gameaction = ga_worlddone;
                 return;
             }
+
             finaletext = intersecret;
         }
 
-        char *interbackdrop = P_GetInterBackrop(gamemap);
-        finaleflat = interbackdrop[0] ? interbackdrop : "FLOOR4_8";
-        
-        int mus = P_GetInterMusic(gamemap);
+        finaleflat = (*interbackdrop ? interbackdrop : "FLOOR4_8");
+
         if (mus > 0)
-        {
-           S_ChangeMusInfoMusic(mus, true);
-        }
+            S_ChangeMusInfoMusic(mus, true);
         else
+            S_ChangeMusic((gamemode == commercial ? mus_read_m : mus_victor), true, false, false);
+    }
+    else
+        // Okay - IWAD dependent stuff.
+        // This has been changed severely, and
+        //  some stuff might have changed in the process.
+        switch (gamemode)
         {
-            S_ChangeMusic(gamemode == commercial ? mus_read_m : mus_victor, true, false, false);
-        }
-    }
-    // Okay - IWAD dependent stuff.
-    // This has been changed severely, and
-    //  some stuff might have changed in the process.
-    else switch (gamemode)
-    {
-        // DOOM 1 - E1, E3 or E4, but each nine missions
-        case shareware:
-        case registered:
-        case retail:
-            S_ChangeMusic(mus_victor, true, false, false);
+            // DOOM 1 - E1, E3 or E4, but each nine missions
+            case shareware:
+            case registered:
+            case retail:
+                S_ChangeMusic(mus_victor, true, false, false);
 
-            switch (gameepisode)
-            {
-                case 1:
-                    finaleflat = bgflatE1;
-                    finaletext = s_E1TEXT;
-                    break;
+                switch (gameepisode)
+                {
+                    case 1:
+                        finaleflat = bgflatE1;
+                        finaletext = s_E1TEXT;
+                        break;
 
-                case 2:
-                    finaleflat = bgflatE2;
-                    finaletext = s_E2TEXT;
-                    break;
+                    case 2:
+                        finaleflat = bgflatE2;
+                        finaletext = s_E2TEXT;
+                        break;
 
-                case 3:
-                    finaleflat = bgflatE3;
-                    finaletext = s_E3TEXT;
-                    break;
+                    case 3:
+                        finaleflat = bgflatE3;
+                        finaletext = s_E3TEXT;
+                        break;
 
-                case 4:
-                    finaleflat = bgflatE4;
-                    finaletext = s_E4TEXT;
-                    break;
+                    case 4:
+                        finaleflat = bgflatE4;
+                        finaletext = s_E4TEXT;
+                        break;
 
-                case 5:
-                    finaleflat = bgflatE5;
-                    finaletext = s_E5TEXT;
-                    break;
-            }
+                    case 5:
+                        finaleflat = bgflatE5;
+                        finaletext = s_E5TEXT;
+                        break;
+                }
 
-            break;
+                break;
 
-        // DOOM II and missions packs with E1, M34
-        case commercial:
-            S_ChangeMusic(mus_read_m, true, false, false);
+            // DOOM II and missions packs with E1, M34
+            case commercial:
+                S_ChangeMusic(mus_read_m, true, false, false);
 
-            switch (gamemap)      // This is regular DOOM II
-            {
-                case 6:
-                    finaleflat = bgflat06;
-                    finaletext = (gamemission == pack_tnt ? s_T1TEXT : (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
-                    break;
-
-                case 8:
-                    if (gamemission == pack_nerve)
-                    {
+                switch (gamemap)      // This is regular DOOM II
+                {
+                    case 6:
                         finaleflat = bgflat06;
-                        finaletext = s_N1TEXT;
-                    }
+                        finaletext = (gamemission == pack_tnt ? s_T1TEXT : (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
+                        break;
 
-                    break;
+                    case 8:
+                        if (gamemission == pack_nerve)
+                        {
+                            finaleflat = bgflat06;
+                            finaletext = s_N1TEXT;
+                        }
 
-                case 11:
-                    finaleflat = bgflat11;
-                    finaletext = (gamemission == pack_tnt ? s_T2TEXT : (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
-                    break;
+                        break;
 
-                case 20:
-                    finaleflat = bgflat20;
-                    finaletext = (gamemission == pack_tnt ? s_T3TEXT : (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
-                    break;
+                    case 11:
+                        finaleflat = bgflat11;
+                        finaletext = (gamemission == pack_tnt ? s_T2TEXT : (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
+                        break;
 
-                case 30:
-                    finaleflat = bgflat30;
-                    finaletext = (gamemission == pack_tnt ? s_T4TEXT : (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
-                    break;
+                    case 20:
+                        finaleflat = bgflat20;
+                        finaletext = (gamemission == pack_tnt ? s_T3TEXT : (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                        break;
 
-                case 15:
-                    finaleflat = bgflat15;
-                    finaletext = (gamemission == pack_tnt ? s_T5TEXT : (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
-                    break;
+                    case 30:
+                        finaleflat = bgflat30;
+                        finaletext = (gamemission == pack_tnt ? s_T4TEXT : (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
+                        break;
 
-                case 31:
-                    finaleflat = bgflat31;
-                    finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
-                    break;
-            }
+                    case 15:
+                        finaleflat = bgflat15;
+                        finaletext = (gamemission == pack_tnt ? s_T5TEXT : (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
+                        break;
 
-            break;
+                    case 31:
+                        finaleflat = bgflat31;
+                        finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
+                        break;
+                }
 
-        // Indeterminate.
-        default:
-            S_ChangeMusic(mus_read_m, true, false, false);
-            finaleflat = "F_SKY1";
-            finaletext = s_C1TEXT;
-            break;
-    }
+                break;
+
+            // Indeterminate.
+            default:
+                S_ChangeMusic(mus_read_m, true, false, false);
+                finaleflat = "F_SKY1";
+                finaletext = s_C1TEXT;
+                break;
+        }
 
     if (strlen(finaletext) <= 1)
     {
@@ -301,9 +301,7 @@ void F_Ticker(void)
             || (midstage && acceleratestage))
         {
             if (P_GetMapEndCast(gamemap))
-            {
                 F_StartCast();
-            }
             else if (P_GetMapEndBunny(gamemap))
             {
                 finalecount = 0;
@@ -356,12 +354,13 @@ static void F_TextWrite(void)
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
-    int lumpnum = W_GetNumForName(finaleflat);
+    int         lumpnum = W_GetNumForName(finaleflat);
 
-    if (W_LumpLength(lumpnum) == 4096) // 64x64 flat
+    if (W_LumpLength(lumpnum) == 4096)  // 64x64 flat
     {
         src = (byte *)W_CacheLumpNum(lumpnum);
         dest = screens[0];
+
 #if SCREENSCALE == 1
         for (int y = 0; y < SCREENHEIGHT; y++)
         {
@@ -410,9 +409,7 @@ static void F_TextWrite(void)
 #endif
     }
     else
-    {
         V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
-    }
 
     for (; count; count--)
     {
@@ -1020,6 +1017,7 @@ static void F_BunnyScroll(void)
 static void F_ArtScreenDrawer(void)
 {
     int lumpnum = P_GetMapEndPic(gamemap);
+
     if (lumpnum > 0)
     {
         if (!finalestage)
@@ -1031,9 +1029,7 @@ static void F_ArtScreenDrawer(void)
         }
     }
     else if (P_GetMapEndBunny(gamemap) || gameepisode == 3)
-    {
         F_BunnyScroll();
-    }
     else
     {
         char    *lumpname;
@@ -1041,10 +1037,8 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-            {
                 lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
                 break;
-            }
 
             case 2:
                 lumpname = "VICTORY2";

@@ -104,6 +104,8 @@ void M_StartMessage(char *string, void *routine, dboolean input);
 void M_ShowHelp(int choice);
 void M_QuitDOOM(int choice);
 
+void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean clear);
+
 extern dboolean messagetoprint;
 
 extern dboolean nomusic;

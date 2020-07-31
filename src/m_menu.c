@@ -219,6 +219,7 @@ static menuitem_t EpisodeMenu[] =
     { 1, "M_EPI3", M_Episode, &s_M_EPISODE3 },
     { 1, "M_EPI4", M_Episode, &s_M_EPISODE4 },
     { 1, "M_EPI5", M_Episode, &s_M_EPISODE5 },
+
     // Some extra empty episodes for extensibility through UMAPINFO
     { 1, "M_EPI6", M_Episode, &s_M_EPISODE6 },
     { 1, "M_EPI7", M_Episode, &s_M_EPISODE7 },
@@ -1568,24 +1569,25 @@ static void M_DrawMainMenu(void)
 static int  epi;
 
 // This is for customized episode menus
-dboolean EpiCustom;
-short EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 }, EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+dboolean    EpiCustom;
+short       EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
+short       EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean clear)
 {
     if (!EpiCustom)
     {
         EpiCustom = true;
+
         if (gamemode == commercial)
             EpiDef.numitems = 0;
         // No more than 4 Eps expected when having UMAPINFO (prevent SIGILv1.2 from showing twice)
         else if (EpiDef.numitems > 4)
             EpiDef.numitems = 4;
     }
+
     if (clear)
-    {
         EpiDef.numitems = 0;
-    }
     else
     {
         if (EpiDef.numitems >= 8)
@@ -1599,14 +1601,11 @@ void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean cl
 
         EpiDef.numitems++;
     }
+
     if (EpiDef.numitems <= 4)
-    {
         EpiDef.y = 63;
-    }
     else
-    {
         EpiDef.y = 63 - (EpiDef.numitems - 4) * (LINEHEIGHT / 2);
-    }
 }
 
 static void M_DrawEpisode(void)
@@ -1740,8 +1739,6 @@ static void M_ChooseSkill(int choice)
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);
     else
         G_DeferredInitNew((skill_t)choice, EpiMenuEpi[epi], EpiMenuMap[epi]);
-    
-    //G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 
 static void M_Episode(int choice)
@@ -3777,9 +3774,8 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-                    else if (W_CheckNumForName(name) < 0) // Custom Episode
+                    else if (W_CheckNumForName(name) < 0)   // Custom Episode
                         M_WriteText(x, y + OFFSET, *text, true);
-                        //M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                         M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (**text)
