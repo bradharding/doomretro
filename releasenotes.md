@@ -29,6 +29,7 @@
   * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
 * There is now smoother movement in the automap.
+* *DOOM Retro* now includes partial support for `UMAPINFO` lumps.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * Altering the names of SFX and music lumps will no longer affect the `play` CCMD.
   * `Melee threshold`, `Max target range` and `Min missile chance` values have been added to `Thing` blocks.
