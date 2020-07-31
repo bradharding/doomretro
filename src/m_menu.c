@@ -1594,18 +1594,13 @@ void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean cl
             return;
 
         EpiMenuEpi[EpiDef.numitems] = ep;
-        EpiMenuMap[EpiDef.numitems] = map - ((ep - 1) * 10);
+        EpiMenuMap[EpiDef.numitems] = map - (ep - 1) * 10;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, gfx, 9);
         EpisodeMenu[EpiDef.numitems].name[9] = 0;
         EpisodeMenu[EpiDef.numitems].text[0] = M_StringDuplicate(txt);
 
         EpiDef.numitems++;
     }
-
-    if (EpiDef.numitems <= 4)
-        EpiDef.y = 63;
-    else
-        EpiDef.y = 63 - (EpiDef.numitems - 4) * (LINEHEIGHT / 2);
 }
 
 static void M_DrawEpisode(void)
