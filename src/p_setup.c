@@ -3169,8 +3169,8 @@ static void P_InitMapInfo(void)
 
                         case MCMD_EPISODE:
                         {
-                            char    gfx[9];
-                            char    text[128];
+                            char    lumpname[9];
+                            char    string[128];
 
                             SC_MustGetString();
 
@@ -3180,12 +3180,12 @@ static void P_InitMapInfo(void)
                                 break;
                             }
 
-                            M_StringCopy(gfx, sc_String, sizeof(gfx));
+                            M_StringCopy(lumpname, sc_String, sizeof(lumpname));
                             SC_MustGetString();
-                            M_StringCopy(text, sc_String, sizeof(text));
+                            M_StringCopy(string, sc_String, sizeof(string));
                             SC_MustGetString(); // skip key
 
-                            M_AddEpisode(map, ep, gfx, text, false);
+                            M_AddEpisode(map, ep, lumpname, string, false);
                             break;
                         }
 

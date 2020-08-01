@@ -209,6 +209,9 @@ enum
     ep3,
     ep4,
     ep5,
+    ep6,
+    ep7,
+    ep8,
     ep_end
 };
 
@@ -1573,15 +1576,15 @@ dboolean    EpiCustom;
 short       EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 short       EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
-void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean clear)
+void M_AddEpisode(int map, int ep, const char *lumpname, const char *string, dboolean clear)
 {
     if (!EpiCustom)
     {
         EpiCustom = true;
+        NewDef.prevMenu = &EpiDef;
 
         if (gamemode == commercial)
             EpiDef.numitems = 0;
-        // No more than 4 Eps expected when having UMAPINFO (prevent SIGILv1.2 from showing twice)
         else if (EpiDef.numitems > 4)
             EpiDef.numitems = 4;
     }
@@ -1595,12 +1598,9 @@ void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean cl
 
         EpiMenuEpi[EpiDef.numitems] = ep;
         EpiMenuMap[EpiDef.numitems] = map - (ep - 1) * 10;
-        M_StringCopy(EpisodeMenu[EpiDef.numitems].name, gfx, 9);
-        EpisodeMenu[EpiDef.numitems].name[9] = 0;
-        EpisodeMenu[EpiDef.numitems].text[0] = M_StringDuplicate(txt);
-
+        M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, 9);
+        *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
-        NewDef.prevMenu = &EpiDef;
     }
 }
 
@@ -1809,7 +1809,7 @@ static void M_DrawNewGame(void)
 
 static void M_NewGame(int choice)
 {
-    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !EpiCustom) ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
+    M_SetupNextMenu(chex ? &NewDef : (gamemode == commercial && !EpiCustom ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
