@@ -3008,6 +3008,7 @@ static void P_InitMapInfo(void)
 
     if (M_CheckParm("-nomapinfo"))
         return;
+
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
         if ((UMAPINFO = MAPINFO = W_CheckNumForName(UMAPINFO_SCRIPT_NAME)) < 0)
             if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
@@ -3176,7 +3177,7 @@ static void P_InitMapInfo(void)
 
                             if (SC_Compare("clear"))
                             {
-                                M_AddEpisode(map, ep, "", "", true);
+                                M_AddEpisode(map, ep, "", "");
                                 break;
                             }
 
@@ -3185,7 +3186,7 @@ static void P_InitMapInfo(void)
                             M_StringCopy(string, sc_String, sizeof(string));
                             SC_MustGetString(); // skip key
 
-                            M_AddEpisode(map, ep, lumpname, string, false);
+                            M_AddEpisode(map, ep, lumpname, string);
                             break;
                         }
 

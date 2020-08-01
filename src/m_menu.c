@@ -1576,7 +1576,7 @@ dboolean    EpiCustom;
 short       EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 short       EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
-void M_AddEpisode(int map, int ep, const char *lumpname, const char *string, dboolean clear)
+void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
 {
     if (!EpiCustom)
     {
@@ -1589,7 +1589,7 @@ void M_AddEpisode(int map, int ep, const char *lumpname, const char *string, dbo
             EpiDef.numitems = 4;
     }
 
-    if (clear)
+    if (!*lumpname && !*string)
         EpiDef.numitems = 0;
     else
     {
@@ -1610,13 +1610,13 @@ static void M_DrawEpisode(void)
 
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NEWG"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
     else if (M_NGAME)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NGAME"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1630,7 +1630,7 @@ static void M_DrawEpisode(void)
 
     if (M_EPISOD)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD"));
+        M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_EPISOD"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1665,13 +1665,13 @@ static void M_DrawExpansion(void)
 
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NEWG"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
     else if (M_NGAME)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NGAME"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1685,7 +1685,7 @@ static void M_DrawExpansion(void)
 
     if (M_EPISOD)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD"));
+        M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_EPISOD"));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1779,13 +1779,13 @@ static void M_DrawNewGame(void)
 
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NEWG"));
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
     else if (M_NGAME)
     {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NGAME"));
+        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NGAME"));
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
@@ -1799,7 +1799,7 @@ static void M_DrawNewGame(void)
 
     if (M_SKILL)
     {
-        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL"));
+        M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_SKILL"));
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
