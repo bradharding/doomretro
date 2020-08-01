@@ -1600,6 +1600,7 @@ void M_AddEpisode(int map, int ep, const char *gfx, const char *txt, dboolean cl
         EpisodeMenu[EpiDef.numitems].text[0] = M_StringDuplicate(txt);
 
         EpiDef.numitems++;
+        NewDef.prevMenu = &EpiDef;
     }
 }
 
