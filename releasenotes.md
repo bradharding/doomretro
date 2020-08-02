@@ -43,6 +43,7 @@
 * The effect applied when the player is attacked and the `r_shake_damage` CVAR is `on` is now still applied when god mode is enabled.
 * Fixes to maps that involve changing a sector’s tag will now work as intended when the `r_fixmaperrors` CVAR is `on`.
 * A bug has been fixed whereby certain translucent things wouldn’t be translucent while the player had an invulnerability power-up.
+* The music will no longer be reset when using the `map` CCMD to restart the current map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

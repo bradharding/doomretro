@@ -302,7 +302,7 @@ static int      MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
 
-static dboolean samelevel;
+dboolean        samelevel;
 
 mapformat_t     mapformat;
 

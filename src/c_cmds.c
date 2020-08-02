@@ -3357,6 +3357,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;
+    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
 
     gameepisode = mapcmdepisode;
 
