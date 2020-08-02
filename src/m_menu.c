@@ -1569,12 +1569,10 @@ static void M_DrawMainMenu(void)
 //
 // M_Episode
 //
-static int  epi;
-
-// This is for customized episode menus
-dboolean    EpiCustom;
-short       EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
-short       EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+static int      epi;
+static dboolean EpiCustom;
+static short    EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
+static short    EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
 {
@@ -3182,7 +3180,7 @@ dboolean M_Responder(event_t *ev)
 
             currentMenu->change = true;
 
-            if (currentMenu == &EpiDef && gamemode != shareware)
+            if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
@@ -3263,7 +3261,7 @@ dboolean M_Responder(event_t *ev)
 
             currentMenu->change = true;
 
-            if (currentMenu == &EpiDef && gamemode != shareware)
+            if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
@@ -3370,7 +3368,7 @@ dboolean M_Responder(event_t *ev)
                 }
             }
 
-            if (currentMenu == &EpiDef)
+            if (currentMenu == &EpiDef && !EpiCustom)
                 C_IntCVAROutput(stringize(episode), episode);
             else if (currentMenu == &ExpDef)
                 C_IntCVAROutput(stringize(expansion), expansion);
@@ -3464,7 +3462,7 @@ dboolean M_Responder(event_t *ev)
                     itemOn = i;
                     currentMenu->change = true;
 
-                    if (currentMenu == &EpiDef && gamemode != shareware)
+                    if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
@@ -3528,7 +3526,7 @@ dboolean M_Responder(event_t *ev)
                     itemOn = i;
                     currentMenu->change = true;
 
-                    if (currentMenu == &EpiDef && gamemode != shareware)
+                    if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
