@@ -1728,7 +1728,7 @@ static void M_ChooseSkill(int choice)
     I_Sleep(1000);
     quickSaveSlot = -1;
     M_ClearMenus();
-    
+
     if (!EpiCustom)
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);
     else
@@ -3164,13 +3164,12 @@ dboolean M_Responder(event_t *ev)
                     else
                         itemOn++;
 
-                    if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                        itemOn++;
-
-                    if (currentMenu == &MainDef && itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
-                        itemOn++;
-
-                    if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
+                    if (currentMenu == &MainDef)
+                    {
+                        if ((itemOn == 2 && !savegames) || (itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                            itemOn++;
+                    }
+                    else if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                         itemOn++;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
@@ -3245,14 +3244,13 @@ dboolean M_Responder(event_t *ev)
                     else
                         itemOn--;
 
-                    if (currentMenu == &MainDef && itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef)
+                    {
+                        if ((itemOn == 2 && !savegames) || (itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                            itemOn--;
+                    }
+                    else if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                         itemOn--;
-
-                    if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                        itemOn--;
-
-                    if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-                        itemOn = currentMenu->numitems - 1;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -3352,17 +3350,17 @@ dboolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && currentMenu == &MainDef && itemOn == 3)
+                    if (gamestate != GS_LEVEL && (currentMenu == &MainDef && itemOn == 3 || (currentMenu == &OptionsDef && !itemOn)))
                         return true;
 
-                    if (gamestate != GS_LEVEL && currentMenu == &OptionsDef && !itemOn)
-                        return true;
+                    if (currentMenu != &LoadDef)
+                    {
+                        if (currentMenu != &NewDef || itemOn == 4)
+                            S_StartSound(NULL, sfx_pistol);
 
-                    if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
-                        S_StartSound(NULL, sfx_pistol);
-
-                    if (currentMenu != &LoadDef && currentMenu != &NewDef && !fadecount)
-                        D_FadeScreen();
+                        if (currentMenu != &NewDef && !fadecount)
+                            D_FadeScreen();
+                    }
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
@@ -3444,16 +3442,14 @@ dboolean M_Responder(event_t *ev)
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && key == i + '1')
                     || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(key)))
                 {
-                    if (currentMenu == &MainDef && i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef)
+                    {
+                        if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                            return true;
+                    }
+                    else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
                         return true;
-
-                    if (currentMenu == &MainDef && i == 2 && !savegames)
-                        return true;
-
-                    if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
-                        return true;
-
-                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    else if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
 
                     if (itemOn != i)
@@ -3508,16 +3504,14 @@ dboolean M_Responder(event_t *ev)
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && key == i + '1')
                     || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(key)))
                 {
-                    if (currentMenu == &MainDef && i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                    if (currentMenu == &MainDef)
+                    {
+                        if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                            return true;
+                    }
+                    else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
                         return true;
-
-                    if (currentMenu == &MainDef && i == 2 && !savegames)
-                        return true;
-
-                    if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
-                        return true;
-
-                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    else if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
 
                     if (itemOn != i)

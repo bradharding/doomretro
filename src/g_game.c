@@ -1370,7 +1370,7 @@ void G_WorldDone(void)
 
     if (secretexit)
         viewplayer->didsecret = true;
-    
+
     if (*intertext || (*intersecrettext && secretexit))
     {
         F_StartFinale();

@@ -158,7 +158,7 @@ dboolean SC_GetString(void)
         {
             if (*ScriptPtr == '{' || *ScriptPtr == '}')
                 ScriptPtr++;
-            
+
             *text++ = *ScriptPtr++;
 
             if (*ScriptPtr == '=' || *ScriptPtr == ',')

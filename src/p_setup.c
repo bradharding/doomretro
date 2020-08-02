@@ -3224,7 +3224,7 @@ static void P_InitMapInfo(void)
                             M_StringCopy(info->intertextsecret, buf, sizeof(info->intertextsecret));
                             break;
                         }
-  
+
                         case MCMD_INTERTEXT:
                         {
                             char    buf[1024] = "";
@@ -3236,7 +3236,7 @@ static void P_InitMapInfo(void)
                                     SC_UnGet();
                                     break;
                                 }
-                                
+
                                 if (!buf[0])
                                     M_StringCopy(buf, sc_String, sizeof(buf));
                                 else
@@ -3353,7 +3353,7 @@ static void P_InitMapInfo(void)
                         case MCMD_PISTOLSTART:
                             info->pistolstart = true;
                             break;
-                        
+
                         case MCMD_NEXTSECRET:
                         case MCMD_SECRETNEXT:
                         {
@@ -3400,7 +3400,7 @@ static void P_InitMapInfo(void)
                             SC_MustGetString();
                             info->sky1texture = R_TextureNumForName(sc_String);
                             break;
-                        
+
                         case MCMD_LEVELPIC:
                         case MCMD_TITLEPATCH:
                             SC_MustGetString();
