@@ -214,6 +214,9 @@ typedef struct player_s
     fixed_t         bounce;
     fixed_t         bouncemax;
 
+    // [crispy] show centered "Secret Revealed!" message
+    char	        *centermessage;
+
     // For playerstats CCMD
     int             damageinflicted;
     int             damagereceived;

@@ -2176,14 +2176,11 @@ static void P_SecretFound(void)
     viewplayer->secretcount++;
     stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
 
-    if (DSSECRET)
-    {
-        static char buffer[1024];
+    static char buffer[1024];
 
-        S_StartSound(NULL, sfx_secret);
-        M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
-        HU_PlayerMessage(buffer, false, false);
-    }
+    S_StartSound(NULL, DSSECRET ? sfx_secret : sfx_itmbk);
+    M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
+    HU_PlayerSecretMessage(buffer);
 }
 
 //
