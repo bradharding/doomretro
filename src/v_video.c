@@ -62,11 +62,12 @@
 #define WHITE       4
 #define LIGHTGRAY   82
 
-// Each screen is [SCREENAREA];
-byte            *screens[5];
+#define DX          ((SCREENWIDTH << FRACBITS) / VANILLAWIDTH)
+#define DXI         ((VANILLAWIDTH << FRACBITS) / SCREENWIDTH)
+#define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
+#define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
 
-static fixed_t  DX, DY;
-static fixed_t  DXI, DYI;
+byte            *screens[5];
 
 int             lowpixelwidth;
 int             lowpixelheight;
@@ -243,29 +244,6 @@ void V_DrawSTBARPatch(int x, int y, patch_t *patch)
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
-}
-
-void V_DrawPagePatch(patch_t *patch)
-{
-    const short width = SHORT(patch->width);
-    const short height = SHORT(patch->height);
-
-    patch->leftoffset = 0;
-    patch->topoffset = 0;
-
-    DX = (SCREENWIDTH << FRACBITS) / width;
-    DXI = (width << FRACBITS) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << FRACBITS) / height;
-    DYI = (height << FRACBITS) / SCREENHEIGHT;
-
-    memset(screens[0], nearestblack, SCREENAREA);
-
-    V_DrawPatch(0, 0, 0, patch);
-
-    DX = (SCREENWIDTH << FRACBITS) / VANILLAWIDTH;
-    DXI = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT;
-    DYI = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
 }
 
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
@@ -1586,11 +1564,6 @@ void V_Init(void)
 
     for (int i = 0; i < 4; i++)
         screens[i] = &base[i * SCREENAREA];
-
-    DX = (SCREENWIDTH << FRACBITS) / VANILLAWIDTH;
-    DXI = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT;
-    DYI = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
 
     GetPixelSize(true);
 

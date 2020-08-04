@@ -970,8 +970,7 @@ dboolean ST_Responder(event_t *ev)
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
-                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9)
-                    || (BTSX && W_CheckMultipleLumps(lump) == 1))
+                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9) || (BTSX && W_CheckMultipleLumps(lump) == 1))
                     idclev = false;
                 else
                 {
@@ -981,7 +980,7 @@ dboolean ST_Responder(event_t *ev)
                     C_Input("%s%c%c", cheat_clev_xy.sequence, buffer[0], buffer[1]);
 
                     if (BTSX)
-                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2), buffer[0], buffer[1]);
+                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
                     else if (FREEDOOM && gamemode != commercial)
                         M_snprintf(lump, sizeof(lump), "C%cM%c", buffer[0], buffer[1]);
 
