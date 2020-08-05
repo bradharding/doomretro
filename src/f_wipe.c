@@ -144,7 +144,7 @@ void wipe_EndScreen(void)
 
 dboolean wipe_ScreenWipe(void)
 {
-    // when zero, stop the wipe
+    // when false, stop the wipe
     static dboolean go;
 
     // initial stuff
