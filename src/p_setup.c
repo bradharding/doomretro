@@ -3006,7 +3006,7 @@ static void P_InitMapInfo(void)
     mapinfo_t   *info;
     char        *temp;
 
-    if (M_CheckParm("-nomapinfo"))
+    if (M_CheckParm("-nomapinfo") || sigil)
         return;
 
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
