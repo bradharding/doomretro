@@ -560,8 +560,8 @@ void D_PageDrawer(void)
             prevtic = pagetic;
         }
     }
-    else if (pagelump)
-        V_DrawPatch(0, 0, 0, pagelump);
+    else
+        V_DrawPagePatch(pagelump);
 }
 
 //

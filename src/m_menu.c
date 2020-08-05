@@ -795,7 +795,7 @@ static void M_SplitString(char *string)
 static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
     if (SHORT(patch->height) == VANILLAHEIGHT)
-        V_DrawPatch(0, 0, 0, patch);
+        V_DrawPagePatch(patch);
     else
         V_DrawPatchWithShadow(x, y, patch, false);
 }
@@ -807,7 +807,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
     if (SHORT(patch->height) == VANILLAHEIGHT)
-        V_DrawPatch(0, 0, 0, patch);
+        V_DrawPagePatch(patch);
     else
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
 }
