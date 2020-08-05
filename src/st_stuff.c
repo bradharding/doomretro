@@ -1473,16 +1473,6 @@ static void ST_LoadCallback(char *lumpname, patch_t **variable)
         *variable = W_CacheLumpName(lumpname);
 }
 
-static void ST_LoadGraphics(void)
-{
-    ST_LoadUnloadGraphics(&ST_LoadCallback);
-}
-
-static void ST_LoadData(void)
-{
-    ST_LoadGraphics();
-}
-
 static void ST_InitData(void)
 {
     st_firsttime = true;
@@ -1546,30 +1536,16 @@ static void ST_CreateWidgets(void)
     STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO3WIDTH);
 }
 
-static dboolean st_stopped = true;
-
-static void ST_Stop(void)
-{
-    if (st_stopped)
-        return;
-
-    I_SetPalette(PLAYPAL);
-    st_stopped = true;
-}
-
 void ST_Start(void)
 {
-    if (!st_stopped)
-        ST_Stop();
-
     ST_InitData();
     ST_CreateWidgets();
-    st_stopped = false;
 }
 
 void ST_Init(void)
 {
-    ST_LoadData();
+    ST_LoadUnloadGraphics(&ST_LoadCallback);
+
     screens[4] = malloc(ST_WIDTH * SBARHEIGHT);
 
     // [BH] fix evil grin being displayed when picking up first item after
