@@ -38,7 +38,6 @@
 
 #include <string.h>
 
-#include "doomtype.h"
 #include "i_video.h"
 #include "m_config.h"
 #include "m_random.h"
@@ -48,9 +47,9 @@
 // SCREEN WIPE PACKAGE
 //
 
-static byte     *wipe_scr_start;
-static byte     *wipe_scr_end;
-static byte     *wipe_scr;
+static short    *wipe_scr_start;
+static short    *wipe_scr_end;
+static short    *wipe_scr;
 static int      *ypos;
 static int      speed;
 static short    dest[SCREENAREA];
@@ -71,13 +70,11 @@ static void wipe_initMelt(void)
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, SCREENAREA);
 
-    // makes this wipe faster (in theory)
-    // to have stuff in column-major format
-    wipe_shittyColMajorXform((short *)wipe_scr_start);
-    wipe_shittyColMajorXform((short *)wipe_scr_end);
+    // makes this wipe faster (in theory) to have stuff in column-major format
+    wipe_shittyColMajorXform(wipe_scr_start);
+    wipe_shittyColMajorXform(wipe_scr_end);
 
-    // setup initial column positions
-    // (ypos < 0 => not ready to scroll yet)
+    // setup initial column positions (ypos < 0 => not ready to scroll yet)
     ypos = malloc(SCREENWIDTH * sizeof(int));
     ypos[0] = ypos[1] = -(M_Random() % 15);
 
@@ -87,17 +84,17 @@ static void wipe_initMelt(void)
 
 static void wipe_Melt(int i, int dy)
 {
-    short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + ypos[i]];
-    short   *d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
+    short   *s = &wipe_scr_end[i * SCREENHEIGHT + ypos[i]];
+    short   *d = &wipe_scr[ypos[i] * SCREENWIDTH / 2 + i];
 
-    for (int j = 0, k = dy; k; k--, j += SCREENWIDTH / 2)
+    for (int j = 0, k = dy; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
 
     ypos[i] += dy;
-    s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
-    d = &((short *)wipe_scr)[ypos[i] * SCREENWIDTH / 2 + i];
+    s = &wipe_scr_start[i * SCREENHEIGHT];
+    d = &wipe_scr[ypos[i] * SCREENWIDTH / 2 + i];
 
-    for (int j = 0, k = SCREENHEIGHT - ypos[i]; k; k--, j += SCREENWIDTH / 2)
+    for (int j = 0, k = SCREENHEIGHT - ypos[i]; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
 }
 
@@ -154,7 +151,7 @@ dboolean wipe_ScreenWipe(void)
     if (!go)
     {
         go = true;
-        wipe_scr = screens[0];
+        wipe_scr = (short *)screens[0];
         wipe_initMelt();
     }
 
