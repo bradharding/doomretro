@@ -77,7 +77,6 @@ patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
 dboolean                message_on;
-dboolean                secret_on;
 dboolean                message_dontfuckwithme;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
@@ -87,8 +86,6 @@ dboolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 static int              message_counter;
-static hu_stext_t       w_secret;
-static int              secret_counter;
 
 static dboolean         headsupactive;
 
@@ -276,16 +273,12 @@ void HU_Start(void)
         HU_Stop();
 
     message_on = false;
-    secret_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
     message_external = false;
 
     // create the message widget
     HUlib_InitSText(&w_message, w_message.l->x, w_message.l->y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
-
-    // [crispy] create the secret message widget
-    HUlib_InitSText(&w_secret, 88, 66, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &secret_on);
 
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
@@ -1058,9 +1051,6 @@ void HU_Drawer(void)
         HUlib_DrawSText(&w_message, message_external);
     }
 
-    if (secret_on && !menuactive)
-        HUlib_DrawSText(&w_secret, false);
-
     if (automapactive)
     {
         if (vid_widescreen)
@@ -1124,9 +1114,6 @@ void HU_Erase(void)
     if (message_on)
         HUlib_EraseSText(&w_message);
 
-    if (secret_on)
-        HUlib_EraseSText(&w_secret);
-
     if (mapwindow || automapactive)
         HUlib_EraseTextLine(&w_title);
 }
@@ -1141,11 +1128,6 @@ void HU_Ticker(void)
         message_on = false;
         message_nottobefuckedwith = false;
         message_external = false;
-    }
-
-    if (secret_counter && !menuactive && !idmypos && !--secret_counter)
-    {
-        secret_on = false;
     }
 
     if (idmypos)
@@ -1184,16 +1166,6 @@ void HU_Ticker(void)
 
         HUlib_AddMessageToSText(&w_message, buffer);
         message_on = true;
-    }
-
-    if (viewplayer->centermessage)
-    {
-        w_secret.l[0].x = 160 - M_StringWidth(viewplayer->centermessage) / 2;
-
-        HUlib_AddMessageToSText(&w_secret, viewplayer->centermessage);
-        viewplayer->centermessage = NULL;
-        secret_on = true;
-        secret_counter = 5 * TICRATE / 2; // [crispy] 2.5 seconds
     }
 
     // display message if necessary
@@ -1294,12 +1266,6 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
         HU_SetPlayerMessage(buffer, counter, external);
 }
 
-void HU_PlayerSecretMessage(char *message)
-{
-    C_PlayerMessage(message);
-    viewplayer->centermessage = M_StringDuplicate(message);
-}
-
 void HU_ClearMessages(void)
 {
     if (viewplayer->cheats & CF_MYPOS)
@@ -1308,9 +1274,6 @@ void HU_ClearMessages(void)
     viewplayer->message = NULL;
     message_counter = 0;
     message_on = false;
-    viewplayer->centermessage = NULL;
-    secret_counter = 0;
-    secret_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
     message_external = false;
