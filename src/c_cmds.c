@@ -986,7 +986,7 @@ static void rotatemode_action_func(void)
 
 static void screenshot_action_func(void)
 {
-    G_DoScreenShot();
+    G_ScreenShot();
 }
 
 static void strafeleft_action_func(void)

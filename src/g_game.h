@@ -87,7 +87,6 @@ void G_Ticker(void);
 dboolean G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
-void G_DoScreenShot(void);
 void I_ToggleWidescreen(dboolean toggle);
 
 void G_SetFastParms(int fast_pending);

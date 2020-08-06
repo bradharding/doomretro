@@ -1723,7 +1723,7 @@ dboolean C_Responder(event_t *ev)
         }
         else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
         {
-            G_DoScreenShot();
+            G_ScreenShot();
             return true;
         }
 

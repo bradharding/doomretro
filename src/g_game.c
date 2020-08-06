@@ -661,7 +661,8 @@ dboolean G_Responder(event_t *ev)
                 && ev->data1 != KEY_CAPSLOCK
                 && ev->data1 != KEY_NUMLOCK
                 && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
-                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
+                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
+                && ev->data1 != keyboardscreenshot)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
             || (ev->type == ev_gamepad
                 && gamepadwait < I_GetTime()
@@ -672,11 +673,6 @@ dboolean G_Responder(event_t *ev)
             {
                 keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
-            }
-            else if (ev->type == ev_keydown && ev->data1 == keyboardscreenshot)
-            {
-                keydown = keyboardscreenshot;
-                G_DoScreenShot();
             }
             else
             {
@@ -913,10 +909,6 @@ void G_Ticker(void)
                 G_DoWorldDone();
                 break;
 
-            case ga_screenshot:
-                G_DoScreenShot();
-                break;
-
             default:
                 break;
         }
@@ -1072,45 +1064,34 @@ static void G_DoReborn(void)
 
 void G_ScreenShot(void)
 {
-    if (!splashscreen)
-        gameaction = ga_screenshot;
-}
-
-void G_DoScreenShot(void)
-{
-    if (fadecount > 0)
+    if (idbehold)
     {
-        if (idbehold)
-        {
-            idbehold = false;
-            C_Input(cheat_powerup[6].sequence);
-            C_Output(s_STSTR_BEHOLD);
-        }
-        else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
-        {
-            HU_ClearMessages();
-            D_Display();
-            D_Display();
-        }
-
-        if (V_ScreenShot())
-        {
-            static char buffer[512];
-
-            M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
-            HU_SetPlayerMessage(buffer, false, false);
-            message_dontfuckwithme = true;
-
-            C_Output("<b>%s</b> was saved.", lbmpath1);
-
-            if (*lbmpath2)
-                C_Output("<b>%s</b> was saved.", lbmpath2);
-        }
-        else
-            C_Warning(0, "A screenshot couldn't be taken.");
+        idbehold = false;
+        C_Input(cheat_powerup[6].sequence);
+        C_Output(s_STSTR_BEHOLD);
+    }
+    else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
+    {
+        HU_ClearMessages();
+        D_Display();
+        D_Display();
     }
 
-    gameaction = ga_nothing;
+    if (V_ScreenShot())
+    {
+        static char buffer[512];
+
+        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
+        HU_SetPlayerMessage(buffer, false, false);
+        message_dontfuckwithme = true;
+
+        C_Output("<b>%s</b> was saved.", lbmpath1);
+
+        if (*lbmpath2)
+            C_Output("<b>%s</b> was saved.", lbmpath2);
+    }
+    else
+        C_Warning(0, "A screenshot couldn't be taken.");
 }
 
 // DOOM Par Times
