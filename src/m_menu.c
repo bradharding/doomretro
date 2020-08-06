@@ -1183,7 +1183,11 @@ void M_UpdateSaveGameName(int i)
             int map;
 
             if (M_CheckSaveGame(&ep, &map, i))
-                switch (gamemission)
+                if (M_StringCompare(savegamestrings[i], P_GetMapName(map)))
+                {
+                    match = true;
+                }
+                else switch (gamemission)
                 {
                     case doom:
                         if ((map == 10 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B))
@@ -3762,8 +3766,8 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-                    else if (W_CheckNumForName(name) < 0)   // Custom Episode
-                        M_WriteText(x, y + OFFSET, *text, true);
+                    else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
+                        M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                         M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (**text)
