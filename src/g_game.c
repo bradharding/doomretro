@@ -1078,7 +1078,7 @@ void G_ScreenShot(void)
 
 void G_DoScreenShot(void)
 {
-    if (!fadecount)
+    if (fadecount > 0)
     {
         if (idbehold)
         {

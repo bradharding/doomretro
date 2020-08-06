@@ -3350,7 +3350,7 @@ dboolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && (currentMenu == &MainDef && itemOn == 3 || (currentMenu == &OptionsDef && !itemOn)))
+                    if (gamestate != GS_LEVEL && ((currentMenu == &MainDef && itemOn == 3) || (currentMenu == &OptionsDef && !itemOn)))
                         return true;
 
                     if (currentMenu != &LoadDef)

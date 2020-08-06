@@ -970,8 +970,7 @@ dboolean ST_Responder(event_t *ev)
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
-                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9)
-                    || (BTSX && W_CheckMultipleLumps(lump) == 1))
+                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9) || (BTSX && W_CheckMultipleLumps(lump) == 1))
                     idclev = false;
                 else
                 {
@@ -981,7 +980,7 @@ dboolean ST_Responder(event_t *ev)
                     C_Input("%s%c%c", cheat_clev_xy.sequence, buffer[0], buffer[1]);
 
                     if (BTSX)
-                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2), buffer[0], buffer[1]);
+                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
                     else if (FREEDOOM && gamemode != commercial)
                         M_snprintf(lump, sizeof(lump), "C%cM%c", buffer[0], buffer[1]);
 
@@ -1205,30 +1204,27 @@ static void ST_UpdateWidgets(void)
     w_ready.data = readyweapon;
 
     // update keycard multiple widgets
-    for (int i = 0; i < 3; i++)
-    {
-        keyboxes[i] = (viewplayer->cards[i] > 0 ? i : -1);
-
-        if (viewplayer->cards[i + 3] > 0 && viewplayer->cards[i + 3] > viewplayer->cards[i])
-            keyboxes[i] = i + 3;
-    }
+    keyboxes[0] = (viewplayer->cards[it_blueskull] > 0 ? it_blueskull : (viewplayer->cards[it_bluecard] > 0 ? it_bluecard : -1));
+    keyboxes[1] = (viewplayer->cards[it_yellowskull] > 0 ? it_yellowskull : (viewplayer->cards[it_yellowcard] > 0 ? it_yellowcard : -1));
+    keyboxes[2] = (viewplayer->cards[it_redskull] > 0 ? it_redskull : (viewplayer->cards[it_redcard] > 0 ? it_redcard : -1));
 
     // refresh everything if this is him coming back to life
-    // [BH] but only if not paused and no menu
-    if (!freeze && !paused && !menuactive && !consoleactive)
-        ST_UpdateFaceWidget();
+    ST_UpdateFaceWidget();
 }
 
 void ST_Ticker(void)
 {
-    if (!freeze && !paused && !menuactive && !consoleactive)
+    if (!vid_widescreen)
     {
-        if (!vid_widescreen)
+        if (!freeze && !paused && !menuactive && !consoleactive)
         {
             ST_UpdateWidgets();
             st_oldhealth = viewplayer->health;
         }
-        else if (r_hud && !r_althud)
+    }
+    else if (r_hud && !r_althud)
+    {
+        if (!freeze && !paused && !menuactive && !consoleactive)
         {
             ST_UpdateFaceWidget();
             st_oldhealth = viewplayer->health;
@@ -1477,16 +1473,6 @@ static void ST_LoadCallback(char *lumpname, patch_t **variable)
         *variable = W_CacheLumpName(lumpname);
 }
 
-static void ST_LoadGraphics(void)
-{
-    ST_LoadUnloadGraphics(&ST_LoadCallback);
-}
-
-static void ST_LoadData(void)
-{
-    ST_LoadGraphics();
-}
-
 static void ST_InitData(void)
 {
     st_firsttime = true;
@@ -1550,30 +1536,16 @@ static void ST_CreateWidgets(void)
     STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO3WIDTH);
 }
 
-static dboolean st_stopped = true;
-
-static void ST_Stop(void)
-{
-    if (st_stopped)
-        return;
-
-    I_SetPalette(PLAYPAL);
-    st_stopped = true;
-}
-
 void ST_Start(void)
 {
-    if (!st_stopped)
-        ST_Stop();
-
     ST_InitData();
     ST_CreateWidgets();
-    st_stopped = false;
 }
 
 void ST_Init(void)
 {
-    ST_LoadData();
+    ST_LoadUnloadGraphics(&ST_LoadCallback);
+
     screens[4] = malloc(ST_WIDTH * SBARHEIGHT);
 
     // [BH] fix evil grin being displayed when picking up first item after

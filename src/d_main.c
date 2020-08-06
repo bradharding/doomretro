@@ -233,12 +233,13 @@ void D_FadeScreen(void)
 static void D_UpdateFade(void)
 {
     static byte *tinttab;
-    byte        *tinttabs[4] = { NULL, tinttab75, tinttab50, tinttab25 };
     static int  fadewait;
     int         tics = I_GetTimeMS();
 
     if (fadewait < tics)
     {
+        byte    *tinttabs[] = { NULL, tinttab75, tinttab50, tinttab25 };
+
         fadewait = tics + FADETICS;
         tinttab = tinttabs[fadecount--];
     }
@@ -560,7 +561,7 @@ void D_PageDrawer(void)
             prevtic = pagetic;
         }
     }
-    else if (pagelump)
+    else
         V_DrawPagePatch(pagelump);
 }
 
