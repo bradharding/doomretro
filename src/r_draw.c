@@ -923,7 +923,7 @@ void R_DrawTranslucentBlue25Column(void)
 //
 #define NOFUZZ  251
 
-const int       fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+const int       fuzzrange[] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {

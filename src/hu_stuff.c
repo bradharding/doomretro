@@ -133,7 +133,7 @@ static struct
     char    *patchname;
     int     mobjnum;
     patch_t *patch;
-} ammopic[NUMAMMO] = {
+} ammopic[] = {
     { "CLIPA0", MT_CLIP   },
     { "SHELA0", MT_MISC22 },
     { "CELLA0", MT_MISC20 },
@@ -145,7 +145,7 @@ static struct
     char    *patchnamea;
     char    *patchnameb;
     patch_t *patch;
-} keypics[NUMCARDS] = {
+} keypics[] = {
     { "BKEYA0", "BKEYB0" },
     { "YKEYA0", "YKEYB0" },
     { "RKEYA0", "RKEYB0" },

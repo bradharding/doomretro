@@ -77,8 +77,8 @@ dboolean        species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int             maxammo[NUMAMMO] =  { 200, 50, 300, 50 };
-int             clipammo[NUMAMMO] = {  10,  4,  20,  1 };
+int             maxammo[] =  { 200, 50, 300, 50 };
+int             clipammo[] = {  10,  4,  20,  1 };
 
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
@@ -510,7 +510,7 @@ int cardsfound;
 //
 void P_InitCards(void)
 {
-    int cardsprites[NUMCARDS] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
+    int cardsprites[] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
 
     for (int i = 0; i < NUMCARDS; i++)
         viewplayer->cards[i] = CARDNOTINMAP;

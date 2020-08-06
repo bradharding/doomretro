@@ -1571,8 +1571,8 @@ static void M_DrawMainMenu(void)
 //
 static int      epi;
 static dboolean EpiCustom;
-static short    EpiMenuMap[8] = { 1, 1, 1, 1, -1, -1, -1, -1 };
-static short    EpiMenuEpi[8] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
+static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
 {
@@ -2651,7 +2651,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // screenshot
-        if (mousescreenshot != -1 && ev->data1 & mousescreenshot)
+        if (mousescreenshot != -1 && (ev->data1 & mousescreenshot))
         {
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
@@ -3700,7 +3700,7 @@ void M_Drawer(void)
     if (currentMenu != &ReadDef)
     {
         // DRAW SKULL
-        char    *skullName[2] = { "M_SKULL1", "M_SKULL2" };
+        char    *skullName[] = { "M_SKULL1", "M_SKULL2" };
 
         if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {

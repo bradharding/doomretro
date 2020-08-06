@@ -267,7 +267,7 @@ static void R_InitTextures(void)
     int                 numpnameslumps = 0;
     const maptexture_t  *mtexture;
     texture_t           *texture;
-    int                 maptex_lump[2] = { -1, -1 };
+    int                 maptex_lump[] = { -1, -1 };
     const int           *maptex1;
     const int           *maptex2 = NULL;
     char                name[9];

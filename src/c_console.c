@@ -1307,7 +1307,7 @@ void C_Drawer(void)
             154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
         };
 
-        const int notabs[4] = { 0 };
+        const int notabs[] = { 0 };
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
