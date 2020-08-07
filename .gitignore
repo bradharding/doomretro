@@ -109,6 +109,7 @@ bld/
 *.iobj
 *.ipdb
 *.bsc
+*.recipe
 
 # Visual C++ cache files
 .vs/
