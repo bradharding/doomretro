@@ -209,9 +209,7 @@ void T_MoveFloor(floormove_t *floor)
     sector_t    *sec = floor->sector;
     result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction, false);
 
-    if (!(leveltime & 7)
-        // [BH] don't make sound once floor is at its destination height
-        && sec->floorheight != floor->floordestheight)
+    if (!(leveltime & 7))
         S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
@@ -330,10 +328,7 @@ void T_MoveElevator(elevator_t *elevator)
     }
 
     // make floor move sound
-    if (!(leveltime & 7)
-        // [BH] don't make sound once elevator is at its destination height
-        && sec->floorheight != elevator->floordestheight)
-        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
+    if (!(leveltime & 7));
 
     if (res == pastdest)                        // if destination height achieved
     {
