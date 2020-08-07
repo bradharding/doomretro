@@ -465,7 +465,7 @@ static void HU_DrawHUD(void)
     const int           armor = viewplayer->armorpoints;
     int                 health_x = HUDNumberWidth(health);
     static dboolean     healthanim;
-    const dboolean      gamepaused = (menuactive || paused || consoleactive || freeze);
+    const dboolean      gamepaused = (consoleactive || freeze);
     byte                *translucency = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim)
                             || health > HUD_HEALTH_MIN || gamepaused ? tinttab66 : tinttab25);
     patch_t             *patch;
@@ -915,7 +915,7 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        const dboolean  gamepaused = (menuactive || paused || consoleactive || freeze);
+        const dboolean  gamepaused = (consoleactive || freeze);
         const int       neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
@@ -1019,7 +1019,7 @@ void HU_DrawDisk(void)
 
 void HU_Drawer(void)
 {
-    if (menuactive)
+    if (menuactive || paused)
         return;
 
     if (w_message.l->l[0])
