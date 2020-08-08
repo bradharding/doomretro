@@ -109,17 +109,6 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 }
 
 //
-// P_MakeDivline
-//
-static void P_MakeDivline(line_t *li, divline_t *dl)
-{
-    dl->x = li->v1->x;
-    dl->y = li->v1->y;
-    dl->dx = li->dx;
-    dl->dy = li->dy;
-}
-
-//
 // P_InterceptVector
 // Returns the fractional intercept point
 // along the first divline.
@@ -455,7 +444,10 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
         return true;        // line isn't crossed
 
     // hit the line
-    P_MakeDivline(ld, &dl);
+    dl.x = ld->v1->x;
+    dl.y = ld->v1->y;
+    dl.dx = ld->dx;
+    dl.dy = ld->dy;
 
     if ((frac = P_InterceptVector(&dltrace, &dl)) < 0)
         return true;        // behind source
