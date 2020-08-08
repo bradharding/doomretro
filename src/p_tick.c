@@ -54,7 +54,7 @@ uint64_t    stat_time = 0;
 // but the first element must be thinker_t.
 //
 
-// killough 8/29/98: we maintain several separate threads, each containing
+// killough 08/29/98: we maintain several separate threads, each containing
 // a special class of thinkers, to allow more efficient searches.
 thinker_t       thinkers[th_all + 1];
 
@@ -100,7 +100,7 @@ void P_AddThinker(thinker_t *thinker)
 
     thinker->references = 0;    // killough 11/98: init reference counter to 0
 
-    // killough 8/29/98: set sentinel pointers, and then add to appropriate list
+    // killough 08/29/98: set sentinel pointers, and then add to appropriate list
     thinker->cnext = NULL;
     thinker->cprev = NULL;
     P_UpdateThinker(thinker);
@@ -148,7 +148,7 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
 //
-// killough 4/25/98:
+// killough 04/25/98:
 //
 // Instead of marking the function with -1 value cast to a function pointer,
 // set the function to P_RemoveThinkerDelayed(), so that later, it will be

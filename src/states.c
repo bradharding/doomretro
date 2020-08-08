@@ -1372,14 +1372,14 @@ state_t states[NUMSTATES] =
 
     { SPR_TNT1,    0,                    -1, NULL,                   S_TNT1              }, // S_TNT1
 
-    // killough 8/9/98: grenade
+    // killough 08/09/98: grenade
     { SPR_MISL,   (0 | FF_FULLBRIGHT),  1000, A_Die,                  S_GRENADE           }, // S_GRENADE
 
     { SPR_MISL,   (1 | FF_FULLBRIGHT),    4, A_Scream,               S_DETONATE2         }, // S_DETONATE
     { SPR_MISL,   (2 | FF_FULLBRIGHT),    6, A_Detonate,             S_DETONATE3         }, // S_DETONATE2
     { SPR_MISL,   (3 | FF_FULLBRIGHT),   10, NULL,                   S_NULL              }, // S_DETONATE3
 
-    // killough 7/19/98: Marine's best friend :)
+    // killough 07/19/98: Marine's best friend :)
     { SPR_DOGS,    0,                    10, A_Look,                 S_DOGS_STND2        }, // S_DOGS_STND
     { SPR_DOGS,    1,                    10, A_Look,                 S_DOGS_STND         }, // S_DOGS_STND2
     { SPR_DOGS,    0,                     2, A_Chase,                S_DOGS_RUN2         }, // S_DOGS_RUN1
@@ -1453,7 +1453,7 @@ state_t states[NUMSTATES] =
     { SPR_BFGG,    1,                     0, A_Light0,               S_OLDBFG43          }, // S_OLDBFG42
     { SPR_BFGG,    1,                    20, A_ReFire,               S_BFG               }, // S_OLDBFG43
 
-    // killough 7/19/98: First plasma fireball in the beta:
+    // killough 07/19/98: First plasma fireball in the beta:
     { SPR_PLS1,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PLS1BALL2         }, // S_PLS1BALL
     { SPR_PLS1,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PLS1BALL          }, // S_PLS1BALL2
     { SPR_PLS1,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_PLS1EXP2          }, // S_PLS1EXP
@@ -1462,14 +1462,14 @@ state_t states[NUMSTATES] =
     { SPR_PLS1,   (5 | FF_FULLBRIGHT),    4, NULL,                   S_PLS1EXP5          }, // S_PLS1EXP4
     { SPR_PLS1,   (6 | FF_FULLBRIGHT),    4, NULL,                   S_NULL              }, // S_PLS1EXP5
 
-    // killough 7/19/98: Second plasma fireball in the beta:
+    // killough 07/19/98: Second plasma fireball in the beta:
     { SPR_PLS2,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_PLS2BALL2         }, // S_PLS2BALL
     { SPR_PLS2,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_PLS2BALL          }, // S_PLS2BALL2
     { SPR_PLS2,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_PLS2BALLX2        }, // S_PLS2BALLX1
     { SPR_PLS2,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_PLS2BALLX3        }, // S_PLS2BALLX2
     { SPR_PLS2,   (4 | FF_FULLBRIGHT),    6, NULL,                   S_NULL              }, // S_PLS2BALLX3
 
-    // killough 7/11/98: beta bonus items
+    // killough 07/11/98: beta bonus items
     { SPR_BON3,    0,                     6, NULL,                   S_BON3              }, // S_BON3
     { SPR_BON4,    0,                     6, NULL,                   S_BON4              }, // S_BON4
 

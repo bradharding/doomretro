@@ -82,12 +82,12 @@ extern int      validcount;
 // There a 0-31, i.e. 32 LUT in the COLORMAP lump.
 #define NUMCOLORMAPS        32
 
-// killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
+// killough 03/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t *(*scalelight)[MAXLIGHTSCALE];
 extern lighttable_t *(*zlight)[MAXLIGHTZ];
 extern lighttable_t *(*psprscalelight)[OLDMAXLIGHTSCALE];
 extern lighttable_t *fullcolormap;
-extern int          numcolormaps;   // killough 4/4/98: dynamic number of maps
+extern int          numcolormaps;   // killough 04/04/98: dynamic number of maps
 extern lighttable_t **colormaps;
 extern int          extralight;
 extern lighttable_t *fixedcolormap;

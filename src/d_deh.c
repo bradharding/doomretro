@@ -1497,7 +1497,7 @@ typedef struct
 } deh_block;
 
 #define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
-// killough 8/9/98: make DEH_BLOCKMAX self-adjusting
+// killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
 #define DEH_MOBJINFOMAX 35      // number of ints in the mobjinfo_t structure (!)
@@ -1960,7 +1960,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_SpawnSound,      "A_SpawnSound"      },
     { A_SpawnFly,        "A_SpawnFly"        },
     { A_BrainExplode,    "A_BrainExplode"    },
-    { A_Detonate,        "A_Detonate"        },   // killough 8/9/98
+    { A_Detonate,        "A_Detonate"        },   // killough 08/09/98
     { A_Mushroom,        "A_Mushroom"        },   // killough 10/98
     { A_SkullPop,        "A_SkullPop"        },
     { A_Die,             "A_Die"             },   // killough 11/98
@@ -1972,7 +1972,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_RandomJump,      "A_RandomJump"      },   // killough 11/98
     { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
-    { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 7/19/98: classic BFG firing function
+    { A_FireOldBFG,      "A_FireOldBFG"      },   // killough -7/19/98: classic BFG firing function
     { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
     { A_Stop,            "A_Stop"            },
 
@@ -2191,7 +2191,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98: really exit on blank line
 
-        // killough 8/98: allow hex numbers in input:
+        // killough 08/98: allow hex numbers in input:
         if ((sscanf(inbuffer, "%31s %10i = %31s", key, &indexnum, mnemonic) != 3)
             || !M_StringCompare(key, "FRAME"))        // NOTE: different format from normal
         {
@@ -2265,7 +2265,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     if (devparm)
         C_Output("Thing line: \"%s\"", inbuffer);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     ix = sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2473,7 +2473,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2581,7 +2581,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
     strncpy(inbuffer, line, DEH_BUFFERMAX);
     // NOTE: different format from normal
 
-    // killough 8/98: allow hex numbers in input, fix error case:
+    // killough 08/98: allow hex numbers in input, fix error case:
     if (sscanf(inbuffer, "%*s %*i (%31s %10i)", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
@@ -2657,7 +2657,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2721,7 +2721,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2771,7 +2771,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
 
     if (devparm)
@@ -2833,7 +2833,7 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
     // there are better ways of handling sprite renaming. Not supported.
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     C_Warning(1, "Ignoring sprite offset change at index %i: \"%s\".", indexnum, key);
 
@@ -3356,7 +3356,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
         return;                             // ************** Early return
     }
 
-    // killough 8/98: allow hex numbers in input:
+    // killough 08/98: allow hex numbers in input:
     sscanf(line, "%31s %10i %10i", key, &fromlen, &tolen);
 
     if (devparm)
@@ -3704,7 +3704,7 @@ static void lfstrip(char *s)        // strip the \r and/or \n off of a line
 //
 static void rstrip(char *s)         // strip trailing whitespace
 {
-    char    *p = s + strlen(s);     // killough 4/4/98: same here
+    char    *p = s + strlen(s);     // killough 04/04/98: same here
 
     while (p > s && isspace((unsigned char)*--p))  // break on first non-whitespace
         *p = '\0';

@@ -114,7 +114,7 @@ void F_StartFinale(void)
     viewactive = false;
     automapactive = false;
 
-    // killough 3/28/98: clear accelerative text flags
+    // killough 03/28/98: clear accelerative text flags
     acceleratestage = false;
     midstage = false;
 

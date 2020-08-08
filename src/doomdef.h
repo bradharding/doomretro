@@ -239,7 +239,7 @@ enum
 // Index of the special effects (INVUL inverse) map.
 #define INVERSECOLORMAP         32
 
-// phares 3/20/98:
+// phares 03/20/98:
 //
 // Player friction is variable, based on controlling
 // linedefs. More friction can create mud, sludge,

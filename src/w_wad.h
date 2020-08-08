@@ -61,7 +61,7 @@ struct lumpinfo_s
     int         size;
     void        *cache;
 
-    // killough 1/31/98: hash table fields, used for ultra-fast hash table lookup
+    // killough 01/31/98: hash table fields, used for ultra-fast hash table lookup
     int         index;
     int         next;
 

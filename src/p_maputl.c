@@ -69,7 +69,7 @@ int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 // P_BoxOnLineSide
 // Considers the line to be infinite
 // Returns side 0 or 1, -1 if box crosses the line.
-// killough 5/3/98: reformatted, cleaned up
+// killough 05/03/98: reformatted, cleaned up
 //
 int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 {
@@ -188,7 +188,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         // invisible things don't need to be in sector list
         // unlink from subsector
 
-        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // killough 08/11/98: simpler scheme using pointers-to-pointers for prev
         // pointers, allows head node pointers to be treated like everything else
         mobj_t  **sprev = thing->sprev;
         mobj_t  *snext = thing->snext;
@@ -216,7 +216,7 @@ void P_UnsetThingPosition(mobj_t *thing)
     {
         // inert things don't need to be in blockmap
         //
-        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // killough 08/11/98: simpler scheme using pointers-to-pointers for prev
         // pointers, allows head node pointers to be treated like everything else
         //
         // Also more robust, since it doesn't depend on current position for
@@ -260,7 +260,7 @@ void P_SetThingPosition(mobj_t *thing)
     {
         // invisible things don't go into the sector links
 
-        // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+        // killough 08/11/98: simpler scheme using pointer-to-pointer prev
         // pointers, allows head nodes to be treated like everything else
         mobj_t  **link = &subsector->sector->thinglist;
         mobj_t  *snext = *link;
@@ -271,7 +271,7 @@ void P_SetThingPosition(mobj_t *thing)
         thing->sprev = link;
         *link = thing;
 
-        // phares 3/16/98
+        // phares 03/16/98
         //
         // If sector_list isn't NULL, it has a collection of sector
         // nodes that were just removed from this Thing.
@@ -297,7 +297,7 @@ void P_SetThingPosition(mobj_t *thing)
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
-            // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+            // killough 08/11/98: simpler scheme using pointer-to-pointer prev
             // pointers, allows head nodes to be treated like everything else
             mobj_t  **link = &blocklinks[blocky * bmapwidth + blockx];
             mobj_t  *bnext = *link;
@@ -393,7 +393,7 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 // INTERCEPT ROUTINES
 //
 
-// 1/11/98 killough: Intercept limit removed
+// killough 01/11/98: Intercept limit removed
 static intercept_t  *intercepts;
 static intercept_t  *intercept_p;
 
@@ -526,7 +526,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
                 if (frac < 0)
                     continue;
 
-                P_CheckIntercepts();  // killough
+                P_CheckIntercepts();    // killough
 
                 intercept_p->frac = frac;
                 intercept_p->isaline = false;
@@ -542,7 +542,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     // must have started inside the box, so add it as an intercept.
     if (!numfronts)
     {
-        P_CheckIntercepts();  // killough
+        P_CheckIntercepts();    // killough
 
         intercept_p->frac = 0;
         intercept_p->isaline = false;

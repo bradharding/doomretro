@@ -43,7 +43,7 @@
 // P_CheckSight
 //
 
-// killough 4/19/98:
+// killough 04/19/98:
 // Convert LOS info to struct for reentrancy and efficiency of data locality
 typedef struct
 {
@@ -222,7 +222,7 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     if (rejectmatrix[pnum >> 3] & (1 << (pnum & 7)))
         return false;
 
-    // killough 4/19/98: make fake floors and ceilings block monster view
+    // killough 04/19/98: make fake floors and ceilings block monster view
     if ((s1->heightsec
         && ((t1->z + t1->height <= s1->heightsec->interpfloorheight
             && t2->z >= s1->heightsec->interpfloorheight)

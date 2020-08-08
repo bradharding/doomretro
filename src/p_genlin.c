@@ -849,7 +849,7 @@ dboolean EV_DoGenCrusher(line_t *line)
             return false;
     }
 
-    // jff 2/22/98  Reactivate in-stasis ceilings... for certain types.
+    // jff 02/22/98  Reactivate in-stasis ceilings... for certain types.
     // jff 4/5/98 return if activated
     rtn = P_ActivateInStasisCeiling(line);
 
@@ -886,7 +886,7 @@ manual_crusher:
         ceiling->thinker.function = &T_MoveCeiling;
         P_AddThinker(&ceiling->thinker);
 
-        sec->ceilingdata = ceiling;     // jff 2/22/98
+        sec->ceilingdata = ceiling;     // jff 02/22/98
         ceiling->crush = true;
         ceiling->direction = -1;
         ceiling->sector = sec;
@@ -979,7 +979,7 @@ dboolean EV_DoGenLockedDoor(line_t *line)
 
 manual_locked:
         // Do not start another function if ceiling already moving
-        if (P_SectorActive(ceiling_special, sec))   // jff 2/22/98
+        if (P_SectorActive(ceiling_special, sec))   // jff 02/22/98
         {
             if (!manual)
                 continue;
@@ -994,7 +994,7 @@ manual_locked:
         door->thinker.function = &T_VerticalDoor;
         P_AddThinker(&door->thinker);
 
-        sec->ceilingdata = door;        // jff 2/22/98
+        sec->ceilingdata = door;        // jff 02/22/98
         door->sector = sec;
         door->topwait = VDOORWAIT;
         door->line = line;
@@ -1031,7 +1031,7 @@ manual_locked:
                 break;
         }
 
-        // killough 4/15/98: fix generalized door opening sounds
+        // killough 04/15/98: fix generalized door opening sounds
         // (previously they always had the blazing door close sound)
         S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 

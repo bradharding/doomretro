@@ -794,7 +794,7 @@ manual_stair:
 //
 // Passed the linedef that triggered the elevator and the elevator action
 //
-// jff 2/22/98 new type to move floor and ceiling in parallel
+// jff 02/22/98 new type to move floor and ceiling in parallel
 //
 dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
 {

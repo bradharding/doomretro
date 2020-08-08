@@ -1939,7 +1939,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
 
-    // killough 8/29/98: remove from threaded list
+    // killough 08/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
 
     if (type != MT_BARREL)

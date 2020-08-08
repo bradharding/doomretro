@@ -337,7 +337,7 @@ static void R_InitTextures(void)
 
     numtextures = numtextures1 + numtextures2;
 
-    // killough 4/9/98: make column offsets 32-bit;
+    // killough 04/09/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
     textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, NULL);
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, NULL);
@@ -402,14 +402,14 @@ static void R_InitTextures(void)
         W_ReleaseLumpNum(maptex_lump[1]);
 
     // Create translation table for global animation.
-    // killough 4/9/98: make column offsets 32-bit;
+    // killough 04/09/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
     texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
     for (int i = 0; i < numtextures; i++)
     {
         texturetranslation[i] = i;
-        textures[i]->index = -1;                                // killough 1/31/98: Initialize texture hash table
+        textures[i]->index = -1;                                // killough 01/31/98: Initialize texture hash table
     }
 
     for (int i = numtextures - 1; i >= 0; i--)
@@ -664,10 +664,10 @@ static void R_InitSpriteLumps(void)
 //
 // R_InitColormaps
 //
-// killough 3/20/98: rewritten to allow dynamic colormaps
+// killough 03/20/98: rewritten to allow dynamic colormaps
 // and to remove unnecessary 256-byte alignment
 //
-// killough 4/4/98: Add support for C_START/C_END markers
+// killough 04/04/98: Add support for C_START/C_END markers
 //
 static void R_InitColormaps(void)
 {
@@ -719,8 +719,8 @@ static void R_InitColormaps(void)
     }
 }
 
-// killough 4/4/98: get colormap number from name
-// killough 4/11/98: changed to return -1 for illegal names
+// killough 04/04/98: get colormap number from name
+// killough 04/11/98: changed to return -1 for illegal names
 int R_ColormapNumForName(char *name)
 {
     int i = 0;

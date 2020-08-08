@@ -153,7 +153,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         if (ceiling->oldspeed < CEILSPEED * 3)
                             ceiling->speed = ceiling->oldspeed;
 
-                        ceiling->direction = 1; // jff 2/22/98 make it go back up!
+                        ceiling->direction = 1; // jff 02/22/98 make it go back up!
                         break;
 
                     case silentCrushAndRaise:

@@ -140,7 +140,7 @@ int R_CheckFlatNumForName(char *name);
 int R_TextureNumForName(char *name);
 int R_CheckTextureNumForName(char *name);
 
-int R_ColormapNumForName(char *name);   // killough 4/4/98
+int R_ColormapNumForName(char *name);   // killough 04/04/98
 
 extern byte         grays[256];
 extern texture_t    **textures;

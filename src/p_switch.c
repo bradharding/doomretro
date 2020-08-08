@@ -48,7 +48,7 @@
 #include "s_sound.h"
 #include "w_wad.h"
 
-// killough 2/8/98: Remove switch limit
+// killough 02/08/98: Remove switch limit
 static int          *switchlist;        // killough
 static int          numswitches;        // killough
 
@@ -72,7 +72,7 @@ int                 maxbuttons = MAXBUTTONS;
 // The standard list of switches and animations is contained in the example
 // source text file DEFSWANI.DAT also in the BOOM util distribution.
 //
-// Rewritten by Lee Killough to remove limit 2/8/98
+// Rewritten by Lee Killough to remove limit 02/08/98
 //
 void P_InitSwitchList(void)
 {

@@ -99,8 +99,8 @@ fixed_t             *finecosine = &finesine[FINEANGLES / 4];
 fixed_t             finetangent[FINEANGLES / 2];
 angle_t             tantoangle[SLOPERANGE + 1];
 
-// killough 3/20/98: Support dynamic colormaps, e.g. deep water
-// killough 4/4/98: support dynamic number of them as well
+// killough 03/20/98: Support dynamic colormaps, e.g. deep water
+// killough 04/04/98: support dynamic number of them as well
 int                 numcolormaps = 1;
 static lighttable_t *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
 static lighttable_t *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
@@ -309,12 +309,10 @@ static void R_InitPointToAngle(void)
 static void R_InitTextureMapping(void)
 {
     // Use tangent table to generate viewangletox:
-    //  viewangletox will give the next greatest x
-    //  after the view angle.
+    //  viewangletox will give the next greatest x after the view angle.
     const fixed_t   limit = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
 
-    // Calc focallength
-    //  so field of view angles covers SCREENWIDTH.
+    // Calc focallength so field of view angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
 
     for (int i = 0; i < FINEANGLES / 2; i++)
@@ -330,8 +328,7 @@ static void R_InitTextureMapping(void)
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
-    //  xtoviewangle will give the smallest view angle
-    //  that maps to x.
+    //  xtoviewangle will give the smallest view angle that maps to x.
     for (int i, x = 0; x <= viewwidth; x++)
     {
         for (i = 0; viewangletox[i] > x; i++);
@@ -351,11 +348,8 @@ static void R_InitTextureMapping(void)
 
 //
 // R_InitLightTables
-// Only inits the zlight table,
-//  because the scalelight table changes with view size.
+// Only inits the zlight table, because the scalelight table changes with view size.
 //
-#define DISTMAP 2
-
 void R_InitLightTables(void)
 {
     int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2])) + 1;
@@ -373,9 +367,9 @@ void R_InitLightTables(void)
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
             const int   scale = FixedDiv(width / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
-            const int   level = BETWEEN(0, start - scale / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - scale / 2, NUMCOLORMAPS - 1) * 256;
 
-            // killough 3/20/98: Initialize multiple colormaps
+            // killough 03/20/98: Initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)
                 c_zlight[t][i][j] = &colormaps[t][level];
         }
@@ -384,8 +378,7 @@ void R_InitLightTables(void)
 
 //
 // R_SetViewSize
-// Do not really change anything here,
-//  because it might be in the middle of a refresh.
+// Do not really change anything here, because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
 dboolean    setsizeneeded;
@@ -452,31 +445,29 @@ void R_ExecuteSetViewSize(void)
 
     yslope = yslopes[LOOKDIRMAX];
 
-    // Calculate the light levels to use
-    //  for each level/scale combination.
+    // Calculate the light levels to use for each level/scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTSCALE; j++)
         {
-            const int   level = BETWEEN(0, start - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - j * SCREENWIDTH / (viewwidth * 2), NUMCOLORMAPS - 1) * 256;
 
-            // killough 3/20/98: initialize multiple colormaps
+            // killough 03/20/98: initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)
                 c_scalelight[t][i][j] = &colormaps[t][level];
         }
     }
 
-    // [BH] calculate separate light levels to use when drawing
-    //  player's weapon, so it stays consistent regardless of view size
+    // [BH] calculate separate light levels to use when drawing player's weapon, so it stays consistent regardless of view size.
     for (int i = 0; i < OLDLIGHTLEVELS; i++)
     {
         const int   start = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
 
         for (int j = 0; j < OLDMAXLIGHTSCALE; j++)
         {
-            const int   level = BETWEEN(0, start - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, start - j / 2, NUMCOLORMAPS - 1) * 256;
 
             for (int t = 0; t < numcolormaps; t++)
                 c_psprscalelight[t][i][j] = &colormaps[t][level];
@@ -821,7 +812,7 @@ static void R_SetupFrame(void)
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
-    // killough 3/20/98, 4/4/98: select colormap based on player status
+    // killough 03/20/98, 4/4/98: select colormap based on player status
     if (mo->subsector->sector->heightsec)
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
@@ -840,10 +831,10 @@ static void R_SetupFrame(void)
 
     if (viewplayer->fixedcolormap && r_textures)
     {
-        // killough 3/20/98: localize scalelightfixed (readability/optimization)
+        // killough 03/20/98: localize scalelightfixed (readability/optimization)
         static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
 
-        // killough 3/20/98: use fullcolormap
+        // killough 03/20/98: use fullcolormap
         fixedcolormap = fullcolormap;
 
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)

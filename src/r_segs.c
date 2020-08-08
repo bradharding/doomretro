@@ -222,7 +222,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     int             texnum;
     fixed_t         texheight;
     const rpatch_t  *patch;
-    sector_t        tempsec;        // killough 4/13/98
+    sector_t        tempsec;        // killough 04/13/98
 
     curline = ds->curline;
     colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
@@ -233,7 +233,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
     // Calculate light table.
     // Use different light tables for horizontal/vertical.
-    // killough 4/13/98: get correct lightlevel for 2s normal textures
+    // killough 04/13/98: get correct lightlevel for 2s normal textures
     if (fixedcolormap)
         dc_colormap[0] = fixedcolormap;
     else
@@ -265,7 +265,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             if (!(dc_numposts = column->numposts))
                 continue;
 
-            // killough 3/2/98:
+            // killough 03/02/98:
             //
             // This calculation used to overflow and cause crashes in DOOM:
             //
@@ -527,7 +527,7 @@ void R_StoreWallRange(const int start, const int stop)
 
     sidedef = curline->sidedef;
 
-    // killough 1/98 -- fix 2s line HOM
+    // killough 01/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
         const size_t    pos = ds_p - drawsegs;
@@ -554,7 +554,7 @@ void R_StoreWallRange(const int start, const int stop)
     ds_p->curline = curline;
     rw_stopx = stop + 1;
 
-    // killough 1/6/98, 2/1/98: remove limit on openings
+    // killough 01/06/98, 02/01/98: remove limit on openings
     {
         const size_t    pos = lastopening - openings;
         const size_t    need = ((size_t)rw_stopx - start) * sizeof(*lastopening) + pos;
@@ -707,30 +707,30 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
 
-            // killough 3/7/98: Add checks for (x,y) offsets
+            // killough 03/07/98: Add checks for (x,y) offsets
             || backsector->floor_xoffs != frontsector->floor_xoffs
             || backsector->floor_yoffs != frontsector->floor_yoffs
 
-            // killough 4/15/98: prevent 2s normals
+            // killough 04/15/98: prevent 2s normals
             // from bleeding through deep water
             || frontsector->heightsec
 
-            // killough 4/17/98: draw floors if different light levels
+            // killough 04/17/98: draw floors if different light levels
             || backsector->floorlightsec != frontsector->floorlightsec);
 
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel
 
-            // killough 3/7/98: Add checks for (x,y) offsets
+            // killough 03/07/98: Add checks for (x,y) offsets
             || backsector->ceiling_xoffs != frontsector->ceiling_xoffs
             || backsector->ceiling_yoffs != frontsector->ceiling_yoffs
 
-            // killough 4/15/98: prevent 2s normals
+            // killough 04/15/98: prevent 2s normals
             // from bleeding through fake ceilings
             || (frontsector->heightsec && frontsector->ceilingpic != skyflatnum)
 
-            // killough 4/17/98: draw ceilings if different light levels
+            // killough 04/17/98: draw ceilings if different light levels
             || backsector->ceilinglightsec != frontsector->ceilinglightsec);
 
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
@@ -805,7 +805,7 @@ void R_StoreWallRange(const int start, const int stop)
     // if a floor/ceiling plane is on the wrong side of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
 
-    // killough 3/7/98: add deep water check
+    // killough 03/07/98: add deep water check
     if (!frontsector->heightsec)
     {
         if (frontsector->interpfloorheight >= viewz)
@@ -846,7 +846,7 @@ void R_StoreWallRange(const int start, const int stop)
     // render it
     if (markceiling)
     {
-        // killough 4/11/98: add NULL ptr checks
+        // killough 04/11/98: add NULL ptr checks
         if (ceilingplane)
             ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
         else
@@ -855,7 +855,7 @@ void R_StoreWallRange(const int start, const int stop)
 
     if (markfloor)
     {
-        // killough 4/11/98: add NULL ptr checks
+        // killough 04/11/98: add NULL ptr checks
         if (floorplane)
         {
             // cph 2003/04/18  - ceilingplane and floorplane might be the same

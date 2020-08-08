@@ -122,7 +122,7 @@ void R_ClearClipSegs(void)
     memset(solidcol, 0, SCREENWIDTH);
 }
 
-// killough 1/18/98 -- This function is used to fix the automap bug which
+// killough 01/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
 // cph - converted to R_RecalcLineFlags. This recalculates all the flags for
@@ -233,7 +233,7 @@ static void R_InterpolateSector(sector_t *sector)
 }
 
 //
-// killough 3/7/98: Hack floor/ceiling heights for deep water etc.
+// killough 03/07/98: Hack floor/ceiling heights for deep water etc.
 //
 // If player's view height is underneath fake floor, lower the
 // drawn ceiling to be just under the floor height, and replace
@@ -242,7 +242,7 @@ static void R_InterpolateSector(sector_t *sector)
 //
 // Similar for ceiling, only reflected.
 //
-// killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
+// killough 04/11/98, 04/13/98: fix bugs, add 'back' parameter
 //
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, dboolean back)
 {
@@ -386,7 +386,7 @@ static void R_AddLine(seg_t *line)
     angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
     angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
 
-    // killough 1/31/98: Here is where "slime trails" can SOMETIMES occur:
+    // killough 01/31/98: Here is where "slime trails" can SOMETIMES occur:
     x1 = viewangletox[angle1];
     x2 = viewangletox[angle2];
 
@@ -397,12 +397,12 @@ static void R_AddLine(seg_t *line)
     // Single sided line?
     if ((backsector = line->backsector))
     {
-        sector_t    tempsec;    // killough 3/8/98: ceiling/water hack
+        sector_t    tempsec;    // killough 03/08/98: ceiling/water hack
 
         // [AM] Interpolate sector movement before running clipping tests. Frontsector should already be interpolated.
         R_InterpolateSector(backsector);
 
-        // killough 3/8/98, 4/4/98: hack for invisible ceilings/deep water
+        // killough 03/08/98, 04/04/98: hack for invisible ceilings/deep water
         backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
     }
 
@@ -510,39 +510,39 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 static void R_Subsector(int num)
 {
     subsector_t *sub = subsectors + num;
-    sector_t    tempsec;                                        // killough 3/7/98: deep water hack
+    sector_t    tempsec;                                        // killough 03/07/98: deep water hack
     sector_t    *sector = sub->sector;
-    int         floorlightlevel;                                // killough 3/16/98: set floor lightlevel
-    int         ceilinglightlevel;                              // killough 4/11/98
+    int         floorlightlevel;                                // killough 03/16/98: set floor lightlevel
+    int         ceilinglightlevel;                              // killough 04/11/98
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
     // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
     R_InterpolateSector(sector);
 
-    // killough 3/8/98, 4/4/98: Deep water/fake ceiling effect
+    // killough 03/08/98, 04/04/98: Deep water/fake ceiling effect
     frontsector = R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
-    floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
+    floorplane = (frontsector->interpfloorheight < viewz        // killough 03/07/98
         || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
             (frontsector->floorpic == skyflatnum                // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
-            floorlightlevel,                                    // killough 3/16/98
-            frontsector->floor_xoffs,                           // killough 3/7/98
+            floorlightlevel,                                    // killough 03/16/98
+            frontsector->floor_xoffs,                           // killough 03/07/98
             frontsector->floor_yoffs) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
-        R_FindPlane(frontsector->interpceilingheight,           // killough 3/8/98
+        R_FindPlane(frontsector->interpceilingheight,           // killough 03/08/98
             (frontsector->ceilingpic == skyflatnum              // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
-            ceilinglightlevel,                                  // killough 4/11/98
-            frontsector->ceiling_xoffs,                         // killough 3/7/98
+            ceilinglightlevel,                                  // killough 04/11/98
+            frontsector->ceiling_xoffs,                         // killough 03/07/98
             frontsector->ceiling_yoffs) : NULL);
 
-    // killough 9/18/98: Fix underwater slowdown, by passing real sector
+    // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
     // lightlevels on floor & ceiling lightlevels in the surrounding area.
     //

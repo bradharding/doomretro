@@ -65,21 +65,21 @@ static fixed_t  tmdropoffz;
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
 line_t          *ceilingline;
-line_t          *blockline;     // killough 8/11/98: blocking linedef
-static line_t   *floorline;     // killough 8/1/98: Highest touched floor
-static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
+line_t          *blockline;     // killough 08/11/98: blocking linedef
+static line_t   *floorline;     // killough 08/01/98: Highest touched floor
+static int      tmunstuck;      // killough 08/01/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
 
-// 1/11/98 killough: removed limit on special lines crossed
+// killough 01/11/98: removed limit on special lines crossed
 line_t          **spechit;
 int             numspechit = 0;
 
 static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t      *sector_list;   // phares 3/16/98
+msecnode_t      *sector_list;   // phares 03/16/98
 
 dboolean        infight;
 
@@ -99,7 +99,7 @@ extern dboolean telefragonmap30;
 //
 // PIT_StompThing
 //
-static dboolean telefrag;   // killough 8/9/98: whether to telefrag at exit
+static dboolean telefrag;   // killough 08/09/98: whether to telefrag at exit
 
 static dboolean PIT_StompThing(mobj_t *thing)
 {
@@ -119,7 +119,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
         return true;        // didn't hit it
 
     // monsters don't stomp things except on boss level
-    if (!telefrag)          // killough 8/9/98: make consistent across all levels
+    if (!telefrag)          // killough 08/09/98: make consistent across all levels
         return false;
 
     if ((thing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
@@ -137,7 +137,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
 }
 
 //
-// killough 8/28/98:
+// killough 08/28/98:
 //
 // P_GetFriction
 //
@@ -178,7 +178,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
 // P_GetMoveFactor() returns the value by which the x,y
 // movements are multiplied to add to player movement.
 //
-// killough 8/28/98: rewritten
+// killough 08/28/98: rewritten
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 {
     int movefactor;
@@ -320,7 +320,7 @@ static dboolean PIT_CrossLine(line_t *ld)
     return true;                // line doesn't block trajectory
 }
 
-// killough 8/1/98: used to test intersection between thing and line
+// killough 08/01/98: used to test intersection between thing and line
 // assuming NO movement occurs -- used to avoid sticky situations.
 static int untouched(line_t *ld)
 {
@@ -339,7 +339,7 @@ void P_CheckSpechits(void)
 {
     static int  spechit_max;
 
-    // 1/11/98 killough: remove limit on lines hit, by array doubling
+    // killough 01/11/98: remove limit on lines hit, by array doubling
     if (numspechit >= spechit_max)
     {
         spechit_max = (spechit_max ? spechit_max * 2 : 8);
@@ -370,20 +370,20 @@ static dboolean PIT_CheckLine(line_t *ld)
     // so two special lines that are only 8 pixels apart
     // could be crossed in either order.
 
-    // killough 7/24/98: allow player to move out of 1s wall, to prevent sticking
+    // killough 07/24/98: allow player to move out of 1s wall, to prevent sticking
     if (!ld->backsector)                                // one sided line
     {
         blockline = ld;
         return (tmunstuck && !untouched(ld) && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
     }
 
-    // killough 8/10/98: allow bouncing objects to pass through as missiles
+    // killough 08/10/98: allow bouncing objects to pass through as missiles
     if (!(tmthing->flags & (MF_MISSILE | MF_BOUNCES)))
     {
         if (ld->flags & ML_BLOCKING)                    // explicitly blocking everything
-            return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
+            return (tmunstuck && !untouched(ld));       // killough 08/01/98: allow escape
 
-        // killough 8/9/98: monster-blockers don't affect friends
+        // killough 08/09/98: monster-blockers don't affect friends
         // [BH] monster-blockers don't affect corpses
         if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags2 & MF2_SPAWNEDBYPLAYER))
             && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
@@ -405,7 +405,7 @@ static dboolean PIT_CheckLine(line_t *ld)
     if (openbottom > tmfloorz)
     {
         tmfloorz = openbottom;
-        floorline = ld;                                 // killough 8/1/98: remember floor linedef
+        floorline = ld;                                 // killough 08/01/98: remember floor linedef
         blockline = ld;
     }
 
@@ -526,7 +526,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     }
 
     // missiles can hit other things
-    // killough 8/10/98: bouncing non-solid things can hit other things too
+    // killough 08/10/98: bouncing non-solid things can hit other things too
     if ((tmflags & MF_MISSILE) || ((tmflags & MF_BOUNCES) && !(tmflags & MF_SOLID)))
     {
         int height = thing->info->projectilepassheight;
@@ -554,7 +554,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
                 return false;
         }
 
-        // killough 8/10/98: if moving thing is not a missile, no damage
+        // killough 08/10/98: if moving thing is not a missile, no damage
         // is inflicted, and momentum is reduced if object hit is solid.
         if (!(tmflags & MF_MISSILE))
         {
@@ -630,10 +630,10 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         return true;
     }
 
-    // killough 3/16/98: Allow non-solid moving objects to move through solid
+    // killough 03/16/98: Allow non-solid moving objects to move through solid
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
-    // killough 4/11/98: Treat no-clipping things as not blocking
+    // killough 04/11/98: Treat no-clipping things as not blocking
     return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP) && !freeze && (tmflags & MF_SOLID)) || unblocking);
 }
 
@@ -768,7 +768,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXLEFT] = x - radius;
 
     newsec = R_PointInSubsector(x, y)->sector;
-    floorline = NULL;                           // killough 8/1/98
+    floorline = NULL;                           // killough 08/01/98
     blockline = NULL;
     ceilingline = NULL;
 
@@ -971,8 +971,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 
     if (!(flags & MF_NOCLIP) && !freeze)
     {
-        // killough 7/26/98: reformatted slightly
-        // killough 8/1/98: Possibly allow escape if otherwise stuck
+        // killough 07/26/98: reformatted slightly
+        // killough 08/01/98: Possibly allow escape if otherwise stuck
         if (tmceilingz - tmfloorz < thing->height       // doesn't fit
             // mobj must lower to fit
             || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
@@ -1051,7 +1051,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 }
 
 //
-// killough 9/12/98:
+// killough 09/12/98:
 //
 // Apply "torque" to objects hanging off of ledges, so that they
 // fall off. It's not really torque, since DOOM has no concept of
@@ -1123,7 +1123,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
 }
 
 //
-// killough 9/12/98
+// killough 09/12/98
 //
 // Applies "torque" to objects, based on all contacted linedefs
 //
@@ -1423,8 +1423,8 @@ void P_SlideMove(mobj_t *mo)
             // the move must have hit the middle, so stairstep
 
 stairstep:
-            // killough 3/15/98: Allow objects to drop off ledges
-            // phares 5/4/98: kill momentum if you can't move at all
+            // killough 03/15/98: Allow objects to drop off ledges
+            // phares 05/04/98: kill momentum if you can't move at all
             if (!P_TryMove(mo, mo->x, mo->y + mo->momy, 1))
                 P_TryMove(mo, mo->x + mo->momx, mo->y, 1);
 
@@ -1437,7 +1437,7 @@ stairstep:
             fixed_t newx = FixedMul(mo->momx, bestslidefrac);
             fixed_t newy = FixedMul(mo->momy, bestslidefrac);
 
-            // killough 3/15/98: Allow objects to drop off ledges
+            // killough 03/15/98: Allow objects to drop off ledges
             if (!P_TryMove(mo, mo->x + newx, mo->y + newy, 1))
                 goto stairstep;
         }
@@ -1477,7 +1477,7 @@ stairstep:
 mobj_t          *linetarget;    // who got hit (or NULL)
 static mobj_t   *shootthing;
 
-// killough 8/2/98: for more intelligent autoaiming
+// killough 08/02/98: for more intelligent autoaiming
 static int      aim_flags_mask;
 
 // height if not aiming up or down
@@ -1552,7 +1552,7 @@ static dboolean PTR_AimTraverse(intercept_t *in)
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
 
-    // killough 7/19/98, 8/2/98:
+    // killough 07/19/98, 08/02/98:
     // friends don't aim at friends (except players), at least not first
     if ((th->flags & shootthing->flags & aim_flags_mask) && !th->player)
         return true;
@@ -1760,7 +1760,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
     attackrange = distance;
     linetarget = NULL;
 
-    // killough 8/2/98: prevent friends from aiming at friends
+    // killough 08/02/98: prevent friends from aiming at friends
     aim_flags_mask = mask;
 
     P_PathTraverse(t1->x, t1->y, x2, y2, (PT_ADDLINES | PT_ADDTHINGS), &PTR_AimTraverse);
@@ -1906,7 +1906,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
     fixed_t     dist;
     mobjtype_t  type;
 
-    // killough 8/20/98: allow bouncers to take damage
+    // killough 08/20/98: allow bouncers to take damage
     // (missile bouncers are already excluded with MF_NOBLOCKMAP)
     if (!(thing->flags & (MF_SHOOTABLE | MF_BOUNCES))
         // [BH] allow corpses to react to blast damage
@@ -1915,7 +1915,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
 
     type = thing->type;
 
-    // killough 8/10/98: allow grenades to hurt anyone, unless
+    // killough 08/10/98: allow grenades to hurt anyone, unless
     // fired by Cyberdemons, in which case it won't hurt Cybers.
     if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG) : (type == MT_CYBORG || type == MT_SPIDER))
         return true;
@@ -2178,7 +2178,7 @@ static void P_PutSecnode(msecnode_t *node)
     headsecnode = node;
 }
 
-// phares 3/16/98
+// phares 03/16/98
 //
 // P_AddSecnode() searches the current list to see if this sector is
 // already there. If not, it adds a sector node at the head of the list of
@@ -2297,9 +2297,9 @@ static dboolean PIT_GetSectors(line_t *ld)
     // like MT_TFOG are allowed regardless of whether their radius takes
     // them beyond an impassable linedef.
 
-    // killough 3/27/98, 4/4/98:
+    // killough 03/27/98, 04/04/98:
     // Use sidedefs instead of 2s flag to determine two-sidedness.
-    // killough 8/1/98: avoid duplicate if same sector on both sides
+    // killough 08/01/98: avoid duplicate if same sector on both sides
     if (ld->backsector && ld->backsector != ld->frontsector)
         sector_list = P_AddSecnode(ld->backsector, tmthing, sector_list);
 

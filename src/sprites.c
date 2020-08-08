@@ -59,11 +59,11 @@ char *sprnames[] =
 
     // Sprites 138 to 143
     "TNT1",     // invisible sprite     phares 3/9/98
-    "DOGS",     // killough 7/19/98: Marine's best friend :)
-    "PLS1",     // killough 7/19/98: first of two plasma fireballs in the beta
-    "PLS2",     // killough 7/19/98: second of two plasma fireballs in the beta
-    "BON3",     // killough 7/11/98: evil sceptre in the beta version
-    "BON4",     // killough 7/11/98: unholy bible in the beta version
+    "DOGS",     // killough 07/19/98: Marine's best friend :)
+    "PLS1",     // killough 07/19/98: first of two plasma fireballs in the beta
+    "PLS2",     // killough 07/19/98: second of two plasma fireballs in the beta
+    "BON3",     // killough 07/11/98: evil sceptre in the beta version
+    "BON4",     // killough 07/11/98: unholy bible in the beta version
 
     // Sprite 144
     "BLD2",     // [BH] blood splats

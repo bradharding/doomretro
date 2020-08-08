@@ -503,7 +503,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 // A_FireOldBFG
 //
 // This function emulates DOOM's Pre-Beta BFG
-// By Lee Killough 6/6/98, 7/11/98, 7/19/98, 8/20/98
+// By Lee Killough 06/06/98, 07/11/98, 07/19/98, 08/20/98
 //
 // This code may not be used in other mods without appropriate credit given.
 // Code leeches will be telefragged.
@@ -526,7 +526,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
             slope = PLAYERSLOPE(player);
         else
         {
-            // killough 8/2/98: make autoaiming prefer enemies
+            // killough 08/02/98: make autoaiming prefer enemies
             int mask = MF_FRIEND;
 
             do
@@ -548,7 +548,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
                         }
                     }
                 }
-            } while (mask && (mask = 0, !linetarget));  // killough 8/2/98
+            } while (mask && (mask = 0, !linetarget));  // killough 08/02/98
         }
 
         an1 += an - actor->angle;
@@ -601,7 +601,7 @@ static void P_BulletSlope(mobj_t *actor)
         bulletslope = PLAYERSLOPE(viewplayer);
     else
     {
-        // killough 8/2/98: make autoaiming prefer enemies
+        // killough 08/02/98: make autoaiming prefer enemies
         int mask = MF_FRIEND;
 
         do
@@ -623,7 +623,7 @@ static void P_BulletSlope(mobj_t *actor)
                         bulletslope = PLAYERSLOPE(viewplayer);
                 }
             }
-        } while (mask && (mask = 0, !linetarget));  // killough 8/2/98
+        } while (mask && (mask = 0, !linetarget));  // killough 08/02/98
     }
 }
 
@@ -807,7 +807,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         int     damage = 0;
         angle_t an = mo->angle - ANG90 / 2 + ANG90 / 40 * i;
 
-        // killough 8/2/98: make autoaiming prefer enemies
+        // killough 08/02/98: make autoaiming prefer enemies
         if (P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, MF_FRIEND), !linetarget)
             P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, 0);
 

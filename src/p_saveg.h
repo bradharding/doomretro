@@ -60,10 +60,10 @@ enum
     tc_flash,
     tc_strobe,
     tc_glow,
-    tc_elevator,        // jff 2/22/98 new elevator type thinker
-    tc_scroll,          // killough 3/7/98: new scroll effect thinker
-    tc_pusher,          // phares 3/22/98:  new push/pull effect thinker
-    tc_fireflicker,     // killough 10/4/98
+    tc_elevator,        // jff 02/22/98 new elevator type thinker
+    tc_scroll,          // killough 03/07/98: new scroll effect thinker
+    tc_pusher,          // phares 03/22/98:  new push/pull effect thinker
+    tc_fireflicker,     // killough 10/04/98
     tc_button,
     tc_endspecials
 };

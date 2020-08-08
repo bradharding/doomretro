@@ -54,7 +54,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     if (thing->flags2 & MF2_MASSACRE)
         return false;
 
-    // killough 1/31/98: improve performance by using
+    // killough 01/31/98: improve performance by using
     // P_FindSectorFromLineTag() instead of simple linear search.
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
@@ -71,11 +71,11 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 fixed_t     newx = m->x;
                 fixed_t     newy = m->y;
 
-                // killough 5/12/98: exclude voodoo dolls:
+                // killough 05/12/98: exclude voodoo dolls:
                 if (player && player->mo != thing)
                     player = NULL;
 
-                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 8/9/98
+                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
                     return false;
 
                 // spawn teleport fog at source
@@ -175,7 +175,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                 player_t    *player = thing->player;
 
                 // Attempt to teleport, aborting if blocked
-                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 8/9/98
+                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
                     return false;
 
                 // Rotate thing according to difference in angles
@@ -296,7 +296,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
                     x += ((l->dy < 0) != side ? -1 : 1);
 
             // Attempt to teleport, aborting if blocked
-            if (!P_TeleportMove(thing, x, y, z, false)) // killough 8/9/98
+            if (!P_TeleportMove(thing, x, y, z, false)) // killough 08/09/98
                 return false;
 
             // Adjust z position to be same height above ground as before.

@@ -43,7 +43,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-platlist_t  *activeplats;   // killough 2/14/98: made global again
+platlist_t  *activeplats;   // killough 02/14/98: made global again
 
 //
 // Move a plat up and down

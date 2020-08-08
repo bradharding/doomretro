@@ -821,7 +821,7 @@ static void P_LoadSegs(int lump)
             free(temp);
         }
 
-        // killough 5/3/98: ignore 2s flag if second sidedef missing:
+        // killough 05/03/98: ignore 2s flag if second sidedef missing:
         if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != NO_INDEX)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
@@ -1124,7 +1124,7 @@ static void P_LoadSegs_V4(int lump)
             free(temp);
         }
 
-        // killough 5/3/98: ignore 2s flag if second sidedef missing:
+        // killough 05/03/98: ignore 2s flag if second sidedef missing:
         if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != NO_INDEX)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
@@ -1822,7 +1822,7 @@ static void P_LoadThings(int lump)
 //
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
-// killough 4/4/98: split into two functions, to allow sidedef overloading
+// killough 04/04/98: split into two functions, to allow sidedef overloading
 //
 static void P_LoadLineDefs(int lump)
 {
@@ -1847,7 +1847,7 @@ static void P_LoadLineDefs(int lump)
         ld->dx = v2->x - v1->x;
         ld->dy = v2->y - v1->y;
 
-        ld->tranlump = -1;   // killough 4/11/98: no translucency by default
+        ld->tranlump = -1;   // killough 04/11/98: no translucency by default
 
         ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE)));
 
@@ -1881,7 +1881,7 @@ static void P_LoadLineDefs(int lump)
         ld->sidenum[0] = SHORT(mld->sidenum[0]);
         ld->sidenum[1] = SHORT(mld->sidenum[1]);
 
-        // killough 4/4/98: support special sidedef interpretation below
+        // killough 04/04/98: support special sidedef interpretation below
         if (ld->sidenum[0] != NO_INDEX && ld->special)
             sides[*ld->sidenum].special = ld->special;
     }
@@ -1889,7 +1889,7 @@ static void P_LoadLineDefs(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-// killough 4/4/98: delay using sidedefs until they are loaded
+// killough 04/04/98: delay using sidedefs until they are loaded
 static void P_LoadLineDefs2(void)
 {
     line_t  *ld = lines;
@@ -1933,10 +1933,10 @@ static void P_LoadLineDefs2(void)
         ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : NULL);
         ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : NULL);
 
-        // killough 4/11/98: handle special types
+        // killough 04/11/98: handle special types
         switch (ld->special)
         {
-            case Translucent_MiddleTexture:             // killough 4/11/98: translucent 2s textures
+            case Translucent_MiddleTexture:             // killough 04/11/98: translucent 2s textures
             {
                 int lump = sides[*ld->sidenum].special; // translucency from sidedef
 
@@ -1961,14 +1961,14 @@ static void P_LoadLineDefs2(void)
 //
 // P_LoadSideDefs
 //
-// killough 4/4/98: split into two functions
+// killough 04/04/98: split into two functions
 static void P_LoadSideDefs(int lump)
 {
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
     sides = calloc_IfSameLevel(sides, numsides, sizeof(side_t));
 }
 
-// killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading
+// killough 04/04/98: delay using texture names until after linedefs are loaded, to allow overloading
 static void P_LoadSideDefs2(int lump)
 {
     mapsidedef_t    *data = W_CacheLumpNum(lump);
@@ -1997,7 +1997,7 @@ static void P_LoadSideDefs2(int lump)
 
         sd->sector = sec = sectors + sector_num;
 
-        // killough 4/4/98: allow sidedef texture names to be overloaded
+        // killough 04/04/98: allow sidedef texture names to be overloaded
         switch (sd->special)
         {
             case CreateFakeCeilingAndFloor:
@@ -2011,7 +2011,7 @@ static void P_LoadSideDefs2(int lump)
                 break;
 
             case Translucent_MiddleTexture:
-                // killough 4/11/98: apply translucency to 2s normal texture
+                // killough 04/11/98: apply translucency to 2s normal texture
                 sd->midtexture = (strncasecmp("TRANMAP", msd->midtexture, 8) ?
                     (sd->special = W_CheckNumForName(msd->midtexture)) < 0
                     || W_LumpLength(sd->special) != 65536 ? sd->special = 0,
@@ -2294,10 +2294,10 @@ static void P_CreateBlockMap(void)
 //
 // P_LoadBlockMap
 //
-// killough 3/1/98: substantially modified to work
+// killough 03/01/98: substantially modified to work
 // towards removing blockmap limit (a wad limitation)
 //
-// killough 3/30/98: Rewritten to remove blockmap limit,
+// killough 03/30/98: Rewritten to remove blockmap limit,
 // though current algorithm is brute-force and non-optimal.
 //
 static void P_LoadBlockMap(int lump)
@@ -2323,7 +2323,7 @@ static void P_LoadBlockMap(int lump)
 
         blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
 
-        // killough 3/1/98: Expand wad blockmap into larger internal one,
+        // killough 03/01/98: Expand wad blockmap into larger internal one,
         // by treating all offsets except -1 as unsigned and zero-extending
         // them. This potentially doubles the size of blockmaps allowed,
         // because DOOM originally considered the offsets as always signed.
@@ -2407,7 +2407,7 @@ static void P_LoadReject(int lumpnum)
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
 //
-// killough 5/3/98: reformatted, cleaned up
+// killough 05/03/98: reformatted, cleaned up
 // cph 18/8/99: rewritten to avoid O(numlines * numsectors) section
 // It makes things more complicated, but saves seconds on big levels
 
@@ -2931,7 +2931,7 @@ void P_SetupLevel(int ep, int map)
     P_LoadLineDefs(lumpnum + ML_LINEDEFS);
     P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
 
-    // killough 1/30/98: Create xref tables for tags
+    // killough 01/30/98: Create xref tables for tags
     P_InitTagLists();
 
     P_LoadLineDefs2();

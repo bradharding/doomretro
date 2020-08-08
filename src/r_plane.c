@@ -72,7 +72,7 @@ int                 ceilingclip[SCREENWIDTH];   // dropoff overflow
 static lighttable_t **planezlight;
 static fixed_t      planeheight;
 
-static fixed_t      xoffset, yoffset;           // killough 2/28/98: flat offsets
+static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
@@ -181,7 +181,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
 
     if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
     {
-        height = 0;                                             // killough 7/19/98: most skies map together
+        height = 0;                                             // killough 07/19/98: most skies map together
         lightlevel = 0;
     }
 

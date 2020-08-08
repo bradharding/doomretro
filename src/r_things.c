@@ -62,7 +62,7 @@
 fixed_t                 pspritescale;
 fixed_t                 pspriteiscale;
 
-static lighttable_t     **spritelights;         // killough 1/25/98 made static
+static lighttable_t     **spritelights;         // killough 01/25/98 made static
 
 // constant arrays used for psprite clipping and initializing clipping
 int                     negonearray[SCREENWIDTH];
@@ -154,7 +154,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
 //
 // The rotation character can be 0 to signify no rotations.
 //
-// 1/25/98, 1/31/98 killough : Rewritten for performance
+// 01/25/98, 01/31/98 killough : Rewritten for performance
 //
 // Empirically verified to have excellent hash properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((s[0] - ((size_t)s[1] * 3 - (size_t)s[3] * 2 - s[2]) * 2))
@@ -175,7 +175,7 @@ static void R_InitSpriteDefs(void)
     sprites = Z_Calloc(NUMSPRITES, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
-    // killough 1/31/98
+    // killough 01/31/98
     hash = malloc(sizeof(*hash) * numentries);      // allocate hash table
 
     for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
@@ -221,7 +221,7 @@ static void R_InitSpriteDefs(void)
             } while ((j = hash[j].next) >= 0);
 
             // check the frames that were found for completeness
-            if ((sprites[i].numframes = ++maxframe))  // killough 1/31/98
+            if ((sprites[i].numframes = ++maxframe))  // killough 01/31/98
             {
                 for (int frame = 0; frame < maxframe; frame++)
                     switch (sprtemp[frame].rotate)
@@ -678,7 +678,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    // killough 4/9/98: clip things which are out of view due to height
+    // killough 04/09/98: clip things which are out of view due to height
     if (FixedMul(fz - viewz, xscale) > (viewheight << FRACBITS)
         || (viewheight << FRACBITS) - viewheight < FixedMul(viewz - gzt, xscale))
         return;
@@ -699,9 +699,9 @@ static void R_ProjectSprite(mobj_t *thing)
     if (x1 >= x2)
         return;
 
-    // killough 3/27/98: exclude things totally separated
+    // killough 03/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
-    // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
+    // killough 04/11/98: improve sprite clipping for underwater/fake ceilings
     if ((heightsec = thing->subsector->sector->heightsec))
     {
         sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
@@ -721,7 +721,7 @@ static void R_ProjectSprite(mobj_t *thing)
     // store information in a vissprite
     vis = R_NewVisSprite();
 
-    // killough 3/27/98: save sector for special clipping later
+    // killough 03/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
 
     vis->mobj = thing;
@@ -925,7 +925,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // R_AddSprites
 // During BSP traversal, this adds sprites by sector.
 //
-// killough 9/18/98: add lightlevel as parameter, fixing underwater lighting
+// killough 09/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t  *thing = sec->thinglist;
@@ -1307,10 +1307,10 @@ static void R_DrawSprite(const vissprite_t *spr)
         }
     }
 
-    // killough 3/27/98:
+    // killough 03/27/98:
     // Clip the sprite against deep water and/or fake ceilings.
-    // killough 4/9/98: optimize by adding mh
-    // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
+    // killough 04/09/98: optimize by adding mh
+    // killough 04/11/98: improve sprite clipping for underwater/fake ceilings
     // killough 11/98: fix disappearing sprites
     if (spr->heightsec) // only things in specially marked sectors
     {

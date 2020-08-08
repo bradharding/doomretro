@@ -1646,7 +1646,7 @@ static void G_DoNewGame(void)
     infight = false;
 }
 
-// killough 4/10/98: New function to fix bug which caused Doom
+// killough 04/10/98: New function to fix bug which caused Doom
 // lockups when idclev was used in conjunction with -fast.
 void G_SetFastParms(int fast_pending)
 {
@@ -1657,7 +1657,7 @@ void G_SetFastParms(int fast_pending)
         if ((fast = fast_pending))
         {
             for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-                if (states[i].tics != 1)    // killough 4/10/98
+                if (states[i].tics != 1)    // killough 04/10/98
                     states[i].tics >>= 1;   // don't change 1->0 since it causes cycles
 
             mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;

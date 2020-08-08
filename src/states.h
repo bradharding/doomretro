@@ -1016,15 +1016,15 @@ typedef enum
     // add state for invisible sprite          phares 3/8/98
     S_TNT1,
 
-    // killough 8/9/98: grenade launcher
+    // killough 08/09/98: grenade launcher
     S_GRENADE,
 
-    // killough 8/9/98: detonation of objects
+    // killough 08/09/98: detonation of objects
     S_DETONATE,
     S_DETONATE2,
     S_DETONATE3,
 
-    // killough 7/19/98: Marine's best friend :)
+    // killough 07/19/98: Marine's best friend :)
     S_DOGS_STND,
     S_DOGS_STND2,
     S_DOGS_RUN1,
@@ -1053,7 +1053,7 @@ typedef enum
     S_DOGS_RAISE5,
     S_DOGS_RAISE6,
 
-    // killough 7/11/98: the old BFG's 43 firing frames
+    // killough 07/11/98: the old BFG's 43 firing frames
     S_OLDBFG1,
     S_OLDBFG2,
     S_OLDBFG3,
@@ -1098,7 +1098,7 @@ typedef enum
     S_OLDBFG42,
     S_OLDBFG43,
 
-    // killough 7/19/98: first plasma fireball in the beta
+    // killough 07/19/98: first plasma fireball in the beta
     S_PLS1BALL,
     S_PLS1BALL2,
     S_PLS1EXP,
@@ -1107,17 +1107,17 @@ typedef enum
     S_PLS1EXP4,
     S_PLS1EXP5,
 
-    // killough 7/19/98: second plasma fireball in the beta
+    // killough 07/19/98: second plasma fireball in the beta
     S_PLS2BALL,
     S_PLS2BALL2,
     S_PLS2BALLX1,
     S_PLS2BALLX2,
     S_PLS2BALLX3,
 
-    // killough 7/11/98: evil sceptre in beta version
+    // killough 07/11/98: evil sceptre in beta version
     S_BON3,
 
-    // killough 7/11/98: unholy bible in beta version
+    // killough 07/11/98: unholy bible in beta version
     S_BON4,
 
     // killough 10/98: beta lost souls were different from their modern cousins

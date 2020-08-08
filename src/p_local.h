@@ -228,7 +228,7 @@ extern dboolean     floatok;
 extern dboolean     felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t      tmfloorz;
 extern fixed_t      tmceilingz;
-extern fixed_t      tmbbox[4];      // phares 3/20/98
+extern fixed_t      tmbbox[4];      // phares 03/20/98
 extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;
 extern line_t       *blockline;
@@ -257,9 +257,9 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
 
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality);
 
-int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 8/28/98
-int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 8/28/98
-void P_ApplyTorque(mobj_t *mo);                             // killough 9/12/98
+int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 08/28/98
+int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 08/28/98
+void P_ApplyTorque(mobj_t *mo);                             // killough 09/12/98
 
 void P_MapEnd(void);
 

@@ -214,8 +214,8 @@ enum
     MF_TRANSSHIFT       = 26,
 
     MF_TOUCHY           = 0x10000000,   // killough 11/98: dies when solids touch it
-    MF_BOUNCES          = 0x20000000,   // killough 7/11/98: for beta BFG fireballs
-    MF_FRIEND           = 0x40000000,   // killough 7/18/98: friendly monsters
+    MF_BOUNCES          = 0x20000000,   // killough 07/11/98: for beta BFG fireballs
+    MF_FRIEND           = 0x40000000,   // killough 07/18/98: friendly monsters
 
     // Translucent sprite?              // phares
     MF_TRANSLUCENT      = 0x80000000    // phares
@@ -345,7 +345,7 @@ typedef struct mobj_s
 
     // More list: links in sector (if needed)
     struct mobj_s       *snext;
-    struct mobj_s       **sprev;                // killough 8/10/98: change to ptr-to-ptr
+    struct mobj_s       **sprev;                // killough 08/10/98: change to ptr-to-ptr
 
     // More drawing info: to determine current sprite.
     angle_t             angle;                  // orientation
@@ -355,7 +355,7 @@ typedef struct mobj_s
     // Interaction info, by BLOCKMAP.
     // Links in blocks (if needed).
     struct mobj_s       *bnext;
-    struct mobj_s       **bprev;                // killough 8/11/98: change to ptr-to-ptr
+    struct mobj_s       **bprev;                // killough 08/11/98: change to ptr-to-ptr
 
     struct subsector_s  *subsector;
 
@@ -409,7 +409,7 @@ typedef struct mobj_s
     // Thing being chased/attacked for tracers.
     struct mobj_s       *tracer;
 
-    // new field: last known enemy -- killough 2/15/98
+    // new field: last known enemy -- killough 02/15/98
     struct mobj_s       *lastenemy;
 
     // For bobbing up and down.
