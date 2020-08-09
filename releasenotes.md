@@ -3,6 +3,7 @@
 #### DOOM Retro v3.6.1
 
 * A bug has been fixed whereby Wolfenstein SS wouldn’t drop a clip when killed.
+* The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys now work in the automap again.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -132,7 +132,7 @@ static byte *am_crosshaircolor2;
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((fixed_t)((uint64_t)(1.0 + F_PANINC / 200.0) * FRACUNIT))
+#define M_ZOOMIN        ((fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 200.0)))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
