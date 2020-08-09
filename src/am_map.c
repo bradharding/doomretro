@@ -122,6 +122,8 @@ static byte *am_crosshaircolor2;
 #define AM_CLEARMARKKEY keyboardautomapclearmark
 #define AM_ROTATEKEY    keyboardautomaprotatemode
 
+#define MAPWIDTH        SCREENWIDTH
+
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF   125114
@@ -154,7 +156,6 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-static unsigned int mapwidth = SCREENWIDTH;
 static unsigned int mapheight = SCREENHEIGHT - SBARHEIGHT;
 static unsigned int maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
 static unsigned int mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
@@ -224,7 +225,7 @@ static void AM_ActivateNewScale(void)
 {
     m_x += m_w / 2;
     m_y += m_h / 2;
-    m_w = FTOM(mapwidth);
+    m_w = FTOM(MAPWIDTH);
     m_h = FTOM(mapheight);
     m_x -= m_w / 2;
     m_y -= m_h / 2;
@@ -251,7 +252,7 @@ static void AM_RestoreScaleAndLoc(void)
     }
 
     // Change the scaling multipliers
-    scale_mtof = FixedDiv(mapwidth << FRACBITS, m_w);
+    scale_mtof = FixedDiv(MAPWIDTH << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
     putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
 }
@@ -285,7 +286,7 @@ static void AM_FindMinMaxBoundaries(void)
             max_y = y;
     }
 
-    a = FixedDiv(mapwidth << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
+    a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
     b = FixedDiv(mapheight << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
 
     min_scale_mtof = MIN(a, b);
@@ -416,7 +417,7 @@ static void AM_InitVariables(const dboolean mainwindow)
     ftom_zoommul = FRACUNIT;
     mtof_zoommul = FRACUNIT;
 
-    m_w = FTOM(mapwidth);
+    m_w = FTOM(MAPWIDTH);
     m_h = FTOM(mapheight);
 }
 
@@ -1233,12 +1234,12 @@ static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 
     if (*x0 < 0)
         outcode1 = LEFT;
-    else if (*x0 >= (int)mapwidth)
+    else if (*x0 >= MAPWIDTH)
         outcode1 = RIGHT;
 
     if (*x1 < 0)
         outcode2 = LEFT;
-    else if (*x1 >= (int)mapwidth)
+    else if (*x1 >= MAPWIDTH)
         outcode2 = RIGHT;
 
     if (outcode1 & outcode2)
@@ -1270,19 +1271,19 @@ static inline void _PUTDOT(byte *dot, byte *color)
 
 static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < mapwidth && y < maparea)
+    if (x < MAPWIDTH && y < maparea)
         _PUTDOT(mapscreen + y + x, color);
 }
 
 static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < mapwidth && y < maparea)
+    if (x < MAPWIDTH && y < maparea)
         *(mapscreen + y + x) = *color;
 }
 
 static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < mapwidth)
+    if (x < MAPWIDTH)
     {
         byte            *dot = mapscreen + y + x;
         const dboolean  attop = (y < maparea);
@@ -1292,18 +1293,18 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
             _PUTDOT(dot, color);
 
         if (atbottom)
-            _PUTDOT(dot + mapwidth, color);
+            _PUTDOT(dot + MAPWIDTH, color);
 
-        if (x + 1 < mapwidth)
+        if (x + 1 < MAPWIDTH)
         {
             if (attop)
                 _PUTDOT(dot + 1, color);
 
             if (atbottom)
-                _PUTDOT(dot + mapwidth + 1, color);
+                _PUTDOT(dot + MAPWIDTH + 1, color);
         }
     }
-    else if (++x < mapwidth)
+    else if (++x < MAPWIDTH)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1311,13 +1312,13 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
             _PUTDOT(dot, color);
 
         if (y < mapbottom)
-            _PUTDOT(dot + mapwidth, color);
+            _PUTDOT(dot + MAPWIDTH, color);
     }
 }
 
 static inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < mapwidth && y < maparea)
+    if (x < MAPWIDTH && y < maparea)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1342,10 +1343,10 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
             // horizontal line
             const int   sx = SIGN(dx);
 
-            x0 = BETWEEN(-1, x0, mapwidth - 1);
-            x1 = BETWEEN(-1, x1, mapwidth - 1);
+            x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
+            x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
 
-            y0 *= mapwidth;
+            y0 *= MAPWIDTH;
 
             putdot(x0, y0, color);
 
@@ -1355,10 +1356,10 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
         else if (!dx)
         {
             // vertical line
-            const int   sy = SIGN(dy) * mapwidth;
+            const int   sy = SIGN(dy) * MAPWIDTH;
 
-            y0 = BETWEEN(-(int)mapwidth, y0 * mapwidth, mapbottom);
-            y1 = BETWEEN(-(int)mapwidth, y1 * mapwidth, mapbottom);
+            y0 = BETWEEN(-MAPWIDTH, y0 * MAPWIDTH, mapbottom);
+            y1 = BETWEEN(-MAPWIDTH, y1 * MAPWIDTH, mapbottom);
 
             putdot(x0, y0, color);
 
@@ -1368,11 +1369,11 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
         else
         {
             const int   sx = SIGN(dx);
-            const int   sy = SIGN(dy) * mapwidth;
+            const int   sy = SIGN(dy) * MAPWIDTH;
 
             dx = ABS(dx);
             dy = ABS(dy);
-            y0 *= mapwidth;
+            y0 *= MAPWIDTH;
             putdot(x0, y0, color);
 
             if (dx == dy)
@@ -1402,7 +1403,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
                 int error = (dx <<= 1) - dy;
 
                 dy <<= 1;
-                y1 *= mapwidth;
+                y1 *= MAPWIDTH;
 
                 while (y0 != y1)
                 {
@@ -1790,7 +1791,7 @@ static void AM_DrawThings(void)
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
-                    if (fx >= -width && fx <= (int)mapwidth + width && fy >= -width && fy <= (int)mapheight + width)
+                    if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)mapheight + width)
                         AM_DrawLineCharacter(thingtriangle, THINGTRIANGLELINES, width, angle, thingcolor, point.x, point.y);
                 }
 
@@ -1860,7 +1861,7 @@ static void AM_DrawMarks(void)
             {
                 const int   fx = x + j % MARKWIDTH;
 
-                if ((unsigned int)fx < mapwidth)
+                if (fx < MAPWIDTH)
                 {
                     const int   fy = y + j / MARKWIDTH;
 
@@ -1869,10 +1870,10 @@ static void AM_DrawMarks(void)
                         const char  src = marknums[digit][j];
 
                         if (src == '2')
-                            mapscreen[fy * mapwidth + fx] = markcolor;
+                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
                         else if (src == '1')
                         {
-                            byte    *dest = &mapscreen[fy * mapwidth + fx];
+                            byte    *dest = &mapscreen[fy * MAPWIDTH + fx];
 
                             *dest = *(*dest + tinttab66);
                         }
@@ -1945,12 +1946,12 @@ static void AM_DrawPath(void)
 
 static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 {
-    byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
+    byte    *dest = &mapscreen[(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
 
     *dest = *(*dest + color);
     dest++;
     *dest = *(*dest + color);
-    dest += mapwidth;
+    dest += MAPWIDTH;
     *dest = *(*dest + color);
     dest--;
     *dest = *(*dest + color);
@@ -1958,11 +1959,11 @@ static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 
 static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
-    byte    *dest = &mapscreen[(y * 2 - 1) * mapwidth + x * 2 - 1];
+    byte    *dest = &mapscreen[(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
 
     *(dest++) = color;
     *dest = color;
-    *(dest += mapwidth) = color;
+    *(dest += MAPWIDTH) = color;
     *(--dest) = color;
 }
 
