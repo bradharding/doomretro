@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v3.6.1
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Sunday, August 9, 2020
+
 #### DOOM Retro v3.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
