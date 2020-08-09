@@ -1701,6 +1701,7 @@ static void M_VerifyNightmare(int key)
     {
         quickSaveSlot = -1;
         M_ClearMenus();
+        viewplayer->cheats = 0;
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
     }
 }
@@ -1728,6 +1729,7 @@ static void M_ChooseSkill(int choice)
     I_Sleep(1000);
     quickSaveSlot = -1;
     M_ClearMenus();
+    viewplayer->cheats = 0;
 
     if (!EpiCustom)
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);

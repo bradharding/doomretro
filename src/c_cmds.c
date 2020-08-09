@@ -4189,6 +4189,10 @@ static void name_cmd_func2(char *cmd, char *parms)
 static void newgame_cmd_func2(char *cmd, char *parms)
 {
     C_HideConsoleFast();
+
+    if (viewplayer)
+        viewplayer->cheats = 0;
+
     G_DeferredInitNew((skill_t)(skilllevel - 1), (gamemode == commercial ? expansion : episode), 1);
 }
 
