@@ -209,7 +209,7 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->info->meleestate != S_NULL && dist < actor->info->meleethreshold)
         return false;                   // close for fist attack
 
-    if (actor->flags2 & MF2_MISSILEMORE)
+    if (actor->flags3 & MF3_MISSILEMORE)
         dist >>= 1;
 
     if (dist > actor->info->minmissilechance)

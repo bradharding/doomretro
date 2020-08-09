@@ -607,8 +607,8 @@ void R_InitColumnFunctions(void)
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
     {
-        mobjinfo_t      *info = &mobjinfo[i];
-        const uint64_t  flags2 = info->flags2;
+        mobjinfo_t  *info = &mobjinfo[i];
+        const int   flags2 = info->flags2;
 
         if (flags2 & MF2_TRANSLUCENT)
         {

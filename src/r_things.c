@@ -600,7 +600,7 @@ static void R_ProjectSprite(mobj_t *thing)
     dboolean        flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
-    uint64_t        flags2;
+    int             flags2;
     int             frame;
     fixed_t         tr_x, tr_y;
     fixed_t         gzt;

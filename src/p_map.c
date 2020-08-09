@@ -385,7 +385,7 @@ static dboolean PIT_CheckLine(line_t *ld)
 
         // killough 08/09/98: monster-blockers don't affect friends
         // [BH] monster-blockers don't affect corpses
-        if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags2 & MF2_SPAWNEDBYPLAYER))
+        if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags3 & MF3_SPAWNEDBYPLAYER))
             && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
     }
@@ -479,7 +479,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if ((flags & MF_TOUCHY)                                     // touchy object
         && (tmflags & MF_SOLID)                                 // solid object touches it
         && thing->health > 0                                    // touchy object is alive
-        && ((thing->flags2 & MF2_ARMED)                         // Thing is an armed mine
+        && ((thing->flags3 & MF3_ARMED)                         // Thing is an armed mine
             || sentient(thing))                                 // ...or a sentient thing
         && (thing->type != tmthing->type                        // only different species
             || thing->type == MT_PLAYER)                        // ...or different players
@@ -1129,14 +1129,14 @@ static dboolean PIT_ApplyTorque(line_t *ld)
 //
 void P_ApplyTorque(mobj_t *mo)
 {
-    int         x = mo->x;
-    int         y = mo->y;
-    int         radius = mo->radius;
-    int         xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
-    int         xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
-    int         yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
-    int         yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
-    uint64_t    flags2 = mo->flags2;            // Remember the current state, for gear-change
+    int x = mo->x;
+    int y = mo->y;
+    int radius = mo->radius;
+    int xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
+    int xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
+    int yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
+    int yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
+    int flags2 = mo->flags2;            // Remember the current state, for gear-change
 
     tmthing = mo;
     validcount++;                               // prevents checking same line twice
@@ -1177,7 +1177,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
 {
     fixed_t     oldfloorz = thing->floorz;      // haleyjd
     dboolean    onfloor = (thing->z == oldfloorz);
-    uint64_t    flags2 = thing->flags2;
+    int         flags2 = thing->flags2;
     player_t    *player = thing->player;
 
     P_CheckPosition(thing, thing->x, thing->y);
@@ -2074,7 +2074,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // killough 11/98: kill touchy things immediately
-    if ((flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
+    if ((flags & MF_TOUCHY) && ((thing->flags3 & MF3_ARMED) || sentient(thing)))
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
         return;

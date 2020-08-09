@@ -6328,7 +6328,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        thing->flags2 |= MF2_SPAWNEDBYPLAYER;
+                        thing->flags3 |= MF3_SPAWNEDBYPLAYER;
 
                         if (flags & MF_NOGRAVITY)
                         {
