@@ -127,7 +127,7 @@ void F_StartFinale(void)
 
         if (!secretexit)
         {
-            if (M_StringCompare(intertext, "clear"))
+            if (M_StringCompare(trimwhitespace(intertext), "clear"))
             {
                 gameaction = ga_worlddone;
                 return;
@@ -137,7 +137,7 @@ void F_StartFinale(void)
         }
         else
         {
-            if (M_StringCompare(intersecret, "clear"))
+            if (M_StringCompare(trimwhitespace(intersecret), "clear"))
             {
                 gameaction = ga_worlddone;
                 return;
