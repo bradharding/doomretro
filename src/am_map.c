@@ -156,9 +156,9 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-static unsigned int mapheight = SCREENHEIGHT - SBARHEIGHT;
-static unsigned int maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
-static unsigned int mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
+static unsigned int mapheight;
+static unsigned int maparea;
+static unsigned int mapbottom;
 
 dboolean            automapactive;
 
@@ -377,6 +377,7 @@ void AM_Init(void)
 {
     AM_SetColors();
     AM_GetGridSize();
+    AM_SetAutomapSize();
 
     isteleportline[W1_Teleport] = true;
     isteleportline[W1_ExitLevel] = true;
@@ -409,8 +410,6 @@ void AM_SetAutomapSize(void)
 static void AM_InitVariables(const dboolean mainwindow)
 {
     automapactive = mainwindow;
-
-    AM_SetAutomapSize();
 
     m_paninc.x = 0;
     m_paninc.y = 0;

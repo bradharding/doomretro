@@ -3,7 +3,7 @@
 #### DOOM Retro v3.6.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in/out the automap.
+* A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out of the automap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -35,7 +35,7 @@
 * If the player picks up a rocket launcher or BFG-9000 for the first time, they will now automatically equip them as intended.
 * The following changes have been made when freeze mode is enabled:
   * Liquid sectors will no longer animate when the `r_liquid_swirl` CVAR is `on`.
-  * Friction is no longer applied to the player’s movement when they are in a *BOOM*-compatible icy or muddy sector.
+  * Friction is no longer applied to the player’s movement when they are on a *BOOM*-compatible icy or muddy sector.
 * Minor improvements have been made to the spread and color of blood splats.
 * There is now smoother movement in the automap.
 * *DOOM Retro* now includes partial support for `UMAPINFO` lumps.
