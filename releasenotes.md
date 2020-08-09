@@ -2,6 +2,8 @@
 
 #### DOOM Retro v3.6.1
 
+* A bug has been fixed whereby Wolfenstein SS wouldn’t drop a clip when killed.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, August 9, 2020

@@ -1140,7 +1140,7 @@ mobjinfo_t mobjinfo[] =
         /* deathstate           */ S_SSWV_DIE1,
         /* xdeathstate          */ S_SSWV_XDIE1,
         /* deathsound           */ sfx_ssdth,
-        /* droppeditem          */ MT_NULL,
+        /* droppeditem          */ MT_CLIP,
         /* meleethreshold       */ 0,
         /* maxattackrange       */ 0,
         /* minmissilechance     */ 200,
