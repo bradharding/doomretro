@@ -2692,8 +2692,12 @@ dboolean M_Responder(event_t *ev)
         if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
             S_StartSound(NULL, sfx_scrsht);
-            memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen();
+
+            if (!splashscreen)
+            {
+                memset(screens[0], nearestwhite, SCREENAREA);
+                D_FadeScreen();
+            }
         }
 
         return false;
