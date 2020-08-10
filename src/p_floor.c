@@ -328,7 +328,8 @@ void T_MoveElevator(elevator_t *elevator)
     }
 
     // make floor move sound
-    if (!(leveltime & 7));
+    if (!(leveltime & 7))
+        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)                        // if destination height achieved
     {

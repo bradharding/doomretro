@@ -4,6 +4,8 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out of the automap.
+* Navigating the options menu has now been fixed.
+* Elevators will now make a sound again when they move.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
