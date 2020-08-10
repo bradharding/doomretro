@@ -330,7 +330,7 @@ static void P_XYMovement(mobj_t *mo)
     }
     else
     {
-        // phares 3/17/98
+        // phares 03/17/98
         //
         // Friction will have been adjusted by friction thinkers for
         // icy or muddy floors. Otherwise it was never touched and

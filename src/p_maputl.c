@@ -196,7 +196,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         if ((*sprev = snext))                           // unlink from sector list
             snext->sprev = sprev;
 
-        // phares 3/14/98
+        // phares 03/14/98
         //
         // Save the sector list pointed to by touching_sectorlist.
         // In P_SetThingPosition, we'll keep any nodes that represent

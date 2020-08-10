@@ -58,7 +58,7 @@ char *sprnames[] =
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2",
 
     // Sprites 138 to 143
-    "TNT1",     // invisible sprite     phares 3/9/98
+    "TNT1",     // phares 03/09/98: invisible sprite
     "DOGS",     // killough 07/19/98: Marine's best friend :)
     "PLS1",     // killough 07/19/98: first of two plasma fireballs in the beta
     "PLS2",     // killough 07/19/98: second of two plasma fireballs in the beta

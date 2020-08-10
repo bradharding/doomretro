@@ -105,7 +105,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
 {
     fixed_t blockdist;
 
-    // phares 9/10/98: moved this self-check to start of routine
+    // phares 09/10/98: moved this self-check to start of routine
     // don't clip against self
     if (thing == tmthing)
         return true;
@@ -174,7 +174,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
     return friction;
 }
 
-// phares 3/19/98
+// phares 03/19/98
 // P_GetMoveFactor() returns the value by which the x,y
 // movements are multiplied to add to player movement.
 //
@@ -189,7 +189,7 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
     // p_mobj.c, the friction factors are applied as you coast and slow down.
     if (friction < ORIG_FRICTION)
     {
-        // phares 3/11/98: you start off slowly, then increase as
+        // phares 03/11/98: you start off slowly, then increase as
         // you get better footing
         int momentum = P_ApproxDistance(mo->momx, mo->momy);
 
@@ -2144,7 +2144,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
     return nofit;
 }
 
-// phares 3/21/98
+// phares 03/21/98
 //
 // Maintain a freelist of msecnode_t's to reduce memory allocs and frees.
 static msecnode_t   *headsecnode;
@@ -2269,7 +2269,7 @@ void P_DelSeclist(msecnode_t *node)
         node = P_DelSecnode(node);
 }
 
-// phares 3/14/98
+// phares 03/14/98
 //
 // PIT_GetSectors
 // Locates all the sectors the object is in by looking at the lines that
@@ -2306,7 +2306,7 @@ static dboolean PIT_GetSectors(line_t *ld)
     return true;
 }
 
-// phares 3/14/98
+// phares 03/14/98
 //
 // P_CreateSecNodeList alters/creates the sector_list that shows what sectors
 // the object resides in.

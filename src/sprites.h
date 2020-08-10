@@ -58,7 +58,7 @@ typedef enum
     SPR_HDB4, SPR_HDB5, SPR_HDB6, SPR_POB1, SPR_POB2, SPR_BRS1, SPR_TLMP, SPR_TLP2,
 
     // Sprites 138 to 143
-    SPR_TNT1,   // add invisible sprite phares 3/8/98
+    SPR_TNT1,   // phares 03/08/98: add invisible sprite
     SPR_DOGS,   // killough 07/19/98: Marine's best friend :)
     SPR_PLS1,   // killough 07/19/98: first of two plasma fireballs in the beta
     SPR_PLS2,   // killough 07/19/98: second of two plasma fireballs in the beta

@@ -135,7 +135,7 @@ typedef struct sector_s
 
     // list of mobjs that are at least partially in the sector
     // thinglist is a subset of touching_thinglist
-    struct msecnode_s   *touching_thinglist;    // phares 3/14/98
+    struct msecnode_s   *touching_thinglist;    // phares 03/14/98
 
     int                 linecount;
     struct line_s       **lines;                // [linecount] size
@@ -755,7 +755,7 @@ typedef struct subsector_s
     int                 firstline;
 } subsector_t;
 
-// phares 3/14/98
+// phares 03/14/98
 //
 // Sector list node showing all sectors an object appears in.
 //

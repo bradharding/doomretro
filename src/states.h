@@ -1013,7 +1013,7 @@ typedef enum
     S_TECH2LAMP3,
     S_TECH2LAMP4,
 
-    // add state for invisible sprite          phares 3/8/98
+    // phares 03/08/98: add state for invisible sprite
     S_TNT1,
 
     // killough 08/09/98: grenade launcher

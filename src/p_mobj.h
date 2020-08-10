@@ -423,7 +423,7 @@ typedef struct mobj_s
     int                 shadowoffset;
 
     // a linked list of sectors where this object appears
-    struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
+    struct msecnode_s   *touching_sectorlist;   // phares 03/14/98
 
     short               gear;                   // killough 11/98: used in torque simulation
 
@@ -434,7 +434,7 @@ typedef struct mobj_s
 
     int                 blood;
 
-    // [AM] If true, ok to interpolate this tic.
+    // [AM] If 1, interpolate this tic. If -1, interpolate next tic.
     int                 interpolate;
 
     // [AM] Previous position of mobj before think.
