@@ -3256,7 +3256,7 @@ dboolean M_Responder(event_t *ev)
                             itemOn--;
                     }
                     else if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-                        itemOn--;
+                        itemOn = currentMenu->numitems - 1;
 
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
