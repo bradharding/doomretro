@@ -3288,6 +3288,11 @@ static void P_InitMapInfo(void)
                             int nextmap = -1;
 
                             SC_MustGetString();
+                            if (SC_Compare("ENDGAMEC"), sc_String)
+                            {
+                                info->endcast = true;
+                                break;
+                            }
                             sscanf(sc_String, "%i", &nextmap);
 
                             if (nextmap < 0 || nextmap > 99)

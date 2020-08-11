@@ -153,6 +153,13 @@ void F_StartFinale(void)
         else
             S_ChangeMusic((gamemode == commercial ? mus_read_m : mus_victor), true, false, false);
     }
+    else if (P_GetMapEndCast(gamemap))
+    {
+        gameaction = ga_nothing;
+        gamestate = GS_FINALE;
+        F_StartCast();
+        return;
+    }
     else
         // Okay - IWAD dependent stuff.
         // This has been changed severely, and

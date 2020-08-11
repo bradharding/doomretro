@@ -727,7 +727,7 @@ static void WI_UpdateShowNextLoc(void)
 
 static void WI_DrawShowNextLoc(void)
 {
-    if (P_GetMapEndGame(gamemap))
+    if (P_GetMapEndGame(gamemap)  || P_GetMapEndCast(gamemap))
         return;
 
     WI_SlamBackground();
