@@ -1358,6 +1358,12 @@ void G_WorldDone(void)
         return;
     }
 
+    if (P_GetMapEndCast(gamemap))
+    {
+        F_StartFinale();
+        return;
+    }
+
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
