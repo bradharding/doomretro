@@ -1047,12 +1047,19 @@ static int ST_CalcPainOffset(void)
 static void ST_UpdateFaceWidget(void)
 {
     static int  priority;
-
-    // [crispy] fix status bar face hysteresis
-    int         painoffset = ST_CalcPainOffset();
+    int         painoffset;
     static int  faceindex;
 
-    dboolean    invulnerable = ((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]);
+    // invulnerability
+    if (((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]))
+    {
+        priority = 5;
+        st_faceindex = ST_GODFACE;
+        st_facecount = 0;
+        return;
+    }
+
+    painoffset = ST_CalcPainOffset();
 
     if (priority < 10)
     {
@@ -1074,8 +1081,7 @@ static void ST_UpdateFaceWidget(void)
             dboolean    doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
-                // [BH] no evil grin when invulnerable
-                if (oldweaponsowned[i] != viewplayer->weaponowned[i] && !invulnerable)
+                if (oldweaponsowned[i] != viewplayer->weaponowned[i])
                 {
                     doevilgrin = true;
                     oldweaponsowned[i] = viewplayer->weaponowned[i];
@@ -1151,8 +1157,7 @@ static void ST_UpdateFaceWidget(void)
     {
         static int  lastattackdown = -1;
 
-        // [BH] no rampage face when invulnerable
-        if (viewplayer->attackdown && !invulnerable)
+        if (viewplayer->attackdown)
         {
             if (lastattackdown == -1)
                 lastattackdown = ST_RAMPAGEDELAY;
@@ -1166,18 +1171,6 @@ static void ST_UpdateFaceWidget(void)
         }
         else
             lastattackdown = -1;
-    }
-
-    if (priority < 5)
-    {
-        // invulnerability
-        if (invulnerable)
-        {
-            priority = 4;
-            painoffset = 0;
-            faceindex = ST_GODFACE;
-            st_facecount = 1;
-        }
     }
 
     // look left or look right if the facecount has timed out

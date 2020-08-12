@@ -2164,28 +2164,28 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->powers[pw_invulnerability] && damage < 1000)
             return;
 
-        if (adjust && tplayer->armorpoints)
-        {
-            int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
-
-            if (tplayer->armorpoints <= saved)
-            {
-                // armor is used up
-                saved = tplayer->armorpoints;
-                tplayer->armortype = armortype_none;
-            }
-
-            if (saved)
-            {
-                tplayer->armorpoints -= saved;
-                damage -= saved;
-                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-            }
-        }
-
         // ignore damage if in god mode or player about to warp
         if (!(cheats & CF_GODMODE) && !idclevtics)
         {
+            if (adjust && tplayer->armorpoints)
+            {
+                int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
+
+                if (tplayer->armorpoints <= saved)
+                {
+                    // armor is used up
+                    saved = tplayer->armorpoints;
+                    tplayer->armortype = armortype_none;
+                }
+
+                if (saved)
+                {
+                    tplayer->armorpoints -= saved;
+                    damage -= saved;
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+                }
+            }
+
             tplayer->health -= damage;
             target->health -= damage;
         }
