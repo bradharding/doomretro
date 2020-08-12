@@ -1053,7 +1053,10 @@ dboolean P_ReadSaveGameHeader(char *description)
         strcpy(vcheck2, PACKAGE_OLDSAVEGAMEVERSIONSTRING);
 
         if (M_StringCompare(read_vcheck, vcheck2))
+        {
             oldversion = true;
+            C_Warning(1, "This savegame was saved using a previous version of <i>" PACKAGE_NAME "</i>.");
+        }
         else
         {
             menuactive = false;

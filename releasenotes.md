@@ -7,7 +7,8 @@
 * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out of the automap.
 * Navigating the options menu has now been fixed.
 * Elevators will now make a sound again when they move.
-* The player’s face in the status bar and widescreen HUD will no longer change, and armor will no longer be taken away, if the player is damaged while god mode is enabled.
+* The player’s face in the status bar and widescreen HUD will no longer change, and armor will no longer be lost, if the player is attacked while god mode is enabled.
+* `ENDGAMEC` is now supported in `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
