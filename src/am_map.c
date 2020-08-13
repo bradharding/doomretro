@@ -1271,7 +1271,11 @@ static inline void _PUTDOT(byte *dot, byte *color)
 static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < MAPWIDTH && y < maparea)
-        _PUTDOT(mapscreen + y + x, color);
+    {
+        byte    *dot = mapscreen + y + x;
+
+        *dot = *(*dot + color);
+    }
 }
 
 static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
@@ -1289,7 +1293,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
         const dboolean  atbottom = (y < mapbottom);
 
         if (attop)
-            _PUTDOT(dot, color);
+            *dot = *(*dot + color);
 
         if (atbottom)
             _PUTDOT(dot + MAPWIDTH, color);
@@ -1300,7 +1304,10 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
                 _PUTDOT(dot + 1, color);
 
             if (atbottom)
-                _PUTDOT(dot + MAPWIDTH + 1, color);
+            {
+                dot += MAPWIDTH + 1;
+                *dot = *(*dot + color);
+            }
         }
     }
     else if (++x < MAPWIDTH)
@@ -1308,10 +1315,13 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
         byte    *dot = mapscreen + y + x;
 
         if (y < maparea)
-            _PUTDOT(dot, color);
+            *dot = *(*dot + color);
 
         if (y < mapbottom)
-            _PUTDOT(dot + MAPWIDTH, color);
+        {
+            dot += MAPWIDTH;
+            *dot = *(*dot + color);
+        }
     }
 }
 
