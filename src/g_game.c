@@ -652,6 +652,7 @@ dboolean G_Responder(event_t *ev)
     {
         if (!menuactive
             && !consoleactive
+            && !fadecount
             && ((ev->type == ev_keydown
                 && !keydown
                 && ev->data1 != KEY_PAUSE
