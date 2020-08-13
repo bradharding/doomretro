@@ -9,6 +9,7 @@
 * Elevators will now make a sound again when they move.
 * The player’s face in the status bar and widescreen HUD will no longer change, and armor will no longer be lost, if the player is attacked while god mode is enabled.
 * `ENDGAMEC` is now supported in `MAPINFO` lumps.
+* The <kbd>W</kbd>, <kbd>A</kbd>, <kbd>S</kbd> and <kbd>D</kbd> keys may no longer be used to pan around the automap when follow mode is off.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
