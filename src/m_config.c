@@ -1132,6 +1132,18 @@ void M_LoadCVARs(char *filename)
 
     fclose(file);
 
+    if (!keyboardautomappandown)
+        keyboardautomappandown = KEYAUTOMAPPANDOWN_DEFAULT;
+
+    if (!keyboardautomappanleft)
+        keyboardautomappanleft = KEYAUTOMAPPANLEFT_DEFAULT;
+
+    if (!keyboardautomappanright)
+        keyboardautomappanright = KEYAUTOMAPPANRIGHT_DEFAULT;
+
+    if (!keyboardautomappanup)
+        keyboardautomappanup = KEYAUTOMAPPANUP_DEFAULT;
+
     if (!togglingvanilla)
     {
         char    *temp1 = commify(cvarcount);

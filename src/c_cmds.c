@@ -239,6 +239,10 @@ action_t actions[] =
     { "+menu",        true,  menu_action_func,        &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
     { "+mouselook",   true,  NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
     { "+nextweapon",  true,  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
+    { "+pandown",     true,  NULL,                    &keyboardautomappandown,    NULL,                  NULL,             NULL,                      NULL         },
+    { "+panleft",     true,  NULL,                    &keyboardautomappanleft,    NULL,                  NULL,             NULL,                      NULL         },
+    { "+panright",    true,  NULL,                    &keyboardautomappanright,   NULL,                  NULL,             NULL,                      NULL         },
+    { "+panup",       true,  NULL,                    &keyboardautomappanup,      NULL,                  NULL,             NULL,                      NULL         },
     { "+prevweapon",  true,  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
     { "+right",       true,  right_action_func,       &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
     { "+rotatemode",  true,  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
@@ -5713,6 +5717,10 @@ static void C_VerifyResetAll(const int key)
         keyboardautomapgrid = KEYAUTOMAPGRID_DEFAULT;
         keyboardautomapmark = KEYAUTOMAPMARK_DEFAULT;
         keyboardautomapmaxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
+        keyboardautomappandown = KEYAUTOMAPPANDOWN_DEFAULT;
+        keyboardautomappanleft = KEYAUTOMAPPANLEFT_DEFAULT;
+        keyboardautomappanright = KEYAUTOMAPPANRIGHT_DEFAULT;
+        keyboardautomappanup = KEYAUTOMAPPANUP_DEFAULT;
         keyboardautomaprotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
         keyboardautomapzoomin = KEYAUTOMAPZOOMIN_DEFAULT;
         keyboardautomapzoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
