@@ -101,10 +101,16 @@ static byte *tswallcolor;
 static byte *gridcolor;
 static byte *am_crosshaircolor2;
 
-#define AM_PANDOWNKEY   keyboardautomappandown
-#define AM_PANUPKEY     keyboardautomappanup
-#define AM_PANRIGHTKEY  keyboardautomappanright
-#define AM_PANLEFTKEY   keyboardautomappanleft
+#define AM_PANDOWNKEY   keyboardback
+#define AM_PANDOWNKEY2  keyboardback2
+#define AM_PANUPKEY     keyboardforward
+#define AM_PANUPKEY2    keyboardforward2
+#define AM_PANRIGHTKEY  keyboardright
+#define AM_PANRIGHTKEY2 keyboardstraferight
+#define AM_PANRIGHTKEY3 keyboardstraferight2
+#define AM_PANLEFTKEY   keyboardleft
+#define AM_PANLEFTKEY2  keyboardstrafeleft
+#define AM_PANLEFTKEY3  keyboardstrafeleft2
 #define AM_ZOOMINKEY    keyboardautomapzoomin
 #define AM_ZOOMOUTKEY   keyboardautomapzoomout
 #define AM_STARTKEY     keyboardautomap
@@ -688,7 +694,7 @@ dboolean AM_Responder(const event_t *ev)
                 key = ev->data1;
 
                 // pan right
-                if (key == AM_PANRIGHTKEY)
+                if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
                 {
                     keydown = key;
 
@@ -705,7 +711,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan left
-                else if (key == AM_PANLEFTKEY)
+                else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                 {
                     keydown = key;
 
@@ -722,7 +728,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan up
-                else if (key == AM_PANUPKEY)
+                else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
                 {
                     keydown = key;
 
@@ -739,7 +745,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan down
-                else if (key == AM_PANDOWNKEY)
+                else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
                 {
                     keydown = key;
 
@@ -854,12 +860,24 @@ dboolean AM_Responder(const event_t *ev)
 
                     if (keystate(AM_PANLEFTKEY))
                         key2 = AM_PANLEFTKEY;
+                    else if (keystate(AM_PANLEFTKEY2))
+                        key2 = AM_PANLEFTKEY2;
+                    else if (keystate(AM_PANLEFTKEY3))
+                        key2 = AM_PANLEFTKEY3;
                     else if (keystate(AM_PANRIGHTKEY))
                         key2 = AM_PANRIGHTKEY;
+                    else if (keystate(AM_PANRIGHTKEY2))
+                        key2 = AM_PANRIGHTKEY2;
+                    else if (keystate(AM_PANRIGHTKEY3))
+                        key2 = AM_PANRIGHTKEY3;
                     else if (keystate(AM_PANUPKEY))
                         key2 = AM_PANUPKEY;
+                    else if (keystate(AM_PANUPKEY2))
+                        key2 = AM_PANUPKEY2;
                     else if (keystate(AM_PANDOWNKEY))
                         key2 = AM_PANDOWNKEY;
+                    else if (keystate(AM_PANDOWNKEY2))
+                        key2 = AM_PANDOWNKEY2;
 
                     if (key2)
                     {
@@ -871,10 +889,44 @@ dboolean AM_Responder(const event_t *ev)
                         D_PostEvent(&event);
                     }
                 }
-                else
+                else if (!am_followmode)
                 {
-                    m_paninc.x = 0;
-                    m_paninc.y = 0;
+                    if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
+                    {
+                        speedtoggle = AM_GetSpeedToggle();
+
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
+                            m_paninc.x = FTOM(F_PANINC);
+                        else
+                            m_paninc.x = 0;
+                    }
+                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
+                    {
+                        speedtoggle = AM_GetSpeedToggle();
+
+                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2) || keystate(AM_PANLEFTKEY3))
+                            m_paninc.x = -FTOM(F_PANINC);
+                        else
+                            m_paninc.x = 0;
+                    }
+                    else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
+                    {
+                        speedtoggle = AM_GetSpeedToggle();
+
+                        if (keystate(AM_PANDOWNKEY) || keystate(AM_PANDOWNKEY2))
+                            m_paninc.y = FTOM(F_PANINC);
+                        else
+                            m_paninc.y = 0;
+                    }
+                    else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
+                    {
+                        speedtoggle = AM_GetSpeedToggle();
+
+                        if (keystate(AM_PANUPKEY) || keystate(AM_PANUPKEY2))
+                            m_paninc.y = -FTOM(F_PANINC);
+                        else
+                            m_paninc.y = 0;
+                    }
                 }
             }
             else if (ev->type == ev_mousewheel)
