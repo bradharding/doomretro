@@ -527,7 +527,7 @@ void M_DarkBackground(void)
             *dot = black40[*dot];
         }
 
-        if (mapwindow)
+        if (mapwindow && gamestate == GS_LEVEL)
         {
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i += SCREENWIDTH)
             {

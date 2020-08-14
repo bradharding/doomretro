@@ -4,7 +4,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now backwards compatible with savegames that were saved using *DOOM Retro v3.0* and onwards.
-* A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out of the automap.
+* The following changes have been made to the automap:
+  * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out.
+  * The background menu effect will no longer be applied to the external automap when not in a game.
 * Navigating the options menu has now been fixed.
 * Elevators will now make a sound again when they move.
 * The player’s face in the status bar and widescreen HUD will no longer change, and armor will no longer be lost, if the player is attacked while god mode is enabled.
