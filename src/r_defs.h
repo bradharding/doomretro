@@ -1025,6 +1025,8 @@ typedef struct visplane_s
     unsigned int        bottom[SCREENWIDTH];
 
     unsigned int        pad4;
+
+    dboolean            modified;
 } visplane_t;
 
 #endif

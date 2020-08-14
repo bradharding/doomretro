@@ -324,6 +324,7 @@ static void R_RenderSegLoop(void)
             {
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
+                ceilingplane->modified = true;
             }
 
             ceilingclip[rw_x] = bottom;
@@ -338,6 +339,7 @@ static void R_RenderSegLoop(void)
             {
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
+                floorplane->modified = true;
             }
 
             floorclip[rw_x] = top;

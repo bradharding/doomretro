@@ -202,6 +202,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
     check->right = -1;
     check->xoffset = x;
     check->yoffset = y;
+    check->modified = false;
 
     memset(check->top, UINT_MAX, sizeof(check->top));
     return check;
@@ -405,7 +406,7 @@ void R_DrawPlanes(void)
 {
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
-            if (pl->left <= pl->right)
+            if (pl->modified && pl->left <= pl->right)
             {
                 int picnum = pl->picnum;
 
