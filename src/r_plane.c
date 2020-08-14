@@ -85,7 +85,7 @@ dboolean            r_liquid_swirl = r_liquid_swirl_default;
 //
 // R_MapPlane
 //
-static void R_MapPlane(int y, int x1, int x2)
+static void R_MapPlane(int y, int x1)
 {
     static fixed_t  cacheddistance[SCREENHEIGHT];
     static fixed_t  cachedviewcosdistance[SCREENHEIGHT];
@@ -128,7 +128,6 @@ static void R_MapPlane(int y, int x1, int x2)
 
     ds_y = y;
     ds_x1 = x1;
-    ds_x2 = x2;
 
     spanfunc();
 }
@@ -300,24 +299,24 @@ static void R_MakeSpans(visplane_t *pl)
     pl->top[pl->left - 1] = UINT_MAX;
     pl->top[stop] = UINT_MAX;
 
-    for (int x = pl->left; x <= stop; x++)
+    for (ds_x2 = pl->left; ds_x2 <= stop; ds_x2++)
     {
-        unsigned int    t1 = pl->top[x - 1];
-        unsigned int    b1 = pl->bottom[x - 1];
-        unsigned int    t2 = pl->top[x];
-        unsigned int    b2 = pl->bottom[x];
+        unsigned int    t1 = pl->top[ds_x2 - 1];
+        unsigned int    b1 = pl->bottom[ds_x2 - 1];
+        unsigned int    t2 = pl->top[ds_x2];
+        unsigned int    b2 = pl->bottom[ds_x2];
 
         for (; t1 < t2 && t1 <= b1; t1++)
-            R_MapPlane(t1, spanstart[t1], x);
+            R_MapPlane(t1, spanstart[t1]);
 
         for (; b1 > b2 && b1 >= t1; b1--)
-            R_MapPlane(b1, spanstart[b1], x);
+            R_MapPlane(b1, spanstart[b1]);
 
         while (t2 < t1 && t2 <= b2)
-            spanstart[t2++] = x;
+            spanstart[t2++] = ds_x2;
 
         while (b2 > b1 && b2 >= t2)
-            spanstart[b2--] = x;
+            spanstart[b2--] = ds_x2;
     }
 }
 
