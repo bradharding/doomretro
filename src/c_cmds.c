@@ -1083,14 +1083,11 @@ static void C_ShowDescription(int index)
 
         if ((p = strchr(description2, '\n')))
         {
-            char    description3[255];
-
             *p++ = '\0';
-            M_StringCopy(description3, p, sizeof(description3));
-            C_OutputWrap("%s %s %s", description1, description2, description3);
+            C_OutputWrap("%s %s %s", description1, description2, p);
         }
         else
-            C_Output("%s %s", description1, description2);
+            C_OutputWrap("%s %s", description1, description2);
     }
     else
         C_Output("%s", description1);

@@ -9,6 +9,7 @@
   * The background menu effect will no longer be applied to the external automap when not in a game.
   * The <kbd>W</kbd>, <kbd>A</kbd>, <kbd>S</kbd> and <kbd>D</kbd> keys may no longer be used to pan around the automap when follow mode is off.
   * `+panup`, `+pandown` `+panleft` and `+panright` actions have been implemented that can be bound to keys to pan around the automap when follow mode is off. They are bound to the cursor keys by default.
+* Minor changes have been made to text that is output to the console.
 * Navigating the options menu has now been fixed.
 * Elevators will now make a sound again when they move.
 * The player’s face in the status bar and widescreen HUD will no longer change, and armor will no longer be lost, if the player is attacked while god mode is enabled.

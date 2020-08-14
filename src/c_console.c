@@ -300,7 +300,7 @@ void C_OutputWrap(const char *string, ...)
                 width = C_TextWidth(temp, true, true);
                 free(temp);
 
-                if (width <= CONSOLETEXTPIXELWIDTH - 8)
+                if (width <= CONSOLETEXTPIXELWIDTH)
                     break;
             } while (truncate-- > 0);
 
@@ -695,7 +695,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             if (prevletter == '/' && italics)
                 w -= 2;
             else if (prevletter == '.' && letter == ' ' && !bold && !italics)
-                w += 2;
+                w++;
         }
 
         prevletter = letter;
@@ -1131,7 +1131,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x++;
                 }
                 else if (prevletter == '.' && letter == ' ' && !bold)
-                    x += 2;
+                    x++;
             }
 
             if (patch)
