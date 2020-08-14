@@ -978,10 +978,17 @@ void M_LoadCVARs(char *filename)
     if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
         for (int i = 0; *actions[i].action; i++)
         {
-            *(int *)actions[i].keyboard2 = 0;
-            *(int *)actions[i].mouse1 = -1;
-            *(int *)actions[i].gamepad1 = 0;
-            *(int *)actions[i].gamepad2 = 0;
+            if (actions[i].keyboard2)
+                *(int *)actions[i].keyboard2 = 0;
+
+            if (actions[i].mouse1)
+                *(int *)actions[i].mouse1 = -1;
+
+            if (actions[i].gamepad1)
+                *(int *)actions[i].gamepad1 = 0;
+
+            if (actions[i].gamepad2)
+                *(int *)actions[i].gamepad2 = 0;
         }
 
     while (!feof(file))
