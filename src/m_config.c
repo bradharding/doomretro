@@ -974,33 +974,15 @@ void M_LoadCVARs(char *filename)
         aliases[i].string[0] = '\0';
     }
 
-    // Clear all default controls before reading them from config file
+    // Clear some default controls before reading them from config file
     if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
-    {
         for (int i = 0; *actions[i].action; i++)
         {
-            if (actions[i].keyboard1)
-                *(int *)actions[i].keyboard1 = 0;
-
-            if (actions[i].keyboard2)
-                *(int *)actions[i].keyboard2 = 0;
-
-            if (actions[i].mouse1)
-                *(int *)actions[i].mouse1 = -1;
-
-            if (actions[i].gamepad1)
-                *(int *)actions[i].gamepad1 = 0;
-
-            if (actions[i].gamepad2)
-                *(int *)actions[i].gamepad2 = 0;
+            *(int *)actions[i].keyboard2 = 0;
+            *(int *)actions[i].mouse1 = -1;
+            *(int *)actions[i].gamepad1 = 0;
+            *(int *)actions[i].gamepad2 = 0;
         }
-
-        for (int i = 0; i < NUMKEYS; i++)
-            keyactionlist[i][0] = '\0';
-
-        for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
-            mouseactionlist[i][0] = '\0';
-    }
 
     while (!feof(file))
     {
