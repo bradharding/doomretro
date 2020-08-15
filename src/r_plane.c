@@ -82,6 +82,8 @@ static fixed_t      cachedheight[SCREENHEIGHT];
 dboolean            r_liquid_current = r_liquid_current_default;
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
+static dboolean     updateswirl;
+
 //
 // R_MapPlane
 //
@@ -321,8 +323,6 @@ static void R_MakeSpans(visplane_t *pl)
 }
 
 // Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
-#define AMP             2
-#define AMP2            2
 #define SPEED           40
 
 // swirl factors determine the number of waves per flat width
@@ -347,7 +347,7 @@ static byte *R_DistortedFlat(int flatnum)
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevgametime != gametime && (!menuactive || !(gametime & 4)) && !consoleactive && !paused && !freeze)
+    if (prevgametime != gametime && updateswirl)
     {
         offset = &offsets[(gametime & 1023) << 12];
         prevgametime = gametime;
@@ -386,12 +386,12 @@ void R_InitDistortedFlats(void)
                 int x1, y1;
                 int sinvalue, sinvalue2;
 
-                sinvalue = finesine[(y * SWIRLFACTOR + i * 5 + 900) & 8191];
-                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & 8191];
-                x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-                sinvalue = finesine[(x * SWIRLFACTOR + i * 3 + 700) & 8191];
-                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & 8191];
-                y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
+                sinvalue = finesine[(y * SWIRLFACTOR + i * 5 + 900) & 8191] * 2;
+                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & 8191] * 2;
+                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+                sinvalue = finesine[(x * SWIRLFACTOR + i * 3 + 700) & 8191] * 2;
+                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & 8191] * 2;
+                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
@@ -403,6 +403,8 @@ void R_InitDistortedFlats(void)
 //
 void R_DrawPlanes(void)
 {
+    updateswirl = (!menuactive || !(gametime & 4)) && !consoleactive && !paused && !freeze;
+
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
             if (pl->modified && pl->left <= pl->right)
