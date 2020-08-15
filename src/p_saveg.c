@@ -233,7 +233,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
-    str->flags3 = saveg_read32();
+
+    if (!oldversion)
+        str->flags3 = saveg_read32();
+
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
@@ -271,6 +274,10 @@ static void saveg_read_mobj_t(mobj_t *str)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
+
+    if (oldversion)
+        str->flags3 = saveg_read32();
+
     str->inflicter = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
