@@ -914,7 +914,7 @@ static void fire_action_func(void)
 
 static void followmode_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (automapactive)
         AM_ToggleFollowMode();
 }
 
