@@ -405,6 +405,8 @@ void R_DrawPlanes(void)
     if (r_liquid_swirl)
         updateswirl = (!menuactive || !(gametime & 4)) && !consoleactive && !paused && !freeze;
 
+    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
+
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
             if (pl->modified && pl->left <= pl->right)
@@ -417,15 +419,13 @@ void R_DrawPlanes(void)
                     int             texture;
                     angle_t         flip = 0U;
                     const rpatch_t  *tex_patch;
-                    int             skyoffset = skycolumnoffset >> FRACBITS;
+                    int             skyoffset;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
                     // arbitrary multiple skies per level without having
                     // to use info lumps.
                     angle_t         an = viewangle;
-
-                    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
 
                     if (picnum & PL_SKYFLAT)
                     {
@@ -479,6 +479,7 @@ void R_DrawPlanes(void)
 
                     dc_iscale = skyiscale;
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
+                    skyoffset = skycolumnoffset >> FRACBITS;
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
