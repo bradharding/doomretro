@@ -97,7 +97,7 @@ static void R_MapPlane(int y, int x1)
     fixed_t         distance;
     fixed_t         viewcosdistance;
     fixed_t         viewsindistance;
-    int             dx = x1 - centerx;
+    int             dx;
 
     if (planeheight != cachedheight[y])
     {
@@ -122,6 +122,7 @@ static void R_MapPlane(int y, int x1)
         ds_ystep = cachedystep[y];
     }
 
+    dx = x1 - centerx;
     ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
     ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
 

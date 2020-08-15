@@ -574,7 +574,7 @@ void AM_AddMark(void)
 
     if (markpointnum >= markpointnum_max)
     {
-        markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
+        markpointnum_max = (markpointnum_max ? markpointnum_max * 2 : 16);
         markpoints = I_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
     }
 
@@ -627,7 +627,7 @@ void AM_AddToPath(void)
 
     if (pathpointnum >= pathpointnum_max)
     {
-        pathpointnum_max = (pathpointnum_max ? (pathpointnum_max << 1) : 1024);
+        pathpointnum_max = (pathpointnum_max ? pathpointnum_max * 2 : 1024);
         pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
