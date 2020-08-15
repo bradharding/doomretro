@@ -392,7 +392,6 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     psp->sy = WEAPONTOP;
-    startingnewgame = false;
     P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
 }
 

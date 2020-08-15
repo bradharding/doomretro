@@ -537,7 +537,7 @@ void G_DoLoadLevel(void)
     if (viewplayer->playerstate == PST_DEAD)
         viewplayer->playerstate = PST_REBORN;
 
-    if (viewplayer->playerstate == PST_REBORN && !startingnewgame
+    if (viewplayer->playerstate == PST_REBORN
         && (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B")))
         M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
 
@@ -1605,7 +1605,6 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
     d_episode = ep;
     d_map = map;
     gameaction = ga_newgame;
-    startingnewgame = true;
     infight = false;
 
     if (skill == sk_baby)

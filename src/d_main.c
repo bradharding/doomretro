@@ -519,7 +519,7 @@ void D_PageTicker(void)
     static int  pagewait;
     int         pagetime;
 
-    if (menuactive || startingnewgame || consoleactive)
+    if (menuactive || consoleactive)
         return;
 
     if (pagewait < (pagetime = I_GetTime()))

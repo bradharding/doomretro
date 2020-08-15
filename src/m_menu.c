@@ -104,7 +104,6 @@ static char     saveOldString[SAVESTRINGSIZE];
 dboolean        inhelpscreens;
 dboolean        menuactive;
 dboolean        savegames;
-dboolean        startingnewgame;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
@@ -2546,7 +2545,7 @@ dboolean M_Responder(event_t *ev)
     int         key = -1;
     static int  keywait;
 
-    if (startingnewgame || dowipe || idclevtics)
+    if (idclevtics)
         return false;
 
     if (ev->type == ev_gamepad)

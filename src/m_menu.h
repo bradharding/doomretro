@@ -112,7 +112,6 @@ extern dboolean nomusic;
 extern dboolean nosound;
 extern dboolean nosfx;
 extern dboolean firstevent;
-extern dboolean startingnewgame;
 extern dboolean savegames;
 extern dboolean inhelpscreens;
 extern int      spindirection;
