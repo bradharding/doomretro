@@ -1681,7 +1681,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_pusher_t(pusher);
                 pusher->thinker.function = &T_Pusher;
-                pusher->thinker.menu = true;
                 pusher->source = P_GetPushThing(pusher->affectee);
                 P_AddThinker(&pusher->thinker);
                 break;
