@@ -772,7 +772,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     str->texture = saveg_read16();
     str->floordestheight = saveg_read32();
     str->speed = saveg_read32();
-    str->stopsound = saveg_read_bool();
+    str->stopsound = (oldversion ? saveg_read32() : saveg_read_bool());
 }
 
 static void saveg_write_floormove_t(floormove_t *str)
