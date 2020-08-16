@@ -57,7 +57,6 @@
 
 FILE            *save_stream;
 
-static dboolean oldversion;
 static int      thingindex;
 static int      targets[TARGETLIMIT];
 static int      tracers[TARGETLIMIT];
@@ -233,10 +232,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
-
-    if (!oldversion)
-        str->flags3 = saveg_read32();
-
+    str->flags3 = saveg_read32();
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
@@ -270,14 +266,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->strafecount = saveg_read16();
 
     if (str->flags & MF_SHOOTABLE)
-        for (int i = 0, len = (oldversion ? 100 : 33); i < len; i++)
+        for (int i = 0, len = 33; i < len; i++)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
-
-    if (oldversion)
-        str->flags3 = saveg_read32();
-
     str->inflicter = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
@@ -286,21 +278,17 @@ static void saveg_read_mobj_t(mobj_t *str)
     saveg_read32();
     saveg_read32();
     saveg_read32();
-
-    if (!oldversion)
-    {
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-    }
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -530,19 +518,11 @@ static void saveg_read_player_t(void)
     viewplayer->damagereceived = saveg_read32();
     viewplayer->cheated = saveg_read32();
 
-    if (oldversion)
-    {
-        saveg_read32();
-        saveg_read32();
-    }
-    else
-    {
-        for (int i = 0; i < NUMWEAPONS; i++)
-            viewplayer->shotssuccessful[i] = saveg_read32();
+    for (int i = 0; i < NUMWEAPONS; i++)
+        viewplayer->shotssuccessful[i] = saveg_read32();
 
-        for (int i = 0; i < NUMWEAPONS; i++)
-            viewplayer->shotsfired[i] = saveg_read32();
-    }
+    for (int i = 0; i < NUMWEAPONS; i++)
+        viewplayer->shotsfired[i] = saveg_read32();
 
     viewplayer->deaths = saveg_read32();
 
@@ -576,13 +556,9 @@ static void saveg_read_player_t(void)
     saveg_read32();
     saveg_read32();
     saveg_read32();
-
-    if (!oldversion)
-    {
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-    }
+    saveg_read32();
+    saveg_read32();
+    saveg_read32();
 }
 
 static void saveg_write_player_t(void)
@@ -772,7 +748,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     str->texture = saveg_read16();
     str->floordestheight = saveg_read32();
     str->speed = saveg_read32();
-    str->stopsound = (oldversion ? saveg_read32() : saveg_read_bool());
+    str->stopsound = saveg_read_bool();
 }
 
 static void saveg_write_floormove_t(floormove_t *str)
@@ -912,9 +888,7 @@ static void saveg_read_elevator_t(elevator_t *str)
     str->floordestheight = saveg_read32();
     str->ceilingdestheight = saveg_read32();
     str->speed = saveg_read32();
-
-    if (!oldversion)
-        str->stopsound = saveg_read_bool();
+    str->stopsound = saveg_read_bool();
 }
 
 static void saveg_write_elevator_t(elevator_t *str)
@@ -1038,7 +1012,7 @@ void P_WriteSaveGameHeader(char *description)
 dboolean P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
-    char    vcheck1[VERSIONSIZE];
+    char    vcheck[VERSIONSIZE];
     char    read_vcheck[VERSIONSIZE];
 
     for (int i = 0; i < SAVESTRINGSIZE; i++)
@@ -1047,31 +1021,16 @@ dboolean P_ReadSaveGameHeader(char *description)
     for (int i = 0; i < VERSIONSIZE; i++)
         read_vcheck[i] = saveg_read8();
 
-    memset(vcheck1, 0, sizeof(vcheck1));
-    strcpy(vcheck1, PACKAGE_SAVEGAMEVERSIONSTRING);
+    memset(vcheck, 0, sizeof(vcheck));
+    strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
 
-    oldversion = false;
-
-    if (!M_StringCompare(read_vcheck, vcheck1))
+    if (!M_StringCompare(read_vcheck, vcheck))
     {
-        char    vcheck2[VERSIONSIZE];
-
-        memset(vcheck2, 0, sizeof(vcheck2));
-        strcpy(vcheck2, PACKAGE_OLDSAVEGAMEVERSIONSTRING);
-
-        if (M_StringCompare(read_vcheck, vcheck2))
-        {
-            oldversion = true;
-            C_Warning(1, "This savegame was saved using a previous version of <i>" PACKAGE_NAME "</i>.");
-        }
-        else
-        {
-            menuactive = false;
-            quickSaveSlot = -1;
-            C_ShowConsole();
-            C_Warning(1, "This savegame is incompatible with <i>" PACKAGE_NAMEANDVERSIONSTRING "</i>.");
-            return false;   // bad version
-        }
+        menuactive = false;
+        quickSaveSlot = -1;
+        C_ShowConsole();
+        C_Warning(1, "This savegame is incompatible with <i>" PACKAGE_NAMEANDVERSIONSTRING "</i>.");
+        return false;   // bad version
     }
 
     S_StopMusic();
@@ -1211,13 +1170,13 @@ void P_UnArchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        sector->floorheight = (oldversion ? saveg_read16() : saveg_read32()) << FRACBITS;
-        sector->ceilingheight = (oldversion ? saveg_read16() : saveg_read32()) << FRACBITS;
+        sector->floorheight = saveg_read32() << FRACBITS;
+        sector->ceilingheight = saveg_read32() << FRACBITS;
         sector->floorpic = saveg_read16();
         sector->terraintype = terraintypes[sector->floorpic];
         sector->ceilingpic = saveg_read16();
         sector->lightlevel = saveg_read16();
-        sector->oldlightlevel = (oldversion ? sector->lightlevel : saveg_read16());
+        sector->oldlightlevel = saveg_read16();
         sector->special = saveg_read16();
         sector->tag = saveg_read16();
         sector->ceilingdata = NULL;
@@ -1225,13 +1184,10 @@ void P_UnArchiveWorld(void)
         soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
 
         // [BH] For future features without breaking savegame compatibility
-        if (!oldversion)
-        {
-            saveg_read32();
-            saveg_read32();
-            saveg_read32();
-            saveg_read32();
-        }
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
     }
 
     // do lines
@@ -1250,8 +1206,8 @@ void P_UnArchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            side->textureoffset = (oldversion ? saveg_read16() : saveg_read32()) << FRACBITS;
-            side->rowoffset = (oldversion ? saveg_read16() : saveg_read32()) << FRACBITS;
+            side->textureoffset = saveg_read32() << FRACBITS;
+            side->rowoffset = saveg_read32() << FRACBITS;
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();
@@ -1260,13 +1216,10 @@ void P_UnArchiveWorld(void)
             side->missingmidtexture = saveg_read_bool();
 
             // [BH] For future features without breaking savegame compatibility
-            if (!oldversion)
-            {
-                saveg_read32();
-                saveg_read32();
-                saveg_read32();
-                saveg_read32();
-            }
+            saveg_read32();
+            saveg_read32();
+            saveg_read32();
+            saveg_read32();
         }
     }
 }
@@ -1326,7 +1279,10 @@ void P_UnArchiveThinkers(void)
         thinker_t   *next = currentthinker->next;
 
         if (currentthinker->function == &P_MobjThinker || currentthinker->function == &MusInfoThinker)
+        {
             P_RemoveMobj((mobj_t *)currentthinker);
+            P_RemoveThinkerDelayed(currentthinker);
+        }
         else
             Z_Free(currentthinker);
 

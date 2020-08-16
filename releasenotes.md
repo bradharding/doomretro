@@ -3,7 +3,6 @@
 #### DOOM Retro v3.6.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* is now backwards compatible with savegames that were saved using versions as far back as 3.0.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out.
   * The background menu effect will no longer be applied to the external automap when not in a game.
