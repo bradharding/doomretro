@@ -1246,6 +1246,8 @@ static void ST_DoPaletteStuff(void)
 
         if (bonuscount)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
+        else if (viewplayer->cheats & CF_GODMODE)
+            palette = MIN(r_berserkintensity + 3 * doom4vanilla, NUMREDPALS);
         else
             palette = MIN((viewplayer->damagecount >> 3) + r_berserkintensity + 3 * doom4vanilla, NUMREDPALS);
     }

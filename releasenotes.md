@@ -2,6 +2,8 @@
 
 #### DOOM Retro v3.6.2
 
+* If the player has their fists equipped, a berserk power-up and god mode enabled, the screen will no longer flash red when they are attacked.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, August 16, 2020
