@@ -400,8 +400,7 @@ enum
 #define expansion_max                           2
 
 #define facebackcolor_min                       0
-#define facebackcolor_none                      5
-#define facebackcolor_default                   facebackcolor_none
+#define facebackcolor_default                   5
 #define facebackcolor_max                       255
 
 #define fade_default                            true

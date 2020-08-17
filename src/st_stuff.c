@@ -1240,7 +1240,7 @@ static void ST_DoPaletteStuff(void)
 
     if (viewplayer->powers[pw_strength]
         && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
-        && viewplayer->health > 0 && r_berserkintensity)
+        && viewplayer->health > 0)
     {
         int bonuscount = viewplayer->bonuscount;
 
@@ -1305,7 +1305,7 @@ static void ST_DrawWidgets(dboolean refresh)
         STlib_UpdateArmsIcon(&w_arms[5], refresh, 5);
     }
 
-    if (facebackcolor != facebackcolor_none)
+    if (facebackcolor != facebackcolor_default)
         V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false);
 
     STlib_UpdateMultIcon(&w_faces, refresh);
