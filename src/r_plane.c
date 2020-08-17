@@ -103,11 +103,10 @@ static void R_MapPlane(int y, int x1)
     {
         int dy = ABS(centery - y);
 
-        cachedheight[y] = planeheight;
-
         if (!dy)
             return;
 
+        cachedheight[y] = planeheight;
         distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
         viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, distance);
         viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
@@ -200,10 +199,10 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
     check->height = height;
     check->picnum = picnum;
     check->lightlevel = lightlevel;
-    check->left = viewwidth;
-    check->right = -1;
     check->xoffset = x;
     check->yoffset = y;
+    check->left = viewwidth;
+    check->right = -1;
     check->modified = false;
 
     memset(check->top, UINT_MAX, sizeof(check->top));
@@ -224,9 +223,9 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
     new_pl->yoffset = pl->yoffset;
     new_pl->left = start;
     new_pl->right = stop;
+    new_pl->modified = false;
 
     memset(new_pl->top, UINT_MAX, sizeof(new_pl->top));
-
     return new_pl;
 }
 
