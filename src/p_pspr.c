@@ -803,7 +803,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)
     {
-        int     damage = 0;
+        int     damage = 15;
         angle_t an = mo->angle - ANG90 / 2 + ANG90 / 40 * i;
 
         // killough 08/02/98: make autoaiming prefer enemies
@@ -818,7 +818,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_SpawnMobj(linetarget->x, linetarget->y, linetarget->z + (linetarget->height >> 2), MT_EXTRABFG);
 
         for (int j = 0; j < 15; j++)
-            damage += (M_Random() & 7) + 1;
+            damage += M_Random() & 7;
 
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
