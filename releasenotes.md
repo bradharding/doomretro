@@ -4,7 +4,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If the player has their fists equipped, a berserk power-up and god mode enabled, the screen will no longer flash red when they are attacked.
-* A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning left or right far enough if follow mode was off.
+* The following changes have been made to the automap:
+  * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning left or right far enough.
+  * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

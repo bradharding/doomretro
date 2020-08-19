@@ -295,24 +295,16 @@ static void AM_FindMinMaxBoundaries(void)
 
 static void AM_ChangeWindowLoc(void)
 {
-    fixed_t incx = m_paninc.x;
-    fixed_t incy = m_paninc.y;
+    fixed_t         incx = m_paninc.x;
+    fixed_t         incy = m_paninc.y;
+    const fixed_t   width = m_w / 2;
+    const fixed_t   height = m_h / 2;
 
     if (am_rotatemode)
-    {
         AM_Rotate(&incx, &incy, viewangle - ANG90);
 
-        m_x += incx;
-        m_y += incy;
-    }
-    else
-    {
-        const fixed_t   width = m_w / 2;
-        const fixed_t   height = m_h / 2;
-
-        m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
-        m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
-    }
+    m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
+    m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
 }
 
 void AM_SetColors(void)
