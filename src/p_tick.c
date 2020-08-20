@@ -199,31 +199,30 @@ void P_Ticker(void)
                 currentthinker->function((mobj_t *)currentthinker);
 
         P_UpdateSpecials();
+        return;
     }
-    else
+
+    P_MapEnd();
+
+    if (freeze)
     {
-        P_MapEnd();
-
-        if (freeze)
-        {
-            P_MobjThinker(viewplayer->mo);
-            return;
-        }
-
-        for (currentthinker = thinkers[th_mobj].cnext; currentthinker != &thinkers[th_mobj]; currentthinker = currentthinker->cnext)
-            currentthinker->function((mobj_t *)currentthinker);
-
-        for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
-            currentthinker->function((mobj_t *)currentthinker);
-
-        P_UpdateSpecials();
-
-        T_MAPMusic();
-
-        P_RespawnSpecials();
-
-        // for par times
-        leveltime++;
-        stat_time = SafeAdd(stat_time, 1);
+        P_MobjThinker(viewplayer->mo);
+        return;
     }
+
+    for (currentthinker = thinkers[th_mobj].cnext; currentthinker != &thinkers[th_mobj]; currentthinker = currentthinker->cnext)
+        currentthinker->function((mobj_t *)currentthinker);
+
+    for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
+        currentthinker->function((mobj_t *)currentthinker);
+
+    P_UpdateSpecials();
+
+    T_MAPMusic();
+
+    P_RespawnSpecials();
+
+    // for par times
+    leveltime++;
+    stat_time = SafeAdd(stat_time, 1);
 }

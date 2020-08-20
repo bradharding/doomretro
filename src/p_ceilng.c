@@ -56,7 +56,7 @@ static void P_GradualLightingToCeiling(ceiling_t *ceiling)
         EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));
 }
 
-static void T_NullCeiling(ceiling_t *ceiling) {}
+static void T_CeilingStay(ceiling_t *ceiling) {}
 
 //
 // T_MoveCeiling
@@ -428,7 +428,7 @@ dboolean EV_CeilingCrushStop(line_t *line)
         {
             ceiling->olddirection = ceiling->direction;
             ceiling->direction = 0;
-            ceiling->thinker.function = &T_NullCeiling;
+            ceiling->thinker.function = &T_CeilingStay;
             result = true;
         }
     }

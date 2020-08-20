@@ -334,8 +334,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
 //
 // R_AddLine
-// Clips the given segment
-// and adds any visible pieces to the line list.
+// Clips the given segment and adds any visible pieces to the line list.
 //
 static void R_AddLine(seg_t *line)
 {
@@ -362,8 +361,7 @@ static void R_AddLine(seg_t *line)
 
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -418,8 +416,7 @@ static void R_AddLine(seg_t *line)
 //
 // R_CheckBBox
 // Checks BSP node/subtree bounding box.
-// Returns true
-//  if some part of the bbox might be visible.
+// Returns true if some part of the bbox might be visible.
 //
 static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
@@ -447,8 +444,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     int         sx1;
     int         sx2;
 
-    // Find the corners of the box
-    // that define the edges from current viewpoint.
+    // Find the corners of the box that define the edges from current viewpoint.
     boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
         + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
 
@@ -465,8 +461,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     // Much more efficient code now
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -485,9 +480,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     if ((int)angle2 <= -(int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
-    // Find the first clippost
-    //  that touches the source post
-    //  (adjacent pixels are touching).
+    // Find the first clippost that touches the source post (adjacent pixels are touching).
     sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
     sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
@@ -568,6 +561,7 @@ static void R_Subsector(int num)
 // RenderBSPNode
 // Renders all subsectors below a given node, traversing subtree recursively.
 // Just call with BSP root.
+//
 void R_RenderBSPNode(int bspnum)
 {
     if (bspnum & NF_SUBSECTOR)
