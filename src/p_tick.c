@@ -195,7 +195,7 @@ void P_Ticker(void)
     if (menuactive && !freeze)
     {
         for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
-            if (currentthinker->function && currentthinker->menu)
+            if (currentthinker->menu)
                 currentthinker->function((mobj_t *)currentthinker);
 
         P_UpdateSpecials();
@@ -214,8 +214,7 @@ void P_Ticker(void)
             currentthinker->function((mobj_t *)currentthinker);
 
         for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
-            if (currentthinker->function)
-                currentthinker->function((mobj_t *)currentthinker);
+            currentthinker->function((mobj_t *)currentthinker);
 
         P_UpdateSpecials();
 

@@ -426,7 +426,7 @@ dboolean EV_CeilingCrushStop(line_t *line)
         {
             ceiling->olddirection = ceiling->direction;
             ceiling->direction = 0;
-            ceiling->thinker.function = NULL;
+            ceiling->thinker.function = &T_NullThinker;
             result = true;
         }
     }

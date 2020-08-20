@@ -308,6 +308,7 @@ typedef struct platlist_s
 
 extern platlist_t   *activeplats;
 
+void T_NullThinker(void *mo);
 void T_PlatRaise(plat_t *plat);
 
 dboolean EV_DoPlat(line_t *line, plattype_e type, int amount);
