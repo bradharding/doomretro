@@ -793,7 +793,7 @@ static void saveg_write_floormove_t(floormove_t *str)
 //
 static void saveg_read_plat_t(plat_t *str)
 {
-    str->thinker.function = (saveg_read_bool() ? &T_PlatRaise : &T_NullThinker);
+    str->thinker.function = (saveg_read_bool() ? &T_PlatRaise : &T_NullPlat);
     str->sector = sectors + saveg_read32();
     str->speed = saveg_read32();
     str->low = saveg_read32();

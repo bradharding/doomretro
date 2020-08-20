@@ -45,7 +45,7 @@
 
 platlist_t  *activeplats;   // killough 02/14/98: made global again
 
-void T_NullThinker(void *mo) {}
+void T_NullPlat(plat_t *plat) {}
 
 //
 // Move a plat up and down
@@ -328,7 +328,7 @@ dboolean EV_StopPlat(line_t *line)
         {
             plat->oldstatus = plat->status;             // put it in stasis
             plat->status = in_stasis;
-            plat->thinker.function = &T_NullThinker;
+            plat->thinker.function = &T_NullPlat;
         }
     }
 
