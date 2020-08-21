@@ -334,7 +334,8 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
 //
 // R_AddLine
-// Clips the given segment and adds any visible pieces to the line list.
+// Clips the given segment
+// and adds any visible pieces to the line list.
 //
 static void R_AddLine(seg_t *line)
 {
@@ -361,7 +362,8 @@ static void R_AddLine(seg_t *line)
 
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we
+        // change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -416,11 +418,12 @@ static void R_AddLine(seg_t *line)
 //
 // R_CheckBBox
 // Checks BSP node/subtree bounding box.
-// Returns true if some part of the bbox might be visible.
+// Returns true
+//  if some part of the bbox might be visible.
 //
 static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
-    const int checkcoord[12][4] =
+    const byte checkcoord[12][4] =
     {
         { 3, 0, 2, 1 },
         { 3, 0, 2, 0 },
@@ -435,8 +438,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
         { 2, 1, 3, 0 }
     };
 
-    int         boxpos;
-    const int   *check;
+    byte        boxpos;
+    const byte  *check;
 
     angle_t     angle1;
     angle_t     angle2;
@@ -444,7 +447,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     int         sx1;
     int         sx2;
 
-    // Find the corners of the box that define the edges from current viewpoint.
+    // Find the corners of the box
+    // that define the edges from current viewpoint.
     boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
         + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
 
@@ -461,7 +465,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     // Much more efficient code now
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we
+        // change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -480,7 +485,9 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     if ((int)angle2 <= -(int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
-    // Find the first clippost that touches the source post (adjacent pixels are touching).
+    // Find the first clippost
+    //  that touches the source post
+    //  (adjacent pixels are touching).
     sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
     sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
@@ -557,34 +564,63 @@ static void R_Subsector(int num)
         R_AddLine(line++);
 }
 
+static dboolean R_RenderBspSubsector(int bspnum)
+{
+    if (bspnum & NF_SUBSECTOR)
+    {
+        R_Subsector(bspnum & ~NF_SUBSECTOR);
+        return true;
+    }
+
+    return false;
+}
+
 //
-// RenderBSPNode
+// R_RenderBSPNode
 // Renders all subsectors below a given node, traversing subtree recursively.
 // Just call with BSP root.
 //
+#define MAX_BSP_DEPTH   128
+
 void R_RenderBSPNode(int bspnum)
 {
-    if (bspnum & NF_SUBSECTOR)
-        R_Subsector(bspnum & ~NF_SUBSECTOR);
-    else
+    int stack[MAX_BSP_DEPTH];
+    int sp = 0;
+
+    while (true)
     {
-        const node_t    *bsp = nodes + bspnum;
+        const node_t    *bsp;
+        int             side;
 
-        if (((int64_t)viewy - bsp->y) * bsp->dx + ((int64_t)bsp->x - viewx) * bsp->dy <= 0)
+        while (!R_RenderBspSubsector(bspnum))
         {
-            if (R_CheckBBox(bsp->bbox[0]))
-                R_RenderBSPNode(bsp->children[0]);
+            if (sp == MAX_BSP_DEPTH)
+                break;
 
-            if (R_CheckBBox(bsp->bbox[1]))
-                R_RenderBSPNode(bsp->children[1]);
+            bsp = nodes + bspnum;
+            side = (((int64_t)viewy - bsp->y) * bsp->dx + ((int64_t)bsp->x - viewx) * bsp->dy > 0);
+            stack[sp++] = bspnum;
+            stack[sp++] = side;
+            bspnum = bsp->children[side];
         }
-        else
+
+        if (!sp)
+            return;
+
+        side = stack[--sp];
+        bspnum = stack[--sp];
+        bsp = nodes + bspnum;
+
+        while (!R_CheckBBox(bsp->bbox[side ^ 1]))
         {
-            if (R_CheckBBox(bsp->bbox[1]))
-                R_RenderBSPNode(bsp->children[1]);
+            if (!sp)
+                return;
 
-            if (R_CheckBBox(bsp->bbox[0]))
-                R_RenderBSPNode(bsp->children[0]);
+            side = stack[--sp];
+            bspnum = stack[--sp];
+            bsp = nodes + bspnum;
         }
+
+        bspnum = bsp->children[side ^ 1];
     }
 }
