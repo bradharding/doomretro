@@ -579,7 +579,7 @@ static dboolean R_RenderBspSubsector(int bspnum)
 // Renders all subsectors below a given node, traversing subtree recursively.
 // Just call with BSP root.
 //
-#define MAX_BSP_DEPTH   128
+#define MAX_BSP_DEPTH   256
 
 void R_RenderBSPNode(int bspnum)
 {
@@ -607,8 +607,7 @@ void R_RenderBSPNode(int bspnum)
             return;
 
         side = stack[--sp] ^ 1;
-        bspnum = stack[--sp];
-        bsp = nodes + bspnum;
+        bsp = nodes + stack[--sp];
 
         while (!R_CheckBBox(bsp->bbox[side]))
         {
@@ -616,8 +615,7 @@ void R_RenderBSPNode(int bspnum)
                 return;
 
             side = stack[--sp] ^ 1;
-            bspnum = stack[--sp];
-            bsp = nodes + bspnum;
+            bsp = nodes + stack[--sp];
         }
 
         bspnum = bsp->children[side];
