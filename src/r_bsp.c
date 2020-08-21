@@ -563,21 +563,10 @@ static void R_Subsector(int num)
         R_AddLine(line++);
 }
 
-static dboolean R_RenderBspSubsector(int bspnum)
-{
-    if (bspnum & NF_SUBSECTOR)
-    {
-        R_Subsector(bspnum & ~NF_SUBSECTOR);
-        return true;
-    }
-
-    return false;
-}
-
 //
 // R_RenderBSPNode
 // Renders all subsectors below a given node, traversing subtree recursively.
-// Just call with BSP root.
+// [BH] Made non-recursive
 //
 #define MAX_BSP_DEPTH   256
 
@@ -591,7 +580,7 @@ void R_RenderBSPNode(int bspnum)
         const node_t    *bsp;
         int             side;
 
-        while (!R_RenderBspSubsector(bspnum))
+        while (!(bspnum & NF_SUBSECTOR))
         {
             if (sp == MAX_BSP_DEPTH)
                 break;
@@ -602,6 +591,8 @@ void R_RenderBSPNode(int bspnum)
             stack[sp++] = side;
             bspnum = bsp->children[side];
         }
+
+        R_Subsector(bspnum & ~NF_SUBSECTOR);
 
         if (!sp)
             return;
