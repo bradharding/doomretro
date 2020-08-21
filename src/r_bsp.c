@@ -111,7 +111,7 @@ void R_InitClipSegs(void)
         + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
         + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
         + sizeof(frontsector->lightlevel);
-    solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
+    solidcol = calloc(SCREENWIDTH, sizeof(*solidcol));
 }
 
 //
@@ -187,11 +187,10 @@ static void R_InterpolateSector(sector_t *sector)
 {
     sector_t    *heightsec = sector->heightsec;
 
-    if (vid_capfps != TICRATE
-        // Only if we moved the sector last tic.
-        && sector->oldgametime == gametime - 1)
+    // Only if we moved the sector last tic
+    if (sector->oldgametime == gametime - 1 && vid_capfps != TICRATE)
     {
-        // Interpolate between current and last floor/ceiling position.
+        // Interpolate between current and last floor/ceiling position
         if (sector->floorheight != sector->oldfloorheight)
             sector->interpfloorheight = sector->oldfloorheight
                 + FixedMul(sector->floorheight - sector->oldfloorheight, fractionaltic);
@@ -607,20 +606,20 @@ void R_RenderBSPNode(int bspnum)
         if (!sp)
             return;
 
-        side = stack[--sp];
+        side = stack[--sp] ^ 1;
         bspnum = stack[--sp];
         bsp = nodes + bspnum;
 
-        while (!R_CheckBBox(bsp->bbox[side ^ 1]))
+        while (!R_CheckBBox(bsp->bbox[side]))
         {
             if (!sp)
                 return;
 
-            side = stack[--sp];
+            side = stack[--sp] ^ 1;
             bspnum = stack[--sp];
             bsp = nodes + bspnum;
         }
 
-        bspnum = bsp->children[side ^ 1];
+        bspnum = bsp->children[side];
     }
 }

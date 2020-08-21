@@ -2179,7 +2179,7 @@ static void P_CreateBlockMap(void)
         } bmap_t;
 
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
-        bmap_t          *bmap = calloc(sizeof(*bmap), tot);     // array of blocklists
+        bmap_t          *bmap = calloc(tot, sizeof(*bmap));     // array of blocklists
 
         for (i = 0; i < numlines; i++)
         {
