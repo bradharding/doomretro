@@ -1678,7 +1678,7 @@ dboolean C_ValidateInput(const char *input)
         for (int i = 0; *actions[i].action; i++)
             if (M_StringCompare(input, actions[i].action))
             {
-                C_Input(input);
+                C_Input("%s", input);
 
                 if (actions[i].func)
                 {
