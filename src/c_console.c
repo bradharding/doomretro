@@ -813,7 +813,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX;
+    timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
     dotwidth = SHORT(dot->width);
@@ -1172,9 +1172,30 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
+int C_OverlayWidth(const char *text)
+{
+    const int   len = (int)strlen(text);
+    int         w = 0;
+
+    for (int i = 0; i < len; i++)
+    {
+        const unsigned char letter = text[i];
+
+        if (letter == ' ')
+            w += spacewidth;
+        else if (isdigit(letter))
+            w += zerowidth;
+        else
+            w += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
+    }
+
+    return w;
+}
+
 static void C_DrawOverlayText(int x, int y, const char *text, const int color, dboolean monospaced)
 {
     const int   len = (int)strlen(text);
+    byte        *tinttab = (r_hud_translucency ? tinttab75 : NULL);
 
     for (int i = 0; i < len; i++)
     {
@@ -1187,16 +1208,15 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color, d
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
             int     width = SHORT(patch->width);
 
-            if (monospaced && letter == '1')
+            if (isdigit(letter))
             {
-                V_DrawConsoleOutputTextPatch(x + 1, y, patch, width, color, NOBACKGROUNDCOLOR, false,
-                    (r_hud_translucency ? tinttab75 : NULL));
-                x += width + 2;
+                V_DrawConsoleOutputTextPatch(x + (letter == '1') - (letter == '4'),
+                    y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
+                x += zerowidth;
             }
             else
             {
-                V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false,
-                    (r_hud_translucency ? tinttab75 : NULL));
+                V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
                 x += width;
             }
         }
@@ -1255,7 +1275,7 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", framespersecond, 1000.0f / framespersecond);
 
-        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
+        C_DrawOverlayText(CONSOLEWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
             consolehighfpscolor), false);
     }
