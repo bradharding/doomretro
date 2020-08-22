@@ -129,7 +129,7 @@ static int              dotwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
-static int              consolehighfpscolor = 116;
+static int              consolehighfpscolor = 4;
 static int              consoletimercolor = 4;
 static int              consoleinputcolor = 4;
 static int              consoleselectedinputcolor = 4;
