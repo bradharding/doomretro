@@ -2451,7 +2451,6 @@ dboolean EV_DoDonut(line_t *line)
 
 void P_SetTimer(int minutes)
 {
-    timer = BETWEEN(0, minutes, 600);
     countdown = timer * 60 * TICRATE;
 }
 
@@ -2478,6 +2477,7 @@ void P_SpawnSpecials(void)
         {
             char    *temp = commify(minutes);
 
+            timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
             C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %s minute%s.",
                 temp, (minutes == 1 ? "" : "s"));
             P_SetTimer(minutes);

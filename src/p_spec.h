@@ -46,6 +46,8 @@ typedef enum
     ceiling_special
 } special_e;
 
+#define TIMERMAXMINUTES 3600
+
 extern int              timer;
 extern int              countdown;
 extern fixed_t          animatedliquiddiff;

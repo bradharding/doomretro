@@ -6806,6 +6806,8 @@ static void timer_cmd_func2(char *cmd, char *parms)
         {
             char    *temp = commify(value);
 
+            value = BETWEEN(0, value, TIMERMAXMINUTES);
+
             if (value == timer)
                 C_Output("The timer for each map has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
             else if (value)
