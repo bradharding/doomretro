@@ -7,6 +7,8 @@
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning left or right far enough.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
+* The correct `CREDIT` lump is now displayed when finishing episode 1 of *DOOM* and *SIGIL* has been automatically loaded.
+* The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

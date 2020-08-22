@@ -1039,31 +1039,34 @@ static void F_ArtScreenDrawer(void)
         F_BunnyScroll();
     else
     {
-        char    *lumpname;
+        patch_t *lump;
 
         switch (gameepisode)
         {
             case 1:
-                lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
+                if (gamemode == retail)
+                    lump = (autosigil ? W_CacheLastLumpName("CREDIT") : W_CacheLumpName("CREDIT"));
+                else
+                    lump = W_CacheLumpName("HELP2");
                 break;
 
             case 2:
-                lumpname = "VICTORY2";
+                lump = W_CacheLumpName("VICTORY2");
                 break;
 
             case 4:
-                lumpname = "ENDPIC";
+                lump = W_CacheLumpName("ENDPIC");
                 break;
 
             case 5:
-                lumpname = "SIGILEND";
+                lump = W_CacheLumpName("SIGILEND");
                 break;
 
             default:
                 return;
         }
 
-        V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
+        V_DrawPatch(0, 0, 0, lump);
     }
 }
 
