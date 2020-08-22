@@ -2451,6 +2451,7 @@ dboolean EV_DoDonut(line_t *line)
 
 void P_SetTimer(int minutes)
 {
+    timer = minutes;
     countdown = timer * 60 * TICRATE;
 }
 
