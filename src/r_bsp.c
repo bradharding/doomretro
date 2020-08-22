@@ -44,6 +44,7 @@
 #include "m_config.h"
 #include "r_main.h"
 #include "r_plane.h"
+#include "r_segs.h"
 #include "r_things.h"
 
 seg_t       *curline;
@@ -53,8 +54,6 @@ sector_t    *backsector;
 
 drawseg_t   *drawsegs;
 drawseg_t   *ds_p;
-
-void R_StoreWallRange(const int start, const int stop);
 
 //
 // R_ClearDrawSegs

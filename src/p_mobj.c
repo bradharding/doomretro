@@ -675,11 +675,10 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     flags2 = mobj->flags2;
-    sector = mobj->subsector->sector;
 
     // [BH] bob objects in liquid
-    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight && !mobj->momz
-        && !sector->heightsec && r_liquid_bob)
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
+        && mobj->z <= (sector = mobj->subsector->sector)->floorheight && !mobj->momz && !sector->heightsec && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] bob certain power-ups
