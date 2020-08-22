@@ -688,6 +688,8 @@ static void WI_InitNoState(void)
     state = NoState;
     acceleratestage = false;
     cnt = (gamemode == commercial ? TICRATE : 10);
+
+    D_FadeScreen();
 }
 
 static void WI_UpdateNoState(void)
@@ -711,6 +713,8 @@ static void WI_InitShowNextLoc(void)
     state = ShowNextLoc;
     acceleratestage = false;
     cnt = SHOWNEXTLOCDELAY * TICRATE;
+
+    D_FadeScreen();
 
     WI_InitAnimatedBack();
 }
@@ -921,8 +925,6 @@ static void WI_UpdateStats(void)
                 WI_InitNoState();
             else
                 WI_InitShowNextLoc();
-
-            D_FadeScreen();
         }
     }
     else if (sp_state & 1)
