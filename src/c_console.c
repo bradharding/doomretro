@@ -1195,7 +1195,7 @@ int C_OverlayWidth(const char *text)
 static void C_DrawOverlayText(int x, int y, const char *text, const int color, dboolean monospaced)
 {
     const int   len = (int)strlen(text);
-    byte        *tinttab = (r_hud_translucency ? tinttab75 : NULL);
+    byte        *tinttab = (r_hud_translucency ? (consoleactive ? tinttab75 : tinttab50) : NULL);
 
     for (int i = 0; i < len; i++)
     {
