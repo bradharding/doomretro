@@ -1961,17 +1961,13 @@ static void exec_cmd_func2(char *cmd, char *parms)
     else
     {
         FILE    *file = fopen(parms, "r");
+        char    strparm[256] = "";
 
         if (!file)
             return;
 
-        while (!feof(file))
+        while (fgets(strparm, 256, file) != NULL)
         {
-            char    strparm[256] = "";
-
-            if (fscanf(file, "%255[^\n]\n", strparm) != 1)
-                continue;
-
             if (strparm[0] == ';')
                 continue;
 
