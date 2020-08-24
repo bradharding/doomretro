@@ -220,22 +220,30 @@ static void P_XYMovement(mobj_t *mo)
                 && ((mo->flags & MF_BOUNCES)
                     || (!player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)))
             {
-                fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
-                            / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                            + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
-                fixed_t x = FixedMul(r, blockline->dx);
-                fixed_t y = FixedMul(r, blockline->dy);
-
-                // reflect momentum away from wall
-                mo->momx = x * 2 - mo->momx;
-                mo->momy = y * 2 - mo->momy;
-
-                // if under gravity, slow down in
-                // direction perpendicular to wall.
-                if (!(mo->flags & MF_NOGRAVITY))
+                if (blockline)
                 {
-                    mo->momx = (mo->momx + x) / 2;
-                    mo->momy = (mo->momy + y) / 2;
+                    fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
+                                / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                    fixed_t x = FixedMul(r, blockline->dx);
+                    fixed_t y = FixedMul(r, blockline->dy);
+
+                    // reflect momentum away from wall
+                    mo->momx = x * 2 - mo->momx;
+                    mo->momy = y * 2 - mo->momy;
+
+                    // if under gravity, slow down in
+                    // direction perpendicular to wall.
+                    if (!(mo->flags & MF_NOGRAVITY))
+                    {
+                        mo->momx = (mo->momx + x) / 2;
+                        mo->momy = (mo->momy + y) / 2;
+                    }
+                }
+                else
+                {
+                    mo->momx = 0;
+                    mo->momy = 0;
                 }
             }
             else if (player)
