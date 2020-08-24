@@ -1201,7 +1201,7 @@ dboolean C_ExecuteAlias(const char *alias)
                 }
 
                 executingalias = false;
-                C_Input(alias);
+                C_Input("%s", alias);
                 free(string);
                 return true;
             }
