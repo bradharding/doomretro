@@ -456,7 +456,6 @@ void D_Display(void)
         wipestart = nowtime;
         done = wipe_ScreenWipe();
 
-        M_Drawer();
         blitfunc();
         mapblitfunc();
 
