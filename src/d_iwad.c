@@ -378,15 +378,15 @@ static void AddXdgDirs(void)
     AddIWADPath(env, "/games/doom");
     AddIWADPath(env, "/doom");
 
-    // The convention set by RBDOOM-3-BFG is to install Doom 3: BFG
-    // Edition into this directory, under which includes the Doom
+    // The convention set by RBDOOM-3-BFG is to install DOOM 3: BFG
+    // Edition into this directory, under which includes the DOOM
     // Classic WADs.
     AddIWADPath(env, "/games/doom3bfg/base/wads");
 }
 
 #if !defined(__APPLE__)
 // Steam on Linux allows installing some select Windows games,
-// including the classic Doom series (running DOSBox via Wine). We
+// including the classic DOOM series (running DOSBox via Wine). We
 // could parse *.vdf files to more accurately detect installation
 // locations, but the defaults are likely to be good enough for just
 // about everyone.

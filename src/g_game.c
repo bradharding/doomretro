@@ -1652,7 +1652,7 @@ static void G_DoNewGame(void)
     infight = false;
 }
 
-// killough 04/10/98: New function to fix bug which caused Doom
+// killough 04/10/98: New function to fix bug which caused DOOM
 // lockups when idclev was used in conjunction with -fast.
 void G_SetFastParms(int fast_pending)
 {

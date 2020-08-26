@@ -332,8 +332,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
 //
 // R_AddLine
-// Clips the given segment
-// and adds any visible pieces to the line list.
+// Clips the given segment and adds any visible pieces to the line list.
 //
 static void R_AddLine(seg_t *line)
 {
@@ -360,8 +359,7 @@ static void R_AddLine(seg_t *line)
 
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -395,7 +393,7 @@ static void R_AddLine(seg_t *line)
     // Single sided line?
     if ((backsector = line->backsector))
     {
-        sector_t    tempsec;    // killough 03/08/98: ceiling/water hack
+        sector_t    tempsec;            // killough 03/08/98: ceiling/water hack
 
         // [AM] Interpolate sector movement before running clipping tests. Frontsector should already be interpolated.
         R_InterpolateSector(backsector);
@@ -445,8 +443,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     int         sx1;
     int         sx2;
 
-    // Find the corners of the box
-    // that define the edges from current viewpoint.
+    // Find the corners of the box that define the edges from current viewpoint.
     boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
         + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
 
@@ -463,8 +460,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     // Much more efficient code now
     if ((int)angle1 < (int)angle2)
     {
-        // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the correct sign
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -483,9 +479,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     if ((int)angle2 <= -(int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
-    // Find the first clippost
-    //  that touches the source post
-    //  (adjacent pixels are touching).
+    // Find the first clippost that touches the source post (adjacent pixels are touching).
     sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
     sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
@@ -508,10 +502,10 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 static void R_Subsector(int num)
 {
     subsector_t *sub = subsectors + num;
-    sector_t    tempsec;                                        // killough 03/07/98: deep water hack
+    sector_t    tempsec;                                    // killough 03/07/98: deep water hack
     sector_t    *sector = sub->sector;
-    int         floorlightlevel;                                // killough 03/16/98: set floor lightlevel
-    int         ceilinglightlevel;                              // killough 04/11/98
+    int         floorlightlevel;                            // killough 03/16/98: set floor lightlevel
+    int         ceilinglightlevel;                          // killough 04/11/98
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
@@ -521,23 +515,23 @@ static void R_Subsector(int num)
     // killough 03/08/98, 04/04/98: Deep water/fake ceiling effect
     frontsector = R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
-    floorplane = (frontsector->interpfloorheight < viewz        // killough 03/07/98
+    floorplane = (frontsector->interpfloorheight < viewz    // killough 03/07/98
         || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
-            (frontsector->floorpic == skyflatnum                // killough 10/98
+            (frontsector->floorpic == skyflatnum            // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
-            floorlightlevel,                                    // killough 03/16/98
-            frontsector->floor_xoffs,                           // killough 03/07/98
+            floorlightlevel,                                // killough 03/16/98
+            frontsector->floor_xoffs,                       // killough 03/07/98
             frontsector->floor_yoffs) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
-        R_FindPlane(frontsector->interpceilingheight,           // killough 03/08/98
-            (frontsector->ceilingpic == skyflatnum              // killough 10/98
+        R_FindPlane(frontsector->interpceilingheight,       // killough 03/08/98
+            (frontsector->ceilingpic == skyflatnum          // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
-            ceilinglightlevel,                                  // killough 04/11/98
-            frontsector->ceiling_xoffs,                         // killough 03/07/98
+            ceilinglightlevel,                              // killough 04/11/98
+            frontsector->ceiling_xoffs,                     // killough 03/07/98
             frontsector->ceiling_yoffs) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector

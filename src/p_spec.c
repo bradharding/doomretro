@@ -2461,8 +2461,7 @@ void P_SetTimer(int minutes)
 
 //
 // P_SpawnSpecials
-// After the map has been loaded, scan for specials
-//  that spawn thinkers
+// After the map has been loaded, scan for specials that spawn thinkers
 //
 void P_SpawnSpecials(void)
 {

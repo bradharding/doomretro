@@ -377,7 +377,7 @@ static void P_ZMovement(mobj_t *mo)
     fixed_t     floorz = mo->floorz;
 
     // killough 07/11/98:
-    // BFG fireballs bounced on floors and ceilings in Pre-Beta Doom
+    // BFG fireballs bounced on floors and ceilings in Pre-Beta DOOM
     // killough 08/09/98: added support for non-missile objects bouncing
     // (e.g. grenade, mine, pipebomb)
     if ((flags & MF_BOUNCES) && mo->momz)
