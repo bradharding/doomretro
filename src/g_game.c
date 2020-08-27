@@ -1694,6 +1694,9 @@ void G_SetMovementSpeed(int scale)
 // G_InitNew
 // Can be called by the startup code or the menu task.
 //
+
+extern dboolean EpiCustom;
+
 void G_InitNew(skill_t skill, int ep, int map)
 {
     if (paused)
@@ -1708,20 +1711,23 @@ void G_InitNew(skill_t skill, int ep, int map)
     if (ep < 1)
         ep = 1;
 
-    if (gamemode == retail)
+    if (!EpiCustom)
     {
-        if (sigil)
+        if (gamemode == retail)
         {
-            if (ep > 5)
-                ep = 5;
+            if (sigil)
+            {
+                if (ep > 5)
+                    ep = 5;
+            }
+            else if (ep > 4)
+                ep = 4;
         }
-        else if (ep > 4)
-            ep = 4;
-    }
-    else if (gamemode == shareware)
-    {
-        if (ep > 1)
-            ep = 1;     // only start episode 1 on shareware
+        else if (gamemode == shareware)
+        {
+            if (ep > 1)
+                ep = 1;     // only start episode 1 on shareware
+        }
     }
 
     if (map > 9 && gamemode != commercial)

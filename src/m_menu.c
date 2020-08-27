@@ -1569,7 +1569,7 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-static dboolean EpiCustom;
+dboolean EpiCustom;
 static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
