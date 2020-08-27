@@ -1654,9 +1654,9 @@ static void G_DoNewGame(void)
 
 // killough 04/10/98: New function to fix bug which caused DOOM
 // lockups when idclev was used in conjunction with -fast.
-void G_SetFastParms(int fast_pending)
+void G_SetFastParms(dboolean fast_pending)
 {
-    static int  fast = 0;                   // remembers fast state
+    static dboolean fast = false;           // remembers fast state
 
     if (fast != fast_pending)               // only change if necessary
     {

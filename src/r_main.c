@@ -100,7 +100,7 @@ fixed_t             finetangent[FINEANGLES / 2];
 angle_t             tantoangle[SLOPERANGE + 1];
 
 // killough 03/20/98: Support dynamic colormaps, e.g. deep water
-// killough 04/04/98: support dynamic number of them as well
+// killough 04/04/98: Support dynamic number of them as well
 int                 numcolormaps = 1;
 static lighttable_t *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
 static lighttable_t *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
@@ -812,7 +812,7 @@ static void R_SetupFrame(void)
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
-    // killough 03/20/98, 4/4/98: select colormap based on player status
+    // killough 03/20/98, 04/04/98: select colormap based on player status
     if (mo->subsector->sector->heightsec)
     {
         const sector_t  *s = mo->subsector->sector->heightsec;

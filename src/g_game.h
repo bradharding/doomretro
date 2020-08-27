@@ -89,7 +89,7 @@ dboolean G_Responder(event_t *ev);
 void G_ScreenShot(void);
 void I_ToggleWidescreen(dboolean toggle);
 
-void G_SetFastParms(int fast_pending);
+void G_SetFastParms(dboolean fast_pending);
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);
 
