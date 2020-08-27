@@ -3,6 +3,7 @@
 #### DOOM Retro v3.6.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* now uses the *Windows Audio Session API (WASAPI)* rather than *DirectSound* to play sound effects.
 * If the player has their fists equipped, a berserk power-up and god mode enabled, the screen will no longer flash red when they are attacked.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning left or right far enough.

@@ -131,8 +131,13 @@ extern dboolean     serverMidiPlaying;
 static void InitSfxModule(void)
 {
     if (I_InitSound())
+    {
+        char    *audiodriver = SDL_GetCurrentAudioDriver();
+
         C_Output("Sound effects are playing at a sample rate of %.1fkHz over %i channels%s.", SAMPLERATE / 1000.0f, s_channels,
-            (M_StringCompare(SDL_GetCurrentAudioDriver(), "directsound") ? " using the <i><b>DirectSound</b></i> API" : ""));
+            (M_StringCompare(audiodriver, "wasapi") ? " using <i><b>WASAPI</b></i>" :
+            (M_StringCompare(audiodriver, "directsound") ? " using <i><b>DirectSound</b></i>" : "")));
+    }
     else
     {
         C_Warning(1, "Sound effects couldn't be initialized.");
@@ -180,13 +185,12 @@ void S_Init(void)
     if (!nosfx)
     {
 #if defined(_WIN32)
-        char    *audiobuffer = SDL_getenv("SDL_AUDIODRIVER");
+        char    *audiodriver = SDL_getenv("SDL_AUDIODRIVER");
 
-        if (audiobuffer)
-            C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiobuffer);
+        if (audiodriver)
+            C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiodriver);
 
-        SDL_setenv("SDL_AUDIODRIVER", "DirectSound", false);
-        free(audiobuffer);
+        free(audiodriver);
 #endif
 
         InitSfxModule();
