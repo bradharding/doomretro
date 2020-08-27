@@ -122,5 +122,6 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
+extern dboolean EpiCustom;
 
 #endif

@@ -1694,9 +1694,6 @@ void G_SetMovementSpeed(int scale)
 // G_InitNew
 // Can be called by the startup code or the menu task.
 //
-
-extern dboolean EpiCustom;
-
 void G_InitNew(skill_t skill, int ep, int map)
 {
     if (paused)
