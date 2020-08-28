@@ -5,8 +5,9 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the now deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects.
 * If the player has their fists equipped, a berserk power-up and god mode enabled, the screen will no longer flash red when they are attacked.
+* Other monsters may now walk under flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the automap:
-  * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning left or right far enough.
+  * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
 * The correct `CREDIT` lump is now displayed when finishing episode 1 of *DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
