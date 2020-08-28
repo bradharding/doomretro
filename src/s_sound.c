@@ -188,9 +188,10 @@ void S_Init(void)
         char    *audiodriver = SDL_getenv("SDL_AUDIODRIVER");
 
         if (audiodriver)
+        {
             C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiodriver);
-
-        free(audiodriver);
+            free(audiodriver);
+        }
 #endif
 
         InitSfxModule();

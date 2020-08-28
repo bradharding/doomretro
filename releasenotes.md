@@ -12,6 +12,7 @@
 * The correct `CREDIT` lump is now displayed when finishing episode 1 of *DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * Further improvements have been made to the support for `UMAPINFO` lumps.
+* The player’s health and ammo will now only flash in the widescreen HUD when less than 10.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
