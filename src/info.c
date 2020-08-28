@@ -1108,7 +1108,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL),
-        /* flags2               */ (MF2_CASTSHADOW | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags2               */ (MF2_PASSMOBJ | MF2_CASTSHADOW | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
