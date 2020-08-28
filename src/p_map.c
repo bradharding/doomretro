@@ -122,7 +122,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
     if (!telefrag)          // killough 08/09/98: make consistent across all levels
         return false;
 
-    if ((thing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
+    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ)) && !infiniteheight)
     {
         if (tmz > thing->z + thing->height)
             return true;    // overhead
