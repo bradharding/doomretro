@@ -830,7 +830,7 @@ static void HU_DrawAltHUD(void)
     int             color = (invert ? colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
-    int             barcolor2 = (health <= 20 ? red : (health >= 100 ? green : color));
+    int             barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
     int             barcolor1 = barcolor2;
     int             keypic_x = ALTHUD_RIGHT_X;
     static int      keywait;
@@ -891,7 +891,7 @@ static void HU_DrawAltHUD(void)
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo, color);
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
-            barcolor1 = (ammo <= 15 ? yellow : color);
+            barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true);
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color);
             althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
