@@ -135,8 +135,8 @@ static void InitSfxModule(void)
         const char  *audiodriver = SDL_GetCurrentAudioDriver();
 
         C_Output("Sound effects are playing at a sample rate of %.1fkHz over %i channels%s.", SAMPLERATE / 1000.0f, s_channels,
-            (M_StringCompare(audiodriver, "wasapi") ? " using <i><b>WASAPI</b></i>" :
-            (M_StringCompare(audiodriver, "directsound") ? " using <i><b>DirectSound</b></i>" : "")));
+            (M_StringCompare(audiodriver, "wasapi") ? " using the <i><b>WASAPI</b></i>" :
+            (M_StringCompare(audiodriver, "directsound") ? " using the <i><b>DirectSound</b></i> API" : "")));
     }
     else
     {
