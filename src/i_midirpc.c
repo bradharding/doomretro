@@ -74,7 +74,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // RPC Wrappers
 //
 
-// This number * 10 is the amount of time you can try to wait for.
+// This number * 20 is the amount of time you can try to wait for.
 #define MIDIRPC_MAXTRIES    100
 
 static dboolean I_MidiRPCWaitForServer(void)
@@ -83,7 +83,7 @@ static dboolean I_MidiRPCWaitForServer(void)
 
     while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
     {
-        I_Sleep(10);
+        I_Sleep(20);
 
         if (++tries >= MIDIRPC_MAXTRIES)
             return false;
@@ -94,9 +94,7 @@ static dboolean I_MidiRPCWaitForServer(void)
 
 //
 // I_MidiRPCRegisterSong
-//
-// Prepare the RPC MIDI engine to receive new song data, and transmit the song
-// data to the server process.
+// Prepare the RPC MIDI engine to receive new song data, and transmit the song data to the server process.
 //
 dboolean I_MidiRPCRegisterSong(void *data, int size)
 {
@@ -115,7 +113,6 @@ dboolean I_MidiRPCRegisterSong(void *data, int size)
 
 //
 // I_MidiRPCPlaySong
-//
 // Tell the RPC server to start playing a song.
 //
 dboolean I_MidiRPCPlaySong(dboolean looping)
@@ -134,7 +131,6 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
 
 //
 // I_MidiRPCStopSong
-//
 // Tell the RPC server to stop any currently playing song.
 //
 dboolean I_MidiRPCStopSong(void)
@@ -153,7 +149,6 @@ dboolean I_MidiRPCStopSong(void)
 
 //
 // I_MidiRPCSetVolume
-//
 // Change the volume level of music played by the RPC midi server.
 //
 dboolean I_MidiRPCSetVolume(int volume)
@@ -172,9 +167,8 @@ dboolean I_MidiRPCSetVolume(int volume)
 
 //
 // I_MidiRPCPauseSong
-//
-// Pause the music being played by the server. In actuality, due to SDL_mixer
-// limitations, this just temporarily sets the volume to zero.
+// Pause the music being played by the server.
+// In actuality, due to SDL_mixer limitations, this just temporarily sets the volume to zero.
 //
 dboolean I_MidiRPCPauseSong(void)
 {
@@ -192,7 +186,6 @@ dboolean I_MidiRPCPauseSong(void)
 
 //
 // I_MidiRPCResumeSong
-//
 // Resume a song after having paused it.
 //
 dboolean I_MidiRPCResumeSong(void)
@@ -215,7 +208,6 @@ dboolean I_MidiRPCResumeSong(void)
 
 //
 // I_MidiRPCInitServer
-//
 // Start up the RPC MIDI server.
 //
 dboolean I_MidiRPCInitServer(void)
@@ -249,7 +241,6 @@ dboolean I_MidiRPCInitServer(void)
 
 //
 // I_MidiRPCInitClient
-//
 // Initialize client RPC bindings and bind to the server.
 //
 dboolean I_MidiRPCInitClient(void)
@@ -281,7 +272,6 @@ dboolean I_MidiRPCInitClient(void)
 
 //
 // I_MidiRPCClientShutDown
-//
 // Shutdown the RPC Client
 //
 void I_MidiRPCClientShutDown(void)

@@ -1232,8 +1232,7 @@ static fixed_t  tmymove;
 
 //
 // P_HitSlideLine
-// Adjusts the xmove/ymove
-// so that the next move will slide along the wall.
+// Adjusts the xmove/ymove so that the next move will slide along the wall.
 //
 static void P_HitSlideLine(line_t *ld)
 {
@@ -1248,7 +1247,7 @@ static void P_HitSlideLine(line_t *ld)
     // your momentum. If less than 45 degrees, you'll slide along
     // the wall. 45 is arbitrary and is believable.
     //
-    // Check for the special cases of horz or vert walls.
+    // Check for the special cases of horizontal or vertical walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
     dboolean    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
@@ -1351,8 +1350,7 @@ static dboolean PTR_SlideTraverse(intercept_t *in)
     // this line doesn't block movement
     return true;
 
-    // the line does block movement,
-    // see if it is closer than best so far
+    // the line does block movement, see if it is closer than best so far
 isblocking:
     if (in->frac < bestslidefrac)
     {
@@ -1365,12 +1363,8 @@ isblocking:
 
 //
 // P_SlideMove
-// The momx/momy move is bad, so try to slide
-// along a wall.
-// Find the first line hit, move flush to it,
-// and slide along it
-//
-// This is a kludgey mess.
+// The momx/momy move is bad, so try to slide along a wall.
+// Find the first line hit, move flush to it, and slide along it.
 //
 // killough 11/98: reformatted
 void P_SlideMove(mobj_t *mo)
@@ -1512,8 +1506,7 @@ static dboolean PTR_AimTraverse(intercept_t *in)
             return false;               // stop
 
         // Crosses a two sided line.
-        // A two sided line will restrict
-        // the possible target ranges.
+        // A two sided line will restrict the possible target ranges.
         P_LineOpening(li);
 
         if (openbottom >= opentop)
