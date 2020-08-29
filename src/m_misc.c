@@ -76,7 +76,7 @@
 #include <libgen.h>
 #include <mach-o/dyld.h>
 #include <errno.h>
-#elif defined(__OpenBSD__) || defined(__FreeBSD__)
+#elif defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
 #include <sys/sysctl.h>
 #include <dirent.h>
 #include <errno.h>
@@ -303,19 +303,23 @@ char *M_GetExecutableFolder(void)
         *pos = '\0';
 
     return folder;
-#elif defined(__linux__)
-    char    *exe = malloc(MAX_PATH);
+#elif defined(__linux__) || defined(__NetBSD__)
+    char    exe[MAX_PATH];
+#if defined(__linux__)
     ssize_t len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
+#else
+    ssize_t len = readlink("/proc/curproc/exe", exe, MAX_PATH - 1);
+#endif
 
     if (len == -1)
     {
         strcpy(exe, ".");
-        return exe;
+        return strdup(exe);
     }
     else
     {
         exe[len] = '\0';
-        return dirname(exe);
+        return strdup(dirname(exe));
     }
 #elif defined(__FreeBSD__)
     char    *exe = malloc(MAX_PATH);
