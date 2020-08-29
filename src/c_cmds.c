@@ -5143,7 +5143,7 @@ static void C_PlayerStats_Game(void)
     {
         temp1 = sentencecase(weaponinfo[wp_pistol].description);
         temp2 = sentencecase(weaponinfo[favoriteweapon2].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t<b>%s</b>", temp1, temp2);
+        C_TabbedOutput(tabs, "Favorite weapon\t<b>%s</b>\t<b>%s</b>", temp1, temp2);
         free(temp1);
         free(temp2);
     }
