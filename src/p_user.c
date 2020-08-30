@@ -51,6 +51,8 @@
 #define AUTOTILTMAX     300
 #define MINSTEPSIZE     (8 * FRACUNIT)
 #define MAXSTEPSIZE     (24 * FRACUNIT)
+#define STEP1DISTANCE   24
+#define STEP2DISTANCE   32
 
 dboolean        autotilt = autotilt_default;
 dboolean        autouse = autouse_default;
@@ -184,19 +186,17 @@ static dboolean P_CheckForSteps(fixed_t width)
 
     if (sector1->terraintype == sector2->terraintype)
     {
-        fixed_t step1 = sector1->floorheight;
-        fixed_t step2 = sector2->floorheight;
-        int     delta1 = step1 - viewplayer->mo->subsector->sector->floorheight;
-        int     delta2 = step2 - step1;
+        fixed_t step = sector1->floorheight;
+        int     delta = step - viewplayer->mo->floorz;
 
-        if (delta1 == delta2)
+        if (delta == sector2->floorheight - step)
         {
-            if (delta1 >= MINSTEPSIZE && delta1 <= MAXSTEPSIZE)
+            if (delta >= MINSTEPSIZE && delta <= MAXSTEPSIZE)
             {
                 viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
                 return true;
             }
-            else if (delta1 >= -MAXSTEPSIZE && delta1 <= -MINSTEPSIZE)
+            else if (delta >= -MAXSTEPSIZE && delta <= -MINSTEPSIZE)
             {
                 viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
                 return true;
@@ -251,7 +251,7 @@ void P_MovePlayer(void)
 
     if (autotilt && !(mouselook || freeze || (viewplayer->cheats & MF_NOCLIP)))
     {
-        if (!P_CheckForSteps(32) && !P_CheckForSteps(24))
+        if (!P_CheckForSteps(STEP1DISTANCE) && !P_CheckForSteps(STEP2DISTANCE))
         {
             if (viewplayer->lookdir > 0)
             {

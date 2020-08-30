@@ -946,7 +946,7 @@ dboolean P_IsInLiquid(mobj_t *thing)
     if (thing->flags & MF_NOGRAVITY)
         return false;
 
-    floorheight = thing->subsector->sector->interpfloorheight;
+    floorheight = thing->floorz;
 
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
