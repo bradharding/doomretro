@@ -136,7 +136,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     do
     {
         // Out of memory? Try to free an old sound, then loop round and try again.
-        if (!(snd = malloc(sizeof(allocated_sound_t) + len)) && !FindAndFreeSound())
+        if (!(snd = calloc(1, sizeof(allocated_sound_t) + len)) && !FindAndFreeSound())
             return NULL;
     } while (!snd);
 
@@ -191,9 +191,9 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 {
     allocated_sound_t   *outsnd;
-    int16_t             *srcbuf = (int16_t *)insnd->chunk.abuf;
-    uint32_t            srclen = insnd->chunk.alen;
+    int16_t             *srcbuf;
     int16_t             *dstbuf;
+    const uint32_t      srclen = insnd->chunk.alen;
 
     // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
     // This is an approximation of vanilla behavior based on measurements
@@ -207,6 +207,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
         return NULL;
 
     outsnd->pitch = pitch;
+    srcbuf = (int16_t *)insnd->chunk.abuf;
     dstbuf = (int16_t *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
