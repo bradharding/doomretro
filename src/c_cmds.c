@@ -99,18 +99,18 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "It is set to <b>%s</b> and is <b>%s</b> by default."
-#define INTEGERCVARWITHNODEFAULT    "It is set to <b>%s</b>."
-#define INTEGERCVARISDEFAULT        "It is set to its default of <b>%s</b>."
-#define INTEGERCVARISREADONLY       "It is set to <b>%s</b> and is read-only."
-#define PERCENTCVARWITHDEFAULT      "It is set to <b>%s%%</b> and is <b>%s%%</b> by default."
-#define PERCENTCVARWITHNODEFAULT    "It is set to <b>%s%%</b>."
-#define PERCENTCVARISDEFAULT        "It is set to its default of <b>%s%%</b>."
-#define PERCENTCVARISREADONLY       "It is set to <b>%s%%</b> and is read-only."
-#define STRINGCVARWITHDEFAULT       "It is set to <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
-#define STRINGCVARISDEFAULT         "It is set to its default of <b>\"%s\"</b>."
-#define STRINGCVARISREADONLY        "It is set to <b>%s%s%s</b> and is read-only."
-#define TIMECVARISREADONLY          "It is set to <b>%02i:%02i:%02i</b> and is read-only."
+#define INTEGERCVARWITHDEFAULT      "It is <b>%s</b> and is <b>%s</b> by default."
+#define INTEGERCVARWITHNODEFAULT    "It is <b>%s</b>."
+#define INTEGERCVARISDEFAULT        "It is its default of <b>%s</b>."
+#define INTEGERCVARISREADONLY       "It is <b>%s</b> and is read-only."
+#define PERCENTCVARWITHDEFAULT      "It is <b>%s%%</b> and is <b>%s%%</b> by default."
+#define PERCENTCVARWITHNODEFAULT    "It is <b>%s%%</b>."
+#define PERCENTCVARISDEFAULT        "It is its default of <b>%s%%</b>."
+#define PERCENTCVARISREADONLY       "It is <b>%s%%</b> and is read-only."
+#define STRINGCVARWITHDEFAULT       "It is <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
+#define STRINGCVARISDEFAULT         "It is its default of <b>\"%s\"</b>."
+#define STRINGCVARISREADONLY        "It is <b>%s%s%s</b> and is read-only."
+#define TIMECVARISREADONLY          "It is <b>%02i:%02i:%02i</b> and is read-only."
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f
@@ -5563,8 +5563,10 @@ static void reset_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    if (M_StringCompare(parms, "ammo") || M_StringCompare(parms, "armor") || M_StringCompare(parms, "armour")
-        || M_StringCompare(parms, "armortype") || M_StringCompare(parms, "armourtype") || M_StringCompare(parms, "health"))
+    if (M_StringCompare(parms, "ammo")
+        || M_StringCompare(parms, "armor") || M_StringCompare(parms, "armour")
+        || M_StringCompare(parms, "armortype") || M_StringCompare(parms, "armourtype")
+        || M_StringCompare(parms, "health"))
         return;
 
     resettingcvar = true;
