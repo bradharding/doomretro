@@ -2688,14 +2688,14 @@ void T_Scroll(scroll_t *s)
 
         case sc_floor:                          // killough 03/07/98: Scroll floor texture
             sec = sectors + s->affectee;
-            sec->floor_xoffs += dx;
-            sec->floor_yoffs += dy;
+            sec->floorxoffset += dx;
+            sec->flooryoffset += dy;
             break;
 
         case sc_ceiling:                        // killough 03/07/98: Scroll ceiling texture
             sec = sectors + s->affectee;
-            sec->ceiling_xoffs += dx;
-            sec->ceiling_yoffs += dy;
+            sec->ceilingxoffset += dx;
+            sec->ceilingyoffset += dy;
             break;
 
         case sc_carry:

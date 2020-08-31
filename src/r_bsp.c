@@ -105,8 +105,8 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
 //
 void R_InitClipSegs(void)
 {
-    memcmpsize = sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
-        + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
+    memcmpsize = sizeof(frontsector->floorxoffset) + sizeof(frontsector->flooryoffset)
+        + sizeof(frontsector->ceilingxoffset) + sizeof(frontsector->ceilingyoffset)
         + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
         + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
         + sizeof(frontsector->lightlevel);
@@ -148,7 +148,7 @@ static void R_RecalcLineFlags(line_t *line)
         if (backsector->interpceilingheight != frontsector->interpceilingheight
             || backsector->interpfloorheight != frontsector->interpfloorheight
             || curline->sidedef->midtexture
-            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs, memcmpsize))
+            || memcmp(&backsector->floorxoffset, &frontsector->floorxoffset, memcmpsize))
         {
             line->r_flags = RF_NONE;
             return;
@@ -270,21 +270,21 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
         {
             // head-below-floor hack
             tempsec->floorpic = s->floorpic;
-            tempsec->floor_xoffs = s->floor_xoffs;
-            tempsec->floor_yoffs = s->floor_yoffs;
+            tempsec->floorxoffset = s->floorxoffset;
+            tempsec->flooryoffset = s->flooryoffset;
 
             if (s->ceilingpic == skyflatnum)
             {
                 tempsec->interpfloorheight = tempsec->interpceilingheight + 1;
                 tempsec->ceilingpic = tempsec->floorpic;
-                tempsec->ceiling_xoffs = tempsec->floor_xoffs;
-                tempsec->ceiling_yoffs = tempsec->floor_yoffs;
+                tempsec->ceilingxoffset = tempsec->floorxoffset;
+                tempsec->ceilingyoffset = tempsec->flooryoffset;
             }
             else
             {
                 tempsec->ceilingpic = s->ceilingpic;
-                tempsec->ceiling_xoffs = s->ceiling_xoffs;
-                tempsec->ceiling_yoffs = s->ceiling_yoffs;
+                tempsec->ceilingxoffset = s->ceilingxoffset;
+                tempsec->ceilingyoffset = s->ceilingyoffset;
             }
 
             tempsec->lightlevel = s->lightlevel;
@@ -304,15 +304,15 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             tempsec->interpfloorheight = s->interpceilingheight + 1;
 
             tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
-            tempsec->floor_xoffs = tempsec->ceiling_xoffs = s->ceiling_xoffs;
-            tempsec->floor_yoffs = tempsec->ceiling_yoffs = s->ceiling_yoffs;
+            tempsec->floorxoffset = tempsec->ceilingxoffset = s->ceilingxoffset;
+            tempsec->flooryoffset = tempsec->ceilingyoffset = s->ceilingyoffset;
 
             if (s->floorpic != skyflatnum)
             {
                 tempsec->interpceilingheight = sec->interpceilingheight;
                 tempsec->floorpic = s->floorpic;
-                tempsec->floor_xoffs = s->floor_xoffs;
-                tempsec->floor_yoffs = s->floor_yoffs;
+                tempsec->floorxoffset = s->floorxoffset;
+                tempsec->flooryoffset = s->flooryoffset;
             }
 
             tempsec->lightlevel = s->lightlevel;
@@ -521,8 +521,8 @@ static void R_Subsector(int num)
             (frontsector->floorpic == skyflatnum            // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
             floorlightlevel,                                // killough 03/16/98
-            frontsector->floor_xoffs,                       // killough 03/07/98
-            frontsector->floor_yoffs) : NULL);
+            frontsector->floorxoffset,                      // killough 03/07/98
+            frontsector->flooryoffset) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
@@ -531,8 +531,8 @@ static void R_Subsector(int num)
             (frontsector->ceilingpic == skyflatnum          // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
             ceilinglightlevel,                              // killough 04/11/98
-            frontsector->ceiling_xoffs,                     // killough 03/07/98
-            frontsector->ceiling_yoffs) : NULL);
+            frontsector->ceilingxoffset,                    // killough 03/07/98
+            frontsector->ceilingyoffset) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite

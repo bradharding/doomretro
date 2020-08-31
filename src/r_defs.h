@@ -166,8 +166,8 @@ typedef struct sector_s
     int                 nextsec;        // -1 or number of next step sector
 
     // killough 03/07/98: floor and ceiling texture offsets
-    fixed_t             floor_xoffs, floor_yoffs;
-    fixed_t             ceiling_xoffs, ceiling_yoffs;
+    fixed_t             floorxoffset, flooryoffset;
+    fixed_t             ceilingxoffset, ceilingyoffset;
 
     // killough 04/11/98: support for lightlevels coming from another sector
     struct sector_s     *floorlightsec;

@@ -595,8 +595,8 @@ void P_CheckTerrainType(sector_t *sector)
         }
         else
         {
-            sector->floor_xoffs = 0;
-            sector->floor_yoffs = 0;
+            sector->floorxoffset = 0;
+            sector->flooryoffset = 0;
         }
 
         for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)

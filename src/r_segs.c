@@ -710,8 +710,8 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->lightlevel != frontsector->lightlevel
 
             // killough 03/07/98: Add checks for (x,y) offsets
-            || backsector->floor_xoffs != frontsector->floor_xoffs
-            || backsector->floor_yoffs != frontsector->floor_yoffs
+            || backsector->floorxoffset != frontsector->floorxoffset
+            || backsector->flooryoffset != frontsector->flooryoffset
 
             // killough 04/15/98: prevent 2s normals
             // from bleeding through deep water
@@ -725,8 +725,8 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->lightlevel != frontsector->lightlevel
 
             // killough 03/07/98: Add checks for (x,y) offsets
-            || backsector->ceiling_xoffs != frontsector->ceiling_xoffs
-            || backsector->ceiling_yoffs != frontsector->ceiling_yoffs
+            || backsector->ceilingxoffset != frontsector->ceilingxoffset
+            || backsector->ceilingyoffset != frontsector->ceilingyoffset
 
             // killough 04/15/98: prevent 2s normals
             // from bleeding through fake ceilings
