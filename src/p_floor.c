@@ -70,9 +70,9 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
             switch (direction)
             {
                 case DOWN:
-                    if (sector->floorheight - speed < dest)
+                    if (sector->interpfloorheight - speed < dest)
                     {
-                        sector->floorheight = dest;
+                        sector->interpfloorheight = dest;
 
                         if (P_ChangeSector(sector, crush))
                         {
@@ -93,9 +93,9 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                 case UP:
                     dest = MIN(dest, sector->ceilingheight);
 
-                    if (sector->floorheight + speed > dest)
+                    if (sector->interpfloorheight + speed > dest)
                     {
-                        sector->floorheight = dest;
+                        sector->interpfloorheight = dest;
 
                         if (P_ChangeSector(sector, crush))
                         {
@@ -129,9 +129,9 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                 case DOWN:
                     dest = MAX(dest, sector->floorheight);
 
-                    if (sector->ceilingheight - speed < dest)
+                    if (sector->interpceilingheight - speed < dest)
                     {
-                        sector->ceilingheight = dest;
+                        sector->interpceilingheight = dest;
 
                         if (P_ChangeSector(sector, crush))
                         {
@@ -161,9 +161,9 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     break;
 
                 case UP:
-                    if (sector->ceilingheight + speed > dest)
+                    if (sector->interpceilingheight + speed > dest)
                     {
-                        sector->ceilingheight = dest;
+                        sector->interpceilingheight = dest;
 
                         if (P_ChangeSector(sector, crush))
                         {
