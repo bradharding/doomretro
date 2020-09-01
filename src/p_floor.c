@@ -61,8 +61,9 @@
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
     int floororceiling, int direction, dboolean elevator)
 {
-    fixed_t oldfloorheight = sector->floorheight;
-    fixed_t oldceilingheight = sector->ceilingheight;
+    sector->oldfloorheight = sector->floorheight;
+    sector->oldceilingheight = sector->ceilingheight;
+    sector->oldgametime = gametime;
 
     switch (floororceiling)
     {
@@ -76,7 +77,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                         if (P_ChangeSector(sector, crush))
                         {
-                            sector->floorheight = oldfloorheight;
+                            sector->floorheight = sector->oldfloorheight;
                             P_ChangeSector(sector, crush);
                         }
 
@@ -99,7 +100,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                         if (P_ChangeSector(sector, crush))
                         {
-                            sector->floorheight = oldfloorheight;
+                            sector->floorheight = sector->oldfloorheight;
                             P_ChangeSector(sector, crush);
                         }
 
@@ -112,7 +113,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                         if (P_ChangeSector(sector, crush))
                         {
-                            sector->floorheight = oldfloorheight;
+                            sector->floorheight = sector->oldfloorheight;
                             P_ChangeSector(sector, crush);
                             return crushed;
                         }
@@ -135,7 +136,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                         if (P_ChangeSector(sector, crush))
                         {
-                            sector->ceilingheight = oldceilingheight;
+                            sector->ceilingheight = sector->oldceilingheight;
                             P_ChangeSector(sector, crush);
                         }
 
@@ -150,7 +151,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         {
                             if (!crush)
                             {
-                                sector->ceilingheight = oldceilingheight;
+                                sector->ceilingheight = sector->oldceilingheight;
                                 P_ChangeSector(sector, false);
                             }
 
@@ -167,7 +168,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                         if (P_ChangeSector(sector, crush))
                         {
-                            sector->ceilingheight = oldceilingheight;
+                            sector->ceilingheight = sector->oldceilingheight;
                             P_ChangeSector(sector, crush);
                         }
 
@@ -185,17 +186,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
             break;
     }
 
-    if (!elevator)
-    {
-        sector->oldfloorheight = oldfloorheight;
-        sector->oldceilingheight = oldceilingheight;
-    }
-    else if (floororceiling == FLOOR)
-        sector->oldfloorheight = oldfloorheight;
-    else
-        sector->oldceilingheight = oldceilingheight;
-
-    sector->oldgametime = gametime;
     return ok;
 }
 

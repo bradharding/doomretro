@@ -14,6 +14,7 @@
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * Further improvements have been made to the support for `UMAPINFO` lumps.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
+* The movement of lifts are now smoother in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
