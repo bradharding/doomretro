@@ -3,7 +3,7 @@
 #### DOOM Retro v3.6.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the now deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
+* *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
 * Minor changes have been made to text that is output to the console.
 * If the player has their fists equipped, a berserk power-up and god mode enabled, the screen will no longer flash red when they are attacked.
 * Other monsters may now walk under flying monsters when the `infiniteheight` CVAR is `off`.
@@ -14,7 +14,7 @@
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * Further improvements have been made to the support for `UMAPINFO` lumps.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
-* The movement of lifts are now smoother in some instances.
+* The movement of lifts is now smoother in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
