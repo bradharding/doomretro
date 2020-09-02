@@ -562,8 +562,7 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floororceiling,
-    int direction, dboolean elevator);
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floororceiling, int direction);
 dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean crushing);
 dboolean EV_DoFloor(line_t *line, floor_e floortype);
 dboolean EV_DoChange(line_t *line, change_e changetype);

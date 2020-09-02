@@ -57,7 +57,7 @@ void T_PlatRaise(plat_t *plat)
     switch (plat->status)
     {
         case up:
-            res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1, false);
+            res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1);
 
             if ((plat->type == raiseAndChange || plat->type == raiseToNearestAndChange) && !(leveltime & 7))
                 S_StartSectorSound(&plat->sector->soundorg, sfx_stnmov);
@@ -104,7 +104,7 @@ void T_PlatRaise(plat_t *plat)
             break;
 
         case down:
-            res = T_MovePlane(plat->sector, plat->speed, plat->low, false, 0, -1, false);
+            res = T_MovePlane(plat->sector, plat->speed, plat->low, false, 0, -1);
 
             if (res == pastdest)
             {

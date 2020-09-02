@@ -58,16 +58,15 @@
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
-    int floororceiling, int direction, dboolean elevator)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floororceiling, int direction)
 {
-    sector->oldfloorheight = sector->floorheight;
-    sector->oldceilingheight = sector->ceilingheight;
     sector->oldgametime = gametime;
 
     switch (floororceiling)
     {
         case FLOOR:
+            sector->oldfloorheight = sector->floorheight;
+
             switch (direction)
             {
                 case DOWN:
@@ -125,6 +124,8 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
             break;
 
         case CEILING:
+            sector->oldceilingheight = sector->ceilingheight;
+
             switch (direction)
             {
                 case DOWN:
@@ -197,7 +198,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 void T_MoveFloor(floormove_t *floor)
 {
     sector_t    *sec = floor->sector;
-    result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction, false);
+    result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction);
 
     if (!(leveltime & 7))
         S_StartSectorSound(&sec->soundorg, sfx_stnmov);
@@ -301,20 +302,20 @@ void T_MoveElevator(elevator_t *elevator)
     if (elevator->direction == DOWN)            // moving down
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
+        res = T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction);
 
         // jff 4/7/98 don't move ceiling if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
+            T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction);
     }
     else                                        // up
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction, true);
+        res = T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction);
 
         // jff 4/7/98 don't move floor if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction, true);
+            T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction);
     }
 
     // make floor move sound
