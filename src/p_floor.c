@@ -203,83 +203,81 @@ void T_MoveFloor(floormove_t *floor)
     if (!(leveltime & 7))
         S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
-    if (res == pastdest)
+    if (res != pastdest)
+        return;
+
+    if (floor->direction == UP)
     {
-        if (floor->direction == UP)
+        switch (floor->type)
         {
-            switch (floor->type)
-            {
-                case donutRaise:
-                case genFloorChgT:
-                case genFloorChg0:
-                    sec->special = floor->newspecial;
-                    // fall through
+            case donutRaise:
+            case genFloorChgT:
+            case genFloorChg0:
+                sec->special = floor->newspecial;
 
-                case genFloorChg:
-                    sec->floorpic = floor->texture;
-                    P_CheckTerrainType(sec);
-                    break;
+            case genFloorChg:
+                sec->floorpic = floor->texture;
+                P_CheckTerrainType(sec);
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
         }
-        else if (floor->direction == DOWN)
-        {
-            switch (floor->type)
-            {
-                case lowerAndChange:
-                case genFloorChgT:
-                case genFloorChg0:
-                    sec->special = floor->newspecial;
-                    // fall through
-
-                case genFloorChg:
-                    sec->floorpic = floor->texture;
-                    P_CheckTerrainType(sec);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        floor->sector->floordata = NULL;
-        P_RemoveThinker(&floor->thinker);
-
-        // jff 2/26/98 implement stair retrigger lockout while still building
-        // note this only applies to the retriggerable generalized stairs
-        if (sec->stairlock == -2)               // if this sector is stairlocked
-        {
-            sec->stairlock = -1;                // thinker done, promote lock to -1
-
-            while (sec->prevsec != -1 && sectors[sec->prevsec].stairlock != -2)
-                sec = sectors + sec->prevsec;   // search for a non-done thinker
-
-            if (sec->prevsec == -1)             // if all thinkers previous are done
-            {
-                sec = floor->sector;            // search forward
-
-                while (sec->nextsec != -1 && sectors[sec->nextsec].stairlock != -2)
-                    sec = sectors + sec->nextsec;
-
-                if (sec->nextsec == -1)         // if all thinkers ahead are done too
-                {
-                    while (sec->prevsec != -1)  // clear all locks
-                    {
-                        sec->stairlock = 0;
-                        sec = sectors + sec->prevsec;
-                    }
-
-                    sec->stairlock = 0;
-                }
-            }
-        }
-
-        // [BH] don't make stop sound if floor already at its destination height
-        if (floor->stopsound)
-            S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
+    else if (floor->direction == DOWN)
+    {
+        switch (floor->type)
+        {
+            case lowerAndChange:
+            case genFloorChgT:
+            case genFloorChg0:
+                sec->special = floor->newspecial;
+
+            case genFloorChg:
+                sec->floorpic = floor->texture;
+                P_CheckTerrainType(sec);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    floor->sector->floordata = NULL;
+    P_RemoveThinker(&floor->thinker);
+
+    // jff 2/26/98 implement stair retrigger lockout while still building
+    // note this only applies to the retriggerable generalized stairs
+    if (sec->stairlock == -2)               // if this sector is stairlocked
+    {
+        sec->stairlock = -1;                // thinker done, promote lock to -1
+
+        while (sec->prevsec != -1 && sectors[sec->prevsec].stairlock != -2)
+            sec = sectors + sec->prevsec;   // search for a non-done thinker
+
+        if (sec->prevsec == -1)             // if all thinkers previous are done
+        {
+            sec = floor->sector;            // search forward
+
+            while (sec->nextsec != -1 && sectors[sec->nextsec].stairlock != -2)
+                sec = sectors + sec->nextsec;
+
+            if (sec->nextsec == -1)         // if all thinkers ahead are done too
+            {
+                while (sec->prevsec != -1)  // clear all locks
+                {
+                    sec->stairlock = 0;
+                    sec = sectors + sec->prevsec;
+                }
+
+                sec->stairlock = 0;
+            }
+        }
+    }
+
+    // [BH] don't make stop sound if floor already at its destination height
+    if (floor->stopsound)
+        S_StartSectorSound(&sec->soundorg, sfx_pstop);
 }
 
 //

@@ -45,6 +45,8 @@
 #define REMOVE  0
 
 #define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
+#define E4M3    (gamemission == doom && gameepisode == 4 && gamemap == 3 && canmodify)
+#define MAP04   (gamemission == doom2 && gamemap == 4 && canmodify)
 #define MAP12   (gamemission == doom2 && gamemap == 12 && canmodify)
 
 typedef struct

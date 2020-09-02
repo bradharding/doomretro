@@ -48,6 +48,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_fix.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
@@ -1450,7 +1451,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Floor_RaiseToLowestCeiling:
-            if (gamemission == doom && gameepisode == 4 && gamemap == 3 && canmodify)
+            if (E4M3)
             {
                 if (EV_DoFloor(line, raiseFloorCrush))
                     line->special = 0;

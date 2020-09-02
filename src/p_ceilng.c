@@ -38,6 +38,7 @@
 
 #include "doomstat.h"
 #include "m_config.h"
+#include "p_fix.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
@@ -292,7 +293,7 @@ manual_ceiling:
             case lowerToFloor:
                 ceiling->bottomheight = sec->floorheight;
 
-                if (type != lowerToFloor && !(gamemission == doom2 && gamemap == 4 && canmodify))
+                if (type != lowerToFloor && !MAP04)
                     ceiling->bottomheight += 8 * FRACUNIT;
 
                 ceiling->direction = -1;
