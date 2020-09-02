@@ -447,6 +447,7 @@ extern ceilinglist_t    *activeceilings;
 
 dboolean EV_DoCeiling(line_t *line, ceiling_e type);
 
+void T_CeilingStay(ceiling_t *ceiling);
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);

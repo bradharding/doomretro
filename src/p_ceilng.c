@@ -57,7 +57,7 @@ static void P_GradualLightingToCeiling(ceiling_t *ceiling)
         EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));
 }
 
-static void T_CeilingStay(ceiling_t *ceiling) {}
+void T_CeilingStay(ceiling_t *ceiling) {}
 
 //
 // T_MoveCeiling

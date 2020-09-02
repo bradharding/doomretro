@@ -1455,34 +1455,28 @@ void P_ArchiveSpecials(void)
     // save off the current thinkers
     for (thinker_t *th = thinkers[th_misc].cnext; th != &thinkers[th_misc]; th = th->cnext)
     {
-        if (!th->function)
+        if (th->function == &T_CeilingStay)
         {
-            dboolean    done_one = false;
-
             for (ceilinglist_t *ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
                 if (ceilinglist->ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
                     saveg_write_ceiling_t((ceiling_t *)th);
-                    done_one = true;
                     break;
                 }
-
+        }
+        else if (th->function == &T_PlatStay)
+        {
             // [jeff-d] save height of moving platforms
             for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)
                 if (platlist->plat == (plat_t *)th)
                 {
                     saveg_write8(tc_plat);
                     saveg_write_plat_t((plat_t *)th);
-                    done_one = true;
                     break;
                 }
-
-            if (done_one)
-                continue;
         }
-
-        if (th->function == &T_MoveCeiling)
+        else if (th->function == &T_MoveCeiling)
         {
             saveg_write8(tc_ceiling);
             saveg_write_ceiling_t((ceiling_t *)th);
