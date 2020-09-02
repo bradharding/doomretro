@@ -1465,17 +1465,6 @@ void P_ArchiveSpecials(void)
                     break;
                 }
         }
-        else if (th->function == &T_PlatStay)
-        {
-            // [jeff-d] save height of moving platforms
-            for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)
-                if (platlist->plat == (plat_t *)th)
-                {
-                    saveg_write8(tc_plat);
-                    saveg_write_plat_t((plat_t *)th);
-                    break;
-                }
-        }
         else if (th->function == &T_MoveCeiling)
         {
             saveg_write8(tc_ceiling);
@@ -1490,6 +1479,17 @@ void P_ArchiveSpecials(void)
         {
             saveg_write8(tc_floor);
             saveg_write_floormove_t((floormove_t *)th);
+        }
+        else if (th->function == &T_PlatStay)
+        {
+            // [jeff-d] save height of moving platforms
+            for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)
+                if (platlist->plat == (plat_t *)th)
+                {
+                    saveg_write8(tc_plat);
+                    saveg_write_plat_t((plat_t *)th);
+                    break;
+                }
         }
         else if (th->function == &T_PlatRaise)
         {
