@@ -42,7 +42,7 @@
 #include "mmus2mid.h"
 
 // initial track size allocation
-#define TRACKBUFFERSIZE 1024L
+#define TRACKBUFFERSIZE 1024
 
 // some macros to decode mus event bit fields
 #define last(e)         ((uint8_t)((e) & 0x80))
@@ -563,7 +563,7 @@ void FreeMIDIData(MIDI *mididata)
 //
 void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
 {
-    int     ntrks = 0;
+    uint8_t ntrks = 0;
     uint8_t *midiptr;
 
     // calculate how long the mid buffer must be, and allocate
@@ -572,7 +572,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
     for (int i = 0; i < MIDI_TRACKS; i++)
         if (mididata->track[i].len)
         {
-            total += 8 + mididata->track[i].len;        // Track hdr + track length
+            total += 8 + mididata->track[i].len;                                // Track hdr + track length
             ntrks++;
         }
 
@@ -581,7 +581,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
 
     // fill in number of tracks and big endian divisions (tics/qnote)
     midihdr[10] = 0;
-    midihdr[11] = (uint8_t)ntrks;   // set number of tracks in header
+    midihdr[11] = ntrks;                                                        // set number of tracks in header
     midihdr[12] = (mididata->divisions >> 8) & 0x7F;
     midihdr[13] = mididata->divisions & 0xFF;
 
