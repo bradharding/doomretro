@@ -43,7 +43,6 @@
 #define PACKAGE_VERSIONSTRING               "3.6.2"
 #define PACKAGE_NAMEANDVERSIONSTRING        "DOOM Retro v3.6.2"
 #define PACKAGE_SAVEGAMEVERSIONSTRING       "DOOM Retro v3.6"
-#define PACKAGE_OLDSAVEGAMEVERSIONSTRING    "DOOM Retro v3.0"
 
 #define PACKAGE                             "doomretro"
 #define PACKAGE_AUTHOR                      "Brad Harding <brad@doomretro.com>"
