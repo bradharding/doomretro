@@ -206,7 +206,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawCenteredPatch(int x, int y, patch_t *patch)
+void V_DrawWidePatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width);

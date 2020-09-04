@@ -561,7 +561,7 @@ void D_PageDrawer(void)
         }
     }
     else
-        V_DrawCenteredPatch(0, 0, pagelump);
+        V_DrawWidePatch(0, 0, pagelump);
 }
 
 //

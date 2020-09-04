@@ -388,19 +388,19 @@ static void ST_RefreshBackground(void)
 #if SCREENSCALE == 1
         if (STBAR >= 3)
         {
-            V_DrawCenteredPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
+            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
         }
         else
-            V_DrawCenteredPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
+            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
 #else
         if (STBAR >= 3)
         {
-            V_DrawCenteredPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
+            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
             V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
         }
         else if (r_detail == r_detail_low)
-            V_DrawCenteredPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
+            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, sbar);
         else
             V_DrawBigPatch(ST_X, ST_Y, sbar2);
 #endif
