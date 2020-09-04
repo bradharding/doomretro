@@ -5,7 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
 * Minor changes have been made to text that is output to the console.
-* *DOOM Retro* now supports the IWADs of the re-released versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*.
+* *DOOM Retro* now supports the IWADs from the re-released versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Other monsters may now walk under flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the automap:

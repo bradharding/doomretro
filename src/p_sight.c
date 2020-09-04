@@ -80,8 +80,7 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 
 //
 // P_CrossSubsector
-// Returns true
-//  if strace crosses the given subsector successfully.
+// Returns true if strace crosses the given subsector successfully.
 //
 static dboolean P_CrossSubsector(int num)
 {
@@ -158,8 +157,7 @@ static dboolean P_CrossSubsector(int num)
         if (top >= los.maxz && bottom <= los.minz)
             continue;
 
-        // cph - if bottom >= top or top < minz or bottom > maxz then it must be
-        // solid wrt this LOS
+        // cph - if bottom >= top or top < minz or bottom > maxz then it must be solid wrt this LOS
         if (bottom >= top || top < los.minz || bottom > los.maxz)
             return false;
 
@@ -182,8 +180,7 @@ static dboolean P_CrossSubsector(int num)
 
 //
 // P_CrossBSPNode
-// Returns true
-//  if strace crosses the given node successfully.
+// Returns true if strace crosses the given node successfully.
 //
 static dboolean P_CrossBSPNode(int bspnum)
 {
@@ -206,9 +203,7 @@ static dboolean P_CrossBSPNode(int bspnum)
 
 //
 // P_CheckSight
-// Returns true
-//  if a straight line between t1 and t2 is unobstructed.
-// Uses REJECT.
+// Returns true if a straight line between t1 and t2 is unobstructed. Uses REJECT.
 //
 dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {

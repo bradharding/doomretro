@@ -183,7 +183,7 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Doom 2\\rerelease\\DOOM II_Data\\StreamingAssets",
     "steamapps\\common\\Doom 2\\base",
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
-    "steamapps\\common\\final doom\\base",
+    "steamapps\\common\\Final Doom\\base",
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
     "steamapps\\common\\Ultimate Doom\\base"
 };
