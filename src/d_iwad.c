@@ -180,10 +180,12 @@ static registryvalue_t steam_install_location =
 // Subdirs of the steam install directory where IWADs are found
 static const char *steam_install_subdirs[] =
 {
-    "steamapps\\common\\doom 2\\base",
+    "steamapps\\common\\Doom 2\\rerelease\\DOOM II_Data\\StreamingAssets",
+    "steamapps\\common\\Doom 2\\base",
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
     "steamapps\\common\\final doom\\base",
-    "steamapps\\common\\ultimate doom\\base"
+    "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
+    "steamapps\\common\\Ultimate Doom\\base"
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)
