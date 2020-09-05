@@ -105,6 +105,8 @@ typedef enum
 #define VANILLAWIDTH        320
 #define VANILLAHEIGHT       200
 
+#define UNITYWIDTH          426
+
 #define VANILLASBARHEIGHT   32
 
 #define SCREENSCALE         2

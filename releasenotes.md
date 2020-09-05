@@ -14,7 +14,7 @@
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
-* The correct `CREDIT` lump is now displayed when finishing episode 1 of *DOOM* and *SIGIL* has been automatically loaded.
+* The correct `CREDIT` lump is now displayed when finishing one of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * Further improvements have been made to the support for `UMAPINFO` lumps.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
