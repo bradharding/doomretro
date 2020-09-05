@@ -2321,7 +2321,7 @@ static void D_DoomMainSetup(void)
     }
 
     if ((unity = (TITLEPIC && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == IWAD && SHORT(titlelump->width) == 426)))
-        C_Warning(0, "Certain graphics in this IWAD will be cropped to fit a 4:3 aspect ratio.");
+        C_Warning(1, "Certain graphics in this IWAD will be cropped to fit a 4:3 aspect ratio.");
 
     if (gameaction != ga_loadgame)
     {
