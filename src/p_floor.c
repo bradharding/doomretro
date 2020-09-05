@@ -477,14 +477,24 @@ manual_floor:
                 floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
 
                 if (E2M2)
+                {
                     sec->floorpic = R_FlatNumForName("FLOOR5_4");
+                    sec->terraintype = SOLID;
+                    sec->special = 0;
+                }
                 else if (MAP12)
+                {
                     sec->floorpic = R_FlatNumForName("FLOOR7_1");
+                    sec->terraintype = SOLID;
+                    sec->special = 0;
+                }
                 else
+                {
                     sec->floorpic = line->frontsector->floorpic;
+                    sec->special = line->frontsector->special;
+                    P_CheckTerrainType(sec);
+                }
 
-                P_CheckTerrainType(sec);
-                sec->special = line->frontsector->special;
                 break;
 
             case raiseToTexture:
