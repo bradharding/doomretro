@@ -1625,9 +1625,9 @@ dboolean C_ExecuteInputString(const char *input)
     return true;
 }
 
-dboolean C_ValidateInput(const char *input)
+dboolean C_ValidateInput(char *input)
 {
-    const int   length = (int)strlen(input);
+    const int   length = (int)strlen((input = trimwhitespace(input)));
 
     for (int i = 0; *consolecmds[i].name; i++)
     {
