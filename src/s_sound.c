@@ -192,6 +192,8 @@ void S_Init(void)
             C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiodriver);
             free(audiodriver);
         }
+        else
+            SDL_setenv("SDL_AUDIODRIVER", "DirectSound", false);
 #endif
 
         InitSfxModule();
