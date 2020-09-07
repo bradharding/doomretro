@@ -751,8 +751,9 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player->ammo[weaponinfo[player->readyweapon].ammotype])
         return;
 
-    P_NoiseAlert(actor);
     S_StartSound(actor, sfx_pistol);
+
+    P_NoiseAlert(actor);
     P_SubtractAmmo(1);
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);

@@ -348,14 +348,12 @@ char *M_GetExecutableFolder(void)
 
     return dirname(exe);
 #elif defined(__HAIKU__)
-    char        *exe = malloc(MAX_PATH);
+    char    *exe = malloc(MAX_PATH);
 
     exe[0] = '\0';
 
     if (find_path(B_APP_IMAGE_SYMBOL, B_FIND_PATH_IMAGE_PATH, NULL, exe, MAX_PATH) == B_OK)
-    {
         return dirname(exe);
-    }
 
     strcpy(exe, ".");
     return exe;

@@ -585,7 +585,7 @@ void R_RenderBSPNode(int bspnum)
             bspnum = bsp->children[side];
         }
 
-        R_Subsector(bspnum & ~NF_SUBSECTOR);
+        R_Subsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 
         if (!sp)
             return;
