@@ -89,7 +89,7 @@
 #include <unistd.h>
 
 #if defined(__HAIKU__)
-#include <kernel/image.h>
+#include <FindDirectory.h>
 #endif
 #endif
 
@@ -349,17 +349,13 @@ char *M_GetExecutableFolder(void)
     return dirname(exe);
 #elif defined(__HAIKU__)
     char        *exe = malloc(MAX_PATH);
-    image_info  ii;
-    int32_t     ck = 0;
 
     exe[0] = '\0';
 
-    while (get_next_image_info(0, &ck, &ii) == B_OK)
-        if (ii.type == B_APP_IMAGE)
-        {
-            strcpy(exe, ii.name);
-            return dirname(exe);
-        }
+    if (find_path(B_APP_IMAGE_SYMBOL, B_FIND_PATH_IMAGE_PATH, NULL, exe, MAX_PATH) == B_OK)
+    {
+        return dirname(exe);
+    }
 
     strcpy(exe, ".");
     return exe;
