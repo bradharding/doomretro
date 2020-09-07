@@ -2093,10 +2093,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflicter
-        && (!tplayer || !inflicter->player)
-        && !(flags & MF_NOCLIP)
-        && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
+    if (inflicter && !(flags & MF_NOCLIP) && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         int             mass = (corpse ? MAX(200, info->mass) : info->mass);
