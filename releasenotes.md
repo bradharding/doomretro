@@ -3,6 +3,7 @@
 #### DOOM Retro v3.6.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.

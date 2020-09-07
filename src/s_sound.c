@@ -53,20 +53,20 @@
 
 // when to clip out sounds
 // Does not fit the large outdoor areas.
-#define S_CLIPPING_DIST 1200
+#define S_CLIPPING_DIST (1200 << FRACBITS)
 
 // Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
 // In the source code release: (160 * FRACUNIT). Changed back to the
 // Vanilla value of 200 (why was this changed?)
-#define S_CLOSE_DIST    200
+#define S_CLOSE_DIST    (200 << FRACBITS)
 
 // The range over which sound attenuates
-#define S_ATTENUATOR    (S_CLIPPING_DIST - S_CLOSE_DIST)
+#define S_ATTENUATOR    ((S_CLIPPING_DIST - S_CLOSE_DIST) >> FRACBITS)
 
 // Stereo separation
-#define S_STEREO_SWING  96
+#define S_STEREO_SWING  (96 << FRACBITS)
 
 #define NORM_SEP        128
 
@@ -192,8 +192,6 @@ void S_Init(void)
             C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiodriver);
             free(audiodriver);
         }
-        else
-            SDL_setenv("SDL_AUDIODRIVER", "DirectSound", false);
 #endif
 
         InitSfxModule();
@@ -448,7 +446,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
         return (*vol > 0);
     }
 
-    if (!boss && dist > S_CLIPPING_DIST)
+    if (!boss && dist > (S_CLIPPING_DIST >> FRACBITS))
         return false;
 
     // angle of source to listener
@@ -462,10 +460,11 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 
     // stereo separation
     if (s_stereo)
-        *sep = NORM_SEP - FixedMul(S_STEREO_SWING, finesine[angle]);
+        *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[angle]);
 
     // volume calculation
-    *vol = (dist < S_CLOSE_DIST || boss ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
+    *vol = (dist < (S_CLOSE_DIST >> FRACBITS) || boss ? snd_SfxVolume :
+        snd_SfxVolume * ((S_CLIPPING_DIST >> FRACBITS) - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
@@ -490,7 +489,8 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
         for (cnum = 0; cnum < s_channels; cnum++)
             if (channels[cnum].sfxinfo
                 && channels[cnum].sfxinfo->singularity == sfx->singularity
-                && channels[cnum].origin == origin)
+                && channels[cnum].origin == origin
+                && (origin != viewplayer->mo || sfx->singularity != sg_none))
             {
                 S_StopChannel(cnum);
                 break;
