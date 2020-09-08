@@ -420,7 +420,6 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     fixed_t     dist = 0;
     fixed_t     adx, ady;
     mobj_t      *listener = viewplayer->mo;
-    angle_t     angle;
     dboolean    boss = origin->flags2 & MF2_BOSS;
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
@@ -449,18 +448,22 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     if (!boss && dist > (S_CLIPPING_DIST >> FRACBITS))
         return false;
 
-    // angle of source to listener
-    angle = R_PointToAngle2(listener->x, listener->y, x, y);
-
-    if (angle <= listener->angle)
-        angle += 0xFFFFFFFF;
-
-    angle -= listener->angle;
-    angle >>= ANGLETOFINESHIFT;
-
     // stereo separation
     if (s_stereo)
+    {
+        // angle of source to listener
+        angle_t angle = R_PointToAngle2(listener->x, listener->y, x, y);
+
+        if (angle <= listener->angle)
+            angle += 0xFFFFFFFF;
+
+        angle -= listener->angle;
+        angle >>= ANGLETOFINESHIFT;
+
         *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[angle]);
+    }
+    else
+        *sep = NORM_SEP;
 
     // volume calculation
     *vol = (dist < (S_CLOSE_DIST >> FRACBITS) || boss ? snd_SfxVolume :
