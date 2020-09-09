@@ -240,20 +240,15 @@ static void ReleaseSoundOnChannel(int channel)
 }
 
 // Generic sound expansion function for any sample rate.
-static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int bits, int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int bits, int length)
 {
     unsigned int        samplecount = length / (bits / 8);
     unsigned int        expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    int16_t             *expanded;
+    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
     int                 expand_ratio = (samplecount << 8) / expanded_length;
     double              dt = 1.0 / mixer_freq;
     double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
-
-    if (!snd)
-        return false;
-
-    expanded = (int16_t *)(&snd->chunk)->abuf;
 
     if (bits == 8)
         for (unsigned int i = 0; i < expanded_length; i++)
@@ -273,8 +268,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     // Apply low-pass filter
     for (unsigned int i = 2; i < expanded_length * 2; i++)
         expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
-
-    return true;
 }
 
 // Load and convert a sound effect
@@ -311,7 +304,8 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
             return false;
 
-        return ExpandSoundData(sfxinfo, data + 44, samplerate, bits, length);
+        ExpandSoundData(sfxinfo, data + 44, samplerate, bits, length);
+        return true;
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
@@ -327,7 +321,8 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if (length > lumplen - 8 || length <= 48)
             return false;
 
-        return ExpandSoundData(sfxinfo, data + 24, samplerate, bits, length - 32);
+        ExpandSoundData(sfxinfo, data + 24, samplerate, bits, length - 32);
+        return true;
     }
     else
         return false;
