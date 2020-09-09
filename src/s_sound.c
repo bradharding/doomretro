@@ -457,13 +457,8 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
         if (angle <= listener->angle)
             angle += 0xFFFFFFFF;
 
-        angle -= listener->angle;
-        angle >>= ANGLETOFINESHIFT;
-
-        *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[angle]);
+        *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[(angle - listener->angle) >> ANGLETOFINESHIFT]);
     }
-    else
-        *sep = NORM_SEP;
 
     // volume calculation
     *vol = (dist < (S_CLOSE_DIST >> FRACBITS) || boss ? snd_SfxVolume :

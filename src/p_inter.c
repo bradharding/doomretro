@@ -2096,8 +2096,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (inflicter && !healthcvar && !(flags & MF_NOCLIP) && (!source || !splayer || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
-        int             mass = (corpse ? MAX(200, info->mass) : info->mass);
-        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / mass;
+        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / (corpse ? MAX(200, info->mass) : info->mass);
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
@@ -2106,8 +2105,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             thrust *= 4;
         }
 
-        ang >>= ANGLETOFINESHIFT;
-        target->momx += FixedMul(thrust, finecosine[ang]);
+        target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
         target->momy += FixedMul(thrust, finesine[ang]);
 
         // killough 11/98: thrust objects hanging off ledges
