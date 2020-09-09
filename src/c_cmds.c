@@ -621,6 +621,8 @@ consolecmd_t consolecmds[] =
         "Lists all maps in the currently loaded WADs."),
     CCMD(mapstats, "", game_func1, mapstats_cmd_func2, false, "",
         "Shows stats about the current map."),
+    CVAR_BOOL(melt, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles melting when transitioning between some\nscreens."),
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles player messages."),
     CVAR_BOOL(mouselook, "", bool_cvars_func1, mouselook_cvar_func2, BOOLVALUEALIAS,
@@ -852,8 +854,6 @@ consolecmd_t consolecmds[] =
         "Toggles the bouncing of the player's weapon when\ndropping from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the recoiling of the player's weapon when\nfired."),
-    CVAR_BOOL(wipe, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles wiping when transitioning between some\nscreens."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

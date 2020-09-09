@@ -124,6 +124,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (m_invertyaxis,                                     BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (m_novertical,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                                     NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT          (melt,                                              BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (messages,                                          BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (mouselook,                                         BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                                           NOVALUEALIAS       ),
@@ -209,7 +210,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (weaponbounce,                                      BOOLVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (weaponrecoil,                                      BOOLVALUEALIAS     ),
-    CONFIG_VARIABLE_INT          (wipe,                                              BOOLVALUEALIAS     ),
     BLANKLINE,
     COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_barrelsexploded,                              NOVALUEALIAS       ),
@@ -943,8 +943,8 @@ static void M_CheckCVARs(void)
     if (weaponrecoil != false && weaponrecoil != true)
         weaponrecoil = weaponrecoil_default;
 
-    if (wipe != false && wipe != true)
-        wipe = wipe_default;
+    if (melt != false && melt != true)
+        melt = melt_default;
 }
 
 //

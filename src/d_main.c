@@ -139,14 +139,13 @@ char                *pwadfile = "";
 
 dboolean            fade = fade_default;
 char                *iwadfolder = iwadfolder_default;
+dboolean            melt = melt_default;
 int                 turbo = turbo_default;
 int                 units = units_default;
 
 #if defined(_WIN32)
 char                *wad = wad_default;
 #endif
-
-dboolean            wipe = wipe_default;
 
 char                *packageconfig;
 char                *packagewad;
@@ -308,7 +307,7 @@ void D_Display(void)
     {
         drawdisk = false;
 
-        if (wipe)
+        if (melt)
             wipe_StartScreen();
 
         if (forcewipe)
@@ -408,7 +407,7 @@ void D_Display(void)
     if (loadaction != ga_nothing)
         G_LoadedGameMessage();
 
-    if (!dowipe || !wipe)
+    if (!dowipe || !melt)
     {
         C_Drawer();
 

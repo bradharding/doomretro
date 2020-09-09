@@ -95,6 +95,7 @@ extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
+extern dboolean     melt;
 extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
@@ -238,7 +239,6 @@ extern int          warninglevel;
 extern int          weaponbob;
 extern dboolean     weaponbounce;
 extern dboolean     weaponrecoil;
-extern dboolean     wipe;
 
 enum
 {
@@ -468,6 +468,8 @@ enum
 #define m_sensitivity_min                       0
 #define m_sensitivity_default                   16
 #define m_sensitivity_max                       128
+
+#define melt_default                            true
 
 #define messages_default                        false
 
@@ -702,8 +704,6 @@ enum
 #define weaponbounce_default                    true
 
 #define weaponrecoil_default                    false
-
-#define wipe_default                            true
 
 #define GAMEPADALWAYSRUN_DEFAULT                0
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
