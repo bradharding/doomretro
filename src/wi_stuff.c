@@ -1165,7 +1165,7 @@ static void WI_LoadData(void)
     else
         M_snprintf(bg_lumpname, sizeof(bg_lumpname), "WIMAP%i", wbs->epsd);
 
-    V_DrawPatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
+    V_DrawWidePatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }
 
 static void WI_UnloadCallback(char *name, patch_t **variable)

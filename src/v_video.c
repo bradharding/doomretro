@@ -174,7 +174,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 //
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 {
-    byte *desttop;
+    byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
@@ -189,8 +189,8 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte *source = (byte *)column + 3;
-            byte *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             int     count = (column->length * DY) >> FRACBITS;
             int     srccol = 0;
 
@@ -206,7 +206,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawWidePatch(int x, int y, patch_t *patch)
+void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width);
@@ -220,7 +220,7 @@ void V_DrawWidePatch(int x, int y, patch_t *patch)
 
     w <<= FRACBITS;
     col <<= FRACBITS;
-    desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    desttop = &screens[scrn][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
     for (; col < w; col += DXI, desttop++)
     {
@@ -229,8 +229,8 @@ void V_DrawWidePatch(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte *source = (byte *)column + 3;
-            byte *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             int     count = (column->length * DY) >> FRACBITS;
             int     srccol = 0;
 
