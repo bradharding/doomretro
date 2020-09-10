@@ -2211,7 +2211,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
-        while (!found && deh_bexptrs[i].lookup)
+        while (!found && deh_bexptrs[i].cptr)
         {
             if (M_StringCompare(key, deh_bexptrs[i].lookup))
             {   // Ty 06/01/98  - add to states[].action for new djgcc version
@@ -2235,7 +2235,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
             i++;
         }
 
-        if (!found)
+        if (!found && !M_StringCompare(mnemonic, "NULL"))
             C_Warning(1, "Invalid frame pointer mnemonic \"%s\" at %i.", mnemonic, indexnum);
     }
 }
