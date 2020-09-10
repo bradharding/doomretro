@@ -18,6 +18,7 @@
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
 * Further improvements have been made to the support for `UMAPINFO` lumps.
+* Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
