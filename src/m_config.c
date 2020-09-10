@@ -714,6 +714,9 @@ static void M_CheckCVARs(void)
 
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
 
+    if (melt != false && melt != true)
+        melt = melt_default;
+
     if (messages != false && messages != true)
         messages = messages_default;
 
@@ -942,9 +945,6 @@ static void M_CheckCVARs(void)
 
     if (weaponrecoil != false && weaponrecoil != true)
         weaponrecoil = weaponrecoil_default;
-
-    if (melt != false && melt != true)
-        melt = melt_default;
 }
 
 //

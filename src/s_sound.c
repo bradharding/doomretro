@@ -820,7 +820,7 @@ void T_MAPMusic(void)
     {
         int arraypt = TIDNUM(musinfo.mapthing);
 
-        if (arraypt < MAX_MUS_ENTRIES)
+        if (arraypt >= 0 && arraypt < MAX_MUS_ENTRIES)
         {
             int lumpnum = musinfo.items[arraypt];
 
