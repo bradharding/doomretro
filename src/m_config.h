@@ -188,7 +188,7 @@ extern uint64_t     stat_monsterskilled_spectres;
 extern uint64_t     stat_monsterskilled_spidermasterminds;
 extern uint64_t     stat_monsterskilled_zombiemen;
 extern uint64_t     stat_runs;
-extern uint64_t     stat_secretsrevealed;
+extern uint64_t     stat_secretsfound;
 extern uint64_t     stat_shotsfired_pistol;
 extern uint64_t     stat_shotsfired_shotgun;
 extern uint64_t     stat_shotsfired_supershotgun;
@@ -819,6 +819,7 @@ typedef struct
 {
     // Name of the variable
     char                *name;
+    char                *oldname;
 
     // Pointer to the location in memory of the variable
     void                *location;

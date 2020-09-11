@@ -98,7 +98,7 @@ typedef struct
 
 #define MAXANIMS    32
 
-uint64_t            stat_secretsrevealed = 0;
+uint64_t            stat_secretsfound = 0;
 
 dboolean            r_liquid_bob = r_liquid_bob_default;
 
@@ -2175,7 +2175,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 static void P_SecretFound(void)
 {
     viewplayer->secretcount++;
-    stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
+    stat_secretsfound = SafeAdd(stat_secretsfound, 1);
 
     if (DSSECRET)
     {
