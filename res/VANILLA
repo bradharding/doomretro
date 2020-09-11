@@ -44,6 +44,7 @@ m_acceleration off
 m_doubleclick_use on
 m_novertical off
 m_sensitivity 8
+melt on
 messages on
 mouselook off
 movebob 100%
@@ -107,7 +108,6 @@ vid_widescreen off
 weaponbob 100%
 weaponbounce off
 weaponrecoil off
-wipe on
 
 ; bound controls
 bind tab +automap
