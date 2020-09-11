@@ -3986,39 +3986,39 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>",
             temp, ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (replaced in PWAD)"));
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (replaced by lump in PWAD)"));
         free(temp);
 
         if (*musictitle)
-            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", musictitle);
+            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", musictitle);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", (buckethead ? mus_playing->title2 : mus_playing->title1));
+            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music title\t<b><i>%s</i></b>", mus_playing->title1);
+            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", mus_playing->title1);
 
         if (*musiccomposer)
-            C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", musiccomposer);
+            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", musiccomposer);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", (buckethead ? "Buckethead" : "James Paddock"));
+            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music composer\t<b>%s</b>", "Bobby Prince");
+            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", "Bobby Prince");
 
         if (musmusictype)
-            C_TabbedOutput(tabs, "Music format\t<b>MUS</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>MUS</b>");
         else if (midimusictype || musictype == MUS_MID)
-            C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>MIDI</b>");
         else if (musictype == MUS_OGG)
-            C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>Ogg Vorbis</b>");
         else if (musictype == MUS_MP3)
-            C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>MP3</b>");
         else if (musictype == MUS_WAV)
-            C_TabbedOutput(tabs, "Music format\t<b>WAV</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>WAV</b>");
         else if (musictype == MUS_FLAC)
-            C_TabbedOutput(tabs, "Music format\t<b>FLAC</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>FLAC</b>");
         else if (musictype == MUS_MOD)
-            C_TabbedOutput(tabs, "Music format\t<b>MOD</b>");
+            C_TabbedOutput(tabs, "   Format\t<b>MOD</b>");
     }
 }
 
