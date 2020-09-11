@@ -1195,9 +1195,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;               // killough 11/98: remember dropoffs
 
-    if ((flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bob)
-        thing->z = tmfloorz;
-    else if (flags2 & MF2_FLOATBOB)
+    if (flags2 & MF2_FLOATBOB)
     {
         if (tmfloorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
             thing->z = thing->z - oldfloorz + tmfloorz;

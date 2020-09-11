@@ -22,6 +22,7 @@
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
+* A bug has been fixed whereby things on a platform that lowers into liquid would disappear when the `r_liquid_clipsprites` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
