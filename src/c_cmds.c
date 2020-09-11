@@ -3986,7 +3986,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>",
             temp, ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (modified)"));
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (replaced in PWAD)"));
         free(temp);
 
         if (*musictitle)
