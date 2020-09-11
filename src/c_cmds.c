@@ -4954,7 +4954,7 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(viewplayer->secretcount);
     temp2 = commify(totalsecret);
     temp3 = commify(stat_secretsrevealed);
-    C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+    C_TabbedOutput(tabs, "Secrets found\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         temp1, temp2, (totalsecret ? viewplayer->secretcount * 100 / totalsecret : 0), temp3);
     free(temp1);
     free(temp2);
@@ -5355,7 +5355,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commify(stat_secretsrevealed);
-    C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", temp1);
+    C_TabbedOutput(tabs, "Secrets found\t-\t<b>%s</b>", temp1);
     free(temp1);
 
     C_TabbedOutput(tabs, "Time played\t-\t<b>%02i:%02i:%02i</b>", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
