@@ -1886,99 +1886,98 @@ typedef struct
 
 static const deh_bexptr deh_bexptrs[] =
 {
-    { A_Light0,          "Light0"          },
-    { A_WeaponReady,     "WeaponReady"     },
-    { A_Lower,           "Lower"           },
-    { A_Raise,           "Raise"           },
-    { A_Punch,           "Punch"           },
-    { A_ReFire,          "ReFire"          },
-    { A_FirePistol,      "FirePistol"      },
-    { A_Light1,          "Light1"          },
-    { A_FireShotgun,     "FireShotgun"     },
-    { A_Light2,          "Light2"          },
-    { A_FireShotgun2,    "FireShotgun2"    },
-    { A_CheckReload,     "CheckReload"     },
-    { A_OpenShotgun2,    "OpenShotgun2"    },
-    { A_LoadShotgun2,    "LoadShotgun2"    },
-    { A_CloseShotgun2,   "CloseShotgun2"   },
-    { A_FireCGun,        "FireCGun"        },
-    { A_GunFlash,        "GunFlash"        },
-    { A_FireMissile,     "FireMissile"     },
-    { A_Saw,             "Saw"             },
-    { A_FirePlasma,      "FirePlasma"      },
-    { A_BFGSound,        "BFGSound"        },
-    { A_FireBFG,         "FireBFG"         },
-    { A_BFGSpray,        "BFGSpray"        },
-    { A_Explode,         "Explode"         },
-    { A_Pain,            "Pain"            },
-    { A_PlayerScream,    "PlayerScream"    },
-    { A_Fall,            "Fall"            },
-    { A_XScream,         "XScream"         },
-    { A_Look,            "Look"            },
-    { A_Chase,           "Chase"           },
-    { A_FaceTarget,      "FaceTarget"      },
-    { A_PosAttack,       "PosAttack"       },
-    { A_Scream,          "Scream"          },
-    { A_SPosAttack,      "SPosAttack"      },
-    { A_VileChase,       "VileChase"       },
-    { A_VileStart,       "VileStart"       },
-    { A_VileTarget,      "VileTarget"      },
-    { A_VileAttack,      "VileAttack"      },
-    { A_StartFire,       "StartFire"       },
-    { A_Fire,            "Fire"            },
-    { A_FireCrackle,     "FireCrackle"     },
-    { A_Tracer,          "Tracer"          },
-    { A_SkelWhoosh,      "SkelWhoosh"      },
-    { A_SkelFist,        "SkelFist"        },
-    { A_SkelMissile,     "SkelMissile"     },
-    { A_FatRaise,        "FatRaise"        },
-    { A_FatAttack1,      "FatAttack1"      },
-    { A_FatAttack2,      "FatAttack2"      },
-    { A_FatAttack3,      "FatAttack3"      },
-    { A_BossDeath,       "BossDeath"       },
-    { A_CPosAttack,      "CPosAttack"      },
-    { A_CPosRefire,      "CPosRefire"      },
-    { A_TroopAttack,     "TroopAttack"     },
-    { A_SargAttack,      "SargAttack"      },
-    { A_HeadAttack,      "HeadAttack"      },
-    { A_BruisAttack,     "BruisAttack"     },
-    { A_SkullAttack,     "SkullAttack"     },
-    { A_Metal,           "Metal"           },
-    { A_SpidRefire,      "SpidRefire"      },
-    { A_BabyMetal,       "BabyMetal"       },
-    { A_BspiAttack,      "BspiAttack"      },
-    { A_Hoof,            "Hoof"            },
-    { A_CyberAttack,     "CyberAttack"     },
-    { A_PainAttack,      "PainAttack"      },
-    { A_PainDie,         "PainDie"         },
-    { A_KeenDie,         "KeenDie"         },
-    { A_BrainPain,       "BrainPain"       },
-    { A_BrainScream,     "BrainScream"     },
-    { A_BrainDie,        "BrainDie"        },
-    { A_BrainAwake,      "BrainAwake"      },
-    { A_BrainSpit,       "BrainSpit"       },
-    { A_SpawnSound,      "SpawnSound"      },
-    { A_SpawnFly,        "SpawnFly"        },
-    { A_BrainExplode,    "BrainExplode"    },
-    { A_Detonate,        "Detonate"        },   // killough 08/09/98
-    { A_Mushroom,        "Mushroom"        },   // killough 10/98
-    { A_SkullPop,        "SkullPop"        },
-    { A_Die,             "Die"             },   // killough 11/98
-    { A_Die,             "Suicide"         },
-    { A_Spawn,           "Spawn"           },   // killough 11/98
-    { A_Turn,            "Turn"            },   // killough 11/98
-    { A_Face,            "Face"            },   // killough 11/98
-    { A_Scratch,         "Scratch"         },   // killough 11/98
-    { A_PlaySound,       "PlaySound"       },   // killough 11/98
-    { A_RandomJump,      "RandomJump"      },   // killough 11/98
-    { A_LineEffect,      "LineEffect"      },   // killough 11/98
+    { A_Light0,          "A_Light0"          },
+    { A_WeaponReady,     "A_WeaponReady"     },
+    { A_Lower,           "A_Lower"           },
+    { A_Raise,           "A_Raise"           },
+    { A_Punch,           "A_Punch"           },
+    { A_ReFire,          "A_ReFire"          },
+    { A_FirePistol,      "A_FirePistol"      },
+    { A_Light1,          "A_Light1"          },
+    { A_FireShotgun,     "A_FireShotgun"     },
+    { A_Light2,          "A_Light2"          },
+    { A_FireShotgun2,    "A_FireShotgun2"    },
+    { A_CheckReload,     "A_CheckReload"     },
+    { A_OpenShotgun2,    "A_OpenShotgun2"    },
+    { A_LoadShotgun2,    "A_LoadShotgun2"    },
+    { A_CloseShotgun2,   "A_CloseShotgun2"   },
+    { A_FireCGun,        "A_FireCGun"        },
+    { A_GunFlash,        "A_GunFlash"        },
+    { A_FireMissile,     "A_FireMissile"     },
+    { A_Saw,             "A_Saw"             },
+    { A_FirePlasma,      "A_FirePlasma"      },
+    { A_BFGSound,        "A_BFGSound"        },
+    { A_FireBFG,         "A_FireBFG"         },
+    { A_BFGSpray,        "A_BFGSpray"        },
+    { A_Explode,         "A_Explode"         },
+    { A_Pain,            "A_Pain"            },
+    { A_PlayerScream,    "A_PlayerScream"    },
+    { A_Fall,            "A_Fall"            },
+    { A_XScream,         "A_XScream"         },
+    { A_Look,            "A_Look"            },
+    { A_Chase,           "A_Chase"           },
+    { A_FaceTarget,      "A_FaceTarget"      },
+    { A_PosAttack,       "A_PosAttack"       },
+    { A_Scream,          "A_Scream"          },
+    { A_SPosAttack,      "A_SPosAttack"      },
+    { A_VileChase,       "A_VileChase"       },
+    { A_VileStart,       "A_VileStart"       },
+    { A_VileTarget,      "A_VileTarget"      },
+    { A_VileAttack,      "A_VileAttack"      },
+    { A_StartFire,       "A_StartFire"       },
+    { A_Fire,            "A_Fire"            },
+    { A_FireCrackle,     "A_FireCrackle"     },
+    { A_Tracer,          "A_Tracer"          },
+    { A_SkelWhoosh,      "A_SkelWhoosh"      },
+    { A_SkelFist,        "A_SkelFist"        },
+    { A_SkelMissile,     "A_SkelMissile"     },
+    { A_FatRaise,        "A_FatRaise"        },
+    { A_FatAttack1,      "A_FatAttack1"      },
+    { A_FatAttack2,      "A_FatAttack2"      },
+    { A_FatAttack3,      "A_FatAttack3"      },
+    { A_BossDeath,       "A_BossDeath"       },
+    { A_CPosAttack,      "A_CPosAttack"      },
+    { A_CPosRefire,      "A_CPosRefire"      },
+    { A_TroopAttack,     "A_TroopAttack"     },
+    { A_SargAttack,      "A_SargAttack"      },
+    { A_HeadAttack,      "A_HeadAttack"      },
+    { A_BruisAttack,     "A_BruisAttack"     },
+    { A_SkullAttack,     "A_SkullAttack"     },
+    { A_Metal,           "A_Metal"           },
+    { A_SpidRefire,      "A_SpidRefire"      },
+    { A_BabyMetal,       "A_BabyMetal"       },
+    { A_BspiAttack,      "A_BspiAttack"      },
+    { A_Hoof,            "A_Hoof"            },
+    { A_CyberAttack,     "A_CyberAttack"     },
+    { A_PainAttack,      "A_PainAttack"      },
+    { A_PainDie,         "A_PainDie"         },
+    { A_KeenDie,         "A_KeenDie"         },
+    { A_BrainPain,       "A_BrainPain"       },
+    { A_BrainScream,     "A_BrainScream"     },
+    { A_BrainDie,        "A_BrainDie"        },
+    { A_BrainAwake,      "A_BrainAwake"      },
+    { A_BrainSpit,       "A_BrainSpit"       },
+    { A_SpawnSound,      "A_SpawnSound"      },
+    { A_SpawnFly,        "A_SpawnFly"        },
+    { A_BrainExplode,    "A_BrainExplode"    },
+    { A_Detonate,        "A_Detonate"        },   // killough 08/09/98
+    { A_Mushroom,        "A_Mushroom"        },   // killough 10/98
+    { A_SkullPop,        "A_SkullPop"        },
+    { A_Die,             "A_Die"             },   // killough 11/98
+    { A_Spawn,           "A_Spawn"           },   // killough 11/98
+    { A_Turn,            "A_Turn"            },   // killough 11/98
+    { A_Face,            "A_Face"            },   // killough 11/98
+    { A_Scratch,         "A_Scratch"         },   // killough 11/98
+    { A_PlaySound,       "A_PlaySound"       },   // killough 11/98
+    { A_RandomJump,      "A_RandomJump"      },   // killough 11/98
+    { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
-    { A_FireOldBFG,      "FireOldBFG"      },   // killough -7/19/98: classic BFG firing function
-    { A_BetaSkullAttack, "BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
-    { A_Stop,            "Stop"            },
+    { A_FireOldBFG,      "A_FireOldBFG"      },   // killough -7/19/98: classic BFG firing function
+    { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
+    { A_Stop,            "A_Stop"            },
 
     // This NULL entry must be the last in the list
-    { NULL,              "NULL"            }    // Ty 05/16/98
+    { NULL,              "A_NULL"            }    // Ty 05/16/98
 };
 
 // to hold startup code pointers from INFO.C
@@ -2209,6 +2208,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
             return;     // killough 10/98: fix SegViol
         }
 
+        strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
         while (!found && deh_bexptrs[i].cptr)
@@ -2218,15 +2218,15 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
 
                 if (devparm)
-                    C_Output(" - applied A_%s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
+                    C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
 
-                if (M_StringCompare(key, "Spawn")
-                    || M_StringCompare(key, "Turn")
-                    || M_StringCompare(key, "Face")
-                    || M_StringCompare(key, "Scratch")
-                    || M_StringCompare(key, "PlaySound")
-                    || M_StringCompare(key, "RandomJump")
-                    || M_StringCompare(key, "LineEffect"))
+                if (M_StringCompare(key, "A_Spawn")
+                    || M_StringCompare(key, "A_Turn")
+                    || M_StringCompare(key, "A_Face")
+                    || M_StringCompare(key, "A_Scratch")
+                    || M_StringCompare(key, "A_PlaySound")
+                    || M_StringCompare(key, "A_RandomJump")
+                    || M_StringCompare(key, "A_LineEffect"))
                     mbfcompatible = true;
 
                 found = true;
