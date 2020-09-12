@@ -47,6 +47,7 @@ extern char     **expansions[];
 extern char     **skilllevels[];
 extern char     *packageconfig;
 extern char     *pwadfile;
+extern dboolean advancetitle;
 extern dboolean splashscreen;
 extern dboolean dowipe;
 extern int      fadecount;

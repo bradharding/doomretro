@@ -1169,22 +1169,22 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     {
         const int   silhouette = ds->silhouette;
 
-        // determine if the drawseg obscures the bloodsplat
+        // determine if the drawseg obscures the blood splat
         if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
-            continue;       // does not cover bloodsplat
+            continue;       // does not cover blood splat
 
         if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
         {
-            // masked mid texture?
+            // masked midtexture?
             if (ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
 
-            // seg is behind bloodsplat
+            // seg is behind blood splat
             continue;
         }
         else
         {
-            // clip this piece of the bloodsplat
+            // clip this piece of the blood splat
             int r1 = MAX(x1, ds->x1);
             int r2 = MIN(ds->x2, x2);
 
@@ -1200,7 +1200,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         }
     }
 
-    // all clipping has been performed, so draw the bloodsplat
+    // all clipping has been performed, so draw the blood splat
     mceilingclip = cliptop;
     mfloorclip = clipbot;
     R_DrawBloodSplatVisSprite(splat);
@@ -1289,7 +1289,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 
         if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
         {
-            // masked mid texture?
+            // masked midtexture?
             if (ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
 
@@ -1389,7 +1389,7 @@ void R_DrawMasked(void)
     for (int i = num_vissprite - 1; i >= 0; i--)
         R_DrawSprite(vissprite_ptrs[i]);
 
-    // render any remaining masked mid textures
+    // render any remaining masked midtextures
     for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
         if (ds->maskedtexturecol)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);

@@ -44,9 +44,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 
-ticcmd_t        localcmds[BACKUPTICS];
-
-extern dboolean advancetitle;
+ticcmd_t    localcmds[BACKUPTICS];
 
 void TryRunTics(void)
 {

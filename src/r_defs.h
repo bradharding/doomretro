@@ -293,7 +293,7 @@ typedef struct line_s
     {
         RF_NONE     =  0,               // cph:
         RF_TOP_TILE =  1,               // Upper texture needs tiling
-        RF_MID_TILE =  2,               // Mid texture needs tiling
+        RF_MID_TILE =  2,               // Midtexture needs tiling
         RF_BOT_TILE =  4,               // Lower texture needs tiling
         RF_IGNORE   =  8,               // Renderer can skip this line
         RF_CLOSED   = 16                // Line blocks view

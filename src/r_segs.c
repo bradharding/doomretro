@@ -477,7 +477,7 @@ static void R_RenderSegLoop(void)
                 didsolidcol = true;
             }
 
-            // save texturecolumn for backdrawing of masked mid texture
+            // save texturecolumn for backdrawing of masked midtexture
             if (maskedtexture)
                 maskedtexturecol[rw_x] = texturecolumn;
         }
