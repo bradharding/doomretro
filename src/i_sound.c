@@ -63,7 +63,7 @@ static dboolean             sound_initialized;
 
 static allocated_sound_t    *channels_playing[s_channels_max];
 
-static int                  mixer_freq;
+static int                  mixer_freq = MIX_DEFAULT_FREQUENCY;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
@@ -435,7 +435,7 @@ dboolean I_InitSound(void)
         C_Warning(1, "The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
             SDL_MIXER_FILENAME, PACKAGE_NAME, SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, CHUNKSIZE, NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+    if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))
