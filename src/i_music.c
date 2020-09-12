@@ -83,13 +83,12 @@ void I_ShutdownMusic(void)
 // Initialize music subsystem
 dboolean I_InitMusic(void)
 {
-    int         freq;
+    int         freq = MIX_DEFAULT_FREQUENCY;
     int         channels;
     uint16_t    format;
 
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
-    freq = MIX_DEFAULT_FREQUENCY;
     if (!Mix_QuerySpec(&freq, &format, &channels))
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)

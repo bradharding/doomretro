@@ -49,10 +49,10 @@
 #define SAMPLERATE                  44100
 
 #if !defined(__HAIKU__)
-#define DEFAULT_DEVICE		    NULL
+#define DEFAULT_DEVICE              NULL
 #else
-// Triggers a segfault if no name is provided even tough the default device is empty
-#define DEFAULT_DEVICE		    ""
+// Triggers a segfault if no name is provided even though the default device is empty
+#define DEFAULT_DEVICE              ""
 #endif
 
 #define MAX_MUSIC_VOLUME            MIX_MAX_VOLUME
