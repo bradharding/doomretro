@@ -510,11 +510,11 @@ void M_DarkBackground(void)
         }
 
         for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
-            for (int x = 2; x < SCREENWIDTH; x += 4)
+            for (int x = 2; x < SCREENWIDTH; x++)
             {
                 byte    *dot = *screens + x + y;
 
-                *dot = white50[*dot];
+                *dot = white25[*dot];
             }
 
         BlurScreen(screens[0], blurscreen1, blurheight);
@@ -541,7 +541,7 @@ void M_DarkBackground(void)
                 {
                     byte    *dot = mapscreen + x + y;
 
-                    *dot = white50[*dot];
+                    *dot = white25[*dot];
                 }
 
             BlurScreen(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
