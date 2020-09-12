@@ -1174,14 +1174,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
             continue;       // does not cover blood splat
 
         if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
-        {
-            // masked midtexture?
-            if (ds->maskedtexturecol)
-                R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
-
-            // seg is behind blood splat
             continue;
-        }
         else
         {
             // clip this piece of the blood splat
