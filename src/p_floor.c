@@ -200,11 +200,13 @@ void T_MoveFloor(floormove_t *floor)
     sector_t    *sec = floor->sector;
     result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction);
 
-    if (!(leveltime & 7))
-        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
-
     if (res != pastdest)
+    {
+        if (!(leveltime & 7))
+            S_StartSectorSound(&sec->soundorg, sfx_stnmov);
+
         return;
+    }
 
     if (floor->direction == UP)
     {
