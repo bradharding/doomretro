@@ -1048,11 +1048,6 @@ void M_LoadCVARs(char *filename)
             if (!M_StringCompare(cvar, cvars[i].name) && !M_StringCompare(cvar, cvars[i].oldname))
                 continue;       // not this one
 
-            if (M_StringStartsWith(cvar, "stat_"))
-                statcount++;
-            else
-                cvarcount++;
-
             // parameter found
             switch (cvars[i].type)
             {
@@ -1060,6 +1055,7 @@ void M_LoadCVARs(char *filename)
                     s = M_StringDuplicate(value + 1);
                     s[strlen(s) - 1] = '\0';
                     *(char **)cvars[i].location = s;
+                    cvarcount++;
                     break;
 
                 case DEFAULT_INT32:
@@ -1069,6 +1065,7 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, temp, sizeof(value));
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     free(temp);
+                    cvarcount++;
                     break;
                 }
 
@@ -1079,6 +1076,7 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, temp, sizeof(value));
                     sscanf(value, "%10" PRIu64, (uint64_t *)cvars[i].location);
                     free(temp);
+                    statcount++;
                     break;
                 }
 
@@ -1093,6 +1091,7 @@ void M_LoadCVARs(char *filename)
 
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     free(temp);
+                    cvarcount++;
                     break;
                 }
 
@@ -1103,6 +1102,7 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, temp, sizeof(value));
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     free(temp);
+                    cvarcount++;
                     break;
                 }
 
@@ -1117,11 +1117,13 @@ void M_LoadCVARs(char *filename)
 
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     free(temp);
+                    cvarcount++;
                     break;
                 }
 
                 case DEFAULT_OTHER:
                     *(char **)cvars[i].location = M_StringDuplicate(value);
+                    cvarcount++;
                     break;
             }
 
