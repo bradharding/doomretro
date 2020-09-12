@@ -48,6 +48,13 @@
 #define CHUNKSIZE                   1024
 #define SAMPLERATE                  44100
 
+#if !defined(__HAIKU__)
+#define DEFAULT_DEVICE		    NULL
+#else
+// Triggers a segfault if no name is provided even tough the default device is empty
+#define DEFAULT_DEVICE		    ""
+#endif
+
 #define MAX_MUSIC_VOLUME            MIX_MAX_VOLUME
 #define MAX_SFX_VOLUME              MIX_MAX_VOLUME
 
