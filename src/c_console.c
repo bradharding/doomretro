@@ -706,14 +706,13 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
 
 static void C_DrawScrollbar(void)
 {
-    const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
-    const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
-    const int   facestart = CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+    const int   trackend = CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
+    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
                     MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings;
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
                     * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
 
-    if (trackstart == facestart * CONSOLEWIDTH && trackend == faceend * CONSOLEWIDTH)
+    if (!facestart && trackend == faceend * CONSOLEWIDTH)
         scrollbardrawn = false;
     else
     {
@@ -721,7 +720,7 @@ static void C_DrawScrollbar(void)
         const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * CONSOLEWIDTH;
 
         // draw scrollbar track
-        for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
+        for (int y = 0; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
