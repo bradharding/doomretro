@@ -63,7 +63,7 @@ int             r_shake_damage = r_shake_damage_default;
 int             stillbob = stillbob_default;
 
 dboolean        autousing = false;
-int             deathcount = 0;
+static int      deathcount = 0;
 int             deadlookdir = -1;
 
 //

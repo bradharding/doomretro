@@ -55,9 +55,6 @@
 #define DEFAULT_DEVICE              ""
 #endif
 
-#define MAX_MUSIC_VOLUME            MIX_MAX_VOLUME
-#define MAX_SFX_VOLUME              MIX_MAX_VOLUME
-
 #define LOWER_MUSIC_VOLUME_FACTOR   3
 
 dboolean I_InitSound(void);

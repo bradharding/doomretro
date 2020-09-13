@@ -109,7 +109,7 @@ int                 sfxVolume;
 // Maximum volume of music.
 int                 musicVolume;
 
-// Internal volume level, ranging from 0-MAX_SFX_VOLUME
+// Internal volume level, ranging from 0-MIX_MAX_VOLUME
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
@@ -195,7 +195,7 @@ void S_Init(void)
 #endif
 
         InitSfxModule();
-        S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 31);
+        S_SetSfxVolume(sfxVolume * MIX_MAX_VOLUME / 31);
 
         // Allocating the internal channels for mixing (the maximum number of sounds rendered simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
@@ -240,7 +240,7 @@ void S_Init(void)
     if (!nomusic)
     {
         InitMusicModule();
-        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+        S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
         // no sounds are playing, and they are not mus_paused
         mus_paused = false;
@@ -607,7 +607,7 @@ void S_LowerMusicVolume(void)
         return;
 #endif
 
-    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
 }
 
 void S_SetSfxVolume(int volume)

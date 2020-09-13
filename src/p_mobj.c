@@ -80,7 +80,6 @@ static fixed_t floatbobdiffs[64] =
 
 extern fixed_t  animatedliquiddiffs[64];
 extern int      deadlookdir;
-extern int      deathcount;
 
 void A_Recoil(weapontype_t weapon);
 void G_PlayerReborn(void);
@@ -1063,7 +1062,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->bounce = 0;
     viewplayer->bouncemax = 0;
 
-    deathcount = 0;
     deadlookdir = -1;
 
     // setup gun psprite

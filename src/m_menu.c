@@ -1466,7 +1466,7 @@ static void M_SfxVol(int choice)
         case 0:
             if (sfxVolume > 0)
             {
-                S_SetSfxVolume(--sfxVolume * MAX_SFX_VOLUME / 31);
+                S_SetSfxVolume(--sfxVolume * MIX_MAX_VOLUME / 31);
                 S_StartSound(NULL, sfx_stnmov);
                 s_sfxvolume = sfxVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -1478,7 +1478,7 @@ static void M_SfxVol(int choice)
         case 1:
             if (sfxVolume < 31)
             {
-                S_SetSfxVolume(++sfxVolume * MAX_SFX_VOLUME / 31);
+                S_SetSfxVolume(++sfxVolume * MIX_MAX_VOLUME / 31);
                 S_StartSound(NULL, sfx_stnmov);
                 s_sfxvolume = sfxVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -1504,7 +1504,7 @@ static void M_MusicVol(int choice)
                 if (gamestate == GS_LEVEL)
                     S_LowerMusicVolume();
                 else
-                    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+                    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
@@ -1522,7 +1522,7 @@ static void M_MusicVol(int choice)
                 if (gamestate == GS_LEVEL)
                     S_LowerMusicVolume();
                 else
-                    S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+                    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
@@ -3810,7 +3810,7 @@ void M_ClearMenus(void)
         if (automapactive)
             AM_SetAutomapSize();
 
-        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
+        S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     }
 }
 

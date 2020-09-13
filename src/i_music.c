@@ -114,7 +114,7 @@ dboolean I_InitMusic(void)
     return music_initialized;
 }
 
-// Set music volume (0 - MAX_MUSIC_VOLUME)
+// Set music volume (0 - MIX_MAX_VOLUME)
 void I_SetMusicVolume(int volume)
 {
     // Internal state variable.
