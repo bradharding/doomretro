@@ -94,7 +94,8 @@ dboolean I_InitMusic(void)
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
 
-        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE, DEFAULT_DEVICE,
+            SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             return false;

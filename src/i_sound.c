@@ -435,7 +435,8 @@ dboolean I_InitSound(void)
         C_Warning(1, "The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
             SDL_MIXER_FILENAME, PACKAGE_NAME, SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+    if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE, DEFAULT_DEVICE,
+        SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))

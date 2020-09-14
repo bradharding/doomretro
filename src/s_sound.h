@@ -44,7 +44,6 @@
 #include "r_defs.h"
 #include "sounds.h"
 
-#define CHANNELS                    2
 #define CHUNKSIZE                   1024
 #define SAMPLERATE                  44100
 
