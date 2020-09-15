@@ -69,6 +69,7 @@ static int                  mixer_freq = MIX_DEFAULT_FREQUENCY;
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
 static allocated_sound_t    *allocated_sounds_head;
 static allocated_sound_t    *allocated_sounds_tail;
+static int                  allocated_sounds_size = 0;
 
 // Hook a sound into the linked list at the head.
 static void AllocatedSoundLink(allocated_sound_t *snd)
@@ -102,6 +103,10 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 {
     // Unlink from linked list.
     AllocatedSoundUnlink(snd);
+
+    // Keep track of the amount of allocated sound data:
+    allocated_sounds_size -= snd->chunk.alen;
+
     free(snd);
 }
 
@@ -126,6 +131,19 @@ static dboolean FindAndFreeSound(void)
     return false;
 }
 
+// Enforce SFX cache size limit. We are just about to allocate "len"
+// bytes on the heap for a new sound effect, so free up some space
+// so that we keep allocated_sounds_size < CACHESIZE
+static void ReserveCacheSpace(size_t len)
+{
+    // Keep freeing sound effects that aren't currently being played,
+    // until there is enough space for the new sound.
+    while (allocated_sounds_size + len > CACHESIZE)
+        // Free a sound. If there is nothing more to free, stop.
+        if (!FindAndFreeSound())
+            break;
+}
+
 // Allocate a block for a new sound effect.
 static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
 {
@@ -148,6 +166,9 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     snd->pitch = NORM_PITCH;
     snd->sfxinfo = sfxinfo;
     snd->use_count = 0;
+
+    // Keep track of how much memory all these cached sounds are using...
+    allocated_sounds_size += len;
 
     AllocatedSoundLink(snd);
 

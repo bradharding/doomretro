@@ -77,7 +77,7 @@ static boolean InitSDL(void)
     if (SDL_Init(SDL_INIT_AUDIO) == -1)
         return false;
 
-    if (Mix_OpenAudioDevice(44100, MIX_DEFAULT_FORMAT, 2, 2048, NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+    if (Mix_OpenAudioDevice(44100, MIX_DEFAULT_FORMAT, 2, 1024, NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         return false;
 
     return true;
