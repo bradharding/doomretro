@@ -44,7 +44,7 @@
 #include "r_defs.h"
 #include "sounds.h"
 
-#define CHUNKSIZE                   1024
+#define CHUNKSIZE                   2048
 #define SAMPLERATE                  44100
 
 #if !defined(__HAIKU__)
