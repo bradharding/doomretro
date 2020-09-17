@@ -184,7 +184,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -224,7 +224,7 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -623,7 +623,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
