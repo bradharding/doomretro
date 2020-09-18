@@ -44,7 +44,6 @@
 #include "r_defs.h"
 #include "sounds.h"
 
-#define CACHESIZE                   (64 * 1024 * 1024)
 #define CHUNKSIZE                   1024
 #define SAMPLERATE                  44100
 

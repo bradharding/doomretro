@@ -474,7 +474,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
     int         handle;
     int         volume = snd_SfxVolume;
 
-    if (sfx_id == sfx_none || sfx->lumpnum == -1 || nosfx)
+    if (sfx->lumpnum == -1 || nosfx)
         return;
 
     // Check to see if it is audible, and if not, modify the parms
