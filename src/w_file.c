@@ -48,7 +48,7 @@ wadfile_t *W_OpenFile(char *path)
     if (!fstream)
         return NULL;
 
-    // Create a new wad_file_t to hold the file handle.
+    // Create a new wadfile_t to hold the file handle.
     result = Z_Malloc(sizeof(wadfile_t), PU_STATIC, NULL);
     result->fstream = fstream;
 
