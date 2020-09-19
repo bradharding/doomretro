@@ -50,6 +50,7 @@ extern char     *pwadfile;
 extern dboolean advancetitle;
 extern dboolean splashscreen;
 extern dboolean dowipe;
+extern int      titlesequence;
 extern int      fadecount;
 
 void D_Display(void);

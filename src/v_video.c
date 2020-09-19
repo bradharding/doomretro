@@ -67,16 +67,13 @@
 #define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
 #define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
 
-byte            *screens[5];
+byte        *screens[5];
+int         lowpixelwidth;
+int         lowpixelheight;
+char        screenshotfolder[MAX_PATH];
 
-int             lowpixelwidth;
-int             lowpixelheight;
-char            *r_lowpixelsize = r_lowpixelsize_default;
-dboolean        r_supersampling = r_supersampling_default;
-
-char            screenshotfolder[MAX_PATH];
-
-extern patch_t  *brand;
+char        *r_lowpixelsize = r_lowpixelsize_default;
+dboolean    r_supersampling = r_supersampling_default;
 
 //
 // V_FillRect
@@ -1593,11 +1590,9 @@ void V_Init(void)
     M_MakeDirectory(screenshotfolder);
 }
 
-char            lbmname1[MAX_PATH];
-char            lbmpath1[MAX_PATH];
-char            lbmpath2[MAX_PATH];
-
-extern int      titlesequence;
+char    lbmname1[MAX_PATH];
+char    lbmpath1[MAX_PATH];
+char    lbmpath2[MAX_PATH];
 
 static dboolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 {
