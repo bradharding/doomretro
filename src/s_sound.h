@@ -63,7 +63,6 @@ void I_UpdateSoundParms(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int channel);
 dboolean I_SoundIsPlaying(int channel);
-void I_UpdateSound(void);
 
 dboolean I_InitMusic(void);
 void I_ShutdownMusic(void);

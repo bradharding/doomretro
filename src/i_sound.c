@@ -387,16 +387,6 @@ dboolean I_SoundIsPlaying(int channel)
     return Mix_Playing(channel);
 }
 
-// Periodically called to update the sound system
-void I_UpdateSound(void)
-{
-    // Check all channels to see if a sound has finished
-    for (int i = 0; i < s_channels; i++)
-        if (channels_playing[i] && !I_SoundIsPlaying(i))
-            // Sound has finished playing on this channel, but sound data has not been released to cache
-            ReleaseSoundOnChannel(i);
-}
-
 dboolean I_AnySoundStillPlaying(void)
 {
     return Mix_Playing(-1);

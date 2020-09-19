@@ -353,7 +353,7 @@ void S_Start(void)
 // original implementation idea: <https://www.doomworld.com/forum/topic/1585325>
 void S_UnlinkSound(mobj_t *origin)
 {
-    if (!origin->madesound || nosfx)
+    if (!origin || !origin->madesound || nosfx)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)
@@ -376,18 +376,17 @@ void S_UnlinkSound(mobj_t *origin)
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
     // channel number to use
-    int         cnum = 0;
+    int         cnum;
     channel_t   *c;
 
     // Find an open channel
-    if (origin)
-        for (; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
-            if (channels[cnum].origin == origin
-                && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
-            {
-                S_StopChannel(cnum);
-                break;
-            }
+    for (cnum = 0; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
+        if (origin && channels[cnum].origin == origin
+            && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
+        {
+            S_StopChannel(cnum);
+            break;
+        }
 
     // None available
     if (cnum == s_channels)
@@ -561,8 +560,6 @@ void S_UpdateSounds(void)
 {
     if (nosfx)
         return;
-
-    I_UpdateSound();
 
     for (int cnum = 0; cnum < s_channels; cnum++)
     {
