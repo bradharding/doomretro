@@ -121,6 +121,7 @@ typedef struct
     char                string[1024];
     unsigned int        count;
     unsigned int        line;
+    unsigned int        truncate;
     stringtype_t        stringtype;
     headertype_t        headertype;
     int                 tabs[4];
