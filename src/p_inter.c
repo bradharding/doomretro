@@ -2249,7 +2249,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
     }
 
-    if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY))
+    if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY) && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))
     {
         justhit = true;
         P_SetMobjState(target, info->painstate);

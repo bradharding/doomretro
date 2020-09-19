@@ -1791,7 +1791,7 @@ void A_Pain(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int painsound = actor->info->painsound;
 
-    if (painsound && (!actor->player || !(actor->player->cheats & CF_GODMODE)))
+    if (painsound)
         S_StartSound(actor, painsound);
 }
 
