@@ -1504,14 +1504,16 @@ void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
                 for (int x = left; x < width; x += 2)
                 {
-                    byte        *dot = *screens + y + x;
-                    const byte  color = tinttab50[(tinttab50[(*dot << 8) + *(dot + 1)] << 8)
-                                        + tinttab50[(*(dot + SCREENWIDTH) << 8) + *(dot + SCREENWIDTH + 1)]];
+                    byte        *dot1 = *screens + y + x;
+                    byte        *dot2 = dot1 + 1;
+                    byte        *dot3 = dot2 + SCREENWIDTH;
+                    byte        *dot4 = dot3 - 1;
+                    const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
 
-                    *(dot++) = color;
-                    *dot = color;
-                    *(dot += SCREENWIDTH) = color;
-                    *(--dot) = color;
+                    *dot1 = color;
+                    *dot2 = color;
+                    *dot3 = color;
+                    *dot4 = color;
                 }
         else
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
