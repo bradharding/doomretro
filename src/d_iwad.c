@@ -179,11 +179,10 @@ static const char *root_path_subdirs[] =
 };
 
 // Location where Steam is installed
-static registryvalue_t steam_install_location =
+static registryvalue_t steam_install_location[2] =
 {
-    HKEY_CURRENT_USER,
-    SOFTWARE_KEY "\\Valve\\Steam",
-    "InstallPath"
+    { HKEY_CURRENT_USER, SOFTWARE_KEY "\\Valve\\Steam", "InstallPath" },
+    { HKEY_CURRENT_USER, SOFTWARE_KEY "\\Valve\\Steam", "SteamPath"   }
 };
 
 // Subdirs of the steam install directory where IWADs are found
@@ -280,20 +279,23 @@ static void CheckInstallRootPaths(void)
 // Check for DOOM downloaded via Steam
 static void CheckSteamEdition(void)
 {
-    char    *install_path = GetRegistryString(&steam_install_location);
-
-    if (!install_path)
-        return;
-
-    for (size_t i = 0; i < arrlen(steam_install_subdirs); i++)
+    for (size_t i = 0; i <= arrlen(steam_install_location); i++)
     {
-        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL);
+        char    *install_path = GetRegistryString(&steam_install_location[i]);
 
-        AddIWADDir(path);
-        free(path);
+        if (!install_path)
+            return;
+
+        for (size_t j = 0; j < arrlen(steam_install_subdirs); j++)
+        {
+            char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL);
+
+            AddIWADDir(path);
+            free(path);
+        }
+
+        free(install_path);
     }
-
-    free(install_path);
 }
 
 // Default install directories for DOS DOOM
