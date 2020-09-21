@@ -91,9 +91,9 @@ typedef struct
 // [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
 // keys are located in a different spot.
 #if defined(_WIN64)
-#define SOFTWARE_KEY    "Software\\Wow6432Node"
+#define SOFTWARE_KEY    "SOFTWARE\\WOW6432Node"
 #else
-#define SOFTWARE_KEY    "Software"
+#define SOFTWARE_KEY    "SOFTWARE"
 #endif
 
 static registryvalue_t uninstall_values[] =
@@ -179,10 +179,10 @@ static const char *root_path_subdirs[] =
 };
 
 // Location where Steam is installed
-static registryvalue_t steam_install_location[2] =
+static registryvalue_t steam_install_locations[] =
 {
-    { HKEY_CURRENT_USER, SOFTWARE_KEY "\\Valve\\Steam", "InstallPath" },
-    { HKEY_CURRENT_USER, SOFTWARE_KEY "\\Valve\\Steam", "SteamPath"   }
+    { HKEY_CURRENT_USER,  "SOFTWARE\\Valve\\Steam",      "SteamPath"   },
+    { HKEY_LOCAL_MACHINE, SOFTWARE_KEY "\\Valve\\Steam", "InstallPath" }
 };
 
 // Subdirs of the steam install directory where IWADs are found
@@ -279,9 +279,9 @@ static void CheckInstallRootPaths(void)
 // Check for DOOM downloaded via Steam
 static void CheckSteamEdition(void)
 {
-    for (size_t i = 0; i <= arrlen(steam_install_location); i++)
+    for (size_t i = 0; i <= arrlen(steam_install_locations); i++)
     {
-        char    *install_path = GetRegistryString(&steam_install_location[i]);
+        char    *install_path = GetRegistryString(&steam_install_locations[i]);
 
         if (!install_path)
             return;
