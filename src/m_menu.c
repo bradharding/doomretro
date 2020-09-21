@@ -462,7 +462,7 @@ static void BlurScreen(byte *screen, byte *blurscreen, int height)
             blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
     for (int y = SCREENWIDTH; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y; x < y + SCREENWIDTH - 2; x++)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x + (M_BigRandom() & 3 - 1) * SCREENWIDTH
                 + (M_BigRandom() & 3 - 1)] << 8) + blurscreen[x]];
 
