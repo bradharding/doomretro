@@ -1528,11 +1528,15 @@ void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth
         for (int y = top; y < height; y += pixelheight)
             for (int x = left; x < width; x += pixelwidth)
             {
-                byte    *dot = *screens + y + x;
+                byte        *dot = *screens + y + x;
+                const byte  color = *dot;
 
-                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
+                    *(dot + xx) = color;
+
+                for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
                     for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                        *(dot + yy + xx) = *dot;
+                        *(dot + yy + xx) = color;
             }
 }
 
