@@ -597,7 +597,7 @@ enum
 #define s_channels_max                          64
 
 #define s_musicvolume_min                       0
-#define s_musicvolume_default                   80
+#define s_musicvolume_default                   100
 #define s_musicvolume_max                       100
 
 #define s_randommusic_default                   false
