@@ -479,7 +479,7 @@ void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*bmapwallcolfunc)(void);
 void (*segcolfunc)(void);
-void (*transcolfunc)(void);
+void (*translatedcolfunc)(void);
 void (*basecolfunc)(void);
 void (*fuzzcolfunc)(void);
 void (*tlcolfunc)(void);
@@ -512,7 +512,7 @@ void R_InitColumnFunctions(void)
     {
         basecolfunc = &R_DrawColumn;
         fuzzcolfunc = &R_DrawFuzzColumn;
-        transcolfunc = &R_DrawTranslatedColumn;
+        translatedcolfunc = &R_DrawTranslatedColumn;
         wallcolfunc = &R_DrawWallColumn;
         bmapwallcolfunc = &R_DrawBrightmapWallColumn;
         segcolfunc = &R_DrawColumn;
@@ -575,7 +575,7 @@ void R_InitColumnFunctions(void)
     {
         basecolfunc = &R_DrawColorColumn;
         fuzzcolfunc = &R_DrawTranslucentColor50Column;
-        transcolfunc = &R_DrawColorColumn;
+        translatedcolfunc = &R_DrawColorColumn;
         wallcolfunc = &R_DrawColorColumn;
         bmapwallcolfunc = &R_DrawColorColumn;
         segcolfunc = &R_DrawColorColumn;

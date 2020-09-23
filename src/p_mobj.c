@@ -1277,7 +1277,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     // [crispy] randomly colorize space marine corpse objects
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
-        mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSSHIFT);
+        mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
     if ((mobj->flags2 & MF2_DECORATION) && i != MT_BARREL)
         numdecorations++;

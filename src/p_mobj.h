@@ -210,8 +210,9 @@ enum
     // If 0x04 0x08 or 0x0C,
     //  use a translation table for player colormaps
     MF_TRANSLATION      = 0x0C000000,
+
     // Hmm ???.
-    MF_TRANSSHIFT       = 26,
+    MF_TRANSLATIONSHIFT = 0x0000001A,
 
     MF_TOUCHY           = 0x10000000,   // killough 11/98: dies when solids touch it
     MF_BOUNCES          = 0x20000000,   // killough 07/11/98: for beta BFG fireballs

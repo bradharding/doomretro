@@ -457,8 +457,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
-        colfunc = transcolfunc;
-        dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        colfunc = translatedcolfunc;
+        dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8));
     }
     else
         colfunc = vis->colfunc;
@@ -502,8 +502,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
-        colfunc = transcolfunc;
-        dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        colfunc = translatedcolfunc;
+        dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8));
     }
     else
         colfunc = vis->colfunc;
