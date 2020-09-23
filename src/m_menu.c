@@ -592,18 +592,16 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
-    for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
-        for (int x = y; x < y + SCREENWIDTH; x += 2)
+    for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte    *dot = *screens + x;
-            byte    *copy;
+            byte        *dot = *screens + y + x;
+            const byte  color = nearestcolors[blues[*dot]];
 
-            *dot = nearestcolors[blues[*dot]];
-            copy = dot + 1;
-            *copy = *dot;
-            copy += SCREENWIDTH;
-            *copy-- = *dot;
-            *copy = *dot;
+            *dot = color;
+            *(++dot) = color;
+            *(dot += SCREENWIDTH) = color;
+            *(--dot) = color;
         }
 }
 
