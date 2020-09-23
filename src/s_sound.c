@@ -450,7 +450,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     // stereo separation
     if (s_stereo)
     {
-        // angle of source to listener
+        // angle of source to player
         angle_t angle = R_PointToAngle(x, y);
 
         if (angle <= viewangle)
@@ -485,8 +485,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
         for (cnum = 0; cnum < s_channels; cnum++)
             if (channels[cnum].sfxinfo
                 && channels[cnum].sfxinfo->singularity == sfx->singularity
-                && channels[cnum].origin == origin
-                && (origin != viewplayer->mo || sfx->singularity != sg_none))
+                && channels[cnum].origin == origin)
             {
                 S_StopChannel(cnum);
                 break;
