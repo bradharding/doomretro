@@ -1317,14 +1317,14 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     }
 }
 
-static inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < MAPWIDTH && y < maparea)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != tinttab60[*color])
-            *dot = tinttab60[(*dot << 8) + *color];
+        if (*dot != tinttab66[*color])
+            *dot = tinttab66[(*dot << 8) + *color];
     }
 }
 
@@ -1635,7 +1635,7 @@ static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
     }
 }
 
-static void AM_DrawTransLineCharacter(const mline_t *lineguy, const int lineguylines,
+static void AM_DrawTranslucentLineCharacter(const mline_t *lineguy, const int lineguylines,
     const fixed_t scale, angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
@@ -1662,7 +1662,7 @@ static void AM_DrawTransLineCharacter(const mline_t *lineguy, const int lineguyl
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, &PUTTRANSDOT);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, &PUTTRANSLUCENTDOT);
     }
 }
 
@@ -1725,12 +1725,12 @@ static void AM_DrawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_DrawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
+            AM_DrawTranslucentLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
         else
             AM_DrawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_DrawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
+        AM_DrawTranslucentLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
     else
         AM_DrawLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
 }
