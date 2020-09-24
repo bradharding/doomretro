@@ -2118,10 +2118,13 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
                 fseek(filein->f, filepos, SEEK_SET);
         }
 
-        if (devparm)
-            C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
+        if (i < DEH_BLOCKMAX)
+        {
+            if (devparm)
+                C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
 
-        deh_blocks[i].fptr(filein, inbuffer);                   // call function
+            deh_blocks[i].fptr(filein, inbuffer);                   // call function
+        }
 
         if (!filein->lump)                                      // back up line start
             filepos = ftell(filein->f);
