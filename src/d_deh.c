@@ -2123,7 +2123,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
             if (devparm)
                 C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
 
-            deh_blocks[i].fptr(filein, inbuffer);                   // call function
+            deh_blocks[i].fptr(filein, inbuffer);               // call function
         }
 
         if (!filein->lump)                                      // back up line start
@@ -2183,7 +2183,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
-        int         i = 0;                  // looper
+        int         i = -1;                 // looper
         dboolean    found = false;          // know if we found this one during lookup or not
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
@@ -2214,11 +2214,13 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
-        while (!found && deh_bexptrs[i].cptr)
+        do
         {
+            i++;
+
             if (M_StringCompare(key, deh_bexptrs[i].lookup))
-            {   // Ty 06/01/98  - add to states[].action for new djgcc version
-                states[indexnum].action = deh_bexptrs[i].cptr;  // assign
+            {
+                states[indexnum].action = deh_bexptrs[i].cptr;
 
                 if (devparm)
                     C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
@@ -2234,9 +2236,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 
                 found = true;
             }
-
-            i++;
-        }
+        } while (!found && deh_bexptrs[i].cptr);
 
         if (!found && !M_StringCompare(mnemonic, "NULL"))
             C_Warning(1, "Invalid frame pointer mnemonic \"%s\" at %i.", mnemonic, indexnum);
