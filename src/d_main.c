@@ -2356,7 +2356,7 @@ static void D_DoomMainSetup(void)
     }
 
     seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
-    C_Output("Startup took %s seconds to complete.", seconds);
+    C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
     free(seconds);
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
