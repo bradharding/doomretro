@@ -2319,8 +2319,9 @@ static void D_DoomMainSetup(void)
         creditlump = W_CacheLumpName("CREDIT");
     }
 
-    if ((unity = (TITLEPIC && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == IWAD && SHORT(titlelump->width) == UNITYWIDTH)))
-        C_Warning(1, "Certain graphics in this IWAD are cropped to fit a 4:3 aspect ratio.");
+    if ((unity = (TITLEPIC && lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->type == IWAD
+        && SHORT(titlelump->width) == UNITYWIDTH)))
+        C_Warning(1, "Certain graphics in this IWAD are cropped to fit <i><b>" PACKAGE_NAME "'s</b></i> 4:3 aspect ratio.");
 
     if (gameaction != ga_loadgame)
     {
