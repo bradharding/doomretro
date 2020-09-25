@@ -579,9 +579,9 @@ static void BuildIWADDirList(void)
 
 #if defined(_WIN32)
     // Search the registry and find where IWADs have been installed.
-    CheckUninstallStrings();
-    CheckInstallRootPaths();
     CheckSteamEdition();
+    CheckInstallRootPaths();
+    CheckUninstallStrings();
     CheckDOSDefaults();
 #else
     AddXdgDirs();
