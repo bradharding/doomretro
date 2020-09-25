@@ -11,6 +11,7 @@
   * The par times for E1M8, E2M8 and E3M8 have been updated.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.
+* A slight shadow is applied to the text at the top of the console.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Other monsters may now walk under flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the automap:

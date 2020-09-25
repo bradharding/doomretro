@@ -508,6 +508,11 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
                         dot += italicize[i];
 
                     *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
+
+                    if (!(y + i))
+                        *dot = tinttab50[*dot];
+                    else if (y + i == 1)
+                        *dot = tinttab25[*dot];
                 }
 
                 source++;
