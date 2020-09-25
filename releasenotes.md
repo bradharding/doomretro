@@ -7,7 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
-  * Lumps such as `TITLEPIC` and `STBAR` will now be cropped to fit *DOOM Retro’s* 4:3 aspect ratio.
+  * The now widescreen lumps such as `TITLEPIC` and `STBAR` will be cropped to fit *DOOM Retro’s* 4:3 aspect ratio rather than causing a crash.
   * The par times for E1M8, E2M8 and E3M8 have been updated.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.
@@ -16,6 +16,7 @@
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
+  * The player arrow is now slightly darker when the player has a partial invisibility power-up.
 * The correct `CREDIT` lump is now displayed when finishing one of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
