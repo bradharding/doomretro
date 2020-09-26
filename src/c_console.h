@@ -42,6 +42,7 @@
 #include "doomdef.h"
 #include "doomtype.h"
 #include "d_event.h"
+#include "r_defs.h"
 
 #define CONSOLESTRINGSMAX       256
 
@@ -106,17 +107,6 @@ typedef enum
 #define PLAYERSTATSHEADER       "STAT\tCURRENT MAP\tTOTAL"
 #define THINGLISTHEADER         "\tTHING\tPOSITION"
 
-typedef enum
-{
-    bindlistheader,
-    cmdlistheader,
-    cvarlistheader,
-    maplistheader,
-    mapstatsheader,
-    playerstatsheader,
-    thinglistheader
-} headertype_t;
-
 typedef struct
 {
     char                string[1024];
@@ -124,11 +114,19 @@ typedef struct
     unsigned int        line;
     unsigned int        truncate;
     stringtype_t        stringtype;
-    headertype_t        headertype;
+    patch_t             *header;
     int                 tabs[4];
     unsigned int        tics;
     char                timestamp[9];
 } console_t;
+
+extern patch_t          *bindlist;
+extern patch_t          *cmdlist;
+extern patch_t          *cvarlist;
+extern patch_t          *maplist;
+extern patch_t          *mapstats;
+extern patch_t          *playerstats;
+extern patch_t          *thinglist;
 
 extern console_t        *console;
 
@@ -182,7 +180,7 @@ void C_Output(const char *string, ...);
 void C_OutputWrap(const char *string, ...);
 void C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[4], const char *string, ...);
-void C_Header(const int tabs[4], const headertype_t headertype, const char *string);
+void C_Header(const int tabs[4], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_Obituary(const char *string, ...);

@@ -1590,7 +1590,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
     const int   tabs[4] = { 40, 131, 0, 0 };
     int         count = 1;
 
-    C_Header(tabs, bindlistheader, BINDLISTHEADER);
+    C_Header(tabs, bindlist, BINDLISTHEADER);
 
     for (int i = 0; *actions[i].action; i++)
     {
@@ -1656,7 +1656,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 continue;
 
             if (++count == 1)
-                C_Header(tabs, cmdlistheader, CMDLISTHEADER);
+                C_Header(tabs, cmdlist, CMDLISTHEADER);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
@@ -1822,7 +1822,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 continue;
 
             if (++count == 1)
-                C_Header(tabs, cvarlistheader, CVARLISTHEADER);
+                C_Header(tabs, cvarlist, CVARLISTHEADER);
 
             M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
@@ -3401,10 +3401,10 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[4] = { 40, 93, 370, 0 };
     int         count = 0;
-    char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
+    char        (*maps)[256] = malloc(numlumps * sizeof(char *));
     dboolean    mapfound[50] = { false };
 
-    C_Header(tabs, maplistheader, MAPLISTHEADER);
+    C_Header(tabs, maplist, MAPLISTHEADER);
 
     // search through lumps for maps
     for (int i = numlumps - 1; i >= 0; i--)
@@ -3460,7 +3460,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
                     removemapnum(temp);
-                    M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3476,7 +3476,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         {
                             temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>"));
                             removemapnum(temp);
-                            M_snprintf(maplist[count++], 256, "%s</b></i>\t%s", temp, wadname);
+                            M_snprintf(maps[count++], 256, "%s</b></i>\t%s", temp, wadname);
                             free(temp);
                         }
                     }
@@ -3484,7 +3484,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
                         removemapnum(temp);
-                        M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                        M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
                         free(temp);
                     }
@@ -3497,7 +3497,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
                     removemapnum(temp);
-                    M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, temp, wadname);
+                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, temp, wadname);
                     free(temp);
                 }
 
@@ -3508,7 +3508,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
                     removemapnum(temp);
-                    M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3520,7 +3520,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
                     removemapnum(temp);
-                    M_snprintf(maplist[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3535,20 +3535,20 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // sort the map list
     for (int i = 0; i < count; i++)
         for (int j = i + 1; j < count; j++)
-            if (strcmp(maplist[i], maplist[j]) > 0)
+            if (strcmp(maps[i], maps[j]) > 0)
             {
                 char    temp[256];
 
-                M_StringCopy(temp, maplist[i], sizeof(temp));
-                M_StringCopy(maplist[i], maplist[j], sizeof(maplist[i]));
-                M_StringCopy(maplist[j], temp, sizeof(maplist[j]));
+                M_StringCopy(temp, maps[i], sizeof(temp));
+                M_StringCopy(maps[i], maps[j], sizeof(maps[i]));
+                M_StringCopy(maps[j], temp, sizeof(maps[j]));
             }
 
     // display the map list
     for (int i = 0; i < count; i++)
-        C_TabbedOutput(tabs, "%i.\t%s", i + 1, maplist[i]);
+        C_TabbedOutput(tabs, "%i.\t%s", i + 1, maps[i]);
 
-    free(maplist);
+    free(maps);
 }
 
 //
@@ -3602,7 +3602,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     const int   tabs[4] = { 120, 240, 0, 0 };
     char        *temp;
 
-    C_Header(tabs, mapstatsheader, MAPSTATSHEADER);
+    C_Header(tabs, mapstats, MAPSTATSHEADER);
 
     if (gamemode == commercial)
     {
@@ -4592,7 +4592,7 @@ static void C_PlayerStats_Game(void)
     int             shotssuccessful1 = 0;
     uint64_t        shotssuccessful2 = 0;
 
-    C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
+    C_Header(tabs, playerstats, PLAYERSTATSHEADER);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
@@ -5172,7 +5172,7 @@ static void C_PlayerStats_NoGame(void)
     uint64_t        shotsfired = 0;
     uint64_t        shotssuccessful = 0;
 
-    C_Header(tabs, playerstatsheader, PLAYERSTATSHEADER);
+    C_Header(tabs, playerstats, PLAYERSTATSHEADER);
 
     temp1 = commify(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps started\t-\t<b>%s</b>", temp1);
@@ -6759,7 +6759,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[4] = { 50, 300, 0, 0 };
 
-    C_Header(tabs, thinglistheader, THINGLISTHEADER);
+    C_Header(tabs, thinglist, THINGLISTHEADER);
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {

@@ -87,13 +87,14 @@ static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
 static patch_t          *warning;
-static patch_t          *bindlist;
-static patch_t          *cmdlist;
-static patch_t          *cvarlist;
-static patch_t          *maplist;
-static patch_t          *mapstats;
-static patch_t          *playerstats;
-static patch_t          *thinglist;
+
+patch_t                 *bindlist;
+patch_t                 *cmdlist;
+patch_t                 *cvarlist;
+patch_t                 *maplist;
+patch_t                 *mapstats;
+patch_t                 *playerstats;
+patch_t                 *thinglist;
 
 static short            brandwidth;
 static short            brandheight;
@@ -382,7 +383,7 @@ void C_TabbedOutput(const int tabs[4], const char *string, ...)
     outputhistory = -1;
 }
 
-void C_Header(const int tabs[4], const headertype_t headertype, const char *string)
+void C_Header(const int tabs[4], patch_t *header, const char *string)
 {
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -390,7 +391,7 @@ void C_Header(const int tabs[4], const headertype_t headertype, const char *stri
     console[consolestrings].truncate = 0;
     console[consolestrings].stringtype = headerstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
-    console[consolestrings].headertype = headertype;
+    console[consolestrings].header = header;
     M_StringCopy(console[consolestrings].string, string, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
@@ -1459,27 +1460,8 @@ void C_Drawer(void)
                         screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
             }
             else if (stringtype == headerstring)
-            {
-                const headertype_t  headertype = console[i].headertype;
-                const int           consoleedgecolor = nearestcolors[con_edgecolor] << 8;
-
-                y += 4 - (CONSOLEHEIGHT - consoleheight);
-
-                if (headertype == bindlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, bindlist, consoleedgecolor);
-                else if (headertype == cmdlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, cmdlist, consoleedgecolor);
-                else if (headertype == cvarlistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, cvarlist, consoleedgecolor);
-                else if (headertype == maplistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, maplist, consoleedgecolor);
-                else if (headertype == mapstatsheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, mapstats, consoleedgecolor);
-                else if (headertype == playerstatsheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, playerstats, consoleedgecolor);
-                else if (headertype == thinglistheader)
-                    V_DrawConsolePatch(CONSOLETEXTX, y, thinglist, consoleedgecolor);
-            }
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    console[i].header, nearestcolors[con_edgecolor] << 8);
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
                     consolewarningboldcolor, tinttab66, notabs, true, true, i);
