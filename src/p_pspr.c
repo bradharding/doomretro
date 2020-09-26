@@ -509,9 +509,6 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!player)
-        return;
-
     P_SubtractAmmo(1);
 
     player->extralight = 2;
