@@ -147,6 +147,7 @@ static int              consoledividercolor = 100;
 static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
 static int              consolescrollbargripcolor = 104;
+static int              consoleedgecolor;
 
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
@@ -792,6 +793,7 @@ void C_Init(void)
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
     consolescrollbargripcolor = nearestcolors[consolescrollbargripcolor];
+    consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
@@ -902,7 +904,6 @@ static void C_DrawBackground(void)
     static dboolean blurred;
     static byte     blurscreen[SCREENAREA];
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
-    int             consoleedgecolor = nearestcolors[con_edgecolor] << 8;
     int             height = (consoleheight + 5) * CONSOLEWIDTH;
 
     if (!blurred)
@@ -1460,8 +1461,7 @@ void C_Drawer(void)
                         screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
             }
             else if (stringtype == headerstring)
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, nearestcolors[con_edgecolor] << 8);
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), console[i].header, consoleedgecolor);
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
                     consolewarningboldcolor, tinttab66, notabs, true, true, i);
