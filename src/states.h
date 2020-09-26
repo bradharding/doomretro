@@ -851,8 +851,8 @@ typedef enum
     S_ARM1A,
     S_ARM2,
     S_ARM2A,
+    S_BAR1,
     S_BAR2,
-    S_BAR3,
     S_BEXP,
     S_BEXP2,
     S_BEXP3,
@@ -1145,7 +1145,7 @@ typedef enum
     S_MUSHROOM,
 
     // [BH] DOOM Retro states
-    S_BAR1,
+    S_BAR3,
     S_TRAIL,
     S_TRAIL2,
     S_TRAIL3,
