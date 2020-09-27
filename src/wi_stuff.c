@@ -379,10 +379,10 @@ static void WI_DrawLF(void)
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
 
-        if (height == VANILLAHEIGHT)
-            V_DrawPagePatch(patch);
-        else
+        if (height < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+        else
+            V_DrawPagePatch(patch);
 
         y += height + 2;
     }
@@ -400,10 +400,10 @@ static void WI_DrawLF(void)
             patch_t *patch = lnames[wbs->last];
             short   height = SHORT(patch->height);
 
-            if (height == VANILLAHEIGHT)
-                V_DrawPagePatch(patch);
-            else
+            if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            else
+                V_DrawPagePatch(patch);
 
             y += height + 2;
         }
@@ -439,10 +439,10 @@ static void WI_DrawEL(void)
         patch_t *patch = W_CacheLumpNum(titlepatch);
         short   height = SHORT(patch->height);
 
-        if (height == VANILLAHEIGHT)
-            V_DrawPagePatch(patch);
-        else
+        if (height < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+        else
+            V_DrawPagePatch(patch);
     }
     else
     {
@@ -458,10 +458,10 @@ static void WI_DrawEL(void)
             patch_t *patch = lnames[wbs->next];
             short   height = SHORT(patch->height);
 
-            if (height == VANILLAHEIGHT)
-                V_DrawPagePatch(patch);
-            else
+            if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            else
+                V_DrawPagePatch(patch);
         }
         else
             WI_DrawWILV(y, nextmapname);
