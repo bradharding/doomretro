@@ -117,6 +117,7 @@ static int              selectend;
 char                    consolecheat[255];
 char                    consolecheatparm[3];
 
+static int              inputhistory = -1;
 static int              outputhistory = -1;
 
 int                     con_backcolor = con_backcolor_default;
@@ -181,6 +182,7 @@ void C_Input(const char *string, ...)
     C_DumpConsoleStringToFile(consolestrings);
     console[consolestrings].truncate = 0;
     console[consolestrings++].stringtype = inputstring;
+    inputhistory = -1;
     outputhistory = -1;
     consoleinput[0] = '\0';
     caretpos = 0;
@@ -209,6 +211,7 @@ void C_InputNoRepeat(const char *string, ...)
         C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings].truncate = 0;
         console[consolestrings++].stringtype = inputstring;
+        inputhistory = -1;
         outputhistory = -1;
         consoleinput[0] = '\0';
         caretpos = 0;
@@ -1717,7 +1720,6 @@ dboolean C_ValidateInput(char *input)
 dboolean C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
-    static int  inputhistory = -1;
     static int  scrollspeed = TICRATE;
     int         i;
     int         len;
