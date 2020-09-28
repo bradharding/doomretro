@@ -615,9 +615,6 @@ void G_DoLoadLevel(void)
 
     if (automapactive || mapwindow)
         AM_Start(automapactive);
-
-    if (vid_widescreen || returntowidescreen)
-        I_ToggleWidescreen(true);
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
@@ -1179,13 +1176,6 @@ static void G_DoCompleted(void)
 
     I_UpdateBlitFunc(false);
 
-    if (vid_widescreen)
-    {
-        I_ToggleWidescreen(false);
-        returntowidescreen = true;
-        ST_Drawer(false, true);
-    }
-
     I_Sleep(700);
 
     G_PlayerFinishLevel();      // take away cards and stuff
@@ -1468,9 +1458,6 @@ void G_DoLoadGame(void)
     if (setsizeneeded)
         R_ExecuteSetViewSize();
 
-    if (vid_widescreen)
-        I_ToggleWidescreen(true);
-
     // draw the pattern into the back screen
     R_FillBackScreen();
 
@@ -1641,9 +1628,6 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 static void G_DoNewGame(void)
 {
     I_SetPalette(PLAYPAL);
-
-    if (vid_widescreen)
-        I_ToggleWidescreen(true);
 
     st_facecount = ST_STRAIGHTFACECOUNT;
     G_InitNew(d_skill, d_episode, d_map);

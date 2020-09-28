@@ -1165,6 +1165,11 @@ static void WI_LoadData(void)
     else
         M_snprintf(bg_lumpname, sizeof(bg_lumpname), "WIMAP%i", wbs->epsd);
 
+    // [crispy] fill pillarboxes in widescreen mode
+    if (SCREENWIDTH != VANILLAWIDTH << 1)
+    {
+        V_FillRect(1, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
+    }
     V_DrawWidePatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }
 

@@ -1017,12 +1017,12 @@ typedef struct visplane_s
     // leave pads for [minx - 1]/[maxx + 1]
     unsigned int        pad1;
 
-    unsigned int        top[SCREENWIDTH];
+    unsigned int        top[MAXWIDTH];
 
     unsigned int        pad2;
     unsigned int        pad3;
 
-    unsigned int        bottom[SCREENWIDTH];
+    unsigned int        bottom[MAXWIDTH];
 
     unsigned int        pad4;
 

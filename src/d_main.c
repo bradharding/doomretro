@@ -176,7 +176,7 @@ dboolean            advancetitle;
 dboolean            dowipe;
 static dboolean     forcewipe;
 
-static byte         fadescreen[SCREENWIDTH * SCREENHEIGHT];
+static byte         fadescreen[MAXSCREENAREA];
 static int          fadeheight;
 int                 fadecount = 0;
 
@@ -221,7 +221,7 @@ void D_FadeScreen(void)
     if (!fade)
         return;
 
-    fadeheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    fadeheight = (SCREENHEIGHT /*- (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT*/) * SCREENWIDTH;
     memcpy(fadescreen, screens[0], fadeheight);
     fadecount = 3;
 }
@@ -388,18 +388,18 @@ void D_Display(void)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
-            if (vid_widescreen)
-                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
-                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
-            else
+            // if (vid_widescreen)
+            //     V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
+            //         viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
+            // else
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
                     (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false);
         }
         else
         {
-            if (vid_widescreen)
-                M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
-            else
+            // if (vid_widescreen)
+            //     M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
+            // else
                 M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
         }
     }
@@ -560,7 +560,14 @@ void D_PageDrawer(void)
         }
     }
     else
+    {
+        // [crispy] fill pillarboxes in widescreen mode
+        if (SCREENWIDTH != VANILLAWIDTH << 1)
+        {
+            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
+        }
         V_DrawWidePatch(0, 0, 0, pagelump);
+    }
 }
 
 //

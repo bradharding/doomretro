@@ -8069,14 +8069,14 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
 
         if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
-            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
-            {
-                if (value < r_screensize_max)
-                {
-                    r_hud = true;
-                    I_ToggleWidescreen(false);
-                }
-            }
+            // if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            // {
+            //     if (value < r_screensize_max)
+            //     {
+            //         r_hud = true;
+            //         I_ToggleWidescreen(false);
+            //     }
+            // }
 
             r_screensize = value;
             M_SaveCVARs();
@@ -8765,29 +8765,8 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     if (vid_widescreen != vid_widescreen_old)
     {
-        if (vid_widescreen)
-        {
-            if (gamestate == GS_LEVEL)
-            {
-                I_ToggleWidescreen(true);
-
-                if (vid_widescreen && !togglingvanilla)
-                    S_StartSound(NULL, sfx_stnmov);
-            }
-            else
-            {
-                r_hud = true;
-                M_SaveCVARs();
-                returntowidescreen = true;
-            }
-        }
-        else
-        {
-            I_ToggleWidescreen(false);
-
-            if (!vid_widescreen && !togglingvanilla)
-                S_StartSound(NULL, sfx_stnmov);
-        }
+        I_RestartGraphics();
+        S_StartSound(NULL, sfx_stnmov);
     }
 
     if (!vid_widescreen)

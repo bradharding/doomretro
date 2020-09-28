@@ -905,7 +905,7 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     static dboolean blurred;
-    static byte     blurscreen[SCREENAREA];
+    static byte     blurscreen[MAXSCREENAREA];
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
     int             height = (consoleheight + 5) * CONSOLEWIDTH;
 

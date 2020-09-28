@@ -71,7 +71,7 @@ extern byte             *dc_source;
 
 extern int              fuzzpos;
 extern const int        fuzzrange[3];
-extern int              fuzztable[SCREENAREA];
+extern int              fuzztable[MAXSCREENAREA];
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT here.
@@ -153,6 +153,8 @@ void R_InitBuffer(int width, int height);
 // Initialize color translation tables,
 //  for player rendering etc.
 void R_InitTranslationTables(void);
+
+void R_FillBezel(void);
 
 // Rendering function.
 void R_FillBackScreen(void);

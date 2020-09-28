@@ -65,8 +65,8 @@ int                 *lastopening;               // dropoff overflow
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                 floorclip[SCREENWIDTH];     // dropoff overflow
-int                 ceilingclip[SCREENWIDTH];   // dropoff overflow
+int                 floorclip[MAXWIDTH];     // dropoff overflow
+int                 ceilingclip[MAXWIDTH];   // dropoff overflow
 
 // texture mapping
 static lighttable_t **planezlight;
@@ -75,9 +75,9 @@ static fixed_t      planeheight;
 static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
 fixed_t             *yslope;
-fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
+fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
-static fixed_t      cachedheight[SCREENHEIGHT];
+static fixed_t      cachedheight[MAXHEIGHT];
 
 dboolean            r_liquid_current = r_liquid_current_default;
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
@@ -89,11 +89,11 @@ static dboolean     updateswirl;
 //
 static void R_MapPlane(int y, int x1)
 {
-    static fixed_t  cacheddistance[SCREENHEIGHT];
-    static fixed_t  cachedviewcosdistance[SCREENHEIGHT];
-    static fixed_t  cachedviewsindistance[SCREENHEIGHT];
-    static fixed_t  cachedxstep[SCREENHEIGHT];
-    static fixed_t  cachedystep[SCREENHEIGHT];
+    static fixed_t  cacheddistance[MAXHEIGHT];
+    static fixed_t  cachedviewcosdistance[MAXHEIGHT];
+    static fixed_t  cachedviewsindistance[MAXHEIGHT];
+    static fixed_t  cachedxstep[MAXHEIGHT];
+    static fixed_t  cachedystep[MAXHEIGHT];
     fixed_t         distance;
     fixed_t         viewcosdistance;
     fixed_t         viewsindistance;
@@ -282,7 +282,7 @@ static void R_MakeSpans(visplane_t *pl)
 {
     // spanstart holds the start of a plane span
     // initialized to 0 at start
-    static int  spanstart[SCREENHEIGHT];
+    static int  spanstart[MAXHEIGHT];
     int         stop = pl->right + 1;
 
     if (terraintypes[pl->picnum] != SOLID && r_liquid_current)

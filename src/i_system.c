@@ -227,9 +227,6 @@ void I_Quit(dboolean shutdown)
 
         S_Shutdown();
 
-        if (returntowidescreen)
-            vid_widescreen = true;
-
         M_SaveCVARs();
 
         I_ShutdownGraphics();
@@ -261,9 +258,6 @@ void I_Error(const char *error, ...)
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
-
-    if (returntowidescreen)
-        vid_widescreen = true;
 
 #if defined(_WIN32)
     if (previouswad)

@@ -62,10 +62,10 @@ int         viewwindowx;
 int         viewwindowy;
 
 int         fuzzpos;
-int         fuzztable[SCREENAREA];
+int         fuzztable[MAXSCREENAREA];
 
-static byte *ylookup0[SCREENHEIGHT];
-static byte *ylookup1[SCREENHEIGHT];
+static byte *ylookup0[MAXHEIGHT];
+static byte *ylookup1[MAXHEIGHT];
 
 static const byte redtoblue[] =
 {
@@ -923,7 +923,7 @@ void R_DrawTranslucentBlue25Column(void)
 //
 #define NOFUZZ  251
 
-const int   fuzzrange[] = { -SCREENWIDTH, 0, SCREENWIDTH };
+const int       fuzzrange[] = { -MAXWIDTH, 0, MAXWIDTH };
 
 void R_DrawFuzzColumn(void)
 {
@@ -933,7 +933,7 @@ void R_DrawFuzzColumn(void)
     if (!y)
         return;
 
-    dest = ylookup0[dc_yl] + dc_x;;
+    dest = ylookup0[dc_yl] + dc_x;
 
     // top
     if (!dc_yl)
@@ -1239,6 +1239,39 @@ void R_InitBuffer(int width, int height)
     }
 }
 
+void R_FillBezel(void)
+{
+    // [crispy] this is our own local copy of R_FillBackScreen() to
+    // fill the entire background of st_backing_screen with the bezel pattern,
+    // so it appears to the left and right of the status bar in widescreen mode
+    if (SCREENWIDTH != VANILLAWIDTH << 1)
+    {
+        byte *src;
+        byte *dest;
+
+        src = (byte *)grnrock;
+        
+        dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+
+        // for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        // {
+        //     for (x = 0; x < SCREENWIDTH; x++)
+        //     {
+        //         *dest++ = src[((y&63)<<6) + (x&63)];
+        //     }
+        // }
+        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        {
+            for (int x = 0; x < SCREENWIDTH; x += 2)
+            {
+                byte    dot = src[(((y>>1)&63)<<6) + ((x>>1)&63)];
+                *dest++ = dot;
+                *dest++ = dot;
+            }
+        }
+    }
+}
+
 //
 // R_FillBackScreen
 // Fills the back screen with a pattern
@@ -1258,12 +1291,20 @@ void R_FillBackScreen(void)
     src = (byte *)grnrock;
     dest = screens[1];
 
-    for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += 2)
-        for (int x = 0; x < SCREENWIDTH / 32; x += 2, dest += 128)
-            for (int i = 0; i < 128; i += 2)
-                dest[i] = dest[i + 1] = src[(((y / 2) & 63) << 6) + i / 2];
-
-    x1 = viewwindowx / 2;
+    // for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += 2)
+    //     for (int x = 0; x < SCREENWIDTH / 32; x += 2, dest += 128)
+    //         for (int i = 0; i < 128; i += 2)
+    //             dest[i] = dest[i + 1] = src[(((y / 2) & 63) << 6) + i / 2];
+    
+    for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
+        {
+            byte    dot = src[(((y>>1)&63)<<6) + ((x>>1)&63)];
+            *dest++ = dot;
+            *dest++ = dot;
+        }
+    
+    x1 = viewwindowx / 2 - WIDESCREENDELTA;
     y1 = viewwindowy / 2;
     x2 = scaledviewwidth / 2 + x1;
     y2 = viewheight / 2 + y1;

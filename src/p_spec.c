@@ -980,7 +980,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 && viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0
                 && viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
                 {
                     viewplayer->neededcard = it_allkeys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -998,7 +998,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case RCard:
             if (viewplayer->cards[it_redcard] <= 0 && (!skulliscard || viewplayer->cards[it_redskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redcard))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redcard))
                 {
                     viewplayer->neededcard = it_redcard;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1017,7 +1017,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case BCard:
             if (viewplayer->cards[it_bluecard] <= 0 && (!skulliscard || viewplayer->cards[it_blueskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_bluecard))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_bluecard))
                 {
                     viewplayer->neededcard = it_bluecard;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1036,7 +1036,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case YCard:
             if (viewplayer->cards[it_yellowcard] <= 0 && (!skulliscard || viewplayer->cards[it_yellowskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowcard))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowcard))
                 {
                     viewplayer->neededcard = it_yellowcard;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1055,7 +1055,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case RSkull:
             if (viewplayer->cards[it_redskull] <= 0 && (!skulliscard || viewplayer->cards[it_redcard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redskull))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redskull))
                 {
                     viewplayer->neededcard = it_redskull;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1074,7 +1074,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case BSkull:
             if (viewplayer->cards[it_blueskull] <= 0 && (!skulliscard || viewplayer->cards[it_bluecard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_blueskull))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_blueskull))
                 {
                     viewplayer->neededcard = it_blueskull;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1093,7 +1093,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
         case YSkull:
             if (viewplayer->cards[it_yellowskull] <= 0 && (!skulliscard || viewplayer->cards[it_yellowcard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowskull))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowskull))
                 {
                     viewplayer->neededcard = it_yellowskull;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1114,7 +1114,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 || viewplayer->cards[it_bluecard] <= 0 || viewplayer->cards[it_blueskull] <= 0
                 || viewplayer->cards[it_yellowcard] <= 0 || viewplayer->cards[it_yellowskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
                 {
                     viewplayer->neededcard = it_allkeys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
@@ -1131,7 +1131,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 || (viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0)
                 || (viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)))
             {
-                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
+                if (/*vid_widescreen &&*/ r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys))
                 {
                     viewplayer->neededcard = it_allkeys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;

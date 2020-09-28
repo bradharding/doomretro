@@ -103,6 +103,8 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
         "011110001111110011021120112211221111112201111122002211220002112201111122011110220002222200022220"
     };
 
+    x += WIDESCREENDELTA;
+    
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
         char    dot = highnums[number][i];
