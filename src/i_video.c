@@ -69,12 +69,18 @@
 #include "version.h"
 #include "w_wad.h"
 
+int SCREENWIDTH;
+int SCREENHEIGHT;
+int NONWIDEWIDTH; // [crispy] non-widescreen SCREENWIDTH
+int WIDESCREENDELTA; // [crispy] horizontal widescreen offset
+int WIDEFOVDELTA;
+
 #define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with this error:\n" \
                                     "    \"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #define MAXDISPLAYS             8
 
-#define MAXUPSCALEWIDTH         (1600 / VANILLAWIDTH)
+#define MAXUPSCALEWIDTH         (/*1600*/2160 / VANILLAWIDTH)
 #define MAXUPSCALEHEIGHT        (1200 / VANILLAHEIGHT)
 
 #define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
@@ -1577,7 +1583,7 @@ static void SetVideoMode(dboolean output)
         }
     }
 
-    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, 6 * SCREENHEIGHT / 5) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
 
     if (output)
@@ -1849,31 +1855,51 @@ static void SetVideoMode(dboolean output)
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 
     src_rect.w = SCREENWIDTH;
-    src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
+    src_rect.h = SCREENHEIGHT;
 }
 
-void I_ToggleWidescreen(dboolean toggle)
+// [crispy] re-calculate SCREENWIDTH, SCREENHEIGHT, NONWIDEWIDTH and WIDESCREENDELTA
+void I_GetScreenDimensions (void)
 {
-    if (toggle)
+    SDL_DisplayMode mode;
+    int w = 16, h = 10;
+    int ah;
+
+    SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
+    SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+
+    NONWIDEWIDTH = SCREENWIDTH;
+
+    ah = 6 * SCREENHEIGHT / 5;
+    
+    if (SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode) == 0)
     {
-        vid_widescreen = true;
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 10 / 16);
-        src_rect.h = SCREENHEIGHT - SBARHEIGHT;
+        // [crispy] sanity check: really widescreen display?
+        if (mode.w * ah >= mode.h * SCREENWIDTH)
+        {
+            w = mode.w;
+            h = mode.h;
+        }
+    }
+
+    // [crispy] widescreen rendering makes no sense without aspect ratio correction
+    if (vid_widescreen)
+    {
+        SCREENWIDTH = w * ah / h;
+        // [crispy] make sure SCREENWIDTH is an integer multiple of 4 ...
+        SCREENWIDTH = (SCREENWIDTH + 3) & (int)~3;
+        // [crispy] ... but never exceeds MAXWIDTH (array size!)
+        SCREENWIDTH = MIN(SCREENWIDTH, MAXWIDTH);
+
+        // r_fov * 0.82 is vertical fov for 4:3 aspect ratio
+        WIDEFOVDELTA = atan(w / (h / tan(r_fov * 0.82 * M_PI / 360))) * 360 / M_PI - r_fov;
     }
     else
     {
-        vid_widescreen = false;
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
-        src_rect.h = SCREENHEIGHT;
-
-        if (gamestate == GS_LEVEL)
-            ST_DoRefresh();
+        WIDEFOVDELTA = 0;
     }
 
-    returntowidescreen = false;
-    setsizeneeded = true;
-
-    SDL_SetPaletteColors(palette, colors, 0, 256);
+    WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) >> 1) / 2;
 }
 
 #if defined(_WIN32)
@@ -1883,10 +1909,10 @@ void I_InitWindows32(void);
 void I_RestartGraphics(void)
 {
     FreeSurfaces();
-    SetVideoMode(false);
 
-    if (vid_widescreen)
-        I_ToggleWidescreen(true);
+    I_GetScreenDimensions();
+
+    SetVideoMode(false);
 
     I_CreateExternalAutomap(0);
 
@@ -1896,6 +1922,7 @@ void I_RestartGraphics(void)
 
     M_SetWindowCaption();
 
+    setsizeneeded = true;
     forceconsoleblurredraw = true;
 }
 
@@ -2029,6 +2056,9 @@ void I_InitGraphics(void)
 #if defined(_DEBUG)
     vid_fullscreen = false;
 #endif
+
+    // [crispy] run-time variable high-resolution rendering
+    I_GetScreenDimensions();
 
     SetVideoMode(true);
 

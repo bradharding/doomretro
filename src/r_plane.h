@@ -44,10 +44,10 @@
 
 // Visplane related.
 extern int      *lastopening;
-extern int      floorclip[SCREENWIDTH];
-extern int      ceilingclip[SCREENWIDTH];
+extern int      floorclip[MAXWIDTH];
+extern int      ceilingclip[MAXWIDTH];
 extern fixed_t  *yslope;
-extern fixed_t  yslopes[LOOKDIRS][SCREENHEIGHT];
+extern fixed_t  yslopes[LOOKDIRS][MAXHEIGHT];
 extern int      *openings;  // dropoff overflow
 
 void R_ClearPlanes(void);

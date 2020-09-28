@@ -394,6 +394,7 @@ static void ST_RefreshBackground(void)
         else
             V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 #else
+        R_FillBezel();
         if (STBAR >= 3)
         {
             V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
@@ -496,7 +497,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (!vid_widescreen || (r_hud && !r_althud)))
+                    && /*(!vid_widescreen ||*/ (r_hud && !r_althud))//)
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
@@ -556,7 +557,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (!vid_widescreen || (r_hud && !r_althud)))
+                    && /*(!vid_widescreen ||*/ (r_hud && !r_althud))//)
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
@@ -1207,7 +1208,7 @@ static void ST_UpdateWidgets(void)
 
 void ST_Ticker(void)
 {
-    if (!vid_widescreen)
+    if (r_screensize < r_screensize_max)
     {
         if (!freeze && !paused && !menuactive && !consoleactive)
         {
@@ -1337,7 +1338,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     // Do red-/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (vid_widescreen || (menuactive && !consoleactive) || inhelpscreens)
+    if ((r_screensize > 7) || (menuactive && !consoleactive) || inhelpscreens)
         return;
 
     st_statusbaron = (!fullscreen || automapactive);

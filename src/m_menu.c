@@ -67,7 +67,7 @@
 #include "z_zone.h"
 
 #define LINEHEIGHT  17
-#define OFFSET      (vid_widescreen ? 0 : 17)
+#define OFFSET      /*(vid_widescreen ? 0 : */17//)
 
 int             episode = episode_default;
 int             expansion = expansion_default;
@@ -495,9 +495,9 @@ static int  blurtic = -1;
 //
 void M_DarkBackground(void)
 {
-    static byte blurscreen1[SCREENAREA];
-    static byte blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-    const int   blurheight = (SCREENHEIGHT - (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT) * SCREENWIDTH;
+    static byte blurscreen1[MAXSCREENAREA];
+    static byte blurscreen2[(MAXHEIGHT - SBARHEIGHT) * MAXWIDTH];
+    const int   blurheight = (SCREENHEIGHT /*- (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT*/) * SCREENWIDTH;
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
@@ -1861,7 +1861,7 @@ static void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
-        (float)(r_screensize + (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !r_hud), 7.2f, 8);
+        (float)(r_screensize + /*(vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))*/ + !r_hud), 7.2f, 8);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
@@ -1916,12 +1916,6 @@ static dboolean endinggame;
 void M_EndingGame(void)
 {
     endinggame = true;
-
-    if (vid_widescreen)
-    {
-        I_ToggleWidescreen(false);
-        returntowidescreen = true;
-    }
 
     if (gamemission == pack_nerve)
         gamemission = doom2;
@@ -2186,89 +2180,29 @@ static void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            if (r_screensize > r_screensize_min)
             {
-                if (!r_hud)
-                {
-                    r_hud = true;
-                    C_StrCVAROutput(stringize(r_hud), "on");
-                }
-                else if (vid_widescreen)
-                {
-                    I_ToggleWidescreen(false);
-
-                    if (menuactive && !automapactive)
-                        R_SetViewSize(8);
-
-                    C_StrCVAROutput(stringize(vid_widescreen), "off");
-                }
-                else
-                    returntowidescreen = false;
-
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else if (r_screensize > r_screensize_min)
-            {
+                r_hud = false;
                 r_screensize--;
-                R_SetViewSize(menuactive && gamestate == GS_LEVEL && !automapactive ? 8 : r_screensize);
-                C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
             }
-
             break;
-
         case 1:
-            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            if (r_screensize < r_screensize_max)
             {
-                if (r_hud)
-                {
-                    r_hud = false;
-                    C_StrCVAROutput(stringize(r_hud), "off");
-                    S_StartSound(NULL, sfx_stnmov);
-                    M_SaveCVARs();
-                }
-            }
-            else if (r_screensize == r_screensize_max)
-            {
-                if (gamestate != GS_LEVEL)
-                {
-                    returntowidescreen = true;
-                    r_hud = true;
-                }
-                else
-                {
-                    I_ToggleWidescreen(true);
-
-                    if (vid_widescreen)
-                    {
-                        if (menuactive && !automapactive)
-                            R_SetViewSize(7);
-
-                        C_StrCVAROutput(stringize(vid_widescreen), "on");
-                    }
-                    else
-                    {
-                        R_SetViewSize(++r_screensize);
-                        C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                    }
-                }
-
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
+                r_screensize++;
             }
             else
             {
-                r_screensize++;
-                R_SetViewSize(menuactive && gamestate == GS_LEVEL && !automapactive ? 8 : r_screensize);
-                C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
+                r_hud = true;
+                r_screensize = 8;
             }
-
             break;
     }
+    
+    R_SetViewSize(r_screensize);
+    C_IntCVAROutput(stringize(r_screensize), r_screensize);
+    S_StartSound(NULL, sfx_stnmov);
+    M_SaveCVARs();
 
     blurtic = -1;
     skippsprinterp = true;
@@ -2451,12 +2385,6 @@ void M_ShowHelp(int choice)
     currentMenu = &ReadDef;
     itemOn = 0;
     S_StartSound(NULL, sfx_swtchn);
-
-    if (vid_widescreen)
-    {
-        I_ToggleWidescreen(false);
-        returntowidescreen = true;
-    }
 
     if (!automapactive && gamestate == GS_LEVEL)
         R_SetViewSize(8);
@@ -2945,9 +2873,6 @@ dboolean M_Responder(event_t *ev)
                 if (inhelpscreens)
                 {
                     R_SetViewSize(r_screensize);
-
-                    if (returntowidescreen && gamestate == GS_LEVEL)
-                        I_ToggleWidescreen(true);
                 }
             }
             else
@@ -3337,10 +3262,6 @@ dboolean M_Responder(event_t *ev)
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(r_screensize);
-
-                if (returntowidescreen && gamestate == GS_LEVEL)
-                    I_ToggleWidescreen(true);
-
                 return true;
             }
 
@@ -3412,9 +3333,6 @@ dboolean M_Responder(event_t *ev)
             if (inhelpscreens)
             {
                 R_SetViewSize(r_screensize);
-
-                if (returntowidescreen && gamestate == GS_LEVEL)
-                    I_ToggleWidescreen(true);
             }
 
             M_SetWindowCaption();
@@ -3601,7 +3519,7 @@ void M_StartControlPanel(void)
     {
         playerangle = viewplayer->mo->angle;
 
-        if (!vid_widescreen && !automapactive && !inhelpscreens)
+        if (/*!vid_widescreen &&*/ !automapactive && !inhelpscreens)
             R_SetViewSize(8);
 
         if (automapactive)
@@ -3646,9 +3564,9 @@ void M_Drawer(void)
 
         M_DarkBackground();
 
-        if (vid_widescreen && gamestate == GS_LEVEL)
-            y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
-        else
+        // if (vid_widescreen && gamestate == GS_LEVEL)
+        //     y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
+        // else
             y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2 - 1;
 
         while (messageString[start] != '\0')
@@ -3765,8 +3683,8 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-                    else if (W_CheckNumForName(name) < 0)   // Custom Episode
-                        M_WriteText(x, y + OFFSET, *text, true);
+                    else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
+                        M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                         M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (**text)
@@ -3802,7 +3720,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
 
-        if (!vid_widescreen && !automapactive && !inhelpscreens)
+        if (/*!vid_widescreen &&*/ !automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
 
         if (automapactive)

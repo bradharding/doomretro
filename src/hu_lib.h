@@ -121,6 +121,6 @@ void HUlib_EraseSText(hu_stext_t *s);
 extern void (*althudtextfunc)(int, int, byte *, patch_t *, int);
 
 extern dboolean s_STSTR_BEHOLD2;
-extern byte     tempscreen[SCREENAREA];
+extern byte     tempscreen[MAXSCREENAREA];
 
 #endif

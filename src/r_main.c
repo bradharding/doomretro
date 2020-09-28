@@ -92,7 +92,7 @@ int                 viewangletox[FINEANGLES / 2];
 // The xtoviewangleangle[] table maps a screen pixel
 // to the lowest viewangle that maps back to x ranges
 // from clipangle to -clipangle.
-angle_t             xtoviewangle[SCREENWIDTH + 1];
+angle_t             xtoviewangle[MAXWIDTH + 1];
 
 fixed_t             finesine[5 * FINEANGLES / 4];
 fixed_t             *finecosine = &finesine[FINEANGLES / 4];
@@ -128,6 +128,10 @@ dboolean            r_translucency = r_translucency_default;
 
 extern dboolean     transferredsky;
 extern lighttable_t **walllights;
+
+// [crispy] in widescreen mode, make sure the same number of horizontal
+// pixels shows the same part of the game scene as in regular rendering mode
+static int scaledviewwidth_nonwide, viewwidth_nonwide;
 
 //
 // R_PointOnSide
@@ -310,7 +314,7 @@ static void R_InitTextureMapping(void)
 {
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x after the view angle.
-    const fixed_t   limit = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
+    const fixed_t   limit = finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2];
 
     // Calc focallength so field of view angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
@@ -352,7 +356,7 @@ static void R_InitTextureMapping(void)
 //
 void R_InitLightTables(void)
 {
-    int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2])) + 1;
+    int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1;
 
     c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
     c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
@@ -402,30 +406,30 @@ void R_ExecuteSetViewSize(void)
 
     if (setblocks == 11)
     {
+        scaledviewwidth_nonwide = NONWIDEWIDTH;
         scaledviewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
-
-        if (!menuactive)
-            viewheight -= SBARHEIGHT;
     }
     else
     {
+        scaledviewwidth_nonwide = setblocks * NONWIDEWIDTH / 10;
         scaledviewwidth = setblocks * SCREENWIDTH / 10;
         viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
     }
 
     viewwidth = scaledviewwidth;
+    viewwidth_nonwide = scaledviewwidth_nonwide;
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + r_fov * FINEANGLES / 360 / 2];
+    fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
 
     R_InitBuffer(scaledviewwidth, viewheight);
     R_InitTextureMapping();
 
     // psprite scales
-    pspritescale = FixedDiv(viewwidth, VANILLAWIDTH);
+    pspritescale = FixedDiv(viewwidth_nonwide, VANILLAWIDTH);
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     if (gamestate == GS_LEVEL)

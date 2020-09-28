@@ -65,8 +65,8 @@ fixed_t                 pspriteiscale;
 static lighttable_t     **spritelights;         // killough 01/25/98 made static
 
 // constant arrays used for psprite clipping and initializing clipping
-int                     negonearray[SCREENWIDTH];
-int                     viewheightarray[SCREENWIDTH];
+int                     negonearray[MAXWIDTH];
+int                     viewheightarray[MAXWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
@@ -1148,8 +1148,8 @@ static void R_DrawPlayerSprites(void)
 //
 static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 {
-    int             cliptop[SCREENWIDTH];
-    int             clipbot[SCREENWIDTH];
+    int             cliptop[MAXWIDTH];
+    int             clipbot[MAXWIDTH];
     const int       x1 = splat->x1;
     const int       x2 = splat->x2;
     const fixed_t   scale = splat->scale;
@@ -1255,8 +1255,8 @@ static void R_SortVisSprites(void)
 
 static void R_DrawSprite(const vissprite_t *spr)
 {
-    int             cliptop[SCREENWIDTH];
-    int             clipbot[SCREENWIDTH];
+    int             cliptop[MAXWIDTH];
+    int             clipbot[MAXWIDTH];
     const int       x1 = spr->x1;
     const int       x2 = spr->x2;
     const fixed_t   scale = spr->scale;

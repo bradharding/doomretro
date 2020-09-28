@@ -50,7 +50,7 @@
 #include "v_data.h"
 #include "v_video.h"
 
-byte            tempscreen[SCREENAREA];
+byte            tempscreen[MAXSCREENAREA];
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
@@ -103,7 +103,7 @@ static void HU_DrawChar(int x, int y, int ch, dboolean external)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (vid_widescreen || external)
+    if (/*vid_widescreen ||*/ external)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
@@ -306,7 +306,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
-                if (vid_widescreen || external)
+                if (/*vid_widescreen ||*/ external)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
@@ -375,7 +375,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (!vid_widescreen && !external)
+    if (/*!vid_widescreen &&*/ !external)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;
@@ -392,7 +392,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                if ((vid_widescreen || external) && r_hud_translucency && !hacx)
+                if ((/*vid_widescreen ||*/ external) && r_hud_translucency && !hacx)
                     *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
@@ -473,7 +473,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        if (vid_widescreen && r_althud)
+        if (/*vid_widescreen &&*/ r_althud)
             HUlib_DrawAltHUDTextLine(l);
         else
             HUlib_DrawTextLine(l, external);

@@ -62,8 +62,13 @@
 #define WHITE       4
 #define LIGHTGRAY   82
 
-#define DX          ((SCREENWIDTH << FRACBITS) / VANILLAWIDTH)
-#define DXI         ((VANILLAWIDTH << FRACBITS) / SCREENWIDTH)
+// #define DX          ((SCREENWIDTH << FRACBITS) / VANILLAWIDTH)
+// #define DXI         ((VANILLAWIDTH << FRACBITS) / SCREENWIDTH)
+// #define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
+// #define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
+
+#define DX          ((NONWIDEWIDTH << FRACBITS) / VANILLAWIDTH)
+#define DXI         ((VANILLAWIDTH << FRACBITS) / NONWIDEWIDTH)
 #define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
 #define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
 
@@ -176,6 +181,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[scrn][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -208,6 +214,8 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
     byte    *desttop;
     int     w = SHORT(patch->width);
     int     col = 0;
+
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     if (w > VANILLAWIDTH)
     {
@@ -258,6 +266,7 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -306,6 +315,7 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -339,6 +349,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
@@ -379,6 +390,7 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
@@ -414,6 +426,7 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
 void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
+    x += WIDESCREENDELTA << 1; // [crispy] horizontal widescreen offset
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
@@ -766,6 +779,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -808,6 +822,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
 void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
@@ -835,6 +850,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
 void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
@@ -864,6 +880,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
@@ -891,6 +908,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
@@ -995,6 +1013,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset 
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1041,6 +1060,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1079,6 +1099,7 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1127,6 +1148,7 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1160,6 +1182,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     fuzzpos = 0;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
@@ -1200,6 +1223,7 @@ void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     fuzzpos = 0;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
@@ -1240,6 +1264,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1274,6 +1299,8 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
+
     fuzzpos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
@@ -1434,6 +1461,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
 #if SCREENSCALE == 2
+    x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
     if (color == 251)
     {
         if (drawshadow)
@@ -1572,7 +1600,7 @@ void V_InvertScreen(void)
 //
 void V_Init(void)
 {
-    byte                *base = malloc(SCREENAREA * 4);
+    byte                *base = malloc(MAXSCREENAREA * 4);
     const SDL_version   *linked = IMG_Linked_Version();
     int                 p;
 
@@ -1585,7 +1613,7 @@ void V_Init(void)
             SDL_IMAGE_FILENAME, PACKAGE_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     for (int i = 0; i < 4; i++)
-        screens[i] = &base[i * SCREENAREA];
+        screens[i] = &base[i * MAXSCREENAREA];
 
     GetPixelSize(true);
 
@@ -1617,15 +1645,9 @@ static dboolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 
     if (!SDL_GetRendererOutputSize(sdlrenderer, &rendererwidth, &rendererheight))
     {
-        int         width = (vid_widescreen ? rendererheight * 16 / 10 : rendererheight * 4 / 3);
+        int         width = (vid_widescreen ?  rendererwidth : rendererheight * 4 / 3);
         int         height = rendererheight;
         SDL_Surface *screenshot;
-
-        if (width > rendererwidth)
-        {
-            width = rendererwidth;
-            height = (vid_widescreen ? rendererwidth * 10 / 16 : rendererwidth * 3 / 4);
-        }
 
         if ((screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0)))
         {

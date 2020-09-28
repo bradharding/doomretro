@@ -334,9 +334,6 @@ void M_SaveCVARs(void)
         return;
     }
 
-    if (returntowidescreen)
-        vid_widescreen = true;
-
     for (int i = 0; i < NUMCVARS; i++)
     {
         if (!*cvars[i].name)
@@ -525,9 +522,6 @@ void M_SaveCVARs(void)
     }
 
     fclose(file);
-
-    if (returntowidescreen)
-        vid_widescreen = false;
 }
 
 // Parses integer values in the configuration file
@@ -926,15 +920,6 @@ static void M_CheckCVARs(void)
 
     if (vid_widescreen != false && vid_widescreen != true)
         vid_widescreen = vid_widescreen_default;
-
-    if (vid_widescreen)
-    {
-        returntowidescreen = true;
-        vid_widescreen = false;
-        r_screensize = r_screensize_max;
-    }
-    else
-        r_hud = true;
 
     warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
 
