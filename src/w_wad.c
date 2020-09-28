@@ -85,10 +85,7 @@ static dboolean IsFreedoom(const char *iwadname)
     int         result = false;
 
     if (!fp)
-    {
-        I_Error("Can't open IWAD: %s\n", iwadname);
         return false;
-    }
 
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))

@@ -1004,7 +1004,8 @@ static void F_BunnyScroll(void)
 
     if (finalecount < 1130)
         return;
-    else if (finalecount < 1180)
+
+    if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName("END0"), false);
         laststage = 0;
@@ -1048,6 +1049,7 @@ static void F_ArtScreenDrawer(void)
                     lump = (autosigil ? W_CacheLastLumpName("CREDIT") : W_CacheLumpName("CREDIT"));
                 else
                     lump = W_CacheLumpName("HELP2");
+
                 break;
 
             case 2:
