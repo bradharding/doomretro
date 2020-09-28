@@ -933,7 +933,7 @@ void R_DrawFuzzColumn(void)
     if (!y)
         return;
 
-    dest = ylookup0[dc_yl] + dc_x;;
+    dest = ylookup0[dc_yl] + dc_x;
 
     // top
     if (!dc_yl)
@@ -968,7 +968,7 @@ void R_DrawPausedFuzzColumn(void)
     if (!y)
         return;
 
-    dest = ylookup0[dc_yl] + dc_x;;
+    dest = ylookup0[dc_yl] + dc_x;
 
     // top
     if (!dc_yl)
