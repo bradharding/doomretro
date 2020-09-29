@@ -70,7 +70,7 @@ extern byte             *dc_black40;
 extern byte             *dc_source;
 
 extern int              fuzzpos;
-extern const int        fuzzrange[3];
+extern int              fuzzrange[3];
 extern int              fuzztable[MAXSCREENAREA];
 
 // The span blitting interface.

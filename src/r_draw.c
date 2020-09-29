@@ -923,7 +923,7 @@ void R_DrawTranslucentBlue25Column(void)
 //
 #define NOFUZZ  251
 
-const int       fuzzrange[] = { -MAXWIDTH, 0, MAXWIDTH };
+int       fuzzrange[3];
 
 void R_DrawFuzzColumn(void)
 {
@@ -1237,6 +1237,10 @@ void R_InitBuffer(int width, int height)
 
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
     }
+    
+    fuzzrange[0] = -SCREENWIDTH;
+    fuzzrange[1] = 0;
+    fuzzrange[2] = SCREENWIDTH;
 }
 
 void R_FillBezel(void)
@@ -1244,7 +1248,7 @@ void R_FillBezel(void)
     // [crispy] this is our own local copy of R_FillBackScreen() to
     // fill the entire background of st_backing_screen with the bezel pattern,
     // so it appears to the left and right of the status bar in widescreen mode
-    if (SCREENWIDTH != VANILLAWIDTH << 1)
+    if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
     {
         byte *src;
         byte *dest;
@@ -1253,13 +1257,15 @@ void R_FillBezel(void)
         
         dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-        // for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-        // {
-        //     for (x = 0; x < SCREENWIDTH; x++)
-        //     {
-        //         *dest++ = src[((y&63)<<6) + (x&63)];
-        //     }
-        // }
+#if SCREENSCALE == 1
+        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        {
+            for (int x = 0; x < SCREENWIDTH; x++)
+            {
+                *dest++ = src[((y&63)<<6) + (x&63)];
+            }
+        }
+#else
         for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
         {
             for (int x = 0; x < SCREENWIDTH; x += 2)
@@ -1269,6 +1275,7 @@ void R_FillBezel(void)
                 *dest++ = dot;
             }
         }
+#endif
     }
 }
 
