@@ -1870,6 +1870,8 @@ void I_GetScreenDimensions (void)
 
     NONWIDEWIDTH = SCREENWIDTH;
 
+    WIDEFOVDELTA = 0;
+
     ah = 6 * SCREENHEIGHT / 5;
     
     if (SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode) == 0)
@@ -1894,12 +1896,8 @@ void I_GetScreenDimensions (void)
         // r_fov * 0.82 is vertical fov for 4:3 aspect ratio
         WIDEFOVDELTA = atan(w / (h / tan(r_fov * 0.82 * M_PI / 360))) * 360 / M_PI - r_fov;
     }
-    else
-    {
-        WIDEFOVDELTA = 0;
-    }
 
-    WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) >> 1) / 2;
+    WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
 }
 
 #if defined(_WIN32)

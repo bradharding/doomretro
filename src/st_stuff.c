@@ -1208,7 +1208,7 @@ static void ST_UpdateWidgets(void)
 
 void ST_Ticker(void)
 {
-    if (r_screensize < r_screensize_max)
+    if (r_screensize <= r_screensize_max)
     {
         if (!freeze && !paused && !menuactive && !consoleactive)
         {
