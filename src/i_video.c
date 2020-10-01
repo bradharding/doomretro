@@ -1915,6 +1915,8 @@ void I_RestartGraphics(void)
     M_SetWindowCaption();
 
     setsizeneeded = true;
+
+    C_ResetTruncatedLines();
     forceconsoleblurredraw = true;
 }
 

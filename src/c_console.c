@@ -543,6 +543,12 @@ void C_Obituary(const char *string, ...)
     outputhistory = -1;
 }
 
+void C_ResetTruncatedLines(void)
+{
+    for (int i = 0; i < consolestrings; i++)
+        console[i].truncate = 0;
+}
+
 static void C_AddToUndoHistory(void)
 {
     undohistory = I_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
