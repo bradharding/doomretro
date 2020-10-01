@@ -1175,7 +1175,7 @@ void HU_Ticker(void)
         {
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
-            int     maxwidth = VANILLAWIDTH - 6;
+            int     maxwidth = SCREENWIDTH - 6;
 
             // if (vid_widescreen)
             //     maxwidth *= SCREENSCALE;
