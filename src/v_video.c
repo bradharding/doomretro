@@ -251,6 +251,49 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawBigWidePatch(int x, int y, int scrn, patch_t *patch)
+{
+    byte    *desttop;
+    int     w = SHORT(patch->width);
+    int     col = 0;
+
+    if (w > SCREENWIDTH)
+    {
+        col = (w - SCREENWIDTH) / 2;
+        w = SCREENWIDTH + col;
+    }
+
+    desttop = &screens[scrn][y * SCREENWIDTH + x];
+
+    for (; col < w; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        int         td;
+        int         topdelta = -1;
+        int         lastlength = 0;
+
+        // step through the posts in a column
+        while ((td = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest;
+            int     count;
+
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            dest = &desttop[topdelta * SCREENWIDTH];
+            count = lastlength = column->length;
+
+            while (count--)
+            {
+                *dest = *source++;
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawPagePatch(patch_t *patch)
 {
     patch->leftoffset = 0;
@@ -426,9 +469,8 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
 void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
-    x += WIDESCREENDELTA << 1; // [crispy] horizontal widescreen offset
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
+    byte        *desttop = &screens[0][y * SCREENWIDTH + (vid_widescreen && w > VANILLAWIDTH ? x : (x + WIDESCREENDELTA * 2))];
 
     for (int col = 0; col < w; col++, desttop++)
     {

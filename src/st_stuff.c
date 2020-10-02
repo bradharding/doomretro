@@ -395,6 +395,7 @@ static void ST_RefreshBackground(void)
             V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 #else
         R_FillBezel();
+
         if (STBAR >= 3)
         {
             V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
@@ -402,8 +403,10 @@ static void ST_RefreshBackground(void)
         }
         else if (r_detail == r_detail_low)
             V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-        else
+        else if (vid_widescreen)
             V_DrawBigPatch(ST_X, ST_Y, sbar2);
+        else
+            V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
 #endif
     }
 }
