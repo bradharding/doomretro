@@ -8507,7 +8507,7 @@ static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (vid_borderlesswindow != vid_borderlesswindow_old && vid_fullscreen)
-        I_RestartGraphics();
+        I_RestartGraphics(false);
 }
 
 //
@@ -8560,7 +8560,7 @@ static void vid_display_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (vid_display != vid_display_old)
-        I_RestartGraphics();
+        I_RestartGraphics(false);
 }
 
 //
@@ -8616,7 +8616,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
         {
             vid_scaleapi = M_StringDuplicate(parms);
             M_SaveCVARs();
-            I_RestartGraphics();
+            I_RestartGraphics(true);
         }
     }
     else
@@ -8648,7 +8648,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
         {
             vid_scalefilter = M_StringDuplicate(parms);
             M_SaveCVARs();
-            I_RestartGraphics();
+            I_RestartGraphics(false);
         }
     }
     else
@@ -8676,7 +8676,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (vid_fullscreen)
-                I_RestartGraphics();
+                I_RestartGraphics(false);
         }
     }
     else
@@ -8730,7 +8730,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
         if (value != INT_MIN && vid_vsync != value)
         {
             vid_vsync = value;
-            I_RestartGraphics();
+            I_RestartGraphics(true);
             M_SaveCVARs();
         }
     }
@@ -8765,7 +8765,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     if (vid_widescreen != vid_widescreen_old)
     {
-        I_RestartGraphics();
+        I_RestartGraphics(false);
         S_StartSound(NULL, sfx_stnmov);
     }
 

@@ -1397,7 +1397,7 @@ void I_SetMotionBlur(int percent)
     }
 }
 
-static void SetVideoMode(dboolean output)
+static void SetVideoMode(dboolean createwindow, dboolean output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
@@ -1477,7 +1477,7 @@ static void SetVideoMode(dboolean output)
             if (!width || !height)
                 I_Error("Graphics couldn't be initialized.");
 
-            if (output && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                 I_SDLError(SDL_CreateWindow);
@@ -1499,7 +1499,7 @@ static void SetVideoMode(dboolean output)
             width = screenwidth;
             height = screenheight;
 
-            if (output && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                 I_SDLError(SDL_CreateWindow);
@@ -1530,7 +1530,7 @@ static void SetVideoMode(dboolean output)
 
         if (!windowx && !windowy)
         {
-            if (output && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
                 I_SDLError(SDL_CreateWindow);
 
@@ -1547,7 +1547,7 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            if (output && !(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
+            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
                 I_SDLError(SDL_CreateWindow);
 
             if (output)
@@ -1571,7 +1571,7 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    if (output && !(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
+    if (createwindow && !(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
     {
         if (!(renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
             I_SDLError(SDL_CreateRenderer);
@@ -1904,11 +1904,14 @@ void I_GetScreenDimensions (void)
 void I_InitWindows32(void);
 #endif
 
-void I_RestartGraphics(void)
+void I_RestartGraphics(dboolean recreatewindow)
 {
+    if (recreatewindow)
+        FreeSurfaces();
+
     I_GetScreenDimensions();
 
-    SetVideoMode(false);
+    SetVideoMode(recreatewindow, false);
 
     I_CreateExternalAutomap(0);
 
@@ -1934,7 +1937,7 @@ void I_ToggleFullscreen(void)
     vid_fullscreen = !vid_fullscreen;
 
     if (!vid_borderlesswindow)
-        I_RestartGraphics();
+        I_RestartGraphics(false);
 
     M_SaveCVARs();
 
@@ -2054,7 +2057,7 @@ void I_InitGraphics(void)
     // [crispy] run-time variable high-resolution rendering
     I_GetScreenDimensions();
 
-    SetVideoMode(true);
+    SetVideoMode(true, true);
 
     if (vid_fullscreen)
         SetShowCursor(false);
