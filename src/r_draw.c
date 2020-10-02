@@ -1277,8 +1277,11 @@ void R_FillBezel(void)
         }
 #endif
 
-        for (int x = 0; x < SCREENWIDTH; x += 8)
-            V_DrawPatch(x, VANILLAHEIGHT - VANILLASBARHEIGHT - 1, 0, brdr_b);
+        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+
+        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
 
