@@ -925,7 +925,7 @@ static void C_DrawBackground(void)
                 blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
 
         for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
-            for (int x = y + CONSOLEWIDTH - 2; x >= y; x--)
+            for (int x = y + CONSOLEWIDTH - 2; x > y; x--)
                 blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
         for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
