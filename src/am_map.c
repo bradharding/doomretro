@@ -385,7 +385,7 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(void)
 {
-    if (vid_widescreen || !menuactive)
+    if (!menuactive)
     {
         mapheight = SCREENHEIGHT - SBARHEIGHT;
         maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
