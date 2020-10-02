@@ -553,7 +553,7 @@ void D_PageDrawer(void)
         if (prevtic != pagetic)
         {
             if (logotic >= 77 && logotic < 94)
-                V_DrawBigPatch(143, 167, logolump[94 - logotic]);
+                V_DrawBigPatch((SCREENWIDTH - VANILLAWIDTH * SCREENSCALE) / 2 + 143, 167, logolump[94 - logotic]);
 
             I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
             prevtic = pagetic;
@@ -563,9 +563,8 @@ void D_PageDrawer(void)
     {
         // [crispy] fill pillarboxes in widescreen mode
         if (SCREENWIDTH != VANILLAWIDTH << 1)
-        {
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
-        }
+
         V_DrawWidePatch(0, 0, 0, pagelump);
     }
 }
@@ -594,8 +593,8 @@ void D_DoAdvanceTitle(void)
     if (!titlesequence)
     {
         titlesequence = 1;
-        V_DrawBigPatch(12, 366, fineprintlump);
-        V_DrawBigPatch(143, 167, logolump[0]);
+        V_DrawBigPatch((SCREENWIDTH - VANILLAWIDTH * SCREENSCALE) / 2 + 12, 366, fineprintlump);
+        V_DrawBigPatch((SCREENWIDTH - VANILLAWIDTH * SCREENSCALE) / 2 + 143, 167, logolump[0]);
         return;
     }
     else if (titlesequence == 1)
