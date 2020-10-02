@@ -565,7 +565,10 @@ void D_PageDrawer(void)
         if (SCREENWIDTH != VANILLAWIDTH << 1)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
 
-        V_DrawWidePatch(0, 0, 0, pagelump);
+        if (vid_widescreen)
+            V_DrawPatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
+        else
+            V_DrawWidePatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
     }
 }
 
@@ -2316,18 +2319,38 @@ static void D_DoomMainSetup(void)
 
     if (autosigil)
     {
-        titlelump = W_CacheLastLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        titlelump = W_CacheLastLumpName((TITLEPIC ? "TITLEPI2" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        creditlump = W_CacheLastLumpName("CREDIT");
+    }
+    else if (W_CheckMultipleLumps("TITLEPIC") > 1)
+    {
+        titlelump = W_CacheLumpName("TITLEPIC");
         creditlump = W_CacheLastLumpName("CREDIT");
     }
     else
     {
-        titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        switch (gamemission)
+        {
+            case doom:
+                titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
+                break;
+
+            case doom2:
+            case pack_nerve:
+                titlelump = W_CacheLumpName("TITLEPI3");
+                break;
+
+            case pack_plut:
+                titlelump = W_CacheLumpName("TITLEPI4");
+                break;
+
+            case pack_tnt:
+                titlelump = W_CacheLumpName("TITLEPI5");
+                break;
+        }
+
         creditlump = W_CacheLumpName("CREDIT");
     }
-
-    if ((unity = (TITLEPIC && lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->type == IWAD
-        && SHORT(titlelump->width) == UNITYWIDTH)))
-        C_Warning(1, "Certain graphics in this IWAD are cropped to fit <i><b>" PACKAGE_NAME "'s</b></i> 4:3 aspect ratio.");
 
     if (gameaction != ga_loadgame)
     {
