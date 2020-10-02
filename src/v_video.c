@@ -217,7 +217,7 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
 
     x += WIDESCREENDELTA; // [crispy] horizontal widescreen offset
 
-    if (w > VANILLAWIDTH)
+    if (w > VANILLAWIDTH && !vid_widescreen)
     {
         col = (w - VANILLAWIDTH) / 2;
         w = VANILLAWIDTH + col;

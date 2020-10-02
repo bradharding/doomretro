@@ -565,10 +565,7 @@ void D_PageDrawer(void)
         if (SCREENWIDTH != VANILLAWIDTH << 1)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
 
-        if (vid_widescreen)
-            V_DrawPatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
-        else
-            V_DrawWidePatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
+        V_DrawWidePatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
     }
 }
 
