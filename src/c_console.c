@@ -1283,7 +1283,7 @@ char *C_CreateTimeStamp(int index)
     if ((hours += tics / 3600) > 12)
         hours %= 12;
 
-    M_snprintf(console[index].timestamp, 9, "%i:%02i:%02i", hours, minutes, seconds);
+    M_snprintf(console[index].timestamp, 9, "%i:%02i:%02i", (!hours ? 12 : hours), minutes, seconds);
     return console[index].timestamp;
 }
 
