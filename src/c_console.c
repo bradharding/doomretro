@@ -966,8 +966,21 @@ static void C_DrawBackground(void)
         screens[0][i] = tinttab50[consolebackcolor + blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int i = height - 2; i > 1; i -= 3)
-        screens[0][i + 1] = colormaps[0][6 * 256 + screens[0][i + ((i % CONSOLEWIDTH) && (i + 1) % CONSOLEWIDTH ? -1 : 1)]];
+    for (int y = 2; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
+    {
+        for (int x = 2; x < CONSOLEWIDTH; x += 3)
+            screens[0][y + x + 1] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+
+        y += CONSOLEWIDTH;
+
+        for (int x = 1; x < CONSOLEWIDTH; x += 3)
+            screens[0][y + x + 1] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+
+        y += CONSOLEWIDTH;
+
+        for (int x = 0; x < CONSOLEWIDTH; x += 3)
+            screens[0][y + x + 1] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+    }
 
     // draw branding
     V_DrawConsoleBrandingPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, consoleedgecolor);
