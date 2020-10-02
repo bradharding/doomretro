@@ -962,7 +962,7 @@ static void C_DrawBackground(void)
         screens[0][i] = tinttab50[consolebackcolor + blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int y = 1; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
+    for (int y = 1; y <= height - CONSOLEWIDTH * 3; y += CONSOLEWIDTH)
     {
         for (int x = 2; x < CONSOLEWIDTH - 1; x += 3)
             screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];

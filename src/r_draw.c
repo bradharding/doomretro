@@ -1250,31 +1250,22 @@ void R_FillBezel(void)
     // so it appears to the left and right of the status bar in widescreen mode
     if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
     {
-        byte *src;
-        byte *dest;
-
-        src = (byte *)grnrock;
-        
-        dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+        byte *src = (byte *)grnrock;
+        byte *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 #if SCREENSCALE == 1
         for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-        {
             for (int x = 0; x < SCREENWIDTH; x++)
-            {
-                *dest++ = src[((y&63)<<6) + (x&63)];
-            }
-        }
+                *dest++ = src[((y & 63) << 6) + (x & 63)];
 #else
         for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-        {
             for (int x = 0; x < SCREENWIDTH; x += 2)
             {
-                byte    dot = src[(((y>>1)&63)<<6) + ((x>>1)&63)];
+                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+
                 *dest++ = dot;
                 *dest++ = dot;
             }
-        }
 #endif
 
         for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)

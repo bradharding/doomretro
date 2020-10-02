@@ -385,18 +385,9 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(void)
 {
-    if (!menuactive)
-    {
-        mapheight = SCREENHEIGHT - SBARHEIGHT;
-        maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
-        mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT - 1);
-    }
-    else
-    {
-        mapheight = SCREENHEIGHT;
-        maparea = SCREENAREA;
-        mapbottom = SCREENWIDTH * (SCREENHEIGHT - 1);
-    }
+    mapheight = SCREENHEIGHT - SBARHEIGHT * !menuactive;
+    maparea = SCREENWIDTH * mapheight;
+    mapbottom = SCREENWIDTH * (mapheight - 1);
 }
 
 static void AM_InitVariables(const dboolean mainwindow)
