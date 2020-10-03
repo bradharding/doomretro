@@ -1911,10 +1911,12 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     M_SetWindowCaption();
 
-    setsizeneeded = true;
 
     C_ResetTruncatedLines();
+
+    setsizeneeded = true;
     forceconsoleblurredraw = true;
+    skippsprinterp = true;
 }
 
 void I_ToggleFullscreen(void)
