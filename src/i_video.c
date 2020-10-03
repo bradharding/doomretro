@@ -1886,7 +1886,7 @@ void I_GetScreenDimensions(void)
         SCREENWIDTH = MIN((w * ah / h + 1) & ~3, MAXWIDTH);
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
-        WIDEFOVDELTA = atan(w / (h / tan(r_fov * 0.82 * M_PI / 360))) * 360 / M_PI - r_fov;
+        WIDEFOVDELTA = (int)(atan(w / (h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
     }
 
     WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
