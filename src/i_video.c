@@ -71,8 +71,8 @@
 
 int SCREENWIDTH;
 int SCREENHEIGHT;
-int NONWIDEWIDTH; // [crispy] non-widescreen SCREENWIDTH
-int WIDESCREENDELTA; // [crispy] horizontal widescreen offset
+int NONWIDEWIDTH;               // [crispy] non-widescreen SCREENWIDTH
+int WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
 int WIDEFOVDELTA;
 
 #define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with this error:\n" \
@@ -80,7 +80,7 @@ int WIDEFOVDELTA;
 
 #define MAXDISPLAYS             8
 
-#define MAXUPSCALEWIDTH         (/*1600*/2160 / VANILLAWIDTH)
+#define MAXUPSCALEWIDTH         (2160 / VANILLAWIDTH)
 #define MAXUPSCALEHEIGHT        (1200 / VANILLAHEIGHT)
 
 #define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
@@ -1858,46 +1858,40 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     src_rect.h = SCREENHEIGHT;
 }
 
-// [crispy] re-calculate SCREENWIDTH, SCREENHEIGHT, NONWIDEWIDTH and WIDESCREENDELTA
-void I_GetScreenDimensions (void)
+// [crispy] recalculate SCREENWIDTH, SCREENHEIGHT, NONWIDEWIDTH and WIDESCREENDELTA
+void I_GetScreenDimensions(void)
 {
-    SDL_DisplayMode mode;
-    int w = 16, h = 10;
-    int ah;
+    SDL_DisplayMode     mode;
+    int                 w = 16;
+    int                 h = 10;
+    int                 ah;
 
     SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
     SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-
     NONWIDEWIDTH = SCREENWIDTH;
-
     WIDEFOVDELTA = 0;
 
     ah = 6 * SCREENHEIGHT / 5;
     
-    if (SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode) == 0)
-    {
-        // [crispy] sanity check: really widescreen display?
+    if (!SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode))
         if (mode.w * ah >= mode.h * SCREENWIDTH)
         {
             w = mode.w;
             h = mode.h;
         }
-    }
 
-    // [crispy] widescreen rendering makes no sense without aspect ratio correction
+    // widescreen rendering makes no sense without aspect ratio correction
     if (vid_widescreen)
     {
-        SCREENWIDTH = w * ah / h;
-        // [crispy] make sure SCREENWIDTH is an integer multiple of 4 ...
-        SCREENWIDTH = (SCREENWIDTH + 1) & (int)~3;
-        // [crispy] ... but never exceeds MAXWIDTH (array size!)
-        SCREENWIDTH = MIN(SCREENWIDTH, MAXWIDTH);
+        SCREENWIDTH = MIN((w * ah / h + 1) & ~3, MAXWIDTH);
 
-        // r_fov * 0.82 is vertical fov for 4:3 aspect ratio
+        // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = atan(w / (h / tan(r_fov * 0.82 * M_PI / 360))) * 360 / M_PI - r_fov;
     }
 
     WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
+
+    GetPixelSize(true);
 }
 
 #if defined(_WIN32)
@@ -2056,8 +2050,6 @@ void I_InitGraphics(void)
 
     // [crispy] run-time variable high-resolution rendering
     I_GetScreenDimensions();
-
-    GetPixelSize(true);
 
     SetVideoMode(true, true);
 
