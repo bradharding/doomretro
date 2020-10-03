@@ -2317,7 +2317,7 @@ static void D_DoomMainSetup(void)
     if (autosigil)
     {
         titlelump = W_CacheLastLumpName((TITLEPIC ? "TITLEPI2" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
-        creditlump = W_CacheLastLumpName("CREDIT");
+        creditlump = W_CacheLastLumpName("CREDIT1");
     }
     else if (W_CheckMultipleLumps("TITLEPIC") > 1)
     {
@@ -2325,29 +2325,29 @@ static void D_DoomMainSetup(void)
         creditlump = W_CacheLastLumpName("CREDIT");
     }
     else
-    {
         switch (gamemission)
         {
             case doom:
                 titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
+                creditlump = W_CacheLumpName("CREDIT1");
                 break;
 
             case doom2:
             case pack_nerve:
                 titlelump = W_CacheLumpName("TITLEPI3");
+                creditlump = W_CacheLumpName("CREDIT2");
                 break;
 
             case pack_plut:
                 titlelump = W_CacheLumpName("TITLEPI4");
+                creditlump = W_CacheLumpName("CREDIT2");
                 break;
 
             case pack_tnt:
                 titlelump = W_CacheLumpName("TITLEPI5");
+                creditlump = W_CacheLumpName("CREDIT2");
                 break;
         }
-
-        creditlump = W_CacheLumpName("CREDIT");
-    }
 
     if (gameaction != ga_loadgame)
     {
