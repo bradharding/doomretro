@@ -2338,6 +2338,9 @@ static void D_DoomMainSetup(void)
                 titlelump = W_CacheLumpName("TITLEPI5");
                 creditlump = W_CacheLumpName("CREDIT2");
                 break;
+
+            case none:
+                break;
         }
 
     if (gameaction != ga_loadgame)
