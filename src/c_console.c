@@ -915,7 +915,7 @@ static void C_DrawBackground(void)
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
     int             height = (consoleheight + 5) * CONSOLEWIDTH;
 
-    if (!blurred)
+    if (!blurred || !forceconsoleblurredraw)
     {
         // blur background
         memcpy(blurscreen, screens[0], height);
@@ -949,13 +949,8 @@ static void C_DrawBackground(void)
                 blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH + 1] << 8) + blurscreen[x]];
     }
 
-    if (forceconsoleblurredraw)
-    {
-        forceconsoleblurredraw = false;
-        blurred = false;
-    }
-    else
-        blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
+    forceconsoleblurredraw = false;
+    blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     // tint background using con_backcolor CVAR
     for (int i = 0; i < height; i++)
