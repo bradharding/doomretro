@@ -2057,6 +2057,8 @@ void I_InitGraphics(void)
     // [crispy] run-time variable high-resolution rendering
     I_GetScreenDimensions();
 
+    GetPixelSize(true);
+
     SetVideoMode(true, true);
 
     if (vid_fullscreen)

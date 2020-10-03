@@ -71,6 +71,8 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, pa
         "111111001111110011221122112211221111112211111122002211220022112211111122111111220022222200222222"
     };
 
+    x += WIDESCREENDELTA;
+
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
         char    dot = lownums[number][i];

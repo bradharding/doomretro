@@ -1657,8 +1657,6 @@ void V_Init(void)
     for (int i = 0; i < 4; i++)
         screens[i] = &base[i * MAXSCREENAREA];
 
-    GetPixelSize(true);
-
     if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
     else

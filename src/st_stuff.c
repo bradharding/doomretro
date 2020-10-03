@@ -402,7 +402,7 @@ static void ST_RefreshBackground(void)
             V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
         }
         else if (r_detail == r_detail_low)
-            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+            V_DrawWidePatch(ST_X - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         else if (vid_widescreen)
             V_DrawBigPatch(ST_X, ST_Y, sbar2);
         else
