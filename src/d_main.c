@@ -388,20 +388,11 @@ void D_Display(void)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
-            // if (vid_widescreen)
-            //     V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
-            //         viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
-            // else
-                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
-                    (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false);
+            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
+                (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false);
         }
         else
-        {
-            // if (vid_widescreen)
-            //     M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
-            // else
-                M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
-        }
+            M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
     }
 
     if (loadaction != ga_nothing)

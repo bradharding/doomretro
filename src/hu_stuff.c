@@ -283,7 +283,7 @@ void HU_Start(void)
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
 
-    while (M_StringWidth(s) > /*(vid_widescreen ? SCREENWIDTH - 12 : */VANILLAWIDTH - 6)//)
+    while (M_StringWidth(s) > VANILLAWIDTH - 6)
     {
         if (len >= 2 && s[len - 2] == ' ')
         {
@@ -1029,19 +1029,6 @@ void HU_Drawer(void)
             w_message.l->x = 0;
             w_message.l->y = 0;
         }
-        // else if (vid_widescreen)
-        // {
-        //     else if (r_althud)
-        //     {
-        //         w_message.l->x = HU_MSGX;
-        //         w_message.l->y = HU_MSGY;
-        //     }
-        //     else
-        //     {
-        //         w_message.l->x = HU_MSGX * SCREENSCALE + 9;
-        //         w_message.l->y = HU_MSGY * SCREENSCALE + 4;
-        //     }
-        // }
         else
         {
             w_message.l->x = HU_MSGX;
@@ -1053,23 +1040,10 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
-        // if (vid_widescreen)
-        // {
-        //     w_title.x = HU_TITLEX * SCREENSCALE;
-        //     w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
+        w_title.x = HU_TITLEX;
+        w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
 
-        //     if (r_althud)
-        //         HUlib_DrawAltAutomapTextLine(&w_title, false);
-        //     else
-        //         HUlib_DrawTextLine(&w_title, false);
-        // }
-        // else
-        {
-            w_title.x = HU_TITLEX;
-            w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
-
-            HUlib_DrawTextLine(&w_title, false);
-        }
+        HUlib_DrawTextLine(&w_title, false);
     }
     else
     {
@@ -1088,7 +1062,7 @@ void HU_Drawer(void)
             }
         }
 
-        if (/*vid_widescreen &&*/ r_hud)
+        if (r_hud)
         {
             if (r_althud)
                 HU_DrawAltHUD();
@@ -1101,7 +1075,7 @@ void HU_Drawer(void)
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
-            if (/*vid_widescreen &&*/ r_althud)
+            if (r_althud)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
                 HUlib_DrawTextLine(&w_title, true);
@@ -1176,9 +1150,6 @@ void HU_Ticker(void)
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
             int     maxwidth = SCREENWIDTH - 6;
-
-            // if (vid_widescreen)
-            //     maxwidth *= SCREENSCALE;
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
