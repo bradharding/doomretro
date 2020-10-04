@@ -687,7 +687,7 @@ enum
 #define vid_windowpos_centred                   "centred"
 #define vid_windowpos_default                   vid_windowpos_centered
 
-#define vid_windowsize_default                  "768x480"
+#define vid_windowsize_default                  "854x480"
 
 #if defined(_WIN32)
 #define wad_default                             ""
