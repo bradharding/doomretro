@@ -52,7 +52,7 @@ void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
 dboolean GetCapsLockState(void);
 
-void I_GetScreenDimensions (void); // [crispy] re-calculate WIDESCREENDELTA
+void I_GetScreenDimensions(void);   // [crispy] re-calculate WIDESCREENDELTA
 
 // Called by D_DoomMain,
 // determines the hardware configuration

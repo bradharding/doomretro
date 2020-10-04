@@ -681,7 +681,7 @@ enum
 #define vid_vsync_default                       vid_vsync_on
 #define vid_vsync_max                           vid_vsync_on
 
-#define vid_widescreen_default                  true
+#define vid_widescreen_default                  false
 
 #define vid_windowpos_centered                  "centered"
 #define vid_windowpos_centred                   "centred"

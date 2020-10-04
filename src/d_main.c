@@ -553,7 +553,7 @@ void D_PageDrawer(void)
     else
     {
         // [crispy] fill pillarboxes in widescreen mode
-        if (SCREENWIDTH != VANILLAWIDTH << 1)
+        if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
 
         V_DrawWidePatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);

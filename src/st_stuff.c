@@ -500,7 +500,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && /*(!vid_widescreen ||*/ (r_hud && !r_althud))//)
+                    && (r_hud && !r_althud))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
@@ -560,7 +560,7 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && /*(!vid_widescreen ||*/ (r_hud && !r_althud))//)
+                    && (r_hud && !r_althud))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
@@ -1341,7 +1341,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     // Do red-/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if ((r_screensize > 7) || (menuactive && !consoleactive) || inhelpscreens)
+    if (r_screensize > 7 || (menuactive && !consoleactive) || inhelpscreens)
         return;
 
     st_statusbaron = (!fullscreen || automapactive);

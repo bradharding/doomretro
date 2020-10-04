@@ -71,6 +71,7 @@
 
 int SCREENWIDTH;
 int SCREENHEIGHT;
+int SCREENAREA;
 int NONWIDEWIDTH;               // [crispy] non-widescreen SCREENWIDTH
 int WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
 int WIDEFOVDELTA;
@@ -1889,6 +1890,7 @@ void I_GetScreenDimensions(void)
         WIDEFOVDELTA = (int)(atan(w / (h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
     }
 
+    SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
     WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
 
     GetPixelSize(true);
@@ -1915,7 +1917,9 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     setsizeneeded = true;
     forceconsoleblurredraw = true;
-    skippsprinterp = true;
+
+    if (r_playersprites)
+        skippsprinterp = true;
 }
 
 void I_ToggleFullscreen(void)

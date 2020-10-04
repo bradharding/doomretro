@@ -923,7 +923,7 @@ void R_DrawTranslucentBlue25Column(void)
 //
 #define NOFUZZ  251
 
-int       fuzzrange[3];
+int fuzzrange[3];
 
 void R_DrawFuzzColumn(void)
 {
@@ -1295,15 +1295,11 @@ void R_FillBackScreen(void)
     src = (byte *)grnrock;
     dest = screens[1];
 
-    // for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += 2)
-    //     for (int x = 0; x < SCREENWIDTH / 32; x += 2, dest += 128)
-    //         for (int i = 0; i < 128; i += 2)
-    //             dest[i] = dest[i + 1] = src[(((y / 2) & 63) << 6) + i / 2];
-    
     for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte    dot = src[(((y>>1)&63)<<6) + ((x>>1)&63)];
+            byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+
             *dest++ = dot;
             *dest++ = dot;
         }

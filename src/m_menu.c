@@ -67,7 +67,7 @@
 #include "z_zone.h"
 
 #define LINEHEIGHT  17
-#define OFFSET      /*(vid_widescreen ? 0 : */17//)
+#define OFFSET      17
 
 int             episode = episode_default;
 int             expansion = expansion_default;
@@ -497,7 +497,7 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[MAXSCREENAREA];
     static byte blurscreen2[(MAXHEIGHT - SBARHEIGHT) * MAXWIDTH];
-    const int   blurheight = (SCREENHEIGHT /*- (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT*/) * SCREENWIDTH;
+    const int   blurheight = SCREENHEIGHT * SCREENWIDTH;
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
@@ -1860,8 +1860,7 @@ static void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
-        (float)(r_screensize + /*(vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))*/ + !r_hud), 7.2f, 8);
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, (float)(r_screensize + !r_hud), 7.2f, 8);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
@@ -3519,7 +3518,7 @@ void M_StartControlPanel(void)
     {
         playerangle = viewplayer->mo->angle;
 
-        if (/*!vid_widescreen &&*/ !automapactive && !inhelpscreens)
+        if (!automapactive && !inhelpscreens)
             R_SetViewSize(8);
 
         if (automapactive)
@@ -3564,10 +3563,7 @@ void M_Drawer(void)
 
         M_DarkBackground();
 
-        // if (vid_widescreen && gamestate == GS_LEVEL)
-        //     y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
-        // else
-            y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2 - 1;
+        y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2 - 1;
 
         while (messageString[start] != '\0')
         {
@@ -3720,7 +3716,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
 
-        if (/*!vid_widescreen &&*/ !automapactive && !inhelpscreens)
+        if (!automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
 
         if (automapactive)

@@ -111,16 +111,16 @@ typedef enum
 
 #define SCREENSCALE         2
 
-#define MAXWIDTH  (VANILLAWIDTH << 2) // [crispy]
-#define MAXHEIGHT (VANILLAHEIGHT << 1) // [crispy]
+#define MAXWIDTH            (VANILLAWIDTH * 4)  // [crispy]
+#define MAXHEIGHT           (VANILLAHEIGHT * 2) // [crispy]
 
 extern int SCREENWIDTH;
 extern int SCREENHEIGHT;
-extern int NONWIDEWIDTH; // [crispy] non-widescreen SCREENWIDTH
-extern int WIDESCREENDELTA; // [crispy] horizontal widescreen offset
+extern int SCREENAREA;
+extern int NONWIDEWIDTH;                        // [crispy] non-widescreen SCREENWIDTH
+extern int WIDESCREENDELTA;                     // [crispy] horizontal widescreen offset
 extern int WIDEFOVDELTA;
 
-#define SCREENAREA          (SCREENWIDTH * SCREENHEIGHT)
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
 #define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)

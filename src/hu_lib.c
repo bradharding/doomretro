@@ -103,7 +103,7 @@ static void HU_DrawChar(int x, int y, int ch, dboolean external)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (/*vid_widescreen ||*/ external)
+    if (external)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
@@ -375,7 +375,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (/*!vid_widescreen &&*/ !external)
+    if (!external)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;
@@ -392,7 +392,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                if ((/*vid_widescreen ||*/ external) && r_hud_translucency && !hacx)
+                if (external && r_hud_translucency && !hacx)
                     *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
@@ -459,7 +459,7 @@ void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
 void HUlib_DrawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
-        return; // if not on, don't draw
+        return;             // if not on, don't draw
 
     // draw everything
     for (int i = 0; i < s->h; i++)
@@ -468,12 +468,12 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
         hu_textline_t   *l;
 
         if (idx < 0)
-            idx += s->h;        // handle queue of lines
+            idx += s->h;    // handle queue of lines
 
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        if (/*vid_widescreen &&*/ r_althud)
+        if (r_althud)
             HUlib_DrawAltHUDTextLine(l);
         else
             HUlib_DrawTextLine(l, external);

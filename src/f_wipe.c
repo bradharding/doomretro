@@ -65,7 +65,7 @@ static void wipe_shittyColMajorXform(short *array)
 
 static void wipe_initMelt(void)
 {
-    speed = (SCREENHEIGHT /*- (SBARHEIGHT * vid_widescreen)*/) / 16;
+    speed = SCREENHEIGHT / 16;
 
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, SCREENAREA);

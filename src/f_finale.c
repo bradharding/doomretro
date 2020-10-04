@@ -384,35 +384,6 @@ static void F_TextWrite(void)
             }
         }
 #else
-        // for (int y = 0; y < SCREENHEIGHT; y += 2)
-        //     for (int x = 0; x < SCREENWIDTH / 32; x += 2)
-        //     {
-        //         for (int i = 0; i < 64; i++)
-        //         {
-        //             int     j = i * 2;
-        //             byte    dot = src[(((y / 2) & 63) << 6) + i];
-
-        //             if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-        //                 *(dest + j) = dot;
-
-        //             j++;
-
-        //             if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-        //                 *(dest + j) = dot;
-
-        //             j += SCREENWIDTH;
-
-        //             if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-        //                 *(dest + j) = dot;
-
-        //             j--;
-
-        //             if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-        //                 *(dest + j) = dot;
-        //         }
-
-        //         dest += 128;
-        //     }
         for (int y = 0; y < SCREENHEIGHT; y++)
         {
             for (int x = 0; x < SCREENWIDTH; x += 2)

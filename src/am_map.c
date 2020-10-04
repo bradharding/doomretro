@@ -1253,7 +1253,7 @@ static inline void _PUTDOT(byte *dot, byte *color)
 
 static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < maparea)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1263,13 +1263,13 @@ static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 
 static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < maparea)
         *(mapscreen + y + x) = *color;
 }
 
 static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH)
+    if (x < (unsigned int)MAPWIDTH)
     {
         byte            *dot = mapscreen + y + x;
         const dboolean  attop = (y < maparea);
@@ -1281,7 +1281,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
         if (atbottom)
             _PUTDOT(dot + MAPWIDTH, color);
 
-        if (x + 1 < MAPWIDTH)
+        if (x + 1 < (unsigned int)MAPWIDTH)
         {
             if (attop)
                 _PUTDOT(dot + 1, color);
@@ -1293,7 +1293,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
             }
         }
     }
-    else if (++x < MAPWIDTH)
+    else if (++x < (unsigned int)MAPWIDTH)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1310,7 +1310,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 
 static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < maparea)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1853,7 +1853,7 @@ static void AM_DrawMarks(void)
             {
                 const unsigned int  fx = x + j % MARKWIDTH;
 
-                if (fx < MAPWIDTH)
+                if (fx < (unsigned int)MAPWIDTH)
                 {
                     const unsigned int  fy = y + j / MARKWIDTH;
 

@@ -7,7 +7,6 @@
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
-  * The now widescreen lumps such as `TITLEPIC` and `STBAR` will be cropped to fit *DOOM Retro’s* 4:3 aspect ratio rather than causing a crash.
   * The par times for E1M8, E2M8 and E3M8 have been updated.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.

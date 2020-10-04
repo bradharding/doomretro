@@ -131,7 +131,8 @@ extern lighttable_t **walllights;
 
 // [crispy] in widescreen mode, make sure the same number of horizontal
 // pixels shows the same part of the game scene as in regular rendering mode
-static int scaledviewwidth_nonwide, viewwidth_nonwide;
+static int          scaledviewwidth_nonwide;
+static int          viewwidth_nonwide;
 
 //
 // R_PointOnSide
