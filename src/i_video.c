@@ -1638,14 +1638,14 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                     I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
-                    C_Output("This scaling is now done in hardware using <i><b>Direct3D %s.</b></i>",
+                    C_Output("The scaling of each frame is now done in hardware using <i><b>Direct3D %s.</b></i>",
                         (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 #endif
             }
             else
             {
                 if (output)
-                    C_Output("This scaling is done in hardware using <i><b>OpenGL v%i.%i.</b></i>", major, minor);
+                    C_Output("The scaling of each frame is done in hardware using <i><b>OpenGL v%i.%i.</b></i>", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1658,7 +1658,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done in hardware using <i><b>Direct3D %s.</b></i>",
+                C_Output("The scaling of each frame is done in hardware using <i><b>Direct3D %s.</b></i>",
                     (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
@@ -1671,19 +1671,19 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("This scaling is done in hardware using <i><b>Metal.</b></i>");
+                C_Output("The scaling of each frame is done in hardware using <i><b>Metal.</b></i>");
         }
 #endif
 #if !defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("This scaling is done in hardware using <i><b>OpenGL ES.</b></i>");
+                C_Output("The scaling of each frame is done in hardware using <i><b>OpenGL ES.</b></i>");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("This scaling is done in hardware using <i><b>OpenGL ES 2.</b></i>");
+                C_Output("The scaling of each frame is done in hardware using <i><b>OpenGL ES 2.</b></i>");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
@@ -1695,7 +1695,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 I_SDLError(SDL_SetHintWithPriority);
 
             if (output)
-                C_Output("This scaling is also done in software.");
+                C_Output("The scaling of each frame is also done in software.");
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
             {

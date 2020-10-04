@@ -28,7 +28,7 @@
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
-* Timestamps between 12:00:00am and 12:59:59am in the console will now be displayed correctly.
+* Timestamps between midnight and 12:59:59am in the console will now be displayed correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

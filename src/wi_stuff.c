@@ -40,6 +40,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -1167,7 +1168,7 @@ static void WI_LoadData(void)
 
     // [crispy] fill pillarboxes in widescreen mode
     if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
-        V_FillRect(1, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0, true);
+        memset(screens[1], nearestblack, SCREENAREA);
 
     V_DrawWidePatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }

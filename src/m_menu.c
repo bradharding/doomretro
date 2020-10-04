@@ -1406,7 +1406,7 @@ static void M_DrawReadThis(void)
     if (W_CheckNumForName(lumpname) >= 0)
     {
         if (automapactive)
-            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, nearestcolors[245], false);
+            memset(screens[0], nearestcolors[245], SCREENAREA);
         else
         {
             viewplayer->fixedcolormap = 0;
