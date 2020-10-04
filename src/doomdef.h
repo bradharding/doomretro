@@ -74,9 +74,9 @@
 // Global parameters/defines.
 //
 
-#define DOOM1AND2   0
-#define DOOM1ONLY   1
-#define DOOM2ONLY   2
+#define DOOM1AND2   1
+#define DOOM1ONLY   2
+#define DOOM2ONLY   3
 
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.

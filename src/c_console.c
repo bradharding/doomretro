@@ -101,7 +101,6 @@ static short            brandheight;
 static short            spacewidth;
 
 static char             consoleinput[255];
-static int              numautocomplete;
 int                     consolestrings = 0;
 size_t                  consolestringsmax = 0;
 
@@ -843,8 +842,6 @@ void C_Init(void)
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
     dotwidth = SHORT(dot->width);
-
-    while (*autocompletelist[++numautocomplete].text);
 }
 
 void C_ShowConsole(void)
@@ -2001,7 +1998,7 @@ dboolean C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
-                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocomplete <= numautocomplete))
+                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocompletelist[autocomplete].game))
                     {
                         static char output[255];
                         int         spaces2;
