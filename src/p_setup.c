@@ -3534,7 +3534,7 @@ dboolean P_GetMapNoJump(int map)
 void P_GetMapNoLiquids(int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
-        terraintypes[mapinfo[map].liquid[i]] = SOLID;
+        terraintypes[mapinfo[map].noliquid[i]] = SOLID;
 }
 
 dboolean P_GetMapNoMouselook(int map)

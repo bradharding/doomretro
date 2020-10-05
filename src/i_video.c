@@ -1873,7 +1873,7 @@ void I_GetScreenDimensions(void)
     WIDEFOVDELTA = 0;
 
     ah = 6 * SCREENHEIGHT / 5;
-    
+
     if (!SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode))
         if (mode.w * ah >= mode.h * SCREENWIDTH)
         {

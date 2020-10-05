@@ -1048,7 +1048,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset 
+    x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 

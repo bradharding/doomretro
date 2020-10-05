@@ -1237,7 +1237,7 @@ void R_InitBuffer(int width, int height)
 
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
     }
-    
+
     fuzzrange[0] = -SCREENWIDTH;
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH;
@@ -1303,7 +1303,7 @@ void R_FillBackScreen(void)
             *dest++ = dot;
             *dest++ = dot;
         }
-    
+
     x1 = viewwindowx / 2 - WIDESCREENDELTA;
     y1 = viewwindowy / 2;
     x2 = scaledviewwidth / 2 + x1;

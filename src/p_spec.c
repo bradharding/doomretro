@@ -298,7 +298,6 @@ void P_InitPicAnims(void)
                         && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
                     {
                         SetTerrainType(lastanim, texturepacks[j].terraintype);
-                        isliquid = true;
                         break;
                     }
         }

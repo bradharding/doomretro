@@ -2197,7 +2197,7 @@ static void M_SizeDisplay(int choice)
             }
             break;
     }
-    
+
     R_SetViewSize(r_screensize);
     C_IntCVAROutput(stringize(r_screensize), r_screensize);
     S_StartSound(NULL, sfx_stnmov);
