@@ -688,7 +688,7 @@ void R_DrawDitheredColumn(void)
     do
     {
         *dest = colormap[dc_source[frac >> FRACBITS]];
-        dest += SCREENWIDTH << 1;
+        dest += (size_t)SCREENWIDTH << 1;
         frac += fracstep;
     } while ((y -= 2) > 0);
 }
@@ -710,7 +710,7 @@ void R_DrawDitheredColorColumn(void)
     do
     {
         *dest = color;
-        dest += SCREENWIDTH << 1;
+        dest += (size_t)SCREENWIDTH << 1;
     } while ((y -= 2) > 0);
 }
 

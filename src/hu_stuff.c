@@ -392,7 +392,7 @@ static void HU_DrawCrosshair(void)
         *dot = *(*dot + color);
         dot += SCREENWIDTH;
         *dot = *(*dot + color);
-        dot += SCREENWIDTH - 2;
+        dot += (size_t)SCREENWIDTH - 2;
         *dot = *(*dot + color);
         dot++;
         *dot = *(*dot + color);
@@ -402,7 +402,7 @@ static void HU_DrawCrosshair(void)
         *dot = *(*dot + color);
         dot++;
         *dot = *(*dot + color);
-        dot += SCREENWIDTH - 2;
+        dot += (size_t)SCREENWIDTH - 2;
         *dot = *(*dot + color);
         dot += SCREENWIDTH;
         *dot = *(*dot + color);
@@ -432,13 +432,13 @@ static void HU_DrawSolidCrosshair(void)
         *dot = color;
         dot += SCREENWIDTH;
         *dot = color;
-        dot += SCREENWIDTH - 2;
+        dot += (size_t)SCREENWIDTH - 2;
         *dot++ = color;
         *dot++ = color;
         *dot++ = color;
         *dot++ = color;
         *dot = color;
-        dot += SCREENWIDTH - 2;
+        dot += (size_t)SCREENWIDTH - 2;
         *dot = color;
         dot += SCREENWIDTH;
         *dot = color;

@@ -1288,7 +1288,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 
             if (atbottom)
             {
-                dot += MAPWIDTH + 1;
+                dot += (size_t)MAPWIDTH + 1;
                 *dot = *(*dot + color);
             }
         }

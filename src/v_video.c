@@ -122,7 +122,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
         const byte  *tint20 = alttinttab20 + color;
         const byte  *tint40 = alttinttab40 + color;
 
-        dot = dest - 1 - SCREENWIDTH * 2;
+        dot = dest - 1 - (size_t)SCREENWIDTH * 2;
         *dot = *(tint20 + *dot);
         dot += SCREENWIDTH;
 
@@ -137,7 +137,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 
         for (int xx = 0; xx < width; xx++)
         {
-            dot = dest + xx - SCREENWIDTH * 2;
+            dot = dest + xx - (size_t)SCREENWIDTH * 2;
             *dot = *(tint20 + *dot);
             dot += SCREENWIDTH;
             *dot = *(tint40 + *dot);
@@ -149,7 +149,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 
         if (right)
         {
-            dot = dest + width - SCREENWIDTH * 2;
+            dot = dest + width - (size_t)SCREENWIDTH * 2;
             *dot = *(tint20 + *dot);
             dot += SCREENWIDTH;
 
@@ -1443,7 +1443,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     byte    *dot;
 
                     *dest = src;
-                    dot = dest + SCREENWIDTH * 2 + 2;
+                    dot = dest + (size_t)SCREENWIDTH * 2 + 2;
 
                     if (*dot != 47 && *dot != 191)
                         *dot = black40[*dot];
