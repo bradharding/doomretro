@@ -90,6 +90,7 @@ extern int      idclevtics;
 extern dboolean idmus;
 extern int      st_palette;
 extern dboolean oldweaponsowned[NUMWEAPONS];
+extern byte     statusbarbackgroundcolor;
 
 extern patch_t  *grnrock;
 extern patch_t  *brdr_t;
