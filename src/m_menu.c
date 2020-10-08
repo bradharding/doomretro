@@ -2181,20 +2181,31 @@ static void M_SizeDisplay(int choice)
         case 0:
             if (r_screensize > r_screensize_min)
             {
-                r_hud = false;
-                r_screensize--;
+                if (r_screensize == 7 && vid_widescreen)
+                {
+                    vid_widescreen = false;
+                    C_BoolCVAROutput(stringize(vid_widescreen), vid_widescreen);
+                    I_RestartGraphics(false);
+                }
+                else
+                    r_screensize--;
             }
+
             break;
+
         case 1:
             if (r_screensize < r_screensize_max)
             {
-                r_screensize++;
+                if (r_screensize == 7 && !vid_widescreen)
+                {
+                    vid_widescreen = true;
+                    C_BoolCVAROutput(stringize(vid_widescreen), vid_widescreen);
+                    I_RestartGraphics(false);
+                }
+                else
+                    r_screensize++;
             }
-            else
-            {
-                r_hud = true;
-                r_screensize = 8;
-            }
+
             break;
     }
 
@@ -2870,9 +2881,7 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
 
                 if (inhelpscreens)
-                {
                     R_SetViewSize(r_screensize);
-                }
             }
             else
                 M_ShowHelp(0);
@@ -3330,9 +3339,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             if (inhelpscreens)
-            {
                 R_SetViewSize(r_screensize);
-            }
 
             M_SetWindowCaption();
             return true;
