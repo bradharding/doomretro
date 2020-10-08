@@ -2188,7 +2188,10 @@ static void M_SizeDisplay(int choice)
                     I_RestartGraphics(false);
                 }
                 else
+                {
                     r_screensize--;
+                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                }
             }
 
             break;
@@ -2203,14 +2206,16 @@ static void M_SizeDisplay(int choice)
                     I_RestartGraphics(false);
                 }
                 else
+                {
                     r_screensize++;
+                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                }
             }
 
             break;
     }
 
     R_SetViewSize(r_screensize);
-    C_IntCVAROutput(stringize(r_screensize), r_screensize);
     S_StartSound(NULL, sfx_stnmov);
     M_SaveCVARs();
 
