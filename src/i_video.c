@@ -48,6 +48,7 @@
 
 #include "SDL_opengl.h"
 
+#include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -1909,6 +1910,7 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     SetVideoMode(recreatewindow, false);
 
+    AM_SetAutomapSize();
     I_CreateExternalAutomap(0);
 
     M_SetWindowCaption();

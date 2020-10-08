@@ -385,7 +385,7 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(void)
 {
-    mapheight = SCREENHEIGHT - SBARHEIGHT * !menuactive;
+    mapheight = SCREENHEIGHT;
     maparea = SCREENWIDTH * mapheight;
     mapbottom = SCREENWIDTH * (mapheight - 1);
 }

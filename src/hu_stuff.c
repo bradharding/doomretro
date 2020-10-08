@@ -1041,7 +1041,7 @@ void HU_Drawer(void)
     if (automapactive)
     {
         w_title.x = HU_TITLEX;
-        w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
+        w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
 
         HUlib_DrawTextLine(&w_title, false);
     }
