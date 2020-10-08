@@ -2191,6 +2191,7 @@ static void M_SizeDisplay(int choice)
                 {
                     r_screensize--;
                     C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                    R_SetViewSize(r_screensize);
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2211,6 +2212,7 @@ static void M_SizeDisplay(int choice)
                 {
                     r_screensize++;
                     C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                    R_SetViewSize(r_screensize);
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2219,7 +2221,6 @@ static void M_SizeDisplay(int choice)
             break;
     }
 
-    R_SetViewSize(r_screensize);
     M_SaveCVARs();
 
     blurtic = -1;
