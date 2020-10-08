@@ -178,7 +178,7 @@ void FindNearestColors(byte *palette)
     white25 = &tinttab25[nearestwhite << 8];
 }
 
-int FindDominantColor(patch_t *patch, byte *palette, dboolean bright)
+int FindDominantColor(patch_t *patch, byte *palette)
 {
     const int   w = SHORT(patch->width);
     int         dominantcolor = 0;
@@ -208,7 +208,7 @@ int FindDominantColor(patch_t *patch, byte *palette, dboolean bright)
         const byte  green = *palette++;
         const byte  blue = *palette++;
 
-        if (colorcount[i] > dominantcolorcount && (!bright || red >= 128 || green >= 128 || blue >= 128))
+        if (colorcount[i] > dominantcolorcount && (red >= 128 || green >= 128 || blue >= 128))
         {
             dominantcolor = i;
             dominantcolorcount = colorcount[i];

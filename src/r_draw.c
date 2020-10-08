@@ -1245,13 +1245,34 @@ void R_InitBuffer(int width, int height)
 
 void R_FillBezel(void)
 {
+    // [crispy] this is our own local copy of R_FillBackScreen() to
+    // fill the entire background of st_backing_screen with the bezel pattern,
+    // so it appears to the left and right of the status bar in widescreen mode
     if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
     {
+        byte    *src = (byte *)grnrock;
         byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
+#if SCREENSCALE == 1
         for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
             for (int x = 0; x < SCREENWIDTH; x++)
-                *dest++ = statusbarbackgroundcolor;
+                *dest++ = src[((y & 63) << 6) + (x & 63)];
+#else
+        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+            for (int x = 0; x < SCREENWIDTH; x += 2)
+            {
+                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+
+                *dest++ = dot;
+                *dest++ = dot;
+            }
+#endif
+
+        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+
+        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
 

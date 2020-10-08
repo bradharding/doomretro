@@ -166,8 +166,6 @@ static dboolean             st_statusbaron;
 static patch_t              *sbar;
 static patch_t              *sbar2;
 
-byte                        statusbarbackgroundcolor;
-
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
 
@@ -1548,8 +1546,6 @@ void ST_Init(void)
     ST_LoadUnloadGraphics(&ST_LoadCallback);
 
     screens[4] = malloc((size_t)ST_WIDTH * SBARHEIGHT);
-
-    statusbarbackgroundcolor = FindDominantColor(sbar, W_CacheLumpName("PLAYPAL"), false);
 
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat
