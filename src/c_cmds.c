@@ -6840,6 +6840,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 static void vanilla_cmd_func2(char *cmd, char *parms)
 {
     static dboolean buddha;
+    static dboolean hud;
 
     if (*parms)
     {
@@ -6916,6 +6917,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         buddha = viewplayer->cheats & CF_BUDDHA;
         viewplayer->cheats &= ~CF_BUDDHA;
 
+        hud = r_hud;
+
         if (s_sfxvolume < s_musicvolume)
         {
             char    parm[4];
@@ -6939,6 +6942,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     {
         if (buddha)
             viewplayer->cheats |= CF_BUDDHA;
+
+        r_hud = hud;
 
         M_LoadCVARs(packageconfig);
         C_Output(s_STSTR_VOFF);
