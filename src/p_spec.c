@@ -533,7 +533,7 @@ dboolean P_IsSelfReferencingSector(sector_t *sec)
     {
         line_t  *line = sec->lines[i];
 
-        if (line->backsector && line->frontsector == line->backsector && (line->flags & ML_DONTDRAW))
+        if (line->backsector && line->frontsector == line->backsector && (line->flags & ML_DONTDRAW) && !line->special)
             count++;
     }
 
