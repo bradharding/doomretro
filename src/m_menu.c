@@ -2236,7 +2236,9 @@ static void M_SizeDisplay(int choice)
     M_SaveCVARs();
 
     blurtic = -1;
-    skippsprinterp = true;
+
+    if (r_playersprites)
+        skippsprinterp = true;
 }
 
 //
