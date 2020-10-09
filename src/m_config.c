@@ -823,6 +823,9 @@ static void M_CheckCVARs(void)
 
     r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
+    if (r_screensize < r_screensize_max && r_hud)
+        r_hud = false;
+
     if (r_shadows != false && r_shadows != true)
         r_shadows = r_shadows_default;
 

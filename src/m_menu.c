@@ -2194,9 +2194,12 @@ static void M_SizeDisplay(int choice)
             }
             else if (r_screensize > r_screensize_min)
             {
-                r_hud = false;
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(r_screensize);
+
+                if (r_screensize == 7)
+                    r_hud = false;
+
                 S_StartSound(NULL, sfx_stnmov);
             }
 

@@ -1062,7 +1062,7 @@ void HU_Drawer(void)
             }
         }
 
-        if (r_hud && r_screensize == 8)
+        if (r_hud)
         {
             if (r_althud)
                 HU_DrawAltHUD();
