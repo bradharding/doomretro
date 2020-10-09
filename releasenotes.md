@@ -4,6 +4,12 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
+* *DOOM Retro* now has improved support for widescreen displays:
+  * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode with a status bar will be displayed, and will horizontally fill displays with an aspect ratio wider than 16:10.
+  * When the `r_screensize` CVAR is it’s new maximum value of `8`, a new widescreen mode without a status bar, and an optional HUD instead, will be displayed.
+  * You may still press the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys during a game to toggle these new widescreen modes.
+  * [Official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods) will be displayed if the `vid_widescreen` CVAR is `on`.
+  * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
@@ -21,7 +27,6 @@
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
-* The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * Further improvements have been made to the support of both `DEHACKED` and `UMAPINFO` lumps.
 * Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
