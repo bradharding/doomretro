@@ -44,10 +44,10 @@
 //
 // Globally visible constants.
 //
-#define HU_FONTSTART                '!'     // the first font characters
-#define HU_FONTEND                  '_'     // the last font characters
+#define HU_FONTSTART                '!'     // the first font character
+#define HU_FONTEND                  '_'     // the last font character
 
-// Calculate # of glyphs in font.
+// Calculate # of characters in font.
 #define HU_FONTSIZE                 (HU_FONTEND - HU_FONTSTART + 1)
 
 #define HU_MSGX                     3
@@ -57,7 +57,7 @@
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
 #define HUD_HEALTH_X                45
-#define HUD_HEALTH_Y                (SCREENHEIGHT - SBARHEIGHT - 28)
+#define HUD_HEALTH_Y                (SCREENHEIGHT - 28)
 #define HUD_HEALTH_MIN              10
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
@@ -66,10 +66,10 @@
 #define HUD_ARMOR_Y                 HUD_HEALTH_Y
 #define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
-#define HUD_KEYS_X                  (SCREENWIDTH - 78)
+#define HUD_KEYS_X                  (SCREENWIDTH - WIDESCREENDELTA * 2 - 78)
 #define HUD_KEYS_Y                  (HUD_HEALTH_Y - 1)
 
-#define HUD_AMMO_X                  (SCREENWIDTH - 41)
+#define HUD_AMMO_X                  (SCREENWIDTH - WIDESCREENDELTA * 2 - 41)
 #define HUD_AMMO_Y                  HUD_HEALTH_Y
 #define HUD_AMMO_MIN                10
 #define HUD_AMMO_WAIT               250
