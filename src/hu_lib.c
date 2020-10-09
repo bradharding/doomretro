@@ -472,8 +472,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
 
         l = &s->l[idx];
 
-        // need a decision made here on whether to skip the draw
-        if (r_althud)
+        if (r_althud && r_screensize == 8)
             HUlib_DrawAltHUDTextLine(l);
         else
             HUlib_DrawTextLine(l, external);
