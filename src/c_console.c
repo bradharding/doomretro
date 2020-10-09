@@ -219,17 +219,6 @@ void C_InputNoRepeat(const char *string, ...)
     }
 }
 
-void C_BoolCVAROutput(char *cvar, int value)
-{
-    char *temp = M_StringJoin(cvar, " ", NULL);
-
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
-        consolestrings--;
-
-    C_Input("%s %s", cvar, (value ? "on" : "off"));
-    free(temp);
-}
-
 void C_IntCVAROutput(char *cvar, int value)
 {
     char    *temp = M_StringJoin(cvar, " ", NULL);

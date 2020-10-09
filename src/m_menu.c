@@ -2179,41 +2179,50 @@ static void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (r_screensize > r_screensize_min)
+            if (r_screensize == 8 && !r_hud)
             {
-                if (r_screensize == 7 && vid_widescreen)
-                {
-                    vid_widescreen = false;
-                    C_BoolCVAROutput(stringize(vid_widescreen), vid_widescreen);
-                    I_RestartGraphics(false);
-                }
-                else
-                {
-                    r_screensize--;
-                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                    R_SetViewSize(r_screensize);
-                }
-
+                r_hud = true;
+                C_StrCVAROutput(stringize(r_hud), "on");
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize == 7 && vid_widescreen)
+            {
+                vid_widescreen = false;
+                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                I_RestartGraphics(false);
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize > r_screensize_min)
+            {
+                r_hud = false;
+                C_IntCVAROutput(stringize(r_screensize), --r_screensize);
+                R_SetViewSize(r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
             }
 
             break;
 
         case 1:
-            if (r_screensize < r_screensize_max)
+            if (r_screensize == 8 && r_hud)
             {
-                if (r_screensize == 7 && !vid_widescreen)
-                {
-                    vid_widescreen = true;
-                    C_BoolCVAROutput(stringize(vid_widescreen), vid_widescreen);
-                    I_RestartGraphics(false);
-                }
-                else
-                {
-                    r_screensize++;
-                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                    R_SetViewSize(r_screensize);
-                }
+                r_hud = false;
+                C_StrCVAROutput(stringize(r_hud), "off");
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize == 7 && !vid_widescreen)
+            {
+                vid_widescreen = true;
+                C_StrCVAROutput(stringize(vid_widescreen), "on");
+                I_RestartGraphics(false);
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize < r_screensize_max)
+            {
+                C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
+                R_SetViewSize(r_screensize);
+
+                if (r_screensize == 8)
+                    r_hud = true;
 
                 S_StartSound(NULL, sfx_stnmov);
             }
