@@ -79,7 +79,7 @@
 
 #define ALTHUD_LEFT_X               56
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - 179)
-#define ALTHUD_Y                    (SCREENHEIGHT - SBARHEIGHT - 37)
+#define ALTHUD_Y                    (SCREENHEIGHT - 37)
 
 //
 // HEADS UP TEXT
