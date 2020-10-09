@@ -726,7 +726,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the trails of smoke behind rockets fired by\nthe player and cyberdemons."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The screen size (<b>0</b> to <b>7</b>)."),
+        "The screen size (<b>0</b> to <b>8</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles sprites casting shadows."),
     CVAR_BOOL(r_shadows_translucency, "", bool_cvars_func1, r_shadows_translucency_cvar_func2, BOOLVALUEALIAS,
