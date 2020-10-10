@@ -861,7 +861,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
 void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + (x += WIDESCREENDELTA)];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -888,7 +888,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
 void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + (x += WIDESCREENDELTA)];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -917,7 +917,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + (x += WIDESCREENDELTA)];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
@@ -944,7 +944,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + (x += WIDESCREENDELTA)];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
     for (int col = 0; col < w; col++, desttop++)
