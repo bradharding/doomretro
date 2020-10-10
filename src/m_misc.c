@@ -76,7 +76,7 @@
 #include <libgen.h>
 #include <mach-o/dyld.h>
 #include <errno.h>
-#elif defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
+#elif defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__DragonFly__)
 #include <sys/sysctl.h>
 #include <dirent.h>
 #include <errno.h>
@@ -321,7 +321,7 @@ char *M_GetExecutableFolder(void)
         exe[len] = '\0';
         return strdup(dirname(exe));
     }
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__DragonFly__)
     char    *exe = malloc(MAX_PATH);
     size_t  len = MAX_PATH;
     int     mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
