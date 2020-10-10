@@ -39,8 +39,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-*.h linguist-language=C
-
 # Custom for Visual Studio
 *.c      diff=c
 *.h      diff=h
