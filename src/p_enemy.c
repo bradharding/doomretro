@@ -1410,8 +1410,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                             M_StringCopy(corpsehitname, corpsehit->name, sizeof(corpsehitname));
                         else
                             M_snprintf(corpsehitname, sizeof(corpsehitname), "%s dead%s%s",
-                                ((corpsehit->flags & MF_FRIEND) && monstercount[corpsehit->type] == 1 ? "the" :
-                                    (isvowel(corpsehit->info->name1[0]) ? "an" : "a")),
+                                ((corpsehit->flags & MF_FRIEND) && monstercount[corpsehit->type] == 1 ? "the" : "a"),
                                 ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
                                 (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
 
