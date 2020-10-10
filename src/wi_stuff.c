@@ -1133,7 +1133,7 @@ static void WI_LoadCallback(char *name, patch_t **variable)
 
 static void WI_LoadData(void)
 {
-    char    bg_lumpname[9];
+    patch_t *lump;
 
     if (gamemode == commercial)
     {
@@ -1154,23 +1154,29 @@ static void WI_LoadData(void)
         int lumpnum = P_GetMapEnterPic(gamemap);
 
         if (lumpnum > 0)
-        {
-            V_DrawPatch(0, 0, 1, W_CacheLumpNum(lumpnum));
-            return;
-        }
-
-        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
+            lump = W_CacheLumpNum(lumpnum);
+        else if (gamemission == pack_plut)
+            lump = W_CacheLumpName("INTERPI2");
+        else if (gamemission == pack_tnt)
+            lump = W_CacheLumpName("INTERPI3");
+        else
+            lump = W_CacheLumpName("INTERPIC");
     }
     else if (sigil && wbs->epsd == 4)
-        M_StringCopy(bg_lumpname, "SIGILINT", sizeof(bg_lumpname));
+        lump = W_CacheLumpName("SIGILINT");
     else
-        M_snprintf(bg_lumpname, sizeof(bg_lumpname), "WIMAP%i", wbs->epsd);
+    {
+        char    temp[9];
+
+        M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
+        lump = W_CacheLumpName(temp);
+    }
 
     // [crispy] fill pillarboxes in widescreen mode
     if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
         memset(screens[1], nearestblack, SCREENAREA);
 
-    V_DrawWidePatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
+    V_DrawWidePatch((SHORT(lump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 1, lump);
 }
 
 static void WI_UnloadCallback(char *name, patch_t **variable)
