@@ -1041,9 +1041,14 @@ void HU_Drawer(void)
     if (automapactive)
     {
         w_title.x = HU_TITLEX;
-        w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
 
-        HUlib_DrawTextLine(&w_title, false);
+        if (r_althud && r_screensize == 8)
+            HUlib_DrawAltAutomapTextLine(&w_title, false);
+        else
+        {
+            w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
+            HUlib_DrawTextLine(&w_title, false);
+        }
     }
     else
     {
@@ -1073,12 +1078,14 @@ void HU_Drawer(void)
         if (mapwindow)
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
 
-            if (r_althud)
+            if (r_althud && r_screensize == 8)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
+            {
+                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
                 HUlib_DrawTextLine(&w_title, true);
+            }
         }
     }
 }
