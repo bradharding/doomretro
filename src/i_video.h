@@ -113,7 +113,6 @@ extern byte         *mapscreen;
 
 extern byte         *PLAYPAL;
 
-extern dboolean     returntowidescreen;
 extern dboolean     altdown;
 
 #endif

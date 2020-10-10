@@ -175,8 +175,6 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-dboolean            returntowidescreen;
-
 dboolean            windowfocused = true;
 
 static dboolean     keys[UCHAR_MAX];

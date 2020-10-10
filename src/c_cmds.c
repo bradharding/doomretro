@@ -8764,9 +8764,6 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         I_RestartGraphics(false);
         S_StartSound(NULL, sfx_stnmov);
     }
-
-    if (!vid_widescreen)
-        returntowidescreen = false;
 }
 
 //

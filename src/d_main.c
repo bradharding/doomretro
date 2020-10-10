@@ -481,8 +481,7 @@ static void D_DoomLoop(void)
 
         S_UpdateSounds();   // move positional sounds
 
-        // Update display, next frame, with current state.
-        D_Display();
+        D_Display();        // update display, next frame, with current state
     }
 }
 
