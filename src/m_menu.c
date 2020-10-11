@@ -2864,7 +2864,7 @@ dboolean M_Responder(event_t *ev)
 
             if (!viewactive)
             {
-                if (r_screensize == 8)
+                if (r_screensize >= 7 && vid_widescreen)
                     r_screensize = 7;
                 else
                     return false;
