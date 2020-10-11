@@ -45,6 +45,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "m_config.h"
@@ -844,7 +845,17 @@ static void F_CastDrawer(void)
     mobjtype_t      type = castorder[castnum].type;
 
     // erase the entire screen to a background
-    V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall));
+    if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
+        memset(screens[0], nearestblack, SCREENAREA);
+
+    if (gamemission == pack_plut)
+        patch = W_CacheLumpName("BOSSBAC2");
+    else if (gamemission == pack_tnt)
+        patch = W_CacheLumpName("BOSSBAC3");
+    else
+        patch = W_CacheLumpName(bgcastcall);
+
+    V_DrawWidePatch((SHORT(patch->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, patch);
 
     if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
         F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
