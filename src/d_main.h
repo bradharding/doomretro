@@ -41,6 +41,7 @@
 
 #include "d_event.h"
 #include "doomdef.h"
+#include "r_defs.h"
 
 extern patch_t  *pagelump;
 extern char     **episodes[];
