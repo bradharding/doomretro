@@ -492,7 +492,8 @@ int             titlesequence = 0;
 int             pagetic = 3 * TICRATE;
 int             logotic = 3 * TICRATE;
 
-static patch_t  *pagelump;
+patch_t         *pagelump;
+
 static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;

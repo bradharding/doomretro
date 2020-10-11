@@ -42,6 +42,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -2864,7 +2865,7 @@ dboolean M_Responder(event_t *ev)
 
             if (!viewactive)
             {
-                if (r_screensize >= 7 && vid_widescreen)
+                if (r_screensize >= 7 && vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
                     r_screensize = 7;
                 else
                     return false;
@@ -2884,7 +2885,7 @@ dboolean M_Responder(event_t *ev)
 
             if (!viewactive)
             {
-                if (r_screensize <= 7 && !vid_widescreen)
+                if (r_screensize <= 7 && !vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
                     r_screensize = 7;
                 else
                     return false;

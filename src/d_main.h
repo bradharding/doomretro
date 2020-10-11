@@ -42,6 +42,7 @@
 #include "d_event.h"
 #include "doomdef.h"
 
+extern patch_t  *pagelump;
 extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];
