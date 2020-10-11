@@ -5,9 +5,10 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound) to play sound effects and music.
 * *DOOM Retro* now has improved support for widescreen displays:
-  * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode with a status bar will be displayed, and will horizontally fill displays with an aspect ratio wider than 16:10.
+  * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode with a status bar will be displayed, and will horizontally fill displays of any aspect ratio.
   * When the `r_screensize` CVAR is it’s new maximum value of `8`, a new widescreen mode without a status bar, and an optional HUD instead, will be displayed.
   * You may still press the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys during a game to toggle these new widescreen modes.
+  * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be used on the title screen to toggle widescreen.
   * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods) will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * Minor changes have been made to text that is output to the console.

@@ -2859,8 +2859,16 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || !viewactive || inhelpscreens)
+            if (automapactive || inhelpscreens)
                 return false;
+
+            if (!viewactive)
+            {
+                if (r_screensize == 8)
+                    r_screensize = 7;
+                else
+                    return false;
+            }
 
             M_SizeDisplay(0);
             return false;
@@ -2871,8 +2879,16 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || !viewactive || inhelpscreens)
+            if (automapactive || inhelpscreens)
                 return false;
+
+            if (!viewactive)
+            {
+                if (r_screensize <= 7 && !vid_widescreen)
+                    r_screensize = 7;
+                else
+                    return false;
+            }
 
             M_SizeDisplay(1);
             return false;
