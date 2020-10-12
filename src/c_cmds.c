@@ -439,10 +439,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap that\nindicate a change in ceiling height while the player\n"
+        "The color of unmapped lines in the automap\nindicating a change in ceiling height while the player\n"
         "has a computer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap that\nindicate a change in floor height while the player\n"
+        "The color of unmapped lines in the automap\nindicating a change in floor height while the player\n"
         "has a computer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped solid walls in the automap\nwhile the player has a computer area map power-up\n"
@@ -450,13 +450,13 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_backcolor, am_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap that indicate a\nchange in ceiling height (<b>0</b> to <b>255</b>)."),
+        "The color of lines in the automap indicating a\nchange in ceiling height (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap (<b>0</b> to\n<b>255</b>)."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the automap on an external\ndisplay."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap that indicate a\nchange in floor height (<b>0</b> to <b>255</b>)."),
+        "The color of lines in the automap indicating a\nchange in floor height (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -537,7 +537,7 @@ consolecmd_t consolecmds[] =
         "The color behind the player's face in the status bar\n(<b>none</b>, <b>0</b> to <b>255</b>)."),
     CVAR_BOOL(fade, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles a fading effect when transitioning between\nsome screens."),
-        CCMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
+    CCMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CCMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles freeze mode."),
