@@ -1737,7 +1737,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if (M_StringCompare(playername, playername_default))
                 {
                     if (target->player)
-                        C_Obituary("You %s yourself using your own %s.",
+                        C_Obituary("You %s yourself with your own %s.",
                             (gibbed ? "gibbed" : "killed"),
                             weaponinfo[readyweapon].description);
                     else
@@ -1753,7 +1753,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_Obituary("You %s %s using your %s%s.",
+                        C_Obituary("You %s %s with your %s%s.",
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
                             weaponinfo[readyweapon].description,
@@ -1763,7 +1763,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 else
                 {
                     if (target->player)
-                        C_Obituary("%s %s themselves using their own %s.",
+                        C_Obituary("%s %s themselves with their own %s.",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (gibbed ? "gibbed" : "killed"),
                             weaponinfo[readyweapon].description);
@@ -1780,7 +1780,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_Obituary("%s %s %s using their %s%s.",
+                        C_Obituary("%s %s %s with their %s%s.",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                             targetname,
