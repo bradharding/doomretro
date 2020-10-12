@@ -439,13 +439,13 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap\nindicating a change in ceiling height while the player\n"
+        "The color of unmapped lines in the automap\nindicating a change in ceiling height once the player\n"
         "has a computer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap\nindicating a change in floor height while the player\n"
+        "The color of unmapped lines in the automap\nindicating a change in floor height once the player\n"
         "has a computer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped solid walls in the automap\nwhile the player has a computer area map power-up\n"
+        "The color of unmapped solid walls in the automap\nonce the player has a computer area map power-up\n"
         "(<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_backcolor, am_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (<b>0</b> to <b>255</b>)."),
@@ -533,8 +533,8 @@ consolecmd_t consolecmds[] =
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
-    CVAR_INT(facebackcolor, facebackcolour, color_cvars_func1, color_cvars_func2, CF_NONE, FACEBACKVALUEALIAS,
-        "The background color of the player's face in the\nstatus bar (<b>none</b>, <b>0</b> to <b>255</b>)."),
+    CVAR_INT(facebackcolor, facebackcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The background color of the player's face in the\nstatus bar (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(fade, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles a fading effect when transitioning between\nsome screens."),
     CCMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
