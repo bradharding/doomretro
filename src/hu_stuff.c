@@ -1024,7 +1024,7 @@ void HU_Drawer(void)
 
     if (w_message.l->l[0])
     {
-        if (vanilla)
+        if (vanilla && !vid_widescreen)
         {
             w_message.l->x = 0;
             w_message.l->y = 0;
@@ -1032,6 +1032,10 @@ void HU_Drawer(void)
         else
         {
             w_message.l->x = HU_MSGX;
+            
+            if (vid_widescreen && r_screensize == 7)
+                w_message.l->x += WIDESCREENDELTA;
+
             w_message.l->y = HU_MSGY;
         }
 
