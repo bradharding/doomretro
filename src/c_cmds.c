@@ -660,7 +660,7 @@ consolecmd_t consolecmds[] =
         "The colors of the blood spilled by the player and\n"
         "monsters (<b>all</b>, <b>none</b>, <b>red</b>, <b>green</b> or <b>nofuzz</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The maximum number of blood splats allowed in a\nmap (<b>0</b> to <b>1,048,576</b>)."),
+        "The maximum number of blood splats allowed in the\ncurrent map (<b>0</b> to <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
         "The total number of blood splats in the current\nmap."),
     CVAR_BOOL(r_bloodsplats_translucency, "", bool_cvars_func1, r_bloodsplats_translucency_cvar_func2, BOOLVALUEALIAS,
