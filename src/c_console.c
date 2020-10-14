@@ -1998,7 +1998,8 @@ dboolean C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
-                    while ((direction == -1 && autocomplete > 0) || (direction == 1 && autocompletelist[autocomplete].game))
+                    while ((direction == -1 && autocomplete > 0)
+                        || (direction == 1 && (autocomplete == -1 || autocompletelist[autocomplete].game)))
                     {
                         static char output[255];
                         int         spaces2;
