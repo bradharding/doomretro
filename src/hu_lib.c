@@ -103,7 +103,7 @@ static void HU_DrawChar(int x, int y, int ch, dboolean external)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (external)
+    if (r_screensize == 8)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)

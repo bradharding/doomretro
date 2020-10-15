@@ -1029,13 +1029,19 @@ void HU_Drawer(void)
             w_message.l->x = 0;
             w_message.l->y = 0;
         }
+        else if (vid_widescreen && r_screensize == 7)
+        {
+            w_message.l->x = HU_MSGX + WIDESCREENDELTA;
+            w_message.l->y = HU_MSGY;
+        }
+        else if (r_screensize == 8 && !r_althud)
+        {
+            w_message.l->x = HU_MSGX * SCREENSCALE + 9;
+            w_message.l->y = HU_MSGY * SCREENSCALE + 4;
+        }
         else
         {
             w_message.l->x = HU_MSGX;
-            
-            if (vid_widescreen && r_screensize == 7)
-                w_message.l->x += WIDESCREENDELTA;
-
             w_message.l->y = HU_MSGY;
         }
 
@@ -1050,6 +1056,9 @@ void HU_Drawer(void)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
         else
         {
+            if (vid_widescreen && r_screensize == 7)
+                w_title.x += WIDESCREENDELTA;
+
             w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
             HUlib_DrawTextLine(&w_title, false);
         }
