@@ -8074,6 +8074,9 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
 
         if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
+            if (value == 8)
+                r_hud = true;
+
             r_screensize = value;
             M_SaveCVARs();
             R_SetViewSize(r_screensize);
