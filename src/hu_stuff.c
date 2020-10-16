@@ -1057,7 +1057,7 @@ void HU_Drawer(void)
         else
         {
             if (vid_widescreen && r_screensize == 7)
-                w_title.x += WIDESCREENDELTA;
+                w_title.x = WIDESCREENDELTA - 2;
 
             w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
             HUlib_DrawTextLine(&w_title, false);
