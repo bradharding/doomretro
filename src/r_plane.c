@@ -46,7 +46,7 @@
 #include "r_sky.h"
 #include "w_wad.h"
 
-#define MAXVISPLANES    128                     // must be a power of 2
+#define MAXVISPLANES    1024                    // must be a power of 2
 
 static visplane_t   *visplanes[MAXVISPLANES];   // killough
 static visplane_t   *freetail;                  // killough
