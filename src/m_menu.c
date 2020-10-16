@@ -1861,7 +1861,8 @@ static void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, (float)(r_screensize + !r_hud), 7.2f, 8);
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
+        (float)(r_screensize < 7 ? r_screensize : r_screensize + (r_screensize == 7 ? vid_widescreen : 1 + !r_hud)), 6.54f, 8);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
@@ -2196,7 +2197,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize > r_screensize_min)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
-                R_SetViewSize(r_screensize);
+                R_SetViewSize(menuactive ? 8 : r_screensize);
 
                 if (r_screensize == 7)
                     r_hud = false;
@@ -2223,7 +2224,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize < r_screensize_max)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
-                R_SetViewSize(r_screensize);
+                R_SetViewSize(menuactive ? 8 : r_screensize);
 
                 if (r_screensize == 8)
                     r_hud = true;
