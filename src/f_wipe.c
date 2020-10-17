@@ -75,7 +75,7 @@ static void wipe_initMelt(void)
     wipe_shittyColMajorXform(wipe_scr_end);
 
     // setup initial column positions (ypos < 0 => not ready to scroll yet)
-    ypos = malloc(SCREENWIDTH * sizeof(int));
+    ypos = malloc(SCREENWIDTH * sizeof(*ypos));
     ypos[0] = ypos[1] = -(M_Random() % 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
@@ -131,13 +131,13 @@ static void wipe_exitMelt(void)
 
 void wipe_StartScreen(void)
 {
-    wipe_scr_start = malloc(SCREENAREA);
+    wipe_scr_start = malloc(SCREENAREA * sizeof(*wipe_scr_start));
     memcpy(wipe_scr_start, screens[0], SCREENAREA);
 }
 
 void wipe_EndScreen(void)
 {
-    wipe_scr_end = malloc(SCREENAREA);
+    wipe_scr_end = malloc(SCREENAREA * sizeof(*wipe_scr_end));
     memcpy(wipe_scr_end, screens[0], SCREENAREA);
     memcpy(screens[0], wipe_scr_start, SCREENAREA);
 }
