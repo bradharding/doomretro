@@ -629,7 +629,6 @@ consolecmd_t consolecmds[] =
         "Toggles mouselook."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
-    CMD_CHEAT(mumu, false),
     CCMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
         "Gives a <i>name</i> to the <i>monster</i> nearest to the\nplayer."),
     CCMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
@@ -854,6 +853,7 @@ consolecmd_t consolecmds[] =
         "Toggles the bouncing of the player's weapon when\ndropping from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the recoiling of the player's weapon when\nfired."),
+    CMD_CHEAT(yinghao, false),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

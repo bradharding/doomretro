@@ -50,15 +50,15 @@
 static short    wipe_scr_start[MAXSCREENAREA];
 static short    wipe_scr_end[MAXSCREENAREA];
 static short    *wipe_scr;
-static int      ypos[MAXWIDTH];
+static int      y[MAXWIDTH];
 static int      speed;
 static short    dest[MAXSCREENAREA];
 
 static void wipe_shittyColMajorXform(short *array)
 {
-    for (int y = 0; y < SCREENHEIGHT; y++)
-        for (int x = 0; x < SCREENWIDTH / 2; x++)
-            dest[y + x * SCREENHEIGHT] = array[y * SCREENWIDTH / 2 + x];
+    for (int yy = 0; yy < SCREENHEIGHT; yy++)
+        for (int xx = 0; xx < SCREENWIDTH / 2; xx++)
+            dest[yy + xx * SCREENHEIGHT] = array[yy * SCREENWIDTH / 2 + xx];
 
     memcpy(array, dest, SCREENAREA);
 }
@@ -74,26 +74,26 @@ static void wipe_initMelt(void)
     wipe_shittyColMajorXform(wipe_scr_start);
     wipe_shittyColMajorXform(wipe_scr_end);
 
-    // setup initial column positions (ypos < 0 => not ready to scroll yet)
-    ypos[0] = ypos[1] = -(M_Random() & 15);
+    // setup initial column positions (y < 0 => not ready to scroll yet)
+    y[0] = y[1] = -(M_Random() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
-        ypos[i] = ypos[i + 1] = BETWEEN(-15, ypos[i - 1] + M_Random() % 3 - 1, 0);
+        y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + M_Random() % 3 - 1, 0);
 }
 
 static void wipe_Melt(int i, int dy)
 {
-    short   *s = &wipe_scr_end[i * SCREENHEIGHT + ypos[i]];
-    short   *d = &wipe_scr[ypos[i] * SCREENWIDTH / 2 + i];
+    short   *s = &wipe_scr_end[i * SCREENHEIGHT + y[i]];
+    short   *d = &wipe_scr[y[i] * SCREENWIDTH / 2 + i];
 
     for (int j = 0, k = dy; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
 
-    ypos[i] += dy;
+    y[i] += dy;
     s = &wipe_scr_start[i * SCREENHEIGHT];
-    d = &wipe_scr[ypos[i] * SCREENWIDTH / 2 + i];
+    d = &wipe_scr[y[i] * SCREENWIDTH / 2 + i];
 
-    for (int j = 0, k = SCREENHEIGHT - ypos[i]; k > 0; k--, j += SCREENWIDTH / 2)
+    for (int j = 0, k = SCREENHEIGHT - y[i]; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
 }
 
@@ -102,19 +102,19 @@ static dboolean wipe_doMelt(void)
     dboolean    done = true;
 
     for (int i = 0; i < SCREENWIDTH / 2; i++)
-        if (ypos[i] < 0)
+        if (y[i] < 0)
         {
-            ypos[i]++;
+            y[i]++;
             done = false;
         }
-        else if (ypos[i] < 16)
+        else if (y[i] < 16)
         {
-            wipe_Melt(i, ypos[i] + 1);
+            wipe_Melt(i, y[i] + 1);
             done = false;
         }
-        else if (ypos[i] < SCREENHEIGHT)
+        else if (y[i] < SCREENHEIGHT)
         {
-            wipe_Melt(i, MIN(speed, SCREENHEIGHT - ypos[i]));
+            wipe_Melt(i, MIN(speed, SCREENHEIGHT - y[i]));
             done = false;
         }
 
