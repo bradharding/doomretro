@@ -2207,7 +2207,7 @@ static void M_SizeDisplay(int choice)
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize > r_screensize_min)
+            else
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
@@ -2234,7 +2234,7 @@ static void M_SizeDisplay(int choice)
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize < 8)
+            else
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
@@ -3777,7 +3777,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
 
-        if (!automapactive && !inhelpscreens)
+        if (!vid_widescreen && !automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
 
         if (automapactive)
