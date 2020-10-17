@@ -502,21 +502,34 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
-        for (int i = 0; i < blurheight; i += SCREENWIDTH)
+        if (vid_widescreen)
         {
-            screens[0][i] = nearestblack;
-            screens[0][i + 1] = nearestblack;
-            screens[0][i + SCREENWIDTH - 2] = nearestblack;
-            screens[0][i + SCREENWIDTH - 1] = nearestblack;
+            for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
+                for (int x = 0; x < SCREENWIDTH; x++)
+                {
+                    byte *dot = *screens + x + y;
+
+                    *dot = white25[*dot];
+                }
         }
-
-        for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
-            for (int x = 2; x < SCREENWIDTH; x++)
+        else
+        {
+            for (int i = 0; i < blurheight; i += SCREENWIDTH)
             {
-                byte    *dot = *screens + x + y;
-
-                *dot = white25[*dot];
+                screens[0][i] = nearestblack;
+                screens[0][i + 1] = nearestblack;
+                screens[0][i + SCREENWIDTH - 2] = nearestblack;
+                screens[0][i + SCREENWIDTH - 1] = nearestblack;
             }
+
+            for (int y = SCREENWIDTH * 2; y < blurheight; y += SCREENWIDTH * 4)
+                for (int x = 2; x < SCREENWIDTH - 2; x++)
+                {
+                    byte *dot = *screens + x + y;
+
+                    *dot = white25[*dot];
+                }
+        }
 
         BlurScreen(screens[0], blurscreen1, blurheight);
 
