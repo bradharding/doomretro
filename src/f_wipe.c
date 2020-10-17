@@ -50,7 +50,7 @@
 static short    wipe_scr_start[MAXSCREENAREA];
 static short    wipe_scr_end[MAXSCREENAREA];
 static short    *wipe_scr;
-static int      ypos[MAXSCREENAREA];
+static int      ypos[MAXWIDTH];
 static int      speed;
 static short    dest[MAXSCREENAREA];
 
