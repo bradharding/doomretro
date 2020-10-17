@@ -47,10 +47,10 @@
 // SCREEN WIPE PACKAGE
 //
 
-static short    *wipe_scr_start;
-static short    *wipe_scr_end;
+static short    wipe_scr_start[MAXSCREENAREA];
+static short    wipe_scr_end[MAXSCREENAREA];
 static short    *wipe_scr;
-static int      *ypos;
+static int      ypos[MAXSCREENAREA];
 static int      speed;
 static short    dest[MAXSCREENAREA];
 
@@ -75,7 +75,6 @@ static void wipe_initMelt(void)
     wipe_shittyColMajorXform(wipe_scr_end);
 
     // setup initial column positions (ypos < 0 => not ready to scroll yet)
-    ypos = malloc(SCREENWIDTH * sizeof(*ypos));
     ypos[0] = ypos[1] = -(M_Random() % 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
@@ -122,22 +121,13 @@ static dboolean wipe_doMelt(void)
     return done;
 }
 
-static void wipe_exitMelt(void)
-{
-    free(ypos);
-    free(wipe_scr_start);
-    free(wipe_scr_end);
-}
-
 void wipe_StartScreen(void)
 {
-    wipe_scr_start = malloc(SCREENAREA * sizeof(*wipe_scr_start));
     memcpy(wipe_scr_start, screens[0], SCREENAREA);
 }
 
 void wipe_EndScreen(void)
 {
-    wipe_scr_end = malloc(SCREENAREA * sizeof(*wipe_scr_end));
     memcpy(wipe_scr_end, screens[0], SCREENAREA);
     memcpy(screens[0], wipe_scr_start, SCREENAREA);
 }
@@ -157,11 +147,7 @@ dboolean wipe_ScreenWipe(void)
 
     // do a piece of wipe-in
     if (wipe_doMelt())
-    {
-        // final stuff
         go = false;
-        wipe_exitMelt();
-    }
 
     return !go;
 }
