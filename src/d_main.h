@@ -44,6 +44,7 @@
 #include "r_defs.h"
 
 extern patch_t  *pagelump;
+extern patch_t  *creditlump;
 extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];

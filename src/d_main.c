@@ -493,11 +493,11 @@ int             pagetic = 3 * TICRATE;
 int             logotic = 3 * TICRATE;
 
 patch_t         *pagelump;
+patch_t         *creditlump;
 
 static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;
-static patch_t  *creditlump;
 static byte     *splashpal;
 
 //

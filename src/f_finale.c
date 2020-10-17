@@ -357,7 +357,6 @@ static void F_TextWrite(void)
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
-    char        letter;
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
@@ -401,21 +400,21 @@ static void F_TextWrite(void)
 
     for (; count; count--)
     {
-        char    c = *ch++;
+        char    letter = *ch++;
+        char    c;
 
-        if (!c)
+        if (!letter)
             break;
 
-        if (c == '\n')
+        if (letter == '\n')
         {
             cx = 12;
             cy += (prev == '\n' ? 8 : 11);
-            prev = c;
+            prev = letter;
             continue;
         }
 
-        letter = c;
-        c = toupper(c) - HU_FONTSTART;
+        c = toupper(letter) - HU_FONTSTART;
 
         if (c < 0 || c >= HU_FONTSIZE)
         {
@@ -1037,7 +1036,7 @@ static void F_ArtScreenDrawer(void)
         {
             case 1:
                 if (gamemode == retail)
-                    lump = (autosigil ? W_CacheLastLumpName("CREDIT") : W_CacheLumpName("CREDIT"));
+                    lump = creditlump;
                 else
                     lump = W_CacheLumpName("HELP2");
 
@@ -1059,7 +1058,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawPatch(0, 0, 0, lump);
+        V_DrawWidePatch((SHORT(lump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, lump);
     }
 }
 
