@@ -385,18 +385,16 @@ char *M_TempFile(char *s)
 // concatenated together.
 char *M_StringJoin(char *s, ...)
 {
-    char    *result;
-    char    *v;
-    va_list args;
-    size_t  result_len = strlen(s) + 1;
+    char        *result;
+    const char  *v;
+    va_list     args;
+    size_t      result_len = strlen(s) + 1;
 
     va_start(args, s);
 
     while (true)
     {
-        v = va_arg(args, char *);
-
-        if (!v)
+        if (!(v = va_arg(args, const char *)))
             break;
 
         result_len += strlen(v);
@@ -413,7 +411,7 @@ char *M_StringJoin(char *s, ...)
 
     while (true)
     {
-        if (!(v = va_arg(args, char *)))
+        if (!(v = va_arg(args, const char *)))
             break;
 
         strncat(result, v, result_len);

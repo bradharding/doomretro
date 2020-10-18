@@ -47,6 +47,9 @@
 #include "SDL_mixer.h"
 
 #include "midiproc.h"
+#include "..\src\version.h"
+
+#pragma comment(lib, "psapi.lib")
 
 // Currently playing music track
 static Mix_Music    *music;
@@ -71,8 +74,6 @@ public:
 
 static bool Sentinel_EnumerateProcesses(std::vector<DWORD> &ndwPIDs, size_t &numValidPIDs)
 {
-#pragma comment(lib, "psapi.lib")
-
     while (1)
     {
         DWORD   cb = static_cast<DWORD>(ndwPIDs.size() * sizeof(DWORD));
@@ -94,11 +95,10 @@ static bool Sentinel_EnumerateProcesses(std::vector<DWORD> &ndwPIDs, size_t &num
 
 static bool Sentinel_FindDOOMRetroPID(const std::vector<DWORD> &ndwPIDs, HANDLE &pHandle, size_t numValidPIDs)
 {
-#pragma comment(lib, "psapi.lib")
-
     for (size_t i = 0; i < numValidPIDs; i++)
     {
-        AutoHandle chProcess(OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, ndwPIDs[i]));
+        AutoHandle  chProcess(OpenProcess((PROCESS_QUERY_INFORMATION | PROCESS_VM_READ), FALSE, ndwPIDs[i]));
+
         if (chProcess.handle != nullptr)
         {
             char    szProcessImage[MAX_PATH];
@@ -108,12 +108,13 @@ static bool Sentinel_FindDOOMRetroPID(const std::vector<DWORD> &ndwPIDs, HANDLE 
             if (GetProcessImageFileNameA(chProcess.handle, szProcessImage, sizeof(szProcessImage)))
             {
                 const size_t    imageLength = strlen(szProcessImage);
+                const size_t    filenameLength = strlen(PACKAGE_FILENAME);
 
-                if (imageLength < 13)
+                if (imageLength < filenameLength)
                     continue;
 
                 // Lop off the start of szProcessImage
-                if (!strnicmp(szProcessImage + imageLength - 13, "doomretro.exe", 13))
+                if (!strnicmp(szProcessImage + imageLength - filenameLength, PACKAGE_FILENAME, filenameLength))
                 {
                     pHandle = chProcess.handle;
                     chProcess.handle = nullptr;     // Abuse AutoHandle's destructor behavior
