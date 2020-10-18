@@ -15,6 +15,7 @@
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
   * The par times for E1M8, E2M8 and E3M8 have been updated.
+* A crash will no longer occur when trying to display a patch with a height greater than 200 pixels.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.
 * A slight shadow is applied to the text at the top of the console.
@@ -35,6 +36,7 @@
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
 * Timestamps between midnight and 12:59:59am in the console will now be displayed correctly.
+* Music will no longer continue to play if *DOOM Retro* crashes.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
