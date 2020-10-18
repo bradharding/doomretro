@@ -109,11 +109,11 @@ static bool Sentinel_FindDOOMRetroPID(const std::vector<DWORD> &ndwPIDs, HANDLE 
             {
                 const size_t    imageLength = strlen(szProcessImage);
 
-                if (imageLength < 12)
+                if (imageLength < 13)
                     continue;
 
                 // Lop off the start of szProcessImage
-                if (!strnicmp(szProcessImage + imageLength - 12, "doomretro.exe", 12))
+                if (!strnicmp(szProcessImage + imageLength - 13, "doomretro.exe", 13))
                 {
                     pHandle = chProcess.handle;
                     chProcess.handle = nullptr;     // Abuse AutoHandle's destructor behavior
