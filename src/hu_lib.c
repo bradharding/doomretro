@@ -271,6 +271,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     // draw the new stuff
     x = l->x;
     y = l->y;
+
     memset(tempscreen, 251, SCREENAREA);
 
     for (int i = 0; i < len; i++)
@@ -306,7 +307,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
-                if (/*vid_widescreen ||*/ external)
+                if (vid_widescreen || external)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
@@ -334,7 +335,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y - 1, j, external);
+                HU_DrawChar(x, y * (r_screensize == 8 ? SCREENSCALE : 1) - 1, j, external);
             }
 
             x += w;
