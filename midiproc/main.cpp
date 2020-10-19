@@ -140,7 +140,7 @@ void Sentinel_Main()
 
     if (!Sentinel_FindDOOMRetroPID(ndwPIDs, pDOOMRetroHandle, numValidPIDs))
     {
-        MessageBox(NULL, TEXT("doomretro.exe not currently running"), TEXT("midiproc: Error"), MB_ICONERROR);
+        MessageBox(NULL, TEXT(PACKAGE_FILENAME " is not running."), TEXT("midiproc.exe"), MB_ICONERROR);
         exit(-1);
     }
 
