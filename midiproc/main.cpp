@@ -39,7 +39,6 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <Psapi.h>
-
 #include <thread>
 #include <vector>
 
@@ -58,13 +57,15 @@ static SDL_RWops    *rw;
 static void UnregisterSong(void);
 
 //
-// Sentinel That Checks DOOM Retro Is Actually Running
+// Sentinel that checks doomretro.exe is actually running
 //
 class AutoHandle
 {
 public:
-    HANDLE handle;
+    HANDLE  handle;
+
     AutoHandle(HANDLE h) : handle(h) {}
+
     ~AutoHandle()
     {
         if (handle != nullptr)
@@ -72,7 +73,7 @@ public:
     }
 };
 
-static bool Sentinel_EnumerateProcesses(std::vector<DWORD> &ndwPIDs, size_t &numValidPIDs)
+static boolean Sentinel_EnumerateProcesses(std::vector<DWORD> &ndwPIDs, size_t &numValidPIDs)
 {
     while (1)
     {
@@ -93,7 +94,7 @@ static bool Sentinel_EnumerateProcesses(std::vector<DWORD> &ndwPIDs, size_t &num
     }
 }
 
-static bool Sentinel_FindDOOMRetroPID(const std::vector<DWORD> &ndwPIDs, HANDLE &pHandle, size_t numValidPIDs)
+static boolean Sentinel_FindPID(const std::vector<DWORD> &ndwPIDs, HANDLE &pHandle, size_t numValidPIDs)
 {
     for (size_t i = 0; i < numValidPIDs; i++)
     {
@@ -131,14 +132,14 @@ void Sentinel_Main()
 {
     constexpr size_t    initMaxNumPIDs = 1024;
     std::vector<DWORD>  ndwPIDs(initMaxNumPIDs, 0);
-    HANDLE              pDOOMRetroHandle;
+    HANDLE              pHandle;
     size_t              numValidPIDs;
     DWORD               dwExitCode;
 
     if (!Sentinel_EnumerateProcesses(ndwPIDs, numValidPIDs))
         exit(-1);
 
-    if (!Sentinel_FindDOOMRetroPID(ndwPIDs, pDOOMRetroHandle, numValidPIDs))
+    if (!Sentinel_FindPID(ndwPIDs, pHandle, numValidPIDs))
     {
         MessageBox(NULL, TEXT(PACKAGE_FILENAME " is not running."), TEXT("midiproc.exe"), MB_ICONERROR);
         exit(-1);
@@ -146,7 +147,7 @@ void Sentinel_Main()
 
     do
     {
-        if (!GetExitCodeProcess(pDOOMRetroHandle, &dwExitCode))
+        if (!GetExitCodeProcess(pHandle, &dwExitCode))
             exit(-1);
 
         Sleep(100);
@@ -174,7 +175,6 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 
 //
 // InitSDL
-//
 // Start up SDL and SDL_mixer.
 //
 static boolean InitSDL(void)
@@ -289,11 +289,11 @@ typedef unsigned char   midibyte;
 class SongBuffer
 {
 protected:
-    midibyte            *buffer;                        // accumulated input
-    size_t              size;                           // size of input
-    size_t              allocated;                      // amount of memory allocated (>= size)
+    midibyte            *buffer;                    // accumulated input
+    size_t              size;                       // size of input
+    size_t              allocated;                  // amount of memory allocated (>= size)
 
-    static const int    defaultSize = 128 * 1024;       // 128 KB
+    static const int    defaultSize = 128 * 1024;   // 128 KB
 
 public:
     // Constructor
@@ -337,7 +337,7 @@ public:
 
     // Accessors
     midibyte *getBuffer() const { return buffer; }
-    size_t    getSize()   const { return size; }
+    size_t    getSize()   const { return size;   }
 };
 
 static SongBuffer   *song;
