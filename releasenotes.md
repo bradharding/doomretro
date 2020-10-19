@@ -37,6 +37,7 @@
 * Monsters will no longer unnecessarily drop from high ledges.
 * Timestamps between midnight and 12:59:59am in the console will now be displayed correctly.
 * Music will no longer continue to play if *DOOM Retro* crashes.
+* A bug has been fixed whereby using the mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
