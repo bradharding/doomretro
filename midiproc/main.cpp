@@ -114,7 +114,7 @@ static bool Sentinel_FindDOOMRetroPID(const std::vector<DWORD> &ndwPIDs, HANDLE 
                     continue;
 
                 // Lop off the start of szProcessImage
-                if (!strnicmp(szProcessImage + imageLength - filenameLength, PACKAGE_FILENAME, filenameLength))
+                if (!_strnicmp(szProcessImage + imageLength - filenameLength, PACKAGE_FILENAME, filenameLength))
                 {
                     pHandle = chProcess.handle;
                     chProcess.handle = nullptr;     // Abuse AutoHandle's destructor behavior
