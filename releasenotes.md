@@ -30,6 +30,7 @@
 * The `wipe` CVAR has been renamed to `melt`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
 * Further improvements have been made to the support of both `DEHACKED` and `UMAPINFO` lumps.
+* *DeHackEd* support has been extended further to allow for an additional 200 sound effects (numbered 500 to 699, and named `DSFRE000` to `DSFRE199`).
 * Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
 * The movement of lifts is now smoother in some instances.
