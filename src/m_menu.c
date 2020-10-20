@@ -3777,7 +3777,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
 
-        if (!vid_widescreen && !automapactive && !inhelpscreens)
+        if (!automapactive && !inhelpscreens)
             R_SetViewSize(r_screensize);
 
         if (automapactive)
