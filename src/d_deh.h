@@ -506,5 +506,6 @@ extern char     **mapnamesn[];
 extern int      dehcount;
 
 void ProcessDehFile(char *filename, int lumpnum, dboolean automatic);
+void D_BuildBEXTables(void);
 
 #endif

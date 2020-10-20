@@ -1853,6 +1853,8 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
 
+    D_BuildBEXTables();
+
     if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
