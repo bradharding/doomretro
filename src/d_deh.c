@@ -2029,7 +2029,7 @@ void D_BuildBEXTables(void)
     deh_musicnames[0] = deh_musicnames[NUMMUSIC] = NULL;
 
     for (i = 1; i < NUMSFX; i++)
-        if (S_sfx[i].name1 != NULL)
+        if (S_sfx[i].name1[0] != '\0')
             deh_soundnames[i] = strdup(S_sfx[i].name1);
         else
             deh_soundnames[i] = NULL;

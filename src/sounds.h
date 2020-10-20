@@ -323,7 +323,7 @@ enum
 
     sfx_scrsht,
 
-    sfx_fre000,
+    sfx_fre000 = 500,
     sfx_fre001,
     sfx_fre002,
     sfx_fre003,
