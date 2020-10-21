@@ -314,12 +314,12 @@ char *M_GetExecutableFolder(void)
     if (len == -1)
     {
         strcpy(exe, ".");
-        return strdup(exe);
+        return M_StringDuplicate(exe);
     }
     else
     {
         exe[len] = '\0';
-        return strdup(dirname(exe));
+        return M_StringDuplicate(dirname(exe));
     }
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
     char    *exe = malloc(MAX_PATH);

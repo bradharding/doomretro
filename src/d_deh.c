@@ -2019,18 +2019,18 @@ void D_BuildBEXTables(void)
     }
 
     for (i = 0; i < NUMSPRITES; i++)
-        deh_spritenames[i] = strdup(sprnames[i]);
+        deh_spritenames[i] = M_StringDuplicate(sprnames[i]);
 
     deh_spritenames[NUMSPRITES] = NULL;
 
     for (i = 1; i < NUMMUSIC; i++)
-        deh_musicnames[i] = strdup(S_music[i].name1);
+        deh_musicnames[i] = M_StringDuplicate(S_music[i].name1);
 
     deh_musicnames[0] = deh_musicnames[NUMMUSIC] = NULL;
 
     for (i = 1; i < NUMSFX; i++)
         if (S_sfx[i].name1[0] != '\0')
-            deh_soundnames[i] = strdup(S_sfx[i].name1);
+            deh_soundnames[i] = M_StringDuplicate(S_sfx[i].name1);
         else
             deh_soundnames[i] = NULL;
 
@@ -3691,19 +3691,19 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
     long    value;      // All deh values are ints or longs
     char    *strval;    // holds the string value of the line
     char    candidate[5];
-    int rover;
+    int     rover;
 
     if (devparm)
         C_Output("Processing sprite name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    strncpy(inbuffer, line, DEH_BUFFERMAX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
-        if (*inbuffer == '#')
+        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;   // skip comment lines
 
         lfstrip(inbuffer);
@@ -3728,6 +3728,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
         }
 
         rover = 0;
+
         while (deh_spritenames[rover])
         {
             if (!strncasecmp(deh_spritenames[rover], key, 4))
@@ -3735,7 +3736,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting '%s' for sprite '%s'", candidate, deh_spritenames[rover]);
 
-                sprnames[rover] = strdup(candidate);
+                sprnames[rover] = M_StringDuplicate(candidate);
                 break;
             }
             rover++;
@@ -3757,14 +3758,14 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
     if (devparm)
         C_Output("Processing sound name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    strncpy(inbuffer, line, DEH_BUFFERMAX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
-        if (*inbuffer == '#')
+        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;   // skip comment lines
 
         lfstrip(inbuffer);
@@ -3821,14 +3822,14 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
     if (devparm)
         C_Output("Processing music name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    strncpy(inbuffer, line, DEH_BUFFERMAX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
-        if (*inbuffer == '#')
+        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;   // skip comment lines
 
         lfstrip(inbuffer);
