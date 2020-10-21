@@ -1033,8 +1033,6 @@ dboolean P_ReadSaveGameHeader(char *description)
         return false;   // bad version
     }
 
-    S_StopMusic();
-
     gameskill = (skill_t)saveg_read8();
     gameepisode = saveg_read8();
     gamemap = saveg_read8();
