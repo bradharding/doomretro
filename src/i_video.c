@@ -71,9 +71,8 @@
 #include "w_wad.h"
 
 int SCREENWIDTH;
-int SCREENHEIGHT;
+int SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 int SCREENAREA;
-int NONWIDEWIDTH;               // [crispy] non-widescreen SCREENWIDTH
 int WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
 int WIDEFOVDELTA;
 
@@ -1857,39 +1856,36 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     src_rect.h = SCREENHEIGHT;
 }
 
-// [crispy] recalculate SCREENWIDTH, SCREENHEIGHT, NONWIDEWIDTH and WIDESCREENDELTA
 void I_GetScreenDimensions(void)
 {
-    SDL_DisplayMode     mode;
-    int                 w = 16;
-    int                 h = 10;
-    int                 ah;
-
-    SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
-    SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-    NONWIDEWIDTH = SCREENWIDTH;
-    WIDEFOVDELTA = 0;
-
-    ah = 6 * SCREENHEIGHT / 5;
-
-    if (!SDL_GetCurrentDisplayMode((displayindex = vid_display - 1), &mode))
-        if (mode.w * ah >= mode.h * SCREENWIDTH)
-        {
-            w = mode.w;
-            h = mode.h;
-        }
-
-    // widescreen rendering makes no sense without aspect ratio correction
     if (vid_widescreen)
     {
+        SDL_DisplayMode     mode;
+        int                 w = 16;
+        int                 h = 10;
+        int                 ah = 6 * SCREENHEIGHT / 5;
+
+        if (!SDL_GetCurrentDisplayMode(displayindex, &mode))
+            if (mode.w * ah >= mode.h * SCREENWIDTH)
+            {
+                w = mode.w;
+                h = mode.h;
+            }
+
         SCREENWIDTH = MIN((w * ah / h + 1) & ~3, MAXWIDTH);
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(w / (h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
+        WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
+    }
+    else
+    {
+        SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
+        WIDEFOVDELTA = 0;
+        WIDESCREENDELTA = 0;
     }
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
-    WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
 
     GetPixelSize(true);
 }

@@ -2217,6 +2217,8 @@ static void M_SizeDisplay(int choice)
 
                 S_StartSound(NULL, sfx_stnmov);
             }
+            else
+                return;
 
             break;
 
@@ -2244,6 +2246,8 @@ static void M_SizeDisplay(int choice)
 
                 S_StartSound(NULL, sfx_stnmov);
             }
+            else
+                return;
 
             break;
     }
