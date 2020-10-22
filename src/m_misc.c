@@ -303,6 +303,7 @@ char *M_GetExecutableFolder(void)
         *pos = '\0';
 
     return folder;
+
 #elif defined(__linux__) || defined(__NetBSD__)
     char    exe[MAX_PATH];
 #if defined(__linux__)
@@ -321,6 +322,7 @@ char *M_GetExecutableFolder(void)
         exe[len] = '\0';
         return M_StringDuplicate(dirname(exe));
     }
+
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
     char    *exe = malloc(MAX_PATH);
     size_t  len = MAX_PATH;
@@ -336,6 +338,7 @@ char *M_GetExecutableFolder(void)
         strcpy(exe, ".");
         return exe;
     }
+
 #elif defined(__APPLE__)
     char        *exe = malloc(MAX_PATH);
     uint32_t    len = MAX_PATH;
@@ -347,6 +350,7 @@ char *M_GetExecutableFolder(void)
     }
 
     return dirname(exe);
+
 #elif defined(__HAIKU__)
     char    *exe = malloc(MAX_PATH);
 
@@ -357,6 +361,7 @@ char *M_GetExecutableFolder(void)
 
     strcpy(exe, ".");
     return exe;
+
 #else
     char    *folder = malloc(2);
 

@@ -1319,7 +1319,7 @@ static void ST_DrawWidgets(dboolean refresh)
     STlib_UpdateMultIcon(&w_keyboxes[2], refresh);
 }
 
-void ST_DoRefresh(void)
+static void ST_DoRefresh(void)
 {
     st_firsttime = false;
 

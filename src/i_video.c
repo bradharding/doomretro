@@ -213,8 +213,6 @@ evtype_t            lasteventtype = ev_none;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
-void ST_DoRefresh(void);
-
 dboolean MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it

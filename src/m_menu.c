@@ -3685,11 +3685,10 @@ void M_Drawer(void)
     {
         // DRAW SKULL
         char    *skullName[] = { "M_SKULL1", "M_SKULL2" };
+        patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
 
         if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {
-            patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
-
             if (currentMenu == &LoadDef)
             {
                 int old = itemOn;
@@ -3713,9 +3712,8 @@ void M_Drawer(void)
         }
         else
         {
-            patch_t         *patch = W_CacheLumpName(skullName[whichSkull]);
-            int             yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
-            unsigned int    max = currentMenu->numitems;
+            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
+            int max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
@@ -3728,7 +3726,7 @@ void M_Drawer(void)
             else
                 M_DrawPatchWithShadow(x - 26, yy + 2, patch);
 
-            for (unsigned int i = 0; i < max; i++)
+            for (int i = 0; i < max; i++)
             {
                 if (currentMenu->menuitems[i].routine)
                 {
