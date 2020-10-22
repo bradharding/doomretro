@@ -419,6 +419,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     fixed_t     adx, ady;
+    mobj_t      *listener = viewplayer->mo;
     dboolean    boss = origin->flags2 & MF2_BOSS;
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
@@ -426,8 +427,8 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
     // killough 12/98: use exact distance formula instead of approximation
-    adx = ABS((viewx >> FRACBITS) - (x >> FRACBITS));
-    ady = ABS((viewy >> FRACBITS) - (y >> FRACBITS));
+    adx = ABS((listener->x >> FRACBITS) - (x >> FRACBITS));
+    ady = ABS((listener->y >> FRACBITS) - (y >> FRACBITS));
 
     if (ady > adx)
         SWAP(adx, ady);
