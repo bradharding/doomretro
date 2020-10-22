@@ -39,6 +39,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
@@ -393,7 +394,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                if (external && r_hud_translucency && !hacx)
+                if (r_hud_translucency && !hacx && !vanilla)
                     *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
