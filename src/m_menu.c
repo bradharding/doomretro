@@ -2194,7 +2194,16 @@ static void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (r_screensize == 8 && !r_hud)
+            if (!viewactive)
+            {
+                vid_widescreen = false;
+                r_screensize = 7;
+                r_hud = false;
+                R_SetViewSize(r_screensize);
+                I_RestartGraphics(false);
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize == 8 && !r_hud)
             {
                 r_hud = true;
                 C_StrCVAROutput(stringize(r_hud), "on");
@@ -2221,7 +2230,16 @@ static void M_SizeDisplay(int choice)
             break;
 
         case 1:
-            if (r_screensize == 8 && r_hud)
+            if (!viewactive)
+            {
+                vid_widescreen = true;
+                r_screensize = 7;
+                r_hud = false;
+                R_SetViewSize(r_screensize);
+                I_RestartGraphics(false);
+                S_StartSound(NULL, sfx_stnmov);
+            }
+            else if (r_screensize == 8 && r_hud)
             {
                 r_hud = false;
                 C_StrCVAROutput(stringize(r_hud), "off");
@@ -2877,15 +2895,9 @@ dboolean M_Responder(event_t *ev)
             if (automapactive || inhelpscreens)
                 return false;
 
-            if (!viewactive)
-            {
-                if (r_screensize >= 7 && vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
-                    r_screensize = 7;
-                else
-                    return false;
-            }
+            if (viewactive || (vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH))
+                M_SizeDisplay(0);
 
-            M_SizeDisplay(0);
             return false;
         }
 
@@ -2897,15 +2909,9 @@ dboolean M_Responder(event_t *ev)
             if (automapactive || inhelpscreens)
                 return false;
 
-            if (!viewactive)
-            {
-                if (r_screensize <= 7 && !vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
-                    r_screensize = 7;
-                else
-                    return false;
-            }
+            if (viewactive || (!vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH))
+                M_SizeDisplay(1);
 
-            M_SizeDisplay(1);
             return false;
         }
 
