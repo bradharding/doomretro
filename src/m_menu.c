@@ -2207,7 +2207,7 @@ static void M_SizeDisplay(int choice)
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else
+            else if (r_screensize > 0)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
@@ -2234,7 +2234,7 @@ static void M_SizeDisplay(int choice)
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else
+            else if (r_screensize < 8)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
