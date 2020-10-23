@@ -308,8 +308,8 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
-                if (vid_widescreen || external)
-                    V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
+                if (r_screensize == 8)
+                    V_DrawBigPatchToTempScreen(x, l->y * SCREENSCALE, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
