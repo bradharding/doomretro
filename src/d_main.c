@@ -177,7 +177,6 @@ dboolean            dowipe;
 static dboolean     forcewipe;
 
 static byte         fadescreen[MAXSCREENAREA];
-static int          fadeheight;
 int                 fadecount = 0;
 
 dboolean            splashscreen = true;
@@ -221,8 +220,7 @@ void D_FadeScreen(void)
     if (!fade)
         return;
 
-    fadeheight = (SCREENHEIGHT /*- (vid_widescreen && gamestate == GS_LEVEL) * SBARHEIGHT*/) * SCREENWIDTH;
-    memcpy(fadescreen, screens[0], fadeheight);
+    memcpy(fadescreen, screens[0], SCREENAREA);
     fadecount = 3;
 }
 
@@ -244,7 +242,7 @@ static void D_UpdateFade(void)
     }
 
     if (tinttab)
-        for (int i = 0; i < fadeheight; i++)
+        for (int i = 0; i < SCREENAREA; i++)
         {
             byte    *dot = *screens + i;
 
