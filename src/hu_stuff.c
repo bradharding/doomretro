@@ -1231,16 +1231,14 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
 void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 {
     char    buffer[133] = "";
+    int     len = (int)strlen(message);
 
-    if (!*message)
+    if (!len)
         return;
 
-    if (message[0] == '%' && message[1] == 's')
+    if (len >= 2 && message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
-    {
-        int len = (int)strlen(message);
-
         for (int i = 0, j = 0; i < len; i++)
         {
             if (message[i] == '%')
@@ -1248,7 +1246,6 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
 
             buffer[j++] = message[i];
         }
-    }
 
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
