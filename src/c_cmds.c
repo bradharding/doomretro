@@ -2427,7 +2427,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
     ShellExecute(NULL, "open", PACKAGE_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     system("xdg-open " PACKAGE_WIKIURL);
 #elif defined(__APPLE__)
     system("open " PACKAGE_WIKIURL);
