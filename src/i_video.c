@@ -811,15 +811,15 @@ static void UpdateGrab(void)
 
 static void GetUpscaledTextureSize(int width, int height)
 {
-    const int   actualheight = SCREENWIDTH * 3 / 4;
+    const int   actualheight = 6 * SCREENHEIGHT / 5;
 
     if (width * actualheight < height * SCREENWIDTH)
         height = width * actualheight / SCREENWIDTH;
     else
         width = height * SCREENWIDTH / actualheight;
 
-    upscaledwidth = MIN(width / SCREENWIDTH + !!(width % SCREENWIDTH), MAXUPSCALEWIDTH);
-    upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
+    upscaledwidth = MIN((width + SCREENWIDTH - 1) / SCREENWIDTH, MAXUPSCALEWIDTH);
+    upscaledheight = MIN((height + SCREENHEIGHT - 1) / SCREENHEIGHT, MAXUPSCALEHEIGHT);
 }
 
 void (*blitfunc)(void);
@@ -852,6 +852,9 @@ static void CalculateFPS(void)
 #if defined(_WIN32)
 void I_WindowResizeBlit(void)
 {
+    if (vid_showfps)
+        CalculateFPS();
+
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
@@ -987,7 +990,6 @@ static void I_Blit_Automap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
-    SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_RenderPresent(maprenderer);
 }
@@ -996,7 +998,6 @@ static void I_Blit_Automap_NearestLinear(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
-    SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_SetRenderTarget(maprenderer, NULL);
@@ -2053,8 +2054,9 @@ void I_InitGraphics(void)
     vid_fullscreen = false;
 #endif
 
-    // [crispy] run-time variable high-resolution rendering
     I_GetScreenDimensions();
+
+    SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
     SetVideoMode(true, true);
 

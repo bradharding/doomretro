@@ -42,7 +42,7 @@
 // We are referring to patches.
 #include "r_defs.h"
 
-#define HU_TITLEX           3
+#define HU_TITLEX           0
 
 // font stuff
 #define HU_MAXLINES         4
