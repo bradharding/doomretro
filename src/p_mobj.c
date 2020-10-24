@@ -290,7 +290,7 @@ static void P_XYMovement(mobj_t *mo)
     if (corpse && !(mo->flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood && (mo->momx || mo->momy)
         && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int blood = mobjinfo[mo->blood].blood;
+        int blood = mo->blood;
 
         if (blood)
         {
