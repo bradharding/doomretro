@@ -1587,7 +1587,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
     }
 
-    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !vid_widescreen, 6 * SCREENHEIGHT / 5) < 0)
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !(vid_widescreen && vid_fullscreen), 6 * SCREENHEIGHT / 5) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
 
     if (output)
