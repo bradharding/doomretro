@@ -842,7 +842,7 @@ static void M_ReadSaveStrings(void)
             continue;
         }
 
-        (void)fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
+        fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
 
         if (savegamestrings[i][0])
         {

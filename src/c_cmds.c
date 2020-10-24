@@ -2428,9 +2428,9 @@ static void help_cmd_func2(char *cmd, char *parms)
 #if defined(_WIN32)
     ShellExecute(NULL, "open", PACKAGE_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    (void)system("xdg-open " PACKAGE_WIKIURL);
+    system("xdg-open " PACKAGE_WIKIURL);
 #elif defined(__APPLE__)
-    (void)system("open " PACKAGE_WIKIURL);
+    system("open " PACKAGE_WIKIURL);
 #endif
 }
 
@@ -2911,9 +2911,9 @@ static void license_cmd_func2(char *cmd, char *parms)
 #if defined(_WIN32)
     ShellExecute(NULL, "open", PACKAGE_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    (void)system("xdg-open " PACKAGE_WIKILICENSEURL);
+    system("xdg-open " PACKAGE_WIKILICENSEURL);
 #elif defined(__APPLE__)
-    (void)system("open " PACKAGE_WIKILICENSEURL);
+    system("open " PACKAGE_WIKILICENSEURL);
 #endif
 }
 
