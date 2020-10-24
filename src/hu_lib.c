@@ -394,7 +394,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
             else if (*source != 251)
             {
-                if (r_hud_translucency && (!vanilla || vid_widescreen))
+                if (r_hud_translucency)
                     *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
