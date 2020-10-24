@@ -25,6 +25,7 @@
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
   * The player arrow is now slightly darker when the player has a partial invisibility power-up.
+  * Thing triangles will no longer move slightly when using the `IDDT` cheat and the console is open.
 * The correct `CREDIT` lump is now displayed when finishing one of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.

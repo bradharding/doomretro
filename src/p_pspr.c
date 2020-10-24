@@ -798,18 +798,20 @@ void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *mo = actor->target;
+    angle_t an = mo->angle - ANG90 / 2;
 
     P_NoiseAlert(actor);
 
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)
     {
-        int     damage = 15;
-        angle_t an = mo->angle - ANG90 / 2 + ANG90 / 40 * i;
+        int damage = 15;
 
         // killough 08/02/98: make autoaiming prefer enemies
         if (P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, MF_FRIEND), !linetarget)
             P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, 0);
+
+        an += ANG90 / 40;
 
         if (!linetarget)
             continue;

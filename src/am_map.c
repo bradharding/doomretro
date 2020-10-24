@@ -1771,7 +1771,7 @@ static void AM_DrawThings(void)
                     const int   width = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
-                    if (menuactive || consoleactive)
+                    if (consoleactive)
                     {
                         point.x = thing->x >> FRACTOMAPBITS;
                         point.y = thing->y >> FRACTOMAPBITS;
