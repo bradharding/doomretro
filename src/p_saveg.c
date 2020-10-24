@@ -101,7 +101,7 @@ static byte saveg_read8(void)
 {
     byte    result = -1;
 
-    fread(&result, 1, 1, save_stream);
+    (void)fread(&result, 1, 1, save_stream);
 
     return result;
 }
