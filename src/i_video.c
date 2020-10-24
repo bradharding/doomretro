@@ -1937,10 +1937,7 @@ void I_ToggleFullscreen(void)
     }
 
     vid_fullscreen = !vid_fullscreen;
-
-    if (!vid_borderlesswindow)
-        I_RestartGraphics(false);
-
+    I_RestartGraphics(false);
     M_SaveCVARs();
 
     if (nearestlinear)
