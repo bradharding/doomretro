@@ -1844,7 +1844,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count, consolecmds[i].name,
                         viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description1);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\t<b>0</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0</b>\t%s", count, consolecmds[i].name, description1);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
             {
@@ -1852,7 +1852,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name, viewplayer->armorpoints,
                         description1);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\t<b>0%%</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, description1);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
             {
@@ -1864,14 +1864,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\t<b>none</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\tnone</b>\t%s", count, consolecmds[i].name, description1);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
                     C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name, viewplayer->health, description1);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s</b>\t<b>0%%</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, description1);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
