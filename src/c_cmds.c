@@ -8765,6 +8765,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
     if (vid_widescreen != vid_widescreen_old)
     {
         r_screensize = 7;
+        r_hud = false;
         R_SetViewSize(r_screensize);
         I_RestartGraphics(false);
         S_StartSound(NULL, sfx_stnmov);
