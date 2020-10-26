@@ -1337,7 +1337,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_bloodsplat:
             {
-                bloodsplat_t    *splat = calloc(1, sizeof(*splat));
+                bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
 
                 saveg_read_bloodsplat_t(splat);
 

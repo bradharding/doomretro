@@ -58,6 +58,7 @@
 #include "r_main.h"
 #include "version.h"
 #include "w_wad.h"
+#include "z_zone.h"
 
 #define WHITE       4
 #define LIGHTGRAY   82
@@ -1639,7 +1640,7 @@ void V_InvertScreen(void)
 //
 void V_Init(void)
 {
-    byte                *base = malloc(MAXSCREENAREA * 4);
+    byte                *base = Z_Malloc(MAXSCREENAREA * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
     int                 p;
 

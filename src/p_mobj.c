@@ -1460,31 +1460,35 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
         if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
-            int             patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
-            splat->patch = patch;
-            splat->flip = M_BigRandom() & 1;
-
-            if (blood == FUZZYBLOOD)
+            if (splat)
             {
-                splat->colfunc = fuzzcolfunc;
-                splat->blood = blood;
-            }
-            else
-            {
-                splat->colfunc = bloodsplatcolfunc;
-                splat->blood = blood + M_BigRandomInt(-2, 1);
-            }
+                int patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
-            splat->x = x;
-            splat->y = y;
-            splat->width = spritewidth[patch];
-            splat->sector = sec;
-            P_SetBloodSplatPosition(splat);
-            r_bloodsplats_total++;
+                splat->patch = patch;
+                splat->flip = M_BigRandom() & 1;
 
-            if (target && target->bloodsplats)
-                target->bloodsplats--;
+                if (blood == FUZZYBLOOD)
+                {
+                    splat->colfunc = fuzzcolfunc;
+                    splat->blood = blood;
+                }
+                else
+                {
+                    splat->colfunc = bloodsplatcolfunc;
+                    splat->blood = blood + M_BigRandomInt(-2, 1);
+                }
+
+                splat->x = x;
+                splat->y = y;
+                splat->width = spritewidth[patch];
+                splat->sector = sec;
+                P_SetBloodSplatPosition(splat);
+                r_bloodsplats_total++;
+
+                if (target && target->bloodsplats)
+                    target->bloodsplats--;
+            }
         }
     }
 }

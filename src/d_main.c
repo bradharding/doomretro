@@ -1918,7 +1918,6 @@ static void D_DoomMainSetup(void)
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
         C_Output("<i><b>" PACKAGE_NAME "</b></i> has now been run %s times.", temp);
-
         free(temp);
     }
 
