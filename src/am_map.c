@@ -386,9 +386,11 @@ void AM_Init(void)
 void AM_SetAutomapSize(void)
 {
     mapheight = SCREENHEIGHT;
-    m_h = FTOM(mapheight);
     maparea = SCREENWIDTH * mapheight;
     mapbottom = SCREENWIDTH * (mapheight - 1);
+
+    m_w = FTOM(MAPWIDTH);
+    m_h = FTOM(mapheight);
 }
 
 static void AM_InitVariables(const dboolean mainwindow)
