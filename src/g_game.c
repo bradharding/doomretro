@@ -625,13 +625,23 @@ void G_ToggleAlwaysRun(evtype_t type)
     alwaysrun = !alwaysrun;
 #endif
 
+    C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+
     if (!consoleactive)
     {
-        HU_SetPlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false, false);
+        if (alwaysrun)
+        {
+            HU_SetPlayerMessage(s_ALWAYSRUNON, false, false);
+            C_Output(s_ALWAYSRUNON);
+        }
+        else
+        {
+            HU_SetPlayerMessage(s_ALWAYSRUNOFF, false, false);
+            C_Output(s_ALWAYSRUNOFF);
+        }
+
         message_dontfuckwithme = true;
     }
-
-    C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
 
     M_SaveCVARs();
 }
