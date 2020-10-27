@@ -58,6 +58,8 @@ int             weaponbob = weaponbob_default;
 dboolean        weaponbounce = weaponbounce_default;
 dboolean        weaponrecoil = weaponrecoil_default;
 
+uint64_t        stat_shotsfired_fists = 0;
+uint64_t        stat_shotsfired_chainsaw = 0;
 uint64_t        stat_shotsfired_pistol = 0;
 uint64_t        stat_shotsfired_shotgun = 0;
 uint64_t        stat_shotsfired_supershotgun = 0;
@@ -65,6 +67,8 @@ uint64_t        stat_shotsfired_chaingun = 0;
 uint64_t        stat_shotsfired_rocketlauncher = 0;
 uint64_t        stat_shotsfired_plasmarifle = 0;
 uint64_t        stat_shotsfired_bfg9000 = 0;
+uint64_t        stat_shotssuccessful_fists = 0;
+uint64_t        stat_shotssuccessful_chainsaw = 0;
 uint64_t        stat_shotssuccessful_pistol = 0;
 uint64_t        stat_shotssuccessful_shotgun = 0;
 uint64_t        stat_shotssuccessful_supershotgun = 0;
@@ -432,7 +436,13 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         // turn to face target
         if (linetarget)
+        {
             actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
+
+            player->shotsfired[wp_fist]++;
+            stat_shotsfired_fists = SafeAdd(stat_shotsfired_fists, 1);
+
+        }
     }
 }
 
@@ -456,6 +466,9 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
         S_StartSound(actor, sfx_sawful);
         return;
     }
+
+    player->shotsfired[wp_chainsaw]++;
+    stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
 
     S_StartSound(actor, sfx_sawhit);
 

@@ -53,7 +53,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                197
+#define NUMCVARS                                                201
 
 #define CONFIG_VARIABLE_INT(name, oldname, cvar, set)           { #name, #oldname, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, oldname, cvar, set)  { #name, #oldname, &cvar, DEFAULT_UINT64,        set          }
@@ -248,6 +248,8 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (runs,                             stat_runs,                             stat_runs,                             NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (secretsfound,                     stat_secretsrevealed,                  stat_secretsfound,                     NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_fists,                 stat_shotsfired_fists,                 stat_shotsfired_fists,                 NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_chainsaw,              stat_shotsfired_chainsaw,              stat_shotsfired_chainsaw,              NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_pistol,                stat_shotsfired_pistol,                stat_shotsfired_pistol,                NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_shotgun,               stat_shotsfired_shotgun,               stat_shotsfired_shotgun,               NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_supershotgun,          stat_shotsfired_supershotgun,          stat_shotsfired_supershotgun,          NOVALUEALIAS       ),
@@ -255,7 +257,9 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_rocketlauncher,        stat_shotsfired_rocketlauncher,        stat_shotsfired_rocketlauncher,        NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_plasmarifle,           stat_shotsfired_plasmarifle,           stat_shotsfired_plasmarifle,           NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_bfg9000,               stat_shotsfired_bfg9000,               stat_shotsfired_bfg9000,               NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_fists,            stat_shotssuccessful_fists,            stat_shotssuccessful_fists,            NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_pistol,           stat_shotssuccessful_pistol,           stat_shotssuccessful_pistol,           NOVALUEALIAS       ),
+    CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_chainsaw,         stat_shotssuccessful_chainsaw,         stat_shotssuccessful_chainsaw,         NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_shotgun,          stat_shotssuccessful_shotgun,          stat_shotssuccessful_shotgun,          NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_supershotgun,     stat_shotssuccessful_supershotgun,     stat_shotssuccessful_supershotgun,     NOVALUEALIAS       ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_chaingun,         stat_shotssuccessful_chaingun,         stat_shotssuccessful_chaingun,         NOVALUEALIAS       ),

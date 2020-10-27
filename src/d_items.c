@@ -42,7 +42,7 @@
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
     {
-        /* description */ "fist",
+        /* description */ "fists",
         /* ammotype */    am_noammo,
         /* minammo */     0,
         /* upstate */     S_PUNCHUP,

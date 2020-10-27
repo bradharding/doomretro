@@ -4471,6 +4471,18 @@ static weapontype_t favoriteweapon(dboolean total)
     {
         uint64_t    shotsfiredstat = 0;
 
+        if (shotsfiredstat < stat_shotsfired_fists)
+        {
+            shotsfiredstat = stat_shotsfired_fists;
+            favorite = wp_fist;
+        }
+
+        if (shotsfiredstat < stat_shotsfired_chainsaw)
+        {
+            shotsfiredstat = stat_shotsfired_chainsaw;
+            favorite = wp_chainsaw;
+        }
+
         if (shotsfiredstat < stat_shotsfired_pistol)
         {
             shotsfiredstat = stat_shotsfired_pistol;
@@ -5001,11 +5013,12 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(shotssuccessful1);
     temp2 = commify(shotsfired1);
-    temp3 = commify((shotssuccessful2 = stat_shotssuccessful_pistol + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun
-        + stat_shotssuccessful_chaingun + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle
-        + stat_shotssuccessful_bfg9000));
-    temp4 = commify((shotsfired2 = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
-        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
+    temp3 = commify((shotssuccessful2 = stat_shotssuccessful_fists + stat_shotssuccessful_chainsaw + stat_shotssuccessful_pistol
+        + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun + stat_shotssuccessful_chaingun
+        + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle + stat_shotssuccessful_bfg9000));
+    temp4 = commify((shotsfired2 = stat_shotsfired_fists + stat_shotsfired_chainsaw + stat_shotsfired_pistol + stat_shotsfired_shotgun
+        + stat_shotsfired_supershotgun + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle
+        + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots successful/fired\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
         temp1, temp2, (shotsfired1 ? shotssuccessful1 * 100 / shotsfired1 : 0), temp3, temp4,
         (shotsfired2 ? (int)(shotssuccessful2 * 100 / shotsfired2) : 0));
@@ -5013,6 +5026,38 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
     free(temp4);
+
+    temp1 = sentencecase(weaponinfo[wp_fist].description);
+    temp2 = commify(viewplayer->shotssuccessful[wp_fist]);
+    temp3 = commify(viewplayer->shotsfired[wp_fist]);
+    temp4 = commify(stat_shotssuccessful_fists);
+    temp5 = commify(stat_shotsfired_fists);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_fist] ? viewplayer->shotssuccessful[wp_fist] * 100 / viewplayer->shotsfired[wp_fist] : 0),
+        temp4, temp5,
+        (stat_shotsfired_fists ? (int)(stat_shotssuccessful_fists * 100 / stat_shotsfired_fists) : 0));
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
+
+    temp1 = sentencecase(weaponinfo[wp_chainsaw].description);
+    temp2 = commify(viewplayer->shotssuccessful[wp_chainsaw]);
+    temp3 = commify(viewplayer->shotsfired[wp_chainsaw]);
+    temp4 = commify(stat_shotssuccessful_chainsaw);
+    temp5 = commify(stat_shotsfired_chainsaw);
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3,
+        (viewplayer->shotsfired[wp_chainsaw] ? viewplayer->shotssuccessful[wp_chainsaw] * 100 / viewplayer->shotsfired[wp_chainsaw] : 0),
+        temp4, temp5,
+        (stat_shotsfired_chainsaw ? (int)(stat_shotssuccessful_chainsaw * 100 / stat_shotsfired_chainsaw) : 0));
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
+    free(temp5);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].description);
     temp2 = commify(viewplayer->shotssuccessful[wp_pistol]);
@@ -5380,15 +5425,34 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", temp1);
     free(temp1);
 
-    temp1 = commify((shotssuccessful = stat_shotssuccessful_pistol + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun
-        + stat_shotssuccessful_chaingun + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle
-        + stat_shotssuccessful_bfg9000));
-    temp2 = commify((shotsfired = stat_shotsfired_pistol + stat_shotsfired_shotgun + stat_shotsfired_supershotgun
-        + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle + stat_shotsfired_bfg9000));
+    temp1 = commify((shotssuccessful = stat_shotssuccessful_fists + stat_shotssuccessful_chainsaw + stat_shotssuccessful_pistol
+        + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun + stat_shotssuccessful_chaingun
+        + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle + stat_shotssuccessful_bfg9000));
+    temp2 = commify((shotsfired = stat_shotsfired_fists + stat_shotsfired_chainsaw + stat_shotsfired_pistol + stat_shotsfired_shotgun
+        + stat_shotsfired_supershotgun + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle
+        + stat_shotsfired_bfg9000));
     C_TabbedOutput(tabs, "Shots successful/fired\t-\t<b>%s of %s (%i%%)</b>",
         temp1, temp2, (shotsfired ? (int)(shotssuccessful * 100 / shotsfired) : 0));
     free(temp1);
     free(temp2);
+
+    temp1 = sentencecase(weaponinfo[wp_fist].description);
+    temp2 = commify(stat_shotssuccessful_fists);
+    temp3 = commify(stat_shotsfired_fists);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3, (stat_shotsfired_fists ? (int)(stat_shotssuccessful_fists * 100 / stat_shotsfired_fists) : 0));
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    temp1 = sentencecase(weaponinfo[wp_chainsaw].description);
+    temp2 = commify(stat_shotssuccessful_chainsaw);
+    temp3 = commify(stat_shotsfired_chainsaw);
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s of %s (%i%%)</b>",
+        temp1, temp2, temp3, (stat_shotsfired_chainsaw ? (int)(stat_shotssuccessful_chainsaw * 100 / stat_shotsfired_chainsaw) : 0));
+    free(temp1);
+    free(temp2);
+    free(temp3);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].description);
     temp2 = commify(stat_shotssuccessful_pistol);
