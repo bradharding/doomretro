@@ -3781,7 +3781,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
 
-        if (!automapactive && !inhelpscreens)
+        if (!inhelpscreens)
             R_SetViewSize(r_screensize);
 
         if (automapactive)
