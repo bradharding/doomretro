@@ -3660,8 +3660,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                 addtocount = true;
 
             // [BH] allow either GOTREDSKUL or GOTREDSKULL
-            if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL")
-                && !deh_strlookup[p_GOTREDSKULL].assigned)
+            if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL") && !deh_strlookup[p_GOTREDSKULL].assigned)
             {
                 s_GOTREDSKULL = s_GOTREDSKUL;
                 deh_strlookup[p_GOTREDSKULL].assigned++;

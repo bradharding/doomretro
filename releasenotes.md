@@ -43,6 +43,7 @@
 * A bug has been fixed whereby using the mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not when vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed and the `r_supersampling` CVAR is `on`.
+* The design of the 3 digit used in the status bar when the `r_detail` CVAR is `high` has been tweaked slightly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -52,7 +53,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the automap:
-  * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom in and out.
+  * A bug has been fixed whereby the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys wouldn’t zoom the automap in and out.
   * The background menu effect will no longer be applied to the external automap when not in a game.
 * Minor changes have been made to text that is output to the console.
 * Navigating the options menu has now been fixed.
@@ -104,7 +105,7 @@
   * There is a new `Favorite weapon` stat.
 * The precision of the angle the player is facing when using the `IDMYPOS` cheat has been improved.
 * Certain cheats are now still active when the player respawns after death.
-* The effect applied when the player is attacked and the `r_shake_damage` CVAR is `on` is now still applied when god mode is enabled.
+* The effect applied when the player is attacked and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
 * Fixes to maps that involve changing a sector’s tag will now work as intended when the `r_fixmaperrors` CVAR is `on`.
 * A bug has been fixed whereby certain translucent things wouldn’t be translucent while the player had an invulnerability power-up.
 * The music will no longer be reset when using the `map` CCMD to restart the current map.
