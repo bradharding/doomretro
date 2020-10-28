@@ -265,47 +265,128 @@ static int TranslateKey2(int key)
 {
     switch (key)
     {
-        case KEY_LEFTARROW:     return SDL_SCANCODE_LEFT;
-        case KEY_RIGHTARROW:    return SDL_SCANCODE_RIGHT;
-        case KEY_DOWNARROW:     return SDL_SCANCODE_DOWN;
-        case KEY_UPARROW:       return SDL_SCANCODE_UP;
-        case KEY_ESCAPE:        return SDL_SCANCODE_ESCAPE;
-        case KEY_ENTER:         return SDL_SCANCODE_RETURN;
-        case KEY_TAB:           return SDL_SCANCODE_TAB;
-        case KEY_F1:            return SDL_SCANCODE_F1;
-        case KEY_F2:            return SDL_SCANCODE_F2;
-        case KEY_F3:            return SDL_SCANCODE_F3;
-        case KEY_F4:            return SDL_SCANCODE_F4;
-        case KEY_F5:            return SDL_SCANCODE_F5;
-        case KEY_F6:            return SDL_SCANCODE_F6;
-        case KEY_F7:            return SDL_SCANCODE_F7;
-        case KEY_F8:            return SDL_SCANCODE_F8;
-        case KEY_F9:            return SDL_SCANCODE_F9;
-        case KEY_F10:           return SDL_SCANCODE_F10;
-        case KEY_F11:           return SDL_SCANCODE_F11;
-        case KEY_F12:           return SDL_SCANCODE_F12;
-        case KEY_BACKSPACE:     return SDL_SCANCODE_BACKSPACE;
-        case KEY_DELETE:        return SDL_SCANCODE_DELETE;
-        case KEY_PAUSE:         return SDL_SCANCODE_PAUSE;
-        case KEY_EQUALS:        return SDL_SCANCODE_EQUALS;
-        case KEY_MINUS:         return SDL_SCANCODE_MINUS;
-        case KEY_SHIFT:         return SDL_SCANCODE_RSHIFT;
-        case KEY_CTRL:          return SDL_SCANCODE_RCTRL;
-        case KEY_ALT:           return SDL_SCANCODE_RALT;
-        case KEY_CAPSLOCK:      return SDL_SCANCODE_CAPSLOCK;
-        case KEY_SCROLLLOCK:    return SDL_SCANCODE_SCROLLLOCK;
-        case KEYP_0:            return SDL_SCANCODE_KP_0;
-        case KEYP_1:            return SDL_SCANCODE_KP_1;
-        case KEYP_3:            return SDL_SCANCODE_KP_3;
-        case KEYP_5:            return SDL_SCANCODE_KP_5;
-        case KEYP_7:            return SDL_SCANCODE_KP_7;
-        case KEYP_9:            return SDL_SCANCODE_KP_9;
-        case KEYP_PERIOD:       return SDL_SCANCODE_KP_PERIOD;
-        case KEYP_MULTIPLY:     return SDL_SCANCODE_KP_MULTIPLY;
-        case KEYP_DIVIDE:       return SDL_SCANCODE_KP_DIVIDE;
-        case KEY_INSERT:        return SDL_SCANCODE_INSERT;
-        case KEY_NUMLOCK:       return SDL_SCANCODE_NUMLOCKCLEAR;
-        default:                return key;
+        case KEY_LEFTARROW:
+            return SDL_SCANCODE_LEFT;
+
+        case KEY_RIGHTARROW:
+            return SDL_SCANCODE_RIGHT;
+
+        case KEY_DOWNARROW:
+            return SDL_SCANCODE_DOWN;
+
+        case KEY_UPARROW:
+            return SDL_SCANCODE_UP;
+
+        case KEY_ESCAPE:
+            return SDL_SCANCODE_ESCAPE;
+
+        case KEY_ENTER:
+            return SDL_SCANCODE_RETURN;
+
+        case KEY_TAB:
+            return SDL_SCANCODE_TAB;
+
+        case KEY_F1:
+            return SDL_SCANCODE_F1;
+
+        case KEY_F2:
+            return SDL_SCANCODE_F2;
+
+        case KEY_F3:
+            return SDL_SCANCODE_F3;
+
+        case KEY_F4:
+            return SDL_SCANCODE_F4;
+
+        case KEY_F5:
+            return SDL_SCANCODE_F5;
+
+        case KEY_F6:
+            return SDL_SCANCODE_F6;
+
+        case KEY_F7:
+            return SDL_SCANCODE_F7;
+
+        case KEY_F8:
+            return SDL_SCANCODE_F8;
+
+        case KEY_F9:
+            return SDL_SCANCODE_F9;
+
+        case KEY_F10:
+            return SDL_SCANCODE_F10;
+
+        case KEY_F11:
+            return SDL_SCANCODE_F11;
+
+        case KEY_F12:
+            return SDL_SCANCODE_F12;
+
+        case KEY_BACKSPACE:
+            return SDL_SCANCODE_BACKSPACE;
+
+        case KEY_DELETE:
+            return SDL_SCANCODE_DELETE;
+
+        case KEY_PAUSE:
+            return SDL_SCANCODE_PAUSE;
+
+        case KEY_EQUALS:
+            return SDL_SCANCODE_EQUALS;
+
+        case KEY_MINUS:
+            return SDL_SCANCODE_MINUS;
+
+        case KEY_SHIFT:
+            return SDL_SCANCODE_RSHIFT;
+
+        case KEY_CTRL:
+            return SDL_SCANCODE_RCTRL;
+
+        case KEY_ALT:
+            return SDL_SCANCODE_RALT;
+
+        case KEY_CAPSLOCK:
+            return SDL_SCANCODE_CAPSLOCK;
+
+        case KEY_SCROLLLOCK:
+            return SDL_SCANCODE_SCROLLLOCK;
+
+        case KEYP_0:
+            return SDL_SCANCODE_KP_0;
+
+        case KEYP_1:
+            return SDL_SCANCODE_KP_1;
+
+        case KEYP_3:
+            return SDL_SCANCODE_KP_3;
+
+        case KEYP_5:
+            return SDL_SCANCODE_KP_5;
+
+        case KEYP_7:
+            return SDL_SCANCODE_KP_7;
+
+        case KEYP_9:
+            return SDL_SCANCODE_KP_9;
+
+        case KEYP_PERIOD:
+            return SDL_SCANCODE_KP_PERIOD;
+
+        case KEYP_MULTIPLY:
+            return SDL_SCANCODE_KP_MULTIPLY;
+
+        case KEYP_DIVIDE:
+            return SDL_SCANCODE_KP_DIVIDE;
+
+        case KEY_INSERT:
+            return SDL_SCANCODE_INSERT;
+
+        case KEY_NUMLOCK:
+            return SDL_SCANCODE_NUMLOCKCLEAR;
+
+        default:
+            return key;
     }
 }
 
@@ -1728,8 +1809,6 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             }
         }
 
-        I_CapFPS(0);
-
         refreshrate = 0;
 
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
@@ -1745,6 +1824,8 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
+                    I_CapFPS(0);
+
                     if (output)
                         C_Output("The framerate is synced with the display's refresh rate of %iHz.", refreshrate);
                 }
@@ -1764,8 +1845,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
         else
         {
-            if (vid_capfps < vid_capfps_max)
-                I_CapFPS(vid_capfps);
+            I_CapFPS(vid_capfps);
 
             if (output)
             {
