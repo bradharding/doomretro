@@ -42,14 +42,11 @@
 #include "d_event.h"
 
 #if defined(_WIN32)
-#define WINDOWS     "Windows"
-#define EXECUTABLE  "executable"
+#define OPERATINGSYSTEM "Windows"
 #elif defined(__APPLE__)
-#define WINDOWS     "macOS"
-#define EXECUTABLE  "app"
+#define OPERATINGSYSTEM "macOS"
 #else
-#define WINDOWS     "Linux"
-#define EXECUTABLE  "binary"
+#define OPERATINGSYSTEM "Linux"
 #endif
 
 //

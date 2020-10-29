@@ -2351,8 +2351,8 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("This %i-bit <i><b>%s</b></i> %s of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
-            (int)sizeof(intptr_t) * 8, WINDOWS, EXECUTABLE, PACKAGE_NAMEANDVERSIONSTRING, hour - 12 * (hour > 12), minute,
+        C_Output("This %i-bit <i><b>%s</b></i> app of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
+            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, (hour ? hour - 12 * (hour > 12) : 12), minute,
             (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
     }
 
