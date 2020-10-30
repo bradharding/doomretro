@@ -6710,7 +6710,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                     else
                         C_Warning(0, "%s doesn't have %s %s.",
-                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), playername, mobjinfo[i].name1);
+                            playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                 }
 
                 if (temp1)
