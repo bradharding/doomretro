@@ -2208,9 +2208,9 @@ static void give_cmd_func2(char *cmd, char *parms)
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have all the weapons.");
+                    C_Warning(0, "You already have all of your weapons.");
                 else
-                    C_Warning(0, "%s already has all the weapons.", playername);
+                    C_Warning(0, "%s already has all of their weapons.", playername);
 
                 free(parm);
                 return;
@@ -2227,9 +2227,9 @@ static void give_cmd_func2(char *cmd, char *parms)
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have full ammo.");
+                    C_Warning(0, "You already have full ammo for each weapon.");
                 else
-                    C_Warning(0, "%s already has full ammo.", playername);
+                    C_Warning(0, "%s already has full ammo for each weapon.", playername);
 
                 free(parm);
                 return;
@@ -4161,12 +4161,8 @@ static void name_cmd_func2(char *cmd, char *parms)
         {
             M_StripQuotes(namecmdnew);
 
-            if (monstercount[bestmobj->type] == 1)
-                C_Output("The %s%s has been %s %s.",
-                    (namecmdfriendly ? "friendly " : ""), namecmdold, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
-            else
-                C_Output("The %s%s nearest to %s has been %s %s.",
-                    (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+            C_Output("The %s%s nearest to %s has been %s %s.",
+                (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
 
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }

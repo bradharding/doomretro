@@ -231,8 +231,7 @@ static void P_XYMovement(mobj_t *mo)
                     mo->momx = x * 2 - mo->momx;
                     mo->momy = y * 2 - mo->momy;
 
-                    // if under gravity, slow down in
-                    // direction perpendicular to wall.
+                    // if under gravity, slow down in direction perpendicular to wall.
                     if (!(mo->flags & MF_NOGRAVITY))
                     {
                         mo->momx = (mo->momx + x) / 2;
@@ -258,8 +257,7 @@ static void P_XYMovement(mobj_t *mo)
                     && ceilingline->backsector->ceilingpic == skyflatnum
                     && mo->z > ceilingline->backsector->ceilingheight)
                 {
-                    // Hack to prevent missiles exploding
-                    // against the sky.
+                    // Hack to prevent missiles exploding against the sky.
                     // Does not handle sky floors.
 
                     // [BH] still play sound when firing BFG into sky
@@ -528,9 +526,7 @@ floater:
                 if (mo->momz < -GRAVITY * 8)
                 {
                     // Squat down.
-                    // Decrease viewheight for a moment
-                    // after hitting the ground (hard),
-                    // and utter appropriate sound.
+                    // Decrease viewheight for a moment after hitting the ground (hard), and utter appropriate sound.
                     player->deltaviewheight = mo->momz / 8;
 
                     if (mo->health > 0)
