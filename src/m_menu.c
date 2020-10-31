@@ -2333,7 +2333,7 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int h = 8;
+    int h = 0;
     int len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
