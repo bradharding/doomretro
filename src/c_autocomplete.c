@@ -7455,6 +7455,8 @@ autocomplete_t autocompletelist[] =
     { "play DSVIPAIN",                               DOOM2ONLY },
     { "play DSWPNUP",                                DOOM1AND2 },
     { "playername ",                                 DOOM1AND2 },
+    { "playername you",                              DOOM1AND2 },
+    { "playername \"you\"",                          DOOM1AND2 },
     { "playerstats",                                 DOOM1AND2 },
     { "+prevweapon",                                 DOOM1AND2 },
     { "print ",                                      DOOM1AND2 },
