@@ -1763,10 +1763,18 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 else
                 {
                     if (target->player)
-                        C_Obituary("%s %s themselves with their own %s.",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (gibbed ? "gibbed" : "killed"),
-                            weaponinfo[readyweapon].description);
+                    {
+                        if (M_StringCompare(playername, playername_default))
+                            C_Obituary("You %s yourself with your own %s.",
+                                (gibbed ? "gibbed" : "killed"),
+                                weaponinfo[readyweapon].description);
+                        else
+                            C_Obituary("%s %s themselves with their own %s.",
+                                playername,
+                                (gibbed ? "gibbed" : "killed"),
+                                weaponinfo[readyweapon].description);
+
+                    }
                     else
                     {
                         char    targetname[100];
@@ -1780,12 +1788,19 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_Obituary("%s %s %s with their %s%s.",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            targetname,
-                            weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
+                        if (M_StringCompare(playername, playername_default))
+                            C_Obituary("You %s %s with your %s%s.",
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                targetname,
+                                weaponinfo[readyweapon].description,
+                                (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
+                        else
+                            C_Obituary("%s %s %s with their %s%s.",
+                                playername,
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                targetname,
+                                weaponinfo[readyweapon].description,
+                                (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
                     }
                 }
             }
