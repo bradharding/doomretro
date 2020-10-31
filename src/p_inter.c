@@ -1769,9 +1769,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (gibbed ? "gibbed" : "killed"),
                                 weaponinfo[readyweapon].description);
                         else
-                            C_Obituary("%s %s themselves with their own %s.",
+                            C_Obituary("%s %s %s with %s own %s.",
                                 playername,
                                 (gibbed ? "gibbed" : "killed"),
+                                (playergender == playergender_male ? "himself" :
+                                    (playergender == playergender_female ? "herself" : "themselves")),
+                                (playergender == playergender_male ? "his" :
+                                    (playergender == playergender_female ? "her" : "their")),
                                 weaponinfo[readyweapon].description);
 
                     }
@@ -1795,10 +1799,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 weaponinfo[readyweapon].description,
                                 (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
                         else
-                            C_Obituary("%s %s %s with their %s%s.",
+                            C_Obituary("%s %s %s with %s %s%s.",
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
+                                (playergender == playergender_male ? "his" :
+                                    (playergender == playergender_female ? "her" : "their")),
                                 weaponinfo[readyweapon].description,
                                 (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
                     }

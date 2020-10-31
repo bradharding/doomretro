@@ -99,6 +99,7 @@ extern dboolean     melt;
 extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
+extern int          playergender;
 extern char         *playername;
 extern dboolean     r_althud;
 extern int          r_berserkintensity;
@@ -249,6 +250,13 @@ enum
     crosshair_none,
     crosshair_cross,
     crosshair_dot
+};
+
+enum
+{
+    playergender_other,
+    playergender_male,
+    playergender_female
 };
 
 enum
@@ -482,6 +490,10 @@ enum
 #define movebob_min                             0
 #define movebob_default                         75
 #define movebob_max                             100
+
+#define playergender_min                        playergender_other
+#define playergender_default                    playergender_male
+#define playergender_max                        playergender_female
 
 #define playername_default                      "you"
 
@@ -815,7 +827,8 @@ typedef enum
     SCALEVALUEALIAS,
     ARMORTYPEVALUEALIAS,
     CROSSHAIRVALUEALIAS,
-    VSYNCVALUEALIAS
+    VSYNCVALUEALIAS,
+    PLAYERGENDERVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

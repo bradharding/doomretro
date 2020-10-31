@@ -350,6 +350,8 @@ static void gp_sensitivity_cvars_func2(char *cmd, char *parms);
 static void mouselook_cvar_func2(char *cmd, char *parms);
 static dboolean player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
+static dboolean playergender_cvar_func1(char *cmd, char *parms);
+static void playergender_cvar_func2(char *cmd, char *parms);
 static void playername_cvar_func2(char *cmd, char *parms);
 static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
@@ -643,8 +645,10 @@ consolecmd_t consolecmds[] =
         "Toggles the player starting each map with only\na pistol."),
     CCMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
         "Plays a <i>sound effect</i> or <i>music</i> lump."),
+    CVAR_INT(playergender, "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, PLAYERGENDERVALUEALIAS,
+        "The gender of the player (<b>male</b>, <b>female</b> or <b>other</b>)."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
-        "The name of the player used in player messages."),
+        "The name of the player."),
     CCMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows stats about the player."),
     CCMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
@@ -7753,6 +7757,46 @@ static void player_cvars_func2(char *cmd, char *parms)
                 free(temp);
             }
         }
+    }
+}
+
+//
+// playergender CVAR
+//
+static dboolean playergender_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, PLAYERGENDERVALUEALIAS) != INT_MIN);
+}
+
+static void playergender_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, PLAYERGENDERVALUEALIAS);
+
+        if (value != INT_MIN && playergender != value)
+        {
+            playergender = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(playergender, PLAYERGENDERVALUEALIAS);
+
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (playergender == playergender_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(playergender_default, PLAYERGENDERVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 

@@ -18,6 +18,7 @@
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
 * Navigation of the main menu will now behave correctly when there are no savegames.
 * Centered messages are now better centered vertically.
+* The gender of the player in obituaries displayed in the console can now be specified using the `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.
 * A slight shadow is applied to the text at the top of the console.
