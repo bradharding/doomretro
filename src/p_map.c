@@ -2028,7 +2028,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             int max = M_RandomInt(50, 100) + radius;
             int x = thing->x;
             int y = thing->y;
-            int blood = thing->blood;
+            int blood = mobjinfo[thing->blood].blood;
             int floorz = thing->floorz;
 
             for (int i = 0; i < max; i++)

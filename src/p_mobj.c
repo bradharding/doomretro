@@ -292,12 +292,13 @@ static void P_XYMovement(mobj_t *mo)
 
         if (max)
         {
+            int     blood = mobjinfo[mo->blood].blood;
             int     radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
             fixed_t floorz = mo->floorz;
 
             for (int i = 0; i < max; i++)
                 P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), mo->blood, floorz, mo);
+                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
         }
     }
 
