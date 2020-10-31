@@ -842,7 +842,7 @@ static void M_ReadSaveStrings(void)
             continue;
         }
 
-        if (fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle) == 1)
+        if (fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle))
         {
             if (savegamestrings[i][0])
             {
