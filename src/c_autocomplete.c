@@ -7461,6 +7461,7 @@ autocomplete_t autocompletelist[] =
     { "play DSVILSIT",                               DOOM2ONLY },
     { "play DSVIPAIN",                               DOOM2ONLY },
     { "play DSWPNUP",                                DOOM1AND2 },
+    { "playergender ",                               DOOM1AND2 },
     { "playergender female",                         DOOM1AND2 },
     { "playergender male",                           DOOM1AND2 },
     { "playergender other",                          DOOM1AND2 },
