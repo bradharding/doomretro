@@ -2063,13 +2063,16 @@ void M_QuitDOOM(int choice)
     static char endstring[320];
     static char line1[160];
     static char line2[160];
+    static int  r = -1;
 
     quitting = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(line1, s_QUITMSG, sizeof(line1));
+    else if (gamemission == doom)
+        M_snprintf(line1, sizeof(line1), *endmsg[(r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], OPERATINGSYSTEM);
     else
-        M_snprintf(line1, sizeof(line1), *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES],
+        M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))],
             OPERATINGSYSTEM);
 
     M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), OPERATINGSYSTEM);
