@@ -707,7 +707,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_homindicator, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the flashing \"Hall Of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the heads-up display when in widescreen\nmode."),
+        "Toggles a heads-up display when in widescreen\nmode."),
     CVAR_BOOL(r_hud_translucency, "", bool_cvars_func1, r_hud_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display\nwhen in widescreen mode."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
