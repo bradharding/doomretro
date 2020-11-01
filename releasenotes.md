@@ -18,7 +18,7 @@
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
 * Navigation of the main menu will now behave correctly when there are no savegames.
 * Centered messages are now better centered vertically.
-* The gender of the player can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. This affects the pronouns used in obituaries displayed in the console if the `playername` CVAR is changed from its default of `“you”`.
+* The gender of the player can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, this affects the pronouns used in several player messages and obituaries.
 * A subtle scanline effect has now been applied to the menu’s background.
 * The console’s scrollbar now extends to the top of the screen.
 * A slight shadow is applied to the text at the top of the console.
@@ -28,8 +28,8 @@
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
   * The player arrow is now slightly darker when the player has a partial invisibility power-up.
-  * Thing triangles will no longer move slightly when using the `IDDT` cheat and the console is open.
-* The correct `CREDIT` lump is now displayed when finishing one of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
+  * Thing triangles will no longer jitter when the `IDDT` cheat has been entered and the console is open.
+* The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
