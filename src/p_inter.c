@@ -1668,11 +1668,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"));
                     else
-                        C_Obituary("%s was %s by %s %s that they exploded.",
+                        C_Obituary("%s was %s by %s %s that %s exploded.",
                             playername,
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"));
+                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                            (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they")));
                 }
                 else
                 {
@@ -1921,14 +1922,20 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (M_StringCompare(playername, playername_default))
                         C_Obituary("You killed yourself.");
                     else
-                        C_Obituary("%s killed themselves.", playername);
+                        C_Obituary("%s killed %s.",
+                            playername,
+                            (playergender == playergender_male ? "himself" :
+                                (playergender == playergender_female ? "herself" : "themselves")));
                 }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
                         C_Obituary("You blew yourself up.");
                     else
-                        C_Obituary("%s blew themselves up.", playername);
+                        C_Obituary("%s blew %s up.",
+                            playername,
+                            (playergender == playergender_male ? "himself" :
+                                (playergender == playergender_female ? "herself" : "themselves")));
                 }
             }
         }

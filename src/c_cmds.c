@@ -2214,7 +2214,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You already have all of your weapons.");
                 else
-                    C_Warning(0, "%s already has all of their weapons.", playername);
+                    C_Warning(0, "%s already has all of %s weapons.", playername,
+                        (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")));
 
                 free(parm);
                 return;
@@ -6088,7 +6089,9 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         {
             P_ResurrectPlayer(initial_health);
             M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
-                playername, (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
+                playername,
+                (M_StringCompare(playername, playername_default) ? "yourself" : (playergender == playergender_male ? "himself" :
+                    (playergender == playergender_female ? "herself" : "themselves"))));
             buffer[0] = toupper(buffer[0]);
             C_Obituary(buffer);
             C_HideConsole();
