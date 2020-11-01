@@ -429,6 +429,9 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     hitwall = false;
     P_LineAttack(actor, angle, MELEERANGE, slope, damage);
 
+    player->shotsfired[wp_fist]++;
+    stat_shotsfired_fists = SafeAdd(stat_shotsfired_fists, 1);
+
     if (linetarget || hitwall)
     {
         P_NoiseAlert(actor);
@@ -439,9 +442,8 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
 
-            player->shotsfired[wp_fist]++;
-            stat_shotsfired_fists = SafeAdd(stat_shotsfired_fists, 1);
-
+            player->shotssuccessful[wp_fist]++;
+            stat_shotssuccessful_fists = SafeAdd(stat_shotssuccessful_fists, 1);
         }
     }
 }
@@ -461,14 +463,17 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_Recoil(wp_chainsaw);
     P_NoiseAlert(actor);
 
+    player->shotsfired[wp_chainsaw]++;
+    stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
+
     if (!linetarget)
     {
         S_StartSound(actor, sfx_sawful);
         return;
     }
 
-    player->shotsfired[wp_chainsaw]++;
-    stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
+    player->shotssuccessful[wp_chainsaw]++;
+    stat_shotssuccessful_chainsaw = SafeAdd(stat_shotssuccessful_chainsaw, 1);
 
     S_StartSound(actor, sfx_sawhit);
 
