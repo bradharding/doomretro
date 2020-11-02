@@ -48,6 +48,7 @@
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed and the `r_supersampling` CVAR is `on`.
 * The design of the 3 digit used in the status bar when the `r_detail` CVAR is `high` has been tweaked slightly.
 * The use of the player’s fists and chainsaw are now displayed by the `playerstats` CCMD.
+* More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
