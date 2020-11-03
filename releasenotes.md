@@ -27,7 +27,7 @@
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
-  * The player arrow is now slightly darker when the player has a partial invisibility power-up.
+  * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered and the console is open.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
@@ -41,7 +41,7 @@
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
 * Timestamps between midnight and 12:59:59am in the console will now be displayed correctly.
-* The current map’s music will no longer be restarted when loading a savegame for the same map.
+* The current map’s music will no longer restart when loading a savegame for the same map.
 * Music will no longer continue to play if *DOOM Retro* crashes.
 * A bug has been fixed whereby using the mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not when vanilla mode is enabled.

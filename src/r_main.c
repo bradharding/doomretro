@@ -129,11 +129,6 @@ dboolean            r_translucency = r_translucency_default;
 extern dboolean     transferredsky;
 extern lighttable_t **walllights;
 
-// [crispy] in widescreen mode, make sure the same number of horizontal
-// pixels shows the same part of the game scene as in regular rendering mode
-static int          scaledviewwidth_nonwide;
-static int          viewwidth_nonwide;
-
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -408,30 +403,27 @@ void R_ExecuteSetViewSize(void)
 
     if (setblocks == 11)
     {
-        scaledviewwidth_nonwide = NONWIDEWIDTH;
-        scaledviewwidth = SCREENWIDTH;
+        viewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
+        pspritescale = FixedDiv(NONWIDEWIDTH, VANILLAWIDTH);
     }
     else
     {
-        scaledviewwidth_nonwide = setblocks * NONWIDEWIDTH / 10;
-        scaledviewwidth = setblocks * SCREENWIDTH / 10;
+        viewwidth = setblocks * SCREENWIDTH / 10;
         viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
+        pspritescale = FixedDiv(setblocks * NONWIDEWIDTH / 10, VANILLAWIDTH);
     }
 
-    viewwidth = scaledviewwidth;
-    viewwidth_nonwide = scaledviewwidth_nonwide;
+    viewwidth = viewwidth;
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
 
-    R_InitBuffer(scaledviewwidth, viewheight);
+    R_InitBuffer(viewwidth, viewheight);
     R_InitTextureMapping();
 
-    // psprite scales
-    pspritescale = FixedDiv(viewwidth_nonwide, VANILLAWIDTH);
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     if (gamestate == GS_LEVEL)

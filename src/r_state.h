@@ -63,7 +63,6 @@ extern fixed_t      *newspriteoffset;
 extern fixed_t      *newspritetopoffset;
 
 extern int          viewwidth;
-extern int          scaledviewwidth;
 extern int          viewheight;
 
 extern int          firstflat;

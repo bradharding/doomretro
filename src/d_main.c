@@ -362,7 +362,7 @@ void D_Display(void)
         // see if the border needs to be updated to the screen
         if (!automapactive)
         {
-            if (scaledviewwidth != SCREENWIDTH)
+            if (viewwidth != SCREENWIDTH)
                 R_DrawViewBorder();
 
             if (r_detail == r_detail_low)

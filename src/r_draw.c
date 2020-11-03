@@ -56,7 +56,6 @@
 //
 
 int         viewwidth;
-int         scaledviewwidth;
 int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
@@ -1289,7 +1288,7 @@ void R_FillBackScreen(void)
     int     x1, y1;
     int     x2, y2;
 
-    if (scaledviewwidth == SCREENWIDTH)
+    if (viewwidth == SCREENWIDTH)
         return;
 
     src = (byte *)grnrock;
@@ -1306,7 +1305,7 @@ void R_FillBackScreen(void)
 
     x1 = viewwindowx / 2 - WIDESCREENDELTA;
     y1 = viewwindowy / 2;
-    x2 = scaledviewwidth / 2 + x1;
+    x2 = viewwidth / 2 + x1;
     y2 = viewheight / 2 + y1;
 
     for (int x = x1; x < x2 - 8; x += 8)
@@ -1352,11 +1351,11 @@ void R_DrawViewBorder(void)
     int side;
     int ofs;
 
-    if (scaledviewwidth == SCREENWIDTH)
+    if (viewwidth == SCREENWIDTH)
         return;
 
     top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
-    side = (SCREENWIDTH - scaledviewwidth) / 2;
+    side = (SCREENWIDTH - viewwidth) / 2;
 
     // copy top and one line of left side
     R_VideoErase(0, top * SCREENWIDTH + side);
