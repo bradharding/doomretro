@@ -404,7 +404,7 @@ void R_InitDistortedFlats(void)
 void R_DrawPlanes(void)
 {
     if (r_liquid_swirl)
-        updateswirl = (!menuactive || !(gametime & 4)) && !consoleactive && !paused && !freeze;
+        updateswirl = ((!menuactive || !(gametime & 4)) && !consoleactive && !paused && !freeze);
 
     dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
 

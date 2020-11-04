@@ -414,8 +414,6 @@ void R_ExecuteSetViewSize(void)
         pspritescale = FixedDiv(setblocks * NONWIDEWIDTH / 10, VANILLAWIDTH);
     }
 
-    viewwidth = viewwidth;
-
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
