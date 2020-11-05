@@ -560,7 +560,7 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (!consolestrings || console[consolestrings - 1].stringtype != dividerstring)
+    if (console[consolestrings - 1].stringtype != dividerstring || !consolestrings)
     {
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -651,8 +651,8 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             w += SHORT(trademark->width);
             i++;
         }
-        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
-            && formatting)
+        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
+            && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
             w += SHORT(trademark->width);
             i += 3;

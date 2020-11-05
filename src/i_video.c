@@ -1091,11 +1091,11 @@ void I_UpdateBlitFunc(dboolean shake)
     dboolean    override = (vid_fullscreen && !(displayheight % VANILLAHEIGHT));
 
     if (shake && !software)
-        blitfunc = (vid_showfps ? (nearestlinear && !override ? &I_Blit_NearestLinear_ShowFPS_Shake :
-            &I_Blit_ShowFPS_Shake) : (nearestlinear && !override ? &I_Blit_NearestLinear_Shake : &I_Blit_Shake));
+        blitfunc = (nearestlinear && !override ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
+            (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake));
     else
-        blitfunc = (vid_showfps ? (nearestlinear && !override ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_ShowFPS) :
-            (nearestlinear && !override ? &I_Blit_NearestLinear : &I_Blit));
+        blitfunc = (nearestlinear && !override ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
+            (vid_showfps ? &I_Blit_ShowFPS : &I_Blit));
 
     mapblitfunc = (mapwindow ? (nearestlinear && !override ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
 }

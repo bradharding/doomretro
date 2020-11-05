@@ -176,13 +176,13 @@ static void R_InitSpriteDefs(void)
 
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
-    hash = malloc(sizeof(*hash) * numentries);      // allocate hash table
+    hash = Z_Malloc(sizeof(*hash) * numentries, PU_STATIC, NULL);   // allocate hash table
 
-    for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
+    for (unsigned int i = 0; i < numentries; i++)                   // initialize hash table as empty
         hash[i].index = -1;
 
-    for (unsigned int i = 0; i < numentries; i++)   // Prepend each sprite to hash chain
-    {                                               // prepend so that later ones win
+    for (unsigned int i = 0; i < numentries; i++)                   // Prepend each sprite to hash chain
+    {
         int j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
         hash[i].next = hash[j].index;
@@ -284,7 +284,7 @@ static void R_InitSpriteDefs(void)
         }
     }
 
-    free(hash); // free hash table
+    Z_Free(hash);   // free hash table
 
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 
