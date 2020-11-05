@@ -1155,25 +1155,23 @@ int G_GetParTime(void)
 
     if (par)
         return par;
-    else
+    else if (BTSX || (!canmodify && (!nerve || gamemap > 9) && !FREEDOOM))
+        return 0;   // [BH] have no par time if this level is from a PWAD
+    else if (gamemode == commercial)
     {
-        // [BH] have no par time if this level is from a PWAD
-        if (BTSX || (!canmodify && (!nerve || gamemap > 9) && !FREEDOOM))
+        // [BH] get correct par time for No Rest For The Living
+        //  and have no par time for TNT and Plutonia
+        if (gamemission == pack_nerve && gamemap <= 9)
+            return npars[gamemap - 1];
+        else if (gamemission == pack_tnt || gamemission == pack_plut)
             return 0;
-        else if (gamemode == commercial)
-        {
-            // [BH] get correct par time for No Rest For The Living
-            //  and have no par time for TNT and Plutonia
-            if (gamemission == pack_nerve && gamemap <= 9)
-                return npars[gamemap - 1];
-            else if (gamemission == pack_tnt || gamemission == pack_plut)
-                return 0;
-            else
-                return cpars[gamemap - 1];
-        }
         else
-            return pars[gameepisode][gamemap];
+            return cpars[gamemap - 1];
     }
+    else if (gameepisode <= 5 && gamemap <= 9)
+        return pars[gameepisode][gamemap];
+    else
+        return 0;
 }
 
 static void G_DoCompleted(void)

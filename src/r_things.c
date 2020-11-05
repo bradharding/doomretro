@@ -104,7 +104,10 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
     if (frame >= MAX_SPRITE_FRAMES || rotation > 16)
+    {
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);
+        return;
+    }
 
     if ((int)frame > maxframe)
         maxframe = frame;
@@ -1121,15 +1124,17 @@ static void R_DrawPlayerSprites(void)
     dboolean    altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
+    state_t     *weaponstate = weapon->state;
+    state_t     *flashstate = flash->state;
 
     // add all active psprites
     if ((invisibility > STARTFLASHING || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251, false);
-        R_DrawPlayerSprite(weapon, true, (weapon->state->dehacked || altered));
+        R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
 
-        if (flash->state)
-            R_DrawPlayerSprite(flash, true, (flash->state->dehacked || altered));
+        if (flashstate)
+            R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1138,11 +1143,17 @@ static void R_DrawPlayerSprites(void)
     }
     else
     {
-        muzzleflash = ((weapon->state->frame & FF_FULLBRIGHT) || (flash->state && (flash->state->frame & FF_FULLBRIGHT)));
-        R_DrawPlayerSprite(weapon, false, (weapon->state->dehacked || altered));
+        if (weaponstate)
+        {
+            muzzleflash = (weaponstate->frame & FF_FULLBRIGHT);
+            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
+        }
 
-        if (flash->state)
-            R_DrawPlayerSprite(flash, false, (flash->state->dehacked || altered));
+        if (flashstate)
+        {
+            muzzleflash |= (flashstate->frame & FF_FULLBRIGHT);
+            R_DrawPlayerSprite(flash, false, (flashstate->dehacked || altered));
+        }
     }
 }
 

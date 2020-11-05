@@ -1215,7 +1215,7 @@ int C_OverlayWidth(const char *text)
             w += spacewidth;
         else if (isdigit(letter))
             w += zerowidth;
-        else
+        else if (letter >= CONSOLEFONTSTART)
             w += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
     }
 
