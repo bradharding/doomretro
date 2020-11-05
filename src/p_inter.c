@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
@@ -959,7 +961,20 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                         playername,
                         (M_StringCompare(playername, playername_default) ? "you" : (playergender == playergender_male ? "he" :
                             (playergender == playergender_female ? "she" : "they"))));
-                    HU_PlayerMessage(buffer, true, false);
+
+                    if (buffer[0])
+                        buffer[0] = toupper(buffer[0]);
+
+                    C_PlayerMessage(buffer);
+
+                    if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
+                    {
+                        if (r_screensize <= 7 || !r_althud)
+                            M_StringCopy(buffer, M_StringReplace(buffer, "<i><b>really</b></i>", "really"), sizeof(buffer));
+
+                        HU_SetPlayerMessage(buffer, true, false);
+                    }
+
                 }
                 else
                     HU_PlayerMessage(s_GOTMEDIKIT, true, false);

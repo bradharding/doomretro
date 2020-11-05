@@ -751,10 +751,11 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, int color)
+void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color)
 {
     byte        *desttop = &screen[y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
+    const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < w; col++, desttop++)
     {
@@ -766,26 +767,33 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, int color)
         {
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * SCREENWIDTH];
-            int     count = column->length;
 
-            while (count--)
+            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                if (*source++ == WHITE)
-                    *dest = color;
+                if (*source++)
+                {
+                    byte    *dot = dest;
+
+                    if (italics)
+                        dot += italicize[i];
+
+                    *dot = color;
+                }
 
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
         }
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, int color)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color)
 {
     byte        *desttop = &screen[y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
     byte        *tinttab = (automapactive ? tinttab25 : tinttab60);
+    const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < w; col++, desttop++)
     {
@@ -797,17 +805,23 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, int
         {
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * SCREENWIDTH];
-            int     count = column->length;
 
-            while (count--)
+            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                if (*source++ == WHITE)
-                    *dest = tinttab[(*dest << 8) + color];
+                if (*source++)
+                {
+                    byte *dot = dest;
+
+                    if (italics)
+                        dot += italicize[i];
+
+                    *dot = tinttab[(*dot << 8) + color];
+                }
 
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
         }
     }
 }

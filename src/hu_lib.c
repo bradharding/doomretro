@@ -128,6 +128,7 @@ static void HU_DrawChar(int x, int y, int ch, dboolean external)
 
 static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
+    dboolean        italics = false;
     unsigned char   prevletter = '\0';
     int             x = 10;
     int             color = nearestwhite;
@@ -141,7 +142,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     }
 
     if (idbehold)
-        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, color);
+        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, false, color);
 
     for (int i = 0; i < len; i++)
     {
@@ -154,6 +155,21 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
         {
             patch = degree;
             i++;
+        }
+        else if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'b' && l->l[i + 2] == '>')
+            i += 2;
+        else if (letter == '<' && i < len - 3 && l->l[i + 1] == '/' && tolower(l->l[i + 2]) == 'b' && l->l[i + 3] == '>')
+            i += 3;
+        else if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'i' && l->l[i + 2] == '>')
+        {
+            italics = true;
+            i += 2;
+        }
+        else if (letter == '<' && i < len - 3 && l->l[i + 1] == '/' && tolower(l->l[i + 2]) == 'i' && l->l[i + 3] == '>')
+        {
+            italics = false;
+            i += 3;
+            x++;
         }
         else
         {
@@ -169,23 +185,23 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 else if (letter == '\"')
                     patch = ldquote;
             }
-        }
 
-        // [BH] apply kerning to certain character pairs
-        while (altkern[j].char1)
-        {
-            if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+            // [BH] apply kerning to certain character pairs
+            while (altkern[j].char1)
             {
-                x += altkern[j].adjust;
-                break;
+                if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                {
+                    x += altkern[j].adjust;
+                    break;
+                }
+
+                j++;
             }
 
-            j++;
+            althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color);
+            x += SHORT(patch->width);
+            prevletter = letter;
         }
-
-        althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, color);
-        x += SHORT(patch->width);
-        prevletter = letter;
     }
 }
 
@@ -226,7 +242,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
             j++;
         }
 
-        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, nearestwhite);
+        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite);
         x += SHORT(patch->width);
         prevletter = letter;
     }

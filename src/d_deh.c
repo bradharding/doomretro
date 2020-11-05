@@ -162,6 +162,7 @@ char    *s_GOTHTHBONUS = GOTHTHBONUS;
 char    *s_GOTARMBONUS = GOTARMBONUS;
 char    *s_GOTSTIM = GOTSTIM;
 char    *s_GOTMEDINEED = GOTMEDINEED;
+char    *s_GOTMEDINEED2 = "";
 char    *s_GOTMEDIKIT = GOTMEDIKIT;
 char    *s_GOTSUPER = GOTSUPER;
 
@@ -736,6 +737,7 @@ deh_strs deh_strlookup[] =
     { &s_GOTARMBONUS,                "GOTARMBONUS"                },
     { &s_GOTSTIM,                    "GOTSTIM"                    },
     { &s_GOTMEDINEED,                "GOTMEDINEED"                },
+    { &s_GOTMEDINEED2,               "GOTMEDINEED2"               },
     { &s_GOTMEDIKIT,                 "GOTMEDIKIT"                 },
     { &s_GOTSUPER,                   "GOTSUPER"                   },
 

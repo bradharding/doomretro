@@ -125,7 +125,7 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
-void (*althudtextfunc)(int, int, byte *, patch_t *, int);
+void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
 
