@@ -76,26 +76,26 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define ALIASCMDFORMAT              "<i>alias</i> [[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
-#define BINDCMDFORMAT               "<i>control</i> [<b>+</b><i>action</i>|[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
-#define EXECCMDFORMAT               "<i>filename</i><b>.cfg</b>"
-#define GIVECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
-#define IFCMDFORMAT                 "<i>CVAR</i> <i>value</i> <b>then</b> [<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]"
-#define KILLCMDFORMAT               "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
-#define LOADCMDFORMAT               "<i>filename</i><b>.save</b>"
-#define MAPCMDFORMAT1               "<b>E</b><i>x</i><b>M</b><i>y</i>[<b>B</b>]|<i>title</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
-#define MAPCMDFORMAT2               "<b>MAP</b><i>xy</i>|<i>title</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
-#define PLAYCMDFORMAT               "<i>soundeffect</i>|<i>music</i>"
-#define NAMECMDFORMAT               "[<b>friendly</b> ]<i>monster</i> <i>name</i>"
-#define PRINTCMDFORMAT              "<b>\"</b><i>message</i><b>\"</b>"
-#define RESETCMDFORMAT              "<i>CVAR</i>"
-#define RESURRECTCMDFORMAT          "<b>player</b>|<b>all</b>|<i>monster</i>"
-#define SAVECMDFORMAT               "<i>filename</i><b>.save</b>"
-#define SPAWNCMDFORMAT              "<i>item</i>|[<b>friendly</b> ]<i>monster</i>"
-#define TAKECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
-#define TELEPORTCMDFORMAT           "<i>x</i> <i>y</i>[ <i>z</i>]"
-#define TIMERCMDFORMAT              "<i>minutes</i>"
-#define UNBINDCMDFORMAT             "<i>control</i>|<b>+</b><i>action</i>"
+#define ALIASCMDFORMAT              "<i><b>alias</b></i> [[<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]]"
+#define BINDCMDFORMAT               "<i><b>control</b></i> [<b>+</b><i><b>action</b></i>|[<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]]"
+#define EXECCMDFORMAT               "<i><b>filename</b></i><b>.cfg</b>"
+#define GIVECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i><b>item</b></i>"
+#define IFCMDFORMAT                 "<i><b>CVAR</b></i> <i><b>value</b></i> <b>then</b> [<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]"
+#define KILLCMDFORMAT               "<b>player</b>|<b>all</b>|<i><b>monster</b></i>|<b>barrels</b>|<b>missiles</b>"
+#define LOADCMDFORMAT               "<i><b>filename</b></i><b>.save</b>"
+#define MAPCMDFORMAT1               "<b>E</b><i><b>x</b></i><b>M</b><i><b>y</b></i>[<b>B</b>]|<i><b>title</b></i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT2               "<b>MAP</b><i><b>xy</b></i>|<i><b>title</b></i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define PLAYCMDFORMAT               "<i><b>soundeffect</b></i>|<i><b>music</b></i>"
+#define NAMECMDFORMAT               "[<b>friendly</b> ]<i><b>monster</b></i> <i><b>name</b></i>"
+#define PRINTCMDFORMAT              "<b>\"</b><i><b>message</b></i><b>\"</b>"
+#define RESETCMDFORMAT              "<i><b>CVAR</b></i>"
+#define RESURRECTCMDFORMAT          "<b>player</b>|<b>all</b>|<i><b>monster</b></i>"
+#define SAVECMDFORMAT               "<i><b>filename</b></i><b>.save</b>"
+#define SPAWNCMDFORMAT              "<i><b>item</b></i>|[<b>friendly</b> ]<i><b>monster</b></i>"
+#define TAKECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i><b>item</b></i>"
+#define TELEPORTCMDFORMAT           "<i><b>x</b></i> <i><b>y</b></i>[ <i><b>z</b></i>]"
+#define TIMERCMDFORMAT              "<i><b>minutes</b></i>"
+#define UNBINDCMDFORMAT             "<i><b>control</b></i>|<b>+</b><i><b>action</b></i>"
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
@@ -437,7 +437,7 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
 consolecmd_t consolecmds[] =
 {
     CCMD(alias, "", null_func1, alias_cmd_func2, true, ALIASCMDFORMAT,
-        "Creates an <i>alias</i> that executes a string of\n<i>commands</i>."),
+        "Creates an <i><b>alias</b></i> that executes a string of\n<i><b>commands</b></i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -466,7 +466,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_OTHER(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
-        "The size of the grid in the automap (<i>width</i><b>\xD7</b><i>height</i>)."),
+        "The size of the grid in the automap (<i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
     CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -502,14 +502,14 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically using doors and switches in\nfront of the player"),
     CCMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
-        "Binds an <i>action</i> or string of <i>commands</i> to a\n<i>control</i>."),
+        "Binds an <i><b>action</b></i> or string of <i><b>commands</b></i> to a\n<i><b>control</b></i>."),
     CCMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles centering the player's weapon when firing."),
     CCMD(clear, "", null_func1, clear_cmd_func2, false, "",
         "Clears the console."),
-    CCMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[<i>searchstring</i>]",
+    CCMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[<i><b>searchstring</b></i>]",
         "Lists all console commands."),
     CVAR_INT(con_backcolor, con_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the console's background (<b>0</b> to <b>255</b>)."),
@@ -517,24 +517,24 @@ consolecmd_t consolecmds[] =
         "The color of the console's bottom edge (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles obituaries in the console when the player\nor monsters are killed."),
-    CCMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i>filename</i><b>.txt</b>]",
+    CCMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[<i><b>filename</b></i><b>.txt</b>]",
         "Dumps the contents of the console to a file."),
     CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles a crosshair (<b>none</b>, <b>cross</b> or <b>dot</b>)."),
     CVAR_INT(crosshaircolor, crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair (<b>0</b> to <b>255</b>)."),
-    CCMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i>searchstring</i>]",
+    CCMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[<i><b>searchstring</b></i>]",
         "Lists all console variables."),
     CCMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>5</b>)."),
+        "The currently selected <i>DOOM</i> episode in the menu\n(<b>1</b> to <b>5</b>)."),
     CCMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
         "Executes a series of commands stored in a\nfile."),
     CCMD(exitmap, "", game_func1, exitmap_cmd_func2, false, "",
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
+        "The currently selected <i>DOOM II</i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The background color of the player's face in the\nstatus bar (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(fade, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -544,10 +544,10 @@ consolecmd_t consolecmds[] =
     CCMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
-        "The amount of time <i><b>" PACKAGE_NAME "</b></i> has been running."),
+        "The amount of time <i>" PACKAGE_NAME "</i> has been running."),
     CCMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
         "Gives <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n"
-        "<b>all</b> or certain <i>items</i> to the player."),
+        "<b>all</b> or certain <i><b>items</b></i> to the player."),
     CCMD(god, "", alive_func1, god_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_BOOL(gp_analog, gp_analogue, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -567,15 +567,15 @@ consolecmd_t consolecmds[] =
     CVAR_INT(gp_thumbsticks, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of thumbsticks used on the gamepad\n(<b>1</b> or <b>2</b>)."),
     CVAR_INT(gp_vibrate_barrels, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer is near an exploding barrel (<b>0%</b> to <b>200%</b>)."),
+        "The amount <i>XInput</i> gamepads vibrate when the\nplayer is near an exploding barrel (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(gp_vibrate_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer receives damage (<b>0%</b> to <b>200%</b>)."),
+        "The amount <i>XInput</i> gamepads vibrate when the\nplayer receives damage (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(gp_vibrate_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer fires their weapon (<b>0%</b> to <b>200%</b>)."),
+        "The amount <i>XInput</i> gamepads vibrate when the\nplayer fires their weapon (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the <i><b>" PACKAGE_NAME " Wiki.</b></i>"),
+        "Opens the <i>" PACKAGE_NAME " Wiki.</i>"),
     CMD_CHEAT(idbehold, false),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
@@ -594,7 +594,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmypos, false),
     CMD_CHEAT(idspispopd, false),
     CCMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
-        "Executes a string of <i>commands</i> if a <i>CVAR</i>\nequals a <i>value</i>."),
+        "Executes a string of <i><b>commands</b></i> if a <i>CVAR</i>\nequals a <i><b>value</b></i>."),
     CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles infighting among monsters once the player\ndies."),
     CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -602,9 +602,9 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CCMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
-        "Kills the <b>player</b>, <b>all</b> monsters, a type of\n<i>monster</i>, or explodes all <b>barrels</b> or <b>missiles</b>."),
+        "Kills the <b>player</b>, <b>all</b> monsters, a type of\n<i><b>monster</b></i>, or explodes all <b>barrels</b> or <b>missiles</b>."),
     CCMD(license, "", null_func1, license_cmd_func2, false, "",
-        "Displays the <i><b>" PACKAGE_LICENSE ".</b></i>"),
+        "Displays the <i>" PACKAGE_LICENSE ".</i>"),
     CCMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_BOOL(m_acceleration, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -632,7 +632,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down\nwhen they move (<b>0%</b> to <b>100%</b>)."),
     CCMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
-        "Gives a <i>name</i> to the <i>monster</i> nearest to the\nplayer."),
+        "Gives a <i><b>name</b></i> to the <i><b>monster</b></i> nearest to the\nplayer."),
     CCMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CCMD(noclip, "", game_func1, noclip_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
@@ -644,7 +644,7 @@ consolecmd_t consolecmds[] =
     CCMD(pistolstart, "", null_func1, pistolstart_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only\na pistol."),
     CCMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
-        "Plays a <i>sound effect</i> or <i>music</i> lump."),
+        "Plays a <i><b>sound effect</b></i> or <i><b>music</b></i> lump."),
     CVAR_INT(playergender, "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, PLAYERGENDERVALUEALIAS,
         "The gender of the player (<b>male</b>, <b>female</b> or <b>other</b>)."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
@@ -652,9 +652,9 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows stats about the player."),
     CCMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
-        "Prints a player \"<i>message</i>\"."),
+        "Prints a player \"<i><b>message</b></i>\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits <i><b>" PACKAGE_NAME ".</b></i>"),
+        "Quits <i>" PACKAGE_NAME ".</i>"),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -691,9 +691,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles showing a disk icon when loading and\nsaving."),
     CVAR_BOOL(r_dither, "", bool_cvars_func1, r_dither_cvar_func2, BOOLVALUEALIAS,
-        "Toggles dithering of <i><b>BOOM</b></i>-compatible translucent\nwall textures."),
+        "Toggles dithering of <i>BOOM</i>-compatible translucent\nwall textures."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, r_fixmaperrors_cvar_func2, BOOLVALUEALIAS,
-        "Toggles fixing the mapping errors in the <i><b>DOOM</b></i> and\n<i><b>DOOM II</b></i> IWADs."),
+        "Toggles fixing the mapping errors in the <i>DOOM</i> and\n<i>DOOM II</i> IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles fixing sprite offsets."),
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -721,7 +721,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the swirl of liquid sectors."),
     CVAR_OTHER(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
-        "The size of each pixel when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
+        "The size of each pixel when the graphic detail is low\n(<i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped\nby monsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -745,7 +745,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the translucency of sprites and <i><b>BOOM</b></i>-\ncompatible wall textures."),
+        "Toggles the translucency of sprites and <i>BOOM</i>-\ncompatible wall textures."),
     CCMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles regenerating the player's health when\nbelow 100%."),
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
@@ -759,7 +759,7 @@ consolecmd_t consolecmds[] =
     CCMD(restartmap, "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
     CCMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, true, RESURRECTCMDFORMAT,
-        "Resurrects the <b>player</b>, <b>all</b> monsters or a type\nof <i>monster</i>."),
+        "Resurrects the <b>player</b>, <b>all</b> monsters or a type\nof <i><b>monster</b></i>."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at\nthe same time (<b>8</b> to <b>64</b>)."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -779,14 +779,14 @@ consolecmd_t consolecmds[] =
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu\n(<b>1</b> to <b>5</b>)."),
     CCMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
-        "Spawns an <i>item</i> or <i>monster</i> in front of the\nplayer."),
+        "Spawns an <i><b>item</b></i> or <i><b>monster</b></i> in front of the\nplayer."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still (<b>0%</b> to <b>100%</b>)."),
     CCMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes <b>ammo</b>, <b>armor</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or\n"
-        "<b>all</b> or certain <i>items</i> from the player."),
+        "<b>all</b> or certain <i><b>items</b></i> from the player."),
     CCMD(teleport, "", teleport_cmd_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
-        "Teleports the player to (<i>x</i>,<i>y</i>,<i>z</i>) in the current\nmap."),
+        "Teleports the player to (<i><b>x</b></i>,<i><b>y</b></i>,<i><b>z</b></i>) in the current\nmap."),
     CCMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
     CCMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
@@ -796,13 +796,13 @@ consolecmd_t consolecmds[] =
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed the player moves (<b>10%</b> to <b>400%</b>)."),
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
-        "Unbinds the +<i>action</i> from a <i>control</i>."),
+        "Unbinds the +<i><b>action</b></i> from a <i><b>control</b></i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
         "The units used in the <b>mapstats</b> and <b>playerstats</b>\nCCMDs (<b>imperial</b> or <b>metric</b>)."),
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
-        "<i><b>" PACKAGE_NAME "'s</b></i> version."),
+        "<i>" PACKAGE_NAME "'s</i> version."),
     CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, vid_borderlesswindow_cvar_func2, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
@@ -834,7 +834,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale each frame (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
-        "The screen's resolution when fullscreen (<b>desktop</b>\nor <i>width</i><b>\xD7</b><i>height</i>)."),
+        "The screen's resolution when fullscreen (<b>desktop</b>\nor <i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
     CVAR_INT(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, CF_NONE, VSYNCVALUEALIAS,
@@ -842,9 +842,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
-        "The position of the window on the desktop\n(<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
+        "The position of the window on the desktop\n(<b>centered</b> or <b>(</b><i><b>x</b></i><b>,</b><i><b>y</b></i><b>)</b>)."),
     CVAR_OTHER(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
-        "The size of the window on the desktop\n(<i>width</i><b>\xD7</b><i>height</i>)."),
+        "The size of the window on the desktop\n(<i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened by the WAD launcher."),
@@ -2356,12 +2356,12 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
-                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
+                        C_Warning(0, "%s can't get %s in <i>%s.</i>",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        C_Warning(0, "%s can't get %s in <i><b>%s.</b></i>",
+                        C_Warning(0, "%s can't get %s in <i>%s.</i>",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else
@@ -2888,12 +2888,12 @@ void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i>%s.</i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i>%s.</i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                     }
@@ -3465,7 +3465,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i>%s</i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3479,9 +3479,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         if (!M_StringCompare(wadname, "DOOM2.WAD"))
                         {
-                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i><b>"));
+                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t<i>"));
                             removemapnum(temp);
-                            M_snprintf(maps[count++], 256, "%s</b></i>\t%s", temp, wadname);
+                            M_snprintf(maps[count++], 256, "%s</i>\t%s", temp, wadname);
                             free(temp);
                         }
                     }
@@ -3489,7 +3489,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
                         removemapnum(temp);
-                        M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                        M_snprintf(maps[count++], 256, "%s\t<i>%s</i>\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
                         free(temp);
                     }
@@ -3502,7 +3502,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump, temp, wadname);
+                    M_snprintf(maps[count++], 256, "%s\t<i>%s</i>\t%s", lump, temp, wadname);
                     free(temp);
                 }
 
@@ -3513,7 +3513,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i>%s</i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3525,7 +3525,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t<i><b>%s</b></i>\t%s", lump,
+                    M_snprintf(maps[count++], 256, "%s\t<i>%s</i>\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3614,7 +3614,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
         {
             temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (2 of 2)</b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (2 of 2)</b>", temp);
             free(temp);
 
             C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
@@ -3622,7 +3622,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (nerve)
         {
             temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t<b><i>%s</i> (1 of 2)</b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (1 of 2)</b>", temp);
             free(temp);
 
             C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
@@ -3633,7 +3633,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     else
     {
         temp = titlecase(*episodes[gameepisode - 1]);
-        C_TabbedOutput(tabs, "Episode\t<b><i>%s</i> (%i of %i)</b>", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
+        C_TabbedOutput(tabs, "Episode\t<i>%s</i> (%i of %i)</b>", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
         free(temp);
 
         C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
@@ -3642,7 +3642,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     if (!M_StringCompare(maptitle, mapnum))
     {
         temp = titlecase(maptitle);
-        C_TabbedOutput(tabs, "Title\t<b><i>%s</i></b>", temp);
+        C_TabbedOutput(tabs, "Title\t<i>%s</i>", temp);
         free(temp);
 
         if (gamemode == commercial)
@@ -3650,27 +3650,27 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             if (gamemap == 11)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_11))
-                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_11_ALT);
+                    C_TabbedOutput(tabs, "Alternative Title\t<i>%s</i>", s_HUSTR_11_ALT);
             }
             else if (gamemap == 31)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_31))
-                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_31_BFG);
+                    C_TabbedOutput(tabs, "Alternative Title\t<i>%s</i>", s_HUSTR_31_BFG);
                 else if (M_StringCompare(maptitle, s_HUSTR_31_BFG))
-                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_31);
+                    C_TabbedOutput(tabs, "Alternative Title\t<i>%s</i>", s_HUSTR_31);
             }
             else if (gamemap == 32)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_32))
-                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_32_BFG);
+                    C_TabbedOutput(tabs, "Alternative Title\t<i>%s</i>", s_HUSTR_32_BFG);
                 else if (M_StringCompare(maptitle, s_HUSTR_32_BFG))
-                    C_TabbedOutput(tabs, "Alternative Title\t<b><i>%s</i></b>", s_HUSTR_32);
+                    C_TabbedOutput(tabs, "Alternative Title\t<i>%s</i>", s_HUSTR_32);
             }
         }
         else if (gameepisode == 3 && gamemap == 7)
         {
             if (M_StringCompare(maptitle, s_HUSTR_E3M7))
-                C_TabbedOutput(tabs, "Alternate Title\t<b><i>%s</i></b>", s_HUSTR_E3M7_ALT);
+                C_TabbedOutput(tabs, "Alternate Title\t<i>%s</i>", s_HUSTR_E3M7_ALT);
         }
     }
 
@@ -3995,12 +3995,12 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         free(temp);
 
         if (*musictitle)
-            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", musictitle);
+            C_TabbedOutput(tabs, "   Title\t<i>%s</i>", musictitle);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", (buckethead ? mus_playing->title2 : mus_playing->title1));
+            C_TabbedOutput(tabs, "   Title\t<i>%s</i>", (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "   Title\t<b><i>%s</i></b>", mus_playing->title1);
+            C_TabbedOutput(tabs, "   Title\t<i>%s</i>", mus_playing->title1);
 
         if (*musiccomposer)
             C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", musiccomposer);
@@ -4667,7 +4667,7 @@ static void C_PlayerStats_Game(void)
         if (temp2[strlen(temp2) - 1] == '.')
             temp2[strlen(temp2) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t<b><i>%s</i></b>\t<b><i>%s</i></b>", temp1, temp2);
+        C_TabbedOutput(tabs, "Favorite skill level\t<i>%s</i>\t<i>%s</i>", temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5241,7 +5241,7 @@ static void C_PlayerStats_NoGame(void)
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t<b><i>%s</i></b>", temp1);
+        C_TabbedOutput(tabs, "Favorite skill level\t-\t<i>%s</i>", temp1);
         free(temp1);
     }
 
@@ -6207,12 +6207,12 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                     {
                         if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonstersSpawner)
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i>%s.</i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                         else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in <i><b>%s.</b></i>", mobjinfo[type].plural1, gamedescription);
+                            C_Warning(0, "There are no %s in <i>%s.</i>", mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                     }
@@ -6332,7 +6332,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in <i>%s.</i>", buffer, gamedescription);
                 spawn = false;
             }
 
@@ -6344,13 +6344,13 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in <i>%s.</i>", buffer, gamedescription);
                 spawn = false;
             }
         }
         else if (spawncmdtype == WolfensteinSS && (!allowwolfensteinss || spawncmdfriendly) && !states[S_SSWV_STND].dehacked)
         {
-            C_Warning(0, "%s Wolfenstein SS can't be spawned in %s<i><b>%s.</b></i>",
+            C_Warning(0, "%s Wolfenstein SS can't be spawned in %s<i>%s.</i>",
                 (spawncmdfriendly ? "Friendly " : ""), (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
             spawn = false;
         }

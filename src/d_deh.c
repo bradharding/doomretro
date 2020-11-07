@@ -2187,9 +2187,9 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
     {
         char    *temp = commify(linecount);
 
-        C_Output("%s %s line%s from the <i><b>DeHackEd</b></i>%s file <b>%s</b>.",
+        C_Output("%s %s line%s from the <i>DeHackEd</i>%s file <b>%s</b>.",
             (automatic ? "Automatically parsed" : "Parsed"), temp, (linecount > 1 ? "s" : ""),
-            (M_StringEndsWith(filename, "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
+            (M_StringEndsWith(filename, "BEX") ? " with <i>BOOM</i> extensions" : ""), GetCorrectCase(filename));
 
         free(temp);
     }

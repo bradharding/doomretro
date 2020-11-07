@@ -1739,7 +1739,7 @@ static void P_LoadThings(int lump)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
-            C_Warning(2, "%s can't be spawned in <i><b>%s.</b></i>", buffer, gamedescription);
+            C_Warning(2, "%s can't be spawned in <i>%s.</i>", buffer, gamedescription);
             continue;
         }
 
@@ -2895,10 +2895,10 @@ void P_SetupLevel(int ep, int map)
     temp = titlecase(maptitle);
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have %s <b><i>%s</i></b>%s",
+        C_PlayerMessage("You have %s <i>%s</i>%s",
             (samelevel ? "reentered": "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
     else
-        C_PlayerMessage("%s has %s <b><i>%s</i></b>%s",
+        C_PlayerMessage("%s has %s <i>%s</i>%s",
             playername, (samelevel ? "reentered" : "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
     free(temp);

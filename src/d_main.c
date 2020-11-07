@@ -1910,14 +1910,14 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time <i><b>" PACKAGE_NAME "</b></i> has been run.");
+        C_Output("This is the first time <i>" PACKAGE_NAME "</i> has been run.");
     else if (stat_runs == 1)
-        C_Output("<i><b>" PACKAGE_NAME "</b></i> has now been run twice.");
+        C_Output("<i>" PACKAGE_NAME "</i> has now been run twice.");
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output("<i><b>" PACKAGE_NAME "</b></i> has now been run %s times.", temp);
+        C_Output("<i>" PACKAGE_NAME "</i> has now been run %s times.", temp);
         free(temp);
     }
 
@@ -2176,7 +2176,7 @@ static void D_DoomMainSetup(void)
             strreplace(string, ".", "");
             strreplace(string, "!", "");
 
-            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i><b>%s.</b></i>",
+            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i>%s.</i>",
                 myargv[p], string);
             free(string);
         }
@@ -2199,7 +2199,7 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
 
             autostart = true;
-            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now <i><b>%s.</b></i>",
+            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now <i>%s.</i>",
                 *episodes[episode - 1]);
         }
     }
@@ -2215,7 +2215,7 @@ static void D_DoomMainSetup(void)
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now <i><b>%s.</b></i>",
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now <i>%s.</i>",
                 *expansions[expansion - 1]);
         }
     }

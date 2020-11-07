@@ -612,7 +612,7 @@ const kern_t altkern[] =
 
 int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
-    int             bold = 0;
+    dboolean        bold = false;
     dboolean        italics = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -627,12 +627,12 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
             w += spacewidth;
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
-            bold = (italics ? 2 : 1);
+            bold = true;
             i += 2;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
-            bold = 0;
+            bold = false;
             i += 3;
         }
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
@@ -1013,7 +1013,7 @@ static void C_DrawBackground(void)
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
     byte *translucency, const int tabs[4], const dboolean formatting, const dboolean kerning, const int index)
 {
-    int             bold = 0;
+    dboolean        bold = false;
     dboolean        italics = false;
     int             tab = -1;
     int             len = (int)strlen(text);
@@ -1069,12 +1069,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
         if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
-            bold = (italics ? 2 : 1);
+            bold = true;
             i += 2;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
-            bold = 0;
+            bold = false;
             i += 3;
         }
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
@@ -1168,9 +1168,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int patchwidth = SHORT(patch->width);
 
-                consoletextfunc(x, y, patch, patchwidth, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 : (italics ?
-                    (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))), color2,
-                    (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'), translucency);
+                consoletextfunc(x, y, patch, patchwidth, (lastcolor1 = (bold && italics ? (color1 == consolewarningcolor ? color1 :
+                    consoleitalicscolor) : color1)), color2, (italics && letter != '_' && letter != '-' && letter != '+'
+                    && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
             }
 
@@ -2352,17 +2352,17 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("This %i-bit <i><b>%s</b></i> app of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
+        C_Output("This %i-bit <i>%s</i> app of <i>%s</i> was built at %i:%02i%s on %s, %s %i, %i.",
             (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, (hour ? hour - 12 * (hour > 12) : 12), minute,
             (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
     }
 
 #if defined(_MSC_FULL_VER)
     if (_MSC_BUILD)
-        C_Output("It was compiled using v%i.%02i.%i.%i of the <i><b>Microsoft C/C++ Optimizing Compiler.</b></i>",
+        C_Output("It was compiled using v%i.%02i.%i.%i of the <i>Microsoft C/C++ Optimizing Compiler.</i>",
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD);
     else
-        C_Output("It was compiled using v%i.%02i.%i of the <i><b>Microsoft C/C++ Optimizing Compiler.</b></i>",
+        C_Output("It was compiled using v%i.%02i.%i of the <i>Microsoft C/C++ Optimizing Compiler.</i>",
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
 #endif
 }
@@ -2375,15 +2375,15 @@ void C_PrintSDLVersions(void)
     {
         char    *temp = commify(revision);
 
-        C_Output("Using v%i.%i.%i (revision %s) of the <i><b>SDL (Simple DirectMedia Layer)</b></i> library.",
+        C_Output("Using v%i.%i.%i (revision %s) of the <i>SDL (Simple DirectMedia Layer)</i> library.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, temp);
         free(temp);
     }
     else
-        C_Output("Using v%i.%i.%i of the <i><b>SDL (Simple DirectMedia Layer)</b></i> library.",
+        C_Output("Using v%i.%i.%i of the <i>SDL (Simple DirectMedia Layer)</i> library.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Using v%i.%i.%i of the <i><b>SDL_mixer</b></i> library and v%i.%i.%i of the <i><b>SDL_image</b></i> library.",
+    C_Output("Using v%i.%i.%i of the <i>SDL_mixer</i> library and v%i.%i.%i of the <i>SDL_image</i> library.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
         SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 }

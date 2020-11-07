@@ -970,7 +970,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
                     {
                         if (r_screensize <= 7 || !r_althud)
-                            M_StringCopy(buffer, M_StringReplace(buffer, "<i><b>really</b></i>", "really"), sizeof(buffer));
+                            M_StringCopy(buffer, M_StringReplace(buffer, "<i>really</i>", "really"), sizeof(buffer));
 
                         HU_SetPlayerMessage(buffer, true, false);
                     }
