@@ -140,7 +140,7 @@ static int              consoleplayermessagecolor = 161;
 static int              consoletimestampcolor = 161;
 static int              consoleoutputcolor = 88;
 static int              consoleboldcolor = 4;
-static int              consoleitalicscolor = 98;
+static int              consolebolditalicscolor = 94;
 static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
@@ -794,7 +794,7 @@ void C_Init(void)
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
     consoleboldcolor = nearestcolors[consoleboldcolor];
-    consoleitalicscolor = nearestcolors[consoleitalicscolor];
+    consolebolditalicscolor = nearestcolors[consolebolditalicscolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor] << 8;
@@ -1169,7 +1169,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 int patchwidth = SHORT(patch->width);
 
                 consoletextfunc(x, y, patch, patchwidth, (lastcolor1 = (bold && italics ? (color1 == consolewarningcolor ? color1 :
-                    consoleitalicscolor) : color1)), color2, (italics && letter != '_' && letter != '-' && letter != '+'
+                    consolebolditalicscolor) : color1)), color2, (italics && letter != '_' && letter != '-' && letter != '+'
                     && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
             }

@@ -9,7 +9,7 @@
   * When the `r_screensize` CVAR is changed to it’s new maximum value of `8`, a widescreen mode with an optional HUD instead of a status bar, and a greater vertical field of view, will now be displayed.
   * You may still press the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys during a game to toggle these new widescreen modes.
   * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be used on the title screen to toggle widescreen mode.
-  * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods) will now be displayed if the `vid_widescreen` CVAR is `on`.
+  * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
