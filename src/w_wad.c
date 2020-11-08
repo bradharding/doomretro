@@ -426,36 +426,47 @@ dboolean HasDehackedLump(const char *pwadname)
 
 GameMission_t IWADRequiredByPWAD(char *pwadname)
 {
-    char            *leaf = leafname(pwadname);
     FILE            *fp = fopen(pwadname, "rb");
-    filelump_t      lump;
-    wadinfo_t       header;
-    const char      *n = lump.name;
     GameMission_t   result = none;
 
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
-
-    if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
-        || (header.id[0] != 'I' && header.id[0] != 'P') || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
-        I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);
-
-    fseek(fp, LONG(header.infotableofs), SEEK_SET);
-
-    for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
-        if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
-            result = doom;
-        else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P' && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0')
-            result = doom2;
-
-    fclose(fp);
-
-    if (result == doom2)
+    else
     {
-        if (M_StringCompare(leaf, "pl2.wad") || M_StringCompare(leaf, "plut3.wad"))
-            result = pack_plut;
-        else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad") || M_StringCompare(leaf, "resist.wad"))
-            result = pack_tnt;
+        wadinfo_t   header;
+
+        if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
+            || (header.id[0] != 'I' && header.id[0] != 'P') || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
+        {
+            fclose(fp);
+            I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);
+        }
+        else
+        {
+            filelump_t  lump;
+            const char  *n = lump.name;
+
+            fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+            for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+                if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
+                    result = doom;
+                else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P' && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0')
+                    result = doom2;
+
+            fclose(fp);
+
+            if (result == doom2)
+            {
+                char    *leaf = leafname(pwadname);
+
+                if (M_StringCompare(leaf, "pl2.wad") || M_StringCompare(leaf, "plut3.wad"))
+                    result = pack_plut;
+                else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad")
+                    || M_StringCompare(leaf, "resist.wad"))
+                    result = pack_tnt;
+            }
+        }
     }
 
     return result;
