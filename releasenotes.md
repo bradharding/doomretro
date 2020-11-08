@@ -30,7 +30,7 @@
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered and the console is open.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
-* The intermission screens displayed when finishing a map will now always transition correctly when the `fade` CVAR is `on`.
+* The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
 * Further improvements have been made to the support of both `DEHACKED` and `UMAPINFO` lumps.
