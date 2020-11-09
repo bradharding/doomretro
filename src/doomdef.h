@@ -108,6 +108,8 @@ typedef enum
 #define VANILLAWIDTH        320
 #define VANILLAHEIGHT       200
 
+#define ACTUALHEIGHT        (6 * SCREENHEIGHT / 5)
+
 #define UNITYWIDTH          426
 
 #define VANILLASBARHEIGHT   32
@@ -140,10 +142,10 @@ extern int WIDEFOVDELTA;
 typedef enum
 {
     GS_NONE = -1,
+    GS_TITLESCREEN,
     GS_LEVEL,
     GS_INTERMISSION,
-    GS_FINALE,
-    GS_TITLESCREEN
+    GS_FINALE
 } gamestate_t;
 
 //
@@ -156,7 +158,7 @@ enum
     MTF_EASY =       1,
     MTF_NORMAL =     2,
     MTF_HARD =       4,
-    MTF_AMBUSH =     8, // Deaf monsters/do not react to sound.
+    MTF_AMBUSH =     8,
 
     // killough 11/98
     MTF_NOTSINGLE = 16,

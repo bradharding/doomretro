@@ -892,12 +892,10 @@ static void UpdateGrab(void)
 
 static void GetUpscaledTextureSize(int width, int height)
 {
-    const int   actualheight = 6 * SCREENHEIGHT / 5;
-
-    if (width * actualheight < height * SCREENWIDTH)
-        height = width * actualheight / SCREENWIDTH;
+    if (width * ACTUALHEIGHT < height * SCREENWIDTH)
+        height = width * ACTUALHEIGHT / SCREENWIDTH;
     else
-        width = height * SCREENWIDTH / actualheight;
+        width = height * SCREENWIDTH / ACTUALHEIGHT;
 
     upscaledwidth = MIN((width + SCREENWIDTH - 1) / SCREENWIDTH, MAXUPSCALEWIDTH);
     upscaledheight = MIN((height + SCREENHEIGHT - 1) / SCREENHEIGHT, MAXUPSCALEHEIGHT);
@@ -1669,7 +1667,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
     }
 
-    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !(vid_widescreen && vid_fullscreen), 6 * SCREENHEIGHT / 5) < 0)
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !(vid_widescreen && vid_fullscreen), ACTUALHEIGHT) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
 
     if (output)
@@ -1947,23 +1945,22 @@ void I_GetScreenDimensions(void)
 {
     if (vid_widescreen)
     {
-        SDL_DisplayMode     mode;
-        int                 w = 16;
-        int                 h = 10;
-        int                 ah = 6 * SCREENHEIGHT / 5;
+        SDL_DisplayMode mode;
+        int             w = 16;
+        int             h = 10;
 
-        if (!SDL_GetCurrentDisplayMode(displayindex, &mode))
-            if (mode.w * ah >= mode.h * SCREENWIDTH)
-            {
-                w = mode.w;
-                h = mode.h;
-            }
+        if (!SDL_GetCurrentDisplayMode(displayindex, &mode) && mode.w * ACTUALHEIGHT >= mode.h * SCREENWIDTH)
+        {
+            w = mode.w;
+            h = mode.h;
+        }
 
-        SCREENWIDTH = MIN((w * ah / h + 1) & ~3, MAXWIDTH);
+        SCREENWIDTH = MIN((w * ACTUALHEIGHT / h + 1) & ~3, MAXWIDTH);
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(w / (h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
         WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
+
         clearframefunc = (vid_fullscreen ? &nullfunc : &I_ClearFrame);
     }
     else
@@ -1971,6 +1968,7 @@ void I_GetScreenDimensions(void)
         SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
+
         clearframefunc = &I_ClearFrame;
     }
 
