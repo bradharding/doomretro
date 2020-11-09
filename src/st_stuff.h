@@ -90,6 +90,13 @@ extern int      idclevtics;
 extern dboolean idmus;
 extern int      st_palette;
 extern dboolean oldweaponsowned[NUMWEAPONS];
+extern patch_t  *tallnum[10];
+extern patch_t  *tallpercent;
+extern short    tallpercentwidth;
+extern dboolean emptytallpercent;
+extern int      caretcolor;
+extern patch_t  *faces[ST_NUMFACES];
+extern int      st_faceindex;
 
 extern patch_t  *grnrock;
 extern patch_t  *brdr_t;

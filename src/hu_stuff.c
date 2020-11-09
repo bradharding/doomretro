@@ -63,8 +63,8 @@
 //
 // Locally used constants, shortcuts.
 //
-#define WHITE           4
-#define GRAY            92
+#define WHITE             4
+#define GRAY             92
 #define DARKGRAY        102
 #define GREEN           114
 #define RED             180
@@ -110,13 +110,6 @@ dboolean                drawdisk;
 
 static int              coloroffset;
 
-extern patch_t          *tallnum[10];
-extern patch_t          *tallpercent;
-extern short            tallpercentwidth;
-extern dboolean         emptytallpercent;
-extern int              caretcolor;
-extern patch_t          *faces[ST_NUMFACES];
-extern int              st_faceindex;
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
