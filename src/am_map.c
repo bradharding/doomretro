@@ -2050,7 +2050,7 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (menuactive && !inhelpscreens)
+    if (menuactive)
         return;
 
     if (am_path)
