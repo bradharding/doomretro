@@ -1050,10 +1050,10 @@ void HU_Drawer(void)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
         else
         {
-            if (vid_widescreen && r_screensize == 7)
-                w_title.x = WIDESCREENDELTA - 2;
+            if (vid_widescreen)
+                w_title.x = (r_screensize == 7 ? WIDESCREENDELTA - 2 : 8);
 
-            w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
+            w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height + 1;
             HUlib_DrawTextLine(&w_title, false);
         }
     }
