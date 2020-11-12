@@ -2462,8 +2462,6 @@ void M_ChangeGamma(dboolean shift)
 
         r_gamma = gammalevels[gammaindex];
 
-        S_StartSound(NULL, sfx_stnmov);
-
         if (r_gamma == 1.0f)
             C_StrCVAROutput(stringize(r_gamma), "off");
         else
@@ -2481,6 +2479,7 @@ void M_ChangeGamma(dboolean shift)
         }
 
         gammawait = I_GetTime() + 4;
+        S_StartSound(NULL, sfx_stnmov);
     }
 
     if (r_gamma == 1.0f)

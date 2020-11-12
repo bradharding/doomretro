@@ -1054,7 +1054,7 @@ void HU_Drawer(void)
                 w_title.x = (r_screensize == 7 ? WIDESCREENDELTA - 2 : 8);
 
             if (r_screensize <= 7)
-                w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize <= 7) - hu_font[0]->height - 2;
+                w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
             else
                 w_title.y = VANILLAHEIGHT - hu_font[0]->height + 1;
 
