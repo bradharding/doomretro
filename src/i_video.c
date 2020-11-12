@@ -1675,24 +1675,24 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         char    *temp1 = commify(height * 4 / 3);
         char    *temp2 = commify(height);
 
-        C_Output("A software renderer is used to render each frame.");
+        C_Output("A software renderer is used to render every frame.");
 
         if (nearestlinear)
         {
             char    *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
             char    *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Each frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
+            C_Output("Every frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp3, temp4);
-            C_Output("Each frame is then scaled down to %sx%s using linear filtering.", temp1, temp2);
+            C_Output("Every frame is then scaled down to %sx%s using linear filtering.", temp1, temp2);
 
             free(temp3);
             free(temp4);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Each frame is scaled up from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
+            C_Output("Every frame is scaled up from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
         else
-            C_Output("Each frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
+            C_Output("Every frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
                 SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
 
         free(temp1);
@@ -1721,14 +1721,14 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                     I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
-                    C_Output("The scaling of each frame is now done in hardware using <i>Direct3D %s.</i>",
+                    C_Output("Every frame is now scaled using hardware acceleration with <i>Direct3D %s.</i>",
                         (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 #endif
             }
             else
             {
                 if (output)
-                    C_Output("The scaling of each frame is done in hardware using <i>OpenGL v%i.%i.</i>", major, minor);
+                    C_Output("Every frame is scaled using hardware acceleration with <i>OpenGL v%i.%i.</i>", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1741,7 +1741,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The scaling of each frame is done in hardware using <i>Direct3D %s.</i>",
+                C_Output("Every frame is scaled using hardware acceleration with <i>Direct3D %s.</i>",
                     (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
@@ -1754,19 +1754,19 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("The scaling of each frame is done in hardware using <i>Metal.</i>");
+                C_Output("Every frame is scaled using hardware acceleration with <i>Metal.</i>");
         }
 #endif
 #if !defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("The scaling of each frame is done in hardware using <i>OpenGL ES.</i>");
+                C_Output("Every frame is scaled using hardware acceleration with <i>OpenGL ES.</i>");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("The scaling of each frame is done in hardware using <i>OpenGL ES 2.</i>");
+                C_Output("Every frame is scaled using hardware acceleration with <i>OpenGL ES 2.</i>");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
@@ -1778,7 +1778,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 I_SDLError(SDL_SetHintWithPriority);
 
             if (output)
-                C_Output("The scaling of each frame is also done in software.");
+                C_Output("Every frame is also scaled in software.");
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
             {
