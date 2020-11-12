@@ -2447,7 +2447,7 @@ void M_ChangeGamma(dboolean shift)
 {
     static int  gammawait;
 
-    if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
+    if (gammawait < I_GetTime())
     {
         if (shift)
         {
@@ -2479,9 +2479,9 @@ void M_ChangeGamma(dboolean shift)
 
             C_StrCVAROutput(stringize(r_gamma), buffer);
         }
-    }
 
-    gammawait = I_GetTime() + HU_MSGTIMEOUT;
+        gammawait = I_GetTime() + 4;
+    }
 
     if (r_gamma == 1.0f)
     {
