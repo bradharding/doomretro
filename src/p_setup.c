@@ -2126,6 +2126,14 @@ static void P_CreateBlockMap(void)
     fixed_t maxx = FIXED_MIN;
     fixed_t maxy = FIXED_MIN;
 
+    // This fixes MBF's code, which has a bug where maxx/maxy
+    // are wrong if the 0th node has the largest x or y
+    if (numvertexes)
+    {
+        minx = maxx = vertexes->x >> FRACBITS;
+        miny = maxy = vertexes->y >> FRACBITS;
+    }
+
     blockmaprebuilt = true;
 
     for (i = 0; i < numvertexes; i++)
