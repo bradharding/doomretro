@@ -1598,8 +1598,7 @@ static void AM_DrawWalls_Cheating(void)
     }
 }
 
-static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
-    angle_t angle, byte color, fixed_t x, fixed_t y)
+static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines, angle_t angle, fixed_t x, fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1612,12 +1611,12 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, &PUTDOT2);
     }
 }
 
 static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int lineguylines,
-    angle_t angle, byte *color, const fixed_t x, const fixed_t y)
+    angle_t angle, const fixed_t x, const fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1630,12 +1629,12 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, &PUTTRANSLUCENTDOT);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, &PUTTRANSLUCENTDOT);
     }
 }
 
 static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
-    const fixed_t scale, angle_t angle, byte color, fixed_t x, fixed_t y)
+    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1661,7 +1660,7 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &thingcolor, &PUTDOT2);
     }
 }
 
@@ -1724,14 +1723,14 @@ static void AM_DrawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, &playercolor, point.x, point.y);
+            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
         else
-            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, playercolor, point.x, point.y);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, &playercolor, point.x, point.y);
+        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
     else
-        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, playercolor, point.x, point.y);
+        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
 }
 
 #define THINGTRIANGLELINES  3
@@ -1800,7 +1799,7 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)mapheight + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle, thingcolor, point.x, point.y);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle, point.x, point.y);
                 }
 
                 thing = thing->snext;
