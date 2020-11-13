@@ -371,7 +371,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
-        int scale = (vid_widescreen ? 1 : 2);
+        int scale = (r_screensize == 8 ? 1 : 2);
 
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
