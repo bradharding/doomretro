@@ -1598,7 +1598,43 @@ static void AM_DrawWalls_Cheating(void)
     }
 }
 
-static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
+static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
+    angle_t angle, byte color, fixed_t x, fixed_t y)
+{
+    for (int i = 0; i < lineguylines; i++)
+    {
+        mline_t line = lineguy[i];
+        int     x1 = line.a.x;
+        int     y1 = line.a.y;
+        int     x2 = line.b.x;
+        int     y2 = line.b.y;
+
+        AM_Rotate(&x1, &y1, angle);
+        AM_Rotate(&x2, &y2, angle);
+
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
+    }
+}
+
+static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int lineguylines,
+    angle_t angle, byte *color, const fixed_t x, const fixed_t y)
+{
+    for (int i = 0; i < lineguylines; i++)
+    {
+        mline_t line = lineguy[i];
+        int     x1 = line.a.x;
+        int     y1 = line.a.y;
+        int     x2 = line.b.x;
+        int     y2 = line.b.y;
+
+        AM_Rotate(&x1, &y1, angle);
+        AM_Rotate(&x2, &y2, angle);
+
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, &PUTTRANSLUCENTDOT);
+    }
+}
+
+static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
     const fixed_t scale, angle_t angle, byte color, fixed_t x, fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
@@ -1626,37 +1662,6 @@ static void AM_DrawLineCharacter(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x2, &y2, angle);
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
-    }
-}
-
-static void AM_DrawTranslucentLineCharacter(const mline_t *lineguy, const int lineguylines,
-    const fixed_t scale, angle_t angle, byte *color, const fixed_t x, const fixed_t y)
-{
-    for (int i = 0; i < lineguylines; i++)
-    {
-        int     x1, y1;
-        int     x2, y2;
-        mline_t line = lineguy[i];
-
-        if (scale)
-        {
-            x1 = FixedMul(line.a.x, scale);
-            y1 = FixedMul(line.a.y, scale);
-            x2 = FixedMul(line.b.x, scale);
-            y2 = FixedMul(line.b.y, scale);
-        }
-        else
-        {
-            x1 = line.a.x;
-            y1 = line.a.y;
-            x2 = line.b.x;
-            y2 = line.b.y;
-        }
-
-        AM_Rotate(&x1, &y1, angle);
-        AM_Rotate(&x2, &y2, angle);
-
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, color, &PUTTRANSLUCENTDOT);
     }
 }
 
@@ -1719,14 +1724,14 @@ static void AM_DrawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_DrawTranslucentLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
+            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, &playercolor, point.x, point.y);
         else
-            AM_DrawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, playercolor, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_DrawTranslucentLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
+        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, &playercolor, point.x, point.y);
     else
-        AM_DrawLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
+        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, playercolor, point.x, point.y);
 }
 
 #define THINGTRIANGLELINES  3
@@ -1795,7 +1800,7 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)mapheight + width)
-                        AM_DrawLineCharacter(thingtriangle, THINGTRIANGLELINES, width, angle, thingcolor, point.x, point.y);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle, thingcolor, point.x, point.y);
                 }
 
                 thing = thing->snext;
