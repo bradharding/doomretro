@@ -48,7 +48,7 @@
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not when vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed and the `r_supersampling` CVAR is `on`.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
-* The use of the player’s fists and chainsaw are now displayed by the `playerstats` CCMD.
+* The number of times the player uses their fists and chainsaw are now displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also be displayed as their `Favorite weapon`.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
