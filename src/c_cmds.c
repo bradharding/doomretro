@@ -854,10 +854,10 @@ consolecmd_t consolecmds[] =
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs when they\nmove (<b>0%</b> to <b>100%</b>)."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the bouncing of the player's weapon when\ndropping from a greater height."),
+        "Toggles the bouncing of the player's weapon when\nthey drop from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the recoiling of the player's weapon when\nfired."),
-    CMD_CHEAT(ying, false),
+        "Toggles the recoiling of the player's weapon when\nthey fire."),
+    CMD_CHEAT(yinghao, false),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

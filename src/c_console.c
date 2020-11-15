@@ -1476,11 +1476,11 @@ void C_Drawer(void)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, i);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
+                    NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype], NOBACKGROUNDCOLOR,
-                    consoleboldcolor, tinttab66, notabs, true, true, i);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
+                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
         }
 
         if (quitcmd)
