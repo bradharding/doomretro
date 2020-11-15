@@ -1010,7 +1010,7 @@ static void use_action_func(void)
 
 static void weapon1_action_func(void)
 {
-    P_ChangeWeapon(wp_fist);
+    P_ChangeWeapon(viewplayer->readyweapon == wp_chainsaw && viewplayer->powers[pw_strength] ? wp_fist : wp_chainsaw);
 }
 
 static void weapon2_action_func(void)
@@ -1020,7 +1020,8 @@ static void weapon2_action_func(void)
 
 static void weapon3_action_func(void)
 {
-    P_ChangeWeapon(wp_shotgun);
+    P_ChangeWeapon(viewplayer->readyweapon == wp_supershotgun ? wp_shotgun :
+        (viewplayer->readyweapon == wp_shotgun ? wp_supershotgun : viewplayer->preferredshotgun));
 }
 
 static void weapon4_action_func(void)
