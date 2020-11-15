@@ -504,6 +504,7 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings].timestamp[0] = '\0';
         C_DumpConsoleStringToFile(consolestrings);
         console[consolestrings++].count = 1;
+        viewplayer->prevmessage[0] = '\0';
     }
 
     outputhistory = -1;
