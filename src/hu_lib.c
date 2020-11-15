@@ -352,7 +352,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y * (r_screensize == 8 ? SCREENSCALE : 1) - 1, j, external);
+                HU_DrawChar(x, y - 1, j, external);
             }
 
             x += w;

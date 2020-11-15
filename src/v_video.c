@@ -761,6 +761,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         int         topdelta;
+        const byte  length = column->length;
 
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
@@ -768,7 +769,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * SCREENWIDTH];
 
-            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (*source++)
                 {
@@ -783,7 +784,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
@@ -799,6 +800,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         int         topdelta;
+        const byte  length = column->length;
 
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
@@ -806,7 +808,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * SCREENWIDTH];
 
-            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (*source++)
                 {
@@ -821,7 +823,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
