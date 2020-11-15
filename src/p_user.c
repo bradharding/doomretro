@@ -436,8 +436,6 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
-    ammotype_t  ammotype = weaponinfo[newweapon].ammotype;
-
     if (newweapon == wp_fist)
     {
         if (viewplayer->readyweapon == wp_fist)
@@ -462,20 +460,25 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 
     // Don't switch to a weapon without any or enough ammo.
-    else if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].minammo)
-        newweapon = wp_nochange;
-
-    // Select the preferred shotgun.
-    else if (newweapon == wp_shotgun)
+    else
     {
-        if ((!viewplayer->weaponowned[wp_shotgun]
-            || viewplayer->readyweapon == wp_shotgun
-            || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->readyweapon != wp_supershotgun))
-            && viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2)
-            newweapon = viewplayer->preferredshotgun = wp_supershotgun;
-        else if (viewplayer->readyweapon == wp_supershotgun
-            || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->ammo[am_shell] == 1))
-            viewplayer->preferredshotgun = wp_shotgun;
+        ammotype_t  ammotype = weaponinfo[newweapon].ammotype;
+
+        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].minammo)
+            newweapon = wp_nochange;
+
+        // Select the preferred shotgun.
+        else if (newweapon == wp_shotgun)
+        {
+            if ((!viewplayer->weaponowned[wp_shotgun]
+                || viewplayer->readyweapon == wp_shotgun
+                || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->readyweapon != wp_supershotgun))
+                && viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2)
+                newweapon = viewplayer->preferredshotgun = wp_supershotgun;
+            else if (viewplayer->readyweapon == wp_supershotgun
+                || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->ammo[am_shell] == 1))
+                viewplayer->preferredshotgun = wp_shotgun;
+        }
     }
 
     if (newweapon != wp_nochange && newweapon != viewplayer->readyweapon && viewplayer->weaponowned[newweapon])
