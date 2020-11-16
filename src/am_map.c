@@ -1709,10 +1709,10 @@ static void AM_DrawPlayer(void)
         { {  18357, -12273 }, {  23203, -10070 } }
     };
 
-    const int   invisibility = viewplayer->powers[pw_invisibility];
-    mpoint_t    point;
-    angle_t     angle;
-    mobj_t      *mo = viewplayer->mo;
+    const int       invisibility = viewplayer->powers[pw_invisibility];
+    mpoint_t        point;
+    angle_t         angle;
+    const mobj_t    *mo = viewplayer->mo;
 
     point.x = mo->x >> FRACTOMAPBITS;
     point.y = mo->y >> FRACTOMAPBITS;
@@ -1749,7 +1749,7 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    angle_t angleoffset = viewangle - ANG90;
+    const angle_t   angleoffset = viewangle - ANG90;
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -1924,8 +1924,8 @@ static void AM_DrawPath(void)
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
-                mobj_t      *mo = viewplayer->mo;
-                mpoint_t    player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
+                const mobj_t    *mo = viewplayer->mo;
+                mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
 
                 AM_RotatePoint(&player);
                 AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
@@ -1948,7 +1948,7 @@ static void AM_DrawPath(void)
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
-                mobj_t  *mo = viewplayer->mo;
+                const mobj_t    *mo = viewplayer->mo;
 
                 AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, pathcolor, putbigdot);
             }
@@ -1958,7 +1958,7 @@ static void AM_DrawPath(void)
 
 static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 {
-    byte    *dest = &mapscreen[(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
+    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * MAPWIDTH + x * SCREENSCALE - 1];
 
     *dest = *(*dest + color);
     dest++;
@@ -1971,7 +1971,7 @@ static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
 
 static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
-    byte    *dest = &mapscreen[(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
+    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * MAPWIDTH + x * SCREENSCALE - 1];
 
     *(dest++) = color;
     *dest = color;

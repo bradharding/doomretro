@@ -29,7 +29,7 @@
   * Panning in the automap is now restricted to the dimensions of the current map when rotate mode is on.
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered and the console is open.
-  * Fade transitions will now be applied when using various controls in the automap and the `fade` CVAR is `on`.
+  * Fade transitions will now be applied when performing various actions while the automap is open and the `fade` CVAR is `on`.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.

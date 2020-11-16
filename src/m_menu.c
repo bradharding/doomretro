@@ -3402,9 +3402,7 @@ dboolean M_Responder(event_t *ev)
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
-
-                if (!inhelpscreens)
-                    D_FadeScreen();
+                D_FadeScreen();
             }
 
             if (inhelpscreens)
@@ -3608,8 +3606,7 @@ void M_StartControlPanel(void)
         S_LowerMusicVolume();
     }
 
-    if (!inhelpscreens)
-        D_FadeScreen();
+    D_FadeScreen();
 }
 
 //
@@ -3631,7 +3628,7 @@ void M_Drawer(void)
 {
     static short    x, y;
 
-    // Horiz. & Vertically center string and print it.
+    // Center string and print it.
     if (messagetoprint)
     {
         char    string[80];
