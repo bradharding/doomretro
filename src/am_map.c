@@ -1974,8 +1974,8 @@ static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
     *(--dest) = color;
 }
 
-#define CENTERX VANILLAWIDTH / 2
-#define CENTERY (VANILLAHEIGHT - VANILLASBARHEIGHT) / 2
+#define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
+#define CENTERY (VANILLAHEIGHT / 2)
 
 static void AM_DrawCrosshair(void)
 {
