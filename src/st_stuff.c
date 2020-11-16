@@ -922,6 +922,7 @@ dboolean ST_Responder(event_t *ev)
             {
                 S_StartSound(NULL, sfx_getpow);
                 C_Input(cheat_amap.sequence);
+                D_FadeScreen();
 
                 if (viewplayer->cheats & CF_ALLMAP)
                 {
