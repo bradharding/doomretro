@@ -45,6 +45,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -1303,12 +1304,14 @@ void C_UpdateFPS(void)
     if (!dowipe && !splashscreen)
     {
         char    buffer[32];
+        char    *temp = commify(framespersecond);
 
-        M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", framespersecond, 1000.0f / framespersecond);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp, 1000.0f / framespersecond);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
             (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consolehighfpscolor)), false);
+        free(temp);
     }
 }
 
