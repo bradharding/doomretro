@@ -6285,7 +6285,8 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                 || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1)))
+                || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1))
+                && (!spawncmdfriendly || (mobjinfo[i].flags & MF_SHOOTABLE)))
                 result = true;
 
             if (temp1)
