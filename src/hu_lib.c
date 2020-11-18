@@ -149,14 +149,8 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
         unsigned char   letter = l->l[i];
         unsigned char   nextletter = l->l[i + 1];
         patch_t         *patch = unknownchar;
-        int             j = 0;
 
-        if (letter == 194 && nextletter == 176)
-        {
-            patch = degree;
-            i++;
-        }
-        else if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'b' && l->l[i + 2] == '>')
+        if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'b' && l->l[i + 2] == '>')
             i += 2;
         else if (letter == '<' && i < len - 3 && l->l[i + 1] == '/' && tolower(l->l[i + 2]) == 'b' && l->l[i + 3] == '>')
             i += 3;
@@ -173,29 +167,38 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
         }
         else
         {
-            const int   c = letter - CONSOLEFONTSTART;
-
-            if (c >= 0 && c < CONSOLEFONTSIZE)
-                patch = consolefont[c];
-
-            if (!i || prevletter == ' ')
+            if (letter == 194 && nextletter == 176)
             {
-                if (letter == '\'')
-                    patch = lsquote;
-                else if (letter == '\"')
-                    patch = ldquote;
+                patch = degree;
+                i++;
             }
-
-            // [BH] apply kerning to certain character pairs
-            while (altkern[j].char1)
+            else
             {
-                if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                const int   c = letter - CONSOLEFONTSTART;
+                int         j = 0;
+
+                if (c >= 0 && c < CONSOLEFONTSIZE)
+                    patch = consolefont[c];
+
+                if (!i || prevletter == ' ')
                 {
-                    x += altkern[j].adjust;
-                    break;
+                    if (letter == '\'')
+                        patch = lsquote;
+                    else if (letter == '\"')
+                        patch = ldquote;
                 }
 
-                j++;
+                // [BH] apply kerning to certain character pairs
+                while (altkern[j].char1)
+                {
+                    if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                    {
+                        x += altkern[j].adjust;
+                        break;
+                    }
+
+                    j++;
+                }
             }
 
             althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color);
