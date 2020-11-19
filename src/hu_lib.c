@@ -184,7 +184,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 {
                     if (letter == '\'')
                         patch = lsquote;
-                    else if (letter == '\"')
+                    else if (letter == '"')
                         patch = ldquote;
                 }
 
@@ -229,7 +229,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
         {
             if (letter == '\'')
                 patch = lsquote;
-            else if (letter == '\"')
+            else if (letter == '"')
                 patch = ldquote;
         }
 

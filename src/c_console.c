@@ -691,7 +691,7 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
         {
             if (letter == '\'')
                 w += SHORT(lsquote->width);
-            else if (letter == '\"')
+            else if (letter == '"')
                 w += SHORT(ldquote->width);
             else
             {
@@ -1136,7 +1136,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (letter == '\'')
                         patch = lsquote;
-                    else if (letter == '\"')
+                    else if (letter == '"')
                         patch = ldquote;
                 }
             }
@@ -1294,7 +1294,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
         patch_t *patch = consolefont[ch - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
-        x -= (i && ch != ':' ? zerowidth : width);
+        x -= (ch != ':' ? zerowidth : width);
         V_DrawConsoleOutputTextPatch(x + (i && ch == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
