@@ -1425,11 +1425,17 @@ static void M_DrawReadThis(void)
         }
 
         if (hacx)
+        {
+            memset(screens[0], nearestblack, SCREENAREA);
             V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
+        }
         else if (autosigil)
             V_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)), false);
         else if (W_CheckMultipleLumps(lumpname) > 2)
+        {
+            memset(screens[0], nearestblack, SCREENAREA);
             V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
+        }
         else
             V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false);
     }
