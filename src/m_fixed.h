@@ -114,7 +114,7 @@ static inline fixed_t FixedMod(fixed_t a, fixed_t b)
 
 static inline uint64_t SafeAdd(uint64_t a, uint64_t b)
 {
-    return (b > UINT64_MAX - a ? a : a + b);
+    return (b > UINT64_MAX - a ? UINT64_MAX : a + b);
 }
 
 #endif
