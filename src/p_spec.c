@@ -474,7 +474,7 @@ void P_SetLifts(void)
 
 //
 // getSide
-// Will return a side_t*
+// Will return a side_t
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
@@ -485,7 +485,7 @@ side_t *getSide(int currentSector, int line, int side)
 
 //
 // getSector
-// Will return a sector_t*
+// Will return a sector_t
 //  given the number of the current sector,
 //  the line number and the side (0/1) that you want.
 //
@@ -508,7 +508,7 @@ dboolean twoSided(int sector, int line)
 
 //
 // getNextSector
-// Return sector_t * of sector next to current.
+// Return sector_t of sector next to current.
 // NULL if not two-sided line
 //
 sector_t *getNextSector(line_t *line, sector_t *sec)
@@ -1527,7 +1527,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Light_ChangeTo35:
-            if (EV_LightTurnOn(line, 35))
+            if (EV_LightTurnOn(line, TICRATE))
                 line->special = 0;
 
             break;
@@ -1698,7 +1698,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Light_ChangeTo35:
-            EV_LightTurnOn(line, 35);
+            EV_LightTurnOn(line, TICRATE);
             break;
 
         case WR_Light_ChangeToBrightestAdjacent:

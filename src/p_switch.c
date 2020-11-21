@@ -638,7 +638,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Light_ChangeTo35:
-            EV_LightTurnOn(line, 35);
+            EV_LightTurnOn(line, TICRATE);
             P_ChangeSwitchTexture(line, false);
             break;
 
@@ -1036,7 +1036,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Light_ChangeTo35:
-            EV_LightTurnOn(line, (MAP04 ? 0 : 35));
+            EV_LightTurnOn(line, (MAP04 ? 0 : TICRATE));
             P_ChangeSwitchTexture(line, true);
             break;
 

@@ -1118,7 +1118,7 @@ manual_door:
         {
             default:
             case 0:
-                door->topwait = 35;
+                door->topwait = TICRATE;
                 break;
 
             case 1:
