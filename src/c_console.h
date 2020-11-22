@@ -111,7 +111,6 @@ typedef struct
     char                string[1024];
     unsigned int        count;
     unsigned int        line;
-    unsigned int        truncate;
     stringtype_t        stringtype;
     patch_t             *header;
     int                 tabs[4];
@@ -174,7 +173,6 @@ void C_IntCVAROutput(char *cvar, int value);
 void C_PctCVAROutput(char *cvar, int value);
 void C_StrCVAROutput(char *cvar, char *string);
 void C_Output(const char *string, ...);
-void C_OutputWrap(const char *string, ...);
 void C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[4], const char *string, ...);
 void C_Header(const int tabs[4], patch_t *header, const char *string);
@@ -196,6 +194,5 @@ void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
 char *C_CreateTimeStamp(int index);
-void C_ResetTruncatedLines(void);
 
 #endif

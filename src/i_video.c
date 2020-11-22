@@ -1995,8 +1995,6 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     M_SetWindowCaption();
 
-    C_ResetTruncatedLines();
-
     setsizeneeded = true;
     forceconsoleblurredraw = true;
 

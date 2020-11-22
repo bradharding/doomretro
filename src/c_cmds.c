@@ -1084,10 +1084,10 @@ static void C_ShowDescription(int index)
         if ((p = strchr(description2, '\n')))
         {
             *p++ = '\0';
-            C_OutputWrap("%s %s %s", description1, description2, p);
+            C_Output("%s %s %s", description1, description2, p);
         }
         else
-            C_OutputWrap("%s %s", description1, description2);
+            C_Output("%s %s", description1, description2);
     }
     else
         C_Output("%s", description1);

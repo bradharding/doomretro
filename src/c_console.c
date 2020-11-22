@@ -180,7 +180,6 @@ void C_Input(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
-    console[consolestrings].truncate = 0;
     console[consolestrings++].stringtype = inputstring;
     inputhistory = -1;
     outputhistory = -1;
@@ -209,7 +208,6 @@ void C_InputNoRepeat(const char *string, ...)
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].truncate = 0;
         console[consolestrings++].stringtype = inputstring;
         inputhistory = -1;
         outputhistory = -1;
@@ -267,81 +265,8 @@ void C_Output(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
-    console[consolestrings].truncate = 0;
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
-}
-
-void C_OutputWrap(const char *string, ...)
-{
-    va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH];
-
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
-
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
-    {
-        int len = (int)strlen(buffer);
-
-        if (consolestrings >= (int)consolestringsmax)
-            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-        if (len <= 100)
-        {
-            M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-            console[consolestrings].line = 1;
-            console[consolestrings].truncate = 0;
-            C_DumpConsoleStringToFile(consolestrings);
-            console[consolestrings++].stringtype = outputstring;
-        }
-        else
-        {
-            int     truncate = len;
-            char    *temp;
-
-            do
-            {
-                int width;
-
-                temp = M_SubString(buffer, 0, truncate);
-                width = C_TextWidth(temp, true, true);
-                free(temp);
-
-                if (width <= CONSOLETEXTPIXELWIDTH)
-                    break;
-            } while (truncate-- > 0);
-
-            while (truncate > 0 && !isbreak(buffer[truncate]))
-                truncate--;
-
-            temp = M_SubString(buffer, 0, truncate);
-            M_StringCopy(console[consolestrings].string, temp, sizeof(console[consolestrings].string));
-            free(temp);
-            console[consolestrings].line = 1;
-            C_DumpConsoleStringToFile(consolestrings);
-            console[consolestrings].truncate = 0;
-            console[consolestrings++].stringtype = outputstring;
-
-            if (consolestrings >= (int)consolestringsmax)
-                console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-            temp = M_SubString(buffer, truncate, (size_t)len - truncate);
-
-            if (*temp)
-            {
-                M_StringCopy(console[consolestrings].string, trimwhitespace(temp), sizeof(console[consolestrings].string));
-                free(temp);
-                console[consolestrings].line = 2;
-                C_DumpConsoleStringToFile(consolestrings);
-                console[consolestrings].truncate = 0;
-                console[consolestrings++].stringtype = outputstring;
-            }
-        }
-
-        outputhistory = -1;
-    }
 }
 
 void C_OutputNoRepeat(const char *string, ...)
@@ -360,7 +285,6 @@ void C_OutputNoRepeat(const char *string, ...)
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].truncate = 0;
         console[consolestrings++].stringtype = outputstring;
         outputhistory = -1;
     }
@@ -379,7 +303,6 @@ void C_TabbedOutput(const int tabs[4], const char *string, ...)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-    console[consolestrings].truncate = 0;
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     C_DumpConsoleStringToFile(consolestrings);
@@ -392,7 +315,6 @@ void C_Header(const int tabs[4], patch_t *header, const char *string)
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    console[consolestrings].truncate = 0;
     console[consolestrings].stringtype = headerstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].header = header;
@@ -421,58 +343,10 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-        if (len <= 100 || !warningwidth)
-        {
-            M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-            console[consolestrings].line = 1;
-            C_DumpConsoleStringToFile(consolestrings);
-            console[consolestrings].truncate = 0;
-            console[consolestrings++].stringtype = warningstring;
-        }
-        else
-        {
-            int     truncate = len;
-            char    *temp;
-
-            do
-            {
-                int width;
-
-                temp = M_SubString(buffer, 0, truncate);
-                width = C_TextWidth(temp, true, true) + warningwidth + 12;
-                free(temp);
-
-                if (width <= CONSOLETEXTPIXELWIDTH - 8)
-                    break;
-            } while (truncate-- > 0);
-
-            while (truncate > 0 && !isbreak(buffer[truncate]))
-                truncate--;
-
-            temp = M_SubString(buffer, 0, truncate);
-            M_StringCopy(console[consolestrings].string, temp, sizeof(console[consolestrings].string));
-            free(temp);
-            console[consolestrings].line = 1;
-            C_DumpConsoleStringToFile(consolestrings);
-            console[consolestrings].truncate = 0;
-            console[consolestrings++].stringtype = warningstring;
-
-            if (consolestrings >= (int)consolestringsmax)
-                console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-            temp = M_SubString(buffer, truncate, (size_t)len - truncate);
-
-            if (*temp)
-            {
-                M_StringCopy(console[consolestrings].string, trimwhitespace(temp), sizeof(console[consolestrings].string));
-                free(temp);
-                console[consolestrings].line = 2;
-                C_DumpConsoleStringToFile(consolestrings);
-                console[consolestrings].truncate = 0;
-                console[consolestrings++].stringtype = warningstring;
-            }
-        }
-
+        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
+        console[consolestrings].line = 1;
+        C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
     }
 }
@@ -499,7 +373,6 @@ void C_PlayerMessage(const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-        console[consolestrings].truncate = 0;
         console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
@@ -533,7 +406,6 @@ void C_Obituary(const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-        console[consolestrings].truncate = 0;
         console[consolestrings].stringtype = obituarystring;
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
@@ -542,12 +414,6 @@ void C_Obituary(const char *string, ...)
     }
 
     outputhistory = -1;
-}
-
-void C_ResetTruncatedLines(void)
-{
-    for (int i = 0; i < consolestrings; i++)
-        console[i].truncate = 0;
 }
 
 static void C_AddToUndoHistory(void)
@@ -568,7 +434,6 @@ void C_AddConsoleDivider(void)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].truncate = 0;
         console[consolestrings++].stringtype = dividerstring;
     }
 }
@@ -1019,7 +884,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     dboolean        italics = false;
     int             tab = -1;
     int             len = (int)strlen(text);
-    int             truncate = len;
     unsigned char   prevletter = '\0';
     int             width = 0;
     int             lastcolor1 = color1;
@@ -1041,31 +905,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         x += width;
     }
 
-    if (console[index].truncate)
-        truncate = console[index].truncate;
-    else if (len > 100)
-    {
-        do
-        {
-            char    *temp = M_SubString(text, 0, truncate);
-            int     width2 = C_TextWidth(temp, formatting, kerning) + width + 6;
-
-            free(temp);
-
-            if (width2 <= CONSOLETEXTPIXELWIDTH)
-                break;
-        } while (truncate-- > 0);
-
-        if (truncate == len - 1 && text[truncate] == '.')
-            truncate++;
-
-        if (text[truncate - 1] == ' ')
-            truncate--;
-
-        console[index].truncate = truncate;
-    }
-
-    for (int i = 0; i < truncate; i++)
+    for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
 
@@ -1177,27 +1017,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
 
             prevletter = letter;
-        }
-    }
-
-    if (truncate < len)
-    {
-        if (kerning)
-            for (int j = 0; altkern[j].char1; j++)
-                if (prevletter == altkern[j].char1 && altkern[j].char2 == '.')
-                {
-                    x += altkern[j].adjust;
-                    break;
-                }
-
-        consoletextfunc(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
-        x += dotwidth;
-        consoletextfunc(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
-
-        if (text[truncate - 1] != '.')
-        {
-            x += dotwidth;
-            consoletextfunc(x, y, dot, dotwidth, lastcolor1, color2, false, translucency);
         }
     }
 
