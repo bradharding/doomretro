@@ -112,6 +112,8 @@ typedef struct
     unsigned int        count;
     unsigned int        line;
     stringtype_t        stringtype;
+    unsigned int        wrap;
+    unsigned int        indent;
     patch_t             *header;
     int                 tabs[4];
     unsigned int        tics;
@@ -194,5 +196,6 @@ void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
 char *C_CreateTimeStamp(int index);
+void C_ResetWrappedLines(void);
 
 #endif

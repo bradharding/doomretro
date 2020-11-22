@@ -416,6 +416,12 @@ void C_Obituary(const char *string, ...)
     outputhistory = -1;
 }
 
+void C_ResetWrappedLines(void)
+{
+    for (int i = 0; i < consolestrings; i++)
+        console[i].wrap = 0;
+}
+
 static void C_AddToUndoHistory(void)
 {
     undohistory = I_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));

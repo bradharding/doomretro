@@ -1061,8 +1061,7 @@ static int C_GetIndex(const char *cmd)
 static void C_ShowDescription(int index)
 {
     char    description[255];
-    char    description1[255];
-    char    *p;
+    char    description1[512];
 
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
@@ -1074,23 +1073,7 @@ static void C_ShowDescription(int index)
             (M_StringStartsWith(description, "toggles") ? "" : ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")),
             description);
 
-    if ((p = strchr(description1, '\n')))
-    {
-        char    description2[255];
-
-        *p++ = '\0';
-        M_StringCopy(description2, p, sizeof(description2));
-
-        if ((p = strchr(description2, '\n')))
-        {
-            *p++ = '\0';
-            C_Output("%s %s %s", description1, description2, p);
-        }
-        else
-            C_Output("%s %s", description1, description2);
-    }
-    else
-        C_Output("%s", description1);
+    C_Output(description1);
 }
 
 static dboolean alive_func1(char *cmd, char *parms)
