@@ -290,7 +290,7 @@ void C_OutputNoRepeat(const char *string, ...)
     }
 }
 
-void C_TabbedOutput(const int tabs[4], const char *string, ...)
+void C_TabbedOutput(const int tabs[3], const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH];
@@ -305,12 +305,13 @@ void C_TabbedOutput(const int tabs[4], const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0]));
     C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
     outputhistory = -1;
 }
 
-void C_Header(const int tabs[4], patch_t *header, const char *string)
+void C_Header(const int tabs[3], patch_t *header, const char *string)
 {
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -884,7 +885,7 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[4], const dboolean formatting, const dboolean kerning, const int index)
+    byte *translucency, const int tabs[3], const dboolean formatting, const dboolean kerning, const int index)
 {
     dboolean        bold = false;
     dboolean        italics = false;
@@ -1190,7 +1191,7 @@ void C_Drawer(void)
             154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
         };
 
-        const int notabs[4] = { 0 };
+        const int notabs[3] = { 0 };
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
