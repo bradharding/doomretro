@@ -1020,6 +1020,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     consolebolditalicscolor) : (bold ? boldcolor : color1))), color2, (italics && letter != '_' && letter != '-'
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
+
+                if (x >= SCREENWIDTH)
+                    return (x - startx);
             }
 
             prevletter = letter;
