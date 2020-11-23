@@ -1289,7 +1289,7 @@ void C_Drawer(void)
                     free(temp);
                 }
 
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, i);
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
@@ -1297,11 +1297,11 @@ void C_Drawer(void)
             else if (stringtype == dividerstring)
             {
                 if ((y += 5 - (CONSOLEHEIGHT - consoleheight)) >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH; xx++)
                         screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
 
                 if (++y >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH; xx++)
                         screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
             }
             else if (stringtype == headerstring)
