@@ -5,18 +5,19 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound). Sound effects are now louder and clearer than before.
 * *DOOM Retro* has now improved support for widescreen displays:
-  * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode complete with status bar will be displayed that will horizontally fill displays of any aspect ratio.
+  * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode complete with status bar will be displayed that horizontally fills displays of any aspect ratio.
   * When the `r_screensize` CVAR is changed to it’s new maximum value of `8`, a widescreen mode with an optional HUD instead of a status bar, and a greater vertical field of view, will now be displayed.
   * You may still press the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys during a game to toggle these new widescreen modes.
   * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be used on the title screen to toggle widescreen mode.
-  * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
+  * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as those for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * Minor changes have been made to text that is output to the console.
+* Long lines of text in the console will now always wrap to the next line rather than being truncated.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
-* Navigation of the main menu will now behave correctly when there are no savegames.
+* Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
 * Centered messages are now better centered vertically.
 * The gender of the player can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries are affected.
 * A subtle scanline effect has now been applied to the menu’s background.
@@ -29,7 +30,7 @@
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
-  * Fade transitions will now be applied when performing various actions in the automap is open and the `fade` CVAR is `on`.
+  * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.

@@ -1574,7 +1574,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 131, 0 };
+    const int   tabs[3] = { 40, 130, 0 };
     int         count = 1;
 
     C_Header(tabs, bindlist, BINDLISTHEADER);
