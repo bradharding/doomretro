@@ -65,7 +65,7 @@
 #define CONSOLESCROLLBARHEIGHT  (CONSOLELINES * CONSOLELINEHEIGHT - 5)
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
-#define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + CONSOLETEXTX : 0))
+#define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + CONSOLETEXTX : 0))
 
 #define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
@@ -141,6 +141,7 @@ extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
 extern dboolean         forceconsoleblurredraw;
+extern dboolean         scrollbardrawn;
 
 typedef struct
 {

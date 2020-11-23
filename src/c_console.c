@@ -1022,7 +1022,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
 
-                if (x >= SCREENWIDTH - 23)
+                if (x >= CONSOLETEXTPIXELWIDTH)
                     return (x - startx);
             }
 
