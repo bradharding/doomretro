@@ -891,6 +891,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     dboolean        italics = false;
     int             tab = -1;
     int             len = (int)strlen(text);
+    int             wrap = len;
     unsigned char   prevletter = '\0';
     int             width = 0;
     int             lastcolor1 = color1;
@@ -912,7 +913,28 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         x += width;
     }
 
-    for (int i = 0; i < len; i++)
+    if (index)
+    {
+        if (console[index].wrap)
+            wrap = console[index].wrap;
+        else
+        {
+            do
+            {
+                char    *temp = M_SubString(text, 0, wrap);
+                int     width2 = C_TextWidth(temp, formatting, kerning) + width;
+
+                free(temp);
+
+                if (width2 <= CONSOLETEXTPIXELWIDTH - 20 && wrap > 0 && isbreak(text[wrap]))
+                    break;
+            } while (wrap-- > 0);
+
+            console[index].wrap = wrap;
+        }
+    }
+
+    for (int i = 0; i < wrap; i++)
     {
         const unsigned char letter = text[i];
 
