@@ -545,7 +545,7 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         byte        topdelta;
 
-        if (x >= SCREENWIDTH - 23)
+        if (x >= SCREENWIDTH - 22)
             return;
 
         // step through the posts in a column

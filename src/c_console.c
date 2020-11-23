@@ -605,42 +605,42 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
 
 static void C_DrawScrollbar(void)
 {
-    const int   trackend = CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
+    const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
     const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
                     MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings;
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
                     * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
 
-    if (!facestart && trackend == faceend * CONSOLEWIDTH)
+    if (!facestart && trackend == faceend * SCREENWIDTH)
         scrollbardrawn = false;
     else
     {
-        const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
-        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * CONSOLEWIDTH;
+        const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
+        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH;
 
         // draw scrollbar track
-        for (int y = 0; y < trackend; y += CONSOLEWIDTH)
+        for (int y = 0; y < trackend; y += SCREENWIDTH)
             if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // draw scrollbar face
-        for (int y = facestart * CONSOLEWIDTH; y < faceend * CONSOLEWIDTH; y += CONSOLEWIDTH)
+        for (int y = facestart * SCREENWIDTH; y < faceend * SCREENWIDTH; y += SCREENWIDTH)
             if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
 
         // draw scrollbar grip
         if (faceend - facestart > 8)
-            for (int y = gripstart; y < gripstart + CONSOLEWIDTH * 6; y += CONSOLEWIDTH * 2)
+            for (int y = gripstart; y < gripstart + SCREENWIDTH * 6; y += SCREENWIDTH * 2)
                 if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[0][y - offset + x] = consolescrollbargripcolor;
 
         // draw scrollbar face shadow
-        if (faceend * CONSOLEWIDTH - offset >= CONSOLETOP)
+        if (faceend * SCREENWIDTH - offset >= CONSOLETOP)
             for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                screens[0][faceend * CONSOLEWIDTH - offset + x] = tinttab20[screens[0][faceend * CONSOLEWIDTH - offset + x]];
+                screens[0][faceend * SCREENWIDTH - offset + x] = tinttab20[screens[0][faceend * SCREENWIDTH - offset + x]];
 
         scrollbardrawn = true;
     }
@@ -712,7 +712,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
+    timerx = SCREENWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
     dotwidth = SHORT(dot->width);
@@ -784,40 +784,40 @@ static void C_DrawBackground(void)
     static dboolean blurred;
     static byte     blurscreen[MAXSCREENAREA];
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
-    int             height = (consoleheight + 5) * CONSOLEWIDTH;
+    int             height = (consoleheight + 5) * SCREENWIDTH;
 
     if (!blurred || !forceconsoleblurredraw)
     {
         // blur background
         memcpy(blurscreen, screens[0], height);
 
-        for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
-            for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
+        for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+            for (int x = y; x <= y + SCREENWIDTH - 2; x++)
                 blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - CONSOLEWIDTH; y += CONSOLEWIDTH)
-            for (int x = y + CONSOLEWIDTH - 2; x > y; x--)
+        for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+            for (int x = y + SCREENWIDTH - 2; x > y; x--)
                 blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
-        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
-            for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH - 1] << 8) + blurscreen[x]];
+        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+            for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
-            for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x + CONSOLEWIDTH] << 8) + blurscreen[x]];
+        for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+            for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+                blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
 
-        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
-            for (int x = y; x <= y + CONSOLEWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH] << 8) + blurscreen[x]];
+        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+            for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - CONSOLEWIDTH * 2; y += CONSOLEWIDTH)
-            for (int x = y + CONSOLEWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[(blurscreen[x + CONSOLEWIDTH - 1] << 8) + blurscreen[x]];
+        for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+            for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+                blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
-        for (int y = height - CONSOLEWIDTH; y >= CONSOLEWIDTH; y -= CONSOLEWIDTH)
-            for (int x = y; x <= y + CONSOLEWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x - CONSOLEWIDTH + 1] << 8) + blurscreen[x]];
+        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+            for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
     }
 
     forceconsoleblurredraw = false;
@@ -828,58 +828,58 @@ static void C_DrawBackground(void)
         screens[0][i] = tinttab50[consolebackcolor + blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int y = 1; y <= height - CONSOLEWIDTH * 3; y += CONSOLEWIDTH)
+    for (int y = 1; y <= height - SCREENWIDTH * 3; y += SCREENWIDTH)
     {
-        for (int x = 2; x < CONSOLEWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+        for (int x = 2; x < SCREENWIDTH - 1; x += 3)
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
 
-        y += CONSOLEWIDTH;
+        y += SCREENWIDTH;
 
-        for (int x = 1; x < CONSOLEWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+        for (int x = 1; x < SCREENWIDTH - 1; x += 3)
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
 
-        y += CONSOLEWIDTH;
+        y += SCREENWIDTH;
 
-        for (int x = 0; x < CONSOLEWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % CONSOLEWIDTH) % CONSOLEWIDTH) ? -1 : 1)]];
+        for (int x = 0; x < SCREENWIDTH - 1; x += 3)
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand, consoleedgecolor);
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth, consoleheight - brandheight + 2, brand, consoleedgecolor);
 
     // draw bottom edge
-    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
+    for (int i = height - SCREENWIDTH * 3; i < height; i++)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)
     {
-        for (int i = 0; i < height - 3 * CONSOLEWIDTH; i += CONSOLEWIDTH)
+        for (int i = 0; i < height - 3 * SCREENWIDTH; i += SCREENWIDTH)
             screens[0][i] = consoleautomapbevel[screens[0][i + 1]];
 
-        for (int i = MAX(0, height - 3 * CONSOLEWIDTH); i < height; i += CONSOLEWIDTH)
+        for (int i = MAX(0, height - 3 * SCREENWIDTH); i < height; i += SCREENWIDTH)
             screens[0][i] = consolebevel[screens[0][i + 1]];
 
-        for (int i = 0; i < height - (brandheight + 3) * CONSOLEWIDTH; i += CONSOLEWIDTH)
-            screens[0][i + CONSOLEWIDTH - 1] = consoleautomapbevel[screens[0][i + CONSOLEWIDTH - 2]];
+        for (int i = 0; i < height - (brandheight + 3) * SCREENWIDTH; i += SCREENWIDTH)
+            screens[0][i + SCREENWIDTH - 1] = consoleautomapbevel[screens[0][i + SCREENWIDTH - 2]];
 
-        for (int i = MAX(0, height - (brandheight + 3) * CONSOLEWIDTH); i < height; i += CONSOLEWIDTH)
-            screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
+        for (int i = MAX(0, height - (brandheight + 3) * SCREENWIDTH); i < height; i += SCREENWIDTH)
+            screens[0][i + SCREENWIDTH - 1] = consolebevel[screens[0][i + SCREENWIDTH - 2]];
     }
     else
-        for (int i = 0; i < height; i += CONSOLEWIDTH)
+        for (int i = 0; i < height; i += SCREENWIDTH)
         {
             screens[0][i] = consolebevel[screens[0][i + 1]];
-            screens[0][i + CONSOLEWIDTH - 1] = consolebevel[screens[0][i + CONSOLEWIDTH - 2]];
+            screens[0][i + SCREENWIDTH - 1] = consolebevel[screens[0][i + SCREENWIDTH - 2]];
         }
 
     // bevel bottom edge
-    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
+    for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
         screens[0][i] = consolebevel[screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
-        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
+        for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
             for (int j = height; j < height + i; j++)
                 screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
 }
@@ -1022,7 +1022,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
 
-                if (x >= CONSOLEWIDTH - 23)
+                if (x >= SCREENWIDTH - 23)
                     return (x - startx);
             }
 
@@ -1137,7 +1137,7 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp, 1000.0f / framespersecond);
 
-        C_DrawOverlayText(CONSOLEWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
             (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consolehighfpscolor)), false);
         free(temp);
@@ -1289,7 +1289,7 @@ void C_Drawer(void)
                     free(temp);
                 }
 
-                C_DrawTimeStamp(CONSOLEWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, i);
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 3, y, i);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
@@ -1298,11 +1298,11 @@ void C_Drawer(void)
             {
                 if ((y += 5 - (CONSOLEHEIGHT - consoleheight)) >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
-                        screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
+                        screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
 
                 if (++y >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTX + CONSOLETEXTPIXELWIDTH + 2; xx++)
-                        screens[0][y * CONSOLEWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * CONSOLEWIDTH + xx]];
+                        screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
             }
             else if (stringtype == headerstring)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
@@ -1348,7 +1348,7 @@ void C_Drawer(void)
                         int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
                         if (y >= CONSOLETOP)
-                            screens[0][y * CONSOLEWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                            screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                     }
 
                     consoletextfunc = &V_DrawConsoleInputTextPatch;
@@ -1360,7 +1360,7 @@ void C_Drawer(void)
                         int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
                         if (y >= CONSOLETOP)
-                            screens[0][y * CONSOLEWIDTH + x] = consoleselectedinputbackgroundcolor;
+                            screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
                     }
                 }
             }
@@ -1377,9 +1377,9 @@ void C_Drawer(void)
 
             if (showcaret)
             {
-                byte    *dest = &screens[0][(consoleheight - 17) * CONSOLEWIDTH + x];
+                byte    *dest = &screens[0][(consoleheight - 17) * SCREENWIDTH + x];
 
-                for (int y = 0; y < 14 * CONSOLEWIDTH; y += CONSOLEWIDTH)
+                for (int y = 0; y < 14 * SCREENWIDTH; y += SCREENWIDTH)
                 {
                     *(dest + y) = consolecaretcolor;
                     *(dest + y + 1) = consolecaretcolor;
@@ -1409,7 +1409,7 @@ void C_Drawer(void)
                     int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (y >= CONSOLETOP)
-                        screens[0][y * CONSOLEWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                        screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
                 consoletextfunc = &V_DrawConsoleInputTextPatch;
@@ -1421,7 +1421,7 @@ void C_Drawer(void)
                     int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (y >= CONSOLETOP)
-                        screens[0][y * CONSOLEWIDTH + x] = consoleselectedinputbackgroundcolor;
+                        screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
                 }
             }
         }
