@@ -101,6 +101,7 @@ char *removeext(const char *file);
 dboolean isvowel(const char ch);
 dboolean ispunctuation(const char ch);
 dboolean isbreak(const char ch);
+int numtabs(char *string);
 char *striptrailingzero(float value, int precision);
 void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);

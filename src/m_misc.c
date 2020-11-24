@@ -865,6 +865,18 @@ dboolean isbreak(const char ch)
     return !!strchr(" /\\-", ch);
 }
 
+int numtabs(char *string)
+{
+    const int   len = (int)strlen(string);
+    int         tabs = 0;
+
+    for (int i = 0; i < len; i++)
+        if (string[i] == '\t')
+            tabs++;
+
+    return tabs;
+}
+
 char *striptrailingzero(float value, int precision)
 {
     char    *result = malloc(100);
