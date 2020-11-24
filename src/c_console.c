@@ -153,8 +153,6 @@ static int              consoleedgecolor;
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
-static int              consolecolors[STRINGTYPES];
-
 dboolean                scrollbardrawn;
 
 static void (*consoletextfunc)(int, int, patch_t *, int, int, int, dboolean, byte *);
@@ -693,13 +691,6 @@ void C_Init(void)
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
     consolescrollbargripcolor = nearestcolors[consolescrollbargripcolor];
     consoleedgecolor = nearestcolors[con_edgecolor] << 8;
-
-    consolecolors[inputstring] = consoleinputtooutputcolor;
-    consolecolors[outputstring] = consoleoutputcolor;
-    consolecolors[dividerstring] = consoledividercolor;
-    consolecolors[warningstring] = consolewarningcolor;
-    consolecolors[playermessagestring] = consoleplayermessagecolor;
-    consolecolors[obituarystring] = consoleplayermessagecolor;
 
     consolebevel = &tinttab50[nearestblack << 8];
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
@@ -1329,7 +1320,7 @@ void C_Drawer(void)
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == dividerstring)
             {
@@ -1345,10 +1336,10 @@ void C_Drawer(void)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[stringtype],
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleinputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
         }
 
