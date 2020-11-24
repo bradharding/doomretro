@@ -24,7 +24,7 @@
 * The console’s scrollbar now extends to the top of the screen.
 * A slight shadow is applied to the text at the top of the console.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
-* Other monsters may now walk under flying monsters when the `infiniteheight` CVAR is `off`.
+* Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.

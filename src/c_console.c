@@ -348,8 +348,6 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        int len = (int)strlen(buffer);
-
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
@@ -909,7 +907,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     int             wrap = len;
     unsigned char   prevletter = '\0';
     int             width = 0;
-    int             lastcolor1 = color1;
     int             startx = x;
 
     y -= CONSOLEHEIGHT - consoleheight;
@@ -1064,8 +1061,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int patchwidth = SHORT(patch->width);
 
-                consoletextfunc(x, y, patch, patchwidth, (lastcolor1 = (bold && italics ? (color1 == consolewarningcolor ? color1 :
-                    consolebolditalicscolor) : (bold ? boldcolor : color1))), color2, (italics && letter != '_' && letter != '-'
+                consoletextfunc(x, y, patch, patchwidth, (bold && italics ? (color1 == consolewarningcolor ? color1 :
+                    consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, (italics && letter != '_' && letter != '-'
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
             }
