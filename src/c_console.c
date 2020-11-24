@@ -939,20 +939,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 char    *temp = M_SubString(text, 0, wrap);
                 int     indent = console[index].indent;
-                int     width2;
-
-                if (indent)
-                {
-                    char    *p = strrchr(temp, '\t');
-
-                    width2 = indent + C_TextWidth(p + 1, formatting, kerning) + width;
-                }
-                else
-                    width2 = C_TextWidth(temp, formatting, kerning) + width;
+                int     wrapwidth = width + (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, formatting, kerning) :
+                                    C_TextWidth(temp, formatting, kerning));
 
                 free(temp);
 
-                if (width2 <= CONSOLETEXTPIXELWIDTH && wrap > 0 && isbreak(text[wrap]))
+                if (wrapwidth <= CONSOLETEXTPIXELWIDTH && isbreak(text[wrap]))
                     break;
             } while (wrap-- > 0);
 
