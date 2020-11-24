@@ -180,6 +180,7 @@ void C_Input(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
+    console[consolestrings].indent = 0;
     console[consolestrings].wrap = 0;
     console[consolestrings++].stringtype = inputstring;
     inputhistory = -1;
@@ -209,6 +210,7 @@ void C_InputNoRepeat(const char *string, ...)
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings].indent = 0;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = inputstring;
         inputhistory = -1;
@@ -267,6 +269,7 @@ void C_Output(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
+    console[consolestrings].indent = 0;
     console[consolestrings].wrap = 0;
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
@@ -288,6 +291,7 @@ void C_OutputNoRepeat(const char *string, ...)
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings].indent = 0;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = outputstring;
         outputhistory = -1;
@@ -324,7 +328,6 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
     console[consolestrings].stringtype = headerstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].header = header;
-    console[consolestrings].wrap = 0;
     M_StringCopy(console[consolestrings].string, string, sizeof(console[consolestrings].string));
     C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
@@ -353,6 +356,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         console[consolestrings].line = 1;
         C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings].indent = 0;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
@@ -385,6 +389,7 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
         C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings].indent = 0;
         console[consolestrings].wrap = 0;
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
@@ -419,6 +424,7 @@ void C_Obituary(const char *string, ...)
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
         C_DumpConsoleStringToFile(consolestrings);
+        console[consolestrings].indent = 0;
         console[consolestrings].wrap = 0;
         console[consolestrings++].count = 1;
     }
@@ -931,21 +937,21 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             do
             {
                 char    *temp = M_SubString(text, 0, wrap);
-                int     tabcount = numtabs(temp);
+                int     indent = console[index].indent;
                 int     width2;
 
-                if (tabcount)
+                if (indent)
                 {
                     char    *p = strrchr(temp, '\t');
 
-                    width2 = console[index].tabs[tabcount - 1] + C_TextWidth(p + 1, formatting, kerning) + width;
+                    width2 = indent + C_TextWidth(p + 1, formatting, kerning) + width;
                 }
                 else
                     width2 = C_TextWidth(temp, formatting, kerning) + width;
 
                 free(temp);
 
-                if (width2 <= CONSOLETEXTPIXELWIDTH - 20 && wrap > 0 && isbreak(text[wrap]))
+                if (width2 <= CONSOLETEXTPIXELWIDTH && wrap > 0 && isbreak(text[wrap]))
                     break;
             } while (wrap-- > 0);
 
@@ -1062,9 +1068,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     consolebolditalicscolor) : (bold ? boldcolor : color1))), color2, (italics && letter != '_' && letter != '-'
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
-
-                if (x >= CONSOLETEXTPIXELWIDTH)
-                    return (x - startx);
             }
 
             prevletter = letter;
