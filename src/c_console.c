@@ -497,7 +497,7 @@ const kern_t altkern[] =
     { 'v',  'a',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
+static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
     dboolean        bold = false;
     dboolean        italics = false;
@@ -516,22 +516,26 @@ int C_TextWidth(const char *text, const dboolean formatting, const dboolean kern
         {
             bold = true;
             i += 2;
+            continue;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = false;
             i += 3;
+            continue;
         }
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
         {
             italics = true;
             i += 2;
+            continue;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
         {
             italics = false;
             i += 3;
             w++;
+            continue;
         }
         else if (letter == 153)
         {
