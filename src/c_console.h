@@ -108,14 +108,14 @@ typedef enum
 typedef struct
 {
     char                string[1024];
-    unsigned int        count;
-    unsigned int        line;
+    int                 count;
+    int                 line;
     stringtype_t        stringtype;
-    unsigned int        wrap;
-    unsigned int        indent;
+    int                 wrap;
+    int                 indent;
     patch_t             *header;
     int                 tabs[3];
-    unsigned int        tics;
+    int                 tics;
     char                timestamp[9];
 } console_t;
 
