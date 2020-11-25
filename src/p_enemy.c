@@ -1414,7 +1414,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                                 ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
                                 (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
 
-                        C_Obituary("%s resurrected %s.", temp, corpsehitname);
+                        C_PlayerMessage("%s resurrected %s.", temp, corpsehitname);
                         free(temp);
                     }
 

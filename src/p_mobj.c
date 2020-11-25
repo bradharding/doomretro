@@ -633,7 +633,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 
     if (con_obituaries)
-        C_Obituary("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
+        C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 }
 
 //
@@ -987,7 +987,7 @@ void P_RespawnSpecials(void)
     mo->angle = ANG45 * (mthing->angle / 45);
 
     if (con_obituaries)
-        C_Obituary("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
+        C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // pull it from the queue
     iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);

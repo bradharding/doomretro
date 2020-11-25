@@ -401,40 +401,6 @@ void C_PlayerMessage(const char *string, ...)
     outputhistory = -1;
 }
 
-void C_Obituary(const char *string, ...)
-{
-    va_list     argptr;
-    char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = consolestrings - 1;
-
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
-
-    if (i >= 0 && console[i].stringtype == obituarystring && M_StringCompare(console[i].string, buffer))
-    {
-        console[i].tics = gametime;
-        console[i].timestamp[0] = '\0';
-        console[i].count++;
-    }
-    else
-    {
-        if (consolestrings >= (int)consolestringsmax)
-            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-        console[consolestrings].stringtype = obituarystring;
-        console[consolestrings].tics = gametime;
-        console[consolestrings].timestamp[0] = '\0';
-        C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
-        console[consolestrings++].count = 1;
-    }
-
-    outputhistory = -1;
-}
-
 void C_ResetWrappedLines(void)
 {
     for (int i = 0; i < consolestrings; i++)
@@ -703,7 +669,6 @@ void C_Init(void)
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
-    consolecolors[obituarystring] = consoleplayermessagecolor;
 
     consolebevel = &tinttab50[nearestblack << 8];
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
@@ -1318,7 +1283,6 @@ void C_Drawer(void)
             
             len = (int)strlen(console[i].string);
 
-            if (stringtype == playermessagestring || stringtype == obituarystring)
             {
                 int width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
                                 NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);

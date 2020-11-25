@@ -1727,7 +1727,7 @@ void C_DumpConsoleStringToFile(int index)
             }
         }
 
-        if (console[index].stringtype == playermessagestring || console[index].stringtype == obituarystring)
+        if (console[index].stringtype == playermessagestring)
         {
             char    buffer[9];
 
@@ -2655,7 +2655,7 @@ void kill_cmd_func2(char *cmd, char *parms)
             M_snprintf(buffer, sizeof(buffer), "%s killed %s.",
                 playername, (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
             buffer[0] = toupper(buffer[0]);
-            C_Obituary(buffer);
+            C_PlayerMessage(buffer);
             C_HideConsole();
             HU_SetPlayerMessage(buffer, false, false);
             message_dontfuckwithme = true;
@@ -6076,7 +6076,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 (M_StringCompare(playername, playername_default) ? "yourself" : (playergender == playergender_male ? "himself" :
                     (playergender == playergender_female ? "herself" : "themselves"))));
             buffer[0] = toupper(buffer[0]);
-            C_Obituary(buffer);
+            C_PlayerMessage(buffer);
             C_HideConsole();
             HU_SetPlayerMessage(buffer, false, false);
             cheated = true;
