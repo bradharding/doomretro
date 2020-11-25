@@ -1283,6 +1283,7 @@ void C_Drawer(void)
             
             len = (int)strlen(console[i].string);
 
+            if (stringtype == playermessagestring)
             {
                 int width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
                                 NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
