@@ -11,8 +11,6 @@
   * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be used on the title screen to toggle widescreen mode.
   * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as those for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
-* Minor changes have been made to text that is output to the console.
-* Long lines of text in the console will now always wrap to the next line rather than being truncated.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
@@ -21,10 +19,15 @@
 * Centered messages are now better centered vertically.
 * The gender of the player can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries are affected.
 * A subtle scanline effect has now been applied to the menu’s background.
-* The console’s scrollbar now extends to the top of the screen.
-* A slight shadow is applied to the text at the top of the console.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
+* The following changes have been made to the console:
+  * The scrollbar now extends to the top of the screen.
+  * The scrollbar’s grip is now slightly translucent.
+  * A slight shadow is applied to the text at the top of the console.
+  * Minor changes have been made to text that is output to the console.
+  * Long lines of text will now always wrap to the next line rather than being truncated.
+  * Timestamps between midnight and 12:59:59am will now be displayed correctly.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.
@@ -42,7 +45,6 @@
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
-* Timestamps between midnight and 12:59:59am in the console will now be displayed correctly.
 * The current map’s music will no longer restart when loading a savegame for the same map.
 * Music will no longer continue to play if *DOOM Retro* crashes.
 * A bug has been fixed whereby using the mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
