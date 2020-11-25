@@ -150,6 +150,8 @@ static int              consolescrollbarfacecolor = 94;
 static int              consolescrollbargripcolor = 104;
 static int              consoleedgecolor;
 
+static int              consolecolors[STRINGTYPES];
+
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
@@ -691,6 +693,12 @@ void C_Init(void)
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
     consolescrollbargripcolor = nearestcolors[consolescrollbargripcolor];
     consoleedgecolor = nearestcolors[con_edgecolor] << 8;
+
+    consolecolors[inputstring] = consoleinputtooutputcolor;
+    consolecolors[outputstring] = consoleoutputcolor;
+    consolecolors[warningstring] = consolewarningcolor;
+    consolecolors[playermessagestring] = consoleplayermessagecolor;
+    consolecolors[obituarystring] = consoleplayermessagecolor;
 
     consolebevel = &tinttab50[nearestblack << 8];
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
@@ -1349,7 +1357,7 @@ void C_Drawer(void)
                 char    *temp = M_SubString(console[i].string, console[i].wrap, (size_t)len - console[i].wrap);
                 int     yy = CONSOLELINEHEIGHT * (i + 1 - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
 
-                C_DrawConsoleText(CONSOLETEXTX + console[i++].indent, yy, trimwhitespace(temp), consoleoutputcolor,
+                C_DrawConsoleText(CONSOLETEXTX + console[i++].indent, yy, trimwhitespace(temp), consolecolors[stringtype],
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
                 free(temp);
             }
