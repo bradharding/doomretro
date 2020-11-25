@@ -329,6 +329,8 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].header = header;
     M_StringCopy(console[consolestrings].string, string, sizeof(console[consolestrings].string));
+    console[consolestrings].indent = 0;
+    console[consolestrings].wrap = (int)strlen(string);
     C_DumpConsoleStringToFile(consolestrings);
     consolestrings++;
     outputhistory = -1;
