@@ -113,6 +113,8 @@ typedef struct
     stringtype_t        stringtype;
     int                 wrap;
     int                 indent;
+    dboolean            bold;
+    dboolean            italics;
     patch_t             *header;
     int                 tabs[3];
     int                 tics;

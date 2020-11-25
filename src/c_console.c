@@ -114,6 +114,9 @@ static int              caretwait;
 static int              selectstart;
 static int              selectend;
 
+static dboolean         wrapbold;
+static dboolean         wrapitalics;
+
 char                    consolecheat[255];
 char                    consolecheatparm[3];
 
@@ -905,8 +908,8 @@ static void C_DrawBackground(void)
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
     byte *translucency, const int tabs[3], const dboolean formatting, const dboolean kerning, const int index)
 {
-    dboolean        bold = false;
-    dboolean        italics = false;
+    dboolean        bold = wrapbold;
+    dboolean        italics = wrapitalics;
     int             tab = -1;
     int             len = (int)strlen(text);
     int             wrap = len;
@@ -1068,6 +1071,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         }
     }
 
+    console[index].bold = bold;
+    console[index].italics = italics;
     return (x - startx);
 }
 
@@ -1359,8 +1364,12 @@ void C_Drawer(void)
                 char    *temp = M_SubString(console[i].string, console[i].wrap, (size_t)len - console[i].wrap);
                 int     yy = CONSOLELINEHEIGHT * (i + 1 - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
 
+                wrapbold = console[i].bold;
+                wrapitalics = console[i].italics;
                 C_DrawConsoleText(CONSOLETEXTX + console[i++].indent, yy, trimwhitespace(temp), consolecolors[stringtype],
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
+                wrapbold = false;
+                wrapitalics = false;
                 free(temp);
             }
         }
