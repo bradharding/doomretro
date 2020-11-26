@@ -914,7 +914,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 char    *temp = M_SubString(text, 0, wrap);
                 int     indent = console[index].indent;
                 int     wrapwidth = width + (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, formatting, kerning) :
-                                    C_TextWidth(temp, formatting, kerning));
+                                        C_TextWidth(temp, formatting, kerning));
 
                 free(temp);
 
@@ -1185,6 +1185,7 @@ void C_Drawer(void)
     {
         int             i;
         int             x = CONSOLETEXTX;
+        int             y = CONSOLELINEHEIGHT * MAX(0, CONSOLELINES - consolestrings) - CONSOLELINEHEIGHT / 2 + 1;
         int             start;
         int             end;
         int             len;
@@ -1283,20 +1284,19 @@ void C_Drawer(void)
 
         for (i = start; i < end; i++)
         {
-            int                 y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
             const stringtype_t  stringtype = console[i].stringtype;
-            
+            const int           wrap = console[i].wrap;
+
             len = (int)strlen(console[i].string);
 
             if (stringtype == playermessagestring)
             {
-                int width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                                NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
-
                 if (console[i].count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
                     char    *temp = commify(console[i].count);
+                    int     width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
                     M_snprintf(buffer, sizeof(buffer), "(%s)", temp);
                     C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
@@ -1329,18 +1329,21 @@ void C_Drawer(void)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
 
-            if (i < end - 1 && console[i].wrap < len)
+            y += CONSOLELINEHEIGHT;
+
+            if (i < end - 1 && wrap < len)
             {
-                char    *temp = M_SubString(console[i].string, console[i].wrap, (size_t)len - console[i].wrap);
-                int     yy = CONSOLELINEHEIGHT * (i + 1 - start + MAX(0, CONSOLELINES - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
+                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
                 wrapbold = console[i].bold;
                 wrapitalics = console[i].italics;
-                C_DrawConsoleText(CONSOLETEXTX + console[i++].indent, yy, trimwhitespace(temp), consolecolors[stringtype],
+                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y, trimwhitespace(temp), consolecolors[stringtype],
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
+                y += CONSOLELINEHEIGHT;
+                end--;
             }
         }
 
@@ -1374,10 +1377,10 @@ void C_Drawer(void)
                 {
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
-                        int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                        int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
-                        if (y >= CONSOLETOP)
-                            screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                        if (yy >= CONSOLETOP)
+                            screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                     }
 
                     consoletextfunc = &V_DrawConsoleInputTextPatch;
@@ -1386,10 +1389,10 @@ void C_Drawer(void)
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
-                        int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                        int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
-                        if (y >= CONSOLETOP)
-                            screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                        if (yy >= CONSOLETOP)
+                            screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
                     }
                 }
             }
@@ -1408,10 +1411,10 @@ void C_Drawer(void)
             {
                 byte    *dest = &screens[0][(consoleheight - 17) * SCREENWIDTH + x];
 
-                for (int y = 0; y < 14 * SCREENWIDTH; y += SCREENWIDTH)
+                for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
                 {
-                    *(dest + y) = consolecaretcolor;
-                    *(dest + y + 1) = consolecaretcolor;
+                    *(dest + yy) = consolecaretcolor;
+                    *(dest + yy + 1) = consolecaretcolor;
                 }
             }
         }
@@ -1435,10 +1438,10 @@ void C_Drawer(void)
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                    int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
-                    if (y >= CONSOLETOP)
-                        screens[0][y * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
+                    if (yy >= CONSOLETOP)
+                        screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
                 consoletextfunc = &V_DrawConsoleInputTextPatch;
@@ -1447,10 +1450,10 @@ void C_Drawer(void)
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int y = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                    int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
 
-                    if (y >= CONSOLETOP)
-                        screens[0][y * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
+                    if (yy >= CONSOLETOP)
+                        screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
                 }
             }
         }
