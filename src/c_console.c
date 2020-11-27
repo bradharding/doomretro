@@ -1446,7 +1446,7 @@ void C_Drawer(void)
 
                 consoletextfunc = &V_DrawConsoleInputTextPatch;
                 x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, i);
+                    consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -1472,7 +1472,7 @@ void C_Drawer(void)
             {
                 consoletextfunc = &V_DrawConsoleOutputTextPatch;
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
-                    NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, i);
+                    NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
             }
         }
 
