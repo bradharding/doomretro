@@ -1295,14 +1295,15 @@ void C_Drawer(void)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
                     char    *temp = commify(console[i].count);
-                    int     width = C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
-                    M_snprintf(buffer, sizeof(buffer), "(%s)", temp);
-                    C_DrawConsoleText(CONSOLETEXTX + width + 2, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, false, false, i);
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, temp);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
+                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
                     free(temp);
                 }
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
