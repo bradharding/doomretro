@@ -237,7 +237,7 @@ static void SetShowCursor(dboolean show)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-static const int translatekey[] =
+static int translatekey[] =
 {
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
     's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER,
@@ -2153,6 +2153,14 @@ void I_InitGraphics(void)
     I_UpdateBlitFunc(false);
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
+
+    // Populate the scancode translation table for alphanum+punct
+    for (int k=4;k<=40;k++)
+      translatekey[k] = SDL_GetKeyFromScancode(k);
+    for (int k=45;k<=50;k++)
+      translatekey[k] = SDL_GetKeyFromScancode(k);
+    for (int k=51;k<=56;k++)
+      translatekey[k] = SDL_GetKeyFromScancode(k);
 
     I_Sleep(500);
 
