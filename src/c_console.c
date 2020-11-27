@@ -1315,13 +1315,15 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
             else if (stringtype == dividerstring)
             {
-                if ((y += 5 - (CONSOLEHEIGHT - consoleheight)) >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH; xx++)
-                        screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
+                int yy = y + 5 - (CONSOLEHEIGHT - consoleheight);
 
-                if (++y >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH; xx++)
-                        screens[0][y * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][y * SCREENWIDTH + xx]];
+                if (yy >= CONSOLETOP)
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                        screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
+
+                if (++yy >= CONSOLETOP)
+                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                        screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
             }
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
