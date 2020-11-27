@@ -2154,13 +2154,11 @@ void I_InitGraphics(void)
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
 
-    // Populate the scancode translation table for alphanum+punct
-    for (int k=4;k<=40;k++)
-      translatekey[k] = SDL_GetKeyFromScancode(k);
-    for (int k=45;k<=50;k++)
-      translatekey[k] = SDL_GetKeyFromScancode(k);
-    for (int k=51;k<=56;k++)
-      translatekey[k] = SDL_GetKeyFromScancode(k);
+    for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_RETURN; i++)
+        translatekey[i] = SDL_GetKeyFromScancode(i);
+
+    for (int i = SDL_SCANCODE_MINUS; i <= SDL_SCANCODE_SLASH; i++)
+        translatekey[i] = SDL_GetKeyFromScancode(i);
 
     I_Sleep(500);
 
