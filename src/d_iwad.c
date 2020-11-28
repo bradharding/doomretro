@@ -279,7 +279,7 @@ static void CheckInstallRootPaths(void)
 // Check for DOOM downloaded via Steam
 static void CheckSteamEdition(void)
 {
-    for (size_t i = 0; i <= arrlen(steam_install_locations); i++)
+    for (size_t i = 0; i < arrlen(steam_install_locations); i++)
     {
         char    *install_path = GetRegistryString(&steam_install_locations[i]);
 
