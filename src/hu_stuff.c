@@ -110,7 +110,6 @@ dboolean                drawdisk;
 
 static int              coloroffset;
 
-
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 

@@ -247,7 +247,6 @@ static void CheckUninstallStrings(void)
             char    *path = unstr + len;
 
             AddIWADDir(path);
-            free(path);
         }
 
         free(val);
@@ -269,7 +268,6 @@ static void CheckInstallRootPaths(void)
             char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL);
 
             AddIWADDir(path);
-            free(path);
         }
 
         free(install_path);
@@ -291,7 +289,6 @@ static void CheckSteamEdition(void)
             char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL);
 
             AddIWADDir(path);
-            free(path);
         }
 
         free(install_path);
