@@ -882,7 +882,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     dboolean        italics = wrapitalics;
     int             tab = -1;
     int             len = (int)strlen(text);
-    int             wrap = len;
     unsigned char   prevletter = '\0';
     int             width = 0;
     int             startx = x;
@@ -903,30 +902,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         x += width;
     }
 
-    if (index)
-    {
-        if (console[index].wrap)
-            wrap = console[index].wrap;
-        else
-        {
-            do
-            {
-                char    *temp = M_SubString(text, 0, wrap);
-                int     indent = console[index].indent;
-                int     wrapwidth = width + (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, formatting, kerning) :
-                                        C_TextWidth(temp, formatting, kerning));
-
-                free(temp);
-
-                if (wrapwidth <= CONSOLETEXTPIXELWIDTH && isbreak(text[wrap]))
-                    break;
-            } while (wrap-- > 0);
-
-            console[index].wrap = wrap;
-        }
-    }
-
-    for (int i = 0; i < wrap; i++)
+    for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
 
@@ -1185,7 +1161,7 @@ void C_Drawer(void)
     {
         int             i;
         int             x = CONSOLETEXTX;
-        int             y = CONSOLELINEHEIGHT * MAX(0, CONSOLELINES - consolestrings) - CONSOLELINEHEIGHT / 2 + 1;
+        int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 2;
         int             start;
         int             end;
         int             len;
@@ -1274,20 +1250,50 @@ void C_Drawer(void)
         if (outputhistory == -1)
         {
             start = MAX(0, consolestrings - CONSOLELINES);
-            end = consolestrings;
+            end = consolestrings - 1;
         }
         else
         {
             start = outputhistory;
-            end = outputhistory + CONSOLELINES;
+            end = outputhistory + CONSOLELINES - 1;
         }
 
-        for (i = start; i < end; i++)
+        for (i = end; i >= start; i--)
         {
             const stringtype_t  stringtype = console[i].stringtype;
-            const int           wrap = console[i].wrap;
+            int                 wrap;
+            char                *text;
 
             len = (int)strlen(console[i].string);
+
+            if (console[i].wrap)
+                wrap = console[i].wrap;
+            else
+            {
+                wrap = len;
+
+                do
+                {
+                    char    *temp = M_SubString(console[i].string, 0, wrap);
+                    int     indent = console[i].indent;
+                    int     width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) : C_TextWidth(temp, true, true));
+
+                    free(temp);
+
+                    if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[i].string[wrap]))
+                        break;
+                } while (wrap-- > 0);
+
+                console[i].wrap = wrap;
+            }
+
+            if (wrap < len)
+            {
+                text = M_SubString(console[i].string, 0, wrap);
+                y -= CONSOLELINEHEIGHT;
+            }
+            else
+                text = M_StringDuplicate(console[i].string);
 
             if (stringtype == playermessagestring)
             {
@@ -1296,22 +1302,22 @@ void C_Drawer(void)
                     char    buffer[CONSOLETEXTMAXLENGTH];
                     char    *temp = commify(console[i].count);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, temp);
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
                     free(temp);
                 }
                 else
-                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == inputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleinputcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
             else if (stringtype == dividerstring)
             {
@@ -1326,28 +1332,28 @@ void C_Drawer(void)
                         screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
             }
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
 
-            y += CONSOLELINEHEIGHT;
-
-            if (i < end - 1 && wrap < len)
+            if (wrap < len)
             {
                 char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
                 wrapbold = console[i].bold;
                 wrapitalics = console[i].italics;
-                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y, trimwhitespace(temp), consolecolors[stringtype],
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
+                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
+                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
-                y += CONSOLELINEHEIGHT;
-                end--;
+                y -= CONSOLELINEHEIGHT;
             }
+
+            y -= CONSOLELINEHEIGHT;
+            free(text);
         }
 
         if (quitcmd)
