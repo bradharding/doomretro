@@ -1290,7 +1290,9 @@ void C_Drawer(void)
             if (wrap < len)
             {
                 text = M_SubString(console[i].string, 0, wrap);
-                y -= CONSOLELINEHEIGHT;
+
+                if (i < end)
+                    y -= CONSOLELINEHEIGHT;
             }
             else
                 text = M_StringDuplicate(console[i].string);
@@ -1338,7 +1340,7 @@ void C_Drawer(void)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
 
-            if (wrap < len)
+            if (wrap < len && i < end)
             {
                 char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
@@ -1349,7 +1351,7 @@ void C_Drawer(void)
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
-                y -= CONSOLELINEHEIGHT;
+                start++;
             }
 
             y -= CONSOLELINEHEIGHT;
