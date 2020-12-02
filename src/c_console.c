@@ -122,7 +122,6 @@ char                    consolecheatparm[3];
 
 static int              inputhistory = -1;
 static int              outputhistory = -1;
-static int              scrolldirection = -1;
 
 int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
@@ -154,6 +153,7 @@ static int              consolescrollbarfacecolor = 94;
 static int              consoleedgecolor;
 
 static int              consolecolors[STRINGTYPES];
+static int              consoleboldcolors[STRINGTYPES];
 
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
@@ -675,6 +675,11 @@ void C_Init(void)
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
+
+    consoleboldcolors[inputstring] = consoleboldcolor;
+    consoleboldcolors[outputstring] = consoleboldcolor;
+    consoleboldcolors[warningstring] = consolewarningboldcolor;
+    consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
 
     consolebevel = &tinttab50[nearestblack << 8];
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
@@ -1354,7 +1359,7 @@ void C_Drawer(void)
                     wrapbold = console[i].bold;
                     wrapitalics = console[i].italics;
                     C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
-                        consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
+                        consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
                     wrapbold = false;
                     wrapitalics = false;
                     free(temp);
@@ -2013,7 +2018,6 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEUP:
                 // scroll output up
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                scrolldirection = -1;
 
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
@@ -2024,7 +2028,6 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEDOWN:
                 // scroll output down
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                scrolldirection = 1;
 
                 if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                     outputhistory = -1;
