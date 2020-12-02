@@ -1161,7 +1161,7 @@ void C_Drawer(void)
     {
         int             i;
         int             x = CONSOLETEXTX;
-        int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 2;
+        int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
         int             start;
         int             end;
         int             len;
@@ -1261,67 +1261,8 @@ void C_Drawer(void)
         for (i = end; i >= start; i--)
         {
             const stringtype_t  stringtype = console[i].stringtype;
-            int                 wrap;
-            char                *text;
 
-            len = (int)strlen(console[i].string);
-
-            if (console[i].wrap)
-                wrap = console[i].wrap;
-            else
-            {
-                wrap = len;
-
-                do
-                {
-                    char    *temp = M_SubString(console[i].string, 0, wrap);
-                    int     indent = console[i].indent;
-                    int     width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) : C_TextWidth(temp, true, true));
-
-                    free(temp);
-
-                    if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[i].string[wrap]))
-                        break;
-                } while (wrap-- > 0);
-
-                console[i].wrap = wrap;
-            }
-
-            if (wrap < len)
-            {
-                text = M_SubString(console[i].string, 0, wrap);
-
-                if (i < end)
-                    y -= CONSOLELINEHEIGHT;
-            }
-            else
-                text = M_StringDuplicate(console[i].string);
-
-            if (stringtype == playermessagestring)
-            {
-                if (console[i].count > 1)
-                {
-                    char    buffer[CONSOLETEXTMAXLENGTH];
-                    char    *temp = commify(console[i].count);
-
-                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
-                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
-                    free(temp);
-                }
-                else
-                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
-
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
-            }
-            else if (stringtype == outputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
-            else if (stringtype == inputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
-            else if (stringtype == dividerstring)
+            if (stringtype == dividerstring)
             {
                 int yy = y + 5 - (CONSOLEHEIGHT - consoleheight);
 
@@ -1332,30 +1273,95 @@ void C_Drawer(void)
                 if (++yy >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                         screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
+
+                y -= CONSOLELINEHEIGHT;
             }
-            else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
-                    NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
-
-            if (wrap < len && i < end)
             {
-                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
+                int     wrap;
+                char    *text;
 
-                wrapbold = console[i].bold;
-                wrapitalics = console[i].italics;
-                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
-                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
-                wrapbold = false;
-                wrapitalics = false;
-                free(temp);
-                start++;
+                len = (int)strlen(console[i].string);
+
+                if (console[i].wrap)
+                    wrap = console[i].wrap;
+                else
+                {
+                    wrap = len;
+
+                    do
+                    {
+                        char    *temp = M_SubString(console[i].string, 0, wrap);
+                        int     indent = console[i].indent;
+                        int     width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
+                                    C_TextWidth(temp, true, true));
+
+                        free(temp);
+
+                        if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[i].string[wrap]))
+                            break;
+                    } while (wrap-- > 0);
+
+                    console[i].wrap = wrap;
+                }
+
+                if (wrap < len)
+                {
+                    text = M_SubString(console[i].string, 0, wrap);
+
+                    if (i < end)
+                        y -= CONSOLELINEHEIGHT;
+                }
+                else
+                    text = M_StringDuplicate(console[i].string);
+
+                if (stringtype == playermessagestring)
+                {
+                    if (console[i].count > 1)
+                    {
+                        char    buffer[CONSOLETEXTMAXLENGTH];
+                        char    *temp = commify(console[i].count);
+
+                        M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
+                        C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
+                            NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
+                        free(temp);
+                    }
+                    else
+                        C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
+                            NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
+
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
+                }
+                else if (stringtype == outputstring)
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
+                else if (stringtype == inputstring)
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
+                else if (stringtype == warningstring)
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
+                        NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
+                else
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                        console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
+
+                if (wrap < len && i < end)
+                {
+                    char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
+
+                    wrapbold = console[i].bold;
+                    wrapitalics = console[i].italics;
+                    C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
+                        consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, 0);
+                    wrapbold = false;
+                    wrapitalics = false;
+                    free(temp);
+                    start++;
+                }
+
+                y -= CONSOLELINEHEIGHT;
             }
-
-            y -= CONSOLELINEHEIGHT;
-            free(text);
         }
 
         if (quitcmd)
@@ -2005,6 +2011,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEUP:
                 // scroll output up
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+                scrolldirection = -1;
 
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
@@ -2015,6 +2022,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEDOWN:
                 // scroll output down
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+                scrolldirection = 1;
 
                 if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                     outputhistory = -1;
