@@ -122,6 +122,7 @@ char                    consolecheatparm[3];
 
 static int              inputhistory = -1;
 static int              outputhistory = -1;
+static int              scrolldirection = -1;
 
 int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
@@ -1361,6 +1362,7 @@ void C_Drawer(void)
                 }
 
                 y -= CONSOLELINEHEIGHT;
+                free(text);
             }
         }
 
