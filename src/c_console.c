@@ -2214,21 +2214,21 @@ dboolean C_Responder(event_t *ev)
     return true;
 }
 
-static const char *dayofweek(int d, int m, int y)
+static const char *dayofweek(int day, int month, int year)
 {
-    const int   adjustment = (14 - m) / 12;
+    const int   adjustment = (14 - month) / 12;
     const char  *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
-    m += 12 * adjustment - 2;
-    y -= adjustment;
+    month += 12 * adjustment - 2;
+    year -= adjustment;
 
-    return days[(d + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7];
+    return days[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
 }
 
 void C_PrintCompileDate(void)
 {
     char    mth[4] = "";
-    int     day, year, hour, minute;
+    int     minute, hour, day, year;
 
     if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) == 3 && sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) == 2)
     {
@@ -2241,9 +2241,9 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("This %i-bit <i>%s</i> app of <i>%s</i> was built at %i:%02i%s on %s, %s %i, %i.",
-            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, (hour ? hour - 12 * (hour > 12) : 12), minute,
-            (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
+        C_Output("Your %i-bit <i>%s</i> app of <i>%s</i> was built at %i:%02i%s on %s, %s %i, %i.",
+            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, (hour ? hour - 12 * (hour > 12) : 12),
+            minute, (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
     }
 
 #if defined(_MSC_FULL_VER)

@@ -959,8 +959,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     M_snprintf(buffer, sizeof(buffer),
                         s_GOTMEDINEED,
                         playername,
-                        (M_StringCompare(playername, playername_default) ? "you" : (playergender == playergender_male ? "he" :
-                            (playergender == playergender_female ? "she" : "they"))));
+                        (M_StringCompare(playername, playername_default) ? playername_default :
+                            (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"))));
 
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
