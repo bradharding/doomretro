@@ -722,7 +722,7 @@ static char *SaveGameIWADName(void)
     // different IWADs are kept separate.
     //
     // Note that we match on gamemission rather than on IWAD name.
-    // This ensures that doom1.wad and doom.wad saves are stored
+    // This ensures that DOOM1.WAD and DOOM.WAD saves are stored
     // in the same place.
     if (FREEDOOM)
         return (gamemode == commercial ? "freedoom2" : "freedoom");
@@ -770,10 +770,7 @@ void D_SetSaveGameFolder(dboolean output)
         else
             savegamefolder = M_StringJoin(savegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
-#if !defined(__APPLE__)
         free(appdatafolder);
-#endif
-
         free(savegamefolder_free);
     }
 

@@ -1249,18 +1249,12 @@ void C_Drawer(void)
         // draw the scrollbar
         C_DrawScrollbar();
 
-        // draw console text
         consoletextfunc = &V_DrawConsoleOutputTextPatch;
 
+        // draw console text
         for (i = lastline; i >= 0; i--)
         {
             const stringtype_t  stringtype = console[i].stringtype;
-
-            if (!i)
-            {
-                y -= CONSOLELINEHEIGHT;
-                break;
-            }
 
             if (stringtype == dividerstring)
             {
@@ -1279,7 +1273,11 @@ void C_Drawer(void)
                 int     wrap;
                 char    *text;
 
-                len = (int)strlen(console[i].string);
+                if (!(len = (int)strlen(console[i].string)))
+                {
+                    y -= CONSOLELINEHEIGHT;
+                    break;
+                }
 
                 if (console[i].wrap)
                     wrap = console[i].wrap;
