@@ -82,7 +82,6 @@ patch_t                 *brand;
 patch_t                 *lsquote;
 patch_t                 *ldquote;
 
-static patch_t          *dot;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
@@ -130,7 +129,6 @@ int                     warninglevel = warninglevel_default;
 static int              timerx;
 static int              zerowidth;
 static int              warningwidth;
-static int              dotwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
@@ -685,7 +683,6 @@ void C_Init(void)
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
 
     brand = W_CacheLumpName("DRBRAND");
-    dot = W_CacheLumpName("DRFON046");
     lsquote = W_CacheLumpName("DRFON145");
     ldquote = W_CacheLumpName("DRFON147");
     trademark = W_CacheLumpName("DRFON153");
@@ -712,7 +709,6 @@ void C_Init(void)
     timerx = SCREENWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     warningwidth = SHORT(warning->width);
-    dotwidth = SHORT(dot->width);
 }
 
 void C_ShowConsole(void)
@@ -1262,11 +1258,19 @@ void C_Drawer(void)
 
                 if (yy >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
-                        screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
+                    {
+                        byte    *dot = *screens + yy * SCREENWIDTH + xx;
+
+                        *dot = tinttab50[consoledividercolor + *dot];
+                    }
 
                 if (++yy >= CONSOLETOP)
                     for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
-                        screens[0][yy * SCREENWIDTH + xx] = tinttab50[consoledividercolor + screens[0][yy * SCREENWIDTH + xx]];
+                    {
+                        byte *dot = *screens + yy * SCREENWIDTH + xx;
+
+                        *dot = tinttab50[consoledividercolor + *dot];
+                    }
             }
             else
             {
