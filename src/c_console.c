@@ -1356,6 +1356,7 @@ void C_Drawer(void)
                         consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
                     wrapbold = false;
                     wrapitalics = false;
+                    i--;
                     free(temp);
                 }
 
