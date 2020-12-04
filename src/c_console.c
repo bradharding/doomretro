@@ -1287,12 +1287,13 @@ void C_Drawer(void)
                     wrap = console[i].wrap;
                 else
                 {
+                    int indent = console[i].indent;
+
                     wrap = len;
 
                     do
                     {
                         char    *temp = M_SubString(console[i].string, 0, wrap);
-                        int     indent = console[i].indent;
                         int     width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
                                     C_TextWidth(temp, true, true));
 
@@ -1352,11 +1353,10 @@ void C_Drawer(void)
 
                     wrapbold = console[i].bold;
                     wrapitalics = console[i].italics;
-                    C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
+                    C_DrawConsoleText(CONSOLETEXTX + console[i--].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
                         consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
                     wrapbold = false;
                     wrapitalics = false;
-                    i--;
                     free(temp);
                 }
 

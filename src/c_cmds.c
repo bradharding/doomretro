@@ -1635,9 +1635,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CCMD)
         {
-            char    description1[255];
             char    format[255];
-            char    *p;
 
             if (*parms && !wildcard(consolecmds[i].name, parms))
                 continue;
@@ -1645,25 +1643,12 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             if (++count == 1)
                 C_Header(tabs, cmdlist, CMDLISTHEADER);
 
-            M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
-
             if (M_StringCompare(consolecmds[i].name, "map"))
                 M_StringCopy(format, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2), sizeof(format));
             else
                 M_StringCopy(format, consolecmds[i].format, sizeof(format));
 
-            if ((p = strchr(description1, '\n')))
-            {
-                char    description2[255] = "";
-
-                *p++ = '\0';
-                M_StringCopy(description2, p, sizeof(description2));
-
-                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, format, description1);
-                C_TabbedOutput(tabs, "\t\t%s", description2);
-            }
-            else
-                C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, format, description1);
+            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count, consolecmds[i].name, format, consolecmds[i].description);
         }
 }
 
@@ -1800,46 +1785,27 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
         {
-            char    description1[255];
-            char    description2[255] = "";
-            char    description3[255] = "";
-            char    *p;
-
             if (*parms && !wildcard(consolecmds[i].name, parms))
                 continue;
 
             if (++count == 1)
                 C_Header(tabs, cvarlist, CVARLISTHEADER);
 
-            M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
-
-            if ((p = strchr(description1, '\n')))
-            {
-                *p++ = '\0';
-                M_StringCopy(description2, p, sizeof(description2));
-
-                if ((p = strchr(description2, '\n')))
-                {
-                    *p++ = '\0';
-                    M_StringCopy(description3, p, sizeof(description3));
-                }
-            }
-
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
                     C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count, consolecmds[i].name,
-                        viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description1);
+                        viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0</b>\t%s", count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
                     C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name, viewplayer->armorpoints,
-                        description1);
+                        consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
             {
@@ -1847,34 +1813,35 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\tnone</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\tnone</b>\t%s", count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name, viewplayer->health, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name, viewplayer->health,
+                        consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t0%%</b>\t%s", count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
                 char    *temp = C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
                 free(temp);
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable, description1);
+                    *(int *)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, description1);
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
                 free(temp);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
@@ -1883,7 +1850,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%%</b>\t%s", count, consolecmds[i].name, temp, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%%</b>\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
@@ -1897,32 +1864,24 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                         buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, buffer, description1);
+                    C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name, buffer, consolecmds[i].description);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%.14s%s%s</b>\t%s", count, consolecmds[i].name,
                     (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), *(char **)consolecmds[i].variable,
                     (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""),
-                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
+                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 const int   tics = *(int *)consolecmds[i].variable / TICRATE;
 
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%02i:%02i:%02i</b>\t%s", count, consolecmds[i].name,
-                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
+                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable, description1);
-
-            if (!M_StringCompare(description2, ""))
-            {
-                C_TabbedOutput(tabs, "\t\t\t%s", description2);
-
-                if (!M_StringCompare(description3, ""))
-                    C_TabbedOutput(tabs, "\t\t\t%s", description3);
-            }
+                    *(char **)consolecmds[i].variable, consolecmds[i].description);
         }
 }
 
