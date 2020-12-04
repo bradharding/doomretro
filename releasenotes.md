@@ -48,7 +48,7 @@
 * Monsters will no longer unnecessarily drop from high ledges.
 * The current map’s music will no longer restart when loading a savegame for the same map.
 * Music will no longer continue to play if *DOOM Retro* crashes.
-* A bug has been fixed whereby using the mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
+* A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
 * The <kbd>F5</kbd> key may now be pressed while the menu is open to toggle the graphic detail.
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not when vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed and the `r_supersampling` CVAR is `on`.

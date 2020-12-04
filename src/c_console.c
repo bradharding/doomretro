@@ -1164,25 +1164,13 @@ void C_Drawer(void)
         int             i;
         int             x = CONSOLETEXTX;
         int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-        int             lastline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
+        int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
         int             len;
         char            partialinput[255];
         const dboolean  prevconsoleactive = consoleactive;
         static int      consolewait;
         int             tics = I_GetTimeMS();
-
-        const int consoledown[] =
-        {
-             14,  28,  42,  56,  70,  84,  98, 112, 126, 140, 150, 152,
-            154, 156, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168
-        };
-
-        const int consoleup[] =
-        {
-            154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
-        };
-
-        const int notabs[3] = { 0 };
+        const int       notabs[3] = { 0 };
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
@@ -1195,6 +1183,12 @@ void C_Drawer(void)
             {
                 if (consoleheight < CONSOLEHEIGHT)
                 {
+                    const int consoledown[] =
+                    {
+                         14,  28,  42,  56,  70,  84,  98, 112, 126, 140, 150, 152,
+                        154, 156, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168
+                    };
+
                     if (consoleheight > consoledown[consoleanim])
                         consolewait = 0;
                     else
@@ -1207,6 +1201,11 @@ void C_Drawer(void)
             {
                 if (consoleheight)
                 {
+                    const int consoleup[] =
+                    {
+                        154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
+                    };
+
                     if (consoleheight < consoleup[consoleanim])
                         consolewait = 0;
                     else
@@ -1248,28 +1247,28 @@ void C_Drawer(void)
         consoletextfunc = &V_DrawConsoleOutputTextPatch;
 
         // draw console text
-        for (i = lastline; i >= 0; i--)
+        for (i = bottomline; i >= 0; i--)
         {
             const stringtype_t  stringtype = console[i].stringtype;
 
             if (stringtype == dividerstring)
             {
-                int yy = y + 5 - (CONSOLEHEIGHT - consoleheight);
+                int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
                 if (yy >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                    for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                     {
-                        byte    *dot = *screens + yy * SCREENWIDTH + xx;
+                        byte    *dest = &screens[0][xx];
 
-                        *dot = tinttab50[consoledividercolor + *dot];
+                        *dest = tinttab50[consoledividercolor + *dest];
                     }
 
-                if (++yy >= CONSOLETOP)
-                    for (int xx = CONSOLETEXTX; xx < CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                if ((yy += SCREENWIDTH) >= CONSOLETOP)
+                    for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                     {
-                        byte *dot = *screens + yy * SCREENWIDTH + xx;
+                        byte    *dest = &screens[0][xx];
 
-                        *dot = tinttab50[consoledividercolor + *dot];
+                        *dest = tinttab50[consoledividercolor + *dest];
                     }
             }
             else
@@ -1310,7 +1309,7 @@ void C_Drawer(void)
                 {
                     text = M_SubString(console[i].string, 0, wrap);
 
-                    if (i < lastline)
+                    if (i < bottomline)
                         y -= CONSOLELINEHEIGHT;
                 }
                 else
@@ -1347,7 +1346,7 @@ void C_Drawer(void)
                     V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                         console[i].header, consoleedgecolor, CONSOLETEXTPIXELWIDTH + 2);
 
-                if (wrap < len && i < lastline)
+                if (wrap < len && i < bottomline)
                 {
                     char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
@@ -1363,7 +1362,7 @@ void C_Drawer(void)
                 free(text);
             }
 
-            if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT / 2)
+            if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
                 break;
         }
 
