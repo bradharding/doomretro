@@ -1050,7 +1050,7 @@ void HU_Drawer(void)
         else
         {
             if (vid_widescreen)
-                w_title.x = (r_screensize == 7 ? WIDESCREENDELTA - 2 : 8);
+                w_title.x = (r_screensize == 7 ? WIDESCREENDELTA : 8);
 
             if (r_screensize <= 7)
                 w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
