@@ -147,7 +147,7 @@ static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
 static int              consolescrollbartrackcolor = 100;
-static int              consolescrollbarfacecolor = 94;
+static int              consolescrollbarfacecolor = 96;
 static int              consoleedgecolor;
 
 static int              consolecolors[STRINGTYPES];
@@ -604,18 +604,18 @@ static void C_DrawScrollbar(void)
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
         const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH;
 
+        // draw scrollbar track
+        for (int y = 0; y < trackend; y += SCREENWIDTH)
+            if (y - offset >= CONSOLETOP)
+                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                    screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
+
         // init scrollbar grip
         if (faceend - facestart > 8)
             for (int y = gripstart; y < gripstart + SCREENWIDTH * 6; y += SCREENWIDTH * 2)
                 if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[1][y - offset + x] = screens[0][y - offset + x];
-
-        // draw scrollbar track
-        for (int y = 0; y < trackend; y += SCREENWIDTH)
-            if (y - offset >= CONSOLETOP)
-                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // draw scrollbar face
         for (int y = facestart * SCREENWIDTH; y < faceend * SCREENWIDTH; y += SCREENWIDTH)
@@ -628,7 +628,7 @@ static void C_DrawScrollbar(void)
             for (int y = gripstart; y < gripstart + SCREENWIDTH * 6; y += SCREENWIDTH * 2)
                 if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
-                        screens[0][y - offset + x] = tinttab33[screens[1][y - offset + x]];
+                        screens[0][y - offset + x] = screens[1][y - offset + x];
 
         // draw scrollbar face shadow
         if (faceend * SCREENWIDTH - offset >= CONSOLETOP)
