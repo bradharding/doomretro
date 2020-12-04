@@ -1271,16 +1271,10 @@ void C_Drawer(void)
                         *dest = tinttab50[consoledividercolor + *dest];
                     }
             }
-            else
+            else if ((len = (int)strlen(console[i].string)))
             {
                 int     wrap;
                 char    *text;
-
-                if (!(len = (int)strlen(console[i].string)))
-                {
-                    y -= CONSOLELINEHEIGHT;
-                    break;
-                }
 
                 if (console[i].wrap)
                     wrap = console[i].wrap;

@@ -3439,7 +3439,7 @@ static void P_InitMapInfo(void)
     mapcount = mapmax;
 
     temp = commify(sc_Line);
-    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.",
+    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in the %s <b>%s</b>.",
         temp, (sc_Line > 1 ? "s" : ""), (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);

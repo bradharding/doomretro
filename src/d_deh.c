@@ -2179,7 +2179,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         char    *temp1 = commify(linecount);
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
-        C_Output("Parsed %s line%s from the <b>%s</b> lump in %s <b>%s</b>.",
+        C_Output("Parsed %s line%s from the <b>%s</b> lump in the %s <b>%s</b>.",
             temp1, (linecount > 1 ? "s" : ""), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
 
         free(temp1);

@@ -1743,7 +1743,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
-        C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s <b>%s</b>.",
+        C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in the %s <b>%s</b>.",
             (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
