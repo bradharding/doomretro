@@ -1166,7 +1166,7 @@ void HU_Ticker(void)
         {
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
-            int     maxwidth = SCREENWIDTH - 6;
+            int     maxwidth = NONWIDEWIDTH - 6;
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
