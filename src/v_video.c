@@ -1591,7 +1591,7 @@ void GetPixelSize(dboolean reset)
 
 void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    if ((pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH) || menuactive)
+    if ((pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH))
     {
         if (r_supersampling)
             for (int y = top; y < height; y += 2 * SCREENWIDTH)
@@ -1634,6 +1634,24 @@ void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth
                     for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
                         *(dot + yy + xx) = color;
             }
+}
+
+void V_LowMenuGraphicDetail(void)
+{
+    for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
+        {
+            byte        *dot1 = *screens + y + x;
+            byte        *dot2 = dot1 + 1;
+            byte        *dot3 = dot2 + SCREENWIDTH;
+            byte        *dot4 = dot3 - 1;
+            const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+
+            *dot1 = color;
+            *dot2 = color;
+            *dot3 = color;
+            *dot4 = color;
+        }
 }
 
 void V_InvertScreen(void)

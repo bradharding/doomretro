@@ -576,7 +576,7 @@ void M_DarkBackground(void)
         memcpy(mapscreen, blurscreen2, ((size_t)SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
     if (r_detail == r_detail_low)
-        V_LowGraphicDetail(0, 0, SCREENWIDTH, SCREENAREA, 2, 2 * SCREENWIDTH);
+        V_LowMenuGraphicDetail();
 }
 
 static byte blues[] =
@@ -605,7 +605,7 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
-    V_LowGraphicDetail(0, 0, SCREENWIDTH, SCREENAREA, 2, 2 * SCREENWIDTH);
+    V_LowMenuGraphicDetail();
 
     for (int i = 0; i < SCREENAREA; i++)
     {
