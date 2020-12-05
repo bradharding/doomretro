@@ -2323,7 +2323,7 @@ static void P_LoadBlockMap(int lump)
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(0, "A <b>-blockmap</b> parameter was found on the command-line. The <b>BLOCKMAP</b> lump has been rebuilt.");
+        C_Warning(1, "A <b>-blockmap</b> parameter was found on the command-line. The <b>BLOCKMAP</b> lump has been rebuilt.");
     }
     else
     {

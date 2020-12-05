@@ -128,7 +128,6 @@ int                     warninglevel = warninglevel_default;
 
 static int              timerx;
 static int              zerowidth;
-static int              warningwidth;
 
 static int              consolecaretcolor = 4;
 static int              consolelowfpscolor = 180;
@@ -357,7 +356,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         console[consolestrings].line = 1;
         C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].indent = 15;
+        console[consolestrings].indent = WARNINGWIDTH + 2;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
@@ -708,7 +707,6 @@ void C_Init(void)
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     timerx = SCREENWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
-    warningwidth = SHORT(warning->width);
 }
 
 void C_ShowConsole(void)
@@ -898,9 +896,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 width -= spacewidth;
         }
         else
-            V_DrawConsoleOutputTextPatch(x, y, warning, warningwidth, color1, color2, false, translucency);
+            V_DrawConsoleOutputTextPatch(x, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
-        width += warningwidth + 1;
+        width += WARNINGWIDTH + 1;
         x += width;
     }
 

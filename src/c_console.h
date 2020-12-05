@@ -71,6 +71,8 @@
 
 #define CONSOLETOP              0
 
+#define WARNINGWIDTH            13
+
 #define EMPTYVALUE              "\"\""
 
 #define stringize(x)            #x
