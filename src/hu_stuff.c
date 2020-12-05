@@ -380,7 +380,7 @@ static void HU_DrawCrosshair(void)
 
     if (crosshair == crosshair_cross)
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
+        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
 
         *dot = *(*dot + color);
         dot += SCREENWIDTH;
@@ -402,7 +402,7 @@ static void HU_DrawCrosshair(void)
     }
     else
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1;
+        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
 
         *dot = *(*dot + color);
         dot++;
@@ -420,7 +420,7 @@ static void HU_DrawSolidCrosshair(void)
 
     if (crosshair == crosshair_cross)
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 3) * SCREENWIDTH / 2 - 1;
+        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
 
         *dot = color;
         dot += SCREENWIDTH;
@@ -438,7 +438,7 @@ static void HU_DrawSolidCrosshair(void)
     }
     else
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH / 2 - 1;
+        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
 
         *dot++ = color;
         *dot = color;
