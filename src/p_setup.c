@@ -2318,12 +2318,12 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning(2, "The <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(2, "The <b>BLOCKMAP</b> lump has been rebuilt.");
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(2, "A <b>-blockmap</b> parameter was found on the command-line. The <b>BLOCKMAP</b> lump was rebuilt.");
+        C_Warning(0, "A <b>-blockmap</b> parameter was found on the command-line. The <b>BLOCKMAP</b> lump has been rebuilt.");
     }
     else
     {
@@ -2357,7 +2357,7 @@ static void P_LoadBlockMap(int lump)
         if (!P_VerifyBlockMap(count))
         {
             P_CreateBlockMap();
-            C_Warning(2, "The <b>BLOCKMAP</b> lump was rebuilt.");
+            C_Warning(2, "The <b>BLOCKMAP</b> lump has been rebuilt.");
         }
     }
 

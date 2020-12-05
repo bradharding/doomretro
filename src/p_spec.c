@@ -163,10 +163,11 @@ static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
 //
 void P_InitPicAnims(void)
 {
-    int         size = (numflats + 1) * sizeof(dboolean);
+    size_t      size = ((size_t)numflats + 1) * sizeof(dboolean);
 
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
+    size_t      maxanims = 0;
 
     short       NUKAGE1 = R_CheckFlatNumForName("NUKAGE1");
     short       NUKAGE3 = R_CheckFlatNumForName("NUKAGE3");
@@ -194,8 +195,6 @@ void P_InitPicAnims(void)
 
     for (int i = 0; animdefs[i].istexture != -1; i++)
     {
-        static size_t   maxanims;
-
         // killough 01/11/98 -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
         {
@@ -1416,7 +1415,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
                 if (nomonsters && (line->flags & ML_TRIGGER666))
                 {
-                    line_t  junk;
+                    line_t  junk = { 0 };
 
                     switch (gameepisode)
                     {
