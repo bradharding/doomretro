@@ -357,7 +357,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
         console[consolestrings].line = 1;
         C_DumpConsoleStringToFile(consolestrings);
-        console[consolestrings].indent = 0;
+        console[consolestrings].indent = 15;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
@@ -1287,8 +1287,12 @@ void C_Drawer(void)
                     do
                     {
                         char    *temp = M_SubString(console[i].string, 0, wrap);
-                        int     width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
-                                    C_TextWidth(temp, true, true));
+                        int     width;
+
+                        if (stringtype == warningstring)
+                            width = indent + C_TextWidth(temp, true, true);
+                        else
+                            width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) : C_TextWidth(temp, true, true));
 
                         free(temp);
 
