@@ -373,44 +373,84 @@ static int HUDNumberWidth(int val)
     return (width + SHORT(tallnum[val % 10]->width));
 }
 
+static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
+{
+    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
+
+    *dest = *(*dest + color);
+    dest++;
+    *dest = *(*dest + color);
+    dest += SCREENWIDTH;
+    *dest = *(*dest + color);
+    dest--;
+    *dest = *(*dest + color);
+}
+
+#define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
+#define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < 8)) / 2)
+
 static void HU_DrawCrosshair(void)
 {
     byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] :
                 &tinttab40[nearestcolors[crosshaircolor] << 8]);
 
-    if (crosshair == crosshair_cross)
+    if (r_detail == r_detail_low)
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
+        if (crosshair == crosshair_cross)
+        {
+            AM_DrawScaledPixel(CENTERX - 2, CENTERY, color);
+            AM_DrawScaledPixel(CENTERX - 1, CENTERY, color);
+            AM_DrawScaledPixel(CENTERX, CENTERY, color);
+            AM_DrawScaledPixel(CENTERX + 1, CENTERY, color);
+            AM_DrawScaledPixel(CENTERX + 2, CENTERY, color);
+            AM_DrawScaledPixel(CENTERX, CENTERY - 2, color);
+            AM_DrawScaledPixel(CENTERX, CENTERY - 1, color);
+            AM_DrawScaledPixel(CENTERX, CENTERY + 1, color);
+            AM_DrawScaledPixel(CENTERX, CENTERY + 2, color);
+        }
+        else
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
 
-        *dot = *(*dot + color);
-        dot += SCREENWIDTH;
-        *dot = *(*dot + color);
-        dot += (size_t)SCREENWIDTH - 2;
-        *dot = *(*dot + color);
-        dot++;
-        *dot = *(*dot + color);
-        dot++;
-        *dot = *(*dot + color);
-        dot++;
-        *dot = *(*dot + color);
-        dot++;
-        *dot = *(*dot + color);
-        dot += (size_t)SCREENWIDTH - 2;
-        *dot = *(*dot + color);
-        dot += SCREENWIDTH;
-        *dot = *(*dot + color);
+            *dot = *(*dot + color);
+            dot++;
+            *dot = *(*dot + color);
+            dot += SCREENWIDTH;
+            *dot = *(*dot + color);
+            dot--;
+            *dot = *(*dot + color);
+        }
     }
     else
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+        if (crosshair == crosshair_cross)
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 2;
 
-        *dot = *(*dot + color);
-        dot++;
-        *dot = *(*dot + color);
-        dot += SCREENWIDTH;
-        *dot = *(*dot + color);
-        dot--;
-        *dot = *(*dot + color);
+            *dot = *(*dot + color);
+            dot += SCREENWIDTH;
+            *dot = *(*dot + color);
+            dot += (size_t)SCREENWIDTH - 2;
+            *dot = *(*dot + color);
+            dot++;
+            *dot = *(*dot + color);
+            dot++;
+            *dot = *(*dot + color);
+            dot++;
+            *dot = *(*dot + color);
+            dot++;
+            *dot = *(*dot + color);
+            dot += (size_t)SCREENWIDTH - 2;
+            *dot = *(*dot + color);
+            dot += SCREENWIDTH;
+            *dot = *(*dot + color);
+        }
+        else
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+
+            *dot = *(*dot + color);
+        }
     }
 }
 
@@ -418,33 +458,40 @@ static void HU_DrawSolidCrosshair(void)
 {
     int color = nearestcolors[crosshaircolor];
 
-    if (crosshair == crosshair_cross)
+    if (r_detail == r_detail_low)
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
 
-        *dot = color;
-        dot += SCREENWIDTH;
-        *dot = color;
-        dot += (size_t)SCREENWIDTH - 2;
-        *dot++ = color;
-        *dot++ = color;
-        *dot++ = color;
-        *dot++ = color;
-        *dot = color;
-        dot += (size_t)SCREENWIDTH - 2;
-        *dot = color;
-        dot += SCREENWIDTH;
-        *dot = color;
     }
     else
     {
-        byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+        if (crosshair == crosshair_cross)
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
 
-        *dot++ = color;
-        *dot = color;
-        dot += SCREENWIDTH;
-        *dot-- = color;
-        *dot = color;
+            *dot = color;
+            dot += SCREENWIDTH;
+            *dot = color;
+            dot += (size_t)SCREENWIDTH - 2;
+            *dot++ = color;
+            *dot++ = color;
+            *dot++ = color;
+            *dot++ = color;
+            *dot = color;
+            dot += (size_t)SCREENWIDTH - 2;
+            *dot = color;
+            dot += SCREENWIDTH;
+            *dot = color;
+        }
+        else
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+
+            *dot++ = color;
+            *dot = color;
+            dot += SCREENWIDTH;
+            *dot-- = color;
+            *dot = color;
+        }
     }
 }
 
