@@ -611,7 +611,7 @@ static void M_DarkBlueBackground(void)
     {
         byte    *dot = *screens + i;
 
-        *dot = nearestcolors[blues[*dot]];
+        *dot = blues[*dot];
     }
 }
 
@@ -3845,6 +3845,9 @@ void M_Init(void)
     spindirection = ((M_Random() & 1) ? 1 : -1);
 
     M_BigSeed((unsigned int)time(NULL));
+
+    for (int i = 0; i < 256; i++)
+        blues[i] = nearestcolors[blues[i]];
 
     if (autostart)
     {

@@ -461,7 +461,7 @@ static void HU_DrawHUD(void)
     const dboolean      gamepaused = (consoleactive || freeze);
     byte                *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
                             || health >= HUD_HEALTH_MIN || gamepaused ? tinttab66 : tinttab25);
-    patch_t             *patch;
+    patch_t             *patch = faces[st_faceindex];
     const int           currenttime = I_GetTimeMS();
     int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
@@ -469,7 +469,7 @@ static void HU_DrawHUD(void)
 
     health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
-    if ((patch = faces[st_faceindex]))
+    if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab66);
 
     if (r_hud_translucency || !healthanim)
@@ -1166,11 +1166,10 @@ void HU_Ticker(void)
         {
             int     len = (int)strlen(viewplayer->message);
             char    message[133];
-            int     maxwidth = NONWIDEWIDTH - 6;
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            while (M_StringWidth(message) > maxwidth)
+            while (M_StringWidth(message) > NONWIDEWIDTH - 6)
             {
                 if (len >= 2 && message[len - 2] == ' ')
                 {

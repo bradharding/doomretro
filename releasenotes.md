@@ -24,7 +24,7 @@
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the console:
   * The scrollbar now extends to the top of the screen.
-  * The scrollbar’s grip is now slightly translucent.
+  * The scrollbar’s grip is now translucent.
   * A slight shadow is applied to the text at the top of the console.
   * Minor changes have been made to text that is output to the console.
   * Long lines of text will now always wrap to the next line rather than being truncated.
