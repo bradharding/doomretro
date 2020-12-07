@@ -93,13 +93,16 @@ extern dboolean         acceleratestage;        // accelerate intermission scree
 //
 static void F_ConsoleFinaleText(void)
 {
-    char    *p = strtok(finaletext, "\n");
+    char    *text = M_StringDuplicate(finaletext);
+    char    *p = strtok(text, "\n");
 
     while (p)
     {
         C_Output(p);
         p = strtok(NULL, "\n");
     }
+
+    free(text);
 }
 
 //
@@ -384,14 +387,13 @@ static void F_TextWrite(void)
         }
 #else
         for (int y = 0; y < SCREENHEIGHT; y++)
-        {
             for (int x = 0; x < SCREENWIDTH; x += 2)
             {
-                byte    dot = src[(((y>>1)&63)<<6) + ((x>>1)&63)];
+                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+
                 *dest++ = dot;
                 *dest++ = dot;
             }
-        }
 #endif
     }
     else
