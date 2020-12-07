@@ -225,7 +225,7 @@ void R_DrawFuzzyShadowColumn(void)
     byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++])
-        || (!consoleactive && !freeze && !(M_Random() & 3)))
+        || (!consoleactive && !freeze && !(M_BigRandom() & 3)))
         *dest = *(*dest + dc_black25);
 
     dest += SCREENWIDTH;
@@ -238,7 +238,7 @@ void R_DrawFuzzyShadowColumn(void)
 
     if (dc_yh < dc_floorclip
         && (((consoleactive || freeze) && !fuzztable[fuzzpos++])
-            || (!consoleactive && !freeze && !(M_Random() & 3))))
+            || (!consoleactive && !freeze && !(M_BigRandom() & 3))))
         *dest = *(*dest + dc_black25);
 }
 
@@ -262,7 +262,7 @@ void R_DrawSolidFuzzyShadowColumn(void)
     byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++])
-        || (!consoleactive && !freeze && !(M_Random() & 3)))
+        || (!consoleactive && !freeze && !(M_BigRandom() & 3)))
         *dest = dc_black;
 
     dest += SCREENWIDTH;
@@ -275,7 +275,7 @@ void R_DrawSolidFuzzyShadowColumn(void)
 
     if (dc_yh < dc_floorclip
         && (((consoleactive || freeze) && !fuzztable[fuzzpos++])
-            || (!consoleactive && !freeze && !(M_Random() & 3))))
+            || (!consoleactive && !freeze && !(M_BigRandom() & 3))))
         *dest = dc_black;
 }
 
@@ -937,7 +937,7 @@ void R_DrawFuzzColumn(void)
     // top
     if (!dc_yl)
         *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
-    else if (!(M_Random() & 3))
+    else if (!(M_BigRandom() & 3))
         *dest = fullcolormap[12 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
 
     dest += SCREENWIDTH;
@@ -952,7 +952,7 @@ void R_DrawFuzzColumn(void)
     // bottom
     *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
 
-    if (dc_yh < dc_floorclip && !(M_Random() & 3))
+    if (dc_yh < dc_floorclip && !(M_BigRandom() & 3))
     {
         dest += SCREENWIDTH;
         *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(-1, 0))]];
@@ -1020,7 +1020,7 @@ void R_DrawFuzzColumns(void)
                 if (!y || *(src - SCREENWIDTH) == NOFUZZ)
                 {
                     // top
-                    if (!(M_Random() & 3))
+                    if (!(M_BigRandom() & 3))
                         *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
                 else if (y == h - SCREENWIDTH)
@@ -1031,7 +1031,7 @@ void R_DrawFuzzColumns(void)
                 else if (*(src + SCREENWIDTH) == NOFUZZ)
                 {
                     // bottom of post
-                    if (!(M_Random() & 3))
+                    if (!(M_BigRandom() & 3))
                         *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
                 else
@@ -1039,7 +1039,7 @@ void R_DrawFuzzColumns(void)
                     // middle
                     if (*(src - 1) == NOFUZZ || *(src + 1) == NOFUZZ)
                     {
-                        if (!(M_Random() & 3))
+                        if (!(M_BigRandom() & 3))
                             *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                     }
                     else
