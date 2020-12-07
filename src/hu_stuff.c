@@ -373,9 +373,9 @@ static int HUDNumberWidth(int val)
     return (width + SHORT(tallnum[val % 10]->width));
 }
 
-static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
+static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)
 {
-    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
+    byte    *dest = &screens[0][(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
 
     *dest = *(*dest + color);
     dest++;
@@ -384,6 +384,16 @@ static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
     *dest = *(*dest + color);
     dest--;
     *dest = *(*dest + color);
+}
+
+static inline void HU_DrawSolidScaledPixel(const int x, const int y, byte color)
+{
+    byte    *dest = &screens[0][(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
+
+    *(dest++) = color;
+    *dest = color;
+    *(dest += SCREENWIDTH) = color;
+    *(--dest) = color;
 }
 
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
@@ -398,15 +408,15 @@ static void HU_DrawCrosshair(void)
     {
         if (crosshair == crosshair_cross)
         {
-            AM_DrawScaledPixel(CENTERX - 2, CENTERY, color);
-            AM_DrawScaledPixel(CENTERX - 1, CENTERY, color);
-            AM_DrawScaledPixel(CENTERX, CENTERY, color);
-            AM_DrawScaledPixel(CENTERX + 1, CENTERY, color);
-            AM_DrawScaledPixel(CENTERX + 2, CENTERY, color);
-            AM_DrawScaledPixel(CENTERX, CENTERY - 2, color);
-            AM_DrawScaledPixel(CENTERX, CENTERY - 1, color);
-            AM_DrawScaledPixel(CENTERX, CENTERY + 1, color);
-            AM_DrawScaledPixel(CENTERX, CENTERY + 2, color);
+            HU_DrawScaledPixel(CENTERX - 2, CENTERY, color);
+            HU_DrawScaledPixel(CENTERX - 1, CENTERY, color);
+            HU_DrawScaledPixel(CENTERX, CENTERY, color);
+            HU_DrawScaledPixel(CENTERX + 1, CENTERY, color);
+            HU_DrawScaledPixel(CENTERX + 2, CENTERY, color);
+            HU_DrawScaledPixel(CENTERX, CENTERY - 2, color);
+            HU_DrawScaledPixel(CENTERX, CENTERY - 1, color);
+            HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
+            HU_DrawScaledPixel(CENTERX, CENTERY + 2, color);
         }
         else
         {
@@ -460,7 +470,30 @@ static void HU_DrawSolidCrosshair(void)
 
     if (r_detail == r_detail_low)
     {
+        if (crosshair == crosshair_cross)
+        {
+            HU_DrawSolidScaledPixel(CENTERX - 2, CENTERY, color);
+            HU_DrawSolidScaledPixel(CENTERX - 1, CENTERY, color);
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
+            HU_DrawSolidScaledPixel(CENTERX + 1, CENTERY, color);
+            HU_DrawSolidScaledPixel(CENTERX + 2, CENTERY, color);
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY - 2, color);
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY - 1, color);
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY + 1, color);
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY + 2, color);
+        }
+        else
+        {
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
 
+            *dot = color;
+            dot++;
+            *dot = color;
+            dot += SCREENWIDTH;
+            *dot = color;
+            dot--;
+            *dot = color;
+        }
     }
     else
     {
