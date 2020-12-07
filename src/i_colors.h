@@ -42,6 +42,8 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
+#define PINK    251
+
 extern byte *tinttab20;
 extern byte *tinttab25;
 extern byte *tinttab30;

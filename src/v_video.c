@@ -1518,7 +1518,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 #if SCREENSCALE == 2
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
-    if (color == 251)
+    if (color == PINK)
     {
         if (drawshadow)
         {
@@ -1542,7 +1542,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
         *(--dot) = color;
     }
 #else
-    if (color == 251)
+    if (color == PINK)
     {
         if (drawshadow)
         {

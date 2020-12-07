@@ -631,7 +631,7 @@ static void M_DrawChar(int x, int y, int i, dboolean overlapping)
             if (dot == '\xC8')
             {
                 if (!overlapping)
-                    V_DrawPixel(x + x1, y + y1, 251, true);
+                    V_DrawPixel(x + x1, y + y1, PINK, true);
             }
             else
                 V_DrawPixel(x + x1, y + y1, (int)dot, true);
@@ -2296,7 +2296,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
 
     for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
-        V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
+        V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), PINK, true);
 
     V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }

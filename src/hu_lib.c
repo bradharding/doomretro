@@ -93,7 +93,7 @@ static void HU_DrawDot(int x, int y, unsigned char src)
 {
     byte    *dest = &tempscreen[y * SCREENWIDTH + x];
 
-    if (src == 251)
+    if (src == PINK)
         *dest = 0;
     else if (src != ' ')
         *dest = src;
@@ -292,7 +292,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     x = l->x;
     y = l->y;
 
-    memset(tempscreen, 251, SCREENAREA);
+    memset(tempscreen, PINK, SCREENAREA);
 
     for (int i = 0; i < len; i++)
     {
@@ -387,7 +387,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                         {
                             byte    *dest = &tempscreen[((l->y + y1 + 6) * scale + y2) * SCREENWIDTH + (l->x + x1 - 3) * scale + x2];
 
-                            *dest = (src == 251 ? 0 : src);
+                            *dest = (src == PINK ? 0 : src);
                         }
             }
     }
@@ -411,7 +411,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
             if (!*source)
                 *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
-            else if (*source != 251)
+            else if (*source != PINK)
             {
                 if (r_hud_translucency)
                     *dest1 = tinttab75[(*source << 8) + fb2[dot]];

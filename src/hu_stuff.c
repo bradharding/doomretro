@@ -425,7 +425,7 @@ static void HU_DrawCrosshair(void)
     {
         if (crosshair == crosshair_cross)
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 2;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
 
             *dot = *(*dot + color);
             dot += SCREENWIDTH;
