@@ -58,6 +58,7 @@
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
 * Improvements have been made to the fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up.
+* The spectre is now displayed again in *DOOM II’s* cast sequence.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

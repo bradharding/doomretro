@@ -483,6 +483,7 @@ static castinfo_t castorder[] =
     { CC_HEAVY,   &s_CC_HEAVY,   MT_CHAINGUY  },
     { CC_IMP,     &s_CC_IMP,     MT_TROOP     },
     { CC_DEMON,   &s_CC_DEMON,   MT_SERGEANT  },
+    { CC_SPECTRE, &s_CC_SPECTRE, MT_SHADOWS   },
     { CC_LOST,    &s_CC_LOST,    MT_SKULL     },
     { CC_CACO,    &s_CC_CACO,    MT_HEAD      },
     { CC_HELL,    &s_CC_HELL,    MT_KNIGHT    },

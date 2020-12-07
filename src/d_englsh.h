@@ -657,6 +657,7 @@
 #define CC_HEAVY                "HEAVY WEAPON DUDE"
 #define CC_IMP                  "IMP"
 #define CC_DEMON                "DEMON"
+#define CC_SPECTRE              "SPECTRE"
 #define CC_LOST                 "LOST SOUL"
 #define CC_CACO                 "CACODEMON"
 #define CC_HELL                 "HELL KNIGHT"
