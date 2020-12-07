@@ -57,6 +57,7 @@
 * The number of times the player uses their fists and chainsaw are now displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also be displayed as their `Favorite weapon`.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
+* Improvements have been made to the fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
