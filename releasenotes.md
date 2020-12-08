@@ -35,7 +35,7 @@
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
   * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
-* The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
+* The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM*, and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
@@ -56,8 +56,8 @@
 * The number of times the player uses their fists and chainsaw are now displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also be displayed as their `Favorite weapon`.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
-* Improvements have been made to the fuzz effect of spectres, as well as the player’s weapon when they have a partial invisibility power-up.
-* The spectre is now displayed again in *DOOM II’s* cast sequence.
+* Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
+* A spectre now appears again in *DOOM II’s* cast sequence.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
