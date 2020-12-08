@@ -970,7 +970,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 patch = (c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar);
 
-                if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
+                if (!i || (i == 3 && (bold || italics)) || prevletter == ' ' || prevletter == '(' || prevletter == '['
+                    || prevletter == '\t')
                 {
                     if (letter == '\'')
                         patch = lsquote;
