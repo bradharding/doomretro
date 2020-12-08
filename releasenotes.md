@@ -35,7 +35,6 @@
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
   * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
-  * The automap will now be displayed in low detail when the `r_detail` CVAR is `low`.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM* and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
@@ -50,7 +49,7 @@
 * The current map’s music will no longer restart when loading a savegame for the same map.
 * Music will no longer continue to play if *DOOM Retro* crashes.
 * A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
-* The <kbd>F5</kbd> key may now be pressed while the menu or automap is open to toggle the graphic detail.
+* The <kbd>F5</kbd> key may now be pressed while the menu is open to toggle the graphic detail.
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not when vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.

@@ -3092,7 +3092,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // Toggle graphic detail
-    if (key == KEY_F5 && !functionkey && !keydown)
+    if (key == KEY_F5 && !functionkey && !automapactive && !keydown)
     {
         keydown = key;
         functionkey = KEY_F5;

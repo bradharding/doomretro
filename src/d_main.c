@@ -360,12 +360,15 @@ void D_Display(void)
         }
 
         // see if the border needs to be updated to the screen
-         if (viewwidth != SCREENWIDTH && !automapactive)
-            R_DrawViewBorder();
+        if (!automapactive)
+        {
+            if (viewwidth != SCREENWIDTH)
+                R_DrawViewBorder();
 
-        if (r_detail == r_detail_low)
-            V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
-                (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
+            if (r_detail == r_detail_low)
+                V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
+                    (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
+        }
 
         HU_Drawer();
     }
