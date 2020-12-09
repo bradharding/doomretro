@@ -884,7 +884,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     int             tab = -1;
     int             len = (int)strlen(text);
     unsigned char   prevletter = '\0';
-    int             width = 0;
     int             startx = x;
 
     y -= CONSOLEHEIGHT - consoleheight;
@@ -894,13 +893,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         if (console[index].line == 2)
         {
             if (text[0] == ' ')
-                width -= spacewidth;
+                x -= spacewidth;
         }
         else
             V_DrawConsoleOutputTextPatch(x, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
-        width += WARNINGWIDTH + 1;
-        x += width;
+        x += WARNINGWIDTH + 1;
     }
 
     for (int i = 0; i < len; i++)
