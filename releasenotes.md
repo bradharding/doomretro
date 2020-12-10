@@ -2,6 +2,7 @@
 
 #### DOOM Retro v3.7
 
+* *DOOM Retro* now uses [*SDL v2.0.14*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound). Sound effects are now louder and clearer than before.
 * Non-QWERTY keyboards are now properly supported.
