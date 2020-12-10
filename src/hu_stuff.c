@@ -1133,9 +1133,9 @@ void HU_Drawer(void)
                 w_title.x = (r_screensize == 7 ? WIDESCREENDELTA : 8);
 
             if (r_screensize <= 7)
-                w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 2;
+                w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 3;
             else
-                w_title.y = VANILLAHEIGHT - hu_font[0]->height + 1;
+                w_title.y = SCREENHEIGHT - hu_font[0]->height - 5;
 
             HUlib_DrawTextLine(&w_title, false);
         }

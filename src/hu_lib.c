@@ -396,7 +396,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (!external)
+    if (!external && r_screensize <= 7)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;
