@@ -328,7 +328,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                     x -= 2;
 
                 if (r_screensize == 8)
-                    V_DrawBigPatchToTempScreen(x, l->y * SCREENSCALE, l->f[c - l->sc]);
+                    V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
