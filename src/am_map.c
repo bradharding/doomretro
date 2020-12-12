@@ -385,7 +385,7 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(void)
 {
-    mapheight = SCREENHEIGHT;
+    mapheight = SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8);
     maparea = SCREENWIDTH * mapheight;
     mapbottom = SCREENWIDTH * (mapheight - 1);
 
@@ -1958,7 +1958,7 @@ static void AM_DrawPath(void)
 
 static void AM_DrawCrosshair(void)
 {
-    byte    *dot = &mapscreen[(SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1];
+    byte    *dot = &mapscreen[(mapheight - 1) * SCREENWIDTH / 2 - 1];
 
     *dot = *(*dot + am_crosshaircolor2);
     dot += SCREENWIDTH;
@@ -1981,7 +1981,7 @@ static void AM_DrawCrosshair(void)
 
 static void AM_DrawSolidCrosshair(void)
 {
-    byte    *dot = &mapscreen[(SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1];
+    byte    *dot = &mapscreen[(mapheight - 1) * SCREENWIDTH / 2 - 1];
 
     *dot = am_crosshaircolor;
     dot += SCREENWIDTH;
