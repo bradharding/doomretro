@@ -1956,56 +1956,46 @@ static void AM_DrawPath(void)
     }
 }
 
-static inline void AM_DrawScaledPixel(const int x, const int y, byte *color)
-{
-    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * MAPWIDTH + x * SCREENSCALE - 1];
-
-    *dest = *(*dest + color);
-    dest++;
-    *dest = *(*dest + color);
-    dest += MAPWIDTH;
-    *dest = *(*dest + color);
-    dest--;
-    *dest = *(*dest + color);
-}
-
-static inline void AM_DrawSolidScaledPixel(const int x, const int y, byte color)
-{
-    byte    *dest = &mapscreen[(y * SCREENSCALE - 1) * MAPWIDTH + x * SCREENSCALE - 1];
-
-    *(dest++) = color;
-    *dest = color;
-    *(dest += MAPWIDTH) = color;
-    *(--dest) = color;
-}
-
-#define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
-#define CENTERY (VANILLAHEIGHT / 2)
-
 static void AM_DrawCrosshair(void)
 {
-    AM_DrawScaledPixel(CENTERX - 2, CENTERY, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX + 2, CENTERY, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 2, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor2);
+    byte    *dot = &mapscreen[(SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1];
+
+    *dot = *(*dot + am_crosshaircolor2);
+    dot += SCREENWIDTH;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot += (size_t)SCREENWIDTH - 2;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot++;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot++;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot++;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot++;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot += (size_t)SCREENWIDTH - 2;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot += SCREENWIDTH;
+    *dot = *(*dot + am_crosshaircolor2);
 }
 
 static void AM_DrawSolidCrosshair(void)
 {
-    AM_DrawSolidScaledPixel(CENTERX - 2, CENTERY, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX, CENTERY, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX + 2, CENTERY, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX, CENTERY - 2, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor);
-    AM_DrawSolidScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor);
+    byte    *dot = &mapscreen[(SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1];
+
+    *dot = am_crosshaircolor;
+    dot += SCREENWIDTH;
+    *dot = am_crosshaircolor;
+    dot += (size_t)SCREENWIDTH - 2;
+    *dot++ = am_crosshaircolor;
+    *dot++ = am_crosshaircolor;
+    *dot++ = am_crosshaircolor;
+    *dot++ = am_crosshaircolor;
+    *dot = am_crosshaircolor;
+    dot += (size_t)SCREENWIDTH - 2;
+    *dot = am_crosshaircolor;
+    dot += SCREENWIDTH;
+    *dot = am_crosshaircolor;
 }
 
 static void AM_SetFrameVariables(void)

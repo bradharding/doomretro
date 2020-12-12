@@ -3,8 +3,8 @@
 #### DOOM Retro v3.7
 
 * *DOOM Retro* now uses [*SDL v2.0.14*](https://www.libsdl.org).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound). Sound effects are now louder and clearer than before.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Non-QWERTY keyboards are now properly supported.
 * *DOOM Retro* has now improved support for widescreen displays:
   * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode complete with status bar will be displayed that horizontally fills displays of any aspect ratio.
@@ -36,6 +36,7 @@
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
   * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
+  * A smaller crosshair is now displayed when the `am_followmode` CVAR is `off`.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM*, and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
