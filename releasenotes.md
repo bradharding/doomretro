@@ -63,7 +63,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Sunday, August 16, 2020
+###### Sunday, August 16, 2021
 
 #### DOOM Retro v3.6.1
 
@@ -79,7 +79,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Sunday, August 9, 2020
+###### Sunday, August 9, 2021
 
 #### DOOM Retro v3.6
 
@@ -130,7 +130,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Sunday, June 7, 2020
+###### Sunday, June 7, 2021
 
 #### DOOM Retro v3.5.10
 
@@ -149,7 +149,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, May 23, 2020
+###### Saturday, May 23, 2021
 
 #### DOOM Retro v3.5.9
 
@@ -166,7 +166,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, May 16, 2020
+###### Saturday, May 16, 2021
 
 #### DOOM Retro v3.5.8
 
@@ -189,7 +189,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Friday, May 8, 2020
+###### Friday, May 8, 2021
 
 #### DOOM Retro v3.5.7
 
@@ -208,7 +208,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, May 2, 2020
+###### Saturday, May 2, 2021
 
 #### DOOM Retro v3.5.6
 
@@ -235,7 +235,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, April 18, 2020
+###### Saturday, April 18, 2021
 
 #### DOOM Retro v3.5.5
 
@@ -257,7 +257,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Friday, April 3, 2020
+###### Friday, April 3, 2021
 
 #### DOOM Retro v3.5.4
 
@@ -268,7 +268,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Monday, March 23, 2020
+###### Monday, March 23, 2021
 
 #### DOOM Retro v3.5.3
 
@@ -288,7 +288,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Friday, March 13, 2020
+###### Friday, March 13, 2021
 
 #### DOOM Retro v3.5.2
 
@@ -317,7 +317,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Friday, February 21, 2020
+###### Friday, February 21, 2021
 
 #### DOOM Retro v3.5.1
 
@@ -337,7 +337,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, February 8, 2020
+###### Saturday, February 8, 2021
 
 #### DOOM Retro v3.5
 
@@ -367,7 +367,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Saturday, January 4, 2020
+###### Saturday, January 4, 2021
 
 #### DOOM Retro v3.4
 

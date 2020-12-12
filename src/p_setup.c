@@ -7,7 +7,7 @@
 ========================================================================
 
   Copyright © 1993-2012 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2020 by Brad Harding.
+  Copyright © 2013-2021 by Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -1482,7 +1482,7 @@ static void P_LoadNodes_V4(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
+// MB 2021-03-01: Fix endianness for 32-bit ZDoom nodes
 static void P_LoadZSegs(const byte *data)
 {
     for (int i = 0; i < numsegs; i++)
@@ -1575,7 +1575,7 @@ static void P_LoadZSegs(const byte *data)
     }
 }
 
-// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
+// MB 2021-03-01: Fix endianness for 32-bit ZDoom nodes
 // <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
 static void P_LoadZNodes(int lump)
 {
