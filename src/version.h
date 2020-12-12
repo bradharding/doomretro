@@ -47,7 +47,7 @@
 #define PACKAGE                             "doomretro"
 #define PACKAGE_AUTHOR                      "Brad Harding <brad@doomretro.com>"
 #define PACKAGE_CONFIG                      "doomretro.cfg"
-#define PACKAGE_COPYRIGHT                   "\xA9 2013\x962020 by Brad Harding. All rights reserved."
+#define PACKAGE_COPYRIGHT                   "\xA9 2013\x962021 by Brad Harding. All rights reserved."
 #define PACKAGE_FILENAME                    "doomretro.exe"
 #define PACKAGE_ICONPATH                    "..\\res\\doomretro.ico"
 #define PACKAGE_LICENSE                     "GNU General Public License v3.0"
