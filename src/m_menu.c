@@ -2222,6 +2222,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
+                AM_SetAutomapSize();
 
                 if (r_screensize == 7)
                     r_hud = false;
@@ -2251,6 +2252,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
+                AM_SetAutomapSize();
 
                 if (r_screensize == 8)
                     r_hud = true;
