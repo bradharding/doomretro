@@ -599,7 +599,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles giving the player and monsters infinite height."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
-        "The folder where an IWAD was last opened."),
+        "The folder of the last IWAD to be opened."),
     CCMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters, a type of <i><b>monster</b></i>, or explodes all <b>barrels</b> or "
         "<b>missiles</b>."),
