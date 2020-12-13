@@ -646,7 +646,7 @@ consolecmd_t consolecmds[] =
     CCMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
         "Plays a <i><b>sound effect</b></i> or <i><b>music</b></i> lump."),
     CVAR_INT(playergender, "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, PLAYERGENDERVALUEALIAS,
-        "The gender of the player (<b>male</b>, <b>female</b> or <b>other</b>)."),
+        "The gender identity of the player (<b>male</b>, <b>female</b> or <b>other</b>)."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
         "The name of the player."),
     CCMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",

@@ -19,22 +19,22 @@
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
 * Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
 * Centered messages are now better centered vertically.
-* The gender of the player can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries are affected.
+* The player’s gender identity can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries are affected.
 * A subtle scanline effect has now been applied to the menu’s background.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the console:
   * The scrollbar now extends to the top of the screen.
   * The scrollbar’s grip is now translucent.
-  * A slight shadow is applied to the text at the top of the console.
+  * A slight shadow is applied to the text along the top of the console.
   * Minor changes have been made to text that is output to the console.
-  * Long lines of text will now always wrap to the next line rather than being truncated.
-  * Timestamps between midnight and 12:59:59am will now be displayed correctly.
+  * Long lines of text will now always wrap to the next line rather than be truncated.
+  * Timestamps for the hour after midnight will now be displayed correctly.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
-  * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
+  * Thing triangles will no longer be affected by frame interpolation when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
   * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
   * A smaller crosshair is now displayed when the `am_followmode` CVAR is `off`.
   * The player’s path is now thinner when the `am_path` CVAR is `on`.
