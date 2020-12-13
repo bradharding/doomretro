@@ -37,6 +37,7 @@
   * Thing triangles will no longer jitter when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
   * Fade transitions will now be applied when performing various actions in the automap when the `fade` CVAR is `on`.
   * A smaller crosshair is now displayed when the `am_followmode` CVAR is `off`.
+  * The player’s path is now thinner when the `am_path` CVAR is `on`.
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM*, and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.

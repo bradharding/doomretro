@@ -1919,7 +1919,7 @@ static void AM_DrawPath(void)
 
                 AM_RotatePoint(&start);
                 AM_RotatePoint(&end);
-                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, putbigdot);
+                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, &PUTDOT);
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
@@ -1928,7 +1928,7 @@ static void AM_DrawPath(void)
                 mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
 
                 AM_RotatePoint(&player);
-                AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, putbigdot);
+                AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, &PUTDOT);
             }
         }
         else
@@ -1943,14 +1943,14 @@ static void AM_DrawPath(void)
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
 
-                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, putbigdot);
+                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, &PUTDOT);
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
                 const mobj_t    *mo = viewplayer->mo;
 
-                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, pathcolor, putbigdot);
+                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, pathcolor, &PUTDOT);
             }
         }
     }
