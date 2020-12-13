@@ -574,7 +574,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the <i>" PACKAGE_NAME " Wiki.</i>"),
+        "Opens the <i>" PACKAGE_WIKINAME ".</i>"),
     CMD_CHEAT(idbehold, false),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
@@ -599,7 +599,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles giving the player and monsters infinite height."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
-        "The folder of the last IWAD to be opened."),
+        "The folder of the current IWAD."),
     CCMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters, a type of <i><b>monster</b></i>, or explodes all <b>barrels</b> or "
         "<b>missiles</b>."),
