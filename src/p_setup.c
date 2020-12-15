@@ -3097,7 +3097,7 @@ static void P_InitMapInfo(void)
             {
                 if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
-                    C_Warning(0, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    C_Warning(1, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
@@ -3105,7 +3105,7 @@ static void P_InitMapInfo(void)
                 }
                 else
                 {
-                    C_Warning(0, "The <b>MAPINFO</b> lump contains an invalid map marker.");
+                    C_Warning(1, "The <b>MAPINFO</b> lump contains an invalid map marker.");
                     continue;
                 }
             }
