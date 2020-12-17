@@ -1638,13 +1638,13 @@ void GetPixelSize(dboolean reset)
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
         lowpixelwidth = 2;
-        lowpixelheight = 2;
+        lowpixelheight = 2 * SCREENWIDTH;
         postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
     }
 
 }
 
-void V_LowMenuGraphicDetail(void)
+void V_LowGraphicDetail_Menu(void)
 {
     for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
         for (int x = 0; x < SCREENWIDTH; x += 2)

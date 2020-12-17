@@ -106,7 +106,7 @@ void V_DrawPagePatch(patch_t *patch);
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow);
 
 void GetPixelSize(dboolean reset);
-void V_LowMenuGraphicDetail(void);
+void V_LowGraphicDetail_Menu(void);
 void V_InvertScreen(void);
 
 dboolean V_ScreenShot(void);
