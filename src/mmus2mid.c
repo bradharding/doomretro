@@ -339,6 +339,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
 
     for (int i = 0; i < MIDI_TRACKS; i++)   // init the track structure's tracks
     {
+        MIDIchan2track[i] = 0;
         MUS2MIDchannel[i] = -1;             // flag for channel not used yet
         track[i].velocity = 64;
         track[i].deltaT = 0;
