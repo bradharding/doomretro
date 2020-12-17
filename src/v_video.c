@@ -76,6 +76,8 @@ char        screenshotfolder[MAX_PATH];
 char        *r_lowpixelsize = r_lowpixelsize_default;
 dboolean    r_supersampling = r_supersampling_default;
 
+void (*postprocessfunc)(int, int, int, int, int, int);
+
 //
 // V_FillRect
 //
@@ -1568,6 +1570,55 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 #endif
 }
 
+static void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+{
+    for (int y = top; y < height; y += pixelheight)
+        for (int x = left; x < width; x += pixelwidth)
+        {
+            byte        *dot = *screens + y + x;
+            const byte  color = *dot;
+
+            for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
+                *(dot + xx) = color;
+
+            for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                    *(dot + yy + xx) = color;
+        }
+}
+
+static void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+{
+    for (int y = top; y < height; y += 2 * SCREENWIDTH)
+        for (int x = left; x < width; x += 2)
+        {
+            byte        *dot = *screens + y + x;
+            const byte  color = *dot;
+
+            *(++dot) = color;
+            *(dot += SCREENWIDTH) = color;
+            *(--dot) = color;
+        }
+}
+
+static void V_LowGraphicDetail_2x2_SSAA(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+{
+    for (int y = top; y < height; y += 2 * SCREENWIDTH)
+        for (int x = left; x < width; x += 2)
+        {
+            byte        *dot1 = *screens + y + x;
+            byte        *dot2 = dot1 + 1;
+            byte        *dot3 = dot2 + SCREENWIDTH;
+            byte        *dot4 = dot3 - 1;
+            const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+
+            *dot1 = color;
+            *dot2 = color;
+            *dot3 = color;
+            *dot4 = color;
+        }
+}
+
 void GetPixelSize(dboolean reset)
 {
     int width = -1;
@@ -1579,61 +1630,18 @@ void GetPixelSize(dboolean reset)
     {
         lowpixelwidth = width;
         lowpixelheight = height * SCREENWIDTH;
+        postprocessfunc = (lowpixelwidth == 2 && lowpixelheight == 2 * SCREENWIDTH ? (r_supersampling ? V_LowGraphicDetail_2x2_SSAA :
+            V_LowGraphicDetail_2x2) : V_LowGraphicDetail);
     }
     else if (reset)
     {
-        lowpixelwidth = 2;
-        lowpixelheight = 2 * SCREENWIDTH;
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
+        lowpixelwidth = 2;
+        lowpixelheight = 2;
+        postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
     }
-}
 
-void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
-{
-    if ((pixelwidth == 2 && pixelheight == 2 * SCREENWIDTH))
-    {
-        if (r_supersampling)
-            for (int y = top; y < height; y += 2 * SCREENWIDTH)
-                for (int x = left; x < width; x += 2)
-                {
-                    byte        *dot1 = *screens + y + x;
-                    byte        *dot2 = dot1 + 1;
-                    byte        *dot3 = dot2 + SCREENWIDTH;
-                    byte        *dot4 = dot3 - 1;
-                    const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
-
-                    *dot1 = color;
-                    *dot2 = color;
-                    *dot3 = color;
-                    *dot4 = color;
-                }
-        else
-            for (int y = top; y < height; y += 2 * SCREENWIDTH)
-                for (int x = left; x < width; x += 2)
-                {
-                    byte        *dot = *screens + y + x;
-                    const byte  color = *dot;
-
-                    *(++dot) = color;
-                    *(dot += SCREENWIDTH) = color;
-                    *(--dot) = color;
-                }
-    }
-    else
-        for (int y = top; y < height; y += pixelheight)
-            for (int x = left; x < width; x += pixelwidth)
-            {
-                byte        *dot = *screens + y + x;
-                const byte  color = *dot;
-
-                for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
-                    *(dot + xx) = color;
-
-                for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                        *(dot + yy + xx) = color;
-            }
 }
 
 void V_LowMenuGraphicDetail(void)

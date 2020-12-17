@@ -366,7 +366,7 @@ void D_Display(void)
                 R_DrawViewBorder();
 
             if (r_detail == r_detail_low)
-                V_LowGraphicDetail(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
+                postprocessfunc(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
                     (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
         }
 

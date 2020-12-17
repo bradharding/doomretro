@@ -371,6 +371,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms);
 static void r_skycolor_cvar_func2(char *cmd, char *parms);
+static void r_supersampling_cvar_func2(char *cmd, char *parms);
 static void r_textures_cvar_func2(char *cmd, char *parms);
 static void r_translucency_cvar_func2(char *cmd, char *parms);
 static dboolean s_volume_cvars_func1(char *cmd, char *parms);
@@ -740,7 +741,7 @@ consolecmd_t consolecmds[] =
         "The amount the screen shakes when the player is attacked (<b>0%</b> to <b>100%</b>)."),
     CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
         "The color of the sky (<b>none</b>, or <b>0</b> to <b>255</b>)."),
-    CVAR_BOOL(r_supersampling, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(r_supersampling, "", bool_cvars_func1, r_supersampling_cvar_func2, BOOLVALUEALIAS,
         "Toggles SSAA (supersampling anti-aliasing) when the graphic detail is low."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
@@ -8230,6 +8231,42 @@ static void r_skycolor_cvar_func2(char *cmd, char *parms)
 
         if (r_skycolor != r_skycolor_old)
             R_InitColumnFunctions();
+    }
+}
+
+//
+// r_supersampling CVAR
+//
+static void r_supersampling_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_supersampling)
+        {
+            r_supersampling = value;
+            M_SaveCVARs();
+            GetPixelSize(false);
+        }
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(r_supersampling, BOOLVALUEALIAS);
+
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (r_supersampling == r_supersampling_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_supersampling_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
