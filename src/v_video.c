@@ -1625,20 +1625,21 @@ void GetPixelSize(dboolean reset)
     int height = -1;
 
     if (sscanf(r_lowpixelsize, "%10dx%10d", &width, &height) == 2
-        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT
-        && (width >= 2 || height >= 2))
+        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT)
     {
-        lowpixelwidth = width;
-        lowpixelheight = height * SCREENWIDTH;
-        postprocessfunc = (lowpixelwidth == 2 && lowpixelheight == 2 * SCREENWIDTH ? (r_supersampling ? V_LowGraphicDetail_2x2_SSAA :
-            V_LowGraphicDetail_2x2) : V_LowGraphicDetail);
+        if (width == 2 && height == 2)
+            postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
+        else
+        {
+            lowpixelwidth = width;
+            lowpixelheight = height * SCREENWIDTH;
+            postprocessfunc = V_LowGraphicDetail;
+        }
     }
     else if (reset)
     {
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
-        lowpixelwidth = 2;
-        lowpixelheight = 2 * SCREENWIDTH;
         postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
     }
 
