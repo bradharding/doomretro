@@ -8050,7 +8050,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 //
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
-    if (r_screensize == 8 || !*parms || resettingcvar)
+    if (r_screensize == r_screensize_max || !*parms || resettingcvar)
         bool_cvars_func2(cmd, parms);
 }
 
@@ -8851,7 +8851,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     if (vid_widescreen != vid_widescreen_old)
     {
-        r_screensize = 7;
+        r_screensize = r_screensize_max - 1;
         r_hud = false;
         R_SetViewSize(r_screensize);
         I_RestartGraphics(false);

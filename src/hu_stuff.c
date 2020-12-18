@@ -397,7 +397,7 @@ static inline void HU_DrawSolidScaledPixel(const int x, const int y, byte color)
 }
 
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
-#define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < 8)) / 2)
+#define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < r_screensize_max)) / 2)
 
 static void HU_DrawCrosshair(void)
 {
@@ -420,7 +420,7 @@ static void HU_DrawCrosshair(void)
         }
         else
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
 
             *dot = *(*dot + color);
             dot++;
@@ -435,7 +435,7 @@ static void HU_DrawCrosshair(void)
     {
         if (crosshair == crosshair_cross)
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 3) * SCREENWIDTH / 2 - 1;
 
             *dot = *(*dot + color);
             dot += SCREENWIDTH;
@@ -457,7 +457,7 @@ static void HU_DrawCrosshair(void)
         }
         else
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
 
             *dot = *(*dot + color);
         }
@@ -484,7 +484,7 @@ static void HU_DrawSolidCrosshair(void)
         }
         else
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
 
             *dot = color;
             dot++;
@@ -499,7 +499,7 @@ static void HU_DrawSolidCrosshair(void)
     {
         if (crosshair == crosshair_cross)
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 3) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 3) * SCREENWIDTH / 2 - 1;
 
             *dot = color;
             dot += SCREENWIDTH;
@@ -517,7 +517,7 @@ static void HU_DrawSolidCrosshair(void)
         }
         else
         {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < 8) - 1) * SCREENWIDTH / 2 - 1;
+            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
 
             *dot++ = color;
             *dot = color;
@@ -1102,12 +1102,12 @@ void HU_Drawer(void)
             w_message.l->x = 0;
             w_message.l->y = 0;
         }
-        else if (vid_widescreen && r_screensize == 7)
+        else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
             w_message.l->x = HU_MSGX + WIDESCREENDELTA;
             w_message.l->y = HU_MSGY;
         }
-        else if (r_screensize == 8 && !r_althud)
+        else if (r_screensize == r_screensize_max && !r_althud)
         {
             w_message.l->x = HU_MSGX * SCREENSCALE + 9;
             w_message.l->y = HU_MSGY * SCREENSCALE + 4;
@@ -1125,14 +1125,14 @@ void HU_Drawer(void)
     {
         w_title.x = HU_TITLEX;
 
-        if (r_althud && r_screensize == 8)
+        if (r_althud && r_screensize == r_screensize_max)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
         else
         {
             if (vid_widescreen)
-                w_title.x = (r_screensize == 7 ? WIDESCREENDELTA : 8);
+                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA : 8);
 
-            if (r_screensize <= 7)
+            if (r_screensize < r_screensize_max)
                 w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 3;
             else
                 w_title.y = SCREENHEIGHT - hu_font[0]->height - 5;
@@ -1169,7 +1169,7 @@ void HU_Drawer(void)
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
 
-            if (r_althud && r_screensize == 8)
+            if (r_althud && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {

@@ -277,10 +277,7 @@ dboolean mmuscheckformat(uint8_t *mus, int size)
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN && strncmp((const char *)hptr, "MUS\x1a", 4))
         hptr++;
 
-    if (hptr < mus + size - sizeof(MUSheader) && !strncmp((const char *)hptr, "MUS\x1a", 4))
-        return true;
-
-    return false;
+    return (hptr < mus + size - sizeof(MUSheader) && !strncmp((const char *)hptr, "MUS\x1a", 4));
 }
 
 //

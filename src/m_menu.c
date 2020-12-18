@@ -1881,8 +1881,8 @@ static void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
-        (float)(r_screensize + (r_screensize < 7 ? 0 : (r_screensize == 7 ? vid_widescreen : 1 + !r_hud))), 6.54f, 8);
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, (float)(r_screensize
+        + (r_screensize < r_screensize_max - 1 ? 0 : (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud))), 6.54f, 8);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
@@ -2205,13 +2205,13 @@ static void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (r_screensize == 8 && !r_hud)
+            if (r_screensize == r_screensize_max && !r_hud)
             {
                 r_hud = true;
                 C_StrCVAROutput(stringize(r_hud), "on");
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize == 7 && vid_widescreen)
+            else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
             {
                 vid_widescreen = false;
                 C_StrCVAROutput(stringize(vid_widescreen), "off");
@@ -2224,7 +2224,7 @@ static void M_SizeDisplay(int choice)
                 R_SetViewSize(menuactive ? 8 : r_screensize);
                 AM_SetAutomapSize();
 
-                if (r_screensize == 7)
+                if (r_screensize == r_screensize_max - 1)
                     r_hud = false;
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2235,26 +2235,26 @@ static void M_SizeDisplay(int choice)
             break;
 
         case 1:
-            if (r_screensize == 8 && r_hud)
+            if (r_screensize == r_screensize_max && r_hud)
             {
                 r_hud = false;
                 C_StrCVAROutput(stringize(r_hud), "off");
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize == 7 && !vid_widescreen)
+            else if (r_screensize == r_screensize_max - 1 && !vid_widescreen)
             {
                 vid_widescreen = true;
                 C_StrCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize < 8)
+            else if (r_screensize < r_screensize_max)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
                 AM_SetAutomapSize();
 
-                if (r_screensize == 8)
+                if (r_screensize == r_screensize_max)
                     r_hud = true;
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2898,7 +2898,7 @@ dboolean M_Responder(event_t *ev)
             else if (vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
             {
                 vid_widescreen = false;
-                r_screensize = 7;
+                r_screensize = r_screensize_max - 1;
                 r_hud = false;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
@@ -2921,7 +2921,7 @@ dboolean M_Responder(event_t *ev)
             else if (!vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
             {
                 vid_widescreen = true;
-                r_screensize = 7;
+                r_screensize = r_screensize_max - 1;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);

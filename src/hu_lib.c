@@ -104,7 +104,7 @@ static void HU_DrawChar(int x, int y, int ch, dboolean external)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
-    if (r_screensize == 8)
+    if (r_screensize == r_screensize_max)
     {
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
@@ -280,7 +280,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     int             maxx, maxy;
     unsigned char   prev = '\0';
     byte            *fb1 = screens[0];
-    byte            *fb2 = screens[(r_screensize < 7 && !automapactive)];
+    byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     int             len = l->len;
     const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
@@ -329,7 +329,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
-                if (r_screensize == 8)
+                if (r_screensize == r_screensize_max)
                     V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
@@ -376,7 +376,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
-        int scale = (r_screensize == 8 ? 1 : 2);
+        int scale = (r_screensize == r_screensize_max ? 1 : 2);
 
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
@@ -398,7 +398,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = l->x + tw + 1;
     maxy = y + 11;
 
-    if (!external && r_screensize <= 7)
+    if (!external && r_screensize < r_screensize_max)
     {
         maxx *= SCREENSCALE;
         maxy *= SCREENSCALE;
@@ -495,7 +495,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
 
         l = &s->l[idx];
 
-        if (r_althud && r_screensize == 8)
+        if (r_althud && r_screensize == r_screensize_max)
             HUlib_DrawAltHUDTextLine(l);
         else
             HUlib_DrawTextLine(l, external);

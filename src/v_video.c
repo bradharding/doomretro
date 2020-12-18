@@ -1642,7 +1642,6 @@ void GetPixelSize(dboolean reset)
         M_SaveCVARs();
         postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
     }
-
 }
 
 void V_LowGraphicDetail_Menu(void)

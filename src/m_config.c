@@ -836,7 +836,7 @@ static void M_CheckCVARs(void)
         r_hud = false;
 
     if (r_screensize == r_screensize_max && !vid_widescreen)
-        r_screensize = 7;
+        r_screensize = r_screensize_max - 1;
 
     if (r_shadows != false && r_shadows != true)
         r_shadows = r_shadows_default;
