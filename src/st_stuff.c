@@ -223,6 +223,8 @@ patch_t                     *brdr_tr;
 patch_t                     *brdr_bl;
 patch_t                     *brdr_br;
 
+dboolean                    st_drawbrdr;
+
 // used to use appropriately pained face
 static int                  st_oldhealth = -1;
 
@@ -1545,6 +1547,9 @@ void ST_Start(void)
 void ST_Init(void)
 {
     ST_LoadUnloadGraphics(&ST_LoadCallback);
+
+    st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type ==
+        lumpinfo[W_GetNumForName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"))]->wadfile->type);
 
     screens[4] = malloc((size_t)ST_WIDTH * SBARHEIGHT);
 

@@ -108,4 +108,6 @@ extern patch_t  *brdr_tr;
 extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
 
+extern dboolean st_drawbrdr;
+
 #endif

@@ -1266,12 +1266,14 @@ void R_FillBezel(void)
                 *dest++ = dot;
             }
 #endif
+        if (st_drawbrdr)
+        {
+            for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
+                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
 
-        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
-            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
-
-        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
-            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+            for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
+                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+        }
     }
 }
 
@@ -1303,33 +1305,36 @@ void R_FillBackScreen(void)
             *dest++ = dot;
         }
 
-    x1 = viewwindowx / 2 - WIDESCREENDELTA;
-    y1 = viewwindowy / 2;
-    x2 = viewwidth / 2 + x1;
-    y2 = viewheight / 2 + y1;
-
-    for (int x = x1; x < x2 - 8; x += 8)
+    if (st_drawbrdr)
     {
-        V_DrawPatch(x, y1 - 8, 1, brdr_t);
-        V_DrawPatch(x, y2, 1, brdr_b);
+        x1 = viewwindowx / 2 - WIDESCREENDELTA;
+        y1 = viewwindowy / 2;
+        x2 = viewwidth / 2 + x1;
+        y2 = viewheight / 2 + y1;
+
+        for (int x = x1; x < x2 - 8; x += 8)
+        {
+            V_DrawPatch(x, y1 - 8, 1, brdr_t);
+            V_DrawPatch(x, y2, 1, brdr_b);
+        }
+
+        V_DrawPatch(x2 - 8, y1 - 8, 1, brdr_t);
+        V_DrawPatch(x2 - 8, y2, 1, brdr_b);
+
+        for (int y = y1; y < y2 - 8; y += 8)
+        {
+            V_DrawPatch(x1 - 8, y, 1, brdr_l);
+            V_DrawPatch(x2, y, 1, brdr_r);
+        }
+
+        V_DrawPatch(x1 - 8, y2 - 8, 1, brdr_l);
+        V_DrawPatch(x2, y2 - 8, 1, brdr_r);
+
+        V_DrawPatch(x1 - 8, y1 - 8, 1, brdr_tl);
+        V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
+        V_DrawPatch(x1 - 8, y2, 1, brdr_bl);
+        V_DrawPatch(x2, y2, 1, brdr_br);
     }
-
-    V_DrawPatch(x2 - 8, y1 - 8, 1, brdr_t);
-    V_DrawPatch(x2 - 8, y2, 1, brdr_b);
-
-    for (int y = y1; y < y2 - 8; y += 8)
-    {
-        V_DrawPatch(x1 - 8, y, 1, brdr_l);
-        V_DrawPatch(x2, y, 1, brdr_r);
-    }
-
-    V_DrawPatch(x1 - 8, y2 - 8, 1, brdr_l);
-    V_DrawPatch(x2, y2 - 8, 1, brdr_r);
-
-    V_DrawPatch(x1 - 8, y1 - 8, 1, brdr_tl);
-    V_DrawPatch(x2, y1 - 8, 1, brdr_tr);
-    V_DrawPatch(x1 - 8, y2, 1, brdr_bl);
-    V_DrawPatch(x2, y2, 1, brdr_br);
 }
 
 //
