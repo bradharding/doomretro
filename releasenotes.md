@@ -31,7 +31,7 @@
   * Long lines of text will now always wrap to the next line rather than be truncated.
   * Timestamps for the hour after midnight will now be displayed correctly.
 * The following changes have been made to the automap:
-  * A bug has been fixed whereby marks in the automap would reappear in the wrong positions when panning far enough to the left or right.
+  * A bug has been fixed whereby marks in the automap would reappear in wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.
   * The player arrow is now slightly more translucent when the player has a partial invisibility power-up.
   * Thing triangles will no longer be affected by frame interpolation when the `IDDT` cheat has been entered, the console is open, and the `vid_capfps` CVAR is not `35`.
