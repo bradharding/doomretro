@@ -46,6 +46,7 @@
 * *DeHackEd* support has been extended further to allow for an additional 200 sound effects (numbered 500 to 699, and named `DSFRE000` to `DSFRE199`).
 * Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
+* More blood is spawned when the player in injured.
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
