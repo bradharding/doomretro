@@ -1624,8 +1624,7 @@ void GetPixelSize(dboolean reset)
     int width = -1;
     int height = -1;
 
-    if (sscanf(r_lowpixelsize, "%10dx%10d", &width, &height) == 2
-        && width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT)
+    if (sscanf(r_lowpixelsize, "%2dx%2d", &width, &height) == 2 && width > 0 && height > 0)
     {
         if (width == 2 && height == 2)
             postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
@@ -1640,6 +1639,7 @@ void GetPixelSize(dboolean reset)
     {
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
+
         postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
     }
 }

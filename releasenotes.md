@@ -57,7 +57,7 @@
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not while vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
-* The bezel around the player’s view when the `r_screensize` CVAR is less than `7` is now only displayed if all or none of the relevant graphics have been replaced in a PWAD.
+* The bezel around the player’s view when the `r_screensize` CVAR is less than `7` is now only displayed if either all or none of the relevant graphics have been replaced in a PWAD.
 * The number of times the player uses their fists and chainsaw are now remembered and displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also then be displayed as their `Favorite weapon`.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
