@@ -44,7 +44,7 @@
 #include "z_zone.h"
 
 int         leveltime;
-uint64_t    stat_time = 0;
+uint64_t    stat_timeplayed = 0;
 
 //
 // THINKERS
@@ -224,5 +224,5 @@ void P_Ticker(void)
 
     // for par times
     leveltime++;
-    stat_time = SafeAdd(stat_time, 1);
+    stat_timeplayed = SafeAdd(stat_timeplayed, 1);
 }

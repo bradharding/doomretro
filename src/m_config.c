@@ -273,7 +273,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_nightmare,             stat_skilllevel_nightmare,             stat_skilllevel_nightmare,             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_ultraviolence,         stat_skilllevel_ultraviolence,         stat_skilllevel_ultraviolence,         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (suicides,                         stat_suicides,                         stat_suicides,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (time,                             stat_time,                             stat_time,                             NOVALUEALIAS          )
+    CONFIG_VARIABLE_INT_UNSIGNED (timeplayed,                       stat_time,                             stat_timeplayed,                       NOVALUEALIAS          )
 };
 
 valuealias_t valuealiases[] =

@@ -4536,7 +4536,7 @@ static void C_PlayerStats_Game(void)
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
     const int       time1 = leveltime / TICRATE;
-    const int       time2 = (int)(stat_time / TICRATE);
+    const int       time2 = (int)(stat_timeplayed / TICRATE);
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -5154,7 +5154,7 @@ static void C_PlayerStats_NoGame(void)
     const int       tabs[3] = { 160, 281, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
-    const int       time2 = (int)(stat_time / TICRATE);
+    const int       time2 = (int)(stat_timeplayed / TICRATE);
     char            *temp1;
     char            *temp2;
     char            *temp3;

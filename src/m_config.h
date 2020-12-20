@@ -214,7 +214,7 @@ extern uint64_t     stat_skilllevel_hurtmeplenty;
 extern uint64_t     stat_skilllevel_ultraviolence;
 extern uint64_t     stat_skilllevel_nightmare;
 extern uint64_t     stat_suicides;
-extern uint64_t     stat_time;
+extern uint64_t     stat_timeplayed;
 extern int          stillbob;
 extern dboolean     tossdrop;
 extern int          turbo;
