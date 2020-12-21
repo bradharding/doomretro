@@ -130,8 +130,7 @@ static boolean Sentinel_FindPID(const std::vector<DWORD> &ndwPIDs, HANDLE &pHand
 
 void Sentinel_Main()
 {
-    constexpr size_t    initMaxNumPIDs = 1024;
-    std::vector<DWORD>  ndwPIDs(initMaxNumPIDs, 0);
+    std::vector<DWORD>  ndwPIDs(1024, 0);
     HANDLE              pHandle;
     size_t              numValidPIDs;
     DWORD               dwExitCode;

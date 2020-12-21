@@ -1290,7 +1290,12 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
         char        buffer[133];
 
         if (M_StringCompare(message, viewplayer->prevmessage))
-            M_snprintf(buffer, sizeof(buffer), "%s (%i)", message, ++messagecount);
+        {
+            char    *temp = commify(++messagecount);
+
+            M_snprintf(buffer, sizeof(buffer), "%s (%s)", message, temp);
+            free(temp);
+        }
         else
         {
             M_StringCopy(buffer, message, sizeof(buffer));
