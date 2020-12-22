@@ -3332,7 +3332,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 //
 static void removemapnum(char *title)
 {
-    char *pos = strchr(title, ':');
+    char    *pos = strchr(title, ':');
 
     if (pos)
     {
