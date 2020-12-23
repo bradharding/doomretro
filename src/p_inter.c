@@ -2064,7 +2064,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && !hacx && !massacre)
+    if (con_obituaries && !hacx && (!massacre || target == MT_BARREL))
         P_WriteObituary(target, inflicter, source, gibbed);
 
     // Drop stuff.
