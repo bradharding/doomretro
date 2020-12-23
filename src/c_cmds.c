@@ -6348,6 +6348,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         else
                             thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
 
+                        massacre = false;
+
                         S_StartSound(thing, sfx_telept);
                     }
                     else
