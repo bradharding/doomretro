@@ -14,7 +14,7 @@
   * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as those for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
-  * The WAD launcher will now look for these new IWADs when *DOOM Retro* is opened for the first time.
+  * The WAD launcher will now look for these new IWADs when *DOOM Retro* is run for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
 * Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
@@ -29,7 +29,7 @@
   * A slight shadow is applied to the text along the top of the console.
   * Minor changes have been made to text that is output to the console.
   * Long lines of text will now always wrap to the next line rather than be truncated.
-  * Timestamps for the hour after midnight will now be displayed correctly.
+  * Timestamps during the hour after midnight will now be displayed correctly.
 * The following changes have been made to the automap:
   * A bug has been fixed whereby marks in the automap would reappear in wrong positions when panning far enough to the left or right.
   * Panning in the automap is now restricted to the dimensions of the current map when the `am_rotate` CVAR is `on`.

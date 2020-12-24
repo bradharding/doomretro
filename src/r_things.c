@@ -369,12 +369,10 @@ static void (*shadowcolfunc)(void);
 
 static void R_BlastShadowColumn(const rcolumn_t *column)
 {
-    int numposts = dc_numposts;
-
-    while (numposts--)
+    while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[numposts];
-        int64_t         topscreen = shadowtopscreen + (int64_t)spryscale * post->topdelta;
+        const rpost_t   *post = &column->posts[dc_numposts];
+        const int64_t   topscreen = shadowtopscreen + (int64_t)spryscale * post->topdelta;
 
         if ((dc_yh = MIN((int)(((topscreen + (int64_t)spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
@@ -384,12 +382,11 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
 
 static void R_BlastSpriteColumn(const rcolumn_t *column)
 {
-    int             numposts = dc_numposts;
     unsigned char   *pixels = column->pixels;
 
-    while (numposts--)
+    while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[numposts];
+        const rpost_t   *post = &column->posts[dc_numposts];
         const int       topdelta = post->topdelta;
         const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * topdelta;
 
@@ -405,12 +402,11 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
 
 static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
-    int             numposts = dc_numposts;
     unsigned char   *pixels = column->pixels;
 
-    while (numposts--)
+    while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[numposts];
+        const rpost_t   *post = &column->posts[dc_numposts];
         const int       topdelta = post->topdelta;
         const int64_t   topscreen = sprtopscreen + (int64_t)pspritescale * topdelta + 1;
 
@@ -426,11 +422,9 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 
 static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
-    int numposts = dc_numposts;
-
-    while (numposts--)
+    while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[numposts];
+        const rpost_t   *post = &column->posts[dc_numposts];
 
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * post->topdelta;
@@ -526,6 +520,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
             R_BlastShadowColumn(column);
+            dc_numposts = column->numposts;
             R_BlastSpriteColumn(column);
         }
     }
