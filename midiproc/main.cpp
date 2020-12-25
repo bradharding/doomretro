@@ -39,6 +39,8 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <Psapi.h>
+
+#include <atomic>
 #include <thread>
 #include <vector>
 
@@ -51,8 +53,11 @@
 #pragma comment(lib, "psapi.lib")
 
 // Currently playing music track
-static Mix_Music    *music;
-static SDL_RWops    *rw;
+static Mix_Music        *music;
+static SDL_RWops        *rw;
+
+static std::atomic_bool quitting = false;
+static std::atomic_bool sentinel_running = false;
 
 static void UnregisterSong(void);
 
@@ -135,19 +140,33 @@ void Sentinel_Main()
     size_t              numValidPIDs;
     DWORD               dwExitCode;
 
+    sentinel_running = true;
+
     if (!Sentinel_EnumerateProcesses(ndwPIDs, numValidPIDs))
+    {
+        sentinel_running = false;
         exit(-1);
+    }
 
     if (!Sentinel_FindPID(ndwPIDs, pHandle, numValidPIDs))
     {
         MessageBox(NULL, TEXT(PACKAGE_FILENAME " is not running."), TEXT("midiproc.exe"), MB_ICONERROR);
+        sentinel_running = false;
         exit(-1);
     }
 
     do
     {
-        if (!GetExitCodeProcess(pHandle, &dwExitCode))
+        if (quitting)
+        {
+            sentinel_running = false;
+            return;
+        }
+        else if (GetExitCodeProcess(pHandle, &dwExitCode) == 0)
+        {
+            sentinel_running = false;
             exit(-1);
+        }
 
         Sleep(100);
     } while (dwExitCode == STILL_ACTIVE);
@@ -485,6 +504,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // Initialize RPC Server
     if (!MidiRPC_InitServer())
         return -1;
+
+    while (sentinel_running)
+        Sleep(1);
 
     return 0;
 }
