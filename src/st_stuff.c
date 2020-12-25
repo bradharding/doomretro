@@ -1548,8 +1548,8 @@ void ST_Init(void)
 {
     ST_LoadUnloadGraphics(&ST_LoadCallback);
 
-    st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type ==
-        lumpinfo[W_GetNumForName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"))]->wadfile->type);
+    st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type == PWAD ||
+        lumpinfo[W_GetNumForName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"))]->wadfile->type == IWAD);
 
     screens[4] = malloc((size_t)ST_WIDTH * SBARHEIGHT);
 
