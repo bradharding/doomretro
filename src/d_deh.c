@@ -2818,7 +2818,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 
     if (indexnum < 0 || indexnum >= NUMWEAPONS)
     {
-        C_Warning(1, "Bad weapon number %i of %i.", indexnum, NUMAMMO);
+        C_Warning(1, "Bad weapon number %i of %i.", indexnum, NUMWEAPONS);
         return;
     }
 
@@ -3575,7 +3575,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         while (strlen(holdstring) + len > (unsigned int)maxstrlen)
         {
             // killough 11/98: allocate enough the first time
-            maxstrlen += (int)strlen(holdstring) + len - maxstrlen;
+            maxstrlen = (int)strlen(holdstring) + len;
 
             if (devparm)
                 C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, len);
