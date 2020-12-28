@@ -1060,11 +1060,11 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT)
                     && (!altered || state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
-            else if (muzzleflash && spr <= SPR_BFGF && (!altered || state->translucent || BTSX))
+            else if (muzzleflash && spr >= SPR_SHTG && spr <= SPR_BFGF && (!altered || state->translucent || BTSX))
             {
                 void (*colfuncs[])(void) =
                 {
-                    /* n/a      */ NULL,               NULL,
+                                   NULL,               NULL,
                     /* SPR_SHTG */ basecolfunc,        basecolfunc,
                     /* SPR_PUNG */ basecolfunc,        basecolfunc,
                     /* SPR_PISG */ basecolfunc,        basecolfunc,
@@ -1180,7 +1180,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 
         // determine if the drawseg obscures the blood splat
         if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
-            continue;       // does not cover blood splat
+            continue;
 
         if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
             continue;
@@ -1287,7 +1287,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 
         // determine if the drawseg obscures the sprite
         if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
-            continue;       // does not cover sprite
+            continue;
 
         if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
         {
