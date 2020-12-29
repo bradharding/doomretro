@@ -47,9 +47,6 @@
 // SCREEN WIPE PACKAGE
 //
 
-static short    wipe_scr_start[MAXSCREENAREA];
-static short    wipe_scr_end[MAXSCREENAREA];
-static short    *wipe_scr;
 static int      y[MAXWIDTH];
 static int      speed;
 static short    dest[MAXSCREENAREA];
@@ -68,11 +65,11 @@ static void wipe_initMelt(void)
     speed = SCREENHEIGHT / 16;
 
     // copy start screen to main screen
-    memcpy(wipe_scr, wipe_scr_start, SCREENAREA);
+    memcpy(screens[0], screens[2], SCREENAREA);
 
     // makes this wipe faster (in theory) to have stuff in column-major format
-    wipe_shittyColMajorXform(wipe_scr_start);
-    wipe_shittyColMajorXform(wipe_scr_end);
+    wipe_shittyColMajorXform((short *)screens[2]);
+    wipe_shittyColMajorXform((short *)screens[3]);
 
     // setup initial column positions (y < 0 => not ready to scroll yet)
     y[0] = y[1] = -(M_Random() & 15);
@@ -83,15 +80,15 @@ static void wipe_initMelt(void)
 
 static void wipe_Melt(int i, int dy)
 {
-    short   *s = &wipe_scr_end[i * SCREENHEIGHT + y[i]];
-    short   *d = &wipe_scr[y[i] * SCREENWIDTH / 2 + i];
+    short   *s = &((short *)screens[3])[i * SCREENHEIGHT + y[i]];
+    short   *d = &((short *)screens[0])[y[i] * SCREENWIDTH / 2 + i];
 
     for (int j = 0, k = dy; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
 
     y[i] += dy;
-    s = &wipe_scr_start[i * SCREENHEIGHT];
-    d = &wipe_scr[y[i] * SCREENWIDTH / 2 + i];
+    s = &((short *)screens[2])[i * SCREENHEIGHT];
+    d = &((short *)screens[0])[y[i] * SCREENWIDTH / 2 + i];
 
     for (int j = 0, k = SCREENHEIGHT - y[i]; k > 0; k--, j += SCREENWIDTH / 2)
         d[j] = *s++;
@@ -123,13 +120,13 @@ static dboolean wipe_doMelt(void)
 
 void wipe_StartScreen(void)
 {
-    memcpy(wipe_scr_start, screens[0], SCREENAREA);
+    memcpy(screens[2], screens[0], SCREENAREA);
 }
 
 void wipe_EndScreen(void)
 {
-    memcpy(wipe_scr_end, screens[0], SCREENAREA);
-    memcpy(screens[0], wipe_scr_start, SCREENAREA);
+    memcpy(screens[3], screens[0], SCREENAREA);
+    memcpy(screens[0], screens[2], SCREENAREA);
 }
 
 dboolean wipe_ScreenWipe(void)
@@ -141,7 +138,6 @@ dboolean wipe_ScreenWipe(void)
     if (!go)
     {
         go = true;
-        wipe_scr = (short *)screens[0];
         wipe_initMelt();
     }
 
