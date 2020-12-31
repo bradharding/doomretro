@@ -121,7 +121,7 @@ void R_DrawPausedFuzzColumns(void);
 
 // Draw with color translation tables,
 //  for player sprite rendering,
-//  Green/Red/Blue/Indigo shirts.
+//  green/red/blue/indigo shirts.
 void R_DrawTranslatedColumn(void);
 
 void R_VideoErase(unsigned int ofs, int count);

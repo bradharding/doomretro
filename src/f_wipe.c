@@ -48,7 +48,6 @@
 //
 
 static int      y[MAXWIDTH];
-static int      speed;
 static short    dest[MAXSCREENAREA];
 
 static void wipe_shittyColMajorXform(short *array)
@@ -62,8 +61,6 @@ static void wipe_shittyColMajorXform(short *array)
 
 static void wipe_initMelt(void)
 {
-    speed = SCREENHEIGHT / 16;
-
     // copy start screen to main screen
     memcpy(screens[0], screens[2], SCREENAREA);
 
@@ -111,7 +108,7 @@ static dboolean wipe_doMelt(void)
         }
         else if (y[i] < SCREENHEIGHT)
         {
-            wipe_Melt(i, MIN(speed, SCREENHEIGHT - y[i]));
+            wipe_Melt(i, MIN(SCREENHEIGHT / 16, SCREENHEIGHT - y[i]));
             done = false;
         }
 
