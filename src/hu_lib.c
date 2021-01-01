@@ -365,7 +365,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         }
         else if (c == ' ')
         {
-            w = (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3);
+            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
             x += w;
             tw += w;
         }
@@ -374,7 +374,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
+    if (idbehold && !STCFN034 && s_STSTR_BEHOLD2 && !vanilla)
     {
         int scale = (r_screensize == r_screensize_max ? 1 : 2);
 
