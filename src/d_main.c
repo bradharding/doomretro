@@ -307,6 +307,8 @@ void D_Display(void)
 
         if (melt)
             wipe_StartScreen();
+        else if (fade)
+            D_FadeScreen();
 
         if (forcewipe)
             forcewipe = false;

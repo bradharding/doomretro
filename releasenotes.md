@@ -41,6 +41,7 @@
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM*, and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
+* Fade transitions will now be applied when a melt transition would usually be applied, but the `melt` CVAR is `off` and the `fade` CVAR is `on`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
 * Further improvements have been made to the support of both `DEHACKED` and `UMAPINFO` lumps.
 * *DeHackEd* support has been extended further to allow for an additional 200 sound effects (numbered 500 to 699, and named `DSFRE000` to `DSFRE199`).
