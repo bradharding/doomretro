@@ -3404,7 +3404,6 @@ dboolean M_Responder(event_t *ev)
                 currentMenu = currentMenu->prevMenu;
                 itemOn = currentMenu->lastOn;
                 S_StartSound(NULL, sfx_swtchn);
-                D_FadeScreen();
             }
             else
             {
@@ -3414,8 +3413,9 @@ dboolean M_Responder(event_t *ev)
                 gamepadbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
-                D_FadeScreen();
             }
+
+            D_FadeScreen();
 
             if (inhelpscreens)
                 R_SetViewSize(r_screensize);
