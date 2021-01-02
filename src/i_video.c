@@ -53,6 +53,7 @@
 #include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
@@ -176,7 +177,7 @@ static int          displaycentery;
 
 dboolean            windowfocused = true;
 
-static dboolean     keys[UCHAR_MAX];
+static dboolean     keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
 
@@ -1974,7 +1975,7 @@ void I_InitGraphics(void)
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
-    for (int i = 0; i < UCHAR_MAX; i++)
+    for (int i = 0; i < NUMKEYS; i++)
         keys[i] = true;
 
     keys['v'] = keys['V'] = false;
