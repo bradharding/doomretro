@@ -64,7 +64,7 @@
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
-* A bug has been fixed whereby movement using a gamepad was slightly slower than using the keyboard.
+* A bug has been fixed whereby moving the player using a gamepad was slightly slower than using the keyboard.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
