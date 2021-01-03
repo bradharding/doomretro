@@ -369,7 +369,7 @@ void AM_Init(void)
 {
     AM_SetColors();
     AM_GetGridSize();
-    AM_SetAutomapSize();
+    AM_SetAutomapSize(r_screensize);
 
     isteleportline[W1_Teleport] = true;
     isteleportline[W1_ExitLevel] = true;
@@ -383,9 +383,9 @@ void AM_Init(void)
     isteleportline[WR_TeleportToLineWithSameTag_Silent_ReversedAngle] = true;
 }
 
-void AM_SetAutomapSize(void)
+void AM_SetAutomapSize(int screensize)
 {
-    mapheight = SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max);
+    mapheight = SCREENHEIGHT - SBARHEIGHT * (screensize < r_screensize_max);
     maparea = SCREENWIDTH * mapheight;
     mapbottom = SCREENWIDTH * (mapheight - 1);
 
@@ -1015,7 +1015,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * gamepadthumbLXright * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with left thumbstick
@@ -1023,7 +1023,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbLXleft * 1.2f);
+                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan right with right thumbstick
@@ -1031,7 +1031,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * gamepadthumbRXright * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with right thumbstick
@@ -1039,7 +1039,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRXleft * 1.2f);
+                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
@@ -1047,7 +1047,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * gamepadthumbLYup * 1.2f);
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbLY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with left thumbstick
@@ -1055,7 +1055,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLY / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with right thumbstick
@@ -1063,7 +1063,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRYup * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with right thumbstick
@@ -1071,7 +1071,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * gamepadthumbRYdown * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRY / SHRT_MAX) * 1.2f);
                     }
                 }
 

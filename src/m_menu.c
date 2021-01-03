@@ -2222,7 +2222,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize();
+                AM_SetAutomapSize(r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
                     r_hud = false;
@@ -2252,7 +2252,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize();
+                AM_SetAutomapSize(r_screensize);
 
                 if (r_screensize == r_screensize_max)
                     r_hud = true;
@@ -2452,7 +2452,7 @@ void M_ShowHelp(int choice)
     S_StartSound(NULL, sfx_swtchn);
 
     if (!automapactive && gamestate == GS_LEVEL)
-        R_SetViewSize(8);
+        R_SetViewSize(r_screensize_max);
 }
 
 void M_ChangeGamma(dboolean shift)
@@ -3604,12 +3604,12 @@ void M_StartControlPanel(void)
     {
         playerangle = viewplayer->mo->angle;
 
-        if (!automapactive && !inhelpscreens)
-            R_SetViewSize(8);
+        if (!inhelpscreens)
+            R_SetViewSize(r_screensize_max);
 
         if (automapactive)
         {
-            AM_SetAutomapSize();
+            AM_SetAutomapSize(r_screensize_max);
 
             if (!am_rotatemode)
                 viewplayer->mo->angle = ANG90;
@@ -3803,7 +3803,7 @@ void M_ClearMenus(void)
             R_SetViewSize(r_screensize);
 
         if (automapactive)
-            AM_SetAutomapSize();
+            AM_SetAutomapSize(r_screensize);
 
         S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     }
