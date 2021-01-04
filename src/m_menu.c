@@ -2719,6 +2719,12 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
+        if (key == keyboardscreenshot)
+        {
+            G_ScreenShot();
+            return false;
+        }
+
         switch (key)
         {
             // delete character left of caret
