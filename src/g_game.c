@@ -289,7 +289,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn += (int)(gamepadangleturn[run] * (-(float)(gamepadthumbRX) / SHRT_MAX) * gamepadhorizontalsensitivity);
+            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)(gamepadthumbRX) / SHRT_MAX) * gamepadhorizontalsensitivity);
     }
 
     if (gamepadthumbRY)
@@ -316,7 +316,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
         forward += forwardmove[run];
     else if (gamepadthumbLY < 0)
-        forward += (int)(forwardmove[run] * (-(float)(gamepadthumbLY) / SHRT_MAX));
+        forward -= (int)(forwardmove[run] * ((float)(gamepadthumbLY) / SHRT_MAX));
 
     if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
@@ -340,7 +340,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gp_thumbsticks == 2)
             side -= (int)(sidemove[run] * (-(float)(gamepadthumbLX) / SHRT_MAX));
         else
-            cmd->angleturn += (int)(gamepadangleturn[run] * (-(float)(gamepadthumbLX) / SHRT_MAX) * gamepadhorizontalsensitivity);
+            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)(gamepadthumbLX) / SHRT_MAX) * gamepadhorizontalsensitivity);
     }
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)

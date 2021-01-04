@@ -1023,7 +1023,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbLX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan right with right thumbstick
@@ -1039,7 +1039,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -(fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbRX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
