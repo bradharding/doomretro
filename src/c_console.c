@@ -1119,7 +1119,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
 
 void C_UpdateFPS(void)
 {
-    if (!dowipe && !splashscreen)
+    if (!dowipe)
     {
         char    buffer[32];
         char    *temp = commify(framespersecond);
