@@ -32,8 +32,7 @@ fade off
 freeze off
 gp_analog off
 gp_invertyaxis off
-gp_sensitivity_horizontal 48
-gp_sensitivity_vertical 48
+gp_sensitivity_horizontal 16
 gp_swapthumbsticks off
 gp_thumbsticks 1
 gp_vibrate_barrels 0%
