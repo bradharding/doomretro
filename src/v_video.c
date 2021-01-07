@@ -255,8 +255,6 @@ void V_DrawBigWidePatch(int x, int y, int scrn, patch_t *patch)
     int     w = SHORT(patch->width);
     int     col = 0;
 
-    x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
-
     if (w > SCREENWIDTH)
     {
         col = (w - SCREENWIDTH) / 2;
@@ -472,7 +470,7 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
     const int   w = SHORT(patch->width);
-    byte        *desttop = &screens[0][y * SCREENWIDTH + (vid_widescreen && w > VANILLAWIDTH ? x : (x + WIDESCREENDELTA * 2))];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
 
     for (int col = 0; col < w; col++, desttop++)
     {

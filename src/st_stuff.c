@@ -406,7 +406,7 @@ static void ST_RefreshBackground(void)
         else if (r_detail == r_detail_low)
             V_DrawWidePatch(ST_X - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         else if (vid_widescreen)
-            V_DrawBigPatch(ST_X, ST_Y, sbar2);
+            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
         else
             V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
 #endif
