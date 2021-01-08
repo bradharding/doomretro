@@ -298,7 +298,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(48 * ((float)gamepadthumbRY / SHRT_MAX));
+                cmd->lookdir = (int)(48 * ((float)gamepadthumbRY / SHRT_MAX) * gamepadverticalsensitivity);
 
                 if (!gp_invertyaxis)
                     cmd->lookdir = -cmd->lookdir;
@@ -307,26 +307,26 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         else if (gp_thumbsticks == 1)
         {
             cmd->lookdir = 0;
-            forward = (int)(forwardmove[run] * ((float)gamepadthumbRY / SHRT_MAX) * gamepadhorizontalsensitivity);
+            forward = (int)(forwardmove[run] * (float)gamepadthumbRY / SHRT_MAX);
         }
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
         forward += forwardmove[run];
     else if (gamepadthumbLY < 0)
-        forward -= (int)(forwardmove[run] * ((float)gamepadthumbLY / SHRT_MAX) * gamepadhorizontalsensitivity);
+        forward -= (int)(forwardmove[run] * (float)gamepadthumbLY / SHRT_MAX);
 
     if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
     else if (gamepadthumbLY > 0)
-        forward -= (int)(forwardmove[run] * ((float)gamepadthumbLY / SHRT_MAX) * gamepadhorizontalsensitivity);
+        forward -= (int)(forwardmove[run] * (float)gamepadthumbLY / SHRT_MAX);
 
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
         side += sidemove[run];
     else if (gamepadthumbLX > 0)
     {
         if (gp_thumbsticks == 2)
-            side += (int)(sidemove[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
+            side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
         else
             cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
     }
@@ -336,7 +336,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else if (gamepadthumbLX < 0)
     {
         if (gp_thumbsticks == 2)
-            side += (int)(sidemove[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
+            side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
         else
             cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
     }
