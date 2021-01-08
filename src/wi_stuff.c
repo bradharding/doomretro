@@ -1176,7 +1176,7 @@ static void WI_LoadData(void)
     if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
         memset(screens[1], nearestblack, SCREENAREA);
 
-    V_DrawWidePatch((SHORT(lump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 1, lump);
+    V_DrawWidePatch((SCREENWIDTH - SHORT(lump->width) * SCREENSCALE) / 2, 0, 0, lump);
 }
 
 static void WI_UnloadCallback(char *name, patch_t **variable)

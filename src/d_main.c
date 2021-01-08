@@ -551,7 +551,7 @@ void D_PageDrawer(void)
         if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
             memset(screens[0], nearestblack, SCREENAREA);
 
-        V_DrawWidePatch((SHORT(pagelump->width) > VANILLAWIDTH ? -WIDESCREENDELTA : 0), 0, 0, pagelump);
+        V_DrawWidePatch((SCREENWIDTH - SHORT(pagelump->width) * SCREENSCALE) / 2, 0, 0, pagelump);
     }
 }
 
