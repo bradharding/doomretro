@@ -44,9 +44,7 @@
 #endif
 
 #include "d_main.h"
-#include "doomstat.h"
 #include "i_gamepad.h"
-#include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "version.h"

@@ -39,7 +39,6 @@
 #include "c_console.h"
 #include "i_gamepad.h"
 #include "m_config.h"
-#include "m_fixed.h"
 #include "m_misc.h"
 
 dboolean                    gp_analog = gp_analog_default;
@@ -80,7 +79,7 @@ void I_InitGamepad(void)
         C_Warning(1, "Gamepad support couldn't be initialized.");
     else
     {
-        int deviceindex;
+        int deviceindex = 0;
 
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))

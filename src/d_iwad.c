@@ -42,7 +42,6 @@
 
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_system.h"

@@ -37,7 +37,6 @@
 */
 
 #include "c_console.h"
-#include "doomdef.h"
 
 autocomplete_t autocompletelist[] =
 {

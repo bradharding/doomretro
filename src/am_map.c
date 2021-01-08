@@ -47,13 +47,9 @@
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
-#include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "st_stuff.h"
-#include "v_video.h"
-#include "w_wad.h"
-#include "z_zone.h"
 
 // Automap colors
 int am_allmapcdwallcolor = am_allmapcdwallcolor_default;
