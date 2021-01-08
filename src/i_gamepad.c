@@ -80,15 +80,21 @@ void I_InitGamepad(void)
         C_Warning(1, "Gamepad support couldn't be initialized.");
     else
     {
+        int deviceindex;
+
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
             {
                 gamecontroller = SDL_GameControllerOpen(i);
+                deviceindex = i;
                 break;
             }
 
         if (!gamecontroller)
+        {
             SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+            C_Warning(1, "Gamepad support couldn't be initialized.");
+        }
         else
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
@@ -103,7 +109,7 @@ void I_InitGamepad(void)
             else
                 C_OutputNoRepeat("A gamepad is connected.");
 
-            if (!(haptic = SDL_HapticOpen(0)) || SDL_HapticRumbleInit(haptic) < 0)
+            if (!(haptic = SDL_HapticOpen(deviceindex)) || SDL_HapticRumbleInit(haptic) < 0)
             {
                 haptic = NULL;
                 C_Warning(1, "This gamepad doesn't support vibration.");
