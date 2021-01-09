@@ -430,11 +430,11 @@ enum
 #define gp_invertyaxis_default                  false
 
 #define gp_sensitivity_horizontal_min           0
-#define gp_sensitivity_horizontal_default       48
+#define gp_sensitivity_horizontal_default       64
 #define gp_sensitivity_horizontal_max           128
 
 #define gp_sensitivity_vertical_min             0
-#define gp_sensitivity_vertical_default         48
+#define gp_sensitivity_vertical_default         64
 #define gp_sensitivity_vertical_max             128
 
 #define gp_swapthumbsticks_default              false

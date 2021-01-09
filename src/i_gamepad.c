@@ -177,12 +177,14 @@ void I_StopGamepadVibration(void)
 
 void I_SetGamepadHorizontalSensitivity(void)
 {
-    gamepadhorizontalsensitivity = (float)gp_sensitivity_horizontal / gp_sensitivity_horizontal_max;
+    gamepadhorizontalsensitivity = (!gp_sensitivity_horizontal ? 0.0f :
+        4.0f * gp_sensitivity_horizontal / gp_sensitivity_horizontal_max + 0.2f);
 }
 
 void I_SetGamepadVerticalSensitivity(void)
 {
-    gamepadverticalsensitivity = (float)gp_sensitivity_vertical / gp_sensitivity_vertical_max;
+    gamepadverticalsensitivity = (!gp_sensitivity_vertical ? 0.0f :
+        4.0f * gp_sensitivity_vertical / gp_sensitivity_vertical_max + 0.2f);
 }
 
 void I_SetGamepadLeftDeadZone(void)

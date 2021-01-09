@@ -65,7 +65,6 @@
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
-* The defaults of the `gp_sensitivity_horizontal` and `gp_sensitivity_vertical` CVARs have been lowered from `64` to `48`.
 * Screenshots may now be taken while entering a savegame description in the save game menu.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
