@@ -39,7 +39,6 @@
 #if !defined(__STATES_H__)
 #define __STATES_H__
 
-#include "doomtype.h"
 #include "d_think.h"
 #include "sprites.h"
 

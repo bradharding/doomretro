@@ -44,7 +44,6 @@
 #include "r_local.h"
 #include "st_stuff.h"
 #include "v_video.h"
-#include "z_zone.h"
 
 //
 // All drawing to the view buffer is accomplished in this file.

@@ -46,7 +46,6 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
-#include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "version.h"

@@ -59,14 +59,9 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include "SDL.h"
-
 #include "c_console.h"
-#include "doomdef.h"
 #include "i_system.h"
-#include "m_fixed.h"
 #include "m_misc.h"
-#include "version.h"
 #include "w_file.h"
 
 #if defined(__APPLE__)

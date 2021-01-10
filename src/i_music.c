@@ -42,7 +42,6 @@
 
 #include "c_console.h"
 #include "i_midirpc.h"
-#include "m_config.h"
 #include "mmus2mid.h"
 #include "s_sound.h"
 

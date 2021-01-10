@@ -39,7 +39,6 @@
 #if !defined(__W_WAD_H__)
 #define __W_WAD_H__
 
-#include "doomdef.h"
 #include "w_file.h"
 
 //

@@ -37,7 +37,6 @@
 */
 
 #include "d_player.h"
-#include "states.h"
 
 void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp);

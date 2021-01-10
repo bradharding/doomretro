@@ -36,11 +36,8 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "c_console.h"
 #include "doomstat.h"
-#include "i_system.h"
 #include "m_config.h"
 #include "p_local.h"
 #include "r_sky.h"

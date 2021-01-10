@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"

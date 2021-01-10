@@ -41,7 +41,6 @@
 
 #include "SDL_mixer.h"
 
-#include "r_defs.h"
 #include "sounds.h"
 
 #define CHUNKSIZE                   1024

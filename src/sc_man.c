@@ -37,7 +37,6 @@
 */
 
 #include "c_console.h"
-#include "i_system.h"
 #include "m_misc.h"
 #include "sc_man.h"
 #include "w_wad.h"

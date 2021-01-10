@@ -69,8 +69,6 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
-#include "m_misc.h"
-#include "p_setup.h"
 #include "r_main.h"
 #include "w_wad.h"
 #include "z_zone.h"

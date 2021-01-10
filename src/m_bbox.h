@@ -39,8 +39,6 @@
 #if !defined(__M_BBOX_H__)
 #define __M_BBOX_H__
 
-#include <limits.h>
-
 #include "m_fixed.h"
 
 // Bounding box coordinate storage.
