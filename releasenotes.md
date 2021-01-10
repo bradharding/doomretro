@@ -6,17 +6,17 @@
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound). Sound effects are now louder and clearer than before.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Non-QWERTY keyboards are now properly supported.
-* *DOOM Retro* has now improved support for widescreen displays:
+* *DOOM Retro* now has improved support for wide and ultra-wide displays:
   * When the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`, a new widescreen mode complete with status bar will be displayed that horizontally fills displays of any aspect ratio.
   * When the `r_screensize` CVAR is changed to it’s new maximum value of `8`, a widescreen mode with an optional HUD instead of a status bar, and a greater vertical field of view, will now be displayed.
   * You may still press the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys during a game to toggle these new widescreen modes.
-  * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be used on the title screen to toggle widescreen mode.
+  * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be pressed on the title screen to toggle widescreen mode.
   * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as those for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
 * The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is run for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
-* A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped.
+* A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped instead.
 * Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
 * Centered messages are now better centered vertically.
 * The player’s gender identity can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries will be affected.
