@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <string.h>
+
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_colors.h"

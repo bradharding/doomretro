@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <string.h>
+
 #include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
