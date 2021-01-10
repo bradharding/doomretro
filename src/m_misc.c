@@ -62,6 +62,7 @@
 #include "c_console.h"
 #include "i_system.h"
 #include "m_misc.h"
+#include "version.h"
 #include "w_file.h"
 
 #if defined(__APPLE__)
