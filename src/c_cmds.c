@@ -3552,29 +3552,29 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
         {
             temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (2 of 2)</b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (2 of 2)", temp);
             free(temp);
 
-            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
+            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
         }
         else if (nerve)
         {
             temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (1 of 2)</b>", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (1 of 2)", temp);
             free(temp);
 
-            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
+            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
         }
         else
-            C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
+            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
     }
     else
     {
         temp = titlecase(*episodes[gameepisode - 1]);
-        C_TabbedOutput(tabs, "Episode\t<i>%s</i> (%i of %i)</b>", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
+        C_TabbedOutput(tabs, "Episode\t<i>%s</i> (%i of %i)", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
         free(temp);
 
-        C_TabbedOutput(tabs, "Map\t<b>%i of %i%s</b>", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
+        C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
     }
 
     if (!M_StringCompare(maptitle, mapnum))
@@ -3682,9 +3682,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         const char  *author = P_GetMapAuthor(i);
 
         if (*author)
-            C_TabbedOutput(tabs, "Author\t<b>%s</b>", author);
+            C_TabbedOutput(tabs, "Author\t%s", author);
         else if (canmodify && *authors[i][gamemission])
-            C_TabbedOutput(tabs, "Author\t<b>%s</b>", authors[i][gamemission]);
+            C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
     }
 
     {
@@ -3694,98 +3694,98 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
 
-        C_TabbedOutput(tabs, "%s\t<b>%s%s</b>", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
+        C_TabbedOutput(tabs, "%s\t%s%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
             (wadtype == IWAD && bfgedition ? " <i>(BFG Edition)</i>" : ""));
 
         if (M_StringCompare(wadname, "DOOM.WAD"))
         {
             if (bfgedition)
-                C_TabbedOutput(tabs, "Release date\t<b>October 16, 2012</b>");
+                C_TabbedOutput(tabs, "Release date\tOctober 16, 2012");
             else if (gameepisode == 4)
-                C_TabbedOutput(tabs, "Release date\t<b>April 30, 1995</b>");
+                C_TabbedOutput(tabs, "Release date\tApril 30, 1995");
             else
-                C_TabbedOutput(tabs, "Release date\t<b>December 10, 1993</b>");
+                C_TabbedOutput(tabs, "Release date\tDecember 10, 1993");
         }
         else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
             || M_StringCompare(wadname, "SIGIL_v1_2.wad")
             || M_StringCompare(wadname, "SIGIL_v1_1.wad")
             || M_StringCompare(wadname, "SIGIL.wad"))
-            C_TabbedOutput(tabs, "Release date\t<b>May 22, 2019</b>");
+            C_TabbedOutput(tabs, "Release date\tMay 22, 2019");
         else if (M_StringCompare(wadname, "DOOM2.WAD"))
         {
             if (bfgedition)
-                C_TabbedOutput(tabs, "Release date\t<b>October 16, 2012</b>");
+                C_TabbedOutput(tabs, "Release date\tOctober 16, 2012");
             else
-                C_TabbedOutput(tabs, "Release date\t<b>September 30, 1994</b>");
+                C_TabbedOutput(tabs, "Release date\tSeptember 30, 1994");
         }
         else if (M_StringCompare(wadname, "NERVE.WAD"))
-            C_TabbedOutput(tabs, "Release date\t<b>May 26, 2010</b>");
+            C_TabbedOutput(tabs, "Release date\tMay 26, 2010");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
-            C_TabbedOutput(tabs, "Release date\t<b>June 17, 1996</b>");
+            C_TabbedOutput(tabs, "Release date\tJune 17, 1996");
 
         if (wadtype == PWAD)
-            C_TabbedOutput(tabs, "IWAD\t<b>%s%s</b>", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
+            C_TabbedOutput(tabs, "IWAD\t%s%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
                 (bfgedition ? " <i>(BFG Edition)</i>" : ""));
     }
 
-    C_TabbedOutput(tabs, "Compatibility\t<b>%s</b>",
+    C_TabbedOutput(tabs, "Compatibility\t%s",
         (mbfcompatible ? "<i>MBF</i>" : (boomcompatible ? "<i>BOOM</i>" : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
 
     {
         int partime = G_GetParTime();
 
         if (partime)
-            C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", partime / 60, partime % 60);
+            C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
     }
 
     temp = commify(numspawnedthings);
-    C_TabbedOutput(tabs, "Things\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Things\t%s", temp);
     free(temp);
 
     temp = commify(totalkills);
-    C_TabbedOutput(tabs, "   Monsters\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Monsters\t%s", temp);
     free(temp);
 
     temp = commify(totalpickups);
-    C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Pickups\t%s", temp);
     free(temp);
 
     temp = commify(numdecorations);
-    C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Decorations\t%s", temp);
     free(temp);
 
     temp = commify(barrelcount);
-    C_TabbedOutput(tabs, "   Barrels\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Barrels\t%s", temp);
     free(temp);
 
     temp = commify(numlines);
-    C_TabbedOutput(tabs, "Linedefs\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Linedefs\t%s", temp);
     free(temp);
 
     temp = commify(numsides);
-    C_TabbedOutput(tabs, "Sidedefs\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Sidedefs\t%s", temp);
     free(temp);
 
     temp = commify(numvertexes);
-    C_TabbedOutput(tabs, "Vertexes\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Vertexes\t%s", temp);
     free(temp);
 
     temp = commify(numsegs);
-    C_TabbedOutput(tabs, "Segments\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Segments\t%s", temp);
     free(temp);
 
     temp = commify(numsubsectors);
-    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Subsectors\t%s", temp);
     free(temp);
 
     temp = commify(numnodes);
-    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Nodes\t%s", temp);
     free(temp);
 
-    C_TabbedOutput(tabs, "   Format\t<b>%s</b>", mapformats[mapformat]);
+    C_TabbedOutput(tabs, "   Format\t%s", mapformats[mapformat]);
 
     temp = commify(numsectors);
-    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "Sectors\t%s", temp);
     free(temp);
 
     {
@@ -3800,23 +3800,23 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
 
         outside = outside * 100 / numsectors;
-        C_TabbedOutput(tabs, "   Inside/outside\t<b>%i%%/%i%%</b>", 100 - outside, outside);
+        C_TabbedOutput(tabs, "   Inside/outside\t%i%%/%i%%", 100 - outside, outside);
     }
 
     temp = commify(totalsecret);
-    C_TabbedOutput(tabs, "   Secret\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Secret\t%s", temp);
     free(temp);
 
     temp = commify(numliquid);
-    C_TabbedOutput(tabs, "   Liquid\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Liquid\t%s", temp);
     free(temp);
 
     temp = commify(numdamaging);
-    C_TabbedOutput(tabs, "   Damaging\t<b>%s</b>", temp);
+    C_TabbedOutput(tabs, "   Damaging\t%s", temp);
     free(temp);
 
     if (blockmaprebuilt)
-        C_TabbedOutput(tabs, "Blockmap\t<b>Rebuilt</b>");
+        C_TabbedOutput(tabs, "Blockmap\tRebuilt");
 
     {
         int min_x = INT_MAX;
@@ -3871,7 +3871,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight, 1);
                 char    *temp3 = striptrailingzero(metricdepth, 1);
 
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s meters</b>", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s meters", temp1, temp2, temp3);
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -3882,7 +3882,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
                 char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
 
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s kilometers</b>", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s kilometers", temp1, temp2, temp3);
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -3896,7 +3896,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = commify(height);
                 char    *temp3 = commify(depth);
 
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s feet</b>", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s feet", temp1, temp2, temp3);
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -3907,7 +3907,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
                 char    *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
 
-                C_TabbedOutput(tabs, "Dimensions\t<b>%sx%sx%s miles</b>", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s miles", temp1, temp2, temp3);
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -3927,7 +3927,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         temp = uppercase(lumpname);
         lumps = W_CheckMultipleLumps(lumpname);
 
-        C_TabbedOutput(tabs, "Music lump\t<b>%s%s</b>",
+        C_TabbedOutput(tabs, "Music lump\t%s%s",
             temp, ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (replaced by lump in PWAD)"));
         free(temp);
@@ -3941,27 +3941,27 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "   Title\t<i>%s</i>", mus_playing->title1);
 
         if (*musiccomposer)
-            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", musiccomposer);
+            C_TabbedOutput(tabs, "   Composer\t%s", musiccomposer);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", (buckethead ? "Buckethead" : "James Paddock"));
+            C_TabbedOutput(tabs, "   Composer\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "   Composer\t<b>%s</b>", "Bobby Prince");
+            C_TabbedOutput(tabs, "   Composer\t%s", "Bobby Prince");
 
         if (musmusictype)
-            C_TabbedOutput(tabs, "   Format\t<b>MUS</b>");
+            C_TabbedOutput(tabs, "   Format\tMUS");
         else if (midimusictype || musictype == MUS_MID)
-            C_TabbedOutput(tabs, "   Format\t<b>MIDI</b>");
+            C_TabbedOutput(tabs, "   Format\tMIDI");
         else if (musictype == MUS_OGG)
-            C_TabbedOutput(tabs, "   Format\t<b>Ogg Vorbis</b>");
+            C_TabbedOutput(tabs, "   Format\tOgg Vorbis");
         else if (musictype == MUS_MP3)
-            C_TabbedOutput(tabs, "   Format\t<b>MP3</b>");
+            C_TabbedOutput(tabs, "   Format\tMP3");
         else if (musictype == MUS_WAV)
-            C_TabbedOutput(tabs, "   Format\t<b>WAV</b>");
+            C_TabbedOutput(tabs, "   Format\tWAV");
         else if (musictype == MUS_FLAC)
-            C_TabbedOutput(tabs, "   Format\t<b>FLAC</b>");
+            C_TabbedOutput(tabs, "   Format\tFLAC");
         else if (musictype == MUS_MOD)
-            C_TabbedOutput(tabs, "   Format\t<b>MOD</b>");
+            C_TabbedOutput(tabs, "   Format\tMOD");
     }
 }
 
