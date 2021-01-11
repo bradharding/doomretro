@@ -118,6 +118,7 @@ static dboolean usinggamepad;
 static menu_t   *currentMenu;
 
 int             spindirection;
+int             spinspeed;
 static angle_t  playerangle;
 
 //
@@ -3607,6 +3608,7 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
+        spinspeed = 0;
 
         if (!inhelpscreens)
             R_SetViewSize(r_screensize_max);

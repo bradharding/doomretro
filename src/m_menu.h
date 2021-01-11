@@ -115,6 +115,7 @@ extern dboolean firstevent;
 extern dboolean savegames;
 extern dboolean inhelpscreens;
 extern int      spindirection;
+extern int      spinspeed;
 extern char     savegamestrings[6][SAVESTRINGSIZE];
 extern menu_t   EpiDef;
 extern menu_t   ExpDef;
