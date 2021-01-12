@@ -17,11 +17,16 @@
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is run for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped instead.
-* Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
 * Centered messages are now better centered vertically.
 * The player’s gender identity can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries will be affected.
-* A subtle scanline effect has now been applied to the menu’s background.
-* A bug has been fixed whereby the sky in the menu’s background wouldn’t be stretched correctly in some instances when the `mouselook` CVAR was `on`.
+* The following changes have been made to the menu:
+  * A subtle scanline effect is now applied to the menu’s background.
+  * A brief deceleration effect is now applied to the rotation of the player’s view in the menu’s background when opening the menu during a game.
+  * A bug has been fixed whereby the sky in the menu’s background wouldn’t be stretched correctly in some instances when the `mouselook` CVAR was `on`.
+  * Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
+  * A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
+  * The <kbd>F5</kbd> key may now be pressed while the menu is open to toggle the graphic detail.
+  * Screenshots may now be taken while entering a savegame description in the save game menu.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the console:
@@ -54,8 +59,6 @@
 * Monsters will no longer unnecessarily drop from high ledges.
 * The current map’s music will no longer restart when loading a savegame for the same map.
 * Music will no longer continue to play if *DOOM Retro* crashes.
-* A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
-* The <kbd>F5</kbd> key may now be pressed while the menu is open to toggle the graphic detail.
 * Player messages are now slightly translucent again when the `r_hud_translucency` CVAR is `on` and the `vid_widescreen` CVAR is `off`, but not while vanilla mode is enabled.
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
@@ -66,7 +69,6 @@
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
-* Screenshots may now be taken while entering a savegame description in the save game menu.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

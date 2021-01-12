@@ -506,7 +506,7 @@ void P_PlayerThink(void)
     if (menuactive)
     {
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
-            mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 5 * spindirection;
+            mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 8 * spindirection;
 
         return;
     }
