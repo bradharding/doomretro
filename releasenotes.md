@@ -21,6 +21,7 @@
 * Centered messages are now better centered vertically.
 * The player’s gender identity can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries will be affected.
 * A subtle scanline effect has now been applied to the menu’s background.
+* A bug has been fixed whereby the sky in the menu’s background wouldn’t be stretched correctly in some instances when the `mouselook` CVAR was `on`.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the console:
