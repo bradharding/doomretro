@@ -962,11 +962,20 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     }
 
     // Handle all things in sector.
-    do
-    {
-        R_ProjectSprite(thing);
-        thing = thing->snext;
-    } while (thing);
+    if (menuactive)
+        do
+        {
+            if (thing->flags2 & MF2_DECORATION)
+                R_ProjectSprite(thing);
+
+            thing = thing->snext;
+        } while (thing);
+    else
+        do
+        {
+            R_ProjectSprite(thing);
+            thing = thing->snext;
+        } while (thing);
 }
 
 //
