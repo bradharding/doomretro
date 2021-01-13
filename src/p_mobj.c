@@ -1272,7 +1272,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
     if ((mobj->flags2 & MF2_DECORATION) && i != MT_BARREL)
+    {
+        mobj->thinker.menu = true;
         numdecorations++;
+    }
 
     // [BH] initialize certain mobj's animations to random start frame
     // so groups of same mobjs are deliberately out of sync
