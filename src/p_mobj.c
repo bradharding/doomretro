@@ -1188,13 +1188,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] don't spawn any monster corpses if -nomonsters
-    if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && i != MT_MISC62)
+    if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && type != DeadPlayer)
         return NULL;
 
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters && i != MT_KEEN)
+        if (!spawnmonsters && type != CommanderKeen)
             return NULL;
 
         // killough 07/20/98: exclude friends
@@ -1239,8 +1239,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] identify boss monsters so sounds won't be clipped
-    if (gamemode != commercial && gamemap == 8
-        && ((gameepisode == 1 && i == MT_BRUISER) || (gameepisode == 2 && i == MT_CYBORG) || (gameepisode == 3 && i == MT_SPIDER)))
+    if (gamemode != commercial && gamemap == 8 && ((gameepisode == 1 && type == BaronOfHell)
+        || (gameepisode == 2 && type == Cyberdemon) || (gameepisode == 3 && type == SpiderMastermind)))
         mobj->flags2 |= MF2_BOSS;
 
     // [BH] randomly mirror corpses
@@ -1275,7 +1275,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     {
         mobj->thinker.menu = true;
 
-        if (i != MT_BARREL)
+        if (type != Barrel)
             numdecorations++;
     }
 
@@ -1293,7 +1293,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && i != MT_BARREL ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
+    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : M_BigRandom());
