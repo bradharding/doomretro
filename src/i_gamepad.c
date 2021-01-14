@@ -90,10 +90,7 @@ void I_InitGamepad(void)
             }
 
         if (!gamecontroller)
-        {
             SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
-            C_Warning(1, "Gamepad support couldn't be initialized.");
-        }
         else
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
