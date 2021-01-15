@@ -972,9 +972,19 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     || prevletter == '\t')
                 {
                     if (letter == '\'')
+                    {
                         patch = lsquote;
+
+                        if (!i)
+                            x--;
+                    }
                     else if (letter == '"')
+                    {
                         patch = ldquote;
+
+                        if (!i)
+                            x--;
+                    }
                 }
             }
 
