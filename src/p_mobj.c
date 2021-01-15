@@ -1271,13 +1271,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
-    if (mobj->flags2 & MF2_DECORATION)
-    {
-        mobj->thinker.menu = true;
-
-        if (type != Barrel)
-            numdecorations++;
-    }
+    if ((mobj->flags2 & MF2_DECORATION) && type != Barrel)
+        numdecorations++;
 
     // [BH] initialize certain mobj's animations to random start frame
     // so groups of same mobjs are deliberately out of sync
