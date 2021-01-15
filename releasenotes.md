@@ -70,7 +70,6 @@
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
-* Motion blur is now properly applied to the player’s view when they look up or down and the `mouselook` CVAR is `on` and the `vid_motionblur` CVAR is greater than `0%`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
