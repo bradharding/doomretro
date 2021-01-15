@@ -932,7 +932,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     {
         bloodsplat_t    *splat = sec->splatlist;
 
-        if (splat && drawbloodsplats)
+        if (splat && drawbloodsplats && !menuactive)
         {
             spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
@@ -965,7 +965,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     if (menuactive)
         do
         {
-            if (thing->flags2 & MF2_DECORATION)
+            if ((thing->flags2 & MF2_DECORATION) && !(thing->flags & MF_CORPSE))
                 R_ProjectSprite(thing);
 
             thing = thing->snext;
