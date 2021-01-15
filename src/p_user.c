@@ -554,14 +554,14 @@ void P_PlayerThink(void)
         if (!automapactive)
         {
             if (viewplayer->damagecount)
-                motionblur = MAX(motionblur, 100);
+                motionblur = 150;
             else
             {
                 if (cmd->angleturn)
                     motionblur = MIN(ABS(cmd->angleturn) * 100 / 960, 150);
 
                 if (cmd->lookdir)
-                    motionblur = MAX(motionblur, 100);
+                    motionblur = 150;
             }
         }
 
