@@ -760,13 +760,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     if (freeze)
         return;
 
-    if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
-        return;         // out of reach
-
     // Dead thing touching.
     // Can happen with a sliding player corpse.
     if (toucher->health <= 0)
         return;
+
+    if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
+        return;         // out of reach
 
     // Identify by sprite.
     switch (special->sprite)

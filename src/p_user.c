@@ -555,14 +555,8 @@ void P_PlayerThink(void)
         {
             if (viewplayer->damagecount)
                 motionblur = MAX(motionblur, 100);
-            else
-            {
-                if (cmd->angleturn)
-                    motionblur = MIN(ABS(cmd->angleturn) * 100 / 960, 150);
-
-                if (cmd->lookdir)
-                    motionblur = MAX(motionblur, 100);
-            }
+            else if (cmd->angleturn)
+                motionblur = MIN(ABS(cmd->angleturn) * 100 / 960, 150);
         }
 
         I_SetMotionBlur(motionblur * vid_motionblur / 100);
