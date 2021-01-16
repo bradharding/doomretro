@@ -1026,7 +1026,8 @@ dboolean ST_Responder(event_t *ev)
             return true;
         }
 
-        C_HideConsole();
+        if (!messagetoprint)
+            C_HideConsole();
     }
 
     return false;
