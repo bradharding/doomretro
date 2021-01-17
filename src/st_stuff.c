@@ -256,6 +256,17 @@ int                         r_berserkintensity = r_berserkintensity_default;
 
 uint64_t                    stat_cheated = 0;
 
+char *powerupnames[NUMPOWERS] =
+{
+    "",
+    "Invulnerability",
+    "Berserk",
+    "Partial invisibility",
+    "Radiation shielding suit",
+    "Computer area map",
+    "Light amplification visor"
+};
+
 cheatseq_t cheat_mus = CHEAT("idmus", 0);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
 cheatseq_t cheat_god = CHEAT("iddqd", 0);
@@ -723,8 +734,11 @@ dboolean ST_Responder(event_t *ev)
                         }
                         else
                         {
-                            C_Output(s_STSTR_BEHOLDON);
-                            HU_SetPlayerMessage(s_STSTR_BEHOLDON, false, false);
+                            static char message[128];
+
+                            M_snprintf(message, sizeof(message), s_STSTR_BEHOLDON, powerupnames[i]);
+                            C_Output(message);
+                            HU_SetPlayerMessage(message, false, false);
                         }
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
@@ -768,8 +782,11 @@ dboolean ST_Responder(event_t *ev)
                         }
                         else
                         {
-                            C_Output(s_STSTR_BEHOLDOFF);
-                            HU_SetPlayerMessage(s_STSTR_BEHOLDOFF, false, false);
+                            static char message[128];
+
+                            M_snprintf(message, sizeof(message), s_STSTR_BEHOLDOFF, powerupnames[i]);
+                            C_Output(message);
+                            HU_SetPlayerMessage(message, false, false);
                         }
                     }
 
