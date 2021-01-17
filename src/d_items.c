@@ -194,3 +194,14 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* spritename */  "SGN2A0"
     }
 };
+
+char *powerupnames[NUMPOWERS] =
+{
+    "",
+    "Invulnerability",
+    "Berserk",
+    "Partial invisibility",
+    "Radiation shielding suit",
+    "Computer area map",
+    "Light amplification visor"
+};

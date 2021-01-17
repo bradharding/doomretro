@@ -256,17 +256,6 @@ int                         r_berserkintensity = r_berserkintensity_default;
 
 uint64_t                    stat_cheated = 0;
 
-char *powerupnames[NUMPOWERS] =
-{
-    "",
-    "Invulnerability",
-    "Berserk",
-    "Partial invisibility",
-    "Radiation shielding suit",
-    "Computer area map",
-    "Light amplification visor"
-};
-
 cheatseq_t cheat_mus = CHEAT("idmus", 0);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
 cheatseq_t cheat_god = CHEAT("iddqd", 0);

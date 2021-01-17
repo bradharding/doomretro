@@ -21,11 +21,11 @@
 * The player’s gender identity can now be specified using the new `playergender` CVAR. It can be `male`, `female` or `other`, and is `male` by default. If the `playername` CVAR is changed from its default of `“you”` as well, the pronouns used in several player messages and obituaries will be affected.
 * The following changes have been made to the menu:
   * A subtle scanline effect is now applied to the menu’s background.
-  * A brief deceleration effect is now applied to the rotation of the player’s view in the menu’s background when opening the menu during a game.
+  * When opening the menu during a game, a brief deceleration effect is now applied to the player’s rotating view in the menu’s background.
   * A bug has been fixed whereby the sky in the menu’s background wouldn’t be stretched correctly in some instances when the `mouselook` CVAR was `on`.
   * Navigation of the main menu will now behave correctly when there are no savegames for the currently loaded IWAD or PWAD.
   * A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
-  * The <kbd>F5</kbd> key may now be pressed while the menu is open to toggle the graphic detail.
+  * The <kbd>F5</kbd> key may now be pressed to toggle the graphic detail while the menu is open.
   * Screenshots may now be taken while entering a savegame description in the save game menu.
 * If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
