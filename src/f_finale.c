@@ -856,7 +856,7 @@ static void F_CastDrawer(void)
     else
         patch = W_CacheLumpName(bgcastcall);
 
-    V_DrawWidePatch((SCREENWIDTH - SHORT(pagelump->width) * SCREENSCALE) / 2, 0, 0, pagelump);
+    V_DrawWidePatch((SCREENWIDTH - SHORT(patch->width) * SCREENSCALE) / 2, 0, 0, patch);
 
     if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
         F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
