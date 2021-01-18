@@ -353,7 +353,6 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
-    byte        *src;
     int         w;
     int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
@@ -366,26 +365,9 @@ static void F_TextWrite(void)
 
     if (W_LumpLength(lumpnum) == 4096)  // 64x64 flat
     {
+        byte    *src = (byte *)W_CacheLumpNum(lumpnum);
         byte    *dest = screens[0];
 
-        src = (byte *)W_CacheLumpNum(lumpnum);
-
-#if SCREENSCALE == 1
-        for (int y = 0; y < SCREENHEIGHT; y++)
-        {
-            for (int x = 0; x < SCREENWIDTH / 64; x++)
-            {
-                memcpy(dest, src + ((y & 63) << 6), 64);
-                dest += 64;
-            }
-
-            if (SCREENWIDTH & 63)
-            {
-                memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
-                dest += (SCREENWIDTH & 63);
-            }
-        }
-#else
         for (int y = 0; y < SCREENHEIGHT; y++)
             for (int x = 0; x < SCREENWIDTH; x += 2)
             {
@@ -394,7 +376,6 @@ static void F_TextWrite(void)
                 *dest++ = dot;
                 *dest++ = dot;
             }
-#endif
     }
     else
         V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));

@@ -1253,11 +1253,6 @@ void R_FillBezel(void)
         byte    *src = (byte *)grnrock;
         byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-#if SCREENSCALE == 1
-        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-            for (int x = 0; x < SCREENWIDTH; x++)
-                *dest++ = src[((y & 63) << 6) + (x & 63)];
-#else
         for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
             for (int x = 0; x < SCREENWIDTH; x += 2)
             {
@@ -1266,7 +1261,7 @@ void R_FillBezel(void)
                 *dest++ = dot;
                 *dest++ = dot;
             }
-#endif
+
         if (st_drawbrdr)
         {
             for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)

@@ -385,32 +385,19 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-    if (st_statusbaron)
-    {
-#if SCREENSCALE == 1
-        if (STBAR >= 3)
-        {
-            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
-        }
-        else
-            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-#else
-        R_FillBezel();
+    R_FillBezel();
 
-        if (STBAR >= 3)
-        {
-            V_DrawPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-            V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
-        }
-        else if (r_detail == r_detail_low)
-            V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-        else if (vid_widescreen)
-            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
-        else
-            V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
-#endif
+    if (STBAR >= 3)
+    {
+        V_DrawPatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
+    else if (r_detail == r_detail_low)
+        V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+    else if (vid_widescreen)
+        V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+    else
+        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
 }
 
 static int ST_CalcPainOffset(void);
@@ -1334,7 +1321,8 @@ static void ST_DoRefresh(void)
     st_firsttime = false;
 
     // draw status bar background to off-screen buff
-    ST_RefreshBackground();
+    if (st_statusbaron)
+        ST_RefreshBackground();
 
     // and refresh all widgets
     ST_DrawWidgets(true);
@@ -1569,11 +1557,7 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-#if SCREENSCALE == 1
-    usesmallnums = false;
-#else
     usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
-#endif
 
     STLib_Init();
     ST_InitCheats();
