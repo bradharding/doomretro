@@ -1719,16 +1719,14 @@ char    lbmpath2[MAX_PATH];
 static dboolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 {
     dboolean    result = false;
-    int         rendererwidth;
-    int         rendererheight;
+    int         width;
+    int         height;
 
-    if (!SDL_GetRendererOutputSize(sdlrenderer, &rendererwidth, &rendererheight))
+    if (!SDL_GetRendererOutputSize(sdlrenderer, &width, &height))
     {
-        int         width = (vid_widescreen ? rendererwidth : rendererheight * 4 / 3);
-        int         height = rendererheight;
-        SDL_Surface *screenshot;
+        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3), height, 32, 0, 0, 0, 0);
 
-        if ((screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0)))
+        if (screenshot)
         {
             if (!SDL_RenderReadPixels(sdlrenderer, NULL, 0, screenshot->pixels, screenshot->pitch))
                 result = !IMG_SavePNG(screenshot, path);
