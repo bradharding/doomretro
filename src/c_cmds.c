@@ -2599,6 +2599,7 @@ void kill_cmd_func2(char *cmd, char *parms)
         {
             massacre = true;
 
+            viewplayer->damagecount = MIN(viewplayer->health, 100);
             viewplayer->health = 0;
             viewplayer->mo->health = 0;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
