@@ -266,11 +266,11 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_rocketlauncher,   stat_shotssuccessful_rocketlauncher,   stat_shotssuccessful_rocketlauncher,   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_plasmarifle,      stat_shotssuccessful_plasmarifle,      stat_shotssuccessful_plasmarifle,      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotssuccessful_bfg9000,          stat_shotssuccessful_bfg9000,          stat_shotssuccessful_bfg9000,          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_heynottoorough,        stat_skilllevel_heynottoorough,        stat_skilllevel_heynottoorough,        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_hurtmeplenty,          stat_skilllevel_hurtmeplenty,          stat_skilllevel_hurtmeplenty,          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_nightmare,             stat_skilllevel_nightmare,             stat_skilllevel_nightmare,             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_ultraviolence,         stat_skilllevel_ultraviolence,         stat_skilllevel_ultraviolence,         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (skilllevel_nightmare,             stat_skilllevel_nightmare,             stat_skilllevel_nightmare,             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (suicides,                         stat_suicides,                         stat_suicides,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (timeplayed,                       stat_time,                             stat_timeplayed,                       NOVALUEALIAS          )
 };
