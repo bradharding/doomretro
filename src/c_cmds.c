@@ -2597,6 +2597,8 @@ void kill_cmd_func2(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
+            massacre = true;
+
             viewplayer->health = 0;
             viewplayer->mo->health = 0;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
