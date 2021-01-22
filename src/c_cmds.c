@@ -3555,7 +3555,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
         {
             temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (2 of 2)", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i>  (2 of 2)", temp);
             free(temp);
 
             C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
@@ -3563,7 +3563,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (nerve)
         {
             temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t<i>%s</i> (1 of 2)", temp);
+            C_TabbedOutput(tabs, "Expansion\t<i>%s</i>  (1 of 2)", temp);
             free(temp);
 
             C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
@@ -3574,7 +3574,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     else
     {
         temp = titlecase(*episodes[gameepisode - 1]);
-        C_TabbedOutput(tabs, "Episode\t<i>%s</i> (%i of %i)", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
+        C_TabbedOutput(tabs, "Episode\t<i>%s</i>  (%i of %i)", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
         free(temp);
 
         C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
