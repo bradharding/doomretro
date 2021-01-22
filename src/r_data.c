@@ -299,7 +299,6 @@ static void R_InitTextures(void)
             numpnameslumps++;
         }
 
-    name[8] = '\0';
     patchlookup = malloc(nummappatches * sizeof(*patchlookup)); // killough
 
     for (int i = 0, patch = 0; i < numpnameslumps; i++)
@@ -567,7 +566,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_plasma].description, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].description));
         M_StringCopy(weaponinfo[wp_bfg].description, "SKAG 1337", sizeof(weaponinfo[wp_bfg].description));
         M_StringCopy(weaponinfo[wp_chainsaw].description, "angle grinder", sizeof(weaponinfo[wp_chainsaw].description));
-        M_StringCopy(weaponinfo[wp_supershotgun].description, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].description));
+        M_StringCopy(weaponinfo[wp_supershotgun].description, "double-barreled shotgun",
+            sizeof(weaponinfo[wp_supershotgun].description));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));

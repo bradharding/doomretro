@@ -71,6 +71,10 @@
 #include "version.h"
 #include "w_wad.h"
 
+#if defined(_WIN32)
+void I_InitWindows32(void);
+#endif
+
 int SCREENWIDTH;
 int SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 int SCREENAREA;
@@ -1812,7 +1816,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     src_rect.h = SCREENHEIGHT;
 }
 
-void I_GetScreenDimensions(void)
+static void I_GetScreenDimensions(void)
 {
     if (vid_widescreen)
     {
@@ -1847,10 +1851,6 @@ void I_GetScreenDimensions(void)
 
     GetPixelSize(true);
 }
-
-#if defined(_WIN32)
-void I_InitWindows32(void);
-#endif
 
 void I_RestartGraphics(dboolean recreatewindow)
 {

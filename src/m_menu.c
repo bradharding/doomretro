@@ -3658,8 +3658,8 @@ void M_Drawer(void)
 
         while (messageString[start] != '\0')
         {
-            int len = (int)strlen(messageString + start);
-            int foundnewline = 0;
+            int         len = (int)strlen(messageString + start);
+            dboolean    foundnewline = false;
 
             for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')
@@ -3669,7 +3669,7 @@ void M_Drawer(void)
                     if (i < sizeof(string))
                         string[i] = '\0';
 
-                    foundnewline = 1;
+                    foundnewline = true;
                     start += i + 1;
                     break;
                 }

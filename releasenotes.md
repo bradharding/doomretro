@@ -54,6 +54,7 @@
 * Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
 * More blood is spawned when the player is injured.
+* Minor improvements have been made to the rendering of blood splats in some instances.
 * The movement of lifts is now smoother in some instances.
 * Improvements have been made in determining if the player or a monster is standing in liquid or not.
 * Monsters will no longer unnecessarily drop from high ledges.
@@ -69,7 +70,6 @@
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
-* Minor improvements have been made to the rendering of bloodsplats.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
