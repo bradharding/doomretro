@@ -4,6 +4,7 @@
 
 * *DOOM Retro* now uses [*SDL v2.0.14*](https://www.libsdl.org).
 * *DOOM Retro* now uses the [*Windows Audio Session API (WASAPI)*](https://docs.microsoft.com/en-us/windows/win32/coreaudio/wasapi) rather than the deprecated [*DirectSound* API](https://en.wikipedia.org/wiki/DirectSound). Sound effects are now louder and clearer than before.
+* Minor improvements have been made to *DOOM Retro’s* splash screen.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Non-QWERTY keyboards are now properly supported.
 * *DOOM Retro* now has improved support for wide and ultra-wide displays:
@@ -70,6 +71,7 @@
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
 * A spectre now appears again in *DOOM II’s* cast sequence.
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
+* Improvements have been made when the player uses the `kill` CCMD to commit suicide.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
