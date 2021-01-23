@@ -1076,35 +1076,34 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int blood = mobjinfo[mobj->blood].blood;
 
     if (blood)
-        for (int i = 0; i < 3; i++)
+    {
+        int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+        int     max = M_BigRandomInt(150, 200) + radius;
+        fixed_t x = mobj->x;
+        fixed_t y = mobj->y;
+        fixed_t floorz = mobj->floorz;
+
+        if (!(mobj->flags & MF_SPAWNCEILING))
         {
-            int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-            int     max = M_BigRandomInt(100, 150) + radius;
-            fixed_t x = mobj->x;
-            fixed_t y = mobj->y;
-            fixed_t floorz = mobj->floorz;
-
-            if (!(mobj->flags & MF_SPAWNCEILING))
-            {
-                x += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
-                y += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
-            }
-
-            for (int j = 0; j < max; j++)
-            {
-                angle_t angle;
-                fixed_t fx, fy;
-
-                if (!mobj->bloodsplats)
-                    break;
-
-                angle = M_BigRandomInt(0, FINEANGLES - 1);
-                fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
-                fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
-
-                P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
-            }
+            x += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
+            y += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
         }
+
+        for (int j = 0; j < max; j++)
+        {
+            angle_t angle;
+            fixed_t fx, fy;
+
+            if (!mobj->bloodsplats)
+                break;
+
+            angle = M_BigRandomInt(0, FINEANGLES - 1);
+            fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
+            fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+            P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
+        }
+    }
 }
 
 //
