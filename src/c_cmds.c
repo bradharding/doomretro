@@ -222,7 +222,7 @@ action_t actions[] =
     { "+automap",     false, automap_action_func,     &keyboardautomap,           NULL,                  NULL,             &gamepadautomap,           NULL         },
     { "+back",        true,  back_action_func,        &keyboardback,              &keyboardback2,        NULL,             &gamepadback,              NULL         },
     { "+clearmark",   true,  clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,             &gamepadautomapclearmark,  NULL         },
-    { "+console",     false, console_action_func,     &keyboardconsole,           NULL,                  NULL,             NULL,                      NULL         },
+    { "+console",     false, console_action_func,     &keyboardconsole,           NULL,                  NULL,             &gamepadconsole,           NULL         },
     { "+fire",        true,  fire_action_func,        &keyboardfire,              NULL,                  &mousefire,       &gamepadfire,              NULL         },
     { "+followmode",  true,  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
     { "+forward",     true,  forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
@@ -5769,6 +5769,7 @@ static void C_VerifyResetAll(const int key)
         gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
         gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
         gamepadback = GAMEPADBACK_DEFAULT;
+        gamepadconsole = GAMEPADCONSOLE_DEFAULT;
         gamepadfire = GAMEPADFIRE_DEFAULT;
         gamepadforward = GAMEPADFORWARD_DEFAULT;
         gamepadjump = GAMEPADJUMP_DEFAULT;

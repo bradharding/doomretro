@@ -2616,6 +2616,13 @@ dboolean M_Responder(event_t *ev)
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
             }
+
+            // open console
+            else if ((gamepadbuttons & gamepadconsole) && gamepadwait < I_GetTime())
+            {
+                C_ShowConsole();
+                return false;
+            }
         }
     }
 

@@ -103,6 +103,7 @@ extern int  gamepadautomaprotatemode;
 extern int  gamepadautomapzoomin;
 extern int  gamepadautomapzoomout;
 extern int  gamepadback;
+extern int  gamepadconsole;
 extern int  gamepadfire;
 extern int  gamepadforward;
 extern int  gamepadjump;

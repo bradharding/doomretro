@@ -102,6 +102,7 @@ int gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
 int gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
 int gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
 int gamepadback = GAMEPADBACK_DEFAULT;
+int gamepadconsole = GAMEPADCONSOLE_DEFAULT;
 int gamepadfire = GAMEPADFIRE_DEFAULT;
 int gamepadforward = GAMEPADFORWARD_DEFAULT;
 int gamepadjump = GAMEPADJUMP_DEFAULT;

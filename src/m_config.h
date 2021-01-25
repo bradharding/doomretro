@@ -732,6 +732,7 @@ enum
 #define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
 #define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
 #define GAMEPADBACK_DEFAULT                     0
+#define GAMEPADCONSOLE_DEFAULT                  0
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 #define GAMEPADFORWARD_DEFAULT                  0
 #define GAMEPADJUMP_DEFAULT                     0
