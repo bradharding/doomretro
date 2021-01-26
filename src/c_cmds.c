@@ -112,25 +112,25 @@
 #define METERSPERKILOMETER          1000.0f
 #define FEETPERMILE                 5280
 
-alias_t             aliases[MAXALIASES];
+alias_t     aliases[MAXALIASES];
 
-static int          ammo;
-static int          armor;
-static int          armortype;
-static int          health;
+static int  ammo;
+static int  armor;
+static int  armortype;
+static int  health;
 
-static int          mapcmdepisode;
-static int          mapcmdmap;
-static char         mapcmdlump[7];
+static int  mapcmdepisode;
+static int  mapcmdmap;
+static char mapcmdlump[7];
 
-dboolean            executingalias = false;
-dboolean            healthcvar = false;
-dboolean            quitcmd = false;
-dboolean            resettingcvar = false;
-dboolean            togglingvanilla = false;
-dboolean            vanilla = false;
+dboolean    executingalias = false;
+dboolean    healthcvar = false;
+dboolean    quitcmd = false;
+dboolean    resettingcvar = false;
+dboolean    togglingvanilla = false;
+dboolean    vanilla = false;
 
-char                *version = version_default;
+char        *version = version_default;
 
 const control_t controls[] =
 {

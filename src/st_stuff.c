@@ -468,7 +468,7 @@ dboolean ST_Responder(event_t *ev)
                 dboolean    berserkgiven = false;
                 dboolean    weaponsgiven = false;
 
-                // [BH] note if doesn't have full armor before giving it
+                // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
                 {
                     armorgiven = true;
@@ -476,7 +476,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->armortype = idfa_armor_class;
                 }
 
-                // [BH] note if any weapons given that player didn't have already
+                // [BH] note if player given any weapons that they don't have already
                 weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] give player a berserk power-up so they can still use fists
@@ -524,7 +524,7 @@ dboolean ST_Responder(event_t *ev)
                 dboolean    keysgiven = false;
                 dboolean    weaponsgiven = false;
 
-                // [BH] note if doesn't have full armor before giving it
+                // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
                 {
                     armorgiven = true;
@@ -532,7 +532,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->armortype = idkfa_armor_class;
                 }
 
-                // [BH] note if any weapons given that player didn't have already
+                // [BH] note if player given any weapons that they don't have already
                 weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] give player a berserk power-up so they can still use fists
@@ -543,8 +543,7 @@ dboolean ST_Responder(event_t *ev)
 
                 ammogiven = P_GiveFullAmmo();
 
-                // [BH] only give the player the keycards or skull keys from the
-                //  current level, and note if any keys given
+                // [BH] only give player the keycards or skull keys from the current level, and note if any keys given
                 keysgiven = P_GiveAllCardsInMap();
 
                 // [BH] show evil grin if player was given any new weapons
