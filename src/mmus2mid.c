@@ -323,7 +323,12 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
         mus = hptr;
 
     // copy the MUS header from the MUS buffer to the MUSh header structure
-    memcpy(&MUSh, mus, sizeof(MUSheader));
+    memcpy(MUSh.ID, mus, 4);
+    MUSh.ScoreLength = (&mus[4])[0] | ((&mus[4])[1] << 8);
+    MUSh.ScoreStart = (&mus[6])[0] | ((&mus[6])[1] << 8);
+    MUSh.channels = (&mus[8])[0] | ((&mus[8])[1] << 8);
+    MUSh.SecChannels = (&mus[10])[0] | ((&mus[10])[1] << 8);
+    MUSh.InstrCnt = (&mus[12])[0] | ((&mus[12])[1] << 8);
 
     // check some things and set length of MUS buffer from internal data
     if (!(muslen = (size_t)MUSh.ScoreLength + MUSh.ScoreStart))
