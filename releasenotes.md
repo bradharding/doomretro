@@ -14,7 +14,7 @@
   * The <kbd>+</kbd> and <kbd>&ndash;</kbd> keys may now also be pressed on the title screen to toggle widescreen mode.
   * Certain [official widescreen assets](https://bethesda.net/en/game/doom-widescreen-mods), such as those for the title screen and status bar, will now be displayed if the `vid_widescreen` CVAR is `on`.
   * The default of the `vid_windowsize` CVAR has been changed from `768×480` to `854×480`.
-* The following changes have been made to support the IWADs from the recently updated versions of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
+* The following changes have been made to support the IWADs from the latest rereleases of [*The Ultimate DOOM*](https://store.steampowered.com/app/2280/Ultimate_Doom/) and [*DOOM II: Hell On Earth*](https://store.steampowered.com/app/2300/DOOM_II/) on *Steam*:
   * The WAD launcher will now look for these new IWADs when *DOOM Retro* is run for the first time.
   * The par times for E1M8, E2M8 and E3M8 have changed.
 * A crash will no longer occur when trying to display a patch with a height greater than 200 pixels. These patches will now be cropped instead.
@@ -28,7 +28,7 @@
   * A bug has been fixed whereby using the left mouse button to navigate the menu could cause the player to continuously fire when starting a new game.
   * The <kbd>F5</kbd> key may now be pressed to toggle the graphic detail while the menu is open.
   * Screenshots may now be taken while entering a savegame description in the save game menu.
-* If the player has their fists equipped, has a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
+* If the player has their fists equipped, a berserk power-up, and god mode is enabled, the screen will no longer flash red when they are attacked.
 * Monsters may now walk under other flying monsters when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to the console:
   * The scrollbar now extends to the top of the screen.
@@ -48,11 +48,11 @@
 * The correct `CREDIT` lump is now displayed when finishing any of the first four episodes of *The Ultimate DOOM*, and *SIGIL* has been automatically loaded.
 * The intermission screens displayed once the player has finished a map will now always transition correctly when the `fade` CVAR is `on`.
 * The `wipe` CVAR has been renamed to `melt`.
-* Fade transitions will now be applied when a melt transition would usually be applied, but the `melt` CVAR is `off` and the `fade` CVAR is `on`.
+* Fade transitions will now be applied when a melt transition normally would, but the `melt` CVAR is `off` and the `fade` CVAR is `on`.
 * The default of the `s_musicvolume` CVAR has been increased from `67%` to `100%`.
 * Further improvements have been made to the support of both `DEHACKED` and `UMAPINFO` lumps.
 * *DeHackEd* support has been extended further to allow for an additional 200 sound effects (numbered 500 to 699, and named `DSFRE000` to `DSFRE199`).
-* Music that has changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
+* Music that has been changed because of a [`MUSINFO`](https://doomwiki.org/wiki/MUSINFO) lump is now remembered in savegames.
 * The player’s health and ammo will now only flash in the widescreen HUD (or change color in the alternate widescreen HUD) when less than 10.
 * More blood is spawned when the player is injured.
 * Minor improvements have been made to the rendering of blood splats in some instances.
@@ -65,7 +65,7 @@
 * SSAA (supersampling anti-aliasing) is now applied to the help screen’s background when the <kbd>F1</kbd> key is pressed.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
 * The bezel around the player’s view when the `r_screensize` CVAR is less than `7` is now only displayed if either all or none of the relevant graphics have been replaced in a PWAD.
-* The number of times the player uses their fists and chainsaw are now remembered and displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also then be displayed as their `Favorite weapon`.
+* The number of times the player uses their fists and chainsaw are now displayed by the `playerstats` CCMD. The player’s fists and chainsaw may now also then be displayed as their `Favorite weapon`.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * The crosshair will now be larger when the `crosshair` CVAR is `cross` or `dot`, and the `r_detail` CVAR is `low`.
 * Improvements have been made to the fuzz effect of the player’s weapon when they have a partial invisibility power-up.
