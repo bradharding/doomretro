@@ -86,8 +86,8 @@ static byte playercolor;
 static byte thingcolor;
 static byte markcolor;
 static byte backcolor;
+static byte pathcolor;
 
-static byte *pathcolor;
 static byte *wallcolor;
 static byte *allmapwallcolor;
 static byte *teleportercolor;
@@ -325,13 +325,14 @@ void AM_SetColors(void)
     thingcolor = nearestcolors[am_thingcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
+    pathcolor = nearestcolors[am_pathcolor];
+
     am_crosshaircolor2 = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
             priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
 
-    pathcolor = &priorities[nearestcolors[am_pathcolor] << 8];
     wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
     cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
@@ -1917,7 +1918,7 @@ static void AM_DrawPath(void)
 
                 AM_RotatePoint(&start);
                 AM_RotatePoint(&end);
-                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, &PUTDOT);
+                AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
@@ -1926,7 +1927,7 @@ static void AM_DrawPath(void)
                 mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
 
                 AM_RotatePoint(&player);
-                AM_DrawFline(end.x, end.y, player.x, player.y, pathcolor, &PUTDOT);
+                AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
             }
         }
         else
@@ -1941,14 +1942,14 @@ static void AM_DrawPath(void)
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
 
-                AM_DrawFline(start.x, start.y, end.x, end.y, pathcolor, &PUTDOT);
+                AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
                 const mobj_t    *mo = viewplayer->mo;
 
-                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, pathcolor, &PUTDOT);
+                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
             }
         }
     }

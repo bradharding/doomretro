@@ -109,7 +109,7 @@ static fixed_t  gamepadangleturn[] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
-static int *keyboardweapons[] =
+static int *keyboardweapons[NUMWEAPONKEYS] =
 {
     &keyboardweapon1,
     &keyboardweapon2,
@@ -120,7 +120,7 @@ static int *keyboardweapons[] =
     &keyboardweapon7
 };
 
-static int *gamepadweapons[] =
+static int *gamepadweapons[NUMWEAPONKEYS] =
 {
     &gamepadweapon1,
     &gamepadweapon2,

@@ -226,7 +226,7 @@ enum
 
     // Player sprites in multiplayer modes are modified
     //  using an internal color lookup table for re-indexing.
-    // If 0x04 0x08 or 0x0C,
+    // If 0x04000000, 0x08000000 or 0x0C000000,
     //  use a translation table for player colormaps
     MF_TRANSLATION      = 0x0C000000,
 
