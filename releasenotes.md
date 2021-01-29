@@ -73,6 +73,7 @@
 * A bug has been fixed whereby the player would move slightly slower when using a gamepad rather than the keyboard.
 * The `+console` action may now be bound to a control on a gamepad.
 * Improvements have been made when the player uses the `kill` CCMD to commit suicide.
+* The blood of barons of hell and hellknights is slightly lighter.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
