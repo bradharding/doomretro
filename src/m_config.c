@@ -297,12 +297,12 @@ valuealias_t valuealiases[] =
     { "",          0, NOVALUEALIAS           }
 };
 
-static void SaveBind(FILE *file, char *control, char *string)
+static void SaveBind(FILE *file, char *control, char *action)
 {
     if (strlen(control) == 1)
-        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), string);
+        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
     else
-        fprintf(file, "bind %s %s\n", control, string);
+        fprintf(file, "bind %s %s\n", control, action);
 }
 
 static void SaveBindByValue(FILE *file, char *action, int value, controltype_t type)
@@ -473,9 +473,10 @@ void M_SaveCVARs(void)
             case DEFAULT_STRING:
                 if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE))
                     fputs(*(char **)cvars[i].location, file);
+                else if (M_StringCompare(cvars[i].name, stringize(version)))
+                    fprintf(file, "%s", *(char **)cvars[i].location);
                 else
-                    fprintf(file, "%s%s%s", (M_StringCompare(cvars[i].name, "version") ? "" : "\""),
-                        *(char **)cvars[i].location, (M_StringCompare(cvars[i].name, "version") ? "" : "\""));
+                    fprintf(file, "\"%s\"", *(char **)cvars[i].location);
 
                 break;
 

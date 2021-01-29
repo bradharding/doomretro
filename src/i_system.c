@@ -253,8 +253,8 @@ void I_Error(const char *error, ...)
 
     if (already_quitting)
         exit(-1);
-    else
-        already_quitting = true;
+
+    already_quitting = true;
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
