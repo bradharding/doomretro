@@ -1514,7 +1514,6 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
-#if SCREENSCALE == 2
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
     if (color == PINK)
@@ -1529,7 +1528,6 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
             *(dot += SCREENWIDTH) = color;
             *(--dot) = color;
         }
-
     }
     else if (color && color != 32)
     {
@@ -1540,31 +1538,6 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
     }
-#else
-    if (color == PINK)
-    {
-        if (drawshadow)
-        {
-            byte    *dest = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
-
-            for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
-                {
-                    byte    *dot = dest + yy + xx;
-
-                    *dot = black40[*dot];
-                }
-        }
-    }
-    else if (color && color != 32)
-    {
-        byte    *dest = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
-
-        for (int yy = 0; yy < SCREENSCALE * SCREENWIDTH; yy += SCREENWIDTH)
-            for (int xx = 0; xx < SCREENSCALE; xx++)
-                *(dest + yy + xx) = color;
-    }
-#endif
 }
 
 static void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
