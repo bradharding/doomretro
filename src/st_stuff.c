@@ -312,72 +312,71 @@ static void ST_InitCheats(void)
     cheat_amap.movekey = movekey(cheat_amap.sequence[0]);
 }
 
-#define NONE        -1
 #define IDMUS_MAX   60
 
 static const int mus[IDMUS_MAX][6] =
 {
     /* xy      shareware    registered   commercial   retail      bfgedition   nerve      */
-    /* 00 */ { NONE,        NONE,        NONE,        NONE,       NONE,        NONE       },
-    /* 01 */ { NONE,        NONE,        mus_runnin,  NONE,       mus_runnin,  mus_messag },
-    /* 02 */ { NONE,        NONE,        mus_stalks,  NONE,       mus_stalks,  mus_ddtblu },
-    /* 03 */ { NONE,        NONE,        mus_countd,  NONE,       mus_countd,  mus_doom   },
-    /* 04 */ { NONE,        NONE,        mus_betwee,  NONE,       mus_betwee,  mus_shawn  },
-    /* 05 */ { NONE,        NONE,        mus_doom,    NONE,       mus_doom,    mus_in_cit },
-    /* 06 */ { NONE,        NONE,        mus_the_da,  NONE,       mus_the_da,  mus_the_da },
-    /* 07 */ { NONE,        NONE,        mus_shawn,   NONE,       mus_shawn,   mus_in_cit },
-    /* 08 */ { NONE,        NONE,        mus_ddtblu,  NONE,       mus_ddtblu,  mus_shawn  },
-    /* 09 */ { NONE,        NONE,        mus_in_cit,  NONE,       mus_in_cit,  mus_ddtblu },
-    /* 10 */ { NONE,        NONE,        mus_dead,    NONE,       mus_dead,    NONE       },
-    /* 11 */ { mus_e1m1,    mus_e1m1,    mus_stlks2,  mus_e1m1,   mus_stlks2,  NONE       },
-    /* 12 */ { mus_e1m2,    mus_e1m2,    mus_theda2,  mus_e1m2,   mus_theda2,  NONE       },
-    /* 13 */ { mus_e1m3,    mus_e1m3,    mus_doom2,   mus_e1m3,   mus_doom2,   NONE       },
-    /* 14 */ { mus_e1m4,    mus_e1m4,    mus_ddtbl2,  mus_e1m4,   mus_ddtbl2,  NONE       },
-    /* 15 */ { mus_e1m5,    mus_e1m5,    mus_runni2,  mus_e1m5,   mus_runni2,  NONE       },
-    /* 16 */ { mus_e1m6,    mus_e1m6,    mus_dead2,   mus_e1m6,   mus_dead2,   NONE       },
-    /* 17 */ { mus_e1m7,    mus_e1m7,    mus_stlks3,  mus_e1m7,   mus_stlks3,  NONE       },
-    /* 18 */ { mus_e1m8,    mus_e1m8,    mus_romero,  mus_e1m8,   mus_romero,  NONE       },
-    /* 19 */ { mus_e1m9,    mus_e1m9,    mus_shawn2,  mus_e1m9,   mus_shawn2,  NONE       },
-    /* 20 */ { NONE,        NONE,        mus_messag,  NONE,       mus_messag,  NONE       },
-    /* 21 */ { NONE,        mus_e2m1,    mus_count2,  mus_e2m1,   mus_count2,  NONE       },
-    /* 22 */ { NONE,        mus_e2m2,    mus_ddtbl3,  mus_e2m2,   mus_ddtbl3,  NONE       },
-    /* 23 */ { NONE,        mus_e2m3,    mus_ampie,   mus_e2m3,   mus_ampie,   NONE       },
-    /* 24 */ { NONE,        mus_e2m4,    mus_theda3,  mus_e2m4,   mus_theda3,  NONE       },
-    /* 25 */ { NONE,        mus_e2m5,    mus_adrian,  mus_e2m5,   mus_adrian,  NONE       },
-    /* 26 */ { NONE,        mus_e2m6,    mus_messg2,  mus_e2m6,   mus_messg2,  NONE       },
-    /* 27 */ { NONE,        mus_e2m7,    mus_romer2,  mus_e2m7,   mus_romer2,  NONE       },
-    /* 28 */ { NONE,        mus_e2m8,    mus_tense,   mus_e2m8,   mus_tense,   NONE       },
-    /* 29 */ { NONE,        mus_e2m9,    mus_shawn3,  mus_e2m9,   mus_shawn3,  NONE       },
-    /* 30 */ { NONE,        NONE,        mus_openin,  NONE,       mus_openin,  NONE       },
-    /* 31 */ { NONE,        mus_e3m1,    mus_evil,    mus_e3m1,   mus_evil,    NONE       },
-    /* 32 */ { NONE,        mus_e3m2,    mus_ultima,  mus_e3m2,   mus_ultima,  NONE       },
-    /* 33 */ { NONE,        mus_e3m3,    NONE,        mus_e3m3,   mus_read_m,  NONE       },
-    /* 34 */ { NONE,        mus_e3m4,    NONE,        mus_e3m4,   NONE,        NONE       },
-    /* 35 */ { NONE,        mus_e3m5,    NONE,        mus_e3m5,   NONE,        NONE       },
-    /* 36 */ { NONE,        mus_e3m6,    NONE,        mus_e3m6,   NONE,        NONE       },
-    /* 37 */ { NONE,        mus_e3m7,    NONE,        mus_e3m7,   NONE,        NONE       },
-    /* 38 */ { NONE,        mus_e3m8,    NONE,        mus_e3m8,   NONE,        NONE       },
-    /* 39 */ { NONE,        mus_e3m9,    NONE,        mus_e3m9,   NONE,        NONE       },
-    /* 40 */ { NONE,        NONE,        NONE,        NONE,       NONE,        NONE       },
-    /* 41 */ { NONE,        NONE,        NONE,        mus_e3m4,   NONE,        NONE       },
-    /* 42 */ { NONE,        NONE,        NONE,        mus_e3m2,   NONE,        NONE       },
-    /* 43 */ { NONE,        NONE,        NONE,        mus_e3m3,   NONE,        NONE       },
-    /* 44 */ { NONE,        NONE,        NONE,        mus_e1m5,   NONE,        NONE       },
-    /* 45 */ { NONE,        NONE,        NONE,        mus_e2m7,   NONE,        NONE       },
-    /* 46 */ { NONE,        NONE,        NONE,        mus_e2m4,   NONE,        NONE       },
-    /* 47 */ { NONE,        NONE,        NONE,        mus_e2m6,   NONE,        NONE       },
-    /* 48 */ { NONE,        NONE,        NONE,        mus_e2m5,   NONE,        NONE       },
-    /* 49 */ { NONE,        NONE,        NONE,        mus_e1m9,   NONE,        NONE       },
-    /* 50 */ { NONE,        NONE,        NONE,        NONE,       NONE,        NONE       },
-    /* 51 */ { NONE,        NONE,        NONE,        mus_e5m1,   NONE,        NONE       },
-    /* 52 */ { NONE,        NONE,        NONE,        mus_e5m2,   NONE,        NONE       },
-    /* 53 */ { NONE,        NONE,        NONE,        mus_e5m3,   NONE,        NONE       },
-    /* 54 */ { NONE,        NONE,        NONE,        mus_e5m4,   NONE,        NONE       },
-    /* 55 */ { NONE,        NONE,        NONE,        mus_e5m5,   NONE,        NONE       },
-    /* 56 */ { NONE,        NONE,        NONE,        mus_e5m6,   NONE,        NONE       },
-    /* 57 */ { NONE,        NONE,        NONE,        mus_e5m7,   NONE,        NONE       },
-    /* 58 */ { NONE,        NONE,        NONE,        mus_e5m8,   NONE,        NONE       },
-    /* 59 */ { NONE,        NONE,        NONE,        mus_e5m9,   NONE,        NONE       }
+    /* 00 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
+    /* 01 */ { mus_none,    mus_none,    mus_runnin,  mus_none,   mus_runnin,  mus_messag },
+    /* 02 */ { mus_none,    mus_none,    mus_stalks,  mus_none,   mus_stalks,  mus_ddtblu },
+    /* 03 */ { mus_none,    mus_none,    mus_countd,  mus_none,   mus_countd,  mus_doom   },
+    /* 04 */ { mus_none,    mus_none,    mus_betwee,  mus_none,   mus_betwee,  mus_shawn  },
+    /* 05 */ { mus_none,    mus_none,    mus_doom,    mus_none,   mus_doom,    mus_in_cit },
+    /* 06 */ { mus_none,    mus_none,    mus_the_da,  mus_none,   mus_the_da,  mus_the_da },
+    /* 07 */ { mus_none,    mus_none,    mus_shawn,   mus_none,   mus_shawn,   mus_in_cit },
+    /* 08 */ { mus_none,    mus_none,    mus_ddtblu,  mus_none,   mus_ddtblu,  mus_shawn  },
+    /* 09 */ { mus_none,    mus_none,    mus_in_cit,  mus_none,   mus_in_cit,  mus_ddtblu },
+    /* 10 */ { mus_none,    mus_none,    mus_dead,    mus_none,   mus_dead,    mus_none   },
+    /* 11 */ { mus_e1m1,    mus_e1m1,    mus_stlks2,  mus_e1m1,   mus_stlks2,  mus_none   },
+    /* 12 */ { mus_e1m2,    mus_e1m2,    mus_theda2,  mus_e1m2,   mus_theda2,  mus_none   },
+    /* 13 */ { mus_e1m3,    mus_e1m3,    mus_doom2,   mus_e1m3,   mus_doom2,   mus_none   },
+    /* 14 */ { mus_e1m4,    mus_e1m4,    mus_ddtbl2,  mus_e1m4,   mus_ddtbl2,  mus_none   },
+    /* 15 */ { mus_e1m5,    mus_e1m5,    mus_runni2,  mus_e1m5,   mus_runni2,  mus_none   },
+    /* 16 */ { mus_e1m6,    mus_e1m6,    mus_dead2,   mus_e1m6,   mus_dead2,   mus_none   },
+    /* 17 */ { mus_e1m7,    mus_e1m7,    mus_stlks3,  mus_e1m7,   mus_stlks3,  mus_none   },
+    /* 18 */ { mus_e1m8,    mus_e1m8,    mus_romero,  mus_e1m8,   mus_romero,  mus_none   },
+    /* 19 */ { mus_e1m9,    mus_e1m9,    mus_shawn2,  mus_e1m9,   mus_shawn2,  mus_none   },
+    /* 20 */ { mus_none,    mus_none,    mus_messag,  mus_none,   mus_messag,  mus_none   },
+    /* 21 */ { mus_none,    mus_e2m1,    mus_count2,  mus_e2m1,   mus_count2,  mus_none   },
+    /* 22 */ { mus_none,    mus_e2m2,    mus_ddtbl3,  mus_e2m2,   mus_ddtbl3,  mus_none   },
+    /* 23 */ { mus_none,    mus_e2m3,    mus_ampie,   mus_e2m3,   mus_ampie,   mus_none   },
+    /* 24 */ { mus_none,    mus_e2m4,    mus_theda3,  mus_e2m4,   mus_theda3,  mus_none   },
+    /* 25 */ { mus_none,    mus_e2m5,    mus_adrian,  mus_e2m5,   mus_adrian,  mus_none   },
+    /* 26 */ { mus_none,    mus_e2m6,    mus_messg2,  mus_e2m6,   mus_messg2,  mus_none   },
+    /* 27 */ { mus_none,    mus_e2m7,    mus_romer2,  mus_e2m7,   mus_romer2,  mus_none   },
+    /* 28 */ { mus_none,    mus_e2m8,    mus_tense,   mus_e2m8,   mus_tense,   mus_none   },
+    /* 29 */ { mus_none,    mus_e2m9,    mus_shawn3,  mus_e2m9,   mus_shawn3,  mus_none   },
+    /* 30 */ { mus_none,    mus_none,    mus_openin,  mus_none,   mus_openin,  mus_none   },
+    /* 31 */ { mus_none,    mus_e3m1,    mus_evil,    mus_e3m1,   mus_evil,    mus_none   },
+    /* 32 */ { mus_none,    mus_e3m2,    mus_ultima,  mus_e3m2,   mus_ultima,  mus_none   },
+    /* 33 */ { mus_none,    mus_e3m3,    mus_none,    mus_e3m3,   mus_read_m,  mus_none   },
+    /* 34 */ { mus_none,    mus_e3m4,    mus_none,    mus_e3m4,   mus_none,    mus_none   },
+    /* 35 */ { mus_none,    mus_e3m5,    mus_none,    mus_e3m5,   mus_none,    mus_none   },
+    /* 36 */ { mus_none,    mus_e3m6,    mus_none,    mus_e3m6,   mus_none,    mus_none   },
+    /* 37 */ { mus_none,    mus_e3m7,    mus_none,    mus_e3m7,   mus_none,    mus_none   },
+    /* 38 */ { mus_none,    mus_e3m8,    mus_none,    mus_e3m8,   mus_none,    mus_none   },
+    /* 39 */ { mus_none,    mus_e3m9,    mus_none,    mus_e3m9,   mus_none,    mus_none   },
+    /* 40 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
+    /* 41 */ { mus_none,    mus_none,    mus_none,    mus_e3m4,   mus_none,    mus_none   },
+    /* 42 */ { mus_none,    mus_none,    mus_none,    mus_e3m2,   mus_none,    mus_none   },
+    /* 43 */ { mus_none,    mus_none,    mus_none,    mus_e3m3,   mus_none,    mus_none   },
+    /* 44 */ { mus_none,    mus_none,    mus_none,    mus_e1m5,   mus_none,    mus_none   },
+    /* 45 */ { mus_none,    mus_none,    mus_none,    mus_e2m7,   mus_none,    mus_none   },
+    /* 46 */ { mus_none,    mus_none,    mus_none,    mus_e2m4,   mus_none,    mus_none   },
+    /* 47 */ { mus_none,    mus_none,    mus_none,    mus_e2m6,   mus_none,    mus_none   },
+    /* 48 */ { mus_none,    mus_none,    mus_none,    mus_e2m5,   mus_none,    mus_none   },
+    /* 49 */ { mus_none,    mus_none,    mus_none,    mus_e1m9,   mus_none,    mus_none   },
+    /* 50 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
+    /* 51 */ { mus_none,    mus_none,    mus_none,    mus_e5m1,   mus_none,    mus_none   },
+    /* 52 */ { mus_none,    mus_none,    mus_none,    mus_e5m2,   mus_none,    mus_none   },
+    /* 53 */ { mus_none,    mus_none,    mus_none,    mus_e5m3,   mus_none,    mus_none   },
+    /* 54 */ { mus_none,    mus_none,    mus_none,    mus_e5m4,   mus_none,    mus_none   },
+    /* 55 */ { mus_none,    mus_none,    mus_none,    mus_e5m5,   mus_none,    mus_none   },
+    /* 56 */ { mus_none,    mus_none,    mus_none,    mus_e5m6,   mus_none,    mus_none   },
+    /* 57 */ { mus_none,    mus_none,    mus_none,    mus_e5m7,   mus_none,    mus_none   },
+    /* 58 */ { mus_none,    mus_none,    mus_none,    mus_e5m8,   mus_none,    mus_none   },
+    /* 59 */ { mus_none,    mus_none,    mus_none,    mus_e5m9,   mus_none,    mus_none   }
 };
 
 //
@@ -394,13 +393,10 @@ static void ST_RefreshBackground(void)
     }
     else if (r_detail == r_detail_low)
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(sbar->width)) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+    else if (vid_widescreen)
+        V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
     else
-    {
-        if (vid_widescreen)
-            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
-        else
-            V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
-    }
+        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
 }
 
 static int ST_CalcPainOffset(void);
@@ -603,7 +599,7 @@ dboolean ST_Responder(event_t *ev)
                         else
                             musnum = mus[musnum][gamemode];
 
-                        if (musnum != NONE)
+                        if (musnum != mus_none)
                         {
                             static char msg[80];
                             char        *temp = uppercase(S_music[musnum].name1);
