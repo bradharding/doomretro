@@ -393,11 +393,14 @@ static void ST_RefreshBackground(void)
         V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else if (r_detail == r_detail_low)
-        V_DrawWidePatch(ST_X, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-    else if (vid_widescreen)
-        V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(sbar->width)) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
     else
-        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
+    {
+        if (vid_widescreen)
+            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+        else
+            V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
+    }
 }
 
 static int ST_CalcPainOffset(void);

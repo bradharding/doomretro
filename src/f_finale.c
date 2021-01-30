@@ -837,7 +837,7 @@ static void F_CastDrawer(void)
     else
         patch = W_CacheLumpName(bgcastcall);
 
-    V_DrawWidePatch((SCREENWIDTH - SHORT(patch->width) * SCREENSCALE) / 2, 0, 0, patch);
+    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 
     if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
         F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
@@ -1041,7 +1041,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawWidePatch((SCREENWIDTH - SHORT(lump->width) * SCREENSCALE) / 2, 0, 0, lump);
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
     }
 }
 
