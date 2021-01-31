@@ -2066,7 +2066,6 @@ static void D_DoomMainSetup(void)
 
                     free(folder);
                 }
-
             }
         } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
 

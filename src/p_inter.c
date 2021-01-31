@@ -973,7 +973,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                         HU_SetPlayerMessage(buffer, true, false);
                     }
-
                 }
                 else
                     HU_PlayerMessage(s_GOTMEDIKIT, true, false);

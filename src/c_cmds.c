@@ -3271,7 +3271,6 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 if (result)
                     break;
             }
-
         }
 
         free(temp1);
