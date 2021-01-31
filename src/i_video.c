@@ -1863,8 +1863,7 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     AM_SetAutomapSize(r_screensize);
 
-    if (recreatewindow)
-        I_CreateExternalAutomap(0);
+    I_CreateExternalAutomap(0);
 
     M_SetWindowCaption();
 
