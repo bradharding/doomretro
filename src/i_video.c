@@ -1862,7 +1862,9 @@ void I_RestartGraphics(dboolean recreatewindow)
     SetVideoMode(recreatewindow, false);
 
     AM_SetAutomapSize(r_screensize);
-    I_CreateExternalAutomap(0);
+
+    if (recreatewindow)
+        I_CreateExternalAutomap(0);
 
     M_SetWindowCaption();
 
