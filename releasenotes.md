@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.0.1
 
+* A bug has been fixed whereby sprites would be incorrectly drawn in front of masked midtextures in some instances.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, January 31, 2021
