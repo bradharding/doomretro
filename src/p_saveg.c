@@ -543,12 +543,10 @@ static void saveg_read_player_t(void)
     viewplayer->bounce = saveg_read32();
     viewplayer->bouncemax = saveg_read32();
 
-    // [BH] For future features without breaking savegame compatibility
-    musinfo.current_item = saveg_read32();
-
-    if (!musinfo.current_item)
+    if (!(musinfo.current_item = saveg_read32()))
         musinfo.current_item = -1;
 
+    // [BH] For future features without breaking savegame compatibility
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -655,8 +653,9 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->bounce);
     saveg_write32(viewplayer->bouncemax);
 
-    // [BH] For future features without breaking savegame compatibility
     saveg_write32(musinfo.current_item);
+
+    // [BH] For future features without breaking savegame compatibility
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);

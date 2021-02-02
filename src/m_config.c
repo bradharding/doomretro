@@ -576,7 +576,7 @@ static void M_CheckCVARs(void)
     if (am_crosshaircolor < am_crosshaircolor_min || am_crosshaircolor > am_crosshaircolor_max)
         am_crosshaircolor = am_crosshaircolor_default;
 
-    //if (am_external != false && am_external != true)
+    if (am_external != false && am_external != true)
         am_external = am_external_default;
 
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)

@@ -1340,7 +1340,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     if (r_screensize == r_screensize_max || (menuactive && !consoleactive) || inhelpscreens)
         return;
 
-    st_statusbaron = (!fullscreen || automapactive);
+    st_statusbaron = !fullscreen;
     st_firsttime = (st_firsttime || refresh);
 
     // If just after ST_Start(), refresh all
@@ -1471,7 +1471,6 @@ static void ST_LoadCallback(char *lumpname, patch_t **variable)
 static void ST_InitData(void)
 {
     st_firsttime = true;
-    st_statusbaron = true;
     st_faceindex = 0;
     st_palette = -1;
     st_oldhealth = -1;
