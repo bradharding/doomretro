@@ -545,6 +545,10 @@ static void saveg_read_player_t(void)
 
     // [BH] For future features without breaking savegame compatibility
     musinfo.current_item = saveg_read32();
+
+    if (!musinfo.current_item)
+        musinfo.current_item = -1;
+
     saveg_read32();
     saveg_read32();
     saveg_read32();

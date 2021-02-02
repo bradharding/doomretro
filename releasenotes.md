@@ -3,6 +3,7 @@
 #### DOOM Retro v4.0.1
 
 * A bug has been fixed whereby sprites would be incorrectly drawn in front of masked midtextures in some instances.
+* Music will now play again when loading a savegame created using *DOOM Retro v3.6* or *v3.6.1*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
