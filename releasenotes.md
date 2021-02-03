@@ -4,6 +4,7 @@
 
 * A bug has been fixed whereby sprites would be incorrectly drawn in front of masked midtextures in some instances.
 * Music will now play again when loading a savegame created using *DOOM Retro v3.6* or *v3.6.1*.
+* If the player starts a new game from the menu while in E1M4B or E1M8B, the correct map will now be loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
