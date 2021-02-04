@@ -120,8 +120,6 @@ static byte *am_crosshaircolor2;
 #define AM_CLEARMARKKEY keyboardautomapclearmark
 #define AM_ROTATEKEY    keyboardautomaprotatemode
 
-#define MAPWIDTH        SCREENWIDTH
-
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF   125114
@@ -146,17 +144,13 @@ static byte *am_crosshaircolor2;
 
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)       MTOF((uint64_t)(x) - m_x)
-#define CYMTOF(y)       (mapheight - MTOF((uint64_t)(y) - m_y))
+#define CYMTOF(y)       (MAPHEIGHT - MTOF((uint64_t)(y) - m_y))
 
 typedef struct
 {
     mpoint_t    a;
     mpoint_t    b;
 } mline_t;
-
-static unsigned int mapheight;
-static unsigned int maparea;
-static unsigned int mapbottom;
 
 dboolean            automapactive;
 
@@ -224,7 +218,7 @@ static void AM_ActivateNewScale(void)
     m_x += m_w / 2;
     m_y += m_h / 2;
     m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(mapheight);
+    m_h = FTOM(MAPHEIGHT);
     m_x -= m_w / 2;
     m_y -= m_h / 2;
     putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
@@ -285,10 +279,10 @@ static void AM_FindMinMaxBoundaries(void)
     }
 
     a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
-    b = FixedDiv(mapheight << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
+    b = FixedDiv(MAPHEIGHT << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
 
     min_scale_mtof = MIN(a, b);
-    max_scale_mtof = FixedDiv(mapheight << FRACBITS, 2 * PLAYERRADIUS);
+    max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, 2 * PLAYERRADIUS);
 }
 
 static void AM_ChangeWindowLoc(void)
@@ -384,12 +378,17 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(int screensize)
 {
-    mapheight = SCREENHEIGHT - SBARHEIGHT * (screensize < r_screensize_max);
-    maparea = SCREENWIDTH * mapheight;
-    mapbottom = SCREENWIDTH * (mapheight - 1);
+    if (!mapwindow)
+    {
+        MAPWIDTH = SCREENWIDTH;
+        MAPHEIGHT = SCREENHEIGHT - SBARHEIGHT * (screensize < r_screensize_max);
+        MAPAREA = MAPWIDTH * MAPHEIGHT;
+    }
+
+    MAPBOTTOM = MAPWIDTH * (MAPHEIGHT - 1);
 
     m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(mapheight);
+    m_h = FTOM(MAPHEIGHT);
 }
 
 static void AM_InitVariables(const dboolean mainwindow)
@@ -402,7 +401,7 @@ static void AM_InitVariables(const dboolean mainwindow)
     mtof_zoommul = FRACUNIT;
 
     m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(mapheight);
+    m_h = FTOM(MAPHEIGHT);
 }
 
 static void AM_LevelInit(void)
@@ -1197,7 +1196,7 @@ void AM_Ticker(void)
 //
 void AM_ClearFB(void)
 {
-    memset(mapscreen, backcolor, maparea);
+    memset(mapscreen, backcolor, MAPAREA);
 }
 
 //
@@ -1242,12 +1241,12 @@ static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 
     if (*y0 < 0)
         outcode1 |= TOP;
-    else if (*y0 >= (int)mapheight)
+    else if (*y0 >= (int)MAPHEIGHT)
         outcode1 |= BOTTOM;
 
     if (*y1 < 0)
         outcode2 |= TOP;
-    else if (*y1 >= (int)mapheight)
+    else if (*y1 >= (int)MAPHEIGHT)
         outcode2 |= BOTTOM;
 
     return !(outcode1 & outcode2);
@@ -1260,7 +1259,7 @@ static inline void _PUTDOT(byte *dot, byte *color)
 
 static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < (unsigned int)MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1270,7 +1269,7 @@ static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 
 static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < (unsigned int)MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
         *(mapscreen + y + x) = *color;
 }
 
@@ -1279,8 +1278,8 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     if (x < (unsigned int)MAPWIDTH)
     {
         byte            *dot = mapscreen + y + x;
-        const dboolean  attop = (y < maparea);
-        const dboolean  atbottom = (y < mapbottom);
+        const dboolean  attop = (y < MAPAREA);
+        const dboolean  atbottom = (y < MAPBOTTOM);
 
         if (attop)
             *dot = *(*dot + color);
@@ -1304,10 +1303,10 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (y < maparea)
+        if (y < MAPAREA)
             *dot = *(*dot + color);
 
-        if (y < mapbottom)
+        if (y < MAPBOTTOM)
         {
             dot += MAPWIDTH;
             *dot = *(*dot + color);
@@ -1317,7 +1316,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 
 static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < (unsigned int)MAPWIDTH && y < maparea)
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1357,8 +1356,8 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
             // vertical line
             const int   sy = SIGN(dy) * MAPWIDTH;
 
-            y0 = BETWEEN(-MAPWIDTH, y0 * MAPWIDTH, mapbottom);
-            y1 = BETWEEN(-MAPWIDTH, y1 * MAPWIDTH, mapbottom);
+            y0 = BETWEEN(-MAPWIDTH, y0 * MAPWIDTH, MAPBOTTOM);
+            y1 = BETWEEN(-MAPWIDTH, y1 * MAPWIDTH, MAPBOTTOM);
 
             putdot(x0, y0, color);
 
@@ -1802,7 +1801,7 @@ static void AM_DrawThings(void)
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
-                    if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)mapheight + width)
+                    if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
                         AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle, point.x, point.y);
                 }
 
@@ -1876,7 +1875,7 @@ static void AM_DrawMarks(void)
                 {
                     const unsigned int  fy = y + j / MARKWIDTH;
 
-                    if (fy < mapheight)
+                    if (fy < MAPHEIGHT)
                     {
                         const char  src = marknums[digit][j];
 
@@ -1957,14 +1956,12 @@ static void AM_DrawPath(void)
 
 static void AM_DrawCrosshair(void)
 {
-    byte    *dot = &mapscreen[(mapheight - 3) * SCREENWIDTH / 2 - 1];
+    byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
 
     *dot = *(*dot + am_crosshaircolor2);
-    dot += SCREENWIDTH;
+    dot += MAPWIDTH;
     *dot = *(*dot + am_crosshaircolor2);
-    dot += (size_t)SCREENWIDTH - 2;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot++;
+    dot += (size_t)MAPWIDTH - 2;
     *dot = *(*dot + am_crosshaircolor2);
     dot++;
     *dot = *(*dot + am_crosshaircolor2);
@@ -1972,28 +1969,30 @@ static void AM_DrawCrosshair(void)
     *dot = *(*dot + am_crosshaircolor2);
     dot++;
     *dot = *(*dot + am_crosshaircolor2);
-    dot += (size_t)SCREENWIDTH - 2;
+    dot++;
     *dot = *(*dot + am_crosshaircolor2);
-    dot += SCREENWIDTH;
+    dot += (size_t)MAPWIDTH - 2;
+    *dot = *(*dot + am_crosshaircolor2);
+    dot += MAPWIDTH;
     *dot = *(*dot + am_crosshaircolor2);
 }
 
 static void AM_DrawSolidCrosshair(void)
 {
-    byte    *dot = &mapscreen[(mapheight - 3) * SCREENWIDTH / 2 - 1];
+    byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
 
     *dot = am_crosshaircolor;
-    dot += SCREENWIDTH;
+    dot += MAPWIDTH;
     *dot = am_crosshaircolor;
-    dot += (size_t)SCREENWIDTH - 2;
+    dot += (size_t)MAPWIDTH - 2;
     *dot++ = am_crosshaircolor;
     *dot++ = am_crosshaircolor;
     *dot++ = am_crosshaircolor;
     *dot++ = am_crosshaircolor;
     *dot = am_crosshaircolor;
-    dot += (size_t)SCREENWIDTH - 2;
+    dot += (size_t)MAPWIDTH - 2;
     *dot = am_crosshaircolor;
-    dot += SCREENWIDTH;
+    dot += MAPWIDTH;
     *dot = am_crosshaircolor;
 }
 

@@ -75,11 +75,16 @@
 void I_InitWindows32(void);
 #endif
 
-int SCREENWIDTH;
-int SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-int SCREENAREA;
-int WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
-int WIDEFOVDELTA;
+int             SCREENWIDTH;
+int             SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+int             SCREENAREA;
+int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
+int             WIDEFOVDELTA;
+
+int             MAPWIDTH;
+unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+unsigned int    MAPAREA;
+unsigned int    MAPBOTTOM;
 
 #define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with this error:\n" \
                                     "    \"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
@@ -321,9 +326,6 @@ static void FreeSurfaces(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     window = NULL;
-
-    if (mapwindow)
-        I_DestroyExternalAutomap();
 }
 
 void I_ShutdownGraphics(void)
@@ -1089,13 +1091,14 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    uint32_t    pixelformat;
-    uint32_t    rmask;
-    uint32_t    gmask;
-    uint32_t    bmask;
-    uint32_t    amask;
-    int         bpp;
-    int         am_displayindex = !displayindex;
+    uint32_t        pixelformat;
+    uint32_t        rmask;
+    uint32_t        gmask;
+    uint32_t        bmask;
+    uint32_t        amask;
+    int             bpp;
+    int             am_displayindex = !displayindex;
+    SDL_DisplayMode mode;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1121,13 +1124,22 @@ void I_CreateExternalAutomap(int outputlevel)
         (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))))
         I_SDLError(SDL_CreateWindow);
 
+    {
+
+        if (SDL_GetCurrentDisplayMode(am_displayindex, &mode))
+            I_SDLError(SDL_GetCurrentDisplayMode);
+
+        MAPWIDTH = MIN((mode.w * ACTUALHEIGHT / mode.h + 1) & ~3, MAXWIDTH);
+        MAPAREA = MAPWIDTH * MAPHEIGHT;
+    }
+
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
         I_SDLError(SDL_CreateRenderer);
 
-    if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 10 / 16) < 0)
+    if (SDL_RenderSetLogicalSize(maprenderer, MAPWIDTH, MAPHEIGHT) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
 
-    if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
+    if (!(mapsurface = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError(SDL_CreateRGBSurface);
 
     pixelformat = SDL_GetWindowPixelFormat(mapwindow);
@@ -1135,7 +1147,7 @@ void I_CreateExternalAutomap(int outputlevel)
     if (!(SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask)))
         I_SDLError(SDL_PixelFormatEnumToMasks);
 
-    if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
+    if (!(mapbuffer = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError(SDL_CreateRGBSurface);
 
     mappitch = mapbuffer->pitch;
@@ -1146,7 +1158,7 @@ void I_CreateExternalAutomap(int outputlevel)
     if (nearestlinear && !(SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE)))
         I_SDLError(SDL_SetHintWithPriority);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, MAPWIDTH, MAPHEIGHT)))
         I_SDLError(SDL_CreateTexture);
 
     if (nearestlinear)
@@ -1155,7 +1167,7 @@ void I_CreateExternalAutomap(int outputlevel)
             I_SDLError(SDL_SetHintWithPriority);
 
         if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
-            upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+            upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
             I_SDLError(SDL_CreateTexture);
 
         mapblitfunc = &I_Blit_Automap_NearestLinear;
@@ -1173,8 +1185,8 @@ void I_CreateExternalAutomap(int outputlevel)
         I_SDLError(SDL_SetPaletteColors);
 
     mapscreen = mapsurface->pixels;
-    map_rect.w = SCREENWIDTH;
-    map_rect.h = SCREENHEIGHT - SBARHEIGHT;
+    map_rect.w = MAPWIDTH;
+    map_rect.h = MAPHEIGHT;
 
     I_RestoreFocus();
 
@@ -1863,7 +1875,8 @@ void I_RestartGraphics(dboolean recreatewindow)
 
     AM_SetAutomapSize(r_screensize);
 
-    I_CreateExternalAutomap(0);
+    if (!mapwindow)
+        mapscreen = *screens;
 
     M_SetWindowCaption();
 

@@ -121,11 +121,16 @@ typedef enum
 
 #define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
 
-extern int SCREENWIDTH;
-extern int SCREENHEIGHT;
-extern int SCREENAREA;
-extern int WIDESCREENDELTA;                     // [crispy] horizontal widescreen offset
-extern int WIDEFOVDELTA;
+extern int          SCREENWIDTH;
+extern int          SCREENHEIGHT;
+extern int          SCREENAREA;
+extern int          WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
+extern int          WIDEFOVDELTA;
+
+extern int          MAPWIDTH;
+extern unsigned int MAPHEIGHT;
+extern unsigned int MAPAREA;
+extern unsigned int MAPBOTTOM;
 
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
