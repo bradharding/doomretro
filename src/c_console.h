@@ -158,7 +158,6 @@ typedef struct
 {
     char                char1;
     char                char2;
-    char                char3;
     int                 adjust;
 } kern_t;
 
