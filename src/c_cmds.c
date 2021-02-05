@@ -7277,6 +7277,8 @@ static void am_external_cvar_func2(char *cmd, char *parms)
             if (gamestate == GS_LEVEL)
                 AM_Stop();
         }
+
+        AM_SetAutomapSize(r_screensize);
     }
 }
 

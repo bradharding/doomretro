@@ -1,7 +1,8 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-
 #### DOOM Retro v4.0.2
+
+* A bug has been fixed whereby the automap wouldn’t be drawn correctly when changing the `am_external` CVAR in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
