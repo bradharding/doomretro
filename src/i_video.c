@@ -1124,14 +1124,12 @@ void I_CreateExternalAutomap(int outputlevel)
         (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))))
         I_SDLError(SDL_CreateWindow);
 
-    {
+    if (SDL_GetCurrentDisplayMode(am_displayindex, &mode))
+        I_SDLError(SDL_GetCurrentDisplayMode);
 
-        if (SDL_GetCurrentDisplayMode(am_displayindex, &mode))
-            I_SDLError(SDL_GetCurrentDisplayMode);
-
-        MAPWIDTH = MIN((mode.w * ACTUALHEIGHT / mode.h + 1) & ~3, MAXWIDTH);
-        MAPAREA = MAPWIDTH * MAPHEIGHT;
-    }
+    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+    MAPWIDTH = MIN((mode.w * MAPHEIGHT / mode.h + 1) & ~3, MAXWIDTH);
+    MAPAREA = MAPWIDTH * MAPHEIGHT;
 
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
         I_SDLError(SDL_CreateRenderer);

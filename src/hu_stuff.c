@@ -1164,19 +1164,6 @@ void HU_Drawer(void)
             else
                 HU_DrawHUD();
         }
-
-        if (mapwindow)
-        {
-            w_title.x = HU_TITLEX * SCREENSCALE;
-
-            if (r_althud && r_screensize == r_screensize_max)
-                HUlib_DrawAltAutomapTextLine(&w_title, true);
-            else
-            {
-                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 4;
-                HUlib_DrawTextLine(&w_title, true);
-            }
-        }
     }
 }
 
