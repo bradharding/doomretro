@@ -1,5 +1,12 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+
+#### DOOM Retro v4.0.2
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, February 5, 2021
+
 #### DOOM Retro v4.0.1
 
 * A bug has been fixed whereby sprites would be incorrectly drawn in front of masked midtextures in some instances.
