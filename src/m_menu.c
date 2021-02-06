@@ -448,43 +448,43 @@ menu_t SaveDef =
     load1
 };
 
-static void BlurScreen(byte *screen, byte *blurscreen)
+static void BlurScreen(byte *screen, byte *blurscreen, int width, int area)
 {
-    for (int i = 0; i < SCREENAREA; i++)
+    for (int i = 0; i < area; i++)
         blurscreen[i] = grays[screen[i]];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+    for (int y = 0; y <= area - width; y += width)
+        for (int x = y; x <= y + width - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 2; x > y; x--)
+    for (int y = 0; y <= area - width; y += width)
+        for (int x = y + width - 2; x > y; x--)
             blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
-    for (int y = SCREENWIDTH; y <= SCREENAREA - 2 * SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + (M_BigRandom() & 3 - 1) * SCREENWIDTH
+    for (int y = width; y <= area - 2 * width; y += width)
+        for (int x = y; x <= y + width - 2; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x + (M_BigRandom() & 3 - 1) * width
                 + (M_BigRandom() & 3 - 1)] << 8) + blurscreen[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
+    for (int y = area - width; y >= width; y -= width)
+        for (int x = y + width - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[(blurscreen[x - width - 1] << 8) + blurscreen[x]];
 
-    for (int y = 0; y <= SCREENAREA - 2 * SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
+    for (int y = 0; y <= area - 2 * width; y += width)
+        for (int x = y; x <= y + width - 1; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x + width] << 8) + blurscreen[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
+    for (int y = area - width; y >= width; y -= width)
+        for (int x = y; x <= y + width - 1; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x - width] << 8) + blurscreen[x]];
 
-    for (int y = 0; y <= SCREENAREA - 2 * SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
+    for (int y = 0; y <= area - 2 * width; y += width)
+        for (int x = y + width - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[(blurscreen[x + width - 1] << 8) + blurscreen[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
+    for (int y = area - width; y >= width; y -= width)
+        for (int x = y; x <= y + width - 2; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x - width + 1] << 8) + blurscreen[x]];
 }
 
 static int  blurtic = -1;
@@ -529,7 +529,7 @@ void M_DarkBackground(void)
                 }
         }
 
-        BlurScreen(screens[0], blurscreen1);
+        BlurScreen(screens[0], blurscreen1, SCREENWIDTH, SCREENAREA);
 
         for (int i = 0; i < SCREENAREA; i++)
         {
@@ -540,25 +540,25 @@ void M_DarkBackground(void)
 
         if (mapwindow && gamestate == GS_LEVEL)
         {
-            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i += SCREENWIDTH)
+            for (int i = 0; i < (int)MAPAREA; i += MAPWIDTH)
             {
                 mapscreen[i] = nearestblack;
                 mapscreen[i + 1] = nearestblack;
-                mapscreen[i + SCREENWIDTH - 2] = nearestblack;
-                mapscreen[i + SCREENWIDTH - 1] = nearestblack;
+                mapscreen[i + MAPWIDTH - 2] = nearestblack;
+                mapscreen[i + MAPWIDTH - 1] = nearestblack;
             }
 
-            for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
-                for (int x = 2; x < SCREENWIDTH; x += 4)
+            for (int y = 2 * MAPWIDTH; y < (int)MAPAREA; y += 4 * MAPWIDTH)
+                for (int x = 2; x < MAPWIDTH; x += 4)
                 {
                     byte    *dot = mapscreen + x + y;
 
                     *dot = white25[*dot];
                 }
 
-            BlurScreen(mapscreen, blurscreen2);
+            BlurScreen(mapscreen, blurscreen2, MAPWIDTH, MAPAREA);
 
-            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
+            for (int i = 0; i < (int)MAPAREA; i++)
             {
                 byte    *dot = blurscreen2 + i;
 
@@ -572,7 +572,7 @@ void M_DarkBackground(void)
     memcpy(screens[0], blurscreen1, SCREENAREA);
 
     if (mapwindow)
-        memcpy(mapscreen, blurscreen2, ((size_t)SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
+        memcpy(mapscreen, blurscreen2, (size_t)MAPAREA);
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
