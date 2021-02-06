@@ -99,6 +99,7 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
 void HUlib_DrawTextLine(hu_textline_t *l, dboolean external);
+void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external);
 void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external);
 
 // erases text line
@@ -118,7 +119,7 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external);
 // erases all stext lines
 void HUlib_EraseSText(hu_stext_t *s);
 
-extern void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int);
+extern void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int);
 
 extern dboolean s_STSTR_BEHOLD2;
 extern byte     tempscreen[MAXSCREENAREA];

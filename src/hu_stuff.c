@@ -117,7 +117,7 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
-void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int);
+void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
 static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
 
@@ -1130,14 +1130,10 @@ void HU_Drawer(void)
         else
         {
             if (vid_widescreen)
-                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA : 8);
+                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * SCREENSCALE : 8);
 
-            if (r_screensize < r_screensize_max)
-                w_title.y = VANILLAHEIGHT - VANILLASBARHEIGHT - hu_font[0]->height - 3;
-            else
-                w_title.y = SCREENHEIGHT - hu_font[0]->height - 5;
-
-            HUlib_DrawTextLine(&w_title, false);
+            w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 4;
+            HUlib_DrawAutomapTextLine(&w_title, false);
         }
     }
     else
@@ -1164,6 +1160,20 @@ void HU_Drawer(void)
             else
                 HU_DrawHUD();
         }
+
+        if (mapwindow)
+        {
+            w_title.x = HU_TITLEX;
+
+            if (r_althud && r_screensize == r_screensize_max)
+                HUlib_DrawAltAutomapTextLine(&w_title, true);
+            else
+            {
+                w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 4;
+                HUlib_DrawAutomapTextLine(&w_title, true);
+            }
+        }
+
     }
 }
 

@@ -750,9 +750,67 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color)
+void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
-    byte        *desttop = &screen[y * SCREENWIDTH + x];
+    byte        *desttop = &screen[y * screenwidth + x];
+    const int   w = SHORT(patch->width) << FRACBITS;
+
+    for (int col = 0; col < w; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
+            int     count = (column->length * DY) >> FRACBITS;
+            int     srccol = 0;
+
+            while (count--)
+            {
+                *dest = source[srccol >> FRACBITS];
+                dest += screenwidth;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
+{
+    byte        *desttop = &screen[y * screenwidth + x];
+    const int   w = SHORT(patch->width) << FRACBITS;
+
+    for (int col = 0; col < w; col += DXI, desttop++)
+    {
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
+            int     count = (column->length * DY) >> FRACBITS;
+            int     srccol = 0;
+
+            while (count--)
+            {
+                *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
+                dest += screenwidth;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth)
+{
+    byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
@@ -766,7 +824,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
         while ((topdelta = column->topdelta) != 0xFF)
         {
             byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte    *dest = &desttop[topdelta * screenwidth];
 
             for (int i = 0; i < length; i++)
             {
@@ -780,7 +838,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
                     *dot = color;
                 }
 
-                dest += SCREENWIDTH;
+                dest += screenwidth;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -788,9 +846,9 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth)
 {
-    byte        *desttop = &screen[y * SCREENWIDTH + x];
+    byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
     byte        *tinttab = (automapactive ? tinttab25 : tinttab60);
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -805,7 +863,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
         while ((topdelta = column->topdelta) != 0xFF)
         {
             byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte    *dest = &desttop[topdelta * screenwidth];
 
             for (int i = 0; i < length; i++)
             {
@@ -819,7 +877,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
                     *dot = tinttab[(*dot << 8) + color];
                 }
 
-                dest += SCREENWIDTH;
+                dest += screenwidth;
             }
 
             column = (column_t *)((byte *)column + length + 4);

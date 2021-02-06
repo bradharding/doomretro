@@ -2,7 +2,9 @@
 
 #### DOOM Retro v4.0.2
 
-* A bug has been fixed whereby the automap wouldn’t be drawn correctly when changing the `am_external` CVAR in the console.
+* A bug has been fixed whereby the automap wouldn’t be drawn correctly after changing the `am_external` CVAR in the console.
+* Map titles are now displayed again in the external automap.
+* The automap title and all player messages are now full scale when the `r_screensize` CVAR is `8`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
