@@ -373,7 +373,8 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                     for (int y2 = 0; y2 < SCREENSCALE; y2++)
                         for (int x2 = 0; x2 < SCREENSCALE; x2++)
                         {
-                            byte    *dest = &tempscreen[((l->y + y1 + 6) * SCREENSCALE + y2) * SCREENWIDTH + (l->x + x1 - 3) * SCREENSCALE + x2];
+                            byte    *dest = &tempscreen[((l->y + y1 + 6) * SCREENSCALE + y2) * SCREENWIDTH
+                                        + (l->x + x1 - 3) * SCREENSCALE + x2];
 
                             *dest = (src == PINK ? 0 : src);
                         }
@@ -396,7 +397,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             else if (*source != PINK)
             {
                 if (r_hud_translucency)
-                    *dest1 = tinttab75[(*source << 8) + fb2[dot]];
+                    *dest1 = tinttab66[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
             }

@@ -1109,7 +1109,7 @@ void HU_Drawer(void)
         }
         else if (r_screensize == r_screensize_max && !r_althud)
         {
-            w_message.l->x = HU_MSGX * SCREENSCALE + 9;
+            w_message.l->x = HU_MSGX * SCREENSCALE + 8;
             w_message.l->y = HU_MSGY * SCREENSCALE + 4;
         }
         else

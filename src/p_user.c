@@ -319,7 +319,7 @@ static void P_DeathThink(void)
 
             if (deadlookdir == -1)
             {
-                float   viewheightrange = (float)(viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
+                double  viewheightrange = (double)(viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
 
                 inc = MAX(1, ABS(DEADLOOKDIR - viewplayer->lookdir));
 
