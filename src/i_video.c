@@ -2051,7 +2051,5 @@ void I_InitGraphics(void)
     for (int i = SDL_SCANCODE_MINUS; i <= SDL_SCANCODE_SLASH; i++)
         translatekey[i] = SDL_GetKeyFromScancode(i);
 
-    I_Sleep(500);
-
     while (SDL_PollEvent(&dummy));
 }
