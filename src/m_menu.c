@@ -448,43 +448,42 @@ menu_t SaveDef =
     load1
 };
 
-static void BlurScreen(byte *screen, byte *blurscreen, int width, int area)
+static void BlurScreen(byte *src, byte *dest, int width, int area)
 {
     for (int i = 0; i < area; i++)
-        blurscreen[i] = grays[screen[i]];
+        dest[i] = grays[src[i]];
 
     for (int y = 0; y <= area - width; y += width)
         for (int x = y; x <= y + width - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x + 1] << 8) + dest[x]];
 
     for (int y = 0; y <= area - width; y += width)
         for (int x = y + width - 2; x > y; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = width; y <= area - 2 * width; y += width)
+    for (int y = width; y <= area - width * 2; y += width)
         for (int x = y; x <= y + width - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + (M_BigRandom() & 3 - 1) * width
-                + (M_BigRandom() & 3 - 1)] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x + width * ((M_BigRandom() & 3) - 1) + (M_BigRandom() & 3) - 1] << 8) + dest[x]];
 
     for (int y = area - width; y >= width; y -= width)
         for (int x = y + width - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x - width - 1] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x - width - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= area - 2 * width; y += width)
+    for (int y = 0; y <= area - width * 2; y += width)
         for (int x = y; x <= y + width - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + width] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x + width] << 8) + dest[x]];
 
     for (int y = area - width; y >= width; y -= width)
         for (int x = y; x <= y + width - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - width] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x - width] << 8) + dest[x]];
 
-    for (int y = 0; y <= area - 2 * width; y += width)
+    for (int y = 0; y <= area - width * 2; y += width)
         for (int x = y + width - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x + width - 1] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x + width - 1] << 8) + dest[x]];
 
     for (int y = area - width; y >= width; y -= width)
         for (int x = y; x <= y + width - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - width + 1] << 8) + blurscreen[x]];
+            dest[x] = tinttab50[(dest[x - width + 1] << 8) + dest[x]];
 }
 
 static int  blurtic = -1;
