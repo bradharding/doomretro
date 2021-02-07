@@ -2026,7 +2026,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mapscreen = oscreen = malloc(SCREENAREA);
+    mapscreen = oscreen = malloc(MAXSCREENAREA);
     I_CreateExternalAutomap(2);
 
 #if defined(_WIN32)
@@ -2038,6 +2038,12 @@ void I_InitGraphics(void)
     I_UpdateBlitFunc(false);
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
+
+    if (mapwindow)
+    {
+        memset(mapscreen, nearestblack, MAPAREA);
+        mapblitfunc();
+    }
 
     for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_RETURN; i++)
         translatekey[i] = SDL_GetKeyFromScancode(i);

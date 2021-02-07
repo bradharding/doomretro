@@ -504,7 +504,7 @@ void M_DarkBackground(void)
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
                 for (int x = 0; x < SCREENWIDTH; x++)
                 {
-                    byte *dot = *screens + x + y;
+                    byte    *dot = *screens + x + y;
 
                     *dot = white25[*dot];
                 }
@@ -522,7 +522,7 @@ void M_DarkBackground(void)
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
                 for (int x = 2; x < SCREENWIDTH - 2; x++)
                 {
-                    byte *dot = *screens + x + y;
+                    byte    *dot = *screens + x + y;
 
                     *dot = white25[*dot];
                 }

@@ -869,7 +869,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
             {
                 if (*source++)
                 {
-                    byte *dot = dest;
+                    byte    *dot = dest;
 
                     if (italics)
                         dot += italicize[i];
