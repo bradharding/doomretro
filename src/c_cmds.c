@@ -7287,7 +7287,7 @@ static void am_external_cvar_func2(char *cmd, char *parms)
 //
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms)
 {
-    return (!mapwindow && gamestate == GS_LEVEL);
+    return (!*parms || (!mapwindow && gamestate == GS_LEVEL));
 }
 
 //
