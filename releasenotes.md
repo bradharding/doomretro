@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.0.2
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the external automap:
   * A bug has been fixed whereby the automap wouldn’t be drawn correctly after changing the `am_external` CVAR in the console.
   * Map titles are now displayed again in the external automap.

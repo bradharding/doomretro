@@ -1025,7 +1025,6 @@ static void M_LoadSelect(int choice)
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
-        I_Sleep(1000);
         functionkey = 0;
         quickSaveSlot = choice;
         M_ClearMenus();
@@ -1742,7 +1741,6 @@ static void M_ChooseSkill(int choice)
 
     HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
-    I_Sleep(1000);
     quickSaveSlot = -1;
     M_ClearMenus();
     viewplayer->cheats = 0;
@@ -1966,7 +1964,6 @@ static void M_EndGameResponse(int key)
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
-    I_Sleep(1000);
     MainDef.lastOn = 0;
     st_palette = 0;
     M_EndingGame();
