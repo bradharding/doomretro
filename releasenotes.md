@@ -7,7 +7,7 @@
   * A bug has been fixed whereby the automap wouldn’t be drawn correctly after changing the `am_external` CVAR in the console.
   * Map titles are now displayed again in the external automap.
   * The external automap now displays correctly when the menu is open.
-* The automap title and all player messages are now full scale when the `r_screensize` CVAR is `8`.
+* The automap title and all player messages are now full scale when the `r_screensize` CVAR is `8` and the `r_althud` CVAR is `off`.
 * The automap will now be displayed correctly if it is open while adjusting the screen size in the options menu.
 * Player messages are now slightly more translucent when the `r_hud_translucency` CVAR is `on`.
 
