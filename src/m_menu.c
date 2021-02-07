@@ -2220,7 +2220,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize(r_screensize);
+                AM_SetAutomapSize(automapactive ? 8 : r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
                     r_hud = false;
@@ -2250,7 +2250,7 @@ static void M_SizeDisplay(int choice)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize(r_screensize);
+                AM_SetAutomapSize(automapactive ? 8 : r_screensize);
 
                 if (r_screensize == r_screensize_max)
                     r_hud = true;
