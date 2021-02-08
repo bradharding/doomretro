@@ -1144,7 +1144,7 @@ static dboolean cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;
     else if (M_StringCompare(cmd, cheat_amap.sequence))
-        return (automapactive || mapwindow);
+        return (gameskill != sk_nightmare && (automapactive || mapwindow));
 
     return false;
 }
