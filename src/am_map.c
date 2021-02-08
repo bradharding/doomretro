@@ -502,6 +502,8 @@ void AM_ToggleMaxZoom(void)
         AM_SaveScaleAndLoc();
         AM_MinOutWindowScale();
     }
+
+    D_FadeScreen();
 }
 
 void AM_ToggleFollowMode(void)

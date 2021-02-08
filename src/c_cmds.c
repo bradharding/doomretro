@@ -7040,6 +7040,7 @@ static dboolean color_cvars_func1(char *cmd, char *parms)
     for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))
             return true;
+
     temp = M_SubString(parms, 1, 6);
     result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
     free(temp);
