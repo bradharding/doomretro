@@ -8287,6 +8287,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             r_textures = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
+            D_FadeScreen();
 
             for (int i = 0; i < numsectors; i++)
             {
