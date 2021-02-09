@@ -1863,7 +1863,8 @@ static void D_DoomMainSetup(void)
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
-        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. The player will start each map with only a pistol.");
+        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. The player will start each map with 100% health,"
+            " no armor, and only a pistol and 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
         C_Output("A <b>-fast</b> parameter was found on the command-line. Monsters will be faster.");

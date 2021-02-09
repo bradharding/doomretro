@@ -726,6 +726,7 @@ dboolean P_GivePower(int power)
     {
         case pw_invulnerability:
             viewplayer->fixedcolormap = INVERSECOLORMAP;
+            D_FadeScreen();
             break;
 
         case pw_strength:
@@ -734,6 +735,12 @@ dboolean P_GivePower(int power)
 
         case pw_invisibility:
             viewplayer->mo->flags |= MF_FUZZ;
+            break;
+
+        case pw_allmap:
+            if (automapactive)
+                D_FadeScreen();
+
             break;
 
         case pw_infrared:
@@ -983,7 +990,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // invulnerability power-up
         case SPR_PINV:
             P_GivePower(pw_invulnerability);
-            D_FadeScreen();
 
             if (message)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
