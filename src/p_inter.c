@@ -983,6 +983,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // invulnerability power-up
         case SPR_PINV:
             P_GivePower(pw_invulnerability);
+            D_FadeScreen();
 
             if (message)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
