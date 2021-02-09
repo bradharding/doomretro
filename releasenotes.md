@@ -12,7 +12,10 @@
 * The automap title and all player messages are now full scale when the `r_screensize` CVAR is `8` and the `r_althud` CVAR is `off`.
 * The automap will now be displayed correctly if it is open while adjusting the screen size in the options menu.
 * Player messages are now slightly more translucent when the `r_hud_translucency` CVAR is `on`.
-* A fade transition will now be applied when pressing the <kbd>0</kbd> key in the automap to toggle maximum zoom when the `fade` CVAR is `on`.
+* A fade transition will now be applied in the following instances when the `fade` CVAR is `on`:
+  * When pressing the <kbd>0</kbd> key in the automap to toggle maximum zoom.
+  * When using the `r_textures` CVAR in the console to toggle textures.
+  * When the player picks up an invulnerability power-up.
 * The `IDDT` cheat can no longer be entered when playing using the *Nightmare!* skill level.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
