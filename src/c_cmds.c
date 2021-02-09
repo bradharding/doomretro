@@ -951,7 +951,7 @@ static void mark_action_func(void)
 
 static void maxzoom_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (automapactive)
         AM_ToggleMaxZoom();
 }
 

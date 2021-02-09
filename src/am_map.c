@@ -436,7 +436,7 @@ int lastepisode = -1;
 
 void AM_Start(const dboolean mainwindow)
 {
-    if (lastlevel != gamemap || lastepisode != gameepisode)
+    if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
     {
         AM_LevelInit();
         lastlevel = gamemap;
@@ -753,14 +753,14 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == AM_ZOOMOUTKEY && !movement)
+                else if (key == AM_ZOOMOUTKEY && !movement && !mapwindow)
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if (key == AM_ZOOMINKEY && !movement)
+                else if (key == AM_ZOOMINKEY && !movement && !mapwindow)
                 {
                     keydown = key;
                     AM_ToggleZoomIn();
@@ -776,7 +776,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // toggle maximum zoom
-                else if (key == AM_GOBIGKEY && !idclev && !idmus)
+                else if (key == AM_GOBIGKEY && !idclev && !idmus && !mapwindow)
                 {
                     if (keydown != AM_GOBIGKEY)
                     {
