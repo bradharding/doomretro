@@ -588,6 +588,8 @@ void AM_ClearMarks(void)
             C_Output(s_AMSTR_MARKSCLEARED);
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             markpointnum = 0;
+            markpointnum_max = 0;
+            markpoints = I_Realloc(markpoints, 0);
         }
         else if (markpress == 1)
         {
