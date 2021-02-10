@@ -7325,7 +7325,9 @@ static void am_path_cvar_func2(char *cmd, char *parms)
     const dboolean  am_path_old = am_path;
 
     bool_cvars_func2(cmd, parms);
-    pathpoints = I_Realloc(pathpoints, 0);
+
+    if (!am_path && am_path_old)
+        pathpoints = I_Realloc(pathpoints, 0);
 }
 
 //

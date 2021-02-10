@@ -964,7 +964,7 @@ static void I_Blit_Automap_NearestLinear(void)
 
 void I_UpdateBlitFunc(dboolean shake)
 {
-    dboolean    override = (vid_fullscreen && !(displayheight % VANILLAHEIGHT));
+    dboolean    override = !(displayheight % VANILLAHEIGHT);
 
     if (shake && !software)
         blitfunc = (nearestlinear && !override ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
