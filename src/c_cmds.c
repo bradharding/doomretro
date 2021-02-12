@@ -7323,7 +7323,9 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
 static void am_path_cvar_func2(char *cmd, char *parms)
 {
     bool_cvars_func2(cmd, parms);
-    D_FadeScreen();
+
+    if (automapactive)
+        D_FadeScreen();
 }
 
 //

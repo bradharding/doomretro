@@ -2,6 +2,9 @@
 
 #### DOOM Retro v4.0.3
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A fade transition will now be applied when using the `am_path` CVAR in the console to toggle the player’s path in the automap and the `fade` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 12, 2021

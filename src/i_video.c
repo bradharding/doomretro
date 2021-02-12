@@ -964,16 +964,16 @@ static void I_Blit_Automap_NearestLinear(void)
 
 void I_UpdateBlitFunc(dboolean shake)
 {
-    dboolean    override = !(displayheight % VANILLAHEIGHT);
+    dboolean    nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
 
     if (shake && !software)
-        blitfunc = (nearestlinear && !override ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
+        blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
             (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake));
     else
-        blitfunc = (nearestlinear && !override ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
+        blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
             (vid_showfps ? &I_Blit_ShowFPS : &I_Blit));
 
-    mapblitfunc = (mapwindow ? (nearestlinear && !override ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
+    mapblitfunc = (mapwindow ? (nearest ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
 }
 
 //
