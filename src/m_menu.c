@@ -2213,11 +2213,11 @@ static void M_SizeDisplay(int choice)
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize > 0)
+            else if (r_screensize > r_screensize_min)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
-                R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize(automapactive ? 8 : r_screensize);
+                R_SetViewSize(menuactive ? r_screensize_max : r_screensize);
+                AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
                     r_hud = false;
@@ -2246,8 +2246,8 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize < r_screensize_max)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
-                R_SetViewSize(menuactive ? 8 : r_screensize);
-                AM_SetAutomapSize(automapactive ? 8 : r_screensize);
+                R_SetViewSize(menuactive ? r_screensize_max : r_screensize);
+                AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max)
                     r_hud = true;
