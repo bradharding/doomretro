@@ -398,7 +398,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             else if (*source != PINK)
             {
                 if (r_hud_translucency)
-                    *dest1 = tinttab66[(*source << 8) + fb2[dot]];
+                    *dest1 = tinttab75[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
             }
