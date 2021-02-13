@@ -105,10 +105,21 @@ void I_InitGamepad(void)
             else
                 C_OutputNoRepeat("A gamepad is connected.");
 
-            if (!(haptic = SDL_HapticOpen(deviceindex)) || SDL_HapticRumbleInit(haptic) < 0)
+            if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
+            {
+                if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+                {
+                    SDL_HapticRumblePlay(haptic, 0.5f, 200);
+                    SDL_Delay(300);
+                    SDL_HapticRumblePlay(haptic, 0.5f, 200);
+                }
+            }
+            else
             {
                 haptic = NULL;
-                C_Warning(1, "This gamepad doesn't support vibration.");
+
+                if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+                    C_Warning(1, "This gamepad doesn't support vibration.");
             }
 
             SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);

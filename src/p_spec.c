@@ -757,7 +757,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 // Passed a sector number, returns the shortest lower texture on a
 // linedef bounding the sector.
 //
-// Note: If no lower texture exists 32000*FRACUNIT is returned.
+// Note: If no lower texture exists 32000 * FRACUNIT is returned.
 //       but if compatibility then MAXINT is returned
 //
 // jff 02/03/98 Add routine to find shortest lower texture
@@ -789,7 +789,7 @@ fixed_t P_FindShortestTextureAround(int secnum)
 // Passed a sector number, returns the shortest upper texture on a
 // linedef bounding the sector.
 //
-// Note: If no upper texture exists 32000*FRACUNIT is returned.
+// Note: If no upper texture exists 32000 * FRACUNIT is returned.
 //       but if compatibility then MAXINT is returned
 //
 // jff 03/20/98 Add routine to find shortest upper texture
