@@ -2236,7 +2236,7 @@ static void M_SizeDisplay(int choice)
                 C_StrCVAROutput(stringize(r_hud), "off");
                 S_StartSound(NULL, sfx_stnmov);
             }
-            else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !disablewidescreen)
+            else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
                 C_StrCVAROutput(stringize(vid_widescreen), "on");
@@ -2928,7 +2928,7 @@ dboolean M_Responder(event_t *ev)
 
             if (viewactive)
                 M_SizeDisplay(1);
-            else if (!vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH && !disablewidescreen)
+            else if (!vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH && !nowidescreen)
             {
                 vid_widescreen = true;
                 r_screensize = r_screensize_max - 1;

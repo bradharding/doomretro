@@ -121,6 +121,7 @@ typedef enum
 #define MAXHEIGHT           (VANILLAHEIGHT * 2) // [crispy]
 
 #define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
+#define NONWIDEASPECTRATIO  (4.0f / 3.0f)
 
 extern int          SCREENWIDTH;
 extern int          SCREENHEIGHT;
@@ -128,7 +129,7 @@ extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
 extern int          WIDEFOVDELTA;
 
-extern dboolean     disablewidescreen;
+extern dboolean     nowidescreen;
 
 extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;

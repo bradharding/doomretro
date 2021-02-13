@@ -49,6 +49,7 @@
 #include "SDL_opengl.h"
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -81,7 +82,7 @@ int             SCREENAREA;
 int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
 int             WIDEFOVDELTA;
 
-dboolean        disablewidescreen = false;
+dboolean        nowidescreen = false;
 
 int             MAPWIDTH;
 unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
@@ -1089,18 +1090,23 @@ static void GetDisplays(void)
     for (int i = 0; i < numdisplays; i++)
         if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
             I_SDLError(SDL_GetDisplayBounds);
+
+    if ((float)displays[displayindex].w / displays[displayindex].h <= NONWIDEASPECTRATIO)
+    {
+        nowidescreen = true;
+        vid_widescreen = false;
+    }
 }
 
 void I_CreateExternalAutomap(int outputlevel)
 {
-    uint32_t        pixelformat;
-    uint32_t        rmask;
-    uint32_t        gmask;
-    uint32_t        bmask;
-    uint32_t        amask;
-    int             bpp;
-    int             am_displayindex = !displayindex;
-    SDL_DisplayMode mode;
+    uint32_t    pixelformat;
+    uint32_t    rmask;
+    uint32_t    gmask;
+    uint32_t    bmask;
+    uint32_t    amask;
+    int         bpp;
+    int         am_displayindex = !displayindex;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1126,11 +1132,8 @@ void I_CreateExternalAutomap(int outputlevel)
         (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))))
         I_SDLError(SDL_CreateWindow);
 
-    if (SDL_GetCurrentDisplayMode(am_displayindex, &mode))
-        I_SDLError(SDL_GetCurrentDisplayMode);
-
     MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-    MAPWIDTH = MIN((mode.w * MAPHEIGHT / mode.h + 1) & ~3, MAXWIDTH);
+    MAPWIDTH = MIN((displays[am_displayindex].w * MAPHEIGHT / displays[am_displayindex].h + 1) & ~3, MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
@@ -1407,6 +1410,12 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
     }
 
+    if (nowidescreen)
+    {
+        consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
+        C_Warning(0, "The aspect ratio of this display is too low to support widescreen modes.");
+    }
+
     if (vid_vsync)
         rendererflags |= SDL_RENDERER_PRESENTVSYNC;
 
@@ -1554,9 +1563,6 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             M_SaveCVARs();
         }
     }
-
-    if ((float)displaywidth / displayheight <= 4.0f / 3.0f)
-        disablewidescreen = true;
 
     if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !(vid_widescreen && vid_fullscreen), ACTUALHEIGHT) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
@@ -1835,14 +1841,13 @@ static void I_GetScreenDimensions(void)
 {
     if (vid_widescreen)
     {
-        SDL_DisplayMode mode;
-        int             w = 16;
-        int             h = 10;
+        int w = 16;
+        int h = 10;
 
-        if (!SDL_GetCurrentDisplayMode(displayindex, &mode) && mode.w * ACTUALHEIGHT >= mode.h * SCREENWIDTH)
+        if (displays[displayindex].w * ACTUALHEIGHT >= displays[displayindex].h * SCREENWIDTH)
         {
-            w = mode.w;
-            h = mode.h;
+            w = displays[displayindex].w;
+            h = displays[displayindex].h;
         }
 
         SCREENWIDTH = MIN((w * ACTUALHEIGHT / h + 1) & ~3, MAXWIDTH);

@@ -1041,7 +1041,7 @@ static void weapon7_action_func(void)
     P_ChangeWeapon(wp_bfg);
 }
 
-static int C_GetIndex(const char *cmd)
+int C_GetIndex(const char *cmd)
 {
     int i = 0;
 
@@ -6981,10 +6981,9 @@ static dboolean bool_cvars_func1(char *cmd, char *parms)
 static void bool_cvars_func2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_BOOLEAN) && !(consolecmds[i].flags & CF_READONLY))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_BOOLEAN))
         {
-            if (*parms)
+            if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
                 const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
@@ -7000,7 +6999,9 @@ static void bool_cvars_func2(char *cmd, char *parms)
 
                 C_ShowDescription(i);
 
-                if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
+                if (consolecmds[i].flags & CF_READONLY)
+                    C_Output(INTEGERCVARISREADONLY, temp1);
+                else if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output(INTEGERCVARISDEFAULT, temp1);
                 else
                 {
@@ -8866,7 +8867,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (vid_widescreen != vid_widescreen_old && !disablewidescreen)
+    if (vid_widescreen != vid_widescreen_old)
     {
         r_screensize = r_screensize_max - 1;
         r_hud = false;
