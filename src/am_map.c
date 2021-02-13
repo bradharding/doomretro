@@ -49,6 +49,7 @@
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "st_stuff.h"

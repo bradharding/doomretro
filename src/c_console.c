@@ -2212,8 +2212,11 @@ dboolean C_Responder(event_t *ev)
                 outputhistory = -1;
         }
     }
-    else if (ev->type == ev_gamepad && (gamepadbuttons && gamepadconsole))
+    else if (ev->type == ev_gamepad && (gamepadbuttons && gamepadconsole) && gamepadwait < I_GetTime())
+    {
+        gamepadwait = I_GetTime() + 8;
         C_HideConsole();
+    }
 
     return true;
 }

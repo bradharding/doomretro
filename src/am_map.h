@@ -88,8 +88,6 @@ typedef struct
 
 extern dboolean     message_dontfuckwithme;
 
-extern int          gamepadwait;
-
 extern mpoint_t     *markpoints;
 extern int          markpointnum;
 extern int          markpointnum_max;
