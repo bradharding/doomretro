@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 
+#include "doomtype.h"
 #include "m_controls.h"
 
 #if defined(_WIN32)
@@ -126,6 +127,8 @@ extern int          SCREENHEIGHT;
 extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
 extern int          WIDEFOVDELTA;
+
+extern dboolean     disablewidescreen;
 
 extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;

@@ -81,6 +81,8 @@ int             SCREENAREA;
 int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
 int             WIDEFOVDELTA;
 
+dboolean        disablewidescreen = false;
+
 int             MAPWIDTH;
 unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 unsigned int    MAPAREA;
@@ -1552,6 +1554,9 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             M_SaveCVARs();
         }
     }
+
+    if ((float)displaywidth / displayheight <= 4.0f / 3.0f)
+        disablewidescreen = true;
 
     if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !(vid_widescreen && vid_fullscreen), ACTUALHEIGHT) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);

@@ -936,6 +936,12 @@ static void M_CheckCVARs(void)
     if (vid_widescreen != false && vid_widescreen != true)
         vid_widescreen = vid_widescreen_default;
 
+    if (disablewidescreen)
+    {
+        r_screensize = r_screensize_max - 1;
+        vid_widescreen = false;
+    }
+
     warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);

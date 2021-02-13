@@ -8866,7 +8866,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (vid_widescreen != vid_widescreen_old)
+    if (vid_widescreen != vid_widescreen_old && !disablewidescreen)
     {
         r_screensize = r_screensize_max - 1;
         r_hud = false;
