@@ -1406,6 +1406,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
     fuzzpos = 0;
 
