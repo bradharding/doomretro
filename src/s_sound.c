@@ -482,7 +482,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
         return;
 
     // kill old sound
-    if (origin || (gamestate == GS_FINALE && sfx_id == sfx_dshtgn))
+    if (origin)
         for (cnum = 0; cnum < s_channels; cnum++)
             if (channels[cnum].sfxinfo
                 && channels[cnum].sfxinfo->singularity == sfx->singularity

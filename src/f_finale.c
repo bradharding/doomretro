@@ -660,7 +660,7 @@ static void F_CastTicker(void)
         }
 
         if (caststate == &states[S_PLAY_ATK1])
-            S_StartSound(NULL, sfx_dshtgn);
+            S_StartSound(viewplayer->mo, sfx_dshtgn);
     }
 
     if (castattacking)
@@ -739,7 +739,7 @@ static dboolean F_CastResponder(event_t *ev)
         }
     }
 
-    S_StartSound(NULL, sfx_dshtgn);
+    S_StartSound(viewplayer->mo, sfx_dshtgn);
 
     type = castorder[castnum].type;
 
