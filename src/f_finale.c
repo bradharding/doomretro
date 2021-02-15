@@ -363,7 +363,7 @@ static void F_TextWrite(void)
     // erase the entire screen to a tiled background
     int         lumpnum = W_GetNumForName(finaleflat);
 
-    if (W_LumpLength(lumpnum) == 4096)  // 64x64 flat
+    if (W_LumpLength(lumpnum) == 64 * 64)
     {
         byte    *src = (byte *)W_CacheLumpNum(lumpnum);
         byte    *dest = screens[0];
@@ -450,7 +450,7 @@ static void F_TextWrite(void)
 // Casting by id Software.
 //   in order of appearance
 //
-#define CASTNUMMAX  17
+#define CASTNUMMAX  18
 
 typedef struct
 {
@@ -459,7 +459,7 @@ typedef struct
     mobjtype_t  type;
 } castinfo_t;
 
-static castinfo_t castorder[] =
+static castinfo_t castorder[CASTNUMMAX] =
 {
     { CC_ZOMBIE,  &s_CC_ZOMBIE,  MT_POSSESSED },
     { CC_SHOTGUN, &s_CC_SHOTGUN, MT_SHOTGUY   },

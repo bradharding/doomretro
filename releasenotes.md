@@ -8,6 +8,7 @@
 * Gamepads will now briefly vibrate during startup to indicate they are connected and support vibration, if any of the `gp_vibrate_barrels`, `gp_vibrate_damage` or `gp_vibrate_weapons` CVARs are greater than `0`.
 * Player messages and the widescreen HUD are now slightly less translucent when the `r_hud_translucency` CVAR is `on`.
 * Minor changes have been made to some player messages.
+* The player now appears again in *DOOM II’s* cast sequence.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
