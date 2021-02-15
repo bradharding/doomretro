@@ -407,7 +407,7 @@ void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 {
-    int             w = 0;
+    int             w = (external ? MAPWIDTH : SCREENWIDTH);
     int             x, y;
     unsigned char   prev = '\0';
     byte            *fb1 = (external ? mapscreen : screens[0]);
@@ -467,11 +467,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 
             // [BH] draw individual character
             if (r_hud_translucency)
-                V_DrawTranslucentHUDText(x, y - 1, (mapwindow ? mapscreen : screens[0]),
-                    l->f[c - l->sc], (mapwindow ? MAPWIDTH : SCREENWIDTH));
+                V_DrawTranslucentHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
             else
-                V_DrawHUDText(x, y - 1, (mapwindow ? mapscreen : screens[0]),
-                    l->f[c - l->sc], (mapwindow ? MAPWIDTH : SCREENWIDTH));
+                V_DrawHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
 
             x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
         }

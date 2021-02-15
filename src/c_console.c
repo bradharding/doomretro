@@ -1053,7 +1053,7 @@ int C_OverlayWidth(const char *text)
     return w;
 }
 
-static void C_DrawOverlayText(int x, int y, const char *text, const int color, dboolean monospaced)
+static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 {
     const int   len = (int)strlen(text);
     byte        *tinttab = (r_hud_translucency ? (consoleactive ? tinttab75 : tinttab50) : NULL);
@@ -1139,7 +1139,7 @@ void C_UpdateFPS(void)
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consolehighfpscolor)), false);
+            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consolehighfpscolor)));
         free(temp);
     }
 }
@@ -1162,7 +1162,7 @@ void C_UpdateTimer(void)
         }
 
         C_DrawOverlayText(timerx, (vid_showfps ? CONSOLETEXTY + CONSOLELINEHEIGHT : CONSOLETEXTY), buffer,
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoletimercolor), true);
+            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoletimercolor));
     }
 }
 
