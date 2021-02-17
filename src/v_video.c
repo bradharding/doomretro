@@ -74,7 +74,7 @@ char        screenshotfolder[MAX_PATH];
 char        *r_lowpixelsize = r_lowpixelsize_default;
 dboolean    r_supersampling = r_supersampling_default;
 
-void (*postprocessfunc)(int, int, int, int, int, int);
+void (*postprocessfunc)(int left, int top, int width, int height, int pixelwidth, int pixelheight);
 
 //
 // V_FillRect

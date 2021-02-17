@@ -210,7 +210,7 @@ am_frame_t          am_frame;
 static dboolean     isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
-static void (*putbigdot)(unsigned int, unsigned int, byte *);
+static void (*putbigdot)(unsigned int x, unsigned int y, byte *color);
 static void PUTDOT(unsigned int x, unsigned int y, byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, byte *color);
 
@@ -1420,7 +1420,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
     }
 }
 
-static mline_t (*rotatelinefunc)(mline_t);
+static mline_t (*rotatelinefunc)(mline_t mline);
 
 static mline_t AM_RotateLine(mline_t mline)
 {

@@ -44,7 +44,7 @@
 
 dboolean    usesmallnums;
 
-static void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
+static void (*statbarnumfunc)(int number, int color, int shadow, int x, int y, patch_t *patch);
 
 void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width)
 {

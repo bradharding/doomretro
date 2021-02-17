@@ -113,13 +113,13 @@ static int              coloroffset;
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static void (*hudfunc)(int, int, patch_t *, byte *);
-static void (*hudnumfunc)(int, int, patch_t *, byte *);
+static void (*hudfunc)(int x, int y, patch_t *patch, byte *translucency);
+static void (*hudnumfunc)(int x, int y, patch_t *patch, byte *translucency);
 
-static void (*althudfunc)(int, int, patch_t *, int, int);
-void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int);
-static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
-static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
+static void (*althudfunc)(int x, int y, patch_t *patch, int from, int to);
+void (*althudtextfunc)(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth);
+static void (*fillrectfunc)(int scrn, int x, int y, int width, int height, int color, dboolean right);
+static void (*fillrectfunc2)(int scrn, int x, int y, int width, int height, int color, dboolean right);
 
 static struct
 {
