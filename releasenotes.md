@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v4.0.4
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, February 19, 2021
+
 #### DOOM Retro v4.0.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
