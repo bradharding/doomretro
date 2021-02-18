@@ -647,7 +647,7 @@ void P_MobjThinker(mobj_t *mobj)
     sector_t    *sector;
 
     // [AM] Handle interpolation unless we're an active player.
-    if (mobj->interpolate == -1)
+    if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
         mobj->interpolate = 0;
     else if (!(player && mobj == player->mo))
     {

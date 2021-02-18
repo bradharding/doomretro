@@ -580,7 +580,7 @@ void R_InitColumnFunctions(void)
         tlcolfunc = &R_DrawColorColumn;
         tl50colfunc = &R_DrawColorColumn;
         tl50segcolfunc = (r_translucency ? (r_dither ? &R_DrawDitheredColorColumn : &R_DrawTranslucentColor50Column) :
-            R_DrawColorColumn);
+            &R_DrawColorColumn);
         tl33colfunc = &R_DrawColorColumn;
         tlgreencolfunc = &R_DrawColorColumn;
         tlredcolfunc = &R_DrawColorColumn;

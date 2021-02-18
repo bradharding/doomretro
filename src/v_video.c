@@ -1618,7 +1618,7 @@ void GetPixelSize(dboolean reset)
     if (sscanf(r_lowpixelsize, "%2dx%2d", &width, &height) == 2 && width > 0 && height > 0)
     {
         if (width == 2 && height == 2)
-            postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
+            postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
         else
         {
             lowpixelwidth = width;
@@ -1631,7 +1631,7 @@ void GetPixelSize(dboolean reset)
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
 
-        postprocessfunc = (r_supersampling ? V_LowGraphicDetail_2x2_SSAA : V_LowGraphicDetail_2x2);
+        postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
     }
 }
 
@@ -1657,7 +1657,7 @@ void V_InvertScreen(void)
 {
     const int           width = viewwindowx + viewwidth;
     const int           height = (viewwindowy + viewheight) * SCREENWIDTH;
-    const lighttable_t  *colormap = colormaps[0] + 32 * 256;
+    const lighttable_t  *colormap = &colormaps[0][32 * 256];
 
     for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         for (int x = viewwindowx; x < width; x++)

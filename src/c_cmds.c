@@ -2584,7 +2584,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-void kill_cmd_func2(char *cmd, char *parms)
+static void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
