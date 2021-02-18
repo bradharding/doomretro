@@ -227,7 +227,6 @@ extern fixed_t      attackrange;
 extern dboolean     floatok;
 extern dboolean     felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t      tmfloorz;
-extern fixed_t      tmceilingz;
 extern fixed_t      tmbbox[4];      // phares 03/20/98
 extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;

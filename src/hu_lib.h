@@ -98,7 +98,6 @@ void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
-void HUlib_DrawTextLine(hu_textline_t *l, dboolean external);
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external);
 void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external);
 

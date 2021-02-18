@@ -46,7 +46,6 @@
 
 extern byte *tinttab20;
 extern byte *tinttab25;
-extern byte *tinttab30;
 extern byte *tinttab33;
 extern byte *tinttab40;
 extern byte *tinttab50;

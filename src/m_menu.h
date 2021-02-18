@@ -88,7 +88,6 @@ void M_Init(void);
 void M_StartControlPanel(void);
 void M_ClearMenus(void);
 void M_EndingGame(void);
-void M_ChangeGamma(dboolean shift);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *string);
@@ -101,7 +100,6 @@ int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void *routine, dboolean input);
 
-void M_ShowHelp(int choice);
 void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string);

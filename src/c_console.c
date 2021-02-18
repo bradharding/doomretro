@@ -78,10 +78,10 @@ patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
-patch_t                 *brand;
 patch_t                 *lsquote;
 patch_t                 *ldquote;
 
+static patch_t          *brand;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
@@ -155,7 +155,7 @@ static int              consoleboldcolors[STRINGTYPES];
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
-dboolean                scrollbardrawn;
+static dboolean         scrollbardrawn;
 
 static void (*consoletextfunc)(int x, int y, patch_t *patch, int width, int color,
     int backgroundcolor, dboolean italics, byte *translucency);
@@ -1034,7 +1034,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-int C_OverlayWidth(const char *text)
+static int C_OverlayWidth(const char *text)
 {
     const int   len = (int)strlen(text);
     int         w = 0;

@@ -94,7 +94,6 @@ extern dboolean         autosigil;
 extern dboolean         buckethead;
 extern dboolean         nerve;
 extern dboolean         bfgedition;
-extern dboolean         unity;
 
 extern dboolean         chex;
 extern dboolean         chex1;

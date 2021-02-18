@@ -2437,7 +2437,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
     }
 }
 
-void M_ShowHelp(int choice)
+static void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
     inhelpscreens = true;
@@ -2450,7 +2450,7 @@ void M_ShowHelp(int choice)
         R_SetViewSize(r_screensize_max);
 }
 
-void M_ChangeGamma(dboolean shift)
+static void M_ChangeGamma(dboolean shift)
 {
     static int  gammawait;
 

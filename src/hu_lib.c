@@ -264,7 +264,7 @@ const kern_t kern[] =
     {  0,   0,    0 }
 };
 
-void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
+static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 {
     int             w = 0;
     int             tw = 0;

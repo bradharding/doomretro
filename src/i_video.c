@@ -784,7 +784,8 @@ static void GetUpscaledTextureSize(int width, int height)
 
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
-void (*clearframefunc)(void);
+
+static void (*clearframefunc)(void);
 
 static void nullfunc(void) {}
 

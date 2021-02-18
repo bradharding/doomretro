@@ -59,7 +59,7 @@ dboolean        felldown;
 
 fixed_t         tmbbox[4];
 fixed_t         tmfloorz;
-fixed_t         tmceilingz;
+static fixed_t  tmceilingz;
 static fixed_t  tmdropoffz;
 
 // keep track of the line that lowers the ceiling,

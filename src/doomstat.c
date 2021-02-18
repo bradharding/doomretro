@@ -48,7 +48,6 @@ dboolean        autosigil = false;
 dboolean        buckethead = false;
 dboolean        nerve;
 dboolean        bfgedition;
-dboolean        unity;
 
 dboolean        chex;
 dboolean        chex1;
