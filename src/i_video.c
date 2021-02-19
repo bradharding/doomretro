@@ -1861,7 +1861,7 @@ static void I_GetScreenDimensions(void)
     }
     else
     {
-        SCREENWIDTH = VANILLAWIDTH * SCREENSCALE;
+        SCREENWIDTH = NONWIDEWIDTH;
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
 

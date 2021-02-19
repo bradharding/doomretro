@@ -1248,7 +1248,7 @@ void R_FillBezel(void)
     // [crispy] this is our own local copy of R_FillBackScreen() to
     // fill the entire background of st_backing_screen with the bezel pattern,
     // so it appears to the left and right of the status bar in widescreen mode
-    if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
+    if (SCREENWIDTH != NONWIDEWIDTH)
     {
         byte    *src = (byte *)grnrock;
         byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];

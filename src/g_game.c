@@ -368,7 +368,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             if (gamekeydown[key] && !keydown)
             {
                 keydown = key;
-                cmd->buttons |= BT_CHANGE | (i << BT_WEAPONSHIFT);
+                cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
                 break;
             }
             else if (gamepadbuttons & *gamepadweapons[i])
@@ -376,7 +376,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
-                    cmd->buttons |= BT_CHANGE | (i << BT_WEAPONSHIFT);
+                    cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
                     break;
                 }
             }
@@ -464,13 +464,13 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (sendpause)
     {
         sendpause = false;
-        cmd->buttons = BT_SPECIAL | BTS_PAUSE;
+        cmd->buttons = (BT_SPECIAL | BTS_PAUSE);
     }
 
     if (sendsave)
     {
         sendsave = false;
-        cmd->buttons = BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT);
+        cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
     }
 
     if (cmd->angleturn && !menuactive)
@@ -481,19 +481,9 @@ static void G_SetInitialWeapon(void)
 {
     viewplayer->weaponowned[wp_fist] = true;
     viewplayer->weaponowned[wp_pistol] = true;
-
     viewplayer->ammo[am_clip] = initial_bullets;
-
-    if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
-    {
-        viewplayer->readyweapon = wp_fist;
-        viewplayer->pendingweapon = wp_fist;
-    }
-    else
-    {
-        viewplayer->readyweapon = wp_pistol;
-        viewplayer->pendingweapon = wp_pistol;
-    }
+    viewplayer->readyweapon = (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo ? wp_fist : wp_pistol);
+    viewplayer->pendingweapon = viewplayer->readyweapon;
 
     for (int i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = maxammo[i];

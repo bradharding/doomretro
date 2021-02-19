@@ -827,7 +827,7 @@ static void F_CastDrawer(void)
     mobjtype_t      type = castorder[castnum].type;
 
     // erase the entire screen to a background
-    if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
+    if (SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], nearestblack, SCREENAREA);
 
     if (gamemission == pack_plut)

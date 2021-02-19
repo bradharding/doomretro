@@ -1423,7 +1423,7 @@ static void M_DrawReadThis(void)
 
         if (hacx)
         {
-            if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
+            if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], nearestblack, SCREENAREA);
 
             V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
@@ -1432,7 +1432,7 @@ static void M_DrawReadThis(void)
             V_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)), false);
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
-            if (SCREENWIDTH != VANILLAWIDTH * SCREENSCALE)
+            if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], nearestblack, SCREENAREA);
 
             V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
