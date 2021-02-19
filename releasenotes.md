@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.0.4
 
-* SSAA (supersampling anti-aliasing) is now still applied if the `r_lowpixelsize` CVAR is not its default of `2x2`, and the `r_supersampling` CVAR is `on`.
+* SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2x2`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
