@@ -474,7 +474,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
             x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
         }
         else if (c == ' ')
-            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
+            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
 
         prev = c;
     }
