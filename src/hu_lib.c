@@ -292,7 +292,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || c == 176))
+        if (c == ' ')
+        {
+            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
+            x += w;
+            tw += w;
+        }
+        else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
         {
             int j = c - '!';
 
@@ -349,12 +355,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 HU_DrawChar(x, y - 1, j, SCREENWIDTH);
             }
 
-            x += w;
-            tw += w;
-        }
-        else if (c == ' ')
-        {
-            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
             x += w;
             tw += w;
         }
@@ -422,7 +422,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || c == 176))
+        if (c == ' ')
+            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
+        else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
         {
             int j = c - '!';
 
@@ -473,8 +475,6 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 
             x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
         }
-        else if (c == ' ')
-            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
 
         prev = c;
     }

@@ -645,7 +645,7 @@ static void M_CheckCVARs(void)
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;
 
-    if (crosshair != crosshair_none && crosshair != crosshair_cross && crosshair != crosshair_dot)
+    if (crosshair < crosshair_min || crosshair > crosshair_max)
         crosshair = crosshair_default;
 
     if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
@@ -725,7 +725,7 @@ static void M_CheckCVARs(void)
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
-    if (playergender != playergender_other && playergender != playergender_male && playergender != playergender_female)
+    if (playergender < playergender_min || playergender > playergender_max)
         playergender = playergender_default;
 
     if (!*playername)
@@ -738,8 +738,7 @@ static void M_CheckCVARs(void)
 
     r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
 
-    if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all && r_blood != r_blood_green
-        && r_blood != r_blood_nofuzz)
+    if (r_blood < r_blood_min || r_blood > r_blood_max)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
@@ -914,11 +913,9 @@ static void M_CheckCVARs(void)
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-#endif
-#if defined(__APPLE__)
+#elif defined(__APPLE__)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_metal)
-#endif
-#if !defined(_WIN32)
+##else
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
 #endif
@@ -932,7 +929,7 @@ static void M_CheckCVARs(void)
 
     vid_showfps = vid_showfps_default;
 
-    if (vid_vsync != vid_vsync_adaptive && vid_vsync != vid_vsync_off && vid_vsync != vid_vsync_on)
+    if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
         vid_vsync = vid_vsync_default;
 
     if (vid_widescreen != false && vid_widescreen != true)
