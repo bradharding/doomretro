@@ -1578,6 +1578,23 @@ static void V_LowGraphicDetail(int left, int top, int width, int height, int pix
         }
 }
 
+static void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+{
+    for (int y = top; y < height; y += pixelheight)
+        for (int x = left; x < width; x += pixelwidth)
+        {
+            byte        *dot1 = *screens + y + x;
+            byte        *dot2 = dot1 + pixelwidth;
+            byte        *dot3 = dot2 + pixelheight;
+            byte        *dot4 = dot3 - pixelwidth;
+            const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+
+            for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                    *(dot1 + yy + xx) = color;
+        }
+}
+
 static void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += 2 * SCREENWIDTH)
@@ -1623,7 +1640,7 @@ void GetPixelSize(dboolean reset)
         {
             lowpixelwidth = width;
             lowpixelheight = height * SCREENWIDTH;
-            postprocessfunc = V_LowGraphicDetail;
+            postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_SSAA : &V_LowGraphicDetail);
         }
     }
     else if (reset)
