@@ -1584,25 +1584,25 @@ static void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, in
         for (int x = left; x < width; x += pixelwidth)
         {
             byte    *dot1 = *screens + y + x;
-            byte    *dot2 = dot1 + pixelwidth;
-            byte    *dot3 = dot2 + pixelheight;
-            byte    *dot4 = dot3 - pixelwidth;
             byte    color;
 
             if (y + pixelheight < height)
             {
                 if (x + pixelwidth < width)
+                {
+                    byte    *dot2 = dot1 + pixelwidth;
+                    byte    *dot3 = dot2 + pixelheight;
+                    byte    *dot4 = dot3 - pixelwidth;
+
                     color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+                }
                 else
                     color = tinttab50[(*dot1 << 8) + *(dot1 + pixelheight)];
             }
+            else if (x + pixelwidth < width)
+                color = tinttab50[(*dot1 << 8) + *(dot1 + pixelwidth)];
             else
-            {
-                if (x + pixelwidth < width)
-                    color = tinttab50[(*dot1 << 8) + *dot2];
-                else
-                    color = *dot1;
-            }
+                color = *dot1;
 
             for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
                 for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)

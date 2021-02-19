@@ -210,9 +210,9 @@ am_frame_t          am_frame;
 static dboolean     isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
-static void (*putbigdot)(unsigned int x, unsigned int y, byte *color);
-static void PUTDOT(unsigned int x, unsigned int y, byte *color);
-static void PUTBIGDOT(unsigned int x, unsigned int y, byte *color);
+static void (*putbigdot)(unsigned int x, unsigned int y, const byte *color);
+static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
+static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
 
 static void AM_ActivateNewScale(void)
 {
@@ -1257,12 +1257,12 @@ static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
     return !(outcode1 & outcode2);
 }
 
-static inline void _PUTDOT(byte *dot, byte *color)
+static inline void _PUTDOT(byte *dot, const byte *color)
 {
     *dot = *(*dot + color);
 }
 
-static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTDOT(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
@@ -1272,13 +1272,13 @@ static inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
     }
 }
 
-static inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
+static inline void PUTDOT2(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
         *(mapscreen + y + x) = *color;
 }
 
-static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH)
     {
@@ -1319,7 +1319,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     }
 }
 
-static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, byte *color)
+static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
@@ -1334,7 +1334,7 @@ static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, byte *color
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
-    void (*putdot)(unsigned int, unsigned int, byte *))
+    void (*putdot)(unsigned int x, unsigned int y, const byte *color))
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
