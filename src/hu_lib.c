@@ -294,7 +294,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
         if (c == ' ')
         {
-            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
+            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
             x += w;
             tw += w;
         }
@@ -423,7 +423,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
         unsigned char   c = toupper(l->l[i]);
 
         if (c == ' ')
-            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?' || prev == ':') ? 5 : 3));
+            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3)) * SCREENSCALE;
         else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
         {
             int j = c - '!';
