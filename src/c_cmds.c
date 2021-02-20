@@ -4873,10 +4873,10 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->itemspickedup_ammo_cells);
-    temp2 = commify(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t%s cell%s\t%s cell%s",
-        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    temp1 = commify(viewplayer->itemspickedup_ammo_shells);
+    temp2 = commify(stat_itemspickedup_ammo_shells);
+    C_TabbedOutput(tabs, "\t%s shell%s\t%s shell%s",
+        temp1, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
@@ -4887,10 +4887,10 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->itemspickedup_ammo_shells);
-    temp2 = commify(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t%s shell%s\t%s shell%s",
-        temp1, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    temp1 = commify(viewplayer->itemspickedup_ammo_cells);
+    temp2 = commify(stat_itemspickedup_ammo_cells);
+    C_TabbedOutput(tabs, "\t%s cell%s\t%s cell%s",
+        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
@@ -5322,16 +5322,16 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "   Ammo\t-\t%s bullet%s", temp1, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
     free(temp1);
 
-    temp1 = commify(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t-\t%s cell%s", temp1 , (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    temp1 = commify(stat_itemspickedup_ammo_shells);
+    C_TabbedOutput(tabs, "\t-\t%s shell%s", temp1, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commify(stat_itemspickedup_ammo_rockets);
     C_TabbedOutput(tabs, "\t-\t%s rocket%s", temp1, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
     free(temp1);
 
-    temp1 = commify(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t-\t%s shell%s", temp1, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    temp1 = commify(stat_itemspickedup_ammo_cells);
+    C_TabbedOutput(tabs, "\t-\t%s cell%s", temp1 , (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commify(stat_itemspickedup_armor);
