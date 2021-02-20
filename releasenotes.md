@@ -4,6 +4,7 @@
 
 * SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2x2`.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
