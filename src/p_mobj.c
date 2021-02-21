@@ -1187,10 +1187,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         return NULL;
     }
 
-    // [BH] don't spawn any monster corpses if -nomonsters
-    if ((mobjinfo[i].flags & MF_CORPSE) && !spawnmonsters && type != DeadPlayer)
-        return NULL;
-
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
