@@ -437,7 +437,7 @@ consolecmd_t consolecmds[] =
     CCMD(alias, "", null_func1, alias_cmd_func2, true, ALIASCMDFORMAT,
         "Creates an <i><b>alias</b></i> that executes a string of <i><b>commands</b></i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the player to always run when they move."),
+        "Toggles the player to always run instead of walk."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped lines in the automap indicating a change in ceiling height once the player has a computer area map "
         "power-up (<b>0</b> to <b>255</b>)."),
@@ -479,7 +479,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_thingcolor, am_thingcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of things in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_tswallcolor, am_tswallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap with no change in height (<b>0</b> to <b>255</b>)."),
+        "The color of lines in the automap indicating no change in height (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_wallcolor, am_wallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
