@@ -1040,10 +1040,8 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (int i = 0; i < arrlen(cvars); i++)
+        for (int i = 0; i < NUMCVARS; i++)
         {
-            char    *s;
-
             if (!M_StringCompare(cvar, cvars[i].name) && !M_StringCompare(cvar, cvars[i].oldname))
                 continue;       // not this one
 
@@ -1051,11 +1049,14 @@ void M_LoadCVARs(char *filename)
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    s = M_StringDuplicate(value + 1);
-                    s[strlen(s) - 1] = '\0';
-                    *(char **)cvars[i].location = s;
+                {
+                    char    *temp = M_StringDuplicate(value + 1);
+
+                    temp[strlen(temp) - 1] = '\0';
+                    *(char **)cvars[i].location = temp;
                     cvarcount++;
                     break;
+                }
 
                 case DEFAULT_INT32:
                 {
