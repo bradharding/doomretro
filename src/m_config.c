@@ -48,7 +48,6 @@
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "v_video.h"
 #include "version.h"
 
 static dboolean cvarsloaded;
@@ -822,8 +821,6 @@ static void M_CheckCVARs(void)
 
     if (r_liquid_swirl != false && r_liquid_swirl != true)
         r_liquid_swirl = r_liquid_swirl_default;
-
-    GetPixelSize(true);
 
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;

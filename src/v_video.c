@@ -1598,15 +1598,30 @@ static void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, in
                 }
                 else
                     color = tinttab50[(*dot1 << 8) + *(dot1 + pixelheight)];
+
+                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                        *(dot1 + yy + xx) = color;
             }
             else if (x + pixelwidth < width)
+            {
                 color = tinttab50[(*dot1 << 8) + *(dot1 + pixelwidth)];
+
+                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                        *(dot1 + yy + xx) = color;
+            }
             else
+            {
                 color = *dot1;
 
-            for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                    *(dot1 + yy + xx) = color;
+                for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
+                    *(dot1 + xx) = color;
+
+                for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
+                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
+                        *(dot1 + yy + xx) = color;
+            }
         }
 }
 
