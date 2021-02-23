@@ -8,6 +8,7 @@
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
 * The spacing of the map title in the automap has been improved.
 * The corpses of monsters will now still be spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
+* The effects of changing the `con_edgecolor` CVAR in the console are now immediate.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

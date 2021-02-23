@@ -667,7 +667,6 @@ void C_Init(void)
     consoledividercolor = nearestcolors[consoledividercolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
-    consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
@@ -1247,6 +1246,8 @@ void C_Drawer(void)
 
         // cancel any screen shake
         I_UpdateBlitFunc(false);
+
+        consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
         // draw background and bottom edge
         C_DrawBackground();
