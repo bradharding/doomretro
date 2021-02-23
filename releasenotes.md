@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.0.4
 
+* *DOOM Retro* is now compiled using v16.8.6 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2×2`.
 * The `r_lowpixelsize` CVAR can no longer be `1×1`.
 * Minor changes have been made to text that is output to the console.
@@ -20,7 +21,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will no longer crash on older, non-widescreen displays.
 * A fade transition will now be applied when using the `am_path` CVAR in the console to toggle the player’s path in the automap and the `fade` CVAR is `on`.
-* Gamepads will now briefly vibrate during startup to indicate they are connected and support vibration, if any of the `gp_vibrate_barrels`, `gp_vibrate_damage` or `gp_vibrate_weapons` CVARs are greater than `0`.
+* Gamepads will now briefly vibrate during startup to indicate they are connected and support vibration, if any of the `gp_vibrate_barrels`, `gp_vibrate_damage` or `gp_vibrate_weapons` CVARs are greater than `0%`.
 * Player messages and the widescreen HUD are now slightly less translucent when the `r_hud_translucency` CVAR is `on`.
 * Minor changes have been made to some player messages.
 * The following changes have been made to *DOOM II’s* cast sequence:
