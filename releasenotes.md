@@ -2,7 +2,8 @@
 
 #### DOOM Retro v4.0.4
 
-* SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2x2`.
+* SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2×2`.
+* The `r_lowpixelsize` CVAR can no longer be `1×1`.
 * Minor changes have been made to text that is output to the console.
 * Minor changes have been made to the text on the help screen displayed using the <kbd>F1</kbd> key.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
