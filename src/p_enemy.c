@@ -1704,7 +1704,9 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     // killough 07/20/98: PEs shoot lost souls with the same friendliness
     newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
-    newmobj->flags &= ~MF_COUNTKILL;
+
+    // [BH] count lost soul in player stats
+    monstercount[MT_SKULL]++;
 
     // killough 08/29/98: add to appropriate thread
     P_UpdateThinker(&newmobj->thinker);
