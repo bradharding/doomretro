@@ -1698,7 +1698,9 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
         || newmobj->z < newmobj->subsector->sector->floorheight)
     {
         // kill it immediately
+        massacre = true;    // [BH] set this to avoid obituary
         P_DamageMobj(newmobj, actor, actor, 10000, true);
+        massacre = false;
         return;
     }
 
