@@ -5,6 +5,7 @@
 * *DOOM Retro* is now compiled using v16.8.6 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * SSAA (supersampling anti-aliasing) is now still applied if the `r_detail` CVAR is `low`, the `r_supersampling` CVAR is `on`, but the `r_lowpixelsize` CVAR is not its default of `2×2`.
 * The `r_lowpixelsize` CVAR can no longer be `1×1`.
+* Further improvements have been made in supporting older, non-widescreen displays.
 * Minor changes have been made to text that is output to the console.
 * Minor changes have been made to the help screen displayed using the <kbd>F1</kbd> key.
 * Minor improvements have been made to the status bar when the `r_detail` CVAR is `high`.
