@@ -1246,7 +1246,7 @@ void HU_Ticker(void)
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            while (M_StringWidth(message) > VANILLAWIDTH - 6)
+            while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l->x * 2 - 6)
             {
                 if (len >= 2 && message[len - 2] == ' ')
                 {
