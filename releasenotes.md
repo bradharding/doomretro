@@ -12,7 +12,7 @@
 * The spacing of the map title in the automap has been improved.
 * The corpses of monsters will now still be spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The effects of changing the `con_edgecolor` CVAR in the console are now immediate.
-* The following changes have been made to when a pain elemental spawns a lost soul:
+* The following changes have been made when a pain elemental spawns a lost soul:
   * If a lost soul is spawned outside of a map, an obituary will no longer appear in the console if the `con_obituaries` CVAR is `on`.
   * The lost souls are now included in the stats displayed by the `playerstats` CCMD, and on the intermission screen once the player has finished a map.
 
@@ -1799,7 +1799,7 @@
 * The extreme edges of both the menu and console backgrounds have been softened slightly.
 * *DOOM Retro’s* title and version in the console are now white.
 * A bug has been fixed whereby using the `map` CCMD when no game was being played would cause a crash.
-* The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
+* The player will now be thrust away with the correct amount of force when attacked by an arch-vile, or within the blast radius of a rocket or barrel explosion.
 * A time limit for each map can now be set using the `-timer` command-line parameter.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

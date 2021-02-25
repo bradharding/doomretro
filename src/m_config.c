@@ -840,8 +840,8 @@ static void M_CheckCVARs(void)
     }
     else if (r_screensize == r_screensize_max && !vid_widescreen)
     {
-        r_screensize = r_screensize_max - 1;
         r_hud = false;
+        r_screensize = r_screensize_max - 1;
     }
 
     if (r_shadows != false && r_shadows != true)
