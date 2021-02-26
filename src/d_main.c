@@ -594,9 +594,6 @@ void D_DoAdvanceTitle(void)
 
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
-
-            if (!TITLEPIC && !devparm)
-                M_StartControlPanel();
         }
 
         if (pagelump == creditlump)
@@ -2077,7 +2074,6 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
@@ -2303,7 +2299,7 @@ static void D_DoomMainSetup(void)
 
     if (autosigil)
     {
-        titlelump = W_CacheLastLumpName((TITLEPIC ? "TITLEPI2" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+        titlelump = W_CacheLastLumpName("TITLEPI2");
         creditlump = W_CacheLastLumpName("CREDIT1");
     }
     else if (W_CheckMultipleLumps("TITLEPIC") > 1)

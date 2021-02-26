@@ -16,6 +16,7 @@
   * If a lost soul is spawned outside of a map, an obituary will no longer appear in the console if the `con_obituaries` CVAR is `on`.
   * The lost souls are now included in the stats displayed by the `playerstats` CCMD, and on the intermission screen once the player has finished a map.
 * The correct background is now displayed on the intermission screen when playing episode 4 of *The Ultimate DOOM*.
+* The menu will no longer automatically open at startup when playing the *BFG Edition* of *DOOM II: Hell On Earth*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
