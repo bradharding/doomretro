@@ -1657,7 +1657,7 @@ static void V_LowGraphicDetail_2x2_SSAA(int left, int top, int width, int height
         }
 }
 
-void GetPixelSize(dboolean reset)
+void GetPixelSize(void)
 {
     int width = -1;
     int height = -1;
@@ -1673,7 +1673,7 @@ void GetPixelSize(dboolean reset)
             postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_SSAA : &V_LowGraphicDetail);
         }
     }
-    else if (reset)
+    else
     {
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();

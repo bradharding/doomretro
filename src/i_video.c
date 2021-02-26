@@ -1870,7 +1870,7 @@ static void I_GetScreenDimensions(void)
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
 
-    GetPixelSize(true);
+    GetPixelSize();
 }
 
 void I_RestartGraphics(dboolean recreatewindow)

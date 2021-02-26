@@ -8118,10 +8118,8 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     if (*parms)
     {
         r_lowpixelsize = M_StringDuplicate(parms);
-        GetPixelSize(false);
-
-        if (!M_StringCompare(r_lowpixelsize, parms))
-            M_SaveCVARs();
+        M_SaveCVARs();
+        GetPixelSize();
     }
     else
     {
@@ -8267,7 +8265,7 @@ static void r_supersampling_cvar_func2(char *cmd, char *parms)
         {
             r_supersampling = value;
             M_SaveCVARs();
-            GetPixelSize(false);
+            GetPixelSize();
         }
     }
     else
