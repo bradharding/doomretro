@@ -833,12 +833,12 @@ static void M_CheckCVARs(void)
 
     r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
-    if (r_screensize < r_screensize_max)
+    if (r_screensize < r_screensize_max - 1)
     {
         r_hud = false;
         vid_widescreen = false;
     }
-    else if (r_screensize == r_screensize_max && !vid_widescreen)
+    else if (!vid_widescreen)
     {
         r_hud = false;
         r_screensize = r_screensize_max - 1;
