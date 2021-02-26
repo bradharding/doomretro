@@ -2302,7 +2302,7 @@ static void D_DoomMainSetup(void)
         titlelump = W_CacheLastLumpName("TITLEPI2");
         creditlump = W_CacheLastLumpName("CREDIT1");
     }
-    else if (W_CheckMultipleLumps("TITLEPIC") > 1)
+    else if (W_CheckMultipleLumps("TITLEPIC"))
     {
         titlelump = W_CacheLumpName("TITLEPIC");
         creditlump = W_CacheLastLumpName("CREDIT");

@@ -17,6 +17,7 @@
   * The lost souls are now included in the stats displayed by the `playerstats` CCMD, and on the intermission screen once the player has finished a map.
 * The correct background is now displayed on the intermission screen when playing the 4th episode of *The Ultimate DOOM*.
 * The menu will no longer automatically open at startup when playing the *BFG Edition* of *DOOM II: Hell On Earth*.
+* A bug has been fixed whereby the wrong `TITLEPIC` lump would be displayed in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
