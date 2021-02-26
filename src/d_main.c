@@ -2302,38 +2302,43 @@ static void D_DoomMainSetup(void)
         titlelump = W_CacheLastLumpName("TITLEPI2");
         creditlump = W_CacheLastLumpName("CREDIT1");
     }
-    else if (W_CheckMultipleLumps("TITLEPIC"))
-    {
-        titlelump = W_CacheLumpName("TITLEPIC");
-        creditlump = W_CacheLastLumpName("CREDIT");
-    }
     else
-        switch (gamemission)
+    {
+        int titlepics = W_CheckMultipleLumps("TITLEPIC");
+
+        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
         {
-            case doom:
-                titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
-                creditlump = W_CacheLumpName("CREDIT1");
-                break;
-
-            case doom2:
-            case pack_nerve:
-                titlelump = W_CacheLumpName("TITLEPI3");
-                creditlump = W_CacheLumpName("CREDIT2");
-                break;
-
-            case pack_plut:
-                titlelump = W_CacheLumpName("TITLEPI4");
-                creditlump = W_CacheLumpName("CREDIT2");
-                break;
-
-            case pack_tnt:
-                titlelump = W_CacheLumpName("TITLEPI5");
-                creditlump = W_CacheLumpName("CREDIT2");
-                break;
-
-            case none:
-                break;
+            titlelump = W_CacheLumpName("TITLEPIC");
+            creditlump = W_CacheLastLumpName("CREDIT");
         }
+        else
+            switch (gamemission)
+            {
+                case doom:
+                    titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
+                    creditlump = W_CacheLumpName("CREDIT1");
+                    break;
+
+                case doom2:
+                case pack_nerve:
+                    titlelump = W_CacheLumpName("TITLEPI3");
+                    creditlump = W_CacheLumpName("CREDIT2");
+                    break;
+
+                case pack_plut:
+                    titlelump = W_CacheLumpName("TITLEPI4");
+                    creditlump = W_CacheLumpName("CREDIT2");
+                    break;
+
+                case pack_tnt:
+                    titlelump = W_CacheLumpName("TITLEPI5");
+                    creditlump = W_CacheLumpName("CREDIT2");
+                    break;
+
+                case none:
+                    break;
+            }
+    }
 
     if (gameaction != ga_loadgame)
     {
