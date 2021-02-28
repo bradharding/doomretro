@@ -94,12 +94,12 @@ extern dboolean         acceleratestage;        // accelerate intermission scree
 //
 static void F_ConsoleFinaleText(void)
 {
-    char    *text = M_StringDuplicate(finaletext);
+    char    *text = M_StringJoin("\"", finaletext, "\"", NULL);
     char    *p = strtok(text, "\n");
 
     while (p)
     {
-        C_Output("<i>%s</i>", p);
+        C_Output("<i>%s%s</i>", (p[0] == '\"' ? "" : "   "), p);
         p = strtok(NULL, "\n");
     }
 
