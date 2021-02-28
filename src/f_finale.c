@@ -951,14 +951,11 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col)
 //
 static void F_BunnyScroll(void)
 {
-    int         scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t     *p1 = W_CacheLumpName("PFUB2");
-    patch_t     *p2 = W_CacheLumpName("PFUB1");
-    int         p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
-    int         p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
-    char        name[10];
-    int         stage;
-    static int  laststage;
+    int     scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
+    patch_t *p1 = W_CacheLumpName("PFUB2");
+    patch_t *p2 = W_CacheLumpName("PFUB1");
+    int     p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
+    int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
 
     for (int x = 0; x < SCREENWIDTH; x++)
     {
@@ -970,24 +967,32 @@ static void F_BunnyScroll(void)
             F_DrawPatchCol(x, p2, x2 - p2offset);
     }
 
-    if (finalecount < 1130)
-        return;
-
-    if (finalecount < 1180)
+    if (finalecount >= 1130)
     {
-        V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName("END0"), false);
-        laststage = 0;
-        return;
-    }
+        static int  laststage;
 
-    if ((stage = MIN((finalecount - 1180) / 5, 6)) > laststage)
-    {
-        S_StartSound(NULL, sfx_pistol);
-        laststage = stage;
-    }
+        if (finalecount < 1180)
+        {
+            V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1,
+                W_CacheLumpName("END0"), false);
+            laststage = 0;
+        }
+        else
+        {
+            char    name[10];
+            int     stage = stage = MIN((finalecount - 1180) / 5, 6);
 
-    M_snprintf(name, sizeof(name), "END%i", stage);
-    V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1, W_CacheLumpName(name), false);
+            if (stage > laststage)
+            {
+                S_StartSound(NULL, sfx_pistol);
+                laststage = stage;
+            }
+
+            M_snprintf(name, sizeof(name), "END%i", stage);
+            V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1,
+                W_CacheLumpName(name), false);
+        }
+    }
 }
 
 static void F_ArtScreenDrawer(void)
