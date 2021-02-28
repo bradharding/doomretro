@@ -2,7 +2,9 @@
 
 #### DOOM Retro v4.0.5
 
-* The sequence at the end of the 3rd episode of *The Ultimate DOOM* is now displayed correctly.
+* Minor changes have been made to text that is output to the console.
+* The finale at the end of the 3rd episode of *The Ultimate DOOM* is now displayed correctly.
+* You may no longer toggle widescreen using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys when on an intermission or finale screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
