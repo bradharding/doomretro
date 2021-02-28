@@ -99,7 +99,7 @@ static void F_ConsoleFinaleText(void)
 
     while (p)
     {
-        C_Output(p);
+        C_Output("<i>%s</i>", p);
         p = strtok(NULL, "\n");
     }
 
@@ -109,7 +109,6 @@ static void F_ConsoleFinaleText(void)
 //
 // F_StartFinale
 //
-
 void F_StartFinale(void)
 {
     char    *intertext = P_GetInterText(gamemap);
