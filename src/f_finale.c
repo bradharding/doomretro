@@ -923,7 +923,7 @@ static void F_CastDrawer(void)
 //
 // F_DrawPatchCol
 //
-static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
+static void F_DrawPatchCol(int x, patch_t *patch, int col)
 {
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
     byte        *desttop = screens[0] + x;
@@ -931,16 +931,16 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     // step through the posts in a column
     while (column->topdelta != 0xFF)
     {
-        int     count = (column->length << FRACBITS) / fracstep;
-        fixed_t frac = 0;
-        byte    *dest = &desttop[column->topdelta * SCREENWIDTH];
+        int     srccol = 0;
         byte    *source = (byte *)column + 3;
+        byte    *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+        int     count = (column->length * DY) >> FRACBITS;
 
         while (count--)
         {
-            *dest = source[frac >> FRACBITS];
+            *dest = source[srccol >> FRACBITS];
+            srccol += DYI;
             dest += SCREENWIDTH;
-            frac += fracstep;
         }
 
         column = (column_t *)((byte *)column + column->length + 4);
@@ -952,27 +952,23 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 //
 static void F_BunnyScroll(void)
 {
-    int             scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t         *p1 = W_CacheLumpName("PFUB2");
-    patch_t         *p2 = W_CacheLumpName("PFUB1");
-    char            name[10];
-    int             stage;
-    static int      laststage;
-    const fixed_t   yscale = (VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT;
-    const fixed_t   xscale = (VANILLAWIDTH << FRACBITS) / SCREENWIDTH;
-    fixed_t         frac = 0;
+    int         scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
+    patch_t     *p1 = W_CacheLumpName("PFUB2");
+    patch_t     *p2 = W_CacheLumpName("PFUB1");
+    int         p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
+    int         p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
+    char        name[10];
+    int         stage;
+    static int  laststage;
 
-    for (int x = 0; x < VANILLAWIDTH; x++)
+    for (int x = 0; x < SCREENWIDTH; x++)
     {
-        do
-        {
-            if (x + scrolled < VANILLAWIDTH)
-                F_DrawPatchCol(frac / xscale, p1, x + scrolled, yscale);
-            else
-                F_DrawPatchCol(frac / xscale, p2, x + scrolled - VANILLAWIDTH, yscale);
+        int x2 = ((x * DXI) >> FRACBITS) - WIDESCREENDELTA + scrolled;
 
-            frac += xscale;
-        } while ((frac >> FRACBITS) <= x);
+        if (x2 < p2offset)
+            F_DrawPatchCol(x, p1, x2 - p1offset);
+        else
+            F_DrawPatchCol(x, p2, x2 - p2offset);
     }
 
     if (finalecount < 1130)

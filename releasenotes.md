@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.0.5
 
+* The sequence at the end of the 3rd episode of *The Ultimate DOOM* is now displayed correctly.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 26, 2021

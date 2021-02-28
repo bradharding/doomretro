@@ -54,17 +54,13 @@
 #include "p_setup.h"
 #include "r_draw.h"
 #include "r_main.h"
+#include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
 #define WHITE       4
 #define LIGHTGRAY   82
-
-#define DX          ((NONWIDEWIDTH << FRACBITS) / VANILLAWIDTH)
-#define DXI         ((VANILLAWIDTH << FRACBITS) / NONWIDEWIDTH)
-#define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
-#define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
 
 byte        *screens[5];
 int         lowpixelwidth;
