@@ -90,6 +90,7 @@ void M_ClearMenus(void);
 void M_EndingGame(void);
 
 void M_DarkBackground(void);
+void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 void M_DrawCenteredString(int y, char *string);
 int M_StringWidth(char *string);
 

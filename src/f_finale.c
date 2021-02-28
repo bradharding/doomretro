@@ -49,6 +49,7 @@
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "s_sound.h"
@@ -348,8 +349,6 @@ void F_Ticker(void)
 //
 // F_TextWrite
 //
-void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
-
 static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
@@ -926,14 +925,14 @@ static void F_CastDrawer(void)
 static void F_DrawPatchCol(int x, patch_t *patch, int col)
 {
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-    byte        *desttop = screens[0] + x;
+    byte        *desttop = &screens[0][x];
 
     // step through the posts in a column
     while (column->topdelta != 0xFF)
     {
         int     srccol = 0;
         byte    *source = (byte *)column + 3;
-        byte    *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+        byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
         int     count = (column->length * DY) >> FRACBITS;
 
         while (count--)
@@ -1014,11 +1013,7 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                if (gamemode == retail)
-                    lump = creditlump;
-                else
-                    lump = W_CacheLumpName("HELP2");
-
+                lump = (gamemode == retail ? creditlump : W_CacheLumpName("HELP2"));
                 break;
 
             case 2:
