@@ -971,6 +971,9 @@ static void F_BunnyScroll(void)
     {
         static int  laststage;
 
+        if (finalecount == 1130 && fade)
+            D_FadeScreen();
+
         if (finalecount < 1180)
         {
             V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1,
