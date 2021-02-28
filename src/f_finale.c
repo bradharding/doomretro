@@ -546,6 +546,8 @@ static void F_CastTicker(void)
 
         if (++castnum == CASTNUMMAX)
             castnum = 0;
+        else
+            D_FadeScreen();
 
         if (mobjinfo[castorder[castnum].type].seesound)
             S_StartSound(NULL, F_RandomizeSound(mobjinfo[castorder[castnum].type].seesound));
