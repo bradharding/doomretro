@@ -2900,7 +2900,7 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || inhelpscreens)
+            if (automapactive || inhelpscreens || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
                 return false;
 
             if (viewactive)
@@ -2923,7 +2923,7 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || inhelpscreens)
+            if (automapactive || inhelpscreens || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
                 return false;
 
             if (viewactive)
@@ -2957,6 +2957,9 @@ dboolean M_Responder(event_t *ev)
         // Help key
         else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
         {
+            if (gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
+                return false;
+
             keydown = key;
 
             if (functionkey == KEY_F1)
