@@ -768,6 +768,9 @@ static dboolean F_CastResponder(event_t *ev)
     return true;
 }
 
+//
+// F_CastPrint
+//
 static void F_CastPrint(const char *text)
 {
     const char  *ch = text;
@@ -984,7 +987,7 @@ static void F_BunnyScroll(void)
         else
         {
             char    name[10];
-            int     stage = stage = MIN((finalecount - 1180) / 5, 6);
+            int     stage = MIN((finalecount - 1180) / 5, 6);
 
             if (stage > laststage)
             {
@@ -999,6 +1002,9 @@ static void F_BunnyScroll(void)
     }
 }
 
+//
+// F_ArtScreenDrawer
+//
 static void F_ArtScreenDrawer(void)
 {
     int lumpnum = P_GetMapEndPic(gamemap);

@@ -1334,7 +1334,7 @@ static void ST_DiffDraw(void)
 
 void ST_Drawer(dboolean fullscreen, dboolean refresh)
 {
-    // Do red-/gold-shifts from damage/items
+    // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
     if (r_screensize == r_screensize_max || (menuactive && !consoleactive) || inhelpscreens)
