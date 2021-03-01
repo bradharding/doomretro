@@ -2905,7 +2905,7 @@ dboolean M_Responder(event_t *ev)
 
             if (viewactive)
                 M_SizeDisplay(0);
-            else if (vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH)
+            else if (vid_widescreen)
             {
                 vid_widescreen = false;
                 r_screensize = r_screensize_max - 1;
@@ -2928,7 +2928,7 @@ dboolean M_Responder(event_t *ev)
 
             if (viewactive)
                 M_SizeDisplay(1);
-            else if (!vid_widescreen && SHORT(pagelump->width) > VANILLAWIDTH && !nowidescreen)
+            else if (!vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
                 r_screensize = r_screensize_max - 1;
