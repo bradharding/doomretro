@@ -975,12 +975,12 @@ static void F_BunnyScroll(void)
     {
         static int  laststage;
 
-        if (finalecount == 1130 && fade)
-            D_FadeScreen();
-
         if (finalecount < 1180)
         {
-            V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1,
+            if (finalecount == 1130 && fade)
+                D_FadeScreen();
+
+            V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 W_CacheLumpName("END0"), false);
             laststage = 0;
         }
@@ -996,7 +996,7 @@ static void F_BunnyScroll(void)
             }
 
             M_snprintf(name, sizeof(name), "END%i", stage);
-            V_DrawPatchWithShadow((VANILLAWIDTH - 13 * 8) / 2 + 1, (VANILLAHEIGHT - 8 * 8) / 2 + 1,
+            V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 W_CacheLumpName(name), false);
         }
     }
