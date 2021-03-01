@@ -6,6 +6,7 @@
 * The finale at the end of the 3rd episode of *DOOM* is now displayed correctly.
 * You may no longer toggle widescreen using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys, or open the help screen using the <kbd>F1</kbd> key, when on an intermission or finale screen.
 * Certain fade transitions are now applied to the finales of both *DOOM* and *DOOM II: Hell On Earth* when the `fade` CVAR is `on`.
+* When displaying a lump on the title screen from a PWAD that is only 320×200 in size but the `vid_widescreen` CVAR is `on`, the color of the pillarboxes on either side will be based on the colors on the left and right edges of that lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

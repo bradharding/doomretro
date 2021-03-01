@@ -84,5 +84,6 @@ int FindNearestColor(byte *palette, const int red, const int green, const int bl
 void FindNearestColors(byte *palette);
 
 int FindDominantColor(patch_t *patch, byte *palette);
+int FindDominantEdgeColor(patch_t *patch, byte *palette);
 
 #endif

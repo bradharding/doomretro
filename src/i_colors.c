@@ -217,6 +217,55 @@ int FindDominantColor(patch_t *patch, byte *palette)
     return dominantcolor;
 }
 
+int FindDominantEdgeColor(patch_t *patch, byte *palette)
+{
+    const int   w = SHORT(patch->width);
+    int         dominantcolor = 0;
+    int         dominantcolorcount = 0;
+    byte        colorcount[256] = { 0 };
+
+    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
+
+    while (column->topdelta != 0xFF)
+    {
+        byte    *source = (byte *)column + 3;
+        int     count = column->length;
+
+        while (count--)
+            colorcount[*source++]++;
+
+        column = (column_t *)((byte *)column + column->length + 4);
+    }
+
+    column = (column_t *)((byte *)patch + LONG(patch->columnofs[w - 1]));
+
+    while (column->topdelta != 0xFF)
+    {
+        byte    *source = (byte *)column + 3;
+        int     count = column->length;
+
+        while (count--)
+            colorcount[*source++]++;
+
+        column = (column_t *)((byte *)column + column->length + 4);
+    }
+
+    for (int i = 0; i < 256; i++)
+    {
+        const byte  red = *palette++;
+        const byte  green = *palette++;
+        const byte  blue = *palette++;
+
+        if (colorcount[i] > dominantcolorcount)
+        {
+            dominantcolor = i;
+            dominantcolorcount = colorcount[i];
+        }
+    }
+
+    return dominantcolor;
+}
+
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
     byte    *result = malloc(256 * 256);

@@ -490,6 +490,8 @@ int             logotic = 3 * TICRATE;
 patch_t         *pagelump;
 patch_t         *creditlump;
 
+static int      pillarboxcolor;
+
 static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;
@@ -549,7 +551,7 @@ void D_PageDrawer(void)
     {
         // [crispy] fill pillarboxes in widescreen mode
         if (SCREENWIDTH != NONWIDEWIDTH)
-            memset(screens[0], nearestblack, SCREENAREA);
+            memset(screens[0], pillarboxcolor, SCREENAREA);
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(pagelump->width)) / 2, 0, 0, pagelump);
     }
@@ -600,6 +602,7 @@ void D_DoAdvanceTitle(void)
             forcewipe = true;
 
         pagelump = titlelump;
+        pillarboxcolor = FindDominantEdgeColor(pagelump, W_CacheLumpName("PLAYPAL"));
         pagetic = 20 * TICRATE;
 
         if (splashscreen)
@@ -619,6 +622,7 @@ void D_DoAdvanceTitle(void)
     {
         forcewipe = true;
         pagelump = creditlump;
+        pillarboxcolor = FindDominantEdgeColor(pagelump, W_CacheLumpName("PLAYPAL"));
         pagetic = 10 * TICRATE;
     }
 
