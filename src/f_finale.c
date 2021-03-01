@@ -829,16 +829,16 @@ static void F_CastDrawer(void)
     int             y = VANILLAHEIGHT - 30;
     mobjtype_t      type = castorder[castnum].type;
 
-    // erase the entire screen to a background
-    if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], nearestblack, SCREENAREA);
-
     if (gamemission == pack_plut)
         patch = W_CacheLumpName("BOSSBAC2");
     else if (gamemission == pack_tnt)
         patch = W_CacheLumpName("BOSSBAC3");
     else
         patch = W_CacheLumpName(bgcastcall);
+
+    // erase the entire screen to a background
+    if (SCREENWIDTH != NONWIDEWIDTH)
+        memset(screens[0], FindDominantEdgeColor(patch, W_CacheLumpName("PLAYPAL")), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 

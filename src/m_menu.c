@@ -1424,7 +1424,7 @@ static void M_DrawReadThis(void)
         if (hacx)
         {
             if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], nearestblack, SCREENAREA);
+                memset(screens[0], FindDominantEdgeColor(W_CacheLumpName("HELP"), W_CacheLumpName("PLAYPAL")), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
         }
@@ -1433,7 +1433,7 @@ static void M_DrawReadThis(void)
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
             if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], nearestblack, SCREENAREA);
+                memset(screens[0], FindDominantEdgeColor(W_CacheLumpName(lumpname), W_CacheLumpName("PLAYPAL")), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
         }
