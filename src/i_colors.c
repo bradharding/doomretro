@@ -177,7 +177,7 @@ void FindNearestColors(byte *palette)
     white25 = &tinttab25[nearestwhite << 8];
 }
 
-int FindDominantColor(patch_t *patch, byte *palette)
+int FindDominantBrightColor(patch_t *patch, byte *palette)
 {
     const int   w = SHORT(patch->width);
     int         dominantcolor = 0;
@@ -219,11 +219,9 @@ int FindDominantColor(patch_t *patch, byte *palette)
 
 int FindDominantEdgeColor(patch_t *patch, byte *palette)
 {
-    const int   w = SHORT(patch->width);
     int         dominantcolor = 0;
     int         dominantcolorcount = 0;
     byte        colorcount[256] = { 0 };
-
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
 
     while (column->topdelta != 0xFF)
@@ -237,7 +235,7 @@ int FindDominantEdgeColor(patch_t *patch, byte *palette)
         column = (column_t *)((byte *)column + column->length + 4);
     }
 
-    column = (column_t *)((byte *)patch + LONG(patch->columnofs[w - 1]));
+    column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1]));
 
     while (column->topdelta != 0xFF)
     {
