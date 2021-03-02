@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "m_menu.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
@@ -189,7 +190,7 @@ void P_Ticker(void)
 
     P_PlayerThink();
 
-    if (consoleactive)
+    if (consoleactive || inhelpscreens)
         return;
 
     if (menuactive && !freeze)
