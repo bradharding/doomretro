@@ -2309,39 +2309,60 @@ static void D_DoomMainSetup(void)
     else
     {
         int titlepics = W_CheckMultipleLumps("TITLEPIC");
+        int credits = W_CheckMultipleLumps("CREDIT");
 
         if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
-        {
             titlelump = W_CacheLumpName("TITLEPIC");
-            creditlump = W_CacheLastLumpName("CREDIT");
-        }
         else
             switch (gamemission)
             {
                 case doom:
                     titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
-                    creditlump = W_CacheLumpName("CREDIT1");
                     break;
 
                 case doom2:
                 case pack_nerve:
                     titlelump = W_CacheLumpName("TITLEPI3");
-                    creditlump = W_CacheLumpName("CREDIT2");
                     break;
 
                 case pack_plut:
                     titlelump = W_CacheLumpName("TITLEPI4");
-                    creditlump = W_CacheLumpName("CREDIT2");
                     break;
 
                 case pack_tnt:
                     titlelump = W_CacheLumpName("TITLEPI5");
+                    break;
+
+                case none:
+                    break;
+            }
+
+        if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
+            creditlump = W_CacheLumpName("CREDIT");
+        else
+            switch (gamemission)
+            {
+                case doom:
+                    creditlump = W_CacheLumpName("CREDIT1");
+                    break;
+
+                case doom2:
+                case pack_nerve:
+                    creditlump = W_CacheLumpName("CREDIT2");
+                    break;
+
+                case pack_plut:
+                    creditlump = W_CacheLumpName("CREDIT2");
+                    break;
+
+                case pack_tnt:
                     creditlump = W_CacheLumpName("CREDIT2");
                     break;
 
                 case none:
                     break;
             }
+
     }
 
     if (gameaction != ga_loadgame)

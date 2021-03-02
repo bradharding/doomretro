@@ -7,6 +7,7 @@
 * You may no longer toggle widescreen using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys, or open the help screen using the <kbd>F1</kbd> key, when on an intermission or finale screen.
 * Certain fade transitions are now applied to the finales of both *DOOM* and *DOOM II: Hell On Earth* when the `fade` CVAR is `on`.
 * When displaying a lump from a PWAD that is only 320 pixels in width but the `vid_widescreen` CVAR is `on`, the color of the pillarboxes will now be based on the left and right edges of that lump, rather than be black.
+* A bug has been fixed whereby the wrong credits screen lump would be displayed in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
