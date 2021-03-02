@@ -242,9 +242,9 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawBigWidePatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawBigWidePatch(int x, int y, patch_t *patch)
 {
-    byte    *desttop;
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
     int     w = SHORT(patch->width);
     int     col = 0;
 
@@ -253,8 +253,6 @@ void V_DrawBigWidePatch(int x, int y, int scrn, patch_t *patch)
         col = (w - SCREENWIDTH) / 2;
         w = SCREENWIDTH + col;
     }
-
-    desttop = &screens[scrn][y * SCREENWIDTH + x];
 
     for (; col < w; col++, desttop++)
     {

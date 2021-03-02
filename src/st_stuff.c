@@ -396,7 +396,7 @@ static void ST_RefreshBackground(void)
     else if (vid_widescreen)
         V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
     else
-        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, 0, sbar2);
+        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, sbar2);
 }
 
 static int ST_CalcPainOffset(void);
