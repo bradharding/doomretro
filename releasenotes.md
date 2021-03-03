@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.0.5
 
+* *DOOM Retro* is now compiled using v16.9 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Minor changes have been made to text that is output to the console.
 * The finale at the end of the 3rd episode of *DOOM* is now displayed correctly.
 * You may no longer toggle widescreen using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys, or open the help screen using the <kbd>F1</kbd> key, when on an intermission or finale screen.
