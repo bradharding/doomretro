@@ -217,7 +217,7 @@ int FindDominantBrightColor(patch_t *patch, byte *palette)
     return dominantcolor;
 }
 
-int FindDominantEdgeColor(patch_t *patch, byte *palette)
+int FindDominantEdgeColor(patch_t *patch)
 {
     int         dominantcolor = 0;
     int         dominantcolorcount = 1;

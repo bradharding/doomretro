@@ -838,7 +838,7 @@ static void F_CastDrawer(void)
 
     // erase the entire screen to a background
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantEdgeColor(patch, W_CacheLumpName("PLAYPAL")), SCREENAREA);
+        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 

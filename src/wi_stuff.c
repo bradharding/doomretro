@@ -1176,7 +1176,7 @@ static void WI_LoadData(void)
 
     // [crispy] fill pillarboxes in widescreen mode
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[1], FindDominantEdgeColor(lump, W_CacheLumpName("PLAYPAL")), SCREENAREA);
+        memset(screens[1], FindDominantEdgeColor(lump), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 1, lump);
 }
