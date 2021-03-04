@@ -181,7 +181,7 @@ int FindDominantBrightColor(patch_t *patch, byte *palette)
 {
     const int   w = SHORT(patch->width);
     int         dominantcolor = 0;
-    int         dominantcolorcount = 0;
+    int         dominantcolorcount = 1;
     byte        colorcount[256] = { 0 };
 
     for (int col = 0; col < w; col++)
@@ -220,7 +220,7 @@ int FindDominantBrightColor(patch_t *patch, byte *palette)
 int FindDominantEdgeColor(patch_t *patch, byte *palette)
 {
     int         dominantcolor = 0;
-    int         dominantcolorcount = 0;
+    int         dominantcolorcount = 1;
     byte        colorcount[256] = { 0 };
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
 
@@ -249,17 +249,11 @@ int FindDominantEdgeColor(patch_t *patch, byte *palette)
     }
 
     for (int i = 0; i < 256; i++)
-    {
-        const byte  red = *palette++;
-        const byte  green = *palette++;
-        const byte  blue = *palette++;
-
         if (colorcount[i] > dominantcolorcount)
         {
             dominantcolor = i;
             dominantcolorcount = colorcount[i];
         }
-    }
 
     return dominantcolor;
 }
