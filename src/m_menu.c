@@ -1421,12 +1421,14 @@ static void M_DrawReadThis(void)
             M_DarkBlueBackground();
         }
 
-        if (hacx)
+        if (hacx || FREEDOOM)
         {
-            if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantEdgeColor(W_CacheLumpName("HELP")), SCREENAREA);
+            patch_t *lump = W_CacheLumpNum(W_GetLastNumForName("HELP"));
 
-            V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
+            if (SCREENWIDTH != NONWIDEWIDTH)
+                memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
+
+            V_DrawPatch(0, 0, 0, lump);
         }
         else if (autosigil)
             V_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)), false);
