@@ -787,9 +787,9 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
-    return (M_StringEndsWith(filename, "DOOM.WAD") || M_StringEndsWith(filename, "DOOM1.WAD")
-        || M_StringEndsWith(filename, "DOOM2.WAD") || M_StringEndsWith(filename, "PLUTONIA.WAD")
-        || M_StringEndsWith(filename, "TNT.WAD") || (hacx = M_StringEndsWith(filename, "HACX.WAD")));
+    return (M_StringCompare(leafname(filename), "DOOM.WAD") || M_StringCompare(leafname(filename), "DOOM1.WAD")
+        || M_StringCompare(leafname(filename), "DOOM2.WAD") || M_StringCompare(leafname(filename), "PLUTONIA.WAD")
+        || M_StringCompare(leafname(filename), "TNT.WAD") || (hacx = M_StringCompare(leafname(filename), "HACX.WAD")));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
@@ -809,7 +809,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
     };
 
     for (int i = 0; i < arrlen(unsupported); i++)
-        if (M_StringEndsWith(filename, unsupported[i].iwad))
+        if (M_StringCompare(leafname(filename), unsupported[i].iwad))
         {
             char    buffer[1024];
 
@@ -840,52 +840,52 @@ static dboolean D_IsDehFile(char *filename)
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (M_StringEndsWith(filename, "SIGIL.wad") || M_StringEndsWith(filename, "SIGIL_v1_1.wad")
-        || M_StringEndsWith(filename, "SIGIL_v1_2.wad") || M_StringEndsWith(filename, "SIGIL_v1_21.wad"))
+    if (M_StringCompare(leafname(filename), "SIGIL.wad") || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad") || M_StringCompare(leafname(filename), "SIGIL_v1_21.wad"))
     {
         sigil = true;
         episode = 5;
     }
-    else if (M_StringEndsWith(filename, "NERVE.WAD"))
+    else if (M_StringCompare(leafname(filename), "NERVE.WAD"))
     {
         nerve = true;
         expansion = 2;
     }
-    else if (M_StringEndsWith(filename, "chex.wad"))
+    else if (M_StringCompare(leafname(filename), "chex.wad"))
         chex = chex1 = true;
-    else if (M_StringEndsWith(filename, "chex2.wad"))
+    else if (M_StringCompare(leafname(filename), "chex2.wad"))
         chex = chex2 = true;
-    else if (M_StringEndsWith(filename, "btsx_e1.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
-    else if (M_StringEndsWith(filename, "btsx_e1a.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e1a.wad"))
         BTSX = BTSXE1 = BTSXE1A = true;
-    else if (M_StringEndsWith(filename, "btsx_e1b.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e1b.wad"))
         BTSX = BTSXE1 = BTSXE1B = true;
-    else if (M_StringEndsWith(filename, "btsx_e2a.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e2a.wad"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (M_StringEndsWith(filename, "btsx_e2b.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e2b.wad"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (M_StringEndsWith(filename, "btsx_e3a.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e3a.wad"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (M_StringEndsWith(filename, "btsx_e3b.wad"))
+    else if (M_StringCompare(leafname(filename), "btsx_e3b.wad"))
         BTSX = BTSXE3 = BTSXE3B = true;
-    else if (M_StringEndsWith(filename, "e1m4b.wad"))
+    else if (M_StringCompare(leafname(filename), "e1m4b.wad"))
         E1M4B = true;
-    else if (M_StringEndsWith(filename, "e1m8b.wad"))
+    else if (M_StringCompare(leafname(filename), "e1m8b.wad"))
         E1M8B = true;
-    else if (M_StringEndsWith(filename, "d1spfx18.wad") || M_StringEndsWith(filename, "d2spfx18.wad"))
+    else if (M_StringCompare(leafname(filename), "d1spfx18.wad") || M_StringCompare(leafname(filename), "d2spfx18.wad"))
         sprfix18 = true;
-    else if (M_StringEndsWith(filename, "eviternity.wad"))
+    else if (M_StringCompare(leafname(filename), "eviternity.wad"))
         eviternity = true;
-    else if (M_StringEndsWith(filename, "d4v.wad"))
+    else if (M_StringCompare(leafname(filename), "d4v.wad"))
         doom4vanilla = true;
-    else if (M_StringEndsWith(filename, "remnant.wad"))
+    else if (M_StringCompare(leafname(filename), "remnant.wad"))
         remnant = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (error = (M_StringEndsWith(filename, PACKAGE_WAD)));
+    return (error = (M_StringCompare(leafname(filename), PACKAGE_WAD)));
 }
 
 static dboolean D_CheckParms(void)
