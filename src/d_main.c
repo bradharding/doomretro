@@ -907,7 +907,7 @@ static dboolean D_CheckParms(void)
                 iwadfolder = M_StringDuplicate(folder);
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                if (M_StringEndsWith(myargv[1], "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
+                if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
                 {
                     char    fullpath[MAX_PATH];
 
@@ -949,7 +949,7 @@ static dboolean D_CheckParms(void)
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                else if (M_StringEndsWith(myargv[1], "DOOM2.WAD"))
+                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
                 {
                     char    fullpath[MAX_PATH];
 
@@ -1212,7 +1212,7 @@ static int D_OpenWADLauncher(void)
                     iwadfolder = M_StringDuplicate(folder);
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                    if (M_StringEndsWith(file, "DOOM.WAD") && IsUltimateDOOM(file))
+                    if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
                     {
                         char    fullpath[MAX_PATH];
 
@@ -1254,7 +1254,7 @@ static int D_OpenWADLauncher(void)
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    else if (M_StringEndsWith(file, "DOOM2.WAD"))
+                    else if (M_StringCompare(leafname(file), "DOOM2.WAD"))
                     {
                         char    fullpath[MAX_PATH];
 
