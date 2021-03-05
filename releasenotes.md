@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.0.6
 
+* A bug has been fixed whereby certain lumps that are only 320 pixels wide wouldn’t be positioned correctly in some instances if the `vid_widescreen` CVAR was `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, March 5, 2021

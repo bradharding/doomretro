@@ -287,8 +287,12 @@ void V_DrawPagePatch(patch_t *patch)
 {
     patch->leftoffset = 0;
     patch->topoffset = 0;
-    memset(screens[0], nearestblack, SCREENAREA);
-    V_DrawWidePatch(0, 0, 0, patch);
+
+    if (SCREENWIDTH != NONWIDEWIDTH)
+        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
+
+    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
+
 }
 
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
