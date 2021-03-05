@@ -1713,9 +1713,6 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     // killough 08/29/98: add to appropriate thread
     P_UpdateThinker(&newmobj->thinker);
 
-    // [BH] put in attack state
-    P_SetMobjState(newmobj, S_SKULL_ATK2);
-
     P_SetTarget(&newmobj->target, actor->target);
     A_SkullAttack(newmobj, NULL, NULL);
 }
