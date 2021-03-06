@@ -1929,6 +1929,9 @@ static void exitmap_cmd_func2(char *cmd, char *parms)
 {
     G_ExitLevel();
     C_HideConsoleFast();
+    viewplayer->cheated++;
+    stat_cheated = SafeAdd(stat_cheated, 1);
+    M_SaveCVARs();
 }
 
 //
