@@ -528,7 +528,7 @@ consolecmd_t consolecmds[] =
         "The currently selected <i>DOOM</i> episode in the menu (<b>1</b> to <b>5</b>)."),
     CCMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
-    CCMD(exitmap, "", game_func1, exitmap_cmd_func2, false, "",
+    CCMD(exitmap, "", alive_func1, exitmap_cmd_func2, false, "",
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i>DOOM II</i> expansion in the menu (<b>1</b> or <b>2</b>)."),
