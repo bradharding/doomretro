@@ -129,13 +129,64 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
 
-static HANDLE   hInstanceMutex;
+static HANDLE       hInstanceMutex;
+
+static STICKYKEYS   g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
+static TOGGLEKEYS   g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
+static FILTERKEYS   g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
+
+static void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
+{
+    if (bAllowKeys)
+    {
+        // Restore StickyKeys/etc to original state
+        SystemParametersInfo(SPI_SETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
+        SystemParametersInfo(SPI_SETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);
+        SystemParametersInfo(SPI_SETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
+    }
+    else
+    {
+        // Disable StickyKeys/etc shortcuts
+        STICKYKEYS  skOff = g_StartupStickyKeys;
+        TOGGLEKEYS  tkOff = g_StartupToggleKeys;
+        FILTERKEYS  fkOff = g_StartupFilterKeys;
+
+        if (!(skOff.dwFlags & SKF_STICKYKEYSON))
+        {
+            // Disable the hotkey and the confirmation
+            skOff.dwFlags &= ~SKF_HOTKEYACTIVE;
+            skOff.dwFlags &= ~SKF_CONFIRMHOTKEY;
+
+            SystemParametersInfo(SPI_SETSTICKYKEYS, sizeof(STICKYKEYS), &skOff, 0);
+        }
+
+        if (!(tkOff.dwFlags & TKF_TOGGLEKEYSON))
+        {
+            // Disable the hotkey and the confirmation
+            tkOff.dwFlags &= ~TKF_HOTKEYACTIVE;
+            tkOff.dwFlags &= ~TKF_CONFIRMHOTKEY;
+
+            SystemParametersInfo(SPI_SETTOGGLEKEYS, sizeof(TOGGLEKEYS), &tkOff, 0);
+        }
+
+        if (!(fkOff.dwFlags & FKF_FILTERKEYSON))
+        {
+            // Disable the hotkey and the confirmation
+            fkOff.dwFlags &= ~FKF_HOTKEYACTIVE;
+            fkOff.dwFlags &= ~FKF_CONFIRMHOTKEY;
+
+            SystemParametersInfo(SPI_SETFILTERKEYS, sizeof(FILTERKEYS), &fkOff, 0);
+        }
+    }
+}
 
 void I_InitWindows32(void)
 {
     HINSTANCE       handle = GetModuleHandle(NULL);
     SDL_SysWMinfo   info;
     HWND            hwnd;
+
+    SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
 
     SDL_VERSION(&info.version);
 
@@ -156,6 +207,7 @@ void I_ShutdownWindows32(void)
     DestroyIcon(icon);
     ReleaseMutex(hInstanceMutex);
     CloseHandle(hInstanceMutex);
+    I_AccessibilityShortcutKeys(true);
 }
 #endif
 
@@ -175,6 +227,13 @@ int main(int argc, char **argv)
         SetForegroundWindow(FindWindow(PACKAGE_MUTEX, NULL));
         return 1;
     }
+
+    // Save the current sticky/toggle/filter key settings so they can be restored later
+    SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
+    SystemParametersInfo(SPI_GETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);
+    SystemParametersInfo(SPI_GETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
+
+    I_AccessibilityShortcutKeys(false);
 
     I_SetProcessDPIAware();
 #endif
