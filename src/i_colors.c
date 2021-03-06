@@ -179,14 +179,14 @@ void FindNearestColors(byte *palette)
 
 int FindDominantBrightColor(patch_t *patch, byte *palette)
 {
-    const int   w = SHORT(patch->width);
     int         dominantcolor = 0;
     int         dominantcolorcount = 1;
     int         colorcount[256] = { 0 };
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++)
+    for (int i = 0; i < width; i++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[i]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -224,16 +224,14 @@ int FindDominantEdgeColor(patch_t *patch)
     int         colorcount[256] = { 0 };
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
     byte        *source = (byte *)column + 3;
-    int         count = column->length;
+    const int   length = column->length;
 
-    while (count--)
+    for (int i = 0; i < length; i++)
         colorcount[*source++]++;
 
-    column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1]));
-    source = (byte *)column + 3;
-    count = column->length;
+    source = ((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1])) + 3;
 
-    while (count--)
+    for (int i = 0; i < length; i++)
         colorcount[*source++]++;
 
     for (int i = 0; i < 256; i++)

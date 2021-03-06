@@ -297,12 +297,12 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if ((data[22] | (data[23] << 8)) != 1)
             return false;
 
-        samplerate = (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24));
-        length = MIN((data[40] | (data[41] << 8) | (data[42] << 16) | (data[43] << 24)), lumplen - 44);
-
         // Must be 8 or 16-bit
         if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
             return false;
+
+        samplerate = (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24));
+        length = MIN((data[40] | (data[41] << 8) | (data[42] << 16) | (data[43] << 24)), lumplen - 44);
 
         ExpandSoundData(sfxinfo, data + 44, samplerate, bits, length);
         return true;
