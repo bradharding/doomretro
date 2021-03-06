@@ -223,30 +223,18 @@ int FindDominantEdgeColor(patch_t *patch)
     int         dominantcolorcount = 1;
     int         colorcount[256] = { 0 };
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
+    byte        *source = (byte *)column + 3;
+    int         count = column->length;
 
-    while (column->topdelta != 0xFF)
-    {
-        byte    *source = (byte *)column + 3;
-        int     count = column->length;
-
-        while (count--)
-            colorcount[*source++]++;
-
-        column = (column_t *)((byte *)column + column->length + 4);
-    }
+    while (count--)
+        colorcount[*source++]++;
 
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1]));
+    source = (byte *)column + 3;
+    count = column->length;
 
-    while (column->topdelta != 0xFF)
-    {
-        byte    *source = (byte *)column + 3;
-        int     count = column->length;
-
-        while (count--)
-            colorcount[*source++]++;
-
-        column = (column_t *)((byte *)column + column->length + 4);
-    }
+    while (count--)
+        colorcount[*source++]++;
 
     for (int i = 0; i < 256; i++)
         if (colorcount[i] > dominantcolorcount)

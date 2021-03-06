@@ -3,7 +3,7 @@
 #### DOOM Retro v4.0.6
 
 * A bug has been fixed whereby certain lumps that are only 320 pixels wide wouldn’t be positioned correctly in some instances if the `vid_widescreen` CVAR was `on`.
-* Minor improvements have been made to the support of [*Freedoom: Phase 1*](http://freedoom.github.io/), [*Freedoom: Phase 2*](http://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* Minor improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
@@ -317,7 +317,7 @@
 * The horizontal offset of the player’s weapon sprite will no longer be fixed when the `r_fixspriteoffsets` CVAR is `off`.
 * The effects of both the `r_graduallighting` and `weaponbounce` CVARs are now better remembered in savegames.
 * Screenshots may now be taken again while playing a game and the `+screenshot` action has been bound to something other than the <kbd>PRINTSCREEN</kbd> key.
-* When a PWAD is loaded with [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/), if a `STBAR` lump is present in that PWAD, it will now be used.
+* When a PWAD is loaded with [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/), if a `STBAR` lump is present in that PWAD, it will now be used.
 * Fixing a bug present in *Vanilla DOOM*, monsters will now always be alerted if attacked during the second frame of their idle animation.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
@@ -329,7 +329,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The name of the PWAD is no longer displayed in the automap if the current map has no title.
-* Several improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](http://freedoom.github.io/) and [*Freedoom: Phase 2*](http://freedoom.github.io/).
+* Several improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * A bug has been fixed whereby the wrong music could be played in some rare instances.
 * The randomness of the music chosen when the `s_randommusic` CVAR is `on` has been improved.
 * A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
@@ -1002,7 +1002,7 @@
 * A bug has been fixed whereby gridlines in the top and bottom right corners of the automap weren’t being displayed in some instances when the `am_grid` CVAR was `on`.
 * The secret maps will no longer be included when entering `map last`, `map next` or `map random` in the console.
 * If a CCMD that requires one or more parameters is entered in the console without those parameters, a description of that CCMD will now be displayed.
-* Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](http://freedoom.github.io/) or [*Freedoom: Phase 2*](http://freedoom.github.io/).
+* Savegames will now be saved in the correct folder when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The behavior of the `-savedir` command-line parameter has changed. Savegames will now be placed directly in the folder specified, rather than in a subfolder based on the name of the WAD loaded.
 * `-save` may be now be used as an alternative to `-savedir` on the command-line.
 * A bug has been fixed whereby the player’s path in the automap wasn’t being shown correctly if both the `am_path` CVAR and no clipping mode were on.
@@ -1138,9 +1138,9 @@
 * Hanging corpses no longer bob up and down if above liquid.
 * Corpses can no longer trigger line specials when sliding over them.
 * Fixing a bug present in *Vanilla DOOM*, monsters will no longer momentarily freeze when trying to open certain locked doors.
-* The correct map names will now be displayed when playing [*Freedoom*](http://freedoom.github.io/).
+* The correct map names will now be displayed when playing [*Freedoom*](https://freedoom.github.io/).
 * An error will no longer occur when trying to load [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
-* The screen will now fade to black upon quitting from either [*Freedoom*](http://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* The screen will now fade to black upon quitting from either [*Freedoom*](https://freedoom.github.io/) or [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Liquid sectors are now rendered slightly higher when the `r_liquid_bob` CVAR is `on` to improve the bottom edge of surrounding tileable wall textures.
 * Projectiles will now pass through map decorations when the `infiniteheight` CVAR is `off`.
 * Corpses in liquid no longer bob up and down in time with each other.
@@ -1453,7 +1453,7 @@
 * The `+mouselook` action may now be bound to a control. Mouselook will then only work while that control is held down. Releasing that control will then cause the player’s view to spring back.
 * Blood will no longer be spawned when crushing the player while they are invulnerable.
 * A bug has been fixed whereby the player’s rocket launcher would shift to the left when fired.
-* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
+* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -1538,7 +1538,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Sprites taller than 255 pixels are now supported.
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
-* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
+* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](https://freedoom.github.io/).
 * Entering the `IDMYPOS` cheat will no longer cause a crash.
 * Pressing the <kbd>DEL</kbd> key when in the save or load game menus will now delete the currently selected savegame.
 * Minor changes have been made to text that is output to the console.
@@ -2243,7 +2243,7 @@
 * The brightmap for the `SW2METAL` wall texture has been fixed.
 * `SLIMExx` flats will no longer animate as liquid in `epic2.wad`.
 * A small icon is now shown next to each warning in the console.
-* The `STARTUP5` string is now displayed correctly in the console when playing [*Freedoom*](http://freedoom.github.io/).
+* The `STARTUP5` string is now displayed correctly in the console when playing [*Freedoom*](https://freedoom.github.io/).
 * The `SDL2_mixer.dll` file supplied with *DOOM Retro* is now compiled with [*libmad 0.15.1b*](http://www.underbit.com/products/mad/), fixing the tempo of some MP3 lumps. Consequently, `smpeg2.dll` is no longer required.
 * A bug has been fixed whereby using the `map` CCMD would cause the game to crash in some instances.
 * The selected episode or expansion in the menu is set as necessary when using the `map` CCMD.
@@ -2373,7 +2373,7 @@
 * Some CVAR descriptions in the output of the `cvarlist` CCMD now span over 2 lines.
 * The menu can no longer be opened while the console is closing.
 * The gamma correction level is now calculated correctly.
-* The parameter for the `map` CCMD when using [*Freedoom*](http://freedoom.github.io/) can now be of the format `CxMy`.
+* The parameter for the `map` CCMD when using [*Freedoom*](https://freedoom.github.io/) can now be of the format `CxMy`.
 * The gradual light effect that is applied to opening and closing door sectors is no longer applied to sectors that have light specials.
 * When entering the `IDKFA` cheat, if a keycard and a skull key of the same color are present in the map, only the keycard is given to the player.
 * A bug has been fixed whereby updating the `gp_sensitivity` CVAR in the console was having no immediate effect.
@@ -2649,8 +2649,8 @@
 * Active crushers will now be active again when loading a savegame.
 * Improvements have been made to the player using a switch, lift or door if very close to another.
 * The display of the value of the `r_lowpixelsize` CVAR in the console has been fixed.
-* There is no longer any blue or green blood or blood splats in [*Freedoom*](http://freedoom.github.io/).
-* A bug has been fixed whereby no maps were listed by the `maplist` CCMD in [*Freedoom*](http://freedoom.github.io/).
+* There is no longer any blue or green blood or blood splats in [*Freedoom*](https://freedoom.github.io/).
+* A bug has been fixed whereby no maps were listed by the `maplist` CCMD in [*Freedoom*](https://freedoom.github.io/).
 * Blues are now emphasized better in translucent sprites.
 * The console now automatically closes when using the `map` CCMD or the `IDCLEVxy` cheat.
 * The HOM indicator is now paused while the console is open.
@@ -3117,8 +3117,8 @@
 * A bug has been fixed whereby *DOOM Retro* may have crashed silently after selecting a WAD in the WAD launcher.
 * The command-line parameter `-expansion` may now be used. Use `-expansion 1` to autostart *DOOM II: Hell On Earth*, and use `-expansion 2` to autostart *DOOM II: No Rest For The Living* (if `nerve.wad` is specified using `-file` or `-pwad`).
 * The value that can be specified by the `-warp` command-line parameter can now be of the form `ExMy` or `MAPxy`.
-* If a [*Freedoom*](http://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so [*Freedoom*](http://freedoom.github.io/) can be used as a resource for the maps present in that PWAD.
-* Further improvements have been made when using custom graphics in PWADs, particularly if [*Freedoom*](http://freedoom.github.io/) is being used.
+* If a [*Freedoom*](https://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so [*Freedoom*](https://freedoom.github.io/) can be used as a resource for the maps present in that PWAD.
+* Further improvements have been made when using custom graphics in PWADs, particularly if [*Freedoom*](https://freedoom.github.io/) is being used.
 * A bug from *Vanilla DOOM* has been fixed whereby corrupt texture names would be displayed in the error if a texture couldn’t be found. See the [*DOOM Wiki*](http://doomwiki.org/wiki/Absurd_texture_name_in_error_message) for more information.
 * A bug has been fixed whereby pressing the <kbd>ENTER</kbd> key or the left mouse button when in the help screen wouldn’t restore widescreen mode.
 * The speed of turning with the gamepad’s right thumbstick when holding down the left trigger to run has been reduced slightly.
