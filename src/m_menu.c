@@ -1423,7 +1423,7 @@ static void M_DrawReadThis(void)
 
         if (hacx || FREEDOOM)
         {
-            patch_t *lump = W_CacheLumpNum(W_GetLastNumForName("HELP"));
+            patch_t *lump = W_CacheLumpNum(W_GetLastNumForName(gamemode == commercial ? "HELP" : "HELP1"));
 
             if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
