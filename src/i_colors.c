@@ -179,9 +179,8 @@ void FindNearestColors(byte *palette)
 
 int FindDominantBrightColor(patch_t *patch, byte *palette)
 {
-    int         dominantcolor = 0;
-    int         dominantcolorcount = 1;
-    int         colorcount[256] = { 0 };
+    int         color = 0;
+    int         colors[256] = { 0 };
     const int   width = SHORT(patch->width);
 
     for (int i = 0; i < width; i++)
@@ -195,53 +194,52 @@ int FindDominantBrightColor(patch_t *patch, byte *palette)
             int     count = column->length;
 
             while (count--)
-                colorcount[*source++]++;
+                colors[*source++]++;
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
 
-    for (int i = 0; i < 256; i++)
+    for (int i = 0, dominant = 1; i < 256; i++)
     {
         const byte  red = *palette++;
         const byte  green = *palette++;
         const byte  blue = *palette++;
 
-        if (colorcount[i] > dominantcolorcount && (red >= 128 || green >= 128 || blue >= 128))
+        if (colors[i] > dominant && (red >= 128 || green >= 128 || blue >= 128))
         {
-            dominantcolor = i;
-            dominantcolorcount = colorcount[i];
+            color = i;
+            dominant = colors[i];
         }
     }
 
-    return dominantcolor;
+    return color;
 }
 
 int FindDominantEdgeColor(patch_t *patch)
 {
-    int         dominantcolor = 0;
-    int         dominantcolorcount = 1;
-    int         colorcount[256] = { 0 };
+    int         color = 0;
+    int         colors[256] = { 0 };
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[0]));
     byte        *source = (byte *)column + 3;
     const int   length = column->length;
 
     for (int i = 0; i < length; i++)
-        colorcount[*source++]++;
+        colors[*source++]++;
 
     source = ((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1])) + 3;
 
     for (int i = 0; i < length; i++)
-        colorcount[*source++]++;
+        colors[*source++]++;
 
-    for (int i = 0; i < 256; i++)
-        if (colorcount[i] > dominantcolorcount)
+    for (int i = 0, dominant = 1; i < 256; i++)
+        if (colors[i] > dominant)
         {
-            dominantcolor = i;
-            dominantcolorcount = colorcount[i];
+            color = i;
+            dominant = colors[i];
         }
 
-    return dominantcolor;
+    return color;
 }
 
 static byte *GenerateTintTable(byte *palette, int percent, int colors)

@@ -1405,7 +1405,7 @@ static void M_DrawReadThis(void)
     char    lumpname[6] = "HELP1";
 
     if (gamemode == shareware)
-        M_StringCopy(lumpname, (W_CheckNumForName("HELP3") >= 0 ? "HELP3" : "HELP2"), sizeof(lumpname));
+        M_StringCopy(lumpname, "HELP3", sizeof(lumpname));
     else if (gamemode == registered)
         M_StringCopy(lumpname, "HELP2", sizeof(lumpname));
     else if (gamemode == commercial)
