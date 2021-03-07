@@ -796,7 +796,7 @@ consolecmd_t consolecmds[] =
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
         "Unbinds the <b>+</b><i><b>action</b></i> from a <i><b>control</b></i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
-        "The units used in the <b>mapstats</b> and <b>playerstats</b> CCMDs (<b>imperial</b> or <b>metric</b>)."),
+        "The units used by the <b>mapstats</b> and <b>playerstats</b> CCMDs (<b>imperial</b> or <b>metric</b>)."),
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,

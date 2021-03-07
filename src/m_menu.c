@@ -1413,14 +1413,6 @@ static void M_DrawReadThis(void)
 
     if (W_CheckNumForName(lumpname) >= 0)
     {
-        if (automapactive)
-            memset(screens[0], nearestcolors[245], SCREENAREA);
-        else
-        {
-            viewplayer->fixedcolormap = 0;
-            M_DarkBlueBackground();
-        }
-
         if (hacx || FREEDOOM)
         {
             patch_t *lump = W_CacheLumpNum(W_GetLastNumForName(gamemode == commercial ? "HELP" : "HELP1"));
@@ -1431,16 +1423,38 @@ static void M_DrawReadThis(void)
             V_DrawPatch(0, 0, 0, lump);
         }
         else if (autosigil)
+        {
+            if (automapactive)
+                memset(screens[0], nearestcolors[245], SCREENAREA);
+            else
+            {
+                viewplayer->fixedcolormap = 0;
+                M_DarkBlueBackground();
+            }
+
             V_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)), false);
+        }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
-            if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantColor(W_CacheLumpName(lumpname)), SCREENAREA);
+            patch_t *lump = W_CacheLumpName(lumpname);
 
-            V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
+            if (SCREENWIDTH != NONWIDEWIDTH)
+                memset(screens[0], FindDominantColor(lump), SCREENAREA);
+
+            V_DrawPatch(0, 0, 0, lump);
         }
         else
+        {
+            if (automapactive)
+                memset(screens[0], nearestcolors[245], SCREENAREA);
+            else
+            {
+                viewplayer->fixedcolormap = 0;
+                M_DarkBlueBackground();
+            }
+
             V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false);
+        }
     }
 }
 
