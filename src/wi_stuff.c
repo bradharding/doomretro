@@ -1149,7 +1149,9 @@ static void WI_LoadData(void)
     // them with the status bar code
 
     // Background image
-    if (gamemode == commercial)
+    if (FREEDOOM || hacx)
+        lump = W_CacheLumpNum(W_GetLastNumForName("INTERPIC"));
+    else if (gamemode == commercial)
     {
         int lumpnum = P_GetMapEnterPic(gamemap);
 
