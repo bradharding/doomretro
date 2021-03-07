@@ -834,9 +834,8 @@ static void F_CastDrawer(void)
     else if (gamemission == pack_tnt)
         patch = W_CacheLumpName("BOSSBAC3");
     else
-        patch = W_CacheLumpName(bgcastcall);
+        patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheLumpName(bgcastcall));
 
-    // erase the entire screen to a background
     if (SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], FindDominantColor(patch), SCREENAREA);
 

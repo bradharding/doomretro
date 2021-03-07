@@ -549,7 +549,6 @@ void D_PageDrawer(void)
     }
     else
     {
-        // [crispy] fill pillarboxes in widescreen mode
         if (SCREENWIDTH != NONWIDEWIDTH)
             memset(screens[0], pillarboxcolor, SCREENAREA);
 
