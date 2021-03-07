@@ -40,6 +40,7 @@
 
 #include "i_colors.h"
 #include "i_swap.h"
+#include "i_video.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -177,11 +178,12 @@ void FindNearestColors(byte *palette)
     white25 = &tinttab25[nearestwhite << 8];
 }
 
-int FindDominantBrightColor(patch_t *patch, byte *palette)
+int FindBrightDominantColor(patch_t *patch)
 {
     int         color = 0;
     int         colors[256] = { 0 };
     const int   width = SHORT(patch->width);
+    byte        *palette = PLAYPAL;
 
     for (int x = 0; x < width; x++)
     {

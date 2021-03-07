@@ -97,6 +97,7 @@ int W_LumpLength(int lump);
 void *W_CacheLumpNum(int lumpnum);
 
 #define W_CacheLumpName(name)       W_CacheLumpNum(W_GetNumForName(name))
+#define W_CacheSecondLumpName(name) W_CacheLumpNum(W_GetSecondNumForName(name))
 #define W_CacheLastLumpName(name)   W_CacheLumpNum(W_GetLastNumForName(name))
 
 void W_Init(void);

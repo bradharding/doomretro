@@ -208,7 +208,7 @@ void HU_Init(void)
         hu_font[i] = W_CacheLumpName(buffer);
     }
 
-    caretcolor = FindDominantBrightColor(hu_font['A' - HU_FONTSTART], W_CacheLumpName("PLAYPAL"));
+    caretcolor = FindBrightDominantColor(hu_font['A' - HU_FONTSTART]);
 
     if (W_CheckNumForName("STTMINUS") >= 0)
         if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
@@ -773,7 +773,7 @@ static void HU_AltInit(void)
         if (lumpinfo[i]->wadfile->type == PWAD)
         {
             if (keypics[i].patch)
-                altkeypics[i].color = FindDominantBrightColor(keypics[i].patch, W_CacheLumpName("PLAYPAL"));
+                altkeypics[i].color = FindBrightDominantColor(keypics[i].patch);
         }
         else if (!BTSX)
             altkeypics[i].color = nearestcolors[altkeypics[i].color];

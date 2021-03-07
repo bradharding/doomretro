@@ -1415,7 +1415,7 @@ static void M_DrawReadThis(void)
     {
         if (hacx || FREEDOOM)
         {
-            patch_t *lump = W_CacheLumpNum(W_GetLastNumForName(gamemode == commercial ? "HELP" : "HELP1"));
+            patch_t *lump = W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1");
 
             if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], FindDominantColor(lump), SCREENAREA);
@@ -1432,7 +1432,7 @@ static void M_DrawReadThis(void)
                 M_DarkBlueBackground();
             }
 
-            V_DrawPatchWithShadow(0, 0, W_CacheLumpNum(W_GetSecondNumForName(lumpname)), false);
+            V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
