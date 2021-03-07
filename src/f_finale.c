@@ -1047,6 +1047,9 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
+        if (SCREENWIDTH != NONWIDEWIDTH)
+            memset(screens[0], FindDominantColor(lump), SCREENAREA);
+
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
     }
 }
