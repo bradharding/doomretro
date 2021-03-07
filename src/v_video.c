@@ -289,7 +289,7 @@ void V_DrawPagePatch(patch_t *patch)
     patch->topoffset = 0;
 
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
+        memset(screens[0], FindDominantColor(patch), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 

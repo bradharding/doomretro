@@ -838,7 +838,7 @@ static void F_CastDrawer(void)
 
     // erase the entire screen to a background
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
+        memset(screens[0], FindDominantColor(patch), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 

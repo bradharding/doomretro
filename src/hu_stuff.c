@@ -773,7 +773,7 @@ static void HU_AltInit(void)
         if (lumpinfo[i]->wadfile->type == PWAD)
         {
             if (keypics[i].patch)
-                altkeypics[i].color = FindDominantBrightColor(keypics[i].patch, W_CacheLumpName("SPLSHPAL"));
+                altkeypics[i].color = FindDominantBrightColor(keypics[i].patch, W_CacheLumpName("PLAYPAL"));
         }
         else if (!BTSX)
             altkeypics[i].color = nearestcolors[altkeypics[i].color];
