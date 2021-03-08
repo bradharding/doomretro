@@ -1752,7 +1752,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         (gibbed ? "gibbed" : "killed"),
                         (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                         (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                        (inflicter->type == target->type ? "another" : (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
+                        (inflicter->type == inflicter->inflicter ? "another" :
+                            (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                         mobjinfo[inflicter->inflicter].name1);
 
                 free(temp);
