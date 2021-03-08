@@ -955,12 +955,16 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col)
 static void F_BunnyScroll(void)
 {
     int     scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t *p1 = W_CacheLumpName("PFUB2");
-    patch_t *p2 = W_CacheLumpName("PFUB1");
+    patch_t *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName("PFUB2"));
+    patch_t *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName("PFUB1"));
     int     p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
     int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
+    int     pillarwidth = (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2;
 
-    for (int x = 0; x < SCREENWIDTH; x++)
+    if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
+        memset(screens[0], FindDominantColor(p1), SCREENAREA);
+
+    for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {
         int x2 = ((x * DXI) >> FRACBITS) - WIDESCREENDELTA + scrolled;
 
@@ -980,7 +984,7 @@ static void F_BunnyScroll(void)
                 D_FadeScreen();
 
             V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
-                W_CacheLumpName("END0"), false);
+                (FREEDOOM || hacx ? W_CacheLastLumpName("END0") : W_CacheLumpName("END0")), false);
             laststage = 0;
         }
         else
@@ -994,7 +998,7 @@ static void F_BunnyScroll(void)
                 laststage = stage;
             }
 
-            M_snprintf(name, sizeof(name), "END%i", stage);
+            M_snprintf(name, sizeof(name), (FREEDOOM || hacx ? W_CacheLastLumpName("END%i") : W_CacheLumpName("END%i")), stage);
             V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 W_CacheLumpName(name), false);
         }
@@ -1031,11 +1035,11 @@ static void F_ArtScreenDrawer(void)
                 break;
 
             case 2:
-                lump = W_CacheLumpName("VICTORY2");
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheLumpName("VICTORY2"));
                 break;
 
             case 4:
-                lump = W_CacheLumpName("ENDPIC");
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheLumpName("ENDPIC"));
                 break;
 
             case 5:
