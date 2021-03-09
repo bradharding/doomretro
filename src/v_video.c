@@ -1576,7 +1576,7 @@ static void V_LowGraphicDetail(int left, int top, int width, int height, int pix
         }
 }
 
-static void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += pixelheight)
         for (int x = left; x < width; x += pixelwidth)

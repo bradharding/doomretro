@@ -3,6 +3,7 @@
 #### DOOM Retro v4.0.6
 
 * A bug has been fixed whereby certain lumps that are only 320 pixels wide wouldn’t be positioned correctly in some instances if the `vid_widescreen` CVAR was `on`.
+* A slight blur has been added to the effect when the player is damaged and the `r_shake_damage` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Minor improvements have been made to the support of `DEHACKED` lumps.

@@ -362,7 +362,10 @@ void D_Display(void)
             if (viewwidth != SCREENWIDTH)
                 R_DrawViewBorder();
 
-            if (r_detail == r_detail_low)
+            if (viewplayer->damagecount)
+                V_LowGraphicDetail_SSAA(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
+                    (viewwindowy + viewheight) * SCREENWIDTH, 1, SCREENWIDTH);
+            else if (r_detail == r_detail_low)
                 postprocessfunc(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
                     (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
         }

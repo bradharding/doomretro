@@ -112,6 +112,7 @@ void V_DrawPagePatch(patch_t *patch);
 void V_DrawPixel(int x, int y, byte color, dboolean drawshadow);
 
 void GetPixelSize(void);
+void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, int pixelwidth, int pixelheight);
 void V_LowGraphicDetail_Menu(void);
 void V_InvertScreen(void);
 
