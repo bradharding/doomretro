@@ -2274,6 +2274,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         tplayer->damagecount = MIN(damagecount, 100);
 
+        if (r_shake_damage)
+            I_UpdateBlitFunc(tplayer->damagecount);
+
         if (gp_vibrate_damage)
         {
             I_GamepadVibration((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_vibrate_damage / 100);
