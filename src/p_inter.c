@@ -1861,7 +1861,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         M_StringCopy(targetname, target->name, sizeof(targetname));
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            ((target->flags &MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                            ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                 (isvowel(target->info->name1[0]) ? "an" : "a")),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
                             (*target->info->name1 ? target->info->name1 : "monster"));
@@ -1878,7 +1878,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     M_StringCopy(sourcename, source->name, sizeof(sourcename));
                 else
                     M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                        ((source->flags &MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
+                        ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
                             (isvowel(source->info->name1[0]) ? "an" : "a")),
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
                         (*source->info->name1 ? source->info->name1 : "monster"));
@@ -2031,8 +2031,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
     }
 
-    if (type == MT_BARREL && source)
-        P_SetTarget(&target->target, source);
+    if (type == MT_BARREL)
+    {
+        if (inflicter)
+            P_SetTarget(&target->target, inflicter);
+        else if (source)
+            P_SetTarget(&target->target, source);
+    }
 
     if (inflicter)
         target->inflicter = inflicter->type;
