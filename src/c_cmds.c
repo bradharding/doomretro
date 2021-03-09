@@ -6787,9 +6787,10 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
-            M_snprintf(name, sizeof(name), "%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
+            M_snprintf(name, sizeof(name), "%s%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")));
+                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")),
+                ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
         temp2 = sentencecase(name);
         C_TabbedOutput(tabs, "%s%s\t%s\t(%i,%i,%i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
