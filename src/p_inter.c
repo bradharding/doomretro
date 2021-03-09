@@ -1705,7 +1705,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                            (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                            (inflicter->type == inflicter->inflicter ? "another" :
+                                (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             mobjinfo[inflicter->inflicter].name1);
                     else
                         C_PlayerMessage("%s was %s by %s %s that %s %s exploded.",
@@ -1713,7 +1714,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                            (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"),
+                            (inflicter->type == inflicter->inflicter ? "another" :
+                                (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             mobjinfo[inflicter->inflicter].name1);
                 }
             }
