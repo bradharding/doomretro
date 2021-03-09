@@ -286,10 +286,12 @@ void P_MovePlayer(void)
 static void P_ReduceDamageCount(void)
 {
     if (viewplayer->damagecount)
+    {
         viewplayer->damagecount--;
 
-    if (r_shake_damage)
-        I_UpdateBlitFunc(viewplayer->damagecount);
+        if (r_shake_damage)
+            I_UpdateBlitFunc(viewplayer->damagecount);
+    }
 }
 
 //
