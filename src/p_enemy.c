@@ -1986,7 +1986,7 @@ void A_BrainAwake(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainPain(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    S_StartSoundOnce(NULL, sfx_bospn);
+    S_StartSound(NULL, sfx_bospn);
 }
 
 void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
