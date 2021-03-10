@@ -520,14 +520,15 @@ void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
 
 void S_StartSoundOnce(void *origin, int sfx_id)
 {
-    for (int cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo
-            && channels[cnum].sfxinfo->singularity == S_sfx[sfx_id].singularity
-            && channels[cnum].origin == origin)
-        {
-            S_StopChannel(cnum);
-            break;
-        }
+    if (origin)
+        for (int cnum = 0; cnum < s_channels; cnum++)
+            if (channels[cnum].sfxinfo
+                && channels[cnum].sfxinfo->singularity == S_sfx[sfx_id].singularity
+                && channels[cnum].origin == origin)
+            {
+                S_StopChannel(cnum);
+                break;
+            }
 
     S_StartSound(origin, sfx_id);
 }
