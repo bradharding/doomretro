@@ -930,7 +930,7 @@ int hextodec(char *hex)
     int ret = 0;
 
     while (*hex && ret >= 0)
-        ret = ((ret << 4) | hextable[*hex++]);
+        ret = ((ret << 4) || hextable[*hex++]);
 
     return ret;
 }
