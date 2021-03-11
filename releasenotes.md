@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now compiled using v16.9.1 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * A bug has been fixed whereby certain lumps that are only 320 pixels wide wouldn’t be positioned correctly in some instances if the `vid_widescreen` CVAR was `on`.
+* A wider version of the `DMENUPIC` lump will be displayed, and the menu will automatically open at startup again, when playing the *BFG Edition* of *DOOM II: Hell On Earth*.
 * Minor changes have been made to text that is output to the console.
 * An obituary will now be displayed in the console if the `con_obituaries` CVAR is `on` and:
   * A barrel explodes because of another barrel’s explosion.

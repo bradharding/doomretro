@@ -595,6 +595,9 @@ void D_DoAdvanceTitle(void)
 
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
+
+            if (bfgedition && gamemode == commercial && !devparm)
+                M_StartControlPanel();
         }
 
         if (pagelump == creditlump)
@@ -2310,7 +2313,9 @@ static void D_DoomMainSetup(void)
         int titlepics = W_CheckMultipleLumps("TITLEPIC");
         int credits = W_CheckMultipleLumps("CREDIT");
 
-        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
+        if (bfgedition && gamemode == commercial)
+            titlelump = W_CacheLumpName("DMENUPIC");
+        else if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
             titlelump = W_CacheLumpName("TITLEPIC");
         else
             switch (gamemission)
