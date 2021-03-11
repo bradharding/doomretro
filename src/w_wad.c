@@ -304,7 +304,9 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
         I_Error("%s doesn't have an IWAD or PWAD id.", filename);
 
-    if (!strncmp(header.id, "IWAD", 4) || M_StringEndsWith(filename, "DOOM2.WAD"))
+    if (!strncmp(header.id, "IWAD", 4)
+        || M_StringCompare(leafname(filename), "DOOM.WAD")
+        || M_StringCompare(leafname(filename), "DOOM2.WAD"))
     {
         wadfile->type = IWAD;
         bfgedition = IsBFGEdition(filename);
