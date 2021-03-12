@@ -79,5 +79,6 @@ void D_DoAdvanceTitle(void);
 void D_StartTitle(int page);
 void D_FadeScreenToBlack(void);
 void D_FadeScreen(void);
+dboolean D_IsDOOMIWAD(char *filename);
 
 #endif

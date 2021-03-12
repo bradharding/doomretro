@@ -787,11 +787,37 @@ static void LoadCfgFile(char *path)
         M_LoadCVARs(cfgpath);
 }
 
-static dboolean D_IsDOOMIWAD(char *filename)
+static dboolean D_IsDOOM1IWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), "DOOM.WAD") || M_StringCompare(leafname(filename), "DOOM1.WAD")
-        || M_StringCompare(leafname(filename), "DOOM2.WAD") || M_StringCompare(leafname(filename), "PLUTONIA.WAD")
-        || M_StringCompare(leafname(filename), "TNT.WAD") || (hacx = M_StringCompare(leafname(filename), "HACX.WAD")));
+    char    *file = leafname(filename);
+
+    return (M_StringCompare(file, "DOOM.WAD")
+        || M_StringCompare(file, "DOOM1.WAD")
+        || M_StringCompare(file, "DOOMU.WAD")
+        || M_StringCompare(file, "BFGDOOM.WAD")
+        || M_StringCompare(file, "DOOMBFG.WAD")
+        || M_StringCompare(file, "DOOMUNITY.WAD"));
+}
+
+static dboolean D_IsDOOM2IWAD(char *filename)
+{
+    char    *file = leafname(filename);
+
+    return (M_StringCompare(file, "DOOM2.WAD")
+        || M_StringCompare(file, "DOOM2F.WAD")
+        || M_StringCompare(file, "BFGDOOM2.WAD")
+        || M_StringCompare(file, "DOOM2BFG.WAD")
+        || M_StringCompare(file, "DOOM2UNITY.WAD")
+        || M_StringCompare(file, "PLUTONIA.WAD")
+        || M_StringCompare(file, "PLUTONIAUNITY.WAD")
+        || M_StringCompare(file, "TNT.WAD")
+        || M_StringCompare(file, "TNTUNITY.WAD")
+        || (hacx = M_StringCompare(file, "HACX.WAD")));
+}
+
+dboolean D_IsDOOMIWAD(char *filename)
+{
+    return (D_IsDOOM1IWAD(filename) || D_IsDOOM2IWAD(filename));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
@@ -909,7 +935,7 @@ static dboolean D_CheckParms(void)
                 iwadfolder = M_StringDuplicate(folder);
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "DOOM.WAD") && IsUltimateDOOM(myargv[1]))
+                if (D_IsDOOM1IWAD(myargv[1]) && IsUltimateDOOM(myargv[1]))
                 {
                     char    fullpath[MAX_PATH];
 
@@ -951,7 +977,7 @@ static dboolean D_CheckParms(void)
                     }
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                else if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                else if (D_IsDOOM2IWAD(myargv[1]))
                 {
                     char    fullpath[MAX_PATH];
 
@@ -1214,7 +1240,7 @@ static int D_OpenWADLauncher(void)
                     iwadfolder = M_StringDuplicate(folder);
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "DOOM.WAD") && IsUltimateDOOM(file))
+                    if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
                     {
                         char    fullpath[MAX_PATH];
 
@@ -1256,7 +1282,7 @@ static int D_OpenWADLauncher(void)
                         }
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    else if (M_StringCompare(leafname(file), "DOOM2.WAD"))
+                    else if (D_IsDOOM2IWAD(file))
                     {
                         char    fullpath[MAX_PATH];
 
@@ -1434,7 +1460,7 @@ static int D_OpenWADLauncher(void)
                     {
                         iwadfound = 1;
                         sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
-                        isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+                        isDOOM2 = D_IsDOOM2IWAD(iwadpass1);
 
 #if defined(_WIN32)
                         if (!guess)
@@ -1480,7 +1506,7 @@ static int D_OpenWADLauncher(void)
                         {
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
+                            isDOOM2 = D_IsDOOM2IWAD(iwadpass2);
 
 #if defined(_WIN32)
                             if (!guess)
