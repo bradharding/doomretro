@@ -596,7 +596,7 @@ void D_DoAdvanceTitle(void)
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
-            if (bfgedition && gamemode == commercial && !devparm)
+            if (DMENUPIC && !devparm)
                 M_StartControlPanel();
         }
 
@@ -2339,9 +2339,7 @@ static void D_DoomMainSetup(void)
         int titlepics = W_CheckMultipleLumps("TITLEPIC");
         int credits = W_CheckMultipleLumps("CREDIT");
 
-        if (bfgedition && gamemode == commercial)
-            titlelump = W_CacheLumpName("DMENUPIC");
-        else if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
+        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
             titlelump = W_CacheLumpName("TITLEPIC");
         else
             switch (gamemission)
@@ -2352,7 +2350,11 @@ static void D_DoomMainSetup(void)
 
                 case doom2:
                 case pack_nerve:
-                    titlelump = W_CacheLumpName("TITLEPI3");
+                    if ((DMENUPIC = (bfgedition && gamemode == commercial)))
+                        titlelump = W_CacheLumpName("DMENUPIC");
+                    else
+                        titlelump = W_CacheLumpName("TITLEPI3");
+
                     break;
 
                 case pack_plut:

@@ -73,6 +73,7 @@ dboolean        remnant;
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame;
 
+dboolean        DMENUPIC = false;
 dboolean        DSSECRET;
 dboolean        FREEDOOM;
 dboolean        FREEDM;

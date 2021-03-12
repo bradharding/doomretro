@@ -116,6 +116,7 @@ extern dboolean         eviternity;
 extern dboolean         doom4vanilla;
 extern dboolean         remnant;
 
+extern dboolean         DMENUPIC;
 extern dboolean         DSSECRET;
 extern dboolean         FREEDOOM;
 extern dboolean         FREEDM;
