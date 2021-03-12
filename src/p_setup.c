@@ -48,6 +48,7 @@
 #include "m_argv.h"
 #include "m_bbox.h"
 #include "m_config.h"
+#include "m_controls.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -3446,7 +3447,7 @@ static void P_InitMapInfo(void)
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 
-    if (nojump)
+    if (nojump && (keyboardjump || mousejump != -1 || gamepadjump))
         C_Warning(1, "This PWAD has disabled use of the <b>+jump</b> action.");
 
     if (nomouselook)
