@@ -224,7 +224,7 @@ int FindDominantEdgeColor(patch_t *patch)
     int         colors[256] = { 0 };
     const int   width = SHORT(patch->width);
 
-    for (int x = 0; x < 10; x++)
+    for (int x = 0; x < 20; x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[x]));
         byte        *source = (byte *)column + 3;
@@ -234,7 +234,7 @@ int FindDominantEdgeColor(patch_t *patch)
             colors[*source++]++;
     }
 
-    for (int x = width - 10; x < width; x++)
+    for (int x = width - 20; x < width; x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[x]));
         byte        *source = (byte *)column + 3;
