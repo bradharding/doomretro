@@ -1418,7 +1418,7 @@ static void M_DrawReadThis(void)
             patch_t *lump = W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1");
 
             if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantColor(lump), SCREENAREA);
+                memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, lump);
         }
@@ -1439,7 +1439,7 @@ static void M_DrawReadThis(void)
             patch_t *lump = W_CacheLumpName(lumpname);
 
             if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantColor(lump), SCREENAREA);
+                memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, lump);
         }

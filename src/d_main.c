@@ -604,7 +604,7 @@ void D_DoAdvanceTitle(void)
             forcewipe = true;
 
         pagelump = titlelump;
-        pillarboxcolor = FindDominantColor(pagelump);
+        pillarboxcolor = FindDominantEdgeColor(pagelump);
         pagetic = 20 * TICRATE;
 
         if (splashscreen)
@@ -624,7 +624,7 @@ void D_DoAdvanceTitle(void)
     {
         forcewipe = true;
         pagelump = creditlump;
-        pillarboxcolor = FindDominantColor(pagelump);
+        pillarboxcolor = FindDominantEdgeColor(pagelump);
         pagetic = 10 * TICRATE;
     }
 

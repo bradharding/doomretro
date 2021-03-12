@@ -189,6 +189,7 @@ static int SlopeDiv(unsigned int num, unsigned int den)
         return (ANG45 - 1);
 
     ans = ((uint64_t)num << 3) / (den >> 8);
+
     return (int)(ans <= SLOPERANGE ? tantoangle[ans] : ANG45 - 1);
 }
 
@@ -221,6 +222,7 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
         else
         {
             y = -y;
+
             return (x > y ? -SlopeDiv(y, x) : ANG270 + SlopeDiv(x, y));
         }
     }
@@ -233,6 +235,7 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
         else
         {
             y = -y;
+
             return (x > y ? ANG180 + SlopeDiv(y, x) : ANG270 - 1 - SlopeDiv(x, y));
         }
     }

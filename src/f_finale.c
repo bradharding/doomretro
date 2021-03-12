@@ -837,7 +837,7 @@ static void F_CastDrawer(void)
         patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheLumpName(bgcastcall));
 
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantColor(patch), SCREENAREA);
+        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 
@@ -962,7 +962,7 @@ static void F_BunnyScroll(void)
     int     pillarwidth = (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2;
 
     if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantColor(p1), SCREENAREA);
+        memset(screens[0], FindDominantEdgeColor(p1), SCREENAREA);
 
     for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {
@@ -1051,7 +1051,7 @@ static void F_ArtScreenDrawer(void)
         }
 
         if (SCREENWIDTH != NONWIDEWIDTH)
-            memset(screens[0], FindDominantColor(lump), SCREENAREA);
+            memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
     }
