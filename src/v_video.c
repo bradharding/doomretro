@@ -710,8 +710,13 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 
 void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
-    byte        *desttop = &screen[y * screenwidth + x];
+    byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset) * SCREENSCALE;
+    x -= SHORT(patch->leftoffset) * SCREENSCALE;
+
+    desttop = &screen[y * screenwidth + x];
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
@@ -739,8 +744,13 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 
 void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
-    byte        *desttop = &screen[y * screenwidth + x];
+    byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset) * SCREENSCALE;
+    x -= SHORT(patch->leftoffset) * SCREENSCALE;
+
+    desttop = &screen[y * screenwidth + x];
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {

@@ -89,16 +89,6 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
     }
 }
 
-static void HU_DrawDot(int x, int y, unsigned char src, int screenwidth)
-{
-    byte    *dest = &tempscreen[y * screenwidth + x];
-
-    if (src == PINK)
-        *dest = 0;
-    else if (src != ' ')
-        *dest = src;
-}
-
 // [BH] draw an individual character to temporary buffer
 static void HU_DrawChar(int x, int y, int ch, int screenwidth)
 {
@@ -113,7 +103,38 @@ static void HU_DrawChar(int x, int y, int ch, int screenwidth)
 
             for (int yy = 0; yy < SCREENSCALE; yy++)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
-                    HU_DrawDot(i + xx, j + yy, src, screenwidth);
+                {
+                    byte    *dest = &tempscreen[(j + yy) * screenwidth + (i + xx)];
+
+                    if (src == PINK)
+                        *dest = 0;
+                    else if (src != ' ')
+                        *dest = src;
+                }
+        }
+}
+
+static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int screenwidth)
+{
+    int w = (int)strlen(smallcharset[ch]) / 10;
+
+    for (int y1 = 0; y1 < 10; y1++)
+        for (int x1 = 0; x1 < w; x1++)
+        {
+            const unsigned char src = smallcharset[ch][y1 * w + x1];
+            const int           i = (x + x1) * SCREENSCALE;
+            const int           j = (y + y1) * SCREENSCALE;
+
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
+                {
+                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
+
+                    if (src == PINK)
+                        *dest = tinttab50[(nearestblack << 8) + *dest];
+                    else if (src != ' ')
+                        *dest = tinttab75[(src << 8) + *dest];
+                }
         }
 }
 
@@ -445,9 +466,19 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                     j = 66;
             }
 
-            if (!STCFN034)
+            if (STCFN034)
             {
-                if (prev == ' ' && c == '(' && !idmypos)
+                if (prev == ' ' && c == '(')
+                    x -= 2;
+
+                if (r_hud_translucency)
+                    V_DrawTranslucentHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
+                else
+                    V_DrawHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
+            }
+            else
+            {
+                if (prev == ' ' && c == '(')
                     x -= 2;
                 else
                 {
@@ -465,13 +496,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                         k++;
                     }
                 }
-            }
 
-            // [BH] draw individual character
-            if (r_hud_translucency)
-                V_DrawTranslucentHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
-            else
-                V_DrawHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
+                HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb1, w);
+            }
 
             x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
         }
