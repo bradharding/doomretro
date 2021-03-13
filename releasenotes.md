@@ -4,6 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now compiled using v16.9.1 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now recognizes the following alternative names for the IWADs it supports: `DOOMU.WAD`, `BFGDOOM.WAD`, `DOOMBFG.WAD`, `DOOMUNITY.WAD`, `DOOM2F.WAD`, `BFGDOOM2.WAD`, `DOOM2BFG.WAD`, `DOOM2UNITY.WAD`, `PLUTONIAUNITY.WAD` and `TNTUNITY.WAD`.
 * A bug has been fixed whereby certain lumps that are only 320 pixels wide wouldn’t be positioned correctly in some instances if the `vid_widescreen` CVAR was `on`.
 * A wider version of the `DMENUPIC` lump will be displayed, and the menu will automatically open at startup again, when playing the *BFG Edition* of *DOOM II: Hell On Earth*.
 * Minor changes have been made to text that is output to the console.
@@ -12,6 +13,7 @@
   * A corpse is gibbed by a nearby barrel or rocket explosion.
 * Minor improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Minor improvements have been made to the support of `DEHACKED` lumps.
+* A bug has been fixed whereby some characters in the automap title wouldn’t be displayed correctly in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
