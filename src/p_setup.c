@@ -2904,10 +2904,10 @@ void P_SetupLevel(int ep, int map)
     temp = titlecase(maptitle);
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You have %s <i>%s</i>%s",
+        C_PlayerMessage("You %s <i>%s</i>%s",
             (samelevel ? "reentered": "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
     else
-        C_PlayerMessage("%s has %s <i>%s</i>%s",
+        C_PlayerMessage("%s %s <i>%s</i>%s",
             playername, (samelevel ? "reentered" : "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
     free(temp);
