@@ -2823,7 +2823,8 @@ void P_SetupLevel(int ep, int map)
     char        lumpname[6];
     int         lumpnum;
     static int  prevlumpnum = -1;
-    char        *temp;
+    char        *temp1;
+    char        *temp2;
 
     boomcompatible = false;
     mbfcompatible = false;
@@ -2901,21 +2902,17 @@ void P_SetupLevel(int ep, int map)
 
     C_AddConsoleDivider();
 
-    temp = titlecase(maptitle);
-
-    if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You %s <i>%s</i>%s",
-            (samelevel ? "reentered": "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
-    else
-        C_PlayerMessage("%s %s <i>%s</i>%s",
-            playername, (samelevel ? "reentered" : "entered"), temp, (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
-
-    free(temp);
+    temp1 = sentencecase(playername);
+    temp2 = titlecase(maptitle);
+    C_PlayerMessage("%s %s <i>%s</i>%s",
+        temp1, (samelevel ? "reentered": "entered"), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
+    free(temp1);
+    free(temp2);
 
     leveltime = 0;
     animatedliquiddiff = 2 * FRACUNIT;
-    animatedliquidxdir = M_BigRandomInt(-FRACUNIT / 12, FRACUNIT / 12);
-    animatedliquidydir = M_BigRandomInt(-FRACUNIT / 12, FRACUNIT / 12);
+    animatedliquidxdir = M_BigRandomInt(-FRACUNIT, FRACUNIT) / 12;
+    animatedliquidydir = M_BigRandomInt(-FRACUNIT, FRACUNIT) / 12;
 
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;

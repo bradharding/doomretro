@@ -868,8 +868,10 @@ static dboolean D_IsDehFile(char *filename)
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (M_StringCompare(leafname(filename), "SIGIL.wad") || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad") || M_StringCompare(leafname(filename), "SIGIL_v1_21.wad"))
+    if (M_StringCompare(leafname(filename), "SIGIL.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad")
+        || M_StringCompare(leafname(filename), "SIGIL_v1_21.wad"))
     {
         sigil = true;
         episode = 5;
@@ -901,7 +903,8 @@ static void D_CheckSupportedPWAD(char *filename)
         E1M4B = true;
     else if (M_StringCompare(leafname(filename), "e1m8b.wad"))
         E1M8B = true;
-    else if (M_StringCompare(leafname(filename), "d1spfx18.wad") || M_StringCompare(leafname(filename), "d2spfx18.wad"))
+    else if (M_StringCompare(leafname(filename), "d1spfx18.wad")
+        || M_StringCompare(leafname(filename), "d2spfx18.wad"))
         sprfix18 = true;
     else if (M_StringCompare(leafname(filename), "eviternity.wad"))
         eviternity = true;
