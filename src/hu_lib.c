@@ -295,7 +295,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     int             len = l->len;
-    const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
+    const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
     if (external)
     {
@@ -431,9 +431,8 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
     int             w = (external ? MAPWIDTH : SCREENWIDTH);
     int             x, y;
     unsigned char   prev = '\0';
-    byte            *fb1 = (external ? mapscreen : screens[0]);
+    byte            *fb = (external ? mapscreen : screens[0]);
     int             len = l->len;
-    const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
     // draw the new stuff
     x = l->x;
@@ -472,9 +471,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                     x -= 2;
 
                 if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
+                    V_DrawTranslucentHUDText(x, y - 1, fb, l->f[c - l->sc], w);
                 else
-                    V_DrawHUDText(x, y - 1, fb1, l->f[c - l->sc], w);
+                    V_DrawHUDText(x, y - 1, fb, l->f[c - l->sc], w);
             }
             else
             {
@@ -497,7 +496,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                     }
                 }
 
-                HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb1, w);
+                HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, w);
             }
 
             x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
