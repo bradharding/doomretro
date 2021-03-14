@@ -7775,7 +7775,9 @@ static void playername_cvar_func2(char *cmd, char *parms)
 {
     str_cvars_func2(cmd, (M_StringCompare(parms, EMPTYVALUE) ? playername_default : parms));
 
-    if (!M_StringCompare(parms, playername_default))
+    if (M_StringCompare(parms, playername_default))
+        playername = lowercase(playername);
+    else
         playername[0] = toupper(playername[0]);
 }
 

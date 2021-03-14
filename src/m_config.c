@@ -730,7 +730,9 @@ static void M_CheckCVARs(void)
 
     if (!*playername)
         playername = M_StringDuplicate(playername_default);
-    else if (!M_StringCompare(playername, playername_default))
+    else if (M_StringCompare(playername, playername_default))
+        playername = lowercase(playername);
+    else
         playername[0] = toupper(playername[0]);
 
     if (r_althud != false && r_althud != true)
