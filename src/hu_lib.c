@@ -294,6 +294,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     unsigned char   prev = '\0';
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
+    byte            *tinttab1 = tinttab50;
+    byte            *tinttab2 = tinttab75;
     int             len = l->len;
     const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
@@ -407,33 +409,31 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = (l->x + tw + 1) * SCREENSCALE;
     maxy = (y + 11) * SCREENSCALE;
 
+    if (fade)
+    {
+        if (message_counter == 1)
+        {
+            tinttab1 = tinttab20;
+            tinttab2 = tinttab20;
+        }
+        else if (message_counter == 2)
+        {
+            tinttab1 = tinttab25;
+            tinttab2 = tinttab40;
+        }
+        else if (message_counter == 3)
+        {
+            tinttab1 = tinttab33;
+            tinttab2 = tinttab60;
+        }
+    }
+
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
             int     dot = yy * SCREENWIDTH + xx;
             byte    *source = &tempscreen[dot];
             byte    *dest1 = &fb1[dot];
-            byte    *tinttab1 = tinttab50;
-            byte    *tinttab2 = tinttab75;
-
-            if (fade)
-            {
-                if (message_counter == 1)
-                {
-                    tinttab1 = tinttab20;
-                    tinttab2 = tinttab20;
-                }
-                else if (message_counter == 2)
-                {
-                    tinttab1 = tinttab25;
-                    tinttab2 = tinttab40;
-                }
-                else if (message_counter == 3)
-                {
-                    tinttab1 = tinttab33;
-                    tinttab2 = tinttab60;
-                }
-            }
 
             if (!*source)
                 *dest1 = tinttab1[(nearestblack << 8) + fb2[dot]];
