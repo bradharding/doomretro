@@ -3123,7 +3123,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // Toggle graphic detail
-    if (key == KEY_F5 && !functionkey && (!automapactive || r_screensize < r_screensize_max) && !keydown)
+    if (key == KEY_F5 && !functionkey && (r_screensize < r_screensize_max || !automapactive) && !keydown)
     {
         keydown = key;
         functionkey = KEY_F5;
