@@ -407,7 +407,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
     // [BH] draw entire message from buffer onto screen
     maxx = (l->x + tw + 1) * SCREENSCALE;
-    maxy = (y + 11) * SCREENSCALE;
+    maxy = (y + 10) * SCREENSCALE;
 
     if (fade)
     {
