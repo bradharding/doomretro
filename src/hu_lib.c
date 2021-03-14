@@ -418,15 +418,20 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
             if (fade)
             {
-                if (message_counter < 2)
+                if (message_counter == 1)
                 {
                     tinttab1 = tinttab20;
-                    tinttab2 = tinttab33;
+                    tinttab2 = tinttab20;
                 }
-                else if (message_counter < 4)
+                else if (message_counter == 2)
+                {
+                    tinttab1 = tinttab25;
+                    tinttab2 = tinttab40;
+                }
+                else if (message_counter == 3)
                 {
                     tinttab1 = tinttab33;
-                    tinttab2 = tinttab50;
+                    tinttab2 = tinttab60;
                 }
             }
 
