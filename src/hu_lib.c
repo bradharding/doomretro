@@ -413,13 +413,29 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             int     dot = yy * SCREENWIDTH + xx;
             byte    *source = &tempscreen[dot];
             byte    *dest1 = &fb1[dot];
+            byte    *tinttab1 = tinttab50;
+            byte    *tinttab2 = tinttab75;
+
+            if (fade)
+            {
+                if (message_counter < 2)
+                {
+                    tinttab1 = tinttab20;
+                    tinttab2 = tinttab33;
+                }
+                else if (message_counter < 4)
+                {
+                    tinttab1 = tinttab33;
+                    tinttab2 = tinttab50;
+                }
+            }
 
             if (!*source)
-                *dest1 = tinttab50[(nearestblack << 8) + fb2[dot]];
+                *dest1 = tinttab1[(nearestblack << 8) + fb2[dot]];
             else if (*source != PINK)
             {
                 if (r_hud_translucency)
-                    *dest1 = tinttab75[(*source << 8) + fb2[dot]];
+                    *dest1 = tinttab2[(*source << 8) + fb2[dot]];
                 else
                     *dest1 = *source;
             }

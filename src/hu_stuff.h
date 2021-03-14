@@ -105,5 +105,6 @@ extern int      ammohighlight;
 extern int      armorhighlight;
 extern dboolean drawdisk;
 extern dboolean idbehold;
+extern int      message_counter;
 
 #endif
