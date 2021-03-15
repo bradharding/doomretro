@@ -7773,12 +7773,18 @@ static void playergender_cvar_func2(char *cmd, char *parms)
 //
 static void playername_cvar_func2(char *cmd, char *parms)
 {
+    char    *temp;
+
     str_cvars_func2(cmd, (M_StringCompare(parms, EMPTYVALUE) ? playername_default : parms));
 
-    if (M_StringCompare(parms, playername_default))
-        playername = lowercase(playername);
+    temp = M_StringDuplicate(playername);
+
+    if (M_StringCompare(temp, playername_default))
+        temp = lowercase(temp);
     else
-        playername[0] = toupper(playername[0]);
+        temp[0] = toupper(temp[0]);
+
+    playername = temp;
 }
 
 //
