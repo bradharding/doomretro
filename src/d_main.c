@@ -1862,12 +1862,9 @@ static void D_DoomMainSetup(void)
 #endif
 
     I_PrintSystemInfo();
-
     C_PrintSDLVersions();
 
     iwadfile = D_FindIWAD();
-
-    modifiedgame = false;
 
     for (int i = 0; i < MAXALIASES; i++)
     {

@@ -53,7 +53,7 @@
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
-extern byte *screens[5];
+extern byte *screens[2];
 
 extern int  lowpixelwidth;
 extern int  lowpixelheight;

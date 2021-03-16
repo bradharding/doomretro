@@ -1543,8 +1543,6 @@ void ST_Init(void)
     st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type == PWAD ||
         lumpinfo[W_GetNumForName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"))]->wadfile->type == IWAD);
 
-    screens[4] = malloc((size_t)ST_WIDTH * SBARHEIGHT);
-
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat
     for (int i = 0; i < NUMWEAPONS; i++)

@@ -505,7 +505,7 @@ char *M_StringDuplicate(const char *orig)
     char    *result = strdup(orig);
 
     if (!result)
-        I_Error("Failed to duplicate string %s.", stringize(orig));
+        I_Error("Failed to duplicate string.");
 
     return result;
 }

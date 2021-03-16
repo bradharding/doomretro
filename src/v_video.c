@@ -62,7 +62,7 @@
 #define WHITE       4
 #define LIGHTGRAY   82
 
-byte        *screens[5];
+byte        *screens[2];
 int         lowpixelwidth;
 int         lowpixelheight;
 char        screenshotfolder[MAX_PATH];

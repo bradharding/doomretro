@@ -71,7 +71,7 @@ dboolean        doom4vanilla;
 dboolean        remnant;
 
 // Set if homebrew PWAD stuff has been added.
-dboolean        modifiedgame;
+dboolean        modifiedgame = false;
 
 dboolean        DMENUPIC = false;
 dboolean        DSSECRET;
