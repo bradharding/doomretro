@@ -7329,6 +7329,13 @@ static void am_path_cvar_func2(char *cmd, char *parms)
 {
     bool_cvars_func2(cmd, parms);
 
+    if (am_path)
+    {
+        viewplayer->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+
     if (automapactive)
         D_FadeScreen();
 }
