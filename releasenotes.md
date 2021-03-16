@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.0.7
 
+* Minor changes have been made to text that is output to the console.
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now fade off of the screen if the `fade` CVAR is `on`.
 
