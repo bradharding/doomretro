@@ -597,6 +597,8 @@ void G_DoLoadLevel(void)
 
     stat_mapsstarted = SafeAdd(stat_mapsstarted, 1);
 
+    I_UpdateBlitFunc(false);
+
     M_SetWindowCaption();
 
     if (automapactive || mapwindow)
