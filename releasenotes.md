@@ -7,6 +7,7 @@
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
 * Any screen shake will now be canceled when using the `IDCLEV` cheat.
+* The credits screen will now be displayed for the same amount of time as the title screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
