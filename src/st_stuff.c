@@ -587,9 +587,6 @@ dboolean ST_Responder(event_t *ev)
                 {
                     int musnum = (buffer[0] - '0') * 10 + (buffer[1] - '0');
 
-                    S_StartSound(NULL, sfx_getpow);
-                    C_Input("%s%c%c", cheat_mus_xy.sequence, buffer[0], buffer[1]);
-
                     if (musnum < IDMUS_MAX)
                     {
                         if (gamemission == pack_nerve)
@@ -603,6 +600,9 @@ dboolean ST_Responder(event_t *ev)
                         {
                             static char msg[80];
                             char        *temp = uppercase(S_music[musnum].name1);
+
+                            S_StartSound(NULL, sfx_getpow);
+                            C_Input("%s%c%c", cheat_mus_xy.sequence, buffer[0], buffer[1]);
 
                             S_ChangeMusic(musnum, 1, true, false);
 
@@ -1363,11 +1363,13 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     {
         M_snprintf(namebuf, sizeof(namebuf), "STTNUM%i", i);
         callback(namebuf, &tallnum[i]);
+
         M_snprintf(namebuf, sizeof(namebuf), "STYSNUM%i", i);
         callback(namebuf, &shortnum[i]);
     }
 
     callback("STTPRCNT", &tallpercent);
+
     emptytallpercent = V_IsEmptyPatch(tallpercent);
     tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 
@@ -1417,12 +1419,16 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
 
         M_snprintf(namebuf, sizeof(namebuf), "STFTR%i0", i);          // turn right
         callback(namebuf, &faces[facenum++]);
+
         M_snprintf(namebuf, sizeof(namebuf), "STFTL%i0", i);          // turn left
         callback(namebuf, &faces[facenum++]);
+
         M_snprintf(namebuf, sizeof(namebuf), "STFOUCH%i", i);         // ouch!
         callback(namebuf, &faces[facenum++]);
+
         M_snprintf(namebuf, sizeof(namebuf), "STFEVL%i", i);          // evil grin ;)
         callback(namebuf, &faces[facenum++]);
+
         M_snprintf(namebuf, sizeof(namebuf), "STFKILL%i", i);         // pissed off
         callback(namebuf, &faces[facenum++]);
     }
