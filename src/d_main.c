@@ -625,7 +625,7 @@ void D_DoAdvanceTitle(void)
         forcewipe = true;
         pagelump = creditlump;
         pillarboxcolor = FindDominantEdgeColor(pagelump);
-        pagetic = 10 * TICRATE;
+        pagetic = 20 * TICRATE;
     }
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
