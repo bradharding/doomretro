@@ -961,8 +961,10 @@ static void F_BunnyScroll(void)
     int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
     int     pillarwidth = (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2;
 
-    if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
+    if (pillarwidth > 0 && SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], FindDominantEdgeColor(p1), SCREENAREA);
+    else
+        pillarwidth = 0;
 
     for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {
