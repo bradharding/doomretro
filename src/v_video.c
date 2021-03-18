@@ -207,11 +207,11 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
     int     w = SHORT(patch->width);
     int     col = 0;
 
-    if (w > VANILLAWIDTH && !vid_widescreen)
+    if (w > SCREENWIDTH / SCREENSCALE)
     {
         x = 0;
-        col = (w - VANILLAWIDTH) / 2;
-        w = VANILLAWIDTH + col;
+        col = (w - SCREENWIDTH / SCREENSCALE) / 2;
+        w = SCREENWIDTH / SCREENSCALE + col;
     }
 
     w <<= FRACBITS;
