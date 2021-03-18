@@ -3,6 +3,7 @@
 #### DOOM Retro v4.0.7
 
 * *DOOM Retro* is now compiled using v16.9.2 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
+* Wider versions of the title, credits, intermission and finale screens will now be used on ultra-wide displays.
 * Minor changes have been made to text that is output to the console.
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
