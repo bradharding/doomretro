@@ -959,12 +959,10 @@ static void F_BunnyScroll(void)
     patch_t *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName("PFUB1"));
     int     p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
     int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
-    int     pillarwidth = (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2;
+    int     pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
 
-    if (pillarwidth > 0 && SCREENWIDTH != NONWIDEWIDTH)
+    if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], FindDominantEdgeColor(p1), SCREENAREA);
-    else
-        pillarwidth = 0;
 
     for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {

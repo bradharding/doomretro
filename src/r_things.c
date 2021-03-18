@@ -654,13 +654,13 @@ static void R_ProjectSprite(mobj_t *thing)
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
 
         lump = sprframe->lump[rot];
-        flip = (sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED);
+        flip = ((sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = (sprframe->flip & 1) || (flags2 & MF2_MIRRORED);
+        flip = ((sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
     if (thing->state->dehacked || !r_fixspriteoffsets)

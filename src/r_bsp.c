@@ -379,12 +379,10 @@ static void R_AddLine(seg_t *line)
         angle2 = 0 - clipangle;         // Clip at right edge
 
     // The seg is in the view range, but not necessarily visible.
-    angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
-    angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
 
     // killough 01/31/98: Here is where "slime trails" can SOMETIMES occur:
-    x1 = viewangletox[angle1];
-    x2 = viewangletox[angle2];
+    x1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
+    x2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
     // Does not cross a pixel?
     if (x1 >= x2)
