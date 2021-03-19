@@ -461,8 +461,8 @@ static void BlurScreen(byte *src, byte *dest, int width, int area)
         for (int x = y + width - 2; x > y; x--)
             dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = width; y <= area - width * 2; y += width)
-        for (int x = y; x <= y + width - 2; x++)
+    for (int y = width; y <= area - width * 3; y += width)
+        for (int x = y; x <= y + width - 3; x++)
             dest[x] = tinttab50[(dest[x + width * ((M_BigRandom() & 3) - 1) + (M_BigRandom() & 3) - 1] << 8) + dest[x]];
 
     for (int y = area - width; y >= width; y -= width)
