@@ -254,7 +254,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, &PIT_StompThing))
+            if (!P_BlockThingsIterator(bx, by, &PIT_StompThing, false))
                 return false;
 
     // the move is ok,
@@ -798,7 +798,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, &PIT_CheckThing))
+            if (!P_BlockThingsIterator(bx, by, &PIT_CheckThing, false))
                 return false;
 
     // check lines
@@ -929,7 +929,7 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            if (!P_BlockThingsIterator(bx, by, &PIT_CheckOnMobjZ))
+            if (!P_BlockThingsIterator(bx, by, &PIT_CheckOnMobjZ, false))
             {
                 *tmthing = oldmo;
                 return onmobj;
@@ -1987,7 +1987,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticali
 
     for (int y = yl; y <= yh; y++)
         for (int x = xl; x <= xh; x++)
-            P_BlockThingsIterator(x, y, &PIT_RadiusAttack);
+            P_BlockThingsIterator(x, y, &PIT_RadiusAttack, true);
 }
 
 //

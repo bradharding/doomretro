@@ -201,7 +201,7 @@ extern fixed_t  lowfloor;
 void P_LineOpening(line_t *line);
 
 dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *));
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *), dboolean explosion);
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
