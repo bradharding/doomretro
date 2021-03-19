@@ -574,7 +574,7 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
     }
 }
 
-void V_DrawConsolePatch(int x, int y, patch_t *patch, int color, int maxwidth)
+void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = MIN(SHORT(patch->width), maxwidth);
