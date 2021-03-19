@@ -201,7 +201,7 @@ extern fixed_t  lowfloor;
 void P_LineOpening(line_t *line);
 
 dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *));
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *), dboolean explosion);
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
@@ -254,6 +254,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask);
 
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 
+dboolean PIT_RadiusAttack(mobj_t *thing);
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality);
 
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 08/28/98

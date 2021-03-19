@@ -3154,7 +3154,7 @@ void T_Pusher(pusher_t *p)
 
         for (int bx = xl; bx <= xh; bx++)
             for (int by = yl; by <= yh; by++)
-                P_BlockThingsIterator(bx, by, &PIT_PushThing, false);
+                P_BlockThingsIterator(bx, by, &PIT_PushThing);
 
         return;
     }

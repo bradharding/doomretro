@@ -379,7 +379,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 //
 // P_BlockThingsIterator
 //
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *), dboolean explosion)
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -388,7 +388,7 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *), dboolean e
         if (!func(mobj))
             return false;
 
-    if (explosion)
+    if (func == &PIT_RadiusAttack)
         return true;
 
     // Blockmap bug fix by Terry Hearst
@@ -744,7 +744,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
                 return false;   // early out
 
         if (flags & PT_ADDTHINGS)
-            if (!P_BlockThingsIterator(mapx, mapy, &PIT_AddThingIntercepts, false))
+            if (!P_BlockThingsIterator(mapx, mapy, &PIT_AddThingIntercepts))
                 return false;   // early out
 
         if (mapx == xt2 && mapy == yt2)
@@ -783,8 +783,8 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
 
                 if (flags & PT_ADDTHINGS)
                 {
-                    P_BlockThingsIterator(mapx + mapxstep, mapy, &PIT_AddThingIntercepts, false);
-                    P_BlockThingsIterator(mapx, mapy + mapystep, &PIT_AddThingIntercepts, false);
+                    P_BlockThingsIterator(mapx + mapxstep, mapy, &PIT_AddThingIntercepts);
+                    P_BlockThingsIterator(mapx, mapy + mapystep, &PIT_AddThingIntercepts);
                 }
 
                 xintercept += xstep;

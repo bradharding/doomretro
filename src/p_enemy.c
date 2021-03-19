@@ -1351,7 +1351,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
             for (int by = yl; by <= yh; by++)
             {
                 // Call PIT_VileCheck() to check whether object is a corpse that can be raised.
-                if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck, false))
+                if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck))
                 {
                     // got one!
                     mobj_t      *prevtarget = actor->target;
