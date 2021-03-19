@@ -9,6 +9,7 @@
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
 * Any screen shake will now be canceled when using the `IDCLEV` cheat.
 * The credits screen will now be displayed for the same amount of time as the title screen.
+* *Vanilla DOOM’s* [blockmap bug](http://doom2.net/doom2/research/things.html) has now been fixed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
