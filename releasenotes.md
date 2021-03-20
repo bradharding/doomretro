@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now compiled using v16.9.2 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Wider versions of the title, credits, intermission and finale screens will now be used on ultra-wide displays when the `vid_widscreen` CVAR is `on`.
+* *DOOM Retro’s* window will now be resized correctly if the `vid_fullscreen` CVAR is `off` and the `vid_widescreen` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.

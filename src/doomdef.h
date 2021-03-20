@@ -117,7 +117,7 @@ typedef enum
 
 #define SCREENSCALE         2
 
-#define MAXWIDTH            (VANILLAWIDTH * 4)  // [crispy]
+#define MAXWIDTH            (VANILLAWIDTH * 8)  // [crispy]
 #define MAXHEIGHT           (VANILLAHEIGHT * 2) // [crispy]
 
 #define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)

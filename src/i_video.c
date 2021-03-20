@@ -684,6 +684,8 @@ static void I_GetEvent(void)
 
                                 free(temp1);
                                 free(temp2);
+
+                                I_RestartGraphics(false);
                             }
 
                             break;
@@ -1845,10 +1847,38 @@ static void I_GetScreenDimensions(void)
         int w = 16;
         int h = 10;
 
-        if (displays[displayindex].w * ACTUALHEIGHT >= displays[displayindex].h * SCREENWIDTH)
+        if (vid_fullscreen)
         {
-            w = displays[displayindex].w;
-            h = displays[displayindex].h;
+            if (displays[displayindex].w * ACTUALHEIGHT >= displays[displayindex].h * SCREENWIDTH)
+            {
+                w = displays[displayindex].w;
+                h = displays[displayindex].h;
+            }
+        }
+        else
+        {
+            GetWindowSize();
+
+            w = windowwidth;
+            h = windowheight;
+
+            if (w <= h * 4 / 3)
+            {
+                SCREENWIDTH = NONWIDEWIDTH;
+                WIDEFOVDELTA = 0;
+                WIDESCREENDELTA = 0;
+
+                clearframefunc = &I_ClearFrame;
+
+                SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
+
+                vid_widescreen = false;
+                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                M_SaveCVARs();
+
+                GetPixelSize();
+                return;
+            }
         }
 
         SCREENWIDTH = MIN((w * ACTUALHEIGHT / h + 1) & ~3, MAXWIDTH);
