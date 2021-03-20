@@ -2,17 +2,18 @@
 
 #### DOOM Retro v4.0.7
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now compiled using v16.9.2 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
-* Even wider versions of the title, credits, intermission and finale screens will now be used on ultra-wide displays when the `vid_widscreen` CVAR is `on`.
-* *DOOM Retro’s* window can now be resized properly if the `vid_fullscreen` CVAR is `off` and the `vid_widescreen` CVAR is `on`. If the window is resized such that it has an aspect ratio smaller than 4:3, the `vid_widescreen` CVAR is now automatically turned off.
+* Even wider versions of the title, credits, intermission and finale screens will now be used on ultra-wide displays when the `vid_widescreen` CVAR is `on`.
+* *DOOM Retro’s* window can now be resized properly if the `vid_fullscreen` CVAR is `off` and the `vid_widescreen` CVAR is `on`. If the window is resized such that it has an aspect ratio less than 4:3, the `vid_widescreen` CVAR is now automatically turned off.
 * Minor changes have been made to text that is output to the console.
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
-* Any screen shake will now be canceled when using the `IDCLEV` cheat.
+* Any screen shake will now be canceled when warping to another map using the `IDCLEV` cheat.
 * The credits screen will now be displayed for the same amount of time as the title screen.
 * The correct credits screen is now displayed for the registered version of *DOOM*.
-* *Vanilla DOOM’s* [blockmap bug](http://doom2.net/doom2/research/things.html) has now been fixed.
-* The par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* *Vanilla DOOM’s* notorious [blockmap bug](http://doom2.net/doom2/research/things.html) has now finally been fixed.
+* Par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

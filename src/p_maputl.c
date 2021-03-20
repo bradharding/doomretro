@@ -396,57 +396,57 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
     // (-1, -1)
     if (x > 0 && y > 0)
         for (mobj_t *mobj = blocklinks[(y - 1) * bmapwidth + x - 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT
+                && y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT
+                && !func(mobj))
                     return false;
 
     // (0, -1)
     if (y > 0)
         for (mobj_t *mobj = blocklinks[(y - 1) * bmapwidth + x]; mobj; mobj = mobj->bnext)
-            if (y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT && !func(mobj))
                     return false;
 
     // (1, -1)
     if (x < bmapwidth - 1 && y > 0)
         for (mobj_t *mobj = blocklinks[(y - 1) * bmapwidth + x + 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT
+                && y == (mobj->y + mobj->radius - bmaporgy) >> MAPBLOCKSHIFT
+                && !func(mobj))
                     return false;
 
     // (1, 0)
     if (x < bmapwidth - 1)
         for (mobj_t *mobj = blocklinks[y * bmapwidth + x + 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && !func(mobj))
                     return false;
 
     // (1, 1)
     if (x < bmapwidth - 1 && y < bmapheight - 1)
         for (mobj_t *mobj = blocklinks[(y + 1) * bmapwidth + x + 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x - mobj->radius - bmaporgx) >> MAPBLOCKSHIFT
+                && y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT
+                && !func(mobj))
                     return false;
 
     // (0, 1)
     if (y < bmapheight - 1)
         for (mobj_t *mobj = blocklinks[(y + 1) * bmapwidth + x]; mobj; mobj = mobj->bnext)
-            if (y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT && !func(mobj))
                     return false;
 
     // (-1, 1)
     if (x > 0 && y < bmapheight - 1)
         for (mobj_t *mobj = blocklinks[(y + 1) * bmapwidth + x - 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT
+                && y == (mobj->y - mobj->radius - bmaporgy) >> MAPBLOCKSHIFT
+                && !func(mobj))
                     return false;
 
     // (-1, 0)
     if (x > 0)
         for (mobj_t *mobj = blocklinks[y * bmapwidth + x - 1]; mobj; mobj = mobj->bnext)
-            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT)
-                if (!func(mobj))
+            if (x == (mobj->x + mobj->radius - bmaporgx) >> MAPBLOCKSHIFT && !func(mobj))
                     return false;
 
     return true;
