@@ -12,6 +12,7 @@
 * The credits screen will now be displayed for the same amount of time as the title screen.
 * The correct credits screen is now displayed for the registered version of *DOOM*.
 * *Vanilla DOOM’s* [blockmap bug](http://doom2.net/doom2/research/things.html) has now been fixed.
+* The par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
