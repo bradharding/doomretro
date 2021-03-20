@@ -2225,7 +2225,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
             {
                 vid_widescreen = false;
-                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                C_Output("%s %s", stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
@@ -2255,7 +2255,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
-                C_StrCVAROutput(stringize(vid_widescreen), "on");
+                C_Output("%s %s", stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
