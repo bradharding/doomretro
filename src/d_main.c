@@ -808,10 +808,6 @@ static dboolean D_IsDOOM2IWAD(char *filename)
         || M_StringCompare(file, "BFGDOOM2.WAD")
         || M_StringCompare(file, "DOOM2BFG.WAD")
         || M_StringCompare(file, "DOOM2UNITY.WAD")
-        || M_StringCompare(file, "PLUTONIA.WAD")
-        || M_StringCompare(file, "PLUTONIAUNITY.WAD")
-        || M_StringCompare(file, "TNT.WAD")
-        || M_StringCompare(file, "TNTUNITY.WAD")
         || (hacx = M_StringCompare(file, "HACX.WAD")));
 }
 
