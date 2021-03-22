@@ -62,7 +62,7 @@
 #define WHITE       4
 #define LIGHTGRAY   82
 
-byte        *screens[2];
+byte        *screens[4];
 int         lowpixelwidth;
 int         lowpixelheight;
 char        screenshotfolder[MAX_PATH];
@@ -1740,7 +1740,7 @@ void V_Init(void)
         C_Warning(1, "The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
             SDL_IMAGE_FILENAME, PACKAGE_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 3; i++)
         screens[i] = &base[i * MAXSCREENAREA];
 
     if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
