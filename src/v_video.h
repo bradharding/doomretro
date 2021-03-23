@@ -46,14 +46,16 @@
 // VIDEO
 //
 
-#define DX  ((NONWIDEWIDTH << FRACBITS) / VANILLAWIDTH)
-#define DXI ((VANILLAWIDTH << FRACBITS) / NONWIDEWIDTH)
-#define DY  ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
-#define DYI ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
+#define DX          ((NONWIDEWIDTH << FRACBITS) / VANILLAWIDTH)
+#define DXI         ((VANILLAWIDTH << FRACBITS) / NONWIDEWIDTH)
+#define DY          ((SCREENHEIGHT << FRACBITS) / VANILLAHEIGHT)
+#define DYI         ((VANILLAHEIGHT << FRACBITS) / SCREENHEIGHT)
+
+#define NUMSCREENS  4
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
-extern byte *screens[4];
+extern byte *screens[NUMSCREENS];
 
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
