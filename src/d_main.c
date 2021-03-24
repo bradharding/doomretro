@@ -2327,7 +2327,7 @@ static void D_DoomMainSetup(void)
 
     if (autosigil)
     {
-        titlelump = W_CacheLastLumpName("TITLEPI2");
+        titlelump = W_CacheLastLumpName("TITLEPI3");
         creditlump = W_CacheLastLumpName("CREDIT1");
     }
     else
@@ -2341,7 +2341,8 @@ static void D_DoomMainSetup(void)
             switch (gamemission)
             {
                 case doom:
-                    titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : (gamemode == shareware ? "TITLEPI6" : "TITLEPI1"));
+                    titlelump = W_CacheLumpName(gamemode == shareware ? "TITLEPI1" :
+                        (gamemode == registered ? "TITLEPI2" : "TITLEPI3"));
                     break;
 
                 case doom2:
@@ -2349,16 +2350,16 @@ static void D_DoomMainSetup(void)
                     if ((DMENUPIC = (bfgedition && gamemode == commercial)))
                         titlelump = W_CacheLumpName("DMENUPIC");
                     else
-                        titlelump = W_CacheLumpName("TITLEPI3");
+                        titlelump = W_CacheLumpName("TITLEPI4");
 
                     break;
 
                 case pack_plut:
-                    titlelump = W_CacheLumpName("TITLEPI4");
+                    titlelump = W_CacheLumpName("TITLEPI5");
                     break;
 
                 case pack_tnt:
-                    titlelump = W_CacheLumpName("TITLEPI5");
+                    titlelump = W_CacheLumpName("TITLEPI6");
                     break;
 
                 case none:
