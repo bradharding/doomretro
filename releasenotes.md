@@ -11,7 +11,7 @@
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
 * Any screen shake will now be canceled when warping to another map using the `IDCLEV` cheat or loading a savegame in some instances.
 * The credits screen will now be displayed for the same amount of time as the title screen.
-* The correct title screen is now displayed when playing *Final DOOM: The Plutonia Experiment* and *Final DOOM: TNT - Evilution*.
+* The correct title screen is now displayed when playing *DOOM (Shareware)*, *Final DOOM: The Plutonia Experiment* or *Final DOOM: TNT - Evilution*.
 * The correct credits screen is now displayed for the registered version of *DOOM*.
 * *Vanilla DOOM’s* notorious [blockmap bug](http://doom2.net/doom2/research/things.html) has now finally been fixed.
 * Par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).

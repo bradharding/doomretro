@@ -2341,7 +2341,7 @@ static void D_DoomMainSetup(void)
             switch (gamemission)
             {
                 case doom:
-                    titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : "TITLEPI1");
+                    titlelump = W_CacheLumpName(gamemode == retail ? "TITLEPI2" : (gamemode == shareware ? "TITLEPI6" : "TITLEPI1"));
                     break;
 
                 case doom2:
