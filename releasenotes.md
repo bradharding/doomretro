@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.0.7
+#### DOOM Retro v4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* is now compiled using v16.9.2 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
