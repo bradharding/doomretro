@@ -247,6 +247,8 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
     int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
     int                 expand_ratio = (samplecount << 8) / expanded_length;
+    double              dt = 1.0 / mixer_freq;
+    double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
     if (bits == 8)
         for (unsigned int i = 0; i < expanded_length; i++)
@@ -258,10 +260,14 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
     else
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            int     src = ((i * expand_ratio) >> 8) * 2;
+            int src = ((i * expand_ratio) >> 8) * 2;
 
             expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }
+
+    // Apply low-pass filter
+    for (unsigned int i = 2; i < expanded_length * 2; i++)
+        expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 }
 
 // Load and convert a sound effect

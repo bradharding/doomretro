@@ -1237,7 +1237,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         case SPR_SGN2:
             temp = viewplayer->weaponowned[wp_supershotgun];
 
-            if (!P_GiveWeapon(wp_supershotgun, (special->flags & MF_DROPPED), stat))
+            if (!P_GiveWeapon(wp_supershotgun, false, stat))
                 return;
 
             if (!temp)

@@ -16,7 +16,7 @@
 * The correct credits screen is now displayed for the registered version of *DOOM*.
 * *Vanilla DOOM’s* notorious [blockmap bug](http://doom2.net/doom2/research/things.html) has now finally been fixed.
 * Par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* A bug has been fixed whereby some sound effect lumps that were in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play correctly.
+* A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
