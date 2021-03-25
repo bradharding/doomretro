@@ -248,19 +248,19 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
     int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
     int                 expand_ratio = (samplecount << 8) / expanded_length;
 
-    if (bits == 16)
+    if (bits == 8)
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            int     src = (i * expand_ratio) >> 8;
+            byte   src = data[(i * expand_ratio) >> 8];
 
-            expanded[i * 2] = expanded[i * 2 + 1] = data[src * 2] | (data[src * 2 + 1] << 8);
+            expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
         }
     else
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            int     src = (i * expand_ratio) >> 8;
+            int     src = ((i * expand_ratio) >> 8) * 2;
 
-            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src] << 8)) - 32768;
+            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }
 }
 
