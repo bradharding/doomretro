@@ -7568,6 +7568,7 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
         {
             R_InitSkyMap();
             R_InitColumnFunctions();
+            D_FadeScreen();
 
             if (!mouselook)
             {
