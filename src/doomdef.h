@@ -109,7 +109,7 @@ typedef enum
 #define VANILLAWIDTH        320
 #define VANILLAHEIGHT       200
 
-#define ACTUALHEIGHT        (6 * SCREENHEIGHT / 5)
+#define ACTUALHEIGHT        (SCREENHEIGHT * 6 / 5)
 
 #define UNITYWIDTH          426
 

@@ -352,7 +352,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
         if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH)))
             return -1;
 
-        if (pitch != NORM_PITCH && s_randompitch)
+        if (s_randompitch && pitch && pitch != NORM_PITCH)
         {
             allocated_sound_t   *newsnd = PitchShift(snd, pitch);
 

@@ -803,7 +803,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->id = -1;
     mobj->shadowoffset = info->shadowoffset;
     mobj->blood = info->blood;
-    mobj->pitch = NORM_PITCH;
 
     P_SetShadowColumnFunction(mobj);
 
@@ -1047,7 +1046,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->psprites[ps_weapon].sx = 0;
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
-    viewplayer->mo->pitch = NORM_PITCH;
     viewplayer->momx = 0;
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
