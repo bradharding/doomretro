@@ -12,10 +12,11 @@
 * Any screen shake will now be canceled when warping to another map using the `IDCLEV` cheat or loading a savegame in some instances.
 * The credits screen will now be displayed for the same amount of time as the title screen.
 * The correct title screen is now displayed when playing *DOOM (Shareware)*, *Final DOOM: The Plutonia Experiment* or *Final DOOM: TNT - Evilution*.
-* The *id Software* logo is no longer missing from some title screens.
+* The *id Software* logo is no longer missing from certain title screens.
 * The correct credits screen is now displayed for the registered version of *DOOM*.
 * *Vanilla DOOM’s* notorious [blockmap bug](http://doom2.net/doom2/research/things.html) has now finally been fixed.
 * Par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* A bug has been fixed whereby some sound effect lumps that were in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
