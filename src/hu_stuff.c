@@ -1130,7 +1130,7 @@ void HU_Drawer(void)
         else
         {
             if (vid_widescreen)
-                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * SCREENSCALE : 8);
+                w_title.x = (r_screensize == r_screensize_max - 1 ? HU_TITLEX + WIDESCREENDELTA * SCREENSCALE : 8);
 
             w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 4;
             HUlib_DrawAutomapTextLine(&w_title, false);
