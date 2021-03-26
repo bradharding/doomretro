@@ -267,6 +267,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int             angle_num;
     static int      MISFA0;
     static int      MISFB0;
+    static int      SHT2E0;
     dboolean        ispackagewad = M_StringEndsWith(lump->wadfile->path, PACKAGE_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
@@ -283,6 +284,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
             MISFA0 += M_StringCompare(lump->name, "MISFA0");
             MISFB0 += M_StringCompare(lump->name, "MISFB0");
+            SHT2E0 += M_StringCompare(lump->name, "SHT2E0");
 
             while (*weaponsprites[i].spr1)
             {
@@ -302,6 +304,9 @@ static void AddSpriteLump(lumpinfo_t *lump)
     }
 
     if (ispackagewad && M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
+        return;
+
+    if (ispackagewad && M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
         return;
 
     // first angle
