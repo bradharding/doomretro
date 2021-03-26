@@ -19,6 +19,7 @@
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play correctly.
 * The pitch of sounds made by monster projectiles are no longer randomized if the `s_randompitch` CVAR is `on`.
 * The player’s left arm is no longer cut off when firing the super shotgun when the `vid_widescreen` CVAR is `on` and the `r_screensize` CVAR is `8`.
+* Minor improvements have been made to the support of [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

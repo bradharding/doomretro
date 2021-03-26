@@ -346,6 +346,9 @@ static void GenerateSpriteList(void)
     // (replaces IWAD sprites)
     for (int i = 0; i < pwad_sprites.numlumps; i++)
         AddSpriteLump(pwad_sprites.lumps[i]);
+
+    if (FREEDOOM || hacx)
+        SHT2A0 = true;
 }
 
 // Perform the merge.
