@@ -111,8 +111,6 @@ typedef enum
 
 #define ACTUALHEIGHT        (SCREENHEIGHT * 6 / 5)
 
-#define UNITYWIDTH          426
-
 #define VANILLASBARHEIGHT   32
 
 #define SCREENSCALE         2

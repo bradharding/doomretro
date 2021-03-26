@@ -403,7 +403,7 @@ static void F_TextWrite(void)
             continue;
         }
 
-        if (cx > UNITYWIDTH - 12)
+        if (cx > VANILLAWIDTH - 12)
             continue;
 
         if (STCFN034)
