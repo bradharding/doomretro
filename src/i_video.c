@@ -1858,24 +1858,6 @@ static void I_GetScreenDimensions(void)
 
             width = windowwidth;
             height = windowheight;
-
-            if (width <= height * 4 / 3)
-            {
-                SCREENWIDTH = NONWIDEWIDTH;
-                WIDEFOVDELTA = 0;
-                WIDESCREENDELTA = 0;
-
-                clearframefunc = &I_ClearFrame;
-
-                SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
-
-                vid_widescreen = false;
-                C_StrCVAROutput(stringize(vid_widescreen), "off");
-                M_SaveCVARs();
-
-                GetPixelSize();
-                return;
-            }
         }
 
         SCREENWIDTH = MIN((width * ACTUALHEIGHT / height + 1) & ~3, MAXWIDTH);
