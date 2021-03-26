@@ -253,7 +253,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
     if (bits == 8)
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            byte   src = data[(i * expand_ratio) >> 8];
+            int src = data[(i * expand_ratio) >> 8];
 
             expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
         }
@@ -267,7 +267,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 
     // Apply low-pass filter
     for (unsigned int i = 2; i < expanded_length * 2; i++)
-        expanded[i] = (int16_t)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
+        expanded[i] = (int16_t)(alpha * expanded[i] + (1.0 - alpha) * expanded[i - 2]);
 }
 
 // Load and convert a sound effect
