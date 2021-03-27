@@ -412,48 +412,6 @@ void R_DrawPlayerSpriteColumn(void)
     *dest = dc_source[frac >> FRACBITS];
 }
 
-void R_DrawSuperShotgunColumn(void)
-{
-    int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const lighttable_t  *colormap = dc_colormap[0];
-
-    while (--y)
-    {
-        byte    dot = dc_source[frac >> FRACBITS];
-
-        if (dot != 71)
-            *dest = colormap[dot];
-
-        dest += SCREENWIDTH;
-        frac += dc_iscale;
-    }
-
-    *dest = colormap[dc_source[frac >> FRACBITS]];
-}
-
-void R_DrawTranslucentSuperShotgunColumn(void)
-{
-    int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const lighttable_t  *colormap = dc_colormap[0];
-
-    while (--y)
-    {
-        byte    dot = dc_source[frac >> FRACBITS];
-
-        if (dot != 71)
-            *dest = tinttabredwhite1[(*dest << 8) + colormap[dot]];
-
-        dest += SCREENWIDTH;
-        frac += dc_iscale;
-    }
-
-    *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
-}
-
 void R_DrawSkyColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;

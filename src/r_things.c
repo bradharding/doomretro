@@ -95,7 +95,6 @@ dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 dboolean                r_playersprites = r_playersprites_default;
 
 extern dboolean         drawbloodsplats;
-extern dboolean         SHT2A0;
 
 //
 // R_InstallSpriteLump
@@ -1056,9 +1055,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     }
     else
     {
-        if (spr == SPR_SHT2 && !frame && !SHT2A0 && nearestcolors[71] == 71)
-            vis->colfunc = supershotguncolfunc;
-        else if (r_translucency)
+        if (r_translucency)
         {
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT)

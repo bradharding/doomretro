@@ -130,7 +130,6 @@ extern void (*psprcolfunc)(void);
 extern void (*spanfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
 extern void (*megaspherecolfunc)(void);
-extern void (*supershotguncolfunc)(void);
 
 //
 // Utility functions.

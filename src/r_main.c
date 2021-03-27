@@ -503,7 +503,6 @@ void (*psprcolfunc)(void);
 void (*spanfunc)(void);
 void (*bloodsplatcolfunc)(void);
 void (*megaspherecolfunc)(void);
-void (*supershotguncolfunc)(void);
 
 void R_InitColumnFunctions(void)
 {
@@ -542,7 +541,6 @@ void R_InitColumnFunctions(void)
             tlredtoblue33colfunc = &R_DrawTranslucentRedToBlue33Column;
             tlredtogreen33colfunc = &R_DrawTranslucentRedToGreen33Column;
             megaspherecolfunc = &R_DrawMegaSphereColumn;
-            supershotguncolfunc = &R_DrawTranslucentSuperShotgunColumn;
         }
         else
         {
@@ -562,7 +560,6 @@ void R_InitColumnFunctions(void)
             tlredtoblue33colfunc = &R_DrawRedToBlueColumn;
             tlredtogreen33colfunc = &R_DrawRedToGreenColumn;
             megaspherecolfunc = &R_DrawSolidMegaSphereColumn;
-            supershotguncolfunc = &R_DrawSuperShotgunColumn;
         }
 
         bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
@@ -598,7 +595,6 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = &R_DrawColorColumn;
         bloodsplatcolfunc = &R_DrawColorColumn;
         megaspherecolfunc = &R_DrawColorColumn;
-        supershotguncolfunc = &R_DrawColorColumn;
         redtobluecolfunc = &R_DrawColorColumn;
         redtogreencolfunc = &R_DrawColorColumn;
         psprcolfunc = &R_DrawColorColumn;

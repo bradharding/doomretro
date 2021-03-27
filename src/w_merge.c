@@ -267,6 +267,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int             angle_num;
     static int      MISFA0;
     static int      MISFB0;
+    static int      SHT2A0;
     static int      SHT2E0;
     dboolean        ispackagewad = M_StringEndsWith(lump->wadfile->path, PACKAGE_WAD);
 
@@ -275,15 +276,13 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (lump->wadfile->type == PWAD)
     {
-        if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
-            SHT2A0 = true;
-
         if (!ispackagewad)
         {
             int i = 0;
 
             MISFA0 += M_StringCompare(lump->name, "MISFA0");
             MISFB0 += M_StringCompare(lump->name, "MISFB0");
+            SHT2A0 += M_StringCompare(lump->name, "SHT2A0");
             SHT2E0 += M_StringCompare(lump->name, "SHT2E0");
 
             while (*weaponsprites[i].spr1)
@@ -304,6 +303,9 @@ static void AddSpriteLump(lumpinfo_t *lump)
     }
 
     if (ispackagewad && M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
+        return;
+
+    if (ispackagewad && M_StringCompare(lump->name, "SHT2A0") && (SHT2A0 >= 2 || hacx || FREEDOOM))
         return;
 
     if (ispackagewad && M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
@@ -346,9 +348,6 @@ static void GenerateSpriteList(void)
     // (replaces IWAD sprites)
     for (int i = 0; i < pwad_sprites.numlumps; i++)
         AddSpriteLump(pwad_sprites.lumps[i]);
-
-    if (FREEDOOM || hacx)
-        SHT2A0 = true;
 }
 
 // Perform the merge.
