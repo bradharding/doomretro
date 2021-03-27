@@ -392,7 +392,7 @@ static void WI_DrawLF(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, sizeof(name), "CWILV%02d", wbs->last);
+            M_snprintf(name, sizeof(name), "CWILV%02i", wbs->last);
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->last);
 
@@ -450,7 +450,7 @@ static void WI_DrawEL(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, sizeof(name), "CWILV%02d", wbs->next);
+            M_snprintf(name, sizeof(name), "CWILV%02i", wbs->next);
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
@@ -1046,7 +1046,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
     {
         for (int i = 0; i < NUMCMAPS; i++)
         {
-            M_snprintf(name, sizeof(name), "CWILV%02d", i);
+            M_snprintf(name, sizeof(name), "CWILV%02i", i);
             callback(name, &lnames[i]);
         }
     }
@@ -1078,7 +1078,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
                     if (wbs->epsd != 1 || j != 8)
                     {
                         // animations
-                        M_snprintf(name, sizeof(name), "WIA%i%02d%02d", wbs->epsd, j, i);
+                        M_snprintf(name, sizeof(name), "WIA%i%02i%02i", wbs->epsd, j, i);
                         callback(name, &a->p[i]);
                     }
                     else

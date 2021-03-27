@@ -2955,7 +2955,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                 else
                 {
                     if (devparm)
-                        C_Output("Changed par time for MAP%02d from %i to %i seconds", level, cpars[level - 1], partime);
+                        C_Output("Changed par time for MAP%02i from %i to %i seconds", level, cpars[level - 1], partime);
 
                     cpars[level - 1] = partime;
                 }

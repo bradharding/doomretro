@@ -645,7 +645,7 @@ void C_Init(void)
     {
         char    buffer[9];
 
-        M_snprintf(buffer, sizeof(buffer), "DRFON%03d", j++);
+        M_snprintf(buffer, sizeof(buffer), "DRFON%03i", j++);
         consolefont[i] = W_CacheLumpName(buffer);
     }
 

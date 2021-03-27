@@ -2321,7 +2321,7 @@ static void D_DoomMainSetup(void)
     {
         char    buffer[9];
 
-        M_snprintf(buffer, sizeof(buffer), "DRLOGO%02d", i + 1);
+        M_snprintf(buffer, sizeof(buffer), "DRLOGO%02i", i + 1);
         logolump[i] = W_CacheLumpName(buffer);
     }
 
