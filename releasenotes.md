@@ -18,7 +18,7 @@
 * Par times are now shown on the intermission screen when playing [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play correctly.
 * The pitch of sounds made by monster projectiles are no longer randomized if the `s_randompitch` CVAR is `on`.
-* The player’s left arm sprite is no longer cut off when firing the super shotgun, and if the `vid_widescreen` CVAR is `on` and the `r_screensize` CVAR is `8`.
+* The player’s weapon sprite is no longer cut off when reloading the super shotgun after firing it, and if the `vid_widescreen` CVAR is `on` and the `r_screensize` CVAR is `8`.
 * Minor improvements have been made to the support of [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
