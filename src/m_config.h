@@ -483,7 +483,7 @@ enum
 
 #define melt_default                            true
 
-#define messages_default                        false
+#define messages_default                        true
 
 #define mouselook_default                       false
 

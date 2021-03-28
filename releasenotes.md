@@ -9,6 +9,8 @@
 * Minor changes have been made to text that is output to the console.
 * The <kbd>F5</kbd> key may now be used to toggle the graphic detail while the automap is open and the status bar is visible (that is, when the `r_screensize` CVAR is less than `8`).
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on`.
+* The `messages` CVAR is now `on` by default.
+* Minor improvements have been made to the vertical momentum of the blood spawned when shooting something.
 * Any screen shake will now be canceled when warping to another map using the `IDCLEV` cheat or loading a savegame in some instances.
 * The credits screen will now be displayed for the same amount of time as the title screen.
 * The correct title screen is now displayed when playing *DOOM (Shareware)*, *Final DOOM: The Plutonia Experiment* or *Final DOOM: TNT - Evilution*.
