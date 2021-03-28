@@ -80,8 +80,6 @@ static sprite_frame_t   *sprite_frames;
 static int              num_sprite_frames;
 static int              sprite_frames_alloced = 128;
 
-dboolean                SHT2A0;
-
 // Search in a list to find a lump with a particular name
 // Linear search (slow!)
 //
@@ -269,7 +267,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     static int      MISFB0;
     static int      SHT2A0;
     static int      SHT2E0;
-    dboolean        ispackagewad = M_StringEndsWith(lump->wadfile->path, PACKAGE_WAD);
+    dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
@@ -302,14 +300,17 @@ static void AddSpriteLump(lumpinfo_t *lump)
         }
     }
 
-    if (ispackagewad && M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
-        return;
+    if (ispackagewad)
+    {
+        if (M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
+            return;
 
-    if (ispackagewad && M_StringCompare(lump->name, "SHT2A0") && (SHT2A0 >= 2 || hacx || FREEDOOM))
-        return;
+        if (M_StringCompare(lump->name, "SHT2A0") && (SHT2A0 >= 2 || hacx || FREEDOOM))
+            return;
 
-    if (ispackagewad && M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
-        return;
+        if (M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
+            return;
+    }
 
     // first angle
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
