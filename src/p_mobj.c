@@ -1420,7 +1420,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
-        th->momz = (2 + i / 6) * FRACUNIT;
+        th->momz = M_BigRandomInt(-4, 4) * FRACUNIT;
 
         th->angle = angle;
         angle += M_BigSubRandom() * 0xB60B60;
