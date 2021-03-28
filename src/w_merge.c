@@ -263,6 +263,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
     int             angle_num;
+    static int      MEGAA0;
     static int      MISFA0;
     static int      MISFB0;
     static int      SHT2A0;
@@ -278,6 +279,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         {
             int i = 0;
 
+            MEGAA0 += M_StringCompare(lump->name, "MEGAA0");
             MISFA0 += M_StringCompare(lump->name, "MISFA0");
             MISFB0 += M_StringCompare(lump->name, "MISFB0");
             SHT2A0 += M_StringCompare(lump->name, "SHT2A0");
@@ -302,6 +304,9 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (ispackagewad)
     {
+        if (M_StringCompare(lump->name, "MEGAA0") && (MEGAA0 >= 2 || hacx || FREEDOOM))
+            return;
+
         if (M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
             return;
 
