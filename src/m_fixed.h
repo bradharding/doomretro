@@ -60,7 +60,7 @@ typedef int32_t fixed_t;
 
 static inline int ABS(int a)
 {
-    int b = a >> 31;
+    int b = (int64_t)a >> 31;
 
     return ((a ^ b) - b);
 }
@@ -69,22 +69,22 @@ static inline int MAX(int a, int b)
 {
     b = a - b;
 
-    return (a - (b & (b >> 31)));
+    return (a - (b & ((int64_t)b >> 31)));
 }
 
 static inline int MIN(int a, int b)
 {
     a -= b;
 
-    return (b + (a & (a >> 31)));
+    return (b + (a & ((int64_t)a >> 31)));
 }
 
 static inline int BETWEEN(int a, int b, int c)
 {
     b -= c;
-    c = a - c - (b & (b >> 31));
+    c = a - c - (b & ((int64_t)b >> 31));
 
-    return (a - (c & (c >> 31)));
+    return (a - (c & ((int64_t)c >> 31)));
 }
 
 static inline float BETWEENF(float a, float b, float c)
@@ -94,7 +94,7 @@ static inline float BETWEENF(float a, float b, float c)
 
 static inline int SIGN(int a)
 {
-    return (1 | (a >> 31));
+    return (1 | ((int64_t)a >> 31));
 }
 
 static inline fixed_t FixedMul(fixed_t a, fixed_t b)
@@ -104,7 +104,7 @@ static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 
 static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    return ((ABS(a) >> 15) >= ABS(b) ? (((a ^ b) >> 31) ^ FIXED_MAX) : (fixed_t)(((int64_t)a << FRACBITS) / b));
+    return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (fixed_t)(((int64_t)a << FRACBITS) / b));
 }
 
 static inline fixed_t FixedMod(fixed_t a, fixed_t b)
