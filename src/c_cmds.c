@@ -1771,7 +1771,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
         free(temp);
     }
     else
-        C_Warning("<b>%s</b> couldn't be created.", filename);
+        C_Warning(0, "<b>%s</b> couldn't be created.", filename);
 }
 
 //
