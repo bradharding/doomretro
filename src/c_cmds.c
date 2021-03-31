@@ -1770,6 +1770,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
         C_Output("Dumped %s lines from the console to <b>%s</b>.", temp, filename);
         free(temp);
     }
+    else
+        C_Warning("<b>%s</b> couldn't be created.", filename);
 }
 
 //
