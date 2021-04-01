@@ -1584,8 +1584,8 @@ static void M_DrawMainMenu(void)
     else
     {
         int y = 11 + OFFSET;
-        int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
-        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
+        int dot1 = screens[0][(y * SCREENWIDTH + 98 + WIDESCREENDELTA) * 2];
+        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99 + WIDESCREENDELTA) * 2];
 
         M_DrawCenteredPatchWithShadow(y, patch);
 
