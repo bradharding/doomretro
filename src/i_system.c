@@ -274,6 +274,8 @@ void I_Error(const char *error, ...)
     I_ShutdownGamepad();
     I_ShutdownTimer();
 
+    W_CloseFiles();
+
 #if defined(_WIN32)
     I_ShutdownWindows32();
 #endif
