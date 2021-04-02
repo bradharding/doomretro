@@ -5130,27 +5130,14 @@ static void C_PlayerStats_Game(void)
     }
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
-    {
-        temp1 = sentencecase(weaponinfo[wp_pistol].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s", temp1, temp1);
-        free(temp1);
-    }
+        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\t The %s",
+            weaponinfo[wp_pistol].description, weaponinfo[wp_pistol].description);
     else if (favoriteweapon1 == wp_nochange)
-    {
-        temp1 = sentencecase(weaponinfo[wp_pistol].description);
-        temp2 = sentencecase(weaponinfo[favoriteweapon2].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s", temp1, temp2);
-        free(temp1);
-        free(temp2);
-    }
+        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
+            weaponinfo[wp_pistol].description, weaponinfo[favoriteweapon2].description);
     else
-    {
-        temp1 = sentencecase(weaponinfo[favoriteweapon1].description);
-        temp2 = sentencecase(weaponinfo[favoriteweapon2].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s", temp1, temp2);
-        free(temp1);
-        free(temp2);
-    }
+        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
+            weaponinfo[favoriteweapon1].description, weaponinfo[favoriteweapon2].description);
 
     C_TabbedOutput(tabs, "Distance traveled\t%s\t%s",
         distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
@@ -5478,13 +5465,9 @@ static void C_PlayerStats_NoGame(void)
     }
 
     if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t-\t-");
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[wp_pistol].description));
     else
-    {
-        temp1 = sentencecase(weaponinfo[favoriteweapon1].description);
-        C_TabbedOutput(tabs, "Favorite weapon\t-\t%s", temp1);
-        free(temp1);
-    }
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].description));
 
     C_TabbedOutput(tabs, "Distance traveled\t-\t%s", distance(stat_distancetraveled, true));
 }
