@@ -326,7 +326,7 @@ void M_SaveCVARs(void)
     if (!cvarsloaded || vanilla || togglingvanilla)
         return;
 
-    if (!(file = fopen(packageconfig, "w")))
+    if (!(file = fopen(packageconfig, "wt")))
     {
         static dboolean warning;
 
@@ -970,7 +970,7 @@ void M_LoadCVARs(char *filename)
     int     statcount = 0;
 
     // read the file in, overriding any set defaults
-    FILE    *file = fopen(filename, "r");
+    FILE    *file = fopen(filename, "rt");
 
     if (!file)
     {

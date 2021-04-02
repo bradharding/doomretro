@@ -1906,7 +1906,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        FILE    *file = fopen(parms, "r");
+        FILE    *file = fopen(parms, "rt");
         char    strparm[256] = "";
 
         if (!file)
