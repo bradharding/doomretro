@@ -1655,7 +1655,7 @@ static FILE *condumpfile = NULL;
 //
 // condump CCMD
 //
-void C_DumpConsoleStringToFile(int index)
+static void C_DumpConsoleStringToFile(int index)
 {
     if (!condumpfile)
         return;

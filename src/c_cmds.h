@@ -131,6 +131,5 @@ void bind_cmd_func2(char *cmd, char *parms);
 
 int C_GetIndex(const char *cmd);
 dboolean C_ExecuteAlias(const char *alias);
-void C_DumpConsoleStringToFile(int index);
 
 #endif
