@@ -1910,7 +1910,10 @@ static void exec_cmd_func2(char *cmd, char *parms)
         char    strparm[256] = "";
 
         if (!file)
+        {
+            C_Warning(0, "<b>%s</b> couldn't be opened.", parms);
             return;
+        }
 
         while (fgets(strparm, 256, file) != NULL)
         {
