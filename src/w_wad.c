@@ -660,3 +660,10 @@ void W_ReleaseLumpNum(int lumpnum)
 {
     Z_ChangeTag(lumpinfo[lumpnum]->cache, PU_CACHE);
 }
+
+void W_CloseFiles(void)
+{
+    for (int i = 0; i < numlumps; i++)
+        if (lumpinfo[i]->wadfile)
+            W_CloseFile(lumpinfo[i]->wadfile);
+}

@@ -56,6 +56,7 @@
 #include "m_misc.h"
 #include "s_sound.h"
 #include "version.h"
+#include "w_wad.h"
 
 #if defined(_WIN32)
 extern char *previouswad;
@@ -234,6 +235,8 @@ void I_Quit(dboolean shutdown)
         I_ShutdownGamepad();
         I_ShutdownTimer();
     }
+
+    W_CloseFiles();
 
 #if defined(_WIN32)
     I_ShutdownWindows32();
