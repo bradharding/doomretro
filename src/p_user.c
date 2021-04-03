@@ -63,7 +63,6 @@ int             r_shake_damage = r_shake_damage_default;
 int             stillbob = stillbob_default;
 
 dboolean        autousing = false;
-static int      deathcount = 0;
 int             deadlookdir = -1;
 
 //
@@ -302,6 +301,7 @@ static void P_ReduceDamageCount(void)
 static void P_DeathThink(void)
 {
     static dboolean facingkiller;
+    static int      deathcount = 0;
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;
 

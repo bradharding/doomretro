@@ -369,10 +369,10 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (!packagewadadded)
     {
-        packagewadadded = true;
-
         if (!W_MergeFile(packagewad, true))
             I_Error("%s is invalid.", packagewad);
+
+        packagewadadded = true;
     }
 
     return true;

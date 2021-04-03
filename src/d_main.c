@@ -180,7 +180,6 @@ static int          startuptimer;
 
 dboolean            realframe;
 static dboolean     error;
-static dboolean     guess;
 
 struct tm           gamestarttime;
 
@@ -1164,6 +1163,7 @@ static int D_OpenWADLauncher(void)
     if (fileopenedok)
     {
         dboolean    onlyoneselected;
+        dboolean    guess = false;
 
 #if defined(__APPLE__)
         NSArray     *urls = [panel URLs];

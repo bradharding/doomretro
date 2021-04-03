@@ -141,8 +141,6 @@ struct mapinfo_s
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
-static int          mapcount;
-
 int                 numvertexes;
 vertex_t            *vertexes;
 
@@ -3436,7 +3434,6 @@ static void P_InitMapInfo(void)
     }
 
     SC_Close();
-    mapcount = mapmax;
 
     temp = commify(sc_Line);
     C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in the %s <b>%s</b>.",
