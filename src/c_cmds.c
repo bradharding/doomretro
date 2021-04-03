@@ -1657,9 +1657,6 @@ static FILE *condumpfile = NULL;
 //
 static void C_DumpConsoleStringToFile(int index)
 {
-    if (!condumpfile)
-        return;
-
     if (console[index].stringtype == dividerstring)
         fprintf(condumpfile, "%s\n", DIVIDERSTRING);
     else
@@ -1766,6 +1763,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
         for (int i = 1; i < consolestrings; i++)
             C_DumpConsoleStringToFile(i);
+
+        fclose(condumpfile);
 
         C_Output("Dumped %s lines from the console to <b>%s</b>.", temp, filename);
         free(temp);
