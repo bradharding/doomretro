@@ -990,7 +990,7 @@ void P_RespawnSpecials(void)
         C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // pull it from the queue
-    iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
+    iqueuetail = ((iqueuetail + 1) & (ITEMQUEUESIZE - 1));
 }
 
 //
@@ -1001,7 +1001,8 @@ void P_SetPlayerViewHeight(void)
     mobj_t  *mo = viewplayer->mo;
 
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        mo->z = MAX(mo->z, seclist->m_sector->floorheight);
+        if (seclist->m_sector->floorheight + mo->height < seclist->m_sector->ceilingheight)
+            mo->z = MAX(mo->z, seclist->m_sector->floorheight);
 
     mo->floorz = mo->z;
 
