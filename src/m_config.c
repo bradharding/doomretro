@@ -1140,9 +1140,6 @@ void M_LoadCVARs(char *filename)
                     cvarcount++;
                     break;
             }
-
-            // finish
-            break;
         }
     }
 
