@@ -5,6 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * The `condump` CCMD will no longer continue to dump every line of text that is output to the console after it is entered.
 * Minor improvements have been made to the `DMENUPIC` lump.
+* The player will no longer be spawned into a map such that they could be stuck in the ceiling.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -1144,7 +1144,7 @@ void P_ApplyTorque(mobj_t *mo)
     int xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
     int yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
     int yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
-    int flags2 = mo->flags2;            // Remember the current state, for gear-change
+    int flags2 = mo->flags2;                    // Remember the current state, for gear-change
 
     tmthing = mo;
     validcount++;                               // prevents checking same line twice

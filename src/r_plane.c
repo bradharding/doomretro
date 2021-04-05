@@ -169,6 +169,7 @@ static visplane_t *new_visplane(unsigned int hash)
 
     check->next = visplanes[hash];
     visplanes[hash] = check;
+
     return check;
 }
 
@@ -206,6 +207,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
     check->modified = false;
 
     memset(check->top, UINT_MAX, sizeof(check->top));
+
     return check;
 }
 
@@ -226,6 +228,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
     new_pl->modified = false;
 
     memset(new_pl->top, UINT_MAX, sizeof(new_pl->top));
+
     return new_pl;
 }
 
@@ -268,6 +271,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     {
         pl->left = unionl;
         pl->right = unionh;
+
         return pl;
     }
 
@@ -487,6 +491,7 @@ void R_DrawPlanes(void)
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
                                 (((an + xtoviewangle[dc_x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+
                             skycolfunc();
                         }
                 }
@@ -495,6 +500,7 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
                         lumpinfo[flattranslation[picnum]]->cache);
+
                     R_MakeSpans(pl);
                 }
             }

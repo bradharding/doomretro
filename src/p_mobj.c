@@ -856,11 +856,11 @@ void P_RemoveMobj(mobj_t *mobj)
     {
         itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
         itemrespawntime[iqueuehead] = leveltime;
-        iqueuehead = (iqueuehead + 1) & (ITEMQUEUESIZE - 1);
+        iqueuehead = ((iqueuehead + 1) & (ITEMQUEUESIZE - 1));
 
         // lose one off the end?
         if (iqueuehead == iqueuetail)
-            iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
+            iqueuetail = ((iqueuetail + 1) & (ITEMQUEUESIZE - 1));
     }
 
     // unlink from sector and block lists
