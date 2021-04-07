@@ -1775,7 +1775,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
-            C_Output("Gamma correction is off.");
+            C_Output("There is no gamma correction.");
         else
         {
             char    text[128];
