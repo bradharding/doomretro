@@ -553,7 +553,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     return (float)atof(strparm);
 }
 
-static void M_CheckCVARs(void)
+static void M_CheckCVARs(dboolean ispackageconfig)
 {
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
@@ -941,7 +941,8 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
 
-    vid_showfps = vid_showfps_default;
+    if (ispackageconfig)
+        vid_showfps = vid_showfps_default;
 
     if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
         vid_vsync = vid_vsync_default;
@@ -965,16 +966,17 @@ static void M_CheckCVARs(void)
 //
 void M_LoadCVARs(char *filename)
 {
-    int     bindcount = 0;
-    int     cvarcount = 0;
-    int     statcount = 0;
+    dboolean    ispackageconfig = M_StringEndsWith(filename, PACKAGE_CONFIG);
+    int         bindcount = 0;
+    int         cvarcount = 0;
+    int         statcount = 0;
 
     // read the file in, overriding any set defaults
     FILE    *file = fopen(filename, "rt");
 
     if (!file)
     {
-        M_CheckCVARs();
+        M_CheckCVARs(ispackageconfig);
         M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
@@ -988,7 +990,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
+    if (!togglingvanilla && ispackageconfig)
     {
         for (int i = 0; *actions[i].action; i++)
         {
@@ -1147,17 +1149,21 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        char    *temp1 = commify(cvarcount);
-        char    *temp2 = commify(statcount);
-        char    *temp3 = commify(bindcount);
+        if (ispackageconfig)
+        {
+            char    *temp1 = commify(cvarcount);
+            char    *temp2 = commify(statcount);
+            char    *temp3 = commify(bindcount);
 
-        C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", temp1, temp2, filename);
-        C_Output("Bound %s actions to the keyboard, mouse and gamepad.", temp3);
-        M_CheckCVARs();
+            C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", temp1, temp2, filename);
+            C_Output("Bound %s actions to the keyboard, mouse and gamepad.", temp3);
+
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        M_CheckCVARs(ispackageconfig);
         cvarsloaded = true;
-
-        free(temp1);
-        free(temp2);
-        free(temp3);
     }
 }
