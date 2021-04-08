@@ -145,6 +145,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             x = 10;
     int             color = nearestwhite;
     int             len = l->len;
+    byte            *tinttab = tinttab60;
 
     if (!automapactive)
     {
@@ -153,8 +154,18 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestblack));
     }
 
+    if (fade)
+    {
+        if (message_counter <= 2)
+            tinttab = tinttab20;
+        else if (message_counter <= 4)
+            tinttab = tinttab25;
+        else if (message_counter <= 6)
+            tinttab = tinttab33;
+    }
+
     if (idbehold)
-        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, false, color, SCREENWIDTH);
+        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, false, color, SCREENWIDTH, tinttab);
 
     for (int i = 0; i < len; i++)
     {
@@ -213,7 +224,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 }
             }
 
-            althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color, SCREENWIDTH);
+            althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
             x += SHORT(patch->width);
             prevletter = letter;
         }
@@ -257,7 +268,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
             j++;
         }
 
-        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH));
+        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab25);
         x += SHORT(patch->width);
         prevletter = letter;
     }

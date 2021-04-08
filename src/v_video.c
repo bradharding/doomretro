@@ -776,7 +776,7 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
     }
 }
 
-void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth)
+void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
@@ -814,11 +814,10 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean itali
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
-    byte        *tinttab = (automapactive ? tinttab25 : tinttab60);
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < w; col++, desttop++)
@@ -842,7 +841,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, dbo
                     if (italics)
                         dot += italicize[i];
 
-                    *dot = tinttab[(*dot << 8) + color];
+                    *dot = tinttab[(color << 8) + *dot];
                 }
 
                 dest += screenwidth;

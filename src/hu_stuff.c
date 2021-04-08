@@ -117,7 +117,7 @@ static void (*hudfunc)(int x, int y, patch_t *patch, byte *translucency);
 static void (*hudnumfunc)(int x, int y, patch_t *patch, byte *translucency);
 
 static void (*althudfunc)(int x, int y, patch_t *patch, int from, int to);
-void (*althudtextfunc)(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth);
+void (*althudtextfunc)(int x, int y, byte *screen, patch_t *patch, dboolean italics, int color, int screenwidth, byte *tinttab);
 static void (*fillrectfunc)(int scrn, int x, int y, int width, int height, int color, dboolean right);
 static void (*fillrectfunc2)(int scrn, int x, int y, int width, int height, int color, dboolean right);
 
@@ -1188,7 +1188,7 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
+    const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
     // tic down message counter if message is up
     if (!idmypos && !(message_counter = MAX(message_counter - 1, 0)) && !menuactive && !consoleactive)
