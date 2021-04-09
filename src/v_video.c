@@ -1742,7 +1742,7 @@ void V_Init(void)
     for (int i = 0; i < NUMSCREENS; i++)
         screens[i] = &base[i * MAXSCREENAREA];
 
-    if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
+    if ((p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1)))
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
     else
     {
