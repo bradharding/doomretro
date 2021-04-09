@@ -145,7 +145,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             x = 10;
     int             color = nearestwhite;
     int             len = l->len;
-    byte            *tinttab = tinttab60;
+    byte            *tinttab = (automapactive ? tinttab75 : tinttab60);
 
     if (!automapactive)
     {
@@ -268,7 +268,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
             j++;
         }
 
-        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab25);
+        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
         x += SHORT(patch->width);
         prevletter = letter;
     }
