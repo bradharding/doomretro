@@ -1372,7 +1372,7 @@ state_t states[NUMSTATES] =
     { SPR_TNT1,    0,                    -1, NULL,                   S_TNT1              }, // S_TNT1
 
     // killough 08/09/98: grenade
-    { SPR_MISL,   (0 | FF_FULLBRIGHT),  1000, A_Die,                  S_GRENADE           }, // S_GRENADE
+    { SPR_MISL,   (0 | FF_FULLBRIGHT), 1000, A_Die,                  S_GRENADE           }, // S_GRENADE
 
     { SPR_MISL,   (1 | FF_FULLBRIGHT),    4, A_Scream,               S_DETONATE2         }, // S_DETONATE
     { SPR_MISL,   (2 | FF_FULLBRIGHT),    6, A_Detonate,             S_DETONATE3         }, // S_DETONATE2
