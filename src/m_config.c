@@ -361,18 +361,18 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_INT32:
             {
-                dboolean    flag = false;
+                dboolean    alias = false;
                 int         v = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
-                        flag = true;
+                        alias = true;
                         break;
                     }
 
-                if (!flag)
+                if (!alias)
                 {
                     char    *temp = commify(v);
 
@@ -394,18 +394,18 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32_PERCENT:
             {
-                dboolean    flag = false;
+                dboolean    alias = false;
                 int         v = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
-                        flag = true;
+                        alias = true;
                         break;
                     }
 
-                if (!flag)
+                if (!alias)
                 {
                     char    *temp = commify(v);
 
@@ -418,18 +418,18 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                dboolean    flag = false;
+                dboolean    alias = false;
                 float       v = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
-                        flag = true;
+                        alias = true;
                         break;
                     }
 
-                if (!flag)
+                if (!alias)
                 {
                     static char buffer[128];
                     int         len;
@@ -448,18 +448,18 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                dboolean    flag = false;
+                dboolean    alias = false;
                 float       v = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
-                        flag = true;
+                        alias = true;
                         break;
                     }
 
-                if (!flag)
+                if (!alias)
                 {
                     char    *temp = striptrailingzero(v, 1);
 

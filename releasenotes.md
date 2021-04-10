@@ -7,7 +7,7 @@
 * Minor improvements have been made to the `DMENUPIC` lump.
 * The player will no longer be spawned into a map such that they could be stuck in the ceiling.
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on` when the alternate widescreen HUD is displayed.
-* The `vid_showfps` CVAR can now be `on` at startup if set in a .CFG file loaded by the WAD launcher or specified on the command-line.
+* The `vid_showfps` CVAR can now be `on` at startup if set in a .CFG file that is either loaded using the WAD launcher or specified on the command-line.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
