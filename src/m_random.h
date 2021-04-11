@@ -39,6 +39,8 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
+#define BIGSEED 143
+
 #define RAND    rndtable[(seed = (seed + 1) & 255)]
 #define BIGRAND ((bigseed = 214013 * bigseed + 2531011) >> 16)
 

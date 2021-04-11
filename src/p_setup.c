@@ -1705,7 +1705,7 @@ static void P_LoadZNodes(int lump)
 //
 // P_LoadThings
 //
-static void P_LoadThings(int lump)
+static void P_LoadThings(int map, int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
     int                 numthings;
@@ -1713,7 +1713,8 @@ static void P_LoadThings(int lump)
     if (!data || !(numthings = W_LumpLength(lump) / sizeof(mapthing_t)))
         I_Error("There are no things in this map.");
 
-    M_BigSeed(numthings);
+    M_BigSeed(gamemission == doom && map == 1 && canmodify ? BIGSEED : numthings);
+
     numspawnedthings = 0;
     numdecorations = 0;
 
@@ -2983,7 +2984,7 @@ void P_SetupLevel(int ep, int map)
     P_GetMapNoLiquids((ep - 1) * 10 + map);
     P_SetLiquids();
 
-    P_LoadThings(lumpnum + ML_THINGS);
+    P_LoadThings((ep - 1) * 10 + map, lumpnum + ML_THINGS);
 
     P_InitCards();
 
