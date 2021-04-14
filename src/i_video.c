@@ -2065,11 +2065,5 @@ void I_InitGraphics(void)
         mapblitfunc();
     }
 
-    for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_RETURN; i++)
-        translatekey[i] = SDL_GetKeyFromScancode(i);
-
-    for (int i = SDL_SCANCODE_MINUS; i <= SDL_SCANCODE_SLASH; i++)
-        translatekey[i] = SDL_GetKeyFromScancode(i);
-
     while (SDL_PollEvent(&dummy));
 }
