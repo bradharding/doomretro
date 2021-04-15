@@ -9,7 +9,8 @@
 * A bug has been fixed whereby the console couldn’t be opened using the <kbd>~</kbd> key on certain keyboards.
 * The player will no longer be spawned into a map such that they could be stuck in the ceiling.
 * Player messages will now quickly fade off of the screen if the `fade` CVAR is `on` when the alternate widescreen HUD is displayed.
-* The `vid_showfps` CVAR can now be `on` at startup if set in a .CFG file that is either loaded using the WAD launcher or specified on the command-line.
+* The `vid_showfps` CVAR can now be `on` at startup if set in a `.cfg` file that is either loaded using the WAD launcher or specified on the command-line.
+* Dead monsters may now be spawned again using the `spawn` CCMD.
 * A bug has been fixed whereby things with the `MF_BOUNCES` flag wouldn’t explode.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * `-shot` may be now be used as an alternative to `-shotdir` on the command-line.

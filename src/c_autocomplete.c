@@ -7898,7 +7898,6 @@ autocomplete_t autocompletelist[] =
     { "spawn deadcacodemon",                         DOOM1AND2 },
     { "spawn deaddemon",                             DOOM1AND2 },
     { "spawn deadimp",                               DOOM1AND2 },
-    { "spawn deadlostsoul",                          DOOM1AND2 },
     { "spawn deadplayer",                            DOOM1AND2 },
     { "spawn deadshotgunguy",                        DOOM1AND2 },
     { "spawn deadzombieman",                         DOOM1AND2 },

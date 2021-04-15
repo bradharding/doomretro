@@ -5121,7 +5121,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "cacodemon's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead cacodemon",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5166,7 +5166,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "marine's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead player",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5211,7 +5211,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "zombieman's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead zombieman",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5256,7 +5256,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "pinky demon's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead demon",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5346,7 +5346,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "imp's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead imp",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5391,7 +5391,7 @@ mobjinfo_t mobjinfo[] =
         /* shadowoffset         */ 0,
         /* name1                */ "shotgun guy's corpse",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead shotgun guy",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
