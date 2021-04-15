@@ -2185,9 +2185,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             int state = info->xdeathstate;
 
-            if (state && target->state < &states[state])
+            if (state != S_NULL && target->state < &states[state])
             {
-                while (states[state].tics >= 0)
+                while (states[state].nextstate != S_NULL)
                     state++;
 
                 P_SetMobjState(target, state);

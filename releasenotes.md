@@ -15,6 +15,7 @@
 * A bug has been fixed whereby things with the `MF_BOUNCES` flag wouldn’t explode.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * `-shot` may be now be used as an alternative to `-shotdir` on the command-line.
+* A bug has been fixed whereby corpses wouldn’t gib correctly in some rare instances if the `r_corpses_gib` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
