@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.0.9
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 16, 2021

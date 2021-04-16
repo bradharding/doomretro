@@ -50,6 +50,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define MAXWADS 16
+
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)
 #endif
@@ -76,6 +78,9 @@ typedef struct
 // Location of each lump on disk.
 lumpinfo_t  **lumpinfo;
 int         numlumps;
+
+static int          numwads;
+static wadfile_t    *wadlist[MAXWADS];
 
 extern char *packagewad;
 
@@ -293,6 +298,9 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (!wadfile)
         return false;
+
+    if (numwads < MAXWADS)
+        wadlist[numwads++] = wadfile;
 
     M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
 
@@ -663,7 +671,6 @@ void W_ReleaseLumpNum(int lumpnum)
 
 void W_CloseFiles(void)
 {
-    for (int i = 0; i < numlumps; i++)
-        if (lumpinfo[i]->wadfile)
-            W_CloseFile(lumpinfo[i]->wadfile);
+    for (int i = 0; i < numwads; i++)
+        W_CloseFile(wadlist[i]);
 }
