@@ -998,9 +998,9 @@ static void F_BunnyScroll(void)
                 laststage = stage;
             }
 
-            M_snprintf(name, sizeof(name), (FREEDOOM || hacx ? W_CacheLastLumpName("END%i") : W_CacheLumpName("END%i")), stage);
+            M_snprintf(name, sizeof(name), "END%i", stage);
             V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
-                W_CacheLumpName(name), false);
+                (FREEDOOM || hacx ? W_CacheLastLumpName(name) : W_CacheLumpName(name)), false);
         }
     }
 }
