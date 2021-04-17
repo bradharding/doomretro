@@ -1592,8 +1592,8 @@ sectorfix_t sectorfix[] =
     { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 
-    { pack_plut,        1,  24,     41, "",        "FLAT5_5﻿",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { pack_plut,        1,  24,     42, "",        "FLAT5_5﻿",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,  24,     41, "",        "FLAT5_5",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,  24,     42, "",        "FLAT5_5",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 
     { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
 
