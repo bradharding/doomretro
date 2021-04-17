@@ -47,6 +47,8 @@
 #include "st_stuff.h"
 #include "v_video.h"
 
+#define NOFUZZ  251
+
 //
 // All drawing to the view buffer is accomplished in this file.
 // The other refresh files only know about coordinates,
@@ -61,6 +63,7 @@ int         viewheight;
 int         viewwindowx;
 int         viewwindowy;
 
+int         fuzzrange[3];
 int         fuzzpos;
 int         fuzztable[MAXSCREENAREA];
 
@@ -825,10 +828,6 @@ void R_DrawTranslucentBlue25Column(void)
 //
 // Spectre/Invisibility.
 //
-#define NOFUZZ  251
-
-int fuzzrange[3];
-
 void R_DrawFuzzColumn(void)
 {
     byte    *dest;

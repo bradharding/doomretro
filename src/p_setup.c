@@ -995,10 +995,18 @@ static void P_LoadSegs(int lump)
                         char    *temp = commify(linedefnum);
 
                         if (linefix[j].special)
-                            C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
-                                (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), temp, li->linedef->special,
-                                linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
+                        {
+                            if (li->linedef->special)
+                                C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
+                                    "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), temp, li->linedef->special,
+                                    linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
+                            else
+                                C_Warning(2, "The %sline special %i (\"%s\") has been added to linedef %s.",
+                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
+                                    "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), linefix[j].special,
+                                    linespecials[linefix[j].special], temp);
+                        }
                         else
                             C_Warning(2, "The %sline special of linedef %s has been removed.",
                                 (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
@@ -1324,9 +1332,13 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
-                            temp, ss->special, sectorspecials[ss->special],
-                            sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+                        if (ss->special)
+                            C_Warning(2, "The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                                temp, ss->special, sectorspecials[ss->special],
+                                sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+                        else
+                            C_Warning(2, "A special of %i (\"%s\") has been added to sector %s.",
+                                sectorfix[j].special, sectorspecials[sectorfix[j].special], temp);
 
                         ss->special = sectorfix[j].special;
                         free(temp);
