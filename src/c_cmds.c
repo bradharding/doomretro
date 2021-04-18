@@ -640,7 +640,7 @@ consolecmd_t consolecmds[] =
     CCMD(notarget, "", game_func1, notarget_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles monsters not seeing the player as a target."),
     CCMD(pistolstart, "", null_func1, pistolstart_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
-        "Toggles the player starting each map with only a pistol."),
+        "Toggles the player starting each map with 100% health, no armor, and only a pistol with 50 bullets."),
     CCMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
         "Plays a <i><b>sound effect</b></i> or <i><b>music</b></i> lump."),
     CVAR_INT(playergender, "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, PLAYERGENDERVALUEALIAS,
