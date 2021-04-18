@@ -368,7 +368,7 @@ static int HUDNumberWidth(int val)
         width += SHORT(tallnum[(val %= 100) / 10]->width);
     }
     else if (val >= 10)
-        width = SHORT(tallnum[val / 10]->width);
+        width += SHORT(tallnum[val / 10]->width);
 
     return (width + SHORT(tallnum[val % 10]->width));
 }
