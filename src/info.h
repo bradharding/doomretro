@@ -41,6 +41,7 @@
 
 #include "doomtype.h"
 #include "d_think.h"
+#include "states.h"
 
 typedef enum
 {
@@ -230,20 +231,20 @@ typedef enum
 typedef struct
 {
     int         doomednum;
-    int         spawnstate;
+    statenum_t  spawnstate;
     int         spawnhealth;
     int         gibhealth;
-    int         seestate;
+    statenum_t  seestate;
     int         seesound;
     int         reactiontime;
     int         attacksound;
-    int         painstate;
+    statenum_t  painstate;
     int         painchance;
     int         painsound;
-    int         meleestate;
-    int         missilestate;
-    int         deathstate;
-    int         xdeathstate;
+    statenum_t  meleestate;
+    statenum_t  missilestate;
+    statenum_t  deathstate;
+    statenum_t  xdeathstate;
     int         deathsound;
     mobjtype_t  droppeditem;
     int         meleethreshold;
@@ -259,7 +260,7 @@ typedef struct
     int         activesound;
     int         flags;
     int         flags2;
-    int         raisestate;
+    statenum_t  raisestate;
     int         frames;
     dboolean    fullbright;
     int         blood;

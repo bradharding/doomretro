@@ -2067,7 +2067,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-    if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate && !(source && source->type == MT_DOGS))))
+    if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
         P_SetMobjState(target, info->xdeathstate);
     else
         P_SetMobjState(target, info->deathstate);
@@ -2361,7 +2361,7 @@ void P_ResurrectMobj(mobj_t *target)
 
     target->height = info->height;
     target->radius = info->radius;
-    target->flags = info->flags | (target->flags & MF_FRIEND);
+    target->flags = (info->flags | (target->flags & MF_FRIEND));
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;
