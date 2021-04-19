@@ -50,11 +50,11 @@
 
 //
 // Called in st_stuff module, which handles the input.
-// Returns a 1 if the cheat was successful, 0 if failed.
+// Returns true if the cheat was successful, false if failed.
 //
 char    cheatkey = '\0';
 
-int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
+dboolean cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 {
     if (*consolecheat && M_StringCompare(consolecheat, cht->sequence))
     {
