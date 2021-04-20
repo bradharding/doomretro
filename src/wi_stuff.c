@@ -43,6 +43,7 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_setup.h"
@@ -939,8 +940,6 @@ static void WI_UpdateStats(void)
         }
     }
 }
-
-void M_DrawString(int x, int y, char *string);
 
 static void WI_DrawStats(void)
 {

@@ -6918,7 +6918,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         SC_Close();
 
-        buddha = viewplayer->cheats & CF_BUDDHA;
+        buddha = (viewplayer->cheats & CF_BUDDHA);
         viewplayer->cheats &= ~CF_BUDDHA;
 
         hud = r_hud;
