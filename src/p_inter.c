@@ -1721,7 +1721,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             }
             else
             {
-                char    targetname[100];
+                char    targetname[33];
                 char    *temp;
 
                 if (*target->name)
@@ -1775,7 +1775,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             weaponinfo[readyweapon].description);
                     else
                     {
-                        char    targetname[100];
+                        char    targetname[33];
 
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1814,7 +1814,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     }
                     else
                     {
-                        char    targetname[100];
+                        char    targetname[33];
 
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1857,7 +1857,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 }
                 else
                 {
-                    char    targetname[100];
+                    char    targetname[33];
 
                     if (*target->name)
                         M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1873,7 +1873,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             }
             else
             {
-                char    sourcename[100];
+                char    sourcename[33];
                 char    *temp;
 
                 if (*source->name)
@@ -1894,7 +1894,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         playername);
                 else
                 {
-                    char    targetname[100];
+                    char    targetname[33];
 
                     if (*target->name)
                         M_StringCopy(targetname, target->name, sizeof(targetname));

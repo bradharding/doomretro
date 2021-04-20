@@ -6767,7 +6767,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mobj = (mobj_t *)th;
-        char    name[100];
+        char    name[33];
         char    *temp1 = commify(mobj->id);
         char    *temp2;
 

@@ -1389,8 +1389,8 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
                     {
-                        char    actorname[100];
-                        char    corpsehitname[100];
+                        char    actorname[33];
+                        char    corpsehitname[33];
                         char    *temp;
 
                         if (*actor->name)
