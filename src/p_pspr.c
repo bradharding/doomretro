@@ -98,37 +98,38 @@ void P_SetPsprite(size_t position, statenum_t stnum)
 
     do
     {
-        state_t *state;
-
         if (!stnum)
         {
             // object removed itself
             psp->state = NULL;
             break;
         }
-
-        state = &states[stnum];
-        psp->state = state;
-        psp->tics = state->tics;    // could be 0
-
-        if (state->misc1)
+        else
         {
-            // coordinate set
-            psp->sx = state->misc1 << FRACBITS;
-            psp->sy = state->misc2 << FRACBITS;
+            state_t *state = &states[stnum];
+
+            psp->state = state;
+            psp->tics = state->tics;    // could be 0
+
+            if (state->misc1)
+            {
+                // coordinate set
+                psp->sx = state->misc1 << FRACBITS;
+                psp->sy = state->misc2 << FRACBITS;
+            }
+
+            // Call action routine.
+            // Modified handling.
+            if (state->action)
+            {
+                state->action(viewplayer->mo, viewplayer, psp);
+
+                if (!psp->state)
+                    break;
+            }
+
+            stnum = psp->state->nextstate;
         }
-
-        // Call action routine.
-        // Modified handling.
-        if (state->action)
-        {
-            state->action(viewplayer->mo, viewplayer, psp);
-
-            if (!psp->state)
-                break;
-        }
-
-        stnum = psp->state->nextstate;
     } while (!psp->tics);           // an initial state of 0 could cycle through
 }
 

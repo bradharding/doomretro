@@ -2742,14 +2742,13 @@ void P_MapName(int ep, int map)
 
     if (strlen(maptitle) >= 4)
     {
-        if (toupper(maptitle[0]) == 'M' && toupper(maptitle[1]) == 'A' && toupper(maptitle[2]) == 'P'
-            && isdigit((int)maptitle[3]) && isdigit((int)maptitle[4]))
+        if (maptitle[0] == 'm' && maptitle[1] == 'a' && maptitle[2] == 'p' && isdigit((int)maptitle[3]) && isdigit((int)maptitle[4]))
         {
             maptitle[0] = 'M';
             maptitle[1] = 'A';
             maptitle[2] = 'P';
         }
-        else if (toupper(maptitle[0]) == 'E' && isdigit((int)maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit((int)maptitle[3]))
+        else if (maptitle[0] == 'e' && isdigit((int)maptitle[1]) && maptitle[2] == 'm' && isdigit((int)maptitle[3]))
         {
             maptitle[0] = 'E';
             maptitle[2] = 'M';
