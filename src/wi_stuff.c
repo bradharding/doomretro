@@ -798,10 +798,10 @@ static void WI_InitStats(void)
 
     if (M_StringCompare(playername, playername_default))
         C_PlayerMessage("You finished <i>%s</i>%s",
-            mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "."));
+            mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
     else
         C_PlayerMessage("%s finished <i>%s</i>%s",
-            playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "."));
+            playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
 
     C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);

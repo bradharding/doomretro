@@ -1063,19 +1063,6 @@ static void G_DoReborn(void)
 
 void G_ScreenShot(void)
 {
-    if (idbehold)
-    {
-        idbehold = false;
-        C_Input(cheat_powerup[6].sequence);
-        C_Output(s_STSTR_BEHOLD);
-    }
-    else if (gamestate == GS_LEVEL && !(viewplayer->cheats & CF_MYPOS))
-    {
-        HU_ClearMessages();
-        D_Display();
-        D_Display();
-    }
-
     if (V_ScreenShot())
     {
         static char buffer[512];
