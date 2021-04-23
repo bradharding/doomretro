@@ -67,8 +67,11 @@
 #define PACKEDATTR  __attribute__((packed))
 #endif
 
+#define FORMATATTR(x, y) __attribute__((format(printf, x, y)))
+
 #else
 #define PACKEDATTR
+#define FORMATATTR(x, y)
 #endif
 
 //
