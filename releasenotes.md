@@ -5,7 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * A dead player’s negative health will now always be positioned correctly in the widescreen HUD.
-* A crash will no longer occur during the finale at the end of E3M8.
+* A crash will no longer occur during the finale at the end of the third episode of *DOOM*
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -82,7 +82,7 @@
 
 * *DOOM Retro* is now compiled using v16.9 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Minor changes have been made to text that is output to the console.
-* The finale at the end of the 3rd episode of *DOOM* is now displayed correctly.
+* The finale at the end of the third episode of *DOOM* is now displayed correctly.
 * You may no longer toggle widescreen using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys, or open the help screen using the <kbd>F1</kbd> key, when on an intermission or finale screen.
 * Certain fade transitions are now applied to the finales of both *DOOM* and *DOOM II: Hell On Earth* when the `fade` CVAR is `on`.
 * When displaying certain lumps from a PWAD that are only 320 pixels wide, and the `vid_widescreen` CVAR is `on`, the color of the surrounding pillarboxes will now be based on the most used color along the left and right edges of those lumps, rather than always be black.
