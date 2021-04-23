@@ -40,6 +40,7 @@
 #define __I_SYSTEM_H__
 
 #include "d_event.h"
+#include "doomdef.h"
 
 #if defined(_WIN32)
 #define OPERATINGSYSTEM "Windows"
@@ -60,7 +61,7 @@ void I_StartTic(void);
 // Clean exit, displays sell blurb.
 void I_Quit(dboolean shutdown);
 
-void I_Error(const char *error, ...);
+void I_Error(const char *error, ...) FORMATATTR(1, 2);
 
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
