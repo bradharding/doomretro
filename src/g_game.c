@@ -1074,7 +1074,7 @@ void G_ScreenShot(void)
         C_Output("<b>%s</b> was saved.", lbmpath1);
 
         if (*lbmpath2)
-            C_Output("<b>%s</b> was saved.", lbmpath2);
+            C_Output("<b>%s</b> was also saved.", lbmpath2);
     }
     else
         C_Warning(0, "A screenshot couldn't be taken.");
