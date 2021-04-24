@@ -54,55 +54,55 @@ static dboolean cvarsloaded;
 
 #define NUMCVARS                                                202
 
-#define CONFIG_VARIABLE_INT(name, oldname, cvar, set)           { #name, #oldname, &cvar, DEFAULT_INT32,         set          }
-#define CONFIG_VARIABLE_INT_UNSIGNED(name, oldname, cvar, set)  { #name, #oldname, &cvar, DEFAULT_UINT64,        set          }
-#define CONFIG_VARIABLE_INT_PERCENT(name, oldname, cvar, set)   { #name, #oldname, &cvar, DEFAULT_INT32_PERCENT, set          }
-#define CONFIG_VARIABLE_FLOAT(name, oldname, cvar, set)         { #name, #oldname, &cvar, DEFAULT_FLOAT,         set          }
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, oldname, cvar, set) { #name, #oldname, &cvar, DEFAULT_FLOAT_PERCENT, set          }
-#define CONFIG_VARIABLE_STRING(name, oldname, cvar, set)        { #name, #oldname, &cvar, DEFAULT_STRING,        set          }
-#define CONFIG_VARIABLE_OTHER(name, oldname, cvar, set)         { #name, #oldname, &cvar, DEFAULT_OTHER,         set          }
-#define BLANKLINE                                               { "",     "",      NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
-#define COMMENT(text)                                           { text,   "",      NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
+#define CONFIG_VARIABLE_INT_PERCENT(name1, name2, cvar, set)    { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, set          }
+#define CONFIG_VARIABLE_FLOAT(name1, name2, cvar, set)          { #name1, #name2, &cvar, DEFAULT_FLOAT,         set          }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name1, name2, cvar, set)  { #name1, #name2, &cvar, DEFAULT_FLOAT_PERCENT, set          }
+#define CONFIG_VARIABLE_STRING(name1, name2, cvar, set)         { #name1, #name2, &cvar, DEFAULT_STRING,        set          }
+#define CONFIG_VARIABLE_OTHER(name1, name2, cvar, set)          { #name1, #name2, &cvar, DEFAULT_OTHER,         set          }
+#define BLANKLINE                                               { "",     "",      NULL,  DEFAULT_OTHER,        NOVALUEALIAS }
+#define COMMENT(text)                                           { text,   "",      NULL,  DEFAULT_OTHER,        NOVALUEALIAS }
 
 static default_t cvars[NUMCVARS] =
 {
     COMMENT("; CVARs\n"),
     CONFIG_VARIABLE_INT          (alwaysrun,                        alwaysrun,                             alwaysrun,                             BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,             am_allmapcdwallcolor,                  am_allmapcdwallcolor,                  NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolor,                  am_allmapfdwallcolor,                  NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_allmapwallcolor,               am_allmapwallcolor,                    am_allmapwallcolor,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_backcolor,                     am_backcolor,                          am_backcolor,                          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolor,                        am_cdwallcolor,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolor,                     am_crosshaircolor,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,             am_allmapcdwallcolour,                 am_allmapcdwallcolor,                  NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolour,                 am_allmapfdwallcolor,                  NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_allmapwallcolor,               am_allmapwallcolour,                   am_allmapwallcolor,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_backcolor,                     am_backcolour,                         am_backcolor,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_fdwallcolor,                   am_fdwallcolor,                        am_fdwallcolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_followmode,                    am_followmode,                         am_followmode,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_gridcolor,                     am_gridcolor,                          am_gridcolor,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_markcolor,                     am_markcolor,                          am_markcolor,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_markcolor,                     am_markcolour,                         am_markcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_pathcolor,                     am_pathcolor,                          am_pathcolor,                          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_playercolor,                   am_playercolor,                        am_playercolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_teleportercolor,               am_teleportercolor,                    am_teleportercolor,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_thingcolor,                    am_thingcolor,                         am_thingcolor,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_tswallcolor,                   am_tswallcolor,                        am_tswallcolor,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_wallcolor,                     am_wallcolor,                          am_wallcolor,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_tswallcolor,                   am_tswallcolour,                       am_tswallcolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (centerweapon,                     centerweapon,                          centerweapon,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (con_backcolor,                    con_backcolor,                         con_backcolor,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (con_edgecolor,                    con_edgecolor,                         con_edgecolor,                         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (con_backcolor,                    con_backcolour,                        con_backcolor,                         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (con_obituaries,                   con_obituaries,                        con_obituaries,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS   ),
-    CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolor,                        crosshaircolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (episode,                          episode,                               episode,                               NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (expansion,                        expansion,                             expansion,                             NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolor,                         facebackcolor,                         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (gp_analog,                        gp_analog,                             gp_analog,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                 gp_deadzone_left,                      gp_deadzone_left,                      NOVALUEALIAS          ),
@@ -135,8 +135,8 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT_PERCENT  (r_color,                          r_color,                               r_color,                               NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_corpses_color,                  r_corpses_color,                       r_corpses_color,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT_PERCENT  (r_color,                          r_colour,                              r_color,                               NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,              r_corpses_moreblood,                   r_corpses_moreblood,                   BOOLVALUEALIAS        ),
@@ -169,7 +169,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,                BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolor,                            r_skycolor,                            SKYVALUEALIAS         ),
+    CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                            SKYVALUEALIAS         ),
     CONFIG_VARIABLE_INT          (r_supersampling,                  r_supersampling,                       r_supersampling,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_translucency,                   r_translucency,                        r_translucency,                        BOOLVALUEALIAS        ),
