@@ -504,7 +504,7 @@ enum
 #define r_berserkintensity_default              2
 #define r_berserkintensity_max                  8
 
-#define r_bleeding_default                       true
+#define r_bleeding_default                      true
 
 #define r_blood_min                             r_blood_none
 #define r_blood_default                         r_blood_all

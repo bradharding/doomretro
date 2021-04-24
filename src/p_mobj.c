@@ -743,7 +743,7 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
-    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE))
+    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE) && !mobj->player)
         P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
             mobj->blood, mobj->floorz, NULL);
 
