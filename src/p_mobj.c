@@ -743,14 +743,16 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
+    // [BH] bleed monsters on floor if injured
     if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth
-        && !(leveltime & TICRATE) && !mobj->player && mobj->type != MT_BARREL)
+        && !(leveltime & TICRATE) && !mobj->player && (flags & MF_SHOOTABLE) && !(flags & MF_NOBLOOD) && mobj->blood)
     {
-        int bleeds = M_BigRandom() & 4;
+        int max = M_BigRandom() & 4;
+        int blood = mobjinfo[mobj->blood].blood;
 
-        for (int i = 0; i < bleeds; i++)
+        for (int i = 0; i < max; i++)
             P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
-                mobj->blood, mobj->floorz, NULL);
+                blood, mobj->floorz, NULL);
     }
 
     // cycle through states,
