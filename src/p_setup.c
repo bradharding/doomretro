@@ -782,13 +782,11 @@ static void P_LoadSegs(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(side);
+            char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", temp1, temp2);
+            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
             side = 1;
-            free(temp1);
-            free(temp2);
+            free(temp);
         }
 
         // e6y: check for wrong indexes
@@ -1093,13 +1091,11 @@ static void P_LoadSegs_V4(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(side);
+            char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", temp1, temp2);
+            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
             side = 1;
-            free(temp1);
-            free(temp2);
+            free(temp);
         }
 
         // e6y: check for wrong indexes
@@ -1528,13 +1524,11 @@ static void P_LoadZSegs(const byte *data)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(side);
+            char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has a wrong side index of %s. It has been changed to 1.", temp1, temp2);
+            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
             side = 1;
-            free(temp1);
-            free(temp2);
+            free(temp);
         }
 
         // e6y: check for wrong indexes

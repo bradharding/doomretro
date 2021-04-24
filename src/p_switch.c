@@ -170,9 +170,10 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 {
     int     sidenum = line->sidenum[0];
-    short   *toptexture = &sides[sidenum].toptexture;
-    short   *midtexture = &sides[sidenum].midtexture;
-    short   *bottomtexture = &sides[sidenum].bottomtexture;
+    side_t  *side = &sides[sidenum];
+    short   *toptexture = side->toptexture;
+    short   *midtexture = side->midtexture;
+    short   *bottomtexture = side->bottomtexture;
 
     if (!useagain)
         line->special = 0;
