@@ -743,9 +743,15 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
-    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE) && !mobj->player)
-        P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
-            mobj->blood, mobj->floorz, NULL);
+    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth
+        && !(leveltime & TICRATE) && !mobj->player && mobj->type != MT_BARREL)
+    {
+        int bleeds = M_BigRandom() & 4;
+
+        for (int i = 0; i < bleeds; i++)
+            P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
+                mobj->blood, mobj->floorz, NULL);
+    }
 
     // cycle through states,
     //  calling action functions at transitions
