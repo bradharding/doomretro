@@ -742,6 +742,10 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
+    if (mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE))
+        P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACUNIT), mobj->y + (M_BigRandomInt(-8, 8) << FRACUNIT),
+            mobj->blood, mobj->floorz, NULL);
+
     // cycle through states,
     //  calling action functions at transitions
     if (mobj->tics != -1)
