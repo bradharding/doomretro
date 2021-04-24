@@ -170,10 +170,9 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 {
     int     sidenum = line->sidenum[0];
-    side_t  *side = &sides[sidenum];
-    short   *toptexture = side->toptexture;
-    short   *midtexture = side->midtexture;
-    short   *bottomtexture = side->bottomtexture;
+    short   *toptexture = &sides[sidenum].toptexture;
+    short   *midtexture = &sides[sidenum].midtexture;
+    short   *bottomtexture = &sides[sidenum].bottomtexture;
 
     if (!useagain)
         line->special = 0;
@@ -223,7 +222,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     if (side)
         return false;
 
-    // jff 02/04/98 add check here for generalized floor/ceil mover
+    // jff 02/04/98 add check here for generalized floor/ceiling mover
     if ((special = line->special) >= GenCrusherBase && special < GenEnd)
     {
         // pointer to line function is NULL by default, set non-null if

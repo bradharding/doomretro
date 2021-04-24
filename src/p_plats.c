@@ -298,7 +298,7 @@ manual_plat:
 //
 // P_ActivateInStasis
 // Activate a plat that has been put in stasis
-// (stopped perpetual floor, instant floor/ceil toggle)
+// (stopped perpetual floor, instant floor/ceiling toggle)
 //
 void P_ActivateInStasis(int tag)
 {

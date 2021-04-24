@@ -52,6 +52,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+int         r_bleeding = r_bleeding_default;
 int         r_blood = r_blood_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
@@ -742,8 +743,8 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
-    if (mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE))
-        P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACUNIT), mobj->y + (M_BigRandomInt(-8, 8) << FRACUNIT),
+    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth && !(leveltime & TICRATE))
+        P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
             mobj->blood, mobj->floorz, NULL);
 
     // cycle through states,

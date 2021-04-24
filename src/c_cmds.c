@@ -657,6 +657,8 @@ consolecmd_t consolecmds[] =
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the effect when the player has a berserk power-up and their fists equipped (<b>0</b> to <b>8</b>)."),
+    CVAR_BOOL(r_bleeding, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles monsters bleeding once they are injured."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood spilled by the player and monsters (<b>all</b>, <b>none</b>, <b>red</b>, <b>green</b> or "
         "<b>nofuzz</b>)."),

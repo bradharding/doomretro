@@ -52,6 +52,7 @@ notarget off
 pistolstart off
 playername "you"
 r_althud off
+r_bleeding off
 r_blood red
 r_brightmaps off
 r_color 100%
