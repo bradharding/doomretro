@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                203
+#define NUMCVARS                                                202
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -131,7 +131,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_STRING       (playername,                       playername,                            playername,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_berserkintensity,               r_berserkintensity,                    r_berserkintensity,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_bleeding,                       r_bleeding,                            r_bleeding,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_blood,                          r_blood,                               r_blood,                               BLOODVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,            BOOLVALUEALIAS        ),
@@ -747,9 +746,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
         r_althud = r_althud_default;
 
     r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
-
-    if (r_bleeding != false && r_bleeding != true)
-        r_bleeding = r_althud_default;
 
     if (r_blood < r_blood_min || r_blood > r_blood_max)
         r_blood = r_blood_default;

@@ -52,7 +52,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-int         r_bleeding = r_bleeding_default;
 int         r_blood = r_blood_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
@@ -741,18 +740,6 @@ void P_MobjThinker(mobj_t *mobj)
             mobj->flags2 &= ~MF2_FALLING;
             mobj->gear = 0;
         }
-    }
-
-    // [BH] bleed monsters on floor if injured
-    if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth
-        && !(leveltime & TICRATE) && !mobj->player && (flags & MF_SHOOTABLE) && !(flags & MF_NOBLOOD) && mobj->blood)
-    {
-        int max = (M_BigRandom() & 3);
-        int blood = mobjinfo[mobj->blood].blood;
-
-        for (int i = 0; i < max; i++)
-            P_SpawnBloodSplat(mobj->x + (M_BigRandomInt(-8, 8) << FRACBITS), mobj->y + (M_BigRandomInt(-8, 8) << FRACBITS),
-                blood, mobj->floorz, NULL);
     }
 
     // cycle through states,
