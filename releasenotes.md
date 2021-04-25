@@ -6,7 +6,7 @@
 * Minor improvements have been made to some title screens.
 * Minor changes have been made to text that is output to the console.
 * A dead player’s negative health will now always be positioned correctly in the widescreen HUD.
-* Monsters will now bleed once they have been injured. This feature can be disabled using the new `r_bleeding` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Monsters will now bleed once they have been injured (that is, blood splats will randomly spawn underneath them as they move). This feature can be disabled using the new `r_bleeding` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A crash will no longer occur during the finale at the end of the third episode of *DOOM*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

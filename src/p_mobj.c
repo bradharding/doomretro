@@ -747,7 +747,7 @@ void P_MobjThinker(mobj_t *mobj)
     if (r_bleeding && r_blood && mobj->health < mobj->info->spawnhealth
         && !(leveltime & TICRATE) && !mobj->player && (flags & MF_SHOOTABLE) && !(flags & MF_NOBLOOD) && mobj->blood)
     {
-        int max = M_BigRandom() & 4;
+        int max = (M_BigRandom() & 3);
         int blood = mobjinfo[mobj->blood].blood;
 
         for (int i = 0; i < max; i++)
