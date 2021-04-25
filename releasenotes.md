@@ -7,6 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * A dead player’s negative health will now always be positioned correctly in the widescreen HUD.
 * A crash will no longer occur during the finale at the end of the third episode of *DOOM*.
+* The default of the `r_blood` CVAR is now `nofuzz`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
