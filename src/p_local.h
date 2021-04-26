@@ -106,6 +106,8 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
 extern dboolean autousing;
+extern int      deadlookdir;
+extern fixed_t  animatedliquiddiffs[64];
 
 void P_CalcHeight(void);
 void P_MovePlayer(void);
@@ -247,6 +249,7 @@ void P_UseLines(void);
 
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
 void P_FreeSecNodeList(void);
+void P_DelSeclist(msecnode_t *node);
 
 extern mobj_t   *linetarget;    // who got hit (or NULL)
 

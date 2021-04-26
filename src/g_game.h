@@ -86,6 +86,8 @@ void G_BuildTiccmd(ticcmd_t *cmd);
 void G_Ticker(void);
 dboolean G_Responder(event_t *ev);
 
+void G_PlayerReborn(void);
+
 void G_ScreenShot(void);
 
 void G_SetFastParms(dboolean fast_pending);

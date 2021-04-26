@@ -455,7 +455,7 @@ enum
 #define gp_vibrate_weapons_default              100
 #define gp_vibrate_weapons_max                  200
 
-#define health_min                              -100
+#define health_min                             -100
 #define health_default                          100
 #define health_max                              INT_MAX
 
@@ -597,7 +597,7 @@ enum
 #define r_shake_damage_default                  50
 #define r_shake_damage_max                      100
 
-#define r_skycolor_none                         -1
+#define r_skycolor_none                        -1
 #define r_skycolor_min                          0
 #define r_skycolor_default                      r_skycolor_none
 #define r_skycolor_max                          255
@@ -794,15 +794,15 @@ enum
 #define KEYWEAPON7_DEFAULT                      '7'
 
 #define MOUSEFIRE_DEFAULT                       0
-#define MOUSEFORWARD_DEFAULT                    -1
-#define MOUSEJUMP_DEFAULT                       -1
-#define MOUSEMOUSELOOK_DEFAULT                  -1
+#define MOUSEFORWARD_DEFAULT                   -1
+#define MOUSEJUMP_DEFAULT                      -1
+#define MOUSEMOUSELOOK_DEFAULT                 -1
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
 #define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
-#define MOUSERUN_DEFAULT                        -1
-#define MOUSESCREENSHOT_DEFAULT                 -1
-#define MOUSESTRAFE_DEFAULT                     -1
-#define MOUSEUSE_DEFAULT                        -1
+#define MOUSERUN_DEFAULT                       -1
+#define MOUSESCREENSHOT_DEFAULT                -1
+#define MOUSESTRAFE_DEFAULT                    -1
+#define MOUSEUSE_DEFAULT                       -1
 
 typedef enum
 {

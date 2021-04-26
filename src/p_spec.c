@@ -70,11 +70,11 @@ dboolean islightspecial[] =
 //
 typedef struct
 {
-    dboolean        istexture;
-    int             picnum;
-    int             basepic;
-    int             numpics;
-    int             speed;
+    dboolean    istexture;
+    int         picnum;
+    int         basepic;
+    int         numpics;
+    int         speed;
 } anim_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -86,10 +86,10 @@ typedef struct
 //
 typedef struct
 {
-    signed char     istexture;              // if false, it is a flat
-    char            endname[9];
-    char            startname[9];
-    int             speed;
+    signed char istexture;              // if false, it is a flat
+    char        endname[9];
+    char        startname[9];
+    int         speed;
 } PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -98,15 +98,15 @@ typedef struct
 
 #define MAXANIMS    32
 
-uint64_t            stat_secretsfound = 0;
+uint64_t        stat_secretsfound = 0;
 
-dboolean            r_liquid_bob = r_liquid_bob_default;
+dboolean        r_liquid_bob = r_liquid_bob_default;
 
-fixed_t             animatedliquiddiff;
-fixed_t             animatedliquidxdir;
-fixed_t             animatedliquidydir;
-fixed_t             animatedliquidxoffs;
-fixed_t             animatedliquidyoffs;
+fixed_t         animatedliquiddiff;
+fixed_t         animatedliquidxdir;
+fixed_t         animatedliquidydir;
+fixed_t         animatedliquidxoffs;
+fixed_t         animatedliquidyoffs;
 
 fixed_t animatedliquiddiffs[64] =
 {
@@ -120,18 +120,18 @@ fixed_t animatedliquiddiffs[64] =
      4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
 };
 
-static anim_t       *lastanim;
-static anim_t       *anims;             // new structure w/o limits -- killough
+static anim_t   *lastanim;
+static anim_t   *anims;             // new structure w/o limits -- killough
 
-terraintype_t       *terraintypes;
-dboolean            *isteleport;
+terraintype_t   *terraintypes;
+dboolean        *isteleport;
 
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 03/16/98
 static void P_SpawnPushers(void);       // phares 03/20/98
 
-extern int          numflats;
+extern int  numflats;
 
 static struct
 {
