@@ -1810,7 +1810,6 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (playergender == playergender_male ? "his" :
                                     (playergender == playergender_female ? "her" : "their")),
                                 weaponinfo[readyweapon].description);
-
                     }
                     else
                     {

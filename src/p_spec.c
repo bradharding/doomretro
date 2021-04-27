@@ -86,7 +86,7 @@ typedef struct
 //
 typedef struct
 {
-    signed char istexture;              // if false, it is a flat
+    signed char istexture;          // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;
@@ -128,8 +128,8 @@ dboolean        *isteleport;
 
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
-static void P_SpawnFriction(void);      // phares 03/16/98
-static void P_SpawnPushers(void);       // phares 03/20/98
+static void P_SpawnFriction(void);  // phares 03/16/98
+static void P_SpawnPushers(void);   // phares 03/20/98
 
 extern int  numflats;
 
