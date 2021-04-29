@@ -842,10 +842,12 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
-    if (r_screensize < r_screensize_max - 1)
+    if (r_screensize < r_screensize_max)
     {
         r_hud = false;
-        vid_widescreen = false;
+
+        if (r_screensize < r_screensize_max - 1)
+            vid_widescreen = false;
     }
     else if (!vid_widescreen)
     {
