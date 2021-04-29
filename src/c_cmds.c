@@ -8151,6 +8151,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
         if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
             r_screensize = value;
+            S_StartSound(NULL, sfx_stnmov);
             R_SetViewSize(r_screensize);
             r_hud = (r_screensize == r_screensize_max);
             M_SaveCVARs();

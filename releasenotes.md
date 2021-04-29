@@ -10,6 +10,7 @@
 * The `r_blood` CVAR is now `nofuzz` by default.
 * The `vid_widescreen` CVAR is now `on` by default.
 * A bug has been fixed whereby the `r_hud` CVAR would be left `on` when changing the `r_screensize` CVAR in the console in some instances.
+* A sound is now made when changing the `r_screensize` CVAR in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
