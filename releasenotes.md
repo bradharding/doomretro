@@ -4,6 +4,7 @@
 
 #### DOOM Retro v4.0.10
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen is now displayed in all instances.
 
 ###### Friday, April 30, 2021

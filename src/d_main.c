@@ -542,6 +542,7 @@ void D_PageDrawer(void)
             if (logotic >= 77 && logotic < 94)
                 V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 143, 167, logolump[94 - logotic]);
 
+            V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
             I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
             prevtic = pagetic;
         }
