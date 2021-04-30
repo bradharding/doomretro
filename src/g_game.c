@@ -175,9 +175,6 @@ uint64_t        stat_skilllevel_hurtmeplenty = 0;
 uint64_t        stat_skilllevel_ultraviolence = 0;
 uint64_t        stat_skilllevel_nightmare = 0;
 
-extern int      logotic;
-extern int      pagetic;
-
 void G_RemoveChoppers(void)
 {
     viewplayer->cheats &= ~CF_CHOPPERS;

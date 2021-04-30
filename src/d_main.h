@@ -53,6 +53,8 @@ extern char     *pwadfile;
 extern dboolean advancetitle;
 extern dboolean splashscreen;
 extern dboolean dowipe;
+extern int      logotic;
+extern int      pagetic;
 extern int      titlesequence;
 extern int      fadecount;
 
