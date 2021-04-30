@@ -8,7 +8,6 @@
 * A dead player’s negative health will now always be positioned correctly in the widescreen HUD.
 * A crash will no longer occur during the finale at the end of the third episode of *DOOM*.
 * The `r_blood` CVAR is now `nofuzz` by default.
-* The `vid_widescreen` CVAR is now `on` by default.
 * A bug has been fixed whereby the `r_hud` CVAR would be left `on` when changing the `r_screensize` CVAR in the console in some instances.
 * A sound is now made when changing the `r_screensize` CVAR in the console.
 
