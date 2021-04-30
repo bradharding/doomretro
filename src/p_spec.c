@@ -2226,11 +2226,6 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
-                // for E1M8 finale
-                viewplayer->cheats &= ~CF_BUDDHA;
-                viewplayer->cheats &= ~CF_GODMODE;
-                viewplayer->powers[pw_invulnerability] = 0;
-
                 if (!(leveltime & 0x1F))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
