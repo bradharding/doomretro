@@ -43,6 +43,8 @@
 #include "doomdef.h"
 #include "r_defs.h"
 
+#define PAGETICS    (20 * TICRATE)
+
 extern patch_t  *pagelump;
 extern patch_t  *creditlump;
 extern char     **episodes[];

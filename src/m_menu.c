@@ -2927,7 +2927,7 @@ dboolean M_Responder(event_t *ev)
                 vid_widescreen = false;
                 r_screensize = r_screensize_max - 1;
                 r_hud = false;
-                pagetic = 20 * TICRATE;
+                pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
@@ -2950,7 +2950,7 @@ dboolean M_Responder(event_t *ev)
             {
                 vid_widescreen = true;
                 r_screensize = r_screensize_max - 1;
-                pagetic = 20 * TICRATE;
+                pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);

@@ -604,7 +604,7 @@ void D_DoAdvanceTitle(void)
 
         pagelump = titlelump;
         pillarboxcolor = FindDominantEdgeColor(pagelump);
-        pagetic = 20 * TICRATE;
+        pagetic = PAGETICS;
 
         if (splashscreen)
         {
@@ -624,7 +624,7 @@ void D_DoAdvanceTitle(void)
         forcewipe = true;
         pagelump = creditlump;
         pillarboxcolor = FindDominantEdgeColor(pagelump);
-        pagetic = 20 * TICRATE;
+        pagetic = PAGETICS;
     }
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
@@ -2372,23 +2372,7 @@ static void D_DoomMainSetup(void)
         if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
             creditlump = W_CacheLumpName("CREDIT");
         else
-            switch (gamemission)
-            {
-                case doom:
-                    creditlump = W_CacheLumpName(gamemode == shareware ? "CREDIT1" : "CREDIT2");
-                    break;
-
-                case doom2:
-                case pack_nerve:
-                case pack_plut:
-                case pack_tnt:
-                    creditlump = W_CacheLumpName("CREDIT3");
-                    break;
-
-                case none:
-                    break;
-            }
-
+            creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }
 
     if (gameaction != ga_loadgame)
