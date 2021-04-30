@@ -2331,7 +2331,7 @@ static void D_DoomMainSetup(void)
     if (autosigil)
     {
         titlelump = W_CacheLastLumpName("TITLEPI3");
-        creditlump = W_CacheLastLumpName("CREDIT1");
+        creditlump = W_CacheLastLumpName("CREDIT2");
     }
     else
     {
@@ -2375,20 +2375,14 @@ static void D_DoomMainSetup(void)
             switch (gamemission)
             {
                 case doom:
-                    creditlump = W_CacheLumpName("CREDIT1");
+                    creditlump = W_CacheLumpName(gamemode == shareware ? "CREDIT1" : "CREDIT2");
                     break;
 
                 case doom2:
                 case pack_nerve:
-                    creditlump = W_CacheLumpName("CREDIT2");
-                    break;
-
                 case pack_plut:
-                    creditlump = W_CacheLumpName("CREDIT2");
-                    break;
-
                 case pack_tnt:
-                    creditlump = W_CacheLumpName("CREDIT2");
+                    creditlump = W_CacheLumpName("CREDIT3");
                     break;
 
                 case none:
