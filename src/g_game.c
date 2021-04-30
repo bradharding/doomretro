@@ -680,6 +680,7 @@ dboolean G_Responder(event_t *ev)
                     pagetic = MIN(pagetic, 10);
                 else
                 {
+                    pagetic = PAGETICS;
                     M_StartControlPanel();
                     S_StartSound(NULL, sfx_swtchn);
                 }
