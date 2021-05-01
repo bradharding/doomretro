@@ -1,11 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
-
 #### DOOM Retro v4.0.10
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen is now displayed in all instances.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 30, 2021
 
