@@ -4,6 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen is now displayed in all instances.
+* Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

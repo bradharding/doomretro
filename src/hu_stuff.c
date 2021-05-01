@@ -1191,7 +1191,7 @@ void HU_Ticker(void)
     const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
     // tic down message counter if message is up
-    if (!idmypos && !(message_counter = MAX(message_counter - 1, 0)) && !menuactive && !consoleactive)
+    if (!idmypos && !(message_counter = MAX(message_counter - 1, 0)) && !menuactive)
     {
         message_on = false;
         message_nottobefuckedwith = false;
