@@ -6810,12 +6810,12 @@ static void timer_cmd_func2(char *cmd, char *parms)
 
             value = BETWEEN(0, value, TIMERMAXMINUTES);
 
-            if (value == timer)
-                C_Output("The timer for each map has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
-            else if (value)
-                C_Output("The timer for each map is now %s minute%s.", temp, (value == 1 ? "" : "s"));
+            if (!value && timer)
+                C_Output("The timer has been cleared.");
+            else if (value == timer)
+                C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
             else
-                C_Output("The timer for each map has been cleared.");
+                C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
 
             P_SetTimer(value);
             free(temp);
@@ -6918,8 +6918,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         SC_Close();
 
-        buddha = (viewplayer->cheats & CF_BUDDHA);
-        viewplayer->cheats &= ~CF_BUDDHA;
+        if ((buddha = (viewplayer->cheats & CF_BUDDHA)))
+            viewplayer->cheats &= ~CF_BUDDHA;
 
         hud = r_hud;
 
