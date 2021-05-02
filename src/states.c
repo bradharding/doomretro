@@ -1501,9 +1501,9 @@ state_t states[NUMSTATES] =
     { SPR_BEXP,    0,                     6, NULL,                   S_BAR2              }, // S_BAR1
 
     // Smoke Trail (MT_TRAIL)
-    { SPR_RSMK,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_TRAIL2            }, // S_TRAIL
-    { SPR_RSMK,    1,                     4, NULL,                   S_TRAIL3            }, // S_TRAIL2
-    { SPR_RSMK,    2,                    10, NULL,                   S_TRAIL4            }, // S_TRAIL3
-    { SPR_RSMK,    3,                    14, NULL,                   S_TRAIL5            }, // S_TRAIL4
-    { SPR_RSMK,    4,                    18, NULL,                   S_NULL              }  // S_TRAIL5
+    { SPR_RSMK,    0,                     4, NULL,                   S_TRAIL2            }, // S_TRAIL
+    { SPR_RSMK,    1,                     8, NULL,                   S_TRAIL3            }, // S_TRAIL2
+    { SPR_RSMK,    2,                    12, NULL,                   S_TRAIL4            }, // S_TRAIL3
+    { SPR_RSMK,    3,                    16, NULL,                   S_TRAIL5            }, // S_TRAIL4
+    { SPR_RSMK,    4,                    20, NULL,                   S_NULL              }  // S_TRAIL5
 };
