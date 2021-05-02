@@ -1851,6 +1851,8 @@ static void I_GetScreenDimensions(void)
         {
             width = displays[displayindex].w;
             height = displays[displayindex].h;
+
+            clearframefunc = &nullfunc;
         }
         else
         {
@@ -1858,6 +1860,8 @@ static void I_GetScreenDimensions(void)
 
             width = windowwidth;
             height = windowheight;
+
+            clearframefunc = &I_ClearFrame;
         }
 
         SCREENWIDTH = MIN((width * ACTUALHEIGHT / height + 1) & ~3, MAXWIDTH);
@@ -1865,8 +1869,6 @@ static void I_GetScreenDimensions(void)
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
         WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
-
-        clearframefunc = (vid_fullscreen ? &nullfunc : &I_ClearFrame);
     }
     else
     {

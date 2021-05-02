@@ -39,6 +39,10 @@
 #if !defined(__M_CONFIG_H__)
 #define __M_CONFIG_H__
 
+#include "i_gamepad.h"
+#include "p_local.h"
+#include "version.h"
+
 extern dboolean     alwaysrun;
 extern int          am_allmapcdwallcolor;
 extern int          am_allmapfdwallcolor;
