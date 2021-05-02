@@ -6823,7 +6823,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
-        /* flags2               */ MF2_TRANSLUCENT_33,
+        /* flags2               */ MF2_TRANSLUCENT_50,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,

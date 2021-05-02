@@ -1150,7 +1150,7 @@ typedef enum
     S_TRAIL3,
     S_TRAIL4,
 
-    // [BH] extra DeHackEd states 1081 to 3999
+    // [BH] extra DeHackEd states 1,081 to 3,999
     EXTRASTATES = 1081,
 
     // [BH] More DOOM Retro states
