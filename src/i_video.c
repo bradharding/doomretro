@@ -1094,7 +1094,7 @@ static void GetDisplays(void)
         if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
             I_SDLError(SDL_GetDisplayBounds);
 
-    if ((float)displays[displayindex].w / displays[displayindex].h <= NONWIDEASPECTRATIO)
+    if ((double)displays[displayindex].w / displays[displayindex].h <= NONWIDEASPECTRATIO)
     {
         nowidescreen = true;
         vid_widescreen = false;

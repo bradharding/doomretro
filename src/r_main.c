@@ -78,9 +78,6 @@ player_t            *viewplayer = NULL;
 //      range of [0.0, 1.0). Used for interpolation.
 fixed_t             fractionaltic;
 
-//
-// precalculated math tables
-//
 angle_t             clipangle;
 
 // The viewangletox[viewangle + FINEANGLES/4] lookup

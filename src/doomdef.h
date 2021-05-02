@@ -122,7 +122,7 @@ typedef enum
 #define MAXHEIGHT           (VANILLAHEIGHT * 2) // [crispy]
 
 #define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
-#define NONWIDEASPECTRATIO  (4.0f / 3.0f)
+#define NONWIDEASPECTRATIO  (4.0 / 3.0)
 
 extern int          SCREENWIDTH;
 extern int          SCREENHEIGHT;
