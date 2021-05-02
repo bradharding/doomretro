@@ -58,15 +58,15 @@ char *sprnames[] =
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2",
 
     // Sprites 138 to 143
-    "TNT1",     // phares 03/09/98: invisible sprite
-    "DOGS",     // killough 07/19/98: Marine's best friend :)
-    "PLS1",     // killough 07/19/98: first of two plasma fireballs in the beta
-    "PLS2",     // killough 07/19/98: second of two plasma fireballs in the beta
-    "BON3",     // killough 07/11/98: evil sceptre in the beta version
-    "BON4",     // killough 07/11/98: unholy bible in the beta version
+    "TNT1", // phares 03/09/98: invisible sprite
+    "DOGS", // killough 07/19/98: Marine's best friend :)
+    "PLS1", // killough 07/19/98: first of two plasma fireballs in the beta
+    "PLS2", // killough 07/19/98: second of two plasma fireballs in the beta
+    "BON3", // killough 07/11/98: evil sceptre in the beta version
+    "BON4", // killough 07/11/98: unholy bible in the beta version
 
     // Sprite 144
-    "BLD2",     // [BH] blood splats
+    "BLD2", // [BH] blood splats
 
     // [BH] Sprites 145 to 244 (100 extra sprite names to use in DeHackEd patches)
     "SP00", "SP01", "SP02", "SP03", "SP04", "SP05", "SP06", "SP07", "SP08", "SP09",
@@ -79,6 +79,9 @@ char *sprnames[] =
     "SP70", "SP71", "SP72", "SP73", "SP74", "SP75", "SP76", "SP77", "SP78", "SP79",
     "SP80", "SP81", "SP82", "SP83", "SP84", "SP85", "SP86", "SP87", "SP88", "SP89",
     "SP90", "SP91", "SP92", "SP93", "SP94", "SP95", "SP96", "SP97", "SP98", "SP99",
+
+    // Sprite 245
+    "RSMK", // [BH] rocket smoke
 
     NULL
 };

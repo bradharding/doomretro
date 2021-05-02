@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen is now displayed in all instances.
 * Minor changes have been made to text that is output to the console.
+* The trails of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` have been changed.
 * Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

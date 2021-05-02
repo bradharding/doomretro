@@ -1153,7 +1153,10 @@ typedef enum
     // [BH] extra DeHackEd states 1081 to 3999
     EXTRASTATES = 1081,
 
-    NUMSTATES = 4000
+    // [BH] More DOOM Retro states
+    S_TRAIL5 = 4000,
+
+    NUMSTATES
 } statenum_t;
 
 typedef struct

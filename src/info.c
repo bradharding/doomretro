@@ -6792,7 +6792,7 @@ mobjinfo_t mobjinfo[] =
         /* plural3              */ ""
     },
 
-    // Rocket Trail (MT_TRAIL)
+    // Smoke Trail (MT_TRAIL)
     {
         /* doomednum            */ -1,
         /* spawnstate           */ S_TRAIL,
