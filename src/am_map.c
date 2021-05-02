@@ -590,7 +590,7 @@ void AM_ClearMarks(void)
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             markpointnum = 0;
             markpointnum_max = 0;
-            markpoints = I_Realloc(markpoints, 0);
+            markpoints = NULL;
         }
         else if (markpress == 1)
         {

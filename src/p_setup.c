@@ -2977,11 +2977,11 @@ void P_SetupLevel(int ep, int map)
 
     markpointnum = 0;
     markpointnum_max = 0;
-    markpoints = I_Realloc(markpoints, 0);
+    markpoints = NULL;
 
     pathpointnum = 0;
     pathpointnum_max = 0;
-    pathpoints = I_Realloc(pathpoints, 0);
+    pathpoints = NULL;
 
     massacre = false;
 
