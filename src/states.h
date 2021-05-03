@@ -1153,9 +1153,6 @@ typedef enum
     // [BH] extra DeHackEd states 1,081 to 3,999
     EXTRASTATES = 1081,
 
-    // [BH] More DOOM Retro states
-    S_TRAIL5 = 4000,
-
     NUMSTATES
 } statenum_t;
 
