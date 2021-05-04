@@ -160,6 +160,23 @@ void R_DrawColumn(void)
     *dest = colormap[dc_source[frac >> FRACBITS]];
 }
 
+void R_DrawCorrectedColumn(void)
+{
+    int                 y = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap = dc_colormap[0];
+
+    while (--y)
+    {
+        *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+}
+
 void R_DrawColorColumn(void)
 {
     int         y = dc_yh - dc_yl + 1;
@@ -592,6 +609,24 @@ void R_DrawTranslucent50Column(void)
     }
 
     *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+}
+
+void R_DrawCorrectedTranslucent50Column(void)
+{
+    int                 y = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    const lighttable_t  *colormap = dc_colormap[0];
+
+    while (--y)
+    {
+        *dest = tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    *dest = tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentColor50Column(void)
