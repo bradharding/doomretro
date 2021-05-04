@@ -174,9 +174,8 @@ static void P_XYMovement(mobj_t *mo)
     corpse = ((mo->flags & MF_CORPSE) && type != MT_BARREL);
 
     // [BH] give smoke trails to rockets
-    if (flags2 & MF2_SMOKETRAIL)
-        if (puffcount++)
-            P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
+    if ((flags2 & MF2_SMOKETRAIL) && ++puffcount)
+        P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
     mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
     mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
