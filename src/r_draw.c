@@ -615,8 +615,8 @@ void R_DrawCorrectedTranslucent50Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
-    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--y)
