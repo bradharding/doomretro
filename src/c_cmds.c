@@ -2004,6 +2004,10 @@ static void freeze_cmd_func2(char *cmd, char *parms)
         viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
+
+        viewplayer->mo->momx = 0;
+        viewplayer->mo->momy = 0;
+        viewplayer->mo->momz = 0;
     }
     else
     {
