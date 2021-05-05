@@ -2595,7 +2595,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - translucent = %ld", value);
 
-            states[indexnum].translucent = !!value;             // bool
+            states[indexnum].translucent = !!value;             // dboolean
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else
@@ -3613,7 +3613,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
 // Args:    key       -- place to put the mnemonic for the string if found
 //          lookfor   -- original value string to look for
 //          newstring -- string to put in its place if found
-// Returns: bool: True if string found, false if not
+// Returns: dboolean: True if string found, false if not
 //
 static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
 {
