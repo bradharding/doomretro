@@ -9,6 +9,7 @@
 * The smoke trailing behind rockets fired by the player will no longer spawn closer to the player, obscuring their view, if they hold down the control bound to the `+fire` action to fire multiple rockets.
 * Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
 * Any momentum applied to the player will now be removed when using the `freeze` CCMD.
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
