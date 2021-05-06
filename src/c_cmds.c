@@ -1999,15 +1999,17 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 
     if (freeze)
     {
+        mobj_t  *mo = viewplayer->mo;
+
         C_Output(s_STSTR_FON);
         HU_SetPlayerMessage(s_STSTR_FON, false, false);
         viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
 
-        viewplayer->mo->momx = 0;
-        viewplayer->mo->momy = 0;
-        viewplayer->mo->momz = 0;
+        mo->momx = 0;
+        mo->momy = 0;
+        mo->momz = 0;
     }
     else
     {
