@@ -750,6 +750,7 @@ dboolean P_GivePower(int power)
 
     given = (viewplayer->powers[power] <= 0);
     viewplayer->powers[power] = tics[power];
+
     return given;
 }
 
@@ -1007,11 +1008,17 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (message)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
 
-            if (viewplayer->readyweapon != wp_fist && !strength)
-                P_EquipWeapon(wp_fist);
+            if (!strength)
+            {
+                if (viewplayer->readyweapon != wp_fist)
+                {
+                    P_EquipWeapon(wp_fist);
+                    viewplayer->fistorchainsaw = wp_fist;
+                }
 
-            viewplayer->fistorchainsaw = wp_fist;
-            sound = sfx_getpow;
+                sound = sfx_getpow;
+            }
+
             break;
         }
 

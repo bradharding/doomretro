@@ -10,6 +10,7 @@
 * Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
 * Any momentum applied to the player will now be removed when using the `freeze` CCMD.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* The power-up sound effect is no longer heard if the player picks up a berserk power-up while they already have one.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
