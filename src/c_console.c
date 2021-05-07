@@ -65,7 +65,7 @@
 #include "version.h"
 #include "w_wad.h"
 
-console_t               *console;
+console_t               *console = NULL;
 
 dboolean                consoleactive;
 int                     consoleheight = 0;
