@@ -1242,18 +1242,18 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (type == Revenant || type == LostSoul || type == SpiderMastermind || type == Cyberdemon)
         mobj->flags3 |= MF3_MISSILEMORE;
 
+    info = mobj->info;
+
     // [BH] spawn blood splats around corpses
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
         && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max
         && (BTSX || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD))
     {
-        mobj->bloodsplats = CORPSEBLOODSPLATS;
+        mobj->bloodsplats = info->mass << 3;
 
         if (r_corpses_moreblood && mobj->subsector->sector->terraintype == SOLID)
             P_SpawnMoreBlood(mobj);
     }
-
-    info = mobj->info;
 
     // [crispy] randomly colorize space marine corpse objects
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)

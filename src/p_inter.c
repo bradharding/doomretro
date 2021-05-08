@@ -2011,7 +2011,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (type != MT_BARREL)
     {
         if (!(target->flags & MF_FUZZ))
-            target->bloodsplats = CORPSEBLOODSPLATS;
+            target->bloodsplats = info->mass << 3;
 
         if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
             target->flags2 |= MF2_MIRRORED;
