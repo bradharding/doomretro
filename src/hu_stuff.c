@@ -1286,7 +1286,7 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
         static int  messagecount = 1;
         char        buffer[133];
 
-        if (M_StringCompare(message, viewplayer->prevmessage))
+        if (M_StringCompare(message, viewplayer->prevmessage) && !vanilla)
         {
             char    *temp = commify(++messagecount);
 
