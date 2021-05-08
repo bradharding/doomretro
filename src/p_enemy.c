@@ -1206,12 +1206,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // spawn a puff of smoke behind the homing rocket
     if (!doom4vanilla)
-    {
-        if (vanilla)
-            P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle);
-        else
-            P_SpawnSmokeTrail(actor->oldx, actor->oldy, actor->oldz, actor->angle);
-    }
+        P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction
     if (!(dest = actor->tracer) || dest->health <= 0)
