@@ -420,7 +420,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     fixed_t     dist = 0;
     fixed_t     adx, ady;
     mobj_t      *listener = viewplayer->mo;
-    dboolean    boss = origin->flags2 & MF2_BOSS;
+    dboolean    boss = (origin->flags2 & MF2_BOSS);
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
 

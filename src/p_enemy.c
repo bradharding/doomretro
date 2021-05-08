@@ -785,9 +785,9 @@ static dboolean P_LookForTargets(mobj_t *actor, int allaround)
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t      *target = actor->subsector->sector->soundtarget;
+    mobj_t      *target;
     int         flags = actor->flags;
-    dboolean    friend = flags & MF_FRIEND;
+    dboolean    friend = (flags & MF_FRIEND);
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -799,7 +799,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (!(friend
         && P_LookForTargets(actor, false))
-        && !(target
+        && !((target = actor->subsector->sector->soundtarget)
             && (target->flags & MF_SHOOTABLE)
             && (P_SetTarget(&actor->target, target), (!(flags & MF_AMBUSH) || P_CheckSight(actor, target))))
         && (friend || !P_LookForTargets(actor, false)))
@@ -822,7 +822,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
                 break;
 
             default:
-                S_StartSound(actor, actor->info->seesound);
+                S_StartSound(((actor->flags2 & MF2_BOSS) ? NULL : actor), actor->info->seesound);
                 break;
         }
 
