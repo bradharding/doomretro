@@ -10,9 +10,9 @@
 * Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
 * Any momentum applied to the player will now be removed when using the `freeze` CCMD.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* The power-up sound effect is no longer played if the player picks up a berserk power-up and they already have one.
+* The power-up sound effect will no longer played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sound effects of the cyberdemon or spider mastermind wouldn’t be played.
-* The amount of blood splats spawned when a corpse slides on the ground when the `r_corpses_slide` CVAR is `on`, is now based on its size.
+* The maximum amount of blood splats spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
