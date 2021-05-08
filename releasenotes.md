@@ -8,9 +8,10 @@
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
 * Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
-* Any momentum applied to the player will now be removed when using the `freeze` CCMD.
+* Player messages are no longer grouped together when vanilla mode is enabled.
+* Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* The power-up sound effect will no longer played if the player picks up a berserk power-up and they already have one.
+* The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sound effects of the cyberdemon or spider mastermind wouldn’t be played.
 * The maximum amount of blood splats spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 
