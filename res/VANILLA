@@ -38,6 +38,7 @@ gp_thumbsticks 1
 gp_vibrate_barrels 0%
 gp_vibrate_damage 0%
 gp_vibrate_weapons 0%
+groupmessages off
 infighting off
 infiniteheight on
 m_acceleration off

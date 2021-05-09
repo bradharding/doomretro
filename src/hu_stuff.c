@@ -97,6 +97,7 @@ static patch_t          *bluearmorpatch;
 
 int                     crosshair = crosshair_default;
 int                     crosshaircolor = crosshaircolor_default;
+dboolean                groupmessages = groupmessages_default;
 int                     playergender = playergender_default;
 char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
@@ -1286,7 +1287,7 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
         static int  messagecount = 1;
         char        buffer[133];
 
-        if (M_StringCompare(message, viewplayer->prevmessage) && !vanilla)
+        if (M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
         {
             char    *temp = commify(++messagecount);
 

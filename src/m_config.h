@@ -91,6 +91,7 @@ extern int          gp_thumbsticks;
 extern int          gp_vibrate_barrels;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
+extern dboolean     groupmessages;
 extern dboolean     infighting;
 extern dboolean     infiniteheight;
 extern char         *iwadfolder;
@@ -458,6 +459,8 @@ enum
 #define gp_vibrate_weapons_min                  0
 #define gp_vibrate_weapons_default              100
 #define gp_vibrate_weapons_max                  200
+
+#define groupmessages_default                   true
 
 #define health_min                             -100
 #define health_default                          100

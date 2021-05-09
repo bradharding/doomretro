@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                202
+#define NUMCVARS                                                203
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -115,6 +115,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_barrels,               gp_vibrate_barrels,                    gp_vibrate_barrels,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                gp_vibrate_damage,                     gp_vibrate_damage,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_weapons,               gp_vibrate_weapons,                    gp_vibrate_weapons,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                       iwadfolder,                            iwadfolder,                            NOVALUEALIAS          ),
@@ -690,6 +691,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     gp_vibrate_damage = BETWEEN(gp_vibrate_damage_min, gp_vibrate_damage, gp_vibrate_damage_max);
 
     gp_vibrate_weapons = BETWEEN(gp_vibrate_weapons_min, gp_vibrate_damage, gp_vibrate_weapons_max);
+
+    if (groupmessages != false && groupmessages != true)
+        groupmessages = groupmessages_default;
 
     if (infighting != false && infighting != true)
         infighting = infighting_default;
