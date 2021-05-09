@@ -14,6 +14,7 @@
 * The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sound effects of the cyberdemon or spider mastermind wouldn’t be played.
 * The maximum amount of blood splats spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
+* Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
