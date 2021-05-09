@@ -15,6 +15,7 @@
 * A bug has been fixed whereby the alert sound effects of the cyberdemon or spider mastermind wouldn’t be played.
 * The maximum amount of blood splats spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
+* The grouping of player messages (that is, grouping messages that are the same by following them with a counter in parentheses) can now be toggled using the new `groupmessages` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
