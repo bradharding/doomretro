@@ -7,13 +7,13 @@
 * Minor changes have been made to text that is output to the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
-* The grouping of player messages (that is, grouping the same messages by following them with a counter in parentheses) can now be toggled using the new `groupmessages` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
-* Player messages will now fade correctly if the console is open and the `fade` CVAR is `on`.
+* Grouping identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Player messages will now completely fade off the screen if the console is open and the `fade` CVAR is `on`.
 * Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sound effects of cyberdemons or spider masterminds wouldn’t be played.
-* The maximum amount of blood splats spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
+* The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

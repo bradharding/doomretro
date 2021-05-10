@@ -570,7 +570,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(gp_vibrate_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount <i>XInput</i> gamepads vibrate when the player fires their weapon (<b>0%</b> to <b>200%</b>)."),
     CVAR_BOOL(groupmessages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the grouping of player messages."),
+        "Toggles the grouping of identical player messages."),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
