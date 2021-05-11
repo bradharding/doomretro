@@ -3403,7 +3403,7 @@ dboolean M_Responder(event_t *ev)
                         if (currentMenu != &NewDef || itemOn == 4)
                             S_StartSound(NULL, sfx_pistol);
 
-                        if (currentMenu != &NewDef && !fadecount)
+                        if (currentMenu != &NewDef && currentMenu != &SaveDef && !fadecount)
                             D_FadeScreen();
                     }
 
