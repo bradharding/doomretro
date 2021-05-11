@@ -1930,10 +1930,10 @@ void I_ToggleFullscreen(void)
     S_StartSound(NULL, sfx_stnmov);
 
     if (vid_fullscreen)
-        C_Input("%s %s", stringize(vid_fullscreen), "on");
+        C_StrCVAROutput(stringize(vid_fullscreen), "on");
     else
     {
-        C_Input("%s %s", stringize(vid_fullscreen), "off");
+        C_StrCVAROutput(stringize(vid_fullscreen), "off");
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
 

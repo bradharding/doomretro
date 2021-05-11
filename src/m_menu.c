@@ -2226,7 +2226,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
             {
                 vid_widescreen = false;
-                C_Input("%s %s", stringize(vid_widescreen), "off");
+                C_StrCVAROutput(stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
@@ -2256,7 +2256,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
-                C_Input("%s %s", stringize(vid_widescreen), "on");
+                C_StrCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
             }
@@ -2350,7 +2350,7 @@ int M_StringWidth(char *string)
     int len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
-        w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : 0));
+        w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : '\0'));
 
     return w;
 }
