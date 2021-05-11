@@ -2285,6 +2285,8 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
+    static double   offset;
+
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
         if (!(gametime & (anim->speed - 1)))
@@ -2298,7 +2300,11 @@ void P_UpdateSpecials(void)
                     flattranslation[i] = firstflat + pic;
             }
 
-    animatedliquiddiff += animatedliquiddiffs[gametime & 63];
+    if (!(gametime & 63))
+        offset = M_RandomInt(0, 100) / 100.0;
+
+    animatedliquiddiff += (fixed_t)(animatedliquiddiffs[gametime & 63] * offset);
+
     animatedliquidxoffs += animatedliquidxdir;
 
     if (animatedliquidxoffs > 64 * FRACUNIT)
