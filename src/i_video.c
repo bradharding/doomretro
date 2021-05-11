@@ -1040,38 +1040,23 @@ void I_SetSimplePalette(byte *playpal)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
-void I_SetPaletteWithBrightness(byte *playpal, double brightness)
+void I_SetPaletteWithBrightness(byte *playpal, double brightness, double color)
 {
-    if (r_color == r_color_max)
-    {
-        for (int i = 0; i < 256; i++)
-        {
-            colors[i].r = (byte)(gammatable[gammaindex][*playpal++] * brightness);
-            colors[i].g = (byte)(gammatable[gammaindex][*playpal++] * brightness);
-            colors[i].b = (byte)(gammatable[gammaindex][*playpal++] * brightness);
-        }
-    }
-    else
-    {
-        double  color = r_color / 100.0;
+    color /= 100.0;
 
-        for (int i = 0; i < 256; i++)
-        {
-            double  r = gammatable[gammaindex][*playpal++] * brightness;
-            double  g = gammatable[gammaindex][*playpal++] * brightness;
-            double  b = gammatable[gammaindex][*playpal++] * brightness;
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+    for (int i = 0; i < 256; i++)
+    {
+        double  r = gammatable[gammaindex][*playpal++] * brightness;
+        double  g = gammatable[gammaindex][*playpal++] * brightness;
+        double  b = gammatable[gammaindex][*playpal++] * brightness;
+        double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)(p + (r - p) * color);
-            colors[i].g = (byte)(p + (g - p) * color);
-            colors[i].b = (byte)(p + (b - p) * color);
-        }
+        colors[i].r = (byte)(p + (r - p) * color);
+        colors[i].g = (byte)(p + (g - p) * color);
+        colors[i].b = (byte)(p + (b - p) * color);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
-
-    if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, colors[0].r, colors[0].g, colors[0].b, SDL_ALPHA_OPAQUE);
 }
 
 static void I_RestoreFocus(void)

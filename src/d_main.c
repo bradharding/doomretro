@@ -254,7 +254,7 @@ void D_FadeScreenToBlack(void)
 
     for (double i = 0.9; i >= 0.0; i -= 0.1)
     {
-        I_SetPaletteWithBrightness(PLAYPAL, i);
+        I_SetPaletteWithBrightness(PLAYPAL, i, i * 100.0);
         blitfunc();
         I_SetExternalAutomapPalette();
         I_Sleep(30);
