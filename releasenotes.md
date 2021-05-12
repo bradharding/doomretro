@@ -6,7 +6,6 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen is now displayed in all instances.
 * Minor changes have been made to text that is output to the console.
-* The amplitude of the bob of liquid sectors and the sprites in them, when the `r_liquid_bob` CVAR is `on`, is now randomized.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
 * Grouping identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
