@@ -2301,11 +2301,7 @@ void P_UpdateSpecials(void)
             }
 
     if (!(gametime & 63))
-    {
-        static int  r;
-
-        offset = (r = M_RandomIntNoRepeat(0, 100, r)) / 100.0;
-    }
+        offset = (offset > 0.5 ? M_RandomInt(0, 40) : M_RandomInt(60, 100)) / 100.0;
 
     animatedliquiddiff += (fixed_t)(animatedliquiddiffs[gametime & 63] * offset);
 
