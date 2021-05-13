@@ -197,7 +197,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 //
 static boolean InitSDL(void)
 {
-    if (SDL_Init(SDL_INIT_AUDIO) == -1)
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1)
         return false;
 
     if (Mix_OpenAudioDevice(44100, MIX_DEFAULT_FORMAT, 2, 1024, NULL, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)

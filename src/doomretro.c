@@ -197,7 +197,9 @@ void I_ShutdownWindows32(void)
 int main(int argc, char **argv)
 {
     myargc = argc;
-    myargv = argv;
+
+    if((myargv = (char **)malloc(sizeof(myargv[0]) * myargc)))
+        memcpy(myargv, argv, sizeof(myargv[0]) * myargc);
 
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
@@ -217,7 +219,6 @@ int main(int argc, char **argv)
     SystemParametersInfo(SPI_GETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
 
     I_AccessibilityShortcutKeys(false);
-
 #endif
 
     D_DoomMain();
