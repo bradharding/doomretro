@@ -6,7 +6,7 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
+  Copyright © 1993-2012 by id Software LLC, a ZeniMax Media company.
   Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
@@ -494,7 +494,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     spryscale = vis->scale;
     dc_colormap[0] = vis->colormap;
     dc_black = dc_colormap[0][nearestblack];
-    dc_black40 = &tinttab40[dc_black << 8];
+    dc_black25 = &tinttab25[dc_black << 8];
+    dc_black33 = &tinttab33[dc_black << 8];
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 

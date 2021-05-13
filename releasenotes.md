@@ -16,7 +16,7 @@
 * A bug has been fixed whereby the alert sound effects of cyberdemons or spider masterminds wouldn’t be played.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
-* The edges of shadows cast by monsters when the `r_shadows` CVAR is `on` are no longer softened.
+* Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
