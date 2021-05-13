@@ -129,7 +129,6 @@ int             dc_floorclip;
 int             dc_ceilingclip;
 int             dc_numposts;
 byte            dc_black;
-byte            *dc_black25;
 byte            *dc_black40;
 
 // first pixel in a column (possibly virtual)
@@ -198,16 +197,10 @@ void R_DrawShadowColumn(void)
     byte    *dest = ylookup0[dc_yl] + dc_x;
 
     if (!y)
-        *dest = *(*dest + dc_black25);
-    else if (y == 1)
-    {
-        *dest = *(*dest + dc_black25);
-        dest += SCREENWIDTH;
-        *dest = *(*dest + dc_black25);
-    }
+        *dest = *(*dest + dc_black40);
     else
     {
-        *dest = *(*dest + dc_black25);
+        *dest = *(*dest + dc_black40);
         dest += SCREENWIDTH;
 
         while (--y)
@@ -216,7 +209,7 @@ void R_DrawShadowColumn(void)
             dest += SCREENWIDTH;
         }
 
-        *dest = *(*dest + (dc_yh == dc_floorclip ? dc_black40 : dc_black25));
+        *dest = *(*dest + dc_black40);
     }
 }
 
@@ -227,20 +220,20 @@ void R_DrawFuzzyShadowColumn(void)
 
     if (((consoleactive || freeze) && !fuzztable[fuzzpos++])
         || (!consoleactive && !freeze && !(M_BigRandom() & 3)))
-        *dest = *(*dest + dc_black25);
+        *dest = *(*dest + dc_black40);
 
     dest += SCREENWIDTH;
 
     while (--y)
     {
-        *dest = *(*dest + dc_black25);
+        *dest = *(*dest + dc_black40);
         dest += SCREENWIDTH;
     }
 
     if (dc_yh < dc_floorclip
         && (((consoleactive || freeze) && !fuzztable[fuzzpos++])
             || (!consoleactive && !freeze && !(M_BigRandom() & 3))))
-        *dest = *(*dest + dc_black25);
+        *dest = *(*dest + dc_black40);
 }
 
 void R_DrawSolidShadowColumn(void)
