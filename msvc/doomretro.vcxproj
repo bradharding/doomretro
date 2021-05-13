@@ -141,6 +141,7 @@
     </ResourceCompile>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
@@ -187,6 +188,7 @@
     </ResourceCompile>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
@@ -257,8 +259,7 @@
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
-      <EnableDPIAwareness>
-      </EnableDPIAwareness>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -331,8 +332,7 @@
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
-      <EnableDPIAwareness>
-      </EnableDPIAwareness>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>

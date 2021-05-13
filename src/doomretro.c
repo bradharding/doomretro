@@ -58,23 +58,6 @@ int windowborderheight = 0;
 #define SM_CXPADDEDBORDER   92
 #endif
 
-static void I_SetProcessDPIAware(void)
-{
-    HMODULE hLibrary = LoadLibrary("user32.dll");
-
-    if (hLibrary)
-    {
-        typedef BOOL    (*SETPROCESSDPIAWARE)(void);
-
-        SETPROCESSDPIAWARE  pSetProcessDPIAware = (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
-
-        if (pSetProcessDPIAware)
-            pSetProcessDPIAware();
-
-        FreeLibrary(hLibrary);
-    }
-}
-
 static WNDPROC  oldProc;
 static HICON    icon;
 
@@ -235,7 +218,6 @@ int main(int argc, char **argv)
 
     I_AccessibilityShortcutKeys(false);
 
-    I_SetProcessDPIAware();
 #endif
 
     D_DoomMain();
