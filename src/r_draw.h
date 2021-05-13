@@ -63,8 +63,8 @@ extern int              dc_floorclip;
 extern int              dc_ceilingclip;
 extern int              dc_numposts;
 extern byte             dc_black;
-extern byte             *dc_black25;
 extern byte             *dc_black33;
+extern byte             *dc_black40;
 
 // first pixel in a column
 extern byte             *dc_source;
