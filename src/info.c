@@ -348,7 +348,7 @@ mobjinfo_t mobjinfo[] =
         /* frames               */ 0,
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 2 * FRACUNIT,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
         /* name2                */ "",
