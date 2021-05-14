@@ -409,7 +409,7 @@ static void ST_RefreshBackground(void)
         R_FillBezel();
 
         if (vid_widescreen)
-            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+            V_DrawBigPatch((SCREENWIDTH - sbarwidth) / 2, ST_Y, sbar2);
         else
             V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, sbar2);
     }
@@ -417,8 +417,7 @@ static void ST_RefreshBackground(void)
 
 static int ST_CalcPainOffset(void);
 
-// Respond to keyboard input events,
-//  intercept cheats.
+// Respond to keyboard input events, intercept cheats.
 dboolean ST_Responder(event_t *ev)
 {
     // if a user keypress...
