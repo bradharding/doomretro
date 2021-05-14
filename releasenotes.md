@@ -17,6 +17,7 @@
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 * Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
+* The effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
