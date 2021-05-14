@@ -165,6 +165,7 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
+short                       sbarwidth;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -384,19 +385,34 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-    R_FillBezel();
-
     if (STBAR >= 3)
     {
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(sbar->width)) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        sbarwidth = SHORT(sbar->width);
+
+        R_FillBezel();
+
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else if (r_detail == r_detail_low)
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(sbar->width)) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-    else if (vid_widescreen)
-        V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+    {
+        sbarwidth = SHORT(sbar->width);
+
+        R_FillBezel();
+
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+    }
     else
-        V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, sbar2);
+    {
+        sbarwidth = SHORT(sbar2->width);
+
+        R_FillBezel();
+
+        if (vid_widescreen)
+            V_DrawBigPatch((SCREENWIDTH - SHORT(sbar2->width)) / 2, ST_Y, sbar2);
+        else
+            V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, sbar2);
+    }
 }
 
 static int ST_CalcPainOffset(void);
