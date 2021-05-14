@@ -1219,6 +1219,7 @@ static int D_OpenWADLauncher(void)
                         C_Warning(1, "<b>%s</b> couldn't be found so <b>%s</b> was loaded instead.", leafname(file), leafname(temp));
 
                     file = M_StringDuplicate(temp);
+                    wad = M_StringDuplicate(temp);
                     free(temp);
                 }
             }
