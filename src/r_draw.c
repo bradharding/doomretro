@@ -1183,28 +1183,25 @@ void R_InitBuffer(int width, int height)
 
 void R_FillBezel(void)
 {
-    if (sbarwidth < SCREENWIDTH)
-    {
-        byte    *src = (byte *)grnrock;
-        byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    byte    *src = (byte *)grnrock;
+    byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-            for (int x = 0; x < SCREENWIDTH; x += 2)
-            {
-                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
-
-                *dest++ = dot;
-                *dest++ = dot;
-            }
-
-        if (st_drawbrdr)
+    for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
-                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+            byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
-            for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
-                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+            *dest++ = dot;
+            *dest++ = dot;
         }
+
+    if (st_drawbrdr)
+    {
+        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+
+        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
 

@@ -387,26 +387,23 @@ static void ST_RefreshBackground(void)
 {
     if (STBAR >= 3)
     {
-        sbarwidth = SHORT(sbar->width);
-
-        R_FillBezel();
+        if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+            R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else if (r_detail == r_detail_low)
     {
-        sbarwidth = SHORT(sbar->width);
-
-        R_FillBezel();
+        if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+            R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
     }
     else
     {
-        sbarwidth = SHORT(sbar2->width);
-
-        R_FillBezel();
+        if ((sbarwidth = SHORT(sbar2->width)) < SCREENWIDTH)
+            R_FillBezel();
 
         if (vid_widescreen)
             V_DrawBigPatch((SCREENWIDTH - sbarwidth) / 2, ST_Y, sbar2);
