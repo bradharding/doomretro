@@ -165,7 +165,6 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
-short                       sbarwidth;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -385,6 +384,8 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
+    short   sbarwidth;
+
     if (STBAR >= 3)
     {
         if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)

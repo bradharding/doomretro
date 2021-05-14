@@ -380,7 +380,7 @@ static int AccelerateMouse(int value)
 
 static short inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SHRT_MAX, value) : SIGN(value) * SHRT_MAX));
+    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
 dboolean    altdown = false;

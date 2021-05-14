@@ -90,7 +90,6 @@ extern int      idclevtics;
 extern dboolean idmus;
 extern int      st_palette;
 extern dboolean oldweaponsowned[NUMWEAPONS];
-extern short    sbarwidth;
 extern patch_t  *tallnum[10];
 extern patch_t  *tallpercent;
 extern short    tallpercentwidth;
