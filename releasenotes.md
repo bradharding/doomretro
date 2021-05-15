@@ -18,7 +18,6 @@
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 * Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
 * The effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
-* The behavior of sectors with a special of 11 (“Damage -10% or -20% health and end level”) has changed slightly so that the player’s health must be zero or less before the level will end.
 * If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then guesses what was intended by finding the nearest match, the `wad` CVAR will now still be updated.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

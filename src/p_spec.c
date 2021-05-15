@@ -2229,7 +2229,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 if (!(leveltime & 0x1F))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
-                if (viewplayer->health <= 0)
+                if (viewplayer->health <= 10)
                     G_ExitLevel();
 
                 break;
