@@ -20,7 +20,7 @@
 * The shaking effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
 * If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then successfully guesses what was intended by finding the nearest match, the `wad` CVAR will now be updated.
 * The `r_hud` CVAR is now `off` by default.
-* The `r_bloodsplats_max` CVAR is now set to `0` when vanilla mode is enabled.
+* The default of the `r_bloodsplats_max` CVAR has now been doubled to `131,072`, and is now also set to `0` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
