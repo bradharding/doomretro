@@ -821,7 +821,7 @@ static void R_SetupFrame(void)
     zlight = c_zlight[cm];
     scalelight = c_scalelight[cm];
     psprscalelight = c_psprscalelight[cm];
-    drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max && !vanilla);
+    drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max);
 
     if (viewplayer->fixedcolormap && r_textures)
     {

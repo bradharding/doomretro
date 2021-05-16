@@ -54,6 +54,7 @@ pistolstart off
 playername "you"
 r_althud off
 r_blood red
+r_bloodsplats_max 0
 r_brightmaps off
 r_color 100%
 r_corpses_color off
