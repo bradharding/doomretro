@@ -17,8 +17,10 @@
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 * Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
-* The effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
-* If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then guesses what was intended by finding the nearest match, the `wad` CVAR will now still be updated.
+* The shaking effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
+* If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then successfully guesses what was intended by finding the nearest match, the `wad` CVAR will now be updated.
+* The `r_hud` CVAR is now `off` by default.
+* The `r_bloodsplats_max` CVAR is now set to `0` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
