@@ -568,7 +568,7 @@ enum
 
 #define r_homindicator_default                  false
 
-#define r_hud_default                           true
+#define r_hud_default                           false
 
 #define r_hud_translucency_default              true
 
