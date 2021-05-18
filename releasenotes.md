@@ -4,11 +4,11 @@
 
 * *DOOM Retro* is now compiled using v16.9.5 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The correct credits screen is now displayed in all instances.
+* The correct credits screen will now be displayed in all instances.
 * Minor changes have been made to text that is output to the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
-* Grouping identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The grouping of identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Player messages will now completely fade off the screen if the console is open and the `fade` CVAR is `on`.
 * Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
