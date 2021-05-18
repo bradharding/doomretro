@@ -1084,8 +1084,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    M_StringCopy(value, temp, sizeof(value));
-                    *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
@@ -1095,8 +1094,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    M_StringCopy(value, temp, sizeof(value));
-                    sscanf(value, "%10" PRIu64, (uint64_t *)cvars[i].location);
+                    sscanf(temp, "%10" PRIu64, (uint64_t *)cvars[i].location);
                     free(temp);
 
                     if (*(int *)cvars[i].location < 0)
@@ -1110,12 +1108,10 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    M_StringCopy(value, temp, sizeof(value));
+                    if (temp[strlen(temp) - 1] == '%')
+                        temp[strlen(temp) - 1] = '\0';
 
-                    if (value[strlen(value) - 1] == '%')
-                        value[strlen(value) - 1] = '\0';
-
-                    *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
@@ -1125,8 +1121,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    M_StringCopy(value, temp, sizeof(value));
-                    *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
@@ -1136,12 +1131,10 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    M_StringCopy(value, temp, sizeof(value));
+                    if (temp[strlen(temp) - 1] == '%')
+                        temp[strlen(temp) - 1] = '\0';
 
-                    if (value[strlen(value) - 1] == '%')
-                        value[strlen(value) - 1] = '\0';
-
-                    *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
