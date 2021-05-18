@@ -646,11 +646,44 @@ char *commify(int64_t value)
 {
     char    result[64];
 
-    M_snprintf(result, sizeof(result), "%lli", value);
+    M_snprintf(result, sizeof(result), "%" PRIi64, value);
 
     if (value <= -1000 || value >= 1000)
     {
         char    *pt;
+        size_t  n;
+
+        for (pt = result; *pt && *pt != '.'; pt++);
+
+        n = result + sizeof(result) - pt;
+
+        do
+        {
+            pt -= 3;
+
+            if (pt > result)
+            {
+                memmove(pt + 1, pt, n);
+                *pt = ',';
+                n += 4;
+            }
+            else
+                break;
+        } while (true);
+    }
+
+    return M_StringDuplicate(result);
+}
+
+char *commifystat(uint64_t value)
+{
+    char    result[64];
+
+    M_snprintf(result, sizeof(result), "%" PRIu64, value);
+
+    if (value <= -1000 || value >= 1000)
+    {
+        char *pt;
         size_t  n;
 
         for (pt = result; *pt && *pt != '.'; pt++);

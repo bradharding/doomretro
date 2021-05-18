@@ -1098,6 +1098,10 @@ void M_LoadCVARs(char *filename)
                     M_StringCopy(value, temp, sizeof(value));
                     sscanf(value, "%10" PRIu64, (uint64_t *)cvars[i].location);
                     free(temp);
+
+                    if (*(int *)cvars[i].location < 0)
+                        *(uint64_t *)cvars[i].location = 0;
+
                     statcount++;
                     break;
                 }
