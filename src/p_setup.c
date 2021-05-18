@@ -720,8 +720,8 @@ static void P_CheckLinedefs(void)
                 char    *temp = commify(ld->id);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
-                    temp, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "an <i>MBF</i>-compatible" :
-                    "a <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special]);
+                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the <i>MBF</i>-compatible" :
+                    "the <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -730,8 +730,8 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->tag);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "an <i>MBF</i>-compatible" :
-                    "a <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special], temp2);
+                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the <i>MBF</i>-compatible" :
+                    "the <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);
             }
