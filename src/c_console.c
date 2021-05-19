@@ -386,6 +386,7 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings].wrap = 0;
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
+        viewplayer->prevmessagetics = 0;
     }
 
     outputhistory = -1;

@@ -539,6 +539,7 @@ void G_DoLoadLevel(void)
     viewplayer->itemspickedup_health = 0;
     memset(viewplayer->mobjcount, 0, sizeof(viewplayer->mobjcount));
     viewplayer->prevmessage[0] = '\0';
+    viewplayer->prevmessagetics = 0;
 
     freeze = false;
 
