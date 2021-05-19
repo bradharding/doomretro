@@ -156,11 +156,11 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
     if (fade)
     {
-        if (message_counter <= 2)
+        if (message_counter <= 2 || message_counter >= HU_MSGTIMEOUT - 1)
             tinttab = tinttab20;
-        else if (message_counter <= 4)
+        else if (message_counter <= 4 || message_counter >= HU_MSGTIMEOUT - 2)
             tinttab = tinttab25;
-        else if (message_counter <= 6)
+        else if (message_counter <= 6 || message_counter >= HU_MSGTIMEOUT - 3)
             tinttab = tinttab33;
     }
 
@@ -422,17 +422,17 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
     if (fade)
     {
-        if (message_counter <= 2)
+        if (message_counter <= 2 || message_counter >= HU_MSGTIMEOUT - 1)
         {
             tinttab1 = tinttab20;
             tinttab2 = tinttab20;
         }
-        else if (message_counter <= 4)
+        else if (message_counter <= 4 || message_counter >= HU_MSGTIMEOUT - 2)
         {
             tinttab1 = tinttab25;
             tinttab2 = tinttab40;
         }
-        else if (message_counter <= 6)
+        else if (message_counter <= 6 || message_counter >= HU_MSGTIMEOUT - 3)
         {
             tinttab1 = tinttab33;
             tinttab2 = tinttab60;
