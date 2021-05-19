@@ -1287,7 +1287,8 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
         static int  messagecount = 1;
         char        buffer[133];
 
-        if (M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
+        if (gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT
+            && M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
         {
             char    *temp = commify(++messagecount);
 
@@ -1299,6 +1300,7 @@ void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
             M_StringCopy(buffer, message, sizeof(buffer));
             messagecount = 1;
             M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
+            viewplayer->prevmessagetics = gametime;
         }
 
         viewplayer->message = M_StringDuplicate(buffer);
