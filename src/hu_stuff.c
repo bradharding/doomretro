@@ -1331,7 +1331,7 @@ void HU_PlayerMessage(char *message, dboolean counter, dboolean external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
-    if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
+    if (gamestate == GS_LEVEL && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, counter, external);
 }
 
