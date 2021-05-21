@@ -1144,14 +1144,13 @@ void R_DrawSpan(void)
     fixed_t         xfrac = ds_xfrac;
     fixed_t         yfrac = ds_yfrac;
     lighttable_t    *ditheredcolormap[2] = { ds_colormap, ds_nextcolormap };
-    const int       fracz = (ds_z >> 12) & 255;
+    const int       fracz = ((ds_z >> 12) & 255);
 
     while (--x)
     {
-        *dest++ = ditheredcolormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = ditheredcolormap[ditherlevel(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
-        x1--;
     }
 
     *dest = ditheredcolormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
