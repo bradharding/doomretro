@@ -49,6 +49,7 @@
 #define NOTEXTURECOLOR  80
 
 extern lighttable_t     *dc_colormap[2];
+extern lighttable_t     *dc_nextcolormap;
 extern int              dc_x;
 extern int              dc_yl;
 extern int              dc_yh;

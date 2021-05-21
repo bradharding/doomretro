@@ -93,6 +93,7 @@ static int64_t      bottomfrac;
 static fixed_t      bottomstep;
 
 lighttable_t        **walllights;
+lighttable_t        **walllightsnext;
 
 static int          *maskedtexturecol;  // dropoff overflow
 
@@ -235,9 +236,15 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     // Use different light tables for horizontal/vertical.
     // killough 04/13/98: get correct lightlevel for 2s normal textures
     if (fixedcolormap)
+    {
         dc_colormap[0] = fixedcolormap;
+        dc_nextcolormap = fixedcolormap;
+    }
     else
+    {
         walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
+        walllightsnext = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel + 1);
+    }
 
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
@@ -285,7 +292,12 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
             // calculate lighting
             if (!fixedcolormap)
-                dc_colormap[0] = walllights[MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+            {
+                int index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+                dc_colormap[0] = walllights[index];
+                dc_nextcolormap = walllightsnext[index];
+            }
 
             dc_iscale = UINT_MAX / (unsigned int)spryscale;
 
@@ -306,7 +318,10 @@ static dboolean didsolidcol;
 static void R_RenderSegLoop(void)
 {
     if (fixedcolormap)
+    {
         dc_colormap[0] = fixedcolormap;
+        dc_nextcolormap = fixedcolormap;
+    }
 
     for (; rw_x < rw_stopx; rw_x++)
     {
@@ -358,7 +373,12 @@ static void R_RenderSegLoop(void)
             texturecolumn >>= FRACBITS;
 
             if (!fixedcolormap)
-                dc_colormap[0] = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+            {
+                int index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+                dc_colormap[0] = walllights[index];
+                dc_nextcolormap = walllightsnext[index];
+            }
 
             dc_x = rw_x;
             dc_iscale = UINT_MAX / rw_scale;
@@ -808,7 +828,10 @@ void R_StoreWallRange(const int start, const int stop)
         // calculate light table
         //  use different light tables for horizontal/vertical
         if (!fixedcolormap)
+        {
             walllights = GetLightTable(frontsector->lightlevel);
+            walllightsnext = GetLightTable(frontsector->lightlevel + 1);
+        }
     }
 
     // if a floor/ceiling plane is on the wrong side of the view plane, it is definitely invisible

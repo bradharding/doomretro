@@ -115,6 +115,7 @@ static const byte redtogreen[] =
 // Source is the top of the column to scale.
 //
 lighttable_t    *dc_colormap[2];
+lighttable_t    *dc_nextcolormap;
 int             dc_x;
 int             dc_yl;
 int             dc_yh;
