@@ -139,6 +139,16 @@ byte            *dc_nextsource;
 
 fixed_t         dc_texu;
 
+byte dither[4][4] =
+{
+  {   0, 224,  48, 208 },
+  { 176,  80, 128,  96 },
+  { 192,  32, 240,  16 },
+  { 112, 144,  64, 160 }
+}; 
+
+#define ditherlevel(x, y, intensity)    (dither[(y) & 3][(x) & 3] < (intensity))
+
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -1107,11 +1117,13 @@ void R_InitTranslationTables(void)
 // In consequence, flats are not stored by column (like walls),
 //  and the inner loop has to step in texture space u and v.
 //
-int             ds_y;
 int             ds_x1;
 int             ds_x2;
+int             ds_y;
+int             ds_z;
 
 lighttable_t    *ds_colormap;
+lighttable_t    *ds_nextcolormap;
 
 fixed_t         ds_xfrac;
 fixed_t         ds_yfrac;
@@ -1126,19 +1138,23 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int     x = ds_x2 - ds_x1;
-    byte    *dest = ylookup0[ds_y] + ds_x1;
-    fixed_t xfrac = ds_xfrac;
-    fixed_t yfrac = ds_yfrac;
+    int             x1 = ds_x1;
+    int             x = ds_x2 - x1;
+    byte            *dest = ylookup0[ds_y] + x1;
+    fixed_t         xfrac = ds_xfrac;
+    fixed_t         yfrac = ds_yfrac;
+    lighttable_t    *ditheredcolormap[2] = { ds_colormap, ds_nextcolormap };
+    const int       fracz = (ds_z >> 12) & 255;
 
     while (--x)
     {
-        *dest++ = ds_colormap[ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = ditheredcolormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
+        x1--;
     }
 
-    *dest = ds_colormap[ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = ditheredcolormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)

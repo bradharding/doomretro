@@ -72,7 +72,7 @@ extern int      validcount;
 #define MAXLIGHTSCALE       384
 #define LIGHTSCALESHIFT     12
 #define MAXLIGHTZ           1024
-#define LIGHTZSHIFT         17
+#define LIGHTZSHIFT         20
 
 #define OLDLIGHTLEVELS      32
 #define OLDLIGHTSEGSHIFT    3

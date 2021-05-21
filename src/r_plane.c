@@ -126,7 +126,18 @@ static void R_MapPlane(int y, int x1)
     ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
     ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
 
-    ds_colormap = (fixedcolormap ? fixedcolormap : planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
+    if (fixedcolormap)
+    {
+        ds_colormap = fixedcolormap;
+        ds_nextcolormap = fixedcolormap;
+        ds_z = 0;
+    }
+    else
+    {
+        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
+        ds_nextcolormap = planezlight[MIN((distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
+        ds_z = distance;
+    }
 
     ds_y = y;
     ds_x1 = x1;

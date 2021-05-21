@@ -128,11 +128,13 @@ void R_DrawTranslatedColumn(void);
 
 void R_VideoErase(unsigned int ofs, int count);
 
-extern int          ds_y;
 extern int          ds_x1;
 extern int          ds_x2;
+extern int          ds_y;
+extern int          ds_z;
 
 extern lighttable_t *ds_colormap;
+extern lighttable_t *ds_nextcolormap;
 
 extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;
