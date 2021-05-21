@@ -68,6 +68,9 @@ extern byte             *dc_black40;
 
 // first pixel in a column
 extern byte             *dc_source;
+extern byte             *dc_nextsource;
+
+extern fixed_t          dc_texu;
 
 extern int              fuzzpos;
 extern int              fuzzrange[3];

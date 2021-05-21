@@ -491,6 +491,8 @@ void R_DrawPlanes(void)
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
                                 (((an + xtoviewangle[dc_x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+                            dc_nextsource = R_GetTextureColumn(tex_patch,
+                                (((an + xtoviewangle[dc_x + 1]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
 
                             skycolfunc();
                         }

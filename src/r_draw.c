@@ -134,6 +134,9 @@ byte            *dc_black40;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
+byte            *dc_nextsource;
+
+fixed_t         dc_texu;
 
 //
 // A column is a vertical slice/span from a wall texture that,

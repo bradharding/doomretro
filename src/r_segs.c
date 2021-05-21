@@ -265,6 +265,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             if (!(dc_numposts = column->numposts))
                 continue;
 
+            dc_texu = rw_offset - FixedMul(finetangent[(rw_centerangle + xtoviewangle[dc_x]) >> ANGLETOFINESHIFT], rw_distance);
+
             // killough 03/02/98:
             //
             // This calculation used to overflow and cause crashes in DOOM:
@@ -351,7 +353,9 @@ static void R_RenderSegLoop(void)
             // calculate texture offset and lighting
             const angle_t   angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
 
-            texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
+            texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance));
+            dc_texu = texturecolumn;
+            texturecolumn >>= FRACBITS;
 
             if (!fixedcolormap)
                 dc_colormap[0] = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
@@ -372,6 +376,7 @@ static void R_RenderSegLoop(void)
             else
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
+                dc_nextsource = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn + 1);
                 dc_texturemid = rw_midtexturemid;
                 dc_texheight = midtexheight;
 
@@ -407,6 +412,7 @@ static void R_RenderSegLoop(void)
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
+                        dc_nextsource = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn + 1);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                         dc_iscale -= SPARKLEFIX;
                         dc_texheight = toptexheight;
@@ -447,6 +453,7 @@ static void R_RenderSegLoop(void)
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
+                        dc_nextsource = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn + 1);
                         dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
 
