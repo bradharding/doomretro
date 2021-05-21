@@ -135,9 +135,6 @@ byte            *dc_black40;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
-byte            *dc_nextsource;
-
-fixed_t         dc_texu;
 
 byte dither[4][4] =
 {
