@@ -658,52 +658,6 @@ void R_DrawTranslucentColor50Column(void)
     *dest = tranmap[(*dest << 8) + color];
 }
 
-void R_DrawDitheredColumn(void)
-{
-    int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
-    const fixed_t       fracstep = (dc_iscale << 1) - SPARKLEFIX;
-    const lighttable_t  *colormap = dc_colormap[0];
-
-    if ((dc_yl ^ dc_x) & 1)
-    {
-        if (!--y)
-            return;
-
-        dest += SCREENWIDTH;
-        frac += dc_iscale;
-    }
-
-    do
-    {
-        *dest = colormap[dc_source[frac >> FRACBITS]];
-        dest += (size_t)SCREENWIDTH << 1;
-        frac += fracstep;
-    } while ((y -= 2) > 0);
-}
-
-void R_DrawDitheredColorColumn(void)
-{
-    int         y = dc_yh - dc_yl + 1;
-    byte        *dest = ylookup0[dc_yl] + dc_x;
-    const byte  color = dc_colormap[0][NOTEXTURECOLOR];
-
-    if ((dc_yl ^ dc_x) & 1)
-    {
-        if (!--y)
-            return;
-
-        dest += SCREENWIDTH;
-    }
-
-    do
-    {
-        *dest = color;
-        dest += (size_t)SCREENWIDTH << 1;
-    } while ((y -= 2) > 0);
-}
-
 void R_DrawTranslucent33Column(void)
 {
     int                 y = dc_yh - dc_yl + 1;
