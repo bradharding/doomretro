@@ -146,8 +146,8 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_detail,                         r_detail,                              r_detail,                              DETAILVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (r_diskicon,                       r_diskicon,                            r_diskicon,                            BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_dither,                         r_dither,                              r_dither,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (r_ditheredtranslucentwalls,                  r_ditheredtranslucentwalls,                       r_ditheredtranslucentwalls,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_fixmaperrors,                   r_fixmaperrors,                        r_fixmaperrors,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_fixspriteoffsets,               r_fixspriteoffsets,                    r_fixspriteoffsets,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_floatbob,                       r_floatbob,                            r_floatbob,                            BOOLVALUEALIAS        ),
@@ -792,11 +792,11 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (r_diskicon != false && r_diskicon != true)
         r_diskicon = r_diskicon_default;
 
-    if (r_dither != false && r_dither != true)
-        r_dither = r_dither_default;
-
     if (r_ditheredlighting != false && r_ditheredlighting != true)
         r_ditheredlighting = r_ditheredlighting_default;
+
+    if (r_ditheredtranslucentwalls != false && r_ditheredtranslucentwalls != true)
+        r_ditheredtranslucentwalls = r_ditheredtranslucentwalls_default;
 
     if (r_fixmaperrors != false && r_fixmaperrors != true)
         r_fixmaperrors = r_fixmaperrors_default;
