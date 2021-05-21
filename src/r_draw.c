@@ -1138,22 +1138,39 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int             x1 = ds_x1;
-    int             x = ds_x2 - x1;
-    byte            *dest = ylookup0[ds_y] + x1;
-    fixed_t         xfrac = ds_xfrac;
-    fixed_t         yfrac = ds_yfrac;
-    lighttable_t    *ditheredcolormap[2] = { ds_colormap, ds_nextcolormap };
-    const int       fracz = ((ds_z >> 12) & 255);
+    int     x = ds_x2 - ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
+    fixed_t xfrac = ds_xfrac;
+    fixed_t yfrac = ds_yfrac;
 
     while (--x)
     {
-        *dest++ = ditheredcolormap[ditherlevel(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = ds_colormap[ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = ditheredcolormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = ds_colormap[ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+}
+
+void R_DrawDitherSpan(void)
+{
+    int                 x1 = ds_x1;
+    int                 x = ds_x2 - x1;
+    byte                *dest = ylookup0[ds_y] + x1;
+    fixed_t             xfrac = ds_xfrac;
+    fixed_t             yfrac = ds_yfrac;
+    const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
+    const int           fracz = ((ds_z >> 12) & 255);
+
+    while (--x)
+    {
+        *dest++ = colormap[ditherlevel(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        xfrac += ds_xstep;
+        yfrac += ds_ystep;
+    }
+
+    *dest = colormap[ditherlevel(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)

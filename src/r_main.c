@@ -115,6 +115,7 @@ dboolean            drawbloodsplats;
 
 dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean            r_dither = r_dither_default;
+dboolean            r_ditheredlighting = r_ditheredlighting_default;
 int                 r_fov = r_fov_default;
 dboolean            r_homindicator = r_homindicator_default;
 dboolean            r_shadows_translucency = r_shadows_translucency_default;
@@ -517,7 +518,7 @@ void R_InitColumnFunctions(void)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !canmouselook ? &R_DrawFlippedSkyColumn : &R_DrawSkyColumn);
 
-        spanfunc = &R_DrawSpan;
+        spanfunc = (r_ditheredlighting ? &R_DrawDitherSpan : &R_DrawSpan);
 
         if (r_translucency)
         {

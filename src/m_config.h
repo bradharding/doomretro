@@ -124,6 +124,7 @@ extern dboolean     r_corpses_smearblood;
 extern int          r_detail;
 extern dboolean     r_diskicon;
 extern dboolean     r_dither;
+extern dboolean     r_ditheredlighting;
 extern dboolean     r_fixmaperrors;
 extern dboolean     r_fixspriteoffsets;
 extern dboolean     r_floatbob;
@@ -549,6 +550,8 @@ enum
 #define r_diskicon_default                      false
 
 #define r_dither_default                        false
+
+#define r_ditheredlighting_default              true
 
 #define r_fixmaperrors_default                  true
 

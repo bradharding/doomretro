@@ -150,6 +150,7 @@ extern byte         *dc_translation;
 // Span blitting for rows, floor/ceiling.
 // No Spectre effect needed.
 void R_DrawSpan(void);
+void R_DrawDitherSpan(void);
 void R_DrawColorSpan(void);
 
 void R_InitBuffer(int width, int height);
