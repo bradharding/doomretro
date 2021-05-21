@@ -67,7 +67,6 @@ r_corpses_smearblood off
 r_detail low
 r_diskicon on
 r_ditheredlighting off
-r_ditheredtranslucentwalls off
 r_fixmaperrors off
 r_fixspriteoffsets off
 r_floatbob off

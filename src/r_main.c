@@ -115,7 +115,6 @@ dboolean            drawbloodsplats;
 
 dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean            r_ditheredlighting = r_ditheredlighting_default;
-dboolean            r_ditheredtranslucentwalls = r_ditheredtranslucentwalls_default;
 int                 r_fov = r_fov_default;
 dboolean            r_homindicator = r_homindicator_default;
 dboolean            r_shadows_translucency = r_shadows_translucency_default;
@@ -524,7 +523,7 @@ void R_InitColumnFunctions(void)
         {
             tlcolfunc = &R_DrawTranslucentColumn;
             tl50colfunc = &R_DrawTranslucent50Column;
-            tl50segcolfunc = (r_ditheredtranslucentwalls ? &R_DrawDitheredColumn : &R_DrawTranslucent50Column);
+            tl50segcolfunc = &R_DrawTranslucent50Column;
             tl33colfunc = &R_DrawTranslucent33Column;
             tlgreencolfunc = &R_DrawTranslucentGreenColumn;
             tlredcolfunc = &R_DrawTranslucentRedColumn;
@@ -574,8 +573,7 @@ void R_InitColumnFunctions(void)
         spanfunc = &R_DrawColorSpan;
         tlcolfunc = &R_DrawColorColumn;
         tl50colfunc = &R_DrawColorColumn;
-        tl50segcolfunc = (r_translucency ? (r_ditheredtranslucentwalls ? &R_DrawDitheredColorColumn : &R_DrawTranslucentColor50Column) :
-            &R_DrawColorColumn);
+        tl50segcolfunc = (r_translucency ? &R_DrawTranslucentColor50Column : &R_DrawColorColumn);
         tl33colfunc = &R_DrawColorColumn;
         tlgreencolfunc = &R_DrawColorColumn;
         tlredcolfunc = &R_DrawColorColumn;

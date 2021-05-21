@@ -7,7 +7,7 @@
 * The correct credits screen will now be displayed in all instances.
 * Minor changes have been made to text that is output to the console.
 * The lighting applied to all floors, walls and ceilings in a map is now dithered. This may be disabled using the new `r_ditheredlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The `r_dither` CVAR has been renamed to `r_ditheredtranslucentwalls`.
+* The `r_dither` CVAR has been disabled.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
 * The following changes have been made to player messages:

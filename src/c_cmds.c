@@ -356,7 +356,6 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
 static void r_color_cvar_func2(char *cmd, char *parms);
 static dboolean r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
-static void r_ditheredtranslucentwalls_cvar_func2(char *cmd, char *parms);
 static void r_ditheredlighting_cvar_func2(char *cmd, char *parms);
 static void r_fixmaperrors_cvar_func2(char *cmd, char *parms);
 static void r_fov_cvar_func2(char *cmd, char *parms);
@@ -693,8 +692,6 @@ consolecmd_t consolecmds[] =
         "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL(r_ditheredlighting, "", bool_cvars_func1, r_ditheredlighting_cvar_func2, BOOLVALUEALIAS,
         "Toggles dithered lighting."),
-    CVAR_BOOL(r_ditheredtranslucentwalls, "", bool_cvars_func1, r_ditheredtranslucentwalls_cvar_func2, BOOLVALUEALIAS,
-        "Toggles dithering of <i>BOOM</i>-compatible translucent wall textures."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, r_fixmaperrors_cvar_func2, BOOLVALUEALIAS,
         "Toggles fixing the mapping errors in the <i>DOOM</i> and <i>DOOM II</i> IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -7964,42 +7961,6 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(r_ditheredlighting_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-    }
-}
-
-//
-// r_ditheredtranslucentwalls CVAR
-//
-static void r_ditheredtranslucentwalls_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_ditheredtranslucentwalls)
-        {
-            r_ditheredtranslucentwalls = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-        }
-    }
-    else
-    {
-        char    *temp1 = C_LookupAliasFromValue(r_ditheredtranslucentwalls, BOOLVALUEALIAS);
-
-        C_ShowDescription(C_GetIndex(cmd));
-
-        if (r_ditheredtranslucentwalls == r_ditheredtranslucentwalls_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_ditheredtranslucentwalls_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
