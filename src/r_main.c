@@ -570,7 +570,7 @@ void R_InitColumnFunctions(void)
         bmapwallcolfunc = &R_DrawColorColumn;
         segcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
-        spanfunc = &R_DrawColorSpan;
+        spanfunc = (r_ditheredlighting ? &R_DrawDitherColorSpan : &R_DrawColorSpan);
         tlcolfunc = &R_DrawColorColumn;
         tl50colfunc = &R_DrawColorColumn;
         tl50segcolfunc = (r_translucency ? &R_DrawTranslucentColor50Column : &R_DrawColorColumn);

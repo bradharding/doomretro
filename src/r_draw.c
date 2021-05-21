@@ -1136,6 +1136,20 @@ void R_DrawColorSpan(void)
     *dest = color;
 }
 
+void R_DrawDitherColorSpan(void)
+{
+    int                 x1 = ds_x1;
+    int                 x = ds_x2 - x1;
+    byte                *dest = ylookup0[ds_y] + x1;
+    const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
+    const int           fracz = ((ds_z >> 12) & 255);
+
+    while (--x)
+        *dest++ = colormap[ditherlevel(x1--, ds_y, fracz)][NOTEXTURECOLOR];
+
+    *dest = colormap[ditherlevel(x1, ds_y, fracz)][NOTEXTURECOLOR];
+}
+
 //
 // R_InitBuffer
 //

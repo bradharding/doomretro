@@ -147,6 +147,7 @@ extern byte         *dc_translation;
 void R_DrawSpan(void);
 void R_DrawDitherSpan(void);
 void R_DrawColorSpan(void);
+void R_DrawDitherColorSpan(void);
 
 void R_InitBuffer(int width, int height);
 
