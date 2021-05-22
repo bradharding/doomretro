@@ -7948,6 +7948,7 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
             r_ditheredlighting = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
+            D_FadeScreen();
         }
     }
     else
