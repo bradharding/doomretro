@@ -508,7 +508,7 @@ void R_InitColumnFunctions(void)
         fuzzcolfunc = &R_DrawFuzzColumn;
         translatedcolfunc = &R_DrawTranslatedColumn;
         wallcolfunc = (r_ditheredlighting ? &R_DrawDitherWallColumn : &R_DrawWallColumn);
-        bmapwallcolfunc = &R_DrawBrightmapWallColumn;
+        bmapwallcolfunc = (r_ditheredlighting ? &R_DrawBrightmapDitherWallColumn : &R_DrawBrightmapWallColumn);
         segcolfunc = &R_DrawColumn;
 
         if (r_skycolor != r_skycolor_default)

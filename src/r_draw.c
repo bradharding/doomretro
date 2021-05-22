@@ -452,6 +452,57 @@ void R_DrawBrightmapWallColumn(void)
     }
 }
 
+void R_DrawBrightmapDitherWallColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturemid + (y - centery) * dc_iscale;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    fixed_t             heightmask = dc_texheight - 1;
+    const int           fracz = ((dc_z >> 6) & 255);
+    byte                dot;
+
+    if (dc_texheight & heightmask)
+    {
+        heightmask = (heightmask + 1) << FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
+
+        while (--count)
+        {
+            dot = dc_source[frac >> FRACBITS];
+            *dest = (dc_brightmap[dot] ? dc_colormap[1][dot] : colormap[ditherlevel(dc_x, y, fracz)][dot]);
+            dest += SCREENWIDTH;
+            y++;
+
+            if ((frac += dc_iscale) >= heightmask)
+                frac -= heightmask;
+        }
+
+        dot = dc_source[frac >> FRACBITS];
+        *dest = (dc_brightmap[dot] ? dc_colormap[1][dot] : colormap[ditherlevel(dc_x, y, fracz)][dot]);
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            *dest = (dc_brightmap[dot] ? dc_colormap[1][dot] : colormap[ditherlevel(dc_x, y, fracz)][dot]);
+            dest += SCREENWIDTH;
+            y++;
+            frac += dc_iscale;
+        }
+
+        dot = dc_source[(frac >> FRACBITS) & heightmask];
+        *dest = (dc_brightmap[dot] ? dc_colormap[1][dot] : colormap[ditherlevel(dc_x, y, fracz)][dot]);
+    }
+}
+
 void R_DrawColorDitherWallColumn(void)
 {
     int                 y = dc_yl;
