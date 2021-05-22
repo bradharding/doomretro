@@ -507,8 +507,6 @@ void R_InitColumnFunctions(void)
         basecolfunc = &R_DrawColumn;
         fuzzcolfunc = &R_DrawFuzzColumn;
         translatedcolfunc = &R_DrawTranslatedColumn;
-        wallcolfunc = (r_ditheredlighting ? &R_DrawDitherWallColumn : &R_DrawWallColumn);
-        bmapwallcolfunc = (r_ditheredlighting ? &R_DrawBrightmapDitherWallColumn : &R_DrawBrightmapWallColumn);
         segcolfunc = &R_DrawColumn;
 
         if (r_skycolor != r_skycolor_default)
@@ -517,7 +515,18 @@ void R_InitColumnFunctions(void)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !canmouselook ? &R_DrawFlippedSkyColumn : &R_DrawSkyColumn);
 
-        spanfunc = (r_ditheredlighting ? &R_DrawDitherSpan : &R_DrawSpan);
+        if (r_ditheredlighting)
+        {
+            wallcolfunc = &R_DrawDitherWallColumn;
+            bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
+            spanfunc = &R_DrawDitherSpan;
+        }
+        else
+        {
+            wallcolfunc = &R_DrawWallColumn;
+            bmapwallcolfunc = &R_DrawBrightmapWallColumn;
+            spanfunc = &R_DrawSpan;
+        }
 
         if (r_translucency)
         {
@@ -566,11 +575,21 @@ void R_InitColumnFunctions(void)
         basecolfunc = &R_DrawColorColumn;
         fuzzcolfunc = &R_DrawTranslucentColor50Column;
         translatedcolfunc = &R_DrawColorColumn;
-        wallcolfunc = (r_ditheredlighting ? &R_DrawColorDitherWallColumn : &R_DrawColorColumn);
         bmapwallcolfunc = &R_DrawColorColumn;
         segcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
-        spanfunc = (r_ditheredlighting ? &R_DrawDitherColorSpan : &R_DrawColorSpan);
+
+        if (r_ditheredlighting)
+        {
+            wallcolfunc = &R_DrawColorDitherWallColumn;
+            spanfunc = &R_DrawDitherColorSpan;
+        }
+        else
+        {
+            wallcolfunc = &R_DrawColorColumn;
+            spanfunc = &R_DrawColorSpan;
+        }
+
         tlcolfunc = &R_DrawColorColumn;
         tl50colfunc = &R_DrawColorColumn;
         tl50segcolfunc = (r_translucency ? &R_DrawTranslucentColor50Column : &R_DrawColorColumn);
