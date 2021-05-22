@@ -1276,14 +1276,8 @@ void R_FillBezel(void)
 //
 void R_FillBackScreen(void)
 {
-    byte    *src;
-    byte    *dest;
-
-    if (viewwidth == SCREENWIDTH)
-        return;
-
-    src = (byte *)grnrock;
-    dest = screens[1];
+    byte    *src = (byte *)grnrock;
+    byte    *dest = screens[1];
 
     for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
@@ -1341,15 +1335,9 @@ void R_VideoErase(unsigned int ofs, int count)
 //
 void R_DrawViewBorder(void)
 {
-    int top;
-    int side;
+    int top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
+    int side = (SCREENWIDTH - viewwidth) / 2;
     int ofs;
-
-    if (viewwidth == SCREENWIDTH)
-        return;
-
-    top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
-    side = (SCREENWIDTH - viewwidth) / 2;
 
     // copy top and one line of left side
     R_VideoErase(0, top * SCREENWIDTH + side);

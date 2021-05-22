@@ -352,7 +352,9 @@ void D_Display(void)
         if (oldgamestate != GS_LEVEL)
         {
             viewactivestate = false;    // view was not active
-            R_FillBackScreen();         // draw the pattern into the back screen
+
+            if (viewwidth != SCREENWIDTH)
+                R_FillBackScreen();     // draw the pattern into the back screen
         }
 
         // see if the border needs to be updated to the screen

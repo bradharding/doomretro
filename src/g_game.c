@@ -1444,7 +1444,8 @@ void G_DoLoadGame(void)
         R_ExecuteSetViewSize();
 
     // draw the pattern into the back screen
-    R_FillBackScreen();
+    if (viewwidth != SCREENWIDTH)
+        R_FillBackScreen();
 
     st_facecount = 0;
 
@@ -1559,7 +1560,8 @@ static void G_DoSaveGame(void)
         M_SaveCVARs();
 
         // draw the pattern into the back screen
-        R_FillBackScreen();
+        if (viewwidth != SCREENWIDTH)
+            R_FillBackScreen();
     }
 
     gameaction = ga_nothing;
