@@ -452,6 +452,23 @@ void R_DrawBrightmapWallColumn(void)
     }
 }
 
+void R_DrawColorDitherWallColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const int           fracz = ((dc_z >> 6) & 255);
+
+    while (--count)
+    {
+        *dest = colormap[ditherlevel(dc_x, y++, fracz)][NOTEXTURECOLOR];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = colormap[ditherlevel(dc_x, y, fracz)][NOTEXTURECOLOR];
+}
+
 void R_DrawPlayerSpriteColumn(void)
 {
     int     y = dc_yh - dc_yl + 1;
