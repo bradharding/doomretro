@@ -20,6 +20,7 @@
 * The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sound effects of cyberdemons or spider masterminds wouldn’t be played.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
+* A bug has been fixed whereby blood splats could be the wrong color in some instances.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 * Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
 * The shaking effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
