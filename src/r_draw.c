@@ -322,6 +322,48 @@ void R_DrawSolidBloodSplatColumn(void)
 
 void R_DrawWallColumn(void)
 {
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    const lighttable_t  *colormap = dc_colormap[0];
+    fixed_t             heightmask = dc_texheight - 1;
+
+    if (dc_texheight & heightmask)
+    {
+        heightmask = (heightmask + 1) << FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
+
+        while (--count)
+        {
+            *dest = colormap[dc_source[frac >> FRACBITS]];
+            dest += SCREENWIDTH;
+
+            if ((frac += dc_iscale) >= heightmask)
+                frac -= heightmask;
+        }
+
+        *dest = colormap[dc_source[frac >> FRACBITS]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += dc_iscale;
+        }
+
+        *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+    }
+}
+
+void R_DrawDitherWallColumn(void)
+{
     int                 y = dc_yl;
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;

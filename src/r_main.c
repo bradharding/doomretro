@@ -507,7 +507,7 @@ void R_InitColumnFunctions(void)
         basecolfunc = &R_DrawColumn;
         fuzzcolfunc = &R_DrawFuzzColumn;
         translatedcolfunc = &R_DrawTranslatedColumn;
-        wallcolfunc = &R_DrawWallColumn;
+        wallcolfunc = (r_ditheredlighting ? &R_DrawDitherWallColumn : &R_DrawWallColumn);
         bmapwallcolfunc = &R_DrawBrightmapWallColumn;
         segcolfunc = &R_DrawColumn;
 
