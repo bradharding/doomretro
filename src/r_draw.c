@@ -172,6 +172,25 @@ void R_DrawColumn(void)
     *dest = colormap[dc_source[frac >> FRACBITS]];
 }
 
+void R_DrawDitherColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const int           fracz = ((dc_z >> 6) & 255);
+
+    while (--count)
+    {
+        *dest = colormap[ditherlevel(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = colormap[ditherlevel(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
+}
+
 void R_DrawCorrectedColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
