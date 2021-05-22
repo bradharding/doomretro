@@ -119,6 +119,7 @@ lighttable_t    *dc_nextcolormap;
 int             dc_x;
 int             dc_yl;
 int             dc_yh;
+int             dc_z;
 fixed_t         dc_iscale;
 fixed_t         dc_texturemid;
 fixed_t         dc_texheight;
@@ -321,11 +322,13 @@ void R_DrawSolidBloodSplatColumn(void)
 
 void R_DrawWallColumn(void)
 {
-    int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const lighttable_t  *colormap = dc_colormap[0];
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturemid + (y - centery) * dc_iscale;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
     fixed_t             heightmask = dc_texheight - 1;
+    const int           fracz = ((dc_z >> 6) & 255);
 
     if (dc_texheight & heightmask)
     {
@@ -337,27 +340,27 @@ void R_DrawWallColumn(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--y)
+        while (--count)
         {
-            *dest = colormap[dc_source[frac >> FRACBITS]];
+            *dest = colormap[ditherlevel(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = colormap[dc_source[frac >> FRACBITS]];
+        *dest = colormap[ditherlevel(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
     }
     else
     {
-        while (--y)
+        while (--count)
         {
-            *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+            *dest = colormap[ditherlevel(dc_x, y++, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+        *dest = colormap[ditherlevel(dc_x, y, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
     }
 }
 

@@ -223,7 +223,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     int             texnum;
     fixed_t         texheight;
     const rpatch_t  *patch;
-    sector_t        tempsec;        // killough 04/13/98
 
     curline = ds->curline;
     colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
@@ -242,8 +241,11 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     }
     else
     {
-        walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
-        walllightsnext = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel + 1);
+        sector_t    tempsec;
+        short       lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
+
+        walllights = GetLightTable(lightlevel);
+        walllightsnext = GetLightTable(lightlevel + 1);
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -295,6 +297,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap = walllightsnext[index];
+                dc_z = spryscale;
             }
 
             dc_iscale = UINT_MAX / (unsigned int)spryscale;
@@ -374,6 +377,7 @@ static void R_RenderSegLoop(void)
 
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap = walllightsnext[index];
+                dc_z = rw_scale;
             }
 
             dc_x = rw_x;
