@@ -7563,7 +7563,9 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
         {
             R_InitSkyMap();
             R_InitColumnFunctions();
-            D_FadeScreen();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
 
             if (!mouselook)
             {
@@ -7948,7 +7950,9 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
             r_ditheredlighting = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-            D_FadeScreen();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
         }
     }
     else
@@ -8317,7 +8321,9 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             r_textures = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-            D_FadeScreen();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
 
             for (int i = 0; i < numsectors; i++)
             {
