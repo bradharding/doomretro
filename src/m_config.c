@@ -61,8 +61,8 @@ static dboolean cvarsloaded;
 #define CONFIG_VARIABLE_FLOAT_PERCENT(name1, name2, cvar, set)  { #name1, #name2, &cvar, DEFAULT_FLOAT_PERCENT, set          }
 #define CONFIG_VARIABLE_STRING(name1, name2, cvar, set)         { #name1, #name2, &cvar, DEFAULT_STRING,        set          }
 #define CONFIG_VARIABLE_OTHER(name1, name2, cvar, set)          { #name1, #name2, &cvar, DEFAULT_OTHER,         set          }
-#define BLANKLINE                                               { "",     "",      NULL,  DEFAULT_OTHER,        NOVALUEALIAS }
-#define COMMENT(text)                                           { text,   "",      NULL,  DEFAULT_OTHER,        NOVALUEALIAS }
+#define BLANKLINE                                               { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define COMMENT(text)                                           { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 
 static default_t cvars[NUMCVARS] =
 {
