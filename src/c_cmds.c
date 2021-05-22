@@ -91,6 +91,7 @@
 #define TAKECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i><b>item</b></i>"
 #define TELEPORTCMDFORMAT           "<i><b>x</b></i> <i><b>y</b></i>[ <i><b>z</b></i>]"
 #define TIMERCMDFORMAT              "<i><b>minutes</b></i>"
+#define TOGGLECMDFORMAT             "<i><b>CVAR</b></i>"
 #define UNBINDCMDFORMAT             "<i><b>control</b></i>|<b>+</b><i><b>action</b></i>"
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
@@ -316,6 +317,7 @@ static dboolean teleport_cmd_func1(char *cmd, char *parms);
 static void teleport_cmd_func2(char *cmd, char *parms);
 static void thinglist_cmd_func2(char *cmd, char *parms);
 static void timer_cmd_func2(char *cmd, char *parms);
+static void toggle_cmd_func2(char *cmd, char *parms);
 static void unbind_cmd_func2(char *cmd, char *parms);
 static void vanilla_cmd_func2(char *cmd, char *parms);
 
@@ -791,6 +793,8 @@ consolecmd_t consolecmds[] =
         "Lists all things in the current map."),
     CCMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
         "Sets a timer for each map."),
+    CCMD(toggle, "", null_func1, toggle_cmd_func2, true, TOGGLECMDFORMAT,
+        "Toggles the value of a CVAR."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when they die."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
@@ -6829,6 +6833,35 @@ static void timer_cmd_func2(char *cmd, char *parms)
             free(temp);
         }
     }
+}
+
+//
+// toggle CCMD
+//
+static void toggle_cmd_func2(char *cmd, char *parms)
+{
+    if (!*parms)
+    {
+        C_ShowDescription(C_GetIndex(cmd));
+        C_Output("<b>%s</b> %s", cmd, TOGGLECMDFORMAT);
+        return;
+    }
+    else
+        for (int i = 0; *consolecmds[i].name; i++)
+        {
+            const int   flags = consolecmds[i].flags;
+
+            if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
+                && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
+            {
+                char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
+
+                C_ValidateInput(temp);
+                free(temp);
+                M_SaveCVARs();
+                break;
+            }
+        }
 }
 
 //

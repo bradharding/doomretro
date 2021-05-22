@@ -26,6 +26,7 @@
 * If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then successfully guesses what was intended by finding the nearest match, the `wad` CVAR will now be updated.
 * The `r_hud` CVAR is now `off` by default.
 * The default of the `r_bloodsplats_max` CVAR has now been doubled to `131,072`, and is now also set to `0` when vanilla mode is enabled.
+* A new `toggle` CCMD has been implemented that can be used to toggle the value of certain CVARs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

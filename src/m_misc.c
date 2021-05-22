@@ -898,7 +898,7 @@ char *striptrailingzero(float value, int precision)
     {
         int len;
 
-        M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
+        M_snprintf(result, sizeof(result), "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
         len = (int)strlen(result);
 
         if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
