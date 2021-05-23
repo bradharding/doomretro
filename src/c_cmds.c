@@ -6846,22 +6846,22 @@ static void toggle_cmd_func2(char *cmd, char *parms)
         C_Output("<b>%s</b> %s", cmd, TOGGLECMDFORMAT);
         return;
     }
-    else
-        for (int i = 0; *consolecmds[i].name; i++)
+
+    for (int i = 0; *consolecmds[i].name; i++)
+    {
+        const int   flags = consolecmds[i].flags;
+
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
+            && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
         {
-            const int   flags = consolecmds[i].flags;
+            char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
 
-            if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
-                && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
-            {
-                char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
-
-                C_ValidateInput(temp);
-                free(temp);
-                M_SaveCVARs();
-                break;
-            }
+            C_ValidateInput(temp);
+            free(temp);
+            M_SaveCVARs();
+            break;
         }
+    }
 }
 
 //
