@@ -300,7 +300,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
                 dc_z = spryscale;
             }
 
-            dc_iscale = UINT_MAX / (unsigned int)spryscale;
+            dc_iscale = UINT_MAX / spryscale;
 
             // draw the texture
             R_BlastMaskedSegColumn(column);
@@ -845,27 +845,21 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate incremental stepping values for texture edges
-    worldtop >>= invhgtbits;
-    worldbottom >>= invhgtbits;
-
-    topstep = -FixedMul(rw_scalestep, worldtop);
+    topstep = -FixedMul(rw_scalestep, (worldtop >>= invhgtbits));
     topfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldtop * rw_scale) >> FRACBITS);
 
-    bottomstep = -FixedMul(rw_scalestep, worldbottom);
+    bottomstep = -FixedMul(rw_scalestep, (worldbottom >>= invhgtbits));
     bottomfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldbottom * rw_scale) >> FRACBITS);
 
     if (backsector)
     {
-        worldhigh >>= invhgtbits;
-        worldlow >>= invhgtbits;
-
-        if (worldhigh < worldtop)
+        if ((worldhigh >>= invhgtbits) < worldtop)
         {
             pixhigh = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldhigh * rw_scale) >> FRACBITS);
             pixhighstep = -FixedMul(rw_scalestep, worldhigh);
         }
 
-        if (worldlow > worldbottom)
+        if ((worldlow >>= invhgtbits) > worldbottom)
         {
             pixlow = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldlow * rw_scale) >> FRACBITS);
             pixlowstep = -FixedMul(rw_scalestep, worldlow);
