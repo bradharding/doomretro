@@ -555,69 +555,6 @@ void R_DrawPlayerSpriteColumn(void)
     *dest = dc_source[frac >> FRACBITS];
 }
 
-void R_DrawSkyColumn(void)
-{
-    int                 y = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const lighttable_t  *colormap = dc_colormap[0];
-
-    if (dc_texheight == 128)
-    {
-        while (--y)
-        {
-            *dest = colormap[dc_source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-        }
-
-        *dest = colormap[dc_source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
-    }
-    else
-    {
-        fixed_t heightmask = dc_texheight - 1;
-
-        if (!(dc_texheight & heightmask))
-        {
-            heightmask = ((heightmask << FRACBITS) | 0xFFFF);
-
-            while ((y -= 2) >= 0)
-            {
-                *dest = colormap[dc_source[(frac & heightmask) >> FRACBITS]];
-                dest += SCREENWIDTH;
-                frac += dc_iscale;
-                *dest = colormap[dc_source[(frac & heightmask) >> FRACBITS]];
-                dest += SCREENWIDTH;
-                frac += dc_iscale;
-            }
-
-            if (y & 1)
-                *dest = colormap[dc_source[(frac & heightmask) >> FRACBITS]];
-        }
-        else
-        {
-            heightmask = (heightmask + 1) << FRACBITS;
-
-            if (frac < 0)
-                while ((frac += heightmask) < 0);
-            else
-                while (frac >= heightmask)
-                    frac -= heightmask;
-
-            while (--y)
-            {
-                *dest = colormap[dc_source[frac >> FRACBITS]];
-                dest += SCREENWIDTH;
-
-                if ((frac += dc_iscale) >= heightmask)
-                    frac -= heightmask;
-            }
-
-            *dest = colormap[dc_source[frac >> FRACBITS]];
-        }
-    }
-}
-
 void R_DrawFlippedSkyColumn(void)
 {
     int                 y = dc_yh - dc_yl + 1;
