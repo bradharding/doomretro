@@ -389,7 +389,7 @@ void R_DrawDitherWallColumn(void)
     fixed_t             frac = dc_texturemid + (y - centery) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
     fixed_t             heightmask = dc_texheight - 1;
-    const int           fracz = ((dc_z >> 6) & 255);
+    const int           fracz = ((dc_z >> 9) & 255);
 
     if (dc_texheight & heightmask)
     {
