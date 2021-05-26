@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.1
 
-* *DOOM Retro* is now compiled using v16.9.6 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v16.10 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen will now be displayed in all instances.
 * Minor changes have been made to text that is output to the console.
