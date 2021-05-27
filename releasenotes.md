@@ -16,7 +16,7 @@
   * Player messages will now quickly fade onto the screen if the `fade` CVAR is `on`.
   * A bug has been fixed whereby player messages wouldn’t completely fade off of the screen if the console was open and the `fade` CVAR was `on`.
 * Any momentum applied to the player will now be removed when enabling freeze mode.
-* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
 * A bug has been fixed whereby the alert sounds of cyberdemons or spider masterminds wouldn’t be played.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
