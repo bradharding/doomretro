@@ -769,7 +769,7 @@ static void C_DrawBackground(void)
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
     int             height = (consoleheight + 5) * SCREENWIDTH;
 
-    if (!blurred || !forceconsoleblurredraw)
+    if (!blurred || forceconsoleblurredraw)
     {
         // blur background
         memcpy(blurscreen, screens[0], height);

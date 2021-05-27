@@ -1443,7 +1443,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
                 splat->patch = patch;
-                splat->flip = M_BigRandom() & 1;
+                splat->flip = (M_BigRandom() & 1);
 
                 if (blood == FUZZYBLOOD)
                 {
