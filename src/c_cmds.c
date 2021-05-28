@@ -8666,7 +8666,7 @@ static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (vid_borderlesswindow != vid_borderlesswindow_old && vid_fullscreen)
-        I_RestartGraphics(false);
+        I_RestartGraphics(true);
 }
 
 //

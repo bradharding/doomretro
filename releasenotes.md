@@ -30,6 +30,7 @@
 * A new `toggle` CCMD has been implemented that can be used to toggle the value of certain CVARs.
 * The translucency of item and teleport fogs is now additive when the `r_translucency` CVAR is `on`.
 * After loading a savegame, a crash will no longer occur if a blood splat is removed because the sector it is on becomes liquid.
+* The effects of changing the `vid_borderlesswindow` CVAR in the console are now immediate.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
