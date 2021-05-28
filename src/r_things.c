@@ -941,7 +941,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             do
             {
                 R_ProjectBloodSplat(splat);
-                splat = splat->snext;
+                splat = splat->next;
             } while (splat);
 
             if (!thing)

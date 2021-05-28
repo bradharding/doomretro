@@ -1245,7 +1245,7 @@ void P_ArchiveThinkers(void)
 
     // save off the bloodsplats
     for (int i = 0; i < numsectors; i++)
-        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->snext)
+        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
         {
             saveg_write8(tc_bloodsplat);
             saveg_write_bloodsplat_t(splat);
@@ -1300,7 +1300,7 @@ void P_UnArchiveThinkers(void)
 
         while (splat)
         {
-            bloodsplat_t    *next = splat->snext;
+            bloodsplat_t    *next = splat->next;
 
             P_UnsetBloodSplatPosition(splat);
             splat = next;

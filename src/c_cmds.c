@@ -7887,7 +7887,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
                 while (splat)
                 {
                     splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    splat = splat->snext;
+                    splat = splat->next;
                 }
             }
         }
@@ -8373,7 +8373,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
                 while (splat)
                 {
                     splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    splat = splat->snext;
+                    splat = splat->next;
                 }
             }
         }

@@ -587,7 +587,7 @@ void P_CheckTerrainType(sector_t *sector)
 
             while (splat)
             {
-                bloodsplat_t    *next = splat->snext;
+                bloodsplat_t    *next = splat->next;
 
                 P_UnsetBloodSplatPosition(splat);
                 r_bloodsplats_total--;

@@ -484,8 +484,8 @@ typedef struct mobj_s
 typedef struct bloodsplat_s
 {
     fixed_t             x, y;
-    struct bloodsplat_s *snext;
-    struct bloodsplat_s **sprev;
+    struct bloodsplat_s *next;
+    struct bloodsplat_s **prev;
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;

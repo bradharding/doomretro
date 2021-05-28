@@ -212,7 +212,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS        ),
     BLANKLINE,
-    COMMENT("; player stats\n"   ),
+    COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (cheated,                          stat_cheated,                          stat_cheated,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damageinflicted,                  stat_damageinflicted,                  stat_damageinflicted,                  NOVALUEALIAS          ),
