@@ -2209,6 +2209,7 @@ static void M_ChangeDetail(int choice)
         C_Output(r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI);
 
     STLib_Init();
+    R_InitColumnFunctions();
     M_SaveCVARs();
 }
 
