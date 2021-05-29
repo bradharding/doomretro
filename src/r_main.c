@@ -514,7 +514,7 @@ void R_InitColumnFunctions(void)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !canmouselook ? &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
 
-        if (r_ditheredlighting)
+        if (r_ditheredlighting && r_detail == r_detail_high)
         {
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
@@ -578,7 +578,7 @@ void R_InitColumnFunctions(void)
         translatedcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
-        if (r_ditheredlighting)
+        if (r_ditheredlighting && r_detail == r_detail_high)
         {
             wallcolfunc = &R_DrawColorDitherWallColumn;
             bmapwallcolfunc = &R_DrawColorDitherWallColumn;

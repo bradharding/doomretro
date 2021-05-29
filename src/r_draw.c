@@ -137,7 +137,7 @@ byte            *dc_black40;
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
 
-byte dithermatrix[4][4] =
+static const byte dithermatrix[4][4] =
 {
   {   0, 224,  48, 208 },
   { 176,  80, 128,  96 },

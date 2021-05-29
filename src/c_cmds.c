@@ -7946,6 +7946,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
         {
             r_detail = value;
             STLib_Init();
+            R_InitColumnFunctions();
             M_SaveCVARs();
         }
     }
