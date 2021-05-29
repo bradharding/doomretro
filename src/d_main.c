@@ -91,7 +91,8 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#define FADETICS    40
+#define FADECOUNT    9
+#define FADETICS    20
 
 char **episodes[] =
 {
@@ -215,7 +216,7 @@ void D_FadeScreen(void)
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
-    fadecount = 3;
+    fadecount = FADECOUNT;
 }
 
 //
@@ -229,7 +230,9 @@ static void D_UpdateFade(void)
 
     if (fadewait < tics)
     {
-        byte    *tinttabs[] = { NULL, tinttab75, tinttab50, tinttab25 };
+        byte *tinttabs[FADECOUNT + 1] = {
+            NULL, tinttab90, tinttab80, tinttab70, tinttab60, tinttab50, tinttab40, tinttab30, tinttab20, tinttab10
+        };
 
         fadewait = tics + FADETICS;
         tinttab = tinttabs[fadecount--];

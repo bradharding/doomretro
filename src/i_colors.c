@@ -86,14 +86,19 @@ static byte filter[256] =
 
 static byte *tinttab15;
 
+byte        *tinttab10;
 byte        *tinttab20;
 byte        *tinttab25;
+byte        *tinttab30;
 byte        *tinttab33;
 byte        *tinttab40;
 byte        *tinttab50;
 byte        *tinttab60;
 byte        *tinttab66;
+byte        *tinttab70;
 byte        *tinttab75;
+byte        *tinttab80;
+byte        *tinttab90;
 
 byte        *alttinttab20;
 byte        *alttinttab40;
@@ -314,15 +319,20 @@ void I_InitTintTables(byte *palette)
 {
     int lump = W_CheckNumForName("TRANMAP");
 
+    tinttab10 = GenerateTintTable(palette, 10, ALL);
     tinttab15 = GenerateTintTable(palette, 15, ALL);
     tinttab20 = GenerateTintTable(palette, 20, ALL);
     tinttab25 = GenerateTintTable(palette, 25, ALL);
+    tinttab30 = GenerateTintTable(palette, 30, ALL);
     tinttab33 = GenerateTintTable(palette, 33, ALL);
     tinttab40 = GenerateTintTable(palette, 40, ALL);
     tinttab50 = GenerateTintTable(palette, 50, ALL);
     tinttab60 = GenerateTintTable(palette, 60, ALL);
     tinttab66 = GenerateTintTable(palette, 66, ALL);
+    tinttab70 = GenerateTintTable(palette, 70, ALL);
     tinttab75 = GenerateTintTable(palette, 75, ALL);
+    tinttab80 = GenerateTintTable(palette, 80, ALL);
+    tinttab90 = GenerateTintTable(palette, 90, ALL);
 
     alttinttab20 = GenerateTintTable(palette, 20, ALTHUD);
     alttinttab40 = GenerateTintTable(palette, 40, ALTHUD);

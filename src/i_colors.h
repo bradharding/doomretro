@@ -44,14 +44,19 @@
 
 #define PINK    251
 
+extern byte *tinttab10;
 extern byte *tinttab20;
 extern byte *tinttab25;
+extern byte *tinttab30;
 extern byte *tinttab33;
 extern byte *tinttab40;
 extern byte *tinttab50;
 extern byte *tinttab60;
 extern byte *tinttab66;
+extern byte *tinttab70;
 extern byte *tinttab75;
+extern byte *tinttab80;
+extern byte *tinttab90;
 
 extern byte *alttinttab20;
 extern byte *alttinttab40;
