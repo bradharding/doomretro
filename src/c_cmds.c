@@ -4711,18 +4711,6 @@ static void C_PlayerStats_Game(void)
         free(temp4);
     }
 
-    temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
-    temp2 = commify(viewplayer->mobjcount[MT_SERGEANT]);
-    temp3 = commify(monstercount[MT_SERGEANT]);
-    temp4 = commifystat(stat_monsterskilled_demons);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
-        temp1, temp2, temp3,
-        (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0), temp4);
-    free(temp1);
-    free(temp2);
-    free(temp3);
-    free(temp4);
-
     if (gamemode == commercial)
     {
         temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
@@ -4800,6 +4788,18 @@ static void C_PlayerStats_Game(void)
         free(temp3);
         free(temp4);
     }
+
+    temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
+    temp2 = commify(viewplayer->mobjcount[MT_SERGEANT]);
+    temp3 = commify(monstercount[MT_SERGEANT]);
+    temp4 = commifystat(stat_monsterskilled_pinkydemons);
+    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        temp1, temp2, temp3,
+        (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0), temp4);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+    free(temp4);
 
     temp1 = sentencecase(mobjinfo[MT_UNDEAD].plural1);
     temp2 = commify(viewplayer->mobjcount[MT_UNDEAD]);
@@ -5233,12 +5233,6 @@ static void C_PlayerStats_NoGame(void)
         free(temp2);
     }
 
-    temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
-    temp2 = commifystat(stat_monsterskilled_demons);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
-    free(temp1);
-    free(temp2);
-
     if (gamemode == commercial)
     {
         temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
@@ -5280,6 +5274,12 @@ static void C_PlayerStats_NoGame(void)
         free(temp1);
         free(temp2);
     }
+
+    temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
+    temp2 = commifystat(stat_monsterskilled_pinkydemons);
+    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_UNDEAD].plural1);
     temp2 = commifystat(stat_monsterskilled_revenants);

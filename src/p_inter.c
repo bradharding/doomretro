@@ -102,13 +102,13 @@ uint64_t        stat_monsterskilled_archviles = 0;
 uint64_t        stat_monsterskilled_baronsofhell = 0;
 uint64_t        stat_monsterskilled_cacodemons = 0;
 uint64_t        stat_monsterskilled_cyberdemons = 0;
-uint64_t        stat_monsterskilled_demons = 0;
 uint64_t        stat_monsterskilled_heavyweapondudes = 0;
 uint64_t        stat_monsterskilled_hellknights = 0;
 uint64_t        stat_monsterskilled_imps = 0;
 uint64_t        stat_monsterskilled_lostsouls = 0;
 uint64_t        stat_monsterskilled_mancubi = 0;
 uint64_t        stat_monsterskilled_painelementals = 0;
+uint64_t        stat_monsterskilled_pinkydemons = 0;
 uint64_t        stat_monsterskilled_revenants = 0;
 uint64_t        stat_monsterskilled_shotgunguys = 0;
 uint64_t        stat_monsterskilled_spectres = 0;
@@ -1629,10 +1629,6 @@ void P_UpdateKillStat(mobjtype_t type, int value)
             stat_monsterskilled_cyberdemons = SafeAdd(stat_monsterskilled_cyberdemons, value);
             break;
 
-        case MT_SERGEANT:
-            stat_monsterskilled_demons = SafeAdd(stat_monsterskilled_demons, value);
-            break;
-
         case MT_CHAINGUY:
             stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes, value);
             break;
@@ -1655,6 +1651,10 @@ void P_UpdateKillStat(mobjtype_t type, int value)
 
         case MT_PAIN:
             stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, value);
+            break;
+
+        case MT_SERGEANT:
+            stat_monsterskilled_pinkydemons = SafeAdd(stat_monsterskilled_pinkydemons, value);
             break;
 
         case MT_UNDEAD:
