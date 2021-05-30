@@ -954,14 +954,13 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         drawshadows = (r_shadows && !fixedcolormap && sec->terraintype == SOLID && sec->floorpic != skyflatnum);
     }
-    else
+    else if (thing)
     {
-        if (!thing)
-            return;
-
         spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         drawshadows = false;
     }
+    else
+        return;
 
     // Handle all things in sector.
     do
