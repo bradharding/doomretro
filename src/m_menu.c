@@ -3373,7 +3373,7 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_ENTER && !keydown)
+        else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown)
         {
             // Activate menu item
             keydown = key;
@@ -3421,6 +3421,7 @@ dboolean M_Responder(event_t *ev)
 
             M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
+            keywait = I_GetTime() + 10;
             return skipaction;
         }
 
