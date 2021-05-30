@@ -577,7 +577,6 @@ consolecmd_t consolecmds[] =
         "The player's health (<b>0%</b> to <b>200%</b>)."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
         "Opens the <i>" PACKAGE_WIKINAME ".</i>"),
-    CMD_CHEAT(idbehold, false),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
     CMD_CHEAT(idbeholdl, false),
@@ -1142,8 +1141,6 @@ static dboolean cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
