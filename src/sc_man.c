@@ -108,7 +108,7 @@ dboolean SC_GetString(void)
 
     while (!foundToken)
     {
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '=' || *ScriptPtr == ','))
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '=' || (*ScriptPtr == ',' && *(ScriptPtr - 1) != '\'')))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -160,7 +160,7 @@ dboolean SC_GetString(void)
 
             *text++ = *ScriptPtr++;
 
-            if (*ScriptPtr == '=' || *ScriptPtr == ',')
+            if (*ScriptPtr == '=' || (*ScriptPtr == ',' && *(ScriptPtr - 1) != '\''))
             {
                 ScriptPtr++;
                 break;
