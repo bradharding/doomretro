@@ -3421,7 +3421,7 @@ dboolean M_Responder(event_t *ev)
 
             M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
-            keywait = I_GetTime() + 10;
+            keywait = I_GetTime() + 5;
             return skipaction;
         }
 

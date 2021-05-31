@@ -826,8 +826,10 @@ void R_StoreWallRange(const int start, const int stop)
         //  use different light tables for horizontal/vertical
         if (!fixedcolormap)
         {
-            walllights = GetLightTable(frontsector->lightlevel);
-            walllightsnext = GetLightTable(frontsector->lightlevel + 4);
+            short   lightlevel = frontsector->lightlevel;
+
+            walllights = GetLightTable(lightlevel);
+            walllightsnext = GetLightTable(lightlevel + 4);
         }
     }
 
