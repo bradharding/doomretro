@@ -245,7 +245,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
         short       lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
 
         walllights = GetLightTable(lightlevel);
-        walllightsnext = GetLightTable(lightlevel + 2);
+        walllightsnext = GetLightTable(lightlevel + 4);
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -827,7 +827,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (!fixedcolormap)
         {
             walllights = GetLightTable(frontsector->lightlevel);
-            walllightsnext = GetLightTable(frontsector->lightlevel + 2);
+            walllightsnext = GetLightTable(frontsector->lightlevel + 4);
         }
     }
 
