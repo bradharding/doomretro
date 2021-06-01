@@ -145,7 +145,7 @@ static const byte dithermatrix[4][4] =
   { 112, 144,  64, 160 }
 };
 
-#define dithering(x, y, intensity)  (dithermatrix[(y) & 3][(x) & 3] < (intensity))
+#define dither(x, y, intensity) (dithermatrix[(y) & 3][(x) & 3] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -183,12 +183,12 @@ void R_DrawDitherColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dithering(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
+        *dest = colormap[dither(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dithering(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
+    *dest = colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
 }
 
 void R_DrawCorrectedColumn(void)
@@ -403,25 +403,25 @@ void R_DrawDitherWallColumn(void)
 
         while (--count)
         {
-            *dest = colormap[dithering(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
+            *dest = colormap[dither(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = colormap[dithering(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
+        *dest = colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
     }
     else
     {
         while (--count)
         {
-            *dest = colormap[dithering(dc_x, y++, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+            *dest = colormap[dither(dc_x, y++, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dithering(dc_x, y, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+        *dest = colormap[dither(dc_x, y, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
     }
 }
 
@@ -495,7 +495,7 @@ void R_DrawBrightmapDitherWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dithering(dc_x, y, fracz)][dot]);
+            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
             dest += SCREENWIDTH;
             y++;
 
@@ -504,21 +504,21 @@ void R_DrawBrightmapDitherWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dithering(dc_x, y, fracz)][dot]);
+        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dithering(dc_x, y, fracz)][dot]);
+            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
             dest += SCREENWIDTH;
             y++;
             frac += dc_iscale;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dithering(dc_x, y, fracz)][dot]);
+        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
     }
 }
 
@@ -532,11 +532,11 @@ void R_DrawColorDitherWallColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dithering(dc_x, y++, fracz)][NOTEXTURECOLOR];
+        *dest = colormap[dither(dc_x, y++, fracz)][NOTEXTURECOLOR];
         dest += SCREENWIDTH;
     }
 
-    *dest = colormap[dithering(dc_x, y, fracz)][NOTEXTURECOLOR];
+    *dest = colormap[dither(dc_x, y, fracz)][NOTEXTURECOLOR];
 }
 
 void R_DrawPlayerSpriteColumn(void)
@@ -1185,12 +1185,12 @@ void R_DrawDitherSpan(void)
 
     while (--x)
     {
-        *dest++ = colormap[dithering(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[dither(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[dithering(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[dither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
@@ -1214,9 +1214,9 @@ void R_DrawDitherColorSpan(void)
     const int           fracz = ((ds_z >> 12) & 255);
 
     while (--x)
-        *dest++ = colormap[dithering(x1--, ds_y, fracz)][NOTEXTURECOLOR];
+        *dest++ = colormap[dither(x1--, ds_y, fracz)][NOTEXTURECOLOR];
 
-    *dest = colormap[dithering(x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = colormap[dither(x1, ds_y, fracz)][NOTEXTURECOLOR];
 }
 
 //

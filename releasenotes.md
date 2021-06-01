@@ -6,7 +6,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The correct credits screen will now be displayed in all instances.
 * Minor changes have been made to text that is output to the console.
-* The lighting applied to all walls, floors and ceilings in a map is now dithered. This may be disabled using the new `r_ditheredlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The lighting applied to all walls, floors and ceilings in a map is now dithered. This may be toggled using the new `r_ditheredlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_dither` CVAR has been deprecated. *BOOM*-compatible translucent wall textures can no longer be dithered.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` has been redesigned.
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
@@ -27,7 +27,7 @@
 * If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then successfully guesses what was intended by finding the nearest match, the `wad` CVAR will now be updated.
 * The `r_hud` CVAR is now `off` by default.
 * The default of the `r_bloodsplats_max` CVAR has now been doubled to `131,072`, and is now also set to `0` when vanilla mode is enabled.
-* A new `toggle` CCMD has been implemented that can be used to toggle the value of certain CVARs.
+* A new `toggle` CCMD has been implemented that can be used to toggle the value of CVARs between `on` and `off`.
 * The translucency of item and teleport fogs is now additive when the `r_translucency` CVAR is `on`.
 * After loading a savegame, a crash will no longer occur if a blood splat is removed because the sector it is on becomes liquid.
 * The effects of changing the `vid_borderlesswindow` CVAR in the console are now immediate.
