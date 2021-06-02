@@ -12,7 +12,8 @@
 * The smoke trailing behind rockets fired by the player will no longer spawn too close to their face, obscuring their view, when they hold down a control bound to the `+fire` action to fire multiple rockets.
 * The following changes have been made to player messages:
   * The grouping of identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-  * Player messages will no longer be grouped if they are more than 4 seconds apart.
+  * Player messages are no longer grouped if more than 4 seconds apart.
+  * Player messages now fade off the screen smoother when the `fade` CVAR is `on`.
   * A bug has been fixed whereby player messages wouldn’t completely fade off of the screen if the console was open and the `fade` CVAR was `on`.
 * Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
@@ -30,7 +31,7 @@
 * The translucency of item and teleport fogs is now additive when the `r_translucency` CVAR is `on`.
 * After loading a savegame, a crash will no longer occur if a blood splat is removed because the sector it is on becomes liquid.
 * The effects of changing the `vid_borderlesswindow` CVAR in the console are now immediate.
-* Minor improvements have been made to the transitions between some screens when the `fade` CVAR is `on`.
+* The transitions between some screens when the `fade` CVAR is `on` are now smoother.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
