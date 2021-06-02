@@ -306,7 +306,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     byte            *tinttab1 = tinttab50;
-    byte            *tinttab2 = tinttab75;
+    byte            *tinttab2 = tinttab80;
     int             len = l->len;
     const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
@@ -420,23 +420,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     maxx = (l->x + tw + 1) * SCREENSCALE;
     maxy = (y + 10) * SCREENSCALE;
 
-    if (fade)
+    if (fade && message_counter <= 7)
     {
-        if (message_counter <= 2 || message_counter >= HU_MSGTIMEOUT - 1)
-        {
-            tinttab1 = tinttab20;
-            tinttab2 = tinttab20;
-        }
-        else if (message_counter <= 4 || message_counter >= HU_MSGTIMEOUT - 2)
-        {
-            tinttab1 = tinttab25;
-            tinttab2 = tinttab40;
-        }
-        else if (message_counter <= 6 || message_counter >= HU_MSGTIMEOUT - 3)
-        {
-            tinttab1 = tinttab33;
-            tinttab2 = tinttab60;
-        }
+        byte    *tinttabs1[] = { NULL, tinttab10, tinttab20, tinttab20, tinttab30, tinttab30, tinttab40, tinttab40 };
+        byte    *tinttabs2[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+
+        tinttab1 = tinttabs1[message_counter];
+        tinttab2 = tinttabs2[message_counter];
     }
 
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)

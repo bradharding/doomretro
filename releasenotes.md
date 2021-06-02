@@ -13,7 +13,6 @@
 * The following changes have been made to player messages:
   * The grouping of identical player messages can now be toggled using the new `groupmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * Player messages will no longer be grouped if they are more than 4 seconds apart.
-  * Player messages will now quickly fade onto the screen if the `fade` CVAR is `on`.
   * A bug has been fixed whereby player messages wouldn’t completely fade off of the screen if the console was open and the `fade` CVAR was `on`.
 * Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
