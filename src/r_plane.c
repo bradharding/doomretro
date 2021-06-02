@@ -65,8 +65,8 @@ int                 *lastopening;               // dropoff overflow
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                 floorclip[MAXWIDTH];     // dropoff overflow
-int                 ceilingclip[MAXWIDTH];   // dropoff overflow
+int                 floorclip[MAXWIDTH];        // dropoff overflow
+int                 ceilingclip[MAXWIDTH];      // dropoff overflow
 
 // texture mapping
 static lighttable_t **planezlight;
