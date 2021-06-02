@@ -283,7 +283,7 @@ void P_InitPicAnims(void)
                     isliquid = true;
                 }
                 else if ((M_StrCaseStr(animdefs[i].startname, "SLI") && (basepic < SLIME09 || basepic > SLIME12))
-                    || M_StrCaseStr(animdefs[i].startname, "SLM"))
+                    || M_StrCaseStr(animdefs[i].startname, "SLM") || M_StrCaseStr(animdefs[i].startname, "POOP"))
                 {
                     SetTerrainType(lastanim, SLIME);
                     isliquid = true;
