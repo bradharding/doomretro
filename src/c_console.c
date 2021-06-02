@@ -49,6 +49,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
@@ -367,7 +368,8 @@ void C_PlayerMessage(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
+    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer)
+        && gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT && groupmessages)
     {
         console[i].tics = gametime;
         console[i].timestamp[0] = '\0';
