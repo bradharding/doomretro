@@ -2396,15 +2396,12 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 }
 
                 // [BH] correct blood color as necessary
-                if (value & MF_SHOOTABLE)
-                {
-                    if (!(value & MF_FUZZ) && mobjinfo[indexnum].blood == MT_FUZZYBLOOD)
-                        mobjinfo[indexnum].blood = MT_BLOOD;
-                    else if ((value & MF_FUZZ) && mobjinfo[indexnum].blood != MT_FUZZYBLOOD)
-                        mobjinfo[indexnum].blood = MT_FUZZYBLOOD;
-                    else if (mobjinfo[indexnum].blood != MT_GREENBLOOD && mobjinfo[indexnum].blood != MT_BLUEBLOOD)
-                        mobjinfo[indexnum].blood = MT_BLOOD;
-                }
+                if (!(value & MF_FUZZ) && mobjinfo[indexnum].blood == MT_FUZZYBLOOD)
+                    mobjinfo[indexnum].blood = MT_BLOOD;
+                else if ((value & MF_FUZZ) && mobjinfo[indexnum].blood != MT_FUZZYBLOOD)
+                    mobjinfo[indexnum].blood = MT_FUZZYBLOOD;
+                else if (mobjinfo[indexnum].blood != MT_GREENBLOOD && mobjinfo[indexnum].blood != MT_BLUEBLOOD)
+                    mobjinfo[indexnum].blood = MT_BLOOD;
             }
             else if (M_StringCompare(key, "Retro bits"))
             {

@@ -32,6 +32,7 @@
 * After loading a savegame, a crash will no longer occur if a blood splat is removed because the sector it is on becomes liquid.
 * The effects of changing the `vid_borderlesswindow` CVAR in the console are now immediate.
 * The transitions between some screens when the `fade` CVAR is `on` are now smoother.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
