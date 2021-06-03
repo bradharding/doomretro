@@ -2378,9 +2378,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                                 C_Output("ORed value 0x%08lX %s.", deh_mobjflags[iy].value, strval);
 
                             value |= deh_mobjflags[iy].value;
-
-                            // [BH] no blood splats if thing is dehacked...
-                            mobjinfo[indexnum].blood = 0;
                             break;
                         }
 
@@ -2396,12 +2393,18 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 }
 
                 // [BH] correct blood color as necessary
-                if (!(value & MF_FUZZ) && mobjinfo[indexnum].blood == MT_FUZZYBLOOD)
-                    mobjinfo[indexnum].blood = MT_BLOOD;
-                else if ((value & MF_FUZZ) && mobjinfo[indexnum].blood != MT_FUZZYBLOOD)
-                    mobjinfo[indexnum].blood = MT_FUZZYBLOOD;
-                else if (mobjinfo[indexnum].blood != MT_GREENBLOOD && mobjinfo[indexnum].blood != MT_BLUEBLOOD)
-                    mobjinfo[indexnum].blood = MT_BLOOD;
+                if (value & MF_SHOOTABLE)
+                {
+                    if (!(value & MF_FUZZ) && mobjinfo[indexnum].blood == MT_FUZZYBLOOD)
+                        mobjinfo[indexnum].blood = MT_BLOOD;
+                    else if ((value & MF_FUZZ) && mobjinfo[indexnum].blood != MT_FUZZYBLOOD)
+                        mobjinfo[indexnum].blood = MT_FUZZYBLOOD;
+                    else if (mobjinfo[indexnum].blood != MT_GREENBLOOD && mobjinfo[indexnum].blood != MT_BLUEBLOOD)
+                        mobjinfo[indexnum].blood = MT_BLOOD;
+                }
+                else if (indexnum != MT_BLOOD)
+                    mobjinfo[indexnum].blood = 0;
+
             }
             else if (M_StringCompare(key, "Retro bits"))
             {
