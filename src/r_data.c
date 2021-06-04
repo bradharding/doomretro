@@ -553,7 +553,7 @@ static void R_InitSpriteLumps(void)
     // [BH] compatibility fixes
     if (FREEDOOM)
     {
-        states[S_BAR3].nextstate = S_BAR2;
+        states[S_BAR1].nextstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;

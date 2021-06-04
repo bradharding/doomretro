@@ -2494,6 +2494,13 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_33;
         mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_BLUE_25;
     }
+
+    // [BH] No extra barrel frame
+    if (indexnum == MT_BARREL)
+    {
+        states[S_BAR1].nextstate = S_BAR2;
+        mobjinfo[MT_BARREL].frames = 2;
+    }
 }
 
 // ====================================================================
