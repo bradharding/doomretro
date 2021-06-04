@@ -522,7 +522,7 @@ floater:
                     // Decrease viewheight for a moment after hitting the ground (hard), and utter appropriate sound.
                     player->deltaviewheight = mo->momz / 8;
 
-                    if (mo->health > 0)
+                    if (mo->health > 0 && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
                         S_StartSound(mo, sfx_oof);
                 }
             }
