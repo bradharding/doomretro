@@ -18,12 +18,13 @@
 * Any momentum applied to the player will now be removed when enabling freeze mode.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The power-up sound effect will no longer be played if the player picks up a berserk power-up and they already have one.
-* The player will no longer make a noise if they drop down from a ledge when either freeze or no clipping mode is enabled.
+* The player will no longer make a noise if they drop down from a ledge when either freeze mode or no clipping mode is enabled.
 * A bug has been fixed whereby the alert sounds of cyberdemons or spider masterminds wouldn’t be played.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, is now based on its size.
 * A bug has been fixed whereby blood splats could be the wrong color in some instances.
 * Invulnerability and partial invisibility power-ups will now respawn when the `respawnitems` CCMD is used.
 * Minor changes have been made to the shadows cast by monsters when the `r_shadows` CVAR is `on`.
+* Blood splats are now slightly more translucent when the `r_bloodsplats_translucency` CVAR is `on`.
 * The shaking effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now still applied when god mode is enabled.
 * If the WAD file entered manually in the WAD launcher isn’t found, and *DOOM Retro* then successfully guesses what was intended by finding the nearest match, the `wad` CVAR will now be updated.
 * The `r_hud` CVAR is now `off` by default.
