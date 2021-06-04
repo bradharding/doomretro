@@ -187,7 +187,7 @@ static void R_FixWiggle(sector_t *sector)
 
 static lighttable_t **GetLightTable(const int lightlevel)
 {
-    return scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
+    return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
 }
 
 static void R_BlastMaskedSegColumn(const rcolumn_t *column)
@@ -300,7 +300,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
                 dc_z = spryscale;
             }
 
-            dc_iscale = UINT_MAX / spryscale;
+            dc_iscale = UINT_MAX / (unsigned int)spryscale;
 
             // draw the texture
             R_BlastMaskedSegColumn(column);
