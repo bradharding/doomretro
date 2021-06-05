@@ -366,6 +366,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms);
 static void r_hud_cvar_func2(char *cmd, char *parms);
 static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
+static void r_playersprites_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms);
@@ -725,7 +726,7 @@ consolecmd_t consolecmds[] =
         "The size of each pixel when the graphic detail is low (<i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
-    CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the trails of smoke behind rockets fired by the player and cyberdemons."),
@@ -8180,6 +8181,44 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, r_lowpixelsize);
         else
             C_Output(INTEGERCVARWITHDEFAULT, r_lowpixelsize, r_lowpixelsize_default);
+    }
+}
+
+//
+// r_playersprites CVAR
+//
+static void r_playersprites_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_playersprites)
+        {
+            r_playersprites = value;
+            M_SaveCVARs();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
+        }
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(r_playersprites, BOOLVALUEALIAS);
+
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (r_playersprites == r_playersprites_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_playersprites_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
     }
 }
 
