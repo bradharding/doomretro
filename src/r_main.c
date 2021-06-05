@@ -571,6 +571,17 @@ void R_InitColumnFunctions(void)
         redtobluecolfunc = &R_DrawRedToBlueColumn;
         redtogreencolfunc = &R_DrawRedToGreenColumn;
         psprcolfunc = &R_DrawPlayerSpriteColumn;
+
+        if (r_translucency)
+        {
+            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+        }
+        else
+        {
+            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
+            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
+        }
     }
     else
     {
@@ -691,17 +702,6 @@ void R_InitColumnFunctions(void)
             info->colfunc = basecolfunc;
             info->altcolfunc = basecolfunc;
         }
-    }
-
-    if (r_translucency)
-    {
-        mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-        mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
-    }
-    else
-    {
-        mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
-        mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
     }
 
     if (gamestate == GS_LEVEL)

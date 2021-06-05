@@ -3,6 +3,7 @@
 #### DOOM Retro v4.1.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is now displayed correctly when the `r_textures` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
