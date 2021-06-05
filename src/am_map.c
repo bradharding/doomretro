@@ -1284,7 +1284,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
     {
         byte            *dot = mapscreen + y + x;
         const dboolean  attop = (y < MAPAREA);
-        const dboolean  atbottom = (y < MAPBOTTOM);
+        const dboolean  atbottom = (y < (unsigned int)MAPBOTTOM);
 
         if (attop)
             *dot = *(*dot + color);
@@ -1311,7 +1311,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
         if (y < MAPAREA)
             *dot = *(*dot + color);
 
-        if (y < MAPBOTTOM)
+        if (y < (unsigned int)MAPBOTTOM)
         {
             dot += MAPWIDTH;
             *dot = *(*dot + color);

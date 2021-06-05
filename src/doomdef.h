@@ -135,7 +135,7 @@ extern dboolean     nowidescreen;
 extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;
 extern unsigned int MAPAREA;
-extern unsigned int MAPBOTTOM;
+extern int          MAPBOTTOM;
 
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 

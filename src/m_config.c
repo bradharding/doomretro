@@ -665,10 +665,10 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (gp_analog != false && gp_analog != true)
         gp_analog = gp_analog_default;
 
-    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
+    gp_deadzone_left = BETWEEN(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     I_SetGamepadLeftDeadZone();
 
-    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
+    gp_deadzone_right = BETWEEN(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     I_SetGamepadRightDeadZone();
 
     if (gp_invertyaxis != false && gp_invertyaxis != true)
@@ -805,7 +805,7 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     r_fov = BETWEEN(r_fov_min, r_fov, r_fov_max);
 
-    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
+    r_gamma = BETWEEN(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
 
     if (r_graduallighting != false && r_graduallighting != true)

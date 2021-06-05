@@ -275,12 +275,12 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
-    int             lumpnum = sfxinfo->lumpnum;
-    byte            *data = W_CacheLumpNum(lumpnum);
-    unsigned int    lumplen = W_LumpLength(lumpnum);
-    int             samplerate;
-    unsigned int    bits = 8;
-    unsigned int    length;
+    int     lumpnum = sfxinfo->lumpnum;
+    byte    *data = W_CacheLumpNum(lumpnum);
+    int     lumplen = W_LumpLength(lumpnum);
+    int     samplerate;
+    int     bits = 8;
+    int     length;
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
