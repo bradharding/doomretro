@@ -3326,6 +3326,8 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     gamemap = mapcmdmap;
 
+    quickSaveSlot = -1;
+
     if (gamestate == GS_LEVEL)
     {
         idclevtics = MAPCHANGETICS;
@@ -5901,6 +5903,8 @@ static void restartmap_cmd_func2(char *cmd, char *parms)
 
     if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
         M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
+
+    quickSaveSlot = -1;
 
     G_DoLoadLevel();
     C_HideConsoleFast();

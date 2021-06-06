@@ -1017,6 +1017,7 @@ dboolean ST_Responder(event_t *ev)
 
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
+                    quickSaveSlot = -1;
                     drawdisk = true;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;

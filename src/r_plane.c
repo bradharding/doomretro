@@ -429,9 +429,9 @@ void R_DrawPlanes(void)
             {
                 int picnum = pl->picnum;
 
-                // sky flat
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
+                    // sky flat
                     int             texture;
                     angle_t         flip = 0U;
                     const rpatch_t  *tex_patch;
