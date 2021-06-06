@@ -2467,9 +2467,9 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
         }
 
-        if ((string = M_StringCompare(key, "Name1")))
+        if ((string = M_StringCompare(key, "Name1")) || (string = M_StringCompare(key, "Name")))
             M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
-        else if ((string = M_StringCompare(key, "Plural1")))
+        else if ((string = M_StringCompare(key, "Plural1")) || (string = M_StringCompare(key, "Plural")))
             M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
             M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));

@@ -6,7 +6,6 @@
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now displayed correctly when the `r_textures` CVAR is `off`.
 * A fade transition will now be applied when using the `r_playersprites` CVAR in the console to toggle the player’s weapon when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
-* Improvements have been made to the dithered lighting when the `r_ditheredlighting` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
