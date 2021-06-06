@@ -508,11 +508,11 @@ void R_InitColumnFunctions(void)
         fuzzcolfunc = &R_DrawFuzzColumn;
         translatedcolfunc = &R_DrawTranslatedColumn;
 
-        if (r_skycolor != r_skycolor_default)
-            skycolfunc = &R_DrawSkyColorColumn;
-        else
+        if (r_skycolor == r_skycolor_default)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !canmouselook ? &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
+        else
+            skycolfunc = &R_DrawSkyColorColumn;
 
         if (r_ditheredlighting && r_detail == r_detail_high)
         {
@@ -630,6 +630,7 @@ void R_InitColumnFunctions(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
     {
         mobjinfo_t  *info = &mobjinfo[i];
+        const int   flags = info->flags;
         const int   flags2 = info->flags2;
 
         if (flags2 & MF2_TRANSLUCENT)
@@ -637,7 +638,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlcolfunc;
             info->altcolfunc = tl50colfunc;
         }
-        else if (info->flags & MF_FUZZ)
+        else if (flags & MF_FUZZ)
         {
             info->colfunc = fuzzcolfunc;
             info->altcolfunc = fuzzcolfunc;
@@ -662,7 +663,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tl33colfunc;
             info->altcolfunc = tl33colfunc;
         }
-        else if ((info->flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
+        else if ((flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
         {
             info->colfunc = tl50colfunc;
             info->altcolfunc = tl50colfunc;
