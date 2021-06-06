@@ -991,9 +991,11 @@ void I_SetPalette(byte *playpal)
     {
         for (int i = 0; i < 256; i++)
         {
-            colors[i].r = gammatable[gammaindex][*playpal++];
-            colors[i].g = gammatable[gammaindex][*playpal++];
-            colors[i].b = gammatable[gammaindex][*playpal++];
+            byte    *gamma = gammatable[gammaindex];
+
+            colors[i].r = gamma[*playpal++];
+            colors[i].g = gamma[*playpal++];
+            colors[i].b = gamma[*playpal++];
         }
     }
     else
@@ -1002,9 +1004,10 @@ void I_SetPalette(byte *playpal)
 
         for (int i = 0; i < 256; i++)
         {
-            byte    r = gammatable[gammaindex][*playpal++];
-            byte    g = gammatable[gammaindex][*playpal++];
-            byte    b = gammatable[gammaindex][*playpal++];
+            byte    *gamma = gammatable[gammaindex];
+            byte    r = gamma[*playpal++];
+            byte    g = gamma[*playpal++];
+            byte    b = gamma[*playpal++];
             double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
@@ -1046,9 +1049,11 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     {
         for (int i = 0; i < 256; i++)
         {
-            colors[i].r = (byte)(gammatable[gammaindex][*playpal++] * brightness);
-            colors[i].g = (byte)(gammatable[gammaindex][*playpal++] * brightness);
-            colors[i].b = (byte)(gammatable[gammaindex][*playpal++] * brightness);
+            byte    *gamma = gammatable[gammaindex];
+
+            colors[i].r = (byte)(gamma[*playpal++] * brightness);
+            colors[i].g = (byte)(gamma[*playpal++] * brightness);
+            colors[i].b = (byte)(gamma[*playpal++] * brightness);
         }
     }
     else
@@ -1057,9 +1062,10 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 
         for (int i = 0; i < 256; i++)
         {
-            double  r = gammatable[gammaindex][*playpal++] * brightness;
-            double  g = gammatable[gammaindex][*playpal++] * brightness;
-            double  b = gammatable[gammaindex][*playpal++] * brightness;
+            byte    *gamma = gammatable[gammaindex];
+            double  r = gamma[*playpal++] * brightness;
+            double  g = gamma[*playpal++] * brightness;
+            double  b = gamma[*playpal++] * brightness;
             double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
