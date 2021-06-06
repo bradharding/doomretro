@@ -7985,6 +7985,7 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
         {
             r_ditheredlighting = value;
             M_SaveCVARs();
+            I_SetPalette(&PLAYPAL[st_palette * 768]);
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)

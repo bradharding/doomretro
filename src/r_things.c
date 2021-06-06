@@ -564,8 +564,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     const rcolumn_t *columns = R_CachePatchNum(vis->patch + firstspritelump)->columns;
 
     colfunc = vis->colfunc;
-    dc_colormap[0] = vis->colormap;
-    dc_blood = &tinttab50[(dc_solidblood = dc_colormap[0][vis->blood]) << 8];
+    dc_blood = &tinttab50[(dc_solidblood = vis->colormap[vis->blood]) << 8];
     spryscale = vis->scale;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
