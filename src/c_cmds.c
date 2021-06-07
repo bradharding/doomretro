@@ -7947,9 +7947,12 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
         if ((value == r_detail_low || value == r_detail_high) && r_detail != value)
         {
             r_detail = value;
+            M_SaveCVARs();
             STLib_Init();
             R_InitColumnFunctions();
-            M_SaveCVARs();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
         }
     }
     else

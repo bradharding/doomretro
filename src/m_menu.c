@@ -2208,9 +2208,12 @@ static void M_ChangeDetail(int choice)
     else
         C_Output(r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI);
 
+    M_SaveCVARs();
     STLib_Init();
     R_InitColumnFunctions();
-    M_SaveCVARs();
+
+    if (gamestate == GS_LEVEL)
+        D_FadeScreen();
 }
 
 static void M_SizeDisplay(int choice)
