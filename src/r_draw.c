@@ -139,10 +139,10 @@ byte            *dc_source;
 
 static const byte dithermatrix[4][4] =
 {
-  {   0, 224,  48, 208 },
-  { 176,  80, 128,  96 },
-  { 192,  32, 240,  16 },
-  { 112, 144,  64, 160 }
+    {   0, 224,  48, 208 },
+    { 176,  80, 128,  96 },
+    { 192,  32, 240,  16 },
+    { 112, 144,  64, 160 }
 };
 
 #define dither(x, y, intensity) (dithermatrix[(y) & 3][(x) & 3] < (intensity))
