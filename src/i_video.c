@@ -834,11 +834,6 @@ void I_WindowResizeBlit(void)
 }
 #endif
 
-static void I_ClearFrame(void)
-{
-    SDL_RenderClear(renderer);
-}
-
 static void I_Blit(void)
 {
     UpdateGrab();

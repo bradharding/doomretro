@@ -2705,15 +2705,12 @@ dboolean M_Responder(event_t *ev)
     {
         keydown = 0;
 
-        if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
+        if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive))
+            && !splashscreen)
         {
             S_StartSound(NULL, sfx_scrsht);
-
-            if (!splashscreen)
-            {
-                memset(screens[0], nearestwhite, SCREENAREA);
-                D_FadeScreen();
-            }
+            memset(screens[0], nearestwhite, SCREENAREA);
+            D_FadeScreen();
         }
 
         return false;
@@ -3148,7 +3145,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
+    if (key == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL) && !splashscreen)
     {
         G_ScreenShot();
         return false;

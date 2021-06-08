@@ -689,7 +689,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;
         }
-        else if (!menuactive && !consoleactive && ev->type == ev_keyup && ev->data1 == keyboardscreenshot)
+        else if (!menuactive && !consoleactive && !splashscreen && ev->type == ev_keyup && ev->data1 == keyboardscreenshot)
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
