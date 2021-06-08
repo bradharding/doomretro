@@ -563,7 +563,8 @@ static void R_Subsector(int num)
 
 void R_RenderBSPNode(int bspnum)
 {
-    int stack[MAX_BSP_DEPTH];
+    int bspstack[MAX_BSP_DEPTH];
+    int sidestack[MAX_BSP_DEPTH];
     int sp = 0;
 
     while (true)
@@ -578,8 +579,8 @@ void R_RenderBSPNode(int bspnum)
 
             bsp = nodes + bspnum;
             side = (((int64_t)viewy - bsp->y) * bsp->dx + ((int64_t)bsp->x - viewx) * bsp->dy > 0);
-            stack[sp++] = bspnum;
-            stack[sp++] = side;
+            bspstack[sp] = bspnum;
+            sidestack[sp++] = side;
             bspnum = bsp->children[side];
         }
 
@@ -588,16 +589,16 @@ void R_RenderBSPNode(int bspnum)
         if (!sp)
             return;
 
-        side = stack[--sp] ^ 1;
-        bsp = nodes + stack[--sp];
+        side = sidestack[--sp] ^ 1;
+        bsp = nodes + bspstack[sp];
 
         while (!R_CheckBBox(bsp->bbox[side]))
         {
             if (!sp)
                 return;
 
-            side = stack[--sp] ^ 1;
-            bsp = nodes + stack[--sp];
+            side = sidestack[--sp] ^ 1;
+            bsp = nodes + bspstack[sp];
         }
 
         bspnum = bsp->children[side];
