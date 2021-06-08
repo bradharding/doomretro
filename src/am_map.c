@@ -1781,7 +1781,7 @@ static void AM_DrawThings(void)
                     angle_t     angle = thing->angle;
                     int         fx, fy;
                     const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    const int   width = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                    const int   width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     if (consoleactive)
