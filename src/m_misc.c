@@ -679,11 +679,11 @@ char *commifystat(uint64_t value)
 {
     char    result[64];
 
-    M_snprintf(result, sizeof(result), "%" PRIu64, value);
+    M_snprintf(result, sizeof(result), "%24" PRIu64, value);
 
     if (value <= -1000 || value >= 1000)
     {
-        char *pt;
+        char    *pt;
         size_t  n;
 
         for (pt = result; *pt && *pt != '.'; pt++);
@@ -692,9 +692,7 @@ char *commifystat(uint64_t value)
 
         do
         {
-            pt -= 3;
-
-            if (pt > result)
+            if ((pt -= 3) > result)
             {
                 memmove(pt + 1, pt, n);
                 *pt = ',';

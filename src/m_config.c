@@ -1094,7 +1094,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    sscanf(temp, "%10" PRIu64, (uint64_t *)cvars[i].location);
+                    sscanf(temp, "%24" PRIu64, (uint64_t *)cvars[i].location);
                     free(temp);
 
                     if (*(int *)cvars[i].location < 0)
