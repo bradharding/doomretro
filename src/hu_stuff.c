@@ -1103,15 +1103,15 @@ void HU_Drawer(void)
             w_message.l->x = 0;
             w_message.l->y = 0;
         }
+        else if ((r_screensize == r_screensize_max && !r_althud) || message_external)
+        {
+            w_message.l->x = HU_MSGX * SCREENSCALE + 8;
+            w_message.l->y = HU_MSGY * SCREENSCALE + 4;
+        }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
             w_message.l->x = HU_MSGX + WIDESCREENDELTA;
             w_message.l->y = HU_MSGY;
-        }
-        else if (r_screensize == r_screensize_max && !r_althud)
-        {
-            w_message.l->x = HU_MSGX * SCREENSCALE + 8;
-            w_message.l->y = HU_MSGY * SCREENSCALE + 4;
         }
         else
         {
