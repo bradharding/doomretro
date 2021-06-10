@@ -2700,7 +2700,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s in this map %s been killed.", (kills == 1 ? "The" : "All"),
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s %s been killed.", (kills == 1 ? "The" : "All"),
                         temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
                     C_Output(buffer);
                     C_HideConsole();
@@ -2712,7 +2712,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no monsters in this map %s kill.", (!totalkills ? "to" : "left to"));
+                    C_Warning(0, "There are no monsters %s kill.", (!totalkills ? "to" : "left to"));
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
@@ -2830,7 +2830,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s %s.", (kills == 1 ? "The" : "All"), temp,
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s %s.", (kills == 1 ? "The" : "All"), temp,
                         (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "has" : "have"),
                         (type == MT_BARREL ? "exploded" : "been killed"));
                     C_Output(buffer);
