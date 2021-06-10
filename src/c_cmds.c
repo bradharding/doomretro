@@ -2700,8 +2700,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s %s been killed.", (kills == 1 ? "The" : "All"),
-                        temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s %s now dead.", (kills == 1 ? "The" : "All"),
+                        temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "is" : "are"));
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
@@ -2765,7 +2765,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     killcmdmobj->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
                 }
 
-                M_snprintf(buffer, sizeof(buffer), "%s was killed.", temp);
+                M_snprintf(buffer, sizeof(buffer), "%s is now dead.", temp);
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
@@ -2830,9 +2830,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s %s.", (kills == 1 ? "The" : "All"), temp,
-                        (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "has" : "have"),
-                        (type == MT_BARREL ? "exploded" : "been killed"));
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s now %s.", (kills == 1 ? "The" : "All"), temp,
+                        (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "is" : "are"),
+                        (type == MT_BARREL ? "exploded" : "dead"));
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
