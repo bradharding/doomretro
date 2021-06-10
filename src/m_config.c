@@ -978,11 +978,10 @@ void M_LoadCVARs(char *filename)
     int         statcount = 0;
 
     // read the file in, overriding any set defaults
-    FILE    *file = fopen(filename, "rt");
+    FILE        *file = fopen(filename, "rt");
 
     if (!file)
     {
-        M_CheckCVARs(ispackageconfig);
         M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
