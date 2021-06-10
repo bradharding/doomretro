@@ -298,8 +298,7 @@ const kern_t kern[] =
 
 static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 {
-    int             w = 0;
-    int             tw = 0;
+    int             textwidth = 0;
     int             x, y;
     int             maxx, maxy;
     unsigned char   prev = '\0';
@@ -309,6 +308,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     byte            *tinttab2 = tinttab80;
     int             len = l->len;
     const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
+    const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
 
     if (external)
     {
@@ -325,12 +325,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     for (int i = 0; i < len; i++)
     {
         unsigned char   c = toupper(l->l[i]);
+        int             charwidth = 0;
 
         if (c == ' ')
         {
-            w = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
-            x += w;
-            tw += w;
+            charwidth = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
+            x += charwidth;
+            textwidth += charwidth;
         }
         else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
         {
@@ -356,7 +357,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
-                w = SHORT(l->f[c - l->sc]->width);
+                charwidth = SHORT(l->f[c - l->sc]->width);
 
                 if (prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
@@ -385,12 +386,12 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 }
 
                 // [BH] draw individual character
-                w = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y - 1, j, SCREENWIDTH);
+                charwidth = (int)strlen(smallcharset[j]) / 10 - 1;
+                HU_DrawChar(x, y - 1, j, screenwidth);
             }
 
-            x += w;
-            tw += w;
+            x += charwidth;
+            textwidth += charwidth;
         }
 
         prev = c;
@@ -408,7 +409,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                     for (int y2 = 0; y2 < SCREENSCALE; y2++)
                         for (int x2 = 0; x2 < SCREENSCALE; x2++)
                         {
-                            byte    *dest = &tempscreen[((l->y + y1 + 6) * SCREENSCALE + y2) * SCREENWIDTH
+                            byte    *dest = &tempscreen[((l->y + y1 + 6) * SCREENSCALE + y2) * screenwidth
                                         + (l->x + x1 - 3) * SCREENSCALE + x2];
 
                             *dest = (src == PINK ? 0 : src);
@@ -417,7 +418,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen
-    maxx = (l->x + tw + 1) * SCREENSCALE;
+    maxx = (l->x + textwidth + 1) * SCREENSCALE;
     maxy = (y + 10) * SCREENSCALE;
 
     if (fade && message_counter <= 7)
@@ -432,7 +433,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
-            int     dot = yy * SCREENWIDTH + xx;
+            int     dot = yy * screenwidth + xx;
             byte    *source = &tempscreen[dot];
             byte    *dest1 = &fb1[dot];
 
