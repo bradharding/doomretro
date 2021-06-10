@@ -1196,7 +1196,6 @@ void HU_Ticker(void)
     {
         message_on = false;
         message_nottobefuckedwith = false;
-        message_external = false;
     }
 
     if (idmypos)
@@ -1345,5 +1344,4 @@ void HU_ClearMessages(void)
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
-    message_external = false;
 }

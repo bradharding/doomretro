@@ -7,6 +7,7 @@
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now displayed correctly when the `r_textures` CVAR is `off`.
 * A fade transition will now be applied when changing the `r_detail` or `r_playersprites` CVARs in the console and when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
+* Player messages will now be displayed correctly on the external automap when the `am_external` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
