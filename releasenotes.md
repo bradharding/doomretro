@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.1.1
 
+* *DOOM Retro* is now compiled using v16.10.1 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now displayed correctly when the `r_textures` CVAR is `off`.
 * A fade transition will now be applied when changing the `r_detail` or `r_playersprites` CVARs in the console and when the `fade` CVAR is `on`.
