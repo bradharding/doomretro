@@ -2009,7 +2009,7 @@ static void AM_SetFrameVariables(void)
     am_frame.center.x = x;
     am_frame.center.y = y;
 
-    if (am_rotatemode || menuactive)
+    if (am_rotatemode || (menuactive && !inhelpscreens))
     {
         const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);

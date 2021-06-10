@@ -611,6 +611,14 @@ static void M_DarkBlueBackground(void)
 
         *dot = blues[*dot];
     }
+
+    if (mapwindow)
+        for (int i = 0; i < (int)MAPAREA; i++)
+        {
+            byte    *dot = mapscreen + i;
+
+            *dot = blues[*dot];
+        }
 }
 
 //
