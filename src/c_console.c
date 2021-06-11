@@ -257,12 +257,16 @@ void C_StrCVAROutput(char *cvar, char *string)
 
 void C_Output(const char *string, ...)
 {
-    va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH];
+    char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    if (string)
+    {
+        va_list argptr;
+
+        va_start(argptr, string);
+        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+        va_end(argptr);
+    }
 
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
