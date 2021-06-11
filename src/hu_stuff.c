@@ -1346,7 +1346,7 @@ void HU_ClearMessages(void)
         return;
 
     viewplayer->message = NULL;
-    message_counter = 0;
+    message_counter = 7;
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
