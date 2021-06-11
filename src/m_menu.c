@@ -1429,6 +1429,9 @@ static void M_DrawReadThis(void)
                 memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, lump);
+
+            if (mapwindow)
+                memset(mapscreen, nearestblack, MAPAREA);
         }
         else if (autosigil)
         {
@@ -1444,6 +1447,9 @@ static void M_DrawReadThis(void)
                 memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
             V_DrawPatch(0, 0, 0, lump);
+
+            if (mapwindow)
+                memset(mapscreen, nearestblack, MAPAREA);
         }
         else
         {
