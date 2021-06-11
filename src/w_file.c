@@ -36,9 +36,79 @@
 ========================================================================
 */
 
+#if defined(_WIN32)
+#include <windows.h>
+#include <stdlib.h>
+#endif
+
 #include "m_misc.h"
 #include "w_file.h"
 #include "z_zone.h"
+
+#if defined(_WIN32)
+static wchar_t *ConvertToUTF8(const char *str)
+{
+    int     wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+    wchar_t *wstr = (wchar_t *)malloc(sizeof(wchar_t) * wlen);
+
+    MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen);
+
+    return wstr;
+}
+
+FILE *D_fopen(const char *filename, const char *mode)
+{
+    wchar_t *wname = ConvertToUTF8(filename);
+    wchar_t *wmode = ConvertToUTF8(mode);
+    FILE    *file = _wfopen(wname, wmode);
+
+    if (wname)
+        free(wname);
+
+    if (wmode)
+        free(wmode);
+
+    return file;
+}
+
+int D_remove(const char *path)
+{
+    wchar_t *wpath = ConvertToUTF8(path);
+    int     result = _wremove(wpath);
+
+    if (wpath)
+        free(wpath);
+
+    return result;
+}
+
+int D_stat(const char *path, struct stat *buf)
+{
+    struct _stat    wbuf;
+    wchar_t         *wpath = ConvertToUTF8(path);
+    int             result = _wstat(wpath, &wbuf);
+
+    buf->st_mode = wbuf.st_mode;
+    buf->st_mtime = wbuf.st_mtime;
+    buf->st_size = wbuf.st_size;
+
+    if (wpath)
+        free(wpath);
+
+    return result;
+}
+
+int D_mkdir(const char *dirname)
+{
+    wchar_t *wpath = ConvertToUTF8(dirname);
+    int     result = _wmkdir(wpath);
+
+    if (wpath)
+        free(wpath);
+
+    return result;
+}
+#endif
 
 wadfile_t *W_OpenFile(char *path)
 {

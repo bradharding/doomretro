@@ -43,8 +43,34 @@
 #include <stdio.h>
 #endif
 
+#if defined(_WIN32)
+#include <stdio.h>
+#include <io.h>
+#include <sys/stat.h>
+#include <direct.h>
+#endif
+
 #if !defined(MAX_PATH)
 #define MAX_PATH    260
+#endif
+
+#if defined(_WIN32)
+FILE    *D_fopen(const char *filename, const char *mode);
+int     D_remove(const char *path);
+int     D_stat(const char *path, struct stat *buffer);
+int     D_mkdir(const char *dirname);
+
+#undef  fopen
+#define fopen(n, m) D_fopen(n, m)
+
+#undef  remove
+#define remove(p) D_remove(p)
+
+#undef  stat
+#define stat(p, b) D_stat(p, b)
+
+#undef  mkdir
+#define mkdir(d) D_mkdir(d)
 #endif
 
 typedef struct wadfile_s wadfile_t;
