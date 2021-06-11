@@ -9,6 +9,7 @@
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`.
   * Player messages will now always be displayed correctly.
+  * The external automap will now be cleared when the menu is displayed.
   * The external automap will now be cleared and tinted blue when the help screen is displayed.
 * Player messages will now fade off the screen while the console is open and  the `fade` CVAR is `on`.
 * Player messages now fade off the screen smoother in the alternate widescreen HUD when the `fade` CVAR is `on`.

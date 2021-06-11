@@ -537,15 +537,9 @@ void M_DarkBackground(void)
             *dot = black40[*dot];
         }
 
-        if (mapwindow && gamestate == GS_LEVEL)
+        if (mapwindow)
         {
-            for (int i = 0; i < (int)MAPAREA; i += MAPWIDTH)
-            {
-                mapscreen[i] = nearestblack;
-                mapscreen[i + 1] = nearestblack;
-                mapscreen[i + MAPWIDTH - 2] = nearestblack;
-                mapscreen[i + MAPWIDTH - 1] = nearestblack;
-            }
+            memset(mapscreen, nearestblack, MAPAREA);
 
             for (int y = 2 * MAPWIDTH; y < (int)MAPAREA; y += 4 * MAPWIDTH)
                 for (int x = 2; x < MAPWIDTH; x += 4)
