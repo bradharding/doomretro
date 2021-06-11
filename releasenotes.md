@@ -11,6 +11,7 @@
   * Player messages will now always be displayed correctly.
   * The external automap will now be tinted blue, and won't be rotated if the `am_rotatemode` CVAR is `off`, when the help screen is displayed.
 * Player messages will now fade off the screen while the console is open and  the `fade` CVAR is `on`.
+* Player messages now fade off the screen smoother in the alternate widescreen HUD when the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

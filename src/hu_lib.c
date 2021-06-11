@@ -145,7 +145,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             x = 10;
     int             color = nearestwhite;
     int             len = l->len;
-    byte            *tinttab = (automapactive ? tinttab75 : tinttab60);
+    byte            *tinttab = tinttab80;
 
     if (!automapactive)
     {
@@ -154,14 +154,11 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestblack));
     }
 
-    if (fade)
+    if (fade && message_counter <= 7)
     {
-        if (message_counter <= 2 || message_counter >= HU_MSGTIMEOUT - 1)
-            tinttab = tinttab20;
-        else if (message_counter <= 4 || message_counter >= HU_MSGTIMEOUT - 2)
-            tinttab = tinttab25;
-        else if (message_counter <= 6 || message_counter >= HU_MSGTIMEOUT - 3)
-            tinttab = tinttab33;
+        byte *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+
+        tinttab = tinttabs[message_counter];
     }
 
     if (idbehold)
