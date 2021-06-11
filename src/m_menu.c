@@ -603,22 +603,25 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
-    V_LowGraphicDetail_Menu();
-
-    for (int i = 0; i < SCREENAREA; i++)
-    {
-        byte    *dot = *screens + i;
-
-        *dot = blues[*dot];
-    }
-
-    if (mapwindow)
-        for (int i = 0; i < (int)MAPAREA; i++)
+    for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte    *dot = mapscreen + i;
+            byte        *dot1 = *screens + y + x;
+            byte        *dot2 = dot1 + 1;
+            byte        *dot3 = dot2 + SCREENWIDTH;
+            byte        *dot4 = dot3 - 1;
+            const byte  color = blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]]];
 
-            *dot = blues[*dot];
+            *dot1 = color;
+            *dot2 = color;
+            *dot3 = color;
+            *dot4 = color;
         }
+
+    if (automapactive)
+        memset(screens[0], nearestcolors[245], SCREENAREA);
+    else if (mapwindow)
+        memset(mapscreen, nearestcolors[245], MAPAREA);
 }
 
 //
@@ -1435,14 +1438,8 @@ static void M_DrawReadThis(void)
         }
         else if (autosigil)
         {
-            if (automapactive)
-                memset(screens[0], nearestcolors[245], SCREENAREA);
-            else
-            {
-                viewplayer->fixedcolormap = 0;
-                M_DarkBlueBackground();
-            }
-
+            viewplayer->fixedcolormap = 0;
+            M_DarkBlueBackground();
             V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
@@ -1456,14 +1453,8 @@ static void M_DrawReadThis(void)
         }
         else
         {
-            if (automapactive)
-                memset(screens[0], nearestcolors[245], SCREENAREA);
-            else
-            {
-                viewplayer->fixedcolormap = 0;
-                M_DarkBlueBackground();
-            }
-
+            viewplayer->fixedcolormap = 0;
+            M_DarkBlueBackground();
             V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false);
         }
     }
