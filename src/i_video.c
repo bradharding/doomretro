@@ -1019,7 +1019,7 @@ void I_SetPalette(byte *playpal)
 
 void I_SetExternalAutomapPalette(void)
 {
-    if (mappalette)
+    if (mapwindow)
     {
         SDL_SetPaletteColors(mappalette, colors, 0, 256);
         mapblitfunc();
