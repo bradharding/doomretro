@@ -15,6 +15,7 @@
   * If the `+zoomin` and `+zoomout` actions are rebound from the <kbd>+</kbd> and <kbd>-</kbd> keys, the external automap may be zoomed in and out.
 * Player messages will now fade off the screen while the console is open and the `fade` CVAR is `on`.
 * Player messages now fade off the screen smoother in the alternate widescreen HUD when the `fade` CVAR is `on`.
+* If a filename is specified using the `condump` CCMD, `.txt` will be added to the filename if it has no extension, and the resulting file will now be saved in the `console` subfolder.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

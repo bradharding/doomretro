@@ -1759,7 +1759,12 @@ static void condump_cmd_func2(char *cmd, char *parms)
         }
     }
     else
-        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", appdatafolder, parms);
+    {
+        if (strchr(parms, '.'))
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "%s", appdatafolder, parms);
+        else
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "%s.txt", appdatafolder, parms);
+    }
 
     if ((condumpfile = fopen(filename, "wt")))
     {
