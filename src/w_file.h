@@ -39,12 +39,9 @@
 #if !defined(__W_FILE_H__)
 #define __W_FILE_H__
 
-#if defined(__OpenBSD__)
 #include <stdio.h>
-#endif
 
 #if defined(_WIN32)
-#include <stdio.h>
 #include <io.h>
 #include <sys/stat.h>
 #include <direct.h>
@@ -60,17 +57,15 @@ int     D_remove(const char *path);
 int     D_stat(const char *path, struct stat *buffer);
 int     D_mkdir(const char *dirname);
 
-#undef  fopen
-#define fopen(n, m) D_fopen(n, m)
+#undef fopen
+#undef remove
+#undef stat
+#undef mkdir
 
-#undef  remove
-#define remove(p) D_remove(p)
-
-#undef  stat
-#define stat(p, b) D_stat(p, b)
-
-#undef  mkdir
-#define mkdir(d) D_mkdir(d)
+#define fopen(filename, mode)   D_fopen(filename, mode)
+#define remove(path)            D_remove(path)
+#define stat(path, buffer)      D_stat(path, buffer)
+#define mkdir(dirname)          D_mkdir(dirname)
 #endif
 
 typedef struct wadfile_s wadfile_t;

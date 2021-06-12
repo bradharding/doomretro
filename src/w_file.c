@@ -82,15 +82,15 @@ int D_remove(const char *path)
     return result;
 }
 
-int D_stat(const char *path, struct stat *buf)
+int D_stat(const char *path, struct stat *buffer)
 {
-    struct _stat    wbuf;
     wchar_t         *wpath = ConvertToUTF8(path);
-    int             result = _wstat(wpath, &wbuf);
+    struct _stat    wbuffer;
+    int             result = _wstat(wpath, &wbuffer);
 
-    buf->st_mode = wbuf.st_mode;
-    buf->st_mtime = wbuf.st_mtime;
-    buf->st_size = wbuf.st_size;
+    buffer->st_mode = wbuffer.st_mode;
+    buffer->st_mtime = wbuffer.st_mtime;
+    buffer->st_size = wbuffer.st_size;
 
     if (wpath)
         free(wpath);
@@ -155,5 +155,5 @@ dboolean W_WriteFile(char const *name, const void *source, size_t length)
     if (!length)
         remove(name);
 
-    return length;
+    return !!length;
 }
