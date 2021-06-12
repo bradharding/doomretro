@@ -289,13 +289,10 @@ char *M_GetExecutableFolder(void)
     char    *folder = malloc(MAX_PATH);
     TCHAR   buffer[MAX_PATH];
 
-    if (!folder)
-        return NULL;
-
     GetModuleFileName(NULL, buffer, MAX_PATH);
     M_StringCopy(folder, buffer, MAX_PATH);
 
-    if ((pos = strrchr(folder, '\\')))
+    if (folder && (pos = strrchr(folder, '\\')))
         *pos = '\0';
 
     return folder;

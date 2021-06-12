@@ -756,14 +756,14 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == AM_ZOOMOUTKEY && !movement && !mapwindow)
+                else if (key == AM_ZOOMOUTKEY && !movement)
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if (key == AM_ZOOMINKEY && !movement && !mapwindow)
+                else if (key == AM_ZOOMINKEY && !movement)
                 {
                     keydown = key;
                     AM_ToggleZoomIn();
@@ -779,7 +779,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // toggle maximum zoom
-                else if (key == AM_GOBIGKEY && !idclev && !idmus && !mapwindow)
+                else if (key == AM_GOBIGKEY && !idclev && !idmus)
                 {
                     if (keydown != AM_GOBIGKEY)
                     {
@@ -1169,6 +1169,10 @@ void AM_Ticker(void)
     if (mapwindow)
     {
         AM_DoFollowPlayer();
+
+        if (ftom_zoommul != FRACUNIT)
+            AM_ChangeWindowScale();
+
         return;
     }
 

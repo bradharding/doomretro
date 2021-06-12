@@ -1763,7 +1763,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
     if ((condumpfile = fopen(filename, "wt")))
     {
-        char    *temp = commify((int64_t)consolestrings - 2);
+        char    *temp = commify(consolestrings - 2);
 
         for (int i = 1; i < consolestrings; i++)
             C_DumpConsoleStringToFile(i);
