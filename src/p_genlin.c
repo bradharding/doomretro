@@ -170,7 +170,7 @@ manual_floor:
             case FbyST:
                 floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
                     + floor->direction * (P_FindShortestTextureAround(secnum) >> FRACBITS);
-                floor->floordestheight = BETWEEN(-32000, floor->floordestheight, 32000) << FRACBITS;
+                floor->floordestheight = BETWEEN(-32000, floor->floordestheight, 32000) * FRACUNIT;
                 break;
 
             case Fby24:
@@ -375,7 +375,7 @@ manual_ceiling:
             case CbyST:
                 targheight = (ceiling->sector->ceilingheight >> FRACBITS)
                     + ceiling->direction * (P_FindShortestUpperAround(secnum) >> FRACBITS);
-                targheight = BETWEEN(-32000, targheight, 32000) << FRACBITS;
+                targheight = BETWEEN(-32000, targheight, 32000) * FRACUNIT;
                 break;
 
             case Cby24:

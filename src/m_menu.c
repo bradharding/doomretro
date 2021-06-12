@@ -538,26 +538,7 @@ void M_DarkBackground(void)
         }
 
         if (mapwindow)
-        {
             memset(mapscreen, nearestblack, MAPAREA);
-
-            for (int y = 2 * MAPWIDTH; y < (int)MAPAREA; y += 4 * MAPWIDTH)
-                for (int x = 2; x < MAPWIDTH; x += 4)
-                {
-                    byte    *dot = mapscreen + x + y;
-
-                    *dot = white25[*dot];
-                }
-
-            BlurScreen(mapscreen, blurscreen2, MAPWIDTH, MAPAREA);
-
-            for (int i = 0; i < (int)MAPAREA; i++)
-            {
-                byte    *dot = blurscreen2 + i;
-
-                *dot = black40[*dot];
-            }
-        }
 
         blurtic = gametime;
     }
