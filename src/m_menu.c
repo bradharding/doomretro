@@ -2516,10 +2516,6 @@ static void M_ChangeGamma(dboolean shift)
 }
 
 //
-// CONTROL PANEL
-//
-
-//
 // M_Responder
 //
 int         gamepadwait = 0;

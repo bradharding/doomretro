@@ -851,7 +851,7 @@ consolecmd_t consolecmds[] =
         "The size of the window on the desktop (<i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The last WAD to be opened by the WAD launcher."),
+        "The last WAD to be opened using the WAD launcher."),
 #endif
     CVAR_INT(warninglevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (<b>0</b>, <b>1</b> or <b>2</b>)."),

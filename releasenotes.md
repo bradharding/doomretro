@@ -11,7 +11,7 @@
   * Player messages will now always be displayed correctly.
   * The external automap will now be cleared while the menu is open on the main display.
   * The external automap will now be cleared and tinted blue while the help screen is open on the main display.
-  * The <kbd>0</kbd> key can now be pressed to toggle maximum zoom if the external automap is open.
+  * The <kbd>0</kbd> key can now be pressed to toggle maximum zoom.
   * If the `+zoomin` and `+zoomout` actions are rebound from the <kbd>+</kbd> and <kbd>-</kbd> keys, the external automap may be zoomed in and out.
 * Player messages will now fade off the screen while the console is open and the `fade` CVAR is `on`.
 * Player messages now fade off the screen smoother in the alternate widescreen HUD when the `fade` CVAR is `on`.
