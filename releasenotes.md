@@ -13,7 +13,7 @@
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now displayed correctly when the `r_textures` CVAR is `off`.
 * A fade transition will now be applied when changing the `r_detail` or `r_playersprites` CVARs in the console and when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
-* The following changes have been made to the external automap when the `am_external` CVAR is `on`.
+* The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * Player messages will now always be displayed correctly.
   * The external automap will now be hidden while the menu or help screen is open on the main display.
   * The <kbd>0</kbd> key can now be pressed to toggle maximum zoom.
