@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.1.2
 
+* Two additional lines of text are now displayed in the console when it’s opened using the <kbd>~</kbd> key during a game.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, June 13, 2021
