@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.1.2
 
-* Two additional lines of text are now displayed in the console when it’s opened using the <kbd>~</kbd> key during a game.
+* The height of the console during a game has been increased to allow two additional lines of text.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

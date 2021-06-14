@@ -53,7 +53,7 @@
 #define NOBOLDCOLOR             -1
 #define NOBACKGROUNDCOLOR       -1
 
-#define CONSOLEHEIGHT           (gamestate != GS_TITLESCREEN ? SCREENHEIGHT / 2 : SCREENHEIGHT - 5)
+#define CONSOLEHEIGHT           ((gamestate != GS_TITLESCREEN ? SCREENHEIGHT / 2 : SCREENHEIGHT) - 5)
 
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 13 : 27)
 #define CONSOLETEXTX            10
@@ -62,7 +62,7 @@
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLESCROLLBARWIDTH   5
-#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 178 : 374)
+#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 173 : 374)
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
 #define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 2 - (CONSOLESCROLLBARWIDTH + CONSOLETEXTX) * scrollbardrawn)
@@ -81,6 +81,10 @@
 #define SDL_FILENAME            "SDL2.dll"
 #define SDL_MIXER_FILENAME      "SDL2_mixer.dll"
 #define SDL_IMAGE_FILENAME      "SDL2_image.dll"
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+#define SDL_FILENAME            "SDL2.so"
+#define SDL_MIXER_FILENAME      "SDL2_mixer.so"
+#define SDL_IMAGE_FILENAME      "SDL2_image.so"
 #else
 #define SDL_FILENAME            "SDL2"
 #define SDL_MIXER_FILENAME      "SDL2_mixer"
