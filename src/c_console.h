@@ -39,9 +39,9 @@
 #if !defined(__C_CONSOLE_H__)
 #define __C_CONSOLE_H__
 
+#include "d_event.h"
 #include "doomdef.h"
 #include "doomtype.h"
-#include "d_event.h"
 #include "r_defs.h"
 
 #define CONSOLESTRINGSMAX       256
@@ -62,7 +62,7 @@
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLESCROLLBARWIDTH   5
-#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 173 : 374)
+#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 173 : 373)
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
 #define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 2 - (CONSOLESCROLLBARWIDTH + CONSOLETEXTX) * scrollbardrawn)

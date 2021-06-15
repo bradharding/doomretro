@@ -19,7 +19,7 @@
   * Player messages will now always be displayed correctly.
   * The external automap will now be hidden while the menu or help screen is open on the main display.
   * The <kbd>0</kbd> key can now be pressed to toggle maximum zoom.
-  * If the `+zoomin` and `+zoomout` actions are rebound from the <kbd>+</kbd> and <kbd>-</kbd> keys, the external automap may be zoomed in and out.
+  * If the `+zoomin` and `+zoomout` actions are rebound from the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys, the external automap may be zoomed in and out.
 * Player messages will now fade off the screen while the console is open and the `fade` CVAR is `on`.
 * Player messages now fade off the screen smoother in the alternate widescreen HUD when the `fade` CVAR is `on`.
 * If a filename is specified using the `condump` CCMD, `.txt` will be added to the filename if it has no extension, and the resulting file will now be saved in the `console` subfolder.
@@ -3154,7 +3154,7 @@
 * All palette effects are now removed while a menu is displayed or the game is paused.
 * Improvements have been made to the translucency of the blue armor in the HUD.
 * The player can now still pass under solid hanging corpses if there is sufficient room.
-* A bug has been fixed whereby the <kbd>,</kbd> key was being incorrectly mapped, causing it to act like the <kbd>-</kbd> key if it was bound to anything.
+* A bug has been fixed whereby the <kbd>,</kbd> key was being incorrectly mapped, causing it to act like the <kbd>&ndash;</kbd> key if it was bound to anything.
 * Use of the <kbd>ALT</kbd> and <kbd>CTRL</kbd> keys in the menu has been disabled.
 * Empty savegame slots may no longer be selected in the load game menu.
 * Only update savegame descriptions of the form `ExMy` in *DOOM* games, not *DOOM II* games.
