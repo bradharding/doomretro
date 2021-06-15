@@ -4,6 +4,7 @@
 
 * The height of the console during a game has been increased to allow two additional lines of text.
 * A fade transition will now be applied when changing the `r_fov` CVAR in the console and when the `fade` CVAR is `on`.
+* Minor changes have been made to text that is output to the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

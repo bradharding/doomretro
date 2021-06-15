@@ -123,6 +123,7 @@ extern alias_t          aliases[MAXALIASES];
 extern dboolean         executingalias;
 extern dboolean         resettingcvar;
 extern dboolean         vanilla;
+extern dboolean         toggling;
 extern dboolean         togglingvanilla;
 extern dboolean         massacre;
 

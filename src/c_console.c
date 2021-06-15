@@ -1581,7 +1581,7 @@ dboolean C_ValidateInput(char *input)
                     && consolecmds[i].func1(consolecmds[i].name, temp)
                     && (consolecmds[i].parameters || !*temp))
                 {
-                    if (!executingalias && !resettingcvar)
+                    if (!executingalias && !resettingcvar && !toggling)
                     {
                         if (temp[0] != '\0')
                             C_Input((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
