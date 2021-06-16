@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.1.2
 
+* *DOOM Retro* is now compiled using v16.10.2 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * The height of the console during a game has been increased to allow two additional lines of text.
 * A fade transition will now be applied when changing the `r_fov` CVAR in the console and when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
