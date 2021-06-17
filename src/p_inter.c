@@ -1989,6 +1989,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     int         gibhealth = info->gibhealth;
+    int         tics;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
@@ -2081,7 +2082,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (!target->player)
         target->health = -1;
 
-    target->tics = MAX(1, target->tics - (M_Random() & 3));
+    tics = target->tics - (M_Random() & 3);
+    target->tics = MAX(1, tics);
 
     if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
         target->flags2 &= ~MF2_CASTSHADOW;
