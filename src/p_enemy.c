@@ -1999,13 +1999,11 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         int     y = actor->y - 320 * FRACUNIT;
         int     z = 128 + M_Random() * 2 * FRACUNIT;
-        int     tics;
         mobj_t  *th = P_SpawnMobj(x, y, z, MT_ROCKET);
 
         th->momz = M_Random() * 512;
         P_SetMobjState(th, S_BRAINEXPLODE1);
-        tics = th->tics - (M_Random() & 7);
-        th->tics = MAX(1, tics);
+        th->tics = MAX(1, th->tics - (M_Random() & 7));
         th->colfunc = tlcolfunc;
         th->flags2 &= ~MF2_CASTSHADOW;
     }
@@ -2015,13 +2013,11 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     tics;
     mobj_t  *th = P_SpawnMobj(actor->x + M_SubRandom() * 2048, actor->y, 128 + M_Random() * 2 * FRACUNIT, MT_ROCKET);
 
     th->momz = M_Random() * 512;
     P_SetMobjState(th, S_BRAINEXPLODE1);
-    tics = th->tics - (M_Random() & 7);
-    th->tics = MAX(1, tics);
+    th->tics = MAX(1, th->tics - (M_Random() & 7));
     th->colfunc = tlcolfunc;
     th->flags2 &= ~MF2_CASTSHADOW;
 }

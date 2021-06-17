@@ -120,16 +120,13 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 //
 void P_ExplodeMissile(mobj_t *mo)
 {
-    int tics;
-
     mo->momx = 0;
     mo->momy = 0;
     mo->momz = 0;
 
     P_SetMobjState(mo, mo->info->deathstate);
 
-    tics = mo->tics - (M_Random() & 3);
-    mo->tics = MAX(1, tics);
+    mo->tics = MAX(1, mo->tics - (M_Random() & 3));
     mo->flags &= ~MF_MISSILE;
 
     // [BH] make explosion translucent
@@ -1302,7 +1299,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 //
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    int         tics;
     mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
     mobjinfo_t  *info = &mobjinfo[MT_PUFF];
     state_t     *st = &states[info->spawnstate];
@@ -1318,8 +1314,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
 
     th->state = st;
-    tics = st->tics - (M_BigRandom() & 3);
-    th->tics = MAX(1, tics);
+    th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
     th->sprite = st->sprite;
     th->frame = st->frame;
 
@@ -1386,7 +1381,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     for (int i = (damage >> 2) + 1; i > 0; i--)
     {
-        int         tics;
         mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
         sector_t    *sector;
 
@@ -1398,8 +1392,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
 
         th->state = st;
-        tics = st->tics - (M_BigRandom() & 2);
-        th->tics = MAX(1, tics);
+        th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
         th->sprite = st->sprite;
         th->frame = st->frame;
 
@@ -1488,9 +1481,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
 //
 void P_CheckMissileSpawn(mobj_t *th)
 {
-    int tics = th->tics - (M_Random() & 3);
-
-    th->tics = MAX(1, tics);
+    th->tics = MAX(1, th->tics - (M_Random() & 3));
 
     // move a little forward so an angle can
     // be computed if it immediately explodes
