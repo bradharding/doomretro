@@ -8,6 +8,7 @@
 * A fade transition will now be applied when changing the `r_fov` CVAR in the console and when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * The mapping errors that are fixed when the `r_fixmaperrors` CVAR is `on` are no longer applied to the maps in *DOOM (Shareware)*.
+* Obituaries will now be grouped again in the console, but only when the `groupmessages` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

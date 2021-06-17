@@ -312,6 +312,7 @@ extern int      bfgcells;
 extern dboolean species_infighting;
 extern int      maxammo[];
 extern int      clipammo[];
+extern int      prevobituarytics;
 
 //
 // P_SPEC.C
