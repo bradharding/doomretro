@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.1.3
 
+* Minor changes have been made to text that is output to the console.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, June 18, 2021

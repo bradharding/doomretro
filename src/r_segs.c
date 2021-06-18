@@ -143,7 +143,7 @@ extern dboolean     usebrightmaps;
 static int  max_rwscale = 64 * FRACUNIT;
 static int  heightbits = 12;
 static int  heightunit = 1 << 12;
-static int  invhgtbits = 4;
+static int  invhgtbits = FRACBITS - 12;
 
 static void R_FixWiggle(sector_t *sector)
 {

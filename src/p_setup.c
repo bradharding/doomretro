@@ -2397,6 +2397,8 @@ static void RejectOverrun(int lump, const byte **matrix)
 
         // unlock the original lump, it is no longer needed
         W_ReleaseLumpNum(lump);
+
+        C_Warning(2, "The <b>REJECT</b> lump has been increased in size.");
     }
 }
 
