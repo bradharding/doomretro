@@ -273,31 +273,20 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
 
 const kern_t kern[] =
 {
-    { ',', '1',  -1 },
-    { ',', '7',  -1 },
-    { ',', 'Y',  -1 },
-    { '.', '"',  -1 },
-    { '.', '1',  -1 },
-    { '.', '7',  -1 },
-    { '3', '"',  -1 },
-    { 'D', '\'', -1 },
-    { 'F', '.',  -1 },
-    { 'L', '"',  -1 },
-    { 'L', 'T',  -1 },
-    { 'P', ',',  -1 },
-    { 'P', '.',  -1 },
-    { 'T', ',',  -1 },
-    { 'T', '.',  -1 },
-    { 'Y', ',',  -1 },
-    { 'Y', '.',  -1 },
-    {  0,   0,    0 }
+    { ',', '1',  -1 }, { ',', '7',  -1 }, { ',', 'Y',  -1 }, { '.', '"',  -1 },
+    { '.', '1',  -1 }, { '.', '7',  -1 }, { '3', '"',  -1 }, { 'D', '\'', -1 },
+    { 'F', '.',  -1 }, { 'L', '"',  -1 }, { 'L', 'T',  -1 }, { 'P', ',',  -1 },
+    { 'P', '.',  -1 }, { 'T', ',',  -1 }, { 'T', '.',  -1 }, { 'Y', ',',  -1 },
+    { 'Y', '.',  -1 }, {  0,   0,    0 }
 };
 
 static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 {
     int             textwidth = 0;
-    int             x, y;
-    int             maxx, maxy;
+    int             x = l->x;
+    int             y = l->y;
+    int             maxx;
+    int             maxy = (y + 10) * SCREENSCALE;
     unsigned char   prev = '\0';
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
@@ -312,10 +301,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         fb1 = mapscreen;
         fb2 = mapscreen;
     }
-
-    // draw the new stuff
-    x = l->x;
-    y = l->y;
 
     memset(tempscreen, PINK, SCREENAREA);
 
@@ -415,9 +400,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen
-    maxx = (l->x + textwidth + 1) * SCREENSCALE;
-    maxy = (y + 10) * SCREENSCALE;
-
     if (fade && message_counter <= 7)
     {
         byte    *tinttabs1[] = { NULL, tinttab10, tinttab20, tinttab20, tinttab30, tinttab30, tinttab40, tinttab40 };
@@ -426,6 +408,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         tinttab1 = tinttabs1[message_counter];
         tinttab2 = tinttabs2[message_counter];
     }
+
+    maxx = (l->x + textwidth + 1) * SCREENSCALE;
 
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
@@ -437,26 +421,18 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             if (!*source)
                 *dest1 = tinttab1[(nearestblack << 8) + fb2[dot]];
             else if (*source != PINK)
-            {
-                if (r_hud_translucency)
-                    *dest1 = tinttab2[(*source << 8) + fb2[dot]];
-                else
-                    *dest1 = *source;
-            }
+                *dest1 = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[dot]] : *source);
         }
 }
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 {
     int             w = (external ? MAPWIDTH : SCREENWIDTH);
-    int             x, y;
+    int             x = l->x;
+    int             y = l->y;
     unsigned char   prev = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
     int             len = l->len;
-
-    // draw the new stuff
-    x = l->x;
-    y = l->y;
 
     for (int i = 0; i < len; i++)
     {

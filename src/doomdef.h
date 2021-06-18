@@ -114,12 +114,14 @@ typedef enum
 
 #define ACTUALHEIGHT        (SCREENHEIGHT * 6 / 5)
 
-#define VANILLASBARHEIGHT   32
-
 #define SCREENSCALE         2
 
-#define MAXWIDTH            (VANILLAWIDTH * 8)  // [crispy]
-#define MAXHEIGHT           (VANILLAHEIGHT * 2) // [crispy]
+#define VANILLASBARHEIGHT   32
+#define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)
+
+#define MAXWIDTH            (VANILLAWIDTH * 8)
+#define MAXHEIGHT           (VANILLAHEIGHT * 2)
+#define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
 #define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
 #define NONWIDEASPECTRATIO  (4.0 / 3.0)
@@ -127,7 +129,7 @@ typedef enum
 extern int          SCREENWIDTH;
 extern int          SCREENHEIGHT;
 extern int          SCREENAREA;
-extern int          WIDESCREENDELTA;            // [crispy] horizontal widescreen offset
+extern int          WIDESCREENDELTA;
 extern int          WIDEFOVDELTA;
 
 extern dboolean     nowidescreen;
@@ -136,10 +138,6 @@ extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;
 extern unsigned int MAPAREA;
 extern int          MAPBOTTOM;
-
-#define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
-
-#define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)
 
 // State updates, number of tics/second.
 #define TICRATE             35
