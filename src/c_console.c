@@ -1220,7 +1220,7 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < tics)
         {
-            consolewait = tics + 10;
+            consolewait = tics + 12;
 
             if (consoledirection == 1)
             {
@@ -1228,8 +1228,8 @@ void C_Drawer(void)
                 {
                     const int consoledown[] =
                     {
-                         16,  32,  49,  65,  81,  97, 114, 130, 146, 162, 173, 176,
-                        179, 181, 183, 185, 187, 189, 190, 191, 192, 193, 194, 195
+                         12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
+                        169, 173, 176, 179, 182, 184, 186, 188, 190, 191, 192, 193, 194, 195
                     };
 
                     if (consoleheight > consoledown[consoleanim])
