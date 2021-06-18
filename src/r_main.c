@@ -352,8 +352,8 @@ static void R_InitTextureMapping(void)
 //
 void R_InitLightTables(void)
 {
-    int width = FixedMul(SCREENWIDTH,
-                    FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1;
+    int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT,
+                    finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1) / 2 * FRACUNIT;
 
     c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
     c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
@@ -367,7 +367,7 @@ void R_InitLightTables(void)
 
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
-            const int   scale = FixedDiv(width / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
+            const int   scale = FixedDiv(width, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
             const int   level = BETWEEN(0, start - scale / 2, NUMCOLORMAPS - 1) * 256;
 
             // killough 03/20/98: Initialize multiple colormaps
