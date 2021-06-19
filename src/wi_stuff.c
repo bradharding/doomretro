@@ -1004,16 +1004,17 @@ void WI_CheckForAccelerate(void)
         viewplayer->usedown = false;
 }
 
+static void WI_LoadData(void);
+
 // Updates stuff each tic
 void WI_Ticker(void)
 {
-    if (menuactive || paused || consoleactive)
-        return;
-
     // counter for general background animation
     if (++bcnt == 1)
         // intermission music
         S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false, false);
+
+    WI_LoadData();
 
     WI_CheckForAccelerate();
 
@@ -1239,7 +1240,6 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 void WI_Start(wbstartstruct_t *wbstartstruct)
 {
     WI_InitVariables(wbstartstruct);
-    WI_LoadData();
 
     WI_InitStats();
 }

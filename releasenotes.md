@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.1.3
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Player messages will now fade onto the screen when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * Dithered lighting is now applied when the `r_ditheredlighting` CVAR is `on` and the `r_detail` CVAR is `low`.
