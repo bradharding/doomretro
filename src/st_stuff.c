@@ -386,6 +386,18 @@ static void ST_RefreshBackground(void)
 {
     short   sbarwidth;
 
+#if SCREENSCALE == 1
+    if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+        R_FillBezel();
+
+    if (STBAR >= 3)
+    {
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
+    }
+    else
+        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+#else
     if (STBAR >= 3)
     {
         if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
@@ -411,6 +423,7 @@ static void ST_RefreshBackground(void)
         else
             V_DrawBigWidePatch(ST_X, SCREENHEIGHT - SBARHEIGHT, sbar2);
     }
+#endif
 }
 
 static int ST_CalcPainOffset(void);
@@ -1574,7 +1587,11 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
+#if SCREENSCALE == 1
+    usesmallnums = false;
+#else
     usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
+#endif
 
     STLib_Init();
     ST_InitCheats();

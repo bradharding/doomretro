@@ -1544,11 +1544,24 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
 {
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
+#if SCREENSCALE == 1
     if (color == PINK)
     {
         if (drawshadow)
         {
-            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x);
+
+            *dot = black40[*dot];
+        }
+    }
+    else if (color && color != 32)
+        screens[0][y * SCREENWIDTH + x] = color;
+#else
+    if (color == PINK)
+    {
+        if (drawshadow)
+        {
+            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
             color = black40[*dot];
             *(dot++) = color;
@@ -1559,13 +1572,14 @@ void V_DrawPixel(int x, int y, byte color, dboolean drawshadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
         *(dot++) = color;
         *dot = color;
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
     }
+#endif
 }
 
 static void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)

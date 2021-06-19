@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.1.3
 
+* Player messages will now fade onto the screen when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

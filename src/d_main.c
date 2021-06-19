@@ -2395,7 +2395,11 @@ static void D_DoomMainSetup(void)
             D_StartTitle(1);
         }
         else
-            D_StartTitle((SCREENSCALE == 1));
+#if SCREENSCALE == 1
+            D_StartTitle(1);
+#else
+            D_StartTitle(0);
+#endif
     }
 
     seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
