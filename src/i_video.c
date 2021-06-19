@@ -292,7 +292,7 @@ void I_CapFPS(int cap)
         CapFPSTimer = 0;
     }
 
-    if (!cap || cap == TICRATE)
+    if (!cap)
     {
         if (CapFPSEvent)
         {
