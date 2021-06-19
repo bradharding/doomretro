@@ -186,7 +186,14 @@ void I_PrintWindowsVersion(void)
                     M_StringCopy(infoname, "8.1", sizeof(infoname));
             }
             else if (info.dwMajorVersion == 10)
-                M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
+            {
+                if (info.dwMinorVersion == 0)
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
+                else
+                    M_StringCopy(infoname, "11", sizeof(infoname));
+            }
+            else if (info.dwMajorVersion == 11)
+                M_StringCopy(infoname, "11", sizeof(infoname));
 
             if (wcslen(info.szCSDVersion) > 0)
                 C_Output("Running on %i-bit <i>Microsoft Windows %s%s%s (%ws)</i> (Build %s).",
