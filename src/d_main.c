@@ -129,63 +129,63 @@ static char *iwadsrequired[] =
 };
 
 // Location where savegames are stored
-char                *savegamefolder;
+char            *savegamefolder;
 
-char                *pwadfile = "";
+char            *pwadfile = "";
 
-dboolean            fade = fade_default;
-char                *iwadfolder = iwadfolder_default;
-dboolean            melt = melt_default;
-int                 turbo = turbo_default;
-int                 units = units_default;
+dboolean        fade = fade_default;
+char            *iwadfolder = iwadfolder_default;
+dboolean        melt = melt_default;
+int             turbo = turbo_default;
+int             units = units_default;
 
 #if defined(_WIN32)
-char                *wad = wad_default;
+char            *wad = wad_default;
 #endif
 
-char                *packageconfig;
-char                *packagewad;
+char            *packageconfig;
+char            *packagewad;
 
-static char         dehwarning[256] = "";
+static char     dehwarning[256] = "";
 
 #if defined(_WIN32)
-char                *previouswad;
+char            *previouswad;
 #endif
 
-dboolean            devparm;                // started game with -devparm
-dboolean            fastparm;               // checkparm of -fast
-dboolean            freeze;
-dboolean            nomonsters;             // checkparm of -nomonsters
-dboolean            pistolstart;            // [BH] checkparm of -pistolstart
-dboolean            regenhealth;
-dboolean            respawnitems;
-dboolean            respawnmonsters;        // checkparm of -respawn
+dboolean        devparm;                // started game with -devparm
+dboolean        fastparm;               // checkparm of -fast
+dboolean        freeze;
+dboolean        nomonsters;             // checkparm of -nomonsters
+dboolean        pistolstart;            // [BH] checkparm of -pistolstart
+dboolean        regenhealth;
+dboolean        respawnitems;
+dboolean        respawnmonsters;        // checkparm of -respawn
 
-uint64_t            stat_runs = 0;
+uint64_t        stat_runs = 0;
 
-skill_t             startskill;
-int                 startepisode;
-static int          startmap;
-dboolean            autostart;
+skill_t         startskill;
+int             startepisode;
+static int      startmap;
+dboolean        autostart;
 
-dboolean            advancetitle;
-dboolean            dowipe;
-static dboolean     forcewipe;
+dboolean        advancetitle;
+dboolean        dowipe;
+static dboolean forcewipe;
 
-static byte         fadescreen[MAXSCREENAREA];
-int                 fadecount = 0;
+static byte     fadescreen[MAXSCREENAREA];
+int             fadecount = 0;
 
-dboolean            splashscreen = true;
+dboolean        splashscreen = true;
 
-static int          startuptimer;
+static int      startuptimer;
 
-dboolean            realframe;
-static dboolean     error;
+dboolean        realframe;
+static dboolean error;
 
-struct tm           gamestarttime;
+struct tm       gamestarttime;
 
 #if defined(_WIN32)
-extern HANDLE       CapFPSEvent;
+extern HANDLE   CapFPSEvent;
 #endif
 
 //
@@ -271,9 +271,7 @@ void D_FadeScreenToBlack(void)
 //
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t         wipegamestate = GS_TITLESCREEN;
-
-extern gameaction_t loadaction;
+gamestate_t wipegamestate = GS_TITLESCREEN;
 
 void D_Display(void)
 {
