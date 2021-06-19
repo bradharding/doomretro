@@ -212,7 +212,8 @@ void D_PostEvent(event_t *ev)
 //
 void D_FadeScreen(void)
 {
-    if (!fade || (gamestate == GS_LEVEL && (viewplayer->mo->momx || viewplayer->mo->momy || viewplayer->mo->momz)))
+    if (!fade || (gamestate == GS_LEVEL && (viewplayer->mo->momx || viewplayer->mo->momy || viewplayer->mo->momz
+        || viewplayer->cmd.angleturn)))
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
