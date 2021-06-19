@@ -495,7 +495,6 @@ static int  blurtic = -1;
 void M_DarkBackground(void)
 {
     static byte blurscreen1[MAXSCREENAREA];
-    static byte blurscreen2[MAXSCREENAREA];
 
     if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
     {
@@ -544,9 +543,6 @@ void M_DarkBackground(void)
     }
 
     memcpy(screens[0], blurscreen1, SCREENAREA);
-
-    if (mapwindow)
-        memcpy(mapscreen, blurscreen2, (size_t)MAPAREA);
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
