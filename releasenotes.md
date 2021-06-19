@@ -4,6 +4,7 @@
 
 * Player messages will now fade onto the screen when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
+* Dithered lighting is now applied when the `r_ditheredlighting` CVAR is `on` and the `r_detail` CVAR is `low`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
