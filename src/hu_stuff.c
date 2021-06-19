@@ -77,6 +77,7 @@ patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
 dboolean                message_on;
+dboolean                message_fadeon;
 dboolean                message_dontfuckwithme;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
@@ -1269,6 +1270,7 @@ void HU_Ticker(void)
             }
 
             HUlib_AddMessageToSText(&w_message, message);
+            message_fadeon = !message_on;
             message_on = true;
             message_counter = (idbehold ? CHEATTIMEOUT : HU_MSGTIMEOUT);
             message_nottobefuckedwith = message_dontfuckwithme;
