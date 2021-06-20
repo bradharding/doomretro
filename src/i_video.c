@@ -1119,7 +1119,7 @@ void I_CreateExternalAutomap(int outputlevel)
 
     if (numdisplays == 1)
     {
-        if (outputlevel >= 1)
+        if (outputlevel >= 1 && !togglingvanilla)
             C_Warning(1, "An external automap couldn't be created. Only one display was found.");
 
         return;
