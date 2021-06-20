@@ -752,8 +752,6 @@ void C_ShowConsole(void)
     caretwait = 0;
     skipaction = false;
 
-    I_CapFPS(TICRATE);
-
     if (viewplayer)
         viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
 
@@ -762,6 +760,7 @@ void C_ShowConsole(void)
 
     if (gamestate == GS_TITLESCREEN)
     {
+        I_CapFPS(TICRATE);
         S_StartSound(NULL, sfx_swtchn);
         D_FadeScreen();
     }
@@ -1243,7 +1242,8 @@ void C_Drawer(void)
                     else
                         consoleheight = consoledown[consoleanim];
 
-                    consoleanim++;
+                    if (++consoleanim == 28)
+                        I_CapFPS(TICRATE);
                 }
             }
             else
