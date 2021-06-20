@@ -504,7 +504,8 @@ void AM_ToggleMaxZoom(void)
         AM_MinOutWindowScale();
     }
 
-    D_FadeScreen();
+    if (!mapwindow)
+        D_FadeScreen();
 }
 
 void AM_ToggleFollowMode(void)
@@ -524,7 +525,9 @@ void AM_ToggleFollowMode(void)
         HU_SetPlayerMessage(s_AMSTR_FOLLOWOFF, false, true);
     }
 
-    D_FadeScreen();
+    if (!mapwindow)
+        D_FadeScreen();
+
     message_dontfuckwithme = true;
 }
 
@@ -543,7 +546,9 @@ void AM_ToggleGrid(void)
         HU_SetPlayerMessage(s_AMSTR_GRIDOFF, false, true);
     }
 
-    D_FadeScreen();
+    if (!mapwindow)
+        D_FadeScreen();
+
     message_dontfuckwithme = true;
     M_SaveCVARs();
 }
@@ -573,7 +578,10 @@ void AM_AddMark(void)
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
     C_Output(message);
     HU_SetPlayerMessage(message, false, true);
-    D_FadeScreen();
+
+    if (!mapwindow)
+        D_FadeScreen();
+
     message_dontfuckwithme = true;
 }
 
@@ -602,7 +610,9 @@ void AM_ClearMarks(void)
             HU_SetPlayerMessage(message, false, true);
         }
 
-        D_FadeScreen();
+        if (!mapwindow)
+            D_FadeScreen();
+
         message_dontfuckwithme = true;
     }
 }
@@ -643,7 +653,9 @@ void AM_ToggleRotateMode(void)
         HU_SetPlayerMessage(s_AMSTR_ROTATEOFF, false, true);
     }
 
-    D_FadeScreen();
+    if (!mapwindow)
+        D_FadeScreen();
+
     message_dontfuckwithme = true;
     M_SaveCVARs();
 }
