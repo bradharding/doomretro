@@ -1225,13 +1225,13 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < tics)
         {
-            consolewait = tics + 8;
+            consolewait = tics + 10;
 
             if (consoledirection == 1)
             {
                 if (consoleheight < CONSOLEHEIGHT)
                 {
-                    const int consoledown[] =
+                    const int consoledown[CONSOLEDOWNSIZE] =
                     {
                          12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
                         169, 173, 176, 179, 182, 184, 186, 188, 190, 191, 192, 193, 194, 195
@@ -1242,7 +1242,7 @@ void C_Drawer(void)
                     else
                         consoleheight = consoledown[consoleanim];
 
-                    if (++consoleanim == 28)
+                    if (++consoleanim == CONSOLEDOWNSIZE)
                         I_CapFPS(TICRATE);
                 }
             }
@@ -1250,7 +1250,7 @@ void C_Drawer(void)
             {
                 if (consoleheight)
                 {
-                    const int consoleup[] =
+                    const int consoleup[CONSOLEUPSIZE] =
                     {
                         183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
                     };
