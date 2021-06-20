@@ -7,7 +7,9 @@
 * Minor changes have been made to text that is output to the console.
 * The background will no longer become corrupted if resizing the window during intermission.
 * The framerate will now be properly capped at 35 frames per second, rather than just interpolation being disabled, when the `vid_capfps` CVAR is `35`.
-  * The <kbd>F</kbd> key can now be pressed to toggle followmode in the external automap when the `am_external` CVAR is `on`.
+* The following changes have been made to the external automap when the `am_external` CVAR is `on`:
+  * The <kbd>F</kbd> key can now be pressed to toggle follow mode.
+  * Fade transitions will no longer be applied to the main screen when pressing some keys to control the external automap and when the `fade` CVAR is `on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
