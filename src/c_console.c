@@ -752,6 +752,8 @@ void C_ShowConsole(void)
     caretwait = 0;
     skipaction = false;
 
+    I_CapFPS(TICRATE);
+
     if (viewplayer)
         viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
 
@@ -773,6 +775,8 @@ void C_HideConsole(void)
     if (!consoleactive)
         return;
 
+    I_CapFPS(vid_capfps);
+
     SDL_StopTextInput();
 
     consoledirection = -1;
@@ -793,6 +797,8 @@ void C_HideConsoleFast(void)
 {
     if (!consoleactive)
         return;
+
+    I_CapFPS(vid_capfps);
 
     SDL_StopTextInput();
 
