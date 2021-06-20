@@ -5,9 +5,8 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Player messages will now fade onto the screen when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
-* Dithered lighting is now applied when the `r_ditheredlighting` CVAR is `on` and the `r_detail` CVAR is `low`.
 * The background will no longer become corrupted if resizing the window during intermission.
-* The framerate will now be properly capped at 35 FPS, rather than just interpolation being disabled, when the `vid_capfps` CVAR is `35`.
+* The framerate will now be properly capped at 35 frames per second, rather than just interpolation being disabled, when the `vid_capfps` CVAR is `35`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

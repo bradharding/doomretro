@@ -1220,7 +1220,7 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < tics)
         {
-            consolewait = tics + 12;
+            consolewait = tics + 8;
 
             if (consoledirection == 1)
             {
