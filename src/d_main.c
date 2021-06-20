@@ -2391,6 +2391,7 @@ static void D_DoomMainSetup(void)
         {
             menuactive = false;
             splashscreen = false;
+            D_FadeScreen();
             D_StartTitle(1);
         }
         else
