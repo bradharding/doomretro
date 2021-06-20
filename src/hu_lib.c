@@ -154,11 +154,23 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestblack));
     }
 
-    if (fade && message_counter <= 7)
+    if (fade)
     {
-        byte *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+        if (message_counter <= 7)
+        {
+            byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
 
-        tinttab = tinttabs[message_counter];
+            tinttab = tinttabs[message_counter];
+        }
+        else if (message_fadeon)
+        {
+            if (message_counter >= HU_MSGTIMEOUT - 2)
+                tinttab = tinttab10;
+            else if (message_counter >= HU_MSGTIMEOUT - 4)
+                tinttab = tinttab30;
+            else if (message_counter >= HU_MSGTIMEOUT - 6)
+                tinttab = tinttab40;
+        }
     }
 
     if (idbehold)
