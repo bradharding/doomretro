@@ -3,6 +3,7 @@
 #### DOOM Retro v4.1.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A bug has been fixed whereby some CVARs wouldn’t be initialized correctly when *DOOM Retro* is run for the first time.
 * Player messages will now fade onto the screen when the `fade` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * The background will now be displayed correctly when resizing the window during intermission.
