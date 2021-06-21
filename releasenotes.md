@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.1.4
 
+* Minor changes have been made to text that is output to the console.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, June 21, 2021
@@ -17,7 +19,7 @@
 * The framerate will now drop to 35 frames per second if the game is paused, or the menu or console is open.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * The <kbd>F</kbd> key can now be pressed to toggle follow mode.
-  * Fade transitions will no longer be applied to the main screen when pressing some keys to control the external automap and when the `fade` CVAR is `on`.
+  * Fade transitions will no longer be applied to the main display when pressing some keys to control the external automap and when the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

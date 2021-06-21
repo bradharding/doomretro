@@ -1626,7 +1626,7 @@ dboolean C_ValidateInput(char *input)
                     if (!executingalias && !resettingcvar && !toggling)
                     {
                         if (temp[0] != '\0')
-                            C_Input((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
+                            C_InputNoRepeat((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
                         else
                             C_Input("%s%s", cmd, (input[length - 1] == ' ' ? " " : ""));
                     }
@@ -1648,7 +1648,7 @@ dboolean C_ValidateInput(char *input)
         for (int i = 0; *actions[i].action; i++)
             if (M_StringCompare(input, actions[i].action))
             {
-                C_Input("%s", input);
+                C_InputNoRepeat("%s", input);
 
                 if (actions[i].func)
                 {
