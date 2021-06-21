@@ -536,13 +536,13 @@ void M_DarkBackground(void)
             *dot = black40[*dot];
         }
 
-        if (mapwindow)
-            memset(mapscreen, nearestblack, MAPAREA);
-
         blurtic = gametime;
     }
 
     memcpy(screens[0], blurscreen1, SCREENAREA);
+
+    if (mapwindow)
+        memset(mapscreen, nearestblack, MAPAREA);
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
