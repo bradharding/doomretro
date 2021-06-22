@@ -114,7 +114,6 @@ extern dboolean         E1M8B;
 extern dboolean         sprfix18;
 extern dboolean         eviternity;
 extern dboolean         doom4vanilla;
-extern dboolean         rekkr;
 extern dboolean         remnant;
 
 extern dboolean         DMENUPIC;
