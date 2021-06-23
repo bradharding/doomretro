@@ -4,6 +4,7 @@
 
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby any palette effects wouldn’t be restored if unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
+* The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
