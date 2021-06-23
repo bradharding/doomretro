@@ -3,6 +3,7 @@
 #### DOOM Retro v4.1.4
 
 * Minor changes have been made to text that is output to the console.
+* A bug has been fixed whereby any palette effects wouldn’t be restored if unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

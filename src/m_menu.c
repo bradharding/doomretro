@@ -3135,6 +3135,8 @@ dboolean M_Responder(event_t *ev)
                 paused = false;
                 S_ResumeMusic();
                 S_StartSound(NULL, sfx_swtchx);
+                I_SetPalette(&PLAYPAL[st_palette * 768]);
+                I_CapFPS(vid_capfps);
             }
             else
             {
