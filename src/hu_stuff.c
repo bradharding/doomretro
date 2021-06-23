@@ -1270,7 +1270,7 @@ void HU_Ticker(void)
             }
 
             HUlib_AddMessageToSText(&w_message, message);
-            message_fadeon = !message_on;
+            message_fadeon = (!message_on || message_counter <= 7);
             message_on = true;
             message_counter = (idbehold ? CHEATTIMEOUT : HU_MSGTIMEOUT);
             message_nottobefuckedwith = message_dontfuckwithme;
