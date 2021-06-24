@@ -1570,30 +1570,33 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
     if (output)
     {
-        char    *temp1 = commify(height * 4 / 3);
-        char    *temp2 = commify(height);
+        char    *temp1 = commify(SCREENWIDTH);
+        char    *temp2 = commify(SCREENHEIGHT);
+        char    *temp3 = commify(width);
+        char    *temp4 = commify(height);
 
         C_Output("A software renderer is used to render every frame.");
 
         if (nearestlinear)
         {
-            char    *temp3 = commify((int64_t)upscaledwidth * SCREENWIDTH);
-            char    *temp4 = commify((int64_t)upscaledheight * SCREENHEIGHT);
+            char    *temp5 = commify((int64_t)upscaledwidth * SCREENWIDTH);
+            char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Every frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation and then down to %sx%s using "
-                "linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp3, temp4, temp1, temp2);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-neighbor interpolation and then down to %sx%s using "
+                "linear filtering.", temp1, temp2, temp5, temp6, temp3, temp4);
 
-            free(temp3);
-            free(temp4);
+            free(temp5);
+            free(temp6);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Every frame is scaled up from %ix%i to %sx%s using linear filtering.", SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.", temp1, temp2, temp3, temp4);
         else
-            C_Output("Every frame is scaled up from %ix%i to %sx%s using nearest-neighbor interpolation.",
-                SCREENWIDTH, SCREENHEIGHT, temp1, temp2);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-neighbor interpolation.", temp1, temp2, temp3, temp4);
 
         free(temp1);
         free(temp2);
+        free(temp3);
+        free(temp4);
     }
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
