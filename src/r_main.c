@@ -509,8 +509,8 @@ void R_InitColumnFunctions(void)
         translatedcolfunc = &R_DrawTranslatedColumn;
 
         if (r_skycolor == r_skycolor_default)
-            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !canmouselook ? &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
+            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
+                &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
         else
             skycolfunc = &R_DrawSkyColorColumn;
 

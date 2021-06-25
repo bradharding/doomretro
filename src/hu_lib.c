@@ -156,21 +156,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
     if (fade)
     {
-        if (message_counter <= 7)
-        {
-            byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+        byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
 
+        if (message_counter <= 7)
             tinttab = tinttabs[message_counter];
-        }
-        else if (message_fadeon)
-        {
-            if (message_counter >= HU_MSGTIMEOUT - 2)
-                tinttab = tinttab10;
-            else if (message_counter >= HU_MSGTIMEOUT - 4)
-                tinttab = tinttab30;
-            else if (message_counter >= HU_MSGTIMEOUT - 6)
-                tinttab = tinttab40;
-        }
+        else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 6)
+            tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
     }
 
     if (idbehold)
@@ -414,31 +405,18 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw entire message from buffer onto screen
     if (fade)
     {
+        byte    *tinttabs1[] = { NULL, tinttab10, tinttab20, tinttab20, tinttab30, tinttab30, tinttab40, tinttab40 };
+        byte    *tinttabs2[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+
         if (message_counter <= 7)
         {
-            byte    *tinttabs1[] = { NULL, tinttab10, tinttab20, tinttab20, tinttab30, tinttab30, tinttab40, tinttab40 };
-            byte    *tinttabs2[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
-
             tinttab1 = tinttabs1[message_counter];
             tinttab2 = tinttabs2[message_counter];
         }
-        else if (message_fadeon)
+        else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 6)
         {
-            if (message_counter >= HU_MSGTIMEOUT - 2)
-            {
-                tinttab1 = tinttab10;
-                tinttab2 = tinttab20;
-            }
-            else if (message_counter >= HU_MSGTIMEOUT - 4)
-            {
-                tinttab1 = tinttab30;
-                tinttab2 = tinttab40;
-            }
-            else if (message_counter >= HU_MSGTIMEOUT - 6)
-            {
-                tinttab1 = tinttab40;
-                tinttab2 = tinttab60;
-            }
+            tinttab1 = tinttabs1[HU_MSGTIMEOUT - message_counter + 1];
+            tinttab2 = tinttabs2[HU_MSGTIMEOUT - message_counter + 1];
         }
     }
 
