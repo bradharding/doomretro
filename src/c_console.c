@@ -192,67 +192,25 @@ void C_Input(const char *string, ...)
     selectend = 0;
 }
 
-void C_InputNoRepeat(const char *string, ...)
-{
-    va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH];
-
-    if (togglingvanilla)
-        return;
-
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
-
-    if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, buffer))
-    {
-        if (consolestrings >= (int)consolestringsmax)
-            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
-        console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
-        console[consolestrings++].stringtype = inputstring;
-        inputhistory = -1;
-        outputhistory = -1;
-        consoleinput[0] = '\0';
-        caretpos = 0;
-        selectstart = 0;
-        selectend = 0;
-    }
-}
-
 void C_IntCVAROutput(char *cvar, int value)
 {
-    char    *temp = M_StringJoin(cvar, " ", NULL);
+    char    *temp = commify(value);
 
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
-        consolestrings--;
-
-    C_Input("%s %i", cvar, value);
+    C_Input("%s %s", cvar, temp);
     free(temp);
 }
 
 void C_PctCVAROutput(char *cvar, int value)
 {
-    char    *temp = M_StringJoin(cvar, " ", NULL);
+    char *temp = commify(value);
 
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
-        consolestrings--;
-
-    C_Input("%s %i%%", cvar, value);
+    C_Input("%s %s%%", cvar, temp);
     free(temp);
 }
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
-    char    *temp = M_StringJoin(cvar, " ", NULL);
-
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
-        consolestrings--;
-
     C_Input("%s %s", cvar, string);
-    free(temp);
 }
 
 void C_Output(const char *string, ...)
@@ -1626,7 +1584,7 @@ dboolean C_ValidateInput(char *input)
                     if (!executingalias && !resettingcvar && !toggling)
                     {
                         if (temp[0] != '\0')
-                            C_InputNoRepeat((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
+                            C_Input((input[length - 1] == '%' ? "%s %s%" : "%s %s"), cmd, parms);
                         else
                             C_Input("%s%s", cmd, (input[length - 1] == ' ' ? " " : ""));
                     }
@@ -1648,7 +1606,7 @@ dboolean C_ValidateInput(char *input)
         for (int i = 0; *actions[i].action; i++)
             if (M_StringCompare(input, actions[i].action))
             {
-                C_InputNoRepeat("%s", input);
+                C_Input("%s", input);
 
                 if (actions[i].func)
                 {

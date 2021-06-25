@@ -179,7 +179,6 @@ typedef struct
 extern autocomplete_t   autocompletelist[];
 
 void C_Input(const char *string, ...);
-void C_InputNoRepeat(const char *string, ...);
 void C_IntCVAROutput(char *cvar, int value);
 void C_PctCVAROutput(char *cvar, int value);
 void C_StrCVAROutput(char *cvar, char *string);

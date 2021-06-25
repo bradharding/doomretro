@@ -1055,7 +1055,7 @@ static void G_DoReborn(void)
     else
     {
         gameaction = ga_loadlevel;
-        C_InputNoRepeat("restartmap");
+        C_Input("restartmap");
 
         if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
             M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
@@ -1312,7 +1312,7 @@ static void G_DoCompleted(void)
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
     M_SaveCVARs();
 
-    C_InputNoRepeat("exitmap");
+    C_Input("exitmap");
 
     WI_Start(&wminfo);
 }
@@ -1719,7 +1719,7 @@ void G_InitNew(skill_t skill, int ep, int map)
         || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")))
-        C_InputNoRepeat("newgame");
+        C_Input("newgame");
 
     G_DoLoadLevel();
 }
