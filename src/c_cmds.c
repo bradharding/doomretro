@@ -1741,13 +1741,14 @@ static void condump_cmd_func2(char *cmd, char *parms)
 {
     char        filename[MAX_PATH];
     const char  *appdatafolder = M_GetAppDataFolder();
+    char        consolefolder[MAX_PATH];
+
+    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
 
     if (!*parms)
     {
-        char    consolefolder[MAX_PATH];
         int     count = 0;
 
-        M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
         M_MakeDirectory(consolefolder);
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", consolefolder);
 
@@ -1762,9 +1763,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
     else
     {
         if (strchr(parms, '.'))
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "%s", appdatafolder, parms);
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", consolefolder, parms);
         else
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "%s.txt", appdatafolder, parms);
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S "%s.txt", consolefolder, parms);
     }
 
     if ((condumpfile = fopen(filename, "wt")))

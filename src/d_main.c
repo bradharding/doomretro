@@ -1844,10 +1844,6 @@ static void D_DoomMainSetup(void)
     M_MakeDirectory(appdatafolder);
     packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL));
 
-#if !defined(__APPLE__)
-    free(appdatafolder);
-#endif
-
     C_Output("");
     C_PrintCompileDate();
 
@@ -2148,6 +2144,12 @@ static void D_DoomMainSetup(void)
     D_SetSaveGameFolder(true);
 
     C_Output("Screenshots will be saved in <b>%s</b>.", screenshotfolder);
+
+    C_Output("Any files created using the <b>condump</b> CCMD will be saved in <b>%s" DIR_SEPARATOR_S "console\</b>.", appdatafolder);
+
+#if !defined(__APPLE__)
+    free(appdatafolder);
+#endif
 
     // Check for -file in shareware
     if (modifiedgame)
