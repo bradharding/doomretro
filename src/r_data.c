@@ -684,7 +684,7 @@ static void R_InitColormaps(void)
         colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, NULL);
 
         for (int i = 1; i < numcolormaps; i++)
-            colormaps[i] = W_CacheLumpNum(i + firstcolormaplump);
+            colormaps[i] = W_CacheLumpNum(firstcolormaplump + i);
     }
     else
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
@@ -697,8 +697,13 @@ static void R_InitColormaps(void)
         C_Output("Using the <b>COLORMAP</b> lump in the %s <b>%s</b>.",
             (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
     else
-        C_Output("Using %i colormaps from the <b>COLORMAP</b> lump in the %s <b>%s</b>.",
-            numcolormaps, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+    {
+        wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
+
+        C_Output("Using the <b>COLORMAP</b> lump in the %s <b>%s</b>, and %i others in the %s <b>%s</b>.",
+            (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
+            (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
+    }
 
     palsrc = palette = PLAYPAL;
 
