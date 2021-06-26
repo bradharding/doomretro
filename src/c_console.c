@@ -204,12 +204,12 @@ void C_IntCVAROutput(char *cvar, int value)
 
 void C_IntCVAROutputNoRepeat(char *cvar, int value)
 {
-    char    *temp = commify(value);
+    char    *temp = M_StringJoin(cvar, " ", NULL);
 
     if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
         consolestrings--;
 
-    C_Input("%s %s", cvar, temp);
+    C_Input("%s %i", cvar, value);
     free(temp);
 }
 
