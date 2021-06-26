@@ -658,7 +658,7 @@ void C_Init(void)
     {
         char    buffer[9];
 
-        M_snprintf(buffer, sizeof(buffer), "DRFONC%02i", i + 65);
+        M_snprintf(buffer, sizeof(buffer), "DRFONC%02i", i + 'A');
         smallcaps[i] = W_CacheLumpName(buffer);
     }
 
@@ -980,6 +980,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
                 && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
                 patch = multiply;
+            else if (isupper(letter) && (isupper(prevletter) || (i < len - 1 && isupper(text[i + 1]))))
+                patch = smallcaps[letter - 'A'];
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;
@@ -1004,11 +1006,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                             x--;
                     }
                 }
-
-                if (isalpha(letter) && isupper(letter)
-                    && ((isalpha(prevletter) && isupper(prevletter))
-                        || (isalpha((nextletter = (i < len - 1 ? text[i + 1] : '\0'))) && isupper(nextletter))))
-                    patch = smallcaps[letter - 65];
             }
 
             if (kerning)
