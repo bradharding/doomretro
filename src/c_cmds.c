@@ -1744,12 +1744,12 @@ static void condump_cmd_func2(char *cmd, char *parms)
     char        consolefolder[MAX_PATH];
 
     M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
+    M_MakeDirectory(consolefolder);
 
     if (!*parms)
     {
-        int     count = 0;
+        int count = 0;
 
-        M_MakeDirectory(consolefolder);
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", consolefolder);
 
         while (M_FileExists(filename))
@@ -1760,13 +1760,10 @@ static void condump_cmd_func2(char *cmd, char *parms)
             free(temp);
         }
     }
+    else if (strchr(parms, '.'))
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", consolefolder, parms);
     else
-    {
-        if (strchr(parms, '.'))
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", consolefolder, parms);
-        else
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S "%s.txt", consolefolder, parms);
-    }
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s.txt", consolefolder, parms);
 
     if ((condumpfile = fopen(filename, "wt")))
     {
