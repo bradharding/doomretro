@@ -2195,8 +2195,8 @@ static void D_DoomMainSetup(void)
             skilllevel = startskill + 1;
             M_SaveCVARs();
 
-            strreplace(string, ".", "");
-            strreplace(string, "!", "");
+            M_StringReplaceAll(string, ".", "");
+            M_StringReplaceAll(string, "!", "");
 
             C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i>%s.</i>",
                 myargv[p], string);

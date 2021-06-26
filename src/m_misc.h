@@ -72,7 +72,8 @@ char *M_GetExecutableFolder(void);
 dboolean M_StrToInt(const char *str, unsigned int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);
-char *M_StringReplace(char *haystack, char *needle, char *replacement);
+char *M_StringReplace(char *haystack, char *needle, const char *replacement);
+void M_StringReplaceAll(char *haystack, char *needle, const char *replacement);
 char *M_TempFile(char *s);
 char *M_StringJoin(char *s, ...);
 dboolean M_StringStartsWith(const char *s, const char *prefix);
@@ -103,7 +104,6 @@ dboolean isvowel(const char ch);
 dboolean ispunctuation(const char ch);
 dboolean isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
-void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);
 void M_StripQuotes(char *string);
 

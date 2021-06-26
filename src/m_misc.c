@@ -482,7 +482,7 @@ static char *stristr(char *ch1, char *ch2)
 //
 // String replace function.
 //
-char *M_StringReplace(char *haystack, char *needle, char *replacement)
+char *M_StringReplace(char *haystack, char *needle, const char *replacement)
 {
     static char buffer[4096];
     char        *p;
@@ -494,6 +494,36 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
     buffer[p - haystack] = '\0';
     sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
     return buffer;
+}
+
+void M_StringReplaceAll(char *haystack, char *needle, const char *replacement)
+{
+    char    buffer[1024] = "";
+    char    *insert_point = &buffer[0];
+    char    *tmp = haystack;
+    int     needle_len = (int)strlen(needle);
+    int     repl_len = (int)strlen(replacement);
+
+    while (true)
+    {
+        char    *p = stristr(tmp, needle);
+
+        if (!p)
+        {
+            strcpy(insert_point, tmp);
+            break;
+        }
+
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
+
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+
+        tmp = p + needle_len;
+    }
+
+    strcpy(haystack, buffer);
 }
 
 // Safe version of strdup() that checks the string was successfully allocated.
@@ -901,36 +931,6 @@ char *striptrailingzero(float value, int precision)
     }
 
     return result;
-}
-
-void strreplace(char *target, char *needle, const char *replacement)
-{
-    char    buffer[1024] = "";
-    char    *insert_point = &buffer[0];
-    char    *tmp = target;
-    int     needle_len = (int)strlen(needle);
-    int     repl_len = (int)strlen(replacement);
-
-    while (true)
-    {
-        char    *p = stristr(tmp, needle);
-
-        if (!p)
-        {
-            strcpy(insert_point, tmp);
-            break;
-        }
-
-        memcpy(insert_point, tmp, p - tmp);
-        insert_point += p - tmp;
-
-        memcpy(insert_point, replacement, repl_len);
-        insert_point += repl_len;
-
-        tmp = p + needle_len;
-    }
-
-    strcpy(target, buffer);
 }
 
 static const long hextable[] =

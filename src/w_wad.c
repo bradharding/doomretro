@@ -190,7 +190,7 @@ char *GetCorrectCase(char *path)
     if (hFile != INVALID_HANDLE_VALUE)
     {
         FindClose(hFile);
-        strreplace(path, FindFileData.cFileName, FindFileData.cFileName);
+        M_StringReplaceAll(path, FindFileData.cFileName, FindFileData.cFileName);
     }
 #endif
 

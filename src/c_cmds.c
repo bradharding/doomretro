@@ -1070,7 +1070,7 @@ static void C_ShowDescription(int index)
 
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
-    strreplace(description, "%", "%%");
+    M_StringReplaceAll(description, "%", "%%");
 
     if (consolecmds[index].type == CT_CCMD)
         M_snprintf(description1, sizeof(description1), "This CCMD %s", description);
@@ -1672,10 +1672,10 @@ static void C_DumpConsoleStringToFile(int index)
         unsigned int    outpos = 0;
         int             tabcount = 0;
 
-        strreplace(string, "<b>", "");
-        strreplace(string, "</b>", "");
-        strreplace(string, "<i>", "");
-        strreplace(string, "</i>", "");
+        M_StringReplaceAll(string, "<b>", "");
+        M_StringReplaceAll(string, "</b>", "");
+        M_StringReplaceAll(string, "<i>", "");
+        M_StringReplaceAll(string, "</i>", "");
         len = (int)strlen(string);
 
         if (console[index].stringtype == warningstring)
@@ -2536,7 +2536,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                 char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
-                    strreplace(parm, "all", "");
+                    M_StringReplaceAll(parm, "all", "");
 
                 killcmdtype = mobjinfo[i].doomednum;
 
@@ -4012,7 +4012,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
     if (M_StringStartsWith(parm, "player"))
     {
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
-        strreplace(parm, "player", "");
+        M_StringReplaceAll(parm, "player", "");
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
         return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
     }
@@ -4020,14 +4020,14 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
     {
         if ((namecmdfriendly = M_StringStartsWith(parm, "friendly ")))
-            strreplace(parm, "friendly ", "");
+            M_StringReplaceAll(parm, "friendly ", "");
         else if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
-            strreplace(parm, "friendly", "");
+            M_StringReplaceAll(parm, "friendly", "");
 
         if (M_StringStartsWith(parm, "monster"))
         {
             M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
-            strreplace(parm, "monster", "");
+            M_StringReplaceAll(parm, "monster", "");
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
             return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
@@ -4046,7 +4046,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 if (*mobjinfo[i].name1 && M_StringStartsWith(parm, temp1))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
-                    strreplace(parm, temp1, "");
+                    M_StringReplaceAll(parm, temp1, "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -4054,7 +4054,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 else if (*mobjinfo[i].name2 && M_StringStartsWith(parm, temp2))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name2, sizeof(namecmdold));
-                    strreplace(parm, temp2, "");
+                    M_StringReplaceAll(parm, temp2, "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -4062,7 +4062,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
                 else if (*mobjinfo[i].name3 && M_StringStartsWith(parm, temp3))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name3, sizeof(namecmdold));
-                    strreplace(parm, temp3, "");
+                    M_StringReplaceAll(parm, temp3, "");
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -5955,7 +5955,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                 char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
-                    strreplace(parm, "all", "");
+                    M_StringReplaceAll(parm, "all", "");
 
                 resurrectcmdtype = mobjinfo[i].doomednum;
 
@@ -6223,7 +6223,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
         int num = -1;
 
         if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
-            strreplace(parm, "friendly", "");
+            M_StringReplaceAll(parm, "friendly", "");
 
         for (int i = 0; i < NUMMOBJTYPES; i++)
         {
