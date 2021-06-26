@@ -76,6 +76,7 @@ static int              consoleanim;
 dboolean                forceconsoleblurredraw;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
+patch_t                 *smallcaps[26];
 patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
@@ -641,6 +642,14 @@ void C_Init(void)
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
+    for (int i = 0; i < 26; i++)
+    {
+        char    buffer[9];
+
+        M_snprintf(buffer, sizeof(buffer), "DRFONC%02i", i + 65);
+        smallcaps[i] = W_CacheLumpName(buffer);
+    }
+
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -983,6 +992,11 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                             x--;
                     }
                 }
+
+                if (isalpha(letter) && isupper(letter)
+                    && ((isalpha(prevletter) && isupper(prevletter))
+                        || (isalpha((nextletter = (i < len - 1 ? text[i + 1] : '\0'))) && isupper(nextletter))))
+                    patch = smallcaps[letter - 65];
             }
 
             if (kerning)
