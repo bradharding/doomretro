@@ -193,9 +193,21 @@ void C_Input(const char *string, ...)
     selectend = 0;
 }
 
+
 void C_IntCVAROutput(char *cvar, int value)
 {
     char    *temp = commify(value);
+
+    C_Input("%s %s", cvar, temp);
+    free(temp);
+}
+
+void C_IntCVAROutputNoRepeat(char *cvar, int value)
+{
+    char    *temp = commify(value);
+
+    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
+        consolestrings--;
 
     C_Input("%s %s", cvar, temp);
     free(temp);
