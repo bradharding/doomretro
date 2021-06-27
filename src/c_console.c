@@ -1084,9 +1084,17 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
         if (letter == ' ')
             x += spacewidth;
+        else if (isupper(letter))
+        {
+            patch_t *patch = smallcaps[letter - 'A'];
+            int     width = SHORT(patch->width);
+
+            V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
+            x += width;
+        }
         else
         {
-            patch_t *patch = (isupper(letter) ? smallcaps[letter - 'A'] : consolefont[letter - CONSOLEFONTSTART]);
+            patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
             int     width = SHORT(patch->width);
 
             if (isdigit(letter))
