@@ -3357,7 +3357,7 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown)
+        else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown && !fadecount)
         {
             // Activate menu item
             keydown = key;
@@ -3389,7 +3389,7 @@ dboolean M_Responder(event_t *ev)
                         if (currentMenu != &NewDef || itemOn == 4)
                             S_StartSound(NULL, sfx_pistol);
 
-                        if (currentMenu != &NewDef && currentMenu != &SaveDef && !fadecount)
+                        if (currentMenu != &NewDef && currentMenu != &SaveDef)
                             D_FadeScreen();
                     }
 
