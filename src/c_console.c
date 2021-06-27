@@ -1086,7 +1086,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
             x += spacewidth;
         else
         {
-            patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
+            patch_t *patch = (isupper(letter) ? smallcaps[letter - 'A'] : consolefont[letter - CONSOLEFONTSTART]);
             int     width = SHORT(patch->width);
 
             if (isdigit(letter))
