@@ -903,6 +903,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
     int             startx = x;
+    int             lsquotes = 0;
+    int             ldquotes = 0;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -988,17 +990,19 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 patch = (c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar);
 
-                if (!i || (i == 3 && (bold || italics)) || prevletter == ' ' || prevletter == '(' || prevletter == '['
-                    || prevletter == '\t')
+                if (letter == '\'')
                 {
-                    if (letter == '\'')
+                    if (!(lsquotes++ & 1))
                     {
                         patch = lsquote;
 
                         if (!i)
                             x--;
                     }
-                    else if (letter == '"')
+                }
+                else if (letter == '"')
+                {
+                    if (!(ldquotes++ & 1))
                     {
                         patch = ldquote;
 

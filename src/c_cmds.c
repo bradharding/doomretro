@@ -73,7 +73,7 @@
 #include "w_wad.h"
 
 #define ALIASCMDFORMAT              "<i><b>alias</b></i> [[<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]]"
-#define BINDCMDFORMAT               "<i><b>control</b></i> [<b>+</b><i><b>action</b></i>|[<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]]"
+#define BINDCMDFORMAT               "<i><b>control</b></i> [<i><b>+action</b></i>|[<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]]"
 #define EXECCMDFORMAT               "<i><b>filename</b></i><b>.cfg</b>"
 #define GIVECMDFORMAT               "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i><b>item</b></i>"
 #define IFCMDFORMAT                 "<i><b>CVAR</b></i> <i><b>value</b></i> <b>then</b> [<b>\"</b>]<i><b>command</b></i>[<b>;</b> <i><b>command</b></i> ...<b>\"</b>]"
@@ -83,7 +83,7 @@
 #define MAPCMDFORMAT2               "<b>MAP</b><i><b>xy</b></i>|<i><b>title</b></i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT               "<i><b>soundeffect</b></i>|<i><b>music</b></i>"
 #define NAMECMDFORMAT               "[<b>friendly</b> ]<i><b>monster</b></i> <i><b>name</b></i>"
-#define PRINTCMDFORMAT              "<b>\"</b><i><b>message</b></i><b>\"</b>"
+#define PRINTCMDFORMAT              "[<b>\"</b>]<i><b>message</b></i>[<b>\"</b>]"
 #define RESETCMDFORMAT              "<i><b>CVAR</b></i>"
 #define RESURRECTCMDFORMAT          "<b>player</b>|<b>all</b>|<i><b>monster</b></i>"
 #define SAVECMDFORMAT               "<i><b>filename</b></i><b>.save</b>"
@@ -92,7 +92,7 @@
 #define TELEPORTCMDFORMAT           "<i><b>x</b></i> <i><b>y</b></i>[ <i><b>z</b></i>]"
 #define TIMERCMDFORMAT              "<i><b>minutes</b></i>"
 #define TOGGLECMDFORMAT             "<i><b>CVAR</b></i>"
-#define UNBINDCMDFORMAT             "<i><b>control</b></i>|<b>+</b><i><b>action</b></i>"
+#define UNBINDCMDFORMAT             "<i><b>control</b></i>|<i><b>+action</b></i>"
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
@@ -503,7 +503,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically using doors and switches in front of the player."),
     CCMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
-        "Binds an <b>+</b><i><b>action</b></i> or string of <i><b>commands</b></i> to a <i><b>control</b></i>."),
+        "Binds an <i><b>+action</b></i> or string of <i><b>commands</b></i> to a <i><b>control</b></i>."),
     CCMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -801,7 +801,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed the player moves (<b>10%</b> to <b>400%</b>)."),
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
-        "Unbinds the <b>+</b><i><b>action</b></i> from a <i><b>control</b></i>."),
+        "Unbinds the <i><b>+action</b></i> from a <i><b>control</b></i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
         "The units used by the <b>mapstats</b> and <b>playerstats</b> CCMDs (<b>imperial</b> or <b>metric</b>)."),
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
