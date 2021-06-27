@@ -1116,6 +1116,7 @@ static dboolean cheat_func1(char *cmd, char *parms)
         {
             C_Input("%s%s", cmd, parms);
             map_cmd_func2("map", mapcmdlump);
+
             return true;
         }
     }
@@ -1194,6 +1195,7 @@ dboolean C_ExecuteAlias(const char *alias)
                 executingalias = false;
                 C_Input("%s", alias);
                 free(string);
+
                 return true;
             }
 
@@ -1209,6 +1211,7 @@ void alias_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
+
         return;
     }
 
@@ -1226,6 +1229,7 @@ void alias_cmd_func2(char *cmd, char *parms)
                 aliases[i].name[0] = '\0';
                 aliases[i].string[0] = '\0';
                 M_SaveCVARs();
+
                 return;
             }
 
@@ -1239,6 +1243,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         {
             M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
             M_SaveCVARs();
+
             return;
         }
 
@@ -1248,6 +1253,7 @@ void alias_cmd_func2(char *cmd, char *parms)
             M_StringCopy(aliases[i].name, parm1, sizeof(aliases[i].name));
             M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
             M_SaveCVARs();
+
             return;
         }
 }
@@ -2297,6 +2303,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             P_EquipWeapon(wp_pistol);
             C_HideConsole();
             free(parm);
+
             return;
         }
         else
@@ -2419,6 +2426,7 @@ static void if_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
+
         return;
     }
 
@@ -2898,6 +2906,7 @@ static void load_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, LOADCMDFORMAT);
+
         return;
     }
 
@@ -3312,6 +3321,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
+
         return;
     }
 
@@ -4014,6 +4024,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
         M_StringReplaceAll(parm, "player", "");
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+
         return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
     }
 
@@ -4030,6 +4041,7 @@ static dboolean name_cmd_func1(char *cmd, char *parms)
             M_StringReplaceAll(parm, "monster", "");
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
+
             return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
         }
         else
@@ -4363,6 +4375,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
         {
             playcmdid = i;
             playcmdtype = 1;
+
             return true;
         }
     }
@@ -4375,6 +4388,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
         {
             playcmdid = i;
             playcmdtype = 2;
+
             return true;
         }
     }
@@ -5568,6 +5582,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
+
         return;
     }
 
@@ -6196,6 +6211,7 @@ static void save_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, SAVECMDFORMAT);
+
         return;
     }
 
@@ -6715,6 +6731,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TELEPORTCMDFORMAT);
+
         return;
     }
     else
@@ -6815,6 +6832,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TIMERCMDFORMAT);
+
         return;
     }
     else
@@ -6851,6 +6869,7 @@ static void toggle_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, TOGGLECMDFORMAT);
+
         return;
     }
 
@@ -6868,6 +6887,7 @@ static void toggle_cmd_func2(char *cmd, char *parms)
             toggling = false;
             free(temp);
             M_SaveCVARs();
+
             break;
         }
     }
@@ -6882,6 +6902,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
+
         return;
     }
 
@@ -7088,6 +7109,7 @@ static dboolean color_cvars_func1(char *cmd, char *parms)
     temp = M_SubString(parms, 1, 6);
     result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
     free(temp);
+
     return result;
 }
 
@@ -7101,6 +7123,7 @@ static void color_cvars_func2(char *cmd, char *parms)
             M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
             int_cvars_func2(cmd, buffer);
             AM_SetColors();
+
             return;
         }
 
@@ -7280,8 +7303,8 @@ static void time_cvars_func2(char *cmd, char *parms)
             const int   tics = *(int *)consolecmds[i].variable / TICRATE;
 
             C_ShowDescription(i);
-
             C_Output(TIMECVARISREADONLY, tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+
             break;
         }
 }

@@ -1440,6 +1440,7 @@ static mline_t AM_RotateLine(mline_t mline)
 {
     AM_RotatePoint(&mline.a);
     AM_RotatePoint(&mline.b);
+
     return mline;
 }
 

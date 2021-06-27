@@ -262,6 +262,7 @@ char *M_GetResourceFolder(void)
     {
         closedir(resourcedir);
         free(executablefolder);
+
         return resourcefolder;
     }
 
@@ -493,6 +494,7 @@ char *M_StringReplace(char *haystack, char *needle, const char *replacement)
     strncpy(buffer, haystack, p - haystack);
     buffer[p - haystack] = '\0';
     sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
+
     return buffer;
 }
 

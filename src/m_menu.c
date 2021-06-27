@@ -2612,6 +2612,7 @@ dboolean M_Responder(event_t *ev)
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
                 C_ShowConsole();
+
                 return false;
             }
         }
@@ -2644,6 +2645,7 @@ dboolean M_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
             G_ScreenShot();
+
             return false;
         }
     }
@@ -2707,6 +2709,7 @@ dboolean M_Responder(event_t *ev)
                 savegamestrings[saveSlot][saveCharIndex++] = ch;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
+
                 return true;
             }
 
@@ -3063,6 +3066,7 @@ dboolean M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
+
             return true;
         }
 
@@ -3074,6 +3078,7 @@ dboolean M_Responder(event_t *ev)
             M_ChangeMessages(0);
             functionkey = 0;
             S_StartSound(NULL, sfx_swtchn);
+
             return false;
         }
 
@@ -3083,6 +3088,7 @@ dboolean M_Responder(event_t *ev)
             keydown = key;
             functionkey = KEY_F9;
             M_QuickLoad();
+
             return true;
         }
 
@@ -3094,6 +3100,7 @@ dboolean M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
+
             return true;
         }
     }
@@ -3106,6 +3113,7 @@ dboolean M_Responder(event_t *ev)
         M_ChangeDetail(0);
         functionkey = 0;
         S_StartSound(NULL, sfx_swtchn);
+
         return false;
     }
 
@@ -3231,6 +3239,7 @@ dboolean M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
+
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
@@ -3314,6 +3323,7 @@ dboolean M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
+
             return false;
         }
 
@@ -3358,6 +3368,7 @@ dboolean M_Responder(event_t *ev)
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(r_screensize);
+
                 return true;
             }
 
@@ -3396,6 +3407,7 @@ dboolean M_Responder(event_t *ev)
             M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
             keywait = I_GetTime() + 5;
+
             return skipaction;
         }
 

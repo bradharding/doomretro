@@ -1054,6 +1054,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     console[index].bold = bold;
     console[index].italics = italics;
+
     return (x - startx);
 }
 
@@ -1626,6 +1627,7 @@ dboolean C_ValidateInput(char *input)
 
                     consolecmds[i].func2(consolecmds[i].name, temp);
                     free(temp);
+
                     return true;
                 }
 
@@ -1976,6 +1978,7 @@ dboolean C_Responder(event_t *ev)
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             free(temp);
+
                             return true;
                         }
                     }
