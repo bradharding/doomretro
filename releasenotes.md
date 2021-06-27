@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.1.4
 
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 
