@@ -992,7 +992,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (!(lsquotes++ & 1))
+                    if ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) != 's' && !(lsquotes++ & 1))
                     {
                         patch = lsquote;
 
