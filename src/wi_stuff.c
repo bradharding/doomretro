@@ -55,7 +55,7 @@
 #include "z_zone.h"
 
 //
-// Data needed to add patches to full screen intermission pics.
+// Data needed to add patches to fullscreen intermission pics.
 // Patches are statistics messages, and animations.
 // Loads of by-pixel layout and placement, offsets etc.
 //

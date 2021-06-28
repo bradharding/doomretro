@@ -579,6 +579,7 @@ void D_DoAdvanceTitle(void)
         titlesequence = 1;
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 143, 167, logolump[0]);
+
         return;
     }
     else if (titlesequence == 1)

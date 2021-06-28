@@ -166,7 +166,7 @@ void R_FillBezel(void);
 // Rendering function.
 void R_FillBackScreen(void);
 
-// If the view size is not full screen, draws a border around it.
+// If the view size is not fullscreen, draws a border around it.
 void R_DrawViewBorder(void);
 
 #endif

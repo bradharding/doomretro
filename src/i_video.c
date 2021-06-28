@@ -231,7 +231,7 @@ dboolean MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when full screen (don't want to see the mouse pointer)
+    // always grab the mouse when fullscreen (don't want to see the mouse pointer)
     if (vid_fullscreen)
         return true;
 
@@ -476,6 +476,7 @@ static void I_GetEvent(void)
                     {
                         enterdown = true;
                         I_ToggleFullscreen();
+
                         return;
                     }
 #endif
@@ -1912,6 +1913,7 @@ void I_ToggleFullscreen(void)
         menuactive = false;
         C_ShowConsole();
         C_Warning(0, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
+
         return;
     }
 

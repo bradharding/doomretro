@@ -693,6 +693,7 @@ dboolean G_Responder(event_t *ev)
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
             D_FadeScreen();
+
             return true;
         }
 
@@ -1405,6 +1406,7 @@ void G_DoLoadGame(void)
         C_ShowConsole();
         C_Warning(1, "<b>%s</b> couldn't be loaded.", savename);
         loadaction = ga_nothing;
+
         return;
     }
 
@@ -1412,6 +1414,7 @@ void G_DoLoadGame(void)
     {
         fclose(save_stream);
         loadaction = ga_nothing;
+
         return;
     }
 
