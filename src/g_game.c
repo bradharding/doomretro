@@ -652,7 +652,6 @@ dboolean G_Responder(event_t *ev)
                 && ev->data1 != KEY_SHIFT
                 && ev->data1 != KEY_ALT
                 && ev->data1 != KEY_CTRL
-                && ev->data1 != KEY_CAPSLOCK
                 && ev->data1 != KEY_NUMLOCK
                 && (ev->data1 < KEY_F1 || ev->data1 > KEY_F11)
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
