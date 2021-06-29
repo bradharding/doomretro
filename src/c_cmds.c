@@ -861,7 +861,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bouncing of the player's weapon when they drop from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the recoiling of the player's weapon when they fire."),
+        "Toggles the recoiling of the player's weapon when they fire it."),
     CMD_CHEAT(yinghao, false),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
