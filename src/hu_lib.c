@@ -54,7 +54,7 @@
 byte            tempscreen[MAXSCREENAREA];
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
-extern patch_t  *smallcaps[26];
+extern patch_t  *smallcapsfont[26];
 extern patch_t  *degree;
 extern patch_t  *lsquote;
 extern patch_t  *ldquote;
@@ -202,7 +202,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 int         j = 0;
 
                 if (isupper(letter) && (isupper(prevletter) || (i < len - 1 && isupper(l->l[i + 1]))))
-                    patch = smallcaps[letter - 'A'];
+                    patch = smallcapsfont[letter - 'A'];
                 else if (c >= 0 && c < CONSOLEFONTSIZE)
                     patch = consolefont[c];
 
@@ -249,7 +249,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
         const int       c = letter - CONSOLEFONTSTART;
 
         if (isupper(letter) && (isupper(prevletter) || (i < len - 1 && isupper(l->l[i + 1]))))
-            patch = smallcaps[letter - 'A'];
+            patch = smallcapsfont[letter - 'A'];
         else if (c >= 0 && c < CONSOLEFONTSIZE)
             patch = consolefont[c];
 

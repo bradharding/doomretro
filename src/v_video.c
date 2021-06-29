@@ -116,48 +116,48 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 
     if (height > 2)
     {
-        const byte  *tinttab20 = alttinttab20 + color;
-        const byte  *tinttab40 = alttinttab40 + color;
+        const byte  *tinttab1 = alttinttab20 + color;
+        const byte  *tinttab2 = alttinttab40 + color;
 
         dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
-        *dot = *(tinttab20 + *dot);
+        *dot = *(tinttab1 + *dot);
         dot += SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-            *dot = *(tinttab40 + *dot);
+            *dot = *(tinttab2 + *dot);
 
-        *dot = *(tinttab20 + *dot);
+        *dot = *(tinttab1 + *dot);
         dot = dest - 2 - SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-            *dot = *(tinttab20 + *dot);
+            *dot = *(tinttab1 + *dot);
 
         for (int xx = 0; xx < width; xx++)
         {
             dot = dest + xx - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab20 + *dot);
+            *dot = *(tinttab1 + *dot);
             dot += SCREENWIDTH;
-            *dot = *(tinttab40 + *dot);
+            *dot = *(tinttab2 + *dot);
             dot += SCREENWIDTH * ((size_t)height + 1);
-            *dot = *(tinttab40 + *dot);
+            *dot = *(tinttab2 + *dot);
             dot += SCREENWIDTH;
-            *dot = *(tinttab20 + *dot);
+            *dot = *(tinttab1 + *dot);
         }
 
         if (right)
         {
             dot = dest + width - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab20 + *dot);
+            *dot = *(tinttab1 + *dot);
             dot += SCREENWIDTH;
 
             for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab40 + *dot);
+                *dot = *(tinttab2 + *dot);
 
-            *dot = *(tinttab20 + *dot);
+            *dot = *(tinttab1 + *dot);
             dot = dest + width + 1 - SCREENWIDTH;
 
             for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab20 + *dot);
+                *dot = *(tinttab1 + *dot);
         }
     }
 }
