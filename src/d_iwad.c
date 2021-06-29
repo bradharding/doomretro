@@ -467,6 +467,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
     free(probe);
     probe = M_FileCaseExists(filename);
     free(filename);
+
     return probe;
 }
 

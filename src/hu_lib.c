@@ -86,6 +86,7 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
         t->l[t->len++] = ch;
         t->l[t->len] = '\0';
         t->needsupdate = 4;
+
         return true;
     }
 }

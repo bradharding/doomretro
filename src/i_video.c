@@ -284,7 +284,7 @@ dboolean keystate(int key)
 void I_CapFPS(int cap)
 {
 #if defined(_WIN32)
-    static UINT CapFPSTimer;
+    static unsigned int CapFPSTimer;
 
     if (CapFPSTimer)
     {
@@ -307,7 +307,8 @@ void I_CapFPS(int cap)
 
         if (CapFPSEvent)
         {
-            CapFPSTimer = timeSetEvent(1000 / cap, 0, (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+            CapFPSTimer = timeSetEvent((unsigned int)(1000.0 / cap + 0.5), 0,
+                (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
 
             if (!CapFPSTimer)
             {
