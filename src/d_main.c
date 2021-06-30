@@ -2316,15 +2316,15 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    fineprintlump = W_CacheLumpName("FINEPRNT");
-    splashpal = W_CacheLumpName("SPLSHPAL");
+    fineprintlump = W_CacheLastLumpName("FINEPRNT");
+    splashpal = W_CacheLastLumpName("SPLSHPAL");
 
     for (int i = 0; i < 18; i++)
     {
         char    buffer[9];
 
         M_snprintf(buffer, sizeof(buffer), "DRLOGO%02i", i + 1);
-        logolump[i] = W_CacheLumpName(buffer);
+        logolump[i] = W_CacheLastLumpName(buffer);
     }
 
     if (autosigil)
