@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.1.4
 
+* *DOOM Retro* is now compiled using v16.10.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Several changes have been made to text that is output to the console.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
