@@ -801,17 +801,10 @@ void D_IdentifyVersion(void)
     // identify by its contents.
     if (gamemission == none)
     {
-        for (int i = 0; i < numlumps; i++)
-            if (!strncasecmp(lumpinfo[i]->name, "MAP01", 8))
-            {
-                gamemission = doom2;
-                break;
-            }
-            else if (!strncasecmp(lumpinfo[i]->name, "E1M1", 8))
-            {
-                gamemission = doom;
-                break;
-            }
+        if (W_CheckNumForName("MAP01") >= 0)
+            gamemission = doom2;
+        else if (W_CheckNumForName("E1M1") >= 0)
+            gamemission = doom;
 
         if (gamemission == none)
             // Still no idea. I don't think this is going to work.
