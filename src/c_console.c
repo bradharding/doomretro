@@ -651,7 +651,7 @@ void C_Init(void)
         char    buffer[9];
 
         M_snprintf(buffer, sizeof(buffer), "DRFON%03i", j++);
-        consolefont[i] = W_CacheLumpName(buffer);
+        consolefont[i] = W_CacheLastLumpName(buffer);
     }
 
     for (int i = 0; i < 26; i++)
@@ -659,7 +659,7 @@ void C_Init(void)
         char    buffer[9];
 
         M_snprintf(buffer, sizeof(buffer), "DRFONC%02i", i + 'A');
-        smallcapsfont[i] = W_CacheLumpName(buffer);
+        smallcapsfont[i] = W_CacheLastLumpName(buffer);
     }
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
@@ -694,26 +694,26 @@ void C_Init(void)
     consolebevel = &tinttab50[nearestblack << 8];
     consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
 
-    brand = W_CacheLumpName("DRBRAND");
-    lsquote = W_CacheLumpName("DRFON145");
-    ldquote = W_CacheLumpName("DRFON147");
-    trademark = W_CacheLumpName("DRFON153");
-    copyright = W_CacheLumpName("DRFON169");
-    regomark = W_CacheLumpName("DRFON174");
-    degree = W_CacheLumpName("DRFON176");
-    multiply = W_CacheLumpName("DRFON215");
-    unknownchar = W_CacheLumpName("DRFON000");
+    brand = W_CacheLastLumpName("DRBRAND");
+    lsquote = W_CacheLastLumpName("DRFON145");
+    ldquote = W_CacheLastLumpName("DRFON147");
+    trademark = W_CacheLastLumpName("DRFON153");
+    copyright = W_CacheLastLumpName("DRFON169");
+    regomark = W_CacheLastLumpName("DRFON174");
+    degree = W_CacheLastLumpName("DRFON176");
+    multiply = W_CacheLastLumpName("DRFON215");
+    unknownchar = W_CacheLastLumpName("DRFON000");
 
-    warning = W_CacheLumpName("DRFONWRN");
-    altunderscores = W_CacheLumpName("DRFONUND");
+    warning = W_CacheLastLumpName("DRFONWRN");
+    altunderscores = W_CacheLastLumpName("DRFONUND");
 
-    bindlist = W_CacheLumpName("DRBNDLST");
-    cmdlist = W_CacheLumpName("DRCMDLST");
-    cvarlist = W_CacheLumpName("DRCVRLST");
-    maplist = W_CacheLumpName("DRMAPLST");
-    mapstats = W_CacheLumpName("DRMAPST");
-    playerstats = W_CacheLumpName("DRPLYRST");
-    thinglist = W_CacheLumpName("DRTHNLST");
+    bindlist = W_CacheLastLumpName("DRBNDLST");
+    cmdlist = W_CacheLastLumpName("DRCMDLST");
+    cvarlist = W_CacheLastLumpName("DRCVRLST");
+    maplist = W_CacheLastLumpName("DRMAPLST");
+    mapstats = W_CacheLastLumpName("DRMAPST");
+    playerstats = W_CacheLastLumpName("DRPLYRST");
+    thinglist = W_CacheLastLumpName("DRTHNLST");
 
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
