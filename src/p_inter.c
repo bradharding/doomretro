@@ -546,7 +546,7 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_bluecard] == CARDNOTINMAP && viewplayer->cards[it_blueskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>BlueKeycard</b> or <b>BlueSkullKey</b> "
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>bluekeycard</b> or <b>blueskullkey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
@@ -561,7 +561,7 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_redcard] == CARDNOTINMAP && viewplayer->cards[it_redskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>RedKeycard</b> or <b>RedSkullKey</b> "
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>redkeycard</b> or <b>redskullkey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
@@ -576,7 +576,7 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_yellowcard] == CARDNOTINMAP && viewplayer->cards[it_yellowskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>YellowKeycard</b> or <b>YellowSkullKey</b> "
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>yellowkeycard</b> or <b>yellowskullkey</b> "
                         "things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
