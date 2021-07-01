@@ -293,7 +293,7 @@ char *M_GetExecutableFolder(void)
     GetModuleFileName(NULL, buffer, MAX_PATH);
     M_StringCopy(folder, buffer, MAX_PATH);
 
-    if (folder && (pos = strrchr(folder, '\\')))
+    if (folder && (pos = strrchr(folder, DIR_SEPARATOR)))
         *pos = '\0';
 
     return folder;

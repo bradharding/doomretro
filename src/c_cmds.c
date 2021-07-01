@@ -1920,16 +1920,22 @@ static void exec_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        FILE    *file = fopen(parms, "rt");
-        char    strparm[256] = "";
+        char    filename[MAX_PATH];
+        FILE    *file;
+        char    strparm[512] = "";
 
-        if (!file)
+        if (strchr(parms, '.'))
+            M_StringCopy(filename, parms, sizeof(filename));
+        else
+            M_snprintf(filename, sizeof(filename), "%s.cfg", parms);
+
+        if (!(file = fopen(filename, "rt")))
         {
             C_Warning(0, "<b>%s</b> couldn't be opened.", parms);
             return;
         }
 
-        while (fgets(strparm, 256, file) != NULL)
+        while (fgets(strparm, 512, file) != NULL)
         {
             if (strparm[0] == ';')
                 continue;
