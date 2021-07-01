@@ -988,6 +988,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1007,6 +1008,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1026,6 +1028,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1045,6 +1048,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1064,6 +1068,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1083,6 +1088,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1102,6 +1108,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1122,6 +1129,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1139,6 +1147,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -3297,6 +3306,7 @@ dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
 
         *secnum = (*sec)->id;
         zerotag_manual = true;
+
         return true;
     }
 

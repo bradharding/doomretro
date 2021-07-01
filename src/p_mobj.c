@@ -92,6 +92,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
+
             return false;
         }
         else
@@ -1164,6 +1165,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
         C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.", temp, mthing->x, mthing->y);
         free(temp);
+
         return NULL;
     }
 

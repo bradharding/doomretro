@@ -640,6 +640,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
         C_Warning(1, "The <b>%s</b> music lump can't be found.", temp);
         free(temp);
+
         return;
     }
 
@@ -666,6 +667,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
                 C_Warning(1, "The <b>%s</b> music lump can't be played.", temp);
                 free(temp);
+
                 return;
             }
         }

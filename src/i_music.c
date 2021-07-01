@@ -143,6 +143,7 @@ void I_PlaySong(void *handle, dboolean looping)
     {
         I_MidiRPCPlaySong(looping);
         I_MidiRPCSetVolume(current_music_volume);
+
         return;
     }
 #endif
@@ -202,6 +203,7 @@ void I_StopSong(void)
     {
         I_MidiRPCStopSong();
         serverMidiPlaying = false;
+
         return;
     }
 #endif
@@ -219,6 +221,7 @@ void I_UnRegisterSong(void *handle)
     {
         I_MidiRPCStopSong();
         serverMidiPlaying = false;
+
         return;
     }
 #endif

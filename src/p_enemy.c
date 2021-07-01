@@ -721,6 +721,7 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
         {
             P_SetTarget(&actor->target, actor->lastenemy);
             P_SetTarget(&actor->lastenemy, NULL);
+
             return true;
         }
 
@@ -740,6 +741,7 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
                 {
                     P_SetTarget(&actor->target, actor->lastenemy);
                     P_SetTarget(&actor->lastenemy, NULL);
+
                     return true;
                 }
 
@@ -1084,6 +1086,7 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * 3, true);
+
         return;
     }
 
@@ -1160,6 +1163,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * 10, true);
+
         return;
     }
 
@@ -1704,6 +1708,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
         massacre = true;    // [BH] set this to avoid obituary
         P_DamageMobj(newmobj, actor, actor, 10000, true);
         massacre = false;
+
         return;
     }
 
@@ -1941,6 +1946,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
             case 1:
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
+
                 return;
 
             case 4:
@@ -1949,11 +1955,13 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                     case 6:
                         junk.tag = 666;
                         EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
+
                         return;
 
                     case 8:
                         junk.tag = 666;
                         EV_DoFloor(&junk, lowerFloorToLowest);
+
                         return;
                 }
         }

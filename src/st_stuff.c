@@ -1082,6 +1082,7 @@ static void ST_UpdateFaceWidget(void)
         priority = 5;
         st_faceindex = ST_GODFACE;
         st_facecount = 0;
+
         return;
     }
 

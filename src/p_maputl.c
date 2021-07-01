@@ -51,6 +51,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 {
     dx = ABS(dx);
     dy = ABS(dy);
+
     return (dx + dy - (MIN(dx, dy) >> 1));
 }
 

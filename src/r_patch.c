@@ -542,6 +542,7 @@ static void createTextureCompositePatch(int id)
 
                 removePostFromColumn(column, i + 1);
                 i = 0;
+
                 continue;
             }
 

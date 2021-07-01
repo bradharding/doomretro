@@ -986,6 +986,7 @@ void M_LoadCVARs(char *filename)
         M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;
+
         return;
     }
 

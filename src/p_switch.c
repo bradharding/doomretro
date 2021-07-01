@@ -153,6 +153,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
             buttonlist[i].btexture = texture;
             buttonlist[i].btimer = time;
             buttonlist[i].soundorg = &line->soundorg;
+
             return;
         }
 

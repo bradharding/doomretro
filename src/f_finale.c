@@ -161,6 +161,7 @@ void F_StartFinale(void)
         gameaction = ga_nothing;
         gamestate = GS_FINALE;
         F_StartCast();
+
         return;
     }
     else

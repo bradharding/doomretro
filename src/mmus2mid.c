@@ -439,6 +439,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
 
                 TWriteByte(mididata, MIDItrack, (unsigned char)((data & 1) << 6));
                 TWriteByte(mididata, MIDItrack, (unsigned char)(data >> 1));
+
                 break;
 
             case SYS_EVENT:
@@ -452,6 +453,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
 
                 TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]);
                 TWriteByte(mididata, MIDItrack, (data == 12 ? (unsigned char)(MUSh.channels + 1) : 0));
+
                 break;
 
             case CNTL_CHANGE:

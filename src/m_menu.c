@@ -887,6 +887,7 @@ static dboolean M_CheckSaveGame(int *ep, int *map, int slot)
             expansion = 1;
             gamemission = doom2;
             M_SaveCVARs();
+
             return true;
         }
         else
@@ -904,6 +905,7 @@ static dboolean M_CheckSaveGame(int *ep, int *map, int slot)
             expansion = 2;
             gamemission = pack_nerve;
             M_SaveCVARs();
+
             return true;
         }
         else
