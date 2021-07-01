@@ -171,9 +171,9 @@ void I_UpdateGamepadVibration(void)
 
     if (weaponvibrationtics && !--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
         I_GamepadVibration(idlevibrationstrength);
-    else if (damagevibrationtics && !--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
+    else if (damagevibrationtics && !--damagevibrationtics && !barrelvibrationtics)
         I_GamepadVibration(idlevibrationstrength);
-    else if (barrelvibrationtics && !--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
+    else if (barrelvibrationtics && !--barrelvibrationtics)
         I_GamepadVibration(idlevibrationstrength);
 }
 
