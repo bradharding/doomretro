@@ -781,6 +781,9 @@ static void M_SplitString(char *string)
 //
 static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
+    if (!patch)
+        return;
+
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow(x, y, patch, false);
     else
@@ -793,6 +796,9 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 //
 static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
+    if (!patch)
+        return;
+
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
     else
@@ -3752,13 +3758,14 @@ void M_Drawer(void)
         }
         else
         {
-            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
-            int max = currentMenu->numitems;
+            patch_t *titlepatch = W_CacheLumpName("M_DOOM");
+            int     yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
+            int     max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
 
-            if (currentMenu == &MainDef && SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) >= VANILLAHEIGHT && !remnant)
+            if (currentMenu == &MainDef && titlepatch && SHORT(titlepatch->height) >= VANILLAHEIGHT && !remnant)
                 yy -= OFFSET;
 
             if (M_SKULL1)
