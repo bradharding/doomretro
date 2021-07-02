@@ -514,7 +514,7 @@ void R_InitColumnFunctions(void)
         else
             skycolfunc = &R_DrawSkyColorColumn;
 
-        if (r_ditheredlighting && r_detail == r_detail_high)
+        if (r_ditheredlighting)
         {
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
@@ -590,7 +590,7 @@ void R_InitColumnFunctions(void)
         translatedcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
-        if (r_ditheredlighting && r_detail == r_detail_high)
+        if (r_ditheredlighting)
         {
             wallcolfunc = &R_DrawColorDitherWallColumn;
             bmapwallcolfunc = &R_DrawColorDitherWallColumn;

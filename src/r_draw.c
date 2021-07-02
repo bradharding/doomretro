@@ -137,15 +137,20 @@ byte            *dc_black40;
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
 
-static const byte dithermatrix[4][4] =
+static const byte dithermatrix[8][8] =
 {
-    {   0, 224,  48, 208 },
-    { 176,  80, 128,  96 },
-    { 192,  32, 240,  16 },
-    { 112, 144,  64, 160 }
+    {   0,   0, 224, 224,  48,  48, 208, 208 },
+    {   0,   0, 224, 224,  48,  48, 208, 208 },
+    { 176, 176,  80,  80, 128, 128,  96,  96 },
+    { 176, 176,  80,  80, 128, 128,  96,  96 },
+    { 192, 192,  32,  32, 240, 240,  16,  16 },
+    { 192, 192,  32,  32, 240, 240,  16,  16 },
+    { 112, 112, 144, 144,  64,  64, 160, 160 },
+    { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define dither(x, y, intensity) (dithermatrix[(y) & 3][(x) & 3] < (intensity))
+#define dither(x, y, intensity) (dithermatrix[((y) << r_detail) & 7][((x) << r_detail) & 7] < (intensity))
+#define spandither(x, y, intensity) (dithermatrix[((y) << r_detail) & 7][(((x) + 1) << r_detail) & 7] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -1222,12 +1227,12 @@ void R_DrawDitherSpan(void)
 
     while (--x)
     {
-        *dest++ = colormap[dither(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[spandither(x1--, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[dither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[spandither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
@@ -1251,9 +1256,9 @@ void R_DrawDitherColorSpan(void)
     const int           fracz = ((ds_z >> 12) & 255);
 
     while (--x)
-        *dest++ = colormap[dither(x1--, ds_y, fracz)][NOTEXTURECOLOR];
+        *dest++ = colormap[spandither(x1--, ds_y, fracz)][NOTEXTURECOLOR];
 
-    *dest = colormap[dither(x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = colormap[spandither(x1, ds_y, fracz)][NOTEXTURECOLOR];
 }
 
 //
