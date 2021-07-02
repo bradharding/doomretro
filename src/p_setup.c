@@ -1746,6 +1746,7 @@ static void P_LoadThings(int map, int lump)
 
             buffer[0] = toupper(buffer[0]);
             C_Warning(2, "%s can't be spawned in <i>%s.</i>", buffer, gamedescription);
+
             continue;
         }
 

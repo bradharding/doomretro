@@ -110,10 +110,6 @@ static const byte redtogreen[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
-//
-// R_DrawColumn
-// Source is the top of the column to scale.
-//
 lighttable_t    *dc_colormap[2];
 lighttable_t    *dc_nextcolormap;
 int             dc_x;
@@ -133,11 +129,11 @@ int             dc_numposts;
 byte            dc_black;
 byte            *dc_black33;
 byte            *dc_black40;
-
-// first pixel in a column (possibly virtual)
 byte            *dc_source;
 
-static const byte dithermatrix[8][8] =
+#define         DITHERSIZE  8
+
+static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
     {   0,   0, 224, 224,  48,  48, 208, 208 },
     {   0,   0, 224, 224,  48,  48, 208, 208 },
@@ -149,7 +145,7 @@ static const byte dithermatrix[8][8] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define dither(x, y, intensity) (dithermatrix[((y) << r_detail) & 7][((x) << r_detail) & 7] < (intensity))
+#define dither(x, y, intensity) (dithermatrix[((y) << r_detail) & (DITHERSIZE - 1)][((x) << r_detail) & (DITHERSIZE - 1)] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,

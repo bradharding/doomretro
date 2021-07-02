@@ -1039,6 +1039,7 @@ void M_LoadCVARs(char *filename)
         {
             bind_cmd_func2("bind", value);
             bindcount++;
+
             continue;
         }
         else if (M_StringCompare(cvar, "alias"))
@@ -1059,6 +1060,7 @@ void M_LoadCVARs(char *filename)
 
             C_ValidateInput(M_StringJoin(cvar, " ", temp, NULL));
             free(temp);
+
             continue;
         }
 

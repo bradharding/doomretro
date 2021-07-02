@@ -392,6 +392,7 @@ static void F_TextWrite(void)
             cx = 12;
             cy += (prev == '\n' ? 8 : 11);
             prev = letter;
+
             continue;
         }
 
@@ -401,6 +402,7 @@ static void F_TextWrite(void)
         {
             cx += (prev == '.' || prev == '!' || prev == '?' || prev == '"' ? 5 : 3);
             prev = letter;
+
             continue;
         }
 

@@ -492,18 +492,21 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         {
             bold = true;
             i += 2;
+
             continue;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = false;
             i += 3;
+
             continue;
         }
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
         {
             italics = true;
             i += 2;
+
             continue;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
@@ -511,6 +514,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             italics = false;
             i += 3;
             w++;
+
             continue;
         }
         else if (letter == 153)
