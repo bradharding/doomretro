@@ -150,7 +150,7 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
-//  will always have constant z depth.
+//  will always have constant z-depth.
 // Thus a special case loop for very fast rendering can
 //  be used. It has also been used with Wolfenstein 3D.
 //

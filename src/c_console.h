@@ -115,65 +115,65 @@ typedef enum
 
 typedef struct
 {
-    char                string[1024];
-    int                 count;
-    int                 line;
-    stringtype_t        stringtype;
-    int                 wrap;
-    int                 indent;
-    dboolean            bold;
-    dboolean            italics;
-    patch_t             *header;
-    int                 tabs[3];
-    int                 tics;
-    char                timestamp[9];
+    char            string[1024];
+    int             count;
+    int             line;
+    stringtype_t    stringtype;
+    int             wrap;
+    int             indent;
+    dboolean        bold;
+    dboolean        italics;
+    patch_t         *header;
+    int             tabs[3];
+    int             tics;
+    char            timestamp[9];
 } console_t;
 
-extern patch_t          *bindlist;
-extern patch_t          *cmdlist;
-extern patch_t          *cvarlist;
-extern patch_t          *maplist;
-extern patch_t          *mapstats;
-extern patch_t          *playerstats;
-extern patch_t          *thinglist;
+extern patch_t      *bindlist;
+extern patch_t      *cmdlist;
+extern patch_t      *cvarlist;
+extern patch_t      *maplist;
+extern patch_t      *mapstats;
+extern patch_t      *playerstats;
+extern patch_t      *thinglist;
 
-extern console_t        *console;
+extern console_t    *console;
 
-extern dboolean         consoleactive;
-extern int              consoleheight;
-extern int              consoledirection;
+extern dboolean     consoleactive;
+extern int          consoleheight;
+extern int          consoledirection;
 
-extern int              consolestrings;
-extern size_t           consolestringsmax;
+extern int          consolestrings;
+extern size_t       consolestringsmax;
 
-extern char             consolecheat[255];
-extern char             consolecheatparm[3];
-extern char             consolecmdparm[255];
+extern char         consolecheat[255];
+extern char         consolecheatparm[3];
+extern char         consolecmdparm[255];
 
-extern dboolean         forceconsoleblurredraw;
+extern dboolean     forceconsoleblurredraw;
 
 typedef struct
 {
-    char                *input;
-    int                 caretpos;
-    int                 selectstart;
-    int                 selectend;
+    char            *input;
+    int             caretpos;
+    int             selectstart;
+    int             selectend;
 } undohistory_t;
 
 typedef struct
 {
-    char                char1;
-    char                char2;
-    int                 adjust;
+    char            char1;
+    char            char2;
+    int             adjust;
 } kern_t;
 
-extern const kern_t     kern[];
-extern const kern_t     altkern[];
+extern const kern_t kern[];
+extern const kern_t altkern[];
 
 typedef struct
 {
-    char                text[255];
-    int                 game;
+    char            text[255];
+    int             game;
 } autocomplete_t;
 
 extern autocomplete_t   autocompletelist[];

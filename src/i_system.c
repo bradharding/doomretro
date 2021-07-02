@@ -190,7 +190,7 @@ void I_PrintWindowsVersion(void)
                 if (info.dwBuildNumber < 22000)
                     M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
                 else
-                    M_StringCopy(infoname, "11", sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "11" : "Server 2022"), sizeof(infoname));
             }
 
             if (wcslen(info.szCSDVersion) > 0)
