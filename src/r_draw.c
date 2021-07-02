@@ -150,7 +150,6 @@ static const byte dithermatrix[8][8] =
 };
 
 #define dither(x, y, intensity) (dithermatrix[((y) << r_detail) & 7][((x) << r_detail) & 7] < (intensity))
-#define spandither(x, y, intensity) (dithermatrix[((y) << r_detail) & 7][(((x) + 1) << r_detail) & 7] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -1227,12 +1226,12 @@ void R_DrawDitherSpan(void)
 
     while (--x)
     {
-        *dest++ = colormap[spandither(x1++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[dither(x1++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[spandither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[dither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
@@ -1256,9 +1255,9 @@ void R_DrawDitherColorSpan(void)
     const int           fracz = ((ds_z >> 12) & 255);
 
     while (--x)
-        *dest++ = colormap[spandither(x1++, ds_y, fracz)][NOTEXTURECOLOR];
+        *dest++ = colormap[dither(x1++, ds_y, fracz)][NOTEXTURECOLOR];
 
-    *dest = colormap[spandither(x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = colormap[dither(x1, ds_y, fracz)][NOTEXTURECOLOR];
 }
 
 //
