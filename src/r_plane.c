@@ -419,7 +419,7 @@ void R_InitDistortedFlats(void)
 void R_DrawPlanes(void)
 {
     if (r_liquid_swirl)
-        updateswirl = ((!menuactive || !(gametime & 4)) && !consoleactive && !inhelpscreens && !paused && !freeze);
+        updateswirl = (!consoleactive && !inhelpscreens && !paused && !freeze);
 
     dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
 
@@ -509,8 +509,8 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ? R_DistortedFlat(picnum) :
-                        lumpinfo[flattranslation[picnum]]->cache);
+                    ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ?
+                        R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
 
                     R_MakeSpans(pl);
                 }

@@ -1921,8 +1921,8 @@ static void exec_cmd_func2(char *cmd, char *parms)
     else
     {
         char    filename[MAX_PATH];
-        FILE    *file;
         char    strparm[512] = "";
+        FILE    *file;
 
         if (strchr(parms, '.'))
             M_StringCopy(filename, parms, sizeof(filename));
