@@ -1440,7 +1440,7 @@ void G_DoLoadGame(void)
         S_ChangeMusInfoMusic(musinfo.current_item, true);
 
     if (!P_ReadSaveGameEOF())
-        I_Error("Bad savegame");
+        I_Error("%s is invalid.", savename);
 
     fclose(save_stream);
 
