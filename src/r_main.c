@@ -768,8 +768,7 @@ static void R_SetupFrame(void)
 
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
-        // Don't interpolate if the player did something
-        // that would necessitate turning it off for a tic.
+        // Don't interpolate if the player did something that would necessitate turning it off for a tic.
         && mo->interpolate
         // Don't interpolate during a paused state
         && !paused && !menuactive && !consoleactive)

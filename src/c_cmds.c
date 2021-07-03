@@ -96,18 +96,18 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "It is now <b>%s</b> and <b>%s</b> by default."
+#define INTEGERCVARWITHDEFAULT      "It is now <b>%s</b> and is <b>%s</b> by default."
 #define INTEGERCVARWITHNODEFAULT    "It is now <b>%s</b>."
 #define INTEGERCVARISDEFAULT        "It is now its default of <b>%s</b>."
-#define INTEGERCVARISREADONLY       "It is now <b>%s</b> and read-only."
-#define PERCENTCVARWITHDEFAULT      "It is now <b>%s%%</b> and <b>%s%%</b> by default."
+#define INTEGERCVARISREADONLY       "It is now <b>%s</b> and is read-only."
+#define PERCENTCVARWITHDEFAULT      "It is now <b>%s%%</b> and is <b>%s%%</b> by default."
 #define PERCENTCVARWITHNODEFAULT    "It is now <b>%s%%</b>."
 #define PERCENTCVARISDEFAULT        "It is now its default of <b>%s%%</b>."
-#define PERCENTCVARISREADONLY       "It is now <b>%s%%</b> and read-only."
-#define STRINGCVARWITHDEFAULT       "It is now <b>\"%s\"</b> and <b>\"%s\"</b> by default."
+#define PERCENTCVARISREADONLY       "It is now <b>%s%%</b> and is read-only."
+#define STRINGCVARWITHDEFAULT       "It is now <b>\"%s\"</b> and is <b>\"%s\"</b> by default."
 #define STRINGCVARISDEFAULT         "It is now its default of <b>\"%s\"</b>."
-#define STRINGCVARISREADONLY        "It is now <b>%s%s%s</b> and read-only."
-#define TIMECVARISREADONLY          "It is now <b>%02i:%02i:%02i</b> and read-only."
+#define STRINGCVARISREADONLY        "It is now <b>%s%s%s</b> and is read-only."
+#define TIMECVARISREADONLY          "It is now <b>%02i:%02i:%02i</b> and is read-only."
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f

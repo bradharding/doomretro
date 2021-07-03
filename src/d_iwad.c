@@ -831,8 +831,6 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    M_StringCopy(gamedescription, PACKAGE_NAME, sizeof(gamedescription));
-
     if (chex1)
         M_StringCopy(gamedescription, s_CAPTION_CHEX, sizeof(gamedescription));
     else if (chex2)
