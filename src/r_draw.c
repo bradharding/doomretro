@@ -494,31 +494,25 @@ void R_DrawBrightmapDitherWallColumn(void)
 
         while (--count)
         {
-            dot = dc_source[frac >> FRACBITS];
-            *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
+            *dest = colormap[dc_brightmap[(dot = dc_source[frac >> FRACBITS])]][dither(dc_x, y++, fracz)][dot];
             dest += SCREENWIDTH;
-            y++;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
+        *dest = colormap[dc_brightmap[(dot = dc_source[frac >> FRACBITS])]][dither(dc_x, y, fracz)][dot];
     }
     else
     {
         while (--count)
         {
-            dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
+            *dest = colormap[dc_brightmap[(dot = dc_source[(frac >> FRACBITS) & heightmask])]][dither(dc_x, y++, fracz)][dot];
             dest += SCREENWIDTH;
-            y++;
             frac += dc_iscale;
         }
 
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
+        *dest = colormap[dc_brightmap[(dot = dc_source[(frac >> FRACBITS) & heightmask])]][dither(dc_x, y, fracz)][dot];
     }
 }
 
