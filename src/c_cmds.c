@@ -356,6 +356,7 @@ static void playername_cvar_func2(char *cmd, char *parms);
 static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
+static void r_brightmaps_cvar_func2(char *cmd, char *parms);
 static void r_color_cvar_func2(char *cmd, char *parms);
 static dboolean r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
@@ -671,7 +672,7 @@ consolecmd_t consolecmds[] =
         "The total number of blood splats in the current map."),
     CVAR_BOOL(r_bloodsplats_translucency, "", bool_cvars_func1, r_bloodsplats_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of blood splats."),
-    CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, r_brightmaps_cvar_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_INT(r_color, "", int_cvars_func1, r_color_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The intensity of color on the screen (<b>0%</b> to <b>100%</b>)."),
@@ -7947,6 +7948,46 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+    }
+}
+
+//
+// r_brightmaps CVAR
+//
+static void r_brightmaps_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_brightmaps)
+        {
+            r_brightmaps = value;
+            M_SaveCVARs();
+            I_SetPalette(&PLAYPAL[st_palette * 768]);
+            R_InitColumnFunctions();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen();
+        }
+    }
+    else
+    {
+        char *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
+
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (r_brightmaps == r_brightmaps_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char *temp2 = C_LookupAliasFromValue(r_brightmaps_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
