@@ -689,7 +689,7 @@ static void R_InitColormaps(void)
     else
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
 
-    dc_colormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
+    dc_colormap[1] = dc_nextcolormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
 
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 

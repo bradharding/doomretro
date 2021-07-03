@@ -111,7 +111,7 @@ static const byte redtogreen[] =
 };
 
 lighttable_t    *dc_colormap[2];
-lighttable_t    *dc_nextcolormap;
+lighttable_t    *dc_nextcolormap[2];
 int             dc_x;
 int             dc_yl;
 int             dc_yh;
@@ -178,7 +178,7 @@ void R_DrawDitherColumn(void)
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;
     fixed_t             frac = dc_texturefrac;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     const int           fracz = ((dc_z >> 5) & 255);
 
     while (--count)
@@ -387,7 +387,7 @@ void R_DrawDitherWallColumn(void)
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;
     fixed_t             frac = dc_texturemid + (y - centery) * dc_iscale;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     fixed_t             heightmask = dc_texheight - 1;
     const int           fracz = ((dc_z >> 5) & 255);
 
@@ -477,7 +477,7 @@ void R_DrawBrightmapDitherWallColumn(void)
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;
     fixed_t             frac = dc_texturemid + (y - centery) * dc_iscale;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2][2] = { dc_colormap[0], dc_nextcolormap[0], fullcolormap, fullcolormap };
     fixed_t             heightmask = dc_texheight - 1;
     const int           fracz = ((dc_z >> 5) & 255);
     byte                dot;
@@ -495,7 +495,7 @@ void R_DrawBrightmapDitherWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
+            *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
             dest += SCREENWIDTH;
             y++;
 
@@ -504,21 +504,21 @@ void R_DrawBrightmapDitherWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
+        *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
+            *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
             dest += SCREENWIDTH;
             y++;
             frac += dc_iscale;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = (dc_brightmap[dot] ? fullcolormap[dot] : colormap[dither(dc_x, y, fracz)][dot]);
+        *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
     }
 }
 
@@ -527,7 +527,7 @@ void R_DrawColorDitherWallColumn(void)
     int                 y = dc_yl;
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     const int           fracz = ((dc_z >> 5) & 255);
 
     while (--count)
@@ -698,7 +698,7 @@ void R_DrawDitherTranslucent50Column(void)
     byte                *dest = ylookup0[y] + dc_x;
     fixed_t             frac = dc_texturefrac + SPARKLEFIX;
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     const int           fracz = ((dc_z >> 5) & 255);
 
     while (--count)
@@ -749,7 +749,7 @@ void R_DrawDitherTranslucent50ColorColumn(void)
     int                 y = dc_yl;
     int                 count = dc_yh - y + 1;
     byte                *dest = ylookup0[y] + dc_x;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap };
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     const int           fracz = ((dc_z >> 5) & 255);
 
     while (--count)
@@ -1195,12 +1195,12 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int     x = ds_x2 - ds_x1;
+    int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
     fixed_t xfrac = ds_xfrac;
     fixed_t yfrac = ds_yfrac;
 
-    while (--x)
+    while (--count)
     {
         *dest++ = ds_colormap[ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
@@ -1212,31 +1212,31 @@ void R_DrawSpan(void)
 
 void R_DrawDitherSpan(void)
 {
-    int                 x1 = ds_x1;
-    int                 x = ds_x2 - x1;
-    byte                *dest = ylookup0[ds_y] + x1;
+    int                 x = ds_x1;
+    int                 count = ds_x2 - x;
+    byte                *dest = ylookup0[ds_y] + x;
     fixed_t             xfrac = ds_xfrac;
     fixed_t             yfrac = ds_yfrac;
     const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
     const int           fracz = ((ds_z >> 12) & 255);
 
-    while (--x)
+    while (--count)
     {
-        *dest++ = colormap[dither(x1++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[dither(x++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[dither(x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[dither(x, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
 {
-    int         x = ds_x2 - ds_x1;
+    int         count = ds_x2 - ds_x1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
     const byte  color = ds_colormap[NOTEXTURECOLOR];
 
-    while (--x)
+    while (--count)
         *dest++ = color;
 
     *dest = color;
@@ -1244,16 +1244,16 @@ void R_DrawColorSpan(void)
 
 void R_DrawDitherColorSpan(void)
 {
-    int                 x1 = ds_x1;
-    int                 x = ds_x2 - x1;
-    byte                *dest = ylookup0[ds_y] + x1;
+    int                 x = ds_x1;
+    int                 count = ds_x2 - x;
+    byte                *dest = ylookup0[ds_y] + x;
     const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
     const int           fracz = ((ds_z >> 12) & 255);
 
-    while (--x)
-        *dest++ = colormap[dither(x1++, ds_y, fracz)][NOTEXTURECOLOR];
+    while (--count)
+        *dest++ = colormap[dither(x++, ds_y, fracz)][NOTEXTURECOLOR];
 
-    *dest = colormap[dither(x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = colormap[dither(x, ds_y, fracz)][NOTEXTURECOLOR];
 }
 
 //

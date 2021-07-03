@@ -237,7 +237,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     if (fixedcolormap)
     {
         dc_colormap[0] = fixedcolormap;
-        dc_nextcolormap = fixedcolormap;
+        dc_nextcolormap[0] = fixedcolormap;
     }
     else
     {
@@ -296,7 +296,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
                 int index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap = walllightsnext[index];
+                dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = spryscale;
             }
 
@@ -321,7 +321,7 @@ static void R_RenderSegLoop(void)
     if (fixedcolormap)
     {
         dc_colormap[0] = fixedcolormap;
-        dc_nextcolormap = fixedcolormap;
+        dc_nextcolormap[0] = fixedcolormap;
     }
 
     for (; rw_x < rw_stopx; rw_x++)
@@ -376,7 +376,7 @@ static void R_RenderSegLoop(void)
                 int index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap = walllightsnext[index];
+                dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = rw_scale;
             }
 

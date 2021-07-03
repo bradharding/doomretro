@@ -360,7 +360,7 @@ void R_InitLightTables(void)
     c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
 
     // Calculate the light levels to use
-    //  for each level / distance combination.
+    //  for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;

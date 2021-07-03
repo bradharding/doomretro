@@ -39,6 +39,8 @@
 #if !defined(__R_DRAW_H__)
 #define __R_DRAW_H__
 
+#include "m_random.h"
+
 #define FUZZ(a, b)      fuzzrange[M_BigRandomInt(a, b) + 1]
 
 // [BH] Compensate for rounding errors in DOOM's renderer by stretching wall
@@ -49,7 +51,7 @@
 #define NOTEXTURECOLOR  80
 
 extern lighttable_t     *dc_colormap[2];
-extern lighttable_t     *dc_nextcolormap;
+extern lighttable_t     *dc_nextcolormap[2];
 extern int              dc_x;
 extern int              dc_yl;
 extern int              dc_yh;
