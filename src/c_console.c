@@ -2276,8 +2276,8 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("Your %i-bit <i>%s</i> app of <i>%s</i> was built with love by %s at %i:%02i%s on %s, %s %i, %i.",
-            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, PACKAGE_AUTHOR,
+        C_Output("Your %i-bit <i>%s</i> app of <i>%s</i> was built with love in %s by %s at %i:%02i%s on %s, %s %i, %i.",
+            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, PACKAGE_PLACEOFORIGIN, PACKAGE_AUTHOR,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
             dayofweek(day, month + 1, year), months[month], day, year);
     }

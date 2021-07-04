@@ -54,6 +54,7 @@
 #define PACKAGE_LICENSE                 "GNU General Public License v3.0"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
+#define PACKAGE_PLACEOFORIGIN           "Western Sydney, Australia"
 #define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_TRADEMARKS              "DOOM is a registered trademark of id Software LLC, a " \
                                         "ZeniMax Media company, in the US and/or other countries, " \
