@@ -76,7 +76,6 @@ static int              consoleanim;
 dboolean                forceconsoleblurredraw;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
-patch_t                 *smallcapsfont[26];
 patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
@@ -658,14 +657,6 @@ void C_Init(void)
         consolefont[i] = W_CacheLastLumpName(buffer);
     }
 
-    for (int i = 0; i < 26; i++)
-    {
-        char    buffer[9];
-
-        M_snprintf(buffer, sizeof(buffer), "DRFONC%02i", i + 'A');
-        smallcapsfont[i] = W_CacheLastLumpName(buffer);
-    }
-
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
@@ -986,8 +977,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
                 && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
                 patch = multiply;
-            else if (isupper(letter) && (isupper(prevletter) || (i < len - 1 && isupper(text[i + 1]))))
-                patch = smallcapsfont[letter - 'A'];
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;
@@ -1093,14 +1082,6 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
         if (letter == ' ')
             x += spacewidth;
-        else if (isupper(letter))
-        {
-            patch_t *patch = smallcapsfont[letter - 'A'];
-            int     width = SHORT(patch->width);
-
-            V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
-            x += width;
-        }
         else
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
