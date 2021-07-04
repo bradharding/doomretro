@@ -165,10 +165,12 @@ extern char     *s_HUSTR_E1M1;
 extern char     *s_HUSTR_E1M2;
 extern char     *s_HUSTR_E1M3;
 extern char     *s_HUSTR_E1M4;
+extern char     *s_HUSTR_E1M4B;
 extern char     *s_HUSTR_E1M5;
 extern char     *s_HUSTR_E1M6;
 extern char     *s_HUSTR_E1M7;
 extern char     *s_HUSTR_E1M8;
+extern char     *s_HUSTR_E1M8B;
 extern char     *s_HUSTR_E1M9;
 extern char     *s_HUSTR_E2M1;
 extern char     *s_HUSTR_E2M2;
@@ -473,8 +475,6 @@ extern char     *s_CAPTION_FREEDM;
 extern char     *s_CAPTION_BTSXE1;
 extern char     *s_CAPTION_BTSXE2;
 extern char     *s_CAPTION_BTSXE3;
-extern char     *s_CAPTION_E1M4B;
-extern char     *s_CAPTION_E1M8B;
 
 extern char     *s_AUTHOR_ROMERO;
 

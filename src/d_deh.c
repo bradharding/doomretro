@@ -239,10 +239,12 @@ char    *s_HUSTR_E1M1 = HUSTR_E1M1;
 char    *s_HUSTR_E1M2 = HUSTR_E1M2;
 char    *s_HUSTR_E1M3 = HUSTR_E1M3;
 char    *s_HUSTR_E1M4 = HUSTR_E1M4;
+char    *s_HUSTR_E1M4B = "";
 char    *s_HUSTR_E1M5 = HUSTR_E1M5;
 char    *s_HUSTR_E1M6 = HUSTR_E1M6;
 char    *s_HUSTR_E1M7 = HUSTR_E1M7;
 char    *s_HUSTR_E1M8 = HUSTR_E1M8;
+char    *s_HUSTR_E1M8B = "";
 char    *s_HUSTR_E1M9 = HUSTR_E1M9;
 char    *s_HUSTR_E2M1 = HUSTR_E2M1;
 char    *s_HUSTR_E2M2 = HUSTR_E2M2;
@@ -581,8 +583,6 @@ char    *s_CAPTION_FREEDM = "";
 char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
-char    *s_CAPTION_E1M4B = "";
-char    *s_CAPTION_E1M8B = "";
 
 char    *s_AUTHOR_ROMERO = "";
 
@@ -815,6 +815,8 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_E1M2,                 "HUSTR_E1M2"                 },
     { &s_HUSTR_E1M3,                 "HUSTR_E1M3"                 },
     { &s_HUSTR_E1M4,                 "HUSTR_E1M4"                 },
+    { &s_HUSTR_E1M4B,                "HUSTR_E1M4B"                },
+    { &s_HUSTR_E1M8B,                "HUSTR_E1M8B"                },
     { &s_HUSTR_E1M5,                 "HUSTR_E1M5"                 },
     { &s_HUSTR_E1M6,                 "HUSTR_E1M6"                 },
     { &s_HUSTR_E1M7,                 "HUSTR_E1M7"                 },
@@ -1151,8 +1153,6 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE1,             "CAPTION_BTSXE1"             },
     { &s_CAPTION_BTSXE2,             "CAPTION_BTSXE2"             },
     { &s_CAPTION_BTSXE3,             "CAPTION_BTSXE3"             },
-    { &s_CAPTION_E1M4B,              "CAPTION_E1M4B"              },
-    { &s_CAPTION_E1M8B,              "CAPTION_E1M8B"              },
     { &s_AUTHOR_ROMERO,              "AUTHOR_ROMERO"              },
 
     { &bgflatE1,                     "BGFLATE1"                   },

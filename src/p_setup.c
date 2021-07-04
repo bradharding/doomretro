@@ -3531,8 +3531,8 @@ char *P_GetMapMusicTitle(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO >= 0 && !sigil ? mapinfo[map].name : ((E1M4B || *speciallumpname) && map == 4 ? s_CAPTION_E1M4B :
-        ((E1M8B || *speciallumpname) && map == 8 ? s_CAPTION_E1M8B : "")));
+    return (MAPINFO >= 0 && !sigil ? mapinfo[map].name : ((E1M4B || *speciallumpname) && map == 4 ? s_HUSTR_E1M4B :
+        ((E1M8B || *speciallumpname) && map == 8 ? s_HUSTR_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)

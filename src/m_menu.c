@@ -1185,8 +1185,8 @@ void M_UpdateSaveGameName(int i)
                 switch (gamemission)
                 {
                     case doom:
-                        if ((map == 10 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M4B))
-                            || (map == 11 && M_StringCompare(savegamestrings[i], s_CAPTION_E1M8B))
+                        if ((map == 10 && M_StringCompare(savegamestrings[i], s_HUSTR_E1M4B))
+                            || (map == 11 && M_StringCompare(savegamestrings[i], s_HUSTR_E1M8B))
                             || M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[(ep - 1) * 9 + map - 1])))
                             match = true;
 

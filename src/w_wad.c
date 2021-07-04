@@ -367,7 +367,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     else if (M_StringCompare(file, "SIGIL_SHREDS.WAD") || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
     {
         buckethead = true;
-        C_Output("Buckethead's soundtrack will now be used when playing <i>SIGIL.</i>");
+        C_Output("Buckethead's soundtrack will be played during <i>SIGIL.</i>");
     }
     else if (M_StringCompare(file, "DOOM.WAD"))
         C_Output("<i>E1M4B: Phobos Mission Control</i> and <i>E1M8B: Tech Gone Bad</i> "
