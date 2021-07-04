@@ -982,7 +982,6 @@ void M_LoadCVARs(char *filename)
 
     if (!file)
     {
-        M_CheckCVARs(ispackageconfig);
         M_SaveCVARs();
         C_Output("Created <b>%s</b>.", filename);
         cvarsloaded = true;

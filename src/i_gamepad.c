@@ -123,6 +123,11 @@ void I_InitGamepad(void)
             }
 
             SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
+
+            I_SetGamepadLeftDeadZone();
+            I_SetGamepadRightDeadZone();
+            I_SetGamepadHorizontalSensitivity();
+            I_SetGamepadVerticalSensitivity();
         }
     }
 }

@@ -2022,6 +2022,7 @@ void I_InitGraphics(void)
     FindNearestColors(PLAYPAL);
 
     I_InitGammaTables();
+    I_SetGamma(r_gamma);
 
 #if !defined(_WIN32)
     if (*vid_driver)

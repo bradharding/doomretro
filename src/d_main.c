@@ -1868,6 +1868,9 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
 
+    if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
+        D_InitIWADFolder();
+
     D_BuildBEXTables();
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
