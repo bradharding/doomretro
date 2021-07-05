@@ -977,6 +977,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
                 && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
                 patch = multiply;
+            else if (letter == '\r' || letter == '\n')
+                return (x - startx);
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;

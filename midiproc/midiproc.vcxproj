@@ -149,6 +149,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>None</DebugInformationFormat>
       <BrowseInformation>false</BrowseInformation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <AdditionalDependencies>sdl2.lib;sdl2_mixer.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -179,6 +183,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>None</DebugInformationFormat>
       <BrowseInformation>false</BrowseInformation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <AdditionalDependencies>sdl2.lib;sdl2_mixer.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -187,6 +195,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.14\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <Midl>
       <HeaderFileName>%(Filename).h</HeaderFileName>

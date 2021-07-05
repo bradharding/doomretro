@@ -298,7 +298,7 @@ void HU_Start(void)
         len--;
     }
 
-    while (*s)
+    while (*s && *s != '\r' && *s != '\n')
         HUlib_AddCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
