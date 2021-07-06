@@ -2190,7 +2190,8 @@ static void P_SecretFound(void)
 
         S_StartSound(NULL, sfx_secret);
         M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
-        HU_PlayerMessage(buffer, false, false);
+        C_Output(buffer);
+        HU_SetPlayerMessage(buffer, false, false);
     }
 }
 
