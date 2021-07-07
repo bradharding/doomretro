@@ -1705,7 +1705,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
                 if (graphicscard && vendor)
                     C_Output("Using %s <i>%s</i> graphics card from <i>%s.</i>",
-                        (isvowel(graphicscard[0]) ? "an" : "a"), graphicscard, vendor);
+                        (isvowel(graphicscard[0]) || M_StringStartsWith(graphicscard, "NVIDIA") ? "an" : "a"), graphicscard, vendor);
             }
         }
 

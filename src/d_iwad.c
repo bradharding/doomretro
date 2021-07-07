@@ -247,8 +247,8 @@ static void CheckUninstallStrings(void)
 
             AddIWADDir(path);
         }
-
-        free(val);
+        else
+            free(val);
     }
 }
 

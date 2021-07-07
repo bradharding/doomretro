@@ -710,7 +710,7 @@ char *commifystat(uint64_t value)
 
     M_snprintf(result, sizeof(result), "%24" PRIu64, value);
 
-    if (value <= -1000 || value >= 1000)
+    if (value >= 1000)
     {
         char    *pt;
         size_t  n;
