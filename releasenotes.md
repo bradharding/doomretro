@@ -13,6 +13,7 @@
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 * A fade transition will now be applied when changing the `r_brightmaps` CVAR in the console and when the `fade` CVAR is `on`.
+* Corpses and dropped items will no longer perpetually slide back and forth in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

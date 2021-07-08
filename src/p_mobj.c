@@ -729,7 +729,8 @@ void P_MobjThinker(mobj_t *mobj)
 
         // killough 09/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
-        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL) && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
+        if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
+            && mobj->z - mobj->dropoffz > 2 * FRACUNIT && mobj->geartics > 0)
             P_ApplyTorque(mobj);
         else
         {

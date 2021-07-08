@@ -272,9 +272,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     str->madesound = saveg_read32();
     str->inflicter = saveg_read32();
+    str->geartics = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -353,9 +353,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     saveg_write32(str->madesound);
     saveg_write32(str->inflicter);
+    saveg_write32(str->geartics);
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
