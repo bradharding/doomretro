@@ -7,6 +7,7 @@
 * The following changes have been made to the dithered lighting applied when the `r_ditheredlighting` CVAR is `on`:
   * The dithered lighting applied to floors and ceilings is now more consistent when the player turns.
   * Dithered lighting is now applied when the `r_detail` CVAR is `low`.
+* There are now margins to the left and right of the text in the console when the `vid_widescreen` CVAR is `on`.
 * Several changes have been made to text that is output to the console.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
