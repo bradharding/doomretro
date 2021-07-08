@@ -1361,7 +1361,7 @@ void C_Drawer(void)
                         C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                             NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
-                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, i);
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
                 }
                 else if (stringtype == outputstring)
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
