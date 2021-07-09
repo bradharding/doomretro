@@ -849,7 +849,7 @@ static void C_DrawBackground(void)
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth - (vid_widescreen ? 18 : 4), consoleheight - brandheight + 2,
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 14), consoleheight - brandheight + 2,
         brand, consoleedgecolor);
 
     // draw bottom edge
@@ -859,14 +859,6 @@ static void C_DrawBackground(void)
 
         *dot = tinttab50[*dot + consoleedgecolor];
     }
-
-    for (int y = consoleheight - brandheight + 2; y < consoleheight + 2; y++)
-        for (int x = SCREENWIDTH - (vid_widescreen ? 18 : 4); x < SCREENWIDTH; x++)
-        {
-            byte    *dot = *screens + y * SCREENWIDTH + x;
-
-            *dot = tinttab50[*dot + consoleedgecolor];
-        }
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)

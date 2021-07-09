@@ -620,10 +620,13 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   w = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < w; col++, desttop++, x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         byte        topdelta;
+
+        if (x > SCREENWIDTH)
+            return;
 
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)

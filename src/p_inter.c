@@ -2008,7 +2008,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
-    target->geartics = 3;   // [JN] Limit torque simulation for 3 seconds.
+    target->geartics = 3;   // [JN] Limit torque to 3 seconds
 
     // killough 08/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
