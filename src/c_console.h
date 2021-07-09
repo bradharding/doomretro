@@ -59,7 +59,7 @@
 #define CONSOLEHEIGHT           ((gamestate != GS_TITLESCREEN ? SCREENHEIGHT / 2 : SCREENHEIGHT) - 5)
 
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 13 : 27)
-#define CONSOLETEXTX            (vid_widescreen ? 28 : 10)
+#define CONSOLETEXTX            (vid_widescreen ? 28 : 14)
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
 #define CONSOLELINEHEIGHT       14
