@@ -708,7 +708,7 @@ char *commifystat(uint64_t value)
 {
     char    result[64];
 
-    M_snprintf(result, sizeof(result), "%24" PRIu64, value);
+    M_snprintf(result, sizeof(result), "%" PRIu64, value);
 
     if (value >= 1000)
     {
