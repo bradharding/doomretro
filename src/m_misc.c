@@ -220,8 +220,6 @@ char *M_GetAppDataFolder(void)
 
     if (resourcedir)
     {
-        closedir(resourcedir);
-
 #if defined(__APPLE__)
         // On macOS, store generated application files in ~/Library/Application Support/DOOM Retro.
         NSFileManager   *manager = [NSFileManager defaultManager];
@@ -229,14 +227,17 @@ char *M_GetAppDataFolder(void)
                             inDomains : NSUserDomainMask].firstObject;
         NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent : @PACKAGE_NAME];
 
+        closedir(resourcedir);
+
         return (char *)appSupportURL.fileSystemRepresentation;
 #else
         // On Linux, store generated application files in /home/<username>/.config/doomretro
-        char            *buffer;
+        char    *buffer = getenv("HOME");
 
-        if (!(buffer = SDL_getenv("HOME")))
+        if (!buffer)
             buffer = getpwuid(getuid())->pw_dir;
 
+        closedir(resourcedir);
         free(executablefolder);
 
         return M_StringJoin(buffer, DIR_SEPARATOR_S ".config" DIR_SEPARATOR_S PACKAGE, NULL);

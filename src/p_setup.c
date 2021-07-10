@@ -3209,9 +3209,9 @@ static void P_InitMapInfo(void)
                             M_StringCopy(lumpname, sc_String, sizeof(lumpname));
                             SC_MustGetString();
                             M_StringCopy(string, sc_String, sizeof(string));
-                            SC_MustGetString(); // skip key
-
+                            SC_MustGetString();
                             M_AddEpisode(map, ep, lumpname, string);
+
                             break;
                         }
 

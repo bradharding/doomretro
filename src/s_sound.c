@@ -185,7 +185,7 @@ void S_Init(void)
     if (!nosfx)
     {
 #if defined(_WIN32)
-        char    *audiodriver = SDL_getenv("SDL_AUDIODRIVER");
+        char    *audiodriver = getenv("SDL_AUDIODRIVER");
 
         if (audiodriver)
         {
