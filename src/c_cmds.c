@@ -4686,7 +4686,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_BABY]);
         temp3 = commify(monstercount[MT_BABY]);
         temp4 = commifystat(stat_monsterskilled_arachnotrons);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_BABY] ? viewplayer->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0), temp4);
         free(temp1);
@@ -4698,7 +4698,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_VILE]);
         temp3 = commify(monstercount[MT_VILE]);
         temp4 = commifystat(stat_monsterskilled_archviles);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_VILE] ? viewplayer->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0), temp4);
         free(temp1);
@@ -4711,7 +4711,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_BRUISER]);
     temp3 = commify(monstercount[MT_BRUISER]);
     temp4 = commifystat(stat_monsterskilled_baronsofhell);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_BRUISER] ? viewplayer->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER] : 0), temp4);
     free(temp1);
@@ -4723,7 +4723,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_HEAD]);
     temp3 = commify(monstercount[MT_HEAD]);
     temp4 = commifystat(stat_monsterskilled_cacodemons);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_HEAD] ? viewplayer->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0), temp4);
     free(temp1);
@@ -4737,7 +4737,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_CYBORG]);
         temp3 = commify(monstercount[MT_CYBORG]);
         temp4 = commifystat(stat_monsterskilled_cyberdemons);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0), temp4);
         free(temp1);
@@ -4752,7 +4752,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_CHAINGUY]);
         temp3 = commify(monstercount[MT_CHAINGUY]);
         temp4 = commifystat(stat_monsterskilled_heavyweapondudes);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_CHAINGUY] ? viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0), temp4);
         free(temp1);
@@ -4764,7 +4764,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_KNIGHT]);
         temp3 = commify(monstercount[MT_KNIGHT]);
         temp4 = commifystat(stat_monsterskilled_hellknights);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_KNIGHT] ? viewplayer->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT] : 0), temp4);
         free(temp1);
@@ -4777,7 +4777,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_TROOP]);
     temp3 = commify(monstercount[MT_TROOP]);
     temp4 = commifystat(stat_monsterskilled_imps);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_TROOP] ? viewplayer->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0), temp4);
     free(temp1);
@@ -4789,7 +4789,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_SKULL]);
     temp3 = commify(monstercount[MT_SKULL]);
     temp4 = commifystat(stat_monsterskilled_lostsouls);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_SKULL] ? viewplayer->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0), temp4);
     free(temp1);
@@ -4803,7 +4803,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_FATSO]);
         temp3 = commify(monstercount[MT_FATSO]);
         temp4 = commifystat(stat_monsterskilled_mancubi);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_FATSO] ? viewplayer->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO] : 0), temp4);
         free(temp1);
@@ -4815,7 +4815,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_PAIN]);
         temp3 = commify(monstercount[MT_PAIN]);
         temp4 = commifystat(stat_monsterskilled_painelementals);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_PAIN] ? viewplayer->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0), temp4);
         free(temp1);
@@ -4828,7 +4828,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_SERGEANT]);
     temp3 = commify(monstercount[MT_SERGEANT]);
     temp4 = commifystat(stat_monsterskilled_pinkydemons);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0), temp4);
     free(temp1);
@@ -4840,7 +4840,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_UNDEAD]);
     temp3 = commify(monstercount[MT_UNDEAD]);
     temp4 = commifystat(stat_monsterskilled_revenants);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_UNDEAD] ? viewplayer->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD] : 0), temp4);
     free(temp1);
@@ -4852,7 +4852,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_SHOTGUY]);
     temp3 = commify(monstercount[MT_SHOTGUY]);
     temp4 = commifystat(stat_monsterskilled_shotgunguys);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_SHOTGUY] ? viewplayer->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY] : 0), temp4);
     free(temp1);
@@ -4864,7 +4864,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_SHADOWS]);
     temp3 = commify(monstercount[MT_SHADOWS]);
     temp4 = commifystat(stat_monsterskilled_spectres);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_SHADOWS] ? viewplayer->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0), temp4);
     free(temp1);
@@ -4878,7 +4878,7 @@ static void C_PlayerStats_Game(void)
         temp2 = commify(viewplayer->mobjcount[MT_SPIDER]);
         temp3 = commify(monstercount[MT_SPIDER]);
         temp4 = commifystat(stat_monsterskilled_spidermasterminds);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
             (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0), temp4);
         free(temp1);
@@ -4891,7 +4891,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(viewplayer->mobjcount[MT_POSSESSED]);
     temp3 = commify(monstercount[MT_POSSESSED]);
     temp4 = commifystat(stat_monsterskilled_zombiemen);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
         (monstercount[MT_POSSESSED] ? viewplayer->mobjcount[MT_POSSESSED] * 100 / monstercount[MT_POSSESSED] : 0), temp4);
     free(temp1);
@@ -5240,26 +5240,26 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_BABY].plural1);
         temp2 = commifystat(stat_monsterskilled_arachnotrons);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_VILE].plural1);
         temp2 = commifystat(stat_monsterskilled_archviles);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_BRUISER].plural1);
     temp2 = commifystat(stat_monsterskilled_baronsofhell);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_HEAD].plural1);
     temp2 = commifystat(stat_monsterskilled_cacodemons);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5267,7 +5267,7 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_CYBORG].plural1);
         temp2 = commifystat(stat_monsterskilled_cyberdemons);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5276,26 +5276,26 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
         temp2 = commifystat(stat_monsterskilled_heavyweapondudes);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_KNIGHT].plural1);
         temp2 = commifystat(stat_monsterskilled_hellknights);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_TROOP].plural1);
     temp2 = commifystat(stat_monsterskilled_imps);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SKULL].plural1);
     temp2 = commifystat(stat_monsterskilled_lostsouls);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5303,38 +5303,38 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_FATSO].plural1);
         temp2 = commifystat(stat_monsterskilled_mancubi);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_PAIN].plural1);
         temp2 = commifystat(stat_monsterskilled_painelementals);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
     temp2 = commifystat(stat_monsterskilled_pinkydemons);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_UNDEAD].plural1);
     temp2 = commifystat(stat_monsterskilled_revenants);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SHOTGUY].plural1);
     temp2 = commifystat(stat_monsterskilled_shotgunguys);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SHADOWS].plural1);
     temp2 = commifystat(stat_monsterskilled_spectres);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5342,14 +5342,14 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_SPIDER].plural1);
         temp2 = commifystat(stat_monsterskilled_spidermasterminds);
-        C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_POSSESSED].plural1);
     temp2 = commifystat(stat_monsterskilled_zombiemen);
-    C_TabbedOutput(tabs, "   %s\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
