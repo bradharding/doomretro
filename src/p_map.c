@@ -1176,8 +1176,8 @@ void P_ApplyTorque(mobj_t *mo)
         mo->gear++;                             // move up a gear
 
     // [JN] Reduce torque tics, don't go negative.
-    if (mo->geartics > 0)
-        mo->geartics--;
+    if (mo->geartime > 0)
+        mo->geartime--;
 }
 
 //

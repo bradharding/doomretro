@@ -452,7 +452,7 @@ typedef struct mobj_s
     struct msecnode_s   *touching_sectorlist;   // phares 03/14/98
 
     short               gear;                   // killough 11/98: used in torque simulation
-    int                 geartics;               // [JN] Duration of torque simulation
+    int                 geartime;               // [JN] Duration of torque simulation
 
     short               pursuecount;
     short               strafecount;

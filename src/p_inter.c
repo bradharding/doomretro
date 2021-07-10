@@ -2013,7 +2013,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
-    target->geartics = 3;   // [JN] Limit torque to 3 seconds
+    target->geartime = 3;   // [JN] Limit torque to 3 seconds
 
     // killough 08/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
@@ -2120,7 +2120,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
         mo->angle = target->angle + (M_SubRandom() << 20);
         mo->flags |= MF_DROPPED;    // special versions of items
-        mo->geartics = 3;
+        mo->geartime = 3;
 
         if (r_mirroredweapons && (M_Random() & 1))
             mo->flags2 |= MF2_MIRRORED;
