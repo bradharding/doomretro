@@ -415,6 +415,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
 
                 TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F));
                 TWriteByte(mididata, MIDItrack, 0);
+
                 break;
 
             case PLAY_NOTE:

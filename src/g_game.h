@@ -120,5 +120,4 @@ extern dboolean     usemouselook;
 extern dboolean     secretexit;
 extern gameaction_t loadaction;
 
-
 #endif

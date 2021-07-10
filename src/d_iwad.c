@@ -514,6 +514,7 @@ void D_IdentifyIWADByName(char *name)
         {
             gamemission = iwads[i].mission;
             free(iwad);
+
             break;
         }
 
@@ -645,6 +646,7 @@ void D_InitIWADFolder(void)
         {
             iwadfolder = M_StringDuplicate(iwad_dirs[i]);
             M_StringReplaceAll(iwadfolder, "/", "\\");
+
             break;
         }
 

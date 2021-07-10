@@ -541,6 +541,7 @@ static void R_InitSpriteLumps(void)
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+
                         break;
                     }
 

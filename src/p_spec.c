@@ -1431,11 +1431,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                         case 1:
                             junk.tag = 666;
                             EV_DoFloor(&junk, lowerFloorToLowest);
+
                             break;
 
                         case 4:
                             junk.tag = 666;
                             EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
+
                             break;
                     }
 
@@ -1946,6 +1948,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         case WR_Ceiling_RaiseToHighestCeiling:
             EV_DoCeiling(line, raiseToHighest);
             EV_DoFloor(line, lowerFloorToLowest);
+
             break;
 
         case WR_Ceiling_LowerToFloor_Fast:
@@ -2170,11 +2173,13 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         case G1_ExitLevel:
             P_ChangeSwitchTexture(line, false);
             G_ExitLevel();
+
             break;
 
         case G1_ExitLevel_GoesToSecretLevel:
             P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
+
             break;
     }
 }
@@ -2446,6 +2451,7 @@ dboolean EV_DoDonut(line_t *line)
             floor->speed = FLOORSPEED / 2;
             floor->floordestheight = s3->floorheight;
             floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+
             break;
         }
     }
@@ -2687,6 +2693,7 @@ void T_Scroll(scroll_t *s)
 
             side->textureoffset += dx;
             side->rowoffset += dy;
+
             break;
         }
 
@@ -2694,12 +2701,14 @@ void T_Scroll(scroll_t *s)
             sec = sectors + s->affectee;
             sec->floorxoffset += dx;
             sec->flooryoffset += dy;
+
             break;
 
         case sc_ceiling:                        // killough 03/07/98: Scroll ceiling texture
             sec = sectors + s->affectee;
             sec->ceilingxoffset += dx;
             sec->ceilingyoffset += dy;
+
             break;
 
         case sc_carry:

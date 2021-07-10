@@ -366,6 +366,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             {
                 keydown = key;
                 cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+
                 break;
             }
             else if (gamepadbuttons & *gamepadweapons[i])
@@ -877,6 +878,7 @@ void G_Ticker(void)
             case ga_autoloadgame:
                 M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
                 G_DoLoadGame();
+
                 break;
 
             case ga_newgame:
@@ -941,6 +943,7 @@ void G_Ticker(void)
             case BTS_SAVEGAME:
                 savegameslot = (viewplayer->cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                 gameaction = ga_savegame;
+
                 break;
         }
 
@@ -961,6 +964,7 @@ void G_Ticker(void)
             ST_Ticker();
             AM_Ticker();
             HU_Ticker();
+
             break;
 
         case GS_INTERMISSION:

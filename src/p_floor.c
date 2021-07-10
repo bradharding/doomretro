@@ -220,6 +220,7 @@ void T_MoveFloor(floormove_t *floor)
             case genFloorChg:
                 sec->floorpic = floor->texture;
                 P_CheckTerrainType(sec);
+
                 break;
 
             default:
@@ -238,6 +239,7 @@ void T_MoveFloor(floormove_t *floor)
             case genFloorChg:
                 sec->floorpic = floor->texture;
                 P_CheckTerrainType(sec);
+
                 break;
 
             default:
@@ -385,6 +387,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindHighestFloorSurrounding(sec);
+
                 break;
 
             case lowerFloor24:
@@ -392,6 +395,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = floor->sector->floorheight + 24 * FRACUNIT;
+
                 break;
 
             case lowerFloor32Turbo:
@@ -399,6 +403,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = floor->sector->floorheight + 32 * FRACUNIT;
+
                 break;
 
             case lowerFloorToLowest:
@@ -406,6 +411,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindLowestFloorSurrounding(sec);
+
                 break;
 
             case lowerFloorToNearest:
@@ -413,6 +419,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
+
                 break;
 
             case turboLower:
@@ -435,6 +442,7 @@ manual_floor:
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = MIN(P_FindLowestCeilingSurrounding(sec), sec->ceilingheight)
                     - 8 * FRACUNIT * (floortype == raiseFloorCrush);
+
                 break;
 
             case raiseFloorTurbo:
@@ -442,6 +450,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
+
                 break;
 
             case raiseFloorToNearest:
@@ -449,6 +458,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
+
                 break;
 
             case raiseFloor24:
@@ -456,6 +466,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
+
                 break;
 
             case raiseFloor32Turbo:
@@ -463,6 +474,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = sec->floorheight + 32 * FRACUNIT;
+
                 break;
 
             case raiseFloor512:
@@ -470,6 +482,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 512 * FRACUNIT;
+
                 break;
 
             case raiseFloor24AndChange:
@@ -542,6 +555,7 @@ manual_floor:
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;
+
                                 break;
                             }
                         }
@@ -551,6 +565,7 @@ manual_floor:
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;
+
                                 break;
                             }
                         }
@@ -643,6 +658,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
                 sec->floorpic = line->frontsector->floorpic;
                 P_CheckTerrainType(sec);
                 sec->special = line->frontsector->special;
+
                 break;
 
             case numChangeOnly:
@@ -781,6 +797,7 @@ manual_stair:
                 floor->crush = crushing;
                 floor->stopsound = (sec->floorheight != height);
                 okay = true;
+
                 break;
             }
         } while (okay);
@@ -834,6 +851,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
+
                 break;
 
             // elevator up to next floor
@@ -843,6 +861,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
+
                 break;
 
             // elevator to floor height of activating switch's front sector
@@ -852,6 +871,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->floordestheight = line->frontsector->floorheight;
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
                 elevator->direction = (elevator->floordestheight > sec->floorheight ? UP : DOWN);
+
                 break;
         }
 

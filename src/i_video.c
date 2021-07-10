@@ -530,6 +530,7 @@ static void I_GetEvent(void)
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
                 mousebuttonstate &= ~buttons[Event->button.button];
+
                 break;
 
             case SDL_MOUSEWHEEL:
@@ -537,6 +538,7 @@ static void I_GetEvent(void)
                 event.type = ev_mousewheel;
                 event.data1 = Event->wheel.y;
                 D_PostEvent(&event);
+
                 break;
 
             case SDL_CONTROLLERAXISMOTION:
@@ -550,6 +552,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
@@ -560,6 +563,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
@@ -570,6 +574,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
@@ -580,6 +585,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
@@ -590,6 +596,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
@@ -600,6 +607,7 @@ static void I_GetEvent(void)
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
+
                         break;
                 }
 
@@ -609,6 +617,7 @@ static void I_GetEvent(void)
                 gamepadbuttons |= 1 << Event->cbutton.button;
                 event.type = ev_gamepad;
                 D_PostEvent(&event);
+
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
@@ -616,6 +625,7 @@ static void I_GetEvent(void)
                 keydown = 0;
                 event.type = ev_gamepad;
                 D_PostEvent(&event);
+
                 break;
 
             case SDL_QUIT:

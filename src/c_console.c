@@ -192,7 +192,6 @@ void C_Input(const char *string, ...)
     selectend = 0;
 }
 
-
 void C_IntCVAROutput(char *cvar, int value)
 {
     char    *temp = commify(value);
@@ -2007,6 +2006,7 @@ dboolean C_Responder(event_t *ev)
                             caretpos = selectstart = selectend = (int)strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
+
                             break;
                         }
                 }
@@ -2035,6 +2035,7 @@ dboolean C_Responder(event_t *ev)
                             {
                                 inputhistory = i;
                                 M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
+
                                 break;
                             }
 

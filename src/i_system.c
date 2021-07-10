@@ -158,6 +158,7 @@ void I_PrintWindowsVersion(void)
 
             case PRODUCT_CORE:
                 M_StringCopy(typename, "Home", sizeof(typename));
+                break;
         }
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)

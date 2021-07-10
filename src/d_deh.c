@@ -3440,6 +3440,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                 strncpy(sprnames[i], &inbuffer[fromlen], tolen);
                 found = true;
+
                 break;                                      // only one matches, quit early
             }
 
@@ -3468,6 +3469,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                 strncpy(S_sfx[i].name1, &inbuffer[fromlen], 9);
                 found = true;
+
                 break;                                      // only one matches, quit early
             }
         }
@@ -3488,6 +3490,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
                     strncpy(S_music[i].name1, &inbuffer[fromlen], 9);
                     found = true;
+
                     break;                                  // only one matches, quit early
                 }
             }

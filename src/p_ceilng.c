@@ -108,6 +108,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case genCeilingChg:
                         ceiling->sector->ceilingpic = ceiling->texture;
                         P_RemoveActiveCeiling(ceiling);
+
                         break;
 
                     case silentCrushAndRaise:
@@ -178,6 +179,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case genCeilingChg:
                         ceiling->sector->ceilingpic = ceiling->texture;
                         P_RemoveActiveCeiling(ceiling);
+
                         break;
 
                     case lowerAndCrush:
@@ -282,6 +284,7 @@ manual_ceiling:
                 ceiling->bottomheight = sec->floorheight + 8 * FRACUNIT;
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED * 2;
+
                 break;
 
             case silentCrushAndRaise:
@@ -298,24 +301,28 @@ manual_ceiling:
 
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
+
                 break;
 
             case raiseToHighest:
                 ceiling->topheight = P_FindHighestCeilingSurrounding(sec);
                 ceiling->direction = 1;
                 ceiling->speed = CEILSPEED;
+
                 break;
 
             case lowerToLowest:
                 ceiling->bottomheight = P_FindLowestCeilingSurrounding(sec);
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
+
                 break;
 
             case lowerToMaxFloor:
                 ceiling->bottomheight = P_FindHighestFloorSurrounding(sec);
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
+
                 break;
 
             default:

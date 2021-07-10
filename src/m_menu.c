@@ -3698,6 +3698,7 @@ void M_Drawer(void)
 
                     foundnewline = true;
                     start += i + 1;
+
                     break;
                 }
 

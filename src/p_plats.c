@@ -179,6 +179,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
         case toggleUpDn:
             P_ActivateInStasis(line->tag);
             rtn = true;
+
             break;
 
         default:
@@ -221,6 +222,7 @@ manual_plat:
                 plat->status = up;
                 sec->special = 0;
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
+
                 break;
 
             case raiseAndChange:
@@ -230,6 +232,7 @@ manual_plat:
                 plat->high = sec->floorheight + amount * FRACUNIT;
                 plat->status = up;
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
+
                 break;
 
             case downWaitUpStay:
@@ -239,6 +242,7 @@ manual_plat:
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
+
                 break;
 
             case blazeDWUS:
@@ -248,6 +252,7 @@ manual_plat:
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
+
                 break;
 
             case perpetualRaise:
@@ -257,6 +262,7 @@ manual_plat:
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(M_Random() & 1);
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
+
                 break;
 
             case toggleUpDn:                        // jff 3/14/98 add new type to support instant toggle
@@ -268,6 +274,7 @@ manual_plat:
                 plat->low = sec->ceilingheight;
                 plat->high = sec->floorheight;
                 plat->status = down;
+
                 break;
 
             default:
