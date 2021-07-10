@@ -284,7 +284,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
-    console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - CONSOLETEXTX;
+    console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
     console[consolestrings].wrap = 0;
     consolestrings++;
     outputhistory = -1;
@@ -953,7 +953,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             if (letter == ' ' && formatting)
                 x += spacewidth;
             else if (letter == '\t')
-                x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
+                x = (x > (vid_widescreen ? 18 : 4) + tabs[++tab] ? x + spacewidth : (vid_widescreen ? 18 : 4) + tabs[tab]);
             else if (letter == 153)
                 patch = trademark;
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
