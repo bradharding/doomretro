@@ -4672,10 +4672,10 @@ static void C_PlayerStats_Game(void)
     free(temp3);
 
     temp1 = commify(viewplayer->infightcount);
-    temp2 = commify(totalkills - killcount);
+    temp2 = commify((int64_t)totalkills - killcount);
     temp3 = commifystat(stat_monsterskilled_infighting);
     C_TabbedOutput(tabs, "Monsters killed by infighting\t%s of %s (%i%%)\t%s",
-        temp1, temp2, (totalkills ? viewplayer->infightcount * 100 / totalkills : 0), temp3);
+        temp1, temp2, (totalkills - killcount ? viewplayer->infightcount * 100 / (totalkills - killcount) : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);
